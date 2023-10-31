@@ -2430,7 +2430,10 @@
                 "And if you pass numbers with a particular number of significant digits after the decimal, that precision will be preserved.",
                 "\\Random(2.00, 20.00)\\"
             ],
-            "names": ["🎲","Random"],
+            "names": [
+                "🎲",
+                "Random"
+            ],
             "inputs": [
                 {
                     "names": "mínimo",
@@ -2452,22 +2455,28 @@
                 "\\Group(\nStack() \n[\nPhrase('uno' seleccion:T nombre: '1'1) \nPhrase('dos' seleccion:T nombre: '2') \nPhrase(Choice())\n]\n)\\",
                 "Copia esto en tu editor, después selecciona una de las dos @Phrase. Podrás ver que la tercera @Phrase muestra el nombre que fue seleccionado."
             ],
-            "names": ["🔘", "Elección"]
+            "names": [
+                "🔘",
+                "Elección"
+            ]
         },
         "Button": {
             "doc": [
-              "/click click click/",
-              "/@FunctionDefinition aquí, explicaré esto./",
-              "@Button es una excelente manera de escuchar a un ratón o panel táctil. Por supuesto, un ratón o panel táctil no es la elección ideal para escuchar a una audiencia, ya que no todos pueden usarlo. La opción más accesible es @Choice.",
-              "Pero si /realmente/ necesitas escuchar un botón de ratón, esta es la manera de hacerlo. Proporcionará un flujo de @Boolean, que representa si el botón principal está arriba \\⊥\\ o abajo \\⊤\\.",
-              "Aquí tienes un ejemplo simple:",
-              "\\Phrase(Button() → '')\\",
-              "Esto simplemente crea un @Phrase que es el valor del flujo como texto. Si lo copias en el editor y haces clic, verás que alterna entre \\⊥\\ y \\⊤\\."
+                "/click click click/",
+                "/@FunctionDefinition aquí, explicaré esto./",
+                "@Button es una excelente manera de escuchar a un ratón o panel táctil. Por supuesto, un ratón o panel táctil no es la elección ideal para escuchar a una audiencia, ya que no todos pueden usarlo. La opción más accesible es @Choice.",
+                "Pero si /realmente/ necesitas escuchar un botón de ratón, esta es la manera de hacerlo. Proporcionará un flujo de @Boolean, que representa si el botón principal está arriba \\⊥\\ o abajo \\⊤\\.",
+                "Aquí tienes un ejemplo simple:",
+                "\\Phrase(Button() → '')\\",
+                "Esto simplemente crea un @Phrase que es el valor del flujo como texto. Si lo copias en el editor y haces clic, verás que alterna entre \\⊥\\ y \\⊤\\."
             ],
-            "names": ["🖱️", "Button"],
+            "names": [
+                "🖱️",
+                "Button"
+            ],
             "down": {
-              "names": "abajo",
-              "doc": "Si es @None, el flujo proporcionará tanto valores hacia arriba como hacia abajo. Si es @Boolean, solo proporcionará el valor dado por el valor @Boolean."
+                "names": "abajo",
+                "doc": "Si es @None, el flujo proporcionará tanto valores hacia arriba como hacia abajo. Si es @Boolean, solo proporcionará el valor dado por el valor @Boolean."
             }
         },
         "Pointer": {
@@ -2480,7 +2489,9 @@
                 "\\Puntero()\\",
                 "El @Place que provee va a corresponder a dónde el puntero en el @Stage está apuntando."
             ],
-            "names": ["Puntero"]
+            "names": [
+                "Puntero"
+            ]
         },
         "Key": {
             "doc": [
@@ -2497,7 +2508,10 @@
                 "Y si solo quieres saber cuando una @Key está soltada, puedes proporcionarlo usando @Boolean:",
                 "\\Tecla('a' ⊥)\\"
             ],
-            "names": ["⌨️","Tecla"],
+            "names": [
+                "⌨️",
+                "Tecla"
+            ],
             "key": {
                 "names": "tecla",
                 "doc": "Si @None, entonces se proporcionan todas las teclas. Si es una @Text específica, entonces solo esa tecla está proporcionada."
@@ -2509,220 +2523,256 @@
         },
         "Time": {
             "doc": [
-              "/tick tick tick/",
-              "@FunctionDefinition aquí, te explicaré @Time porque no puede hablar.",
-              "Tiempo es una secuencia que avanza con una cierta frecuencia.",
-              "Cada vez que avanza, @Program reevalúa con el nuevo valor del tiempo.",
-              "Por ejemplo:",
-              "\\Tiempo()\\",
-              "Si proporcionas un @Time/frequency, avanzará a ese ritmo. Por ejemplo:",
-              "\\Tiempo(1000ms)\\",
-              "Sin embargo, la frecuencia tiene límites en lo pequeño que puede ser porque @Program necesita tiempo para evaluar antes de que pueda avanzar.",
-              "Lo más pequeño que puede ser es alrededor de \\20ms\\."
+                "/tick tick tick/",
+                "@FunctionDefinition aquí, te explicaré @Time porque no puede hablar.",
+                "Tiempo es una secuencia que avanza con una cierta frecuencia.",
+                "Cada vez que avanza, @Program reevalúa con el nuevo valor del tiempo.",
+                "Por ejemplo:",
+                "\\Tiempo()\\",
+                "Si proporcionas un @Time/frequency, avanzará a ese ritmo. Por ejemplo:",
+                "\\Tiempo(1000ms)\\",
+                "Sin embargo, la frecuencia tiene límites en lo pequeño que puede ser porque @Program necesita tiempo para evaluar antes de que pueda avanzar.",
+                "Lo más pequeño que puede ser es alrededor de \\20ms\\."
             ],
             "names": "Tiempo",
             "frequency": {
-              "names": ["frecuencia"],
-              "doc": "Esta es la frecuencia con que el tiempo avanza. Por defecto es \\33ms\\, que es alrededor de 30 veces por segundo."
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "Esta es la frecuencia con que el tiempo avanza. Por defecto es \\33ms\\, que es alrededor de 30 veces por segundo."
             }
-          },
-          "Volume": {
+        },
+        "Volume": {
             "doc": [
-              "/bzzzzzzz",
-              "@FunctionDefinition aquí, tomaré el micrófono.",
-              "Esta secuencia es una serie de volumen entre 0 y 1, muestreado a la frecuencia de tu elección. Por defecto, la frecuencia es \\30hz\\, o 30 veces por segundo, pero puedes cambiarlo a algo menos.",
-              "\\Volume()\\",
-              "Esto es ideal para escuchar qué tan fuerte está la audiencia."
+                "/bzzzzzzz",
+                "@FunctionDefinition aquí, tomaré el micrófono.",
+                "Esta secuencia es una serie de volumen entre 0 y 1, muestreado a la frecuencia de tu elección. Por defecto, la frecuencia es \\30hz\\, o 30 veces por segundo, pero puedes cambiarlo a algo menos.",
+                "\\Volume()\\",
+                "Esto es ideal para escuchar qué tan fuerte está la audiencia."
             ],
-            "names": ["🎤", "Volumen"],
+            "names": [
+                "🎤",
+                "Volumen"
+            ],
             "frequency": {
-              "names": ["frecuencia"],
-              "doc": "El tiempo entre muestreos."
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "El tiempo entre muestreos."
             }
-          },
-          "Pitch": {
+        },
+        "Pitch": {
             "doc": [
-              "/hummmmm/",
-              "@FunctionDefinition aquí, hablemos de tonos.",
-              "Esta secuencia es una serie de tonos en hertz, indicando el tono del sonido, muestreado a la frecuencia de tu elección. Encontramos que las voces de los humanos están entre 20Hz y 5000Hz, así que planea en números entre ese rango.",
-              "\\Tono()\\",
-              "Esto es ideal para escuchar el tono en el que alguien habla o canta."
+                "/hummmmm/",
+                "@FunctionDefinition aquí, hablemos de tonos.",
+                "Esta secuencia es una serie de tonos en hertz, indicando el tono del sonido, muestreado a la frecuencia de tu elección. Encontramos que las voces de los humanos están entre 20Hz y 5000Hz, así que planea en números entre ese rango.",
+                "\\Tono()\\",
+                "Esto es ideal para escuchar el tono en el que alguien habla o canta."
             ],
-            "names":  ["🎵", "Tono"],
+            "names": [
+                "🎵",
+                "Tono"
+            ],
             "frequency": {
-              "names": ["frecuencia"],
-              "doc": "El tiempo entre muestreos."
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "El tiempo entre muestreos."
             }
-          },
-          "Camera": {
+        },
+        "Camera": {
             "doc": [
-              "/bzzzzzzz/",
-              "@FunctionDefinition aquí, puedo explicar @Camera.",
-              "@Camera proporciona una @List de @Color de tu mundo. Esa lista esencialmente representa una imagen, pero tú decides qué hacer con ella.",
-              "Puedes intentar representar la imagen con un montón de @Phrase, ¡se vería muy bonito! Intenta copiar esto...",
-              "\\colores: Cámara(32px 24px 33ms)\n\nStage(\ncolores.combine(\n[] \nƒ(frases•[Phrase] fila•[Color] y•#) \nfrases.append(\nfila.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
-              "Pero también puedes analizar los colores para decidir si una luz estaba encendida o apagada, o si un color en particular era común, dejando que la audiencia influya en la actuación con los colores que muestran."
+                "/bzzzzzzz/",
+                "@FunctionDefinition aquí, puedo explicar @Camera.",
+                "@Camera proporciona una @List de @Color de tu mundo. Esa lista esencialmente representa una imagen, pero tú decides qué hacer con ella.",
+                "Puedes intentar representar la imagen con un montón de @Phrase, ¡se vería muy bonito! Intenta copiar esto...",
+                "\\colores: Cámara(32px 24px 33ms)\n\nStage(\ncolores.combine(\n[] \nƒ(frases•[Phrase] fila•[Color] y•#) \nfrases.append(\nfila.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "Pero también puedes analizar los colores para decidir si una luz estaba encendida o apagada, o si un color en particular era común, dejando que la audiencia influya en la actuación con los colores que muestran."
             ],
-            "names": ["🎥","Cámara"],
+            "names": [
+                "🎥",
+                "Cámara"
+            ],
             "width": {
-              "names": ["ancho"],
-              "doc": "El número de @Color para mostrar en una fila."
+                "names": [
+                    "ancho"
+                ],
+                "doc": "El número de @Color para mostrar en una fila."
             },
             "height": {
-              "names": ["altura"],
-              "doc": "El número de @Color para mostrar en una columna."
+                "names": [
+                    "altura"
+                ],
+                "doc": "El número de @Color para mostrar en una columna."
             },
             "frequency": {
-              "names": ["frecuencia"],
-              "doc": "El tiempo entre muestras de @Color."
+                "names": [
+                    "frecuencia"
+                ],
+                "doc": "El tiempo entre muestras de @Color."
             }
         },
         "Motion": {
             "doc": [
-              "/boing boing boing/",
-              "/¡Hola! Aquí @FunctionDefinition. ¿Qué tal si explico @Motion?",
-              "Básicamente, @Motion es un flujo de @Phrase. Le das una @Phrase inicial y luego la perfecciona con un nuevo lugar y rotación basado en la gravedad.",
-              "Esto te permite hacer cosas realmente simples, como crear emojis que rebotan:",
-              "\\Motion(Frase('o') startplace: Lugar(0m 10m))\\",
-              "¿Ves cómo rebota la 'o'? En la primera evaluación, le damos un lugar alto en @Stage, pero después obtiene @None, lo que permite que @Motion lo cambie a la posición que la gravedad le asignaría.",
-              "Consulta las muchas otras formas de configurarlo a continuación."
+                "/boing boing boing/",
+                "/¡Hola! Aquí @FunctionDefinition. ¿Qué tal si explico @Motion?",
+                "Básicamente, @Motion es un flujo de @Phrase. Le das una @Phrase inicial y luego la perfecciona con un nuevo lugar y rotación basado en la gravedad.",
+                "Esto te permite hacer cosas realmente simples, como crear emojis que rebotan:",
+                "\\Motion(Frase('o') startplace: Lugar(0m 10m))\\",
+                "¿Ves cómo rebota la 'o'? En la primera evaluación, le damos un lugar alto en @Stage, pero después obtiene @None, lo que permite que @Motion lo cambie a la posición que la gravedad le asignaría.",
+                "Consulta las muchas otras formas de configurarlo a continuación."
             ],
-            "names": ["⚽️", "Movimiento"],
+            "names": [
+                "⚽️",
+                "Movimiento"
+            ],
             "place": {
-              "doc": "El lugar de inicio.",
-              "names": "lugar"
+                "doc": "El lugar de inicio.",
+                "names": "lugar"
             },
             "velocity": {
-              "doc": "La velocidad inicial",
-              "names": "velocidad"
+                "doc": "La velocidad inicial",
+                "names": "velocidad"
             },
             "nextplace": {
-              "doc": "El próximo lugar, anulando la física.",
-              "names": "siguientelugar"
+                "doc": "El próximo lugar, anulando la física.",
+                "names": "siguientelugar"
             },
             "nextvelocity": {
-              "doc": "El próximo lugar, anulando la velocidad.",
-              "names": "siguientevelocidad"
+                "doc": "El próximo lugar, anulando la velocidad.",
+                "names": "siguientevelocidad"
             }
         },
         "Chat": {
             "doc": [
-              "/¡Hola! @FunctionDefinition aquí. ¿Entonces quieres chatear?",
-              "La idea básica de un flujo de chat es que la audiencia escribe un mensaje y luego el programa responde.",
-              "Por ejemplo, este programa simple verifica si el mensaje es 'hola' y, si es así, el programa evalúa a '¡hola!'. De lo contrario, evalúa a '¿eh?'",
-              "\\Chat().tiene('hola') ? '¡hola!' '¿eh?'\\",
-              "¡Eso es todo! Puedes realizar todo tipo de actuaciones con esto, como chatbots, aventuras de texto o esquemas de control basados en texto para otros tipos de actuaciones."
+                "/¡Hola! @FunctionDefinition aquí. ¿Entonces quieres chatear?",
+                "La idea básica de un flujo de chat es que la audiencia escribe un mensaje y luego el programa responde.",
+                "Por ejemplo, este programa simple verifica si el mensaje es 'hola' y, si es así, el programa evalúa a '¡hola!'. De lo contrario, evalúa a '¿eh?'",
+                "\\Chat().tiene('hola') ? '¡hola!' '¿eh?'\\",
+                "¡Eso es todo! Puedes realizar todo tipo de actuaciones con esto, como chatbots, aventuras de texto o esquemas de control basados en texto para otros tipos de actuaciones."
             ],
-            "names": ["🗣️", "Chat"]
-          },
-          "Placement": {
-            "doc": [
-              "/Hola, @FunctionDefinition aquí. ¡Hablemos sobre cómo movernos!",
-              "Hay muchas formas de colocarnos en el @Stage. Puedes darnos un @Place explícito. También podrías usar @Motion y dejar que la gravedad haga su trabajo. También puedes colocarnos en un @Group y dejar que nos organicen de una manera particular.",
-              "Pero a veces quieres darle al /público/ control sobre dónde estamos en el @Stage. Para eso está @Placement.",
-              "Así es como funciona: simplemente crea una @Placement y dásela a nuestro @Place:",
-              "\\Frase('hola' lugar: Ubicación())\\",
-              "Entonces, cada vez que la audiencia use una tecla de flecha o haga clic o toque en el escenario, la @Placement creará un nuevo @Place que se mueva en la dirección deseada.",
-              "Intenta copiar esto en tu programa y muévenos con la flecha o el teclado.",
-              "Puedes personalizar la @Placement, habilitando y deshabilitando el movimiento en ciertas dimensiones, cambiando cuánto se mueve un @Place y el @Place inicial con el que comienza el flujo."
-            ],
-            "names": ["✥", "Ubicación"],
-            "inputs": [
-              {
-                "doc": "El lugar inicial para comenzar.",
-                "names": "comienzo"
-              },
-              {
-                "doc": "Cuántos metros debería moverse el lugar cuando la audiencia solicita un movimiento.",
-                "names": "distancia"
-              },
-              {
-                "doc": "Si es verdadero, permite el movimiento en el eje horizontal. Activado por defecto.",
-                "names": "horizontal"
-              },
-              {
-                "doc": "Si es verdadero, permite el movimiento en el eje vertical. Activado por defecto.",
-                "names": "vertical"
-              },
-              {
-                "doc": "Si es verdadero, permite el movimiento en el eje z, con las teclas + y -.",
-                "names": "profundidad"
-              }
+            "names": [
+                "🗣️",
+                "Chat"
             ]
-          },
-          "Webpage": {
+        },
+        "Placement": {
             "doc": [
-              "/Hola, @FunctionDefinition aquí. ¡Hablemos sobre cómo obtener páginas web de internet!",
-              "Cuando nos enteramos por primera vez de su internet, nos pareció fascinante. ¿Un mundo entero lleno de computadoras conectadas compartiendo documentos entre sí? ¡Es asombroso!",
-              "Así que hicimos un flujo que se conecta a él. Nos das una URL y obtendremos todo el texto. Así:",
-              "\\PáginaWeb('https://wordplay.dev')\\",
-              "Y aparentemente hay algo llamado <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, ¿que le gusta consultar cosas en una página web? Danos una consulta de selección de CSS y obtendremos solo el texto que coincida con esa consulta. Como este ejemplo, que obtiene los encabezados de nivel uno.",
-              "\\PáginaWeb('https://wordplay.dev' 'h1')\\",
-              "Muchas cosas pueden salir mal con esto. Si pierdes la conexión a internet, o la URL no se resuelve en nada, o la URL no es pública, o la URL no es una página HTML… Todas estas pueden provocar una excepción. Si encuentras una página que funcione, obtendrás un @Number que indica un porcentaje completo y luego una @List de las palabras en la página."
+                "/Hola, @FunctionDefinition aquí. ¡Hablemos sobre cómo movernos!",
+                "Hay muchas formas de colocarnos en el @Stage. Puedes darnos un @Place explícito. También podrías usar @Motion y dejar que la gravedad haga su trabajo. También puedes colocarnos en un @Group y dejar que nos organicen de una manera particular.",
+                "Pero a veces quieres darle al /público/ control sobre dónde estamos en el @Stage. Para eso está @Placement.",
+                "Así es como funciona: simplemente crea una @Placement y dásela a nuestro @Place:",
+                "\\Frase('hola' lugar: Ubicación())\\",
+                "Entonces, cada vez que la audiencia use una tecla de flecha o haga clic o toque en el escenario, la @Placement creará un nuevo @Place que se mueva en la dirección deseada.",
+                "Intenta copiar esto en tu programa y muévenos con la flecha o el teclado.",
+                "Puedes personalizar la @Placement, habilitando y deshabilitando el movimiento en ciertas dimensiones, cambiando cuánto se mueve un @Place y el @Place inicial con el que comienza el flujo."
             ],
-            "names": ["🔗", "PáginaWeb"],
-            "url": { "doc": "La URL de la página web HTML a obtener.", "names": "url" },
+            "names": [
+                "✥",
+                "Ubicación"
+            ],
+            "inputs": [
+                {
+                    "doc": "El lugar inicial para comenzar.",
+                    "names": "comienzo"
+                },
+                {
+                    "doc": "Cuántos metros debería moverse el lugar cuando la audiencia solicita un movimiento.",
+                    "names": "distancia"
+                },
+                {
+                    "doc": "Si es verdadero, permite el movimiento en el eje horizontal. Activado por defecto.",
+                    "names": "horizontal"
+                },
+                {
+                    "doc": "Si es verdadero, permite el movimiento en el eje vertical. Activado por defecto.",
+                    "names": "vertical"
+                },
+                {
+                    "doc": "Si es verdadero, permite el movimiento en el eje z, con las teclas + y -.",
+                    "names": "profundidad"
+                }
+            ]
+        },
+        "Webpage": {
+            "doc": [
+                "/Hola, @FunctionDefinition aquí. ¡Hablemos sobre cómo obtener páginas web de internet!",
+                "Cuando nos enteramos por primera vez de su internet, nos pareció fascinante. ¿Un mundo entero lleno de computadoras conectadas compartiendo documentos entre sí? ¡Es asombroso!",
+                "Así que hicimos un flujo que se conecta a él. Nos das una URL y obtendremos todo el texto. Así:",
+                "\\PáginaWeb('https://wordplay.dev')\\",
+                "Y aparentemente hay algo llamado <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, ¿que le gusta consultar cosas en una página web? Danos una consulta de selección de CSS y obtendremos solo el texto que coincida con esa consulta. Como este ejemplo, que obtiene los encabezados de nivel uno.",
+                "\\PáginaWeb('https://wordplay.dev' 'h1')\\",
+                "Muchas cosas pueden salir mal con esto. Si pierdes la conexión a internet, o la URL no se resuelve en nada, o la URL no es pública, o la URL no es una página HTML… Todas estas pueden provocar una excepción. Si encuentras una página que funcione, obtendrás un @Number que indica un porcentaje completo y luego una @List de las palabras en la página."
+            ],
+            "names": [
+                "🔗",
+                "PáginaWeb"
+            ],
+            "url": {
+                "doc": "La URL de la página web HTML a obtener.",
+                "names": "url"
+            },
             "query": {
-              "doc": "La consulta de selección de CSS para evaluar en el HTML",
-              "names": "consulta"
+                "doc": "La consulta de selección de CSS para evaluar en el HTML",
+                "names": "consulta"
             },
             "frequency": {
-              "doc": "La cantidad de minutos que deben pasar antes de que la página se vuelva a obtener.",
-              "names": "frecuencia"
+                "doc": "La cantidad de minutos que deben pasar antes de que la página se vuelva a obtener.",
+                "names": "frecuencia"
             },
             "error": {
-              "invalid": "esto no es una URL válida",
-              "unvailable": "esta URL no es accesible",
-              "notHTML": "la respuesta no fue HTML",
-              "noConnection": "sin conexión a Wordplay",
-              "limit": "demasiadas solicitudes a este dominio"
+                "invalid": "esto no es una URL válida",
+                "unvailable": "esta URL no es accesible",
+                "notHTML": "la respuesta no fue HTML",
+                "noConnection": "sin conexión a Wordplay",
+                "limit": "demasiadas solicitudes a este dominio"
             }
         },
         "Collision": {
             "names": "colisión",
             "doc": [
-              "/¡Hola! Soy @FunctionDefinition. Echa un vistazo a esta entrada genial./",
-              "¡Puede ayudarte a descubrir cuándo se encuentran @Output! Esta es una excelente manera de hacer algo cuando nos encontramos, además de simplemente rebotar entre sí como podría hacer @Output.",
-              "Solo dame el nombre de @Output y crearé un nuevo valor de @Rebound cada vez que se encuentre con otro nombre. Un @Rebound tiene información sobre los nombres que chocaron y la dirección de su colisión.",
-              "Y si me das dos nombres, solo crearé un nuevo valor cuando los dos nombres se encuentren entre sí.",
-              "Justo después de crear un nuevo valor, haré un \\ø\\ ya que la colisión ha terminado después de que ocurre. Esto indica que ya no hay más colisión.",
-              ""
+                "/¡Hola! Soy @FunctionDefinition. Echa un vistazo a esta entrada genial./",
+                "¡Puede ayudarte a descubrir cuándo se encuentran @Output! Esta es una excelente manera de hacer algo cuando nos encontramos, además de simplemente rebotar entre sí como podría hacer @Output.",
+                "Solo dame el nombre de @Output y crearé un nuevo valor de @Rebound cada vez que se encuentre con otro nombre. Un @Rebound tiene información sobre los nombres que chocaron y la dirección de su colisión.",
+                "Y si me das dos nombres, solo crearé un nuevo valor cuando los dos nombres se encuentren entre sí.",
+                "Justo después de crear un nuevo valor, haré un \\ø\\ ya que la colisión ha terminado después de que ocurre. Esto indica que ya no hay más colisión.",
+                ""
             ],
             "subject": {
-              "names": "sujeto",
-              "doc": "El nombre de @Output en el que debería buscar colisiones."
+                "names": "sujeto",
+                "doc": "El nombre de @Output en el que debería buscar colisiones."
             },
             "object": {
-              "names": "otro",
-              "doc": "El nombre del otro @Output en el que debería buscar colisiones."
+                "names": "otro",
+                "doc": "El nombre del otro @Output en el que debería buscar colisiones."
             }
-          },
-          "Rebound": {
+        },
+        "Rebound": {
             "names": "Rebote",
             "doc": "Vengo de @Collision y represento quién chocó y en qué dirección ocurrió la colisión. Úsame para decidir si reaccionar de alguna manera especial a una colisión, que no sea la física normal.",
             "direction": {
-              "names": "dirección",
-              "doc": "La dirección y magnitud de la colisión, en relación con el sujeto de la colisión."
+                "names": "dirección",
+                "doc": "La dirección y magnitud de la colisión, en relación con el sujeto de la colisión."
             },
             "subject": {
-              "names": "sujeto",
-              "doc": "El nombre de la salida que fue golpeada por el sujeto."
+                "names": "sujeto",
+                "doc": "El nombre de la salida que fue golpeada por el sujeto."
             },
             "object": {
-              "names": "objeto",
-              "doc": "El nombre de la salida que golpeó al sujeto."
+                "names": "objeto",
+                "doc": "El nombre de la salida que golpeó al sujeto."
             }
-          },
-          "Direction": {
+        },
+        "Direction": {
             "names": "Dirección",
             "doc": "Soy una dirección y magnitud, a lo largo de los ejes x e y.",
             "x": {
-              "names": "x",
-              "doc": "La dirección y magnitud de la dirección a lo largo del eje x."
+                "names": "x",
+                "doc": "La dirección y magnitud de la dirección a lo largo del eje x."
             },
             "y": {
-              "names": "y",
-              "doc": "La dirección y magnitud de la dirección a lo largo del eje y."
+                "names": "y",
+                "doc": "La dirección y magnitud de la dirección a lo largo del eje y."
             }
         }
     },
@@ -2730,8 +2780,8 @@
         "Output": {
             "names": "Output",
             "doc": [
-              "No soy una @StructureDefinition que puedas crear realmente. Pero soy uno muy importante, ya que inspiro los elementos más importantes de nuestra danza: @Phrase, @Group y @Stage.",
-              "Ve a conocerlos para aprender más sobre cómo usarlos."
+                "No soy una @StructureDefinition que puedas crear realmente. Pero soy uno muy importante, ya que inspiro los elementos más importantes de nuestra danza: @Phrase, @Group y @Stage.",
+                "Ve a conocerlos para aprender más sobre cómo usarlos."
             ]
         },
         "Group": {
@@ -2743,7 +2793,10 @@
                 "\\Grupo(Pila() [Frase('primera') Frase('segunda')])\\",
                 "Cómo los organizo depende del @Arrangement que tu me das."
             ],
-            "names": ["🔳", "Grupo"],
+            "names": [
+                "🔳",
+                "Grupo"
+            ],
             "content": {
                 "doc": "La lista de @Output para arreglar",
                 "names": "content"
@@ -2769,7 +2822,9 @@
                 "names": "place"
             },
             "name": {
-                "doc": ["Lo mismo que @Phrase/name"],
+                "doc": [
+                    "Lo mismo que @Phrase/name"
+                ],
                 "names": "nombre"
             },
             "selectable": {
@@ -2835,7 +2890,10 @@
             "description": "$1[$1|] $2 $3"
         },
         "Phrase": {
-            "names": ["💬", "Frase"],
+            "names": [
+                "💬",
+                "Frase"
+            ],
             "doc": [
                 "¡Hola, hola! ¿Me recuerdas? ¿Cómo podría alguien olvidarse de /mí/? Eso es correcto, yo soy la frase maravillosa, lista para representar el @Text hermoso en el @Stage.",
                 "Solo hazme así, y aparecerá en el @Stage:",
@@ -2862,7 +2920,10 @@
             },
             "wrap": {
                 "doc": "La orilla que debo envolver simbolos o \\ø\\ si no debo de envolverlos.",
-                "names": ["↵", "envolver"]
+                "names": [
+                    "↵",
+                    "envolver"
+                ]
             },
             "alignment": {
                 "doc": "Si hay una límite de @Phrase/wrap límite establecido, si debo de alinear los simbolos al principo, en medio, or al final.",
@@ -2936,7 +2997,10 @@
             },
             "duration": {
                 "doc": "La duración que applicar cuando se mueve a otro lugar en el escenario.",
-                "names":  ["⏳", "duración"]
+                "names": [
+                    "⏳",
+                    "duración"
+                ]
             },
             "style": {
                 "doc": "El estilo de animación que applicar cuando se mueve a otro lugar en el escenario.",
@@ -2944,11 +3008,17 @@
             }
         },
         "Arrangement": {
-            "names": ["⠿", "Arreglo"],
+            "names": [
+                "⠿",
+                "Arreglo"
+            ],
             "doc": "Soy una inspiración para muchos otros tipos de arreglos en Verse, incluidos @Row, @Stack, @Grid y @Free. Trabajo estrechamente con @Group."
         },
         "Row": {
-            "names": ["➡", "Fila"],
+            "names": [
+                "➡",
+                "Fila"
+            ],
             "doc": "Soy @Row, un @Arrangement horizontal de @Output, con relleno opcional. Has conocido a mi gemelo @Stack?",
             "description": "fila de $1 frases y grupos",
             "alignment": {
@@ -2961,7 +3031,10 @@
             }
         },
         "Stack": {
-            "names": ["⬇", "Pila"],
+            "names": [
+                "⬇",
+                "Pila"
+            ],
             "doc": "Soy @Stack, un @Arrangement vertical de @Output, con relleno opcional. Has conocido a mi gemelo @Row",
             "description": "pila de $1 frases y grupos",
             "alignment": {
@@ -2974,7 +3047,10 @@
             }
         },
         "Grid": {
-            "names": ["▦", "Cuadrícula"],
+            "names": [
+                "▦",
+                "Cuadrícula"
+            ],
             "doc": "Soy cuadrícula de @Output. Dame un recuento de filas y columnas y haré un arreglo ordenado con relleno y tamaños de celda opcionales. ",
             "description": "cuadrícula de $1 fila, $2 columnas",
             "rows": {
@@ -2999,7 +3075,9 @@
             }
         },
         "Free": {
-            "names": ["Suelto"],
+            "names": [
+                "Suelto"
+            ],
             "doc": [
                 "Soy como lo que sea. Sientate donde quieras. ¡Simplemente sientate! Asegúrate que todos los @Output que me das tiene un @Place, si no no van a saber a donde ir.",
                 "Oh, ¡y recuerda que el @Place que le das a cada @Output es relativo all @Group's @Place! Entonces, si te preguntas por qué las cosas no estan apareciendo donde deben, intenta darle al @Group un lugar tambien."
@@ -3008,74 +3086,77 @@
         },
         "Shape": {
             "doc": "Soy una inspiración para todas las formas. Soy útil para decirle a @Stage qué forma tener.",
-            "names": ["⬟", "Forma"],
+            "names": [
+                "⬟",
+                "Forma"
+            ],
             "form": {
-              "doc": "Soy el tipo de forma para mostrar. Cada forma requiere información diferente para definir su disposición.",
-              "names": "forma"
+                "doc": "Soy el tipo de forma para mostrar. Cada forma requiere información diferente para definir su disposición.",
+                "names": "forma"
             },
             "name": {
-              "doc": "Soy el nombre que puedes usar, para animaciones y @Collision . Por ejemplo, si represento el suelo, es posible que desees llamarme 'suelo'.",
-              "names": "nombre"
+                "doc": "Soy el nombre que puedes usar, para animaciones y @Collision . Por ejemplo, si represento el suelo, es posible que desees llamarme 'suelo'.",
+                "names": "nombre"
             },
             "selectable": {
-              "doc": "Si puedo ser seleccionado como parte de @Choice.",
-              "names": "seleccionable"
+                "doc": "Si puedo ser seleccionado como parte de @Choice.",
+                "names": "seleccionable"
             },
             "color": {
-              "doc": "El color de mis bordes.",
-              "names": "color"
+                "doc": "El color de mis bordes.",
+                "names": "color"
             },
             "background": {
-              "doc": "El color de mi fondo.",
-              "names": "fondo"
+                "doc": "El color de mi fondo.",
+                "names": "fondo"
             },
             "opacity": {
-              "doc": "Qué tan transparente debería ser.",
-              "names": "opacidad"
+                "doc": "Qué tan transparente debería ser.",
+                "names": "opacidad"
             },
             "offset": {
-              "doc": "Qué tan lejos de mi lugar debería aparecer, manteniéndome en el lugar.",
-              "names": "desplazamiento"
+                "doc": "Qué tan lejos de mi lugar debería aparecer, manteniéndome en el lugar.",
+                "names": "desplazamiento"
             },
             "rotation": {
-              "doc": "Cuánto girado debería estar. Esto afecta a @Collision .",
-              "names": "rotación"
+                "doc": "Cuánto girado debería estar. Esto afecta a @Collision .",
+                "names": "rotación"
             },
             "scale": {
-              "doc": "Cuánto ampliado debería estar, sin cambiar mi tamaño real.",
-              "names": "escala"
+                "doc": "Cuánto ampliado debería estar, sin cambiar mi tamaño real.",
+                "names": "escala"
             },
             "flipx": {
-              "doc": "Si debo reflejarme en mi eje x.",
-              "names": "voltearx"
+                "doc": "Si debo reflejarme en mi eje x.",
+                "names": "voltearx"
             },
             "flipy": {
-              "doc": "Si debo reflejarme en mi eje y.",
-              "names": "volteary"
+                "doc": "Si debo reflejarme en mi eje y.",
+                "names": "volteary"
             },
             "entering": {
-              "doc": "La @Pose o @Sequence  que debería hacer al entrar a @Stage.",
-              "names": "entrando"
+                "doc": "La @Pose o @Sequence  que debería hacer al entrar a @Stage.",
+                "names": "entrando"
             },
             "resting": {
-              "doc": "La @Pose o @Sequence  que debería hacer después de entrar y mientras no me estoy moviendo.",
-              "names": "reposo"
+                "doc": "La @Pose o @Sequence  que debería hacer después de entrar y mientras no me estoy moviendo.",
+                "names": "reposo"
             },
             "moving": {
-              "doc": "La @Pose o @Sequence  que debería hacer al moverme de lugar.",
-              "names": "movimiento"
+                "doc": "La @Pose o @Sequence  que debería hacer al moverme de lugar.",
+                "names": "movimiento"
             },
             "exiting": {
-              "doc": "La @Pose o @Sequence  que debería hacer al salir de @Stage.",
-              "names": "saliendo"
+                "doc": "La @Pose o @Sequence  que debería hacer al salir de @Stage.",
+                "names": "saliendo"
             },
             "duration": {
-              "doc": "Cuánto deben durar mis animaciones si son una única @Pose.",
-              "names": "duración"
+                "doc": "Cuánto deben durar mis animaciones si son una única @Pose.",
+                "names": "duración"
             },
             "style": {
-              "doc": "El estilo de animación que debería usar.",
-              "names": "estilo"
+                "doc": "El estilo de animación que debería usar.",
+                "names": "estilo"
             }
         },
         "Rectangle": {
@@ -3100,10 +3181,13 @@
             "z": {
                 "doc": "La posición de profundidad del rectángulo.",
                 "names": "z"
-              }
+            }
         },
         "Pose": {
-            "names": ["🤪", "Pose"],
+            "names": [
+                "🤪",
+                "Pose"
+            ],
             "doc": [
                 "Sabes cuando alguien adopta la forma más maravilloso de pararse, hace una pausa y todos miran? Ese soy yo. Capturo una pose para @Output y soy el componente básico de sus movimientos.",
                 "Muchas cosas entran en una pose. ¡Mira mis muchas aportaciones para ver qué tipo de poses puedes hacer!"
@@ -3148,252 +3232,324 @@
         },
         "Color": {
             "doc": [
-              "Soy un color visible, compuesto por tres dimensiones esenciales.",
-              "Aquí hay algunos colores comunes alrededor de la rueda de colores, con brillo medio y alta croma:",
-              "\\Color(50% 100 0°)\\",
-              "\\Color(50% 100 30°)\\",
-              "\\Color(50% 100 60°)\\",
-              "\\Color(50% 100 90°)\\",
-              "\\Color(50% 100 120°)\\",
-              "\\Color(50% 100 150°)\\",
-              "\\Color(50% 100 180°)\\",
-              "\\Color(50% 100 210°)\\",
-              "\\Color(50% 100 240°)\\",
-              "\\Color(50% 100 270°)\\",
-              "\\Color(50% 100 300°)\\",
-              "\\Color(50% 100 330°)\\"
+                "Soy un color visible, compuesto por tres dimensiones esenciales.",
+                "Aquí hay algunos colores comunes alrededor de la rueda de colores, con brillo medio y alta croma:",
+                "\\Color(50% 100 0°)\\",
+                "\\Color(50% 100 30°)\\",
+                "\\Color(50% 100 60°)\\",
+                "\\Color(50% 100 90°)\\",
+                "\\Color(50% 100 120°)\\",
+                "\\Color(50% 100 150°)\\",
+                "\\Color(50% 100 180°)\\",
+                "\\Color(50% 100 210°)\\",
+                "\\Color(50% 100 240°)\\",
+                "\\Color(50% 100 270°)\\",
+                "\\Color(50% 100 300°)\\",
+                "\\Color(50% 100 330°)\\"
             ],
-            "names": ["🌈", "Color"],
+            "names": [
+                "🌈",
+                "Color"
+            ],
             "lightness": {
-              "doc": "Qué tan claro debería ser, desde \\0\\ hasta \\1\\, desde negro en \\0\\, hasta gris en \\0.5\\, hasta blanco en \\1\\.",
-              "names": ["luminosidad", "l"]
+                "doc": "Qué tan claro debería ser, desde \\0\\ hasta \\1\\, desde negro en \\0\\, hasta gris en \\0.5\\, hasta blanco en \\1\\.",
+                "names": [
+                    "luminosidad",
+                    "l"
+                ]
             },
             "chroma": {
-              "doc": "Cuánto color debería tener, desde \\0\\ hasta \\∞\\. Sin color significa gris, números más altos significan más color.",
-              "names": ["croma", "c"]
+                "doc": "Cuánto color debería tener, desde \\0\\ hasta \\∞\\. Sin color significa gris, números más altos significan más color.",
+                "names": [
+                    "croma",
+                    "c"
+                ]
             },
             "hue": {
-              "doc": "De qué color debería ser, en una rueda de colores, desde magenta \\0\\, rojo \\30\\, verde \\120\\, hasta azul \\270\\.",
-              "names": ["tono", "h"]
+                "doc": "De qué color debería ser, en una rueda de colores, desde magenta \\0\\, rojo \\30\\, verde \\120\\, hasta azul \\270\\.",
+                "names": [
+                    "tono",
+                    "h"
+                ]
             }
-          },
-          "Sequence": {
+        },
+        "Sequence": {
             "doc": [
-              "¡Oh. Mi. Dios. Director, te ves increíble hoy! ¿Quieres bailar conmigo? Es fácil.",
-              "Solo necesitas darme un @Map, donde cada clave representa qué porcentaje estamos en la danza, y cada valor de esas claves es un @Pose a ser.",
-              "¡Hay /tantas/ formas diferentes en las que puedes animar con esto! Por ejemplo, aquí hay uno simple:",
-              "\\Frase('hola' reposo:Secuencia({0%: Pose(rotación: 360°) 100%: Pose(rotación: 0°)})\\",
-              "Esto dice, /al principio (0%), comienza con inclinación 360, y termina con inclinación 0/. ¡Eso nos hará dar vueltas en círculos para siempre, ya que estoy configurado como la pose de reposo de @Phrase!",
-              "Prueba tus propios bailes creativos jugando con otros inputs."
+                "¡Oh. Mi. Dios. Director, te ves increíble hoy! ¿Quieres bailar conmigo? Es fácil.",
+                "Solo necesitas darme un @Map, donde cada clave representa qué porcentaje estamos en la danza, y cada valor de esas claves es un @Pose a ser.",
+                "¡Hay /tantas/ formas diferentes en las que puedes animar con esto! Por ejemplo, aquí hay uno simple:",
+                "\\Frase('hola' reposo:Secuencia({0%: Pose(rotación: 360°) 100%: Pose(rotación: 0°)})\\",
+                "Esto dice, /al principio (0%), comienza con inclinación 360, y termina con inclinación 0/. ¡Eso nos hará dar vueltas en círculos para siempre, ya que estoy configurado como la pose de reposo de @Phrase!",
+                "Prueba tus propios bailes creativos jugando con otros inputs."
             ],
-            "names": ["💃", "Secuencia"],
+            "names": [
+                "💃",
+                "Secuencia"
+            ],
             "poses": {
-              "doc": "Un @Map de porcentajes entre 0% y 100%, cada uno emparejado con un @Pose. No tienes que proporcionar todos los porcentajes; moveré suavemente un @Output entre los que me des.",
-              "names": "poses"
+                "doc": "Un @Map de porcentajes entre 0% y 100%, cada uno emparejado con un @Pose. No tienes que proporcionar todos los porcentajes; moveré suavemente un @Output entre los que me des.",
+                "names": "poses"
             },
             "duration": {
-              "doc": "¿Cuánto tiempo debería durar este baile? Si debo repetirlo, no agregaré tiempo a la duración, ¡simplemente bailaré más rápido!",
-              "names": ["⏳", "duración"]
+                "doc": "¿Cuánto tiempo debería durar este baile? Si debo repetirlo, no agregaré tiempo a la duración, ¡simplemente bailaré más rápido!",
+                "names": [
+                    "⏳",
+                    "duración"
+                ]
             },
             "style": {
-              "doc": "El estilo que debería usar para el baile.",
-              "names": "estilo"
+                "doc": "El estilo que debería usar para el baile.",
+                "names": "estilo"
             },
             "count": {
-              "doc": "Cuántas veces debe repetirse la secuencia antes de que termine. Esto es realmente útil cuando entro en escena, me muevo en escena o salgo del escenario, pero cuando es una secuencia de descanso, se ignora, ¡ya que puedo descansar para siempre!",
-              "names": "conteo"
+                "doc": "Cuántas veces debe repetirse la secuencia antes de que termine. Esto es realmente útil cuando entro en escena, me muevo en escena o salgo del escenario, pero cuando es una secuencia de descanso, se ignora, ¡ya que puedo descansar para siempre!",
+                "names": "conteo"
             }
-          },
-          "Place": {
+        },
+        "Place": {
             "doc": "Soy una ubicación en @Stage. Todos mis insumos son opcionales, porque estoy en el centro por defecto.",
-            "names": ["📍", "Lugar"],
-            "x": { "doc": "Una posición en el eje x.", "names": "x" },
-            "y": { "doc": "Una posición en el eje y", "names": "y" },
-            "z": { "doc": "Una posición en el eje z", "names": "z" },
-            "rotation": {
-              "doc": "Rotación en esta posición",
-              "names": ["📐", "rotación"]
-            }
-          },
-          "Velocity": {
-            "doc": "Soy una ubicación en @Stage. Todos mis insumos son opcionales, porque estoy en el centro por defecto.",
-            "names": ["💨", "Velocidad"],
+            "names": [
+                "📍",
+                "Lugar"
+            ],
             "x": {
-              "doc": "Cuántos metros moverme cada segundo en el eje x.",
-              "names": "x"
+                "doc": "Una posición en el eje x.",
+                "names": "x"
             },
             "y": {
-              "doc": "Cuántos metros moverme cada segundo en el eje y.",
-              "names": "y"
+                "doc": "Una posición en el eje y",
+                "names": "y"
             },
-            "angle": {
-              "doc": "Cuántos grados rotar cada segundo",
-              "names": ["ángulo", "°"]
-            }
-          },
-          "Matter": {
-            "doc": "Soy propiedades físicas de salida, que influyen en cómo interactúo con otras salidas en el escenario.",
-            "names": ["⚛️", "Materia"],
-            "mass": { "doc": "Un peso, en kilogramos", "names": "masa" },
-            "bounciness": {
-              "doc": "Cuánta de mi energía mantener en la colisión, 0 significa ninguna, 1 significa toda.",
-              "names": "elasticidad"
-            },
-            "friction": {
-              "doc": "Cuánto mantenerme deslizándome; 0 significa ninguno, 1 significa para siempre.",
-              "names": "fricción"
-            },
-            "roundedness": {
-              "doc": "Cuánto redondear las esquinas de la salida; 0 significa ninguna y 1 significa 100% de su tamaño, haciendo que los tamaños sean circulares.",
-              "names": "redondez"
-            },
-            "text": {
-              "doc": "Si puede chocar con otra salida.",
-              "names": "texto"
-            },
-            "shapes": {
-              "doc": "Si puede chocar con otras formas.",
-              "names": "formas"
-            }
-          },
-          "Stage": {
-            "doc": [
-              "HI. ESCENARIO AQUÍ. DIME QUÉ MOSTRAR Y LO MOSTRARÉ.",
-              "\\Stage([Frase('cosas')])\\",
-              "SI QUIERES, DAME UN @Color DE FONDO Y ILUMINARÉ EL ESCENARIO EN CONSECUENCIA.",
-              "\\Stage([Frase('cosas')] Color(0% 0 0°) color: Color(100% 0 0°))\\",
-              "TAMBIÉN PUEDES DARME UN BORDE DE MARCO Y RECORTARÉ.",
-              "\\Stage([Frase('cosas')] Color(0% 0 0°) Rectángulo(-1m -1m 1m 1m) color: Color(100% 0 0°))\\"
-            ],
-            "names": ["🎭", "Escenario"],
-            "content": {
-              "doc": "La lista de @Output para mostrar en el escenario.",
-              "names": "contenido"
-            },
-            "frame": {
-              "doc": "La forma y tamaño del marco para colocar alrededor del escenario, ocultando todo lo que está fuera de él.",
-              "names": "marco"
-            },
-            "size": {
-              "doc": "COMO @Group/size",
-              "names": "tamaño"
-            },
-            "face": {
-              "doc": "COMO @Group/face",
-              "names": "cara"
-            },
-            "place": {
-              "doc": "SI FUERA UNA CÁMARA, AQUÍ ES DONDE ESTOY MIRANDO",
-              "names": "lugar"
-            },
-            "name": {
-              "doc": ["IGUAL QUE @Phrase/name!"],
-              "names": "nombre"
-            },
-            "selectable": {
-              "doc": "IGUAL QUE @Phrase/selectable!",
-              "names": "seleccionable"
-            },
-            "color": {
-              "doc": "IGUAL QUE @Group/color",
-              "names": "color"
-            },
-            "background": {
-              "doc": "IGUAL QUE @Group/background",
-              "names": "fondo"
-            },
-            "opacity": {
-              "doc": "IGUAL QUE @Group/opacity",
-              "names": "opacidad"
-            },
-            "offset": {
-              "doc": "IGUAL QUE @Group/offset",
-              "names": "desplazamiento"
+            "z": {
+                "doc": "Una posición en el eje z",
+                "names": "z"
             },
             "rotation": {
-              "doc": "IGUAL QUE @Group/rotation",
-              "names": ["📐", "rotación"]
+                "doc": "Rotación en esta posición",
+                "names": [
+                    "📐",
+                    "rotación"
+                ]
+            }
+        },
+        "Velocity": {
+            "doc": "Soy una ubicación en @Stage. Todos mis insumos son opcionales, porque estoy en el centro por defecto.",
+            "names": [
+                "💨",
+                "Velocidad"
+            ],
+            "x": {
+                "doc": "Cuántos metros moverme cada segundo en el eje x.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "Cuántos metros moverme cada segundo en el eje y.",
+                "names": "y"
+            },
+            "angle": {
+                "doc": "Cuántos grados rotar cada segundo",
+                "names": [
+                    "ángulo",
+                    "°"
+                ]
+            }
+        },
+        "Matter": {
+            "doc": "Soy propiedades físicas de salida, que influyen en cómo interactúo con otras salidas en el escenario.",
+            "names": [
+                "⚛️",
+                "Materia"
+            ],
+            "mass": {
+                "doc": "Un peso, en kilogramos",
+                "names": "masa"
+            },
+            "bounciness": {
+                "doc": "Cuánta de mi energía mantener en la colisión, 0 significa ninguna, 1 significa toda.",
+                "names": "elasticidad"
+            },
+            "friction": {
+                "doc": "Cuánto mantenerme deslizándome; 0 significa ninguno, 1 significa para siempre.",
+                "names": "fricción"
+            },
+            "roundedness": {
+                "doc": "Cuánto redondear las esquinas de la salida; 0 significa ninguna y 1 significa 100% de su tamaño, haciendo que los tamaños sean circulares.",
+                "names": "redondez"
+            },
+            "text": {
+                "doc": "Si puede chocar con otra salida.",
+                "names": "texto"
+            },
+            "shapes": {
+                "doc": "Si puede chocar con otras formas.",
+                "names": "formas"
+            }
+        },
+        "Stage": {
+            "doc": [
+                "HI. ESCENARIO AQUÍ. DIME QUÉ MOSTRAR Y LO MOSTRARÉ.",
+                "\\Stage([Frase('cosas')])\\",
+                "SI QUIERES, DAME UN @Color DE FONDO Y ILUMINARÉ EL ESCENARIO EN CONSECUENCIA.",
+                "\\Stage([Frase('cosas')] Color(0% 0 0°) color: Color(100% 0 0°))\\",
+                "TAMBIÉN PUEDES DARME UN BORDE DE MARCO Y RECORTARÉ.",
+                "\\Stage([Frase('cosas')] Color(0% 0 0°) Rectángulo(-1m -1m 1m 1m) color: Color(100% 0 0°))\\"
+            ],
+            "names": [
+                "🎭",
+                "Escenario"
+            ],
+            "content": {
+                "doc": "La lista de @Output para mostrar en el escenario.",
+                "names": "contenido"
+            },
+            "frame": {
+                "doc": "La forma y tamaño del marco para colocar alrededor del escenario, ocultando todo lo que está fuera de él.",
+                "names": "marco"
+            },
+            "size": {
+                "doc": "COMO @Group/size",
+                "names": "tamaño"
+            },
+            "face": {
+                "doc": "COMO @Group/face",
+                "names": "cara"
+            },
+            "place": {
+                "doc": "SI FUERA UNA CÁMARA, AQUÍ ES DONDE ESTOY MIRANDO",
+                "names": "lugar"
+            },
+            "name": {
+                "doc": [
+                    "IGUAL QUE @Phrase/name!"
+                ],
+                "names": "nombre"
+            },
+            "selectable": {
+                "doc": "IGUAL QUE @Phrase/selectable!",
+                "names": "seleccionable"
+            },
+            "color": {
+                "doc": "IGUAL QUE @Group/color",
+                "names": "color"
+            },
+            "background": {
+                "doc": "IGUAL QUE @Group/background",
+                "names": "fondo"
+            },
+            "opacity": {
+                "doc": "IGUAL QUE @Group/opacity",
+                "names": "opacidad"
+            },
+            "offset": {
+                "doc": "IGUAL QUE @Group/offset",
+                "names": "desplazamiento"
+            },
+            "rotation": {
+                "doc": "IGUAL QUE @Group/rotation",
+                "names": [
+                    "📐",
+                    "rotación"
+                ]
             },
             "scale": {
-              "doc": "IGUAL QUE @Group/scale",
-              "names": "escala"
+                "doc": "IGUAL QUE @Group/scale",
+                "names": "escala"
             },
             "flipx": {
-              "doc": "IGUAL QUE @Group/flipx",
-              "names": "voltearx"
+                "doc": "IGUAL QUE @Group/flipx",
+                "names": "voltearx"
             },
             "flipy": {
-              "doc": "IGUAL QUE @Group/flipy",
-              "names": "volteary"
+                "doc": "IGUAL QUE @Group/flipy",
+                "names": "volteary"
             },
             "entering": {
-              "doc": "IGUAL QUE @Group/entering",
-              "names": "entrando"
+                "doc": "IGUAL QUE @Group/entering",
+                "names": "entrando"
             },
             "resting": {
-              "doc": "IGUAL QUE @Group/resting!",
-              "names": "reposo"
+                "doc": "IGUAL QUE @Group/resting!",
+                "names": "reposo"
             },
             "moving": {
-              "doc": "IGUAL QUE @Group/moving!",
-              "names": "movimiento"
+                "doc": "IGUAL QUE @Group/moving!",
+                "names": "movimiento"
             },
             "exiting": {
-              "doc": "IGUAL QUE @Group/exiting!",
-              "names": "saliendo"
+                "doc": "IGUAL QUE @Group/exiting!",
+                "names": "saliendo"
             },
             "duration": {
-              "doc": "IGUAL QUE @Phrase/duration!",
-              "names": ["⏳", "duracion"]
+                "doc": "IGUAL QUE @Phrase/duration!",
+                "names": [
+                    "⏳",
+                    "duracion"
+                ]
             },
             "style": {
-              "doc": "IGUAL QUE @Phrase/style!",
-              "names": "estilo"
+                "doc": "IGUAL QUE @Phrase/style!",
+                "names": "estilo"
             },
             "gravity": {
-              "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
-              "names": "gravedad"
+                "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
+                "names": "gravedad"
             },
             "description": "escenario $1[$1|] de $2 frases $3[$3 marco|] $4"
-          },
-          "Easing": {
+        },
+        "Easing": {
             "straight": "recto",
             "cautious": "cauteloso",
             "pokey": "lento",
             "zippy": "rápido"
-          },
-          "sequence": {
+        },
+        "sequence": {
             "sway": {
-              "doc": "Creo una @Sequence  que se balancea hacia adelante y hacia atrás alrededor del centro de un @Output.",
-                "names": ["vaivén"],
+                "doc": "Creo una @Sequence  que se balancea hacia adelante y hacia atrás alrededor del centro de un @Output.",
+                "names": [
+                    "vaivén"
+                ],
                 "angle": {
                     "doc": "$?",
-                    "names": ["ángulo"]
+                    "names": [
+                        "ángulo"
+                    ]
                 }
             },
             "bounce": {
                 "doc": "$?",
-                "names": ["rebotar"],
+                "names": [
+                    "rebotar"
+                ],
                 "height": {
                     "doc": "$?",
-                    "names": ["altura"]
+                    "names": [
+                        "altura"
+                    ]
                 }
             },
             "spin": {
                 "doc": "$?",
-                "names": ["girar"]
+                "names": [
+                    "girar"
+                ]
             },
             "fadein": {
                 "doc": "$?",
-                "names": ["revelar"]
+                "names": [
+                    "revelar"
+                ]
             },
             "popup": {
                 "doc": "$?",
-                "names": ["surgir"]
+                "names": [
+                    "surgir"
+                ]
             },
             "shake": {
                 "doc": "$?",
-                "names": ["agitar"]
+                "names": [
+                    "agitar"
+                ]
             }
         }
     },
