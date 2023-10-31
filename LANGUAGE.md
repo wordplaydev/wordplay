@@ -4,7 +4,7 @@ _Amy J. Ko_
 
 Hello! You must be here looking for the Wordplay programming language's specification. That means you're probably a programmer or computer scientist, or you prefer to read a more formal explanation of the programming language instead of going through the tutorial to learn. Welcome! We'll try to make this somewhat painless.
 
-This guide will be a complete overview of Wordplay's syntax and semantics. e'll eschew formal semantics for now, unless someone wants to contribute them. That does mean that We've yet to prove the program's semantics sound. (Perhaps that's a contribution you'd like to make to?). And in general, consider this a work in progress, so if you find sections missing, it means are still working on them.
+This guide will be a complete overview of Wordplay's syntax and semantics. We'll eschew formal semantics for now, unless someone wants to contribute them. That does mean that We've yet to prove the program's semantics sound. (Perhaps that's a contribution you'd like to make to?). And in general, consider this a work in progress, so if you find sections missing, just report an issue, and we'll work on it.
 
 ## History
 
@@ -64,7 +64,7 @@ Numbers can be:
 
 > arabic → `/-?[0-9]+([.,][0-9]+)?%?/`  
 > arabicbase → `/-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/`  
-> roman → `/(Ⅰ|Ⅱ|Ⅲ|Ⅳ|Ⅴ|Ⅵ|Ⅶ|Ⅷ|Ⅸ|Ⅹ|Ⅺ|Ⅻ|Ⅼ|Ⅽ|Ⅾ|Ⅿ)+/`  
+> roman → `/(ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ)+/`  
 > japanese → `/-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
 > pi → `π`  
 > infinity → `∞`  
@@ -74,8 +74,8 @@ We hope to add other numerals as we localize other languages.
 
 Text literals can be opened and closed with numerous delimiters:
 
-> textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
-> textclose → `"` | `„` | `'` | `”` | `„` | `’` | `›` | `»`,, `」`, `』`  
+> textopen →  `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
+> textclose → `"` | `„` | `”` | `'` | `’` | `›` | `»` | `」` | `』`  
 > markup → `\`  
 > text → _any sequence of characters between open/close delimiters_
 
