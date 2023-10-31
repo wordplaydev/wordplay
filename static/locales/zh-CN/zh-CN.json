@@ -127,227 +127,401 @@
         ]
         },
         "Doc": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "解释说明",
+            "emotion": "serious",
+            "doc": [
+                "我用 @Markup 来格式化别的东西, 比如你的 @Program 的解释说明, 甚至是你用 @Phrase 放上这个舞台的文字。",
+                "举个例子，我可以跑到任何句子的前面:",
+                "\\``这真的会是7吗?``\n7\\",
+                "又比如，你可以把我放在 @Bind 的前面：",
+                "\\``我可以测量一个人有多高``\n高度: 5米\\",
+                "或者在一个 @FunctionDefinition 的前面:",
+                "\\``我把两个数字相加``\nƒ 总和(a•# b•#) a + b\\",
+                "或者在一个 @StructureDefinition 的前面:",
+                "\\``我记得别人的名字和他们爱吃的水果``\n•人名(名字•'' 水果•'')\\",
+                "你也可以把我放在一个 @Program 的前面来说明这整个项目是在干什么",
+                "\\``这个项目在说你好``\n\n'你好!'\\",
+                "你还可以给我一个 @Language 来告诉其他人我在讲什么语言:",
+                "\\``我是一篇中文文档``/zh\n持续时长: 5秒\\",
+                "不过，你知道你可以创造一整个列表那样多的我吗？ 去跟 @Docs 聊聊这件事吧。"
+            ]
         },
         "Docs": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "解释清单列表",
+            "emotion": "serious",
+            "doc": [
+            "我是 @Doc 的一个列表， 在你有许多不同语言的 @Doc 的翻译时会非常有用。",
+            "创造一个列表不需要你做任何特殊的事情， 只用把一些 @Doc 像这样排列在一起，一个就在另一个的旁边:",
+            "\\``你好``/zh\n``Hola``/es\n问候语: '…'\\"
+        ],
+            "start": "来多写一些句子吧！"
         },
         "KeyValue": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "映射",
+            "emotion": "kind",
+            "doc": [
+                "我是在一个 @Map 中从一个 *关键码* 到一个 *值* 的映射。",
+                "我可以映射任意类型的值。比如，这里有一个数字们的映射:",
+                "\\{1:1}\\",
+                "或者映射数字和一个词语:",
+                "\\{'兔子':1}\\"
+            ]
         },
         "Language": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
+            "name": "语言",
+            "description": "语言 $1[$1|unknown]",
+            "emotion": "eager",
+            "doc": [
+                "我是一个语言标签，我与 @Name 和 @Doc 一起工作!",
+                "我真的擅长让别人 *超级清楚* 事物是用什么语言撰写的。",
+                "这就是我做的事情。 只需一个小小斜线和几个字母，大家就都清楚一些文本使用的是什么语言了。",
+                "比如，你要是想说我的 $name， 但想让别人清楚地知道它是中文：",
+                "\\\"语言\"/zh\\",
+                "要是你想要这样处理 @Name 也可以。",
+                "\\声音/zh: '喵'\\",
+                "甚至是用在 @Doc 身上！",
+                "\\``拟声词``/zh\n声音/zh: \"喵\"\\",
+                "这里还有许多我能理解的 <两个字母的语言表达代码@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> 。如果你没有使用它们中的任意一个，我会告诉你的。"
+            ],
             "conflict": {
-                "UnknownLanguage": "$?",
-                "MissingLanguage": "$?"
+                "UnknownLanguage": "我不知道这个语言呢",
+                "MissingLanguage": "这里缺少了对语言的描述，你能加上一个吗？"
             }
         },
         "Name": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "命名",
+            "description": "$1[$1 | unnamed]",
+            "emotion": "kind",
+            "doc": [
+                "我会识别一个值，而且能够帮你给难以评估的事物贴上简洁的的标签，不然你就要一遍又一遍地评估它们。",
+                "@Bind 像这样给我命名：",
+                "\\嗨: 5\\",
+                "我只能代表一个值，一旦我被赋予了一个值，我就不能改变它。比如，要是你尝试对 @Bind 这样做，我们就会抱怨。",
+                "\\嗨: 5\n嗨: 3\\",
+                "要是你想得到我的值，就需要让 @Reference 或者 @PropertyReference 使用名字。在这里，@Bind 给我命名，然后用 @Reference 就会得到我的值。",
+                "\\嗨: 5\n嗨\\",
+                "因为 @Bind 可以在许多地方出现，我也可以在那么多的地方出现。我刚才在一个上面的 @Block ，但我也可以在一个 @FunctionDefinition 里面。现在我暂时地给一条信息命名：",
+                "\\ƒ 说(信息•'') 信息\\",
+                "我在 @FunctionDefinition 里面被定义，当这个功能完成它的评估后，我就消失啦。",
+                "你可以用 @Language 来表示我的名字是什么语言的。这会在你与别人分享你的程序并想让别人阅读它的时候非常有帮助。"
+            ]
         },
         "Names": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "命名列表",
+            "emotion": "kind",
+            "doc": [
+                "我是一个 @Name 的列表，当你想给一个值几个名字的时候特别有用，常常是和不同的 @Language。",
+                "名字们用 \\,\\ 符号隔开。比如， 这就是 @Bind 给一个值好几个 @Name :",
+                "\\嗨/zh,你好/zh,hola/es: '欢迎'\\"
+            ]
         },
         "Row": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
+            "name": "排",
+            "emotion": "shy",
+            "doc": "我代表了一个 @Table 中的一排。你最好和 @Table 聊聊这个，因为它知道我的所有事情。我只是在这里确保所有值都在一行里。 :(",
             "conflict": {
-                "InvalidRow": "$?",
-                "MissingCell": { "primary": "$?", "secondary": "$?" },
-                "UnknownColumn": "$?",
+                "InvalidRow": "行要么是所有值，要么必须是所有 @Bind 。",
+                "MissingCell": {
+                    "primary": "我和一列 $1 走散啦。",
+                    "secondary": "这里是需要我的，但是 $1 好像没有提供呢。"
+                },
+                "UnknownColumn": "我不知道有哪一列是这个名字呀。",
                 "ExtraCell": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "我真的应该在这里吗？",
+                    "secondary": "嘿 $1，你不是 @Table 的一部分呀!"
                 },
                 "UnexpectedColumnBind": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "我真的应该是一个 @Bind 吗?",
+                    "secondary": "嘿，我是一个 @Table, 我需要一个值，而不是 @Bind 。"
                 }
             }
         },
         "Token": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "令牌",
+            "description": "$1 $2",
+            "emotion": "neutral",
+            "doc": [
+                "你怎么找到我的？",
+                "我是表演中最微笑的一部分。我是让所有文字成为文字的基础。我是我们编舞里原子大小微粒。"
+            ]
         },
         "TypeInputs": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "输入类型",
+            "emotion": "curious",
+            "doc": "我是一个类型列表，可以代替 @StructureDefinition 或 @FunctionDefinition 中的 @TypeVariables。我可以帮助每个人知道他们将收到什么样的输入。"
         },
         "TypeVariable": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
+            "name": "变量类型",
+            "emotion": "curious",
+            "doc": "我是 @FunctionDefinition 或 @StructureDefinition 上的神秘类型，由 @TypeInputs 在对其中任一类型进行求值时提供。@Set、@List 和 @Map 都可以使用我。",
             "conflict": {
-                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
+                "DuplicateTypeVariable": {
+                    "primary": "我和 $1 有一样的值。",
+                    "secondary": "我和 $1 有一样的名字。"
+                }
             }
         },
         "TypeVariables": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "变量类型列表",
+            "emotion": "curious",
+            "doc": "我是一个列表的 @TypeVariable 。"
         },
         "Markup": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "标记",
+            "description": "$1 段落",
+            "emotion": "serious",
+            "doc": [
+                "我是一个段落列表，使用了解释中可用的多种标记，如 @Words、@WebLink、@ConceptLink 和 @Example 等."
+            ]
         },
         "Paragraph": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "段落",
+            "emotion": "serious",
+            "doc": [
+                "我是一系列的 @Words、@ConceptLink、@WebLink 和 @Example ，我们在 @Doc 内用空行隔开。",
+                "你只在 @Doc 写好多好多字就可以构成我:",
+                "\\``我是文档中的一个段落。``'一个段落'\\",
+                "如果你想要多个段落，只要在中间隔上空行。",
+                "\\``段落一\n\n段落二\n\n段落三``'三个段落'\\"
+            ]
         },
         "WebLink": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "链接",
+            "description": "链接 $1",
+            "emotion": "serious",
+            "doc": [
+                "我是能带你去网络上一个地方的链接。我只需要一个描述和一个网址:",
+                "\\``我是一个在文档中的 <链接@https://wordplay.dev>``\n'链接示例'\\",
+                "如果有人选中了我，我将会打开去往这个网址的新窗口。"
+            ]
         },
         "ConceptLink": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "概念",
+            "description": "概念链接",
+            "emotion": "serious",
+            "doc": [
+                "我是一个通往诗篇角色的链接。 我在你想要写一篇 @Doc 以及引用我们中的任何一个时非常有帮助。",
+                "比如说，要是你想要谈谈 @Evaluate 以及它们有多好，你就可以这样写:",
+                "\\``你知道吗？ @Evaluate 真的非常出色。``\n'看，一个概念链接！'\\",
+                "当你写的 @Doc 出现在这里，它就会出现一个联通这个概念的链接。"
+            ]
         },
         "Words": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "文字",
+            "emotion": "serious",
+            "doc": [
+                "我是你在一篇 @Doc 中喜爱的所有文字。比如:",
+                "\\``愿力量与你同在。``\n'只是一些文字！'\\",
+                "虽然有些时候，你可能想用@Doc 里的特殊字符 /作为/ 文字。比如:",
+                "\\``我的朋友使用 @@, //, **, ||, 以及其他符号。``\n'使用了特殊字符！'\\",
+                "如果你重复地使用一些特殊字符，你可能会得到一些文字而不是它们本身的特殊意义。"
+            ]
         },
         "Example": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "例子",
+            "emotion": "serious",
+            "doc": [
+                "我是一个例子，能够帮助解释 @Doc 中的一些功能是怎么运用的！",
+                "\\``这里是一个相加的例子： \\1 + 1\\``'示例代码'\\",
+                "如果你把我单独放在一个段落里，我就会出现在一个漂亮的盒子里，展示我的评估结果。",
+                "\\``这里是一个相加的例子：\n\n\\1 + 1\\``\\"
+            ]
         },
         "Mention": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "提到",
+            "description": "提到 $1",
+            "emotion": "serious",
+            "doc": [
+                "我是一个术语 \\$program\\ 或者一个动态输入 \\$1\\的参考资料。",
+                "不过这主要是一个内部功能，你应该不需要知道。"
+            ]
         },
         "Branch": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "分支",
+            "emotion": "serious",
+            "doc": [
+                "我是一个种在两个部分之间根据有无定义和真假与否进行选择的方法。",
+                "不过这主要是一个内部功能，你应该不需要知道。"
+            ]
         },
         "BinaryEvaluate": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "right": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "二进制评估",
+            "description": "$1 操作",
+            "emotion": "insecure",
+            "doc": [
+                "我是形式更简单的 @Evaluate,当你想使用接收两个输入的 @FunctionDefinition 时很有用。",
+                "比如，这样就是你怎样用 @Evaluate 来添加两个数字：",
+                "\\1.+(1)\\",
+                "那样看起来不是很有趣吗？它也没错: 它只是说在1上使用相加功能，然后对其进行求值。",
+                "单但用 @BinaryEvaluate 可以使它更加简洁。",
+                "\\1 + 1\\",
+                "这让一切都变得更简洁了，尽管它们本质上是一样的。",
+                "不过这里有一件事需要注意：当我处于这种形式时，我会从左到右进行评估。如果你习惯了数学中的运算顺序，这可能会让你感到困惑。",
+                "我是在说我可能会以你意想不到的方式进行评估：",
+                "\\1 + 2 · 3 + 4\\",
+                "在数学中，乘法是第一位的，然后是加法，所以这样算的结果会是\\11\\。但因为我是按照读取顺序评估的，结果就会是\\13\\。"
+            ],
+            "right": "输入",
+            "start": "让我们先来评估 $1 吧",
+            "finish": "你看，我创造了 $1!",
             "conflict": {
-                "OrderOfOperations": "$?"
+                "OrderOfOperations": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来来指定我的运算顺序吗？"
             }
         },
         "Bind": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "联结",
+            "description": "联结 $1",
+            "emotion": "excited",
+            "doc": [
+                "我给 *values* 命名。",
+                "就像这样！",
+                "\\pi: 3.1415926\\",
+                "我给 @FunctionDefinition 和 @StructureDefinition 的输入值取名，我也给 @Block 中的值取名字。我可以给任何东西命名！",
+                "噢，不过你知道你可以让一个值有 *许多个名字* 吗?",
+                "我好高兴我能告诉你这个！一个值可以有好几个 @Names。比如:",
+                "\\乔，泰斯，艾米: 5\\",
+                "所以我在这里干了什么呢？",
+                "我给一个值起了三个名字！",
+                "你可以用那些名字里的 *任意一个* 来指代那个五。",
+                "尤其是你想用多种语言命名时：",
+                "\\joe/en,aimee/fr,明/zh: 5\\",
+                "你看见我在这干什么了吗？我给了一个值三个不同语言的名字！",
+                "好了，我还有最后一个秘密。",
+                "你知道我可以和 @Is 一起来了解我需要什么样的数字吗？要是我找不到，我会告诉你的！",
+                "像这样:",
+                "\\极大的数字•#: \"一千亿\"\\",
+                "你看，我说 \\极大的数字\\ 应该是一个数字，但它实际上是一个文本，而且它们彼此不是对应的!",
+                "当它们不是互相对应的时候，我会通知你！",
+                "有些时候你 *需要* 告诉我你给我的数据是什么类型的，因为我自己可不知道，这样的事通常发生在 @FunctionDefinition。",
+                "比如在这里的时候， @FunctionDefinition 不知道它会有什么样的 \\a\\ 和 \\b\\,因为我没有告诉它们。",
+                "\\ƒ 总和(a b) a + b\\",
+                "但我们可以改变它来加上 @Is，那现在 @FunctionDefinition 就知道它们都是数字啦：",
+                "\\ƒ 总和(a•# b•#) a + b\\"
+            ],
+            "start": "让我们看看我们能从 $1 里得到什么值吧!",
+            "finish": "太好啦，我得到了 $1! 让我们给它命名为 $2",
             "conflict": {
-                "DuplicateName": { "primary": "$?", "secondary": "$?" },
-                "DuplicateShare": { "primary": "$?", "secondary": "$?" },
-                "IncompatibleType": { "primary": "$?", "secondary": "$?" },
-                "MisplacedShare": "$?",
-                "MissingShareLanguages": "$?",
-                "RequiredAfterOptional": "$?",
-                "UnexpectedEtc": "$?",
-                "UnusedBind": "$?"
+                "DuplicateName": {
+                    "primary": "有其他人已经被命名为 $1 了，所以我不能叫这个名字。.",
+                    "secondary": "噢, $1 是我的名字"
+                },
+                "DuplicateShare": {
+                    "primary": "我有和 $1 一样的名字，这让事情有些模棱两可",
+                    "secondary": "我有和 $1 一样的名字"
+                },
+                "IncompatibleType": {
+                    "primary": "我应该是 $2 的，但现在我是 $1",
+                    "secondary": "噢……抱歉，你输入了什么？ $1, 真的吗?"
+                },
+                "MisplacedShare": "我只能分享在 @Program 等级的事物，但没办法解释它里面的一切！",
+                "MissingShareLanguages": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
+                "RequiredAfterOptional": "我不能在这，这里还有一个可选的 @Bind 在我前面",
+                "UnexpectedEtc": "只有在 @FunctionDefinition 中我才是可变的长度",
+                "UnusedBind": "嘿，我给这这个变量命名了，但是它还没有被使用呢！"
             }
         },
         "Block": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "statement": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "区块",
+            "description": "$1 陈述",
+            "emotion": "shy",
+            "doc":  [
+                "嗨。我给出一小块安静的私人空间用于评估事物。",
+                "像这样:",
+                "\\(1 - 1) + 2\\",
+                "这样可以帮助我们明确评估顺序。",
+                "@Bind 也在这里帮忙了。",
+                "\\(数量: 10 数量 ^ 数量)\\",
+                "看见 @Bind 在这里是怎样创造 \\数量\\的了吗?它只能在我的里面命名，所以这样是行不通的:",
+                "\\(数量: 10 数量 ^ 数量) + 数量\\",
+                "因为数量是在我里面的一个名字。",
+                "你也可以按照你的喜好在我里面放好多好多名字，但是我只会记得最后一个：",
+                "\\(1 2 3 4 5)\\",
+                "所以一般来讲，我只是一些 @Bind 以及在末尾的一个表述。",
+                "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+            ],
+            "statement": "陈述",
+            "start": "第一个表述",
+            "finish": "好啦，我现在有 $1 了",
             "conflict": {
-                "ExpectedEndingExpression": "$?",
-                "IgnoredExpression": { "primary": "$?", "secondary": "$?" }
+                "ExpectedEndingExpression": "我需要一个表述。",
+                "IgnoredExpression": {
+                    "primary": "我会忽略以上的所有东西。",
+                    "secondary": "@Block，不要忽略我呀!"
+                }
             }
         },
         "BooleanLiteral": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "特殊布尔值",
+            "description": "$1[正确|错误]",
+            "emotion": "precise",
+            "doc": "我要么是 \\⊤\\ ，要么是 \\⊥\\。去看看 @Boolean 来更多地了解我们美丽的逻辑学吧。",
+            "start": "$1!"
         },
         "Borrow": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "source": "$?",
-            "bind": "$?",
-            "version": "$?",
+            "name": "借用",
+            "description": "借用 $1[$1|不存在的命名]",
+            "emotion": "excited",
+            "doc": "如果你用多种 @Source 创造了一个表演，你可以使用我去借用在其他 @Source 里共享的 @Bind 。只要使用它们的名字，我就可以同时带来它们的名字和值。",
+            "start": "向 $1 借用 $2",
+            "source": "$source",
+            "bind": "命名",
+            "version": "版本",
             "conflict": {
-                "UnknownBorrow": "$?",
-                "BorrowCycle": "$?"
+                "UnknownBorrow": "我不知道哪个 $source 是叫这个名字的",
+                "BorrowCycle": "这取决于 $1，而它取决于 $source，所以这个程序不能被评估"
             },
             "exception": {
                 "CycleException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "借用循环",
+                    "explanation": "$1 取决于它自己"
                 }
             }
         },
         "Changed": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "改变",
+            "emotion": "serious",
+            "doc": [
+                "我检查流是否导致 @Program 重新评估，并生成一个 @Boolean 值。像这样",
+                "\\∆ 时间()\\",
+                "我会很好地在你想只有数据流发生变化才改变某些内容的时候帮到你。",
+                "这就是全部了。"
+            ],
+            "start": "让我们看看 $1 有没有改变……"
         },
         "Conditional": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "afterthen": "$?",
-            "else": "$?",
-            "finish": "$?",
-            "condition": "$?",
-            "yes": "$?",
-            "no": "$?",
+            "name": "有条件的",
+            "emotion": "curious",
+            "doc": [
+                "I我想我应该是来做出决定的？就像这样？",
+                "\\数字: -100\n数字 < 0 ? '负数' '正数'\\",
+                "但你有没有想过我们是怎样做出选择的呢？",
+                "难道决定不应该比是或不是更细致吗？在 \\⊤\\ 和 \\⊥\\ 之间决定就是全部了吗?",
+                "如果我们只能做这些决定，难道你不担心我们就会错过一些重要的世界的内容吗?"
+            ],
+            "start": "让我们看看 $1 是不是正确的",
+            "afterthen": "$1[跳过这些代码 | 不要跳过这些代码]",
+            "else": "已经完成了是的情况，要不我们就跳过否的情况吧?",
+            "finish": "我想这就是 $1 了吧?",
+            "condition": "条件",
+            "yes": "是",
+            "no": "否",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "我怎样才能用 $1 来选择是或不是呢? 这样是没办法的",
+                    "secondary": "我感觉 @Conditional 想要我成为一个 @Boolean，但我现在还是 $1。"
                 }
             }
         },
         "ConversionDefinition": {
-            "name": "$?",
+            "name": "转换定义",
             "description": "$1 → $2",
-            "emotion": "$?",
-            "doc": "$?",
+            "emotion": "excited",
+            "doc": [
+                "朋友，我定义了从一种类型到另一种类型的转换！我在 @Block 中是这样定义的：",
+                "\\→ #小猫咪 #猫 . ÷ 2\n6小猫咪→#猫\\",
+                "你看到我是怎样把小猫咪变成猫的吗？嘻嘻！",
+                "你可能会疑惑 \\.\\ 在那里干什么。那代表了有一个值已经被转换了。我用它是因为这个值没有其他名字了。"
+            ],
             "start": "$?",
             "conflict": {
                 "MisplacedConversion": "$?"
