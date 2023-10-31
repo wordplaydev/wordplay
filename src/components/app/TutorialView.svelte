@@ -229,18 +229,6 @@
             )}</Header
         >
         <nav>
-            <Button
-                tip={$locales.get((l) => l.ui.page.learn.button.previous)}
-                action={() => navigate(progress.previousPause() ?? progress)}
-                active={progress.previousPause() !== undefined}
-                bind:view={previousButton}>⇦</Button
-            >
-            <Button
-                tip={$locales.get((l) => l.ui.page.learn.button.next)}
-                action={() => navigate(progress.nextPause() ?? progress)}
-                active={progress.nextPause() !== undefined}
-                bind:view={nextButton}>⇨</Button
-            >
             <!-- A hierarchical select of tutorial units and lessons  -->
             <select
                 bind:value={selection}
@@ -281,6 +269,29 @@
     <div class="content">
         <div role="article" class="dialog">
             <div class="turns" aria-live="assertive">
+                <div class="controls">
+                    <Button
+                        large
+                        tip={$locales.get(
+                            (l) => l.ui.page.learn.button.previous
+                        )}
+                        action={() =>
+                            navigate(progress.previousPause() ?? progress)}
+                        active={progress.previousPause() !== undefined}
+                        bind:view={previousButton}>⇦</Button
+                    >
+                    {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
+                            >{scene.subtitle ?? scene.title}</Note
+                        >{/if}
+                    <Button
+                        large
+                        tip={$locales.get((l) => l.ui.page.learn.button.next)}
+                        action={() =>
+                            navigate(progress.nextPause() ?? progress)}
+                        active={progress.nextPause() !== undefined}
+                        bind:view={nextButton}>⇨</Button
+                    >
+                </div>
                 {#if act === undefined}
                     <div class="title play"
                         >{$locales.get((l) => l.wordplay)}</div
@@ -481,5 +492,12 @@
 
     select::after {
         content: 'a';
+    }
+
+    .controls {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
     }
 </style>

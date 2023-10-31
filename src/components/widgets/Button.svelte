@@ -113,7 +113,6 @@
         border-radius: var(--wordplay-border-radius);
     }
 
-    button.scale:focus[aria-disabled='false'],
     button.scale:hover[aria-disabled='false'] {
         transform: rotate(-3deg);
     }
