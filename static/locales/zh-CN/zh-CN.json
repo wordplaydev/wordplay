@@ -531,138 +531,201 @@
             "start": "$?"
         },
         "Previous": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
+            "name": "之前",
+            "emotion": "严肃",
+            "doc": [
+                "你曾经想过要回忆过去吗?",
+                "我是诗节的官方记录保管人。给我一个流和一个数字来回顾，我会告诉你这个流在历史上的价值。",
+                "例如，以下是五分钟前@Time的情况:",
+                "\\← 5 时间(1000ms)\\",
+                "看看它是如何在5秒钟内@None，然后突然变成了前一次?",
+                "如果你想要最后几个值，给我箭头，我会把这个数字解释为一个计数:",
+                "\\←← 5 时间(1000ms)\\",
+                "看到了吗，这是之前的五次，而不是一次?",
+                "当你想要创造依赖于过去的表演时，我会对你很有帮助。"
+            ],
             "start": "$?",
             "finish": "$?"
         },
         "Program": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "unevaluated": "$?",
-            "start": "$?",
-            "halt": "$?",
-            "finish": "$?",
-            "done": "$?",
+            "name": "项目",
+            "emotion": "严肃",
+            "doc": [
+                "我是一场表演开始和结束的地方，包含了所有其他角色编排的表演。",
+                "您知道@Block如何计算表达式列表，并计算到列表中的最后一个表达式吗? ",
+                "我是一样的，但不是把我的值赋给我所在的表达式，而是把值赋给@Stage。",
+                "该值可以是任何值:@Number， @Text，或@Boolean， @List， @Set， @Map，甚至更复杂的东西，如@Phrase， @Group，或@Stage。",
+                "如果你不给我一个在舞台上展示的价值，我会问你要一个。",
+                "如果在表演过程中出现问题，我会指出这个问题。",
+                "如果你的性能依赖于“流”，我将在每次流改变时重新评估。"
+            ],
+            "unevaluated": "你选择的节点没有求值",
+            "start": "$1[$1]流变成$2![这是我的第一次评估]",
+            "halt": "遇到异常，停止",
+            "finish": "完成后，我求值为1$",
+            "done": "没有东西评估",
             "exception": {
                 "BlankException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "空项目",
+                    "explanation": "让我们表演一下吧!我们应该从哪里开始呢?"
                 },
                 "EvaluationLimitException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "评估限制",
+                    "explanation": "@评估，我已经厌倦了评估，尤其是1$。$1有没有可能永远在求值，从不停止?"
                 },
                 "StepLimitException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "步骤限制",
+                    "explanation": "有这么多。很多。步骤太多，完成不了!你能让表演简单点吗?"
                 },
                 "ValueException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "缺少数值",
+                    "explanation": "我期望得到一个值，但没有得到!"
                 }
             }
         },
         "PropertyBind": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "精炼",
+            "description": "精炼$1[$1|缺少名称]",
+            "emotion": "善良",
+            "doc": [
+                "有时，当你创建一个@StructureDefinition时，你想要改变它的最小的东西，而不必用所有相同的值创建一个新的。",
+                "例如，如果你正在保存猫的记录，但然后想创建一个具有不同爱好的猫的副本，该怎么办?我可以帮你改。",
+                "\\•猫(名称•爱好•“颜色•)\n\nkitty:猫(“洒”“橙色”“舔”)\nkitty.hobby: \\“呼噜声”",
+                "这比做一个全新的\\猫\\ \\要简单得多，除了爱好之外，还有相同的值，不是吗?"
+            ],
+            "start": "首先让我们获取值",
+            "finish": "我复制了这个结构，但是把1$改成了2$"
         },
         "PropertyReference": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
-            "property": "$?"
+            "name": "性质",
+            "description": "属性$1[$1|缺少名称]",
+            "emotion": "善良",
+            "doc":  [
+                "当您创建一个@StructureDefinition时，您如何获得它的一个输入?我如何",
+                "比如，如果你有一个关于城市的结构，你可以像这样得到它的值:",
+                "\\•城市(名称•人口•#people)\n\nportland:城市('Portland' 800000people)\n\nportland.population\\"
+            ],
+            "start": "首先让我们获取值",
+            "finish": "发现属性$1，它是$2",
+            "property": "性质"
         },
         "Reaction": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
-            "initial": "$?",
-            "condition": "$?",
-            "next": "$?",
+            "name": "反应",
+            "emotion": "兴奋",
+            "doc": [
+                "流是如此的棒!我可以根据它们的变化来制作新的，这太酷了!",
+                "比如，如果你想让@Time打勾，但想显示单词而不是数字，你可以这样做:",
+                "\\时间:时间(1000毫秒)\n 'start“∆时间……((% 2)= 0 ms) ?“偶数”\\“奇数”",
+                "这就像说“/以单词'start'开始，然后如果时间改变，根据时间改变为偶数或奇数。/\\”",
+                "所以我就像一个流，但是一个基于其他流的流。挺奇怪吧,是吧?"
+            ],
+            "start": "让我们看看是否应该更新流",
+            "finish": "新的流值是1$",
+            "initial": "初始",
+            "condition": "条件",
+            "next": "下一项",
             "conflict": {
-                "ExpectedStream": "$?"
+                "ExpectedStream": "$1没有引用流，所以我永远不会做出反应!"
             }
         },
         "Reference": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
+            "name": "参考",
+            "description": "$1",
+            "emotion": "害羞",
+            "doc": [
+                "你知道@Bind怎么给东西@Name吗?我就是你所说的他们。我看看@Bind是否有那个名字，如果有，给你它的值。是这样的:",
+                "\\鹦鹉:\nparrot \\“波利”",
+                "如果我找不到名字，我就不知道该怎么办了。",
+                "\\鹦鹉:\nperry\\“波利”"
+            ],
+            "start": "1$有什么价值?",
             "conflict": {
-                "UnknownName": "$?",
-                "ReferenceCycle": "$?",
-                "UnexpectedTypeVariable": "$?"
+                "UnknownName": "我不知道有谁叫$1在$2里$2这个@Block你能给我一个名字吗?］",
+                "ReferenceCycle": "1$的价值取决于它本身，所以我怎么知道应该给它什么价值呢?",
+                "UnexpectedTypeVariable": "我不知道该怎么处理这些输入"
             },
             "exception": {
                 "NameException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "未知名字",
+                    "explanation": "$1[我不知道有谁在$2[$2]中命名$1[$2]…］"
                 }
             }
         },
         "Select": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "选择",
+            "emotion": "兴奋的",
+            "doc": [
+                "有时你有一张桌子，你只想占有它的一部分。我可以帮你拿来!",
+                "比如，如果你在游戏中有一张玩家表，你想找出得分在10分以上的人，看看谁赢了:",
+                "\\球员:⎡名字•“团队•”点•#⎦\n⎡“jen”“红色”8⎦\n⎡“琼”“蓝”11⎦\n⎡“杰夫”“红色”9⎦\n⎡“珍妮”“蓝”7⎦\nplayers⎡吗?名称⎦分≥10\\",
+                "就这样，我得到了一排获胜者的名单!记住，我不会换桌子，我会做一张新的。你得决定把它放在哪里。"
+            ],
+            "start": "我们先拿那个表格",
+            "finish": "我用选定的行和列创建了一个新表!",
             "conflict": {
-                "ExpectedSelectName": "$?"
+                "ExpectedSelectName": "我至少需要一个列名"
             }
         },
         "SetLiteral": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "具体组",
+            "description": "$1，物体",
+            "emotion": "急切的",
+            "doc": "我是特定值的特定集合。查看@Set了解更多关于如何与我合作的信息。",
+            "start": "让我们先估计数值吧",
+            "finish": "我做了一个组$1"
         },
         "SetOrMapAccess": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "组/映射组的访问",
+            "emotion": "善良",
+            "doc": [
+                "我可以看到@Set或@Map是否有值或键。",
+                "这并不难。是这样的:",
+                "\\最爱:{“鸭”“鹅”‘猴子’}\nfaves{‘老鼠’}\\",
+                "或者使用@Map:",
+                "\\faves: {' mac&cheese':五星'麦片':2星'稀饭':1星}\nfaves{'稀饭'}\\"
+            ],
+            "start": "地图是什么?",
+            "finish": "数值为$1",
             "conflict": {
-                "IncompatibleKey": { "primary": "$?", "secondary": "$?" }
+                "IncompatibleKey": { "primary": "我想要一把1$的钥匙", "secondary": "我得到了1$，而不是2$" }
             }
         },
         "Source": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "资源",
+            "emotion": "好奇",
+            "doc": [
+                "哦，你知道@Program吗?我帮你取名字。把我想象成@Program周围的窗口，以及你给他们起的名字。",
+                "你也可以创建其他@Source @UI/addSource，使用其他@Program，并从其他@Program中@Borrow东西以供其他程序使用。",
+                "这是将大型表现组织到单独文档中的好方法。"
+            ]
         },
         "StreamDefinition": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "流",
+            "emotion": "好奇",
+            "doc": "我/我想/我应该创造新的溪流。但我真的不知道该怎么做。现在，我想就用现有的流吧?",
+            "start": "创建这种新的流"
         },
         "StructureDefinition": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
+            "name": "结构",
+            "description": "结构 $1",
+            "emotion": "善良",
+            "doc": [
+                "你好，你好吗?我吗?我很好。我喜欢定义存储值和功能的结构，所以只要我能整天这样做，我就很高兴。",
+                "我这样工作！",
+                "\\•披萨( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小 · 10美元/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).成本()\\",
+                "明白是怎么回事了吧?我定义了\\Pizza\\，它有两个输入，\\ingredients\\ (@Text列表)和\\size\\(以英寸为单位的数字)。",
+                "在内部，@FunctionDefinition创建了一个计算披萨价格的函数，假设每英寸$10。",
+                "我不需要@FunctionDefinition。我可以只是输入。",
+                "\\•披萨(\n原料•['']\n大小•#in\n)\\",
+                "我也可以把@Bind放在里面，这样我们就可以提前评估成本。",
+                "\\•披萨(\n原料•['']\n大小•#in\n) (\n\t成本: 大小 · 10美金/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).cost\\"
+            ],
+            "start": "让我们来定义这个可爱的结构",
             "conflict": {
-                "DisallowedInputs": "$?",
-                "IncompleteImplementation": "$?",
-                "NotAnInterface": "$?",
-                "UnimplementedInterface": "$?"
+                "DisallowedInputs": "我不能有输入，因为我的一个或多个接口函数没有实现",
+                "IncompleteImplementation": "我的函数要么需要全部实现，要么不需要实现。没有混乱的混合物!",
+                "NotAnInterface": "我不是一个界面;一个结构只能实现接口，而不能实现其他结构",
+                "UnimplementedInterface": "我实现了1$，但没有实现2$"
             }
         },
         "TableLiteral": {
