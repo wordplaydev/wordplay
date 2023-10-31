@@ -3504,52 +3504,33 @@
         },
         "sequence": {
             "sway": {
-                "doc": "Creo una @Sequence  que se balancea hacia adelante y hacia atrás alrededor del centro de un @Output.",
-                "names": [
-                    "vaivén"
-                ],
-                "angle": {
-                    "doc": "$?",
-                    "names": [
-                        "ángulo"
-                    ]
-                }
+              "doc": "Creo una @Sequence que se balancea hacia adelante y hacia atrás alrededor del centro de un @Output.",
+              "names": ["balanceo"],
+              "angle": {
+                "doc": "Cuánto inclinarse en el balanceo.",
+                "names": ["ángulo"]
+              }
             },
             "bounce": {
-                "doc": "$?",
-                "names": [
-                    "rebotar"
-                ],
-                "height": {
-                    "doc": "$?",
-                    "names": [
-                        "altura"
-                    ]
-                }
+              "doc": "Creo una @Sequence  que hace que un @Output rebote a una altura dada.",
+              "names": ["rebote"],
+              "height": { "doc": "Qué tan alto rebotar.", "names": ["altura"] }
             },
             "spin": {
-                "doc": "$?",
-                "names": [
-                    "girar"
-                ]
+              "doc": "Creo una @Sequence  que rota un @Output alrededor de su centro.",
+              "names": ["girar"]
             },
             "fadein": {
-                "doc": "$?",
-                "names": [
-                    "revelar"
-                ]
+              "doc": "Creo una @Sequence  que hace que un @Output aparezca gradualmente de invisible a visible.",
+              "names": ["aparecer"]
             },
             "popup": {
-                "doc": "$?",
-                "names": [
-                    "surgir"
-                ]
+              "doc": "Creo una @Sequence  que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
+              "names": ["aparecer"]
             },
             "shake": {
-                "doc": "$?",
-                "names": [
-                    "agitar"
-                ]
+              "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
+              "names": ["temblor"]
             }
         }
     },
