@@ -99,10 +99,12 @@
             var(--wordplay-border-width);
         z-index: 1;
         gap: var(--wordplay-spacing);
+        background: var(--wordplay-background);
     }
 
     .fullscreen:not(:hover) {
         opacity: 0.2;
         border: none;
+        background: none;
     }
 </style>
