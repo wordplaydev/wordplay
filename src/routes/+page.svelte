@@ -8,9 +8,7 @@
     import Glyphs from '../lore/Glyphs';
     import Emotion from '../lore/Emotion';
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
-    import Link from '../components/app/Link.svelte';
     import Beta from './Beta.svelte';
-    import ALPHA from './alpha';
 </script>
 
 <svelte:head>
@@ -31,52 +29,37 @@
             ></Speech
         >
     </div>
-    {#if ALPHA}
-        <div class="beta">
-            Wordplay is a new educational, accessible, and language-inclusive
-            programming language for creating interactive typography with code.
-            Public beta coming October 31st, 2023. Write <Link
-                external
-                to="https://amyjko.com">Amy</Link
-            > for details, or see our <Link
-                external
-                to="https://github.com/wordplaydev/wordplay/milestone/1"
-                >progress toward beta</Link
-            >.</div
-        >
-    {:else}
-        <div class="beta"><Beta /></div>
-        <BigLink
-            to="/learn"
-            subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
-            >{$locales.get((l) => l.ui.page.learn.header)}</BigLink
-        >
-        <BigLink
-            to="/projects"
-            subtitle={$locales.get((l) => l.ui.page.landing.link.projects)}
-            >{$locales.get((l) => l.ui.page.projects.header)}</BigLink
-        >
-        <BigLink
-            to="/galleries"
-            subtitle={$locales.get((l) => l.ui.page.landing.link.galleries)}
-            >{$locales.get((l) => l.ui.page.galleries.header)}</BigLink
-        >
-        <BigLink
-            to="/about"
-            subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
-            >{$locales.get((l) => l.ui.page.about.header)}</BigLink
-        >
-        <BigLink
-            to="/rights"
-            subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
-            >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
-        >
-        <BigLink
-            to="/donate"
-            subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-            >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
-        >
-    {/if}
+    <div class="beta"><Beta /></div>
+    <BigLink
+        to="/learn"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
+        >{$locales.get((l) => l.ui.page.learn.header)}</BigLink
+    >
+    <BigLink
+        to="/projects"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.projects)}
+        >{$locales.get((l) => l.ui.page.projects.header)}</BigLink
+    >
+    <BigLink
+        to="/galleries"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.galleries)}
+        >{$locales.get((l) => l.ui.page.galleries.header)}</BigLink
+    >
+    <BigLink
+        to="/about"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
+        >{$locales.get((l) => l.ui.page.about.header)}</BigLink
+    >
+    <BigLink
+        to="/rights"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
+        >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
+    >
+    <BigLink
+        to="/donate"
+        subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
+        >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
+    >
 </Writing>
 
 <style>
