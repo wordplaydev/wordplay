@@ -3,7 +3,7 @@
     "language": "es",
     "region": "MX",
     "wordplay": "Wordplay",
-    "newProject": "$?",
+    "newProject": "Frase('🐈' descansando:Sequencia(vaivén() 1s))",
     "term": {
         "evaluate": "evaluar",
         "bind": "unir",
@@ -77,7 +77,7 @@
         "Branch": "rama",
         "None": "nada",
         "Type": "escribir",
-        "Literal": "$?",
+        "Literal": "literal",
         "TypeOperator": "es",
         "TypeOpen": "input para escribir abierto",
         "TypeClose": "input para escribrir cerrado",
@@ -1366,1049 +1366,1543 @@
     },
     "basis": {
         "Boolean": {
-            "doc": "$?",
-            "name": "bool",
+            "doc": [
+                "Nosotros somos \\T\\ y \\⊥\\. \\T\\ es verdadero. \\⊥\\ is falso. \\T\\ no es \\⊥\\; \\⊥\\ no es \\T\\. Asi funcionamos"
+            ],
+            "name": [
+                "T⊥",
+                "Booleano"
+            ],
             "function": {
                 "and": {
-                    "doc": "$?",
-                    "names": "y",
+                    "doc": [
+                        "Yo evaluo a \\T\\ *solo* cuando los dos valors son \\T\\.Útil para determinar si muchas cosas son verdadero. Solo hay cuatro resultados posibles",
+                        "\\T & T\\",
+                        "\\T & ⊥\\",
+                        "\\⊥ & T\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": [
+                        "y",
+                        "&"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El otro @Boolean a evaluar. Si el primer valor es \\⊥\\, no importa el resto de valores, la funcion siempre va a evaluar a \\⊥]\\.",
+                            "names": "valor"
                         }
                     ]
                 },
                 "or": {
-                    "doc": "$?",
-                    "names": "o",
+                    "doc": [
+                        "Yo evaluo a \\T\\ cuando *cualquier* valor es \\T\\. Útil para determinar si one de muchas cosas es verdadero. Solo hay cuatro resultados posibles",
+                        "\\T & T\\",
+                        "\\T & ⊥\\",
+                        "\\⊥ & T\\",
+                        "\\⊥ & ⊥\\"
+                    ],
+                    "names": [
+                        "o",
+                        "|"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El otro @Boolean a evaluar. Si el primer valor es \\⊥\\, la funcion solo evaluara a \\T\\ si esto es \\T\\.",
+                            "names": "valor"
                         }
                     ]
                 },
                 "not": {
-                    "doc": "$?",
-                    "names": "no",
+                    "doc": "Yo devuelvo lo opuesto a mi: si \\T\\, devuelvo \\⊥\\, si \\⊥\\, devuelvo \\T\\",
+                    "names": [
+                        "no",
+                        "~"
+                    ],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": "igual",
+                    "doc": "\\T\\ si los dos son \\T\\ or los dos son \\⊥\\.",
+                    "names": [
+                        "=",
+                        "igual "
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El otro valor para evaluar",
                             "names": "value"
                         }
                     ]
                 },
                 "notequal": {
-                    "doc": "$?",
+                    "doc": "\\T\\ si los dos son opuestos",
                     "names": "noIgual",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El otro valor para evalar.",
+                            "names": "valor"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "Convierte un @Boolean a el equivalente valor de @Text \\'⊤'\\ and \\'⊥'\\"
             }
         },
         "None": {
-            "doc": "$?",
-            "name": "none",
+            "doc": [
+                "/Hi, @FunctionDefinition  aqui. @None no le gusta hablar mucho, so interpretare./",
+                "Yo soy @None. Invocame con \\ø\\. Yo soy util cuando quieres representar al ausencia de algo."
+            ],
+            "name": [
+                "ø",
+                "none"
+            ],
             "function": {
                 "equals": {
-                    "doc": "$?",
-                    "names": ["=", "equals"],
+                    "doc": "Es otro valor tambien nada? Mas vale, de otra manera, \\⊥\\.",
+                    "names": [
+                        "=",
+                        "igual"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El otro valor",
+                            "names": "valor"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
-                    "names": "≠",
+                    "doc": "Es el otro valor /no/ nada?",
+                    "names": [
+                        "≠",
+                        "noIgual"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El otro valor",
+                            "names": "valor"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "Queres hacer \\ø\\ a '\\ø\\'? Esta es tu oportunidad."
             }
         },
         "Text": {
-            "doc": "$?",
-            "name": "text",
+            "doc": [
+                "Yo puedo ser cualquier texto que tu quieras, en cualquier idioma, y usando cualquiera de estos simbolos de abrir y cerra: \\\"\"\\, \\“”\\, \\„“\\, \\''\\, \\‘’\\, \\‹›\\, \\«»\\, \\「」\\, or \\『』\\.",
+                "Para ilustrar, considera una de estas bonitas frases.",
+                "\\“Solo hay dos maneras de vivir la vidad. Una es como si nada fuera un milagro. La otra es como si todo fuera un milagro.”\\",
+                "Solo recuerada de cerrarme si me abres, y usa el simbolo coincidente. Si no es asi, no sabre que has terminado con tus palabras.",
+                "\\'hola' /es-MX 'hello' /en\\",
+                "Tambine me puedes etiquetar con idiomas, y tambien me puedes pasar multiples traducciones. Yo evaluare a cualquier idioma que este actualmente seleccionado.",
+                "Si tu quieres crearme con otro tipo de valores, puedes utilizar un simbolo",
+                "Por ejemplo:",
+                "\\\"Mira estas sumas \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
+                "Mira que elegante yo evaluo esas sumas, y la pongo adentro del @Text",
+                "De cual quier manera, hay muchas funciones gloriosas que @FunctionDefinition a hecho para mi, para poder hacer todo tipo de cosas con palabras!"
+            ],
+            "name": [
+                "''",
+                "Texto"
+            ],
             "function": {
                 "length": {
-                    "doc": "$?",
-                    "names": "length",
+                    "doc": [
+                        "Yo evaluo el numero de caracteres legibles en el texo; una letra es un caracter, un emotico es un caracter, etx. Por ejemplo:",
+                        "\\'hola'.longitud()\\",
+                        "\\'🐈📚'.longitud()"
+                    ],
+                    "names": [
+                        "📏",
+                        "longitud"
+                    ],
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["=", "equals"],
+                    "doc": "\\T\\ so yo soy la misma sequencia de caracteres en el @Text dado",
+                    "names": [
+                        "=",
+                        "es igual"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El @Text para comparar",
+                            "names": "valor"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": "\\T\\ si /no/ soy la misma sequencia de caracteres en el @Text dado",
                     "names": "≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El @Text para comparar",
+                            "names": "valor"
                         }
                     ]
                 },
                 "repeat": {
-                    "doc": "$?",
-                    "names": "repetir",
+                    "doc": [
+                        "Creo un nuevo @Text que soy yo, repetido el número de veces de \\count\\:",
+                        "\\('hola ' · 5\\)",
+                        "Si me das un @Number fraccionario, ignoro la fracción:",
+                        "\\('hola ' · 5.5\\)",
+                        "Si me das un @Number negativo o cero, doy un @Text vacío.",
+                        "\\('hola ' · -5\\)"
+                    ],
+                    "names": [
+                        "·",
+                        "🔁",
+                        "repetir"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El número de veces que debo repetirme en el nuevo texto.",
                             "names": "contar"
                         }
                     ]
                 },
                 "segment": {
-                    "doc": "$?",
-                    "names": ["segmentar"],
+                    "doc": [
+                        "Yo mismo de divido en una @List de @Text, usando el @Text dado como un separador, y removiendo el separador. Por ejemplo:",
+                        "\\'manzanas, naranjas, uvas' ÷ ','\\",
+                        "Si el separador esta vacio, yo me dividere en caracteres:",
+                        "\\'🖌️🏠🥸' ÷ ''\\"
+                    ],
+                    "names": [
+                        "÷",
+                        "segmento"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El @Text para usar como separador",
                             "names": "delimitador"
                         }
                     ]
                 },
                 "has": {
-                    "doc": "$?",
-                    "names": ["tiene"],
+                    "doc": [
+                        "\\T\\ si el @Text dado aperence dentro de mi.",
+                        "\\'podiste encontras lo que estabas buscando?'.tiene('podiste')\\"
+                    ],
+                    "names": [
+                        "⊆",
+                        "tiene"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El @Text para buscarme",
                             "names": "texto"
                         }
                     ]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$? starts"],
+                    "doc": "\\T\\ si yo comienzo con el @Text dado.",
+                    "names": [
+                        "comienza"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El @Text para verificar que comienzo con el",
                             "names": "texto"
                         }
                     ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$? ends"],
+                    "doc": "\\T\\ si el yo termino con el @Text dado",
+                    "names": [
+                        "termina"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El @Text para verificar si esta al final de mi",
                             "names": "texto"
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
-                    "names": "combinar",
+                    "doc": [
+                        "Hay veces que es util combinar @Text(s) en uno, Dame otro @Text y creare un nuevo texto con nos junte",
+                        "\\'hola ' + 'verso'"
+                    ],
+                    "names": [
+                        "+",
+                        "combinar"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El texto para adjuntar",
                             "names": "texto"
                         }
                     ]
                 }
             },
             "conversion": {
-                "list": "$?",
-                "number": "$?"
+                "list": "Divide el @Text en una isto con los caracteres individuales",
+                "number": "Convierte el @Text en un @Number, y si no es un numero, resultara en un valor no numeral"
             }
         },
         "Number": {
-            "doc": "$?",
-            "name": "number",
+            "doc": [
+                "Yo creo un @Number, con cualquier numero de unidades que tu te puedas imaginar",
+                "Aqui estan mis top 5:",
+                "\\0\\",
+                "\\1historia\\",
+                "\\πtartas\\",
+                "\\∞rocas\\",
+                "\\10000000abrazos\\",
+                "Eso es basicamenete una cantidad infinita de numeros.",
+                "Y una cantidad infinita de unidades",
+                "Y una cantidad infinita de pares numero/unidad…",
+                "Yo puedo ser enteros, numeros reales, negativo, positivo, fraccional, decimal, incluso no un numero",
+                "Y me puedes con muchos diferentes systemas de numeros, uncluyendo arabe \\123\\, Romano \\ⅩⅩⅩⅠⅩ\\, Japones \\二十\\, y mas:",
+                "\\1 + Ⅰ + 一\\",
+                "Tu tambien me puedes escribir en bases 2 a 16 poniendo un numero baso asi:",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "16;FF\\",
+                "Hay un numero especial llamado NaN, que es posible cuando escribes algo que no es un numero:",
+                "\\2;22\\",
+                "Noy hay un digito '2' en base de 2, entonces no es un numero valido. NaN va a aparecer si tratas de covertir algo que no es un numero a texto",
+                "\\'hola'→#\\"
+            ],
+            "name": [
+                "#",
+                "Numero"
+            ],
             "function": {
                 "add": {
-                    "doc": "$?",
-                    "names": "add",
+                    "doc": [
+                        "Yo sumo un @Number con mi misma @Unit, creando un nuevo @Number de la misma @Unit",
+                        "Por ejemplo:",
+                        "\\1 + 1\\",
+                        "\\3gatos + 5gatos\\",
+                        "Si las unidads no coinciden, yo parare a mostrar \\3gatos + 5gaots\\"
+                    ],
+                    "names": [
+                        "+",
+                        "add"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El @Number a sumar",
                             "names": "number"
                         }
                     ]
                 },
                 "subtract": {
-                    "doc": "$?",
-                    "names": "subtract",
+                    "doc": [
+                        "Yo resto el @Number que me das de yo mismo, creando un nuevo @Number de la mismo @Unit:",
+                        "Por ejemplo:",
+                        "\\1 - 1\\",
+                        "\\3gatos - 5gatos\\",
+                        "Si las unidades no coinciden, parare a monstrar.",
+                        "\\3gatos - 5perros\\"
+                    ],
+                    "names": [
+                        "-",
+                        "subtract"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a restar",
+                            "names": "numero"
                         }
                     ]
                 },
                 "multiply": {
-                    "doc": "$?",
-                    "names": "multiplicar",
+                    "doc": [
+                        "Yo me multiplico por el @Number dado, creando un producto de mi @Unit y la @Unit del numero dado:",
+                        "\\5 · 5\\",
+                        "5m · 5m\\",
+                        "\\5m · 1/s\\"
+                    ],
+                    "names": [
+                        "·",
+                        "multiplicar"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a multiplicar",
+                            "names": "numero"
                         }
                     ]
                 },
                 "divide": {
-                    "doc": "$?",
-                    "names": ["÷", "divide"],
+                    "doc": [
+                        "Yo me divido por el @Number dado, creando una cociente de mi @Unit y la unidad del numero dado:",
+                        "\\5 ÷ 5\\",
+                        "\\5m ÷ 5m\\",
+                        "\\5m ÷ 5s\\"
+                    ],
+                    "names": [
+                        "÷",
+                        "divide"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a dividir por",
+                            "names": "numero"
                         }
                     ]
                 },
                 "remainder": {
-                    "doc": "$?",
-                    "names": "remainder",
+                    "doc": [
+                        "Yo me divido por le @Number dado, pero devuelvo los restante:",
+                        "\\10 % 2\\",
+                        "\\10m % 2\\",
+                        "\\10m/s % 3\\"
+                    ],
+                    "names": [
+                        "%",
+                        "remainder"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "Ell @Number a dividir por",
+                            "names": "numero"
                         }
                     ]
                 },
                 "positive": {
-                    "doc": "$?",
-                    "names": ["positive"],
+                    "doc": [
+                        "Yo creo un @Number nuevo que me hace positivo, si es negativo.",
+                        "\\-200.positivo()\\"
+                    ],
+                    "names": [
+                        "positivo"
+                    ],
                     "inputs": []
                 },
                 "round": {
-                    "doc": "$?",
-                    "names": ["round"],
+                    "doc": [
+                        "Yo creo un @Number nuevo que me rondea a el intero mas cercano",
+                        "\\9.4.rondear()\\",
+                        "\\9.5.rondear()\\",
+                        "\\9.6.rondear()\\"
+                    ],
+                    "names": [
+                        "rondear"
+                    ],
                     "inputs": []
                 },
                 "roundDown": {
-                    "doc": "$?",
-                    "names": ["$? down"],
+                    "doc": [
+                        "Yo creo un nuevo @Number que rondea a entero mas pequeño que yo.",
+                        "\\10.5.rondearBajo()\\",
+                        "\\10.1.rondearBajo()\\",
+                        "\\10.01.rondearBajo()\\"
+                    ],
+                    "names": [
+                        "rondearBajo"
+                    ],
                     "inputs": []
                 },
                 "roundUp": {
-                    "doc": "$?",
-                    "names": ["$? up"],
+                    "doc": [
+                        "Yo creo un nuevo @Number que rondea a el entero mas grande que yo",
+                        "\\10.5.rondearArriba()\\",
+                        "\\10.9.rondearArriba()\\",
+                        "\\10.99.rondearArriba()\\"
+                    ],
+                    "names": [
+                        "rondearArriba"
+                    ],
                     "inputs": []
                 },
                 "power": {
-                    "doc": "$?",
-                    "names": ["^", "power"],
+                    "doc": [
+                        "Yo me elevo a el poder del @Number dado. Exponentes fracionales son acceptados",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": [
+                        "^",
+                        "elevado"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El exponente a elevarme a",
+                            "names": "numero"
                         }
                     ]
                 },
                 "root": {
-                    "doc": "$?",
-                    "names": ["√", "root"],
+                    "doc": [
+                        "Yo creo la raiz de yo mismo usando la raiz dada.",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": [
+                        "√",
+                        "root"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "La raiz a computar",
+                            "names": "numero"
                         }
                     ]
                 },
                 "lessThan": {
-                    "doc": "$?",
-                    "names": ["<", "lessthan"],
+                    "doc": [
+                        "\\T\\ si yo soy menor a @Number dado:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": [
+                        "<",
+                        "menorQue"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a comparar",
+                            "names": "numero"
                         }
                     ]
                 },
                 "lessOrEqual": {
-                    "doc": "$?",
-                    "names": ["≤", "lessorequal"],
+                    "doc": [
+                        "\\T\\ si yo soy menor o igual a el @Number dado:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": [
+                        "≤",
+                        "lessorequal"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a comparar",
+                            "names": "numero"
                         }
                     ]
                 },
                 "greaterThan": {
-                    "doc": "$?",
-                    "names": [">", "greaterthan"],
+                    "doc": [
+                        "\\T\\ si yo soy mayor a el @Number dado:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": [
+                        ">",
+                        "greaterthan"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El @Number a comparar",
                             "names": "number"
                         }
                     ]
                 },
                 "greaterOrEqual": {
-                    "doc": "$?",
-                    "names": ["≥", "greaterorequal"],
+                    "doc": [
+                        "\\T\\ si yo soy mayor a igual a el @Number dado:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": [
+                        "≥",
+                        "greaterorequal"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a comparar",
+                            "names": "numero"
                         }
                     ]
                 },
                 "equal": {
-                    "doc": "$?",
-                    "names": "equal",
+                    "doc": "\\T\\ si soy igual al @Number dado",
+                    "names": "igual",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a comparar",
+                            "names": "numero"
                         }
                     ]
                 },
                 "notequal": {
-                    "doc": "$?",
+                    "doc": "\\T\\ si /no/ soy igual al el @Number dado",
                     "names": "≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "number"
+                            "doc": "El @Number a compara",
+                            "names": "numero"
                         }
                     ]
                 },
                 "cos": {
-                    "doc": "$?",
-                    "names": ["cos", "cosine"],
+                    "doc": [
+                        "Calcula el coseno",
+                        "\\π.cos()\\"
+                    ],
+                    "names": [
+                        "cos",
+                        "coseno"
+                    ],
                     "inputs": []
                 },
                 "sin": {
-                    "doc": "$?",
-                    "names": ["sin", "sine"],
+                    "doc": [
+                        "Calcula el seno",
+                        "\\π.sin()\\"
+                    ],
+                    "names": [
+                        "sin",
+                        "seno"
+                    ],
                     "inputs": []
                 },
                 "min": {
-                    "doc": "$?",
-                    "names": "$? min",
+                    "doc": [
+                        "Encuentra el número más pequeño entre yo y otros.",
+                        "\\1.min(2 3 -1)\\"
+                    ],
+                    "names": "mínimo",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "¡Tantos números como quieras darme!",
+                            "names": "números"
                         }
                     ]
                 },
                 "max": {
-                    "doc": "$?",
-                    "names": "$? max",
+                    "doc": [
+                        "Encuentra el número más grande entre yo y otros.",
+                        "\\1.max(2 3 4)\\"
+                    ],
+                    "names": "máximo",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "¡Tantos números como quieras darme!",
+                            "names": "números"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?",
-                "list": "$?",
-                "s2m": "$?",
-                "s2h": "$?",
-                "s2day": "$?",
-                "s2wk": "$?",
-                "s2year": "$?",
-                "s2ms": "$?",
-                "ms2s": "$?",
-                "min2s": "$?",
-                "h2s": "$?",
-                "day2s": "$?",
-                "wk2s": "$?",
-                "yr2s": "$?",
-                "m2pm": "$?",
-                "m2nm": "$?",
-                "m2micro": "$?",
-                "m2mm": "$?",
-                "m2cm": "$?",
-                "m2dm": "$?",
-                "m2km": "$?",
-                "m2Mm": "$?",
-                "m2Gm": "$?",
-                "m2Tm": "$?",
-                "pm2m": "$?",
-                "nm2m": "$?",
-                "micro2m": "$?",
-                "mm2m": "$?",
-                "cm2m": "$?",
-                "dm2m": "$?",
-                "km2m": "$?",
-                "Mm2m": "$?",
-                "Gm2m": "$?",
-                "Tm2m": "$?",
-                "km2mi": "$?",
-                "mi2km": "$?",
-                "cm2in": "$?",
-                "in2cm": "$?",
-                "m2ft": "$?",
-                "ft2m": "$?",
-                "g2mg": "$?",
-                "mg2g": "$?",
-                "g2kg": "$?",
-                "kg2g": "$?",
-                "g2oz": "$?",
-                "oz2g": "$?",
-                "oz2lb": "$?",
-                "lb2oz": "$?"
+                "text": "Una representacion Arabe de mis digitos en @Text",
+                "list": "Una lista the numeros de 1 a cualquier nomero dado, por ejemplo \n\\10→[]\\.",
+                "s2m": "Segundos a minutos",
+                "s2h": "Segunados a horas",
+                "s2day": "Segundos a dias",
+                "s2wk": "Segundos a semanas",
+                "s2year": "Segundos a años",
+                "s2ms": "Segundos a milisegundos",
+                "ms2s": "Millisegundos a segundos",
+                "min2s": "Minutos a segundos",
+                "h2s": "Horas a segundos",
+                "day2s": "Dias a segundos",
+                "wk2s": "Semanas a segundos",
+                "yr2s": "Años a segundos",
+                "m2pm": "Metros a picometros",
+                "m2nm": "Metros a nanometros",
+                "m2micro": "Metros a micrometers",
+                "m2mm": "Metros a milimetros",
+                "m2cm": "Metros a centimetros",
+                "m2dm": "Metros a decimetros",
+                "m2km": "Metros a kilometros",
+                "m2Mm": "Metros a megametros",
+                "m2Gm": "Metros a gigametros",
+                "m2Tm": "Metros a terametros",
+                "pm2m": "Picometros a metros",
+                "nm2m": "Nanometros a metros",
+                "micro2m": "Micrometros a metros",
+                "mm2m": "Milimetros a metros",
+                "cm2m": "Centimetros a metros",
+                "dm2m": "Decimetros a metros",
+                "km2m": "Kilometros a metros",
+                "Mm2m": "Megametros a metros",
+                "Gm2m": "Gigametros a metros",
+                "Tm2m": "Terametros a metros",
+                "km2mi": "Kilometros a millas",
+                "mi2km": "Millas a kilometros",
+                "cm2in": "Centimetros a pulgadas",
+                "in2cm": "Pulgadas a centimetros",
+                "m2ft": "Metros a pies",
+                "ft2m": "Pies a metros",
+                "g2mg": "Gramos a miligramos",
+                "mg2g": "Miligramos a gramos",
+                "g2kg": "Gramos a kilogramos",
+                "kg2g": "Kilogramos a gramos",
+                "g2oz": "Gramos a onzas",
+                "oz2g": "Onzas a gramos",
+                "oz2lb": "Onzas a libras",
+                "lb2oz": "Libras a onzas"
             }
         },
         "List": {
-            "doc": "$?",
-            "name": "list",
+            "doc": [
+                "Yo soy una sequencia de valores, de cualquier tipo!",
+                "Puedes ponder lo que quieras adentro de mi: @Boolean, @Number, @Text, @None, incluso @List, @Set, @Map, or cualquier otra expresión. Asi seria una simple:",
+                "\\['manzana' 'platano' 'mango']\\",
+                "Lo que me hace espcial es que yo mantengo las cosas en orden, y yo enumero todo desde el 1 hasta la canditad de elementos que yo tenga",
+                "Mis elementos son enumerados, comenzando por el 1. Tu puedes obtener que to tengo con @ListAccess, usando su numero:",
+                "Por ejemplo, el segundo valor en esta lista es \\['platano']\\",
+                "\\['manzana' 'platano' 'mango'][2]\\",
+                "Puedo tener lo que sea adentro de mi. Mira a esta lista con @Text, @Number y @Time",
+                "\\['manzana' 10 + 10 Time()]\\",
+                "Yo puedo hacer un monton de cosas interesantes con mi @FunctionDefinition"
+            ],
+            "name": [
+                "[]",
+                "lista"
+            ],
             "kind": "Kind",
             "out": "Result",
             "outofbounds": "outofbounds",
             "function": {
                 "add": {
-                    "doc": "$?",
+                    "doc": [
+                        "Yo puedo crear una nueva @List con el elemento dado"
+                    ],
                     "names": "agregar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "item"
+                            "doc": "El valor que tu quiera agregar",
+                            "names": "elemento"
                         }
                     ]
                 },
                 "append": {
-                    "doc": "$?",
+                    "doc": [
+                        "Creo una nueva @List con mis valores, y luego todos los valores de la @List dada después de mí.",
+                        "\\['manzana' 'plátano' 'mango'].append(['sandía' 'carambola'])\\",
+                        "Es un poco más fácil usar @Spread, así:",
+                        "\\['manzana' 'plátano' 'mango' :['sandía' 'carambola']]\\"
+                    ],
                     "names": "adjuntar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "list"
+                            "doc": "La lista de valores para adjuntar",
+                            "names": "lista"
                         }
                     ]
                 },
                 "replace": {
-                    "doc": "$?",
-                    "names": ["reemplazar"],
+                    "doc": [
+                        "Yo creo una nueva listo que reemplaza el value en el índice dado.",
+                        "\\['manzana' 'platano' 'mango'].reemplazar(1, 'kiwi')\\"
+                    ],
+                    "names": [
+                        "reemplazar"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "index"
+                            "doc": "El valor del índice a reemplazar",
+                            "names": "índice"
                         },
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El valor de reemplazo",
+                            "names": "valor"
                         }
                     ]
                 },
                 "length": {
-                    "doc": "$?",
+                    "doc": "El @Number de elemento adentro de mi.",
                     "names": "longitud",
                     "inputs": []
                 },
                 "random": {
-                    "doc": "$?",
+                    "doc": [
+                        "Aleatoriamente seleciona uno de mis elementos, o @None si estoy vacia.",
+                        "\\['manzana' 'platano' 'mango'].azar()"
+                    ],
                     "names": "azar",
                     "inputs": []
                 },
                 "first": {
-                    "doc": "$?",
+                    "doc": [
+                        "Mi primer valor, o @None si estoy vacia.",
+                        "\\['manzana' 'platano' 'mango'].primera()\\"
+                    ],
                     "names": "primera",
                     "inputs": []
                 },
                 "last": {
-                    "doc": "$?",
+                    "doc": [
+                        "Mi ultimo valor, o @None si estoy vacia.",
+                        "\\['manzana' 'platano' 'mango'].ultima()"
+                    ],
                     "names": "última",
                     "inputs": []
                 },
                 "has": {
-                    "doc": "$?",
+                    "doc": [
+                        "\\T\\ si yo tengo un elemento igual a el elemento dado.",
+                        "\\['apple' 'platano' 'mango'].tiene('platano')\\"
+                    ],
                     "names": "tiene",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "item"
+                            "doc": "El valor a buscar",
+                            "names": "elemento"
                         }
                     ]
                 },
                 "join": {
-                    "doc": "$?",
+                    "doc": [
+                        "I combino los elemento en mi listo a @Text, separado por el separador dado @Text.",
+                        "\\['manzana' 'platano' 'mango'].unirse(', ')\\"
+                    ],
                     "names": "unirse",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "separator"
+                            "doc": "El texto para separar los elemntos, lo puede dejar basio",
+                            "names": "separador"
                         }
                     ]
                 },
                 "subsequence": {
-                    "doc": "$?",
-                    "names": "$? subsequence",
+                    "doc": [
+                        "Yo obtengo una listo adentro de una listo, comenzando con el indice proveeido, y terminado con el ultimo elmento o con un elemento particula si es proveido.",
+                        "\\['manzana' 'platano' 'mango'].subsecuencia(2)\\",
+                        "\\['manzana' 'platano' 'mango'].subsecuencia(1 2)\\",
+                        "Mira que cuando to provees numero en orden invertido, Yo te doy eso ordern invertido.",
+                        "\\['manzana' 'platano' 'mango'].subsecuencia(3 1)\\",
+                        "Si me das algo menor 1 una yo voy a asumir que querras decir 1.",
+                        "\\['manzana' 'platano' 'mango'].subsecuencia(-1123123234)\\",
+                        "Y si me das algo mayor a el indice mas grande, yo voy a asumer que querras decir el final.",
+                        "\\['manzana' 'platano' 'mango'].subsecuencia(234234234234)\\"
+                    ],
+                    "names": "subsecuencia",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "El indice del primero elemento de la subsecuencia que tu quieras.",
+                            "names": "comienzo"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "La indice opcional de el ultimo elemento de la subsecuencia que tu quieras. Si me das algo, tu lista va a terminar con el ultimo valor en la lista original",
+                            "names": "final"
                         }
                     ]
                 },
                 "sansFirst": {
-                    "doc": "$?",
+                    "doc": [
+                        "Yo creo una listo sin mi primer elemento",
+                        "\\['manzana' 'platano' 'mango'].sinPrimero()\\"
+                    ],
                     "names": "sinPrimero",
                     "inputs": []
                 },
                 "sansLast": {
-                    "doc": "$?",
-                    "names": "sinÚltima",
+                    "doc": [
+                        "Yo creo una listo sin mi ultimo elemento",
+                        "\\['manzana' 'platano' 'mango'].sinUltimo()\\"
+                    ],
+                    "names": "sinÚltimo",
                     "inputs": []
                 },
                 "sans": {
-                    "doc": "$?",
-                    "names": "sans",
+                    "doc": [
+                        "Yo, pero sin la primer ocurrencia del el valor dado.",
+                        "\\['manzana' 'platano' 'mango' 'manzana'].sin('manzana')"
+                    ],
+                    "names": "sin",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "El valor a eliminar en la primara occurencia",
+                            "names": "valor"
                         }
                     ]
                 },
                 "sansAll": {
-                    "doc": "$?",
+                    "doc": [
+                        "Yo, pero sin todas la occurencias del valor dado.",
+                        "\\['manzana' 'platano' 'mango' 'manzana'].sinTodo('manzana')\\"
+                    ],
                     "names": "sinTodo",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "El valor a eliminar todas la occurencias de las lista",
+                            "names": "valor"
                         }
                     ]
                 },
                 "reverse": {
-                    "doc": "$?",
-                    "names": "inversa",
+                    "doc": [
+                        "Yo, pero en inverso",
+                        "\\['manzana' 'platano' 'mango'].inverso()"
+                    ],
+                    "names": "inverso",
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["=", "equals"],
+                    "doc": [
+                        "\\T\\ si mi elementos y order son exactamento los mismo a la @List dada",
+                        "\\['manzana' 'platano' 'mango'] = ['manzana' 'platano' 'mango']\\"
+                    ],
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? list"
+                            "doc": "La @List a comparar",
+                            "names": "lista"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": [
+                        "\\T\\ si mi elmento y orden /no/ so exactamento los mismo a la @List dada.",
+                        "\\['manzana' 'platano' 'mango'] ≠ ['manzana' 'platano' 'mango']\\"
+                    ],
                     "names": "≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? list"
+                            "doc": "La @List a comparar",
+                            "names": "lista"
                         }
                     ]
                 },
                 "translate": {
-                    "doc": "$?",
+                    "doc": [
+                        "Dame una @FunctionDefinition que reciva un valor y opcionalmente un indice como entradas, y produce un valor, y yo evaluare esa funcion en cada de mis elementos.",
+                        "Por ejemplo, imagina que so soy una lista de @Number y quieres duplicar el valor de cada uno de los elementos:",
+                        "\\[2 4 6 8].traducir(ƒ(num•#) num · 2)\\"
+                    ],
                     "names": "traducir",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": " ranslator"
+                            "doc": "Una @FunctionDefinition que a va traducir cada elemento",
+                            "names": "tranductor"
                         }
                     ],
                     "translator": [
                         {
-                            "doc": "$?",
-                            "names": "$? item"
+                            "doc": "El elemento que se va traducir",
+                            "names": "elemento"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? index"
+                            "doc": "El indice del elemento que va a traducir",
+                            "names": "indice"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "La lista que se va a traducir",
+                            "names": "lista"
                         }
                     ]
                 },
                 "filter": {
-                    "doc": "$?",
+                    "doc": [
+                        "Dame una @FunctionDefinition que reciva un valor y opcionalmente un indice come entradas y produce un @Boolean, Yo creare una nueva lista que solo incluye elementos con el resultado \\T\\.",
+                        "Por ejemplo, imagina yo soy una @List de @Number y solo quieres los numeros positivos:",
+                        "\\[2 -4 8 -16].filtrar(ƒ(num•#) num ≥ 0)\\"
+                    ],
                     "names": "filtrar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? checker"
+                            "doc": "Una @FunctionDefinition que chequea cada elemento, produciendo \\T\\ si deberia ser conservado en la list",
+                            "names": "verificador"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$?",
-                            "names": "$? item"
+                            "doc": "El elemento siendo verificado",
+                            "names": "Elemento"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? index"
+                            "doc": "El indice del el elemento siendo verificado",
+                            "names": "indice"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "La lista siendo filtrada ",
+                            "names": "lista "
                         }
                     ]
                 },
                 "all": {
-                    "doc": "$?",
+                    "doc": [
+                        "Dame una @FunctionDefinition que recive un valor con entrada y produce un @Boolean si el valor coincide con la condicion. Yo creare \\T\\ si todos los elementos coinciden con la condicion.",
+                        "Por ejemplo, imagina que yo soy una @List de @Number y quieres saber si todos los numeros son positivos:",
+                        "\\[2 -4 8 -16].todos(ƒ(num•#) num ≥ 0)\\"
+                    ],
                     "names": "todos",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "checker"
+                            "doc": "La @FunctionDefinition que produce \\T\\ si el elementon satisface yu condicion",
+                            "names": "verificador"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$?",
-                            "names": "item"
+                            "doc": "El elemento siendo verificado",
+                            "names": "Elemento"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? index"
+                            "doc": "El indice del el elemento siendo verificado",
+                            "names": "indice"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "La lista siendo filtrada ",
+                            "names": "lista "
                         }
                     ]
                 },
                 "until": {
-                    "doc": "$?",
+                    "doc": [
+                        "Dame una @FunctionDefinition que recive un valor como entrada y produce un @Boolean si el valor coincide con la condicion. Yo creare una nueva @List que contiene todos los elementos hasta que la condicion no sea satisfecha.",
+                        "Por ejemplo, imagina que yo soy una @List de @Text de animales, y quieres todos los animals que \\'rata'\\ sea encontrado:",
+                        "\\['gato' 'perro' 'rata' 'caballo' 'pony']hasta(ƒ(animal•'') animal = 'rata')\\"
+                    ],
                     "names": "hasta",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "checker"
+                            "doc": "La @FunctionDefinition que produce \\T\\ si yo deberia de parar de incluir elementos",
+                            "names": "verificador"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$?",
-                            "names": "item"
+                            "doc": "El elemento siendo verificado",
+                            "names": "Elemento"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? index"
+                            "doc": "El indice del el elemento siendo verificado",
+                            "names": "indice"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "La lista siendo filtrada ",
+                            "names": "lista "
                         }
                     ]
                 },
                 "find": {
-                    "doc": "$?",
+                    "doc": [
+                        "Dame una @FunctionDefinition  que recive un valor como entrada y porduce un @Boolean si coincide con una criteria, y yo evaluare a el elemento que coincide con esa criteria.",
+                        "Por ejemplo, imagina que tu quieres encontrar el primer animal con la vocal \\'e'\\:",
+                        "['gato' 'perro' 'rata' 'raton' 'pony'].encontrar(ƒ(animal•'') animal.tiene('e'))"
+                    ],
                     "names": "encontrar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "checker"
+                            "doc": "La @FunctionDefinition que proudce \\T\\ si coincide con tu criteria de busquedad",
+                            "names": "verificador"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$?",
-                            "names": "item"
+                            "doc": "El elemento siendo verificado",
+                            "names": "Elemento"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? index"
+                            "doc": "El indice del el elemento siendo verificado",
+                            "names": "indice"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "La lista siendo filtrada ",
+                            "names": "lista "
                         }
                     ]
                 },
                 "combine": {
-                    "doc": "$?",
+                    "doc": [
+                        "Dame una @FunctionDefinition que recive el combinacion mas reciente y el valor que sigue, y crea la siguiente combinacion. Yo me movere desde mi primer hasta mi ultimo elemento, creando una combinacion subsesiva, y evaluando la combinacion final a lo que tu @FunctionDefinition  evalua",
+                        "Estoy es muy util para combinar todos los elementos dentro de mi en un solo valor. Por ejemplo, imagina que tu quiere sumar una @List de @Number:",
+                        "\\[3 9 2 8 1 4].combinar(0 ƒ(sum•# num•#) sum + num)\\"
+                    ],
                     "names": "combinar",
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "La combinacion inicial",
                             "names": "inicial"
                         },
                         {
-                            "doc": "$?",
+                            "doc": "El siguiento elemento a combinar",
                             "names": "combinador"
                         }
                     ],
                     "combiner": [
                         {
-                            "doc": "$?",
+                            "doc": "La combinacion actual",
                             "names": "combinación"
                         },
                         {
-                            "doc": "$?",
-                            "names": "próxima"
+                            "doc": "El siguiente elemento a combinar",
+                            "names": "siguiente"
                         },
                         {
-                            "doc": "$?",
+                            "doc": "El indice del siguiente elemento",
                             "names": "índice"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "La lista a combinar",
+                            "names": "lista"
                         }
                     ]
                 },
                 "sorted": {
-                    "doc": "$?",
-                    "names": "$? sorted",
+                    "doc": [
+                        "Puedo tomar una lista y crear una nueva lista con sus valores ordenados. Como esto:",
+                        "\\[1 5 8 0 2].ordenado()\\",
+                        "También puedo hacerlo para valores de @Text",
+                        "\\['naranja' 'kiwi' 'plátano' 'manzana'].ordenado()\\",
+                        "Y si tienes una lista de valores que no son @Number o @Text, puedes darme una @FunctionDefinition que convierta cada elemento en un @Number para que pueda ordenarlo. Por ejemplo, aquí tenemos una lista de listas de diferentes longitudes; si me das una función que convierta cada lista en su longitud, puedo ordenarlas por su longitud.",
+                        "\\[[1] [2 3] [4 8 12] [8]].ordenado(ƒ(lista) lista.longitud())\\"
+                    ],
+                    "names": "ordenado",
                     "inputs": [
                         {
-                            "doc": "$",
-                            "names": "$? sequencer"
+                            "doc": "La @FunctionDefinition opcionla para ordenar elementos en la listo. La definicion deberia de combertir el elemento a un @Number que puede ser usado para ordenar una lista",
+                            "names": "sequenciador"
                         }
                     ],
                     "sequencer": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "El valor a combertir en un @Number",
+                            "names": "valor"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?",
-                "set": "$?"
+                "text": "A una representacion de @Text de una lista",
+                "set": "A un @Set, util para remover valores duplicados"
             }
         },
         "Set": {
-            "doc": "$?",
-            "name": "set",
+            "doc": [
+                "Yo soy una conjunto de valores! Eso significa que yo cualquier valor de valores, incluyendo valores sin valor. Tu me puedes crear asi:",
+                "\\{1 2 3 }\\",
+                "Yo soy muy util si quieres tener una coleccion de cosas sin valores duplicados",
+                "Eso significa pasas valores que yo ya tengo, simplemente los ignorare.",
+                "Por ejempo, este conjunto tiene muchos duplicados:",
+                "\\{1 1 2 2 3 3}\\.",
+                "Si quieres ver si yo tengo una valor adentro de mi, @SetOrMapAccess puede ser de ayuda:",
+                "\\{'frasco' 'botella' 'vaso'}{'copa'}\\",
+                "Por lo general, si me das un montón de valores del mismo tipo, asumiré que son una lista de ese tipo. Como este conjunto es \\{''}\\, porque todos son @Text.",
+                "\\{'hey' 'hi' 'hello'}\\",
+                "Pero tal vez quieras indicar que soy un conjunto de /solo/ esos valores, para que pueda decirte cuando estás intentando usar uno que no está permitido. Si es así, solo agrega un ! al final de mí.",
+                "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
+                "¿Hay algo más que quieras hacer conmigo? ¡Mira todas las geniales @FunctionDefinition que tengo!"
+            ],
+            "name": [
+                "{}",
+                "conjunto"
+            ],
             "kind": "Kind",
-            "out": "$?",
+            "out": "Result",
             "function": {
                 "size": {
-                    "doc": "$?",
-                    "names": "$? size",
+                    "doc": "Yo te dire cuanots valores yo tengo",
+                    "names": "tamaño",
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["=", "equals"],
+                    "doc": [
+                        "\\T\\ si me das un @Set y temenemos los mismo valores:",
+                        "\\{1 2 3} = {2 3 4}\\"
+                    ],
+                    "names": [
+                        "=",
+                        "igual"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "set"
+                            "doc": "El @Set a ser comparado",
+                            "names": "conjunto"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": [
+                        "Yo soy \\T\\ si me pasas un @Set y yo /no/ tengo los mismos valores:",
+                        "\\{1 2 3} ≠ {2 3 4}\\"
+                    ],
                     "names": "≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "set"
+                            "doc": "El @Set a ser comparado",
+                            "names": "conjunto"
                         }
                     ]
                 },
                 "add": {
-                    "doc": "$?",
-                    "names": ["add", "+"],
+                    "doc": [
+                        "Dame un elemento para sumar y yo creare un nuevo @Set con mis elementos y el elemento dado.",
+                        "\\{1 2 3} + 4\\"
+                    ],
+                    "names": [
+                        "sumar",
+                        "+"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "set"
+                            "doc": "El elemento a sumar",
+                            "names": "elemento"
                         }
                     ]
                 },
                 "remove": {
-                    "doc": "$?",
-                    "names": ["remove", "-"],
+                    "doc": [
+                        "Dame un elemento para remover y yo creare un nuevo @Set sin ese elemento"
+                    ],
+                    "names": [
+                        "remove",
+                        "-"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "set"
+                            "doc": "El elemento a remover",
+                            "names": "elemento"
                         }
                     ]
                 },
                 "union": {
-                    "doc": "$?",
-                    "names": ["union", "∪"],
+                    "doc": [
+                        "Dame un @Set y yo creare un nuevo @Set que tiene mis elementos y tambien los elementos del otro @Set",
+                        "\\{1 2 3} ∪ {3 5 6}"
+                    ],
+                    "names": [
+                        "union",
+                        "∪"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
+                            "doc": "El @Set a combinar",
                             "names": "set"
                         }
                     ]
                 },
                 "intersection": {
-                    "doc": "$?",
-                    "names": ["$? intersection"],
+                    "doc": [
+                        "Dame un @Set y yo creare un nuevo @Set que solo tiene los elemento que los dos conjuntos tienen en comun",
+                        "\\{1 2 3} ∩ {3 4 5}\\"
+                    ],
+                    "names": [
+                        "interseccion",
+                        "∩"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "set"
+                            "doc": "El @Set a comparar",
+                            "names": "conjunto"
                         }
                     ]
                 },
                 "difference": {
-                    "doc": "$?",
-                    "names": "$? difference",
+                    "doc": [
+                        "Dame un @Set y yo creare un nuevo @Set que tiene los valores que son unicos en cada @Set",
+                        "\\{1 2 3}.diferencia({3 4 5})\\"
+                    ],
+                    "names": "diferencia",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "set"
+                            "doc": "El conjunto a comparar",
+                            "names": "conjuton"
                         }
                     ]
                 },
                 "filter": {
-                    "doc": "$?",
-                    "names": "$? filter",
+                    "doc": [
+                        "Dame una @FunctionDefinition  que recive un elemento y produce \\T\\ si deberia de ser convervado, y yo creare un @Set que solo contiene elementes que cumpla con tu criteria.",
+                        "Por ejemplo, vamos a encontrar todos los numeros impares adentro de mi:",
+                        "\\{1 2 3 4 5 6 7 8 9}.filtrar(ƒ(num•#) (num % 2) = 1)\\"
+                    ],
+                    "names": "filtrar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? checker"
+                            "doc": "La @FunctionDefinition que verifica un elemento para ver si deberia ser conservado",
+                            "names": "verificador"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "El elemento siendo verificado",
+                            "names": "valor"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? set"
+                            "doc": "El conjunto siendo filtrado",
+                            "names": "conjunto"
                         }
                     ]
                 },
                 "translate": {
-                    "doc": "$?",
-                    "names": "translate",
+                    "doc": [
+                        "Dame una @FunctionDefinition  que recive un elemento y produce un nuevo elemento basado en el mismo, depues yo voy a traducir todos mis elementos a un nuevo @Set (removiendo duplicados).",
+                        "Por ejemplo, vamos a combertir todos los @Number(s)a @Text:",
+                        "\\{1 2 3 4 5 6 7 8 9}.traducir(ƒ(num•#) num→'')\\"
+                    ],
+                    "names": "traducir",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? translator"
+                            "doc": "La @FunctionDefinition que traduce uno de mis elementos a un nuevo elemento que tu desees",
+                            "names": "traductor"
                         }
                     ],
                     "translator": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "El elemento siendo traducido",
+                            "names": "valor"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? set"
+                            "doc": "El conjunto siendo traducido",
+                            "names": "conjunto"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?",
-                "list": "$?"
+                "text": "Una representacion de @Text de un @Set",
+                "list": "Una representacion de los elementos en un @conjunto en una @List"
             }
         },
         "Map": {
-            "doc": "$?",
-            "name": "map",
+            "doc": [
+                "Yo emparejo valores, mapeando *llaves* a *valores*. Por ejemplo:",
+                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}\\",
+                "Mis llaves pueden ser de cualquier tipo de valor, y tambien mis valores",
+                "Personas piensan de mi como si yo fuera un indice o un diccionario, donde tu me das una llave, y yo te doy a lo que esta mapeado.",
+                "Si quieres ver a lo algo esta mapeado a. tu le puedes pasar a @SetOrMapAccess, una llave y ellos de daran el valor:",
+                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}{'tony'}\\",
+                "Si noy hay una llave que coincida, yo te dare @None.",
+                "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}{'juan'}\\",
+                "Tu tambien puedes crear un mapa vacio asi:",
+                "\\{:}\\",
+                "Yo se hacer muchas cosas maravillosas con mis emparejamientos."
+            ],
+            "name": [
+                "{:}",
+                "Mapa"
+            ],
             "key": "Key",
             "value": "Value",
             "result": "Result",
             "function": {
                 "size": {
-                    "doc": "$?",
-                    "names": "$? size",
+                    "doc": "Yo te devuelvo cuantos valores yo tengo",
+                    "names": "tamaño",
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$?",
-                    "names": ["=", "equals"],
+                    "doc": [
+                        "\\{T}\\ si mi emparejamientos son exactamente los mismos a el @Map dado.",
+                        "\\{1:1 2:2} = {1:1 2:3}\\"
+                    ],
+                    "names": [
+                        "=",
+                        "equals"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El @Map a comparar",
+                            "names": "valor"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$?",
+                    "doc": [
+                        "\\{T}\\ si mis emparejamientos /no/ son exactamente los mismo a el @Map dado.",
+                        "\\{1:1 2:2} ≠ {1:1 2:3}\\"
+                    ],
                     "names": "≠",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El @Map a comparar",
+                            "names": "valor"
                         }
                     ]
                 },
                 "set": {
-                    "doc": "$?",
-                    "names": "set",
+                    "doc": [
+                        "Yo creare un nuevo @Map con los mismos emparejamientos, pero con el neuvo emparejamiento que tu me das. Si yo tengo la llave, con los emparejare con el nuevo valor.",
+                        "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}.emparejar('juan' 0puntos)\\"
+                    ],
+                    "names": "emparejar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "key"
+                            "doc": "La llave para emparejar con el valor",
+                            "names": "llave"
                         },
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El valor para empajar con la llave",
+                            "names": "valor"
                         }
                     ]
                 },
                 "unset": {
-                    "doc": "$?",
-                    "names": "unset",
+                    "doc": [
+                        "Yo creare un nuevo @Map sin la llave que tu me das, removiendo su emparejamiento.",
+                        "\\{'rosa': 6puntos 'tony':3puntos 'isabela':8puntos}.desemparejar('rosa')\\"
+                    ],
+                    "names": "desemparejar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "key"
+                            "doc": "La llave a remover",
+                            "names": "llave"
                         }
                     ]
                 },
                 "remove": {
-                    "doc": "$?",
-                    "names": "remove",
+                    "doc": [
+                        "Yo creare un nuevo @Map sin la llaves que tenga el valor que tu me des.",
+                        "\\{'rosa': 6puntos 'tony':3puntos 'isabela':3puntos}.remover(3puntos)\\"
+                    ],
+                    "names": "remover",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "value"
+                            "doc": "El valor a remover, junto a las llaves con las que estan emparejadas",
+                            "names": "valor"
                         }
                     ]
                 },
                 "filter": {
-                    "doc": "$?",
-                    "names": "filter",
+                    "doc": [
+                        "Pasame una @FunctionDefinition  que recive una llave y un valor y evalua a \\T\\ si la pareja deberia de ser conservada. Yo creare un nuevo @Map que cumple tu criteria.",
+                        "Por ejemplo, aqui queres mantener las parejas que tiene la llave 'juan' o tengo un valor de mas de cero puntos",
+                        "\\{'juan': 0points 'ana': 0points 'tony':3points}.filtrar(ƒ(llave•'' valor•#puntos) (llave = 'amy') | (valor > 0puntos))\\"
+                    ],
+                    "names": "filtrar",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? checker"
+                            "doc": "La @FunctionDefinition que decide mantener una pareja o no",
+                            "names": "verificador"
                         }
                     ],
                     "checker": [
                         {
-                            "doc": "$?",
-                            "names": "$? key"
+                            "doc": "La llave siendo verificada",
+                            "names": "llave"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "El valor siendo verificado",
+                            "names": "valor"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "El mapa siendo verificado",
+                            "names": "mapa"
                         }
                     ]
                 },
                 "translate": {
-                    "doc": "$?",
-                    "names": "translate",
+                    "doc": [
+                        "Dame una @FunctionDefinition que recive una llave y un valor y evalua el valor a un nuevo valor. Yo creare un nuevo @Map con las misma llaves pero con los valores nuevos.",
+                        "Por ejemplo, vamos a darle un punto a todos, porque se an comportado muy bien",
+                        "\\{'juan': 0points 'ana': 0points 'tony':3points}.traducir(ƒ(llave•'' valor•#points) valor + 1puntos)"
+                    ],
+                    "names": "traducir",
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? translator"
+                            "doc": "La @FunctionDefinition  que traduce cada valor",
+                            "names": "traductor"
                         }
                     ],
                     "translator": [
                         {
-                            "doc": "$?",
-                            "names": "$? key"
+                            "doc": "La llave siendo traducida",
+                            "names": "llave"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "El valor siendo traducido",
+                            "names": "valor"
                         },
                         {
-                            "doc": "$?",
-                            "names": "$?"
+                            "doc": "El mapa siendo traducido",
+                            "names": "mapa"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?",
-                "set": "$?",
-                "list": "$?"
+                "text": "Una representacion de un mapa a @Text",
+                "set": "La llaves de un @Map",
+                "list": "una listo con los valores de un @mapa"
             }
         },
         "Table": {
-            "doc": "$?",
-            "name": "$?",
-            "row": "$?",
+            "doc": [
+                "Yo soy un conjunto de filas de tablas! Yo puedo te puedo ayudar a mantener al corriente de colleciones grandes de valores que tienen la misma estructura.",
+                "Por ejemplo, imaginemos que queremos una almacenar los nombres de muchos tipos de rocas:",
+                "\\⎡nombre•'' color•''⎦\n⎡'obsidiano' 'negro'⎦\n⎡'pomez' 'gris'⎦\n⎡'citrino' 'amarillo'⎦\\",
+                "@Bind nos puede ayudar a nombrar la tabla, y tambien puedes hacer cosas, como actualizar la tabla con una nuevo fila con @Insert:",
+                "\\rocas: ⎡nombre•'' color•''⎦\n⎡'obsidiano' 'negro'⎦\n⎡'pomez' 'griz'⎦\n⎡'citrino' 'amarillo'⎦\nrocas ⎡+ 'cuarzo' 'blanco'⎦\\",
+                "Si queres encontrar una fila que coince con alguna condicion, tu puede @Select filas con esa condicion:",
+                "\\rocas: ⎡nombre•'' color•''⎦\n⎡'obsidiano' 'negro'⎦\n⎡'pomez' 'griz'⎦\n⎡'citrino' 'amarillo'⎦\n\nrocas ⎡?⎦ color = 'gris'\\",
+                "O talves tu queres crear una tabla con valores actualizados, con filas que complen una condicion:",
+                "\\rocas: ⎡nombre•'' color•''⎦\n⎡'obsidiano' 'negro'⎦\n⎡'pomez' 'gris'⎦\n⎡'citrino' 'amarillo'⎦\nrocas ⎡: color: 'black' ⎦ name = 'pomez'\\",
+                "Tambine puedes borrar filas que cumplen una condicion:",
+                "\\rocas: ⎡nombre•'' color•''⎦\n⎡'obsidiano' 'negro'⎦\n⎡'pomez' 'gris'⎦\n⎡'citrino' 'amarillo'⎦\nrocas ⎡- nombre.tiene('i')\\",
+                "Y si quieres consultar valores especificos que to tengo, tu puedes convertir cualquier tabla a una lista y acceder filas individualmento con @PropertyReference",
+                "\\rocas: ⎡nombre•'' color•''⎦\n⎡'obsidiano' 'negro'⎦\n⎡'pomez' 'gris'⎦\n⎡'citrino' 'amarillo'⎦\n(rocas → [])[1].nombre\\"
+            ],
+            "name": [
+                "⎡⎦",
+                "Tabla"
+            ],
+            "row": "Fila",
             "function": {
                 "equals": {
-                    "doc": "$?",
-                    "names": "$? equals",
+                    "doc": "Yo compruevo que yo tengo las mismas celdas en el orden exacto de la otra @Table",
+                    "names": [
+                        "=",
+                        "igual"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "La otra tabla a verificar",
+                            "names": "tabla"
                         }
                     ]
                 },
                 "notequal": {
-                    "doc": "$?",
-                    "names": "$?",
+                    "doc": "Yo compruevo que yo las celdas de la otra @Table sean distintas o que esten en orden diferente",
+                    "names": [
+                        "≠",
+                        "noIgual"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "La otra tabla a verificar",
+                            "names": "tabla"
                         }
                     ]
                 }
             },
             "conversion": {
-                "list": "$?",
-                "text": "$?"
+                "list": "Yo convierto una @Table a una lista de filas, donde cada fila es una @Estructura con sus nombre de columna como una propiedad.",
+                "text": "Yo simplemento converito una @Table a @Text"
             }
         },
         "Structure": {
-            "doc": "$?",
-            "name": "$?",
+            "doc": "Mira @StructureDefinition ",
+            "name": "Estructura",
             "function": {
                 "equals": {
-                    "doc": "$?",
-                    "names": "$? =",
+                    "doc": "Yo verifico que mi propiedas tengas los mismos nombre y valores a la otra estructura.",
+                    "names": [
+                        "=",
+                        "igual"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "La otra estructura a verificar",
+                            "names": "valor"
                         }
                     ]
                 },
                 "notequal": {
-                    "doc": "$?",
-                    "names": "$? ≠",
+                    "doc": "Yo verifico que mis propiedas sean differentes de cualquier manera a la otra esctructura",
+                    "names": [
+                        "≠",
+                        "notEquals"
+                    ],
                     "inputs": [
                         {
-                            "doc": "$?",
-                            "names": "$? value"
+                            "doc": "La otra estructura a verificar",
+                            "names": "valor"
                         }
                     ]
                 }
             },
             "conversion": {
-                "text": "$?"
+                "text": "Yo me convierto a @Text"
             }
         }
     },
@@ -3504,33 +3998,52 @@
         },
         "sequence": {
             "sway": {
-              "doc": "Creo una @Sequence que se balancea hacia adelante y hacia atrás alrededor del centro de un @Output.",
-              "names": ["balanceo"],
-              "angle": {
-                "doc": "Cuánto inclinarse en el balanceo.",
-                "names": ["ángulo"]
-              }
+                "doc": "Creo una @Sequence que se balancea hacia adelante y hacia atrás alrededor del centro de un @Output.",
+                "names": [
+                    "vaivén"
+                ],
+                "angle": {
+                    "doc": "Cuánto inclinarse en el vaivén.",
+                    "names": [
+                        "ángulo"
+                    ]
+                }
             },
             "bounce": {
-              "doc": "Creo una @Sequence  que hace que un @Output rebote a una altura dada.",
-              "names": ["rebote"],
-              "height": { "doc": "Qué tan alto rebotar.", "names": ["altura"] }
+                "doc": "Creo una @Sequence  que hace que un @Output rebote a una altura dada.",
+                "names": [
+                    "rebote"
+                ],
+                "height": {
+                    "doc": "Qué tan alto rebotar.",
+                    "names": [
+                        "altura"
+                    ]
+                }
             },
             "spin": {
-              "doc": "Creo una @Sequence  que rota un @Output alrededor de su centro.",
-              "names": ["girar"]
+                "doc": "Creo una @Sequence  que rota un @Output alrededor de su centro.",
+                "names": [
+                    "girar"
+                ]
             },
             "fadein": {
-              "doc": "Creo una @Sequence  que hace que un @Output aparezca gradualmente de invisible a visible.",
-              "names": ["aparecer"]
+                "doc": "Creo una @Sequence  que hace que un @Output aparezca gradualmente de invisible a visible.",
+                "names": [
+                    "aparecer"
+                ]
             },
             "popup": {
-              "doc": "Creo una @Sequence  que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
-              "names": ["aparecer"]
+                "doc": "Creo una @Sequence  que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
+                "names": [
+                    "aparecer"
+                ]
             },
             "shake": {
-              "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
-              "names": ["temblor"]
+                "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
+                "names": [
+                    "temblor"
+                ]
             }
         }
     },
@@ -3566,10 +4079,10 @@
                 }
             },
             "label": {
-                "output": "$?",
-                "palette": "$?",
-                "docs": "$?",
-                "source": "$?"
+                "output": "escenario",
+                "palette": "paleta",
+                "docs": "guía",
+                "source": "$source"
             },
             "button": {
                 "collapse": "colapsar esta ventana"
@@ -3711,9 +4224,9 @@
                 "insertPrevious": "insertar símbolo de anterior",
                 "insertType": "insertar símbolo de tipo",
                 "insertTable": "insertar símbolo de tabla",
-                "insertTableClose": "$?",
-                "insertBorrow": "$?",
-                "insertShare": "$?",
+                "insertTableClose": "insertar cierre de tabla",
+                "insertBorrow": "insertar préstamo",
+                "insertShare": "insertar compartir",
                 "insertLine": "insertar salto de línea",
                 "backspace": "borrar selección o carácter anterior",
                 "cut": "corte lo que esté seleccionado",
@@ -3725,7 +4238,7 @@
                 "undo": "deshacer edición anterior",
                 "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar",
-                "tidy": "$?"
+                "tidy": "espaciado ordenado"
             }
         },
         "conflicts": {
@@ -3822,7 +4335,10 @@
                 "mode": {
                     "public": {
                         "label": "visibilidad",
-                        "modes": ["privado", "público"]
+                        "modes": [
+                            "privado",
+                            "público"
+                        ]
                     }
                 },
                 "error": {
@@ -3967,7 +4483,10 @@
                 "call": [
                     "¡Hola! ¿Te quedarás y darás vida a las palabras con nosotros? 🥹"
                 ],
-                "beta": ["$?"],
+                "beta": [
+                    "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
+                    "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
+                ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "¿Qué es este lugar?",
@@ -4044,7 +4563,10 @@
                     "login": "Tus actuaciones se están guardando en este dispositivo, pero no en línea. ¡Si este es tu dispositivo, está bien! Si no lo es, otros pueden ver o eliminar tus proyectos. Para guardarlos en línea y mantenerlos privados, inicia sesión.",
                     "age": {
                         "label": "¿Cuál es tu edad?",
-                        "modes": ["12 años o menos", "13 años o más"]
+                        "modes": [
+                            "12 años o menos",
+                            "13 años o más"
+                        ]
                     },
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
@@ -4057,7 +4579,7 @@
                         "• *Las contraseñas* deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
                         "• *Si olvidas tu contraseña*, no podrás recuperar tu cuenta, ya que no tenemos otra forma de saber que eres tú. Guarda tu contraseña en un lugar seguro, como un administrador de contraseñas."
                     ],
-                    "passwordreminder": "$?",
+                    "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "change": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
@@ -4075,7 +4597,7 @@
                     "offline": "Pareces estar desconectada.",
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
                     "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
-                    "wrongPassword": "$?"
+                    "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario."
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
@@ -4087,12 +4609,12 @@
                         "placeholder": "correo electrónico"
                     },
                     "username": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "nombre de usuario para iniciar sesión, no uses información personal identificable",
+                        "placeholder": "nombre de usuario"
                     },
                     "password": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "contraseña para iniciar sesión, al menos 10 caracteres",
+                        "placeholder": "contraseña"
                     }
                 },
                 "button": {
@@ -4141,9 +4663,19 @@
                 ]
             },
             "donate": {
-                "header": "$?",
-                "prompt": "$?",
-                "content": ["$?"]
+                "header": "Donar",
+                "prompt": "Habilita una programación más accesible y global",
+                "content": [
+                    "Wordplay es un proyecto gratuito basado en la comunidad y respaldado por la <University of Washington@https://washington.edu>. Dependemos de donaciones de personas que creen en nuestra misión de lenguajes de programación educativos que son accesibles, y inclusivos del lenguaje.",
+                    "Estos son nuestros costos actuales:",
+                    "• Compensamos a estudiantes universitarios de la Universidad de Washington, especialmente a aquellos que tienen discapacidades o cuyo primer idioma no fue el inglés, para evolucionar y mantener el proyecto. Esto representa aproximadamente el 90% de nuestros costos.",
+                    "• Ofrecemos estipendios a profesores con los que colaboramos para desarrollar planes de estudio multilingües y accesibles.",
+                    "• Pagamos a Google por el ancho de banda y almacenamiento de <Firebase@https://firebase.google.com/>, y los servicios de <Workspace@https://workspace.google.com/>.",
+                    "• Pagamos anualmente a <Squarespace@https://www.squarespace.com/> por el dominio.",
+                    "Nuestros costos actuales, asumiendo 5 estudiantes universitarios a $$20 USD//hora, 10 horas//semana durante el año académico (36 semanas) y 2 estudiantes universitarios durante el verano (12 semanas), más servicios en la nube, son aproximadamente $$60,000 USD por año.",
+                    "Si 2,400 personas donaran $$25 USD al año, eso cubriría nuestros costos actuales, y cualquier excedente se destinaría a compensar a más estudiantes y profesores.",
+                    "¿Puedes ser una de esas 2,400 personas? Si es así, aquí está nuestro enlace de donación de la Universidad de Washington:"
+                ]
             }
         },
         "edit": {
