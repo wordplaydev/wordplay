@@ -2360,6 +2360,7 @@
                 "subheader": {
                     "selected": "$?",
                     "supported": "$?",
+                    "coming": "即將推出",
                     "help": "$?"
                 },
                 "button": {

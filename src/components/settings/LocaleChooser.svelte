@@ -9,6 +9,7 @@
         getLocaleLanguage,
         type SupportedLocale,
         getLocaleLanguageName,
+        EventuallySupportedLocales,
     } from '../../locale/Locale';
     import Link from '../app/Link.svelte';
     import concretize from '../../locale/concretize';
@@ -99,6 +100,20 @@
         {:else}&mdash;
         {/each}
     </div>
+    <h2
+    >{concretize(
+        $locales,
+        $locales.get((l) => l.ui.dialog.locale.subheader.coming)
+    ).toText()}</h2>
+
+    {#if EventuallySupportedLocales.length > 0}
+        {#each EventuallySupportedLocales as supported}
+            <div class="option">
+                <LocaleName locale={supported} supported={false}/>
+            </div>
+        {/each}
+    {/if}
+
     <h2
         ><Link
             external

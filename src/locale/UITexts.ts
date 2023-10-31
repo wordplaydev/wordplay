@@ -519,6 +519,8 @@ type UITexts = {
                 selected: string;
                 /** How to label the supported locales that have not been selected */
                 supported: string;
+                /** How to label locales that are coming soon */
+                coming: string;
                 /** How to request help with localization */
                 help: string;
             };

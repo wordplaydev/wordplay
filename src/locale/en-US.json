@@ -4032,6 +4032,7 @@
                 "subheader": {
                     "selected": "Selected",
                     "supported": "Available",
+                    "coming": "Coming Soon",
                     "help": "Help us translate …"
                 },
                 "button": {
@@ -4116,7 +4117,7 @@
             "landing": {
                 "call": ["Hi! Want to bring words to life with us? 😊"],
                 "beta": [
-                    "Wordplay is in *beta*. That means that functionality might change or not work as intended.",
+                    "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete.",
                     "But it also means we want your feedback! Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
                 ],
                 "link": {
