@@ -114,7 +114,6 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             ),
             [
                 'Amplitude',
-                'Floating Foods',
                 'Garden',
                 'Letters',
                 'Poem',
@@ -124,6 +123,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'FontMachine',
                 'Pumpkin',
                 'Size',
+                'Floating Foods',
             ]
         ),
         createGallery(
