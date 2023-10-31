@@ -74,12 +74,12 @@ We hope to add other numerals as we localize other languages.
 
 Text literals can be opened and closed with numerous delimiters:
 
-> textopen →  `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
+> textopen → `"` | `“` | `„` | `'` | `‘` | `‹` | `«` | `「` | `『`  
 > textclose → `"` | `„` | `”` | `'` | `’` | `›` | `»` | `」` | `』`  
 > markup → `\`  
 > text → _any sequence of characters between open/close delimiters_
 
-Wordplay has a secondary notation for markup, entered with `\`\``, in which these tokens are valid:
+Wordplay has a secondary notation for markup. It applies between pairs of `` `markup` `` , as in `` `I am \*bold\*\` ``. Inside markup, these tokens are valid:
 
 > linkopen → `<`  
 > linkclose → `>`  
