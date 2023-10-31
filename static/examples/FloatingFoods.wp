@@ -1,0 +1,21 @@
+Floating Foods
+===
+food: "🥮🍵🧋🥟🍛🍜🍱🍘🍢" ÷ ""
+
+latest•['']: 
+    food … ∆ Time(1000ms) … 
+    latest.replace(Random(1 6) food.random())
+
+Group(
+    Grid(3 3m 1m 1m) 
+	latest.translate(
+		ƒ (dish•"" index•#)
+			Phrase(
+				dish 
+				name: "\dish\-\index\"
+				entering: Pose(opacity: 0 scale: 2)
+				resting: Sequence(sway(360°) duration:4s)
+				duration: 1s
+			)
+	)
+)
