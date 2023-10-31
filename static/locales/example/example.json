@@ -2360,6 +2360,7 @@
                 "subheader": {
                     "selected": "$?",
                     "supported": "$?",
+                    "coming": "$?",
                     "help": "$?"
                 },
                 "button": {
