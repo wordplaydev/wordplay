@@ -1,0 +1,36 @@
+FootBall
+=== start/en
+hit/en,golpe/es: Collision('footy' 'ball')
+
+ballPlace/en,bolaLugar/es: Motion(Place(6m 1m) nextvelocity: hit•ø ? ø Velocity(Random(80m/s 100m/s)))
+
+keeperPlace/en,porteroLugar/es: Place(34m 0m) … ∆ Time(1000ms) … (Time(1000ms) % 2) = 0ms ? Place(34m 0m) Place(34m 2.2m)
+
+ballObj/en,bolaObjeto/es: Phrase('⚽' 1m 
+		place: ballPlace
+		matter: Matter(1kg 1 0 )
+		name: 'ball')
+
+footObj/en,pieObjeto/es: Phrase('🦶🏻' 1.5m
+		matter: Matter(mass: 20kg 0.9)
+		place: Place(Volume() · 10m 0.1m)
+		name: 'footy')
+
+keeperObj/en,porteroObjeto/es: Phrase('🚶🏻‍♂️' 2m
+		matter: Matter(mass: 20kg 0.9)
+		place: keeperPlace
+		duration: 1s
+		name: 'keeper')
+
+Stage([
+		ballObj
+		footObj
+		keeperObj
+
+		Shape(Rectangle(-2m 0m 40m -1m))
+		Shape(Rectangle(-2m 8m -1m 0m))
+		Shape(Rectangle(40m 8m 39m 0m))
+		Shape(Rectangle(35m 8m 40m 7m))
+
+	] background: Color(83% 50 122°)
+)

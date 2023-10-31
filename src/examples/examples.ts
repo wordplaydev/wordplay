@@ -130,7 +130,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [toLocaleString(l), l.gallery.motion])
             ),
-            ['Hira', 'Layers', 'Pounce']
+            ['Hira', 'Layers', 'Pounce', 'FootBall']
         ),
         createGallery(
             'AV',
