@@ -23,7 +23,7 @@
 <Writing>
     <Header>{$locales.get((l) => l.wordplay)}<sub>.dev</sub></Header>
     <div class="welcome">
-        <Speech glyph={Glyphs.Function} emotion={Emotion.happy}
+        <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
             ><svelte:fragment slot="content"
                 ><MarkupHtmlView
                     markup={$locales.get((l) => l.ui.page.landing.call)}
@@ -85,10 +85,10 @@
     }
 
     .welcome {
-        margin-inline-start: -2em;
+        margin-inline-start: -3em;
         margin-top: 2em;
         margin-bottom: 2em;
-        width: 50%;
+        max-width: 100%;
     }
 
     .beta {

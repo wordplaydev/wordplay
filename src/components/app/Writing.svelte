@@ -12,7 +12,7 @@
     .writing {
         margin-inline-start: auto;
         margin-inline-end: auto;
-        width: 80%;
+        width: 70%;
         max-width: 40em;
         text-align: start;
         margin-block-start: 4em;

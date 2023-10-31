@@ -25,6 +25,8 @@
     export let emotion: Emotion | undefined = undefined;
     /** Optionally turn off animation */
     export let emote = true;
+    /** Optionally double size of text */
+    export let big = false;
 
     $: renderedEmotion =
         emotion ??
@@ -44,6 +46,7 @@
     baseline
         ? 'baseline'
         : ''}"
+        class:big
     class:scroll
 >
     <div>
@@ -85,6 +88,10 @@
         display: flex;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+    }
+    
+    .dialog.big {
+        font-size: 150%;
     }
 
     .dialog.scroll {
