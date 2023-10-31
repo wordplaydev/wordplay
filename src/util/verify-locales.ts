@@ -27,7 +27,7 @@ const tutorialSchema = JSON.parse(
     fs.readFileSync('static/schemas/Tutorial.json', 'utf8')
 );
 
-const ajv = new Ajv({ strictTuples: false });
+const ajv = new Ajv({ strictTuples: false, allErrors: true });
 
 chalk.level = 1;
 const log = console.log;
@@ -96,6 +96,7 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                         }
                     } else verifyLocale(locale, file.name !== 'example');
                 }
+                else bad(2, "Couldn't find locale schema");
 
                 // Make sure there's a tutorial file.
                 const tutorialPath = path.join(
@@ -143,6 +144,7 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                         }
                         verifyTutorial(locale, tutorial);
                     }
+                    else bad(2, "Couldn't find tutorial schema");
                 }
             }
         }
@@ -166,7 +168,8 @@ function getKeyTemplatePairs(
         // Account for these when finding strings for verification.
         else if (
             Array.isArray(value) &&
-            value.every((v) => typeof v === 'string')
+            value.every((v) => typeof v === 'string') &&
+            key !== "names"
         )
             pairs.push([path, key, value.join('\n\n')]);
         else if (
@@ -251,19 +254,36 @@ function verifyLocale(locale: Locale, warnUnwritten: boolean) {
         else if (key === 'names') {
             const names = Array.isArray(value) ? value : [value];
             for (const name of names) {
-                const token = tokenize(
-                    name.replace('$?').trim()
-                ).getTokens()[0];
-                if (
-                    token === undefined ||
-                    !(token.isName() || token.isSymbol(Sym.Operator))
-                )
-                    bad(
-                        2,
-                        `Name ${name} is not a valid name, it's a ${token
-                            .getTypes()
-                            .join(', ')}`
-                    );
+
+                if(name.trim().length === 0) {
+                    bad(2, `Name is empty:: "${name}`)
+                }
+                else {
+                    const nameWithoutPlaceholder = name.replaceAll('$?', '').replaceAll("$!", "").trim();
+
+                    // If it wasn't just a placeholder
+                    if(nameWithoutPlaceholder.length > 0) {
+                        const tokens = tokenize(
+                            nameWithoutPlaceholder
+                        ).getTokens();
+
+                        // One name and one end token.
+                        if(tokens.length > 2)
+                            bad(2, `Name has space: "${nameWithoutPlaceholder}`)
+
+                        const token = tokens[0];
+                        if (
+                            token === undefined ||
+                            !(token.isName() || token.isSymbol(Sym.Operator))
+                        )
+                            bad(
+                                2,
+                                `Name ${name} is not a valid name, it's a ${token
+                                    .getTypes()
+                                    .join(', ')}`
+                            );
+                    }
+                }
             }
         }
         // If it's not a doc, assume it's a template string and try to parse it as a template.
