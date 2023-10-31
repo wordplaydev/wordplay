@@ -4,7 +4,7 @@ _Amy J. Ko_
 
 Hello! You must be here looking for the Wordplay programming language's specification. That means you're probably a programmer or computer scientist, or you prefer to read a more formal explanation of the programming language instead of going through the tutorial to learn. Welcome! We'll try to make this somewhat painless.
 
-This guide will be a complete overview of Wordplay's syntax and semantics. We'll eschew formal semantics for now, unless someone wants to contribute them. That does mean that We've yet to prove the program's semantics sound. (Perhaps that's a contribution you'd like to make to?). And in general, consider this a work in progress, so if you find sections missing, it means it's work in progress.
+This guide will be a complete overview of Wordplay's syntax and semantics. We'll eschew formal semantics for now, unless someone wants to contribute them. That does mean that We've yet to prove the program's semantics sound. (Perhaps that's a contribution you'd like to make to?). And in general, consider this a work in progress, so if you find sections missing, just report an issue, and we'll work on it.
 
 ## History
 
