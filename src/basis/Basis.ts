@@ -47,7 +47,6 @@ export class Basis {
 
     constructor(locales: Locale[]) {
         this.locales = locales;
-        // console.log(locales);
         this.languages = locales.map((locale) => locale.language);
 
         this.addStructure('none', bootstrapNone(locales));

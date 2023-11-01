@@ -186,7 +186,6 @@ export function getStyle(
     const move = toPose(project, moveVal) ?? toSequence(project, moveVal);
     const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
     const duration = toNumber(durationVal);
-    
     const shadow = toAura(project, shadowVal);
 
     return {

@@ -3,15 +3,13 @@ import StructureValue from '@values/StructureValue';
 import type Value from '@values/Value';
 import type Color from './Color';
 import Valued, { getOutputInputs } from './Valued';
-import { toPlace } from './Place';
-import { toBoolean, toNumber } from './Stage';
+import { toNumber } from './Stage';
 import { toColor } from './Color';
 import { getBind } from '@locale/getBind';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import type Locale from '../locale/Locale';
 import type Project from '../models/Project';
-import concretize from '../locale/concretize';
 
 export function createAuraType(locales: Locale[]) {
     return toStructure(`

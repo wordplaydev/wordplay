@@ -31,7 +31,6 @@ import segmentWraps from './segmentWraps';
 import type Matter from './Matter';
 import { toMatter } from './Matter';
 import type Aura from './Aura';
-import type { DefiniteAura } from './Aura';
 
 export function createPhraseType(locales: Locale[]) {
     console.log(locales)
@@ -83,7 +82,7 @@ export function createPhraseType(locales: Locale[]) {
             (locale) => locale.output.Phrase.alignment
         )}•'<'|'|'|'>': '|'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
-        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•🔮: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•ø|🤪|🔮: ø
     )`);
 }
 
