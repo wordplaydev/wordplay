@@ -269,6 +269,7 @@ export default class Reference extends SimpleExpression {
     computeType(context: Context): Type {
         // The type is the type of the bind.
         const definition = this.resolve(context);
+        console.log(definition);
 
         // If we couldn't find a definition or the definition is a type variable, return unknown.
         if (definition === undefined || definition instanceof TypeVariable)

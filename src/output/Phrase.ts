@@ -38,7 +38,6 @@ import {
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
 import type Aura from './Aura';
-import type { DefiniteAura } from './Aura';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
@@ -94,7 +93,7 @@ export function createPhraseType(locales: Locales) {
             (locale) => locale.output.Phrase.direction,
         )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${HorizontalLayout}'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
-        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•🔮: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•ø|🤪|🔮: ø
     )`);
 }
 
