@@ -123,7 +123,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'FontMachine',
                 'Pumpkin',
                 'Size',
-                'Floating Foods',
+                'FloatingFoods',
             ]
         ),
         createGallery(
