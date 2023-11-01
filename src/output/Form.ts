@@ -105,6 +105,83 @@ export class Rectangle extends Form {
     }
 }
 
+export class Line extends Form {
+    readonly x1: number;
+    readonly y1: number;
+    readonly x2: number;
+    readonly y2: number;
+    readonly z: number;
+    // readonly color: Color;
+    
+    constructor(
+        value: Value,
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        // color: Color
+    ) {
+        super(value);
+
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.z = 0;
+        // this.color = color;
+    }
+
+    getLeft() {
+        return Math.min(this.x1, this.x2);
+    }
+
+    getTop() {
+        return Math.max(this.y1, this.y2);
+    }
+
+    getZ() {
+        return this.z;
+    }
+
+    getWidth() {
+        return Math.abs(this.x1 - this.x2);
+    }
+
+    getHeight() {
+        return Math.abs(this.y1 - this.y2);
+    }
+
+    getPoints() {
+        const left = this.getLeft() * PX_PER_METER;
+        const top = -this.getTop() * PX_PER_METER;
+        const right = (this.getLeft() + this.getWidth()) * PX_PER_METER;
+        const bottom = -(this.getTop() - this.getHeight()) * PX_PER_METER;
+        return { left, top, right, bottom };
+    }
+
+    toCSSClip() {
+        const { left, top, right, bottom } = this.getPoints();
+        return `polygon(${left}px ${top}px, ${left}px ${bottom}px, ${right}px ${bottom}px, ${right}px ${top}px)`;
+    }
+
+    toSVGPath() {
+        const { left, top, right, bottom } = this.getPoints();
+        const minX = Math.min(left, right);
+        const minY = Math.min(top, bottom);
+        return `M ${left - minX} ${top - minY} L ${left - minX} ${
+            bottom - minY
+        } L ${right - minX} ${bottom - minY} L ${right - minX} ${top - minY} Z`;
+    }
+
+    getLength() {
+        return Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2));
+    }
+
+    getDescription(locales: Locales): string {
+        return locales.get((l) => getFirstName(l.output.Line.names));
+    }
+}
+
 export function toRectangle(value: Value | undefined) {
     if (!(value instanceof StructureValue)) return undefined;
 
@@ -120,5 +197,22 @@ export function toRectangle(value: Value | undefined) {
         right !== undefined &&
         bottom !== undefined
         ? new Rectangle(value, left, top, right, bottom, z)
+        : undefined;
+}
+
+export function toLine(value: Value | undefined) {
+    if (!(value instanceof StructureValue)) return undefined;
+
+    const [x1Val, y1Val, x2Val, y2Val] = getOutputInputs(value);
+
+    const x1 = toNumber(x1Val);
+    const y1 = toNumber(y1Val);
+    const x2 = toNumber(x2Val);
+    const y2 = toNumber(y2Val);
+    return x1 !== undefined &&
+        y1 !== undefined &&
+        x2 !== undefined &&
+        y2 !== undefined
+        ? new Line(value, x1, y1, x2, y2)
         : undefined;
 }

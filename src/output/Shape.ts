@@ -8,7 +8,7 @@ import type TextLang from './TextLang';
 import type { DefinitePose } from './Pose';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { Form, toRectangle } from './Form';
+import { Form, toRectangle, toLine } from './Form';
 import type Project from '../models/Project';
 import type Value from '../values/Value';
 import type { NameGenerator } from './Stage';
@@ -61,6 +61,17 @@ export function createRectangleType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Rectangle.right)}•#m
         ${getBind(locales, (locale) => locale.output.Rectangle.bottom)}•#m
         ${getBind(locales, (locale) => locale.output.Rectangle.z)}•#m: 0m
+    )
+`);
+}
+
+export function createLineType(locales: Locales) {
+    return toStructure(`
+    ${getBind(locales, (locale) => locale.output.Line, TYPE_SYMBOL)}(
+        ${getBind(locales, (locale) => locale.output.Line.x1)}•#m
+        ${getBind(locales, (locale) => locale.output.Line.y1)}•#m
+        ${getBind(locales, (locale) => locale.output.Line.x2)}•#m
+        ${getBind(locales, (locale) => locale.output.Line.y2)}•#m
     )
 `);
 }

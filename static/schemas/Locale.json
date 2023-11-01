@@ -6904,6 +6904,50 @@
               ],
               "type": "object"
             },
+            "Line": {
+              "additionalProperties": false,
+              "description": "A line shape, for Stage.frame",
+              "properties": {
+                "bottom": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Bottom of the rectangle"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "left": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Left of the rectangle"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "right": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Right of the rectangle"
+                },
+                "top": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Top of the rectangle"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Depth of rectangle"
+                }
+              },
+              "required": [
+                "bottom",
+                "doc",
+                "left",
+                "names",
+                "right",
+                "top",
+                "z"
+              ],
+              "type": "object"
+            },
             "Row": {
               "additionalProperties": false,
               "description": "A horizontal row arrangement",

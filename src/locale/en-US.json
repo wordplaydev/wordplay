@@ -3397,6 +3397,30 @@
                 "names": "z"
             }
         },
+        "Line": {
+            "doc": "I am a line",
+            "names": ["Line"],
+            "left": {
+                "doc": "The left edge of the stage on the x-axis",
+                "names": "left"
+            },
+            "top": {
+                "doc": "The top edge of the stage on the y-axes",
+                "names": "top"
+            },
+            "right": {
+                "doc": "The right edge of the stage on the x-axis",
+                "names": "right"
+            },
+            "bottom": {
+                "doc": "The bottom edge of the stage on the y-axis",
+                "names": "bottom"
+            },
+            "z": {
+                "doc": "The depth position of the rectangle.",
+                "names": "z"
+            }
+        },
         "Pose": {
             "doc": [
                 "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",
