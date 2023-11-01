@@ -124,6 +124,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Pumpkin',
                 'Size',
                 'Floating Foods',
+                'Fruits'
             ]
         ),
         createGallery(
