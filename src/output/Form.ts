@@ -114,7 +114,7 @@ export class Line extends Form {
     readonly x2: number;
     readonly y2: number;
     readonly z: number;
-    readonly color: Color;
+    // readonly color: Color;
     
     constructor(
         value: Value,
@@ -122,7 +122,7 @@ export class Line extends Form {
         y1: number,
         x2: number,
         y2: number,
-        color: Color
+        // color: Color
     ) {
         super(value);
 
@@ -131,7 +131,7 @@ export class Line extends Form {
         this.x2 = x2;
         this.y2 = y2;
         this.z = 0;
-        this.color = color;
+        // this.color = color;
     }
 
     getLeft() {
@@ -200,5 +200,22 @@ export function toRectangle(value: Value | undefined) {
         right !== undefined &&
         bottom !== undefined
         ? new Rectangle(value, left, top, right, bottom, z)
+        : undefined;
+}
+
+export function toLine(value: Value | undefined) {
+    if (!(value instanceof StructureValue)) return undefined;
+
+    const [x1Val, y1Val, x2Val, y2Val] = getOutputInputs(value);
+
+    const x1 = toNumber(x1Val);
+    const y1 = toNumber(y1Val);
+    const x2 = toNumber(x2Val);
+    const y2 = toNumber(y2Val);
+    return x1 !== undefined &&
+        y1 !== undefined &&
+        x2 !== undefined &&
+        y2 !== undefined
+        ? new Line(value, x1, y1, x2, y2)
         : undefined;
 }
