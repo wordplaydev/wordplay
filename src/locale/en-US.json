@@ -3649,7 +3649,7 @@
                 "doc": "The gravity to apply to output whose's place is in @Motion.",
                 "names": "gravity"
             },
-            "description": "stage $1[$1|] of $2 phrases $3[$3 frame|] $4"
+            "description": "stage $1[$1|] of $2[$2|] phrases $3[$3 frame|] $4"
         },
         "Easing": {
             "straight": "straight",
