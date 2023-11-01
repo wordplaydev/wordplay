@@ -2745,7 +2745,7 @@
             "loading": {
                 "message": "正在加载字体和文本，请稍候！"
             },
-            "back": "返回上一页"
+            "home": "$?"
         },
         "tile": {
             "toggle": {
@@ -2757,6 +2757,12 @@
                     "on": "隐藏此瓷砖",
                     "off": "显示此瓷砖"
                 }
+            },
+            "label": {
+                "output": "$?",
+                "palette": "palette",
+                "docs": "guide",
+                "source": "source"
             },
             "button": {
                 "collapse": "折叠窗口"
@@ -2898,6 +2904,9 @@
                 "insertConvert": "插入转换符号",
                 "insertPrevious": "插入前一个符号",
                 "insertTable": "插入表符号",
+                "insertTableClose": "insert table close symbol",
+                "insertBorrow": "$?",
+                "insertShare": "insert share",
                 "insertLine": "插入换行符",
                 "backspace": "删除选择或前一个字符",
                 "cut": "剪切选择",
@@ -2908,7 +2917,8 @@
                 "type": "键入字符",
                 "undo": "类型字符",
                 "redo": "撤销上次编辑",
-                "search": "查找要插入的特殊字符"
+                "search": "查找要插入的特殊字符",
+                "tidy": "$?"
             }
         },
         "conflicts": {
@@ -3142,6 +3152,10 @@
             },
             "landing": {
                 "call": ["$?"],
+                "beta": [
+                    "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete.",
+                    "But it also means we want your feedback! Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
+                ],
                 "link": {
                     "about": "这个地方为什么存在？",
                     "learn": "这是什么地方？",
@@ -3166,19 +3180,26 @@
                 "button": {
                     "newproject": "新项目",
                     "editproject": "编辑这个项目",
-                    "newgallery": "新画廊"
+                    "newgallery": "新画廊",
+                    "unarchive": "unarchive this project"
                 },
                 "confirm": {
                     "archive": {
                         "description": "存档这个表演",
                         "prompt": "存档"
-                    }
                 },
-                "error": {
-                    "noaccess": "无法连接网络。",
-                    "loggedout": "您必须登录才能创建和更改画廊。",
-                    "newgallery": "我们无法创建新的画廊。"
+                "delete": {
+                    "description": "permanently delete this performance",
+                    "prompt": "delete forever"
                 }
+            },
+            "error": {
+                "noaccess": "无法连接网络。",
+                "newgallery": "我们无法创建新的画廊。",
+                "nogalleryedits": "You must be logged in to create and change galleries.",
+                "nodeletes": "You must be logged in to delete archived projects.",
+                "delete": "$?"
+            }
             },
             "galleries": {
                 "header": "画廊",
@@ -3297,8 +3318,60 @@
             "unparsable": "无法解析的模板: $1"
         }
     },
-    "rules": {
-        "violence": "不得发表煽动、鼓励或庆祝暴力、伤害或自残的言论。",
-        "dehumanization": "不得以种族、族裔、国籍、种姓、性取向、性别、宗教、年龄、能力或外貌为基础，对个人或群体进行非人化的言辞。"
+    "moderation": {
+        "warning": {
+            "header": "Warning",
+            "explanation": "A moderator judged that this content may:"
+        },
+        "blocked": {
+            "header": "Blocked",
+            "explanation": "A moderator judged that this content may:"
+        },
+        "unmoderated": {
+            "header": "Note",
+            "explanation": "This content hasn't been moderated yet. It may:"
+        },
+        "moderate": {
+            "header": "Moderate",
+            "explanation": "Review this project and decide if it's content does any of the following. If it does, content will be warned or blocked. You can skip if you're unsure."
+        },
+        "flags": {
+            "violence": "Incite, encourage, or celebrate violence, harm, or self harm to anyone.",
+            "dehumanization": "Dehumanize individuals or groups based on their race, ethnicity, national origin, caste, sexual orientation, gender, religion, age, ability, or appearance.",
+            "disclosure": "Reveal private information about other people such as names, contact information, or physical addresses",
+            "misinformation": "Contain false, misleading, deceptive, or manipulative information"
+        },
+        "button": {
+            "submit": {
+                "tip": "$?",
+                "label": "save"
+            },
+            "skip": {
+                "tip": "Skip this project",
+                "label": "skip"
+            }
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "Games",
+            "description": "$?"
+        },
+        "visualizations": {
+            "name": "Visualizations",
+            "description": "Visualizations of and via text."
+        },
+        "motion": {
+            "name": "Motion",
+            "description": "Examples of movement and collisions."
+        },
+        "av": {
+            "name": "Audio/Video",
+            "description": "Using volume, pitch, and video as input."
+        },
+        "tools": {
+            "name": "Tools",
+            "description": "Simple utilities and applications."
+        }
     }
 }
