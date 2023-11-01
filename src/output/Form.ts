@@ -5,7 +5,7 @@ import type Value from '../values/Value';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
-import type Color from './Color';
+import Color from './Color'
 
 /** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {
@@ -114,6 +114,7 @@ export class Line extends Form {
     readonly x2: number;
     readonly y2: number;
     readonly z: number;
+    // readonly color: Color;
     
     constructor(
         value: Value,
@@ -121,7 +122,7 @@ export class Line extends Form {
         y1: number,
         x2: number,
         y2: number,
-        z: number
+        // color: Color
     ) {
         super(value);
 
@@ -129,7 +130,8 @@ export class Line extends Form {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-        this.color = color;
+        this.z = 0;
+        // this.color = color;
     }
 
     getLeft() {
@@ -137,7 +139,7 @@ export class Line extends Form {
     }
 
     getTop() {
-        return Math.max(this.top, this.bottom);
+        return Math.max(this.y1, this.y2);
     }
 
     getZ() {
@@ -156,12 +158,7 @@ export class Line extends Form {
         const left = this.getLeft() * PX_PER_METER;
         const top = -this.getTop() * PX_PER_METER;
         const right = (this.getLeft() + this.getWidth()) * PX_PER_METER;
-        let bottom;
-        if (this.y1 > this.y2) {
-            bottom = (this.getTop() - this.getHeight()) * PX_PER_METER;
-        } else {
-            bottom = (this.getTop() + this.getHeight()) * PX_PER_METER;
-        }
+        const bottom = -(this.getTop() - this.getHeight()) * PX_PER_METER;
         return { left, top, right, bottom };
     }
 
@@ -209,17 +206,16 @@ export function toRectangle(value: Value | undefined) {
 export function toLine(value: Value | undefined) {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const [x1Val, y1Val, x2Val, y2Val, zVal] = getOutputInputs(value);
+    const [x1Val, y1Val, x2Val, y2Val] = getOutputInputs(value);
 
     const x1 = toNumber(x1Val);
     const y1 = toNumber(y1Val);
     const x2 = toNumber(x2Val);
     const y2 = toNumber(y2Val);
-    const z = toNumber(zVal) ?? 0;
     return x1 !== undefined &&
         y1 !== undefined &&
         x2 !== undefined &&
         y2 !== undefined
-        ? new Line(value, x1, y1, x2, y2, z)
+        ? new Line(value, x1, y1, x2, y2)
         : undefined;
 }
