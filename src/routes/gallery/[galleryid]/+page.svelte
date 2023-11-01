@@ -148,29 +148,36 @@
                 {#if projects}
                     <ProjectPreviewSet
                         set={projects}
-                        edit={{
-                            description: $locales.get(
-                                (l) => l.ui.page.projects.button.editproject
-                            ),
-                            action: (project) =>
-                                goto(getProjectLink(project, false)),
-                            label: EDIT_SYMBOL,
-                        }}
+                        edit={editable
+                            ? {
+                                  description: $locales.get(
+                                      (l) =>
+                                          l.ui.page.projects.button.editproject
+                                  ),
+                                  action: (project) =>
+                                      goto(getProjectLink(project, false)),
+                                  label: EDIT_SYMBOL,
+                              }
+                            : false}
                         remove={(project) => {
-                            return {
-                                prompt: $locales.get(
-                                    (l) => l.ui.gallery.confirm.remove.prompt
-                                ),
-                                description: $locales.get(
-                                    (l) =>
-                                        l.ui.gallery.confirm.remove.description
-                                ),
-                                action: () =>
-                                    gallery
-                                        ? Galleries.removeProject(project)
-                                        : undefined,
-                                label: '⨉',
-                            };
+                            return editable
+                                ? {
+                                      prompt: $locales.get(
+                                          (l) =>
+                                              l.ui.gallery.confirm.remove.prompt
+                                      ),
+                                      description: $locales.get(
+                                          (l) =>
+                                              l.ui.gallery.confirm.remove
+                                                  .description
+                                      ),
+                                      action: () =>
+                                          gallery
+                                              ? Galleries.removeProject(project)
+                                              : undefined,
+                                      label: '⨉',
+                                  }
+                                : false;
                         }}
                     />
                 {/if}
