@@ -3,7 +3,7 @@
     "language": "zh",
     "region": "CN",
     "wordplay": "双关语",
-    "newProject": "Phrase('🐈' resting:Sequence(sway() 1s))",
+    "newProject": "$?",
     "term": {
         "evaluate": "评价",
         "bind": "联结",
@@ -42,8 +42,8 @@
         "row": "排",
         "set": "组",
         "key": "钥匙",
-        "help": "$! 幫助",
-        "feedback": "$! 回饋"
+        "help" : "$",
+        "feedback": "$"
     },
     "token": {
         "EvalOpen": "评估开放",
@@ -77,6 +77,7 @@
         "Branch": "分支",
         "None": "空的",
         "Type": "类型",
+        "Literal": "$",
         "TypeOperator": "类型运算符",
         "TypeOpen": "类型打开",
         "TypeClose": "类型关闭",
@@ -113,8 +114,7 @@
         "Name": "名字",
         "Unknown": "不明",
         "Locale": "语言环境",
-        "End": "结束",
-        "Literal": "文字"
+        "End": "结束"
     },
     "node": {
         "Dimension": {
@@ -1392,21 +1392,21 @@
                 "同样地，无数个数字和单位的排列组合……",
                 "我可以是整数、实数、负数、正数、分数、小数，甚至不是一个数字。",
                 "你可以将我用不同的数字系统表达, 像阿拉伯数字 \\123\\, 罗马数字 \\ⅩⅩⅩⅠⅩ\\, 日本数字 \\二十\\, 甚至将它们混合起来:",
-                "\\1 + Ⅰ + 一\\",
-                "你也可以将我写成二进制，比如二进制的16会像这样：",
+                "\\1 + I + 一\\",
+                "你也可以将我写成二进制,比如二进制的16会像这样:",
                 "\\2;11111111\\",
                 "\\10;255\\",
                 "\\16;FF\\",
                 "这里有一个特殊的数字叫 NaN ，它可能出现在你没有写下数字的时候：",
                 "\\2;22\\",
-                "这里没有数字显示，是因为数字2不会出现在二进制当中。 如果你想要将非数字的文本变成数字，NaN 同样会出现：",
+                "这里没有数字显示, 是因为数字2不会出现在二进制当中。 如果你想要将非数字的文本变成数字，NaN 同样会出现：",
                 "\\'嗨'→#\\"
             ],
             "name": ["#", "数字"],
             "function": {
                 "add": {
                     "doc": [
-                        "我把自己加上一个同样 @Unit 的 @Number ， 就会出现同样的 @Unit 的 @Number 。",
+                        "我把自己加上一个同样 @Unit 的 @Number , 就会出现同样的 @Unit 的 @Number 。",
                         "比如：",
                         "\\1 + 1\\",
                         "\\3只猫 + 5只猫\\",
@@ -1420,7 +1420,7 @@
                 },
                 "subtract": {
                     "doc": [
-                        "我把自己减去你指定的 @Number ， 得出一个以同样的 @Unit 结尾的新的 @Number 。",
+                        "我把自己减去你指定的 @Number , 得出一个以同样的 @Unit 结尾的新的 @Number 。",
                         "比如：",
                         "\\1 - 1\\",
                         "\\3只猫 - 5只猫\\",
@@ -1437,7 +1437,7 @@
                 },
                 "multiply": {
                     "doc": [
-                        "我在我自己的基础上乘以你给我的 @Number ， 得到以我的 @Unit 和指定数字的 @Unit 相结合的结果：",
+                        "我在我自己的基础上乘以你给我的 @Number , 得到以我的 @Unit 和指定数字的 @Unit 相结合的结果：",
                         "\\5 · 5\\",
                         "\\5米 · 5米\\",
                         "\\5米 · 1/秒\\"
@@ -1449,7 +1449,7 @@
                 },
                 "divide": {
                     "doc": [
-                        "我将自己除以你指定的 @Number ， 得到以我的 @Unit 和指定数字的 @Unit 相结合的结果：",
+                        "我将自己除以你指定的 @Number , 得到以我的 @Unit 和指定数字的 @Unit 相结合的结果：",
                         "\\5 ÷ 5\\",
                         "\\5米 ÷ 5米\\",
                         "\\5米 ÷ 5秒\\"
@@ -2292,54 +2292,6 @@
             "names": "输出 Output",
             "doc": "我不是你真正可以制作的@结构定义。但我是一个非常重要的人，因为我激发了我们舞蹈中最重要的元素：@短语、@组和@舞台。去见见他们，去了解更多关于如何使用它们的信息。"
         },
-        "Stage": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "$?" },
-            "frame": { "doc": "$?", "names": "$?" },
-            "size": { "doc": "$?", "names": "$?" },
-            "face": { "doc": "$?", "names": "$?" },
-            "place": { "doc": "$?", "names": "$?" },
-            "name": { "doc": "$?", "names": "$?" },
-            "selectable": { "doc": "$?", "names": "$?" },
-            "color": {
-                "doc": "$?",
-                "names": "$? color"
-            },
-            "background": { "doc": "$?", "names": "$? background" },
-            "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
-            },
-            "offset": {
-                "doc": "$?",
-                "names": "$? offset"
-            },
-            "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
-            },
-            "scale": {
-                "doc": "$?",
-                "names": "$? scale"
-            },
-            "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
-            },
-            "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
-            },
-            "entering": { "doc": "$?", "names": "$?" },
-            "resting": { "doc": "$?", "names": "$?" },
-            "moving": { "doc": "$?", "names": "$?" },
-            "exiting": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": ["$?"] },
-            "style": { "doc": "$?", "names": "$?" },
-            "gravity": { "doc": "$?", "names": "$? gravity" }
-        },
         "Group": {
             "names": "组",
             "doc": "哦你好，你过的怎么样？当有其他人在身边时，我总是很愉快，所以能和你在一起真是太好了！\n 我将@短语和@组组合在一起放在@舞台上，并将它们放在@整理中，这样它们的位置就有了一些秩序。\n 要使我工作，你需要给我一个@整理，然后是一个@输出的@列表以进行安排。\n 例如，在这里我用了一个@堆栈排列和一些垂直堆叠的@短语：\n \\组(堆栈() [短语('第一个') 短语('第二个')])\\ \n 我如何安排事物取决于你给我的@整理。" ,
@@ -2447,11 +2399,11 @@
                 "names": "比例 scale"
             },
             "flipx": {
-                "doc": "我是否应该在x轴上镜像，除非被不同的@姿势覆盖。",
+                "doc": "我是否应该在x轴上镜像, 除非被不同的@姿势覆盖。",
                 "names": "水平翻转 flipx"
             },
             "flipy": {
-                "doc": "我是否应该在y轴上镜像，除非被不同的@姿势覆盖。",
+                "doc": "我是否应该在y轴上镜像, 除非被不同的@姿势覆盖。",
                 "names": "垂直翻转 flipy"
             },
             "entering": { "doc": "上台时我应该做的@姿势或@顺序", "names": "进入" },
@@ -2465,93 +2417,165 @@
             "duration": { "doc": "移动到舞台上不同位置时适用的持续时间。", "names": ["持续时间"] },
             "style": { "doc": "移动到舞台上不同位置时使用的动画风格。", "names": "风格" }
         },
-        "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
+        "Arrangement": {
+            "doc": "我是Verse中各种排列方式的灵感, 包括@Row、@Stack、@Grid和@Free。我与@Group密切合作，",
+            "names": ["⠿", "排列"]
+        },
         "Row": {
-            "names": ["Fila"],
-            "doc": "$?",
-            "description": "$?",
+            "doc": "我是@Row, 一个水平的@Arrangement,包含@Output，中间可以添加可选的填充。你见过我的孪生兄弟@Stack吗？",
+            "names": ["➡", "行"],
+            "description": "$1个短语和组的行",
             "alignment": {
-                "doc": "$?",
-                "names": "$? alignment"
+                "doc": "是否在每列上的起始、中间或末尾对齐文本。",
+                "names": "对齐"
             },
-            "padding": { "doc": "$?", "names": "$?" }
+            "padding": {
+                "doc": "在输出之间放置的填充量。",
+                "names": "填充"
+            }
         },
         "Stack": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "padding": { "doc": "$?", "names": "$?" },
+            "doc": "我是@Stack，一个垂直的@Arrangement，包含@Output，中间可以添加可选的填充。你见过我的孪生兄弟@Row吗？",
+            "names": ["⬇", "堆叠"],
+            "description": "$1个短语和组的堆叠",
             "alignment": {
-                "doc": "$?",
-                "names": "$? alignment"
+                "doc": "是否在每行上的起始、中间或末尾对齐文本。",
+                "names": "对齐"
+            },
+            "padding": {
+                "doc": "在输出之间放置的填充量。",
+                "names": "填充"
             }
         },
         "Grid": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "rows": { "doc": "$?", "names": "$?" },
-            "columns": { "doc": "$?", "names": "$?" },
-            "padding": { "doc": "$?", "names": "$?" },
-            "cellWidth": { "doc": "$?", "names": "$?" },
-            "cellHeight": { "doc": "$?", "names": "$?" }
+            "doc": "我是@Output的网格。告诉我行数和列数，我将制作一个整齐的排列，可选的填充和单元格大小。",
+            "names": ["▦", "网格"],
+            "description": "$1行$2列的网格",
+            "rows": {
+                "doc": "网格中的行数。",
+                "names": "行数"
+            },
+            "columns": {
+                "doc": "网格中的列数。",
+                "names": "列数"
+            },
+            "padding": {
+                "doc": "在单元格之间放置的填充量。",
+                "names": "填充"
+            },
+            "cellWidth": {
+                "doc": "单元格应有多宽。",
+                "names": "单元格宽度"
+            },
+            "cellHeight": {
+                "doc": "单元格应有多高。",
+                "names": "单元格高度"
+            }
         },
         "Free": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?"
+            "doc": [
+                "我随便怎么样。随便坐在哪里都行。只要坐在某个地方！确保你给我所有的@Output都有一个@Place，否则它们就不知道该去哪里。",
+                "哦，记住，你给每个@Output的@Place都是相对于@Group的@Place！所以如果你想知道为什么事情没有出现在你期望的地方，尝试给@Group也设置一个地方。"
+            ],
+            "names": ["自由"],
+            "description": "自由形式的$1输出"
         },
         "Shape": {
-            "names": "$? shape",
-            "doc": "$?",
-            "form": { "doc": "$?", "names": "$? form" },
-            "name": { "doc": "$?", "names": "$? name" },
-            "selectable": { "doc": "$?", "names": "$? selectable" },
-            "color": {
-                "doc": "$?",
-                "names": "$? color"
+            "doc": "我是所有形状的灵感。我用于告诉@Stage应该是什么形状。",
+            "names": ["⬟", "形状"],
+            "form": {
+                "doc": "我是要显示的形状种类。每种形状需要不同的信息来定义其排列。",
+                "names": "形状"
             },
-            "background": { "doc": "$?", "names": "$? background" },
+            "name": {
+                "doc": "我是你可以使用的名称，用于动画和@Collision。例如，如果代表地面，你可能想叫我'地面'。",
+                "names": "名称"
+            },
+            "selectable": {
+                "doc": "是否可以作为@Choice的一部分选择。",
+                "names": "可选择性"
+            },
+            "color": {
+                "doc": "我的边框颜色。",
+                "names": "颜色"
+            },
+            "background": {
+                "doc": "我的背景颜色。",
+                "names": "背景"
+            },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "我应该有多透明。",
+                "names": "透明度"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "我应该距离我的位置多远出现，同时保持在原地。",
+                "names": "偏移"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "我应该旋转多少。这会影响@Collision。",
+                "names": "旋转"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "我应该放大多少，而不改变我的实际大小。",
+                "names": "缩放"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "是否在x轴上镜像我。",
+                "names": "水平翻转"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "是否在y轴上镜像我。",
+                "names": "垂直翻转"
             },
-            "entering": { "doc": "$?", "names": "$? entering" },
-            "resting": { "doc": "$?", "names": "$? resting" },
-            "moving": { "doc": "$?", "names": "$? moving" },
-            "exiting": { "doc": "$?", "names": "$? exiting" },
-            "duration": { "doc": "$?", "names": ["$? duration"] },
-            "style": { "doc": "$?", "names": "$? style" }
+            "entering": {
+                "doc": "我进入@Stage时应该执行的@Pose或@Sequence。",
+                "names": "进入时"
+            },
+            "resting": {
+                "doc": "我进入并且不移动时应该执行的@Pose或@Sequence。",
+                "names": "静止时"
+            },
+            "moving": {
+                "doc": "我移动位置时应该执行的@Pose或@Sequence。",
+                "names": "移动时"
+            },
+            "exiting": {
+                "doc": "我离开@Stage时应该执行的@Pose或@Sequence。",
+                "names": "离开时"
+            },
+            "duration": {
+                "doc": "如果是单个@Pose，我的动画应该持续多长时间。",
+                "names": "持续时间"
+            },
+            "style": {
+                "doc": "我应该使用的动画样式。",
+                "names": "样式"
+            }
         },
         "Rectangle": {
-            "names": "$?",
-            "doc": "$?",
-            "left": { "doc": "$?", "names": "$?" },
-            "top": { "doc": "$?", "names": "$?" },
-            "right": { "doc": "$?", "names": "$?" },
-            "bottom": { "doc": "$?", "names": "$?" },
-            "z": { "doc": "$?", "names": "$? z" }
-        },
+            "doc": "我是一个矩形，用于使@Stage具有您选择的大小的边界。",
+            "names": ["矩形"],
+            "left": {
+                "doc": "x轴上的舞台左边缘",
+                "names": "左边"
+            },
+            "top": {
+                "doc": "y轴上的舞台顶部",
+                "names": "顶部"
+            },
+            "right": {
+                "doc": "x轴上的舞台右边缘",
+                "names": "右边"
+            },
+            "bottom": {
+                "doc": "y轴上的舞台底部",
+                "names": "底部"
+            },
+            "z": {
+                "doc": "矩形的深度位置。",
+                "names": "z"
+            }
+        },     
         "Pose": { 
         "doc": ["想象一下，某某一下子摆了个最精彩的姿势，一停顿，每个人的目光都聚集在了他身上。所说的姿势就是我，我为 @Output 勾勒姿势，而他们的动作都是以我组成的。", 
                 "别小瞧我！自个看一看我的许多的$input，你会创造出什么样的姿势呢？" 
@@ -2663,69 +2687,184 @@
             "names": ["📐", "旋转"] 
         }
     },
-        "Velocity": {
-            "doc": "$?",
-            "names": "$? Velocity",
-            "x": {
-                "doc": "$?",
-                "names": "$? x"
-            },
-            "y": {
-                "doc": "$?",
-                "names": "$? y"
-            },
-            "angle": {
-                "doc": "$? ",
-                "names": "$? angle"
-            }
+    "Velocity": {
+        "doc": "我是@Stage上的一个位置。我的所有输入都是可选的，因为默认情况下我位于中心。",
+        "names": ["💨", "速度"],
+        "x": {
+            "doc": "每秒在x轴上移动多少米。",
+            "names": "x"
         },
-        "Matter": {
-            "doc": "$?",
-            "names": "$? Matter",
-            "mass": { "doc": "$?", "names": "$? mass" },
-            "bounciness": {
-                "doc": "$?",
-                "names": "$? bounciness"
-            },
-            "friction": {
-                "doc": "$?",
-                "names": "$? friction"
-            },
-            "roundedness": {
-                "doc": "$?",
-                "names": "$? roundedness"
-            },
-            "text": {
-                "doc": "$?",
-                "names": "$? text"
-            },
-            "shapes": {
-                "doc": "$?",
-                "names": "$? shapes"
-            }
+        "y": {
+            "doc": "每秒在y轴上移动多少米。",
+            "names": "y"
         },
-        "Easing": {
-            "straight": "$?",
-            "cautious": "$?",
-            "pokey": "$?",
-            "zippy": "$?"
-        },
-        "sequence": {
-            "sway": {
-                "doc": "$?",
-                "names": ["vaivén"],
-                "angle": { "doc": "$?", "names": ["ángulo"] }
-            },
-            "bounce": {
-                "doc": "$?",
-                "names": ["rebotar"],
-                "height": { "doc": "$?", "names": ["altura"] }
-            },
-            "spin": { "doc": "$?", "names": ["girar"] },
-            "fadein": { "doc": "$?", "names": ["revelar"] },
-            "popup": { "doc": "$?", "names": ["surgir"] },
-            "shake": { "doc": "$?", "names": ["agitar"] }
+        "angle": {
+            "doc": "每秒旋转多少度",
+            "names": ["角度", "°"]
         }
+    },
+    "Matter": {
+        "doc": "我是输出的物理属性，影响我与舞台上其他输出的互动。",
+        "names": ["⚛️", "物质"],
+        "mass": { "doc": "质量，以千克为单位", "names": "质量" },
+        "bounciness": {
+            "doc": "碰撞时保留多少能量，0表示没有，1表示全部。",
+            "names": "弹性"
+        },
+        "friction": {
+            "doc": "保持滑动的程度；0表示没有，1表示永远。",
+            "names": "摩擦"
+        },
+        "roundedness": {
+            "doc": "圆角输出的程度；0表示没有，1表示其尺寸的100%，使尺寸成圆形。",
+            "names": "圆角"
+        },
+        "text": {
+            "doc": "它是否可以与其他输出发生碰撞。",
+            "names": "文本"
+        },
+        "shapes": {
+            "doc": "它是否可以与其他形状发生碰撞。",
+            "names": "地面"
+        }
+    },
+    "Stage": {
+        "doc": [
+            "嗨。舞台在这里。告诉我要展示什么，我会展示出来。",
+            "\\Stage([Phrase('stufffffff')])\\",
+            "如果你愿意，给我一个背景@Color，我会相应地照亮舞台。",
+            "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) color: Color(100% 0 0°))\\",
+            "你也可以给我一个边框，我会进行裁剪。",
+            "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-1m -1m 1m 1m) color: Color(100% 0 0°))\\"
+        ],
+        "names": ["🎭", "舞台"],
+        "content": {
+            "doc": "要在舞台上展示的@Output列表。",
+            "names": "画框"
+        },
+        "frame": {
+            "doc": "用于围绕舞台放置的形状和大小，隐藏其外部的一切。",
+            "names": "边框"
+        },
+        "size": {
+            "doc": "类似于@Group/size",
+            "names": "大小"
+        },
+        "face": {
+            "doc": "类似于@Group/face",
+            "names": "朝向"
+        },
+        "place": {
+            "doc": "如果我是一台相机，这就是我看的地方。",
+            "names": "位置"
+        },
+        "name": {
+            "doc": ["与@Phrase/name!相同"],
+            "names": "名称"
+        },
+        "selectable": {
+            "doc": "与@Phrase/selectable!相同",
+            "names": "可选择性"
+        },
+        "color": {
+            "doc": "与@Group/color相同",
+            "names": "颜色"
+        },
+        "background": {
+            "doc": "与@Group/background相同",
+            "names": "背景"
+        },
+        "opacity": {
+            "doc": "与@Group/opacity相同",
+            "names": "透明度"
+        },
+        "offset": {
+            "doc": "与@Group/offset相同",
+            "names": "偏移"
+        },
+        "rotation": {
+            "doc": "与@Group/rotation相同",
+            "names": ["📐", "旋转"]
+        },
+        "scale": {
+            "doc": "与@Group/scale相同",
+            "names": "缩放"
+        },
+        "flipx": {
+            "doc": "与@Group/flipx相同",
+            "names": "水平翻转"
+        },
+        "flipy": {
+            "doc": "与@Group/flipy相同",
+            "names": "垂直翻转"
+        },
+        "entering": {
+            "doc": "与@Group/entering相同",
+            "names": "进入时"
+        },
+        "resting": {
+            "doc": "与@Group/resting!相同",
+            "names": "休息时"
+        },
+        "moving": {
+            "doc": "与@Group/moving!相同",
+            "names": "移动时"
+        },
+        "exiting": {
+            "doc": "与@Group/exiting!相同",
+            "names": "离开时"
+        },
+        "duration": {
+            "doc": "与@Phrase/duration!相同",
+            "names": ["⏳", "持续时间"]
+        },
+        "style": {
+            "doc": "我应该使用的动画样式。",
+            "names": "样式"
+        },
+        "gravity": {
+            "doc": "应用于其位置在@Motion中的输出的重力。",
+            "names": "重力"
+        },
+        "description": "舞台 $1[$1|] 共有 $2 个短语 $3[$3 边框|] $4"
+    },
+    "Easing": {
+        "straight": "直线",
+        "cautious": "谨慎",
+        "pokey": "慢吞吞",
+        "zippy": "迅速"
+    },    
+    "sequence": {
+        "sway": {
+            "doc": "我创建一个@Sequence, 围绕@Output的中心来回摆动。",
+            "names": ["摇摆"],
+            "angle": {
+                "doc": "在摇摆中倾斜的角度。",
+                "names": ["角度"]
+            }
+        },
+        "bounce": {
+            "doc": "我创建一个@Sequence, 使@Output以指定的高度弹跳。",
+            "names": ["弹跳"],
+            "height": { "doc": "弹跳的高度。", "names": ["高度"] }
+        },
+        "spin": {
+            "doc": "我创建一个@Sequence, 使@Output围绕其中心旋转。",
+            "names": ["旋转"]
+        },
+        "fadein": {
+            "doc": "我创建一个@Sequence, 将@Output从不可见状态淡入可见状态。",
+            "names": ["淡入"]
+        },
+        "popup": {
+            "doc": "我创建一个@Sequence, 使@Output迅速放大然后缩小到正常尺寸。",
+            "names": ["弹出"]
+        },
+        "shake": {
+            "doc": "我创建一个@Sequence, 使@Output看起来像是害怕的。",
+            "names": ["抖动"]
+        }
+    }
     },
     "ui": {
         "font": {
@@ -3070,10 +3209,12 @@
                 "subheader": {
                     "selected": "选择",
                     "supported": "可用的",
+                    "coming": "$",
                     "help": "帮我们翻译 。。。"
                 },
                 "button": {
                     "show": "切换语言",
+                    "replace": "$",
                     "add": "添加语言",
                     "remove": "删除语言"
                 }
@@ -3153,7 +3294,7 @@
             "landing": {
                 "call": ["$?"],
                 "beta": [
-                    "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete.",
+                    "$?",
                     "But it also means we want your feedback! Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
                 ],
                 "link": {
@@ -3175,13 +3316,15 @@
             "projects": {
                 "header": "项目",
                 "projectprompt": "准备好说些什么了吗？您可以开始创建一个新项目，或者继续在现有项目上工作。如果您遇到困难，继续学习 <learning@://learn>",
+                "archiveheader": "$? Archived",
+                "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "画廊",
                 "galleryprompt": "创建和策划画廊，与他人分享项目集合",
                 "button": {
                     "newproject": "新项目",
                     "editproject": "编辑这个项目",
                     "newgallery": "新画廊",
-                    "unarchive": "unarchive this project"
+                    "unarchive": "$?unarchive this project"
                 },
                 "confirm": {
                     "archive": {
@@ -3221,9 +3364,27 @@
             },
             "login": {
                 "header": "登录",
+                "subheader": {
+                    "email": "$?",
+                    "username": "username + password"
+                },
                 "anonymous": "匿名",
                 "prompt": {
                     "login": "您的表演保存在本设备上，而不是在线。要将它们保存在线，请提交您的电子邮件以获取登录链接。",
+                    "age": {
+                        "label": "What's your age?",
+                        "modes": ["12 or younger", "13 or older"]
+                    },
+                    "emailrules": [
+                        "• Don't provide your email if you are *12 or younger*.",
+                        "• If you *lose access* to your email account, you won't be able to log in or update your email address."
+                    ],
+                    "passwordreminder": "It looks like you're creating an account. Check your password, make sure you stored it safely and correctly, then submit again to create your account.",
+                    "usernamerules": [
+                        "• *Usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long",
+                        "• *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                        "• *If you forget your password*, you can't recover your account, since we have no other way to know it's you. Store your password somewhere safe, like a password manager"
+                    ],
                     "enter": "看起来您的登录链接来自不同的浏览器或设备。您可以再次输入您的电子邮件地址，以确保是您吗？",
                     "play": "您已登录，现在我们可以将您的项目保存在线上！想要创建点什么吗？",
                     "change": "想要更改您的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
@@ -3242,7 +3403,8 @@
                     "failure": "无法登录 :(",
                     "offline": "您似乎处于离线状态。",
                     "unchanged": "我们无法更改您的电子邮件地址，但我们不知道原因。",
-                    "delete": "我们无法删除您的帐户，但我们不知道原因。"
+                    "delete": "我们无法删除您的帐户，但我们不知道原因。",
+                    "wrongPassword": " $? Not a valid username and password. Either your password is wrong, or someone else has this username."
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址...",
@@ -3252,6 +3414,14 @@
                     "email": {
                         "description": "编辑登录邮件",
                         "placeholder": "邮件"
+                    },
+                    "username": {
+                        "description": "$? ogin username, don't use personally identifiable information",
+                        "placeholder": "username"
+                    },
+                    "password": {
+                        "description": "login password, at least 10 character",
+                        "placeholder": "password"
                     }
                 },
                 "button": {
@@ -3296,6 +3466,21 @@
                     "但是将一个项目设为*公开*，或者将其包含在公共画廊中，是一种特权。这是一个以爱、认可、尊重和尊严为基础的平台。因此，我们期望你的*公共*内容遵循这些规则："
                 ],
                 "consequences": ["如果我们发现一个项目或画廊违反了这些规定，我们将把它标记为私有，并阻止他们将来发布任何公开项目。您可以通过举报任何您认为违反规定的内容来帮助我们执行这些规定。"]
+            },
+            "donate": {
+                "header": "$",
+                "prompt": "Enable more accessible, global programming",
+                "content": [
+                    "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
+                    "Here are our current costs:",
+                    "• We compensate University of Washington undergraduates, especially those who are disabled or whose first language was not English, to evolve and maintain the project. This is about 90% of our costs.",
+                    "• We give stipends to teachers who we collaborate with to develop multilingual, accessible curricula.",
+                    "• We pay Google for <Firebase@https://firebase.google.com/> bandwidth and storage, and <Workspace@https://workspace.google.com/> services.",
+                    "• We pay <Squarespace@https://www.squarespace.com/> annually for the domain.",
+                    "Our current costs, assuming 5 undergraduates at $$20 USD//hour, 10 hours//week during the academic year (36 weeks) and 2 undergraduates during the summer (12 weeks), plus cloud services, are about $$60K USD per year.",
+                    "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensation more students and teachers.",
+                    "Can you be one of those 2,400 people? If so, here's our University of Washington giving link:"
+                ]
             }
         },
         "edit": {
