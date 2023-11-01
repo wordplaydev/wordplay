@@ -3199,6 +3199,7 @@
                 "subheader": {
                     "selected": "选择",
                     "supported": "可用的",
+                    "coming": "$",
                     "help": "帮我们翻译 。。。"
                 },
                 "button": {
@@ -3282,6 +3283,10 @@
             },
             "landing": {
                 "call": ["$?"],
+                "beta": [
+                    "$?",
+                    "But it also means we want your feedback! Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
+                ],
                 "link": {
                     "about": "这个地方为什么存在？",
                     "learn": "这是什么地方？",
@@ -3301,17 +3306,24 @@
             "projects": {
                 "header": "项目",
                 "projectprompt": "准备好说些什么了吗？您可以开始创建一个新项目，或者继续在现有项目上工作。如果您遇到困难，继续学习 <learning@://learn>",
+                "archiveheader": "$? Archived",
+                "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "画廊",
                 "galleryprompt": "创建和策划画廊，与他人分享项目集合",
                 "button": {
                     "newproject": "新项目",
                     "editproject": "编辑这个项目",
-                    "newgallery": "新画廊"
+                    "newgallery": "新画廊",
+                    "unarchive": "$?unarchive this project"
                 },
                 "confirm": {
                     "archive": {
                         "description": "存档这个表演",
                         "prompt": "存档"
+                    },
+                    "delete": {
+                        "description": "permanently delete this performance",
+                        "prompt": "delete forever"
                     }
                 },
                 "error": {
@@ -3340,9 +3352,27 @@
             },
             "login": {
                 "header": "登录",
+                "subheader": {
+                    "email": "$?",
+                    "username": "username + password"
+                },
                 "anonymous": "匿名",
                 "prompt": {
                     "login": "您的表演保存在本设备上，而不是在线。要将它们保存在线，请提交您的电子邮件以获取登录链接。",
+                    "age": {
+                        "label": "What's your age?",
+                        "modes": ["12 or younger", "13 or older"]
+                    },
+                    "emailrules": [
+                        "• Don't provide your email if you are *12 or younger*.",
+                        "• If you *lose access* to your email account, you won't be able to log in or update your email address."
+                    ],
+                    "passwordreminder": "It looks like you're creating an account. Check your password, make sure you stored it safely and correctly, then submit again to create your account.",
+                    "usernamerules": [
+                        "• *Usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long",
+                        "• *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                        "• *If you forget your password*, you can't recover your account, since we have no other way to know it's you. Store your password somewhere safe, like a password manager"
+                    ],
                     "enter": "看起来您的登录链接来自不同的浏览器或设备。您可以再次输入您的电子邮件地址，以确保是您吗？",
                     "play": "您已登录，现在我们可以将您的项目保存在线上！想要创建点什么吗？",
                     "change": "想要更改您的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
@@ -3361,7 +3391,8 @@
                     "failure": "无法登录 :(",
                     "offline": "您似乎处于离线状态。",
                     "unchanged": "我们无法更改您的电子邮件地址，但我们不知道原因。",
-                    "delete": "我们无法删除您的帐户，但我们不知道原因。"
+                    "delete": "我们无法删除您的帐户，但我们不知道原因。",
+                    "wrongPassword": " $? Not a valid username and password. Either your password is wrong, or someone else has this username."
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址...",
@@ -3371,6 +3402,14 @@
                     "email": {
                         "description": "编辑登录邮件",
                         "placeholder": "邮件"
+                    },
+                    "username": {
+                        "description": "$? ogin username, don't use personally identifiable information",
+                        "placeholder": "username"
+                    },
+                    "password": {
+                        "description": "login password, at least 10 character",
+                        "placeholder": "password"
                     }
                 },
                 "button": {
@@ -3415,6 +3454,21 @@
                     "但是将一个项目设为*公开*，或者将其包含在公共画廊中，是一种特权。这是一个以爱、认可、尊重和尊严为基础的平台。因此，我们期望你的*公共*内容遵循这些规则："
                 ],
                 "consequences": ["如果我们发现一个项目或画廊违反了这些规定，我们将把它标记为私有，并阻止他们将来发布任何公开项目。您可以通过举报任何您认为违反规定的内容来帮助我们执行这些规定。"]
+            },
+            "donate": {
+                "header": "$",
+                "prompt": "Enable more accessible, global programming",
+                "content": [
+                    "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
+                    "Here are our current costs:",
+                    "• We compensate University of Washington undergraduates, especially those who are disabled or whose first language was not English, to evolve and maintain the project. This is about 90% of our costs.",
+                    "• We give stipends to teachers who we collaborate with to develop multilingual, accessible curricula.",
+                    "• We pay Google for <Firebase@https://firebase.google.com/> bandwidth and storage, and <Workspace@https://workspace.google.com/> services.",
+                    "• We pay <Squarespace@https://www.squarespace.com/> annually for the domain.",
+                    "Our current costs, assuming 5 undergraduates at $$20 USD//hour, 10 hours//week during the academic year (36 weeks) and 2 undergraduates during the summer (12 weeks), plus cloud services, are about $$60K USD per year.",
+                    "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensation more students and teachers.",
+                    "Can you be one of those 2,400 people? If so, here's our University of Washington giving link:"
+                ]
             }
         },
         "edit": {
