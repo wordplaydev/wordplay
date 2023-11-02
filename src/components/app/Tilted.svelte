@@ -9,7 +9,6 @@
         font-weight: bold;
         text-align: start;
         transform: rotate(-1deg);
-        white-space: nowrap;
         text-transform: capitalize;
     }
 </style>
