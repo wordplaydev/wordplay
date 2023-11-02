@@ -682,6 +682,8 @@ type UITexts = {
                 usernamerules: string[];
                 /** Reminder to write down password */
                 passwordreminder: string;
+                /** Too young feedback */
+                tooyoung: string;
                 /** Offers to log out the creator. */
                 logout: string;
                 /** Shown briefly before page redirects to projects */

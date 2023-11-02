@@ -8944,6 +8944,10 @@
                           "description": "Shown briefly before page redirects to projects",
                           "type": "string"
                         },
+                        "tooyoung": {
+                          "description": "Too young feedback",
+                          "type": "string"
+                        },
                         "usernamerules": {
                           "description": "Gives rules for usernames and passwords above the login form",
                           "items": {
@@ -8961,6 +8965,7 @@
                         "emailrules",
                         "usernamerules",
                         "passwordreminder",
+                        "tooyoung",
                         "logout",
                         "success",
                         "confirm",

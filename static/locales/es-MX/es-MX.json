@@ -3926,7 +3926,7 @@
                 "insertLessOrEqual": "insertar inferior o igual a",
                 "insertGreaterOrEqual": "insertar superior o igual a",
                 "insertStream": "insertar símbolo de flujo",
-                "insertChange": "$?",
+                "insertChange": "insertar símbolo de cambiar",
                 "insertConvert": "insertar símbolo de conversión",
                 "insertPrevious": "insertar símbolo de anterior",
                 "insertType": "insertar símbolo de tipo",
@@ -4260,8 +4260,8 @@
             "login": {
                 "header": "Iniciar sesión",
                 "subheader": {
-                    "email": "enlace de correo electrónico",
-                    "username": "nombre de usuario + contraseña"
+                    "email": "opción 2: enlace de correo electrónico",
+                    "username": "opción 1: nombre de usuario + contraseña"
                 },
                 "anonymous": "iniciar sesión",
                 "prompt": {
@@ -4276,6 +4276,7 @@
                         "• No proporciones tu correo electrónico si tienes *12 años o menos*.",
                         "• Si *pierdes acceso* a tu cuenta de correo electrónico, no podrás iniciar sesión ni actualizar tu dirección de correo electrónico."
                     ],
+                    "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
                     "usernamerules": [
                         "• *Los nombres de usuario* no deben contener información identificable (por ejemplo, nombres), no pueden ser direcciones de correo electrónico y deben tener al menos 5 caracteres de longitud.",
                         "• *Las contraseñas* deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
