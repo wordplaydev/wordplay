@@ -19,6 +19,7 @@
     import UnknownType from '../../nodes/UnknownType';
     import concretize from '../../locale/concretize';
     import MarkupHtmlView from './MarkupHTMLView.svelte';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let segment: Segment;
     export let spaces: Spaces;
@@ -56,9 +57,9 @@
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI link={segment} />
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{(segment.startsWith(
-        '•'
-    )
-        ? segment.getText().substring(1).trimStart()
-        : unescapeMarkupSymbols(segment.getText())
-    ).replaceAll('--', '—')}{/if}
+{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withVariationSelector(
+        (segment.startsWith('•')
+            ? segment.getText().substring(1).trimStart()
+            : unescapeMarkupSymbols(segment.getText())
+        ).replaceAll('--', '—')
+    )}{/if}
