@@ -1,4 +1,8 @@
-<span><slot /></span>
+<script lang="ts">
+    export let capitalized = true;
+</script>
+
+<span class:capitalized><slot /></span>
 
 <style>
     span {
@@ -9,6 +13,9 @@
         font-weight: bold;
         text-align: start;
         transform: rotate(-1deg);
+    }
+
+    .capitalized {
         text-transform: capitalize;
     }
 </style>

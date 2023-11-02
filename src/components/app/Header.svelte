@@ -6,7 +6,9 @@
     export let wrap = false;
 </script>
 
-<h1 class:block class:wrap><TiltedHeader><slot /></TiltedHeader></h1>
+<h1 class:block class:wrap
+    ><TiltedHeader capitalized={false}><slot /></TiltedHeader></h1
+>
 
 <style>
     h1 {
