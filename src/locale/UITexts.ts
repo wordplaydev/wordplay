@@ -244,6 +244,8 @@ type UITexts = {
             insertType: string;
             /** Insert … symbol */
             insertStream: string;
+            /** Insert ∆ symbol */
+            insertChange: string;
             /** Insert ← symbol */
             insertPrevious: string;
             /** Insert → symbol */

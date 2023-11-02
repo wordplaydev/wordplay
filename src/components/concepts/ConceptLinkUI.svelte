@@ -99,7 +99,7 @@
             >{#if label}{withVariationSelector(label)}{:else}<span class="long"
                     >{longName}</span
                 >{#if symbolicName !== longName && symbolic}<sub
-                        >{symbolicName}</sub
+                        >{withVariationSelector(symbolicName)}</sub
                     >{/if}{/if}</span
         ></Button
     >{:else if ui}<TutorialHighlight
