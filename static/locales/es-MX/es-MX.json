@@ -3926,6 +3926,7 @@
                 "insertLessOrEqual": "insertar inferior o igual a",
                 "insertGreaterOrEqual": "insertar superior o igual a",
                 "insertStream": "insertar símbolo de flujo",
+                "insertChange": "$?",
                 "insertConvert": "insertar símbolo de conversión",
                 "insertPrevious": "insertar símbolo de anterior",
                 "insertType": "insertar símbolo de tipo",

@@ -3863,6 +3863,7 @@
                 "insertGreaterOrEqual": "insert greater than or equal to",
                 "insertType": "insert type symbol",
                 "insertStream": "insert stream symbol",
+                "insertChange": "insert change symbol",
                 "insertConvert": "insert convert symbol",
                 "insertPrevious": "insert previous symbol",
                 "insertTable": "insert table open symbol",

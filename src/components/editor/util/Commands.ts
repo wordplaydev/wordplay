@@ -21,6 +21,7 @@ import {
     EDIT_SYMBOL,
     BORROW_SYMBOL,
     SHARE_SYMBOL,
+    CHANGE_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -905,6 +906,18 @@ const Commands: Command[] = [
         key: 'Semicolon',
         keySymbol: ';',
         execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
+    },
+    {
+        symbol: CHANGE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertChange,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'J',
+        keySymbol: '∆',
+        execute: ({ caret }) => caret?.insert(CHANGE_SYMBOL) ?? false,
     },
     {
         symbol: PREVIOUS_SYMBOL,

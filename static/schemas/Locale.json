@@ -9645,6 +9645,10 @@
                       "description": "Insert borrow symbol",
                       "type": "string"
                     },
+                    "insertChange": {
+                      "description": "Insert ∆ symbol",
+                      "type": "string"
+                    },
                     "insertConvert": {
                       "description": "Insert → symbol",
                       "type": "string"
@@ -9816,6 +9820,7 @@
                     "insertGreaterOrEqual",
                     "insertType",
                     "insertStream",
+                    "insertChange",
                     "insertPrevious",
                     "insertConvert",
                     "insertTable",
