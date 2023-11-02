@@ -85,6 +85,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Adjust from './Adjust.svelte';
     import EditorHelp from './EditorHelp.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -1494,7 +1495,7 @@
             >
                 <div class="output-preview">
                     {#if selected}
-                        <span style="font-size:200%">🎭</span>
+                        <span style="font-size:200%"><Emoji>🎭</Emoji></span>
                     {:else}
                         <OutputView
                             {project}

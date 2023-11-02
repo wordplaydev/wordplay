@@ -10,6 +10,7 @@
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import { locales } from '../../db/Database';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let node: Token;
 
@@ -69,9 +70,8 @@
     role="presentation"
     >{#if placeholder !== undefined}<span class="placeholder"
             >{placeholder}</span
-        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{text.replaceAll(
-            ' ',
-            '\xa0'
+        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{withVariationSelector(
+            text.replaceAll(' ', '\xa0')
         )}{/if}</span
 >
 

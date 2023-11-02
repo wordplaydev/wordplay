@@ -27,6 +27,8 @@
     import Toggle from '../widgets/Toggle.svelte';
     import { EnterFullscreen, ExitFullscreen } from '../editor/util/Commands';
     import type Project from '../../models/Project';
+    import Emoji from '@components/app/Emoji.svelte';
+    import TileSymbols from './TileSymbols';
 
     export let project: Project;
     export let tile: Tile;
@@ -202,7 +204,7 @@
         <div class="header" style:color={foreground} style:fill={foreground}>
             <div class="name" class:source={tile.isSource()}>
                 {#if editable && tile.isSource()}
-                    {Glyphs.Program.symbols}
+                    <Emoji>{Glyphs.Program.symbols}</Emoji>
                     <TextField
                         text={tile
                             .getSource(project)
@@ -217,7 +219,10 @@
                         changed={handleRename}
                     />
                 {:else}
-                    {tile.getName(project, $locales)}
+                    <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
+                        project,
+                        $locales
+                    )}
                 {/if}
                 <slot name="name" />
             </div>

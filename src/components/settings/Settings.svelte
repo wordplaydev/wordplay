@@ -54,7 +54,10 @@
 <div class="settings">
     <div class="beta">
         <Dialog
-            button={{ tip: 'Show dialog to what beta means', label: 'beta' }}
+            button={{
+                tip: 'Show dialog to what beta means',
+                label: 'beta',
+            }}
             width="50vw"
             description={{
                 header: 'Beta?',
@@ -79,7 +82,8 @@
         width="50vw"
         button={{
             tip: $locales.get((l) => l.ui.dialog.settings.button.show),
-            label: '⚙',
+            icon: '⚙',
+            label: '',
         }}
         description={$locales.get((l) => l.ui.dialog.settings)}
     >

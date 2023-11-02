@@ -7,6 +7,7 @@
     import type ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
     import concretize from '../../locale/concretize';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let link: ConceptRef | ConceptLink | Concept;
     export let label: string | undefined = undefined;
@@ -95,7 +96,8 @@
             longName
         ).toText()}
         ><span class="conceptlink interactive"
-            >{#if label}{label}{:else}<span class="long">{longName}</span
+            >{#if label}{withVariationSelector(label)}{:else}<span class="long"
+                    >{longName}</span
                 >{#if symbolicName !== longName && symbolic}<sub
                         >{symbolicName}</sub
                     >{/if}{/if}</span

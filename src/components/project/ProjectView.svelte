@@ -113,6 +113,7 @@
     import { isFlagged } from '../../models/Moderation';
     import Dialog from '../widgets/Dialog.svelte';
     import Separator from './Separator.svelte';
+    import Emoji from '../app/Emoji.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1305,7 +1306,7 @@
                                                         .editproject
                                             )}
                                             action={() => stopPlaying()}
-                                            >🔎</Button
+                                            ><Emoji>🔎</Emoji></Button
                                         >{/if}
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting
@@ -1316,14 +1317,17 @@
                                             (l) => l.ui.output.toggle.grid
                                         )}
                                         on={grid}
-                                        toggle={() => (grid = !grid)}>▦</Toggle
+                                        toggle={() => (grid = !grid)}
+                                        ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
                                         tips={$locales.get(
                                             (l) => l.ui.output.toggle.fit
                                         )}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
-                                        >{#if fit}🔒{:else}🔓{/if}</Toggle
+                                        ><Emoji
+                                            >{#if fit}🔒{:else}🔓{/if}</Emoji
+                                        ></Toggle
                                     >
                                 {:else if tile.isSource()}
                                     <Toggle
@@ -1441,16 +1445,16 @@
                             tip: $locales.get(
                                 (l) => l.ui.project.button.showCollaborators
                             ),
+                            icon: project.isPublic()
+                                ? isFlagged(project.getFlags())
+                                    ? '‼️'
+                                    : '🌐'
+                                : '🤫',
                             label: project.isPublic()
-                                ? (isFlagged(project.getFlags())
-                                      ? '‼️'
-                                      : '🌐') +
-                                  ' ' +
-                                  $locales.get(
+                                ? $locales.get(
                                       (l) => l.ui.dialog.share.mode.public
                                   ).modes[1]
-                                : '🤫 ' +
-                                  $locales.get((l) => l.ui.dialog.share).mode
+                                : $locales.get((l) => l.ui.dialog.share).mode
                                       .public.modes[0],
                         }}
                     >
@@ -1459,7 +1463,8 @@
                 {/if}
                 <Button
                     tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}>📋</Button
+                    action={() => toClipboard(project.toWordplay())}
+                    ><Emoji>📋</Emoji></Button
                 >
             {/if}
 
@@ -1511,7 +1516,8 @@
                     description={$locales.get((l) => l.ui.dialog.help)}
                     button={{
                         tip: $locales.get(ShowKeyboardHelp.description),
-                        label: ShowKeyboardHelp.symbol,
+                        icon: ShowKeyboardHelp.symbol,
+                        label: '',
                     }}><Help /></Dialog
                 >
             </span>

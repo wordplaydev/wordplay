@@ -73,12 +73,4 @@
         margin-bottom: 2em;
         max-width: 100%;
     }
-
-    .beta {
-        border: var(--wordplay-focus-width) solid var(--wordplay-error);
-        border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-background);
-        margin-block-end: 2em;
-        padding: var(--wordplay-spacing);
-    }
 </style>

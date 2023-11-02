@@ -7,6 +7,7 @@
     import { writable } from 'svelte/store';
     import { setContext } from 'svelte';
     import Color from '../../output/Color';
+    import Emoji from './Emoji.svelte';
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
@@ -48,7 +49,9 @@
         <slot />
     </main>
     <footer class:fullscreen={$fullscreen.on}>
-        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/">💬</Link>
+        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/"
+            ><Emoji>💬</Emoji></Link
+        >
         <Link to="/learn">{$locales.get((l) => l.ui.page.learn.header)}</Link>
         <Link to="/projects"
             >{$locales.get((l) => l.ui.page.projects.header)}</Link

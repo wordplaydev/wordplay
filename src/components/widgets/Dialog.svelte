@@ -5,12 +5,15 @@
     import type { DialogText } from '../../locale/UITexts';
     import Header from '../app/Header.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     export let show = false;
     export let description: DialogText;
     export let width: string | undefined = undefined;
     export let closeable = true;
-    export let button: { tip: string; label: string } | undefined = undefined;
+    export let button:
+        | { tip: string; icon?: string; label: string }
+        | undefined = undefined;
 
     let view: HTMLDialogElement | undefined = undefined;
 
@@ -38,7 +41,9 @@
 </script>
 
 {#if button}
-    <Button tip={button.tip} action={() => (show = true)}>{button.label}</Button
+    <Button tip={button.tip} action={() => (show = true)}
+        >{#if button.icon}<Emoji>{button.icon}</Emoji>
+        {/if}{button.label}</Button
     >
 {/if}
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->

@@ -37,7 +37,7 @@ const Faces: Record<string, Face> = {
         scripts: ['Jpan'],
     },
     'Noto Emoji': {
-        weights: { min: 300, max: 700 },
+        weights: { min: 100, max: 900 },
         italic: false,
         scripts: ['Emoj'],
     },
