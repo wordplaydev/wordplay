@@ -11,6 +11,7 @@
     import TokenCategories from './TokenCategories';
     import { locales } from '../../db/Database';
     import { withVariationSelector } from '../../unicode/emoji';
+    import Sym from '@nodes/Sym';
 
     export let node: Token;
 
@@ -53,6 +54,15 @@
                   context
               );
 
+    // Prepare the text for rendering by replacing spaces with non-breaking spaces
+    // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
+    $: renderedText =
+        node.isSymbol(Sym.Name) ||
+        node.isSymbol(Sym.Text) ||
+        node.isSymbol(Sym.Words)
+            ? withVariationSelector(text.replaceAll(' ', '\xa0'))
+            : text.replaceAll(' ', '\xa0');
+
     let hidden = getHidden();
     $: hide = node ? $hidden?.has(node) : false;
 </script>
@@ -70,9 +80,7 @@
     role="presentation"
     >{#if placeholder !== undefined}<span class="placeholder"
             >{placeholder}</span
-        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{withVariationSelector(
-            text.replaceAll(' ', '\xa0')
-        )}{/if}</span
+        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{renderedText}{/if}</span
 >
 
 <style>
