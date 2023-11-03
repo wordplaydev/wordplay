@@ -2517,6 +2517,7 @@
                     },
                     "enter": "$?",
                     "emailrules": ["$?"],
+                    "tooyoung": "$?",
                     "usernamerules": ["$?"],
                     "passwordreminder": "$?",
                     "play": "$?",
