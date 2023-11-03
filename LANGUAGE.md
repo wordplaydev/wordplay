@@ -79,7 +79,7 @@ Text literals can be opened and closed with numerous delimiters:
 > markup → `\`  
 > text → _any sequence of characters between open/close delimiters_
 
-Wordplay has a secondary notation for markup. It applies between pairs of `` `markup` `` , as in `` `I am \*bold\*\` ``. Inside markup, these tokens are valid:
+Wordplay has a secondary notation for markup, delimited by backticks, as in `` `I am \*bold\*\` ``. Between backticks, these tokens are valid:
 
 > linkopen → `<`  
 > linkclose → `>`  
