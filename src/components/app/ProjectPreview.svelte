@@ -14,6 +14,7 @@
     export let action: (() => void) | undefined = undefined;
     export let delay: number;
     export let name = true;
+    export let size = 4;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
@@ -42,6 +43,8 @@
 <div class="project" class:named={name}>
     <a
         class="preview"
+        style:width={`${size}rem`}
+        style:height={`${size}rem`}
         href={getProjectLink(project, true)}
         on:pointerdown={(event) =>
             action && event.button === 0 ? action() : undefined}
@@ -119,8 +122,6 @@
 
     .preview {
         cursor: pointer;
-        width: 4rem;
-        height: 4rem;
         overflow: hidden;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
