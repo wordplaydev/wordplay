@@ -1196,6 +1196,8 @@
     let replacePreviousWithNext = false;
     let composing = false;
     let composingJustEnded = false;
+    /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
+    let insertedSymbol = false;
 
     function handleTextInput(event: Event) {
         setIgnored(false);
@@ -1315,7 +1317,7 @@
         });
 
         // Don't insert symbols if composing.
-        if (command === InsertSymbol) return;
+        insertedSymbol = command === InsertSymbol;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -1339,6 +1341,8 @@
 
     function handleCompositionStart() {
         composing = true;
+
+        if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
     }
 
     function handleCompositionEnd() {

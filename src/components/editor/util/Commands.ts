@@ -599,6 +599,24 @@ export const InsertSymbol: Command = {
     },
 };
 
+export const Undo: Command = {
+    symbol: '⟲',
+    description: (l) => l.ui.source.cursor.undo,
+    visible: Visibility.Visible,
+    category: Category.Modify,
+    shift: false,
+    control: true,
+    alt: false,
+    key: 'KeyZ',
+    keySymbol: 'Z',
+    active: ({ database, evaluator }) =>
+        database.Projects.getHistory(
+            evaluator.project.getID()
+        )?.isUndoable() === true,
+    execute: ({ database, evaluator }) =>
+        database.Projects.undoRedo(evaluator.project.getID(), -1) !== undefined,
+};
+
 const Commands: Command[] = [
     {
         symbol: '↑',
@@ -1033,24 +1051,7 @@ const Commands: Command[] = [
 
     // MODIFY
     ShowMenu,
-    {
-        symbol: '⟲',
-        description: (l) => l.ui.source.cursor.undo,
-        visible: Visibility.Visible,
-        category: Category.Modify,
-        shift: false,
-        control: true,
-        alt: false,
-        key: 'KeyZ',
-        keySymbol: 'Z',
-        active: ({ database, evaluator }) =>
-            database.Projects.getHistory(
-                evaluator.project.getID()
-            )?.isUndoable() === true,
-        execute: ({ database, evaluator }) =>
-            database.Projects.undoRedo(evaluator.project.getID(), -1) !==
-            undefined,
-    },
+    Undo,
     {
         symbol: '⟳',
         description: (l) => l.ui.source.cursor.redo,
