@@ -49,7 +49,7 @@
     aria-disabled={!active}
     bind:this={view}
     on:dblclick|stopPropagation
-    on:pointerdown={loading
+    on:click={loading
         ? null
         : (event) =>
               event.button === 0 && active ? doAction(event) : undefined}
@@ -113,10 +113,6 @@
         border-radius: var(--wordplay-border-radius);
     }
 
-    button.scale:hover[aria-disabled='false'] {
-        transform: rotate(-3deg);
-    }
-
     :global(button:focus .token-view) {
         border-radius: var(--wordplay-border-radius);
         color: var(--wordplay-background);
@@ -137,9 +133,16 @@
         border-color: transparent;
     }
 
+    button:hover[aria-disabled='false'] {
+        transform: rotate(-3deg);
+    }
+
     button.background:hover[aria-disabled='false'] {
-        transform: rotate(-2deg);
         background: var(--wordplay-chrome);
         border-color: var(--wordplay-alternating-color);
+    }
+
+    button:active[aria-disabled='false'] {
+        transform: scale(0.8);
     }
 </style>
