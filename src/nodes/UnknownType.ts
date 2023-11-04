@@ -25,6 +25,10 @@ export default abstract class UnknownType<
         this.why = why;
     }
 
+    getDescriptor() {
+        return 'UnknownType';
+    }
+
     getGrammar(): Grammar {
         return [];
     }

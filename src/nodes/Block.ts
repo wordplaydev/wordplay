@@ -90,6 +90,10 @@ export default class Block extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Block';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: any(node(Docs), none()) },

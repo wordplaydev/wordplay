@@ -53,6 +53,9 @@ export default abstract class Node {
      */
     abstract getGrammar(): Grammar;
 
+    /** A stable name by which this kind of node can be referred to (since constructor.name is minified) */
+    abstract getDescriptor(): string;
+
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied
      * This is used to get lists of child nodes and to reflect on the role of a child in a parent's structure.

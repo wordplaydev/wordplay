@@ -40,6 +40,10 @@ export default class InternalExpression extends SimpleExpression {
         this.evaluator = evaluator;
     }
 
+    getDescriptor() {
+        return 'InternalExpression';
+    }
+
     computeConflicts() {
         return;
     }

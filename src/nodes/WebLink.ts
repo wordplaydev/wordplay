@@ -50,6 +50,10 @@ export default class WebLink extends Content {
         return [WebLink.make('...', 'https://')];
     }
 
+    getDescriptor() {
+        return 'WebLink';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.TagOpen) },

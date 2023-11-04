@@ -9,6 +9,10 @@ export default class AnyType extends Type {
         super();
     }
 
+    getDescriptor() {
+        return 'AnyType';
+    }
+
     getGrammar() {
         return [];
     }

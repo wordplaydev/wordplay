@@ -14,6 +14,10 @@ export default class VariableType extends Type {
         this.definition = definition;
     }
 
+    getDescriptor() {
+        return 'VariableType';
+    }
+
     getGrammar(): Grammar {
         return [];
     }

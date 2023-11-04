@@ -187,6 +187,10 @@ export default class Evaluate extends Expression {
             );
     }
 
+    getDescriptor() {
+        return 'Evaluate';
+    }
+
     getGrammar(): Grammar {
         return [
             {

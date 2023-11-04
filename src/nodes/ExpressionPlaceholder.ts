@@ -63,6 +63,10 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return [ExpressionPlaceholder.make(undefined)];
     }
 
+    getDescriptor() {
+        return 'ExpressionPlaceholder';
+    }
+
     getGrammar(): Grammar {
         return [
             {

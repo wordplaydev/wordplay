@@ -44,6 +44,10 @@ export default class Words extends Content {
         return new Words(undefined, [new Token('…', Sym.Words)], undefined);
     }
 
+    getDescriptor() {
+        return 'Words';
+    }
+
     getGrammar(): Grammar {
         return [
             {

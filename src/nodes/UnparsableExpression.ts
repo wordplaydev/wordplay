@@ -25,6 +25,10 @@ export default class UnparsableExpression extends SimpleExpression {
         this.unparsables = nodes;
     }
 
+    getDescriptor() {
+        return 'UnparsableExpression';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'unparsables', kind: list(true, node(Node)) }];
     }

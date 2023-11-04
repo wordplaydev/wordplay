@@ -6,7 +6,7 @@
     export let node: Node;
 </script>
 
-<span class="name">{node.constructor.name}</span>
+<span class="name">{node.getDescriptor()}</span>
 
 <style>
     .name {

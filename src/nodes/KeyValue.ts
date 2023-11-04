@@ -38,6 +38,10 @@ export default class KeyValue extends Node {
         ];
     }
 
+    getDescriptor() {
+        return 'KeyValue';
+    }
+
     getGrammar(): Grammar {
         return [
             {

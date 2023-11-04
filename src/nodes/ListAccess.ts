@@ -72,6 +72,10 @@ export default class ListAccess extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'ListAccess';
+    }
+
     getGrammar(): Grammar {
         return [
             {

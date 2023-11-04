@@ -120,6 +120,10 @@ export default class StructureDefinition extends DefinitionExpression {
         ];
     }
 
+    getDescriptor() {
+        return 'StructureDefinition';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: optional(node(Docs)) },

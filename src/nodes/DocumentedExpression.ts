@@ -27,6 +27,10 @@ export default class DocumentedExpression extends SimpleExpression {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'DocumentedExpression';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: node(Docs) },

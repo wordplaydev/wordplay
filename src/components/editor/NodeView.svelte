@@ -76,10 +76,10 @@
                 ? $insertion
                 : undefined}
         />{/if}<div
-        class="{node.constructor.name} {node instanceof Token
+        class="{node.getDescriptor()} {node instanceof Token
             ? 'Token'
             : ''} node-view"
-        data-uiid={node.constructor.name}
+        data-uiid={node.getDescriptor()}
         class:hide
         class:small
         class:block={kind === ExpressionKind.Evaluate ||

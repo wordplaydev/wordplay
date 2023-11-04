@@ -64,6 +64,10 @@ export default class This extends SimpleExpression {
             : [];
     }
 
+    getDescriptor() {
+        return 'This';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'dis', kind: node(Sym.This) }];
     }

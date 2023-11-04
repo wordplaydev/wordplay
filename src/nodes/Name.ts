@@ -36,6 +36,10 @@ export default class Name extends LanguageTagged {
         return new Name(undefined, new NameToken(name ?? '_'), lang);
     }
 
+    getDescriptor() {
+        return 'Name';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'separator', kind: optional(node(Sym.Separator)) },

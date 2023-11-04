@@ -59,6 +59,10 @@ export default class Program extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'Program';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: optional(node(Docs)) },

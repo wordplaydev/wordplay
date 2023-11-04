@@ -74,6 +74,10 @@ export class Iteration<State = any> extends Expression {
         this.finish = finish;
     }
 
+    getDescriptor() {
+        return 'Iteration';
+    }
+
     getGrammar(): Grammar {
         return [];
     }

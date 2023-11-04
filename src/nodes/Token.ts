@@ -44,6 +44,10 @@ export default class Token extends Node {
 
     // NODE CONTRACT
 
+    getDescriptor() {
+        return 'Token';
+    }
+
     getGrammar(): Grammar {
         return [];
     }

@@ -47,6 +47,10 @@ export default class TableType extends BasisType {
         );
     }
 
+    getDescriptor() {
+        return 'TableType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.TableOpen) },

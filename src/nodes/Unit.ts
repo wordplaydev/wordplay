@@ -150,6 +150,10 @@ export default class Unit extends Type {
 
     static Empty = new Unit();
 
+    getDescriptor() {
+        return 'Unit';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'numerator', kind: list(true, node(Dimension)) },

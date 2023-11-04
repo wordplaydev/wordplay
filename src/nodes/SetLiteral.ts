@@ -59,6 +59,10 @@ export default class SetLiteral extends Expression {
         return [SetLiteral.make()];
     }
 
+    getDescriptor() {
+        return 'SetLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },

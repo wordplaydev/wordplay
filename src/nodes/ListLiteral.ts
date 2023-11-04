@@ -61,6 +61,10 @@ export default class ListLiteral extends Expression {
         return [ListLiteral.make()];
     }
 
+    getDescriptor() {
+        return 'ListLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.ListOpen) },

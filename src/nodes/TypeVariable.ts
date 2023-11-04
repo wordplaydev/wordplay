@@ -39,6 +39,10 @@ export default class TypeVariable extends Node {
         );
     }
 
+    getDescriptor() {
+        return 'TypeVariable';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'names', kind: node(Names) },

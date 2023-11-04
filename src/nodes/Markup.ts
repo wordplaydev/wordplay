@@ -42,6 +42,10 @@ export default class Markup extends Content {
         return [new Markup([new Paragraph([])])];
     }
 
+    getDescriptor() {
+        return 'Markup';
+    }
+
     getGrammar(): Grammar {
         return [
             {

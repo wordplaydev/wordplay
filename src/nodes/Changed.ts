@@ -45,6 +45,10 @@ export default class Changed extends SimpleExpression {
         return new Changed(new Token(CHANGE_SYMBOL, Sym.Change), stream);
     }
 
+    getDescriptor() {
+        return 'Changed';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'change', kind: node(Sym.Change) },

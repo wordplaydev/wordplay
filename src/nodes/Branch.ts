@@ -45,6 +45,10 @@ export default class Branch extends Content {
         this.close = close;
     }
 
+    getDescriptor() {
+        return 'Branch';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'mention', kind: node(Mention) },

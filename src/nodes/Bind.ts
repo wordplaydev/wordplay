@@ -88,6 +88,10 @@ export default class Bind extends Expression {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'Bind';
+    }
+
     static make(
         docs: Docs | undefined,
         names: Names,
