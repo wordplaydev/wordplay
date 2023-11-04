@@ -13,6 +13,7 @@
 <style>
     h1 {
         font-size: min(10vw, 60pt);
+        margin-bottom: 0;
     }
 
     .wrap {
