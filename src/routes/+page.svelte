@@ -29,7 +29,7 @@
             ></Speech
         >
     </div>
-    <div class="beta"><Beta /></div>
+    <Beta />
     <BigLink
         to="/learn"
         subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}

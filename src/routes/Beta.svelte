@@ -9,6 +9,7 @@
 
 <style>
     .beta {
+        border: var(--wordplay-warning) solid var(--wordplay-focus-width);
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-background);
         margin-block-end: 2em;
