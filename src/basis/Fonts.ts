@@ -12,6 +12,7 @@ export type Face = {
     readonly italic: boolean; // True if italics is supported on the weights above,
     readonly scripts: Readonly<Script[]>; // A list of ISO 15924 scripts supported,
     readonly otf?: boolean; // True if the file is OTF format. Default is TTF.
+    readonly preloaded?: boolean; // True if the font is preloaded in app.html, and shouldn't be reloaded.
 };
 
 export type Font = {
@@ -30,6 +31,7 @@ const Faces: Record<string, Face> = {
         weights: [100, 200, 300, 400, 500, 600, 700, 800, 900],
         italic: true,
         scripts: LatinCyrillicGreek,
+        preloaded: true,
     },
     'Noto Sans Japanese': {
         weights: { min: 100, max: 900 },
@@ -40,11 +42,13 @@ const Faces: Record<string, Face> = {
         weights: { min: 100, max: 900 },
         italic: false,
         scripts: ['Emoj'],
+        preloaded: true,
     },
     'Noto Color Emoji': {
         weights: { min: 300, max: 700 },
         italic: false,
         scripts: ['Emoj'],
+        preloaded: true,
     },
     'Noto Sans Simplified Chinese': {
         weights: [100, 300, 400, 500, 700, 900],
@@ -56,6 +60,7 @@ const Faces: Record<string, Face> = {
         weights: { min: 100, max: 900 },
         italic: false,
         scripts: LatinCyrillicGreek,
+        preloaded: true,
     },
     'Poor Story': {
         weights: [400],
@@ -250,17 +255,16 @@ export const SupportedFaces = Object.keys(Faces).sort();
  * responds to requests to load more fonts, and provides notificiations of when they are loaded
  * */
 export class FontManager {
-    // Default fonts to load.
+    // Default fonts to load. (All defaults are preloaded in app.html.)
     readonly fonts: Font[] = [
-        { name: 'Noto Sans', weight: 300, italic: false },
-        { name: 'Noto Sans', weight: 300, italic: true },
-        { name: 'Noto Sans', weight: 400, italic: false },
-        { name: 'Noto Sans', weight: 400, italic: true },
-        { name: 'Noto Sans', weight: 700, italic: false },
-        { name: 'Noto Sans', weight: 700, italic: true },
-        { name: 'Noto Mono', weight: 400, italic: false },
-        { name: 'Noto Emoji', weight: 400, italic: false },
-        { name: 'Noto Color Emoji', weight: 400, italic: false },
+        // { name: 'Noto Sans', weight: 300, italic: false },
+        // { name: 'Noto Sans', weight: 300, italic: true },
+        // { name: 'Noto Sans', weight: 400, italic: false },
+        // { name: 'Noto Sans', weight: 400, italic: true },
+        // { name: 'Noto Sans', weight: 700, italic: false },
+        // { name: 'Noto Sans', weight: 700, italic: true },
+        // { name: 'Noto Mono', weight: 400, italic: false },
+        // { name: 'Noto Emoji', weight: 400, italic: false },
     ];
 
     facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
@@ -301,12 +305,15 @@ export class FontManager {
     }
 
     async loadFace(name: SupportedFace) {
+        const face = Faces[name];
+
+        // If preloaded, don't load it.
+        if (face.preloaded === true) return;
+
         if (this.facesLoaded.get(name) === 'loaded') return;
 
         // Mark the face requested.
         this.facesLoaded.set(name, 'requested');
-
-        const face = Faces[name];
 
         const promises: Promise<boolean>[] = [];
         if (face) {
