@@ -78,7 +78,7 @@
     style:--wordplay-code-font={Array.from(
         new Set([
             ...$locales.getLocales().map((locale) => locale.ui.font.code),
-            'Noto Mono',
+            'Noto Sans Mono',
             'Noto Emoji',
             'Noto Sans',
         ])

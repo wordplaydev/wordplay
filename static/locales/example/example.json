@@ -2043,7 +2043,7 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Mono"
+            "code": "Noto Sans Mono"
         },
         "phrases": {
             "welcome": "$?"

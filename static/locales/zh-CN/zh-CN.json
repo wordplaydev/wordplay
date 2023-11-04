@@ -2814,7 +2814,7 @@
     "ui": {
         "font": {
             "app": "Noto Sans Simplified Chinese",
-            "code": "Noto Mono"
+            "code": "Noto Sans Mono"
         },
         "phrases": {
             "welcome": "你好"

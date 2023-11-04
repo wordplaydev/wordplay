@@ -56,7 +56,7 @@ const Faces: Record<string, Face> = {
         scripts: ['Hani'],
         otf: true,
     },
-    'Noto Mono': {
+    'Noto Sans Mono': {
         weights: { min: 100, max: 900 },
         italic: false,
         scripts: LatinCyrillicGreek,
@@ -263,7 +263,7 @@ export class FontManager {
         // { name: 'Noto Sans', weight: 400, italic: true },
         // { name: 'Noto Sans', weight: 700, italic: false },
         // { name: 'Noto Sans', weight: 700, italic: true },
-        // { name: 'Noto Mono', weight: 400, italic: false },
+        // { name: 'Noto Sans Mono', weight: 400, italic: false },
         // { name: 'Noto Emoji', weight: 400, italic: false },
     ];
 
