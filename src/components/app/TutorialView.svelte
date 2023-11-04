@@ -223,7 +223,7 @@
 <section
     class="tutorial"
     on:keydown={handleKey}
-    on:pointerdown|stopPropagation|preventDefault={() => nextButton?.focus()}
+    on:click|stopPropagation={() => nextButton?.focus()}
 >
     <div class="header">
         <Header block={false}
