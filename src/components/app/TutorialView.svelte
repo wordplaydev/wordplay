@@ -175,9 +175,12 @@
     // Every time the progress changes, get the store for the corresponding project, if there is one.
     $: projectStore = Projects.getStore(progress.getProjectID());
 
-    // Every time the project store changes, update the context.
-    $: if (projectStore)
-        setContext<ProjectContext>(ProjectSymbol, projectStore);
+    // Create a reactive context of the current project.
+    const project = writable<Project | undefined>(undefined);
+    setContext<ProjectContext>(ProjectSymbol, project);
+
+    // Every time the project store changes, update the project context.
+    $: project.set($projectStore);
 
     // When the project changes to something other than the initial project, start persisting it.
     $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
