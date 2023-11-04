@@ -42,7 +42,6 @@ const Faces: Record<string, Face> = {
         weights: { min: 100, max: 900 },
         italic: false,
         scripts: ['Emoj'],
-        preloaded: true,
     },
     'Noto Color Emoji': {
         weights: { min: 300, max: 700 },
@@ -264,7 +263,7 @@ export class FontManager {
         // { name: 'Noto Sans', weight: 700, italic: false },
         // { name: 'Noto Sans', weight: 700, italic: true },
         // { name: 'Noto Sans Mono', weight: 400, italic: false },
-        // { name: 'Noto Emoji', weight: 400, italic: false },
+        { name: 'Noto Emoji', weight: 400, italic: false },
     ];
 
     facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();

@@ -7,6 +7,8 @@
 <style>
     .emoji {
         font-family: 'Noto Emoji', 'Noto Sans';
+        font-weight: 400;
+        font-style: normal;
     }
 
     .color {
