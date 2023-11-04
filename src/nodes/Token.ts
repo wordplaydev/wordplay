@@ -149,7 +149,7 @@ export default class Token extends Node {
         return [getTokenLabel(this, locales), this.getText()];
     }
 
-    localized(name: boolean, locales: Locale[], root: Root, context: Context) {
+    localized(locales: Locale[], root: Root, context: Context) {
         // Get this token's text
         let text = this.getText();
 
@@ -193,7 +193,7 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.isSymbol(Sym.Name) && name) {
+        if (this.isSymbol(Sym.Name)) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {

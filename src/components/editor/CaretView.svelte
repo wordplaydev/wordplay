@@ -27,7 +27,7 @@
         writingLayout,
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
-    import { getEvaluation } from '../project/Contexts';
+    import { getEditor, getEvaluation } from '../project/Contexts';
 
     export let caret: Caret;
     export let source: Source;
@@ -49,15 +49,19 @@
     let caretIndex: number | undefined = undefined;
 
     const evaluation = getEvaluation();
+    const editor = getEditor();
 
     // Whenever blocks, evaluation, or caret changes, compute position after animation delay.
     $: {
         $blocks;
         $evaluation;
         caret;
-        setTimeout(
-            () => (location = computeLocation()),
-            $animationDuration + 25
+        $editor;
+        tick().then(() =>
+            setTimeout(
+                () => (location = computeLocation()),
+                $animationDuration + 25
+            )
         );
     }
 
@@ -576,20 +580,22 @@
     }
 </script>
 
-<span
-    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
-    class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
-    style:display={location === undefined ? 'none' : null}
-    style:left={location ? `${location.left}px` : null}
-    style:top={location ? `${location.top}px` : null}
-    style:width={location
-        ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
-        : null}
-    style:height={location
-        ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
-        : null}
-    bind:this={element}
-/>
+{#if $editor?.focused}
+    <span
+        class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
+        class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
+        style:display={location === undefined ? 'none' : null}
+        style:left={location ? `${location.left}px` : null}
+        style:top={location ? `${location.top}px` : null}
+        style:width={location
+            ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
+            : null}
+        style:height={location
+            ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
+            : null}
+        bind:this={element}
+    />
+{/if}
 
 <style>
     .caret {

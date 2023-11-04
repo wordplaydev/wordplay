@@ -253,17 +253,17 @@
         };
         $editors.set(sourceID, state);
         editors.set($editors);
-        editHandler.set(state);
+        editContext.set(state);
     }
 
     // A store of the handle edit function
-    const editHandler = writable<EditorState>({
+    const editContext = writable<EditorState>({
         edit: handleEdit,
         caret: $caret,
         focused: false,
         toggleMenu,
     });
-    setContext(EditorSymbol, editHandler);
+    setContext(EditorSymbol, editContext);
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = false;

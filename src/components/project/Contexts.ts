@@ -186,6 +186,11 @@ export function getHidden() {
     return getContext<HiddenContext | undefined>(HiddenSymbol);
 }
 
+export const LocalizeSymbol = Symbol('localize');
+export function getLocalize() {
+    return getContext<Writable<boolean> | undefined>(LocalizeSymbol);
+}
+
 export const ConceptPathSymbol = Symbol('palette-path');
 export type ConceptPathContext = Writable<Concept[]>;
 export function getConceptPath() {

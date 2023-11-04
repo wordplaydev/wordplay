@@ -7,6 +7,7 @@
         getCaret,
         getRoot,
         getHidden,
+        getLocalize,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import { locales } from '../../db/Database';
@@ -18,6 +19,10 @@
     let caret = getCaret();
     let project = getProject();
     let root = getRoot();
+    let localize = getLocalize();
+    let hidden = getHidden();
+
+    $: hide = node ? $hidden?.has(node) : false;
 
     $: context =
         $root === undefined || $project === undefined
@@ -45,14 +50,9 @@
     // Localize the token's text using the preferred translation.
     // Don't localize the name if the caret is in the name.
     $: text =
-        context === undefined || $root === undefined
-            ? node.getText()
-            : node.localized(
-                  $caret === undefined || !$caret.isIn(node, true),
-                  $locales.getLocales(),
-                  $root,
-                  context
-              );
+        context && $root && localize && $localize
+            ? node.localized($locales.getLocales(), $root, context)
+            : node.getText();
 
     // Prepare the text for rendering by replacing spaces with non-breaking spaces
     // and adding variation selectors after emoji to guarantee the correct emoji font is chosen.
@@ -62,9 +62,6 @@
         node.isSymbol(Sym.Words)
             ? withVariationSelector(text.replaceAll(' ', '\xa0'))
             : text.replaceAll(' ', '\xa0');
-
-    let hidden = getHidden();
-    $: hide = node ? $hidden?.has(node) : false;
 </script>
 
 <span
