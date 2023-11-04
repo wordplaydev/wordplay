@@ -35,7 +35,7 @@
     aria-disabled={!active}
     aria-pressed={on}
     on:dblclick|stopPropagation
-    on:pointerdown={(event) =>
+    on:click={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
     on:keydown={(event) =>
         (event.key === 'Enter' || event.key === ' ') &&

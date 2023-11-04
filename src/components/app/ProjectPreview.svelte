@@ -46,7 +46,7 @@
         style:width={`${size}rem`}
         style:height={`${size}rem`}
         href={getProjectLink(project, true)}
-        on:pointerdown={(event) =>
+        on:click={(event) =>
             action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')
