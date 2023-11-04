@@ -2985,6 +2985,7 @@
                 "insertTable": "插入表符号",
                 "insertLine": "插入换行符",
                 "backspace": "删除选择或前一个字符",
+                "delete": "$?",
                 "cut": "剪切选择",
                 "copy": "复制选择",
                 "paste": "粘贴键盘内容",

@@ -262,6 +262,8 @@ type UITexts = {
             insertLine: string;
             /** Delete previous symbol */
             backspace: string;
+            /** Delete next symbol */
+            delete: string;
             /** Copy selection to clipboard as text */
             copy: string;
             /** Cut selection to clipboard as text */

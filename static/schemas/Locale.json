@@ -9638,6 +9638,10 @@
                       "description": "Decrement the literal at the cursor",
                       "type": "string"
                     },
+                    "delete": {
+                      "description": "Delete next symbol",
+                      "type": "string"
+                    },
                     "enumerate": {
                       "description": "Listify selection",
                       "type": "string"
@@ -9834,6 +9838,7 @@
                     "insertShare",
                     "insertLine",
                     "backspace",
+                    "delete",
                     "copy",
                     "cut",
                     "paste",

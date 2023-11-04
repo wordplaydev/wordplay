@@ -3936,6 +3936,7 @@
                 "insertShare": "insertar compartir",
                 "insertLine": "insertar salto de línea",
                 "backspace": "borrar selección o carácter anterior",
+                "delete": "$?",
                 "cut": "corte lo que esté seleccionado",
                 "copy": "copiar lo que esté  seleccionado",
                 "paste": "pegar el contenido del teclado",

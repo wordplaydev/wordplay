@@ -1100,7 +1100,21 @@ const Commands: Command[] = [
         alt: false,
         typing: true,
         execute: ({ caret, project, editor }) =>
-            editor && caret ? caret.backspace(project) ?? true : false,
+            editor && caret ? caret.delete(project, false) ?? true : false,
+    },
+    {
+        symbol: '⌦',
+        description: (l) => l.ui.source.cursor.delete,
+        visible: Visibility.Touch,
+        category: Category.Modify,
+        key: 'Delete',
+        keySymbol: '⌦',
+        shift: false,
+        control: false,
+        alt: false,
+        typing: true,
+        execute: ({ caret, project, editor }) =>
+            editor && caret ? caret.delete(project, true) ?? true : false,
     },
     {
         symbol: '✄',
@@ -1120,7 +1134,7 @@ const Commands: Command[] = [
                     context.caret.source
                 )
             );
-            return context.caret.backspace(context.project) ?? true;
+            return context.caret.delete(context.project, false) ?? true;
         },
     },
     {
