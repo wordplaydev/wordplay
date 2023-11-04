@@ -640,7 +640,9 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage. Once you do, you'll see the many inputs that @Phrase accepts. For example, try changing its @Phrase/size with the slider."
+                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage.",
+                            "Once you do, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase/size, which will reveal a slider.",
+                            "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate code with the size you choose."
                         ],
                         null,
                         [
