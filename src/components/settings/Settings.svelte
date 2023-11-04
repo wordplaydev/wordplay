@@ -57,7 +57,6 @@
             tip: 'Show dialog to what beta means',
             label: 'beta',
         }}
-        width="50vw"
         description={{
             header: 'Beta?',
             explanation: '',
@@ -77,7 +76,6 @@
     </Link>
     <LanguageChooser />
     <Dialog
-        width="50vw"
         button={{
             tip: $locales.get((l) => l.ui.dialog.settings.button.show),
             icon: '⚙',

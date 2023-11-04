@@ -9,7 +9,6 @@
 
     export let show = false;
     export let description: DialogText;
-    export let width: string | undefined = undefined;
     export let closeable = true;
     export let button:
         | { tip: string; icon?: string; label: string }
@@ -49,7 +48,6 @@
 <!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <dialog
     bind:this={view}
-    style:width
     tabindex="-1"
     on:keydown={closeable
         ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
@@ -75,7 +73,9 @@
         position: relative;
         border-radius: var(--wordplay-border-radius);
         padding: 2em;
-        width: 80vw;
+        margin-left: auto;
+        margin-right: auto;
+        max-width: 40em;
         height: max-content;
         background-color: var(--wordplay-background);
         color: var(--wordplay-foreground);
