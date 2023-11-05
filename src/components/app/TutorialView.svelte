@@ -220,11 +220,7 @@
 />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section
-    class="tutorial"
-    on:keydown={handleKey}
-    on:click|stopPropagation={() => nextButton?.focus()}
->
+<section class="tutorial" on:keydown={handleKey}>
     <div class="header">
         <Header block={false}
             >{#if fallback}🚧{/if}{$locales.get(
@@ -270,7 +266,12 @@
     </div>
     <div class="content">
         <div role="article" class="dialog">
-            <div class="turns" aria-live="assertive">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <div
+                class="turns"
+                aria-live="assertive"
+                on:click|stopPropagation={() => nextButton?.focus()}
+            >
                 <div class="controls">
                     <Button
                         large
