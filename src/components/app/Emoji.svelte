@@ -12,6 +12,6 @@
     }
 
     .color {
-        font-family: 'Noto Emoji Color', 'Noto Sans';
+        font-family: 'Noto Color Emoji', 'Noto Sans';
     }
 </style>

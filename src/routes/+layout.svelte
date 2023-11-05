@@ -71,6 +71,7 @@
         new Set([
             ...$locales.getLocales().map((locale) => locale.ui.font.app),
             'Noto Emoji',
+            'Noto Color Emoji',
         ])
     )
         .map((font) => `"${font}"`)
