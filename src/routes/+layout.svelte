@@ -81,6 +81,7 @@
             ...$locales.getLocales().map((locale) => locale.ui.font.code),
             'Noto Sans Mono',
             'Noto Emoji',
+            'Noto Color Emoji',
             'Noto Sans',
         ])
     )
