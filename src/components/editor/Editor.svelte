@@ -160,7 +160,7 @@
 
     const dispatch = createEventDispatcher();
 
-    let input: HTMLInputElement | null = null;
+    let input: HTMLTextAreaElement | null = null;
 
     let editor: HTMLElement | null;
 
@@ -1427,8 +1427,7 @@
         We put it here, before rendering the code, so anything focusable in the code comes after this.
         That way, all controls are just a tab away.
     -->
-    <input
-        type="text"
+    <textarea
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
@@ -1556,8 +1555,11 @@
         outline: none;
         opacity: 0;
         width: 1px;
+        height: 1em;
         pointer-events: none;
         touch-action: none;
+        resize: none;
+        overflow: hidden;
 
         /* Helpful for debugging */
         /* outline: 1px solid red;
