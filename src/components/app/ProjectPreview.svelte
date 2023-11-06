@@ -54,24 +54,22 @@
                 : undefined}
     >
         {#if visible}
-            {#key project}
-                <div
-                    class="output"
-                    role="presentation"
-                    class:blurred={audience && isFlagged(project.getFlags())}
-                    in:fade={{ duration: $animationDuration }}
-                >
-                    <OutputView
-                        {project}
-                        {evaluator}
-                        {value}
-                        fit={true}
-                        grid={false}
-                        mini
-                        editable={false}
-                    />
-                </div>
-            {/key}
+            <div
+                class="output"
+                role="presentation"
+                class:blurred={audience && isFlagged(project.getFlags())}
+                in:fade={{ duration: $animationDuration }}
+            >
+                <OutputView
+                    {project}
+                    {evaluator}
+                    {value}
+                    fit={true}
+                    grid={false}
+                    mini
+                    editable={false}
+                />
+            </div>
         {/if}
     </a>
     {#if name}

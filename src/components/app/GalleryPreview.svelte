@@ -42,15 +42,17 @@
                     label={$locales.get((l) => l.ui.widget.loading.message)}
                 />
             {:else}
-                <ProjectPreview
-                    {project}
-                    name={false}
-                    action={() =>
-                        project ? goto(project.getLink(true)) : undefined}
-                    delay={Math.random() * 1000}
-                    size={8}
-                    link={gallery.getLink()}
-                />
+                {#key project}
+                    <ProjectPreview
+                        {project}
+                        name={false}
+                        action={() =>
+                            project ? goto(project.getLink(true)) : undefined}
+                        delay={0}
+                        size={8}
+                        link={gallery.getLink()}
+                    />
+                {/key}
             {/if}
         </div>
     {/if}
