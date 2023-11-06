@@ -81,7 +81,8 @@
         background: none;
         color: currentcolor;
         cursor: pointer;
-        width: min(fit-content, 1em);
+        min-width: 1em;
+        width: fit-content;
         height: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);

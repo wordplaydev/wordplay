@@ -1396,17 +1396,20 @@
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
                                 >{#if tile.kind === TileKind.Source}
+                                    <GlyphChooser
+                                        sourceID={tile.id}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !play && !showOutput}
+                                    <Timeline
+                                        evaluator={$evaluator}
+                                    />{/if}</svelte:fragment
+                            ><svelte:fragment slot="margin"
+                                >{#if tile.kind === TileKind.Source}
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
                                         source={getSourceByID(tile.id)}
                                         conflicts={visibleConflicts}
                                         stepping={$evaluation.playing === false}
-                                    /><GlyphChooser
-                                        sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !play && !showOutput}
-                                    <Timeline
-                                        evaluator={$evaluator}
                                     />{/if}</svelte:fragment
                             ></TileView
                         >
