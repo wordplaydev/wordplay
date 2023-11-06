@@ -89,6 +89,8 @@
         /* This allows command hints to be visible */
         position: relative;
         overflow: visible;
+        /* Don't let it shrink smaller than its width */
+        flex-shrink: 0;
     }
 
     button.stretch {
