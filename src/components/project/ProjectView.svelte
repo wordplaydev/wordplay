@@ -1,7 +1,4 @@
 <script context="module" lang="ts">
-    export const PROJECT_PARAM_PLAY = 'play';
-    export const PROJECT_PARAM_CONCEPT = 'concept';
-
     export const TYPING_DELAY = 300;
 </script>
 
@@ -113,6 +110,10 @@
     import Dialog from '../widgets/Dialog.svelte';
     import Separator from './Separator.svelte';
     import Emoji from '../app/Emoji.svelte';
+    import {
+        PROJECT_PARAM_CONCEPT,
+        PROJECT_PARAM_PLAY,
+    } from '../../routes/project/constants';
 
     export let project: Project;
     export let original: Project | undefined = undefined;

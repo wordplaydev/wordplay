@@ -36,7 +36,7 @@ import {
     type SerializedSource,
     upgradeProject,
 } from './ProjectSchemas';
-import { PROJECT_PARAM_PLAY } from '@components/project/ProjectView.svelte';
+import { PROJECT_PARAM_PLAY } from '../routes/project/constants';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
