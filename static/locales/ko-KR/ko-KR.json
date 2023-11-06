@@ -33,7 +33,7 @@
         "function": "함수",
         "exception": "예외",
         "table": "테이블",
-        "none": "없음 ??????????? ",
+        "none": "없음",
         "list": "목록",
         "stream": "스트림",
         "structure": "구조",
@@ -115,28 +115,47 @@
     },
     "node": {
         "Dimension": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
+            "name": "차원",
+            "description": "차원",
+            "emotion": "심각한",
             "doc": [
-                "나는/측정 단위/!",
-                "나는 \\1m\\, \\10s\\, \\100g\\,등과 같은 표준 단위가 될 수 있으며, . I'm happy to be any unit want to make up too, like \\17apple\\.",
-                "I can be combined with \\/\\ to make ratio units like \\17apple/day\\ and with \\^\\ to make exponentional units like \\9.8m/s^2\\",
-                "I must always come after a @Number. If I don't, I might be mistaken for @Reference, which would be quite embarassing!",
-                "I'm pretty good at finding inconsistencies between units too. For example, \\1cat + 1dog\\ doesn't make any sense!",
-                "If you ever want to convert between different values of units, go talk to @Convert."
+                "나는 /측정 단위/이다!",
+                "나는 \\1m\\, \\10s\\, \\100g\\와 같은 표준화된 단위가 될 수 있어. 네가 만들고 싶은 \\17사과\\와 같은 단위도 기꺼이 될 수 있어.",
+                "나는 \\17사과/일\\와 같은 비율 단위를 만들기 위해 \\/\\와 결합될 수 있고, \\9.8m/s^2\\와 같은 지수 단위를 만들기 위해 \\^\\와 결합될 수 있어.",
+                "나는 항상 @숫자 뒤에 와야 해. 그렇지 않으면 @참조로 오해받을 수 있는데, 그건 꽤 난감할거야!",
+                "나는 단위 간의 불일치도 잘 찾아내요. 예를 들면, \\1고양이 + 1개\\는 아무런 의미가 없어요!",
+                "다른 단위 값들을 변환하고 싶다면, @변환에게 말하세요."
             ]
         },
         "Doc": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "설명",
+            "emotion": "심각한",
+            "doc": [
+                "나는 @마크업 으로 여러 가지를 포맷합니다, 예를 들면 너의 @프로그램에 대한 설명이나, @프레이즈로 무대에 올린 단어들처럼요.",
+                "예를 들면, 나는 어떤 표현 앞에 올 수 있어요:",
+                "\\이게 정말 7이 맞나요?\\n7\\",
+                "예를 들면, @바인드 앞에 나를 둘 수 있어요:",
+                "\\나는 어떤 사람의 키를 측정해요\\nheight: 5m\\",
+                "또는 @함수정의 앞에도요:", 
+                "\\나는 두 숫자를 더해요\\nƒ sum(a•# b•#) a + b\\",
+                "또는 @구조정의 앞에도요:",
+                "\\나는 사람들의 이름과 좋아하는 과일을 기억해요\\n•Person(name•'' fruit•'')\\",
+                "너는 또한 전체 퍼포먼스가 무엇에 관한 것인지 말하기 위해 나를 @프로그램의 맨 처음에 둘 수 있어요.",
+                "\\이 프로그램은 안녕이라고 말해요\\n\\n'hello!'\\",
+                "다른 사람들이 내가 어떤 언어로 쓰여졌는지 알 수 있도록 나에게 @언어를 줄 수 있어요:",
+                "\\나는 영어 문서에요/en\\nduration: 5s\\",
+                "나를 리스트로 만들 수 있다는 것 알고 계셨나요? @문서에게 말해보세요."
+            ]
         },
         "Docs": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "설명 목록",
+            "emotion": "심각한",
+            "doc": [
+                "나는 다양한 언어로 @Doc의 번역본을 여러 개 가질 때 유용한 @Doc의 목록이야.",
+                "목록을 만들기 위해 특별히 무언가를 할 필요는 없어. 그냥 이렇게 여러 개의 @Doc을 나란히 놓으면 돼:",
+                "\\Hello/en\\nHola/es\\ngreeting: '…'\\"
+            ],
+            "start": "문서의 값을 만들기!"
         },
         "KeyValue": {
             "name": "$?",
