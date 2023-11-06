@@ -262,6 +262,9 @@ export default class ProjectsDatabase {
                 // Update the editable projects
                 this.refreshEditableProjects();
 
+                // Request a save.
+                this.saveSoon();
+
                 // Return the history
                 return history;
             }
