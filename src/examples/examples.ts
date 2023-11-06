@@ -131,7 +131,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [toLocaleString(l), l.gallery.motion])
             ),
-            ['Hira', 'Layers', 'Pounce', 'FootBall']
+            ['Hira', 'Layers', 'Pounce', 'FootBall', 'Christmas']
         ),
         createGallery(
             'AV',
