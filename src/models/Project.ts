@@ -36,7 +36,10 @@ import {
     type SerializedSource,
     upgradeProject,
 } from './ProjectSchemas';
-import { PROJECT_PARAM_PLAY } from '../routes/project/constants';
+import {
+    PROJECT_PARAM_EDIT,
+    PROJECT_PARAM_PLAY,
+} from '../routes/project/constants';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -191,7 +194,7 @@ export default class Project {
 
     getLink(fullscreen: boolean) {
         return `/project/${encodeURI(this.getID())}${
-            fullscreen ? `?${PROJECT_PARAM_PLAY}` : ''
+            fullscreen ? `?${PROJECT_PARAM_PLAY}` : `?${PROJECT_PARAM_EDIT}`
         }`;
     }
 

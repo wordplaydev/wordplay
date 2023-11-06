@@ -112,6 +112,7 @@
     import Emoji from '../app/Emoji.svelte';
     import {
         PROJECT_PARAM_CONCEPT,
+        PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
     } from '../../routes/project/constants';
 
@@ -135,7 +136,8 @@
     export let shareable = true;
 
     // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
-    let play = $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null;
+    let requestedPlay = $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null;
+    let requestedEdit = $page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -375,7 +377,7 @@
             if (tile.kind !== TileKind.Source) {
                 newTiles.push(
                     // Playing? Expand output, collapse everything else
-                    play
+                    requestedPlay
                         ? tile.withMode(
                               tile.kind === TileKind.Output
                                   ? Mode.Expanded
@@ -390,7 +392,14 @@
                     newTiles.push(
                         tile
                             // If playing, keep the source files collapsed
-                            .withMode(play ? Mode.Collapsed : tile.mode)
+                            .withMode(
+                                requestedPlay
+                                    ? Mode.Collapsed
+                                    : requestedEdit &&
+                                      source === project.getMain()
+                                    ? Mode.Expanded
+                                    : tile.mode
+                            )
                     );
             }
         }
@@ -427,7 +436,11 @@
         const persistedLayout = Settings.getProjectLayout(project.getID());
         return persistedLayout === null
             ? null
-            : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
+            : persistedLayout
+                  .withTiles(syncTiles(persistedLayout.tiles))
+                  .withFullscreen(
+                      requestedEdit ? undefined : persistedLayout.fullscreenID
+                  );
     }
 
     /** Compute a default layout, or a new layout when the languages change. */
@@ -478,7 +491,10 @@
                 layout ? layout.fullscreenID : undefined
             );
 
-        if (!layoutInitialized && play) {
+        // Now that we've handled it, unset it.
+        requestedEdit = false;
+
+        if (!layoutInitialized && requestedPlay) {
             const output = layout.getOutput();
             if (output) {
                 setFullscreen(output);
@@ -496,7 +512,8 @@
     $: {
         const searchParams = new URLSearchParams($page.url.searchParams);
 
-        if (!play) searchParams.delete(PROJECT_PARAM_PLAY);
+        if (!requestedPlay) searchParams.delete(PROJECT_PARAM_PLAY);
+        if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
         if ($path && $path.length > 0) {
@@ -1168,7 +1185,7 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            play = false;
+            requestedPlay = false;
             setMode(main, Mode.Expanded);
             layout = layout.withoutFullscreen();
         }
@@ -1298,7 +1315,7 @@
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     <CommandButton command={Restart} />
-                                    {#if play}<Button
+                                    {#if requestedPlay}<Button
                                             uiid="editProject"
                                             tip={$locales.get(
                                                 (l) =>
@@ -1398,7 +1415,7 @@
                                 >{#if tile.kind === TileKind.Source}
                                     <GlyphChooser
                                         sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !play && !showOutput}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
@@ -1419,7 +1436,7 @@
         {/key}
     </div>
 
-    {#if !layout.isFullscreen() && !play}
+    {#if !layout.isFullscreen() && !requestedPlay}
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
