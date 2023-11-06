@@ -3872,7 +3872,7 @@
                 "insertShare": "insert share",
                 "insertLine": "insert line break",
                 "backspace": "delete selection or prior symbol",
-                "forward": "delete selection or next symbol",
+                "delete": "delete selection or next symbol",
                 "cut": "cut selection",
                 "copy": "copy selection",
                 "paste": "paste contents of keyboard",
