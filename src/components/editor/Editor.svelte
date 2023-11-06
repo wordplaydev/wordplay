@@ -1198,6 +1198,8 @@
     let composingJustEnded = false;
     /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
     let insertedSymbol = false;
+    /** True if text was pasted */
+    let pasted = true;
 
     function handleTextInput(event: Event) {
         setIgnored(false);
@@ -1207,15 +1209,15 @@
         // Somehow no reference to the input? Bail.
         if (input === null) return;
 
-        // Get the character that was typed into the text box.
+        // Get the character that was typed into the text box, or the whole thing if there was a paste.
         // Wrap the string in a unicode wrapper so we can account for graphemes.
         const value = new UnicodeString(input.value);
 
-        // Get the last grapheme entered.
-        const lastChar = value.substring(
-            value.getLength() - 1,
-            value.getLength()
-        );
+        const lastChar = pasted
+            ? // Get everything pasted
+              value.substring(0, value.getLength())
+            : // Get the last grapheme entered.
+              value.substring(value.getLength() - 1, value.getLength());
 
         let newCaret = $caret;
         let newSource: Source | undefined = source;
@@ -1271,6 +1273,12 @@
                 // inserted with the replacement symbol typed.
                 if (keyWasDead) replacePreviousWithNext = true;
             }
+        }
+
+        // Reset pasted flag.
+        if (pasted) {
+            pasted = false;
+            input.value = '';
         }
 
         // Prevent the OS from doing anything with this input.
@@ -1358,6 +1366,10 @@
         }
     }
 
+    function handlePaste() {
+        pasted = true;
+    }
+
     function getInputID() {
         return `${source.getNames()[0]}-input`;
     }
@@ -1432,6 +1444,7 @@
         on:keydown={handleKeyDown}
         on:compositionstart={handleCompositionStart}
         on:compositionend={handleCompositionEnd}
+        on:paste={handlePaste}
         on:focusin={() => (focused = true)}
         on:focusout={() => (focused = false)}
     />

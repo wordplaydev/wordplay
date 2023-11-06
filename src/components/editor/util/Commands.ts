@@ -1126,6 +1126,7 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyX',
         keySymbol: 'X',
+        active: () => typeof ClipboardItem !== 'undefined',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
             copyNode(
@@ -1169,9 +1170,16 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyV',
         keySymbol: 'V',
+        active: () =>
+            typeof navigator.clipboard !== 'undefined' &&
+            navigator.clipboard.read !== undefined,
         execute: async ({ caret }) => {
-            // See if there's something on the clipboard.
-            if (navigator.clipboard === undefined || caret === undefined)
+            // Make sure clipboard is supported.
+            if (
+                navigator.clipboard === undefined ||
+                caret === undefined ||
+                navigator.clipboard.read === undefined
+            )
                 return undefined;
 
             const items = await navigator.clipboard.read();
