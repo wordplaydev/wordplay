@@ -21,7 +21,6 @@
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Button from '../../../components/widgets/Button.svelte';
     import { EDIT_SYMBOL } from '../../../parser/Symbols';
-    import getProjectLink from '../../../components/app/getProjectLink';
 
     const user = getUser();
 
@@ -155,7 +154,7 @@
                                           l.ui.page.projects.button.editproject
                                   ),
                                   action: (project) =>
-                                      goto(getProjectLink(project, false)),
+                                      goto(project.getLink(false)),
                                   label: EDIT_SYMBOL,
                               }
                             : false}

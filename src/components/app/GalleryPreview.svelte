@@ -6,7 +6,6 @@
     import ProjectPreview from './ProjectPreview.svelte';
     import Spinning from './Spinning.svelte';
     import Subheader from './Subheader.svelte';
-    import getProjectLink from './getProjectLink';
     import { browser } from '$app/environment';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import { onMount } from 'svelte';
@@ -47,17 +46,16 @@
                     {project}
                     name={false}
                     action={() =>
-                        project
-                            ? goto(getProjectLink(project, true))
-                            : undefined}
+                        project ? goto(project.getLink(true)) : undefined}
                     delay={Math.random() * 1000}
                     size={8}
+                    link={gallery.getLink()}
                 />
             {/if}
         </div>
     {/if}
     <div class="description">
-        <Link to={`gallery/${gallery.getID()}`}
+        <Link to={gallery.getLink()}
             ><Subheader
                 >{gallery.getName($locales)}
                 <sub

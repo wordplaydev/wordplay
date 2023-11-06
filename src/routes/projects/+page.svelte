@@ -19,7 +19,6 @@
     import { get } from 'svelte/store';
     import Subheader from '@components/app/Subheader.svelte';
     import { EDIT_SYMBOL } from '../../parser/Symbols';
-    import getProjectLink from '../../components/app/getProjectLink';
 
     const user = getUser();
 
@@ -72,7 +71,7 @@
             description: $locales.get(
                 (l) => l.ui.page.projects.button.editproject
             ),
-            action: (project) => goto(getProjectLink(project, false)),
+            action: (project) => goto(project.getLink(false)),
             label: EDIT_SYMBOL,
         }}
         remove={(project) => {

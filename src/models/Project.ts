@@ -36,6 +36,7 @@ import {
     type SerializedSource,
     upgradeProject,
 } from './ProjectSchemas';
+import { PROJECT_PARAM_PLAY } from '@components/project/ProjectView.svelte';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -186,6 +187,12 @@ export default class Project {
 
     getID() {
         return this.data.id;
+    }
+
+    getLink(fullscreen: boolean) {
+        return `/project/${encodeURI(this.getID())}${
+            fullscreen ? `?${PROJECT_PARAM_PLAY}` : ''
+        }`;
     }
 
     getNodeByID(id: number): Node | undefined {

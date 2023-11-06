@@ -3,10 +3,9 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
-    import { DB, locales } from '../../db/Database';
+    import { DB, animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import getProjectLink from './getProjectLink';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
 
@@ -15,6 +14,7 @@
     export let delay: number;
     export let name = true;
     export let size = 4;
+    export let link: string | undefined = undefined;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
@@ -45,7 +45,7 @@
         class="preview"
         style:width={`${size}rem`}
         style:height={`${size}rem`}
-        href={getProjectLink(project, true)}
+        href={link ?? project.getLink(true)}
         on:click={(event) =>
             action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
@@ -54,22 +54,24 @@
                 : undefined}
     >
         {#if visible}
-            <div
-                class="output"
-                in:fade
-                role="presentation"
-                class:blurred={audience && isFlagged(project.getFlags())}
-            >
-                <OutputView
-                    {project}
-                    {evaluator}
-                    {value}
-                    fit={true}
-                    grid={false}
-                    mini
-                    editable={false}
-                />
-            </div>
+            {#key project}
+                <div
+                    class="output"
+                    role="presentation"
+                    class:blurred={audience && isFlagged(project.getFlags())}
+                    in:fade={{ duration: $animationDuration }}
+                >
+                    <OutputView
+                        {project}
+                        {evaluator}
+                        {value}
+                        fit={true}
+                        grid={false}
+                        mini
+                        editable={false}
+                    />
+                </div>
+            {/key}
         {/if}
     </a>
     {#if name}

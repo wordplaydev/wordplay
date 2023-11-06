@@ -101,7 +101,6 @@
     import Help from './Shortcuts.svelte';
     import type Color from '../../output/Color';
     import ProjectLanguages from './ProjectLanguages.svelte';
-    import getProjectLink from '../app/getProjectLink';
     import Collaborators from './Collaborators.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
@@ -1182,7 +1181,7 @@
     function copy() {
         const copy = project.copy().asPublic(false);
         Projects.track(copy, true, PersistenceType.Online, false);
-        goto(getProjectLink(copy, false));
+        goto(copy.getLink(false));
     }
 </script>
 

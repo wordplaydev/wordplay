@@ -2,7 +2,6 @@
     import type Project from '../../models/Project';
     import ProjectPreview from './ProjectPreview.svelte';
     import { locales } from '../../db/Database';
-    import getProjectLink from './getProjectLink';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { goto } from '$app/navigation';
@@ -39,7 +38,7 @@
             {project}
             action={() => {
                 if (beforePlay) beforePlay(project);
-                goto(getProjectLink(project, true));
+                goto(project.getLink(true));
             }}
             delay={index * 50}
             ><div class="controls">
