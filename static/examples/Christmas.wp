@@ -1,0 +1,11 @@
+Christmas
+===
+Phrase('🎄' resting: (((Sequence({
+  0: Pose(rotation: 0°)
+  1: Pose(rotation: 15°)
+  2: Pose(rotation: 0°)
+  3: Pose(offset: Place(-0.25m))
+  4: Pose(offset: Place(0.25m))
+  5: Pose(offset: Place(-0.25m))} 0.5s)))))
+
+
