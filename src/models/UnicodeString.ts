@@ -5,6 +5,7 @@ import Graphemer from 'graphemer';
 function isConstructor(obj: any) {
     return !!obj.prototype && !!obj.prototype.constructor.name;
 }
+
 const Segmenter = isConstructor(Graphemer)
     ? new Graphemer()
     : // eslint-disable-next-line @typescript-eslint/no-explicit-any

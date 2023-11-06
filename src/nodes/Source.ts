@@ -371,7 +371,7 @@ export default class Source extends Expression {
             // else {
             //     console.log(
             //         `Couldn't find match for ${
-            //             newNode.constructor.name
+            //             newNode.getDescriptor()
             //         } ${newNode.toWordplay()}`
             //     );
             // }
@@ -392,7 +392,7 @@ export default class Source extends Expression {
         // const news = revised.filter((n) => !original.includes(n));
         // console.log(`${news.length} new nodes`);
         // for (const node of news)
-        //     console.log(node.constructor.name + ' ' + node.toWordplay());
+        //     console.log(node.getDescriptor() + ' ' + node.toWordplay());
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
         return new Source(this.names, [newProgram, newSpaces]);
