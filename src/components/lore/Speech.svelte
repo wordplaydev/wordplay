@@ -717,10 +717,10 @@
             transform: scale(1);
         }
         50% {
-            transform: scale(0.75);
+            transform: scale(0.85);
         }
         100% {
-            transform: scale(0.4);
+            transform: scale(0.75);
         }
     }
 </style>
