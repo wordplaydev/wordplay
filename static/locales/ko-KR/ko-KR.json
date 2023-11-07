@@ -397,35 +397,65 @@
             "finish": "$?"
         },
         "DocumentedExpression": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "설명된 표현",
+            "emotion": "열렬한",
+            "doc": [
+                "나는 @Doc을 붙인 표현이야!",
+                "나를 만들려면, 표현 앞에 @Doc를 넣기만 하면 돼:",
+                "\\doubleplus: 1\n(2 · doubleplus) + \n``조금만 더 크게 만들어보자``\n1\\",
+                "나는 프로그래밍에 코멘트를 달 때 유용해"
+            ],
+            "start": "이 표현을 해석해보자!"
         },
         "Evaluate": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "evaluate": "$?",
-            "finish": "$?",
-            "function": "$?",
-            "input": "$?",
+            "name": "평가하다",
+            "description": "$1[$1|anonymous]을 평가해",
+            "emotion": "수줍은",
+            "doc": [
+                "안녕. 나는 @FunctionDefinition을 이렇게 해석해:",
+                "\\ƒ greeting(message•'')\ngreeting('kitty')\\",
+                "어디에서든지 함수가 나올수 있어. 예를들자면, @Text도 함수가 있어, 이렇게 말이야:",
+                "\\'kitty'.length()\\",
+                "만약 그 함수가 한글자의 이름을 가지고 있다면, @BinaryEvaluate 라고 적으면 돼.",
+                "\\'kitty' ⊆ 'itty'\\",
+                "이건 저것과 같은 일을 해:",
+                "\\'kitty'.⊆('itty')\\",
+                "물론, @FunctionDefinition 없이는 나는 아무것도 하지 못해. 내가 하는 것은 입력을 주고 그것의 다음 단계를 따를 뿐이야."
+            ],
+            "start": "먼저 입력된 수 부터 해석해 볼까?",
+            "evaluate": "이젠 함수를 해석해보자",
+            "finish": "나는 $1로 해석했어",
+            "function": "함수",
+            "input": "입력",
             "conflict": {
-                "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
-                "UnexpectedTypeInput": { "primary": "$?", "secondary": "$?" },
-                "MisplacedInput": "$?",
-                "MissingInput": { "primary": "$?", "secondary": "$?" },
-                "NotInstantiable": "$?",
-                "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
-                "UnknownInput": { "primary": "$?", "secondary": "$?" },
-                "InputListMustBeLast": "$?"
+                "IncompatibleInput": {
+                    "primary": "나는 $1였어야 하는데, $2이야",
+                    "secondary": "음, $1 대신 $2를 받았어"
+                },
+                "UnexpectedTypeInput": {
+                    "primary": "난 이런 입력 수 를 예상 하지 않았어",
+                    "secondary": "이런, 내가 여기 있어야 하는것이 아니니?"
+                },
+                "MisplacedInput": "이 입력은 순서가 잘못 돼었어.",
+                "MissingInput": {
+                    "primary": "$1가 필요한데, 넣어 줄 수 있어?",
+                    "secondary": "이 입력이 필요한데, $2는 그걸 제공하지 않았어"
+                },
+                "NotInstantiable": "나는 @StructureDefinition로 만들 수 없어, 구현되지 못한 함수들이 있기 때문이야.",
+                "UnexpectedInput": {
+                    "primary": "여상 하지 못한 입력 수야 $1",
+                    "secondary": "이런, 내가 여기 있어야 하는것이 아니니?"
+                },
+                "UnknownInput": {
+                    "primary": "이런 이름의 입력수는 모르는걸",
+                    "secondary": "나는 여기에 속하지 않는것 같아"
+                },
+                "InputListMustBeLast": "list of inputs must be last"
             },
             "exception": {
                 "FunctionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "unknown function",
+                    "explanation": "oh no, $1 isn't a function in $2[$2|this @Block]!"
                 }
             }
         },
