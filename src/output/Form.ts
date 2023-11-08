@@ -1,3 +1,4 @@
+import Color from 'colorjs.io/types/dist/color';
 import { getFirstName } from '../locale/Locale';
 import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';
@@ -113,8 +114,7 @@ export class Line extends Form {
     readonly y1: number;
     readonly x2: number;
     readonly y2: number;
-    readonly z: number;
-    // readonly color: Color;
+    readonly color: Color;
     
     constructor(
         value: Value,
@@ -122,7 +122,7 @@ export class Line extends Form {
         y1: number,
         x2: number,
         y2: number,
-        // color: Color
+        color: Color
     ) {
         super(value);
 
@@ -130,8 +130,7 @@ export class Line extends Form {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-        this.z = 0;
-        // this.color = color;
+        this.color = color;
     }
 
     getLeft() {
@@ -139,11 +138,18 @@ export class Line extends Form {
     }
 
     getTop() {
-        return Math.max(this.y1, this.y2);
+        if (Math.min(this.x1, this.x2) == this.x1) {
+            return this.y1;
+        }
+        return this.y2;
     }
 
     getZ() {
-        return this.z;
+        return 1;
+    }
+
+    getColor() {
+        return this.color;
     }
 
     getWidth() {
@@ -158,7 +164,12 @@ export class Line extends Form {
         const left = this.getLeft() * PX_PER_METER;
         const top = -this.getTop() * PX_PER_METER;
         const right = (this.getLeft() + this.getWidth()) * PX_PER_METER;
-        const bottom = -(this.getTop() - this.getHeight()) * PX_PER_METER;
+        let bottom;
+        if (this.y1 > this.y2) {
+            bottom = (this.getTop() - this.getHeight()) * PX_PER_METER;
+        } else {
+            bottom = (this.getTop() + this.getHeight()) * PX_PER_METER;
+        }
         return { left, top, right, bottom };
     }
 
@@ -203,7 +214,7 @@ export function toRectangle(value: Value | undefined) {
         : undefined;
 }
 
-export function toLine(value: Value | undefined) {
+export function toLine(value: Value | undefined, color: Color | undefined) {
     if (!(value instanceof StructureValue)) return undefined;
 
     const [x1Val, y1Val, x2Val, y2Val] = getOutputInputs(value);
@@ -212,10 +223,12 @@ export function toLine(value: Value | undefined) {
     const y1 = toNumber(y1Val);
     const x2 = toNumber(x2Val);
     const y2 = toNumber(y2Val);
+    const defaultColor = new Color("slategrey");
+    const colorVal = color ?? defaultColor;
     return x1 !== undefined &&
         y1 !== undefined &&
         x2 !== undefined &&
         y2 !== undefined
-        ? new Line(value, x1, y1, x2, y2)
+        ? new Line(value, x1, y1, x2, y2, colorVal)
         : undefined;
 }
