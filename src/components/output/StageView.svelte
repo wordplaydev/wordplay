@@ -482,6 +482,12 @@
     }
 
     .line-barrier {
+<<<<<<< HEAD
         
+=======
+        position: absolute;
+        background: var(--wordplay-inactive-color);
+        border-radius: calc(var(--wordplay-border-radius) * 2);
+>>>>>>> 89ebb9fa (Line shows up, but not defined)
     }
 </style>

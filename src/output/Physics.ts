@@ -170,7 +170,7 @@ export default class Physics {
     }
 
     createLine(line: Line) {
-        const { x1, x2, y1, y2, color } = line;
+        const { x1, x2, y1, y2, z } = line;
         const centerX = (x1 + x2) / 2;
         const centerY = (y1 + y2) / 2;
         const height = 1 * PX_PER_METER
