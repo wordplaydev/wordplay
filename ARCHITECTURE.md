@@ -92,7 +92,7 @@ Creating new output APIs in the language means following that pattern, and doing
 -   Creating a similar file like [Grid](https://github.com/wordplaydev/wordplay/blob/main/src/output/Grid.ts)], defining its structure definition with locales, defining a wrapper class for use in the rendering, and writing a function that converts a `StructureValue` representing that type as an instance of that wrapper class.
 -   Updating [createDefaultShares](https://github.com/wordplaydev/wordplay/blob/main/src/runtime/createDefaultShares.ts) to call the structure definition creator function, and including the definition in the appropriate set of types.
 -   Creating placeholders for localization strings for all of the strings defined for the type and it's documentation in [OutputTexts.ts](https://github.com/wordplaydev/wordplay/blob/main/src/locale/OutputTexts.ts), where the schema for the output API strings are defined.
--   Using the new wrapper class in the output engine in the appropriate place to change rendering.
+-   Using the new wrapper class in the output engine in the appropriate place to change rendering. The output engine is generally comprised of the Svelte components `PhraseView`, `GroupView`, `StageView`, `Scene`, `OutputAnimation`, `Physics`, and other helper classes.
 
 Once these are done, the new API structure should appear in documentation and work in programs.
 
