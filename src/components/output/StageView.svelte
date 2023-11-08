@@ -481,7 +481,4 @@
         border-radius: calc(var(--wordplay-border-radius) * 2);
     }
 
-    .line-barrier {
-        
-    }
 </style>
