@@ -20,7 +20,7 @@ import type Locales from '../locale/Locales';
 export function createShapeType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} Output(
-        ${getBind(locales, (locale) => locale.output.Shape.form)}•Rectangle
+        ${getBind(locales, (locale) => locale.output.Shape.form)}•Rectangle|Line
         ${getBind(locales, (locale) => locale.output.Shape.name)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Shape.selectable)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Shape.color)}•🌈${'|ø: ø'}
@@ -72,7 +72,6 @@ export function createLineType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Line.y1)}•#m
         ${getBind(locales, (locale) => locale.output.Line.x2)}•#m
         ${getBind(locales, (locale) => locale.output.Line.y2)}•#m
-        ${getBind(locales, (locale) => locale.output.Line.color)}•#m: 0m
     )
 `);
 }
@@ -172,7 +171,7 @@ export function toShape(
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const form = toRectangle(getOutputInput(value, 0));
+    const form = toLine(getOutputInput(value, 0));
 
     const {
         name,

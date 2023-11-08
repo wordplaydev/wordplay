@@ -6908,7 +6908,7 @@
               "additionalProperties": false,
               "description": "A line shape, for Stage.frame",
               "properties": {
-                "bottom": {
+                "y2": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Bottom of the rectangle"
                 },
@@ -6916,7 +6916,7 @@
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
                 },
-                "left": {
+                "x1": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Left of the rectangle"
                 },
@@ -6924,11 +6924,11 @@
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
                 },
-                "right": {
+                "x2": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Right of the rectangle"
                 },
-                "top": {
+                "y1": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Top of the rectangle"
                 },
