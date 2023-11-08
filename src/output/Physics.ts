@@ -11,6 +11,7 @@ import type Evaluator from '../runtime/Evaluator';
 import type { ReboundEvent } from '../input/Collision';
 import Collision from '../input/Collision';
 import { Rectangle, Line } from './Form';
+import { Rectangle, Line } from './Form';
 import type Shape from './Shape';
 
 const TextCategory = 0b0001;
@@ -137,6 +138,7 @@ export default class Physics {
 
     /** Rotation is degrees */
     createRectangle(rectangle: Rectangle, rotation: number) {
+    createRectangle(rectangle: Rectangle, rotation: number) {
         // Compute rectangle boundaries in engine coordinates.
         const left = rectangle.getLeft() * PX_PER_METER;
         const right =
@@ -168,7 +170,7 @@ export default class Physics {
     }
 
     createLine(line: Line) {
-        const { x1, x2, y1, y2, z } = line;
+        const { x1, x2, y1, y2, color } = line;
         const centerX = (x1 + x2) / 2;
         const centerY = (y1 + y2) / 2;
         const height = 1 * PX_PER_METER
