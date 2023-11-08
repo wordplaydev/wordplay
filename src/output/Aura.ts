@@ -54,20 +54,6 @@ export default class Aura extends Valued {
   }
 }
 
-export class DefiniteAura extends Aura {
-    constructor(
-        value: Value,
-        color: Color | undefined,
-        blur: number | undefined,
-        offsetX: number | undefined,
-        offsetY: number | undefined,
-        spread: number | undefined,
-        opacity: number | undefined
-    ) {
-        super(value, color, blur, offsetX, offsetY, spread, opacity);
-    }
-}
-
 export function toAura(
     project: Project,
     value: Value | undefined

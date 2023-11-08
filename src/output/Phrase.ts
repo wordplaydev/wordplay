@@ -33,7 +33,6 @@ import { toMatter } from './Matter';
 import type Aura from './Aura';
 
 export function createPhraseType(locales: Locale[]) {
-    console.log(locales)
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
@@ -82,7 +81,7 @@ export function createPhraseType(locales: Locale[]) {
             (locale) => locale.output.Phrase.alignment
         )}•'<'|'|'|'>': '|'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
-        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•ø|🤪|🔮: ø
+        ${getBind(locales, (locale) => locale.output.Phrase.shadow)}•ø|🔮: ø
     )`);
 }
 
@@ -102,7 +101,7 @@ export default class Phrase extends Output {
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
     readonly matter: Matter | undefined;
-    readonly aura: Aura | undefined;
+    readonly shadow: Aura | undefined;
 
     private _metrics: Metrics | undefined = undefined;
 
@@ -127,7 +126,7 @@ export default class Phrase extends Output {
         wrap: number | undefined,
         alignment: string | undefined,
         matter: Matter | undefined,
-        aura: Aura | undefined = undefined
+        shadow: Aura | undefined
     ) {
         super(
             value,
@@ -146,7 +145,7 @@ export default class Phrase extends Output {
             style
         );
 
-        this.aura = aura;
+        this.shadow = shadow;
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;

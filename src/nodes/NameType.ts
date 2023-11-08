@@ -151,7 +151,6 @@ export default class NameType extends Type {
 
     getType(context: Context): Type {
         const definition = this.resolve(context);
-        console.log(definition);
         // Not defined? That's an unknown type.
         if (definition === undefined)
             return new UnknownNameType(this, this.name, undefined);
