@@ -187,6 +187,9 @@
             ],
         ]);
     }
+
+    console.log('PHRASE');
+    console.log(phrase);
 </script>
 
 {#if visible}
@@ -227,6 +230,9 @@
             metrics,
         )}
         style:writing-mode={layoutToCSS(phrase.direction)}
+        style:text-shadow={`${phrase.shadow?.offsetX || 12}px ${
+            phrase.shadow?.offsetY || 12
+        }px ${phrase.shadow?.blur || 12}px purple`}
         style:white-space={phrase.wrap !== undefined ? 'normal' : 'nowrap'}
         style:text-align={phrase.alignment === undefined
             ? null
