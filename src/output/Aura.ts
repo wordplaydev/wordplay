@@ -14,7 +14,7 @@ import type Locales from '@locale/Locales';
 
 export function createAuraType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Pose, '•')}(
+    ${getBind(locales, (locale) => locale.output.Aura, '•')}(
         ${getBind(locales, (locale) => locale.output.Aura.color)}•Color|ø: ø
         ${getBind(locales, (locale) => locale.output.Aura.blur)}•%|ø: ø
         ${getBind(locales, (locale) => locale.output.Aura.offsetX)}•#|ø: ø
@@ -76,7 +76,7 @@ export function toAura(
     if (
         !(
             value instanceof StructureValue &&
-            value.type === project.shares.output.Pose
+            value.type === project.shares.output.Aura
         )
     )
         return undefined;

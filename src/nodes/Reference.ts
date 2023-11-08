@@ -250,6 +250,8 @@ export default class Reference extends SimpleExpression {
 
     resolve(context?: Context): Definition | undefined {
         // Ask the enclosing block for any matching names. It will recursively check the ancestors.
+        console.log(context);
+        console.log(this.definition);
         return (
             this.definition ??
             (context === undefined

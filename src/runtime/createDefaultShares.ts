@@ -51,6 +51,7 @@ export default function createDefaultShares(locales: Locales) {
         Type: TypeType,
         Phrase: PhraseType,
         Group: GroupType,
+        Aura: createAuraType(locales),
         Stage: createStageType(locales),
         Shape: createShapeType(locales),
         Pose: createPoseType(locales),
@@ -67,8 +68,6 @@ export default function createDefaultShares(locales: Locales) {
         Row: createRowType(locales),
         Grid: createGridType(locales),
         Free: createFreeType(locales),
-        // TODO : AURA - M.W
-        Aura: createAuraType(locales),
     };
 
     const InputTypes = {
