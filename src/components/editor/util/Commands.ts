@@ -21,6 +21,7 @@ import {
     EDIT_SYMBOL,
     BORROW_SYMBOL,
     SHARE_SYMBOL,
+    CHANGE_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -598,6 +599,24 @@ export const InsertSymbol: Command = {
     },
 };
 
+export const Undo: Command = {
+    symbol: '⟲',
+    description: (l) => l.ui.source.cursor.undo,
+    visible: Visibility.Visible,
+    category: Category.Modify,
+    shift: false,
+    control: true,
+    alt: false,
+    key: 'KeyZ',
+    keySymbol: 'Z',
+    active: ({ database, evaluator }) =>
+        database.Projects.getHistory(
+            evaluator.project.getID()
+        )?.isUndoable() === true,
+    execute: ({ database, evaluator }) =>
+        database.Projects.undoRedo(evaluator.project.getID(), -1) !== undefined,
+};
+
 const Commands: Command[] = [
     {
         symbol: '↑',
@@ -907,6 +926,18 @@ const Commands: Command[] = [
         execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
     },
     {
+        symbol: CHANGE_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertChange,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'J',
+        keySymbol: '∆',
+        execute: ({ caret }) => caret?.insert(CHANGE_SYMBOL) ?? false,
+    },
+    {
         symbol: PREVIOUS_SYMBOL,
         description: (l) => l.ui.source.cursor.insertPrevious,
         visible: Visibility.Visible,
@@ -1020,24 +1051,7 @@ const Commands: Command[] = [
 
     // MODIFY
     ShowMenu,
-    {
-        symbol: '⟲',
-        description: (l) => l.ui.source.cursor.undo,
-        visible: Visibility.Visible,
-        category: Category.Modify,
-        shift: false,
-        control: true,
-        alt: false,
-        key: 'KeyZ',
-        keySymbol: 'Z',
-        active: ({ database, evaluator }) =>
-            database.Projects.getHistory(
-                evaluator.project.getID()
-            )?.isUndoable() === true,
-        execute: ({ database, evaluator }) =>
-            database.Projects.undoRedo(evaluator.project.getID(), -1) !==
-            undefined,
-    },
+    Undo,
     {
         symbol: '⟳',
         description: (l) => l.ui.source.cursor.redo,
@@ -1086,7 +1100,21 @@ const Commands: Command[] = [
         alt: false,
         typing: true,
         execute: ({ caret, project, editor }) =>
-            editor && caret ? caret.backspace(project) ?? true : false,
+            editor && caret ? caret.delete(project, false) ?? true : false,
+    },
+    {
+        symbol: '⌦',
+        description: (l) => l.ui.source.cursor.delete,
+        visible: Visibility.Touch,
+        category: Category.Modify,
+        key: 'Delete',
+        keySymbol: '⌦',
+        shift: false,
+        control: false,
+        alt: false,
+        typing: true,
+        execute: ({ caret, project, editor }) =>
+            editor && caret ? caret.delete(project, true) ?? true : false,
     },
     {
         symbol: '✄',
@@ -1098,6 +1126,7 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyX',
         keySymbol: 'X',
+        active: () => typeof ClipboardItem !== 'undefined',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
             copyNode(
@@ -1106,7 +1135,7 @@ const Commands: Command[] = [
                     context.caret.source
                 )
             );
-            return context.caret.backspace(context.project) ?? true;
+            return context.caret.delete(context.project, false) ?? true;
         },
     },
     {
@@ -1141,9 +1170,16 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyV',
         keySymbol: 'V',
+        active: () =>
+            typeof navigator.clipboard !== 'undefined' &&
+            navigator.clipboard.read !== undefined,
         execute: async ({ caret }) => {
-            // See if there's something on the clipboard.
-            if (navigator.clipboard === undefined || caret === undefined)
+            // Make sure clipboard is supported.
+            if (
+                navigator.clipboard === undefined ||
+                caret === undefined ||
+                navigator.clipboard.read === undefined
+            )
                 return undefined;
 
             const items = await navigator.clipboard.read();

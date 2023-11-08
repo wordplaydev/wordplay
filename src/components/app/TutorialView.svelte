@@ -175,9 +175,12 @@
     // Every time the progress changes, get the store for the corresponding project, if there is one.
     $: projectStore = Projects.getStore(progress.getProjectID());
 
-    // Every time the project store changes, update the context.
-    $: if (projectStore)
-        setContext<ProjectContext>(ProjectSymbol, projectStore);
+    // Create a reactive context of the current project.
+    const project = writable<Project | undefined>(undefined);
+    setContext<ProjectContext>(ProjectSymbol, project);
+
+    // Every time the project store changes, update the project context.
+    $: project.set($projectStore);
 
     // When the project changes to something other than the initial project, start persisting it.
     $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
@@ -217,11 +220,7 @@
 />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section
-    class="tutorial"
-    on:keydown={handleKey}
-    on:pointerdown|stopPropagation|preventDefault={() => nextButton?.focus()}
->
+<section class="tutorial" on:keydown={handleKey}>
     <div class="header">
         <Header block={false}
             >{#if fallback}🚧{/if}{$locales.get(
@@ -252,23 +251,27 @@
                 {/each}
             </select>
             <Note
-                >{#if act !== undefined}{act.title}{/if}
+                >{#if act !== undefined}{act.title}
+                    <sub
+                        >{progress.tutorial.acts.indexOf(act) + 1}/{progress
+                            .tutorial.acts.length}</sub
+                    >{/if}
                 {#if act !== undefined && scene !== undefined}&mdash; {scene.subtitle ??
-                        scene.title}{/if}
-                {#if act !== undefined && scene !== undefined && progress.pause > 0}
-                    <span class="progress"
-                        >&mdash; {progress.pause} /
-                        {scene
-                            ? scene.lines.filter((line) => line === null)
-                                  .length + 1
-                            : '?'}</span
-                    >{/if}</Note
-            >
+                        scene.title}
+                    <sub>
+                        {act.scenes.indexOf(scene) + 1}/{act.scenes.length}</sub
+                    >{/if}
+            </Note>
         </nav>
     </div>
     <div class="content">
         <div role="article" class="dialog">
-            <div class="turns" aria-live="assertive">
+            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <div
+                class="turns"
+                aria-live="assertive"
+                on:click|stopPropagation={() => nextButton?.focus()}
+            >
                 <div class="controls">
                     <Button
                         large
@@ -281,7 +284,15 @@
                         bind:view={previousButton}>⇦</Button
                     >
                     {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
-                            >{scene.subtitle ?? scene.title}</Note
+                            >{scene.subtitle ?? scene.title}
+                            {#if act !== undefined && scene !== undefined && progress.pause > 0}
+                                <sub class="progress"
+                                    >{progress.pause}/{scene
+                                        ? scene.lines.filter(
+                                              (line) => line === null
+                                          ).length + 1
+                                        : '?'}</sub
+                                >{/if}</Note
                         >{/if}
                     <Button
                         large

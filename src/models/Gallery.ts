@@ -99,6 +99,10 @@ export default class Gallery {
         return this.data.id;
     }
 
+    getLink() {
+        return `gallery/${this.getID()}`;
+    }
+
     getCurators() {
         return this.data.curators;
     }

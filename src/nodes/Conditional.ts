@@ -80,6 +80,10 @@ export default class Conditional extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Conditional';
+    }
+
     getGrammar(): Grammar {
         return [
             {

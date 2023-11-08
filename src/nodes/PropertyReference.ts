@@ -132,6 +132,10 @@ export default class PropertyReference extends Expression {
         return [];
     }
 
+    getDescriptor() {
+        return 'PropertyReference';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'structure', kind: node(Expression) },

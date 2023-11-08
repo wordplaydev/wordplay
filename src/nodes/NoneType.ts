@@ -29,6 +29,10 @@ export default class NoneType extends BasisType {
         return [NoneType.make()];
     }
 
+    getDescriptor() {
+        return 'NoneType';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'none', kind: node(Sym.None) }];
     }

@@ -85,6 +85,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Adjust from './Adjust.svelte';
     import EditorHelp from './EditorHelp.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -159,7 +160,7 @@
 
     const dispatch = createEventDispatcher();
 
-    let input: HTMLInputElement | null = null;
+    let input: HTMLTextAreaElement | null = null;
 
     let editor: HTMLElement | null;
 
@@ -252,17 +253,17 @@
         };
         $editors.set(sourceID, state);
         editors.set($editors);
-        editHandler.set(state);
+        editContext.set(state);
     }
 
     // A store of the handle edit function
-    const editHandler = writable<EditorState>({
+    const editContext = writable<EditorState>({
         edit: handleEdit,
         caret: $caret,
         focused: false,
         toggleMenu,
     });
-    setContext(EditorSymbol, editHandler);
+    setContext(EditorSymbol, editContext);
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = false;
@@ -646,7 +647,7 @@
         // Only return a node if hovering over its text. Space isn't eligible.
         if (el instanceof HTMLElement) {
             const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : `:not(.${Token.name})`}`
+                `.node-view${includeTokens ? '' : `:not(.Token)`}`
             );
             if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
                 return source.expression.getNodeByID(
@@ -660,7 +661,7 @@
     function getTokenFromElement(
         textOrSpace: Element
     ): [Token, Element] | undefined {
-        const tokenView = textOrSpace.closest(`.${Token.name}`);
+        const tokenView = textOrSpace.closest(`.Token`);
         const token =
             tokenView === null
                 ? undefined
@@ -1195,6 +1196,10 @@
     let replacePreviousWithNext = false;
     let composing = false;
     let composingJustEnded = false;
+    /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
+    let insertedSymbol = false;
+    /** True if text was pasted */
+    let pasted = true;
 
     function handleTextInput(event: Event) {
         setIgnored(false);
@@ -1204,15 +1209,15 @@
         // Somehow no reference to the input? Bail.
         if (input === null) return;
 
-        // Get the character that was typed into the text box.
+        // Get the character that was typed into the text box, or the whole thing if there was a paste.
         // Wrap the string in a unicode wrapper so we can account for graphemes.
         const value = new UnicodeString(input.value);
 
-        // Get the last grapheme entered.
-        const lastChar = value.substring(
-            value.getLength() - 1,
-            value.getLength()
-        );
+        const lastChar = pasted
+            ? // Get everything pasted
+              value.substring(0, value.getLength())
+            : // Get the last grapheme entered.
+              value.substring(value.getLength() - 1, value.getLength());
 
         let newCaret = $caret;
         let newSource: Source | undefined = source;
@@ -1270,6 +1275,12 @@
             }
         }
 
+        // Reset pasted flag.
+        if (pasted) {
+            pasted = false;
+            input.value = '';
+        }
+
         // Prevent the OS from doing anything with this input.
         if (!composing) event.preventDefault();
 
@@ -1314,7 +1325,7 @@
         });
 
         // Don't insert symbols if composing.
-        if (command === InsertSymbol) return;
+        insertedSymbol = command === InsertSymbol;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -1338,6 +1349,8 @@
 
     function handleCompositionStart() {
         composing = true;
+
+        if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
     }
 
     function handleCompositionEnd() {
@@ -1351,6 +1364,10 @@
             if (edit) handleEdit(edit, IdleKind.Typing, true);
             input.value = '';
         }
+    }
+
+    function handlePaste() {
+        pasted = true;
     }
 
     function getInputID() {
@@ -1410,8 +1427,7 @@
         We put it here, before rendering the code, so anything focusable in the code comes after this.
         That way, all controls are just a tab away.
     -->
-    <input
-        type="text"
+    <textarea
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
@@ -1427,6 +1443,7 @@
         on:keydown={handleKeyDown}
         on:compositionstart={handleCompositionStart}
         on:compositionend={handleCompositionEnd}
+        on:paste={handlePaste}
         on:focusin={() => (focused = true)}
         on:focusout={() => (focused = false)}
     />
@@ -1494,7 +1511,7 @@
             >
                 <div class="output-preview">
                     {#if selected}
-                        <span style="font-size:200%">🎭</span>
+                        <span style="font-size:200%"><Emoji>🎭</Emoji></span>
                     {:else}
                         <OutputView
                             {project}
@@ -1538,8 +1555,11 @@
         outline: none;
         opacity: 0;
         width: 1px;
+        height: 1em;
         pointer-events: none;
         touch-action: none;
+        resize: none;
+        overflow: hidden;
 
         /* Helpful for debugging */
         /* outline: 1px solid red;

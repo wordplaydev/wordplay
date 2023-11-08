@@ -19,6 +19,7 @@ import type { FontWeight } from '../basis/Fonts';
 import Mention from './Mention';
 import Branch from './Branch';
 import type Locales from '../locale/Locales';
+import { withVariationSelector } from '../unicode/emoji';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -41,6 +42,10 @@ export default class Words extends Content {
 
     static make() {
         return new Words(undefined, [new Token('…', Sym.Words)], undefined);
+    }
+
+    getDescriptor() {
+        return 'Words';
     }
 
     getGrammar(): Grammar {
@@ -154,7 +159,9 @@ export default class Words extends Content {
             // Replace all repeated special characters with single special characters.
             else if (content instanceof Token) {
                 const replacement = content.withText(
-                    unescapeMarkupSymbols(content.getText())
+                    withVariationSelector(
+                        unescapeMarkupSymbols(content.getText())
+                    )
                 );
                 if (replacement.getText() !== content.getText()) {
                     replacements.push([content, replacement]);

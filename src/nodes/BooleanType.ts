@@ -27,6 +27,10 @@ export default class BooleanType extends BasisType {
         return [BooleanType.make()];
     }
 
+    getDescriptor() {
+        return 'BooleanType';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'type', kind: node(Sym.BooleanType) }];
     }

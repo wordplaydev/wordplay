@@ -30,7 +30,7 @@
             role="button"
             class="type"
             tabindex="0"
-            on:pointerdown={() => (concept ? navigate(concept) : undefined)}
+            on:click={() => (concept ? navigate(concept) : undefined)}
             on:keydown={(event) =>
                 concept && (event.key === 'Enter' || event.key === ' ')
                     ? navigate(concept)

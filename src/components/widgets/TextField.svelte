@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let text = '';
     export let placeholder: string;
@@ -38,7 +39,7 @@
         class:error={validator ? validator(text) === false : null}
         aria-label={description}
         aria-placeholder={placeholder}
-        {placeholder}
+        placeholder={withVariationSelector(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
         disabled={!editable}
         bind:value={text}
@@ -78,6 +79,10 @@
         outline: none;
         min-width: 4em;
         cursor: text;
+    }
+
+    input::placeholder {
+        font-family: var(--wordplay-app-font);
     }
 
     .measurer {

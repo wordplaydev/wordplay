@@ -64,7 +64,7 @@
         ? $locales.get((l) => l.term.group)
         : $locales.get((l) => l.term.stage)}
     aria-hidden={empty ? 'true' : null}
-    class="output group {group.constructor.name}"
+    class="output group {group instanceof Group ? 'Group' : 'Stage'}"
     class:selected={selected && !root}
     class:root
     tabIndex={!root && interactive && (group.selectable || editing) ? 0 : null}
@@ -172,12 +172,6 @@
 
     .group[data-selectable='true'] {
         cursor: pointer;
-    }
-
-    .content {
-        position: relative;
-        width: 100%;
-        height: 100%;
     }
 
     :global(.stage.editing.interactive) .group:not(.selected):not(.root) {

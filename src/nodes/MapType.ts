@@ -65,6 +65,10 @@ export default class MapType extends BasisType {
         ];
     }
 
+    getDescriptor() {
+        return 'MapType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },

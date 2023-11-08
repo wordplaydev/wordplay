@@ -60,6 +60,10 @@ export default class Is extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Is';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'expression', kind: node(Expression) },

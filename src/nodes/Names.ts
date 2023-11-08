@@ -44,6 +44,10 @@ export default class Names extends Node {
         return new Names(list);
     }
 
+    getDescriptor() {
+        return 'Names';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'names', kind: list(false, node(Name)) }];
     }

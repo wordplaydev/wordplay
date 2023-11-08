@@ -120,6 +120,7 @@
         "Dimension": {
             "name": "尺寸",
             "description": "尺寸",
+
             "emotion": "serious",
             "doc": [
                 "我是一个/计量单位/！",
@@ -3590,7 +3591,7 @@
     "ui": {
         "font": {
             "app": "Noto Sans Simplified Chinese",
-            "code": "Noto Mono"
+            "code": "Noto Sans Mono"
         },
         "phrases": {
             "welcome": "你好"
@@ -3761,6 +3762,7 @@
                 "insertGreaterOrEqual": "插入大于或等于",
                 "insertType": "插入类型符号",
                 "insertStream": "插入流符号",
+                "insertChange": "#?",
                 "insertConvert": "插入转换符号",
                 "insertPrevious": "插入前一个符号",
                 "insertTable": "插入表符号",
@@ -3769,6 +3771,7 @@
                 "insertShare": "插入分享",
                 "insertLine": "插入换行符",
                 "backspace": "删除选择或前一个字符",
+                "delete": "$?",
                 "cut": "剪切选择",
                 "copy": "复制选择",
                 "paste": "粘贴键盘内容",

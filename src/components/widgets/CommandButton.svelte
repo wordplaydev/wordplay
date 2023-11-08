@@ -11,6 +11,7 @@
     import TokenView from '../editor/TokenView.svelte';
     import { tick } from 'svelte';
     import CommandHint from './CommandHint.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     /** If source ID isn't provided, then the one with focus is used. */
     export let sourceID: string | undefined = undefined;
@@ -70,5 +71,5 @@
     }}
     ><CommandHint {command} />{#if token}<TokenView
             node={tokenize(command.symbol).getTokens()[0]}
-        />{:else}{command.symbol}{/if}</Button
+        />{:else}<Emoji>{command.symbol}</Emoji>{/if}</Button
 >

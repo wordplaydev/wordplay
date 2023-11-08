@@ -81,6 +81,10 @@ export default class ConversionDefinition extends DefinitionExpression {
         ];
     }
 
+    getDescriptor() {
+        return 'ConversionDefinition';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: any(node(Docs), none()) },

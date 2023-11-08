@@ -36,6 +36,10 @@ export default class Spread extends Node {
         return [];
     }
 
+    getDescriptor() {
+        return 'Spread';
+    }
+
     getGrammar(): Grammar {
         return [
             {

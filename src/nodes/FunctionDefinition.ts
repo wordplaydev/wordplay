@@ -124,6 +124,10 @@ export default class FunctionDefinition extends DefinitionExpression {
         ];
     }
 
+    getDescriptor() {
+        return 'FunctionDefinition';
+    }
+
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
         nameOrLocales: Locales | string,

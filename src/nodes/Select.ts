@@ -71,6 +71,10 @@ export default class Select extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'Select';
+    }
+
     getGrammar(): Grammar {
         return [
             {

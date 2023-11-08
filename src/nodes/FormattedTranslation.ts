@@ -48,6 +48,10 @@ export default class FormattedTranslation extends LanguageTagged {
         return [FormattedTranslation.make()];
     }
 
+    getDescriptor() {
+        return 'FormattedTranslation';
+    }
+
     getExamples() {
         return this.markup
             .nodes()

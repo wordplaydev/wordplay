@@ -19,7 +19,7 @@ export default abstract class Step {
     abstract getExplanations(locales: Locales, evaluator: Evaluator): Markup;
 
     toString() {
-        return `${this.constructor.name} (${this.node.constructor.name}) ${
+        return `${this.constructor.name} (${this.node.getDescriptor()}) ${
             this.node instanceof Node
                 ? this.node
                       .toWordplay()

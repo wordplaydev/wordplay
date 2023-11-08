@@ -75,7 +75,7 @@
     }
 </script>
 
-<Header
+<Header wrap
     ><span class="emoji">{user.displayName ?? '😃'}</span>
     {creator.getUsername(false)}</Header
 >

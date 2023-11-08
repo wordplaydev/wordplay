@@ -55,6 +55,10 @@ export default class ListType extends BasisType {
         ];
     }
 
+    getDescriptor() {
+        return 'ListType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.ListOpen) },

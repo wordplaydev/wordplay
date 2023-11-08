@@ -98,6 +98,10 @@ export default class StreamDefinition extends DefinitionExpression {
         );
     }
 
+    getDescriptor() {
+        return 'StreamDefinition';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: optional(node(Docs)) },

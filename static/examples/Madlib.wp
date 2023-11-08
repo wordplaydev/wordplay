@@ -51,5 +51,4 @@ Stage([
 			)
 	] 
 	face : 'Phudu' 
-	``Move the camera back so the madlib fits``
-	place: Place(0m 0m ask ? -5m -25m))
+)

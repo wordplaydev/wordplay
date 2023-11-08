@@ -40,6 +40,10 @@ export default class Initial extends SimpleExpression {
         return [Initial.make()];
     }
 
+    getDescriptor() {
+        return 'Initial';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'diamond', kind: node(Sym.Initial) }];
     }

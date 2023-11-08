@@ -87,6 +87,10 @@ export default class Reaction extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Reaction';
+    }
+
     getGrammar(): Grammar {
         return [
             {

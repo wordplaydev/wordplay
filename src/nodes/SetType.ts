@@ -45,6 +45,10 @@ export default class SetType extends BasisType {
         ];
     }
 
+    getDescriptor() {
+        return 'SetType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },

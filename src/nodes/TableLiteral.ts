@@ -153,6 +153,10 @@ export default class TableLiteral extends Expression {
         return new TableLiteral(type, rows);
     }
 
+    getDescriptor() {
+        return 'TableLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             {

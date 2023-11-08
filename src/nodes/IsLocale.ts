@@ -47,6 +47,10 @@ export default class IsLocale extends SimpleExpression {
             : [];
     }
 
+    getDescriptor() {
+        return 'IsLocale';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'globe', kind: node(Sym.Locale) },

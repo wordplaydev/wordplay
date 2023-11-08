@@ -21,6 +21,10 @@ export default class Docs extends Node {
         return [new Docs([Doc.make()])];
     }
 
+    getDescriptor() {
+        return 'Docs';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'docs', kind: list(false, node(Doc)) }];
     }

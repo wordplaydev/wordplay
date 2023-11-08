@@ -19,7 +19,6 @@
     import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
-    import Token from '../../nodes/Token';
     import {
         animationDuration,
         blocks,
@@ -27,7 +26,7 @@
         writingLayout,
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
-    import { getEvaluation } from '../project/Contexts';
+    import { getEditor, getEvaluation } from '../project/Contexts';
 
     export let caret: Caret;
     export let source: Source;
@@ -49,15 +48,19 @@
     let caretIndex: number | undefined = undefined;
 
     const evaluation = getEvaluation();
+    const editor = getEditor();
 
     // Whenever blocks, evaluation, or caret changes, compute position after animation delay.
     $: {
         $blocks;
         $evaluation;
         caret;
-        setTimeout(
-            () => (location = computeLocation()),
-            $animationDuration + 25
+        $editor;
+        tick().then(() =>
+            setTimeout(
+                () => (location = computeLocation()),
+                $animationDuration + 25
+            )
         );
     }
 
@@ -235,7 +238,7 @@
         let tokenTop = tokenViewRect.top + viewportYOffset;
 
         // To compute line height, find two tokens on adjacent lines and difference their tops.
-        const tokenViews = editorView.querySelectorAll(`.${Token.name}`);
+        const tokenViews = editorView.querySelectorAll(`.Token`);
         let firstTokenView: Element | undefined = undefined;
         let firstTokenViewAfterLineBreak: Element | undefined = undefined;
         let lineBreakCount: number | undefined = undefined;
@@ -576,20 +579,22 @@
     }
 </script>
 
-<span
-    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
-    class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
-    style:display={location === undefined ? 'none' : null}
-    style:left={location ? `${location.left}px` : null}
-    style:top={location ? `${location.top}px` : null}
-    style:width={location
-        ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
-        : null}
-    style:height={location
-        ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
-        : null}
-    bind:this={element}
-/>
+{#if $editor?.focused}
+    <span
+        class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
+        class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
+        style:display={location === undefined ? 'none' : null}
+        style:left={location ? `${location.left}px` : null}
+        style:top={location ? `${location.top}px` : null}
+        style:width={location
+            ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
+            : null}
+        style:height={location
+            ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
+            : null}
+        bind:this={element}
+    />
+{/if}
 
 <style>
     .caret {

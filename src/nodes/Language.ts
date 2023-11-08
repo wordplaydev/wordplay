@@ -49,6 +49,10 @@ export default class Language extends Node {
             .map((language) => Language.make(language));
     }
 
+    getDescriptor() {
+        return 'Language';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'slash', kind: node(Sym.Language) },

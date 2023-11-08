@@ -1,9 +1,20 @@
-Women's Literacy Rates
+Patriarchy Data
 === start
 ↓ literacy
 
 ``What countries had a rate below 50% in 2022, and what was their rate a decade ago?``
-literacy ⎡? country n2012 n2022⎦ n2022•# ? n2022 < 75 ⊥
+top: (literacy ⎡? country n2022⎦ n2022•# ? n2022 < 75 ⊥) → []
+
+
+Stage([
+		Group(Stack() [
+				Phrase(`*PATRIARCHY and LITERACY*` wrap: 25m face: 'Monoton')
+				Phrase(`/Globally, patriarcal inequities such as gender violence, child marriage, and prohibition of school attendance unjustly suppress women's literacy rates. According to World Bank data, These countries are the top 10 offenders…/` wrap: 25m)
+				:top.sorted(ƒ (row) row.n2022•# ? row.n2022 0).subsequence(1 10).translate(ƒ (row) Phrase(`/\row.country\ \row.n2022•# ? row.n2022.roundDown() 0\%/`))
+			])
+	]
+	face: 'Quicksand'
+)
 === literacy/en
 
 ``From the world bank: https://data.worldbank.org/indicator/SE.ADT.LITR.FE.ZS?view=chart``

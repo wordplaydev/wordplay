@@ -29,7 +29,7 @@
             ></Speech
         >
     </div>
-    <div class="beta"><Beta /></div>
+    <Beta />
     <BigLink
         to="/learn"
         subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
@@ -72,13 +72,5 @@
         margin-top: 2em;
         margin-bottom: 2em;
         max-width: 100%;
-    }
-
-    .beta {
-        border: var(--wordplay-focus-width) solid var(--wordplay-error);
-        border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-background);
-        margin-block-end: 2em;
-        padding: var(--wordplay-spacing);
     }
 </style>

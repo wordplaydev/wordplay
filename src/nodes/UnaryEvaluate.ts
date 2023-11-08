@@ -47,6 +47,10 @@ export default class UnaryEvaluate extends Expression {
         return [];
     }
 
+    getDescriptor() {
+        return 'UnaryEvaluate';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'fun', kind: node(Reference) },

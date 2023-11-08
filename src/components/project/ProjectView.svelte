@@ -1,7 +1,4 @@
 <script context="module" lang="ts">
-    export const PROJECT_PARAM_PLAY = 'play';
-    export const PROJECT_PARAM_CONCEPT = 'concept';
-
     export const TYPING_DELAY = 300;
 </script>
 
@@ -101,7 +98,6 @@
     import Help from './Shortcuts.svelte';
     import type Color from '../../output/Color';
     import ProjectLanguages from './ProjectLanguages.svelte';
-    import getProjectLink from '../app/getProjectLink';
     import Collaborators from './Collaborators.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
@@ -113,6 +109,12 @@
     import { isFlagged } from '../../models/Moderation';
     import Dialog from '../widgets/Dialog.svelte';
     import Separator from './Separator.svelte';
+    import Emoji from '../app/Emoji.svelte';
+    import {
+        PROJECT_PARAM_CONCEPT,
+        PROJECT_PARAM_EDIT,
+        PROJECT_PARAM_PLAY,
+    } from '../../routes/project/constants';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -134,7 +136,8 @@
     export let shareable = true;
 
     // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
-    let play = $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null;
+    let requestedPlay = $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null;
+    let requestedEdit = $page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null;
 
     // The HTMLElement that represents this element
     let view: HTMLElement | undefined = undefined;
@@ -374,7 +377,7 @@
             if (tile.kind !== TileKind.Source) {
                 newTiles.push(
                     // Playing? Expand output, collapse everything else
-                    play
+                    requestedPlay
                         ? tile.withMode(
                               tile.kind === TileKind.Output
                                   ? Mode.Expanded
@@ -389,7 +392,14 @@
                     newTiles.push(
                         tile
                             // If playing, keep the source files collapsed
-                            .withMode(play ? Mode.Collapsed : tile.mode)
+                            .withMode(
+                                requestedPlay
+                                    ? Mode.Collapsed
+                                    : requestedEdit &&
+                                      source === project.getMain()
+                                    ? Mode.Expanded
+                                    : tile.mode
+                            )
                     );
             }
         }
@@ -426,7 +436,11 @@
         const persistedLayout = Settings.getProjectLayout(project.getID());
         return persistedLayout === null
             ? null
-            : persistedLayout.withTiles(syncTiles(persistedLayout.tiles));
+            : persistedLayout
+                  .withTiles(syncTiles(persistedLayout.tiles))
+                  .withFullscreen(
+                      requestedEdit ? undefined : persistedLayout.fullscreenID
+                  );
     }
 
     /** Compute a default layout, or a new layout when the languages change. */
@@ -477,7 +491,10 @@
                 layout ? layout.fullscreenID : undefined
             );
 
-        if (!layoutInitialized && play) {
+        // Now that we've handled it, unset it.
+        requestedEdit = false;
+
+        if (!layoutInitialized && requestedPlay) {
             const output = layout.getOutput();
             if (output) {
                 setFullscreen(output);
@@ -495,7 +512,8 @@
     $: {
         const searchParams = new URLSearchParams($page.url.searchParams);
 
-        if (!play) searchParams.delete(PROJECT_PARAM_PLAY);
+        if (!requestedPlay) searchParams.delete(PROJECT_PARAM_PLAY);
+        if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
         if ($path && $path.length > 0) {
@@ -1167,7 +1185,7 @@
     function stopPlaying() {
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
-            play = false;
+            requestedPlay = false;
             setMode(main, Mode.Expanded);
             layout = layout.withoutFullscreen();
         }
@@ -1181,7 +1199,7 @@
     function copy() {
         const copy = project.copy().asPublic(false);
         Projects.track(copy, true, PersistenceType.Online, false);
-        goto(getProjectLink(copy, false));
+        goto(copy.getLink(false));
     }
 </script>
 
@@ -1297,7 +1315,7 @@
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     <CommandButton command={Restart} />
-                                    {#if play}<Button
+                                    {#if requestedPlay}<Button
                                             uiid="editProject"
                                             tip={$locales.get(
                                                 (l) =>
@@ -1305,7 +1323,7 @@
                                                         .editproject
                                             )}
                                             action={() => stopPlaying()}
-                                            >🔎</Button
+                                            ><Emoji>🔎</Emoji></Button
                                         >{/if}
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting
@@ -1316,14 +1334,17 @@
                                             (l) => l.ui.output.toggle.grid
                                         )}
                                         on={grid}
-                                        toggle={() => (grid = !grid)}>▦</Toggle
+                                        toggle={() => (grid = !grid)}
+                                        ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
                                         tips={$locales.get(
                                             (l) => l.ui.output.toggle.fit
                                         )}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
-                                        >{#if fit}🔒{:else}🔓{/if}</Toggle
+                                        ><Emoji
+                                            >{#if fit}🔒{:else}🔓{/if}</Emoji
+                                        ></Toggle
                                     >
                                 {:else if tile.isSource()}
                                     <Toggle
@@ -1392,17 +1413,20 @@
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
                                 >{#if tile.kind === TileKind.Source}
+                                    <GlyphChooser
+                                        sourceID={tile.id}
+                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
+                                    <Timeline
+                                        evaluator={$evaluator}
+                                    />{/if}</svelte:fragment
+                            ><svelte:fragment slot="margin"
+                                >{#if tile.kind === TileKind.Source}
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
                                         source={getSourceByID(tile.id)}
                                         conflicts={visibleConflicts}
                                         stepping={$evaluation.playing === false}
-                                    /><GlyphChooser
-                                        sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !play && !showOutput}
-                                    <Timeline
-                                        evaluator={$evaluator}
                                     />{/if}</svelte:fragment
                             ></TileView
                         >
@@ -1412,7 +1436,7 @@
         {/key}
     </div>
 
-    {#if !layout.isFullscreen() && !play}
+    {#if !layout.isFullscreen() && !requestedPlay}
         <nav class="footer">
             {#if original}<Button
                     uiid="revertProject"
@@ -1441,16 +1465,16 @@
                             tip: $locales.get(
                                 (l) => l.ui.project.button.showCollaborators
                             ),
+                            icon: project.isPublic()
+                                ? isFlagged(project.getFlags())
+                                    ? '‼️'
+                                    : '🌐'
+                                : '🤫',
                             label: project.isPublic()
-                                ? (isFlagged(project.getFlags())
-                                      ? '‼️'
-                                      : '🌐') +
-                                  ' ' +
-                                  $locales.get(
+                                ? $locales.get(
                                       (l) => l.ui.dialog.share.mode.public
                                   ).modes[1]
-                                : '🤫 ' +
-                                  $locales.get((l) => l.ui.dialog.share).mode
+                                : $locales.get((l) => l.ui.dialog.share).mode
                                       .public.modes[0],
                         }}
                     >
@@ -1459,7 +1483,8 @@
                 {/if}
                 <Button
                     tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}>📋</Button
+                    action={() => toClipboard(project.toWordplay())}
+                    ><Emoji>📋</Emoji></Button
                 >
             {/if}
 
@@ -1511,7 +1536,8 @@
                     description={$locales.get((l) => l.ui.dialog.help)}
                     button={{
                         tip: $locales.get(ShowKeyboardHelp.description),
-                        label: ShowKeyboardHelp.symbol,
+                        icon: ShowKeyboardHelp.symbol,
+                        label: '',
                     }}><Help /></Dialog
                 >
             </span>

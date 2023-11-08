@@ -8944,6 +8944,10 @@
                           "description": "Shown briefly before page redirects to projects",
                           "type": "string"
                         },
+                        "tooyoung": {
+                          "description": "Too young feedback",
+                          "type": "string"
+                        },
                         "usernamerules": {
                           "description": "Gives rules for usernames and passwords above the login form",
                           "items": {
@@ -8961,6 +8965,7 @@
                         "emailrules",
                         "usernamerules",
                         "passwordreminder",
+                        "tooyoung",
                         "logout",
                         "success",
                         "confirm",
@@ -9633,6 +9638,10 @@
                       "description": "Decrement the literal at the cursor",
                       "type": "string"
                     },
+                    "delete": {
+                      "description": "Delete next symbol",
+                      "type": "string"
+                    },
                     "enumerate": {
                       "description": "Listify selection",
                       "type": "string"
@@ -9643,6 +9652,10 @@
                     },
                     "insertBorrow": {
                       "description": "Insert borrow symbol",
+                      "type": "string"
+                    },
+                    "insertChange": {
+                      "description": "Insert ∆ symbol",
                       "type": "string"
                     },
                     "insertConvert": {
@@ -9816,6 +9829,7 @@
                     "insertGreaterOrEqual",
                     "insertType",
                     "insertStream",
+                    "insertChange",
                     "insertPrevious",
                     "insertConvert",
                     "insertTable",
@@ -9824,6 +9838,7 @@
                     "insertShare",
                     "insertLine",
                     "backspace",
+                    "delete",
                     "copy",
                     "cut",
                     "paste",

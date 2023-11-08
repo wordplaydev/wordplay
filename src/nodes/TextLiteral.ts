@@ -58,6 +58,10 @@ export default class TextLiteral extends Literal {
             : [TextLiteral.make()];
     }
 
+    getDescriptor() {
+        return 'TextLiteral';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'texts', kind: list(false, node(Translation)) }];
     }

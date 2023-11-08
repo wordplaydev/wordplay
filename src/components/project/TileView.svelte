@@ -27,6 +27,8 @@
     import Toggle from '../widgets/Toggle.svelte';
     import { EnterFullscreen, ExitFullscreen } from '../editor/util/Commands';
     import type Project from '../../models/Project';
+    import Emoji from '@components/app/Emoji.svelte';
+    import TileSymbols from './TileSymbols';
 
     export let project: Project;
     export let tile: Tile;
@@ -202,7 +204,7 @@
         <div class="header" style:color={foreground} style:fill={foreground}>
             <div class="name" class:source={tile.isSource()}>
                 {#if editable && tile.isSource()}
-                    {Glyphs.Program.symbols}
+                    <Emoji>{Glyphs.Program.symbols}</Emoji>
                     <TextField
                         text={tile
                             .getSource(project)
@@ -217,7 +219,10 @@
                         changed={handleRename}
                     />
                 {:else}
-                    {tile.getName(project, $locales)}
+                    <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
+                        project,
+                        $locales
+                    )}
                 {/if}
                 <slot name="name" />
             </div>
@@ -263,8 +268,11 @@
             </div>
         </div>
         <!-- Render the content -->
-        <div class="content" on:scroll={() => dispatch('scroll')}>
-            <slot name="content" />
+        <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+            <div class="content" on:scroll={() => dispatch('scroll')}>
+                <slot name="content" />
+            </div>
+            <div class="margin"><slot name="margin" /></div>
         </div>
         <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
         {#if focuscontent}
@@ -286,6 +294,62 @@
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
+    }
+
+    .main {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        flex-grow: 1;
+        gap: var(--wordplay-spacing);
+    }
+
+    /** Dim the header a bit so that they don't demand so much attention */
+    .header {
+        opacity: 0.8;
+    }
+
+    .toolbar {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-items: center;
+        min-width: max-content;
+        gap: calc(var(--wordplay-spacing));
+    }
+
+    .footer {
+        width: 100%;
+        min-height: max-content;
+        flex-shrink: 0;
+    }
+
+    .main {
+        width: 100%;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: auto;
+    }
+
+    .main.rtl {
+        flex-direction: row-reverse;
+    }
+
+    .content {
+        position: relative;
+        overflow: auto;
+        width: 100%;
+        flex-grow: 1;
+        min-height: auto;
+        /* This doesn't work in Chrome :( It prevents scrolling altogether */
+        /* scroll-behavior: smooth; */
+    }
+
+    .margin {
+        width: auto;
+        height: 100%;
     }
 
     .tile.fullscreen {
@@ -363,42 +427,13 @@
         flex-shrink: 0;
     }
 
-    /** Dim the header a bit so that they don't demand so much attention */
-    .header {
-        opacity: 0.8;
-    }
-
-    .toolbar {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: center;
-        min-width: max-content;
-        gap: calc(var(--wordplay-spacing));
-    }
-
-    .footer {
-        width: 100%;
-        min-height: max-content;
-        flex-shrink: 0;
-    }
-
-    .content {
-        width: 100%;
-        flex-grow: 1;
-        position: relative;
-        overflow: auto;
-        /* This doesn't work in Chrome :( It prevents scrolling altogether */
-        /* scroll-behavior: smooth; */
-    }
-
     .focus-indicator {
         height: var(--wordplay-focus-width);
         flex-shrink: 0;
         width: 100%;
     }
 
-    .content:focus-within + .focus-indicator {
+    .main:focus-within + .focus-indicator {
         background-color: var(--wordplay-focus-color);
     }
 
@@ -418,6 +453,7 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        align-items: center;
     }
 
     .name.source {

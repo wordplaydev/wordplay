@@ -69,6 +69,10 @@ export default class Update extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'Update';
+    }
+
     getGrammar(): Grammar {
         return [
             {
