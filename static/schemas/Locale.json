@@ -6241,6 +6241,7 @@
               "$ref": "#/definitions/NameAndDoc",
               "description": "The base interface for arrangement types"
             },
+            
             "Color": {
               "additionalProperties": false,
               "description": "A color in LCH spaces",
@@ -6745,6 +6746,37 @@
                 "x",
                 "y",
                 "z"
+              ],
+              "type": "object"
+            },
+            "Aura": {
+              "additionalProperties": false,
+              "description": "this is an AURA",
+              "properties": {
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "offsetX": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "offsetY": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "spread": {
+                  "$ref": "#/definitions/NameAndDoc"
+                },
+                "opacity": {
+                  "$ref": "#/definitions/NameAndDoc"
+                }
+              },
+              "required": [
+                "color",
+                "blur",
+                "offsetX",
+                "offsetY"
               ],
               "type": "object"
             },

@@ -43,6 +43,8 @@ export default function createDefaultShares(locales: Locale[]) {
     const ReboundType = createReboundType(locales);
 
     const OutputTypes = {
+        // TODO: Aura M.W
+        Aura: createAuraType(locales),
         Type: createOutputType(locales),
         Phrase: createPhraseType(locales),
         Group: createGroupType(locales),
@@ -61,9 +63,7 @@ export default function createDefaultShares(locales: Locale[]) {
         Stack: createStackType(locales),
         Row: createRowType(locales),
         Grid: createGridType(locales),
-        Free: createFreeType(locales),
-        // TODO : AURA - M.W
-        Aura: createAuraType(locales)
+        Free: createFreeType(locales)
     };
 
     const InputTypes = {

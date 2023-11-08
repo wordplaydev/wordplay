@@ -281,6 +281,8 @@ export default class Evaluator {
             ),
             locale
         );
+        console.log(project);
+        console.log(locale);
         return new Evaluator(project, database, [locale]).getInitialValue();
     }
 
