@@ -25,6 +25,10 @@ export default class NoneLiteral extends Literal {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'NoneLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             {

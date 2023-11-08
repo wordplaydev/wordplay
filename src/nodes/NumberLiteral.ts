@@ -82,6 +82,10 @@ export default class NumberLiteral extends Literal {
         }
     }
 
+    getDescriptor() {
+        return 'NumberLiteral';
+    }
+
     isPercent() {
         return this.number.getText().endsWith('%');
     }

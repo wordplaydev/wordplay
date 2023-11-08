@@ -68,7 +68,7 @@ Numbers can be:
 > japanese → `/-?[0-9]*[一二三四五六七八九十百千万]+(・[一二三四五六七八九分厘毛糸忽]+)?/`  
 > pi → `π`  
 > infinity → `∞`  
-> number → arabic | arabicbase | roman | japanese | pi | infinity
+> numeral → arabic | arabicbase | roman | japanese | pi | infinity
 
 We hope to add other numerals as we localize other languages.
 
@@ -79,7 +79,7 @@ Text literals can be opened and closed with numerous delimiters:
 > markup → `\`  
 > text → _any sequence of characters between open/close delimiters_
 
-Wordplay has a secondary notation for markup. It applies between pairs of `` `markup` `` , as in `` `I am \*bold\*\` ``. Inside markup, these tokens are valid:
+Wordplay has a secondary notation for markup, delimited by backticks, as in `` `I am \*bold\*\` ``. Between backticks, these tokens are valid:
 
 > linkopen → `<`  
 > linkclose → `>`  
@@ -235,7 +235,7 @@ Boolean literals evaluate to to boolean values without any intermediate steps.
 
 ### Numbers
 
-> NUMBER → number UNIT?  
+> NUMBER → numeral UNIT?  
 > UNIT → DIMENSION (·DIMENSION)_ (/ DIMENSION (·DIMENSION_))?  
 > DIMENSION → name (^arabic)?
 
@@ -988,7 +988,7 @@ Immediately evaluates to true if the evaluation is the program's first.
 
 ### Previous
 
-> PREVIOUS → previous previous? number EXPRESSION
+> PREVIOUS → previous previous? numeral EXPRESSION
 
 It's also sometimes helpful to get previous values in a stream, to build programs that have some window back into time. Previous expressions can get a previous value a particular number of evaluations ago, as here, where we get the previous time:
 
@@ -1011,7 +1011,7 @@ Evaluates the stream value, and finds the stream that contains the value. If an 
 The combined set of all of the expressions above mean that most of Wordplay is expressions:
 
 > PROGRAM → BORROW* (BIND | EXPRESSION)*
-> BORROW → borrow name (access name)? number?  
+> BORROW → borrow name (access name)? numeral?  
 > EXPRESSION → CONDITIONAL | REACTION | BINARYEVALUATE | ATOMIC  
 > ATOMIC → LITERAL | REF | PLACEHOLDER | EVAL | DEFINITION | PROPERTYBIND | CONVERT | CHECK | QUERY | DOCUMENTED
 > LITERAL → NONE | NUMBER | BOOLEAN | LIST | SET | MAP | TABLE  
@@ -1057,7 +1057,7 @@ Documented expressions simply evaluate to their expression's value.
 
 > TYPE → placeholder | BOOLEANTYPE | NUMBERTYPE | TEXTTYPE | NONETYPE | LISTTYPE | SETTYPE | MAPTYPE | TABLETYPE | NAMETYPE | FUNCTIONTYPE | STREAMTYPE | FORMATTEDTYPE | CONVERSIONTYPE | UNION  
 > BOOLEANTYPE → question
-> NUMBERTYPE → (numbertype UNIT?) | number
+> NUMBERTYPE → (numbertype UNIT?) | numeral
 > TEXTTYPE → (textopen textclose LANGUAGE?) | TEXT
 > NONETYPE → none
 > LISTTYPE → listopen TYPE listclose  

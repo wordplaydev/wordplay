@@ -39,6 +39,10 @@ export default class Row extends Node {
         );
     }
 
+    getDescriptor() {
+        return 'Row';
+    }
+
     getGrammar(): Grammar {
         return [
             {

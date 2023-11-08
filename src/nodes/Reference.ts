@@ -159,6 +159,10 @@ export default class Reference extends SimpleExpression {
         );
     }
 
+    getDescriptor() {
+        return 'Reference';
+    }
+
     getGrammar(): Grammar {
         return [
             {

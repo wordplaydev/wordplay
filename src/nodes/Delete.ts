@@ -53,6 +53,10 @@ export default class Delete extends Expression {
         return new Delete(table, new Token(DELETE_SYMBOL, Sym.Delete), query);
     }
 
+    getDescriptor() {
+        return 'Delete';
+    }
+
     getGrammar(): Grammar {
         return [
             {

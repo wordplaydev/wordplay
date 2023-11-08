@@ -59,6 +59,10 @@ export default class Insert extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'Insert';
+    }
+
     getGrammar(): Grammar {
         return [
             {

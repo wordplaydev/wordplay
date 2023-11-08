@@ -1070,17 +1070,27 @@ export default class Caret {
         }
     }
 
-    backspace(project: Project): Edit | ProjectRevision | undefined {
+    /** Remove content in the specified direction at the current position */
+    delete(
+        project: Project,
+        forward: boolean
+    ): Edit | ProjectRevision | undefined {
+        const offset = forward ? 0 : -1;
+
         // If the position is a number, see if this is a rename
         if (typeof this.position === 'number') {
             // Are we in the middle of a name or at it's end?
-            const rename =
-                this.tokenExcludingSpace?.isSymbol(Sym.Name) &&
-                !this.atTokenStart()
+            const rename = forward
+                ? this.tokenExcludingSpace?.isSymbol(Sym.Name) &&
+                  !this.atTokenEnd()
                     ? this.tokenExcludingSpace
-                    : this.tokenPrior?.isSymbol(Sym.Name) && this.atTokenEnd()
-                    ? this.tokenPrior
-                    : undefined;
+                    : undefined
+                : this.tokenExcludingSpace?.isSymbol(Sym.Name) &&
+                  !this.atTokenStart()
+                ? this.tokenExcludingSpace
+                : this.tokenPrior?.isSymbol(Sym.Name) && this.atTokenEnd()
+                ? this.tokenPrior
+                : undefined;
             const renameParent = rename
                 ? this.source.root.getParent(rename)
                 : undefined;
@@ -1096,7 +1106,7 @@ export default class Caret {
                 let start: number | undefined;
                 let newName: string | undefined;
 
-                // Are we backspacing in the middle of the name?
+                // Are we deleting in the the middle of the name?
                 if (
                     rename === this.tokenExcludingSpace &&
                     this.tokenExcludingSpace
@@ -1109,10 +1119,15 @@ export default class Caret {
                         start !== undefined
                             ? this.tokenExcludingSpace
                                   .getText()
-                                  .substring(0, this.position - start - 1) +
+                                  .substring(
+                                      0,
+                                      this.position - start + (forward ? 0 : -1)
+                                  ) +
                               this.tokenExcludingSpace
                                   .getText()
-                                  .substring(this.position - start)
+                                  .substring(
+                                      this.position - start + (forward ? 1 : 0)
+                                  )
                             : undefined;
                 }
                 // If we're backspacing the end of the name...
@@ -1131,7 +1146,7 @@ export default class Caret {
                         renameParent,
                         newName,
                         project,
-                        this.position - start - 1
+                        this.position - start + offset
                     );
                     // If we succeeded, return the edit.
                     if (edit) return edit;
@@ -1140,12 +1155,16 @@ export default class Caret {
         }
 
         if (typeof this.position === 'number') {
-            const before = this.source.getCode().at(this.position - 1);
-            const after = this.source.getCode().at(this.position);
+            const before = this.source
+                .getCode()
+                .at(forward ? this.position : this.position - 1);
+            const after = this.source
+                .getCode()
+                .at(forward ? this.position + 1 : this.position);
 
             // Is this just after a placeholder? Delete the whole placeholder.
             const placeholder = this.getPlaceholderAtPosition(
-                this.position - 1
+                this.position + offset
             );
             if (placeholder) return this.deleteNode(placeholder);
 
@@ -1153,14 +1172,16 @@ export default class Caret {
                 // If there's an adjacent pair of delimiters, delete them both.
                 let newSource = this.source.withoutGraphemeAt(this.position);
                 if (newSource)
-                    newSource = newSource.withoutGraphemeAt(this.position - 1);
+                    newSource = newSource.withoutGraphemeAt(
+                        this.position + offset
+                    );
                 return newSource === undefined
                     ? undefined
                     : [
                           newSource,
                           new Caret(
                               newSource,
-                              Math.max(0, this.position - 1),
+                              Math.max(0, this.position + offset),
                               undefined,
                               undefined,
                               undefined
@@ -1168,7 +1189,7 @@ export default class Caret {
                       ];
             } else {
                 const newSource = this.source.withoutGraphemeAt(
-                    this.position - 1
+                    this.position + offset
                 );
                 return newSource === undefined
                     ? undefined
@@ -1176,7 +1197,7 @@ export default class Caret {
                           newSource,
                           new Caret(
                               newSource,
-                              Math.max(0, this.position - 1),
+                              Math.max(0, this.position + offset),
                               undefined,
                               undefined,
                               undefined

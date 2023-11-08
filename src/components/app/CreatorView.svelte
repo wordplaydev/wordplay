@@ -4,6 +4,8 @@
 
     export let creator: Creator | null;
     export let anonymize = true;
+
+    $: username = creator?.getUsername(anonymize) ?? '';
 </script>
 
 <div class="creator"
@@ -12,7 +14,9 @@
             style:animation-delay={`${Math.random() * 1000}ms`}
             >{creator.getName() ?? '😃'}</span
         >{/if}{creator
-        ? creator.getUsername(anonymize)
+        ? username.length < 10
+            ? username
+            : `${username.substring(0, 10)}…`
         : $locales.get((l) => l.ui.page.login.anonymous)}</div
 >
 

@@ -165,7 +165,7 @@ export default class Layout {
     }
 
     /** Set the fullscreen tile to the given tile ID and ensure that it's expanded. */
-    withFullscreen(tileID: string) {
+    withFullscreen(tileID: string | undefined) {
         return new Layout(
             this.projectID,
             this.tiles.map((tile) =>

@@ -244,6 +244,8 @@ type UITexts = {
             insertType: string;
             /** Insert … symbol */
             insertStream: string;
+            /** Insert ∆ symbol */
+            insertChange: string;
             /** Insert ← symbol */
             insertPrevious: string;
             /** Insert → symbol */
@@ -260,6 +262,8 @@ type UITexts = {
             insertLine: string;
             /** Delete previous symbol */
             backspace: string;
+            /** Delete next symbol */
+            delete: string;
             /** Copy selection to clipboard as text */
             copy: string;
             /** Cut selection to clipboard as text */
@@ -680,6 +684,8 @@ type UITexts = {
                 usernamerules: string[];
                 /** Reminder to write down password */
                 passwordreminder: string;
+                /** Too young feedback */
+                tooyoung: string;
                 /** Offers to log out the creator. */
                 logout: string;
                 /** Shown briefly before page redirects to projects */

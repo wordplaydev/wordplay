@@ -64,6 +64,10 @@ export default class SetOrMapAccess extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'SetOrMapAccess';
+    }
+
     getGrammar(): Grammar {
         return [
             {

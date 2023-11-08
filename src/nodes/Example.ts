@@ -34,6 +34,10 @@ export default class Example extends Content {
         return [Example.make(Program.make())];
     }
 
+    getDescriptor() {
+        return 'Example';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.Code) },

@@ -23,6 +23,10 @@ export default class FormattedType extends BasisType {
         return new FormattedType(new Token(DOCS_SYMBOL, Sym.Doc));
     }
 
+    getDescriptor() {
+        return 'FormattedType';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'tick', kind: node(Sym.Doc) }];
     }

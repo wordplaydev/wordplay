@@ -39,6 +39,10 @@ export default class FormattedLiteral extends Literal {
         return [new FormattedLiteral([FormattedTranslation.make()])];
     }
 
+    getDescriptor() {
+        return 'FormattedLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'texts', kind: list(false, node(FormattedTranslation)) },

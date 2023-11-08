@@ -67,6 +67,10 @@ export default class MapLiteral extends Expression {
         return [MapLiteral.make()];
     }
 
+    getDescriptor() {
+        return 'MapLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },

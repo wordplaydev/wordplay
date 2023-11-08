@@ -71,6 +71,7 @@
         new Set([
             ...$locales.getLocales().map((locale) => locale.ui.font.app),
             'Noto Emoji',
+            'Noto Color Emoji',
         ])
     )
         .map((font) => `"${font}"`)
@@ -78,8 +79,10 @@
     style:--wordplay-code-font={Array.from(
         new Set([
             ...$locales.getLocales().map((locale) => locale.ui.font.code),
-            'Noto Mono',
+            'Noto Sans Mono',
             'Noto Emoji',
+            'Noto Color Emoji',
+            'Noto Sans',
         ])
     )
         .map((font) => `"${font}"`)

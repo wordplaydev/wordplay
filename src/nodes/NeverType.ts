@@ -9,6 +9,10 @@ export default class NeverType extends Type {
         super();
     }
 
+    getDescriptor() {
+        return 'NeverType';
+    }
+
     getGrammar() {
         return [];
     }

@@ -17,6 +17,8 @@
     import { getUser } from '@components/project/Contexts';
     import { logEvent } from 'firebase/analytics';
     import { goto } from '$app/navigation';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Feedback from '@components/app/Feedback.svelte';
 
     /** The current email text in the text field */
     let email: string;
@@ -28,7 +30,8 @@
     let user = getUser();
 
     /** Whether the form is ready to be submitted */
-    $: submittable = !submitted && validEmail(email);
+    let younger = true;
+    $: submittable = !submitted && validEmail(email) && !younger;
 
     /** When the page is mounted, see if the link is an email sign in link, and if so, attempt to finish logging in. */
     onMount(() => {
@@ -102,29 +105,43 @@
     }
 </script>
 
-<Subheader>{$locales.get((l) => l.ui.page.login.subheader.email)}</Subheader>
 <LoginForm submit={sendLoginEmail} {feedback}>
-    <div>
-        <TextField
-            kind="email"
-            description={$locales.get(
-                (l) => l.ui.page.login.field.email.description
-            )}
-            placeholder={$locales.get(
-                (l) => l.ui.page.login.field.email.placeholder
-            )}
-            bind:text={email}
-            editable={!submitted}
-        />
-        <Button
-            submit
-            background
-            tip={$locales.get((l) => l.ui.page.login.button.login)}
-            active={submittable}
-            action={() => undefined}>&gt;</Button
-        >
-    </div>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.login.prompt.emailrules)}
+    <Subheader>{$locales.get((l) => l.ui.page.login.subheader.email)}</Subheader
+    >
+    <!-- Ask (but do not store) for the user's age, so we can decide what options to show -->
+    <Mode
+        modes={$locales.get((l) => l.ui.page.login.prompt.age.modes)}
+        choice={younger ? 0 : 1}
+        select={(choice) => (younger = choice === 0)}
+        descriptions={$locales.get((l) => l.ui.page.login.prompt.age)}
     />
+    {#if !younger}
+        <div>
+            <TextField
+                kind="email"
+                description={$locales.get(
+                    (l) => l.ui.page.login.field.email.description
+                )}
+                placeholder={$locales.get(
+                    (l) => l.ui.page.login.field.email.placeholder
+                )}
+                bind:text={email}
+                editable={!submitted}
+            />
+            <Button
+                submit
+                background
+                tip={$locales.get((l) => l.ui.page.login.button.login)}
+                active={submittable}
+                action={() => undefined}>&gt;</Button
+            >
+        </div>
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.login.prompt.emailrules)}
+        />
+    {:else}
+        <Feedback
+            >{$locales.get((l) => l.ui.page.login.prompt.tooyoung)}</Feedback
+        >
+    {/if}
 </LoginForm>

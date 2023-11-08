@@ -36,6 +36,10 @@ export default class BooleanLiteral extends Literal {
         return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
     }
 
+    getDescriptor() {
+        return 'BooleanLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             {

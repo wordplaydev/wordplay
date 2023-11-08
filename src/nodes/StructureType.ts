@@ -30,6 +30,10 @@ export default class StructureType extends BasisType {
         this.types = types;
     }
 
+    getDescriptor() {
+        return 'StructureType';
+    }
+
     getGrammar(): Grammar {
         return [];
     }

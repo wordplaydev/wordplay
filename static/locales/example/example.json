@@ -2043,7 +2043,7 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Mono"
+            "code": "Noto Sans Mono"
         },
         "phrases": {
             "welcome": "$?"
@@ -2204,6 +2204,7 @@
                 "insertLessOrEqual": "$?",
                 "insertGreaterOrEqual": "$?",
                 "insertStream": "$?",
+                "insertChange": "$?",
                 "insertConvert": "$?",
                 "insertPrevious": "$?",
                 "insertType": "$?",
@@ -2213,6 +2214,7 @@
                 "insertShare": "$?",
                 "insertLine": "$?",
                 "backspace": "$?",
+                "delete": "$?",
                 "cut": "$?",
                 "copy": "$?",
                 "paste": "$?",
@@ -2516,6 +2518,7 @@
                     },
                     "enter": "$?",
                     "emailrules": ["$?"],
+                    "tooyoung": "$?",
                     "usernamerules": ["$?"],
                     "passwordreminder": "$?",
                     "play": "$?",

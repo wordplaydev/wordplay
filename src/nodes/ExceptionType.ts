@@ -15,6 +15,10 @@ export default class ExceptionType extends Type {
         this.exception = exception;
     }
 
+    getDescriptor() {
+        return 'ExceptionType';
+    }
+
     getGrammar() {
         return [];
     }

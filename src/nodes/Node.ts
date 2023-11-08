@@ -53,6 +53,9 @@ export default abstract class Node {
      */
     abstract getGrammar(): Grammar;
 
+    /** A stable name by which this kind of node can be referred to (since constructor.name is minified) */
+    abstract getDescriptor(): string;
+
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied
      * This is used to get lists of child nodes and to reflect on the role of a child in a parent's structure.
@@ -411,9 +414,9 @@ export default abstract class Node {
         // Bail if the field couldn't be found. This means there's a fatal problem with one of the Node's clone() implementations.
         if (typeof field !== 'string' || kind === undefined)
             throw Error(
-                `Could not find field ${String(field)} on ${
-                    this.constructor.name
-                }`
+                `Could not find field ${String(
+                    field
+                )} on ${this.getDescriptor()}`
             );
 
         // There are four types of originals to handle. Let's check each for validity.
@@ -720,7 +723,7 @@ export default abstract class Node {
     /** A representation for debugging */
     toString(depth = 0): string {
         const tabs = '\t'.repeat(depth);
-        return `${tabs}${this.constructor.name}\n${this.getChildren()
+        return `${tabs}${this.getDescriptor()}\n${this.getChildren()
             .map((n) => n.toString(depth + 1))
             .join('\n')}`;
     }

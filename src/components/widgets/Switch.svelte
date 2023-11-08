@@ -16,7 +16,7 @@
         aria-label={offTip}
         tabindex={on ? 0 : null}
         title={offTip}
-        on:pointerdown|stopPropagation={() => toggle(false)}
+        on:click|stopPropagation={() => toggle(false)}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
@@ -28,7 +28,7 @@
         aria-label={onTip}
         tabindex={on ? null : 0}
         title={onTip}
-        on:pointerdown|stopPropagation={(event) =>
+        on:click|stopPropagation={(event) =>
             event.button === 0 ? toggle(true) : undefined}
         on:keydown={(event) =>
             event.key === 'Enter' || event.key === ' '

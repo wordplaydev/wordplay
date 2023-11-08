@@ -9,7 +9,7 @@ export function copyNode(
 }
 
 export function toClipboard(text: string) {
-    if (navigator.clipboard)
+    if (navigator.clipboard && typeof ClipboardItem !== 'undefined')
         return navigator.clipboard
             .write([
                 new ClipboardItem({

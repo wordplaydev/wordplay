@@ -75,6 +75,10 @@ export default class Borrow extends SimpleExpression {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'Borrow';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'borrow', kind: node(Sym.Borrow) },

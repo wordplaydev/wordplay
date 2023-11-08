@@ -74,6 +74,10 @@ export default class Convert extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Convert';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'expression', kind: node(Expression) },

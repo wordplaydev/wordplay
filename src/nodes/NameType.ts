@@ -43,6 +43,10 @@ export default class NameType extends Type {
         return new NameType(new NameToken(name), undefined, definition);
     }
 
+    getDescriptor() {
+        return 'NameType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'name', kind: node(Sym.Name), uncompletable: true },

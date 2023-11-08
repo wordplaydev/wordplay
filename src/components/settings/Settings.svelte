@@ -52,16 +52,16 @@
 </script>
 
 <div class="settings">
-    <div class="beta">
-        <Dialog
-            button={{ tip: 'Show dialog to what beta means', label: 'beta' }}
-            width="50vw"
-            description={{
-                header: 'Beta?',
-                explanation: '',
-            }}><Beta /></Dialog
-        >
-    </div>
+    <Dialog
+        button={{
+            tip: 'Show dialog to what beta means',
+            label: 'beta',
+        }}
+        description={{
+            header: 'Beta?',
+            explanation: '',
+        }}><Beta /></Dialog
+    >
     <Link external to="https://discord.gg/Jh2Qq9husy"
         >{$locales.get((l) => l.term.help)}/{$locales.get(
             (l) => l.term.feedback
@@ -76,10 +76,10 @@
     </Link>
     <LanguageChooser />
     <Dialog
-        width="50vw"
         button={{
             tip: $locales.get((l) => l.ui.dialog.settings.button.show),
-            label: '⚙',
+            icon: '⚙',
+            label: '',
         }}
         description={$locales.get((l) => l.ui.dialog.settings)}
     >
@@ -217,13 +217,5 @@
 
     label {
         white-space: nowrap;
-    }
-
-    .beta {
-        border: solid var(--wordplay-focus-width) var(--wordplay-error);
-        border-right: solid var(--wordplay-focus-width) var(--wordplay-error);
-        padding-left: calc(var(--wordplay-spacing) / 3);
-        padding-right: calc(var(--wordplay-spacing) / 3);
-        border-radius: var(--wordplay-border-radius);
     }
 </style>

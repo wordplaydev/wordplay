@@ -37,6 +37,10 @@ export default class Mention extends Content {
         return [];
     }
 
+    getDescriptor() {
+        return 'Mention';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'name', kind: node(Sym.Mention) }];
     }

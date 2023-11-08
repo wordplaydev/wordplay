@@ -1,11 +1,5 @@
 import type Locales from '../../locale/Locales';
 import type Project from '../../models/Project';
-import {
-    DOCUMENTATION_SYMBOL,
-    PALETTE_SYMBOL,
-    SOURCE_SYMBOL,
-    STAGE_SYMBOL,
-} from '../../parser/Symbols';
 import type Bounds from './Bounds';
 import Layout from './Layout';
 
@@ -20,13 +14,6 @@ export enum TileKind {
     Source = 'source',
     Palette = 'palette',
 }
-
-const TileSymbols: { [ID in TileKind]: string } = {
-    output: STAGE_SYMBOL,
-    palette: PALETTE_SYMBOL,
-    docs: DOCUMENTATION_SYMBOL,
-    source: SOURCE_SYMBOL,
-};
 
 export default class Tile {
     /** An internal name for lookups */
@@ -59,7 +46,7 @@ export default class Tile {
      * the given locales.
      */
     getName(project: Project, locales: Locales) {
-        return `${TileSymbols[this.kind]} ${
+        return `${
             this.getSource(project)?.getPreferredName(locales.getLocales()) ??
             locales.get((l) => l.ui.tile.label[this.kind])
         }`;

@@ -38,6 +38,10 @@ export default class TypeVariables extends Node {
         return [TypeVariables.make()];
     }
 
+    getDescriptor() {
+        return 'TypeVariables';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.TypeOpen) },

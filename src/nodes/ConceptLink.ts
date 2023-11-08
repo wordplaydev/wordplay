@@ -24,6 +24,10 @@ export default class ConceptLink extends Content {
         );
     }
 
+    getDescriptor() {
+        return 'ConceptLink';
+    }
+
     getName() {
         return this.concept.getText().slice(1);
     }

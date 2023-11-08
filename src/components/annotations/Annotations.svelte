@@ -198,10 +198,11 @@
 
 <style>
     section {
-        max-height: 10em;
+        max-width: 30em;
+        min-width: auto;
         overflow-y: auto;
-        width: 100%;
-        border-top: var(--wordplay-border-width) solid
+        height: 100%;
+        border-inline-start: solid var(--wordplay-border-width)
             var(--wordplay-border-color);
     }
 </style>

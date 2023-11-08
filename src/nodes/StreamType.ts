@@ -32,6 +32,10 @@ export default class StreamType extends Type {
         );
     }
 
+    getDescriptor() {
+        return 'StreamType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'stream', kind: node(Sym.Stream) },

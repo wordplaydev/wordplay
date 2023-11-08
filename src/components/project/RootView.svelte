@@ -16,6 +16,7 @@
         type SpaceContext,
         CaretSymbol,
         getEditor,
+        LocalizeSymbol,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -85,11 +86,15 @@
     let hidden = writable<Set<Node>>(new Set());
     setContext(HiddenSymbol, hidden);
 
+    let localize = writable<boolean>(localized);
+    setContext(LocalizeSymbol, localize);
+    $: localize.set(localized && ($editor === undefined || !$editor.focused));
+
     // When the caret changes, the update what's hidden.
     $: {
         const newHidden = new Set<Node>();
 
-        if (localized && ($editor === undefined || !$editor.focused)) {
+        if ($localize) {
             // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
             // Also hide any name separators if the first visible name has one.
             for (const tagged of node

@@ -84,11 +84,13 @@
     }
 </script>
 
-<Subheader>{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader>
 <LoginForm
     submit={noAccount ? createUsernameLogin : tryUsernameLogin}
     feedback={usernameLoginFeedback}
 >
+    <Subheader
+        >{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader
+    >
     <div>
         <TextField
             description={$locales.get(

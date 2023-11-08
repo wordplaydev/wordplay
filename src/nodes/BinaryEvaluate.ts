@@ -71,6 +71,10 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
+    getDescriptor() {
+        return 'BinaryEvaluate';
+    }
+
     getGrammar(): Grammar {
         return [
             {
