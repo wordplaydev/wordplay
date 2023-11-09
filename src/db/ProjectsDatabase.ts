@@ -415,7 +415,8 @@ export default class ProjectsDatabase {
         // Update or create a history for this project.
         const history = this.projectHistories.get(project.getID());
         if (history) {
-            history.edit(project, remember);
+            // Save the project with a new time.
+            history.edit(project.withNewTime(), remember);
 
             // Update the editable projects.
             this.refreshEditableProjects();

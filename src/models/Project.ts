@@ -860,6 +860,10 @@ export default class Project {
         return new Project({ ...this.data, flags: { ...flags } });
     }
 
+    withNewTime() {
+        return new Project({ ...this.data, timestamp: Date.now() });
+    }
+
     getTimestamp() {
         return this.data.timestamp;
     }
@@ -887,6 +891,7 @@ export default class Project {
             public: this.data.public,
             archived: this.isArchived(),
             persisted: this.isPersisted(),
+            // We update the time to now when the object is serialized.
             timestamp: this.data.timestamp,
             gallery: this.data.gallery,
             flags: { ...this.data.flags },
