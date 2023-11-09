@@ -4189,21 +4189,21 @@
                 ]
             },
             "donate": {
-                "header": "$",
-                "prompt": "Enable more accessible, global programming",
+                "header": "捐赠",
+                "prompt": "支持更具普及性、全球性的编程",
                 "content": [
-                    "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
-                    "Here are our current costs:",
-                    "• We compensate University of Washington undergraduates, especially those who are disabled or whose first language was not English, to evolve and maintain the project. This is about 90% of our costs.",
-                    "• We give stipends to teachers who we collaborate with to develop multilingual, accessible curricula.",
-                    "• We pay Google for <Firebase@https://firebase.google.com/> bandwidth and storage, and <Workspace@https://workspace.google.com/> services.",
-                    "• We pay <Squarespace@https://www.squarespace.com/> annually for the domain.",
-                    "Our current costs, assuming 5 undergraduates at $$20 USD//hour, 10 hours//week during the academic year (36 weeks) and 2 undergraduates during the summer (12 weeks), plus cloud services, are about $$60K USD per year.",
-                    "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensation more students and teachers.",
-                    "Can you be one of those 2,400 people? If so, here's our University of Washington giving link:"
+                    "Wordplay 是一个由<University of Washington@https://washington.edu>支持的免费、社区驱动的项目。我们依赖那些相信我们使命——提供可访问、包容各种语言的教育性编程语言——的人们的捐赠。",
+                    "以下是我们当前的支出：",
+                    "• 我们给华盛顿大学的本科生提供报酬，尤其是那些残疾人或者母语不是英语的学生，用于推动项目的发展和维护。这大约占据我们支出的90%。",
+                    "• 我们给与我们合作开发多语言、可访问的课程大纲的教师提供津贴。",
+                    "• 我们支付 Google 用于<Firebase@https://firebase.google.com/>带宽和存储，以及<Workspace@https://workspace.google.com/>服务的费用。",
+                    "• 我们每年支付<Squarespace@https://www.squarespace.com/>用于域名的费用。",
+                    "我们当前的支出，假设每小时 $$20 美元的标准，雇佣 5 名本科生，每周工作 10 小时（36周）以及在夏季雇佣 2 名本科生（12周），再加上云服务的费用，大约是每年 $$60,000 美元。",
+                    "如果有 2,400 人每年捐赠 $$25 美元，这将足以支付我们的支出，多出的资金将用于报酬更多的学生和教师。",
+                    "你能成为那 2,400 人之一吗？如果可以，请使用以下链接捐赠给我们的华盛顿大学捐赠平台："
                 ]
             }
-        },
+        },            
         "edit": {
             "node": "$1$2[, 类型 $2|]",
             "before": "在 $1[$1|end] 之前",
