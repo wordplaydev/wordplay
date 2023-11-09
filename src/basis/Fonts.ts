@@ -373,7 +373,9 @@ export class FontManager {
         'Noto Sans',
         'Noto Sans Mono',
         'Noto Emoji',
-        'Noto Color Emoji',
+        // Wasn't working in Safari for some reason, will have to debug later.
+        // For now, we load in app.html <head> with Google Fonts.
+        // 'Noto Color Emoji',
     ];
 
     facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
