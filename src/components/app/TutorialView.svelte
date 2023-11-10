@@ -223,9 +223,8 @@
 <section class="tutorial" on:keydown={handleKey}>
     <div class="header">
         <Header block={false}
-            >{#if fallback}🚧{/if}{$locales.get(
-                (l) => l.ui.page.learn.header
-            )}</Header
+            >{#if fallback}🚧{/if}
+            {$locales.get((l) => l.ui.page.learn.header)}</Header
         >
         <nav>
             <!-- A hierarchical select of tutorial units and lessons  -->
