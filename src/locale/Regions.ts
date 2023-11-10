@@ -117,7 +117,7 @@ export const Regions = {
     KE: { en: 'Kenya' },
     KI: { en: 'Kiribati' },
     KP: { en: "Korea, Democratic People's Republic of" },
-    KR: { en: 'Korea, Republic of' },
+    KR: { en: 'South Korea' },
     KW: { en: 'Kuwait' },
     KG: { en: 'Kyrgyzstan' },
     LA: { en: "Lao People's Democratic Republic" },
