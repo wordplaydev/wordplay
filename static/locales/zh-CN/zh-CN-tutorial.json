@@ -1705,7 +1705,7 @@
                         [
                             "List",
                             "happy",
-                            "Interesting huh? Give me a place in the list that doesn't exist and I'm going to give you @NoneLiteral. Because there's nothing there. Make sense?"
+                            "Interesting huh? Give me a place in the list and I will wrap around. For example, \\-1\\ is the last item in the last, and if the list has five items, then index \\6\\ is the first item. If you give me index \\0\\, then I'll give you @NoneLiteral, because there's nothing there. Make sense?"
                         ],
                         null,
                         [
