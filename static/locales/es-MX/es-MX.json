@@ -4289,7 +4289,7 @@
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
                     "delete": "¿Quieres que olvidemos todo lo que has creado aquí? Esto no se puede deshacer.",
-                    "reallyDelete": "¿Estás seguro? Tu cuenta y configuraciones se eliminarán inmediatamente y tus proyectos se programarán para su eliminación. Los colaboradores en tus proyectos perderán inmediatamente el acceso a ellos. Escribe tu correo electrónico para confirmar que esto es lo que deseas.",
+                    "reallyDelete": "$! ¿Estás seguro? Tu cuenta y configuraciones se eliminarán inmediatamente y tus proyectos se programarán para su eliminación. Los colaboradores en tus proyectos perderán inmediatamente el acceso a ellos. Escribe tu correo electrónico para confirmar que esto es lo que deseas.",
                     "name": "Elige un emoji para representarte a ti mismo ante los demás."
                 },
                 "error": {

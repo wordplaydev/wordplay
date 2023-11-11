@@ -1,14 +1,10 @@
 <script lang="ts">
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
-    import { DB, locales, SaveStatus } from '../../db/Database';
+    import { locales, SaveStatus } from '../../db/Database';
     import Link from '../../components/app/Link.svelte';
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
-    import Button from '../../components/widgets/Button.svelte';
     import { auth } from '../../db/firebase';
-    import TextField from '../../components/widgets/TextField.svelte';
-    import Spinning from '../../components/app/Spinning.svelte';
-    import validEmail from '../../db/validEmail';
     import { isModerator } from '../../models/Moderation';
     import { Creator } from '../../db/CreatorDatabase';
     import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
@@ -16,15 +12,11 @@
     import { status } from '../../db/Database';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
+    import DeleteAccount from './DeleteAccount.svelte';
 
     export let user: User;
 
     $: creator = Creator.from(user);
-
-    let deleteRequested = false;
-    let deleteSubmitted = false;
-    let confirmEmail: string;
-    let successfullyDeleted: boolean | undefined = undefined;
 
     let moderator = false;
     $: isModerator(user).then((mod) => (moderator = mod));
@@ -39,19 +31,6 @@
     async function logout() {
         // Then sign out. (Projects will be deleted locally by the project database when user updates.)
         if (auth) await auth.signOut();
-    }
-
-    async function deleteAccount() {
-        deleteSubmitted = true;
-        successfullyDeleted = await DB.deleteAccount();
-        return true;
-    }
-
-    function readyToDeleteAccount(email: string) {
-        const finalEmail = creator.isUsername()
-            ? Creator.usernameEmail(email)
-            : email;
-        return validEmail(finalEmail) && finalEmail === user.email;
     }
 </script>
 
@@ -104,76 +83,7 @@
             <ChangePassword {user} />
         </div>
     {/if}
-    <div class="action"
-        >{#if !deleteSubmitted}
-            <p>{$locales.get((l) => l.ui.page.login.prompt.delete)}</p>
-            <p
-                ><Button
-                    background
-                    tip={$locales.get((l) => l.ui.page.login.button.delete.tip)}
-                    action={() => (deleteRequested = !deleteRequested)}
-                    active={!deleteRequested}
-                    >{$locales.get(
-                        (l) => l.ui.page.login.button.delete.label
-                    )}</Button
-                >
-            </p>
-            {#if deleteRequested}
-                <p aria-live="assertive">
-                    {$locales.get((l) => l.ui.page.login.prompt.reallyDelete)}
-                </p>
-
-                <form
-                    on:submit={() =>
-                        readyToDeleteAccount(confirmEmail)
-                            ? deleteAccount()
-                            : undefined}
-                >
-                    <TextField
-                        description={$locales.get((l) =>
-                            creator.isUsername()
-                                ? l.ui.page.login.field.username.description
-                                : l.ui.page.login.field.email.description
-                        )}
-                        placeholder={$locales.get((l) =>
-                            creator.isUsername()
-                                ? l.ui.page.login.field.username.placeholder
-                                : l.ui.page.login.field.email.placeholder
-                        )}
-                        fill={true}
-                        kind={creator.isUsername() ? undefined : 'email'}
-                        bind:text={confirmEmail}
-                    />
-                    <Button
-                        background
-                        submit
-                        tip={$locales.get(
-                            (l) => l.ui.page.login.button.reallyDelete.tip
-                        )}
-                        active={readyToDeleteAccount(confirmEmail)}
-                        action={deleteAccount}
-                        >{$locales.get(
-                            (l) => l.ui.page.login.button.reallyDelete.label
-                        )}</Button
-                    >
-                </form>
-            {/if}
-        {:else}
-            {#if successfullyDeleted === undefined}
-                <p>{$locales.get((l) => l.ui.page.login.feedback.deleting)}</p>
-                <p
-                    ><Spinning
-                        label={$locales.get(
-                            (l) => l.ui.page.login.feedback.deleting
-                        )}
-                    /></p
-                >{:else if successfullyDeleted === false}
-                <p aria-live="assertive"
-                    >{$locales.get((l) => l.ui.page.login.error.delete)}</p
-                >
-            {/if}
-        {/if}
-    </div>
+    <div class="action"><DeleteAccount {user} /></div>
     {#if moderator}
         <div class="action">
             You're a moderator. Go <Link to="/moderate">moderate</Link>?
@@ -182,14 +92,6 @@
 </div>
 
 <style>
-    form {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        margin: var(--wordplay-spacing);
-    }
-
     .actions {
         display: flex;
         flex-direction: row;
