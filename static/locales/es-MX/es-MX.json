@@ -3936,7 +3936,7 @@
                 "insertShare": "insertar compartir",
                 "insertLine": "insertar salto de línea",
                 "backspace": "borrar selección o carácter anterior",
-                "delete": "$?",
+                "delete": "eliminar selección o carácter siguiente",
                 "cut": "corte lo que esté seleccionado",
                 "copy": "copiar lo que esté  seleccionado",
                 "paste": "pegar el contenido del teclado",
@@ -4278,11 +4278,9 @@
                         "• Si *pierdes acceso* a tu cuenta de correo electrónico, no podrás iniciar sesión ni actualizar tu dirección de correo electrónico."
                     ],
                     "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
-                    "usernamerules": [
-                        "• *Los nombres de usuario* no deben contener información identificable (por ejemplo, nombres), no pueden ser direcciones de correo electrónico y deben tener al menos 5 caracteres de longitud.",
-                        "• *Las contraseñas* deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
-                        "• *Si olvidas tu contraseña*, no podrás recuperar tu cuenta, ya que no tenemos otra forma de saber que eres tú. Guarda tu contraseña en un lugar seguro, como un administrador de contraseñas."
-                    ],
+                    "usernamerule": "Los nombres de usuario no deben contener información identificable (por ejemplo, nombres), no pueden ser direcciones de correo electrónico y deben tener al menos 5 caracteres de longitud.",
+                    "passwordrule": "Las contraseñas deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
+                    "usernamereminder": "Debido a que no recopilamos información de contacto, no podrá restablecer su contraseña si la olvida. Guárdalo en un lugar seguro, como un administrador de contraseñas.",
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "change": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",

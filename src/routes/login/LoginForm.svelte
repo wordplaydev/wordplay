@@ -5,8 +5,9 @@
     export let feedback: string | undefined;
 </script>
 
-<form class="login-form" on:submit={submit}><slot /></form>
-{#if feedback}<Feedback>{feedback}</Feedback>{/if}
+<form class="login-form" on:submit={submit}
+    ><slot />{#if feedback}<Feedback>{feedback}</Feedback>{/if}</form
+>
 
 <style>
     .login-form {

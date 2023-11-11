@@ -680,8 +680,12 @@ type UITexts = {
                 play: string;
                 /** Gives rules for emails above the login form */
                 emailrules: string[];
-                /** Gives rules for usernames and passwords above the login form */
-                usernamerules: string[];
+                /** Reminder about username limitations */
+                usernamereminder: string;
+                /** Description of username rules */
+                usernamerule: string;
+                /** Description of password rules */
+                passwordrule: string;
                 /** Reminder to write down password */
                 passwordreminder: string;
                 /** Too young feedback */

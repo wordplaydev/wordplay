@@ -22,10 +22,10 @@
     let usernameLoginFeedback: string | undefined = undefined;
     /** The password currently in the password text field */
     let password = '';
+    /** The repeated password currently in the password text field */
+    let password2 = '';
     /** Whether a sign in has been attempted */
     let submitted = false;
-    /** Whether the password is revealed */
-    let reveal = false;
     /** True if the creator tried to log in and there's no account yet. */
     let noAccount = false;
 
@@ -33,6 +33,12 @@
     $: loginFormSubmittable =
         isValidUsername(username) && isValidPassword(password);
     $: usernameIsCheckable = !noAccount && loginFormSubmittable;
+    $: usernameIsCreatable =
+        noAccount &&
+        isValidUsername(username) &&
+        isValidPassword(password) &&
+        isValidPassword(password2) &&
+        password === password2;
 
     /** The email to submit to Firebase given the current username (since Firebase doesn't support usernames) */
     $: emailUsername = CreatorDatabase.getUsernameEmail(username);
@@ -62,13 +68,16 @@
                         error
                     );
                 }
+            } finally {
+                submitted = false;
             }
         }
     }
 
     async function createUsernameLogin() {
-        if (auth && reveal) {
+        if (auth && usernameIsCreatable) {
             try {
+                submitted = true;
                 await createUserWithEmailAndPassword(
                     auth,
                     emailUsername,
@@ -79,6 +88,7 @@
                     $locales,
                     error
                 );
+                submitted = false;
             }
         }
     }
@@ -91,7 +101,10 @@
     <Subheader
         >{$locales.get((l) => l.ui.page.login.subheader.username)}</Subheader
     >
-    <div>
+    <MarkupHtmlView
+        markup={$locales.get((l) => l.ui.page.login.prompt.usernamereminder)}
+    />
+    <p>
         <TextField
             description={$locales.get(
                 (l) => l.ui.page.login.field.username.description
@@ -103,45 +116,58 @@
             editable={!submitted}
             validator={(name) => isValidUsername(name)}
         />
+        <TextField
+            kind={'password'}
+            description={$locales.get(
+                (l) => l.ui.page.login.field.password.description
+            )}
+            placeholder={$locales.get(
+                (l) => l.ui.page.login.field.password.placeholder
+            )}
+            bind:text={password}
+            validator={(pass) => isValidPassword(pass)}
+        />
         {#if noAccount}
-            {#if reveal}{password}{:else}<Button
-                    tip={$locales.get(
-                        (l) => l.ui.page.login.prompt.passwordreminder
-                    )}
-                    action={() => (reveal = true)}
-                    >🔍{'•'.repeat(password.length)}</Button
-                >{/if}
-        {:else}
             <TextField
-                kind={noAccount ? undefined : 'password'}
+                kind={'password'}
                 description={$locales.get(
                     (l) => l.ui.page.login.field.password.description
                 )}
                 placeholder={$locales.get(
                     (l) => l.ui.page.login.field.password.placeholder
                 )}
+                bind:text={password2}
                 editable={!submitted}
-                bind:text={password}
-                validator={(pass) => isValidPassword(pass)}
+                validator={(pass) => pass === password && isValidPassword(pass)}
             />
         {/if}
+
         <Button
             submit
             background
             tip={$locales.get((l) => l.ui.page.login.button.login)}
-            active={usernameIsCheckable || reveal}
+            active={!submitted && (usernameIsCheckable || usernameIsCreatable)}
             action={() => undefined}
             >{#if noAccount}&gt;&gt;{:else}&gt;{/if}</Button
         >
-    </div>
-    {#if noAccount}
+    </p>
+    {#if noAccount && password2 !== password}
         <Feedback
             >{$locales.get(
                 (l) => l.ui.page.login.prompt.passwordreminder
             )}</Feedback
         >
+    {:else if !noAccount && !isValidUsername(username)}
+        <Feedback
+            >{$locales.get(
+                (l) => l.ui.page.login.prompt.usernamerule
+            )}</Feedback
+        >
+    {:else if !noAccount && password.length > 0 && !isValidPassword(password)}
+        <Feedback
+            >{$locales.get(
+                (l) => l.ui.page.login.prompt.passwordrule
+            )}</Feedback
+        >
     {/if}
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.login.prompt.usernamerules)}
-    />
 </LoginForm>

@@ -4207,12 +4207,10 @@
                         "• If you *lose access* to your email account, you won't be able to log in or update your email address."
                     ],
                     "tooyoung": "You must be 13 or older to login with an email.",
-                    "usernamerules": [
-                        "• *Usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long",
-                        "• *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
-                        "• *If you forget your password*, you can't recover your account, since we have no other way to know it's you. Store your password somewhere safe, like a password manager"
-                    ],
-                    "passwordreminder": "To create your account, select your password above to reveal it, and make sure you stored it safely and correctly. Then submit again to create your account.",
+                    "usernamereminder": "Because we do not gather contact information, you won't be able to reset your password if you forget it. Store it somewhere safe, like a password manager.",
+                    "usernamerule": "Usernames should not contain identiable information (e.g., names), cannot be an email addresses, and must be at least 5 characters long.",
+                    "passwordrule": "Passwords must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                    "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "sent": "Check your email for a login link. Patience, email can be slow!",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",

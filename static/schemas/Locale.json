@@ -8928,6 +8928,10 @@
                           "description": "Reminder to write down password",
                           "type": "string"
                         },
+                        "passwordrule": {
+                          "description": "Description of password rules",
+                          "type": "string"
+                        },
                         "play": {
                           "description": "Encouragement to go create after logging in.",
                           "type": "string"
@@ -8948,12 +8952,13 @@
                           "description": "Too young feedback",
                           "type": "string"
                         },
-                        "usernamerules": {
-                          "description": "Gives rules for usernames and passwords above the login form",
-                          "items": {
-                            "type": "string"
-                          },
-                          "type": "array"
+                        "usernamereminder": {
+                          "description": "Reminder about username limitations",
+                          "type": "string"
+                        },
+                        "usernamerule": {
+                          "description": "Description of username rules",
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -8963,7 +8968,9 @@
                         "enter",
                         "play",
                         "emailrules",
-                        "usernamerules",
+                        "usernamereminder",
+                        "usernamerule",
+                        "passwordrule",
                         "passwordreminder",
                         "tooyoung",
                         "logout",
