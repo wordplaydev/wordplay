@@ -1,7 +1,7 @@
-/** Adds emoji color variation descriptor to any emojis missing them. Ensures fonts are selected correctly in Safari. */
+/** Adds emoji text variation descriptor to any noto emoji missing them. Ensures fonts are rendered consistently across Chrome, Safari, and Firefox. */
 export function withVariationSelector(text: string) {
     return text.replaceAll(
-        /(\p{Extended_Pictographic}(?!\uFE0F))/gu,
-        '$1\uFE0F'
+        /(\p{Extended_Pictographic}(?!\uFE0E))/gu,
+        '$1\uFE0E'
     );
 }
