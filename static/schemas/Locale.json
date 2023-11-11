@@ -8775,17 +8775,22 @@
                           "$ref": "#/definitions/ButtonText",
                           "description": "Confirm deletion"
                         },
-                        "update": {
+                        "updateEmail": {
                           "description": "Update email button description",
+                          "type": "string"
+                        },
+                        "updatePassword": {
+                          "description": "Update password",
                           "type": "string"
                         }
                       },
                       "required": [
                         "logout",
                         "login",
-                        "update",
+                        "updateEmail",
                         "delete",
-                        "reallyDelete"
+                        "reallyDelete",
+                        "updatePassword"
                       ],
                       "type": "object"
                     },
@@ -8847,11 +8852,16 @@
                         "deleting": {
                           "description": "Account deleting pending",
                           "type": "string"
+                        },
+                        "updatedPassword": {
+                          "description": "Password successfully updated",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "changing",
-                        "deleting"
+                        "deleting",
+                        "updatedPassword"
                       ],
                       "type": "object"
                     },
@@ -8889,8 +8899,12 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "Text for age prompt"
                         },
-                        "change": {
+                        "changeEmail": {
                           "description": "Tells the creator that they can change their email address.",
+                          "type": "string"
+                        },
+                        "changePassword": {
+                          "description": "Tells the creator that they can cahnge their password",
                           "type": "string"
                         },
                         "confirm": {
@@ -8964,7 +8978,8 @@
                       "required": [
                         "login",
                         "sent",
-                        "change",
+                        "changeEmail",
+                        "changePassword",
                         "enter",
                         "play",
                         "emailrules",

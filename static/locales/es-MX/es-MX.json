@@ -4282,7 +4282,8 @@
                     "passwordrule": "Las contraseñas deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
                     "usernamereminder": "Debido a que no recopilamos información de contacto, no podrá restablecer su contraseña si la olvida. Guárdalo en un lugar seguro, como un administrador de contraseñas.",
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
-                    "change": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
+                    "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
+                    "changePassword": "$! ¿Quieres cambiar tu contraseña?",
                     "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
@@ -4303,7 +4304,8 @@
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
-                    "deleting": "Vale, borrando tus proyectos y configuraciones..."
+                    "deleting": "Vale, borrando tus proyectos y configuraciones...",
+                    "updatedPassword": "$! Tu contraseña está actualizada."
                 },
                 "field": {
                     "email": {
@@ -4325,7 +4327,7 @@
                         "label": "cerrar sesión"
                     },
                     "login": "iniciar sesión con este correo electrónico, enviando un enlace de inicio de sesión",
-                    "update": "cambiar tu correo electrónico",
+                    "updateEmail": "cambiar tu correo electrónico",
                     "delete": {
                         "tip": "borrar tu cuenta",
                         "label": "borrar mis datos…"
@@ -4333,7 +4335,8 @@
                     "reallyDelete": {
                         "tip": "borrar tu cuenta para siempre",
                         "label": "¡¡¡bórralo!!!"
-                    }
+                    },
+                    "updatePassword": "$! enviar nueva contraseña"
                 }
             },
             "rights": {

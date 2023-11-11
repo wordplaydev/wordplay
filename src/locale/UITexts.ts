@@ -673,7 +673,9 @@ type UITexts = {
                 /** Prompt to check email for a login link. */
                 sent: string;
                 /** Tells the creator that they can change their email address. */
-                change: string;
+                changeEmail: string;
+                /** Tells the creator that they can cahnge their password */
+                changePassword: string;
                 /** Asks the creator to enter their email if they opened the email link in a different browser. */
                 enter: string;
                 /** Encouragement to go create after logging in. */
@@ -720,6 +722,8 @@ type UITexts = {
                 changing: string;
                 /** Account deleting pending */
                 deleting: string;
+                /** Password successfully updated */
+                updatedPassword: string;
             };
             error: {
                 /** Shown when the login link expired */
@@ -745,11 +749,13 @@ type UITexts = {
                 /** Login button description */
                 login: string;
                 /** Update email button description  */
-                update: string;
+                updateEmail: string;
                 /** Delete account button */
                 delete: ButtonText;
                 /** Confirm deletion */
                 reallyDelete: ButtonText;
+                /** Update password */
+                updatePassword: string;
             };
         };
         /** The rights/terms of service page */

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { updateEmail, updateProfile, type User } from 'firebase/auth';
+    import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
     import { DB, locales, SaveStatus } from '../../db/Database';
     import Link from '../../components/app/Link.svelte';
@@ -9,22 +9,18 @@
     import TextField from '../../components/widgets/TextField.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import validEmail from '../../db/validEmail';
-    import Feedback from '../../components/app/Feedback.svelte';
     import { isModerator } from '../../models/Moderation';
-    import getLoginErrorDescription from './getAuthErrorDescription';
     import { Creator } from '../../db/CreatorDatabase';
     import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { status } from '../../db/Database';
+    import ChangeEmail from './ChangeEmail.svelte';
+    import ChangePassword from './ChangePassword.svelte';
 
     export let user: User;
 
     $: creator = Creator.from(user);
 
-    let newEmail: string;
-
-    let changeSubmitted = false;
-    let changeFeedback: string | undefined = undefined;
     let deleteRequested = false;
     let deleteSubmitted = false;
     let confirmEmail: string;
@@ -43,22 +39,6 @@
     async function logout() {
         // Then sign out. (Projects will be deleted locally by the project database when user updates.)
         if (auth) await auth.signOut();
-    }
-
-    async function update() {
-        // Enter loading state, try to login and wait for it to complete, and then leave loading state.
-        // Give some feedback when loading.
-        changeSubmitted = true;
-        try {
-            await updateEmail(user, newEmail);
-            changeFeedback = $locales.get(
-                (l) => l.ui.page.login.prompt.confirm
-            );
-        } catch (error) {
-            changeFeedback = getLoginErrorDescription($locales, error);
-        } finally {
-            changeSubmitted = false;
-        }
     }
 
     async function deleteAccount() {
@@ -117,33 +97,11 @@
     </div>
     {#if !creator.isUsername()}
         <div class="action">
-            <p>{$locales.get((l) => l.ui.page.login.prompt.change)}</p>
-            <form on:submit={update}>
-                <TextField
-                    description={$locales.get(
-                        (l) => l.ui.page.login.field.email.description
-                    )}
-                    placeholder={$locales.get(
-                        (l) => l.ui.page.login.field.email.placeholder
-                    )}
-                    bind:text={newEmail}
-                    editable={!changeSubmitted}
-                /><Button
-                    submit
-                    background
-                    tip={$locales.get((l) => l.ui.page.login.button.update)}
-                    active={validEmail(newEmail)}
-                    action={() => undefined}>&gt;</Button
-                >
-                {#if changeSubmitted}<Spinning
-                        label={$locales.get(
-                            (l) => l.ui.page.login.feedback.changing
-                        )}
-                    />
-                {:else if changeFeedback}<Feedback inline
-                        >{changeFeedback}</Feedback
-                    >{/if}
-            </form>
+            <ChangeEmail {user} />
+        </div>
+    {:else}
+        <div class="action">
+            <ChangePassword {user} />
         </div>
     {/if}
     <div class="action"

@@ -15,6 +15,7 @@
     import { FirebaseError } from 'firebase/app';
     import { auth } from '@db/firebase';
     import getLoginErrorDescription from './getAuthErrorDescription';
+    import isValidPassword from './IsValidPassword';
 
     /** The username text currently in the text field */
     let username = '';
@@ -45,10 +46,6 @@
 
     function isValidUsername(username: string) {
         return !validEmail(username) && username.length >= 5;
-    }
-
-    function isValidPassword(pass: string) {
-        return pass.length >= 10;
     }
 
     async function tryUsernameLogin() {

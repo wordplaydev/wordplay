@@ -4211,7 +4211,8 @@
                     "usernamerule": "Usernames should not contain identiable information (e.g., names), cannot be an email addresses, and must be at least 5 characters long.",
                     "passwordrule": "Passwords must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
-                    "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
+                    "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
+                    "changePassword": "Want to change your password? Submit a new one and repeat it.",
                     "sent": "Check your email for a login link. Patience, email can be slow!",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
@@ -4232,7 +4233,8 @@
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
-                    "deleting": "Okay, deleting your projects and settings..."
+                    "deleting": "Okay, deleting your projects and settings...",
+                    "updatedPassword": "Your password is updated."
                 },
                 "field": {
                     "email": {
@@ -4254,7 +4256,7 @@
                         "label": "logout"
                     },
                     "login": "login with this email, sending a login link",
-                    "update": "change your email",
+                    "updateEmail": "change your email",
                     "delete": {
                         "tip": "delete your account",
                         "label": "delete my data…"
@@ -4262,7 +4264,8 @@
                     "reallyDelete": {
                         "tip": "delete your account forever",
                         "label": "delete it!!!"
-                    }
+                    },
+                    "updatePassword": "submit new password"
                 }
             },
             "rights": {

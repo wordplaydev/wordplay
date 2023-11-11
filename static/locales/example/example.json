@@ -2524,7 +2524,8 @@
                     "usernamereminder": "$?",
                     "passwordreminder": "$?",
                     "play": "$?",
-                    "change": "$?",
+                    "changeEmail": "$?",
+                    "changePassword": "$?",
                     "logout": "$?",
                     "sent": "$?",
                     "success": "$?",
@@ -2545,7 +2546,8 @@
                 },
                 "feedback": {
                     "changing": "$?",
-                    "deleting": "$?"
+                    "deleting": "$?",
+                    "updatedPassword": ""
                 },
                 "field": {
                     "email": {
@@ -2567,7 +2569,8 @@
                         "label": "$?"
                     },
                     "login": "$?",
-                    "update": "$?",
+                    "updateEmail": "$?",
+                    "updatePassword": "$?",
                     "delete": {
                         "tip": "$?",
                         "label": "$?"
