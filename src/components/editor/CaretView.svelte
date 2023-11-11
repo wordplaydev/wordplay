@@ -579,27 +579,31 @@
     }
 </script>
 
-{#if $editor?.focused}
-    <span
-        class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
-        class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
-        style:display={location === undefined ? 'none' : null}
-        style:left={location ? `${location.left}px` : null}
-        style:top={location ? `${location.top}px` : null}
-        style:width={location
-            ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
-            : null}
-        style:height={location
-            ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
-            : null}
-        bind:this={element}
-    />
-{/if}
+<span
+    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
+    class:focused={$editor?.focused}
+    class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
+    style:display={location === undefined ? 'none' : null}
+    style:left={location ? `${location.left}px` : null}
+    style:top={location ? `${location.top}px` : null}
+    style:width={location
+        ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
+        : null}
+    style:height={location
+        ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
+        : null}
+    bind:this={element}
+/>
 
 <style>
     .caret {
         position: absolute;
         background-color: var(--wordplay-foreground);
+        opacity: 0.25;
+    }
+
+    .focused {
+        opacity: 1;
     }
 
     .node {

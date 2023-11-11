@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Corrected English list literal tutorial, which didn't explain wraparound behavior of indices.
 -   Decoded getWebpage response as JSON-encoded string, fixing HTML parsing and querying.
+-   Keep editor caret displayed after losing focus to preserve menu location.
 
 ## 0.9.0
 
