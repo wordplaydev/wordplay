@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 -   Corrected English list literal tutorial, which didn't explain wraparound behavior of indices.
+-   Decoded getWebpage response as JSON-encoded string, fixing HTML parsing and querying.
 
 ## 0.9.0
 

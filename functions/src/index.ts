@@ -84,7 +84,7 @@ export const getWebpage = onRequest(
             // Set the content length header.
             response.set('Content-Length', `${new Blob([result]).size}`);
 
-            // Send the HTML back as text.
+            // Send the HTML back as JSON-encoded text.
             response.json(result);
         }
     }

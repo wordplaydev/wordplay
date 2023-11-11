@@ -1,6 +1,6 @@
 Headlines
 === start/en
-headlines: Webpage('https://www.nytimes.com' 'h3')
+headlines: Webpage('https://www.nytimes.com' 'h3.indicate-hover')
 top: headlines•[''] ? headlines.subsequence(1 7) ø
 top•ø ? 
     Phrase('…')
