@@ -3,6 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.11
+
+## Fixed
+
+-   Corrected caret position layout in the presence of tabs.
+-   Added tab insertion command and shortcut.
+
 ## 0.9.1
 
 This version includes many other changes made prior to this log was created.
