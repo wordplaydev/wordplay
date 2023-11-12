@@ -2197,6 +2197,7 @@
                 "incrementLiteral": "$?",
                 "decrementLiteral": "$?",
                 "insertSymbol": "$?",
+                "insertTab": "$?",
                 "insertTrue": "$?",
                 "insertFalse": "$?",
                 "insertNone": "$?",

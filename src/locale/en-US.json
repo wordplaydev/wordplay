@@ -3855,6 +3855,7 @@
                 "incrementLiteral": "increase number, text, or Boolean",
                 "decrementLiteral": "decrease number, text, or Boolean",
                 "insertSymbol": "insert $1",
+                "insertTab": "insert tab",
                 "insertTrue": "insert true",
                 "insertFalse": "insert false",
                 "insertNone": "insert none symbol",

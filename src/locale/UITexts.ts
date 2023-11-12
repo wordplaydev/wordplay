@@ -222,6 +222,8 @@ type UITexts = {
             decrementLiteral: string;
             /** Insert selected symbol */
             insertSymbol: string;
+            /** Insert tab symbol */
+            insertTab: string;
             /** Insert true symbol */
             insertTrue: string;
             /** Insert false symbol */

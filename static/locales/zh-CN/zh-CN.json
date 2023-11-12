@@ -3740,6 +3740,7 @@
                 "incrementLiteral": "增加数字、文本或布尔值",
                 "decrementLiteral": "减少数字、文本或布尔值",
                 "insertSymbol": "插入$1",
+                "insertTab": "$?",
                 "insertTrue": "插入 true",
                 "insertFalse": "插入 false",
                 "insertNone": "插入无符号",

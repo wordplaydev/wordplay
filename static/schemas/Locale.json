@@ -9740,6 +9740,10 @@
                       "description": "Insert selected symbol",
                       "type": "string"
                     },
+                    "insertTab": {
+                      "description": "Insert tab symbol",
+                      "type": "string"
+                    },
                     "insertTable": {
                       "description": "Insert table symbol",
                       "type": "string"
@@ -9839,6 +9843,7 @@
                     "incrementLiteral",
                     "decrementLiteral",
                     "insertSymbol",
+                    "insertTab",
                     "insertTrue",
                     "insertFalse",
                     "insertNone",

@@ -3919,6 +3919,7 @@
                 "incrementLiteral": "aumentar número, texto o booleano",
                 "decrementLiteral": "disminuir número, texto o booleano",
                 "insertSymbol": "inserte $1",
+                "insertTab": "$?",
                 "insertTrue": "insertar verdadera",
                 "insertFalse": "insertar falsa",
                 "insertNone": "insertar ningún símbolo",

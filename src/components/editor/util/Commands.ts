@@ -36,6 +36,7 @@ import Sym from '../../../nodes/Sym';
 import type Project from '../../../models/Project';
 import interpret from './interpret';
 import { TileKind } from '../../project/Tile';
+import { TAB_SYMBOL } from '@parser/Spaces';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -770,6 +771,18 @@ const Commands: Command[] = [
         keySymbol: 'A',
         execute: ({ editor, caret }) =>
             editor && caret ? caret.withPosition(caret.getProgram()) : false,
+    },
+    {
+        symbol: TAB_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertTab,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: true,
+        key: 'Tab',
+        keySymbol: TAB_SYMBOL,
+        execute: ({ caret }) => caret?.insert('\t') ?? false,
     },
     {
         symbol: TRUE_SYMBOL,
