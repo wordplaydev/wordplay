@@ -197,9 +197,9 @@ export default class Physics {
                 // Set the gravity to the Stage's gravity setting.
                 for (const engine of this.enginesByZ.values()) {
                     // The scale is the pixels per meter
-                    engine.gravity.scale = 1 / PX_PER_METER;
+                    engine.gravity.scale = 1 / (PX_PER_METER * 2);
                     engine.gravity.y =
-                        (info.output.gravity ?? DefaultGravity) / 10;
+                        (info.output.gravity ?? DefaultGravity) / 20;
                 }
             }
             // Other kind of output? Sync it.

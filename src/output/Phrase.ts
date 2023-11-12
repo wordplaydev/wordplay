@@ -202,7 +202,7 @@ export default class Phrase extends Output {
                 : // Otherwise, get the list of formatted segments.
                   text?.getFormats();
 
-        // Go throgh each formatted text,
+        // Go through each formatted text,
         for (const formatted of formats) {
             // Split the text by spaces and measure each space separated chunk.
             for (const segment of segmentWraps(formatted.text)) {

@@ -34,9 +34,9 @@ ball: Phrase("🧶" name: 'ball' place: ballPlace matter: Matter(1kg 0.5 0 1))
 
 Stage(
     [
-        Shape(Rectangle(-10m 0m 10m -1m))
-        Shape(Rectangle(-10m -1m -9m 10m))
-        Shape(Rectangle(10m -1m 9m 10m))
+        Shape(Rectangle(-10m 0m 10m -3m))
+        Shape(Rectangle(-10m -1m -9m 11m))
+        Shape(Rectangle(10m -1m 9m 11m))
         Shape(Rectangle(-10m 10m 10m 11m))
         ball 
         kitty
