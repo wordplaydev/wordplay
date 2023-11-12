@@ -18,6 +18,7 @@ import type { WritingLayout } from '../locale/Scripts';
 import type Progress from '../tutorial/Progress';
 import Layout from '../components/project/Layout';
 import { BlocksSetting } from './BlocksSetting';
+import { LocalizedSetting } from './LocalizedSetting';
 import { DarkSetting } from './DarkSetting';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from './firebase';
@@ -60,6 +61,7 @@ export default class SettingsDatabase {
         camera: CameraSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
+        localized: LocalizedSetting,
         dark: DarkSetting,
     };
 
@@ -168,6 +170,18 @@ export default class SettingsDatabase {
 
     setBlocks(on: boolean) {
         this.settings.blocks.set(this.database, on);
+    }
+
+    getBlocks() {
+        return this.settings.blocks.get();
+    }
+
+    getLocalized() {
+        return this.settings.localized.get();
+    }
+
+    setLocalized(on: boolean) {
+        this.settings.localized.set(this.database, on);
     }
 
     /** To serialize to a database */

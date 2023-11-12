@@ -222,6 +222,7 @@ export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
 export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
+export const localized = Settings.settings.localized.value;
 export const status = DB.Status;
 export const editableProjects = Projects.allEditableProjects;
 export const archivedProjects = Projects.allArchivedProjects;

@@ -83,6 +83,7 @@
         Projects,
         writingLayout,
         blocks,
+        localized,
         Creators,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
@@ -781,8 +782,8 @@
             };
     });
 
-    function toggleBlocks() {
-        Settings.setBlocks(!$blocks);
+    function toggleBlocks(on: boolean) {
+        Settings.setBlocks(on);
     }
 
     function getTileView(tileID: string) {
@@ -1359,6 +1360,21 @@
                                         )}
                                         toggle={toggleBlocks}
                                         on={$blocks}
+                                    />
+                                    <Switch
+                                        onLabel={$locales.getLocale().language}
+                                        onTip={$locales.get(
+                                            (l) =>
+                                                l.ui.source.toggle.localized.on
+                                        )}
+                                        offLabel={withVariationSelector('🌎')}
+                                        offTip={$locales.get(
+                                            (l) =>
+                                                l.ui.source.toggle.localized.off
+                                        )}
+                                        toggle={(on) =>
+                                            Settings.setLocalized(on)}
+                                        on={$localized}
                                     />
                                     <!-- Make a Button for every modify command -->
                                     {#each VisibleModifyCommands as command}<CommandButton

@@ -5,6 +5,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.1
 
+This version includes many other changes made prior to this log was created.
+
 ## Added
 
 -   New change password form on profile.
@@ -13,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Improved design of username and password login [#272](https://github.com/wordplaydev/wordplay/issues/272), [#273](https://github.com/wordplaydev/wordplay/issues/273)
 -   Converted blocks toggle to a keyboard/mouse switch.
+-   Explicit switch control over localization of editor, instead of automatic.
 
 ## Fixed
 

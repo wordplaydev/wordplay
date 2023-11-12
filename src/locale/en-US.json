@@ -3817,6 +3817,10 @@
                     "on": "hide block backgrounds",
                     "off": "show block backgrounds"
                 },
+                "localized": {
+                    "on": "show localized text",
+                    "off": "show all text"
+                },
                 "glyphs": {
                     "on": "collapse the matching glyphs",
                     "off": "expand the matching glyphs"

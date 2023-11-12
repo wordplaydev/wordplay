@@ -174,6 +174,8 @@ type UITexts = {
             blocks: ToggleText;
             /** The glyph chooser expand/collapse toggle */
             glyphs: ToggleText;
+            /** The localized on/off toggle */
+            localized: ToggleText;
         };
         button: {
             /** Output preview button for selecting output for display in output tile */

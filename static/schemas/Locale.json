@@ -9932,11 +9932,16 @@
                     "glyphs": {
                       "$ref": "#/definitions/ToggleText",
                       "description": "The glyph chooser expand/collapse toggle"
+                    },
+                    "localized": {
+                      "$ref": "#/definitions/ToggleText",
+                      "description": "The localized on/off toggle"
                     }
                   },
                   "required": [
                     "blocks",
-                    "glyphs"
+                    "glyphs",
+                    "localized"
                   ],
                   "type": "object"
                 }

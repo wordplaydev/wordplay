@@ -30,7 +30,7 @@ import type Evaluator from '@runtime/Evaluator';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
-import type { Database } from '@db/Database';
+import { Settings, type Database } from '@db/Database';
 import type Locale from '@locale/Locale';
 import Sym from '../../../nodes/Sym';
 import type Project from '../../../models/Project';
@@ -90,7 +90,7 @@ export type CommandContext = {
     database: Database;
     dragging: boolean;
     toggleMenu?: () => void;
-    toggleBlocks?: () => void;
+    toggleBlocks?: (on: boolean) => void;
     setFullscreen?: (on: boolean) => void;
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
@@ -575,7 +575,7 @@ export const ToggleBlocks: Command = {
     key: 'Enter',
     execute: ({ toggleBlocks }) => {
         if (toggleBlocks) {
-            toggleBlocks();
+            toggleBlocks(!Settings.getBlocks());
             return true;
         }
         return false;
