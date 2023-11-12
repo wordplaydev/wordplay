@@ -459,21 +459,18 @@ export default class Evaluator {
         return this.reactions[0]?.stepIndex ?? 0;
     }
 
-    getSteps(evaluation: DefinitionNode): Step[] {
-        // No expression? No steps.
-        let steps = this.steps.get(evaluation);
+    getSteps(definition: DefinitionNode): Step[] {
+        // See if we have a cache of this definition's steps, and if not, compile them.
+        let steps = this.steps.get(definition);
         if (steps === undefined) {
             // Get the expression of the given node and compile it.
-            const expression = evaluation.expression;
-            if (expression === undefined) steps = [];
-            else {
-                const context =
-                    this.project.getNodeContext(expression) ??
-                    new Context(this.project, this.project.getMain());
-                steps = expression.compile(this, context);
-            }
-            this.steps.set(evaluation, steps);
+            const context =
+                this.project.getNodeContext(definition) ??
+                new Context(this.project, this.project.getMain());
+            steps = definition.getEvaluationSteps(this, context);
+            this.steps.set(definition, steps);
         }
+        // Return the steps.
         return steps;
     }
 

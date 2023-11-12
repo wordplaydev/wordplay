@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Corrected caret position layout in the presence of tabs.
 -   Added tab insertion command and shortcut.
+-   Fixed closures on block evaluations [#270](https://github.com/wordplaydev/wordplay/issues/270).
 
 ## 0.9.1
 

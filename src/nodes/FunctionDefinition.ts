@@ -214,6 +214,11 @@ export default class FunctionDefinition extends DefinitionExpression {
         ];
     }
 
+    /** Used by Evaluator to get the steps for the evaluation of this function. */
+    getEvaluationSteps(evaluator: Evaluator, context: Context): Step[] {
+        return this.expression?.compile(evaluator, context) ?? [];
+    }
+
     getPurpose() {
         return Purpose.Evaluate;
     }

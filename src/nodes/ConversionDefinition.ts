@@ -81,6 +81,11 @@ export default class ConversionDefinition extends DefinitionExpression {
         ];
     }
 
+    /** Used by Evaluator to get the steps for the evaluation of this conversion. */
+    getEvaluationSteps(evaluator: Evaluator, context: Context): Step[] {
+        return this.expression.compile(evaluator, context);
+    }
+
     getDescriptor() {
         return 'ConversionDefinition';
     }

@@ -29,6 +29,7 @@ import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
+import Evaluation from '@runtime/Evaluation';
 
 export enum BlockKind {
     Root = 'root',
@@ -90,6 +91,11 @@ export default class Block extends Expression {
         ];
     }
 
+    getEvaluationExpression(): Expression {
+        // This expression evaluates itself.
+        return this;
+    }
+
     getDescriptor() {
         return 'Block';
     }
@@ -109,13 +115,16 @@ export default class Block extends Expression {
                     locales.get((l) => l.node.Block.statement),
                 space: true,
                 indent: !this.isRoot(),
-                newline: this.isRoot() || this.isStructure(),
+                newline:
+                    this.isRoot() ||
+                    (this.isStructure() && this.statements.length > 0),
                 initial: this.isStructure(),
             },
             {
                 name: 'close',
                 kind: any(node(Sym.EvalClose), none()),
-                newline: this.isStructure(),
+                // If it's a structure with more than one definition, insert new line
+                newline: this.isStructure() && this.statements.length > 0,
                 uncompletable: true,
             },
         ];
@@ -265,22 +274,36 @@ export default class Block extends Expression {
         return lastStatement === undefined ? [] : [lastStatement];
     }
 
+    /** Used by Evaluator to get the steps for the evaluation of this block. */
+    getEvaluationSteps(evaluator: Evaluator, context: Context) {
+        return this.statements.reduce(
+            (prev: Step[], current) => [
+                ...prev,
+                ...current.compile(evaluator, context),
+            ],
+            []
+        );
+    }
+
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     compile(evaluator: Evaluator, context: Context): Step[] {
-        // If there are no statements, halt on exception.
+        // A block starts a new evaluation of its steps.
         return [
             new Start(this, (evaluator) => {
-                // Create a new scope for this block.
-                if (this.kind === BlockKind.Block)
-                    evaluator.evaluations[0].scope();
+                // Create a new evaluation to enable closures on bindings created in this block.
+                evaluator.startEvaluation(
+                    new Evaluation(
+                        evaluator,
+                        // This is the evaluation's evaluator
+                        this,
+                        // This is also the evaluation's definition
+                        this,
+                        // Closure is the current evaluation
+                        evaluator.getCurrentEvaluation()
+                    )
+                );
                 return undefined;
             }),
-            ...this.statements.reduce(
-                (prev: Step[], current) => [
-                    ...prev,
-                    ...current.compile(evaluator, context),
-                ],
-                []
-            ),
             new Finish(this),
         ];
     }
@@ -295,16 +318,11 @@ export default class Block extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        // Pop the scope made for this block if this isn't a structure's block.
-        if (this.kind === BlockKind.Block) evaluator.evaluations[0].unscope();
-
-        // Pop all the values computed
-        const values = [];
-        for (let i = 0; i < this.statements.length; i++)
-            values.push(evaluator.popValue(this));
+        // Get the last value computed in the evaluation's stack.
+        const result = evaluator.popValue(this);
 
         // Root blocks are allowed to have no value, but all others must have one.
-        return this.isStructure() ? new NoneValue(this) : values[0];
+        return this.isStructure() ? new NoneValue(this) : result;
     }
 
     /**
