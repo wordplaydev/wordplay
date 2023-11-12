@@ -22,6 +22,7 @@ This version includes many other changes made prior to this log was created.
 -   Corrected English list literal tutorial, which didn't explain wraparound behavior of indices.
 -   Decoded getWebpage response as JSON-encoded string, fixing HTML parsing and querying.
 -   Keep editor caret displayed after losing focus to preserve menu location.
+-   Fixed caret position of multilingual name renames.
 
 ## 0.9.0
 
