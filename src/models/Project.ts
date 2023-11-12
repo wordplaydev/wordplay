@@ -891,7 +891,6 @@ export default class Project {
             public: this.data.public,
             archived: this.isArchived(),
             persisted: this.isPersisted(),
-            // We update the time to now when the object is serialized.
             timestamp: this.data.timestamp,
             gallery: this.data.gallery,
             flags: { ...this.data.flags },
