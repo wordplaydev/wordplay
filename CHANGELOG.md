@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.11
 
+## Added
+
+-   Added support for ø coalescing (e.g., a ?? 1) [#36](https://github.com/wordplaydev/wordplay/issues/36).
+
 ## Fixed
 
 -   Corrected caret position layout in the presence of tabs.

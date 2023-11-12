@@ -74,7 +74,7 @@
         "URL": "URL",
         "Code": "codigo",
         "Mention": "mencionar",
-        "Branch": "rama",
+        "Otherwise": "$?",
         "None": "nada",
         "Type": "escribir",
         "Literal": "literal",
@@ -708,7 +708,7 @@
             "start": "vamos a obtener el valor de $1 primero",
             "finish": "$1[el valor es $2|el valor no es $2]",
             "conflict": {
-                "ImpossibleType": "esto no puede ser nunca de este tipo"
+                "ImpossibleType": "esto no puede ser nunca de este $1"
             },
             "exception": {
                 "TypeException": {
@@ -791,6 +791,13 @@
             "emotion": "neutral",
             "doc": "/@FunctionDefinition aquí. Esto es simplemente @None. ¡Son únicos en su tipo! Consulta @None para aprender más sobre ellos.",
             "start": "… ø"
+        },
+        "Otherwise": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
         },
         "Previous": {
             "name": "anterior",

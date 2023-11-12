@@ -74,7 +74,7 @@
         "URL": "网址",
         "Code": "代码",
         "Mention": "提到",
-        "Branch": "分支",
+        "Otherwise": "$?",
         "None": "空的",
         "Type": "类型",
         "Literal": "字面量",
@@ -729,7 +729,7 @@
             "start": "首先让我们获取 $1 的值",
             "finish": "$1[值是 $2|值不是 $2]",
             "conflict": {
-                "ImpossibleType": "这永远不可能是这种类型"
+                "ImpossibleType": "这永远不可能是这种类型 $1"
             },
             "exception": {
                 "TypeException": {
@@ -812,6 +812,13 @@
             "emotion": "neutral",
             "doc": "/@FunctionDefinition 在此。这只是 @None。它们是独一无二的！查看 @None 以了解更多关于它们的信息。",
             "start": "… ø"
+        },
+        "Otherwise": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
         },
         "Previous": {
             "name": "之前",

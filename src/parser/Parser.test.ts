@@ -68,6 +68,7 @@ import Delete from '../nodes/Delete';
 import { toTokens } from './toTokens';
 import parseDoc from './parseDoc';
 import { parseBlock } from './parseExpression';
+import Otherwise from '@nodes/Otherwise';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -147,6 +148,8 @@ test.each([
     ['🌎/en-US', IsLocale, 'locale', Language],
     ['a ? b c ? d e', Conditional, 'condition', Reference, 'a'],
     ['a ? b c ? d e', Conditional, 'no', Conditional, 'c ? d e'],
+    ['a ?? b', Otherwise, 'right', Reference, 'b'],
+    ['a ?? b ?? c', Otherwise, 'right', Otherwise, 'b ?? c'],
     ['ƒ(a b) _', FunctionDefinition, 'inputs', Array, 2],
     ['ƒ() _', FunctionDefinition, 'inputs', Array, 0],
     ['ƒ() •# _', FunctionDefinition, 'output', NumberType],

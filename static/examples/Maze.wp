@@ -40,7 +40,7 @@ state•State:  State(1 1 0) … ∆ direction …
 					((direction = "down") & allowed(state 1 0)) ? state.down()
 						state
 
-current: ( cell: maze.cell(state.row state.column) cell•ø ? ' ' cell)
+current: ( cell: maze.cell(state.row state.column) cell ?? ' ')
 up: maze.cell(state.row - 1 state.column)•''
 down: maze.cell(state.row + 1 state.column)•''
 left: maze.cell(state.row state.column - 1)•''

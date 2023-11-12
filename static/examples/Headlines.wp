@@ -3,7 +3,7 @@ Headlines
 headlines: Webpage('https://www.nytimes.com' 'h3.indicate-hover')
 top: headlines•[''] ? headlines.subsequence(1 7) ø
 top•ø ? 
-    Phrase('…')
+    Phrase('loading')
     Group(
         Stack(-1) 
         [

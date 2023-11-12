@@ -86,6 +86,7 @@ import Delete from '../nodes/Delete';
 import Translation from '../nodes/Translation';
 import type Locales from '../locale/Locales';
 import Borrow from '../nodes/Borrow';
+import Otherwise from '@nodes/Otherwise';
 
 /** These are ordered by appearance in the docs. */
 const templates: Node[] = [
@@ -147,6 +148,7 @@ const templates: Node[] = [
         ExpressionPlaceholder.make()
     ),
     Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
+    Otherwise.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
     IsLocale.make(Language.make(undefined)),
     Initial.make(),
     Changed.make(ExpressionPlaceholder.make(StreamType.make())),

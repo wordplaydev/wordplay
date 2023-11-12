@@ -74,7 +74,7 @@
         "URL": "$?",
         "Code": "$?",
         "Mention": "$?",
-        "Branch": "$?",
+        "Otherwise": "$?",
         "None": "$?",
         "Type": "$?",
         "Literal": "$?",
@@ -532,6 +532,13 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?"
+        },
+        "Otherwise": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
         },
         "Previous": {
             "name": "$?",

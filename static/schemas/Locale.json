@@ -4639,6 +4639,61 @@
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A number type, e.g., `#m` Description inputs: $1 = the unit or undefined"
             },
+            "Otherwise": {
+              "additionalProperties": false,
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "finish": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The text shown when this expression type finishes evaluating and has a value."
+                },
+                "name": {
+                  "description": "The name that should be used to refer to the node type",
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The text shown when this expression type first begins evaluating."
+                }
+              },
+              "required": [
+                "doc",
+                "emotion",
+                "finish",
+                "name",
+                "start"
+              ],
+              "type": "object"
+            },
             "Paragraph": {
               "$ref": "#/definitions/NodeText",
               "description": "A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ``Paragraph 1\\n\\nParagraph 2`` ` Description inputs: $1 = number, $2 = unit"
@@ -6216,6 +6271,7 @@
             "Borrow",
             "Changed",
             "Conditional",
+            "Otherwise",
             "ConversionDefinition",
             "Convert",
             "Delete",
@@ -7616,9 +7672,6 @@
             "Borrow": {
               "type": "string"
             },
-            "Branch": {
-              "type": "string"
-            },
             "Change": {
               "type": "string"
             },
@@ -7719,6 +7772,9 @@
               "type": "string"
             },
             "Operator": {
+              "type": "string"
+            },
+            "Otherwise": {
               "type": "string"
             },
             "Pi": {
@@ -7832,7 +7888,6 @@
             "Concept",
             "URL",
             "Mention",
-            "Branch",
             "None",
             "Type",
             "Literal",
@@ -7863,6 +7918,7 @@
             "This",
             "Locale",
             "Operator",
+            "Otherwise",
             "Conditional",
             "Text",
             "Code",

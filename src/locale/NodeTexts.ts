@@ -261,6 +261,7 @@ type NodeTexts = {
              */
             ExpectedBooleanCondition: ConflictText;
         }>;
+    Otherwise: NodeText & ExpressionText;
     /** A definition of a conversion, e.g. `→ # #m 5` */
     ConversionDefinition: DescriptiveNodeText &
         SimpleExpressionText &

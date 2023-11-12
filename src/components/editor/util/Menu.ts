@@ -91,11 +91,8 @@ export default class Menu {
             const kinds: Map<Purpose, Revision[]> = new Map();
             for (const other of others) {
                 const node = other.getNewNode(this.concepts.locales);
-                const purpose =
-                    node === undefined
-                        ? undefined
-                        : this.concepts.getRelevantConcept(node)?.getPurpose();
-                if (purpose) {
+                if (node) {
+                    const purpose = node.getPurpose();
                     const revisions = kinds.get(purpose);
                     if (revisions) kinds.set(purpose, [...revisions, other]);
                     else kinds.set(purpose, [other]);

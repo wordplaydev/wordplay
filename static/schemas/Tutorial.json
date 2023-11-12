@@ -54,6 +54,7 @@
         "Borrow",
         "Changed",
         "Conditional",
+        "Otherwise",
         "ConversionDefinition",
         "Convert",
         "Delete",
