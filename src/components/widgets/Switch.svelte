@@ -8,7 +8,7 @@
     export let uiid: string | undefined = undefined;
 </script>
 
-<span class="switch" data-uiid={uiid}>
+<span class="switch" data-uiid={uiid} class:on>
     <span
         class={`button off ${on ? 'inactive' : 'active'}`}
         role="button"
@@ -73,10 +73,16 @@
     }
 
     .divider {
+        display: inline-block;
+        transform: translateX(-1px);
         width: var(--wordplay-border-width);
         border-right: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         height: 1.5em;
+    }
+
+    .on .divider {
+        transform: translateX(1px);
     }
 
     .button.inactive:hover {
