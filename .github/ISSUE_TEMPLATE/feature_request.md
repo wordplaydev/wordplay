@@ -8,11 +8,11 @@ assignees: ''
 
 ## What's the problem?
 
-What are you trying to do? Is there a problem you're encountering or a wish you have?
+What are you trying to do? Is there a problem you're encountering or a wish you have that a new feature would address?
 
 ## What's the design idea?
 
-How would we address the problem with a new or changed feature? Provide as much detail about the idea as you currently have, but no need to provide an exact design specificaiton if you don't have one.
+How would we address the problem with a new or changed feature? Provide as much detail about the idea as you currently have, but no need to provide an exact design specification if you don't have one.
 
 ## Who benefits?
 

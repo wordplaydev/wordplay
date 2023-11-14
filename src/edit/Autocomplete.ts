@@ -73,6 +73,7 @@ import Delete from '../nodes/Delete';
 import Update from '../nodes/Update';
 import Changed from '../nodes/Changed';
 import type Locales from '../locale/Locales';
+import Otherwise from '@nodes/Otherwise';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -520,8 +521,13 @@ function getRelativeFieldEdits(
  * or that one of the non-token nodes in the replacement is equal to one of the non-token nodes in the original.
  */
 function completes(original: Node, replacement: Node): boolean {
+    // Completes if it contains a node equal to the original node
+    const replacementNodes = replacement.nodes();
+    if (replacementNodes.some((node) => node.isEqualTo(original))) return true;
+
+    // Completes if there's a name in the replacement that completes the original node.
     const originalNodes = original.nodes();
-    return replacement.nodes().some((n1) =>
+    return replacementNodes.some((n1) =>
         originalNodes.some((n2) => {
             const n1isToken = n1 instanceof Token;
             const n2isToken = n2 instanceof Token;
@@ -572,6 +578,7 @@ const PossibleNodes = [
     Conditional,
     Is,
     IsLocale,
+    Otherwise,
     // Define
     FunctionDefinition,
     StructureDefinition,

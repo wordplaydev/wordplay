@@ -286,8 +286,10 @@ export default class Webpage extends StreamValue<
                         position += chunk.length;
                     }
 
-                    // Decode into a UTF-8 string and set it as the response.
-                    response = new TextDecoder('utf-8').decode(chunksAll);
+                    // Decode into a UTF-8 string, then parse it as a JSON string, then set it as the response.
+                    response = JSON.parse(
+                        new TextDecoder('utf-8').decode(chunksAll)
+                    );
                 }
             }
         }

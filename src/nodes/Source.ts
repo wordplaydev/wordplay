@@ -31,6 +31,7 @@ import Purpose from '../concepts/Purpose';
 import Tokens from '../parser/Tokens';
 import type Definition from './Definition';
 import type Locales from '../locale/Locales';
+import type Evaluator from '@runtime/Evaluator';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -104,6 +105,11 @@ export default class Source extends Expression {
 
     static make(mainName: string) {
         return new Source(Names.make([mainName]), '');
+    }
+
+    /** Used by Evaluator to get the steps for the evaluation of this source file. */
+    getEvaluationSteps(evaluator: Evaluator, context: Context): Step[] {
+        return this.expression.compile(evaluator, context);
     }
 
     getDescriptor() {

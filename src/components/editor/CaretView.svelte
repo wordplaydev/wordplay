@@ -1,11 +1,6 @@
 <svelte:options immutable={true} />
 
 <script context="module" lang="ts">
-    let spaceWidth: number | null = null;
-    let spaceHeight: number | null = null;
-    let tabWidth: number | null = null;
-    let tabHeight: number | null = null;
-
     export type CaretBounds = {
         top: number;
         left: number;
@@ -27,6 +22,7 @@
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
+    import type Token from '@nodes/Token';
 
     export let caret: Caret;
     export let source: Source;
@@ -146,6 +142,98 @@
         return null;
     }
 
+    function computeCaretAndLineHeight(
+        editor: HTMLElement,
+        currentToken: Token,
+        currentTokenRect: DOMRect,
+        horizontal: boolean
+    ): [number, number] {
+        // To compute line height, find two tokens on adjacent lines and difference their tops.
+        const tokenViews = editor.querySelectorAll(`.Token`);
+        let firstTokenView: Element | undefined = undefined;
+        let firstTokenViewAfterLineBreak: Element | undefined = undefined;
+        let lineBreakCount: number | undefined = undefined;
+        for (const nextView of tokenViews) {
+            if (firstTokenView === undefined) firstTokenView = nextView;
+            else {
+                const lineBreaks = nextView.querySelectorAll('br');
+                if (lineBreaks.length > 0) {
+                    firstTokenViewAfterLineBreak = nextView;
+                    lineBreakCount = lineBreaks.length;
+                    break;
+                }
+            }
+        }
+
+        let caretHeight = horizontal
+            ? currentTokenRect.height
+            : currentTokenRect.width;
+
+        if (caretHeight === 0) {
+            const before = source.getTokenBefore(currentToken);
+            const beforeView = before ? getNodeView(before) : undefined;
+            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
+        }
+
+        let lineHeight;
+
+        if (
+            firstTokenView &&
+            firstTokenViewAfterLineBreak &&
+            lineBreakCount !== undefined
+        ) {
+            const firstTokenAfterLineBreakBound = (
+                firstTokenViewAfterLineBreak.querySelector(
+                    '.token-view'
+                ) as Element
+            ).getBoundingClientRect();
+            const firstTokenBound = (
+                firstTokenView.querySelector('.token-view') as Element
+            ).getBoundingClientRect();
+
+            lineHeight = horizontal
+                ? (firstTokenAfterLineBreakBound.top - firstTokenBound.top) /
+                  lineBreakCount
+                : (firstTokenAfterLineBreakBound.left - firstTokenBound.left) /
+                  lineBreakCount;
+        } else {
+            lineHeight = horizontal
+                ? currentTokenRect.height
+                : currentTokenRect.width;
+        }
+
+        return [caretHeight, lineHeight];
+    }
+
+    function computeSpaceDimensions(
+        editor: HTMLElement,
+        currentToken: Token
+    ): {
+        spaceWidth: number;
+        spaceHeight: number;
+        tabWidth: number;
+        tabHeight: number;
+    } {
+        // Get some measurements on spaces and tab.
+        const spaceElement = editor.querySelector(
+            `.space[data-id="${currentToken.id}"]`
+        );
+        if (spaceElement === null)
+            return { spaceWidth: 0, spaceHeight: 0, tabWidth: 0, tabHeight: 0 };
+        const spaceText = spaceElement.innerHTML;
+        spaceElement.innerHTML = SPACE_HTML;
+        const spaceBounds = spaceElement.getBoundingClientRect();
+        const spaceWidth = spaceBounds.width;
+        const spaceHeight = spaceBounds.height;
+        spaceElement.innerHTML = TAB_HTML;
+        const tabBounds = spaceElement.getBoundingClientRect();
+        const tabWidth = tabBounds.width;
+        const tabHeight = tabBounds.height;
+        spaceElement.innerHTML = spaceText;
+
+        return { spaceWidth, spaceHeight, tabWidth, tabHeight };
+    }
+
     function computeLocation(): CaretBounds | undefined {
         if (caret === undefined) return;
 
@@ -237,59 +325,12 @@
             viewportXOffset;
         let tokenTop = tokenViewRect.top + viewportYOffset;
 
-        // To compute line height, find two tokens on adjacent lines and difference their tops.
-        const tokenViews = editorView.querySelectorAll(`.Token`);
-        let firstTokenView: Element | undefined = undefined;
-        let firstTokenViewAfterLineBreak: Element | undefined = undefined;
-        let lineBreakCount: number | undefined = undefined;
-        for (const nextView of tokenViews) {
-            if (firstTokenView === undefined) firstTokenView = nextView;
-            else {
-                const lineBreaks = nextView.querySelectorAll('br');
-                if (lineBreaks.length > 0) {
-                    firstTokenViewAfterLineBreak = nextView;
-                    lineBreakCount = lineBreaks.length;
-                    break;
-                }
-            }
-        }
-
-        let caretHeight = horizontal
-            ? tokenViewRect.height
-            : tokenViewRect.width;
-
-        if (caretHeight === 0) {
-            const before = source.getTokenBefore(token);
-            const beforeView = before ? getNodeView(before) : undefined;
-            caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
-        }
-
-        let lineHeight;
-
-        if (
-            firstTokenView &&
-            firstTokenViewAfterLineBreak &&
-            lineBreakCount !== undefined
-        ) {
-            const firstTokenAfterLineBreakBound = (
-                firstTokenViewAfterLineBreak.querySelector(
-                    '.token-view'
-                ) as Element
-            ).getBoundingClientRect();
-            const firstTokenBound = (
-                firstTokenView.querySelector('.token-view') as Element
-            ).getBoundingClientRect();
-
-            lineHeight = horizontal
-                ? (firstTokenAfterLineBreakBound.top - firstTokenBound.top) /
-                  lineBreakCount
-                : (firstTokenAfterLineBreakBound.left - firstTokenBound.left) /
-                  lineBreakCount;
-        } else {
-            lineHeight = horizontal
-                ? tokenViewRect.height
-                : tokenViewRect.width;
-        }
+        const [caretHeight, lineHeight] = computeCaretAndLineHeight(
+            editorView,
+            token,
+            tokenViewRect,
+            horizontal
+        );
 
         // Is the caret in the text, and not the space?
         if (caretIndex > 0) {
@@ -352,28 +393,8 @@
                         .replace('px', '')
                 ) + 4;
 
-            // Get some measurements on spaces and tab.
-            if (
-                spaceWidth === null ||
-                tabWidth === null ||
-                spaceHeight === null ||
-                tabHeight === null
-            ) {
-                const spaceElement = editorView.querySelector(
-                    `.space[data-id="${token.id}"]`
-                );
-                if (spaceElement === null) return;
-                const spaceText = spaceElement.innerHTML;
-                spaceElement.innerHTML = SPACE_HTML;
-                const spaceBounds = spaceElement.getBoundingClientRect();
-                spaceWidth = spaceBounds.width;
-                spaceHeight = spaceBounds.height;
-                spaceElement.innerHTML = TAB_HTML;
-                const tabBounds = spaceElement.getBoundingClientRect();
-                tabWidth = tabBounds.width;
-                tabHeight = tabBounds.height;
-                spaceElement.innerHTML = spaceText;
-            }
+            const { spaceWidth, spaceHeight, tabWidth, tabHeight } =
+                computeSpaceDimensions(editorView, token);
 
             // Find the right side of token just prior to the current one that has this space.
             const priorToken = caret.source.getNextToken(token, -1);
@@ -579,27 +600,31 @@
     }
 </script>
 
-{#if $editor?.focused}
-    <span
-        class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
-        class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
-        style:display={location === undefined ? 'none' : null}
-        style:left={location ? `${location.left}px` : null}
-        style:top={location ? `${location.top}px` : null}
-        style:width={location
-            ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
-            : null}
-        style:height={location
-            ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
-            : null}
-        bind:this={element}
-    />
-{/if}
+<span
+    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
+    class:focused={$editor?.focused}
+    class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
+    style:display={location === undefined ? 'none' : null}
+    style:left={location ? `${location.left}px` : null}
+    style:top={location ? `${location.top}px` : null}
+    style:width={location
+        ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
+        : null}
+    style:height={location
+        ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
+        : null}
+    bind:this={element}
+/>
 
 <style>
     .caret {
         position: absolute;
         background-color: var(--wordplay-foreground);
+        opacity: 0.25;
+    }
+
+    .focused {
+        opacity: 1;
     }
 
     .node {

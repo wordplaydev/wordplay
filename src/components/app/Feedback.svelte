@@ -1,12 +1,18 @@
 <script lang="ts">
+    import { animationDuration } from '@db/Database';
+    import { slide } from 'svelte/transition';
+
     export let inline = false;
 </script>
 
 {#if inline}<span class="feedback"><slot /></span>{:else}
-    <p class="feedback"><slot /></p>{/if}
+    <p class="feedback" transition:slide={{ duration: $animationDuration }}
+        ><slot /></p
+    >{/if}
 
 <style>
     .feedback {
+        display: block;
         font-family: var(--wordplay-app-font);
         font-weight: normal;
         color: var(--wordplay-background);
@@ -14,6 +20,8 @@
         margin-block-start: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
+        flex-grow: 0;
+        flex-shrink: 0;
     }
 
     span {
@@ -21,7 +29,7 @@
     }
 
     p {
-        font-size: large;
+        font-size: medium;
         text-align: center;
     }
 </style>

@@ -42,6 +42,7 @@ import {
     UNPARSABLE_SYMBOL,
     FORMATTED_SYMBOL,
     GLOBE1_SYMBOL,
+    COALESCE_SYMBOL,
 } from '@parser/Symbols';
 import type Glyph from './Glyph';
 
@@ -99,6 +100,9 @@ const GlyphSet = {
     },
     Conditional: {
         symbols: QUESTION_SYMBOL,
+    },
+    NoneOr: {
+        symbols: COALESCE_SYMBOL,
     },
     Conversion: {
         symbols: CONVERT_SYMBOL,

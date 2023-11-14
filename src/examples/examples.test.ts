@@ -1,11 +1,13 @@
 import { test, expect } from 'vitest';
 import Project from '../models/Project';
-import { Locales } from '../db/Database';
+import { DB, Locales } from '../db/Database';
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { getExampleGalleries, parseSerializedProject } from './examples';
 import { DefaultLocales } from '../locale/DefaultLocale';
 import type { SerializedProject } from '../models/ProjectSchemas';
+import Evaluator from '@runtime/Evaluator';
+import ExceptionValue from '@values/ExceptionValue';
 
 const projects: SerializedProject[] = [];
 readdirSync(path.join('static', 'examples'), { withFileTypes: true }).forEach(
@@ -60,3 +62,14 @@ test.each([
         expect(true).toBe(false);
     }
 });
+
+test.each([...projects])(
+    `Ensure $name doesn't evaluate to exception`,
+    async (example: SerializedProject) => {
+        const project = await Project.deserializeProject(Locales, example);
+        const evaluator = new Evaluator(project, DB, DefaultLocales, false);
+        const value = evaluator.getInitialValue();
+        evaluator.stop();
+        expect(value).not.toBeInstanceOf(ExceptionValue);
+    }
+);

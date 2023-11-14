@@ -74,7 +74,7 @@
         "URL": "$?",
         "Code": "$?",
         "Mention": "$?",
-        "Branch": "$?",
+        "Otherwise": "$?",
         "None": "$?",
         "Type": "$?",
         "Literal": "$?",
@@ -532,6 +532,13 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?"
+        },
+        "Otherwise": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": "$?",
+            "start": "$?",
+            "finish": "$?"
         },
         "Previous": {
             "name": "$?",
@@ -2159,6 +2166,10 @@
                     "on": "$?",
                     "off": "$?"
                 },
+                "localized": {
+                    "on": "$?",
+                    "off": "$?"
+                },
                 "glyphs": {
                     "on": "$?",
                     "off": "$?"
@@ -2193,6 +2204,7 @@
                 "incrementLiteral": "$?",
                 "decrementLiteral": "$?",
                 "insertSymbol": "$?",
+                "insertTab": "$?",
                 "insertTrue": "$?",
                 "insertFalse": "$?",
                 "insertNone": "$?",
@@ -2519,10 +2531,13 @@
                     "enter": "$?",
                     "emailrules": ["$?"],
                     "tooyoung": "$?",
-                    "usernamerules": ["$?"],
+                    "usernamerule": "$?",
+                    "passwordrule": "$?",
+                    "usernamereminder": "$?",
                     "passwordreminder": "$?",
                     "play": "$?",
-                    "change": "$?",
+                    "changeEmail": "$?",
+                    "changePassword": "$?",
                     "logout": "$?",
                     "sent": "$?",
                     "success": "$?",
@@ -2543,7 +2558,8 @@
                 },
                 "feedback": {
                     "changing": "$?",
-                    "deleting": "$?"
+                    "deleting": "$?",
+                    "updatedPassword": ""
                 },
                 "field": {
                     "email": {
@@ -2565,7 +2581,8 @@
                         "label": "$?"
                     },
                     "login": "$?",
-                    "update": "$?",
+                    "updateEmail": "$?",
+                    "updatePassword": "$?",
                     "delete": {
                         "tip": "$?",
                         "label": "$?"

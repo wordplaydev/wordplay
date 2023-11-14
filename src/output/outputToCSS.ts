@@ -6,10 +6,10 @@ import { CSSFallbackFaces } from './Stage';
 /**
  * This is essentially the font size in pixels of a 1m phrase.
  * We choose a large one so that browsers that do pixelated scaling in animation are still relatively crisp. */
-export const PX_PER_METER = 128;
+export const PX_PER_METER = 64;
 
 /** This is a scaling factor: for every 1m of z distance, we scale this much. */
-export const FOCAL_LENGTH = 4;
+export const FOCAL_LENGTH = 8;
 /**
  * This is an extra scaling factor added to all output, creating a slight perspective shift from nesting.
  * This accounts for CSS transforms, which uniformly scale child content, but do not perspective scale it.

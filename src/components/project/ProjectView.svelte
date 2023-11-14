@@ -83,6 +83,7 @@
         Projects,
         writingLayout,
         blocks,
+        localized,
         Creators,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
@@ -90,7 +91,6 @@
     import {
         Restart,
         ShowKeyboardHelp,
-        ToggleBlocks as ToggleBlocks,
         VisibleModifyCommands,
         handleKeyCommand,
     } from '../editor/util/Commands';
@@ -115,6 +115,8 @@
         PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
     } from '../../routes/project/constants';
+    import Switch from '@components/widgets/Switch.svelte';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -780,8 +782,8 @@
             };
     });
 
-    function toggleBlocks() {
-        Settings.setBlocks(!$blocks);
+    function toggleBlocks(on: boolean) {
+        Settings.setBlocks(on);
     }
 
     function getTileView(tileID: string) {
@@ -1347,15 +1349,33 @@
                                         ></Toggle
                                     >
                                 {:else if tile.isSource()}
-                                    <Toggle
-                                        tips={$locales.get(
-                                            (l) => l.ui.source.toggle.blocks
+                                    <Switch
+                                        onLabel={withVariationSelector('🖱️')}
+                                        onTip={$locales.get(
+                                            (l) => l.ui.source.toggle.blocks.off
                                         )}
-                                        on={$blocks}
-                                        command={ToggleBlocks}
+                                        offLabel={withVariationSelector('⌨️')}
+                                        offTip={$locales.get(
+                                            (l) => l.ui.source.toggle.blocks.on
+                                        )}
                                         toggle={toggleBlocks}
-                                        >{ToggleBlocks.symbol}</Toggle
-                                    >
+                                        on={$blocks}
+                                    />
+                                    <Switch
+                                        onLabel={$locales.getLocale().language}
+                                        onTip={$locales.get(
+                                            (l) =>
+                                                l.ui.source.toggle.localized.on
+                                        )}
+                                        offLabel={withVariationSelector('🌎')}
+                                        offTip={$locales.get(
+                                            (l) =>
+                                                l.ui.source.toggle.localized.off
+                                        )}
+                                        toggle={(on) =>
+                                            Settings.setLocalized(on)}
+                                        on={$localized}
+                                    />
                                     <!-- Make a Button for every modify command -->
                                     {#each VisibleModifyCommands as command}<CommandButton
                                             {command}

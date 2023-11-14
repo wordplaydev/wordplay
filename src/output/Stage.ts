@@ -25,7 +25,7 @@ import { getFirstName } from '../locale/Locale';
 
 export const DefaultGravity = 9.8;
 
-export const CSSFallbackFaces = `"Noto Color Emoji"`;
+export const CSSFallbackFaces = '"Noto Color Emoji", "Noto Sans", sans serif';
 export const DefaultSize = 1;
 
 export function createStageType(locales: Locales) {

@@ -59,6 +59,7 @@ import Docs from '../nodes/Docs';
 import parseDoc from './parseDoc';
 import type Doc from '../nodes/Doc';
 import Spread from '../nodes/Spread';
+import Otherwise from '@nodes/Otherwise';
 
 export function toExpression(code: string): Expression {
     return parseExpression(toTokens(code));
@@ -78,6 +79,8 @@ export function parseDocs(tokens: Tokens): Docs {
 export default function parseExpression(tokens: Tokens): Expression {
     let left = parseBinaryEvaluate(tokens);
 
+    // Is it none or statement?
+    if (tokens.nextIs(Sym.Otherwise)) left = parseNoneOr(left, tokens);
     // Is it conditional statement?
     if (tokens.nextIs(Sym.Conditional)) left = parseConditional(left, tokens);
 
@@ -134,6 +137,12 @@ export function parseBlock(
         : undefined;
 
     return new Block(statements, kind, open, close, docs);
+}
+
+export function parseNoneOr(left: Expression, tokens: Tokens): Otherwise {
+    const coalesce = tokens.read(Sym.Otherwise);
+    const right = parseExpression(tokens);
+    return new Otherwise(left, coalesce, right);
 }
 
 export function parseConditional(

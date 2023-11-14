@@ -73,7 +73,7 @@
         "Concept": "concept link",
         "URL": "URL",
         "Mention": "mention",
-        "Branch": "branch",
+        "Otherwise": "otherwise",
         "None": "nothing",
         "Type": "type",
         "Literal": "literal",
@@ -728,7 +728,7 @@
             "start": "let's get the value of $1 first",
             "finish": "$1[value is $2|value is not $2]",
             "conflict": {
-                "ImpossibleType": "this can't ever be this type"
+                "ImpossibleType": "this can't ever be $1"
             },
             "exception": {
                 "TypeException": {
@@ -811,6 +811,17 @@
             "emotion": "neutral",
             "doc": "/@FunctionDefinition here. This is just @None. They are one of a kind! See @None to learn more about them.",
             "start": "… ø"
+        },
+        "Otherwise": {
+            "name": "otherwise",
+            "emotion": "curious",
+            "doc": [
+                "/@FunctionDefinition here. This is a handy way to check if a value is @None, and if it is, provide a backup value./",
+                "/For example, if you had a value that could be a @Number or @None, @NoneOr helps you give a default number:",
+                "\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
+            ],
+            "start": "ø ??",
+            "finish": "… $1"
         },
         "Previous": {
             "name": "previous",
@@ -3841,6 +3852,10 @@
                     "on": "hide block backgrounds",
                     "off": "show block backgrounds"
                 },
+                "localized": {
+                    "on": "show localized text",
+                    "off": "show all text"
+                },
                 "glyphs": {
                     "on": "collapse the matching glyphs",
                     "off": "expand the matching glyphs"
@@ -3875,6 +3890,7 @@
                 "incrementLiteral": "increase number, text, or Boolean",
                 "decrementLiteral": "decrease number, text, or Boolean",
                 "insertSymbol": "insert $1",
+                "insertTab": "insert tab",
                 "insertTrue": "insert true",
                 "insertFalse": "insert false",
                 "insertNone": "insert none symbol",
@@ -4231,19 +4247,18 @@
                         "• If you *lose access* to your email account, you won't be able to log in or update your email address."
                     ],
                     "tooyoung": "You must be 13 or older to login with an email.",
-                    "usernamerules": [
-                        "• *Usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long",
-                        "• *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
-                        "• *If you forget your password*, you can't recover your account, since we have no other way to know it's you. Store your password somewhere safe, like a password manager"
-                    ],
-                    "passwordreminder": "To create your account, select your password above to reveal it, and make sure you stored it safely and correctly. Then submit again to create your account.",
-                    "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
+                    "usernamereminder": "Because we do not gather contact information, you won't be able to reset your password if you forget it. Store it somewhere safe, like a password manager.",
+                    "usernamerule": "Usernames should not contain identiable information (e.g., names), cannot be an email addresses, and must be at least 5 characters long.",
+                    "passwordrule": "Passwords must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                    "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
+                    "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
+                    "changePassword": "Want to change your password? Submit a new one and repeat it.",
                     "sent": "Check your email for a login link. Patience, email can be slow!",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything you've made here? This can't be undone.",
-                    "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email to confirm that this is what you want.",
+                    "reallyDelete": "Are you sure? Your account and settings will be deleted immediately and your projects will be scheduled for deletion. Collaborators on your projects will immediately lose access to them. Type your email or username to confirm that this is what you want.",
                     "name": "Pick an emoji to represent yourself to others."
                 },
                 "error": {
@@ -4258,7 +4273,8 @@
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
-                    "deleting": "Okay, deleting your projects and settings..."
+                    "deleting": "Okay, deleting your projects and settings...",
+                    "updatedPassword": "Your password is updated."
                 },
                 "field": {
                     "email": {
@@ -4280,7 +4296,7 @@
                         "label": "logout"
                     },
                     "login": "login with this email, sending a login link",
-                    "update": "change your email",
+                    "updateEmail": "change your email",
                     "delete": {
                         "tip": "delete your account",
                         "label": "delete my data…"
@@ -4288,7 +4304,8 @@
                     "reallyDelete": {
                         "tip": "delete your account forever",
                         "label": "delete it!!!"
-                    }
+                    },
+                    "updatePassword": "submit new password"
                 }
             },
             "rights": {

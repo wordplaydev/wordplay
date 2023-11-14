@@ -174,6 +174,8 @@ type UITexts = {
             blocks: ToggleText;
             /** The glyph chooser expand/collapse toggle */
             glyphs: ToggleText;
+            /** The localized on/off toggle */
+            localized: ToggleText;
         };
         button: {
             /** Output preview button for selecting output for display in output tile */
@@ -220,6 +222,8 @@ type UITexts = {
             decrementLiteral: string;
             /** Insert selected symbol */
             insertSymbol: string;
+            /** Insert tab symbol */
+            insertTab: string;
             /** Insert true symbol */
             insertTrue: string;
             /** Insert false symbol */
@@ -673,15 +677,21 @@ type UITexts = {
                 /** Prompt to check email for a login link. */
                 sent: string;
                 /** Tells the creator that they can change their email address. */
-                change: string;
+                changeEmail: string;
+                /** Tells the creator that they can cahnge their password */
+                changePassword: string;
                 /** Asks the creator to enter their email if they opened the email link in a different browser. */
                 enter: string;
                 /** Encouragement to go create after logging in. */
                 play: string;
                 /** Gives rules for emails above the login form */
                 emailrules: string[];
-                /** Gives rules for usernames and passwords above the login form */
-                usernamerules: string[];
+                /** Reminder about username limitations */
+                usernamereminder: string;
+                /** Description of username rules */
+                usernamerule: string;
+                /** Description of password rules */
+                passwordrule: string;
                 /** Reminder to write down password */
                 passwordreminder: string;
                 /** Too young feedback */
@@ -716,6 +726,8 @@ type UITexts = {
                 changing: string;
                 /** Account deleting pending */
                 deleting: string;
+                /** Password successfully updated */
+                updatedPassword: string;
             };
             error: {
                 /** Shown when the login link expired */
@@ -741,11 +753,13 @@ type UITexts = {
                 /** Login button description */
                 login: string;
                 /** Update email button description  */
-                update: string;
+                updateEmail: string;
                 /** Delete account button */
                 delete: ButtonText;
                 /** Confirm deletion */
                 reallyDelete: ButtonText;
+                /** Update password */
+                updatePassword: string;
             };
         };
         /** The rights/terms of service page */

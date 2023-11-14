@@ -860,6 +860,10 @@ export default class Project {
         return new Project({ ...this.data, flags: { ...flags } });
     }
 
+    withNewTime() {
+        return new Project({ ...this.data, timestamp: Date.now() });
+    }
+
     getTimestamp() {
         return this.data.timestamp;
     }

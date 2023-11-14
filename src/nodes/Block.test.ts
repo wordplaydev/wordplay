@@ -20,8 +20,12 @@ test.each([
 );
 
 test.each([
+    // Ensure blocks evaluate to values
     ['b: (a: 5\na)\nb', '5'],
+    // Ensure names don't leak out of scope
     ['(count: 10 count ^ count) + count', '!NameException'],
+    // Ensure that block clsures work
+    ['fun: (x: 2 ƒ() x) fun()', '2'],
 ])('Expect %s to be %s', (code, value) => {
     expect(evaluateCode(code)?.toString()).toBe(value);
 });

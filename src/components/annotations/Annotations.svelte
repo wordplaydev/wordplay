@@ -190,7 +190,10 @@
 </script>
 
 <!-- Render annotations by node -->
-<section aria-label={$locales.get((l) => l.ui.conflicts.label)}>
+<section
+    aria-label={$locales.get((l) => l.ui.conflicts.label)}
+    class:empty={annotationsByNode.size === 0}
+>
     {#each Array.from(annotationsByNode.values()) as annotations, index}
         <Annotation id={index} {annotations} />
     {/each}
@@ -199,10 +202,14 @@
 <style>
     section {
         max-width: 30em;
-        min-width: auto;
+        min-width: 20em;
         overflow-y: auto;
         height: 100%;
         border-inline-start: solid var(--wordplay-border-width)
             var(--wordplay-border-color);
+    }
+
+    .empty {
+        min-width: auto;
     }
 </style>

@@ -4,12 +4,15 @@ import type Source from '@nodes/Source';
 import TokenList from './TokenList';
 import Root from '@nodes/Root';
 
+export const TAB_SYMBOL = '—';
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';
-export const TAB_HTML = '&nbsp;'.repeat(TAB_WIDTH - 1) + '→';
+export const TAB_HTML =
+    TAB_SYMBOL + '&nbsp;'.repeat(TAB_WIDTH - TAB_SYMBOL.length);
 export const SPACE_TEXT = '\xa0';
 export const TAB_TEXT = SPACE_TEXT.repeat(TAB_WIDTH);
-export const EXPLICIT_TAB_TEXT = TAB_TEXT.replace(SPACE_TEXT, '→');
+export const EXPLICIT_TAB_TEXT =
+    TAB_SYMBOL + SPACE_TEXT.repeat(TAB_WIDTH - TAB_SYMBOL.length);
 
 type Spacer = TokenList | Source;
 

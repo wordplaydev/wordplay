@@ -86,6 +86,7 @@
     import Adjust from './Adjust.svelte';
     import EditorHelp from './EditorHelp.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import { localized } from '../../db/Database';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -1448,7 +1449,12 @@
         on:focusout={() => (focused = false)}
     />
     <!-- Render the program -->
-    <RootView node={program} spaces={source.spaces} localized />
+    <RootView
+        node={program}
+        spaces={source.spaces}
+        localized={$localized}
+        caret={$caret}
+    />
     <!-- Render highlights above the code -->
     {#each outlines as outline}
         <Highlight {...outline} types={outline.types} above={true} />

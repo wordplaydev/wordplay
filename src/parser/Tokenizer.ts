@@ -49,7 +49,7 @@ import {
     CONVERT_SYMBOL3,
     STREAM_SYMBOL2,
     LIGHT_SYMBOL,
-    CODE_SYMBOL as CODE_SYMBOL,
+    CODE_SYMBOL,
     FORMATTED_SYMBOL,
     FORMATTED_TYPE_SYMBOL,
     GLOBE1_SYMBOL,
@@ -59,6 +59,7 @@ import {
     INSERT_SYMBOL,
     DELETE_SYMBOL,
     UPDATE_SYMBOL,
+    COALESCE_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -258,6 +259,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: EVAL_CLOSE_SYMBOL, types: [Sym.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: MEASUREMENT_SYMBOL, types: [Sym.NumberType] },
+    {
+        pattern: COALESCE_SYMBOL,
+        types: [Sym.Otherwise],
+    },
     {
         pattern: QUESTION_SYMBOL,
         types: [Sym.BooleanType, Sym.Conditional],

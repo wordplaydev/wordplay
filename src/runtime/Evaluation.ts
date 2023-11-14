@@ -35,6 +35,9 @@ import type TableLiteral from '../nodes/TableLiteral';
 import type Insert from '../nodes/Insert';
 import type Delete from '../nodes/Delete';
 import type { Iteration } from '../basis/Iteration';
+import Block, { BlockKind } from '@nodes/Block';
+import BlankException from '@values/BlankException';
+import NoneValue from '@values/NoneValue';
 
 export type EvaluationNode =
     | UnaryEvaluate
@@ -43,6 +46,7 @@ export type EvaluationNode =
     | PropertyBind
     | Convert
     | TableLiteral
+    | Block
     | Insert
     | Delete
     | Iteration
@@ -55,6 +59,7 @@ export type DefinitionNode =
     | StructureDefinition
     | StreamDefinition
     | ConversionDefinition
+    | Block
     | Source;
 
 export default class Evaluation {
@@ -221,7 +226,19 @@ export default class Evaluation {
         if (this.#definition instanceof StructureDefinition)
             return new StructureValue(this.#evaluation, this);
         // Otherwise, return the value on the top of the stack.
-        else return this.peekValue();
+        const value = this.peekValue();
+        if (value) return value;
+        // Special case block returns
+        if (this.#definition instanceof Block) {
+            if (this.#definition.kind === BlockKind.Root)
+                return new BlankException(
+                    this.#evaluator,
+                    this.#evaluator.getMain().expression
+                );
+            else if (this.#definition.kind === BlockKind.Structure)
+                return new NoneValue(this.#definition);
+        }
+        return new ValueException(this.#evaluator, this.#definition);
     }
 
     currentStep(): Step | undefined {
@@ -283,6 +300,10 @@ export default class Evaluation {
 
     unscope() {
         this.#bindings.shift();
+        if (this.#bindings.length === 0)
+            console.error(
+                'Error in evaluation, no bindings remaining in evaluation'
+            );
     }
 
     pushValue(value: Value): void {

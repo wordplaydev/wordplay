@@ -168,6 +168,8 @@ import FormattedTranslation from '@nodes/FormattedTranslation';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import IsLocale from '@nodes/IsLocale';
 import Spread from '@nodes/Spread';
+import NoneOrView from '../NoneOrView.svelte';
+import Otherwise from '@nodes/Otherwise';
 
 const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
 
@@ -222,6 +224,7 @@ nodeToView.set(Convert, ConvertView);
 nodeToView.set(ConversionDefinition, ConversionDefinitionView);
 nodeToView.set(ConversionType, ConversionTypeView);
 
+nodeToView.set(Otherwise, NoneOrView);
 nodeToView.set(Conditional, ConditionalView);
 
 nodeToView.set(NumberLiteral, NumberLiteralView);

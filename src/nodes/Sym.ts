@@ -28,7 +28,6 @@ enum Sym {
     Concept = '@concept',
     URL = 'http...',
     Mention = '$',
-    Branch = '??',
 
     None = 'ø',
     Type = '•',
@@ -63,6 +62,7 @@ enum Sym {
     // These are the only operators eligible for unary, binary, or teriary notation.
     // We’ve included them for consistency with math notation and readability.
     Operator = 'operator',
+    Otherwise = '??',
     Conditional = '?',
 
     // Also supports escapes with \to encode various characters

@@ -1057,7 +1057,9 @@ export default class Caret {
             // Bail if we couldn't find it for some reason.
             if (editedRevision === undefined) return undefined;
             const start = revisedSource.getTokenTextPosition(
-                editedRevision[1].getFirstLeaf() as Token
+                editedRevision[1]
+                    .leaves()
+                    .find((t) => t.isSymbol(Sym.Name)) as Token
             );
             // Bail if we couldn't find the start position for some reason.
             if (start === undefined) return undefined;
