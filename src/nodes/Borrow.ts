@@ -75,6 +75,10 @@ export default class Borrow extends SimpleExpression {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'Borrow';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'borrow', kind: node(Sym.Borrow) },
@@ -102,7 +106,7 @@ export default class Borrow extends SimpleExpression {
     }
 
     getPurpose() {
-        return Purpose.Project;
+        return Purpose.Source;
     }
 
     clone(replace?: Replacement) {
@@ -246,7 +250,7 @@ export default class Borrow extends SimpleExpression {
             : definition.getType(context);
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 

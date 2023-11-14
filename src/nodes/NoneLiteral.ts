@@ -25,6 +25,10 @@ export default class NoneLiteral extends Literal {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'NoneLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -80,7 +84,7 @@ export default class NoneLiteral extends Literal {
         return this.none;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

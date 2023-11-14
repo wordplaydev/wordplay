@@ -3,5 +3,27 @@ Headlines
 headlines: Webpage('https://www.nytimes.com' 'h3')
 top: headlines•[''] ? headlines.subsequence(1 7) ø
 top•ø ? 
-Phrase('…')
-Group(Stack() top.translate(ƒ (headline) Phrase(headline)))
+    Phrase('…')
+    Group(
+        Stack(-1) 
+        [
+            Phrase(`*New York Times Headlines*` 2m face: 'Arvo')].append(
+            top.translate(
+                ƒ (headline) 
+                    Phrase(
+                        headline 
+                        ↵: 20m 
+                        alignment: '<' 
+                        face: 'Ubuntu'
+                        resting: Sequence(
+                            {
+                                0%: Pose(rotation: 3°) 
+                                50%: Pose(rotation: -3°) 
+                                100%: Pose(rotation: 3°)
+                            }
+                            duration: 3s
+                        )
+                    )
+                )
+            )  
+    )

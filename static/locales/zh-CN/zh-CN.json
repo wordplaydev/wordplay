@@ -3,7 +3,7 @@
     "language": "zh",
     "region": "CN",
     "wordplay": "双关语",
-    "newProject": "$?",
+    "newProject": "Phrase('🐈' resting:Sequence(sway() 1s))",
     "term": {
         "evaluate": "评价",
         "bind": "联结",
@@ -41,7 +41,9 @@
         "query": "询问",
         "row": "排",
         "set": "组",
-        "key": "钥匙"
+        "key": "钥匙",
+        "help": "$! 幫助",
+        "feedback": "$! 回饋"
     },
     "token": {
         "EvalOpen": "评估开放",
@@ -111,558 +113,904 @@
         "Name": "名字",
         "Unknown": "不明",
         "Locale": "语言环境",
-        "End": "结束"
+        "End": "结束",
+        "Literal": "文字"
     },
     "node": {
         "Dimension": {
-            "name": "$?",
-            "description": "$?",
+            "name": "尺寸",
+            "description": "尺寸",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": [
+                "我是一个/计量单位/！",
+                "我可以是任何标准化单位，例如 \\1米\\、\\10秒\\、\\100克\\ 或任何其他科学单位。我也很高兴能成为任何想要组成的单位，比如\\17苹果\\。",
+                "我可以与 \\/\\ 组合起来制作比率单位，如 \\17苹果/日\\ ，并与 \\^\\ 组合制作指数单位，如 \\9.8米/秒^2\\",
+                "我必须始终追随@数字。 如果不这样做，我可能会被误认为@参考，这会很尴尬！",
+                "我也很擅长发现单位之间的不一致之处。 例如，\\1猫 + 1狗\\没有任何意义！",
+                "如果您想在不同的单位值之间进行转换，请与@转变交谈。"
+            ]
         },
         "Doc": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "解释说明",
+            "emotion": "serious",
+            "doc": [
+                "我用 @Markup 来格式化别的东西, 比如你的 @Program 的解释说明, 甚至是你用 @Phrase 放上这个舞台的文字。",
+                "举个例子，我可以跑到任何句子的前面:",
+                "\\``这真的会是7吗?``\n7\\",
+                "又比如，你可以把我放在 @Bind 的前面：",
+                "\\``我可以测量一个人有多高``\n高度: 5米\\",
+                "或者在一个 @FunctionDefinition 的前面:",
+                "\\``我把两个数字相加``\nƒ 总和(a•# b•#) a + b\\",
+                "或者在一个 @StructureDefinition 的前面:",
+                "\\``我记得别人的名字和他们爱吃的水果``\n•人名(名字•'' 水果•'')\\",
+                "你也可以把我放在一个 @Program 的前面来说明这整个项目是在干什么",
+                "\\``这个项目在说你好``\n\n'你好!'\\",
+                "你还可以给我一个 @Language 来告诉其他人我在讲什么语言:",
+                "\\``我是一篇中文文档``/zh\n持续时长: 5秒\\",
+                "不过，你知道你可以创造一整个列表那样多的我吗？ 去跟 @Docs 聊聊这件事吧。"
+            ]
         },
         "Docs": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "解释清单列表",
+            "emotion": "serious",
+            "doc": [
+                "我是 @Doc 的一个列表， 在你有许多不同语言的 @Doc 的翻译时会非常有用。",
+                "创造一个列表不需要你做任何特殊的事情， 只用把一些 @Doc 像这样排列在一起，一个就在另一个的旁边:",
+                "\\``你好``/zh\n``Hola``/es\n问候语: '…'\\"
+            ],
+            "start": "来多写一些句子吧！"
         },
         "KeyValue": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "映射",
+            "emotion": "kind",
+            "doc": [
+                "我是在一个 @Map 中从一个 *关键码* 到一个 *值* 的映射。",
+                "我可以映射任意类型的值。比如，这里有一个数字们的映射:",
+                "\\{1:1}\\",
+                "或者映射数字和一个词语:",
+                "\\{'兔子':1}\\"
+            ]
         },
         "Language": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
+            "name": "语言",
+            "description": "语言 $1[$1|unknown]",
+            "emotion": "eager",
+            "doc": [
+                "我是一个语言标签，我与 @Name 和 @Doc 一起工作!",
+                "我真的擅长让别人 *超级清楚* 事物是用什么语言撰写的。",
+                "这就是我做的事情。 只需一个小小斜线和几个字母，大家就都清楚一些文本使用的是什么语言了。",
+                "比如，你要是想说我的 $name， 但想让别人清楚地知道它是中文：",
+                "\\\"语言\"/zh\\",
+                "要是你想要这样处理 @Name 也可以。",
+                "\\声音/zh: '喵'\\",
+                "甚至是用在 @Doc 身上！",
+                "\\``拟声词``/zh\n声音/zh: \"喵\"\\",
+                "这里还有许多我能理解的 <两个字母的语言表达代码@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> 。如果你没有使用它们中的任意一个，我会告诉你的。"
+            ],
             "conflict": {
-                "UnknownLanguage": "$?",
-                "MissingLanguage": "$?"
+                "UnknownLanguage": "我不知道这个语言呢",
+                "MissingLanguage": "这里缺少了对语言的描述，你能加上一个吗？"
             }
         },
         "Name": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "命名",
+            "description": "$1[$1 | unnamed]",
+            "emotion": "kind",
+            "doc": [
+                "我会识别一个值，而且能够帮你给难以评估的事物贴上简洁的的标签，不然你就要一遍又一遍地评估它们。",
+                "@Bind 像这样给我命名：",
+                "\\嗨: 5\\",
+                "我只能代表一个值，一旦我被赋予了一个值，我就不能改变它。比如，要是你尝试对 @Bind 这样做，我们就会抱怨。",
+                "\\嗨: 5\n嗨: 3\\",
+                "要是你想得到我的值，就需要让 @Reference 或者 @PropertyReference 使用名字。在这里，@Bind 给我命名，然后用 @Reference 就会得到我的值。",
+                "\\嗨: 5\n嗨\\",
+                "因为 @Bind 可以在许多地方出现，我也可以在那么多的地方出现。我刚才在一个上面的 @Block ，但我也可以在一个 @FunctionDefinition 里面。现在我暂时地给一条信息命名：",
+                "\\ƒ 说(信息•'') 信息\\",
+                "我在 @FunctionDefinition 里面被定义，当这个功能完成它的评估后，我就消失啦。",
+                "你可以用 @Language 来表示我的名字是什么语言的。这会在你与别人分享你的程序并想让别人阅读它的时候非常有帮助。"
+            ]
         },
         "Names": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "命名列表",
+            "emotion": "kind",
+            "doc": [
+                "我是一个 @Name 的列表，当你想给一个值几个名字的时候特别有用，常常是和不同的 @Language。",
+                "名字们用 \\,\\ 符号隔开。比如， 这就是 @Bind 给一个值好几个 @Name :",
+                "\\嗨/zh,你好/zh,hola/es: '欢迎'\\"
+            ]
         },
         "Row": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
+            "name": "排",
+            "emotion": "shy",
+            "doc": "我代表了一个 @Table 中的一排。你最好和 @Table 聊聊这个，因为它知道我的所有事情。我只是在这里确保所有值都在一行里。 :(",
             "conflict": {
-                "InvalidRow": "$?",
-                "MissingCell": { "primary": "$?", "secondary": "$?" },
-                "UnknownColumn": "$?",
+                "InvalidRow": "行要么是所有值，要么必须是所有 @Bind 。",
+                "MissingCell": {
+                    "primary": "我和一列 $1 走散啦。",
+                    "secondary": "这里是需要我的，但是 $1 好像没有提供呢。"
+                },
+                "UnknownColumn": "我不知道有哪一列是这个名字呀。",
                 "ExtraCell": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "我真的应该在这里吗？",
+                    "secondary": "嘿 $1，你不是 @Table 的一部分呀!"
                 },
                 "UnexpectedColumnBind": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "我真的应该是一个 @Bind 吗?",
+                    "secondary": "嘿，我是一个 @Table, 我需要一个值，而不是 @Bind 。"
                 }
             }
         },
         "Token": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "令牌",
+            "description": "$1 $2",
+            "emotion": "neutral",
+            "doc": [
+                "你怎么找到我的？",
+                "我是表演中最微笑的一部分。我是让所有文字成为文字的基础。我是我们编舞里原子大小微粒。"
+            ]
         },
         "TypeInputs": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "输入类型",
+            "emotion": "curious",
+            "doc": "我是一个类型列表，可以代替 @StructureDefinition 或 @FunctionDefinition 中的 @TypeVariables。我可以帮助每个人知道他们将收到什么样的输入。"
         },
         "TypeVariable": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
+            "name": "变量类型",
+            "emotion": "curious",
+            "doc": "我是 @FunctionDefinition 或 @StructureDefinition 上的神秘类型，由 @TypeInputs 在对其中任一类型进行求值时提供。@Set、@List 和 @Map 都可以使用我。",
             "conflict": {
-                "DuplicateTypeVariable": { "primary": "$?", "secondary": "$?" }
+                "DuplicateTypeVariable": {
+                    "primary": "我和 $1 有一样的值。",
+                    "secondary": "我和 $1 有一样的名字。"
+                }
             }
         },
         "TypeVariables": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "变量类型列表",
+            "emotion": "curious",
+            "doc": "我是一个列表的 @TypeVariable 。"
         },
         "Markup": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "标记",
+            "description": "$1 段落",
+            "emotion": "serious",
+            "doc": [
+                "我是一个段落列表，使用了解释中可用的多种标记，如 @Words、@WebLink、@ConceptLink 和 @Example 等."
+            ]
         },
         "Paragraph": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "段落",
+            "emotion": "serious",
+            "doc": [
+                "我是一系列的 @Words、@ConceptLink、@WebLink 和 @Example ，我们在 @Doc 内用空行隔开。",
+                "你只在 @Doc 写好多好多字就可以构成我:",
+                "\\``我是文档中的一个段落。``'一个段落'\\",
+                "如果你想要多个段落，只要在中间隔上空行。",
+                "\\``段落一\n\n段落二\n\n段落三``'三个段落'\\"
+            ]
         },
         "WebLink": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "链接",
+            "description": "链接 $1",
+            "emotion": "serious",
+            "doc": [
+                "我是能带你去网络上一个地方的链接。我只需要一个描述和一个网址:",
+                "\\``我是一个在文档中的 <链接@https://wordplay.dev>``\n'链接示例'\\",
+                "如果有人选中了我，我将会打开去往这个网址的新窗口。"
+            ]
         },
         "ConceptLink": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "概念",
+            "description": "概念链接",
+            "emotion": "serious",
+            "doc": [
+                "我是一个通往诗篇角色的链接。 我在你想要写一篇 @Doc 以及引用我们中的任何一个时非常有帮助。",
+                "比如说，要是你想要谈谈 @Evaluate 以及它们有多好，你就可以这样写:",
+                "\\``你知道吗？ @Evaluate 真的非常出色。``\n'看，一个概念链接！'\\",
+                "当你写的 @Doc 出现在这里，它就会出现一个联通这个概念的链接。"
+            ]
         },
         "Words": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "文字",
+            "emotion": "serious",
+            "doc": [
+                "我是你在一篇 @Doc 中喜爱的所有文字。比如:",
+                "\\``愿力量与你同在。``\n'只是一些文字！'\\",
+                "虽然有些时候，你可能想用@Doc 里的特殊字符 /作为/ 文字。比如:",
+                "\\``我的朋友使用 @@, //, **, ||, 以及其他符号。``\n'使用了特殊字符！'\\",
+                "如果你重复地使用一些特殊字符，你可能会得到一些文字而不是它们本身的特殊意义。"
+            ]
         },
         "Example": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "例子",
+            "emotion": "serious",
+            "doc": [
+                "我是一个例子，能够帮助解释 @Doc 中的一些功能是怎么运用的！",
+                "\\``这里是一个相加的例子： \\1 + 1\\``'示例代码'\\",
+                "如果你把我单独放在一个段落里，我就会出现在一个漂亮的盒子里，展示我的评估结果。",
+                "\\``这里是一个相加的例子：\n\n\\1 + 1\\``\\"
+            ]
         },
         "Mention": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "提到",
+            "description": "提到 $1",
+            "emotion": "serious",
+            "doc": [
+                "我是一个术语 \\$program\\ 或者一个动态输入 \\$1\\的参考资料。",
+                "不过这主要是一个内部功能，你应该不需要知道。"
+            ]
         },
         "Branch": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "分支",
+            "emotion": "serious",
+            "doc": [
+                "我是一个种在两个部分之间根据有无定义和真假与否进行选择的方法。",
+                "不过这主要是一个内部功能，你应该不需要知道。"
+            ]
         },
         "BinaryEvaluate": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "right": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "二进制评估",
+            "description": "$1 操作",
+            "emotion": "insecure",
+            "doc": [
+                "我是形式更简单的 @Evaluate,当你想使用接收两个输入的 @FunctionDefinition 时很有用。",
+                "比如，这样就是你怎样用 @Evaluate 来添加两个数字：",
+                "\\1.+(1)\\",
+                "那样看起来不是很有趣吗？它也没错: 它只是说在1上使用相加功能，然后对其进行求值。",
+                "单但用 @BinaryEvaluate 可以使它更加简洁。",
+                "\\1 + 1\\",
+                "这让一切都变得更简洁了，尽管它们本质上是一样的。",
+                "不过这里有一件事需要注意：当我处于这种形式时，我会从左到右进行评估。如果你习惯了数学中的运算顺序，这可能会让你感到困惑。",
+                "我是在说我可能会以你意想不到的方式进行评估：",
+                "\\1 + 2 · 3 + 4\\",
+                "在数学中，乘法是第一位的，然后是加法，所以这样算的结果会是\\11\\。但因为我是按照读取顺序评估的，结果就会是\\13\\。"
+            ],
+            "right": "输入",
+            "start": "让我们先来评估 $1 吧",
+            "finish": "你看，我创造了 $1!",
             "conflict": {
-                "OrderOfOperations": "$?"
+                "OrderOfOperations": "我是按照读取顺序而非数学运算顺序来评估一个值的。你想用 @Block 来来指定我的运算顺序吗？"
             }
         },
         "Bind": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "联结",
+            "description": "联结 $1",
+            "emotion": "excited",
+            "doc": [
+                "我给 *values* 命名。",
+                "就像这样！",
+                "\\pi: 3.1415926\\",
+                "我给 @FunctionDefinition 和 @StructureDefinition 的输入值取名，我也给 @Block 中的值取名字。我可以给任何东西命名！",
+                "噢，不过你知道你可以让一个值有 *许多个名字* 吗?",
+                "我好高兴我能告诉你这个！一个值可以有好几个 @Names。比如:",
+                "\\乔，泰斯，艾米: 5\\",
+                "所以我在这里干了什么呢？",
+                "我给一个值起了三个名字！",
+                "你可以用那些名字里的 *任意一个* 来指代那个五。",
+                "尤其是你想用多种语言命名时：",
+                "\\joe/en,aimee/fr,明/zh: 5\\",
+                "你看见我在这干什么了吗？我给了一个值三个不同语言的名字！",
+                "好了，我还有最后一个秘密。",
+                "你知道我可以和 @Is 一起来了解我需要什么样的数字吗？要是我找不到，我会告诉你的！",
+                "像这样:",
+                "\\极大的数字•#: \"一千亿\"\\",
+                "你看，我说 \\极大的数字\\ 应该是一个数字，但它实际上是一个文本，而且它们彼此不是对应的!",
+                "当它们不是互相对应的时候，我会通知你！",
+                "有些时候你 *需要* 告诉我你给我的数据是什么类型的，因为我自己可不知道，这样的事通常发生在 @FunctionDefinition。",
+                "比如在这里的时候， @FunctionDefinition 不知道它会有什么样的 \\a\\ 和 \\b\\,因为我没有告诉它们。",
+                "\\ƒ 总和(a b) a + b\\",
+                "但我们可以改变它来加上 @Is，那现在 @FunctionDefinition 就知道它们都是数字啦：",
+                "\\ƒ 总和(a•# b•#) a + b\\"
+            ],
+            "start": "让我们看看我们能从 $1 里得到什么值吧!",
+            "finish": "太好啦，我得到了 $1! 让我们给它命名为 $2",
             "conflict": {
-                "DuplicateName": { "primary": "$?", "secondary": "$?" },
-                "DuplicateShare": { "primary": "$?", "secondary": "$?" },
-                "IncompatibleType": { "primary": "$?", "secondary": "$?" },
-                "MisplacedShare": "$?",
-                "MissingShareLanguages": "$?",
-                "RequiredAfterOptional": "$?",
-                "UnexpectedEtc": "$?",
-                "UnusedBind": "$?"
+                "DuplicateName": {
+                    "primary": "有其他人已经被命名为 $1 了，所以我不能叫这个名字。.",
+                    "secondary": "噢, $1 是我的名字"
+                },
+                "DuplicateShare": {
+                    "primary": "我有和 $1 一样的名字，这让事情有些模棱两可",
+                    "secondary": "我有和 $1 一样的名字"
+                },
+                "IncompatibleType": {
+                    "primary": "我应该是 $2 的，但现在我是 $1",
+                    "secondary": "噢……抱歉，你输入了什么？ $1, 真的吗?"
+                },
+                "MisplacedShare": "我只能分享在 @Program 等级的事物，但没办法解释它里面的一切！",
+                "MissingShareLanguages": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
+                "RequiredAfterOptional": "我不能在这，这里还有一个可选的 @Bind 在我前面",
+                "UnexpectedEtc": "只有在 @FunctionDefinition 中我才是可变的长度",
+                "UnusedBind": "嘿，我给这这个变量命名了，但是它还没有被使用呢！"
             }
         },
         "Block": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "statement": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "区块",
+            "description": "$1 陈述",
+            "emotion": "shy",
+            "doc": [
+                "嗨。我给出一小块安静的私人空间用于评估事物。",
+                "像这样:",
+                "\\(1 - 1) + 2\\",
+                "这样可以帮助我们明确评估顺序。",
+                "@Bind 也在这里帮忙了。",
+                "\\(数量: 10 数量 ^ 数量)\\",
+                "看见 @Bind 在这里是怎样创造 \\数量\\的了吗?它只能在我的里面命名，所以这样是行不通的:",
+                "\\(数量: 10 数量 ^ 数量) + 数量\\",
+                "因为数量是在我里面的一个名字。",
+                "你也可以按照你的喜好在我里面放好多好多名字，但是我只会记得最后一个：",
+                "\\(1 2 3 4 5)\\",
+                "所以一般来讲，我只是一些 @Bind 以及在末尾的一个表述。",
+                "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+            ],
+            "statement": "陈述",
+            "start": "第一个表述",
+            "finish": "好啦，我现在有 $1 了",
             "conflict": {
-                "ExpectedEndingExpression": "$?",
-                "IgnoredExpression": { "primary": "$?", "secondary": "$?" }
+                "ExpectedEndingExpression": "我需要一个表述。",
+                "IgnoredExpression": {
+                    "primary": "我会忽略以上的所有东西。",
+                    "secondary": "@Block，不要忽略我呀!"
+                }
             }
         },
         "BooleanLiteral": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "特殊布尔值",
+            "description": "$1[正确|错误]",
+            "emotion": "precise",
+            "doc": "我要么是 \\⊤\\ ，要么是 \\⊥\\。去看看 @Boolean 来更多地了解我们美丽的逻辑学吧。",
+            "start": "$1!"
         },
         "Borrow": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "source": "$?",
-            "bind": "$?",
-            "version": "$?",
+            "name": "借用",
+            "description": "借用 $1[$1|不存在的命名]",
+            "emotion": "excited",
+            "doc": "如果你用多种 @Source 创造了一个表演，你可以使用我去借用在其他 @Source 里共享的 @Bind 。只要使用它们的名字，我就可以同时带来它们的名字和值。",
+            "start": "向 $1 借用 $2",
+            "source": "$source",
+            "bind": "命名",
+            "version": "版本",
             "conflict": {
-                "UnknownBorrow": "$?",
-                "BorrowCycle": "$?"
+                "UnknownBorrow": "我不知道哪个 $source 是叫这个名字的",
+                "BorrowCycle": "这取决于 $1，而它取决于 $source，所以这个程序不能被评估"
             },
             "exception": {
                 "CycleException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "借用循环",
+                    "explanation": "$1 取决于它自己"
                 }
             }
         },
         "Changed": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "改变",
+            "emotion": "serious",
+            "doc": [
+                "我检查流是否导致 @Program 重新评估，并生成一个 @Boolean 值。像这样",
+                "\\∆ 时间()\\",
+                "我会很好地在你想只有数据流发生变化才改变某些内容的时候帮到你。",
+                "这就是全部了。"
+            ],
+            "start": "让我们看看 $1 有没有改变……"
         },
         "Conditional": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "afterthen": "$?",
-            "else": "$?",
-            "finish": "$?",
-            "condition": "$?",
-            "yes": "$?",
-            "no": "$?",
+            "name": "有条件的",
+            "emotion": "curious",
+            "doc": [
+                "I我想我应该是来做出决定的？就像这样？",
+                "\\数字: -100\n数字 < 0 ? '负数' '正数'\\",
+                "但你有没有想过我们是怎样做出选择的呢？",
+                "难道决定不应该比是或不是更细致吗？在 \\⊤\\ 和 \\⊥\\ 之间决定就是全部了吗?",
+                "如果我们只能做这些决定，难道你不担心我们就会错过一些重要的世界的内容吗?"
+            ],
+            "start": "让我们看看 $1 是不是正确的",
+            "afterthen": "$1[跳过这些代码 | 不要跳过这些代码]",
+            "else": "已经完成了是的情况，要不我们就跳过否的情况吧?",
+            "finish": "我想这就是 $1 了吧?",
+            "condition": "条件",
+            "yes": "是",
+            "no": "否",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "我怎样才能用 $1 来选择是或不是呢? 这样是没办法的",
+                    "secondary": "我感觉 @Conditional 想要我成为一个 @Boolean，但我现在还是 $1。"
                 }
             }
         },
         "ConversionDefinition": {
-            "name": "$?",
+            "name": "转换定义",
             "description": "$1 → $2",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
+            "doc": [
+                "哥们儿，我定义了从一种类型到另一种类型的转换！我在 @方块 中执行，就像这样：",
+                "\\→ #猫咪 #猫 . ÷ 2\n6猫咪→#猫\\",
+                "看我是如何将猫咪变成猫的？酷毙了！",
+                "你可能想知道那个 \\.\\ 是干嘛的。那代表了正在转换的值。我用它是因为这个值不然会没有名字。"
+            ],
+            "start": "太棒了，一个新的转换！",
             "conflict": {
-                "MisplacedConversion": "$?"
+                "MisplacedConversion": "哇，我不能在这里，只能在 @方块 中。"
             }
         },
         "Convert": {
-            "name": "$?",
+            "name": "转换",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "doc": [
+                "嘿，我可以将一个类型的值转换成另一个类型。看看这个例子：",
+                "\\1 → \"\"\\",
+                "\\5s → #毫秒\\",
+                "\\\"你好\" → []\\",
+                "你甚至可以将它们串联起来：",
+                "\\\"你好\" → [] → {}\\",
+                "值具有一组预定义的 @转换定义，但如果你为一个新类型的值创建了 @结构定义，你可以使用 @转换定义 定义自己的转换规则。"
+            ],
+            "start": "从 $1 获取那个值！",
+            "finish": "太棒了，我做到了 $1",
             "conflict": {
-                "UnknownConversion": "$?"
+                "UnknownConversion": "糟糕，无法将 $1 转成 $2"
             },
             "exception": {
                 "ConversionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "不可能的转换",
+                    "explanation": "我不知道如何从 $1 转成 $2"
                 }
             }
         },
         "Delete": {
-            "name": "$?",
+            "name": "删除",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "doc": [
+                "有时候你有一个表格，它里面有太多东西了！",
+                "比如说你在一个游戏中有一些玩家，其中一个离开了，你只想说“走开吧，玩家，离开我的桌子！”",
+                "\\玩家们: ⎡姓名•'' 队伍•'' 分数•#⎦\n⎡'珍' '红' 8⎦\n⎡'琼' '蓝' 11⎦\n⎡'杰夫' '红' 9⎦\n⎡'珍妮特' '蓝' 7⎦\n玩家们 ⎡- 姓名 = '杰夫'\\",
+                "哦，杰夫走了。再见，杰夫。请记住，我不会改变原始表格，我会创建一个新的没有杰夫的表格。你决定它去哪里。"
+            ],
+            "start": "首先让我们获取那张表格",
+            "finish": "我创建了一张新表格，没有匹配的行！"
         },
         "DocumentedExpression": {
-            "name": "$?",
+            "name": "解释表达式",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "doc": [
+                "我是任何表达式，但附带了 @文档！",
+                "要创建我，只需在表达式前面加上 @文档，然后你就会得到我：",
+                "\\双加: 1\n(2 · 双加) + \n``让它再大一点点``\n1\\",
+                "我在对程序的某部分进行评论时很有用。"
+            ],
+            "start": "让我们评估这个表达式"
         },
         "Evaluate": {
-            "name": "$?",
-            "description": "$?",
+            "name": "评估",
+            "description": "评估 $1[$1|匿名]",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "evaluate": "$?",
-            "finish": "$?",
-            "function": "$?",
-            "input": "$?",
+            "doc": [
+                "嗨。我会评估我心爱的 @函数定义。像这样：",
+                "\\ƒ 问候(消息•'')\n问候('小猫')\\",
+                "函数可以来自任何地方。例如，@文字 有函数。就像这样：",
+                "\\'小猫'.长度()\\",
+                "如果一个函数只有一个符号名称，你可以将我写成 @二进制评估。",
+                "\\'小猫' ⊆ 'itty'\\",
+                "这与下面的语句做的是一样的事情：",
+                "\\'小猫'.⊆('itty')\\",
+                "当然，没有 @函数定义 我什么也做不了。我只是为它们提供输入，然后按照它们的步骤执行。"
+            ],
+            "start": "首先让我们评估输入",
+            "evaluate": "现在让我们评估函数",
+            "finish": "我评估为 $1",
+            "function": "函数",
+            "input": "输入",
             "conflict": {
-                "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
-                "UnexpectedTypeInput": { "primary": "$?", "secondary": "$?" },
-                "MisplacedInput": "$?",
-                "MissingInput": { "primary": "$?", "secondary": "$?" },
-                "NotInstantiable": "$?",
-                "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
-                "UnknownInput": { "primary": "$?", "secondary": "$?" },
-                "InputListMustBeLast": "$?"
+                "IncompatibleInput": {
+                    "primary": "我应该是一个 $1，但我是一个 $2",
+                    "secondary": "嗯，我得到了一个 $2 而不是 $1"
+                },
+                "UnexpectedTypeInput": {
+                    "primary": "我没料到会得到这种类型的输入",
+                    "secondary": "哦，我这里不应该出现吗？"
+                },
+                "MisplacedInput": "这个输入放错位置了。",
+                "MissingInput": {
+                    "primary": "我缺少 $1，你能添加吗？",
+                    "secondary": "这个输入是必需的，但 $2 没有提供它"
+                },
+                "NotInstantiable": "我不能创建这个 @结构定义，它有未实现的函数。",
+                "UnexpectedInput": {
+                    "primary": "我没预料到会得到这个输入 $1",
+                    "secondary": "哦，我这里不应该出现吗？"
+                },
+                "UnknownInput": {
+                    "primary": "我不知道这个名字的输入",
+                    "secondary": "我觉得我不应该在这里"
+                },
+                "InputListMustBeLast": "输入列表必须放在最后"
             },
             "exception": {
                 "FunctionException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "未知函数",
+                    "explanation": "哦不，$1 在 $2[$2|这个 @方块] 中不是一个函数！"
                 }
             }
         },
         "ExpressionPlaceholder": {
-            "name": "$?",
-            "description": "$?",
+            "name": "表达式占位符",
+            "description": "$1[$1|占位符]",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "placeholder": "$?",
+            "doc": [
+                "我是一个 *表达式*，但不是一个真正的表达式... 我只是替代品。",
+                "如果你还不知道要写什么，我很有用。就像这样：",
+                "\\1 + _\\",
+                "我们要加什么？我不知道。你告诉我。",
+                "或者如果有人在用 @评估 评估一个函数时，我可能会代替该函数",
+                "\\_(1 2 3)\\",
+                "我不喜欢待在 @舞台 上！"
+            ],
+            "start": "哎呀，我不知道该怎么办！",
+            "placeholder": "表达式",
             "conflict": {
-                "Placeholder": "$?"
+                "Placeholder": "有人能顶替我吗？"
             },
             "exception": {
                 "UnimplementedException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "未实现",
+                    "explanation": "我不知道该怎么办！"
                 }
             }
         },
         "FunctionDefinition": {
-            "name": "$?",
-            "description": "$?",
+            "name": "函数",
+            "description": "函数 $1",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
+            "doc": [
+                "嗨又见面了！我接受一些输入，然后使用它们来评估一个表达式，产生一个输出。",
+                "这里有一个简单的例子：",
+                "\\ƒ 重复(消息•'') 消息 · 5\n重复('你好')\\",
+                "该函数接受一个输入，\\消息\\，并使用 @文字/重复 函数将消息重复五次。",
+                "如果你想一遍又一遍地评估某些东西，但使用不同的输入，我非常有用！",
+                "我还有许多其他小技巧。例如，我不一定要有一个名字。在这里，我直接转到 @评估 作为一个值。",
+                "\\(ƒ(消息•'') 消息 · 5)('你好')\\",
+                "或者，这是一个接受任意数量输入的函数，在输入名称后加上 \\…\\ 字符。",
+                "\\ƒ 是的(消息…•'') 消息.排除('不')\n是的('是' '是' '不' '是' '不')\\",
+                "看看它是如何取出所有的 '不' 并将它们去掉的？这是因为消息是一个 @列表，所以我们可以使用 @列表/排除All。",
+                "有时你可能想要明确我产生的值是什么类型的。为此，在输入列表之后添加一个 @是 即可：",
+                "\\ƒ 添加(x•# y•#)•'' x + y\\",
+                "你可能会注意到这个例子有一个问题：它说它评估为 @文字，但它接受两个 @数字。我可以告诉你什么时候事情不一致！",
+                "当然，没有 @评估，我根本不实用；他们让我活了过来。"
+            ],
+            "start": "让我们创建这个函数！",
             "conflict": {
-                "NoExpression": "$?"
+                "NoExpression": "我需要一个要评估的表达式，你能添加一个吗?"
             }
         },
         "Iteration": {
-            "name": "$?",
+            "name": "高阶函数",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "initialize": "$?",
-            "next": "$?",
-            "check": "$?",
-            "finish": "$?"
+            "doc": "我是一种非常特殊的 @函数定义，用于操作物品列表。除了我使得像 @列表/翻译 这样的函数成为可能之外，你不需要了解太多关于我。",
+            "start": "评估给定的函数",
+            "initialize": "准备逐个遍历项目",
+            "next": "移动到下一个项目",
+            "check": "决定是否继续",
+            "finish": "我评估为 $1"
         },
         "Initial": {
-            "name": "$?",
+            "name": "开始",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": [
+                "我告诉你 @节目 的当前评估是否是第一个，评估为一个 @布尔值。例如：",
+                "\\◆ ? 时间() '你好'\\",
+                "你没有看到它，但第一次评估是一个时间，但随后所有未来的时间标记，我都是 \\⊥\\，所以 @有条件的 使得 \\⊤\\。",
+                "如果你正在处理一个流，并且你只想在第一次执行某些操作时使用我，或者在第一次时根本不使用我，那我会非常有用！"
+            ]
         },
         "Insert": {
-            "name": "$?",
+            "name": "插入",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "doc": [
+                "你知道当你有一个 @桌子 时，总觉得缺了点什么吗？我可以帮你添加！",
+                "想象一下你有一个游戏中的玩家表，你想添加一个新玩家：",
+                "\\玩家: ⎡姓名•'' 队伍•'' 分数•#⎦\n⎡'珍' '红' 1⎦\n⎡'琼' '蓝' 0⎦\n⎡'杰夫' '红' 3⎦\n⎡'珍妮特' '蓝' 2⎦\n玩家 ⎡+ '贾森' '红' 0⎦\\",
+                "请记住，就像 Verse 中的所有事物一样，我不会改变表格，我会修订它。所以你需要想清楚你想把你修改后的表格放在哪里。最有可能的是你会想在对某个输入的 @反应 中修改一个表格，并将其存储在 @绑定 中。"
+            ],
+            "start": "让我们找到要更新的表格",
+            "finish": "我创建了一张带有修订行的新表格！"
         },
         "Is": {
-            "name": "$?",
-            "description": "$?",
+            "name": "是",
+            "description": "是",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "doc": [
+                "你知道吗？有很多种意味着很多不同含义的值。我可以帮忙确定它们是什么。",
+                "例如，假设你有一个神秘值。我可以告诉你它是否是一个 @数字，给你一个 @布尔值：",
+                "\\神秘: '秘密！'\n神秘•#\\",
+                "这不是一个数字，所以我得到了 \\⊥\\。但如果我们检查它是否是 @文字类型？",
+                "\\神秘: '秘密！'\n神秘•''\\",
+                "我们得到了 \\⊤\\！",
+                "当你需要知道某个 @名字 是否具有特定类型的值时，我非常有用。"
+            ],
+            "start": "首先让我们获取 $1 的值",
+            "finish": "$1[值是 $2|值不是 $2]",
             "conflict": {
-                "ImpossibleType": "$?"
+                "ImpossibleType": "这永远不可能是这种类型"
             },
             "exception": {
                 "TypeException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "不兼容的值",
+                    "explanation": "我预期得到一个 $1，但收到了一个 $2"
                 }
             }
         },
         "IsLocale": {
-            "name": "$?",
-            "description": "$?",
+            "name": "区域语言检查",
+            "description": "区域语言检查",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "doc": [
+                "我将帮你检查观众是否选择了特定的语言或地区：",
+                "\\🌍/en\\",
+                "\\🌍/es-MX\\",
+                "如果你想根据选择的语言来改变表现，这将会很有帮助。"
+            ],
+            "start": "这种语言是 $1 吗？"
         },
         "ListAccess": {
-            "name": "$?",
+            "name": "列表访问",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "doc": [
+                "我与 @列表 密切合作，帮助它们在特定位置获取值。所以，比如，如果你有一个列表，想要获取它的第二个项目，你会写成：",
+                "\\列表: ['鸟' '鸭' '鱼' '蛇']\n列表[2]\\"
+            ],
+            "start": "首先让我们获取列表 $1",
+            "finish": "项目是 $2！"
         },
         "ListLiteral": {
-            "name": "$?",
-            "description": "$?",
+            "name": "特定列表",
+            "description": "$1 项目列表",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
-            "item": "$?"
+            "doc": "我是一个具体的值 @列表！查看 @列表 以了解更多关于如何使用我的信息。",
+            "start": "让我们先评估这些项目",
+            "finish": "我创建了一个我！ $1",
+            "item": "项目"
         },
         "Spread": {
-            "name": "$?",
+            "name": "列表展开",
             "emotion": "serious",
-            "doc": "$?"
+            "doc": [
+                "我帮助你使用其他列表的值创建列表。就像这样：",
+                "\\列表1: [1 2 3]\n列表2: [4 5 6]\n最终: [列表1… 列表2…]"
+            ]
         },
         "MapLiteral": {
-            "name": "$?",
-            "description": "$?",
+            "name": "映射",
+            "description": "$1 配对映射",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "doc": "我是一个具体的键值对 @地图。查看 @地图 以了解我如何提供帮助的更多信息。",
+            "start": "让我们先评估键和值",
+            "finish": "我把每个连接在一起了，$1",
             "conflict": {
-                "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
+                "NotAKeyValue": {
+                    "primary": "我的某个键缺少值",
+                    "secondary": "哎呀，我的值在哪里？"
+                }
             }
         },
         "NumberLiteral": {
-            "name": "$?",
-            "description": "$?",
+            "name": "具体数字",
+            "description": "$1 $2[$2|]",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
+            "doc": "我是一个具体的 @数字。你可以用任何语言的任何数字来书写我。查看 @数字 了解我能做的一切。",
+            "start": "$1!",
             "conflict": {
-                "NotANumber": "$?"
+                "NotANumber": "我以为我认识所有的数字，但我不认识这个"
             }
         },
         "InternalExpression": {
-            "name": "$?",
+            "name": "内部表达式",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "doc": "你是怎么找到我的？我是只有原创作者才使用的表达式。要了解更多关于我的信息，你需要和他们交谈。",
+            "start": "秘密表达式"
         },
         "NoneLiteral": {
-            "name": "$?",
+            "name": "非字面意义",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "doc": "/@函数定义 在此。这只是 @空的。它们是独一无二的！查看 @空的 以了解更多关于它们的信息。",
+            "start": "… ø"
         },
         "Previous": {
-            "name": "$?",
+            "name": "之前",
             "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "doc": [
+                "你有没有想过记住过去？",
+                "我是 诗 的官方记录员。给我一个流和一个数字，我会往回看，告诉你那个流在历史上的值是什么。",
+                "例如，这是五个滴答前的 @时间 是什么时候：",
+                "\\← 5 时间(1000ms)\\",
+                "看到了吗？它在 5 秒钟内都是 @空的，然后突然出现了一个先前的时间？",
+                "如果你想要最后几个值，给我两个箭头，我会将数字解释为一个计数：",
+                "\\←← 5 时间(1000ms)\\",
+                "看到了吗？这是五个先前的时间，而不是只有一个时间？",
+                "当你想要创建依赖于过去的表演时，我会很有帮助。"
+            ],
+            "start": "首先获取 $1",
+            "finish": "评估为流值 $1"
         },
         "Program": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "unevaluated": "$?",
-            "start": "$?",
-            "halt": "$?",
-            "finish": "$?",
-            "done": "$?",
+            "name": "节目",
+            "emotion": "严肃",
+            "doc": [
+                "我是表演的开始和结束，包含了所有编排表演的其他角色。",
+                "你知道 @方块 如何评估表达式列表，并将其列表中的最后一个评估结果返回？",
+                "我也一样，但与其将我的值提供给我所在的表达式，我会将该值放在 @舞台 上。",
+                "这个值可以是任何东西：@数字、@文字 或 @布尔值，@列表、@集合、@地图，甚至更复杂的东西，如 @短语、@组 或 @舞台。",
+                "如果你没有给我一个在舞台上展示的值，我会要求你提供一个。",
+                "如果在表演过程中出现问题，我会显示出这个问题。",
+                "如果你的表演依赖于一个*流*，我会在该流改变时重新评估。"
+            ],
+            "unevaluated": "你选择的节点没有被评估",
+            "start": "$1[$1 流变为 $2！|这是我的第一次评估]",
+            "halt": "遇到异常，停止",
+            "finish": "所有都完成了，我评估为 $1",
+            "done": "没有任何评估",
             "exception": {
                 "BlankException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "空程序",
+                    "explanation": "让我们开个演出吧！我们应该从哪里开始？"
                 },
                 "EvaluationLimitException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "评估限制",
+                    "explanation": "@评估 和我对于评估感到疲惫，尤其是 $1。\n\n是不是可能 $1 在永远地评估自己，永远不会停止？"
                 },
                 "StepLimitException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "步骤限制",
+                    "explanation": "有如此之多的步骤 - 太多了，无法完成！你能让表演变得简单一些吗？"
                 },
                 "ValueException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "缺少值",
+                    "explanation": "我期待一个值，但却没有得到！"
                 }
             }
         },
         "PropertyBind": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "精炼",
+            "description": "精炼$1[$1|缺少名称]",
+            "emotion": "善良",
+            "doc": [
+                "有时，当你创建一个@StructureDefinition时，你想要改变它的最小的东西，而不必用所有相同的值创建一个新的。",
+                "例如，如果你正在保存猫的记录，但然后想创建一个具有不同爱好的猫的副本，该怎么办?我可以帮你改。",
+                "\\•猫(名称•爱好•“颜色•)\n\nkitty:猫(“洒”“橙色”“舔”)\nkitty.hobby: \\“呼噜声”",
+                "这比做一个全新的\\猫\\ \\要简单得多，除了爱好之外，还有相同的值，不是吗?"
+            ],
+            "start": "首先让我们获取值",
+            "finish": "我复制了这个结构，但是把1$改成了2$"
         },
         "PropertyReference": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
-            "property": "$?"
+            "name": "性质",
+            "description": "属性$1[$1|缺少名称]",
+            "emotion": "善良",
+            "doc": [
+                "当您创建一个@StructureDefinition时，您如何获得它的一个输入?我如何",
+                "比如，如果你有一个关于城市的结构，你可以像这样得到它的值:",
+                "\\•城市(名称•人口•#people)\n\nportland:城市('Portland' 800000people)\n\nportland.population\\"
+            ],
+            "start": "首先让我们获取值",
+            "finish": "发现属性$1，它是$2",
+            "property": "性质"
         },
         "Reaction": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
-            "initial": "$?",
-            "condition": "$?",
-            "next": "$?",
+            "name": "反应",
+            "emotion": "兴奋",
+            "doc": [
+                "流是如此的棒!我可以根据它们的变化来制作新的，这太酷了!",
+                "比如，如果你想让@Time打勾，但想显示单词而不是数字，你可以这样做:",
+                "\\时间:时间(1000毫秒)\n 'start“∆时间……((% 2)= 0 ms) ?“偶数”\\“奇数”",
+                "这就像说“/以单词'start'开始，然后如果时间改变，根据时间改变为偶数或奇数。/\\”",
+                "所以我就像一个流，但是一个基于其他流的流。挺奇怪吧,是吧?"
+            ],
+            "start": "让我们看看是否应该更新流",
+            "finish": "新的流值是1$",
+            "initial": "初始",
+            "condition": "条件",
+            "next": "下一项",
             "conflict": {
-                "ExpectedStream": "$?"
+                "ExpectedStream": "$1没有引用流，所以我永远不会做出反应!"
             }
         },
         "Reference": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
+            "name": "参考",
+            "description": "$1",
+            "emotion": "害羞",
+            "doc": [
+                "你知道@Bind怎么给东西@Name吗?我就是你所说的他们。我看看@Bind是否有那个名字，如果有，给你它的值。是这样的:",
+                "\\鹦鹉:\nparrot \\“波利”",
+                "如果我找不到名字，我就不知道该怎么办了。",
+                "\\鹦鹉:\nperry\\“波利”"
+            ],
+            "start": "1$有什么价值?",
             "conflict": {
-                "UnknownName": "$?",
-                "ReferenceCycle": "$?",
-                "UnexpectedTypeVariable": "$?"
+                "UnknownName": "我不知道有谁叫$1在$2里$2这个@Block你能给我一个名字吗?］",
+                "ReferenceCycle": "1$的价值取决于它本身，所以我怎么知道应该给它什么价值呢?",
+                "UnexpectedTypeVariable": "我不知道该怎么处理这些输入"
             },
             "exception": {
                 "NameException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "未知名字",
+                    "explanation": "$1[我不知道有谁在$2[$2]中命名$1[$2]…］"
                 }
             }
         },
         "Select": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "选择",
+            "emotion": "兴奋的",
+            "doc": [
+                "有时你有一张桌子，你只想占有它的一部分。我可以帮你拿来!",
+                "比如，如果你在游戏中有一张玩家表，你想找出得分在10分以上的人，看看谁赢了:",
+                "\\球员:⎡名字•“团队•”点•#⎦\n⎡“jen”“红色”8⎦\n⎡“琼”“蓝”11⎦\n⎡“杰夫”“红色”9⎦\n⎡“珍妮”“蓝”7⎦\nplayers⎡吗?名称⎦分≥10\\",
+                "就这样，我得到了一排获胜者的名单!记住，我不会换桌子，我会做一张新的。你得决定把它放在哪里。"
+            ],
+            "start": "我们先拿那个表格",
+            "finish": "我用选定的行和列创建了一个新表!",
             "conflict": {
-                "ExpectedSelectName": "$?"
+                "ExpectedSelectName": "我至少需要一个列名"
             }
         },
         "SetLiteral": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "name": "具体组",
+            "description": "$1，物体",
+            "emotion": "急切的",
+            "doc": "我是特定值的特定集合。查看@Set了解更多关于如何与我合作的信息。",
+            "start": "让我们先估计数值吧",
+            "finish": "我做了一个组$1"
         },
         "SetOrMapAccess": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "组/映射组的访问",
+            "emotion": "善良",
+            "doc": [
+                "我可以看到@Set或@Map是否有值或键。",
+                "这并不难。是这样的:",
+                "\\最爱:{“鸭”“鹅”‘猴子’}\nfaves{‘老鼠’}\\",
+                "或者使用@Map:",
+                "\\faves: {' mac&cheese':五星'麦片':2星'稀饭':1星}\nfaves{'稀饭'}\\"
+            ],
+            "start": "地图是什么?",
+            "finish": "数值为$1",
             "conflict": {
-                "IncompatibleKey": { "primary": "$?", "secondary": "$?" }
+                "IncompatibleKey": {
+                    "primary": "我想要一把1$的钥匙",
+                    "secondary": "我得到了1$，而不是2$"
+                }
             }
         },
         "Source": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?"
+            "name": "资源",
+            "emotion": "好奇",
+            "doc": [
+                "哦，你知道@Program吗?我帮你取名字。把我想象成@Program周围的窗口，以及你给他们起的名字。",
+                "你也可以创建其他@Source @UI/addSource，使用其他@Program，并从其他@Program中@Borrow东西以供其他程序使用。",
+                "这是将大型表现组织到单独文档中的好方法。"
+            ]
         },
         "StreamDefinition": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "流",
+            "emotion": "好奇",
+            "doc": "我/我想/我应该创造新的溪流。但我真的不知道该怎么做。现在，我想就用现有的流吧?",
+            "start": "创建这种新的流"
         },
         "StructureDefinition": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
+            "name": "结构",
+            "description": "结构 $1",
+            "emotion": "善良",
+            "doc": [
+                "你好，你好吗?我吗?我很好。我喜欢定义存储值和功能的结构，所以只要我能整天这样做，我就很高兴。",
+                "我这样工作！",
+                "\\•披萨( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小 · 10美元/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).成本()\\",
+                "明白是怎么回事了吧?我定义了\\Pizza\\，它有两个输入，\\ingredients\\ (@Text列表)和\\size\\(以英寸为单位的数字)。",
+                "在内部，@FunctionDefinition创建了一个计算披萨价格的函数，假设每英寸$10。",
+                "我不需要@FunctionDefinition。我可以只是输入。",
+                "\\•披萨(\n原料•['']\n大小•#in\n)\\",
+                "我也可以把@Bind放在里面，这样我们就可以提前评估成本。",
+                "\\•披萨(\n原料•['']\n大小•#in\n) (\n\t成本: 大小 · 10美金/in\n)\n\n披萨(['意大利腊肠' '胡椒'] 12in).cost\\"
+            ],
+            "start": "让我们来定义这个可爱的结构",
             "conflict": {
-                "DisallowedInputs": "$?",
-                "IncompleteImplementation": "$?",
-                "NotAnInterface": "$?",
-                "UnimplementedInterface": "$?"
+                "DisallowedInputs": "我不能有输入，因为我的一个或多个接口函数没有实现",
+                "IncompleteImplementation": "我的函数要么需要全部实现，要么不需要实现。没有混乱的混合物!",
+                "NotAnInterface": "我不是一个界面;一个结构只能实现接口，而不能实现其他结构",
+                "UnimplementedInterface": "我实现了1$，但没有实现2$"
             }
         },
         "TableLiteral": {
@@ -1007,113 +1355,264 @@
                     "inputs": [{ "doc": "$?", "names": "$?" }]
                 },
                 "starts": {
-                    "doc": "$?",
-                    "names": ["$? starts"],
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                    "doc": [
+                        "\\⊤\\ 如果我以 @Text 来开始",
+                        "\\'你好，诗句！'。以('你好')开始\\",
+                        "\\'你好，诗句！'。以('诗句')开始\\"
+                    ],
+                    "names": ["开始"],
+                    "inputs": [
+                        {
+                            "doc": "这样的 @Text 为我检查了文本的开头",
+                            "names": "文本"
+                        }
+                    ]
                 },
                 "ends": {
-                    "doc": "$?",
-                    "names": ["$? ends"],
-                    "inputs": [{ "doc": "$?", "names": "texto" }]
+                    "doc": [
+                        "\\⊤\\ 如果我以 @Text 来结尾。",
+                        "\\'我是一个问句吗？'。以('?')结尾\\",
+                        "\\'我不是一个问句。'。 以('?')结尾\\"
+                    ],
+                    "names": ["ends"],
+                    "inputs": [
+                        {
+                            "doc": "这样的 @Text 为我检查了文本的结尾。",
+                            "names": "文本"
+                        }
+                    ]
                 }
             },
             "conversion": { "list": "$?", "number": "$?" }
         },
         "Number": {
-            "doc": "$?",
-            "name": "$?",
+            "doc": [
+                "如果我创造一个 @Number, 这个数字可以是你能想象到的任何单位",
+                "这是我能想到的前五项：",
+                "\\0\\",
+                "\\1个故事\\",
+                "\\π派\\",
+                "\\∞个石头\\",
+                "\\1000000个拥抱\\",
+                "简单来说，我们有无数个数字。",
+                "同时，我们也有无数个单位！",
+                "同样地，无数个数字和单位的排列组合……",
+                "我可以是整数、实数、负数、正数、分数、小数，甚至不是一个数字。",
+                "你可以将我用不同的数字系统表达, 像阿拉伯数字 \\123\\, 罗马数字 \\ⅩⅩⅩⅠⅩ\\, 日本数字 \\二十\\, 甚至将它们混合起来:",
+                "\\1 + Ⅰ + 一\\",
+                "你也可以将我写成二进制，比如二进制的16会像这样：",
+                "\\2;11111111\\",
+                "\\10;255\\",
+                "\\16;FF\\",
+                "这里有一个特殊的数字叫 NaN ，它可能出现在你没有写下数字的时候：",
+                "\\2;22\\",
+                "这里没有数字显示，是因为数字2不会出现在二进制当中。 如果你想要将非数字的文本变成数字，NaN 同样会出现：",
+                "\\'嗨'→#\\"
+            ],
+            "name": ["#", "数字"],
             "function": {
                 "add": {
-                    "doc": "$?",
-                    "names": "$?",
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "我把自己加上一个同样 @Unit 的 @Number ， 就会出现同样的 @Unit 的 @Number 。",
+                        "比如：",
+                        "\\1 + 1\\",
+                        "\\3只猫 + 5只猫\\",
+                        "如果它们的单位不一样，就不会出现结果。",
+                        "\\3只猫 + 5只狗\\"
+                    ],
+                    "names": ["+", "加号"],
+                    "inputs": [
+                        { "doc": "要添加的 @Number 。", "names": "数字" }
+                    ]
                 },
                 "subtract": {
-                    "doc": "$?",
-                    "names": "$?",
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "我把自己减去你指定的 @Number ， 得出一个以同样的 @Unit 结尾的新的 @Number 。",
+                        "比如：",
+                        "\\1 - 1\\",
+                        "\\3只猫 - 5只猫\\",
+                        "如果它们的单位不一样，就不会出现结果。",
+                        "\\3只猫 - 5只狗\\"
+                    ],
+                    "names": ["-", "减号"],
+                    "inputs": [
+                        {
+                            "doc": "这是我要从我自己减去的 @Number 。",
+                            "names": "数字"
+                        }
+                    ]
                 },
                 "multiply": {
-                    "doc": "$?",
-                    "names": "$?",
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "我在我自己的基础上乘以你给我的 @Number ， 得到以我的 @Unit 和指定数字的 @Unit 相结合的结果：",
+                        "\\5 · 5\\",
+                        "\\5米 · 5米\\",
+                        "\\5米 · 1/秒\\"
+                    ],
+                    "names": ["·", "乘号"],
+                    "inputs": [{ "doc": "需要相乘的数字", "names": "数字" }]
                 },
                 "divide": {
-                    "doc": "$?",
-                    "names": ["÷", "divide"],
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "我将自己除以你指定的 @Number ， 得到以我的 @Unit 和指定数字的 @Unit 相结合的结果：",
+                        "\\5 ÷ 5\\",
+                        "\\5米 ÷ 5米\\",
+                        "\\5米 ÷ 5秒\\"
+                    ],
+                    "names": ["÷", "除以"],
+                    "inputs": [
+                        {
+                            "doc": "让我被除的 @Number 。",
+                            "names": "数字"
+                        }
+                    ]
                 },
                 "remainder": {
-                    "doc": "$?",
-                    "names": "$?",
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "我把自己除以你指定的 @Number ，但我会给出这个结果的余数：",
+                        "\\10 % 2\\",
+                        "\\10米 % 2\\",
+                        "\\10米/秒 % 3\\"
+                    ],
+                    "names": ["%", "取模"],
+                    "inputs": [
+                        {
+                            "doc": "让我被除的 @Number 。",
+                            "names": "数字"
+                        }
+                    ]
                 },
                 "positive": {
-                    "doc": "$?",
-                    "names": ["$? positive"],
+                    "doc": [
+                        "我会给出一个新的 @Number 使我是一个正数，即使输入的数字是一个负数。",
+                        "\\-200.正数()\\"
+                    ],
+                    "names": ["正数"],
                     "inputs": []
                 },
                 "round": {
-                    "doc": "$?",
-                    "names": ["$? round"],
+                    "doc": [
+                        "我会把 @Number 四舍五入成最接近的一个整数。",
+                        "\\9.4.四舍五入()\\",
+                        "\\9.5.四舍五入()\\",
+                        "\\9.6.四舍五入()\\"
+                    ],
+                    "names": ["四舍五入"],
                     "inputs": []
                 },
                 "roundDown": {
-                    "doc": "$?",
-                    "names": ["$? down"],
+                    "doc": [
+                        "我会把 @Number 变成最接近我的比我小的整数。",
+                        "\\10.5.roundDown()\\",
+                        "\\10.1.roundDown()\\",
+                        "\\10.01.roundDown()\\"
+                    ],
+                    "names": ["四舍五入下"],
                     "inputs": []
                 },
                 "roundUp": {
-                    "doc": "$?",
-                    "names": ["$? up"],
+                    "doc": [
+                        "我会把 @Number 变成最接近我的比我大的整数。",
+                        "\\10.5.roundUp()\\",
+                        "\\10.9.roundUp()\\",
+                        "\\10.99.roundUp()\\"
+                    ],
+                    "names": ["四舍五入上"],
                     "inputs": []
                 },
                 "power": {
-                    "doc": "$?",
-                    "names": ["^", "power"],
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "我将自己提高到给定 @Number 的幂次方 小数指数也可以！",
+                        "\\2 ^ 8\\",
+                        "\\10 ^ -2\\",
+                        "\\5 ^ -.5\\"
+                    ],
+                    "names": ["^", "次方"],
+                    "inputs": [{ "doc": "将我提升到的指数", "names": "数" }]
                 },
                 "root": {
-                    "doc": "$?",
-                    "names": ["√", "root"],
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "我使用给定的根号创建自己的根。",
+                        "\\4 √ 2\\",
+                        "\\1000 √ 3\\"
+                    ],
+                    "names": ["√", "根号"],
+                    "inputs": [{ "doc": "要计算的根。", "names": "数" }]
                 },
                 "lessThan": {
-                    "doc": "$?",
-                    "names": ["<", "lessthan"],
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "\\⊤\\ 如果我小于 @Number:",
+                        "\\1 < 2\\",
+                        "\\2 < 1\\"
+                    ],
+                    "names": ["<", "小于"],
+                    "inputs": [
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
+                    ]
                 },
                 "lessOrEqual": {
-                    "doc": "$?",
-                    "names": ["≤", "lessorequal"],
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "\\⊤\\ 如果我小于或等于 @Number:",
+                        "\\1 ≤ 2\\",
+                        "\\2 ≤ 1\\",
+                        "\\2 ≤ 2\\"
+                    ],
+                    "names": ["≤", "小于或等于"],
+                    "inputs": [
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
+                    ]
                 },
                 "greaterThan": {
-                    "doc": "$?",
-                    "names": [">", "greaterthan"],
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "\\⊤\\ 如果我大于 @Number:",
+                        "\\1 > 2\\",
+                        "\\2 > 1\\"
+                    ],
+                    "names": [">", "大于"],
+                    "inputs": [
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
+                    ]
                 },
                 "greaterOrEqual": {
-                    "doc": "$?",
-                    "names": ["≥", "greaterorequal"],
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "\\⊤\\ 如果我大于或等于 @Number:",
+                        "\\1 ≥ 2\\",
+                        "\\2 ≥ 1\\",
+                        "\\2 ≥ 2\\"
+                    ],
+                    "names": ["≥", "大于或等于"],
+                    "inputs": [
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
+                    ]
                 },
                 "equal": {
-                    "doc": "$?",
-                    "names": "$?",
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": [
+                        "\\⊤\\ 如果我等于 @Number:",
+                        "\\1 = 2\\",
+                        "\\2 = 2\\"
+                    ],
+                    "names": ["=", "等于"],
+                    "inputs": [
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
+                    ]
                 },
                 "notequal": {
-                    "doc": "$?",
-                    "names": "$?",
-                    "inputs": [{ "doc": "$?", "names": "$?" }]
+                    "doc": ["\\⊤\\ 不等于 @Number:", "\\1 ≠ 2\\", "\\2 ≠ 2\\"],
+                    "names": ["≠", "不等于"],
+                    "inputs": [
+                        { "doc": "与我进行比较的 @Number", "names": "数" }
+                    ]
                 },
                 "cos": {
-                    "doc": "$?",
-                    "names": ["cos", "cosine"],
+                    "doc": ["计算我的余弦值。", "\\π.cos()\\"],
+                    "names": ["cos", "cosine", "余弦"],
                     "inputs": []
                 },
-                "sin": { "doc": "$?", "names": ["sin", "sine"], "inputs": [] },
+                "sin": {
+                    "doc": "计算我的正弦值。",
+                    "names": ["sin", "sine", "正弦"],
+                    "inputs": []
+                },
                 "min": {
                     "doc": "$?",
                     "names": "$? min",
@@ -1136,54 +1635,54 @@
                 }
             },
             "conversion": {
-                "text": "$?",
-                "list": "$?",
-                "s2m": "$?",
-                "s2h": "$?",
-                "s2day": "$?",
-                "s2wk": "$?",
-                "s2year": "$?",
-                "s2ms": "$?",
-                "ms2s": "$?",
-                "min2s": "$?",
-                "h2s": "$?",
-                "day2s": "$?",
-                "wk2s": "$?",
-                "yr2s": "$?",
-                "m2pm": "$?",
-                "m2nm": "$?",
-                "m2micro": "$?",
-                "m2mm": "$?",
-                "m2cm": "$?",
-                "m2dm": "$?",
-                "m2km": "$?",
-                "m2Mm": "$?",
-                "m2Gm": "$?",
-                "m2Tm": "$?",
-                "pm2m": "$?",
-                "nm2m": "$?",
-                "micro2m": "$?",
-                "mm2m": "$?",
-                "cm2m": "$?",
-                "dm2m": "$?",
-                "km2m": "$?",
-                "Mm2m": "$?",
-                "Gm2m": "$?",
-                "Tm2m": "$?",
-                "km2mi": "$?",
-                "mi2km": "$?",
-                "cm2in": "$?",
-                "in2cm": "$?",
-                "m2ft": "$?",
-                "ft2m": "$?",
-                "g2mg": "$?",
-                "mg2g": "$?",
-                "g2kg": "$?",
-                "kg2g": "$?",
-                "g2oz": "$?",
-                "oz2g": "$?",
-                "oz2lb": "$?",
-                "lb2oz": "$?"
+                "text": "我的数字的阿拉伯文@Text表示。",
+                "list": "一个从1到给定数字的数字列表，例如\\10→[]\\。",
+                "s2m": "秒到分钟",
+                "s2h": "秒到小时",
+                "s2day": "秒到天",
+                "s2wk": "秒到周",
+                "s2year": "秒到年",
+                "s2ms": "秒到毫秒",
+                "ms2s": "毫秒到秒",
+                "min2s": "分钟到秒",
+                "h2s": "小时到秒",
+                "day2s": "天到秒",
+                "wk2s": "周到秒",
+                "yr2s": "年到秒",
+                "m2pm": "米到皮米",
+                "m2nm": "米到纳米",
+                "m2micro": "米到微米",
+                "m2mm": "米到毫米",
+                "m2cm": "米到厘米",
+                "m2dm": "米到分米",
+                "m2km": "米到千米",
+                "m2Mm": "米到兆米",
+                "m2Gm": "米到吉米",
+                "m2Tm": "米到太米",
+                "pm2m": "皮米到米",
+                "nm2m": "纳米到米",
+                "micro2m": "微米到米",
+                "mm2m": "毫米到米",
+                "cm2m": "厘米到米",
+                "dm2m": "分米到米",
+                "km2m": "千米到米",
+                "Mm2m": "兆米到米",
+                "Gm2m": "吉米到米",
+                "Tm2m": "太米到米",
+                "km2mi": "千米到英里",
+                "mi2km": "英里到千米",
+                "cm2in": "厘米到英寸",
+                "in2cm": "英寸到厘米",
+                "m2ft": "米到英尺",
+                "ft2m": "英尺到米",
+                "g2mg": "克到毫克",
+                "mg2g": "毫克到克",
+                "g2kg": "克到千克",
+                "kg2g": "千克到克",
+                "g2oz": "克到盎司",
+                "oz2g": "盎司到克",
+                "oz2lb": "盎司到磅",
+                "lb2oz": "磅到盎司"
             }
         },
         "List": {
@@ -1546,145 +2045,298 @@
     },
     "input": {
         "Random": {
-            "doc": "$?",
-            "names": ["Azar"],
+            "doc": [
+                "17!",
+                "/@方法的定义在这路, 我会解释这个./",
+                "所以 @随机 是一个充满好奇心的生成随机数的方法 他很好奇，因为每次你评估它时，它都会创造出不同的东西。",
+                "这造成了一种奇妙的混乱，并伴随着不可预测性。",
+                "在默认情况下, 他会给出 @数字类型 在 \\0\\ 和 \\1\\之间的值:",
+                "\\随机()\\",
+                "但是你可以给他输入一个参数, 他就会生成一个在\\0\\ 和那个参数之间的值：",
+                "\\随机(10)\\",
+                "如果你给他输入两个参数，那他就会生成两个参数之间的值:",
+                "\\随机(-10 10)\\",
+                "如果你的区间有单位的话，单位会被保存 (如果单位不统一，最小的单位会被采用):",
+                "\\随机(-10m 10m)\\",
+                "如果您给出的数字在小数点后具有特定数量的有效数字，则将保留该精度。",
+                "\\随机(1.00 10.00)\\"
+            ],
+            "names": ["🎲", "随机"],
             "inputs": [
-                { "names": "$?", "doc": "$?" },
-                { "names": "$?", "doc": "$?" }
+                { "names": "最小值", "doc": "最小的可能值" },
+                { "names": "最大值", "doc": "最大的可能值" }
             ]
         },
-        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
-        "Button": {
-            "doc": "$?",
-            "names": ["Botón"],
-            "down": { "names": "$?", "doc": "$?" }
+        "Choice": {
+            "doc": [
+                "/clickety tap!/",
+                "/@这是方法定义, 我来解释下这个吧！/",
+                "将 @Choice 视为由受众选择的 @Phrase/name 流。如果有人在带有名称的 @Phrase 上单击、敲击或按 /Enter/ 进行键盘选择，@Choice 将有一个与名称匹配的新值。",
+                "因此，使用它的最佳方法是使用命名的可选短语@Phrase 创建一个表演，然后使用@Reaction 来决定选择该名称时要执行的操作。",
+                "这里有一个简单的例子：",
+                "\\Group(\nStack() \n[\nPhrase('一个'可选:⊤名称:'1') \nPhrase('两个'可选:⊤名称:'2') \nPhrase(Choice())\n ]\n)\\",
+                "将其复制到编辑器中，然后选择两个 @Phrase 之一。您将看到第三个 @Phrase 显示所选的名称。"
+            ],
+            "names": ["🔘", "选择"]
         },
-        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Button": {
+            "doc": [
+                "/click click click/",
+                "/@FunctionDefinition 这里，我解释一下这个。/",
+                "@Button 是监听鼠标或触控板的好方法。当然，鼠标或触控板并不是聆听观众讲话的理想选择，因为并非每个人都可以使用。更容易访问的选择是@Choice。",
+                "但如果您/确实/需要监听鼠标按钮，这就是实现的方法。它将提供一个 @Boolean 流，表示主按钮是向上 \\⊥\\ 还是向下 \\⊤\\。",
+                "这是一个简单的例子：",
+                "\\短语(按钮() → '')\\",
+                "这只是创建一个@Phrase，它是流的文本值。如果将其复制到编辑器中并单击，您将看到它在 \\⊥\\ 和 \\⊤\\ 之间来回切换。"
+            ],
+            "names": ["按钮"],
+            "down": {
+                "names": "按下",
+                "doc": "如果@None，流将提供向上和向下值。如果@Boolean，它只会提供给定@Boolean值的值。"
+            }
+        },
+        "Pointer": {
+            "doc": [
+                "/嗡嗡嗡/",
+                "/@FunctionDefinition 这里，我解释一下这个。/",
+                "您了解鼠标、触控板和触摸屏吗？有时您想知道观众指向哪里。这就是 @Pointer 提供的。",
+                "当然，这不是一个易于访问的选择：并非每个人都可以看到或轻松指出，因此请务必确保您不会排除某人通过使用此流参与。",
+                "如果您确定没有人被排除在外，那么使用 @Pointer 就像创建一个流一样简单：",
+                "\\Pointer()\\",
+                "它提供的@Place将对应于@Stage上指针所指向的位置。"
+            ],
+            "names": ["⛓", "链接"]
+        },
         "Key": {
-            "doc": "$?",
-            "names": ["Teclado"],
-            "key": { "names": "$?", "doc": "$?" },
-            "down": { "names": "$?", "doc": "$?" }
+            "doc": [
+                "/咔嗒！/",
+                "/@FunctionDefinition在这里，我来解释一下",
+                "键盘有很多键，不是吗?@Key会告诉你哪个人在按哪个键。",
+                "试试这个吧！",
+                "\\Key()\\",
+                "看到了吗，当你输入一个键时，它会出现在@Stage上?每次按下一个键时，一个新的@Text将被添加到流中，描述按下的键。",
+                "对于表示字符的键，其值将是字符@Text。",
+                "对于特殊的键，如/Escape/键，将使用@Text描述键，使用<预定义名称@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values>，不幸的是只有英文版本。",
+                "如果你只想知道一个特定的密钥，你可以提供它:",
+                "\\Key('a')\\",
+                "如果你只想知道@Key什么时候被释放而不是按下，你可以提供一个@布尔值:",
+                "\\Key('a' ⊥)\\"
+            ],
+            "names": ["⌨️", "钥匙"],
+            "key": {
+                "names": "钥匙",
+                "doc": "如果是@None，则提供所有键。如果是特定的@Text，则只提供该键"
+            },
+            "down": {
+                "names": "下",
+                "doc": "如果@None，则按下键生成输入。如果\\⊥\\，那么只提供向下的输入，如果\\⊥\\，那么只提供释放的输入。"
+            }
         },
         "Time": {
-            "doc": "$?",
-            "names": ["Tiempo"],
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc": [
+                "/嘀嗒嘀嗒嘀嗒～/",
+                "@FunctionDefinition在这里，我将解释@Time，因为它没有说话。",
+                "时间是一条以一定频率滴答作响的溪流。",
+                "每次执行时，@Program用新的时间值重新求值。",
+                "比如说：",
+                "\\Time()\\",
+                "如果您为时间提供@Time/frequency，它将以该速率滴答。例如:",
+                "\\Time(1000ms)\\",
+                "然而，它可以有多小是有限的，因为@Program需要时间来评估，然后才能响应下一个tick。",
+                "最小的可能在\\20ms\\左右."
+            ],
+            "names": ["🕕", "时间"],
+            "frequency": {
+                "names": ["频率"],
+                "doc": "这是时间应该滴答作响的频率。它的默认值是\\33ms\\，大约每秒30次。"
+            }
         },
         "Volume": {
-            "doc": "$?",
-            "names": "$? Volume",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc": [
+                "/滋滋滋～/",
+                "@FunctionDefinition，我来拿麦克风吧。",
+                "该流是一系列介于0和1之间的音量，以您选择的频率采样。默认情况下，频率为30hz，即每秒30次，但您可以将其更改为更低的频率。",
+                "\\Volume()\\",
+                "这对于倾听听众的声音是很好的!"
+            ],
+            "names": ["🔊", "音量"],
+            "frequency": { "names": ["频率"], "doc": "采样间隔时间" }
         },
         "Pitch": {
-            "doc": "$?",
-            "names": "$? Pitch",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc": [
+                "/嗡嗡嗡/",
+                "@FunctionDefinition在这里，让我们来谈谈pitch!",
+                "这个流是一系列以赫兹为单位的频率，表示声音的音高，以你选择的频率采样。我们发现人类的声音在20Hz到5000Hz之间，所以计划在这个范围内的数字。",
+                "\\Pitch()\\",
+                "这对听别人说话或唱歌的语气很有帮助。"
+            ],
+            "names": ["🎵", "音调"],
+            "frequency": { "names": ["频率"], "doc": "采样间隔时间" }
         },
         "Camera": {
-            "doc": "$?",
-            "names": ["Cámara"],
-            "width": { "names": ["ancho"], "doc": "$?" },
-            "height": { "names": ["altura"], "doc": "$?" },
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "doc": [
+                "/嗡嗡嗡～/",
+                "@FunctionDefinition在这里，我可以解释@Camera!",
+                "所以@Camera提供了一个来自你的世界的@Color的@List。该列表本质上代表一个图像，但如何处理它取决于您",
+                "您可以尝试使用一堆@Phrase来表示图像，这看起来非常酷!试着复制这个…",
+                "\\colors: Camera(32px 24px 33ms)\n\nStage(\ncolors.combine(\n[] \nƒ(phrases•[Phrase] row•[Color] y•#) \nphrases.append(\nrow.translate(\nƒ(color•Color x•#)\nPhrase('o' place: Place((x - 1) · 0.5m y · -0.5m) color: color duration: 0s\n)\n)\n)\n)\n)\\",
+                "但是你也可以通过分析颜色来决定一盏灯是开着还是关着，或者一种特定的颜色是否常见，让观众用他们展示的颜色来影响表演。"
+            ],
+            "names": ["🎥", "相机"],
+            "width": {
+                "names": ["宽度"],
+                "doc": "要在一行中采样的@Color的数量。"
+            },
+            "height": {
+                "names": ["高度"],
+                "doc": "列中要采样的@Color的个数。"
+            },
+            "frequency": {
+                "names": ["频率"],
+                "doc": "@Color样本之间的时间间隔。"
+            }
         },
         "Motion": {
-            "names": "movimiento",
-            "doc": "$?",
-            "place": { "doc": "$?", "names": "$? place" },
-            "velocity": { "doc": "$?", "names": "$? velocity" },
-            "nextplace": { "doc": "$?", "names": "$? nextplace" },
-            "nextvelocity": { "doc": "$?", "names": "$? nextvelocity" }
+            "names": ["⚽️", "运动"],
+            "doc": [
+                "/砰！砰！砰！/",
+                "/嗨！@FunctionDefinition这里。我来解释一下@Motion怎么样?",
+                "基本上，@Motion是@Phrase的流。你给它一个起始的@Phrase，然后它会根据重力用一个新的位置和旋转来改进它。",
+                "它可以让你做一些非常简单的事情，比如创建弹跳的表情符号:",
+                "\\运动(短语('o') startplace: Place(0m 10m))\\",
+                "看到0是如何反弹的了吗?在第一次评估时，我们给它一个@Stage的高位置，但之后，它得到@None，这允许@Motion将其更改为重力将其放置的任何位置。",
+                "查看下面配置它的许多其他方法"
+            ],
+            "place": { "doc": "开始点", "names": " place" },
+            "velocity": { "doc": "初始速度", "names": " velocity" },
+            "nextplace": { "doc": "下一地点，无视物理", "names": " nextplace" },
+            "nextvelocity": {
+                "doc": "下一地点，无视速度",
+                "names": " nextvelocity"
+            }
         },
         "Chat": {
-            "doc": ["$?"],
-            "names": "$?"
+            "doc": [
+                "/你好!@FunctionDefinition这里。你想聊聊吗?",
+                "聊天流的基本思想是受众输入消息，然后程序对其进行响应。",
+                "例如，这个简单的程序检查消息是否为“hello”，如果是，程序计算为“hi”。否则，它的求值为 \"huh\" ?",
+                "\\Chat().has('hello') ? 'hi!' 'huh?'\\",
+                "就是这样!你可以用它制作各种各样的表演，比如聊天机器人、文本冒险或其他表演的基于文本的控制方案。"
+            ],
+            "names": ["🗣️", "聊天"]
         },
         "Placement": {
-            "doc": ["$?"],
-            "names": "$? Placement",
+            "doc": [
+                "/嘿，这里是@FunctionDefinition。我们来谈谈如何让我们行动起来!/",
+                "所以有很多方法可以把我们放在@Stage上。你可以给我们一个显式的@Place。你可以使用@Motion，让重力发挥作用。你也可以把我们放在一个@Group里，让他们按照特定的方式安排我们。",
+                "但有时你想让观众控制我们在舞台上的位置。这就是@Placement的作用。",
+                "它的工作原理是这样的:你只需要创建一个@Placement并把它赋给我们的@Place:",
+                "\\Phrase('hi' place: Placement())\\",
+                "然后，每当观众使用箭头键或在舞台上点击或轻敲时，@Placement将创建一个新的@Place，该@Place将朝着所需的方向移动。",
+                "试着把这个复制到你的程序中，然后用指针或键盘移动箭头。",
+                "您可以自定义@Place，在某些维度上启用和禁用移动，更改@Place移动的距离，以及流开始的初始@Place。"
+            ],
+            "names": ["✥", "摆放"],
             "inputs": [
                 {
-                    "doc": "$?",
-                    "names": "$? start"
+                    "doc": "开始的初始位置。",
+                    "names": "初始"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? distance"
+                    "doc": "当观众要求移动时，场地应该移动多少米。",
+                    "names": "距离"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? horizontal"
+                    "doc": "如果为true，则允许在水平轴上移动。默认为开启。",
+                    "names": "水平的"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? vertical"
+                    "doc": "如果为true，则允许在垂直轴上移动。默认为开启。",
+                    "names": "竖直的"
                 },
                 {
-                    "doc": "$?",
-                    "names": "$? depth"
+                    "doc": "如果为true，则允许使用and -键在z轴上移动。",
+                    "names": "深度"
                 }
             ]
         },
         "Webpage": {
-            "doc": ["$?"],
-            "names": "$? webpage",
-            "url": { "doc": "$?", "names": "$? url" },
-            "query": { "doc": "$?", "names": "$? query" },
-            "frequency": { "doc": "$?", "names": "$? frequency" },
+            "doc": [
+                "/嘿，这里是@FunctionDefinition。让我们来谈谈如何从互联网上获得网页!/",
+                "当我们第一次听说你们的互联网时，我们觉得它很迷人。一个充满了相互连接的计算机共享文档的世界?那太神奇了!",
+                "所以我们制作了一条与之相连的流。你给我们一个URL，我们会得到所有的文本。是这样的:",
+                "\\Webpage('https://wordplay.dev')\\",
+                "而且显然有一种东西叫做 <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, 它想让你在网页上查询东西?给我们一个CSS选择查询，我们将只获得与该查询匹配的文本。就像这个例子，它获得一级标头",
+                "\\Webpage('https://wordplay.dev' 'h1')\\",
+                "这款手机可能会出很多问题。如果你失去了互联网连接，或者URL不能解析任何东西，或者URL不是公开的，或者URL不是HTML页面……所有这些都可能导致异常。如果你找到一个合适的页面，你会得到一个@数字，表示完成百分比，然后是一个@页面上的单词列表。"
+            ],
+            "names": ["🔗", "网页"],
+            "url": { "doc": "要获取的HTML网页URL。", "names": " url" },
+            "query": { "doc": "要在HTML上计算的CSS查询", "names": "请求" },
+            "frequency": {
+                "doc": "在再次获取该页之前应该经过的分钟数",
+                "names": "频率"
+            },
             "error": {
-                "invalid": "$?",
-                "unvailable": "$?",
-                "notHTML": "$?",
-                "noConnection": "$?",
-                "limit": "$?"
+                "invalid": "这不是一个有效的URL",
+                "unvailable": "这个URL无法访问",
+                "notHTML": "这个回应不是HTML",
+                "noConnection": "无法连接到双关语",
+                "limit": "对该域的请求太多"
             }
         },
         "Collision": {
-            "names": "$? Collision",
-            "doc": "$?",
+            "names": "撞击",
+            "doc": [
+                "/你好!@FunctionDefinition这里。看看这个很酷的输入/",
+                "它可以帮助您发现@Output何时相互碰撞!当我们相互碰撞时，这是一种很好的方式，而不是像@Output那样相互反弹。",
+                "只要给我一个@Output的名字，当它碰到另一个名字时，我将创建一个新的@Rebound值。@Rebound有关于碰撞的名字和它们碰撞的方向的信息。",
+                "如果你给了我两个名字，我只会在两个名字相遇的时候创建一个新值。",
+                "在我创建一个新值之后，我将创建一个\\ø\\，因为碰撞是在它发生之后完成的。这表明不会再发生碰撞。",
+                ""
+            ],
             "subject": {
-                "names": "$? name",
-                "doc": "$?"
+                "names": "主题",
+                "doc": "我应该查找碰撞的@Output的名称。"
             },
             "object": {
-                "names": "$? other",
-                "doc": "$?"
+                "names": "其他",
+                "doc": "我应该查找碰撞的另一个@Output的名称。"
             }
         },
         "Rebound": {
-            "names": "$? Rebound",
-            "doc": "$?",
+            "names": "回弹Rebound",
+            "doc": "我来自@Collision，代表谁被碰撞了，碰撞发生在哪个方向。用我来决定是否以某种特殊的方式对碰撞做出反应，而不是普通的物理反应。",
             "direction": {
                 "names": "$? direction",
-                "doc": "$?"
+                "doc": "碰撞的方向和大小，相对于碰撞的主体"
             },
             "subject": {
-                "names": "$? subject",
-                "doc": "$?"
+                "names": "主观subject",
+                "doc": "主观所命中的输出的名称"
             },
             "object": {
-                "names": "$? object",
-                "doc": "$?"
+                "names": "客观object",
+                "doc": "击中主题的输出的名称"
             }
         },
         "Direction": {
-            "names": "$? Direction",
-            "doc": "$?",
+            "names": "方向",
+            "doc": "我是方向和大小，沿着x轴和y轴。",
             "x": {
-                "names": "$? x",
-                "doc": "$?"
+                "names": "x",
+                "doc": "沿着x轴方向的方向和大小。"
             },
             "y": {
-                "names": "$? y",
-                "doc": "$?"
+                "names": "y",
+                "doc": "沿y轴方向的方向和大小。"
             }
         }
     },
     "output": {
         "Output": {
-            "names": "$? Output",
-            "doc": "$?"
+            "names": "输出 Output",
+            "doc": "我不是你真正可以制作的@结构定义。但我是一个非常重要的人，因为我激发了我们舞蹈中最重要的元素：@短语、@组和@舞台。去见见他们，去了解更多关于如何使用它们的信息。"
         },
         "Stage": {
             "names": "$?",
@@ -1735,113 +2387,164 @@
             "gravity": { "doc": "$?", "names": "$? gravity" }
         },
         "Group": {
-            "names": "$?",
-            "doc": "$?",
-            "description": "$?",
-            "content": { "doc": "$?", "names": "$?" },
-            "layout": { "doc": "$?", "names": "$?" },
+            "names": "组",
+            "doc": "哦你好，你过的怎么样？当有其他人在身边时，我总是很愉快，所以能和你在一起真是太好了！\n 我将@短语和@组组合在一起放在@舞台上，并将它们放在@整理中，这样它们的位置就有了一些秩序。\n 要使我工作，你需要给我一个@整理，然后是一个@输出的@列表以进行安排。\n 例如，在这里我用了一个@堆栈排列和一些垂直堆叠的@短语：\n \\组(堆栈() [短语('第一个') 短语('第二个')])\\ \n 我如何安排事物取决于你给我的@整理。",
+            "description": "$1[$1|] $2 $3",
+            "content": {
+                "doc": "安排的@输出列表。",
+                "names": "内容"
+            },
+            "layout": {
+                "doc": "将@输出放置在其位置的安排方式。",
+                "names": "布局"
+            },
             "matter": {
-                "doc": "$?",
-                "names": "$? matter"
+                "doc": "如果我不小心碰到其他物体，我应该如何反应。",
+                "names": "物体 matter"
             },
-            "size": { "doc": "$?", "names": "$?" },
-            "face": { "doc": "$?", "names": "$?" },
-            "place": { "doc": "$?", "names": "$?" },
-            "name": { "doc": "$?", "names": "$?" },
-            "selectable": { "doc": "$?", "names": "$?" },
+            "size": {
+                "doc": "我内心里美好的内容应该有多高，除非它们有自己的尺寸！",
+                "names": "尺寸"
+            },
+            "face": {
+                "doc": "我内部的字体名称内容应该有，除非他们有自己的字体可以使用。",
+                "names": "表面"
+            },
+            "place": {
+                "doc": "舞台上我应该在的位置。 我内部的内容会相对于那里进行排列。",
+                "names": "位置"
+            },
+            "name": { "doc": "与@短语/名称相同！", "names": "名称" },
+            "selectable": {
+                "doc": "与@短语/可选择的相同! ",
+                "names": "可选择的"
+            },
             "color": {
-                "doc": "$?",
-                "names": "$? color"
+                "doc": "我内部的内容应该是@颜色，除非它们有自己的颜色。",
+                "names": "颜色 color"
             },
-            "background": { "doc": "$?", "names": "$? background" },
+            "background": {
+                "doc": "投影在我背后的@颜色。",
+                "names": "背景 background"
+            },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "我体内的一切在 \\0\\ 和 \\1\\ 之间应该是多么透明，除非被不同的@姿势覆盖。",
+                "names": "透明 opacity"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "一个 @位置 指示它与我的正常 @位置 的偏移量，除非被不同的 @姿势 覆盖。 有助于就地摆动。",
+                "names": "抵消 offset"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "我应该围绕我的中心倾斜多少，我的@姿势有不同的倾斜。",
+                "names": "自转 rotation"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "相对于我原来的尺寸我应该有多大。",
+                "names": "比例 scale"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "与@短语/水平翻转相同！",
+                "names": "水平翻转 flipx"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "与@短语/垂直翻转相同！",
+                "names": "垂直翻转flipy"
             },
-            "entering": { "doc": "$?", "names": "$?" },
-            "resting": { "doc": "$?", "names": "$?" },
-            "moving": { "doc": "$?", "names": "$?" },
-            "exiting": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": ["$?"] },
-            "style": { "doc": "$?", "names": "$?" }
+            "entering": { "doc": "与@短语/进入相同！", "names": "进入" },
+            "resting": { "doc": "与@短语/休息相同！", "names": "休息" },
+            "moving": { "doc": "与@短语/移动相同！", "names": "移动" },
+            "exiting": { "doc": "与@短语/退出相同！", "names": "退出" },
+            "duration": {
+                "doc": "与@短语/持续时间相同！",
+                "names": ["持续时间"]
+            },
+            "style": { "doc": "与@短语/风格相同！", "names": "风格" }
         },
         "Phrase": {
             "names": ["💬", "Frase"],
-            "doc": "$?",
-            "text": { "doc": "$?", "names": "$?" },
-            "description": "$?",
-            "size": { "doc": "$?", "names": "$?" },
-            "face": { "doc": "$?", "names": "$?" },
-            "place": { "doc": "$?", "names": "$?" },
+            "doc": "你好，你好！还记得我吗？怎么会有人忘记/我/。没错，我就是伟大的@短语，准备好在@舞台上表达最可爱的@文字。\n 只要让我这样，我就会出现在@舞台：\n \\短语('太棒了！')\\ \n 显然，我需要一些 @文字，但除此之外，我可以做任何@输出可以做的所有事情，包括更改我的大小、字体、旋转，以及使用@姿势和@顺序进行所有令人难以置信的舞蹈。 \n 你也可以在@舞台上选择我，然后在隔壁的调色板上编辑我。",
+            "text": { "doc": "在@舞台上展示的角色。", "names": "文字" },
+            "description": "$3[$3 米 |]短语 $1 $2[命名 $2|] $4[$4|] $5",
+            "size": { "doc": "我应该多高，以米为单位！", "names": "尺寸" },
+            "face": { "doc": "我应该使用的字体名称。", "names": "表面" },
+            "place": { "doc": "舞台上我应该在的地方。", "names": "位置" },
             "wrap": {
-                "doc": "$?",
-                "names": "$? wrap"
+                "doc": "我应该包裹符号的边缘，或者 \\ø\\ 如果我不应该包裹它们。",
+                "names": "包裹 wrap"
             },
             "alignment": {
-                "doc": "$?",
-                "names": "$? alignment"
+                "doc": "如果有@舞台/包裹的边界集，我是否应该将符号与边缘的开始、中心或结束对齐。",
+                "names": "对齐 alignment"
             },
             "matter": {
-                "doc": "$?",
-                "names": "$? matter"
+                "doc": "碰到东西时可以使用的属性！",
+                "names": "物体 matter"
             },
-            "name": { "doc": "$?", "names": "$?" },
-            "selectable": { "doc": "$?", "names": "$?" },
+            "name": {
+                "doc": "你给我起一个名字！这对很多事情都有帮助。\n 首先，如果我有名字，我会用它在屏幕阅读器描述中描述自己。\n 第二，在制作动画时，您可能有多个不同的表达式，这些表达式应该在舞台上表示相同的内容；给它们相同的名称，它们就会作为一个动画。 \n 最后，我对 @选择很有帮助：你给我的名字出现在该信息流中。 \n 如果有帮助的话，您可以给我许多不同的名称，每个名称都采用不同的语言。我将始终在第一个选定的区域设置中使用该名称",
+                "names": "名字"
+            },
+            "selectable": {
+                "doc": "如果是\\⊤\\，则表示我可以通过指针或键盘选择。",
+                "names": "可选择的"
+            },
             "color": {
-                "doc": "$?",
-                "names": "$? color"
+                "doc": "@颜色应该是默认的，除非被不同的@姿势覆盖。",
+                "names": "颜色 color"
             },
-            "background": { "doc": "$?", "names": "$? background" },
+            "background": {
+                "doc": "投射在我身后的@颜色",
+                "names": "背景 background"
+            },
             "opacity": {
-                "doc": "$?",
-                "names": "$? opacity"
+                "doc": "默认情况下我应该有多透明，在 \\0\\ 和 \\1\\ 之间，除非被不同的@姿势覆盖。有助于淡入和淡出。",
+                "names": "透明 opacity"
             },
             "offset": {
-                "doc": "$?",
-                "names": "$? offset"
+                "doc": "一个@位置指示它与我的@位置的偏移量，除非被不同的@姿势覆盖。 有助于就地摆动。",
+                "names": "抵消 offset"
             },
             "rotation": {
-                "doc": "$?",
-                "names": "$? rotation"
+                "doc": "我应围绕其中心旋转的度数，除非被不同的@姿势覆盖。",
+                "names": "自转 rotation"
             },
             "scale": {
-                "doc": "$?",
-                "names": "$? scale"
+                "doc": "我应该相对于其原始大小放大多少，除非被不同的@姿势覆盖。",
+                "names": "比例 scale"
             },
             "flipx": {
-                "doc": "$?",
-                "names": "$? flipx"
+                "doc": "我是否应该在x轴上镜像，除非被不同的@姿势覆盖。",
+                "names": "水平翻转 flipx"
             },
             "flipy": {
-                "doc": "$?",
-                "names": "$? flipy"
+                "doc": "我是否应该在y轴上镜像，除非被不同的@姿势覆盖。",
+                "names": "垂直翻转 flipy"
             },
-            "entering": { "doc": "$?", "names": "$?" },
-            "resting": { "doc": "$?", "names": "$?" },
-            "moving": { "doc": "$?", "names": "$?" },
-            "exiting": { "doc": "$?", "names": "$?" },
-            "duration": { "doc": "$?", "names": ["$?"] },
-            "style": { "doc": "$?", "names": "$?" }
+            "entering": {
+                "doc": "上台时我应该做的@姿势或@顺序",
+                "names": "进入"
+            },
+            "resting": {
+                "doc": "我应该在进入舞台之后、退出之前以及我的@位置没有改变的情况下执行@姿势或@顺序。 如果您不给我，我将使用默认值。",
+                "names": "休息"
+            },
+            "moving": {
+                "doc": "在舞台上移动位置时我应该执行的@姿势或@顺序，而不是我的默认设置。",
+                "names": "移动"
+            },
+            "exiting": {
+                "doc": "@姿势或@顺序应该在退出阶段之前执行。",
+                "names": "退出"
+            },
+            "duration": {
+                "doc": "移动到舞台上不同位置时适用的持续时间。",
+                "names": ["持续时间"]
+            },
+            "style": {
+                "doc": "移动到舞台上不同位置时使用的动画风格。",
+                "names": "风格"
+            }
         },
         "Arrangement": { "names": ["Arrangement"], "doc": "$?" },
         "Row": {
@@ -1931,47 +2634,118 @@
             "z": { "doc": "$?", "names": "$? z" }
         },
         "Pose": {
-            "names": "$?",
-            "doc": "$?",
-            "duration": { "doc": "$?", "names": "$?" },
-            "style": { "doc": "$?", "names": "$?" },
-            "color": { "doc": "$?", "names": "$?" },
-            "opacity": { "doc": "$?", "names": "$?" },
-            "offset": { "doc": "$?", "names": "$?" },
-            "rotation": { "doc": "$?", "names": "$?" },
-            "scale": { "doc": "$?", "names": "$?" },
-            "flipx": { "doc": "$?", "names": "$?" },
-            "flipy": { "doc": "$?", "names": "$?" },
-            "description": "$?"
-        },
-        "Color": {
-            "names": "$?",
-            "doc": "$?",
-            "lightness": { "doc": "$?", "names": ["luminosidad"] },
-            "chroma": { "doc": "$?", "names": ["croma"] },
-            "hue": { "doc": "$?", "names": ["matiz"] }
-        },
-        "Sequence": {
-            "names": "$?",
-            "doc": "$?",
-            "poses": { "doc": "$?", "names": "$?" },
+            "doc": [
+                "想象一下，某某一下子摆了个最精彩的姿势，一停顿，每个人的目光都聚集在了他身上。所说的姿势就是我，我为 @Output 勾勒姿势，而他们的动作都是以我组成的。",
+                "别小瞧我！自个看一看我的许多的$input，你会创造出什么样的姿势呢？"
+            ],
+
+            "names": ["🤪", "姿势"],
             "duration": {
-                "doc": "$?",
-                "names": "$? duration"
+                "doc": "这个姿势需要多长时间从前一个姿势进入",
+                "names": "时长"
             },
             "style": {
-                "doc": "$?",
-                "names": "$? style"
+                "doc": "进入这个姿势时应该用的动画风格",
+                "names": "风格"
             },
-            "count": { "doc": "$?", "names": "$? count" }
+            "color": {
+                "doc": "@Output 在这姿势时应该用的 @Color，代替默认值",
+                "names": "色彩"
+            },
+            "opacity": {
+                "doc": "@Output 的不透明度，介于 \\0\\ 和 \\1\\ 之间，代替默认值。有助于淡入和淡出。",
+                "names": "不透明度"
+            },
+            "offset": {
+                "doc": "一个 @Place 指示它应该与 @Output 位置偏移多少，代替默认值。有助于扭扭动动。",
+                "names": "偏移"
+            },
+            "rotation": {
+                "doc": "@Output 应该旋转多少，代替默认值。",
+                "names": "旋转"
+            },
+            "scale": {
+                "doc": "@Output 应该相对于原始大小放大多少，代替默认值。",
+                "names": "缩放"
+            },
+            "flipx": {
+                "doc": "@Output 是否应该x轴对称，代替默认值。",
+                "names": "x翻"
+            },
+            "flipy": {
+                "doc": "@Output 是否应该y轴对称，代替默认值。",
+                "names": "y翻"
+            },
+            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]"
+        },
+        "Color": {
+            "doc": [
+                "我是一种可见的颜色，由三个维度构成。",
+                "一下是一些色轮上常见的颜色，用中等亮度和高色度显示。",
+                "\\Color(50% 100 0°)\\",
+                "\\Color(50% 100 30°)\\",
+                "\\Color(50% 100 60°)\\",
+                "\\Color(50% 100 90°)\\",
+                "\\Color(50% 100 120°)\\",
+                "\\Color(50% 100 150°)\\",
+                "\\Color(50% 100 180°)\\",
+                "\\Color(50% 100 210°)\\",
+                "\\Color(50% 100 240°)\\",
+                "\\Color(50% 100 270°)\\",
+                "\\Color(50% 100 300°)\\",
+                "\\Color(50% 100 330°)\\"
+            ],
+            "names": ["🌈", "色彩"],
+            "lightness": {
+                "doc": "我应该有多亮，从 \\0\\ 到 \\1\\。\\0\\ 是黑色， \\0.5\\ 灰色，\\1\\ 白色。",
+                "names": ["明度", " l"]
+            },
+            "chroma": {
+                "doc": "我应该有多少色彩，从 \\0\\ 到 \\∞\\。没有色彩表示是灰色，数字越大色彩就越足。",
+                "names": ["色度", "c"]
+            },
+            "hue": {
+                "doc": "我应该是色轮上的什么颜色，从品红色 \\0\\，红色 \\30\\，绿色 \\120\\，到蓝色 \\270\\。",
+                "names": ["色调", "h"]
+            }
+        },
+        "Sequence": {
+            "doc": [
+                "哦。哦。哇！导演，你今天精神看起来棒极了！你想跟我一起跳舞吗？这很容易。",
+                "你只要给我一个 @Map。每个$key表示我们跳的过程完成了百分之多少，每个$key的值都应该有个 @Pose。",
+                "有好多不同的方式用这个功能制作动画。给你一个比较简单的例子：",
+                "\\Phrase('hi' resting:Sequence({0%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)})\\",
+                "这个意思是，/开头是 0%，以 360 倾斜度开始。最后以 0 倾斜度结束/。因为我把 @Phrase 的休息姿势设成了这个，我们就会永远转圈子！",
+                "现在你自己试一试，用其他的@input创造一些独特的舞蹈。"
+            ],
+            "names": ["💃", "排序"],
+            "poses": {
+                "doc": "一个由百分比组成的@Map介于 0% 到 100%，每个百分比都分配一个@Pose。你不用提供每个百分比，我会基于你给我的百分比无缝隙的把@Output从一个移到下一个。",
+                "names": "一列姿势"
+            },
+            "duration": {
+                "doc": "我应该跳这个舞跳多长时间啊？如果要重复的跳，我不会延长时间，我只会跳的更快。",
+                "names": ["⏳", "时长"]
+            },
+            "style": {
+                "doc": "我跳舞时应该用的风格。",
+                "names": "风格"
+            },
+            "count": {
+                "doc": "该序列在完成之前应该重复多少遍。助于我上$stage、在$stage上移动或退出$stage。但在休息序列时，它就会被忽略，因为我可以永远休息。",
+                "names": "计数"
+            }
         },
         "Place": {
-            "names": ["Posición"],
-            "doc": "$?",
-            "x": { "doc": "$?", "names": "$? x" },
-            "y": { "doc": "$?", "names": "$? y" },
-            "z": { "doc": "$?", "names": "$? z" },
-            "rotation": { "doc": "$?", "names": "$? rotation" }
+            "doc": "我是 @Stage 上的一个定位。我的所有输入都是可有可无的，因为我的默认值就是定位在中央。",
+            "names": ["📍", "位置"],
+            "x": { "doc": "x 轴上的位子", "names": "x" },
+            "y": { "doc": "y 轴上的位子", "names": "y" },
+            "z": { "doc": "z 轴上的位子", "names": "z" },
+            "rotation": {
+                "doc": "在此位置的旋转",
+                "names": ["📐", "旋转"]
+            }
         },
         "Velocity": {
             "doc": "$?",
@@ -2039,553 +2813,576 @@
     },
     "ui": {
         "font": {
-            "app": "Noto Sans",
-            "code": "Noto Mono"
+            "app": "Noto Sans Simplified Chinese",
+            "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$?"
+            "welcome": "你好"
         },
         "widget": {
-            "confirm": { "cancel": "$?" },
+            "confirm": {
+                "cancel": "取消"
+            },
             "dialog": {
-                "close": "$?"
+                "close": "关闭"
             },
             "loading": {
-                "message": "$?"
+                "message": "正在加载字体和文本，请稍候！"
             },
-            "home": "$?"
+            "back": "返回上一页"
         },
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "退出全屏",
+                    "off": "扩展到全屏"
                 },
                 "show": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "隐藏此瓷砖",
+                    "off": "显示此瓷砖"
                 }
             },
             "button": {
-                "collapse": "$?"
+                "collapse": "折叠窗口"
             }
         },
         "project": {
             "error": {
-                "unknown": "$?"
+                "unknown": "该演出不存在或未公开"
             },
             "button": {
-                "showCollaborators": "$?",
-                "removeCollaborator": "$?",
-                "copy": "$?",
-                "addSource": "$?",
-                "duplicate": "$?",
-                "revert": "$?",
-                "focusOutput": "$?",
-                "focusSource": "$?",
-                "focusDocs": "$?",
-                "focusPalette": "$?",
-                "focusCycle": "$?"
+                "showCollaborators": "显示合作者对话框",
+                "removeCollaborator": "移除合作者",
+                "copy": "将项目复制为文本",
+                "addSource": "创建新的$source",
+                "duplicate": "复制这个项目",
+                "revert": "恢复到原始代码",
+                "focusOutput": "聚焦舞台上的键盘乐器",
+                "focusSource": "聚焦到下一个源",
+                "focusDocs": "聚焦文档",
+                "focusPalette": "聚焦调色板",
+                "focusCycle": "聚焦到下一个瓷砖"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "编辑项目名称",
+                    "placeholder": "名称"
                 }
             },
-            "help": "$?"
+            "help": "显示键盘快捷键"
         },
         "gallery": {
-            "untitled": "$?",
+            "untitled": "未命名",
             "subheader": {
                 "curators": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "策展人",
+                    "explanation": "管理此画廊的创作者。"
                 },
                 "creators": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "创作者",
+                    "explanation": "为此画廊做出贡献的创作者。"
                 },
                 "delete": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "删除",
+                    "explanation": "删除该图库不会删除其项目。图库将被永久删除。"
                 }
             },
             "confirm": {
                 "delete": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "删除画廊",
+                    "prompt": "删除"
                 },
                 "remove": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "从画廊中删除项目",
+                    "prompt": "删除"
                 }
             },
             "error": {
-                "unknown": "$?"
+                "unknown": "此画廊不存在或不是公开的。"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "画廊名称",
+                    "placeholder": "名称"
                 },
                 "description": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "画廊描述",
+                    "placeholder": "描述您的画廊。它的主题、目标或社区是什么？"
                 }
             }
         },
         "source": {
-            "label": "$?",
-            "empty": "$?",
-            "overwritten": "$?",
+            "label": "程序编辑器",
+            "empty": [
+                "让我们开始吧！您可以...",
+                "• 打开 📕 并将 🖱️ 拖到此程序中。",
+                "• 输入 $1 并从菜单中选择我们。",
+                "• 如果您熟悉我们，可以开始输入。",
+                "• 浏览画廊以获取灵感。",
+                "如果遇到困难，请参阅 <learn more@://learn>。"
+            ],
+            "overwritten": "收到了更新版本！",
             "confirm": {
                 "delete": {
-                    "description": "$?",
-                    "prompt": "$?"
+                    "description": "删除此$source",
+                    "prompt": "删除"
                 }
             },
             "toggle": {
                 "blocks": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "隐藏块背景",
+                    "off": "显示块背景"
                 },
                 "glyphs": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "折叠匹配的字形",
+                    "off": "展开匹配的字形"
                 }
             },
             "button": {
-                "selectOutput": "$?",
-                "expandSequence": "$?"
+                "selectOutput": "在舞台上显示此输出",
+                "expandSequence": "展开此折叠的代码"
             },
             "field": {
                 "name": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "编辑源名称",
+                    "placeholder": "名称"
                 }
             },
             "menu": {
-                "label": "$?",
-                "show": "$?",
-                "back": "$?"
+                "label": "自动完成菜单",
+                "show": "显示自动完成菜单",
+                "back": "退出子菜单"
             },
             "cursor": {
-                "priorLine": "$?",
-                "nextLine": "$?",
-                "priorInline": "$?",
-                "nextInline": "$?",
-                "lineStart": "$?",
-                "lineEnd": "$?",
-                "priorNode": "$?",
-                "nextNode": "$?",
-                "parent": "$?",
-                "selectAll": "$?",
-                "incrementLiteral": "$?",
-                "decrementLiteral": "$?",
-                "insertSymbol": "$?",
-                "insertTrue": "$?",
-                "insertFalse": "$?",
-                "insertNone": "$?",
-                "insertNotEqual": "$?",
-                "insertProduct": "$?",
-                "insertQuotient": "$?",
-                "insertDegree": "$?",
-                "insertFunction": "$?",
-                "insertLessOrEqual": "$?",
-                "insertGreaterOrEqual": "$?",
-                "insertStream": "$?",
-                "insertConvert": "$?",
-                "insertPrevious": "$?",
-                "insertType": "$?",
-                "insertTable": "$?",
-                "insertLine": "$?",
-                "backspace": "$?",
-                "cut": "$?",
-                "copy": "$?",
-                "paste": "$?",
-                "parenthesize": "$?",
-                "enumerate": "$?",
-                "type": "$?",
-                "undo": "$?",
-                "redo": "$?",
-                "search": "$?"
+                "priorLine": "将光标移至前一行",
+                "nextLine": "将光标移至后一行",
+                "priorInline": "将光标移到前一个位置",
+                "nextInline": "将光标移到后一个位置",
+                "lineStart": "将光标移到行的开头",
+                "lineEnd": "将光标移到行的末尾",
+                "priorNode": "选择前一个邻居",
+                "nextNode": "选择后一个邻居",
+                "parent": "选择容器",
+                "selectAll": "选择程序",
+                "incrementLiteral": "增加数字、文本或布尔值",
+                "decrementLiteral": "减少数字、文本或布尔值",
+                "insertSymbol": "插入$1",
+                "insertTrue": "插入 true",
+                "insertFalse": "插入 false",
+                "insertNone": "插入无符号",
+                "insertNotEqual": "插入不等号",
+                "insertProduct": "插入乘号",
+                "insertQuotient": "插入除号",
+                "insertDegree": "插入度符号",
+                "insertFunction": "插入函数",
+                "insertLessOrEqual": "插入小于或等于",
+                "insertGreaterOrEqual": "插入大于或等于",
+                "insertType": "插入类型符号",
+                "insertStream": "插入流符号",
+                "insertChange": "#?",
+                "insertConvert": "插入转换符号",
+                "insertPrevious": "插入前一个符号",
+                "insertTable": "插入表符号",
+                "insertLine": "插入换行符",
+                "backspace": "删除选择或前一个字符",
+                "delete": "$?",
+                "cut": "剪切选择",
+                "copy": "复制选择",
+                "paste": "粘贴键盘内容",
+                "parenthesize": "括号化选择",
+                "enumerate": "枚举选择",
+                "type": "键入字符",
+                "undo": "类型字符",
+                "redo": "撤销上次编辑",
+                "search": "查找要插入的特殊字符"
             }
         },
         "conflicts": {
-            "label": "$?"
+            "label": "冲突"
         },
         "output": {
-            "label": "$?",
+            "label": "程序输出",
             "toggle": {
                 "grid": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "隐藏网格线",
+                    "off": "显示网格线"
                 },
                 "fit": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "手动控制缩放",
+                    "off": "适应内容缩放"
                 },
                 "paint": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "场所输出",
+                    "off": "放置输出"
                 }
             },
             "field": {
                 "key": {
-                    "description": "$?",
-                    "placeholder": "$?"
+                    "description": "聆听按键",
+                    "placeholder": "消息"
                 }
             },
             "button": {
-                "submit": "$?"
+                "submit": "提交此聊天消息"
             }
         },
         "timeline": {
-            "label": "$?",
-            "slider": "$?",
+            "label": "时间轴",
+            "slider": "时间轴滑块",
             "button": {
-                "play": "$?",
-                "pause": "$?",
-                "backStep": "$?",
-                "backNode": "$?",
-                "backInput": "$?",
-                "out": "$?",
-                "forwardStep": "$?",
-                "forwardNode": "$?",
-                "forwardInput": "$?",
-                "present": "$?",
-                "start": "$?",
-                "reset": "$?"
+                "play": "对程序进行实时输入响应的评估",
+                "pause": "暂停程序，允许前进和后退",
+                "backStep": "后退一步",
+                "backNode": "后退到上一个节点评估",
+                "backInput": "后退一个输入",
+                "out": "退出此功能",
+                "forwardStep": "前进一步",
+                "forwardNode": "前进到下一个节点评估",
+                "forwardInput": "前进到下一个流输入",
+                "present": "到现在",
+                "start": "返回开头",
+                "reset": "重新启动性能"
             }
         },
         "docs": {
-            "label": "$?",
-            "link": "$?",
-            "learn": "$?",
-            "nodoc": "$?",
+            "label": "文档浏览器",
+            "link": "在文档中显示概念 $1",
+            "learn": "了解更多...",
+            "nodoc": "我是谁？我是什么？我的目的是什么？",
             "button": {
-                "home": "$?",
-                "back": "$?"
+                "home": "返回主页",
+                "back": "返回上一页"
             },
             "field": {
-                "search": "$?"
+                "search": "使用关键词搜索概念"
             },
             "header": {
-                "inputs": "$?",
-                "interfaces": "$?",
-                "properties": "$?",
-                "functions": "$?",
-                "conversions": "$?"
+                "inputs": "投入",
+                "interfaces": "接口",
+                "properties": "属性",
+                "functions": "函数",
+                "conversions": "转换"
             }
         },
         "dialog": {
             "share": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "分享",
+                "explanation": "控制谁可以编辑和查看此项目。",
                 "subheader": {
                     "collaborators": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "合作者",
+                        "explanation": "合作者可以查看和编辑此项目。通过电子邮件添加或删除他们。"
                     },
                     "gallery": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "画廊",
+                        "explanation": "将此项目添加到画廊中，与其他创作者并列，或在您的 <projects@://projects> 页面上创建一个画廊。如果您将项目添加到公开画廊，您的项目将变为公开。"
                     },
                     "public": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "公开/私有",
+                        "explanation": "公开项目和画廊可以被世界上任何人看到。通过将项目或画廊设为公开，您承诺："
                     }
                 },
                 "field": {
                     "email": {
-                        "placeholder": "$?",
-                        "description": "$?"
+                        "placeholder": "电子邮件",
+                        "description": "您希望授予编辑权限的人的电子邮件地址。"
                     }
                 },
                 "mode": {
                     "public": {
-                        "label": "$?",
-                        "modes": ["$?", "$?"]
+                        "label": "可见性",
+                        "modes": ["私有", "公开"]
                     }
                 },
                 "error": {
-                    "unknown": "$?"
+                    "unknown": "我们不知道这封邮件的创建者是谁。"
                 },
                 "button": {
-                    "submit": "$?"
+                    "submit": "通过此电子邮件地址分享项目"
                 }
             },
             "settings": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "设置",
+                "explanation": "更改布局、设备和主题设置。",
                 "button": {
-                    "show": "$?"
+                    "show": "显示设置对话框"
                 },
                 "mode": {
                     "layout": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?", "$?"]
+                        "label": "布局",
+                        "modes": ["自动", "水平", "垂直", "自由"]
                     },
                     "animate": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?", "$?", "$?"]
+                        "label": "动画",
+                        "modes": [
+                            "关闭",
+                            "开启",
+                            "半速",
+                            "三分之一速度",
+                            "四分之一速度"
+                        ]
                     },
                     "dark": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
+                        "label": "主题",
+                        "modes": ["浅色", "深色", "使用设备设置"]
                     },
                     "writing": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
+                        "label": "写作布局",
+                        "modes": [
+                            "水平，从左到右",
+                            "垂直，从右到左",
+                            "垂直，从左到右"
+                        ]
                     }
                 }
             },
             "locale": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "语言",
+                "explanation": "选择您的语言和地区",
                 "subheader": {
-                    "selected": "$?",
-                    "supported": "$?",
-                    "help": "$?"
+                    "selected": "选择",
+                    "supported": "可用的",
+                    "help": "帮我们翻译 。。。"
                 },
                 "button": {
-                    "show": "$?",
-                    "add": "$?",
-                    "remove": "$?"
+                    "show": "切换语言",
+                    "add": "添加语言",
+                    "remove": "删除语言"
                 }
             },
             "help": {
-                "header": "$?",
-                "explanation": "$?",
+                "header": "快捷键",
+                "explanation": "使用这些键盘命令进行更高效的编辑。",
                 "subheader": {
-                    "moveCursor": "$?",
-                    "editCode": "$?",
-                    "insertCode": "$?",
-                    "debug": "$?"
+                    "moveCursor": "移动",
+                    "editCode": "编辑",
+                    "insertCode": "插入",
+                    "debug": "调试"
                 }
             }
         },
         "palette": {
-            "label": "$?",
+            "label": "调色板",
             "labels": {
-                "mixed": "$?",
-                "computed": "$?",
-                "default": "$?",
-                "inherited": "$?",
-                "notSequence": "$?",
-                "notContent": "$?"
+                "mixed": "混合的",
+                "computed": "计算的",
+                "default": "默认",
+                "inherited": "继任",
+                "notSequence": "不是一个序列",
+                "notContent": "不是内容列表"
             },
             "button": {
-                "revert": "$?",
-                "set": "$?",
-                "addPhrase": "$?",
-                "addGroup": "$?",
-                "addShape": "$?",
-                "addMotion": "$?",
-                "addPlacement": "$?",
-                "remove": "$?",
-                "up": "$?",
-                "down": "$?",
-                "edit": "$?",
-                "sequence": "$?",
-                "createPhrase": "$?",
-                "createGroup": "$?",
-                "createStage": "$?"
+                "revert": "回复默认设置",
+                "set": "编辑此属性",
+                "addPhrase": "在此之后添加一个短语",
+                "addGroup": "在此之后添加一个群组",
+                "addShape": "在此之后添加一个形状",
+                "addMotion": "将位置设置为运动流",
+                "addPlacement": "将位置设置为放置流",
+                "remove": "移除这个内容",
+                "up": "将此内容上移",
+                "down": "将此内容下移",
+                "edit": "编辑这个内容",
+                "sequence": "转换为序列",
+                "createPhrase": "创建一个短语，显示现有值为文本",
+                "createGroup": "创建一个群组，将任何现有的短语包裹起来",
+                "createStage": "创建一个舞台，将任何现有的群组或短语包裹起来"
             },
             "prompt": {
-                "offerPhrase": "$?",
-                "offerGroup": "$?",
-                "offerStage": "$?",
-                "pauseToEdit": "$?",
-                "editing": "$?"
+                "offerPhrase": "你创造了一个漂亮的值！我应该在 @Stage 上展示吗？",
+                "offerGroup": "你做了一个很棒的 @Phrase。你想将它们组合到 @Group 中，以便进行排列吗？",
+                "offerStage": "非常好的 @Program。将我添加到控制灯光、颜色和帧数的项目中。",
+                "pauseToEdit": "如果你 ⏸️ 舞台，你可以选择 💬、🔳 或 🎭 来编辑！",
+                "editing": "编辑我！"
             },
             "field": {
-                "coordinate": "$?",
-                "text": "$?"
+                "coordinate": "编辑坐标",
+                "text": "编辑文本"
             },
             "sequence": {
                 "button": {
-                    "add": "$?",
-                    "remove": "$?",
-                    "up": "$?",
-                    "down": "$?"
+                    "add": "添加姿势",
+                    "remove": "移除姿势",
+                    "up": "姿势往上移",
+                    "down": "姿势往下移"
                 },
                 "field": {
-                    "percent": "$?"
+                    "percent": "编辑百分比"
                 }
             }
         },
         "save": {
-            "saving": "$?",
-            "saved": "$?",
-            "local": "$?",
-            "unsaved": "$?"
+            "saving": "保存",
+            "saved": "在线保存",
+            "local": "本地保存",
+            "unsaved": "未保存"
         },
         "page": {
             "unknown": {
-                "header": "$?",
-                "message": "$?"
+                "header": "哎呀！",
+                "message": "这是什么地方？我们能回家吗？"
             },
             "landing": {
                 "call": ["$?"],
                 "link": {
-                    "about": "$?",
-                    "learn": "$?",
-                    "projects": "$?",
-                    "galleries": "$?",
-                    "rights": "$?"
+                    "about": "这个地方为什么存在？",
+                    "learn": "这是什么地方？",
+                    "projects": "创建并分享表演",
+                    "galleries": "体验他人的表演",
+                    "rights": "责任，我们的和你们的"
                 }
             },
             "learn": {
-                "header": "$?",
-                "error": "$?",
+                "header": "学习",
+                "error": "我们无法找到这种语言的教程。",
                 "button": {
-                    "next": "$?",
-                    "previous": "$?"
+                    "next": "对话中的下一个暂停",
+                    "previous": "对话中的前一个暂停"
                 }
             },
             "projects": {
-                "header": "$?",
-                "projectprompt": "$?",
-                "archiveheader": "$?",
-                "archiveprompt": "$?",
-                "galleriesheader": "$?",
-                "galleryprompt": "$?",
+                "header": "项目",
+                "projectprompt": "准备好说些什么了吗？您可以开始创建一个新项目，或者继续在现有项目上工作。如果您遇到困难，继续学习 <learning@://learn>",
+                "galleriesheader": "画廊",
+                "galleryprompt": "创建和策划画廊，与他人分享项目集合",
                 "button": {
-                    "newproject": "$?",
-                    "editproject": "$?",
-                    "newgallery": "$?",
-                    "unarchive": "$?"
+                    "newproject": "新项目",
+                    "editproject": "编辑这个项目",
+                    "newgallery": "新画廊"
                 },
                 "confirm": {
                     "archive": {
-                        "description": "$?",
-                        "prompt": "$?"
-                    },
-                    "delete": {
-                        "description": "$?",
-                        "prompt": "$?"
+                        "description": "存档这个表演",
+                        "prompt": "存档"
                     }
                 },
                 "error": {
-                    "noaccess": "$?",
-                    "nogalleryedits": "$?",
-                    "newgallery": "$?",
-                    "nodeletes": "$?",
-                    "delete": "$?"
+                    "noaccess": "无法连接网络。",
+                    "loggedout": "您必须登录才能创建和更改画廊。",
+                    "newgallery": "我们无法创建新的画廊。"
                 }
             },
             "galleries": {
-                "header": "$?",
-                "prompt": "$?",
-                "examples": "ejemplos"
+                "header": "画廊",
+                "prompt": "这些是其他人创作的表演作品。体验它们，学习它们，或者将它们改编成您自己的作品陈述。",
+                "examples": "例子"
             },
             "about": {
-                "header": "$?",
-                "content": ["$?"]
+                "header": "关于",
+                "content": [
+                    "你是否曾经感觉到编程只是为那些懂英语、非残疾的西方人，他们痴迷于计算机？",
+                    "是的，我们也有同感。",
+                    "这不是偶然的。自计算机诞生以来，编程语言一直由同一群人设计和构建——主要是美国和欧洲的白人、身份认同符合自己性别的男性，还有一些出色的女性数学家。他们在后殖民、胜者通吃的时代进行工作，而编程语言是确保他们权力的关键工具。",
+                    "无论是有意还是无意，这段历史导致了计算的愿景主要是关于速度、逻辑、利润和统治。",
+                    "这是一种不公正。因为计算，无论是好是坏，现在以可见和不可见的方式支撑着日常生活，而有权创建的人大多与它的创造者相似。其余的人类仍然受制于这种力量，因为想象任何不同的事物都需要能够获得，而这被语言障碍、无障碍性障碍、经济障碍和公共教育中的不平等所阻碍。",
+                    "*Wordplay*的愿景是与众不同的。这是一个旨在全球范围内支持 /所有/ 世界语言，同时也是 /关于/ 世界语言的编程平台。在这个平台上，每个人都可以创造，无论他们有什么能力，都可以分享任何人都可以体验的互动内容，无论他们有什么能力。这是为年轻人和年轻成年人设计的，他们想要以*富有游戏性*、*艺术性*和*互动性*的方式表达自己。并非为了获取权力，而是为了创建一个多元化的社区，认识到我们美丽的差异所带来的不可思议的力量。",
+                    "我们是一个由设计师、教育者和开发者组成的社区，试图将这一愿景变为现实。我们是有色人种，我们是跨性别者，我们是酷儿，我们是残疾人，我们来自世界各地。我们的中心在美国华盛顿州西雅图的<华盛顿大学@https://washington.edu> <信息学院@https://ischool.uw.edu/>，这是一个希望欢迎每个人并试图消除今天仍然存在的殖民主义破坏的地方。创建这种编程语言和平台是这个使命的一部分。",
+                    "请查看我们的<里程碑@https://github.com/amyjko/wordplay/milestones>以了解我们正在进行的工作，如果您想帮助，请了解<如何做出贡献@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>。或者向我们的社区组织者<Amy@https://amyjko.phd>提问。"
+                ]
             },
             "login": {
-                "header": "$?",
-                "anonymous": "$?",
+                "header": "登录",
+                "anonymous": "匿名",
                 "prompt": {
-                    "login": "$?",
-                    "enter": "$?",
-                    "play": "$?",
-                    "change": "$?",
-                    "logout": "$?",
-                    "sent": "$?",
-                    "success": "$?",
-                    "confirm": "$?",
-                    "delete": "$?",
-                    "reallyDelete": "$?",
-                    "name": "$?"
+                    "login": "您的表演保存在本设备上，而不是在线。要将它们保存在线，请提交您的电子邮件以获取登录链接。",
+                    "enter": "看起来您的登录链接来自不同的浏览器或设备。您可以再次输入您的电子邮件地址，以确保是您吗？",
+                    "play": "您已登录，现在我们可以将您的项目保存在线上！想要创建点什么吗？",
+                    "change": "想要更改您的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
+                    "sent": "请检查您的电子邮件以获取登录链接。",
+                    "logout": "离开共享设备，想要保持项目的私密性吗？注销，我们将从该设备中删除您的项目。它们仍将在线存储。",
+                    "success": "帐户已创建！",
+                    "confirm": "请检查您的旧电子邮件地址以确认您的新地址。",
+                    "delete": "希望我们忘记您在这里做的一切吗？这将无法撤消。",
+                    "reallyDelete": "您确定吗？您的帐户和设置将立即被删除，并且您的项目将被安排删除。您项目的合作者将立即失去对它们的访问权限。请输入您的电子邮件地址以确认您的选择。",
+                    "name": "选择一个表情符号代表您自己。"
                 },
                 "error": {
-                    "expired": "$?",
-                    "invalid": "$?",
-                    "email": "$?",
-                    "offline": "$?",
-                    "failure": "$?",
-                    "unchanged": "$?",
-                    "delete": "$?"
+                    "expired": "此链接已过期。",
+                    "invalid": "此链接无效。",
+                    "email": "此电子邮件地址无效。",
+                    "failure": "无法登录 :(",
+                    "offline": "您似乎处于离线状态。",
+                    "unchanged": "我们无法更改您的电子邮件地址，但我们不知道原因。",
+                    "delete": "我们无法删除您的帐户，但我们不知道原因。"
                 },
                 "feedback": {
-                    "changing": "$?",
-                    "deleting": "$?"
+                    "changing": "正在提交新的电子邮件地址...",
+                    "deleting": "好的，正在删除您的项目和设置..."
                 },
                 "field": {
                     "email": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "编辑登录邮件",
+                        "placeholder": "邮件"
                     }
                 },
                 "button": {
                     "logout": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "登出你的账号",
+                        "label": "登出"
                     },
-                    "login": "$?",
-                    "update": "$?",
+                    "login": "用这个邮件登录，发送一个登录链接",
+                    "update": "修改邮件",
                     "delete": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "注销我的账号",
+                        "label": "删除我的用户信息。。。"
                     },
                     "reallyDelete": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "永远注销账号",
+                        "label": "注销！！！"
                     }
                 }
             },
             "rights": {
-                "header": "$?",
-                "content": ["$?"],
-                "consequences": ["$?"]
+                "header": "权利",
+                "content": [
+                    "你好！",
+                    "这里是我们关于你的权利和我们的期望的地方（也考虑到政策，比如 <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> 和 <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
+                    "首先要知道的是，我们不是一个商业实体。我们是一个社区性的研究项目，隶属于一个非盈利大学。我们的目标是创建一个平台，为你带来快乐，并帮助我们在计算机领域探索更加公平和正义的世界。我们对在这个平台上赚钱没有兴趣；我们收集到的任何资金（通常是通过公共资助获得）都是用来维持这个平台，而不是让任何参与其中的人（或为其做出贡献的人）受益。",
+                    "因为我们不追求利润，这也意味着我们不能对这个平台的可靠性、可用性或持久性作出任何承诺。话虽如此，<Amy@https://amyjko.phd> 致力于长期维持它，并且作为终身教授，她的工作相当稳定。",
+                    "这就引出了*数据*。以下是我们在云端收集和存储的内容：",
+                    "• 你的*电子邮件地址*。我们使用它来确保只有你和你分享的人可以访问你的项目和设置。",
+                    "• 你的*项目*。你做出的任何贡献我们都会存储。这包括你在项目中输入的任何个人身份信息（因为都是文本，所以内容可能是任何东西！）。",
+                    "• 你的*设置*。这包括你选择的语言环境、动画偏好和教程进度。其他所有内容都存储在你的设备上。",
+                    "• *流量*。我们使用基本的<Google Analytics@https://en.wikipedia.org/wiki/Google_Analytics>来收集关于人们访问哪些页面和项目以及访问次数的聚合匿名数据。我们使用这些数据帮助筹集资金以维持这个平台。",
+                    "我们不存储其他任何东西。除了谷歌分析使用的“cookie”外，没有其他跟踪标识符，没有摄像头或麦克风输入的录音。我们的<源代码@https://github.com/amyjko/wordplay/tree/main/src>是公开的，你可以随时验证这一点。",
+                    "*你*拥有你的数据，而不是我们。这意味着：",
+                    "• 你可以控制谁能访问你的项目。它们默认是私有的，但你可以将它们与个人、团体分享，或者完全公开。",
+                    "• 你可以随时完全删除任何项目或你自己的帐户。",
+                    "• 你可以随时导出任何项目或整个帐户。",
+                    "下面是我们会和不会使用你的数据的方式：",
+                    "• 我们不会与任何人分享你的数据，除非法律明确要求。你的数据可能被未经许可取走（即“数据泄露”）。如果我们发现发生了这种情况，我们会通过你与我们分享的电子邮件通知你。",
+                    "• 我们不会通过你的电子邮件地址联系你，除非你 1) 进行需要我们联系的帐户更改，2) 你明确同意我们联系你，或者 3) 在上述的数据泄露情况下。",
+                    "• 我们可能会分析平台上的项目，以了解每个人在制作什么以及制作方式。我们可能会在学术出版物中分享这些汇总的、匿名的见解。我们只会在受美国联邦法律监管的机构审查委员会的监督下进行。",
+                    "最后，关于言论的一点。在这个平台上，你可以在*私下*说任何你想说的话。项目默认是私有的，即使你将它们分享给特定的电子邮件地址，它们仍然被视为私有的。在私人项目中，我们不会进行任何审查。",
+                    "但是将一个项目设为*公开*，或者将其包含在公共画廊中，是一种特权。这是一个以爱、认可、尊重和尊严为基础的平台。因此，我们期望你的*公共*内容遵循这些规则："
+                ],
+                "consequences": [
+                    "如果我们发现一个项目或画廊违反了这些规定，我们将把它标记为私有，并阻止他们将来发布任何公开项目。您可以通过举报任何您认为违反规定的内容来帮助我们执行这些规定。"
+                ]
             }
         },
         "edit": {
-            "node": "$?",
+            "node": "$1$2[, 类型 $2|]",
             "before": "$?",
             "inside": "$?",
             "between": "$?",
             "line": "$?",
-            "conflicts": "$?",
-            "assign": "$?",
-            "append": "$?",
-            "remove": "$?",
-            "replace": "$?",
-            "wrap": "$?",
-            "unwrap": "$?",
-            "bind": "$?"
+            "conflicts": "$1 冲突",
+            "assign": "/$2[急于插入|考虑离开].../",
+            "append": "/急于插入。。。/",
+            "remove": "/考虑离开。。。/",
+            "replace": "/想要介入。。。/",
+            "wrap": "加括号",
+            "unwrap": "揭开",
+            "bind": "给这个表达命名"
         },
         "template": {
-            "unwritten": "$?",
-            "unparsable": "$?"
+            "unwritten": "待定",
+            "unparsable": "无法解析的模板: $1"
         }
     },
-    "moderation": {
-        "warning": { "header": "$?", "explanation": "$?" },
-        "blocked": { "header": "$?", "explanation": "$?" },
-        "unmoderated": { "header": "$?", "explanation": "$?" },
-        "moderate": {
-            "header": "$?",
-            "explanation": "$?"
-        },
-        "flags": {
-            "violence": "$?",
-            "dehumanization": "$?",
-            "disclosure": "$?",
-            "misinformation": "$?"
-        },
-        "button": {
-            "submit": {
-                "tip": "$?",
-                "label": "$?"
-            },
-            "skip": {
-                "tip": "$?",
-                "label": "$?"
-            }
-        }
+    "rules": {
+        "violence": "不得发表煽动、鼓励或庆祝暴力、伤害或自残的言论。",
+        "dehumanization": "不得以种族、族裔、国籍、种姓、性取向、性别、宗教、年龄、能力或外貌为基础，对个人或群体进行非人化的言辞。"
     }
 }

@@ -27,6 +27,10 @@ export default class DocumentedExpression extends SimpleExpression {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'DocumentedExpression';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: node(Docs) },
@@ -65,16 +69,18 @@ export default class DocumentedExpression extends SimpleExpression {
         ) as this;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
-        bind;
-        original;
-        context;
-        return current;
+        return this.expression.evaluateTypeGuards(
+            bind,
+            original,
+            current,
+            context
+        );
     }
 
     getStart() {

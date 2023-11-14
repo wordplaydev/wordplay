@@ -34,12 +34,14 @@ export default class MapLiteral extends Expression {
     readonly values: (Expression | KeyValue)[];
     readonly close?: Token;
     readonly bind?: Token;
+    readonly literal: Token | undefined;
 
     constructor(
         open: Token,
         values: (KeyValue | Expression)[],
         bind?: Token,
-        close?: Token
+        close?: Token,
+        literal?: Token
     ) {
         super();
 
@@ -47,6 +49,7 @@ export default class MapLiteral extends Expression {
         this.values = values;
         this.bind = bind;
         this.close = close;
+        this.literal = literal;
 
         this.computeChildren();
     }
@@ -64,6 +67,10 @@ export default class MapLiteral extends Expression {
         return [MapLiteral.make()];
     }
 
+    getDescriptor() {
+        return 'MapLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },
@@ -75,6 +82,7 @@ export default class MapLiteral extends Expression {
                 indent: true,
             },
             { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'literal', kind: node(Sym.Literal) },
         ];
     }
 
@@ -83,7 +91,8 @@ export default class MapLiteral extends Expression {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('values', this.values, replace),
             this.replaceChild('bind', this.bind, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
+            this.replaceChild('literal', this.literal, replace)
         ) as this;
     }
 
@@ -136,7 +145,10 @@ export default class MapLiteral extends Expression {
                   );
 
         // Strip away any concrete types in the item types.
-        return MapType.make(keyType, valueType).generalize(context);
+        return MapType.make(
+            this.literal ? keyType : keyType.generalize(context),
+            this.literal ? valueType : valueType.generalize(context)
+        );
     }
 
     getDependencies(): Expression[] {
@@ -179,7 +191,7 @@ export default class MapLiteral extends Expression {
         return new MapValue(this, values);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -187,7 +199,7 @@ export default class MapLiteral extends Expression {
     ) {
         this.values.forEach((val) => {
             if (val instanceof Expression)
-                val.evaluateTypeSet(bind, original, current, context);
+                val.evaluateTypeGuards(bind, original, current, context);
         });
         return current;
     }

@@ -69,6 +69,10 @@ export default class Update extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'Update';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -356,18 +360,18 @@ export default class Update extends Expression {
         return new TableValue(this, table.type, rows);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.table instanceof Expression)
-            this.table.evaluateTypeSet(bind, original, current, context);
+            this.table.evaluateTypeGuards(bind, original, current, context);
         if (this.row instanceof Expression)
-            this.row.evaluateTypeSet(bind, original, current, context);
+            this.row.evaluateTypeGuards(bind, original, current, context);
         if (this.query instanceof Expression)
-            this.query.evaluateTypeSet(bind, original, current, context);
+            this.query.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

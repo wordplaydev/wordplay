@@ -11,7 +11,6 @@
     } from '../../models/Moderation';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
-    export let show: boolean;
     export let project: Project;
 
     const user = getUser();
@@ -24,9 +23,9 @@
 </script>
 
 <!-- If this is an audience member and one of the flags are active -->
-{#if show && audience && warnings.length + blocks.length + unmoderated.length > 0}
+{#if audience && warnings.length + blocks.length + unmoderated.length > 0}
     <Dialog
-        bind:show
+        show
         description={blocks.length > 0
             ? $locales.getLocale().moderation.blocked
             : warnings.length > 0
@@ -41,6 +40,3 @@
         </ul>
     </Dialog>
 {/if}
-
-<style>
-</style>

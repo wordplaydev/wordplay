@@ -64,6 +64,10 @@ export default class This extends SimpleExpression {
             : [];
     }
 
+    getDescriptor() {
+        return 'This';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'dis', kind: node(Sym.This) }];
     }
@@ -148,7 +152,7 @@ export default class This extends SimpleExpression {
         );
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

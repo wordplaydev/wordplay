@@ -78,12 +78,14 @@
     onDestroy(() => queryResetUnsub());
 
     // When the path changes to a non-bind concept, scroll to top.
+    let previousPath: Concept[] = [];
     $: {
         if (
-            $path.length > 0 &&
-            !($path[$path.length - 1] instanceof BindConcept)
+            previousPath.map((c) => c.getName($locales, false)).join() !==
+            $path.map((c) => c.getName($locales, false)).join()
         )
             scrollToTop();
+        previousPath = $path.slice();
     }
 
     // If the query changes to non-empty, compute results
@@ -315,6 +317,10 @@
                     Purpose.Document
                 )}
             />
+            <ConceptsView
+                category={$locales.get((l) => l.term.source)}
+                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Source)}
+            />
         {/if}
     </div>
     {#key highlights}
@@ -372,7 +378,6 @@
     }
 
     .result {
-        font-style: italic;
         margin-top: var(--wordplay-spacing);
     }
 

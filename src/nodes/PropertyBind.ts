@@ -64,6 +64,10 @@ export default class PropertyBind extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'PropertyBind';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'reference', kind: node(PropertyReference) },
@@ -155,7 +159,7 @@ export default class PropertyBind extends Expression {
         return newStructure;
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
         return current;
     }
 

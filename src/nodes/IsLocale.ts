@@ -47,6 +47,10 @@ export default class IsLocale extends SimpleExpression {
             : [];
     }
 
+    getDescriptor() {
+        return 'IsLocale';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'globe', kind: node(Sym.Locale) },
@@ -101,7 +105,11 @@ export default class IsLocale extends SimpleExpression {
     getDependencies(): Expression[] {
         return [];
     }
-    evaluateTypeSet(bind: Bind, original: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(
+        bind: Bind,
+        original: TypeSet,
+        current: TypeSet
+    ): TypeSet {
         return current;
     }
 

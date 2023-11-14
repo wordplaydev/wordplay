@@ -41,7 +41,9 @@
         "query": "$?",
         "row": "$?",
         "set": "$?",
-        "key": "$?"
+        "key": "$?",
+        "help": "$?",
+        "feedback": "$?"
     },
     "token": {
         "EvalOpen": "$?",
@@ -75,6 +77,7 @@
         "Branch": "$?",
         "None": "$?",
         "Type": "$?",
+        "Literal": "$?",
         "TypeOperator": "$?",
         "TypeOpen": "$?",
         "TypeClose": "$?",
@@ -2040,7 +2043,7 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Mono"
+            "code": "Noto Sans Mono"
         },
         "phrases": {
             "welcome": "$?"
@@ -2065,6 +2068,12 @@
                     "on": "$?",
                     "off": "$?"
                 }
+            },
+            "label": {
+                "output": "$?",
+                "palette": "$?",
+                "docs": "$?",
+                "source": "$?"
             },
             "button": {
                 "collapse": "$?"
@@ -2195,12 +2204,17 @@
                 "insertLessOrEqual": "$?",
                 "insertGreaterOrEqual": "$?",
                 "insertStream": "$?",
+                "insertChange": "$?",
                 "insertConvert": "$?",
                 "insertPrevious": "$?",
                 "insertType": "$?",
                 "insertTable": "$?",
+                "insertTableClose": "$?",
+                "insertBorrow": "$?",
+                "insertShare": "$?",
                 "insertLine": "$?",
                 "backspace": "$?",
+                "delete": "$?",
                 "cut": "$?",
                 "copy": "$?",
                 "paste": "$?",
@@ -2209,7 +2223,8 @@
                 "type": "$?",
                 "undo": "$?",
                 "redo": "$?",
-                "search": "$?"
+                "search": "$?",
+                "tidy": "$?"
             }
         },
         "conflicts": {
@@ -2347,12 +2362,14 @@
                 "subheader": {
                     "selected": "$?",
                     "supported": "$?",
+                    "coming": "$?",
                     "help": "$?"
                 },
                 "button": {
                     "show": "$?",
                     "add": "$?",
-                    "remove": "$?"
+                    "remove": "$?",
+                    "replace": "$?"
                 }
             },
             "help": {
@@ -2429,6 +2446,7 @@
             },
             "landing": {
                 "call": ["$?"],
+                "beta": ["$?"],
                 "link": {
                     "about": "$?",
                     "learn": "$?",
@@ -2487,10 +2505,22 @@
             },
             "login": {
                 "header": "$?",
+                "subheader": {
+                    "email": "$?",
+                    "username": "$?"
+                },
                 "anonymous": "$?",
                 "prompt": {
                     "login": "$?",
+                    "age": {
+                        "label": "$?",
+                        "modes": ["$?", "$?"]
+                    },
                     "enter": "$?",
+                    "emailrules": ["$?"],
+                    "tooyoung": "$?",
+                    "usernamerules": ["$?"],
+                    "passwordreminder": "$?",
                     "play": "$?",
                     "change": "$?",
                     "logout": "$?",
@@ -2508,7 +2538,8 @@
                     "offline": "$?",
                     "failure": "$?",
                     "unchanged": "$?",
-                    "delete": "$?"
+                    "delete": "$?",
+                    "wrongPassword": "$?"
                 },
                 "feedback": {
                     "changing": "$?",
@@ -2516,6 +2547,14 @@
                 },
                 "field": {
                     "email": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "username": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "password": {
                         "description": "$?",
                         "placeholder": "$?"
                     }
@@ -2541,6 +2580,11 @@
                 "header": "$?",
                 "content": ["$?"],
                 "consequences": ["$?"]
+            },
+            "donate": {
+                "header": "$?",
+                "prompt": "$?",
+                "content": ["$?"]
             }
         },
         "edit": {
@@ -2586,6 +2630,28 @@
                 "tip": "$?",
                 "label": "$?"
             }
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "visualizations": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "motion": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "av": {
+            "name": "$?",
+            "description": "$?"
+        },
+        "tools": {
+            "name": "$?",
+            "description": "$?"
         }
     }
 }

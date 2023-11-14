@@ -1,8 +1,13 @@
 import type Locale from '../locale/Locale';
 import { toLocaleString } from '../locale/Locale';
+import type Locales from '../locale/Locales';
+
+export const GallerySchemaLatestVersion = 1;
 
 /** The schema for a gallery */
-export type SerializedGallery = {
+type SerializedGalleryV1 = {
+    /** Version of the gallery schema, so we can upgrade them. */
+    v: 1;
     /** Unique Firestore id */
     id: string;
     /** A vanity URL name, globally unique, must be valid URL path */
@@ -28,6 +33,27 @@ export type SerializedGallery = {
     featured: boolean;
 };
 
+type SerializedGalleryUnknownVersion = SerializedGalleryV1;
+
+export function upgradeGallery(
+    gallery: SerializedGalleryUnknownVersion
+): SerializedGallery {
+    switch (gallery.v) {
+        case GallerySchemaLatestVersion:
+            return gallery;
+        default:
+            throw new Error('unknown gallery version: ' + gallery.v) as never;
+    }
+}
+
+export type SerializedGallery = SerializedGalleryV1;
+
+export function deserializeGallery(gallery: unknown): Gallery {
+    return new Gallery(
+        upgradeGallery(gallery as SerializedGalleryUnknownVersion)
+    );
+}
+
 /**
  * A wrapper to represent a Gallery document from the database. It helps enforce
  * rules and semantics about galleries client-side.
@@ -35,6 +61,8 @@ export type SerializedGallery = {
 export default class Gallery {
     readonly data: SerializedGallery;
     constructor(data: SerializedGallery) {
+        data = upgradeGallery(data);
+
         this.data = { ...data };
 
         // Guarantee no duplicates.
@@ -43,12 +71,8 @@ export default class Gallery {
     }
 
     /** Get the best name given a locale */
-    getName(locale: Locale) {
-        // Is there a name for this specific locale and region? If not, choose the first one.
-        return (
-            this.data.name[toLocaleString(locale)] ??
-            Object.values(this.data.name)[0]
-        );
+    getName(locales: Locales) {
+        return locales.get((l) => this.data.name[toLocaleString(l)]);
     }
 
     withName(name: string, locale: Locale) {
@@ -59,12 +83,9 @@ export default class Gallery {
     }
 
     /** Get the best description given a locale */
-    getDescription(locale: Locale) {
+    getDescription(locales: Locales) {
         // Is there a name for this specific locale and region? If not, choose the first one.
-        return (
-            this.data.description[toLocaleString(locale)] ??
-            Object.values(this.data.description)[0]
-        );
+        return locales.get((l) => this.data.description[toLocaleString(l)]);
     }
 
     withDescription(name: string, locale: Locale) {
@@ -76,6 +97,10 @@ export default class Gallery {
 
     getID() {
         return this.data.id;
+    }
+
+    getLink() {
+        return `gallery/${this.getID()}`;
     }
 
     getCurators() {

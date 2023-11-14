@@ -2,36 +2,35 @@ Poem
 === start
 •Line(text•"" pose•Pose|Sequence back: Color(100 100 100°) front: Color(0 0 0°) )
 
+``A list of lines of the poem, each with a pose.``
 poem: [
     Line("The computer file" Pose(opacity: 0% offset: Place(y: -5m)))
-    Line("of which"Pose(opacity: 0% offset: Place(y: -5m)))
-    Line("I have no recollection"Pose(rotation: 10°))
-    Line("I click it open"Sequence({0%:Pose(scale: 1) 50%: Pose(scale: 0.7) 100%: Pose(scale: 1)} 0.25s))
+    Line("of which" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("I have no recollection" Pose(rotation: 10°))
+    Line("I click it open" Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.7) 100%: Pose(scale: 1)} 0.25s))
     Line("look" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("scroll down further" Pose(opacity: 0% offset: Place(y: 5m)))
     Line("the screen" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("stays backlit and empty" Pose(opacity: 0% offset: Place(y: -5m)) Color(0 0 0°) Color(100 100 0°))
-    Line("thus I meet myself again"Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("thus I meet myself again" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("hopeful and useless" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("a mystery" Pose(opacity: 0% offset: Place(y: -5m)))
-    Line("precisely as I must" Pose(opacity: 0% offset: Place(y: -5m)))
-    Line("have done" Pose(opacity: 0% offset: Place(y: -5m)))
+    Line("precisely as I must have done" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("on August 19, 2010, 11:08 a.m." Pose())
-]
+	]
 
-number•#:  1 … ∆ Button(⊤) | ∆ Key() …
-    number ≥ poem.length() ? 
-        poem.length() + 1 
-        number + 1
-line: number•# ? poem[number] ø 
+number:  1 … ∆ Button() | ∆ Key() …
+		(number = (poem.length() + 1)) ? 1 number + 1
+line: poem[number]
  
-line•Line ?
+number ≤ poem.length() ?
 	Stage(
-		[ Phrase(line.text entering: line.pose ⏳: 1s name: number → "" style: 'cautious') ]
+		[ 
+			Phrase(line.text entering: line.pose ⏳: 1s name: number → "" style: 'cautious') ]
         background: line.back resting: 🤪(color: line.front) 
     )
     Stage(
         [Group(Stack() [Phrase("ADVICE TO MYSELF") Phrase("Jane Hirshfield")] entering: 🤪(scale: 0.75))] 
         background: Color(0% 0 0°) 
-        color: Color(100% 100 100°)
+        color: Color(100% 100 0°)
     )

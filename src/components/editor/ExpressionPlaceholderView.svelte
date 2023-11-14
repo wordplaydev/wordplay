@@ -47,22 +47,40 @@
                 node={node.type}
             />{:else if inferredType && !(inferredType instanceof UnknownType)}<span
                 >•</span
-            ><RootView
-                inline
-                elide
-                inert
-                localized
-                node={inferredType}
-            />{/if}{#if caret}<PlaceholderView position={node} />{/if}</span
+            ><div class:inferred={node.type === undefined && inferredType}
+                ><RootView elide inert localized node={inferredType} /></div
+            >{/if}{#if caret}<PlaceholderView position={node} />{/if}</span
     ></span
 >
 
 <style>
     .placeholder,
-    .placeholder :global(.token-view) {
+    .placeholder {
         color: var(--wordplay-inactive-color);
         font-style: italic;
         font-size: small;
+    }
+
+    .inferred {
+        display: inline-block;
+        animation: bob infinite linear 1s;
+        transform-origin: left;
+    }
+
+    .inferred :global(.token-view) {
+        color: var(--wordplay-inactive-color);
+    }
+
+    @keyframes bob {
+        0% {
+            transform: rotate(-10deg);
+        }
+        50% {
+            transform: rotate(10deg);
+        }
+        100% {
+            transform: rotate(-10deg);
+        }
     }
 
     .label {

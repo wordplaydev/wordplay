@@ -32,7 +32,7 @@ export default class ListValue extends SimpleValue {
             num === 0
                 ? undefined
                 : this.values.at(
-                      num > 0 ? (num - 1) % this.values.length : num
+                      (num > 0 ? num - 1 : num) % this.values.length
                   );
         return value === undefined ? new NoneValue(this.creator) : value;
     }
@@ -152,7 +152,7 @@ export default class ListValue extends SimpleValue {
         return 'list';
     }
 
-    toWordplay(locales: Locales): string {
+    toWordplay(locales?: Locales): string {
         return `${LIST_OPEN_SYMBOL}${Array.from(this.values)
             .map((value) => value.toWordplay(locales))
             .join(' ')}${LIST_CLOSE_SYMBOL}`;

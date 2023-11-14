@@ -74,6 +74,10 @@ export class Iteration<State = any> extends Expression {
         this.finish = finish;
     }
 
+    getDescriptor() {
+        return 'Iteration';
+    }
+
     getGrammar(): Grammar {
         return [];
     }
@@ -188,7 +192,7 @@ export class Iteration<State = any> extends Expression {
         return this;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

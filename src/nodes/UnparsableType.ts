@@ -15,6 +15,10 @@ export default class UnparsableType extends Type {
         this.unparsables = nodes;
     }
 
+    getDescriptor() {
+        return 'UnparsableType';
+    }
+
     acceptsAll(): boolean {
         return false;
     }

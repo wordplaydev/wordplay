@@ -6,72 +6,94 @@
     import ProjectPreview from './ProjectPreview.svelte';
     import Spinning from './Spinning.svelte';
     import Subheader from './Subheader.svelte';
-    import getProjectLink from './getProjectLink';
     import { browser } from '$app/environment';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import { onMount } from 'svelte';
+    import type Project from '@models/Project';
 
     export let gallery: Gallery;
 
-    const Count = 3;
+    let index = 0;
+    let projectID = gallery.getProjects()[0];
+    let project: Project | undefined = undefined;
+    let timeoutID: NodeJS.Timeout;
 
-    /** Projects in the gallery to highlight */
-    $: highlights = gallery.getProjects().slice(0, Count);
-    $: hidden = Math.max(0, gallery.getProjects().length - Count);
+    async function loadNext() {
+        index = (index + 1) % gallery.getProjects().length;
+        projectID = gallery.getProjects()[index];
+        if (projectID) project = await Projects.get(projectID);
+        timeoutID = setTimeout(loadNext, Math.random() * 3000 + 3000);
+    }
+
+    onMount(() => {
+        loadNext();
+
+        return () =>
+            timeoutID !== undefined ? clearTimeout(timeoutID) : undefined;
+    });
 </script>
 
 <div class="gallery">
-    <Link to={`gallery/${gallery.getID()}`}
-        ><Subheader>{gallery.getName($locales.getLocale())}</Subheader></Link
-    >
-    <MarkupHtmlView
-        markup={gallery
-            .getDescription($locales.getLocale())
-            .split('\n')
-            .join('\n\n')}
-    />
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
     {#if browser}
         <div class="previews">
-            {#each highlights as projectID, index}
-                <div class="highlight">
-                    {#await Projects.get(projectID)}
-                        <Spinning
-                            label={$locales.get(
-                                (l) => l.ui.widget.loading.message
-                            )}
-                        />
-                    {:then project}
-                        {#if project}
-                            <ProjectPreview
-                                {project}
-                                name={false}
-                                action={() =>
-                                    goto(getProjectLink(project, true))}
-                                delay={index * 300}
-                            />
-                        {/if}
-                    {/await}
-                </div>
-            {/each}
-            {#if hidden > 0}{'•'.repeat(hidden)}{/if}
+            {#if project === undefined}
+                <Spinning
+                    label={$locales.get((l) => l.ui.widget.loading.message)}
+                />
+            {:else}
+                {#key project}
+                    <ProjectPreview
+                        {project}
+                        name={false}
+                        action={() =>
+                            project ? goto(project.getLink(true)) : undefined}
+                        delay={0}
+                        size={8}
+                        link={gallery.getLink()}
+                    />
+                {/key}
+            {/if}
         </div>
     {/if}
+    <div class="description">
+        <Link to={gallery.getLink()}
+            ><Subheader
+                >{gallery.getName($locales)}
+                <sub
+                    ><span class="dots"
+                        >{'•'.repeat(gallery.getProjects().length)}</span
+                    ></sub
+                ></Subheader
+            ></Link
+        >
+        <MarkupHtmlView
+            markup={gallery.getDescription($locales).split('\n').join('\n\n')}
+        />
+    </div>
 </div>
 
 <style>
     .gallery {
-        padding: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
-        margin-block-end: 2em;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        margin-block-start: 2em;
+        gap: var(--wordplay-spacing);
+        align-items: top;
+    }
+
+    .dots {
+        color: var(--wordplay-foreground);
+        font-size: xx-large;
     }
 
     .previews {
         display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
+        flex-direction: column;
         align-items: center;
         gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
-        margin-block-start: calc(2 * var(--wordplay-spacing));
+        width: 8em;
+        height: 8em;
     }
 </style>

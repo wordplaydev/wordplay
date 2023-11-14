@@ -76,10 +76,10 @@
                 ? $insertion
                 : undefined}
         />{/if}<div
-        class="{node.constructor.name} {node instanceof Token
+        class="{node.getDescriptor()} {node instanceof Token
             ? 'Token'
             : ''} node-view"
-        data-uiid={node.constructor.name}
+        data-uiid={node.getDescriptor()}
         class:hide
         class:small
         class:block={kind === ExpressionKind.Evaluate ||
@@ -115,11 +115,13 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+        cursor: grab;
     }
 
     .block {
         display: inline-block;
         vertical-align: baseline;
+        background: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 3);
         border-start-start-radius: 0;
         border-start-end-radius: var(--wordplay-border-radius);
@@ -127,7 +129,6 @@
         border-end-start-radius: 0;
         padding: calc(var(--wordplay-spacing) / 2);
         box-shadow: var(--color-shadow) 1px 1px 4px;
-        cursor: default;
     }
 
     :global(.editor:not(.dragging))
@@ -147,10 +148,6 @@
             var(--wordplay-highlight-color);
     }
 
-    .node-view.hovered {
-        cursor: pointer;
-    }
-
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
     .dragged :global(.token-view) {
         opacity: 0.25;
@@ -159,6 +156,7 @@
     .dragged,
     .dragged :global(.node-view) {
         border: none;
+        cursor: grabbing;
     }
 
     .dragged :global(.node-view) {

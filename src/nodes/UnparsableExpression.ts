@@ -25,12 +25,16 @@ export default class UnparsableExpression extends SimpleExpression {
         this.unparsables = nodes;
     }
 
+    getDescriptor() {
+        return 'UnparsableExpression';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'unparsables', kind: list(true, node(Node)) }];
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Source;
     }
 
     computeConflicts(): void | Conflict[] {
@@ -47,7 +51,7 @@ export default class UnparsableExpression extends SimpleExpression {
         return new UnparsableType(this.unparsables);
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
         return current;
     }
 

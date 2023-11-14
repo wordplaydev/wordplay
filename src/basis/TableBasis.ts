@@ -1,29 +1,17 @@
-import Bind from '@nodes/Bind';
 import Block, { BlockKind } from '@nodes/Block';
-import BooleanType from '@nodes/BooleanType';
-import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
-import BoolValue from '@values/BoolValue';
-import InternalExpression from './InternalExpression';
-import type Docs from '@nodes/Docs';
-import type Names from '@nodes/Names';
-import { getInputLocales as getInputLocales } from '@locale/getInputLocales';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import type Type from '../nodes/Type';
 import TableType from '../nodes/TableType';
-import TableValue from '../values/TableValue';
-import Evaluation from '@runtime/Evaluation';
+import type TableValue from '../values/TableValue';
 import type Expression from '../nodes/Expression';
-import type Value from '../values/Value';
-import { createBasisConversion } from './Basis';
+import { createBasisConversion, createEqualsFunction } from './Basis';
 import ListValue from '@values/ListValue';
 import ListType from '../nodes/ListType';
 import TextType from '../nodes/TextType';
 import TextValue from '../values/TextValue';
 import TypeVariables from '../nodes/TypeVariables';
 import TypeVariable from '../nodes/TypeVariable';
-import AnyType from '../nodes/AnyType';
 import type Locales from '../locale/Locales';
 
 export default function bootstrapTable(locales: Locales) {
@@ -31,25 +19,6 @@ export default function bootstrapTable(locales: Locales) {
     const RowTypeVariable = new TypeVariable(
         getNameLocales(locales, (locale) => locale.basis.Table.row)
     );
-
-    function createTableFunction(
-        docs: Docs,
-        names: Names,
-        inputs: { docs: Docs; names: Names }[],
-        types: Type[],
-        expression: InternalExpression
-    ) {
-        return FunctionDefinition.make(
-            docs,
-            names,
-            undefined,
-            inputs.map(({ docs, names }, index) =>
-                Bind.make(docs, names, types[index])
-            ),
-            expression,
-            expression.type
-        );
-    }
 
     return StructureDefinition.make(
         getDocLocales(locales, (locale) => locale.basis.Table.doc),
@@ -59,63 +28,15 @@ export default function bootstrapTable(locales: Locales) {
         [],
         new Block(
             [
-                createTableFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Table.function.equals.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Table.function.equals.names
-                    ),
-                    getInputLocales(
-                        locales,
-                        (locale) => locale.basis.Table.function.equals.inputs
-                    ),
-                    [new AnyType()],
-                    new InternalExpression(
-                        BooleanType.make(),
-                        [],
-                        (requestor, evaluation) =>
-                            binaryOp(
-                                requestor,
-                                evaluation,
-                                (requestor, left, right) =>
-                                    new BoolValue(
-                                        requestor,
-                                        left.isEqualTo(right)
-                                    )
-                            )
-                    )
+                createEqualsFunction(
+                    locales,
+                    (locale) => locale.basis.Table.function.equals,
+                    true
                 ),
-                createTableFunction(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Table.function.notequal.doc
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Table.function.notequal.names
-                    ),
-                    getInputLocales(
-                        locales,
-                        (locale) => locale.basis.Table.function.notequal.inputs
-                    ),
-                    [new AnyType()],
-                    new InternalExpression(
-                        BooleanType.make(),
-                        [],
-                        (requestor, evaluation) =>
-                            binaryOp(
-                                requestor,
-                                evaluation,
-                                (requestor, left, right) =>
-                                    new BoolValue(
-                                        requestor,
-                                        !left.isEqualTo(right)
-                                    )
-                            )
-                    )
+                createEqualsFunction(
+                    locales,
+                    (locale) => locale.basis.Table.function.notequal,
+                    false
                 ),
                 createBasisConversion(
                     getDocLocales(
@@ -141,33 +62,4 @@ export default function bootstrapTable(locales: Locales) {
             BlockKind.Structure
         )
     );
-}
-
-function binaryOp(
-    requestor: Expression,
-    evaluation: Evaluation,
-    evaluate: (
-        requestor: Expression,
-        left: TableValue,
-        right: TableValue
-    ) => Value
-): Value {
-    const left = evaluation.getClosure();
-    const right = evaluation.resolve(
-        (evaluation.getDefinition() as FunctionDefinition).inputs[0].names
-    );
-    // This should be impossible, but the type system doesn't know it.
-    if (!(left instanceof TableValue))
-        return evaluation.getValueOrTypeException(
-            requestor,
-            TableType.make(),
-            left instanceof Evaluation ? undefined : left
-        );
-    if (!(right instanceof TableValue))
-        return evaluation.getValueOrTypeException(
-            requestor,
-            TableType.make(),
-            undefined
-        );
-    else return evaluate(requestor, left, right);
 }

@@ -1,12 +1,13 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import { toShortcut, type Command } from '../editor/util/Commands';
+    import Emoji from '@components/app/Emoji.svelte';
 
     export let command: Command;
 </script>
 
 <tr class="command">
-    <td class="symbol">{command.symbol}</td>
+    <td class="symbol"><Emoji>{command.symbol}</Emoji></td>
     <td class="shortcut"><em>{toShortcut(command)}</em></td>
     <td class="description">{$locales.get(command.description)}</td>
 </tr>

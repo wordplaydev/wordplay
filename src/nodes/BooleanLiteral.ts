@@ -36,6 +36,10 @@ export default class BooleanLiteral extends Literal {
         return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
     }
 
+    getDescriptor() {
+        return 'BooleanLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -72,7 +76,7 @@ export default class BooleanLiteral extends Literal {
         return this.value.text.toString() === TRUE_SYMBOL;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

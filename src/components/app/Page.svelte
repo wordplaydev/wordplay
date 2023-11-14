@@ -4,8 +4,32 @@
     import Settings from '../settings/Settings.svelte';
     import { locales } from '../../db/Database';
     import Link from './Link.svelte';
+    import { writable } from 'svelte/store';
+    import { setContext } from 'svelte';
+    import Color from '../../output/Color';
+    import Emoji from './Emoji.svelte';
 
-    export let fullscreen = false;
+    // Set a fullscreen flag to indicate whether footer should hide or not.
+    // It's the responsibility of children componets to set this based on their state.
+    // It's primarily ProjectView that does this.
+    let fullscreen = writable<{
+        on: boolean;
+        background: Color | string | null;
+    }>({ on: false, background: null });
+    setContext('fullscreen', fullscreen);
+
+    $: if (typeof document !== 'undefined' && $fullscreen) {
+        document.body.style.background = $fullscreen.on
+            ? $fullscreen.background instanceof Color
+                ? $fullscreen.background.toCSS()
+                : $fullscreen.background ?? ''
+            : '';
+        document.body.style.color = $fullscreen.on
+            ? $fullscreen.background instanceof Color
+                ? $fullscreen.background.complement().toCSS()
+                : ''
+            : '';
+    }
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -24,8 +48,10 @@
     <main>
         <slot />
     </main>
-    <footer class:fullscreen>
-        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/">🏠</Link>
+    <footer class:fullscreen={$fullscreen.on}>
+        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/"
+            ><Emoji>💬</Emoji></Link
+        >
         <Link to="/learn">{$locales.get((l) => l.ui.page.learn.header)}</Link>
         <Link to="/projects"
             >{$locales.get((l) => l.ui.page.projects.header)}</Link
@@ -33,6 +59,7 @@
         <Link to="/galleries"
             >{$locales.get((l) => l.ui.page.galleries.header)}</Link
         >
+        <Link to="/donate">{$locales.get((l) => l.ui.page.donate.header)}</Link>
         <Settings />
     </footer>
 </div>
@@ -73,12 +100,14 @@
         border-radius: var(--wordplay-border-radius);
         border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
-        background: var(--wordplay-background);
         z-index: 1;
         gap: var(--wordplay-spacing);
+        background: var(--wordplay-background);
     }
 
     .fullscreen:not(:hover) {
-        opacity: 0.25;
+        opacity: 0.2;
+        border: none;
+        background: none;
     }
 </style>

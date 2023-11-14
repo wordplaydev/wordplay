@@ -7,10 +7,15 @@ import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';
 import type Node from './Node';
-import { AND_SYMBOL, OR_SYMBOL } from '@parser/Symbols';
+import {
+    AND_SYMBOL,
+    EQUALS_SYMBOL,
+    NOT_EQUALS_SYMBOL,
+    OR_SYMBOL,
+} from '@parser/Symbols';
 import OrderOfOperations from '@conflicts/OrderOfOperations';
 import Bind from './Bind';
-import type TypeSet from './TypeSet';
+import TypeSet from './TypeSet';
 import FunctionException from '@values/FunctionException';
 import FunctionDefinition from './FunctionDefinition';
 import UnexpectedInputs from '@conflicts/UnexpectedInput';
@@ -37,6 +42,14 @@ import Reference from './Reference';
 import ValueException from '../values/ValueException';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import TextLiteral from './TextLiteral';
+import Token from './Token';
+import TextType from './TextType';
+import NoneLiteral from './NoneLiteral';
+import NoneType from './NoneType';
+import NumberLiteral from './NumberLiteral';
+import JumpIf from '../runtime/JumpIf';
+import BooleanType from './BooleanType';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -58,6 +71,10 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
+    getDescriptor() {
+        return 'BinaryEvaluate';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -69,6 +86,7 @@ export default class BinaryEvaluate extends Expression {
                     _: Node,
                     context: Context
                 ): Template => this.left.getType(context).getLabel(locales),
+                getType: (context) => this.left.getType(context),
             },
             {
                 name: 'fun',
@@ -240,36 +258,45 @@ export default class BinaryEvaluate extends Expression {
         ];
     }
 
+    isLogicalOperator(context: Context) {
+        return (
+            this.left.getType(context) instanceof BooleanType &&
+            (this.fun.name.getText() === AND_SYMBOL ||
+                this.fun.name.getText() === OR_SYMBOL)
+        );
+    }
+
     compile(evaluator: Evaluator, context: Context): Step[] {
         const left = this.left.compile(evaluator, context);
         const right = this.right.compile(evaluator, context);
 
-        // NOTE: We removed short circuting because Reactions need to evaluate all conditionns to
-        // get stream dependencies.
         // Logical and is short circuited: if the left is false, we do not evaluate the right.
-        // if (this.operator.getText() === AND_SYMBOL) {
-        //     return [
-        //         new Start(this),
-        //         ...left,
-        //         // Jump past the right's instructions if false and just push a false on the stack.
-        //         new JumpIf(right.length + 1, true, false, this),
-        //         ...right,
-        //         new StartEvaluation(this),
-        //         new Finish(this),
-        //     ];
-        // }
-        // Logical OR is short circuited: if the left is true, we do not evaluate the right.
-        // else if (this.operator.getText() === OR_SYMBOL) {
-        //     return [
-        //         new Start(this),
-        //         ...left,
-        //         // Jump past the right's instructions if true and just push a true on the stack.
-        //         new JumpIf(right.length + 1, true, true, this),
-        //         ...right,
-        //         new StartEvaluation(this),
-        //         new Finish(this),
-        //     ];
-        // } else {
+        if (this.isLogicalOperator(context)) {
+            if (this.fun.name.getText() === AND_SYMBOL) {
+                return [
+                    new Start(this),
+                    ...left,
+                    // Jump past the right's instructions if false and just push a false on the stack.
+                    new JumpIf(right.length + 1, true, false, this),
+                    ...right,
+                    new StartEvaluation(this),
+                    new Finish(this),
+                ];
+            }
+            // Logical OR is short circuited: if the left is true, we do not evaluate the right.
+            else if (this.fun.name.getText() === OR_SYMBOL) {
+                return [
+                    new Start(this),
+                    ...left,
+                    // Jump past the right's instructions if true and just push a true on the stack.
+                    new JumpIf(right.length + 1, true, true, this),
+                    ...right,
+                    new StartEvaluation(this),
+                    new Finish(this),
+                ];
+            }
+        }
+
         return [
             new Start(this),
             ...left,
@@ -277,7 +304,6 @@ export default class BinaryEvaluate extends Expression {
             new StartEvaluation(this),
             new Finish(this),
         ];
-        // }
     }
 
     startEvaluation(evaluator: Evaluator) {
@@ -323,7 +349,7 @@ export default class BinaryEvaluate extends Expression {
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -332,13 +358,13 @@ export default class BinaryEvaluate extends Expression {
         // If conjunction, then we compute the intersection of the left and right's possible types.
         // Note that we pass the left's possible types because we don't evaluate the right if the left isn't true.
         if (this.getOperator() === AND_SYMBOL) {
-            const left = this.left.evaluateTypeSet(
+            const left = this.left.evaluateTypeGuards(
                 bind,
                 original,
                 current,
                 context
             );
-            const right = this.right.evaluateTypeSet(
+            const right = this.right.evaluateTypeGuards(
                 bind,
                 original,
                 left,
@@ -349,26 +375,86 @@ export default class BinaryEvaluate extends Expression {
         // If disjunction of type checks, then we return the union.
         // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
         else if (this.getOperator() === OR_SYMBOL) {
-            const left = this.left.evaluateTypeSet(
+            const left = this.left.evaluateTypeGuards(
                 bind,
                 original,
                 current,
                 context
             );
-            const right = this.right.evaluateTypeSet(
+            const right = this.right.evaluateTypeGuards(
                 bind,
                 original,
-                left,
+                current,
                 context
             );
             return left.union(right, context);
         }
-        // Otherwise, just pass the types down and return the original types.
-        else {
-            this.left.evaluateTypeSet(bind, original, current, context);
-            this.right.evaluateTypeSet(bind, original, current, context);
-            return current;
+        // If it's an equals check and one side is a number, text, or none literal, then reduce to the set to the literal checked
+        else if (
+            this.getOperator() === EQUALS_SYMBOL ||
+            this.getOperator() === NOT_EQUALS_SYMBOL
+        ) {
+            const equals = this.getOperator() === EQUALS_SYMBOL;
+            let set: TypeSet | undefined = undefined;
+
+            const textLiteral =
+                this.left instanceof TextLiteral
+                    ? this.left
+                    : this.right instanceof TextLiteral
+                    ? this.right
+                    : undefined;
+            if (textLiteral) {
+                // Find all of the single token translations, turn them into literal text types, and find the intersection between them and the current set.
+                const types: TextType[] = [];
+                for (const translation of textLiteral.texts)
+                    if (
+                        translation.segments.length === 1 &&
+                        translation.segments[0] instanceof Token
+                    )
+                        types.push(
+                            TextType.make(translation.segments[0].getText())
+                        );
+                set = new TypeSet(types, context);
+            }
+
+            // Is one of them a check for a none literal?
+            const noneLiteral =
+                this.left instanceof NoneLiteral
+                    ? this.left
+                    : this.right instanceof NoneLiteral
+                    ? this.right
+                    : undefined;
+            if (noneLiteral) {
+                set = new TypeSet([NoneType.make()], context);
+            }
+
+            // Is one of them a check for a number?
+            const numberLiteral =
+                this.left instanceof NumberLiteral
+                    ? this.left
+                    : this.right instanceof NumberLiteral
+                    ? this.right
+                    : undefined;
+            if (numberLiteral)
+                set = new TypeSet(
+                    [new NumberType(numberLiteral.number, numberLiteral.unit)],
+                    context
+                );
+
+            if (set)
+                return equals
+                    ? current.intersection(set, context)
+                    : current.difference(set, context);
         }
+
+        // Otherwise, just pass the types down and return the original types.
+        this.left.evaluateTypeGuards(bind, original, current, context);
+        this.right.evaluateTypeGuards(bind, original, current, context);
+        return current;
+    }
+
+    guardsTypes() {
+        return true;
     }
 
     getNodeLocale(locales: Locales) {

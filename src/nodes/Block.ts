@@ -90,6 +90,10 @@ export default class Block extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Block';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: any(node(Docs), none()) },
@@ -307,7 +311,7 @@ export default class Block extends Expression {
      * Blocks don't do any type checks, but we do have them delegate type checks to their final expression.
      * since we use them for parentheticals in boolean logic.
      * */
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -316,7 +320,7 @@ export default class Block extends Expression {
         if (this.statements.length === 0) return current;
         const last = this.statements[this.statements.length - 1];
         return last instanceof Expression
-            ? last.evaluateTypeSet(bind, original, current, context)
+            ? last.evaluateTypeGuards(bind, original, current, context)
             : current;
     }
 

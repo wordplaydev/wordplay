@@ -8,6 +8,8 @@
         SupportedLocales,
         getLocaleLanguage,
         type SupportedLocale,
+        getLocaleLanguageName,
+        EventuallySupportedLocales,
     } from '../../locale/Locale';
     import Link from '../app/Link.svelte';
     import concretize from '../../locale/concretize';
@@ -17,27 +19,25 @@
     import LocaleName from './LocaleName.svelte';
     import { Settings } from '../../db/Database';
 
-    let show: boolean;
-
     $: selectedLocales = $locales
-        .getLocales()
+        .getPreferredLocales()
         .map((locale) => toLocaleString(locale)) as SupportedLocale[];
 
-    function select(locale: SupportedLocale) {
-        selectedLocales = selectedLocales.includes(locale)
-            ? selectedLocales.length === 1
-                ? selectedLocales
-                : [
-                      // Remove
-                      ...selectedLocales.slice(
-                          0,
-                          selectedLocales.indexOf(locale)
-                      ),
-                      ...selectedLocales.slice(
-                          selectedLocales.indexOf(locale) + 1
-                      ),
-                  ]
-            : [locale, ...selectedLocales];
+    function select(
+        locale: SupportedLocale,
+        action: 'remove' | 'replace' | 'add'
+    ) {
+        selectedLocales =
+            // If removing, only remove if there's more than one.
+            action === 'remove'
+                ? selectedLocales.length > 1
+                    ? selectedLocales.filter((l) => l !== locale)
+                    : selectedLocales
+                : // If replacing, just choose the single locale
+                action === 'replace'
+                ? [locale]
+                : // Put the selected locale at the end, removing it from the beginning if included
+                  [...selectedLocales.filter((l) => l !== locale), locale];
 
         // Set the layout and direction based on the preferred language.
         if (selectedLocales.length > 0) {
@@ -52,7 +52,13 @@
     }
 </script>
 
-<Dialog bind:show description={$locales.get((l) => l.ui.dialog.locale)}>
+<Dialog
+    description={$locales.get((l) => l.ui.dialog.locale)}
+    button={{
+        tip: $locales.get((l) => l.ui.dialog.locale.button.show),
+        label: selectedLocales.map((l) => getLocaleLanguageName(l)).join(' + '),
+    }}
+>
     <h2
         >{concretize(
             $locales,
@@ -62,7 +68,7 @@
     <div class="languages">
         {#each selectedLocales as selected}
             <Button
-                action={() => select(selected)}
+                action={() => select(selected, 'remove')}
                 tip={$locales.get((l) => l.ui.dialog.locale.button.remove)}
                 active={selectedLocales.length > 1}
                 >{#if selectedLocales.length > 1}
@@ -77,20 +83,42 @@
             $locales.get((l) => l.ui.dialog.locale.subheader.supported)
         ).toText()}</h2
     >
-    <div class="languages">
+    <div class="supported">
         {#each SupportedLocales.filter((supported) => !selectedLocales.some((locale) => locale === supported)) as supported}
-            <Button
-                action={() => select(supported)}
-                tip={$locales.get((l) => l.ui.dialog.locale.button.add)}
-                >+ <LocaleName locale={supported} supported /></Button
-            >
+            <div class="option">
+                <Button
+                    action={() => select(supported, 'replace')}
+                    tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
+                    ><LocaleName locale={supported} supported /></Button
+                >
+                <Button
+                    action={() => select(supported, 'add')}
+                    tip={$locales.get((l) => l.ui.dialog.locale.button.add)}
+                    >+</Button
+                >
+            </div>
         {:else}&mdash;
         {/each}
     </div>
     <h2
+        >{concretize(
+            $locales,
+            $locales.get((l) => l.ui.dialog.locale.subheader.coming)
+        ).toText()}</h2
+    >
+
+    {#if EventuallySupportedLocales.length > 0}
+        {#each EventuallySupportedLocales as supported}
+            <div class="option">
+                <LocaleName locale={supported} supported={false} />
+            </div>
+        {/each}
+    {/if}
+
+    <h2
         ><Link
             external
-            to="https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md#localization"
+            to="https://github.com/wordplaydev/wordplay/wiki/localize"
             >{concretize(
                 $locales,
                 $locales.get((l) => l.ui.dialog.locale.subheader.help)
@@ -103,25 +131,12 @@
         {/each}
     </div>
 </Dialog>
-<Button
-    tip={$locales.get((l) => l.ui.dialog.locale.button.show)}
-    action={() => (show = true)}
->
-    <span class="chosen">
-        {#each selectedLocales as locale, index}{#if index > 0}+{/if}<LocaleName
-                {locale}
-                supported
-            />{/each}
-    </span>
-</Button>
 
 <style>
-    .chosen {
+    .supported {
         display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        align-items: baseline;
-        gap: var(--wordplay-spacing);
+        flex-direction: column;
+        gap: calc(2 * var(--wordplay-spacing));
     }
 
     .languages {

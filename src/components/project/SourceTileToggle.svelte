@@ -5,6 +5,7 @@
     import Glyphs from '../../lore/Glyphs';
     import Toggle from '../widgets/Toggle.svelte';
     import { locales } from '../../db/Database';
+    import Emoji from '@components/app/Emoji.svelte';
 
     export let source: Source;
     export let expanded: boolean;
@@ -43,8 +44,9 @@
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
         >{/if}
-    {#if primaryCount === 0 && secondaryCount === 0}{Glyphs.Program
-            .symbols}{/if}
+    {#if primaryCount === 0 && secondaryCount === 0}<Emoji
+            >{Glyphs.Program.symbols}</Emoji
+        >{/if}
     {$locales.getName(source.names)}
 </Toggle>
 

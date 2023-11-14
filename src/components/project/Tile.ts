@@ -1,4 +1,7 @@
+import type Locales from '../../locale/Locales';
+import type Project from '../../models/Project';
 import type Bounds from './Bounds';
+import Layout from './Layout';
 
 export enum Mode {
     Expanded = 'expanded',
@@ -17,8 +20,6 @@ export default class Tile {
     readonly id: string;
     /** The type of window content */
     readonly kind: TileKind;
-    /** A creator visible name for display */
-    readonly name: string;
     /** The current position of the tile in the browser window */
     readonly bounds: Bounds | undefined;
     /** The persisted position of the tile in free form layout */
@@ -28,18 +29,33 @@ export default class Tile {
 
     constructor(
         id: string,
-        name: string,
         kind: TileKind,
         mode: Mode,
         bounds: Bounds | undefined,
         position: Bounds
     ) {
         this.id = id;
-        this.name = name;
         this.kind = kind;
         this.bounds = bounds;
         this.mode = mode;
         this.position = position;
+    }
+
+    /**
+     * If source, gets the name of the source from the project, and if not, gets a localized name using
+     * the given locales.
+     */
+    getName(project: Project, locales: Locales) {
+        return `${
+            this.getSource(project)?.getPreferredName(locales.getLocales()) ??
+            locales.get((l) => l.ui.tile.label[this.kind])
+        }`;
+    }
+
+    getSource(project: Project) {
+        return project
+            .getSources()
+            .find((_, index) => Layout.getSourceID(index) === this.id);
     }
 
     isCollapsed() {
@@ -64,48 +80,16 @@ export default class Tile {
             : 3;
     }
 
-    withName(name: string) {
-        return new Tile(
-            this.id,
-            name,
-            this.kind,
-            this.mode,
-            this.bounds,
-            this.position
-        );
-    }
-
     withBounds(bounds: Bounds) {
-        return new Tile(
-            this.id,
-            this.name,
-            this.kind,
-            this.mode,
-            bounds,
-            this.position
-        );
+        return new Tile(this.id, this.kind, this.mode, bounds, this.position);
     }
 
     withPosition(bounds: Bounds) {
-        return new Tile(
-            this.id,
-            this.name,
-            this.kind,
-            this.mode,
-            this.bounds,
-            bounds
-        );
+        return new Tile(this.id, this.kind, this.mode, this.bounds, bounds);
     }
 
     withMode(mode: Mode) {
-        return new Tile(
-            this.id,
-            this.name,
-            this.kind,
-            mode,
-            this.bounds,
-            this.position
-        );
+        return new Tile(this.id, this.kind, mode, this.bounds, this.position);
     }
 
     static randomPosition(width: number, height: number) {
@@ -121,7 +105,6 @@ export default class Tile {
     isEqualTo(tile: Tile) {
         return (
             this.id === tile.id &&
-            this.name === tile.name &&
             this.kind === tile.kind &&
             this.mode === tile.mode &&
             this.position.left === tile.position.left &&

@@ -71,6 +71,10 @@ export default class Select extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'Select';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -300,18 +304,18 @@ export default class Select extends Expression {
         return new TableValue(this, newType, selected);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.table instanceof Expression)
-            this.table.evaluateTypeSet(bind, original, current, context);
+            this.table.evaluateTypeGuards(bind, original, current, context);
         if (this.row instanceof Expression)
-            this.row.evaluateTypeSet(bind, original, current, context);
+            this.row.evaluateTypeGuards(bind, original, current, context);
         if (this.query instanceof Expression)
-            this.query.evaluateTypeSet(bind, original, current, context);
+            this.query.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

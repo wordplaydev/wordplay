@@ -58,6 +58,10 @@ export default class NumberType extends BasisType {
         return [NumberType.make()];
     }
 
+    getDescriptor() {
+        return 'NumberType';
+    }
+
     generalize() {
         // Remove the specific number, if there is one, but preserve the unit.
         return NumberType.make(this.unit);

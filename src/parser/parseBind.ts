@@ -4,11 +4,10 @@ import Names from '../nodes/Names';
 import Sym from '../nodes/Sym';
 import { PairedCloseDelimiters } from './Tokenizer';
 import type Tokens from './Tokens';
-import parseType from './paresType';
+import parseType from './parseType';
 import parseExpression, { parseDocs } from './parseExpression';
 import parseLanguage from './parseLanguage';
 
-/** BIND :: NAMES TYPE? (: EXPRESSION)? */
 export default function parseBind(tokens: Tokens): Bind {
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
     const share = tokens.readIf(Sym.Share);
@@ -38,7 +37,6 @@ export default function parseBind(tokens: Tokens): Bind {
     return new Bind(docs, share, names, etc, dot, type, colon, value);
 }
 
-/** NAMES :: (name LANGUAGE?)+ */
 export function parseNames(tokens: Tokens): Names {
     const names: Name[] = [];
 

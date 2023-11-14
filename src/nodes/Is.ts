@@ -60,6 +60,10 @@ export default class Is extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Is';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'expression', kind: node(Expression) },
@@ -124,7 +128,7 @@ export default class Is extends Expression {
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         _: TypeSet,
         current: TypeSet,
@@ -155,6 +159,10 @@ export default class Is extends Expression {
         }
 
         return current;
+    }
+
+    guardsTypes() {
+        return true;
     }
 
     getStart() {

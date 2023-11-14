@@ -87,6 +87,10 @@ export default class Reaction extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Reaction';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -136,7 +140,7 @@ export default class Reaction extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Decide;
+        return Purpose.Input;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {
@@ -280,16 +284,16 @@ export default class Reaction extends Expression {
         return streamValue;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.initial instanceof Expression)
-            this.initial.evaluateTypeSet(bind, original, current, context);
+            this.initial.evaluateTypeGuards(bind, original, current, context);
         if (this.next instanceof Expression)
-            this.next.evaluateTypeSet(bind, original, current, context);
+            this.next.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

@@ -12,8 +12,6 @@ import StructureType from './StructureType';
 import Bind from './Bind';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import Conditional from './Conditional';
-import Is from './Is';
 import { PROPERTY_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import TypeVariable from './TypeVariable';
@@ -36,6 +34,7 @@ import Refer from '../edit/Refer';
 import FunctionDefinition from './FunctionDefinition';
 import BasisType from './BasisType';
 import type Locales from '../locale/Locales';
+import getGuards from './getGuards';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -131,6 +130,10 @@ export default class PropertyReference extends Expression {
         }
 
         return [];
+    }
+
+    getDescriptor() {
+        return 'PropertyReference';
     }
 
     getGrammar(): Grammar {
@@ -254,31 +257,25 @@ export default class PropertyReference extends Expression {
             ) {
                 // Find any conditionals with type checks that refer to the value bound to this name.
                 // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
-                const guards = context
-                    .getRoot(this)
-                    ?.getAncestors(this)
-                    ?.filter(
-                        (a): a is Conditional =>
-                            // Guards must be conditionals
-                            a instanceof Conditional &&
-                            // Guards must have references to this same property in a type check
-                            a.condition.nodes(
-                                (n): n is PropertyReference =>
-                                    this.name !== undefined &&
-                                    context.source.root.getParent(n) instanceof
-                                        Is &&
-                                    n instanceof PropertyReference &&
-                                    n.getSubjectType(context) instanceof
-                                        StructureType &&
-                                    def ===
-                                        (
-                                            n.getSubjectType(
-                                                context
-                                            ) as StructureType
-                                        ).getDefinition(this.name.getName())
-                            ).length > 0
-                    )
-                    .reverse();
+                const guards = getGuards(this, context, (n) => {
+                    // This reference has a name
+                    if (
+                        this.name !== undefined &&
+                        // The candidate node is also a PropertyReference
+                        n instanceof PropertyReference &&
+                        // It refers to the same definition as this reference's name.
+                        n.getSubjectType(context) instanceof StructureType &&
+                        def ===
+                            (
+                                n.getSubjectType(context) as StructureType
+                            ).getDefinition(this.name.getName())
+                    ) {
+                        const parent = context.source.root.getParent(n);
+                        return (
+                            parent instanceof Expression && parent.guardsTypes()
+                        );
+                    } else return false;
+                });
 
                 // Grab the furthest ancestor and evaluate possible types from there.
                 const root =
@@ -287,7 +284,7 @@ export default class PropertyReference extends Expression {
                         : undefined;
                 if (root !== undefined) {
                     const possibleTypes = type.getTypeSet(context);
-                    root.evaluateTypeSet(
+                    root.evaluateTypeGuards(
                         def,
                         possibleTypes,
                         possibleTypes,
@@ -330,14 +327,14 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         // Filter the types of the structure.
-        const possibleTypes = this.structure.evaluateTypeSet(
+        const possibleTypes = this.structure.evaluateTypeGuards(
             bind,
             original,
             current,

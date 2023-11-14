@@ -47,6 +47,10 @@ export default class Doc extends LanguageTagged {
         return [Doc.make()];
     }
 
+    getDescriptor() {
+        return 'Doc';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.Doc) },

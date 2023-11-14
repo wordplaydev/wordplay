@@ -23,6 +23,18 @@ import ExtraCell from '../conflicts/ExtraCell';
 import UnexpectedColumnBind from '../conflicts/UnexpectedColumnBind';
 import type Type from './Type';
 import type Locales from '../locale/Locales';
+import Names from './Names';
+import { tokenize } from '../parser/Tokenizer';
+import Sym from './Sym';
+import NumberLiteral from './NumberLiteral';
+import TextLiteral from './TextLiteral';
+import BooleanLiteral from './BooleanLiteral';
+import UnionType from './UnionType';
+import NumberType from './NumberType';
+import TextType from './TextType';
+import BooleanType from './BooleanType';
+import NoneLiteral from './NoneLiteral';
+import NoneType from './NoneType';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -41,6 +53,110 @@ export default class TableLiteral extends Expression {
         return new TableLiteral(TableType.make(), [Row.make()]);
     }
 
+    static from(data: string[][]): TableLiteral | undefined {
+        const header = data.shift();
+
+        if (header === undefined) return undefined;
+        const rows: Row[] = [];
+
+        for (const row of data) {
+            const cells: Expression[] = [];
+            // Tokenize each row
+            for (const cell of row) {
+                let trimmed = cell.trim();
+                if (
+                    trimmed.startsWith("'") ||
+                    trimmed.startsWith('"') ||
+                    trimmed.startsWith('“') ||
+                    trimmed.startsWith('”')
+                )
+                    trimmed = trimmed.substring(1);
+                if (
+                    trimmed.endsWith("'") ||
+                    trimmed.endsWith('"') ||
+                    trimmed.endsWith('“') ||
+                    trimmed.endsWith('”')
+                )
+                    trimmed = trimmed.substring(0, trimmed.length - 1);
+                const tokens = tokenize(trimmed).getTokens();
+                // Strip the end of file
+                tokens.pop();
+                // Convert numbers to number literals
+                if (tokens.length === 0) cells.push(NoneLiteral.make());
+                else if (tokens[0].isSymbol(Sym.Number))
+                    cells.push(new NumberLiteral(tokens[0]));
+                else {
+                    // Combine all of the tokens
+                    const text = tokens
+                        .map((token) => token.getText())
+                        .join(' ')
+                        .trim();
+                    if (text.toLowerCase() === 'true')
+                        cells.push(BooleanLiteral.make(true));
+                    else if (text.toLowerCase() === 'false')
+                        cells.push(BooleanLiteral.make(true));
+                    else cells.push(TextLiteral.make(text));
+                }
+            }
+            rows.push(Row.make(cells));
+        }
+
+        function inferType(expressions: Expression[]): Type {
+            const types = [
+                ...(expressions.some((expr) => expr instanceof NumberLiteral)
+                    ? [NumberType.make()]
+                    : []),
+                ...(expressions.some((expr) => expr instanceof TextLiteral)
+                    ? [TextType.make()]
+                    : []),
+                ...(expressions.some((expr) => expr instanceof BooleanLiteral)
+                    ? [BooleanType.make()]
+                    : []),
+                ...(expressions.some((expr) => expr instanceof NoneLiteral)
+                    ? [NoneType.make()]
+                    : []),
+            ];
+            if (types.length === 1) return types[0];
+            else if (types.length === 2)
+                return UnionType.make(types[0], types[1]);
+            else if (types.length === 3)
+                return UnionType.make(
+                    types[0],
+                    UnionType.make(types[1], types[2])
+                );
+            else
+                return UnionType.make(
+                    types[0],
+                    UnionType.make(types[1], UnionType.make(types[2], types[3]))
+                );
+        }
+
+        const type = TableType.make(
+            header.map((col, index) => {
+                const tokens = tokenize(col.replaceAll(' ', '')).getTokens();
+                const name = tokens[0].isSymbol(Sym.Name)
+                    ? tokens[0].getText()
+                    : tokens[0].isSymbol(Sym.Number)
+                    ? `n${tokens[0].getText()}`
+                    : `n${index}`;
+
+                return Bind.make(
+                    undefined,
+                    // Try to make a valid name
+                    Names.make([name]),
+                    inferType(rows.map((row) => row.cells[index])),
+                    undefined
+                );
+            })
+        );
+
+        return new TableLiteral(type, rows);
+    }
+
+    getDescriptor() {
+        return 'TableLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -48,7 +164,7 @@ export default class TableLiteral extends Expression {
                 kind: node(TableType),
                 label: (locales: Locales) => locales.get((l) => l.term.table),
             },
-            { name: 'rows', kind: list(true, node(Row)) },
+            { name: 'rows', kind: list(true, node(Row)), newline: true },
         ];
     }
 
@@ -171,7 +287,7 @@ export default class TableLiteral extends Expression {
             : this.getParent(context);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -179,7 +295,7 @@ export default class TableLiteral extends Expression {
     ) {
         this.rows.forEach((row) => {
             if (row instanceof Expression)
-                row.evaluateTypeSet(bind, original, current, context);
+                row.evaluateTypeGuards(bind, original, current, context);
         });
         return current;
     }

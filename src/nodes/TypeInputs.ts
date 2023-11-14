@@ -35,8 +35,12 @@ export default class TypeInputs extends Node {
         return [TypeInputs.make()];
     }
 
+    getDescriptor() {
+        return 'TypeInputs';
+    }
+
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Type;
     }
 
     getGrammar(): Grammar {

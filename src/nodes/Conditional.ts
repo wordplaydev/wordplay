@@ -80,6 +80,10 @@ export default class Conditional extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Conditional';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -174,30 +178,34 @@ export default class Conditional extends Expression {
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         // Evaluate the condition with the current types.
-        const revisedTypes = this.condition.evaluateTypeSet(
+        const revisedTypes = this.condition.evaluateTypeGuards(
             bind,
             original,
             current,
             context
         );
 
+        // The condition did some guarding if the intersection of the revised and current sets is smaller than the current set
+        const guarded =
+            current.intersection(revisedTypes, context).size() < current.size();
+
         // Evaluate the yes branch with the revised types.
         if (this.yes instanceof Expression)
-            this.yes.evaluateTypeSet(bind, original, revisedTypes, context);
+            this.yes.evaluateTypeGuards(bind, original, revisedTypes, context);
 
-        // Evaluate the no branch with the complement of the revised types.
+        // Evaluate the no branch with the complement of the revised types, unless they weren't guarded, in which case we pass through the current types.
         if (this.no instanceof Expression) {
-            this.no.evaluateTypeSet(
+            this.no.evaluateTypeGuards(
                 bind,
                 original,
-                current.difference(revisedTypes, context),
+                guarded ? current.difference(revisedTypes, context) : current,
                 context
             );
         }

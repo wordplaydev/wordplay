@@ -7,9 +7,6 @@
     import Fonts from '../basis/Fonts';
     import { locales, DB, animationFactor, dark } from '../db/Database';
     import { browser } from '$app/environment';
-    import { goto } from '$app/navigation';
-    import { PUBLIC_CONTEXT } from '$env/static/public';
-    import { page } from '$app/stores';
     import { getLanguageDirection } from '../locale/LanguageCode';
 
     /** Expose the translations as context, updating them as necessary */
@@ -51,9 +48,6 @@
         };
     });
 
-    // Are we pre-beta in prod? Always go back to the beginning.
-    $: if (browser && $page && PUBLIC_CONTEXT === 'prod') goto('/');
-
     function prefersDark() {
         return (
             typeof window !== 'undefined' &&
@@ -77,6 +71,7 @@
         new Set([
             ...$locales.getLocales().map((locale) => locale.ui.font.app),
             'Noto Emoji',
+            'Noto Color Emoji',
         ])
     )
         .map((font) => `"${font}"`)
@@ -84,8 +79,10 @@
     style:--wordplay-code-font={Array.from(
         new Set([
             ...$locales.getLocales().map((locale) => locale.ui.font.code),
-            'Noto Mono',
+            'Noto Sans Mono',
             'Noto Emoji',
+            'Noto Color Emoji',
+            'Noto Sans',
         ])
     )
         .map((font) => `"${font}"`)

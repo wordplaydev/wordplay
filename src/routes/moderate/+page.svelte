@@ -37,6 +37,7 @@
     import Button from '../../components/widgets/Button.svelte';
     import type { Flag, Moderation } from '../../models/Moderation';
     import Spinning from '../../components/app/Spinning.svelte';
+    import { ProjectsCollection } from '../../db/ProjectsDatabase';
 
     const user = getUser();
 
@@ -70,7 +71,7 @@
             return firestore;
         }
         const unmoderated = query(
-            collection(firestore, 'projects'),
+            collection(firestore, ProjectsCollection),
             // Construct a query for each flag to find any project that has a null flag.
             and(
                 where('public', '==', true),
@@ -181,7 +182,6 @@
         {:else}
             <ProjectView
                 {project}
-                playing={false}
                 autofocus={false}
                 editable={false}
                 warn={false}

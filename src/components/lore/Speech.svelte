@@ -9,6 +9,7 @@
     import Eyes from './Eyes.svelte';
     import { locales } from '@db/Database';
     import Emotion from '../../lore/Emotion';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let glyph: Glyph | Concept;
     /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
@@ -25,6 +26,8 @@
     export let emotion: Emotion | undefined = undefined;
     /** Optionally turn off animation */
     export let emote = true;
+    /** Optionally double size of text */
+    export let big = false;
 
     $: renderedEmotion =
         emotion ??
@@ -35,8 +38,9 @@
             ? glyph.getGlyphs($locales).symbols
             : glyph.symbols;
 
-    $: symbols =
-        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs;
+    $: symbols = withVariationSelector(
+        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs
+    );
 </script>
 
 <div
@@ -44,6 +48,7 @@
     baseline
         ? 'baseline'
         : ''}"
+    class:big
     class:scroll
 >
     <div>
@@ -85,6 +90,10 @@
         display: flex;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+    }
+
+    .dialog.big {
+        font-size: 150%;
     }
 
     .dialog.scroll {
@@ -708,10 +717,10 @@
             transform: scale(1);
         }
         50% {
-            transform: scale(0.75);
+            transform: scale(0.85);
         }
         100% {
-            transform: scale(0.4);
+            transform: scale(0.75);
         }
     }
 </style>

@@ -8,13 +8,16 @@
 
 {#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
     <slot />
-{:else}<a title={tip} href={to} target={external ? '_blank' : null}><slot /></a>
+{:else}<a title={tip} href={to} target={external ? '_blank' : null}
+        ><slot />{#if external}<span class="external">↗</span>{/if}</a
+    >
 {/if}
 
 <style>
     a {
         color: var(--wordplay-highlight-color);
         text-decoration: none;
+        white-space: nowrap;
     }
 
     a:focus,
@@ -23,5 +26,11 @@
         text-decoration: underline;
         text-decoration-thickness: var(--wordplay-focus-width);
         text-decoration-color: var(--wordplay-focus-color);
+    }
+
+    .external {
+        font-size: calc(var(--wordplay-font-size) - 6pt);
+        display: inline-block;
+        margin-inline-start: 0.25em;
     }
 </style>

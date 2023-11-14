@@ -10,6 +10,9 @@ import { BIND_SYMBOL } from '../parser/Symbols';
 import AnyType from './AnyType';
 import ListType from './ListType';
 import type Locales from '../locale/Locales';
+import type Context from './Context';
+import IncompatibleType from '../conflicts/IncompatibleType';
+import type Conflict from '../conflicts/Conflict';
 
 /** Inside a list literal, flattens values of a list value into a new list */
 export default class Spread extends Node {
@@ -31,6 +34,10 @@ export default class Spread extends Node {
 
     static getPossibleNodes() {
         return [];
+    }
+
+    getDescriptor() {
+        return 'Spread';
     }
 
     getGrammar(): Grammar {
@@ -63,8 +70,21 @@ export default class Spread extends Node {
         return 'list';
     }
 
-    computeConflicts() {
-        return;
+    computeConflicts(context: Context): Conflict[] {
+        if (this.list) {
+            const type = this.list.getType(context);
+            if (!(type instanceof ListType))
+                return [
+                    new IncompatibleType(
+                        this.list,
+                        ListType.make(),
+                        this.list,
+                        type
+                    ),
+                ];
+        }
+
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

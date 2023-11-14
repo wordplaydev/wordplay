@@ -63,6 +63,10 @@ export default class Dimension extends Node {
         return [];
     }
 
+    getDescriptor() {
+        return 'Dimension';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'product', kind: any(node(Sym.Operator), none()) },

@@ -159,8 +159,10 @@ export default abstract class StreamValue<
     }
 
     /** Should produce valid Wordplay code string representing the stream's name */
-    toWordplay(locales: Locales): string {
-        return this.getPreferredName(locales);
+    toWordplay(locales?: Locales): string {
+        return locales
+            ? this.getPreferredName(locales)
+            : this.definition.names.getNames()[0];
     }
 
     getPreferredName(locales: Locales) {

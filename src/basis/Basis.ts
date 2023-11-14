@@ -32,8 +32,12 @@ import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import bootstrapStructure from './StructureBasis';
 import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/paresType';
+import parseType from '../parser/parseType';
 import type Locales from '../locale/Locales';
+import AnyType from '../nodes/AnyType';
+import BooleanType from '../nodes/BooleanType';
+import ValueException from '../values/ValueException';
+import BoolValue from '../values/BoolValue';
 
 export class Basis {
     readonly locales: Locales;
@@ -174,6 +178,30 @@ export function createBasisFunction(
         createInputs(locales, (l) => text(l).inputs, types),
         new InternalExpression(output, [], evaluator),
         output
+    );
+}
+
+export function createEqualsFunction(
+    locales: Locales,
+    text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+    equal: boolean
+) {
+    return createBasisFunction(
+        locales,
+        text,
+        undefined,
+        [new AnyType()],
+        BooleanType.make(),
+        (requestor, evaluation) => {
+            const left: Value | Evaluation | undefined =
+                evaluation.getClosure();
+            const right = evaluation.getInput(0);
+            if (!(left instanceof Value))
+                return new ValueException(evaluation.getEvaluator(), requestor);
+            if (!(right instanceof Value))
+                return new ValueException(evaluation.getEvaluator(), requestor);
+            return new BoolValue(requestor, left.isEqualTo(right) === equal);
+        }
     );
 }
 

@@ -17,6 +17,10 @@ export default class StreamDefinitionType extends Type {
         this.definition = definition;
     }
 
+    getDescriptor() {
+        return 'StreamDefinitionType';
+    }
+
     getGrammar() {
         return [];
     }

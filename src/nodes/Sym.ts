@@ -13,6 +13,7 @@ enum Sym {
     Borrow = '↓',
     Share = '↑',
     Convert = '→',
+    Placeholder = '_',
 
     Doc = '``',
     Formatted = '`',
@@ -31,6 +32,7 @@ enum Sym {
 
     None = 'ø',
     Type = '•',
+    Literal = '!',
     TypeOperator = '•op',
     TypeOpen = '⸨',
     TypeClose = '⸩',
@@ -54,7 +56,6 @@ enum Sym {
     Change = '∆',
     Initial = '◆',
     Previous = '…-',
-    Placeholder = '_',
     Etc = '…',
     This = '.',
     Locale = '🌏',

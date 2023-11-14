@@ -10,7 +10,7 @@ import Motion from '../input/Motion';
 import type Evaluator from '../runtime/Evaluator';
 import type { ReboundEvent } from '../input/Collision';
 import Collision from '../input/Collision';
-import { Rectangle } from './Form';
+import { Rectangle, Line } from './Form';
 import type Shape from './Shape';
 
 const TextCategory = 0b0001;
@@ -136,7 +136,7 @@ export default class Physics {
     }
 
     /** Rotation is degrees */
-    createRectangle(rectangle: Rectangle, rotation: number | undefined) {
+    createRectangle(rectangle: Rectangle, rotation: number) {
         // Compute rectangle boundaries in engine coordinates.
         const left = rectangle.getLeft() * PX_PER_METER;
         const right =
@@ -165,6 +165,30 @@ export default class Physics {
             MatterJS.Body.rotate(rect, (rotation * Math.PI) / 180);
 
         return rect;
+    }
+
+    createLine(line: Line) {
+        const { x1, x2, y1, y2, z } = line;
+        const centerX = (x1 + x2) / 2;
+        const centerY = (y1 + y2) / 2;
+        const height = 1 * PX_PER_METER
+        const width = line.getLength();
+        const angle = Math.atan2(y2 - y1, x2 - x1);
+        const lineBarrier = MatterJS.Bodies.rectangle(
+            centerX,
+            centerY,
+            width,
+            height, {
+                isStatic: true,
+                collisionFilter: {
+                    group: 1,
+                    category: ShapeCategory,
+                    mask: TextCategory | ShapeCategory,
+                },
+                angle: angle
+            }
+        );
+        return lineBarrier;
     }
 
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */

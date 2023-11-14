@@ -80,6 +80,10 @@ export default class FunctionType extends Type {
         return [FunctionType.make(undefined, [], TypePlaceholder.make())];
     }
 
+    getDescriptor() {
+        return 'FunctionType';
+    }
+
     getTemplate(context: Context): FunctionDefinition {
         return FunctionDefinition.make(
             undefined,

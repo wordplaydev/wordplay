@@ -1,0 +1,13 @@
+Font Machine
+=== start
+fonts: ["Arvo" "Modak" "Poor Story" "Tangerine" "Monoton" "Quicksand"]!
+symbols: 'typography'/en'tipografía'/es ÷ ''
+
+ƒ randomize() 
+    symbols.translate(
+		ƒ (symbol) Phrase(symbol face: fonts.random() duration: 0s)
+	)
+
+phrases: randomize() … ∆ Key() | ∆ Button() … randomize()
+
+Stage([Group(Row(0 0m) phrases place: Place(0m 0m))])

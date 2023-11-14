@@ -55,6 +55,10 @@ export default class UnionType extends Type {
         return this.make(left, NoneType.make());
     }
 
+    getDescriptor() {
+        return 'UnionType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'left', kind: node(Type) },

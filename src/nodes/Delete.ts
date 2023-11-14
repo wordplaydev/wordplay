@@ -53,6 +53,10 @@ export default class Delete extends Expression {
         return new Delete(table, new Token(DELETE_SYMBOL, Sym.Delete), query);
     }
 
+    getDescriptor() {
+        return 'Delete';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -218,16 +222,16 @@ export default class Delete extends Expression {
         return new TableValue(this, table.type, list);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.table instanceof Expression)
-            this.table.evaluateTypeSet(bind, original, current, context);
+            this.table.evaluateTypeGuards(bind, original, current, context);
         if (this.query instanceof Expression)
-            this.query.evaluateTypeSet(bind, original, current, context);
+            this.query.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

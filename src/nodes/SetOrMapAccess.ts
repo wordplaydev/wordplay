@@ -31,6 +31,7 @@ import { NotAType } from './NotAType';
 import concretize from '../locale/concretize';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import NoneType from './NoneType';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -63,6 +64,10 @@ export default class SetOrMapAccess extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'SetOrMapAccess';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -92,7 +97,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Value;
+        return Purpose.Evaluate;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {
@@ -136,7 +141,7 @@ export default class SetOrMapAccess extends Expression {
             setOrMapType instanceof MapType &&
             setOrMapType.value instanceof Type
         )
-            return setOrMapType.value;
+            return UnionType.make(setOrMapType.value, NoneType.make());
         else if (setOrMapType instanceof SetType) return BooleanType.make();
         else
             return new NotAType(
@@ -176,16 +181,16 @@ export default class SetOrMapAccess extends Expression {
         else return setOrMap.has(this, key);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.setOrMap instanceof Expression)
-            this.setOrMap.evaluateTypeSet(bind, original, current, context);
+            this.setOrMap.evaluateTypeGuards(bind, original, current, context);
         if (this.key instanceof Expression)
-            this.key.evaluateTypeSet(bind, original, current, context);
+            this.key.evaluateTypeGuards(bind, original, current, context);
         return current;
     }
 

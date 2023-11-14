@@ -1,5 +1,6 @@
 <script lang="ts">
     import { onMount } from 'svelte';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let text = '';
     export let placeholder: string;
@@ -13,7 +14,7 @@
     export let right = false;
     export let defaultFocus = false;
     export let editable = true;
-    export let email = false;
+    export let kind: 'email' | 'password' | undefined = undefined;
 
     let width = 0;
 
@@ -23,7 +24,8 @@
     }
 
     onMount(() => {
-        if (email && view) view.type = 'email';
+        if (kind === 'email' && view) view.type = 'email';
+        else if (kind === 'password' && view) view.type = 'password';
     });
 </script>
 
@@ -37,7 +39,7 @@
         class:error={validator ? validator(text) === false : null}
         aria-label={description}
         aria-placeholder={placeholder}
-        {placeholder}
+        placeholder={withVariationSelector(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
         disabled={!editable}
         bind:value={text}
@@ -47,7 +49,11 @@
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
-        >{text.length === 0 ? placeholder : text}</span
+        >{text.length === 0
+            ? placeholder
+            : kind === 'password'
+            ? '•'.repeat(text.length)
+            : text}</span
     >
 </div>
 
@@ -55,6 +61,10 @@
     .field {
         display: inline-block;
         position: relative;
+    }
+
+    [disabled] {
+        color: var(--wordplay-inactive-color);
     }
 
     input {
@@ -68,6 +78,11 @@
         border: none;
         outline: none;
         min-width: 4em;
+        cursor: text;
+    }
+
+    input::placeholder {
+        font-family: var(--wordplay-app-font);
     }
 
     .measurer {

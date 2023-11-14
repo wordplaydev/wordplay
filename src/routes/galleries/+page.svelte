@@ -1,7 +1,7 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';
-    import { locales } from '@db/Database';
+    import { Galleries, locales } from '@db/Database';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { onMount } from 'svelte';
     import {
@@ -12,21 +12,23 @@
         query,
         where,
         type DocumentData,
-        QueryDocumentSnapshot,
+        type QueryDocumentSnapshot,
         startAfter,
     } from 'firebase/firestore';
     import { firestore } from '../../db/firebase';
     import type { SerializedGallery } from '../../models/Gallery';
-    import Gallery from '../../models/Gallery';
+    import Gallery, { upgradeGallery } from '../../models/Gallery';
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import Button from '../../components/widgets/Button.svelte';
-    import { ExampleGalleries } from '../../examples/examples';
+    import { GalleriesCollection } from '../../db/GalleryDatabase';
 
     let lastBatch: QueryDocumentSnapshot<DocumentData>;
 
+    const examples = Galleries.exampleGalleries;
+
     /** Start the list of galleries with the example galleries. */
-    let galleries: Gallery[] = ExampleGalleries.slice();
+    let loadedGalleries: Gallery[] = [];
 
     onMount(async () => {
         nextBatch();
@@ -36,7 +38,7 @@
         if (firestore === undefined) return firestore;
         const first = lastBatch
             ? query(
-                  collection(firestore, 'galleries'),
+                  collection(firestore, GalleriesCollection),
                   where('public', '==', true),
                   orderBy('featured'),
                   orderBy('id'),
@@ -44,7 +46,7 @@
                   limit(5)
               )
             : query(
-                  collection(firestore, 'galleries'),
+                  collection(firestore, GalleriesCollection),
                   where('public', '==', true),
                   orderBy('featured'),
                   orderBy('id'),
@@ -56,13 +58,18 @@
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
         // Convert the docs to galleries
-        galleries = [
-            ...(galleries ?? []),
+        loadedGalleries = [
+            ...(loadedGalleries ?? []),
             ...documentSnapshots.docs.map(
-                (snap) => new Gallery(snap.data() as SerializedGallery)
+                (snap) =>
+                    new Gallery(
+                        upgradeGallery(snap.data() as SerializedGallery)
+                    )
             ),
         ];
     }
+
+    $: galleries = [...$examples, ...loadedGalleries];
 </script>
 
 <svelte:head>

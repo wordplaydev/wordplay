@@ -111,12 +111,13 @@
         return 0;
     }
 
-    function stepToMouse(event: MouseEvent) {
+    function stepToMouse(event: PointerEvent) {
         if ($evaluation.streams === undefined) return;
+        if (timeline === null) return;
 
-        // Map the mouse position onto a change.
+        // Map the pointer's x position to the closest event.
         const view = document
-            .elementFromPoint(event.clientX, event.clientY)
+            .elementFromPoint(event.clientX, timeline.offsetTop)
             ?.closest('.event');
         if (view instanceof HTMLElement) {
             // Is this a stream input? Get it's index and step to it.
@@ -139,7 +140,8 @@
             ) {
                 const start = parseInt(view.dataset.startindex);
                 const end = parseInt(view.dataset.endindex);
-                const percent = event.offsetX / view.offsetWidth;
+                const percent =
+                    (event.offsetX - view.offsetLeft) / view.offsetWidth;
                 const step = Math.min(
                     end,
                     Math.max(0, Math.round(percent * (end - start) + start))
@@ -193,11 +195,19 @@
             : $evaluation.stepIndex + ''}
         aria-orientation="horizontal"
         class:stepping={$evaluation.playing === false}
-        on:pointerdown={(event) => stepToMouse(event)}
+        on:pointerdown={(event) => {
+            stepToMouse(event);
+            timeline?.setPointerCapture(event.pointerId);
+        }}
         on:pointermove={(event) =>
-            (event.buttons & 1) === 1 ? stepToMouse(event) : undefined}
+            dragging && (event.buttons & 1) === 1
+                ? stepToMouse(event)
+                : undefined}
         on:pointerleave={() => (dragging = false)}
-        on:pointerup={() => (dragging = false)}
+        on:pointerup={(event) => {
+            dragging = false;
+            timeline?.releasePointerCapture(event.pointerId);
+        }}
         on:keydown={handleKey}
         bind:this={timeline}
     >

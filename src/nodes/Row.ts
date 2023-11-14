@@ -31,12 +31,16 @@ export default class Row extends Node {
         this.computeChildren();
     }
 
-    static make() {
+    static make(cells: Expression[] = []) {
         return new Row(
             new Token(TABLE_OPEN_SYMBOL, Sym.TableOpen),
-            [],
+            cells,
             new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
         );
+    }
+
+    getDescriptor() {
+        return 'Row';
     }
 
     getGrammar(): Grammar {
@@ -50,7 +54,6 @@ export default class Row extends Node {
                     node(Sym.Delete),
                     node(Sym.Update)
                 ),
-                newline: true,
             },
             { name: 'cells', kind: list(true, node(Expression)), space: true },
             { name: 'close', kind: node(Sym.TableClose) },

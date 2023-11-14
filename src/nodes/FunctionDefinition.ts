@@ -124,6 +124,10 @@ export default class FunctionDefinition extends DefinitionExpression {
         ];
     }
 
+    getDescriptor() {
+        return 'FunctionDefinition';
+    }
+
     /** Create an expression that evaluates this function with typed placeholders for its inputs. */
     getEvaluateTemplate(
         nameOrLocales: Locales | string,
@@ -131,12 +135,11 @@ export default class FunctionDefinition extends DefinitionExpression {
         structureType: Expression | Type | undefined
     ) {
         const possibleStructure = context.getRoot(this)?.getParent(this);
-        const structure =
-            structureType instanceof Expression
-                ? structureType
-                : possibleStructure instanceof StructureDefinition
-                ? possibleStructure
-                : undefined;
+        const structure = structureType
+            ? structureType
+            : possibleStructure instanceof StructureDefinition
+            ? possibleStructure
+            : undefined;
         const reference = Reference.make(
             typeof nameOrLocales === 'string'
                 ? nameOrLocales
@@ -421,14 +424,19 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.expression !== undefined)
-            this.expression.evaluateTypeSet(bind, original, current, context);
+            this.expression.evaluateTypeGuards(
+                bind,
+                original,
+                current,
+                context
+            );
         return current;
     }
 

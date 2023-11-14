@@ -28,6 +28,10 @@ export default class TypePlaceholder extends Type {
         return [TypePlaceholder.make()];
     }
 
+    getDescriptor() {
+        return 'TypePlaceholder';
+    }
+
     getGrammar(): Grammar {
         return [
             {

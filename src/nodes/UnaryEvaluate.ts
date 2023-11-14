@@ -47,6 +47,10 @@ export default class UnaryEvaluate extends Expression {
         return [];
     }
 
+    getDescriptor() {
+        return 'UnaryEvaluate';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'fun', kind: node(Reference) },
@@ -171,7 +175,7 @@ export default class UnaryEvaluate extends Expression {
     /**
      * Logical negations take the set complement of the current set from the original.
      * */
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -181,7 +185,7 @@ export default class UnaryEvaluate extends Expression {
         if (this.getOperator() !== NOT_SYMBOL) return current;
 
         // Get the possible types of the operand.
-        const possible = this.input.evaluateTypeSet(
+        const possible = this.input.evaluateTypeGuards(
             bind,
             original,
             current,

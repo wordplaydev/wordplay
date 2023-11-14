@@ -26,7 +26,7 @@ import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/paresType';
+import parseType from '../parser/parseType';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 
@@ -79,6 +79,10 @@ export default class ConversionDefinition extends DefinitionExpression {
                 ExpressionPlaceholder.make()
             ),
         ];
+    }
+
+    getDescriptor() {
+        return 'ConversionDefinition';
     }
 
     getGrammar(): Grammar {
@@ -172,14 +176,19 @@ export default class ConversionDefinition extends DefinitionExpression {
         return value;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.expression instanceof Expression)
-            this.expression.evaluateTypeSet(bind, original, current, context);
+            this.expression.evaluateTypeGuards(
+                bind,
+                original,
+                current,
+                context
+            );
         return current;
     }
 

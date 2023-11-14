@@ -1,11 +1,11 @@
 import { test, expect } from 'vitest';
-import type { SerializedProject } from '../models/Project';
 import Project from '../models/Project';
 import { Locales } from '../db/Database';
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
-import { parseSerializedProject } from './examples';
+import { getExampleGalleries, parseSerializedProject } from './examples';
 import { DefaultLocales } from '../locale/DefaultLocale';
+import type { SerializedProject } from '../models/ProjectSchemas';
 
 const projects: SerializedProject[] = [];
 readdirSync(path.join('static', 'examples'), { withFileTypes: true }).forEach(
@@ -42,3 +42,21 @@ test.each([...projects])(
         expect(project.getPrimaryConflicts()).toHaveLength(0);
     }
 );
+
+test.each([
+    ...getExampleGalleries(DefaultLocales)
+        .map((gallery) => gallery.getProjects())
+        .flat(),
+])(`Ensure /static/examples/%s.wp exists`, (example: string) => {
+    try {
+        const file = path.join(
+            'static',
+            'examples',
+            `${example.split('-')[1]}.wp`
+        );
+        readFileSync(file, 'utf8');
+        expect(true).toBe(true);
+    } catch (_) {
+        expect(true).toBe(false);
+    }
+});

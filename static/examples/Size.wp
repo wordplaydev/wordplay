@@ -1,0 +1,6 @@
+Size
+=== start/en
+word/en, 字/zh: (Button(ø) | ∆ Key()) ? Phrase("BIG"/en"大"/zh size: 5m) Phrase("small"/en"小"/zh size: 1m)
+time/en,時間/zh: ((Time(1234ms)) ÷ 1ms) · 1°
+
+Stage([word] place: Place(0m 0m -5m) background: Color(80% 28 time))

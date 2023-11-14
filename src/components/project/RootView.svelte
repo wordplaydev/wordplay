@@ -10,12 +10,13 @@
     import Spaces from '@parser/Spaces';
     import NodeView from '@components/editor/NodeView.svelte';
     import {
-        getCaret,
         HiddenSymbol,
         RootSymbol,
         SpaceSymbol,
         type SpaceContext,
         CaretSymbol,
+        getEditor,
+        LocalizeSymbol,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -79,17 +80,21 @@
         renderedSpace.set(newSpace);
     }
 
-    let caret = getCaret();
+    let editor = getEditor();
 
     // A set of hidden nodes, such as hidden translations.
     let hidden = writable<Set<Node>>(new Set());
     setContext(HiddenSymbol, hidden);
 
+    let localize = writable<boolean>(localized);
+    setContext(LocalizeSymbol, localize);
+    $: localize.set(localized && ($editor === undefined || !$editor.focused));
+
     // When the caret changes, the update what's hidden.
     $: {
         const newHidden = new Set<Node>();
 
-        if (localized) {
+        if ($localize) {
             // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
             // Also hide any name separators if the first visible name has one.
             for (const tagged of node
@@ -113,19 +118,14 @@
                 ) {
                     let first = false;
                     for (const nameOrDoc of tags) {
-                        const caretIn = $caret?.isIn(nameOrDoc, true);
                         const selectedLocale = $locales
                             .getLanguages()
                             .some((t) => t === nameOrDoc.getLanguage());
-                        // Not a selected language and not in the node? Hide it.
-                        if (!selectedLocale && !caretIn)
+                        // Not a selected language and not in the node and has a language? Hide it.
+                        if (!selectedLocale && nameOrDoc.language)
                             newHidden.add(nameOrDoc);
                         // Is the selected language and inert? Hide the language tag.
-                        else if (
-                            selectedLocale &&
-                            nameOrDoc.language &&
-                            !caretIn
-                        )
+                        else if (selectedLocale && nameOrDoc.language)
                             newHidden.add(nameOrDoc.language);
                         // Not first? Hide the separator.
                         if (!first) {
@@ -179,6 +179,10 @@
 
         /** This allows us to style things up the the tree. */
         text-decoration: inherit;
+    }
+
+    :global(.dragging) .root {
+        cursor: grabbing;
     }
 
     .elide {

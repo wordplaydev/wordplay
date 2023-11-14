@@ -1,4 +1,5 @@
 export const TYPE_SYMBOL = '•';
+export const LITERAL_SYMBOL = '!';
 export const QUESTION_SYMBOL = '?';
 export const TABLE_OPEN_SYMBOL = '⎡';
 export const TABLE_CLOSE_SYMBOL = '⎦';
@@ -45,6 +46,8 @@ export const ETC_SYMBOL = '…';
 export const CODE_SYMBOL = '\\';
 export const BASE_SYMBOL = ';';
 export const EXPONENT_SYMBOL = '^';
+export const EQUALS_SYMBOL = '=';
+export const NOT_EQUALS_SYMBOL = '≠';
 export const NEGATE_SYMBOL = '-';
 export const AND_SYMBOL = '&';
 export const OR_SYMBOL = '|';
@@ -55,7 +58,7 @@ export const SUM_SYMBOL = '+';
 export const DIFFERENCE_SYMBOL = '-';
 
 export const UNKNOWN_SYMBOL = '⁇';
-export const EXCEPTION_SYMBOL = '!';
+export const EXCEPTION_SYMBOL = '!!';
 export const NEVER_SYMBOL = '🚫';
 export const UNPARSABLE_SYMBOL = '🤷🏻‍♀️';
 export const SOURCE_SYMBOL = '📄';

@@ -7,32 +7,34 @@ import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
 import type Color from './Color';
 
+/** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {
-    /** Should return a valid CSS clip-path value */
+    /** Should return a valid CSS clip-path value, used as a clip-path in Stage. */
     abstract toCSSClip(): string;
+    /** Used to create a border when a StageView is clipped. Should mirror the clip-path value. */
     abstract toSVGPath(): string;
+    /**
+     * The left coordinate of the top left of the rectangular bounding box for the shape, regardless of it's shape.
+     * Used to position the clip frame of the Stage, to define the rectangular border in the Physics engine, and to determine
+     * the placement of Shapes on stage.
+     **/
     abstract getLeft(): number;
+    /** The top coordinate of the top left of the rectangular bounding box for the shape. See getLeft() for its uses.  */
     abstract getTop(): number;
+    /** The z-coordinate of the shape on Stage. */
     abstract getZ(): number;
+    /**
+     * The width of the rectangular bounding box for the shape, regardless of it's shape.
+     * Determines the width of the clip SVG when used as a frame, and the width of the collision boundary in the physics engine.
+     **/
     abstract getWidth(): number;
+    /**
+     * The height of the rectangular bounding box for the shape, regardless of it's shape.
+     * Determines the height of the clip SVG when used as a frame, and the height of the collision boundary in the physics engine.
+     **/
     abstract getHeight(): number;
+    /** Given preferred locales, a description of the shape for screen readers to read. */
     abstract getDescription(locales: Locales): string;
-
-    getShortDescription(locales: Locales) {
-        return this.getDescription(locales);
-    }
-
-    getOutput() {
-        return [];
-    }
-
-    isEmpty() {
-        return true;
-    }
-
-    find() {
-        return undefined;
-    }
 }
 
 export class Rectangle extends Form {
@@ -112,7 +114,6 @@ export class Line extends Form {
     readonly x2: number;
     readonly y2: number;
     readonly z: number;
-    readonly color: Color;
     
     constructor(
         value: Value,
@@ -120,7 +121,7 @@ export class Line extends Form {
         y1: number,
         x2: number,
         y2: number,
-        color: Color
+        z: number
     ) {
         super(value);
 
@@ -128,8 +129,7 @@ export class Line extends Form {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-        this.z = 0;
-        this.color = color;
+        this.z = z;
     }
 
     getLeft() {
@@ -137,7 +137,10 @@ export class Line extends Form {
     }
 
     getTop() {
-        return Math.max(this.y1, this.y2);
+        if (Math.min(this.x1, this.x2) == this.x1) {
+            return this.y1;
+        }
+        return this.y2;
     }
 
     getZ() {
@@ -156,7 +159,12 @@ export class Line extends Form {
         const left = this.getLeft() * PX_PER_METER;
         const top = -this.getTop() * PX_PER_METER;
         const right = (this.getLeft() + this.getWidth()) * PX_PER_METER;
-        const bottom = -(this.getTop() - this.getHeight()) * PX_PER_METER;
+        let bottom;
+        if (this.y1 > this.y2) {
+            bottom = (this.getTop() - this.getHeight()) * PX_PER_METER;
+        } else {
+            bottom = (this.getTop() + this.getHeight()) * PX_PER_METER;
+        }
         return { left, top, right, bottom };
     }
 
@@ -198,5 +206,23 @@ export function toRectangle(value: Value | undefined) {
         right !== undefined &&
         bottom !== undefined
         ? new Rectangle(value, left, top, right, bottom, z)
+        : undefined;
+}
+
+export function toLine(value: Value | undefined) {
+    if (!(value instanceof StructureValue)) return undefined;
+
+    const [x1Val, y1Val, x2Val, y2Val, zVal] = getOutputInputs(value);
+
+    const x1 = toNumber(x1Val);
+    const y1 = toNumber(y1Val);
+    const x2 = toNumber(x2Val);
+    const y2 = toNumber(y2Val);
+    const z = toNumber(zVal) ?? 0;
+    return x1 !== undefined &&
+        y1 !== undefined &&
+        x2 !== undefined &&
+        y2 !== undefined
+        ? new Line(value, x1, y1, x2, y2, z)
         : undefined;
 }

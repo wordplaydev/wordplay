@@ -88,6 +88,10 @@ export default class Bind extends Expression {
         this.computeChildren();
     }
 
+    getDescriptor() {
+        return 'Bind';
+    }
+
     static make(
         docs: Docs | undefined,
         names: Names,
@@ -281,7 +285,7 @@ export default class Bind extends Expression {
         return true;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -289,7 +293,7 @@ export default class Bind extends Expression {
     ): TypeSet {
         return this.value === undefined
             ? current
-            : this.value.evaluateTypeSet(bind, original, current, context);
+            : this.value.evaluateTypeGuards(bind, original, current, context);
     }
 
     hasName(name: string) {

@@ -1,4 +1,5 @@
 import type { SupportedFace } from '../basis/Fonts';
+import type { TileKind } from '../components/project/Tile';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './Locale';
 
@@ -27,7 +28,7 @@ export type DialogText = {
     /** The header to be shown at the top of the dialog */
     header: string;
     /** The explanation text just below the header. */
-    explanation: Template;
+    explanation: Template | Template[];
 };
 
 export type ConfirmText = {
@@ -81,6 +82,8 @@ type UITexts = {
             /** Collapse the tile window */
             collapse: string;
         };
+        /** Tile labels appearing in the project footer tile toggles, except for source files. */
+        label: { [ID in TileKind]: string };
         toggle: {
             /** Enter and exit tile fullscreen mode */
             fullscreen: ToggleText;
@@ -241,16 +244,26 @@ type UITexts = {
             insertType: string;
             /** Insert … symbol */
             insertStream: string;
+            /** Insert ∆ symbol */
+            insertChange: string;
             /** Insert ← symbol */
             insertPrevious: string;
             /** Insert → symbol */
             insertConvert: string;
             /** Insert table symbol */
             insertTable: string;
+            /** Insert table close symbol */
+            insertTableClose: string;
+            /** Insert borrow symbol */
+            insertBorrow: string;
+            /** Insert share symbol */
+            insertShare: string;
             /** Insert new line */
             insertLine: string;
             /** Delete previous symbol */
             backspace: string;
+            /** Delete next symbol */
+            delete: string;
             /** Copy selection to clipboard as text */
             copy: string;
             /** Cut selection to clipboard as text */
@@ -269,6 +282,8 @@ type UITexts = {
             redo: string;
             /** Search for glyph */
             search: string;
+            /** Tidy spacing */
+            tidy: string;
         };
     };
     /** The conflicts area at the bottom of the editor. */
@@ -508,6 +523,8 @@ type UITexts = {
                 selected: string;
                 /** How to label the supported locales that have not been selected */
                 supported: string;
+                /** How to label locales that are coming soon */
+                coming: string;
                 /** How to request help with localization */
                 help: string;
             };
@@ -517,6 +534,8 @@ type UITexts = {
                 show: string;
                 /** Add a locale */
                 add: string;
+                /** Replace locale */
+                replace: string;
                 /** Remove a locale */
                 remove: string;
             };
@@ -552,6 +571,8 @@ type UITexts = {
         landing: {
             /** What function says as a call to action */
             call: Template[];
+            /** The landing page beta warning */
+            beta: Template[];
             /** The subtitles below links */
             link: {
                 /** What content is on the about page */
@@ -640,6 +661,12 @@ type UITexts = {
         login: {
             /** Header for the login page when not logged in */
             header: string;
+            subheader: {
+                /** Header for logging in via email */
+                email: string;
+                /** Header for logging in via username and password */
+                username: string;
+            };
             prompt: {
                 /** Prompts creator to login to save their work */
                 login: string;
@@ -651,6 +678,14 @@ type UITexts = {
                 enter: string;
                 /** Encouragement to go create after logging in. */
                 play: string;
+                /** Gives rules for emails above the login form */
+                emailrules: string[];
+                /** Gives rules for usernames and passwords above the login form */
+                usernamerules: string[];
+                /** Reminder to write down password */
+                passwordreminder: string;
+                /** Too young feedback */
+                tooyoung: string;
                 /** Offers to log out the creator. */
                 logout: string;
                 /** Shown briefly before page redirects to projects */
@@ -663,12 +698,18 @@ type UITexts = {
                 reallyDelete: string;
                 /** Pick an emoji as a name */
                 name: string;
+                /** Text for age prompt */
+                age: ModeText<[string, string]>;
             };
             /** Shown in the footer a creator is not logged in. */
             anonymous: string;
             field: {
                 /** The login email */
                 email: FieldText;
+                /** The login username */
+                username: FieldText;
+                /** The login password */
+                password: FieldText;
             };
             feedback: {
                 /** Change email pending */
@@ -687,10 +728,12 @@ type UITexts = {
                 failure: string;
                 /** When there's no connection to Firebase */
                 offline: string;
-                /** When the email addres couldn't be changed for unknown reasons. */
+                /** When the email address couldn't be changed for unknown reasons. */
                 unchanged: string;
                 /** When account deletion failed */
                 delete: string;
+                /** When a password is wrong */
+                wrongPassword: string;
             };
             button: {
                 /** Log out of the account */
@@ -713,6 +756,15 @@ type UITexts = {
             content: Template[];
             /** The consequences of violating a promise. */
             consequences: Template[];
+        };
+        /** Giving related text */
+        donate: {
+            /** The label for the link and header */
+            header: Template;
+            /** The explanation of the link */
+            prompt: Template;
+            /** The content of the page */
+            content: Template[];
         };
     };
     /** Descriptions of cursor positions and code transformations */

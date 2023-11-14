@@ -49,6 +49,10 @@ export default class TextType extends BasisType {
         return [TextType.make()];
     }
 
+    getDescriptor() {
+        return 'TextType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.Text) },

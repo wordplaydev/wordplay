@@ -14,7 +14,11 @@ import NumberValue from '@values/NumberValue';
 import TextValue from '@values/TextValue';
 import TypeException from '@values/TypeException';
 import type Value from '@values/Value';
-import { createBasisConversion, createBasisFunction } from './Basis';
+import {
+    createBasisConversion,
+    createBasisFunction,
+    createEqualsFunction,
+} from './Basis';
 import InternalExpression from './InternalExpression';
 import type Evaluation from '@runtime/Evaluation';
 import ListValue from '@values/ListValue';
@@ -24,7 +28,6 @@ import type Expression from '../nodes/Expression';
 import type Locale from '../locale/Locale';
 import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
-import AnyType from '../nodes/AnyType';
 import type Locales from '../locale/Locales';
 
 export default function bootstrapNumber(locales: Locales) {
@@ -369,21 +372,16 @@ export default function bootstrapNumber(locales: Locales) {
                                 left.isEqualTo(right)
                         )
                 ),
-                createBinaryOp(
+                createEqualsFunction(
+                    locales,
                     (locale) => locale.basis.Number.function.equal,
-                    NumberType.make((unit) => unit),
-                    new AnyType(),
-                    (requestor, left, right) =>
-                        new BoolValue(requestor, left.isEqualTo(right))
+                    true
                 ),
-                createBinaryOp(
+                createEqualsFunction(
+                    locales,
                     (locale) => locale.basis.Number.function.notequal,
-                    NumberType.make((unit) => unit),
-                    new AnyType(),
-                    (requestor, left, right) =>
-                        new BoolValue(requestor, !left.isEqualTo(right))
+                    false
                 ),
-
                 // Trigonometry
                 createUnaryOp(
                     (locale) => locale.basis.Number.function.cos,
@@ -1070,12 +1068,12 @@ export default function bootstrapNumber(locales: Locales) {
                     '#m',
                     '#ft',
                     (requestor: Expression, val: NumberValue) =>
-                        val.multiply(
+                        val.divide(
                             requestor,
                             new NumberValue(
                                 requestor,
                                 0.3048,
-                                Unit.reuse(['ft'], ['km'])
+                                Unit.reuse(['m'], ['ft'])
                             )
                         )
                 ),
@@ -1087,12 +1085,12 @@ export default function bootstrapNumber(locales: Locales) {
                     '#ft',
                     '#m',
                     (requestor: Expression, val: NumberValue) =>
-                        val.divide(
+                        val.multiply(
                             requestor,
                             new NumberValue(
                                 requestor,
                                 0.3048,
-                                Unit.reuse(['ft'], ['km'])
+                                Unit.reuse(['m'], ['ft'])
                             )
                         )
                 ),

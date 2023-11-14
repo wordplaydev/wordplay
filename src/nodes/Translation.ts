@@ -45,6 +45,10 @@ export default class Translation extends LanguageTagged {
         );
     }
 
+    getDescriptor() {
+        return 'Translation';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.Text) },

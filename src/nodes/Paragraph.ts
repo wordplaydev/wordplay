@@ -42,6 +42,10 @@ export default class Paragraph extends Content {
         return [];
     }
 
+    getDescriptor() {
+        return 'Paragraph';
+    }
+
     getGrammar(): Grammar {
         return [
             {

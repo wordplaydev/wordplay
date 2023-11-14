@@ -9,6 +9,7 @@ enum Purpose {
     Convert = 'convert',
     Project = 'project',
     Document = 'document',
+    Source = 'source',
 }
 
 export default Purpose;

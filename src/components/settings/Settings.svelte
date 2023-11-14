@@ -1,5 +1,4 @@
 <script lang="ts">
-    import Button from '../widgets/Button.svelte';
     import LanguageChooser from './LocaleChooser.svelte';
     import { getUser } from '../project/Contexts';
     import {
@@ -20,8 +19,8 @@
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import CreatorView from '../app/CreatorView.svelte';
-
-    let show = false;
+    import Beta from '../../routes/Beta.svelte';
+    import { Creator } from '../../db/CreatorDatabase';
 
     let user = getUser();
 
@@ -53,28 +52,35 @@
 </script>
 
 <div class="settings">
-    <div class="beta"
-        ><Link external to="https://github.com/amyjko/wordplay/milestone/1"
-            >beta</Link
-        ></div
+    <Dialog
+        button={{
+            tip: 'Show dialog to what beta means',
+            label: 'beta',
+        }}
+        description={{
+            header: 'Beta?',
+            explanation: '',
+        }}><Beta /></Dialog
+    >
+    <Link external to="https://discord.gg/Jh2Qq9husy"
+        >{$locales.get((l) => l.term.help)}/{$locales.get(
+            (l) => l.term.feedback
+        )}</Link
     >
     <Status />
     <Link to="/login">
         <CreatorView
             anonymize={false}
-            creator={$user
-                ? {
-                      email: $user.email,
-                      uid: $user.uid,
-                      name: $user.displayName ?? null,
-                  }
-                : null}
+            creator={$user ? Creator.from($user) : null}
         />
     </Link>
     <LanguageChooser />
     <Dialog
-        bind:show
-        width="50vw"
+        button={{
+            tip: $locales.get((l) => l.ui.dialog.settings.button.show),
+            icon: '⚙',
+            label: '',
+        }}
         description={$locales.get((l) => l.ui.dialog.settings)}
     >
         <p
@@ -198,10 +204,6 @@
             />
         </p>
     </Dialog>
-    <Button
-        tip={$locales.get((l) => l.ui.dialog.settings.button.show)}
-        action={() => (show = !show)}>⚙</Button
-    >
 </div>
 
 <style>
@@ -210,14 +212,10 @@
         flex-direction: row;
         align-items: center;
         gap: var(--wordplay-spacing);
-        margin-left: auto;
+        margin-inline-start: auto;
     }
 
     label {
         white-space: nowrap;
-    }
-
-    .beta {
-        font-style: italic;
     }
 </style>

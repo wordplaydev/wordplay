@@ -29,13 +29,20 @@ export default class SetLiteral extends Expression {
     readonly open: Token;
     readonly values: Expression[];
     readonly close: Token | undefined;
+    readonly literal?: Token;
 
-    constructor(open: Token, values: Expression[], close: Token | undefined) {
+    constructor(
+        open: Token,
+        values: Expression[],
+        close: Token | undefined,
+        literal?: Token
+    ) {
         super();
 
         this.open = open;
         this.values = values;
         this.close = close;
+        this.literal = literal;
 
         this.computeChildren();
     }
@@ -52,6 +59,10 @@ export default class SetLiteral extends Expression {
         return [SetLiteral.make()];
     }
 
+    getDescriptor() {
+        return 'SetLiteral';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },
@@ -65,6 +76,7 @@ export default class SetLiteral extends Expression {
                 indent: true,
             },
             { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'literal', kind: node(Sym.Literal) },
         ];
     }
 
@@ -72,7 +84,8 @@ export default class SetLiteral extends Expression {
         return new SetLiteral(
             this.replaceChild('open', this.open, replace),
             this.replaceChild<Expression[]>('values', this.values, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
+            this.replaceChild('literal', this.literal, replace)
         ) as this;
     }
 
@@ -100,8 +113,10 @@ export default class SetLiteral extends Expression {
     }
 
     computeType(context: Context): Type {
-        // Strip away any concrete types in the item types.
-        return SetType.make(this.getItemType(context)).generalize(context);
+        // Generate a union type from all the values.
+        const union = SetType.make(this.getItemType(context));
+        // If literal, return the union, otherwise generalize it.
+        return this.literal ? union : union.generalize(context);
     }
 
     getDependencies(): Expression[] {
@@ -134,7 +149,7 @@ export default class SetLiteral extends Expression {
         return new SetValue(this, values);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
@@ -142,7 +157,7 @@ export default class SetLiteral extends Expression {
     ) {
         this.values.forEach((val) => {
             if (val instanceof Expression)
-                val.evaluateTypeSet(bind, original, current, context);
+                val.evaluateTypeGuards(bind, original, current, context);
         });
         return current;
     }

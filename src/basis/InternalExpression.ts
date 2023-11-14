@@ -16,7 +16,7 @@ import Purpose from '../concepts/Purpose';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import { toTokens } from '../parser/toTokens';
-import parseType from '../parser/paresType';
+import parseType from '../parser/parseType';
 import type Locales from '../locale/Locales';
 
 export default class InternalExpression extends SimpleExpression {
@@ -38,6 +38,10 @@ export default class InternalExpression extends SimpleExpression {
 
         this.steps = steps;
         this.evaluator = evaluator;
+    }
+
+    getDescriptor() {
+        return 'InternalExpression';
     }
 
     computeConflicts() {
@@ -86,7 +90,7 @@ export default class InternalExpression extends SimpleExpression {
         return this;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,

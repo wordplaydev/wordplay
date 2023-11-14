@@ -14,6 +14,7 @@
         handleKeyCommand,
         type Edit,
         type ProjectRevision,
+        InsertSymbol,
     } from './util/Commands';
     import type Source from '@nodes/Source';
     import { writable } from 'svelte/store';
@@ -39,6 +40,7 @@
         getConceptIndex,
         getEditors,
         getAnnounce,
+        type EditorState,
     } from '../project/Contexts';
     import {
         type Highlights,
@@ -83,6 +85,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Adjust from './Adjust.svelte';
     import EditorHelp from './EditorHelp.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -136,10 +139,7 @@
 
     $: caretExpressionType =
         $caret.position instanceof Expression
-            ? $caret.position
-                  .getType(context)
-                  .simplify(context)
-                  .generalize(context)
+            ? $caret.position.getType(context).simplify(context)
             : undefined;
 
     // A menu of potential transformations based on the caret position.
@@ -160,7 +160,7 @@
 
     const dispatch = createEventDispatcher();
 
-    let input: HTMLInputElement | null = null;
+    let input: HTMLTextAreaElement | null = null;
 
     let editor: HTMLElement | null;
 
@@ -186,10 +186,6 @@
     // A store of the currently requested node for which to show a menu.
     const menuNode = writable<CaretPosition | undefined>(undefined);
     setContext(MenuNodeSymbol, menuNode);
-
-    // A store of the handle edit function
-    const editHandler = writable<typeof handleEdit>(handleEdit);
-    setContext(EditorSymbol, editHandler);
 
     // When the menu node changes, show the menu.
     const unsubscribe = menuNode.subscribe((position) => {
@@ -249,14 +245,25 @@
 
     // Keep the project-level editors store in sync with this editor's state.
     $: if (editors) {
-        $editors.set(sourceID, {
+        const state = {
             caret: $caret,
             edit: handleEdit,
             focused,
             toggleMenu,
-        });
+        };
+        $editors.set(sourceID, state);
         editors.set($editors);
+        editContext.set(state);
     }
+
+    // A store of the handle edit function
+    const editContext = writable<EditorState>({
+        edit: handleEdit,
+        caret: $caret,
+        focused: false,
+        toggleMenu,
+    });
+    setContext(EditorSymbol, editContext);
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = false;
@@ -640,7 +647,7 @@
         // Only return a node if hovering over its text. Space isn't eligible.
         if (el instanceof HTMLElement) {
             const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : `:not(.${Token.name})`}`
+                `.node-view${includeTokens ? '' : `:not(.Token)`}`
             );
             if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
                 return source.expression.getNodeByID(
@@ -654,7 +661,7 @@
     function getTokenFromElement(
         textOrSpace: Element
     ): [Token, Element] | undefined {
-        const tokenView = textOrSpace.closest(`.${Token.name}`);
+        const tokenView = textOrSpace.closest(`.Token`);
         const token =
             tokenView === null
                 ? undefined
@@ -968,7 +975,7 @@
 
     function exceededDragThreshold(event: PointerEvent) {
         return (
-            dragPoint === undefined ||
+            dragPoint !== undefined &&
             Math.sqrt(
                 Math.pow(event.clientX - dragPoint.x, 2) +
                     Math.pow(event.clientY - dragPoint.y, 2)
@@ -1187,6 +1194,12 @@
     /** True if the last symbol was a dead key*/
     let keyWasDead = false;
     let replacePreviousWithNext = false;
+    let composing = false;
+    let composingJustEnded = false;
+    /** True if a symbol was inserted using the insert symbol command, so we can undo it if composition starts. */
+    let insertedSymbol = false;
+    /** True if text was pasted */
+    let pasted = true;
 
     function handleTextInput(event: Event) {
         setIgnored(false);
@@ -1196,15 +1209,15 @@
         // Somehow no reference to the input? Bail.
         if (input === null) return;
 
-        // Get the character that was typed into the text box.
+        // Get the character that was typed into the text box, or the whole thing if there was a paste.
         // Wrap the string in a unicode wrapper so we can account for graphemes.
         const value = new UnicodeString(input.value);
 
-        // Get the last grapheme entered.
-        const lastChar = value.substring(
-            value.getLength() - 1,
-            value.getLength()
-        );
+        const lastChar = pasted
+            ? // Get everything pasted
+              value.substring(0, value.getLength())
+            : // Get the last grapheme entered.
+              value.substring(value.getLength() - 1, value.getLength());
 
         let newCaret = $caret;
         let newSource: Source | undefined = source;
@@ -1245,7 +1258,7 @@
                 }
             }
             // Otherwise, just insert the grapheme and limit the input field to the last character.
-            else {
+            else if (!composing) {
                 const char = lastChar.toString();
 
                 // Insert the character that was added last.
@@ -1262,8 +1275,14 @@
             }
         }
 
+        // Reset pasted flag.
+        if (pasted) {
+            pasted = false;
+            input.value = '';
+        }
+
         // Prevent the OS from doing anything with this input.
-        event.preventDefault();
+        if (!composing) event.preventDefault();
 
         // Did we make an update?
         if (edit) handleEdit(edit, IdleKind.Typing, true);
@@ -1271,6 +1290,13 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
+        if (composingJustEnded) {
+            composingJustEnded = false;
+            return;
+        }
+        // If we're in the middle of composing, ignore the key events.
+        if (composing || event.isComposing) return;
         if (evaluator === undefined) return;
         if (editor === null) return;
 
@@ -1291,11 +1317,15 @@
         const [command, result] = handleKeyCommand(event, {
             caret: $caret,
             project,
+            editor: true,
             evaluator,
             dragging: $dragged !== undefined,
             database: DB,
             toggleMenu,
         });
+
+        // Don't insert symbols if composing.
+        insertedSymbol = command === InsertSymbol;
 
         // If it produced a new caret and optionally a new project, update the stores.
         const idle =
@@ -1315,6 +1345,29 @@
         // Give feedback that we didn't execute a command.
         else if (!/^(Shift|Control|Alt|Meta|Tab)$/.test(event.key))
             setIgnored(true);
+    }
+
+    function handleCompositionStart() {
+        composing = true;
+
+        if (insertedSymbol) DB.Projects.undoRedo(evaluator.project.getID(), -1);
+    }
+
+    function handleCompositionEnd() {
+        composing = false;
+        /** We have to remember this because safari sends key down events that were part of the composition. */
+        composingJustEnded = true;
+
+        if (input) {
+            // Insert the symbols that were composed.
+            const edit = $caret.insert(input.value, project, !keyWasDead);
+            if (edit) handleEdit(edit, IdleKind.Typing, true);
+            input.value = '';
+        }
+    }
+
+    function handlePaste() {
+        pasted = true;
     }
 
     function getInputID() {
@@ -1337,7 +1390,9 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
-    class:dragging={dragCandidate !== undefined || $dragged !== undefined}
+    class:dragging={dragCandidate !== undefined ||
+        $dragged !== undefined ||
+        dragPoint !== undefined}
     data-uiid="editor"
     role="application"
     aria-label={`${$locales.get((l) => l.ui.source.label)} ${$locales.getName(
@@ -1372,8 +1427,7 @@
         We put it here, before rendering the code, so anything focusable in the code comes after this.
         That way, all controls are just a tab away.
     -->
-    <input
-        type="text"
+    <textarea
         id={getInputID()}
         data-defaultfocus
         aria-autocomplete="none"
@@ -1381,11 +1435,15 @@
         autocorrect="off"
         autocapitalize="none"
         class="keyboard-input"
+        class:composing
         style:left={caretLocation ? `${caretLocation.left}px` : null}
         style:top={caretLocation ? `${caretLocation.top}px` : null}
         bind:this={input}
         on:input={handleTextInput}
         on:keydown={handleKeyDown}
+        on:compositionstart={handleCompositionStart}
+        on:compositionend={handleCompositionEnd}
+        on:paste={handlePaste}
         on:focusin={() => (focused = true)}
         on:focusout={() => (focused = false)}
     />
@@ -1453,7 +1511,7 @@
             >
                 <div class="output-preview">
                     {#if selected}
-                        <span style="font-size:200%">🎭</span>
+                        <span style="font-size:200%"><Emoji>🎭</Emoji></span>
                     {:else}
                         <OutputView
                             {project}
@@ -1488,6 +1546,7 @@
 
     .editor.dragging {
         touch-action: none;
+        cursor: grabbing;
     }
 
     .keyboard-input {
@@ -1496,13 +1555,21 @@
         outline: none;
         opacity: 0;
         width: 1px;
+        height: 1em;
         pointer-events: none;
         touch-action: none;
+        resize: none;
+        overflow: hidden;
 
         /* Helpful for debugging */
         /* outline: 1px solid red;
         opacity: 1;
         width: 10px; */
+    }
+
+    .keyboard-input.composing {
+        opacity: 1;
+        width: auto;
     }
 
     .caret-description {

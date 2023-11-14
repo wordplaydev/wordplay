@@ -93,7 +93,7 @@ export default class ConceptIndex {
                     .map(
                         (def) =>
                             new FunctionConcept(
-                                Purpose.Evaluate,
+                                Purpose.Project,
                                 undefined,
                                 def,
                                 undefined,
@@ -111,7 +111,7 @@ export default class ConceptIndex {
                     .map(
                         (def) =>
                             new BindConcept(
-                                Purpose.Bind,
+                                Purpose.Project,
                                 def,
                                 locales,
                                 project.getContext(source)
@@ -154,9 +154,10 @@ export default class ConceptIndex {
                 ...projectStructures,
                 ...projectFunctions,
                 ...projectBinds,
+                // Inputs have higher priority than language constructs so Previous appears last.
+                ...streams,
                 ...constructs,
                 ...output,
-                ...streams,
             ],
             locales
         );

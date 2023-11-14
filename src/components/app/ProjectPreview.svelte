@@ -3,10 +3,9 @@
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
-    import { DB, locales } from '../../db/Database';
+    import { DB, animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
-    import getProjectLink from './getProjectLink';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
 
@@ -14,6 +13,8 @@
     export let action: (() => void) | undefined = undefined;
     export let delay: number;
     export let name = true;
+    export let size = 4;
+    export let link: string | undefined = undefined;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
@@ -42,8 +43,10 @@
 <div class="project" class:named={name}>
     <a
         class="preview"
-        href={getProjectLink(project, true)}
-        on:pointerdown={(event) =>
+        style:width={`${size}rem`}
+        style:height={`${size}rem`}
+        href={link ?? project.getLink(true)}
+        on:click={(event) =>
             action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')
@@ -53,9 +56,9 @@
         {#if visible}
             <div
                 class="output"
-                in:fade
                 role="presentation"
                 class:blurred={audience && isFlagged(project.getFlags())}
+                in:fade={{ duration: $animationDuration }}
             >
                 <OutputView
                     {project}
@@ -109,6 +112,7 @@
     .preview {
         transition: transform ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
+        background: var(--wordplay-inactive-color);
     }
 
     .project .preview:hover,
@@ -118,8 +122,6 @@
 
     .preview {
         cursor: pointer;
-        width: 4rem;
-        height: 4rem;
         overflow: hidden;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);

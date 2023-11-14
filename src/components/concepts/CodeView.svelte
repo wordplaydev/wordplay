@@ -68,7 +68,7 @@
 
     .node {
         display: inline-block;
-        cursor: pointer;
+        cursor: grab;
         user-select: none;
         display: inline-block;
         vertical-align: middle;
@@ -95,7 +95,7 @@
 
     .node:focus,
     .node:hover {
-        transform: scale(1.1);
+        background: var(--wordplay-hover);
     }
 
     .node:not(.outline) {

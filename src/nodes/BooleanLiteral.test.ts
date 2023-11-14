@@ -1,5 +1,4 @@
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import ExceptionValue from '@values/ExceptionValue';
+import { FALSE_SYMBOL, NONE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import { test, expect } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
 
@@ -13,5 +12,10 @@ test('Test equality', () => {
     expect(evaluateCode(`${FALSE_SYMBOL} = ${FALSE_SYMBOL}`)?.toString()).toBe(
         TRUE_SYMBOL
     );
-    expect(evaluateCode(`${TRUE_SYMBOL} = 1`)).toBeInstanceOf(ExceptionValue);
+    expect(evaluateCode(`${FALSE_SYMBOL} = ${NONE_SYMBOL}`)?.toString()).toBe(
+        FALSE_SYMBOL
+    );
+    expect(evaluateCode(`${FALSE_SYMBOL} ≠ ${NONE_SYMBOL}`)?.toString()).toBe(
+        TRUE_SYMBOL
+    );
 });

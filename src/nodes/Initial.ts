@@ -40,6 +40,10 @@ export default class Initial extends SimpleExpression {
         return [Initial.make()];
     }
 
+    getDescriptor() {
+        return 'Initial';
+    }
+
     getGrammar(): Grammar {
         return [{ name: 'diamond', kind: node(Sym.Initial) }];
     }
@@ -85,7 +89,7 @@ export default class Initial extends SimpleExpression {
         return new BoolValue(this, evaluator.isInitialEvaluation());
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
         return current;
     }
 

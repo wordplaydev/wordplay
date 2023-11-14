@@ -98,6 +98,10 @@ export default class StreamDefinition extends DefinitionExpression {
         );
     }
 
+    getDescriptor() {
+        return 'StreamDefinition';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: optional(node(Docs)) },
@@ -242,7 +246,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return value;
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 

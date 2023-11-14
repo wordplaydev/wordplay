@@ -41,7 +41,9 @@
         "query": "query",
         "row": "row",
         "set": "set",
-        "key": "key"
+        "key": "key",
+        "help": "help",
+        "feedback": "feedback"
     },
     "token": {
         "EvalOpen": "evaluation open",
@@ -74,6 +76,7 @@
         "Branch": "branch",
         "None": "nothing",
         "Type": "type",
+        "Literal": "literal",
         "TypeOperator": "is",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
@@ -411,7 +414,7 @@
                     "secondary": "I have has the same name as $1"
                 },
                 "IncompatibleType": {
-                    "primary": "I'm supposed to be $2, but I'm $1",
+                    "primary": "I'm supposed to be a $2, but I'm a $1",
                     "secondary": "Oh… sorry, a $1, really?"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
@@ -452,7 +455,7 @@
             }
         },
         "BooleanLiteral": {
-            "name": "specific boolean",
+            "name": "boolean literal",
             "description": "$1[true|false]",
             "emotion": "precise",
             "doc": "I am either \\⊤\\ or \\⊥\\. See @Boolean to learn more about our beautiful logic.",
@@ -607,7 +610,7 @@
                 "MisplacedInput": "this input is out of order.",
                 "MissingInput": {
                     "primary": "I'm missing $1, can you add it?",
-                    "secondary": "this input is required, but $2 didn't provide it"
+                    "secondary": "this input is required, but $1 didn't provide it"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
@@ -757,7 +760,7 @@
             "finish": "the item is $2!"
         },
         "ListLiteral": {
-            "name": "specific list",
+            "name": "list literal",
             "description": "$1 item list",
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
@@ -788,7 +791,7 @@
             }
         },
         "NumberLiteral": {
-            "name": "specific number",
+            "name": "number literal",
             "description": "$1 $2[$2|]",
             "emotion": "excited",
             "doc": "I'm a specific @Number. You can write me with any kinds of digits from any kind of language. See @Number for everything I can do.",
@@ -804,7 +807,7 @@
             "start": "secret expression"
         },
         "NoneLiteral": {
-            "name": "just none",
+            "name": "none literal",
             "emotion": "neutral",
             "doc": "/@FunctionDefinition here. This is just @None. They are one of a kind! See @None to learn more about them.",
             "start": "… ø"
@@ -946,7 +949,7 @@
             }
         },
         "SetLiteral": {
-            "name": "specific set",
+            "name": "set literal",
             "description": "$1 items",
             "emotion": "eager",
             "doc": "I'm a specifc @Set of specific values. See @Set to learn more about how to work with me.",
@@ -1011,7 +1014,7 @@
             }
         },
         "TableLiteral": {
-            "name": "specific table",
+            "name": "table literal",
             "description": "$1 row table",
             "emotion": "angry",
             "doc": "I am a specific table with specific rows. See @Table about how I can help.",
@@ -1019,7 +1022,7 @@
             "finish": "evaluated to new table $1"
         },
         "TextLiteral": {
-            "name": "specific text",
+            "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
@@ -1032,14 +1035,14 @@
             "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
         },
         "FormattedLiteral": {
-            "name": "formatted text",
+            "name": "formatted",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
             "start": "let's make text in the current locale"
         },
         "FormattedTranslation": {
-            "name": "formatted text",
+            "name": "formatted translation",
             "description": "text $1",
             "emotion": "serious",
             "doc": [
@@ -1134,7 +1137,7 @@
             }
         },
         "AnyType": {
-            "name": "any type",
+            "name": "any",
             "emotion": "curious",
             "doc": "I represent any any possible type. Sometimes I show up because I don't know what kind of value something is, so it could be anything."
         },
@@ -1170,7 +1173,7 @@
             "doc": "I represent an exception. There's no way to tell bind that I am one, because exceptions only ever halt @Program, so you can't use them as values."
         },
         "FunctionType": {
-            "name": "function type",
+            "name": "function",
             "description": "function with $1 inputs, $2 output",
             "emotion": "curious",
             "doc": [
@@ -1179,7 +1182,7 @@
             ]
         },
         "ListType": {
-            "name": "list type",
+            "name": "list",
             "description": "$1[list of $1|list]",
             "emotion": "cheerful",
             "doc": [
@@ -1188,7 +1191,7 @@
             ]
         },
         "MapType": {
-            "name": "map type",
+            "name": "map ",
             "description": "map from $1[$1|any] to $2[$2|any]",
             "emotion": "kind",
             "doc": [
@@ -1197,7 +1200,7 @@
             ]
         },
         "NumberType": {
-            "name": "number type",
+            "name": "number",
             "description": "$1[$1 | number]",
             "emotion": "precise",
             "doc": [
@@ -1206,7 +1209,7 @@
             ]
         },
         "NameType": {
-            "name": "name type",
+            "name": "structure",
             "description": "$1 type",
             "emotion": "curious",
             "doc": [
@@ -1218,12 +1221,12 @@
             }
         },
         "NeverType": {
-            "name": "never type",
+            "name": "never",
             "emotion": "curious",
             "doc": "I represent a type that is impossible. Like when you ask @Is if something is a @Number, but it can never be a number."
         },
         "NoneType": {
-            "name": "none type",
+            "name": "none",
             "emotion": "neutral",
             "doc": [
                 "@None is the best nothing there is, and I am their faithful representative.",
@@ -1231,8 +1234,8 @@
             ]
         },
         "SetType": {
-            "name": "set type",
-            "description": "$1[$1 set|set] type",
+            "name": "set",
+            "description": "$1[$1 set|set]",
             "emotion": "kind",
             "doc": [
                 "@Set is the BEST, like seriously. I'm telling @Bind all the time, make things a set of something!",
@@ -1240,12 +1243,12 @@
             ]
         },
         "StreamDefinitionType": {
-            "name": "stream definition type",
+            "name": "stream definition",
             "emotion": "angry",
             "doc": "I represent a stream you have defined, which isn't possible, so why are you even reading this?"
         },
         "StreamType": {
-            "name": "stream type",
+            "name": "stream",
             "emotion": "curious",
             "doc": [
                 "I celebrate the beauty and meaning of streams… by telling @Bind to store them:",
@@ -1253,19 +1256,19 @@
             ]
         },
         "StructureType": {
-            "name": "structure type",
+            "name": "structure",
             "description": "$1",
             "emotion": "kind",
             "doc": "I am an internal type to represent the type of default value types."
         },
         "UnknownType": {
-            "name": "unknown type",
+            "name": "unknown",
             "connector": ", because ",
             "emotion": "curious",
             "doc": "Umm... I don't know what I represent, but I really am curious. Do you know? It seems like we should know. You might need to tell us if we can't figure it out."
         },
         "TableType": {
-            "name": "table type",
+            "name": "table",
             "emotion": "angry",
             "doc": "I represent a Table.",
             "conflict": {
@@ -1273,7 +1276,7 @@
             }
         },
         "TextType": {
-            "name": "text type",
+            "name": "text",
             "description": "$1[$1|text]",
             "emotion": "happy",
             "doc": [
@@ -1282,12 +1285,12 @@
             ]
         },
         "TypePlaceholder": {
-            "name": "placeholder type",
+            "name": "placeholder",
             "emotion": "eager",
             "doc": "I hope to represent a type some day, kind of like my bestie @ExpressionPlaceholder represents an expression! Will you help me decide what kind?"
         },
         "UnionType": {
-            "name": "option type",
+            "name": "option",
             "description": "$1 | $2",
             "emotion": "curious",
             "doc": [
@@ -1306,7 +1309,7 @@
             ]
         },
         "UnparsableType": {
-            "name": "unparsable type",
+            "name": "unparsable",
             "emotion": "curious",
             "doc": "I represent the type of an unknown expression. I show up when you try to use that expression for something."
         },
@@ -1316,24 +1319,24 @@
             "doc": "Do you know @TypeVariable, and how they represent some unknown kind of value? I represent them in all negotiations between values."
         },
         "CycleType": {
-            "name": "cycle type",
+            "name": "cycle",
             "description": "depends on itself",
             "emotion": "curious",
             "doc": "Sometimes values depend on themselves, and so we don't know what kind of value they are. I represent that situation."
         },
         "UnknownVariableType": {
-            "name": "unknown variable type",
+            "name": "unknown variable",
             "emotion": "curious",
             "doc": "Sometimes we try to guess what kind of value something is; I show up when we don't know."
         },
         "NotAType": {
-            "name": "unexpected type",
+            "name": "unexpected",
             "description": "not a $1",
             "emotion": "curious",
             "doc": "Sometimes we know what kind of value something should be. Like @ListAccess needs a @Number. If we don't get it, I represent that something is a type other than what we expected."
         },
         "NoExpressionType": {
-            "name": "no expression type",
+            "name": "no expression",
             "emotion": "angry",
             "doc": "You know how @Block needs at least one expression? I'm what you get when you don't give one. So give one!"
         },
@@ -1925,7 +1928,9 @@
                 "\\['apple' 'banana' 'mango'][2]\\",
                 "I can have anything in me. Look at this list, with @Text, @Number, and @Time!",
                 "\\['apple' 10 + 10 Time()]\\",
-                "I can do call kinds of exiting things with my @FunctionDefinition!"
+                "When you give me a list of many things, I'll generalize them if they have a type in common. But sometimes you might literally mean those specific things. If you do, just put a ! after me, and I'll make sure that I represent a list of specifically only those values.",
+                "\\['apple' 'banana' 'mango']!\\",
+                "That's kind of it. But I can do call kinds of exciting things with my @FunctionDefinition!"
             ],
             "name": ["[]", "List"],
             "kind": "Kind",
@@ -2339,7 +2344,12 @@
                 "\\{1 1 2 2 3 3}\\",
                 "I evaluate it to just \\{1 2 3}\\.",
                 "If you want to see if I have a value in me, @SetOrMapAccess can help:",
-                "\\{'jar' 'bottle' 'glass'}{'cup'}\\"
+                "\\{'jar' 'bottle' 'glass'}{'cup'}\\",
+                "Usually, if you give me a bunch of values that are of a common type, I'll assume they're a list of that type. Like this set is \\{''}\\, because it's all @Text.",
+                "\\{'hey' 'hi' 'hello'}\\",
+                "But you might want to indicate that I'm a set of /only/ those values, so I can tell you when you're trying to use one that's not allowed. If so, just add a ! at the end of me.",
+                "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
+                "Is there something else you want to do with me? Check out all the neat @FunctionDefinition I have!"
             ],
             "name": ["{}", "Set"],
             "kind": "Kind",
@@ -2491,6 +2501,10 @@
                 "\\{'amy': 6points 'tony':3points 'shiela': 8points}{'jen'}\\",
                 "You can also make an empty map like this:",
                 "\\{:}\\",
+                "Usually, I'll see whatever kinds of keys and values you give me and just come up with a type to represent all of them. Like this is a map from numbers to numbers:",
+                "\\{1:1 2:2 3:3}\\",
+                "But say you wanted to ensure it was specifically only those values; just add ! at the end of me, and I won't generalize. That'll help you know if you're trying to get a value you didn't intend.",
+                "\\{1:1 2:2 3:3}!{4}\\",
                 "I know how to many wonderful things with my pairings."
             ],
             "name": ["{:}", "Map"],
@@ -3383,6 +3397,30 @@
                 "names": "z"
             }
         },
+        "Line": {
+            "doc": "I am a line",
+            "names": ["Line"],
+            "left": {
+                "doc": "The left edge of the stage on the x-axis",
+                "names": "left"
+            },
+            "top": {
+                "doc": "The top edge of the stage on the y-axes",
+                "names": "top"
+            },
+            "right": {
+                "doc": "The right edge of the stage on the x-axis",
+                "names": "right"
+            },
+            "bottom": {
+                "doc": "The bottom edge of the stage on the y-axis",
+                "names": "bottom"
+            },
+            "z": {
+                "doc": "The depth position of the rectangle.",
+                "names": "z"
+            }
+        },
         "Pose": {
             "doc": [
                 "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",
@@ -3635,7 +3673,7 @@
                 "doc": "The gravity to apply to output whose's place is in @Motion.",
                 "names": "gravity"
             },
-            "description": "stage $1[$1|] of $2 phrases $3[$3 frame|] $4"
+            "description": "stage $1[$1|] of $2[$2|] phrases $3[$3 frame|] $4"
         },
         "Easing": {
             "straight": "straight",
@@ -3678,7 +3716,7 @@
     "ui": {
         "font": {
             "app": "Noto Sans",
-            "code": "Noto Mono"
+            "code": "Noto Sans Mono"
         },
         "phrases": {
             "welcome": "hello"
@@ -3702,9 +3740,15 @@
                     "off": "expand tile to full screen"
                 },
                 "show": {
-                    "on": "hide this tile",
-                    "off": "show this tile"
+                    "on": "hide",
+                    "off": "show"
                 }
+            },
+            "label": {
+                "output": "stage",
+                "palette": "palette",
+                "docs": "guide",
+                "source": "source"
             },
             "button": {
                 "collapse": "collapse window"
@@ -3717,7 +3761,7 @@
             "button": {
                 "showCollaborators": "show collaborators dialog",
                 "removeCollaborator": "remove collaborator",
-                "copy": "copy project as text",
+                "copy": "copy project to clipboard as text",
                 "addSource": "create a new $source",
                 "duplicate": "copy this project",
                 "revert": "revert to original code",
@@ -3781,8 +3825,8 @@
                 "Let's get started! You can …",
                 "• Open 📕 and drag 🖱️ us to this program.",
                 "• Type $1 and choose us from the menu.",
-                "• If you know us well, start typing.",
-                "• Browse the gallery for inspiration.",
+                "• Type us with the ⌨️.",
+                "• Browse the <galleries@://galleries> for inspiration.",
                 "If you're stuck, <learn more@://learn>."
             ],
             "overwritten": "Received a more recent version!",
@@ -3843,11 +3887,16 @@
                 "insertGreaterOrEqual": "insert greater than or equal to",
                 "insertType": "insert type symbol",
                 "insertStream": "insert stream symbol",
+                "insertChange": "insert change symbol",
                 "insertConvert": "insert convert symbol",
                 "insertPrevious": "insert previous symbol",
-                "insertTable": "insert table symbol",
+                "insertTable": "insert table open symbol",
+                "insertTableClose": "insert table close symbol",
+                "insertBorrow": "insert borrow",
+                "insertShare": "insert share",
                 "insertLine": "insert line break",
-                "backspace": "delete selection or prior character",
+                "backspace": "delete selection or prior symbol",
+                "delete": "delete selection or next symbol",
                 "cut": "cut selection",
                 "copy": "copy selection",
                 "paste": "paste contents of keyboard",
@@ -3856,7 +3905,8 @@
                 "type": "type characters",
                 "undo": "undo previous edit",
                 "redo": "redo undone edit",
-                "search": "search for special characters to insert"
+                "search": "search for special characters to insert",
+                "tidy": "tidy spacing"
             }
         },
         "conflicts": {
@@ -3895,13 +3945,13 @@
                 "play": "evaluate the program to the end, responding to inputs in real time",
                 "pause": "pause the program, enabling stepping forward and backwards",
                 "backStep": "step back one",
-                "backNode": "step back to previous node evaluation",
+                "backNode": "step to previous evaluation of cursor",
                 "backInput": "back one input",
                 "out": "step out of this function",
                 "forwardStep": "step forward one",
-                "forwardNode": "step forward to next node evaluation",
+                "forwardNode": "step to next evaluation of cursor",
                 "forwardInput": "step forward to next stream input",
-                "present": "to the present",
+                "present": "to the end",
                 "start": "to the beginning",
                 "reset": "restart performance"
             }
@@ -4008,12 +4058,14 @@
                 "subheader": {
                     "selected": "Selected",
                     "supported": "Available",
+                    "coming": "Coming Soon",
                     "help": "Help us translate …"
                 },
                 "button": {
-                    "show": "change languages",
-                    "add": "add language",
-                    "remove": "remove language"
+                    "show": "change locale",
+                    "replace": "replace with this locale",
+                    "add": "add this locale",
+                    "remove": "remove this locale"
                 }
             },
             "help": {
@@ -4080,7 +4132,7 @@
         "save": {
             "saving": "saving",
             "saved": "saved online",
-            "local": "saved locally",
+            "local": "saved on this device",
             "unsaved": "unsaved"
         },
         "page": {
@@ -4089,8 +4141,10 @@
                 "message": "Where is this place? Can we go home?"
             },
             "landing": {
-                "call": [
-                    "Oh, hi! Will you stay and bring words to life with us? 🥹"
+                "call": ["Hi! Want to bring words to life with us? 😊"],
+                "beta": [
+                    "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete.",
+                    "But it also means we want your feedback! Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
                 ],
                 "link": {
                     "learn": "What is this place?",
@@ -4133,7 +4187,7 @@
                 },
                 "error": {
                     "noaccess": "We couldn't reach the internet.",
-                    "nogalleryedits": "You must be logged to create and change galleries.",
+                    "nogalleryedits": "You must be logged in to create and change galleries.",
                     "newgallery": "We couldn't create a new gallery.",
                     "nodeletes": "You must be logged in to delete archived projects.",
                     "delete": "Oops, we couldn't delete the project!"
@@ -4147,26 +4201,45 @@
             "about": {
                 "header": "About",
                 "content": [
-                    "Have you ever felt like coding was just for English fluent, non-disabled Westerners obsessed with computers?",
+                    "Have you ever felt like coding was just for English-fluent, non-disabled Westerners who grew up with computers?",
                     "Yeah, us too.",
-                    "This isn't an accident. Since the dawn of computing, programming languages have been design and built by mostly the same group of people -- white, cis, English-speaking men in academia and industry in the US and Europe, and a few incredible woman mathematicians. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for securing that power.",
-                    "Whether intentional or not, this history has led to a vision of computation that is primarily about speed, logic, profit, and domination.",
-                    "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires access, gatekept by language barriers, accesibility barriers, economic barriers, and inequities in public education.",
-                    "*Wordplay* aspires to be something different. A programming platform designed to be global, supporting /all/ of the world's languages, but also /about/ the world's languages. A platform on which everyone can create, with whatever abilities they have, to share interactive content that anyone can experience, with whatever abilities they have. For youth and young adults who want to express themselves *playfully*, *artfully*, and *interactively*. Not with the goal of harnessing power, but of creating diverse community that recognize the incredible strength that comes from our beautiful differences.",
-                    "We're a community of designers, educators, and developers trying to bring this vision to life. We are people of color, we are trans, we are queer, we are disabled, and we come from all over the world. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ravages of colonialism that continue today. Making this programming language and platform is part of that mission.",
-                    "See our <milestones@https://github.com/amyjko/wordplay/milestones> to see what we're working on, and if you'd like to help, learn <how to contribute@https://github.com/amyjko/wordplay/blob/main/CONTRIBUTING.md>. Or write our community organizer <Amy@https://amyjko.phd> with questions."
+                    "This isn't an accident. Since the dawn of computing, programming languages have been design and built by mostly the same group of people -- mostly white, cis, English-speaking men in academia and industry in the US and Europe, and a few incredible woman mathematicians. They did their work in a time of post-colonial, winner-take-all power, and programming languages were a key tool for securing that power.",
+                    "This history has led to a vision of computation that is primarily about speed, logic, profit, and domination.",
+                    "This is an injustice. Because computing, for better and worse, now undergirds daily life in visible and invisible ways, and the people who have access to create with it are the ones most like its creators. The rest of humanity remains beholden to this power, because imagining anything different requires literacy, gatekept by language barriers, accesibility barriers, economic barriers, and inequities in public education.",
+                    "*Wordplay* aspires to help change this. It's a programming platform designed to be global, supporting /all/ of the world's languages, but also be /about/ the world's languages. A platform on which everyone can create, with whatever abilities they have, to share interactive content that anyone can experience. For youth and young adults who want to express themselves through interactive words, emojis, and typography, playfully and artfully. Not with the goal of getting power for themselves, but to create a computational world that recognize the incredible strength and necessity of our beautiful differences.",
+                    "We're a community of designers, educators, and developers trying to bring this vision to life. We are people of color, we are trans, we are queer, we are disabled, we are immigrants, we are refugees. We're centered at the <University of Washington@https://washington.edu> <Information School@https://ischool.uw.edu/> in Seattle, Washington, USA, a place that aspires to welcome everyone and undo the ableist and racist ravages of colonialism that continue today. Making this programming language and platform is a small part of that mission, offering a glimpse of a future of computing where /everyone/ belongs.",
+                    "We'd love your help. Learn <how to contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>, <donate@://donate>, or track our <progress@https://github.com/amyjko/wordplay/milestones>. Write our community organizer <Amy@https://amyjko.phd> if you have questions."
                 ]
             },
             "login": {
                 "header": "Login",
+                "subheader": {
+                    "username": "option 1: username + password",
+                    "email": "option 2: email link"
+                },
                 "anonymous": "login",
                 "prompt": {
-                    "login": "Your performances are saving on this device instead of online. To save them online, submit your email to get a login link.",
+                    "login": "Your performances are saving on this device, but not online. If this is your device, that's okay! If it's not, others may see or delete your projects. To save them online and keep them private, log in.",
+                    "age": {
+                        "label": "What's your age?",
+                        "modes": ["12 or younger", "13 or older"]
+                    },
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
+                    "emailrules": [
+                        "• Don't provide your email if you are *12 or younger*.",
+                        "• If you *lose access* to your email account, you won't be able to log in or update your email address."
+                    ],
+                    "tooyoung": "You must be 13 or older to login with an email.",
+                    "usernamerules": [
+                        "• *Usernames* should not contain identiable information (e.g., names), cannot be an email addresses, and should be at least 5 characters long",
+                        "• *Passwords* must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
+                        "• *If you forget your password*, you can't recover your account, since we have no other way to know it's you. Store your password somewhere safe, like a password manager"
+                    ],
+                    "passwordreminder": "To create your account, select your password above to reveal it, and make sure you stored it safely and correctly. Then submit again to create your account.",
                     "change": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
-                    "sent": "Check your email for a login link.",
-                    "logout": "Leaving a shared device and want to keep your projects private? Logout and we'll remove your projects from this device. They will still be stored online.",
+                    "sent": "Check your email for a login link. Patience, email can be slow!",
+                    "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
                     "delete": "Want us to forget everything you've made here? This can't be undone.",
@@ -4178,9 +4251,10 @@
                     "invalid": "This link isn't valid.",
                     "email": "This email wasn't valid.",
                     "failure": "Unable to login :(",
-                    "offline": "You appear to be offline.",
+                    "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
-                    "delete": "We couldn't delete your account, but we don't know why."
+                    "delete": "We couldn't delete your account, but we don't know why.",
+                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
@@ -4190,6 +4264,14 @@
                     "email": {
                         "description": "edit login email",
                         "placeholder": "email"
+                    },
+                    "username": {
+                        "description": "login username, don't use personally identifiable information",
+                        "placeholder": "username"
+                    },
+                    "password": {
+                        "description": "login password, at least 10 character",
+                        "placeholder": "password"
                     }
                 },
                 "button": {
@@ -4213,15 +4295,15 @@
                 "header": "Rights",
                 "content": [
                     "Hi!",
-                    "This is where we set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
+                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",
-                    "• Your *email address*. We use this to ensure that only you and anyone you share with can access your projects and settings.",
-                    "• Your *projects*. We store any projects you contribute. This includes any personally identifiable information you put in your projects (which could be anything, since it's all text!)",
-                    "• Your *settings*. This includes the locales you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device.",
-                    "• *Traffic*. We use basic <Google Analytics@https://en.wikipedia.org/wiki/Google_Analytics> to gather aggregate, anonymous data about which pages people and projects people are visiting and how many times. We use this to help raise funding to sustain the platform.",
-                    "We don't store anything else. No 'cookies' other than those used by Google Analytics, no tracking identifiers, no recordings of camera or microphone input. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so you can verify this if you wish at any time.",
+                    "• If you are 13 or older and choose to log in with  your email address, we store your *email address*. We use this to ensure that only you and anyone you share with can access your projects and settings. If you are younger than 13, then you should create a username and password without personally identifing information.",
+                    "• Your *projects*. We store any projects you contribute and your changes to them.",
+                    "• Your *settings*. This includes the languages you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device only.",
+                    "• Aggregate *activity*. We track logins and the pages you visit, but not in a way that can identify you, track you across the site, or track you across other sites. We use Google Analytics in 'consent denied' mode, which only gathers minimal non-identifiable information about page views, without storing cookies, or sending IP address information to Google. We use this aggregate information to help raise funding by reporting how much the platform is being used.",
+                    "We don't store anything else. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so anyone can verify this, and report any unintended tracking.",
                     "*You* own your data, not us. That means:",
                     "• You control who can access your projects. They are private by default, but you can share them with individuals, groups, or make them entirely public.",
                     "• You can fully delete any project or your own account at any time.",
@@ -4231,10 +4313,25 @@
                     "• We won't contact you via your email address unless you 1) make an account change that requires us to, 2) you explicitly give us consent to reach out, or 3) in the case of data breach above.",
                     "• We may analyze projects on the platform to understand what everyone is making and how they are making it. We may share these aggregated, anonymized insights in academic publications. We will only do this under the supervision of an institutional review board, as mandated by U.S. federal law.",
                     "Finally, a note about speech. You can say anything you want on this platform in *private*. Projects are private by default, and if you share them with specific email addresses, they are still considered private. We won't moderate anything in private projects.",
-                    "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect all of your *public* content to follow these rules:"
+                    "But making a project *public*, or including it in a public gallery, is a privilege. This is a platform made for love, affirmation, respect, and dignity. Therefore, we expect that none of your *public* content will:"
                 ],
                 "consequences": [
                     "If we find a project or gallery that violates these rules, we will warn creators before they view it, or block it from being viewed. If you repeatedly violate these rules, you'll lose the privilege of posting publicly."
+                ]
+            },
+            "donate": {
+                "header": "Donate",
+                "prompt": "Enable more accessible, global programming",
+                "content": [
+                    "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
+                    "Here are our current costs:",
+                    "• We compensate University of Washington undergraduates, especially those who are disabled or whose first language was not English, to evolve and maintain the project. This is about 90% of our costs.",
+                    "• We give stipends to teachers who we collaborate with to develop multilingual, accessible curricula.",
+                    "• We pay Google for <Firebase@https://firebase.google.com/> bandwidth and storage, and <Workspace@https://workspace.google.com/> services.",
+                    "• We pay <Squarespace@https://www.squarespace.com/> annually for the domain.",
+                    "Our current costs, assuming 5 undergraduates at $$20 USD//hour, 10 hours//week during the academic year (36 weeks) and 2 undergraduates during the summer (12 weeks), plus cloud services, are about $$60K USD per year.",
+                    "If 2,400 people gave $$25 USD per year, that would cover our current costs, with any excess going to compensation more students and teachers.",
+                    "Can you be one of those 2,400 people? If so, here's our University of Washington giving link:"
                 ]
             }
         },
@@ -4290,6 +4387,28 @@
                 "tip": "Skip this project",
                 "label": "skip"
             }
+        }
+    },
+    "gallery": {
+        "games": {
+            "name": "Games",
+            "description": "Interactive games with words and symbols."
+        },
+        "visualizations": {
+            "name": "Visualizations",
+            "description": "Visualizations of and via text."
+        },
+        "motion": {
+            "name": "Motion",
+            "description": "Examples of movement and collisions."
+        },
+        "av": {
+            "name": "Audio/Video",
+            "description": "Using volume, pitch, and video as input."
+        },
+        "tools": {
+            "name": "Tools",
+            "description": "Simple utilities and applications."
         }
     }
 }

@@ -32,6 +32,10 @@ export default class ConversionType extends Type {
         );
     }
 
+    getDescriptor() {
+        return 'ConversionType';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'input', kind: node(Type) },

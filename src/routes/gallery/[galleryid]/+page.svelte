@@ -21,7 +21,6 @@
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Button from '../../../components/widgets/Button.svelte';
     import { EDIT_SYMBOL } from '../../../parser/Symbols';
-    import getProjectLink from '../../../components/app/getProjectLink';
 
     const user = getUser();
 
@@ -52,8 +51,8 @@
 
     onDestroy(() => pageUnsubscribe());
 
-    $: name = gallery?.getName($locales.getLocale());
-    $: description = gallery?.getDescription($locales.getLocale());
+    $: name = gallery?.getName($locales);
+    $: description = gallery?.getDescription($locales);
     $: editable = gallery
         ? $user !== null && gallery.getCurators().includes($user.uid)
         : false;
@@ -148,29 +147,36 @@
                 {#if projects}
                     <ProjectPreviewSet
                         set={projects}
-                        edit={{
-                            description: $locales.get(
-                                (l) => l.ui.page.projects.button.editproject
-                            ),
-                            action: (project) =>
-                                goto(getProjectLink(project, false)),
-                            label: EDIT_SYMBOL,
-                        }}
+                        edit={editable
+                            ? {
+                                  description: $locales.get(
+                                      (l) =>
+                                          l.ui.page.projects.button.editproject
+                                  ),
+                                  action: (project) =>
+                                      goto(project.getLink(false)),
+                                  label: EDIT_SYMBOL,
+                              }
+                            : false}
                         remove={(project) => {
-                            return {
-                                prompt: $locales.get(
-                                    (l) => l.ui.gallery.confirm.remove.prompt
-                                ),
-                                description: $locales.get(
-                                    (l) =>
-                                        l.ui.gallery.confirm.remove.description
-                                ),
-                                action: () =>
-                                    gallery
-                                        ? Galleries.removeProject(project)
-                                        : undefined,
-                                label: '⨉',
-                            };
+                            return editable
+                                ? {
+                                      prompt: $locales.get(
+                                          (l) =>
+                                              l.ui.gallery.confirm.remove.prompt
+                                      ),
+                                      description: $locales.get(
+                                          (l) =>
+                                              l.ui.gallery.confirm.remove
+                                                  .description
+                                      ),
+                                      action: () =>
+                                          gallery
+                                              ? Galleries.removeProject(project)
+                                              : undefined,
+                                      label: '⨉',
+                                  }
+                                : false;
                         }}
                     />
                 {/if}

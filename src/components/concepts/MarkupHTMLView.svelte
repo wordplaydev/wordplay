@@ -44,25 +44,27 @@
         {#each parsed.asLine().paragraphs[0].segments as segment}
             <SegmentHTMLView {segment} {spaces} alone={false} />
         {/each}
-    {:else}{#each paragraphsAndLists as paragraphOrList, index}<p
-                class="paragraph"
-                class:animated={$animationFactor > 0}
-                style="--delay:{$animationDuration * index * 0.1}ms"
-                >{#if paragraphOrList instanceof Paragraph}
-                    {#each paragraphOrList.segments as segment}<SegmentHTMLView
+    {:else}{#each paragraphsAndLists as paragraphOrList, index}{#if paragraphOrList instanceof Paragraph}
+                <p
+                    class="paragraph"
+                    class:animated={$animationFactor > 0}
+                    style="--delay:{$animationDuration * index * 0.1}ms"
+                    >{#each paragraphOrList.segments as segment}<SegmentHTMLView
                             {segment}
                             {spaces}
                             alone={paragraphOrList.segments.length === 1}
-                        />{/each}{:else}<ul
-                        >{#each paragraphOrList.items as paragraph}<li
-                                >{#each paragraph.segments as segment}<SegmentHTMLView
-                                        {segment}
-                                        {spaces}
-                                        alone={paragraph.segments.length === 1}
-                                    />{/each}</li
-                            >{/each}</ul
-                    >{/if}</p
-            >{/each}
+                        />{/each}</p
+                >{:else}<ul
+                    class:animated={$animationFactor > 0}
+                    style="--delay:{$animationDuration * index * 0.1}ms"
+                    >{#each paragraphOrList.items as paragraph}<li
+                            >{#each paragraph.segments as segment}<SegmentHTMLView
+                                    {segment}
+                                    {spaces}
+                                    alone={paragraph.segments.length === 1}
+                                />{/each}</li
+                        >{/each}</ul
+                >{/if}{/each}
     {/if}
 {:else}no spaces{/if}
 
@@ -93,7 +95,7 @@
 
     p {
         margin-inline-start: 0;
-        line-height: 1.5;
+        line-height: 1.4;
     }
 
     p:last-of-type {

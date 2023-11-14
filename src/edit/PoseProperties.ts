@@ -58,7 +58,7 @@ export default function getPoseProperties(
         ),
         new OutputProperty(
             locales.get((l) => l.output.Pose.rotation),
-            new OutputPropertyRange(0, 360, 1, '°'),
+            new OutputPropertyRange(-359, 359, 1, '°'),
             false,
             false,
             (expr) => expr instanceof NumberLiteral,

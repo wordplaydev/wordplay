@@ -62,6 +62,18 @@ export function getKeyboardEditIdle() {
     return getContext<KeyboardEditIdleContext>(KeyboardEditIdleSymbol);
 }
 
+export type KeyModifierState = {
+    control: boolean;
+    alt: boolean;
+    shift: boolean;
+};
+export const KeyModfifierSymbol = Symbol('modifiers');
+export function getKeyboardModifiers() {
+    return getContext<Writable<KeyModifierState> | undefined>(
+        KeyModfifierSymbol
+    );
+}
+
 export type ProjectCommandContext = Writable<CommandContext>;
 export const ProjectCommandContextSymbol = Symbol('projectcommand');
 export function getProjectCommandContext() {
@@ -103,7 +115,7 @@ export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
 }
 
-type EditHandler = (
+export type EditHandler = (
     edit: Edit | ProjectRevision | undefined,
     idle: IdleKind,
     focus: boolean
@@ -122,9 +134,9 @@ export function getEditors() {
     return getContext<EditorsContext>(EditorsSymbol);
 }
 
-export type EditorContext = Writable<EditHandler>;
+export type EditorContext = Writable<EditorState>;
 export const EditorSymbol = Symbol('editor');
-export function getEditor() {
+export function getEditor(): EditorContext | undefined {
     return getContext<EditorContext>(EditorSymbol);
 }
 
@@ -172,6 +184,11 @@ export const HiddenSymbol = Symbol('hidden');
 export type HiddenContext = Writable<Set<Node>>;
 export function getHidden() {
     return getContext<HiddenContext | undefined>(HiddenSymbol);
+}
+
+export const LocalizeSymbol = Symbol('localize');
+export function getLocalize() {
+    return getContext<Writable<boolean> | undefined>(LocalizeSymbol);
 }
 
 export const ConceptPathSymbol = Symbol('palette-path');

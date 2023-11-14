@@ -4,75 +4,70 @@
     import type Project from '../../models/Project';
     import Subheader from '../app/Subheader.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
     import Options from '../widgets/Options.svelte';
     import { getUser } from './Contexts';
     import CreatorList from './CreatorList.svelte';
     import Public from './Public.svelte';
 
-    export let show: boolean;
     export let project: Project;
 
     const user = getUser();
     const creatorGalleries = Galleries.creatorGalleries;
 </script>
 
-<Dialog bind:show description={$locales.get((l) => l.ui.dialog.share)}>
-    <Subheader
-        >{$locales.get(
-            (l) => l.ui.dialog.share.subheader.collaborators.header
-        )}</Subheader
-    >
-    <MarkupHtmlView
-        markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.collaborators.explanation
-        )}
-    />
+<Subheader
+    >{$locales.get(
+        (l) => l.ui.dialog.share.subheader.collaborators.header
+    )}</Subheader
+>
+<MarkupHtmlView
+    markup={$locales.get(
+        (l) => l.ui.dialog.share.subheader.collaborators.explanation
+    )}
+/>
 
-    <CreatorList
-        anonymize={false}
-        uids={project.getCollaborators()}
-        editable={$user !== null && project.getOwner() === $user.uid}
-        add={(userID) =>
-            Projects.reviseProject(project.withCollaborator(userID))}
-        remove={(userID) =>
-            Projects.reviseProject(project.withoutCollaborator(userID))}
-        removable={() => true}
-    />
+<CreatorList
+    anonymize={false}
+    uids={project.getCollaborators()}
+    editable={$user !== null && project.getOwner() === $user.uid}
+    add={(userID) => Projects.reviseProject(project.withCollaborator(userID))}
+    remove={(userID) =>
+        Projects.reviseProject(project.withoutCollaborator(userID))}
+    removable={() => true}
+/>
 
-    <Subheader
-        >{$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.header
-        )}</Subheader
-    >
-    <MarkupHtmlView
-        markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.explanation
-        )}
-    />
+<Subheader
+    >{$locales.get(
+        (l) => l.ui.dialog.share.subheader.gallery.header
+    )}</Subheader
+>
+<MarkupHtmlView
+    markup={$locales.get(
+        (l) => l.ui.dialog.share.subheader.gallery.explanation
+    )}
+/>
 
-    <Options
-        id="gallerychooser"
-        value={project.getGallery() ?? undefined}
-        options={[
-            { value: undefined, label: '—' },
-            ...Array.from($creatorGalleries.values()).map((gallery) => {
-                return {
-                    value: get(gallery).getID(),
-                    label: get(gallery).getName($locales.getLocale()),
-                };
-            }),
-        ]}
-        change={(value) => {
-            // Ask the gallery database to put this project in the gallery.
-            if (value) Galleries.addProject(project, value);
-            else Galleries.removeProject(project);
-        }}
-    />
+<Options
+    id="gallerychooser"
+    value={project.getGallery() ?? undefined}
+    options={[
+        { value: undefined, label: '—' },
+        ...Array.from($creatorGalleries.values()).map((gallery) => {
+            return {
+                value: get(gallery).getID(),
+                label: get(gallery).getName($locales),
+            };
+        }),
+    ]}
+    change={(value) => {
+        // Ask the gallery database to put this project in the gallery.
+        if (value) Galleries.addProject(project, value);
+        else Galleries.removeProject(project);
+    }}
+/>
 
-    <Public
-        isPublic={project.isPublic()}
-        set={(choice) => Projects.reviseProject(project.asPublic(choice === 1))}
-        flags={project.getFlags()}
-    />
-</Dialog>
+<Public
+    isPublic={project.isPublic()}
+    set={(choice) => Projects.reviseProject(project.asPublic(choice === 1))}
+    flags={project.getFlags()}
+/>

@@ -59,6 +59,10 @@ export default class Program extends Expression {
         );
     }
 
+    getDescriptor() {
+        return 'Program';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'docs', kind: optional(node(Docs)) },
@@ -69,7 +73,7 @@ export default class Program extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Source;
     }
 
     clone(replace?: Replacement) {
@@ -102,7 +106,7 @@ export default class Program extends Expression {
         return this.expression.getType(context);
     }
 
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 

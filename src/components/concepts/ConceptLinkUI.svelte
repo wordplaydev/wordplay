@@ -7,6 +7,7 @@
     import type ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
     import concretize from '../../locale/concretize';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let link: ConceptRef | ConceptLink | Concept;
     export let label: string | undefined = undefined;
@@ -75,10 +76,11 @@
         // If we have a concept and the last concept isn't it, navigate
         if (concept) {
             // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
-            if ($path[$path.length - 1] !== concept)
+            const alreadyHere = $path.at(-1) === concept;
+            if (alreadyHere)
                 path.set([...$path.slice(0, $path.length - 1), concept]);
             // If the concept before the last is the concept, just go back
-            if ($path.length >= 2 && $path[$path.length - 2] === concept)
+            else if ($path.length >= 2 && $path[$path.length - 2] === concept)
                 path.set($path.slice(0, $path.length - 1));
             // Otherwise, append the concept.
             else path.set([...$path, concept]);
@@ -94,9 +96,10 @@
             longName
         ).toText()}
         ><span class="conceptlink interactive"
-            >{#if label}{label}{:else}<span class="long">{longName}</span
+            >{#if label}{withVariationSelector(label)}{:else}<span class="long"
+                    >{longName}</span
                 >{#if symbolicName !== longName && symbolic}<sub
-                        >{symbolicName}</sub
+                        >{withVariationSelector(symbolicName)}</sub
                     >{/if}{/if}</span
         ></Button
     >{:else if ui}<TutorialHighlight

@@ -242,7 +242,7 @@ export default class Spaces {
         return new Spaces(this.root, newSpaces);
     }
 
-    /** Create a version of space with preferred space for all tokens. (Pretty print). */
+    /** Create a version of space with preferred space for all tokens, including any existing space. (Pretty print). */
     withPreferredSpace(source: Source) {
         const newSpace = new Spaces(this.root, this.#spaces);
         for (const token of source.getTokens()) {

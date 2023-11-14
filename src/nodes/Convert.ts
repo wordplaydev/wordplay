@@ -74,6 +74,10 @@ export default class Convert extends Expression {
         ];
     }
 
+    getDescriptor() {
+        return 'Convert';
+    }
+
     getGrammar(): Grammar {
         return [
             { name: 'expression', kind: node(Expression) },
@@ -245,14 +249,19 @@ export default class Convert extends Expression {
         return evaluator.popValue(this);
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.expression instanceof Expression)
-            this.expression.evaluateTypeSet(bind, original, current, context);
+            this.expression.evaluateTypeGuards(
+                bind,
+                original,
+                current,
+                context
+            );
         return current;
     }
 

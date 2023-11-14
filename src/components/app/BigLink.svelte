@@ -2,13 +2,18 @@
     import Link from './Link.svelte';
 
     export let to: string;
-    export let subtitle: string;
+    export let subtitle: string | undefined = undefined;
+    export let external = false;
 </script>
 
-<p><Link {to}><slot /></Link><span class="subtitle"><br />{subtitle}</span></p>
+<p class="link"
+    ><Link {to} {external}><slot /></Link>{#if subtitle}<span class="subtitle"
+            ><br />{subtitle}</span
+        >{/if}</p
+>
 
 <style>
-    p {
+    .link {
         font-size: min(6vw, 32pt);
         margin-block-end: 1em;
         line-height: 0.85;

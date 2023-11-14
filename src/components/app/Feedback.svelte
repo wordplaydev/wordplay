@@ -11,6 +11,7 @@
         font-weight: normal;
         color: var(--wordplay-background);
         background: var(--wordplay-error);
+        margin-block-start: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
     }

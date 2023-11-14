@@ -107,8 +107,9 @@
     }
 
     .outline.dragging path {
-        fill: var(--wordplay-highlight-color);
-        stroke: var(--wordplay-highlight-color);
+        stroke: var(--wordplay-border-color);
+        stroke-width: var(--wordplay-border-width);
+        fill: var(--wordplay-background);
     }
 
     .outline.evaluating path {

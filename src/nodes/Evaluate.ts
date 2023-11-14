@@ -187,6 +187,10 @@ export default class Evaluate extends Expression {
             );
     }
 
+    getDescriptor() {
+        return 'Evaluate';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -738,6 +742,7 @@ export default class Evaluate extends Expression {
                                         TypeVariable
                             ) ||
                         expectedType.accepts(given.getType(context), context);
+
                     return [
                         ...given.compile(evaluator, context),
                         // Evaluate, but if the type was not acceptable, halt
@@ -898,17 +903,17 @@ export default class Evaluate extends Expression {
         return bindings;
     }
 
-    evaluateTypeSet(
+    evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ) {
         if (this.fun instanceof Expression)
-            this.fun.evaluateTypeSet(bind, original, current, context);
+            this.fun.evaluateTypeGuards(bind, original, current, context);
         this.inputs.forEach((input) => {
             if (input instanceof Expression)
-                input.evaluateTypeSet(bind, original, current, context);
+                input.evaluateTypeGuards(bind, original, current, context);
         });
         return current;
     }

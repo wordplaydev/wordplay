@@ -3,6 +3,7 @@
 <script lang="ts">
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
+    import CommandHint from './CommandHint.svelte';
 
     export let tips: ToggleText;
     export let on: boolean;
@@ -34,7 +35,7 @@
     aria-disabled={!active}
     aria-pressed={on}
     on:dblclick|stopPropagation
-    on:pointerdown={(event) =>
+    on:click={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
     on:keydown={(event) =>
         (event.key === 'Enter' || event.key === ' ') &&
@@ -46,6 +47,7 @@
             ? doToggle(event)
             : undefined}
 >
+    {#if command}<CommandHint {command} />{/if}
     <slot />
 </button>
 
@@ -68,12 +70,16 @@
         width: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
-        line-height: 1em;
+        line-height: 1;
+
+        /** Allows for command hint layout */
+        position: relative;
+        overflow: visible;
     }
 
     button.on {
-        background-color: var(--wordplay-foreground);
-        color: var(--wordplay-background);
+        background-color: var(--wordplay-alternating-color);
+        color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
         box-shadow: inset 0px 1px var(--wordplay-chrome);

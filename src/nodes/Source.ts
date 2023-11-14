@@ -106,6 +106,10 @@ export default class Source extends Expression {
         return new Source(Names.make([mainName]), '');
     }
 
+    getDescriptor() {
+        return 'Source';
+    }
+
     getGrammar(): Grammar {
         return [
             {
@@ -367,7 +371,7 @@ export default class Source extends Expression {
             // else {
             //     console.log(
             //         `Couldn't find match for ${
-            //             newNode.constructor.name
+            //             newNode.getDescriptor()
             //         } ${newNode.toWordplay()}`
             //     );
             // }
@@ -388,7 +392,7 @@ export default class Source extends Expression {
         // const news = revised.filter((n) => !original.includes(n));
         // console.log(`${news.length} new nodes`);
         // for (const node of news)
-        //     console.log(node.constructor.name + ' ' + node.toWordplay());
+        //     console.log(node.getDescriptor() + ' ' + node.toWordplay());
 
         // Otherwise, reparse the program with the reused tokens and return a new source file
         return new Source(this.names, [newProgram, newSpaces]);
@@ -896,7 +900,7 @@ export default class Source extends Expression {
     getDependencies(): Expression[] {
         return [this.expression];
     }
-    evaluateTypeSet(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
         return current;
     }
 
@@ -936,6 +940,6 @@ export default class Source extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Document;
+        return Purpose.Source;
     }
 }

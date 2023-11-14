@@ -191,7 +191,7 @@
                             "neutral",
                             "For example, try typing my \\'hello'\\ in the editor over there.",
                             "(Don't worry about making mistakes, you can always revert to the original with *revert* @UI/revertProject).",
-                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to \\'hello'\\, then I put \\'hello'\\ on stage. Try changing \\'hello'\\ to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
+                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to \\'hello'\\, or whatever text you type, and then that text is placed on stage. Try changing your text to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
                         ],
                         null,
                         [
@@ -200,13 +200,13 @@
                             "The instructions can get as sophisticated as you want, but there are a few rules.",
                             "For example, I can only evaluate to one *value*, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
                             "But if you give me two things, I'll only show the last thing you give me.",
-                            "For example, try adding another instruction after \\'hello'\\, whatever word you want, in quotes."
+                            "For example, try adding another instruction after the text you typed, whatever word you want, in quotes."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "See? I just showed your new word, not \\'hello'\\. You know you broke my rule because I underlined \\'hello'\\ and told you that I'd be ignoring it."
+                            "See? I just showed your second phrase, not your first. You know you broke my rule because I underlined your first phrase and we told you that wed'd be ignoring it."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -640,7 +640,9 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage. Once you do, you'll see the many inputs that @Phrase accepts. For example, try changing its @Phrase/size with the slider."
+                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage.",
+                            "Once you do, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase/size, which will reveal a slider.",
+                            "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate code with the size you choose."
                         ],
                         null,
                         [
@@ -2540,14 +2542,14 @@
                             "You can configure it to only change to up or down by passing it a \\⊤\\ or \\⊥\\."
                         ],
                         ["Button", "neutral", "down… down… down…"],
-                        ["edit", "Button(⊥)"],
+                        ["edit", "Button(ø)"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "Using a @Button stream is one way to advance through stages of a performance, or to trigger some change in a performance. This little program lists to button presses, and starts off showing sad, but when the @Button stream changes to true, @Conditional evaluates to \\'happy'\\ instead."
                         ],
-                        ["edit", "Phrase(Button(⊥) ? 'sad' 'happy')"]
+                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
                     ]
                 },
                 {
@@ -2813,7 +2815,10 @@
                     "title": "Say what?",
                     "subtitle": "Webpage",
                     "concept": "Webpage",
-                    "performance": ["fix", "Webpage('https://wordplay.dev')"],
+                    "performance": [
+                        "fix",
+                        "Webpage('https://www.nytimes.com')"
+                    ],
                     "lines": [
                         ["edit", "Phrase('🛜')"],
                         [
@@ -2823,29 +2828,29 @@
                             "Well we thought it would be really cool to bring words from the internet /here/, so you can play with them."
                         ],
                         null,
-                        ["edit", "Webpage('https://wordplay.dev')"],
+                        ["edit", "Webpage('https://www.nytimes.com')"],
                         [
                             "FunctionDefinition",
                             "kind",
                             "Here's how it works: you just give what I think is called a 'URL' to us, and if its an HTML page, we'll pull all the phrases out of it and give it you you in a @List.",
-                            "Like here, these are the phrases on the site you visited to get here."
+                            "Like here, these are some news phrases."
                         ],
                         null,
-                        ["edit", "Webpage('https://wordplay.dev' 'a')"],
+                        ["edit", "Webpage('https://www.nytimes.com' 'h2')"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "You can also filter the words with something I think you call a 'CSS' query? Like we heard that 'a' means 'anchor tag', so here are all the phrases in anchor tags on the page."
+                            "You can also filter the words with something I think you call a 'CSS' query? Like we heard that 'h3' means 'level 3 header', so here are all the phrases in headers on the page."
                         ],
                         null,
                         [
                             "edit",
-                            "words: Webpage('https://wordplay.dev' 'a')\nwords•[''] ? Group(Stack() words.translate(ƒ(word) Phrase(word resting: Sequence(spin())))) ø"
+                            "words: Webpage('https://www.nytimes.com' 'h2')\n\nwords•[''] ? Group(Stack() words.subsequence(1 5).translate(ƒ(word) Phrase(word resting: Sequence(spin() 1s)))) ø"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Once you have a list of words, you can do anything with them!"
+                            "Once you have a list of words, you can do anything with them! Like grab the first five and turn them into spinning phrases, of course."
                         ]
                     ]
                 },
@@ -4715,7 +4720,7 @@
                 },
                 {
                     "title": "Director's notes",
-                    "subtitle": "Doc",
+                    "subtitle": "Explain",
                     "concept": "Doc",
                     "performance": ["use", "fit", "Symbol", "``"],
                     "lines": [
@@ -4842,9 +4847,9 @@
                             "Maybe this stores the plane's height?``",
                             "•Plane()",
                             "``We need some kind of reaction to listen to the microphone…``",
-                            "sound: _",
+                            "sound: 1m",
                             "``We know there's a plane, but what else?``",
-                            "Phrase(“✈️”)"
+                            "Phrase(“✈️” sound)"
                         ],
                         null,
                         ["use", "fit", "Symbol", "✈️🫦"],

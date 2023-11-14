@@ -70,15 +70,20 @@ export default abstract class Expression extends Node {
     }
 
     /**
-     * Used to determine what types are possible for a given after evalutaing this expression/
+     * Used to determine what types are possible for a given after evaluating this expression, implementing type guards.
      * Most expressions do not manipulate possible types at all; primarily is just logical operators and type checks.
      * */
-    abstract evaluateTypeSet(
+    abstract evaluateTypeGuards(
         bind: Bind,
         original: TypeSet,
         current: TypeSet,
         context: Context
     ): TypeSet;
+
+    /** Used to decide whether to consider an expression as filtering types based on the behavior of evaluateTypeGuards() */
+    guardsTypes() {
+        return false;
+    }
 
     abstract compile(evaluator: Evaluator, context: Context): Step[];
     abstract evaluate(evaluator: Evaluator, prior: Value | undefined): Value;

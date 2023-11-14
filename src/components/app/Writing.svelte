@@ -10,9 +10,10 @@
 
 <style>
     .writing {
-        padding-inline-start: 20%;
-        width: 80%;
-        max-width: 50em;
+        margin-inline-start: auto;
+        margin-inline-end: auto;
+        width: 70%;
+        max-width: 40em;
         text-align: start;
         margin-block-start: 4em;
         margin-block-end: 4em;

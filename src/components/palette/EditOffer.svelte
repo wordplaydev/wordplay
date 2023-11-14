@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { withVariationSelector } from '../../unicode/emoji';
     import type { Template } from '../../locale/Locale';
     import type Locales from '../../locale/Locales';
     import concretize from '../../locale/concretize';
@@ -20,7 +21,7 @@
             <MarkupHtmlView markup={concretize(locales, message)} />
         </svelte:fragment>
     </Speech>
-    <Button large {tip} {action}>{command}</Button>
+    <Button large {tip} {action}>{withVariationSelector(command)}</Button>
 </div>
 
 <style>
