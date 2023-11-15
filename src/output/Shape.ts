@@ -176,7 +176,7 @@ export function toShape(
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const form = toRectangle(getOutputInput(value, 0));
+    const form = toLine(getOutputInput(value, 0));
     console.log(form);
 
     const {

@@ -3428,6 +3428,7 @@
             "doc": "I am a line",
             "names": ["Line"],
             "x1": {
+<<<<<<< HEAD
                 "doc": "The left edge of the stage on the x-axis",
                 "names": "left"
             },
@@ -3452,18 +3453,20 @@
             "doc": "I am a line",
             "names": ["Line"],
             "left": {
+=======
+>>>>>>> 00844521 (recognize line function)
                 "doc": "The left edge of the stage on the x-axis",
                 "names": "left"
             },
-            "top": {
+            "y1": {
                 "doc": "The top edge of the stage on the y-axes",
                 "names": "top"
             },
-            "right": {
+            "x2": {
                 "doc": "The right edge of the stage on the x-axis",
                 "names": "right"
             },
-            "bottom": {
+            "y2": {
                 "doc": "The bottom edge of the stage on the y-axis",
                 "names": "bottom"
             },
