@@ -1,5 +1,3 @@
-WheresWaldough
-=== start
 ``Where's Waldough?``
 ``Look for the orange shirt man (named Waldough) and click on him to win!``
 
@@ -17,8 +15,13 @@ Stage([
 			duration: 0.5s
 			name: 'ResetButton'
 		)
-		Phrase("Look for the orange shirt man (named Waldough) and click on him to win!" 0.2m 
-			place: Place(-3.5m 3.6m))
+		Phrase("Look for the orange shirt" 0.2m 
+			place: Place(-6.1m 0.5m))
+		Phrase("man (named Waldough) and" 0.2m 
+			place: Place(-6.3m 0m))
+		Phrase("click on him to win!🧍🏻" 0.2m 
+			place: Place(-5.9m -0.5m))
+
 		Phrase("🏀" 
 			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
 		Phrase("🦧" 
