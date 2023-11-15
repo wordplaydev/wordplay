@@ -43,8 +43,13 @@
 
     /** Moderator if the user's "mod" custom claim is true */
     let moderator: boolean | undefined = undefined;
-    $: if ($user) isModerator($user).then((mod) => (moderator = mod));
-    else moderator = false;
+    $: if ($user) {
+        isModerator($user).then((mod) => {
+            moderator = mod;
+        });
+    } else {
+        moderator = false;
+    }
 
     /** Null means haven't started, undefined means reached the end. */
     let lastBatch: QueryDocumentSnapshot<DocumentData> | null | undefined =
@@ -56,9 +61,9 @@
     onMount(async () => {
         try {
             await nextBatch();
-        } catch (_) {
+        } catch (error) {
+            console.error(error);
             lastBatch = undefined;
-            moderator = false;
         }
     });
 
