@@ -6994,12 +6994,12 @@
                 }
               },
               "required": [
-                "bottom",
+                "y2",
                 "doc",
-                "left",
+                "x1",
                 "names",
-                "right",
-                "top",
+                "x2",
+                "y1",
                 "z"
               ],
               "type": "object"

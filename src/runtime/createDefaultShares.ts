@@ -57,6 +57,7 @@ export default function createDefaultShares(locales: Locales) {
         Direction: DirectionType,
         Rebound: ReboundType,
         Rectangle: createRectangleType(locales),
+        Line: createLineType(locales),
         Arrangement: createArrangementType(locales),
         Stack: createStackType(locales),
         Row: createRowType(locales),

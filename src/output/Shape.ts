@@ -172,6 +172,7 @@ export function toShape(
     if (!(value instanceof StructureValue)) return undefined;
 
     const form = toLine(getOutputInput(value, 0));
+    console.log(form);
 
     const {
         name,
