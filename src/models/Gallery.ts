@@ -100,7 +100,7 @@ export default class Gallery {
     }
 
     getLink() {
-        return `gallery/${this.getID()}`;
+        return `/gallery/${this.getID()}`;
     }
 
     getCurators() {

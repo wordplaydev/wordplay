@@ -47,7 +47,7 @@
                         {project}
                         name={false}
                         action={() =>
-                            project ? goto(project.getLink(true)) : undefined}
+                            project ? goto(gallery.getLink()) : undefined}
                         delay={0}
                         size={8}
                         link={gallery.getLink()}
