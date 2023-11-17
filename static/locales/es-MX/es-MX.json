@@ -2872,6 +2872,10 @@
             "frequency": {
                 "names": ["frecuencia"],
                 "doc": "Esta es la frecuencia con que el tiempo avanza. Por defecto es \\33ms\\, que es alrededor de 30 veces por segundo."
+            },
+            "relative": {
+                "names": "$?relative",
+                "doc": "$?"
             }
         },
         "Volume": {

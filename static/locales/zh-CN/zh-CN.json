@@ -2750,6 +2750,10 @@
             "frequency": {
                 "names": ["频率"],
                 "doc": "这是时间应该滴答作响的频率。它的默认值是\\33ms\\，大约每秒30次。"
+            },
+            "relative": {
+                "names": "$?relative",
+                "doc": "$?"
             }
         },
         "Volume": {

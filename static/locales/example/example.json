@@ -1579,7 +1579,11 @@
         "Time": {
             "doc": "$?",
             "names": ["Tiempo"],
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["frecuencia"], "doc": "$?" },
+            "relative": {
+                "names": "$?relative",
+                "doc": "$?"
+            }
         },
         "Volume": {
             "doc": "$?",

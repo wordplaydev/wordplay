@@ -14,15 +14,23 @@ import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locales from '../locale/Locales';
+import BooleanType from '@nodes/BooleanType';
+import BooleanLiteral from '@nodes/BooleanLiteral';
+import BoolValue from '@values/BoolValue';
 
 const DEFAULT_FREQUENCY = 33;
 
 export default class Time extends TemporalStreamValue<NumberValue, number> {
     firstTime: number | undefined = undefined;
     frequency = 33;
+    relative: boolean;
     lastTime: DOMHighResTimeStamp | undefined = undefined;
 
-    constructor(evaluator: Evaluator, frequency: number = DEFAULT_FREQUENCY) {
+    constructor(
+        evaluator: Evaluator,
+        frequency: number = DEFAULT_FREQUENCY,
+        relative: boolean
+    ) {
         super(
             evaluator,
             evaluator.project.shares.input.Time,
@@ -30,6 +38,7 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
             0
         );
         this.frequency = frequency;
+        this.relative = relative;
     }
 
     // No setup or cleanup necessary; Evaluator manages the requestAnimationFrame loop.
@@ -42,6 +51,10 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
 
     setFrequency(frequency: number | undefined) {
         this.frequency = frequency ?? DEFAULT_FREQUENCY;
+    }
+
+    setRelative(relative: boolean) {
+        this.relative = relative;
     }
 
     react(time: number) {
@@ -60,10 +73,12 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
                 time - this.lastTime >= this.frequency * factor)
         ) {
             this.lastTime = time;
-            const newTime =
-                this.firstTime === undefined
+            const newTime = this.relative
+                ? this.firstTime === undefined
                     ? 0
-                    : Math.round(time - this.firstTime) / factor;
+                    : Math.round(time - this.firstTime) / factor
+                : // Remainder of Unix time modulo milliseconds per day
+                  Date.now() % (86400 * 1000);
             this.react(newTime);
         }
     }
@@ -88,21 +103,35 @@ export function createTimeType(locale: Locales) {
         NoneLiteral.make()
     );
 
+    const RelativeBind = Bind.make(
+        getDocLocales(locale, (locale) => locale.input.Time.relative.doc),
+        getNameLocales(locale, (locale) => locale.input.Time.relative.names),
+        BooleanType.make(),
+        // Default to nothing
+        BooleanLiteral.make(true)
+    );
+
     return StreamDefinition.make(
         getDocLocales(locale, (locale) => locale.input.Time.doc),
         getNameLocales(locale, (locale) => locale.input.Time.names),
-        [FrequencyBind],
+        [FrequencyBind, RelativeBind],
         createStreamEvaluator(
             TimeType.clone(),
             Time,
             (evaluation) =>
                 new Time(
                     evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
+                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true
                 ),
             (stream, evaluation) => {
                 stream.setFrequency(
                     evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
+                );
+                stream.setRelative(
+                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true
                 );
             }
         ),

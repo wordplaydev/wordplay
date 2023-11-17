@@ -2830,6 +2830,10 @@
             "frequency": {
                 "names": ["frequency"],
                 "doc": "This is the frequency with which time should tick. It defaults to \\33ms\\, which is about 30 times per second."
+            },
+            "relative": {
+                "names": ["relative"],
+                "doc": "If \\⊤\\, time starts at 0, when the program is first evaluated. Otherwise, it starts at the number of milliseconds since the start of today, UTC (Coordinated Universal Time), allowing you to keep track of the time of day."
             }
         },
         "Volume": {
