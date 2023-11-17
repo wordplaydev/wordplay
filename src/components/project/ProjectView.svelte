@@ -907,9 +907,13 @@
     async function setFullscreen(tile: Tile | undefined) {
         if (tile === undefined) stopPlaying();
 
-        layout = tile
-            ? layout.withFullscreen(tile.id)
-            : layout.withoutFullscreen();
+        if (tile) {
+            layout = layout.withFullscreen(tile.id);
+            view?.requestFullscreen();
+        } else {
+            layout = layout.withoutFullscreen();
+            document.exitFullscreen();
+        }
     }
 
     async function positionTile(tile: Tile, position: Bounds) {
