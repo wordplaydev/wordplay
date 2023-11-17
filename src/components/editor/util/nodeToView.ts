@@ -168,7 +168,7 @@ import FormattedTranslation from '@nodes/FormattedTranslation';
 import FormattedLiteral from '@nodes/FormattedLiteral';
 import IsLocale from '@nodes/IsLocale';
 import Spread from '@nodes/Spread';
-import NoneOrView from '../NoneOrView.svelte';
+import NoneOrView from '../OtherwiseView.svelte';
 import Otherwise from '@nodes/Otherwise';
 
 const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
