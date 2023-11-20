@@ -3727,8 +3727,8 @@
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "leave full screen",
-                    "off": "expand tile to full screen"
+                    "on": "exit full screen",
+                    "off": "expand to full screen"
                 },
                 "show": {
                     "on": "hide",
