@@ -4097,7 +4097,7 @@
                 "up": "move this content up",
                 "down": "move this content down",
                 "edit": "edit this content",
-                "sequence": "convert to a sequence",
+                "sequence": "convert to Sequence",
                 "createPhrase": "create a Phrase, showing the existing value as text",
                 "createGroup": "create a Group, wrapping any existing Phrase",
                 "createStage": "create a Stage, wrapping any existing Group or Phrase"
