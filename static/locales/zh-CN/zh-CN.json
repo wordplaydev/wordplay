@@ -4086,6 +4086,7 @@
             },
             "login": {
                 "header": "登录",
+                "subtitle": "$! 建立帳戶或登入以在線保存您的工作",
                 "subheader": {
                     "email": "电子邮件链接",
                     "username": "用户名 + 密码"

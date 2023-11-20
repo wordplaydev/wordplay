@@ -665,6 +665,8 @@ type UITexts = {
         login: {
             /** Header for the login page when not logged in */
             header: string;
+            /** Subtitle for the header link on the landing page */
+            subtitle: string;
             subheader: {
                 /** Header for logging in via email */
                 email: string;

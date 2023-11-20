@@ -4209,6 +4209,7 @@
             },
             "login": {
                 "header": "Login",
+                "subtitle": "Create an account or login in to save your work online",
                 "subheader": {
                     "username": "option 1: username + password",
                     "email": "option 2: email link"

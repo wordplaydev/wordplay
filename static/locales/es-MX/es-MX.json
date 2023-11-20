@@ -4276,6 +4276,7 @@
             },
             "login": {
                 "header": "Iniciar sesión",
+                "subtitle": "$! Cree una cuenta o inicie sesión para guardar su trabajo en línea",
                 "subheader": {
                     "email": "opción 2: enlace de correo electrónico",
                     "username": "opción 1: nombre de usuario + contraseña"

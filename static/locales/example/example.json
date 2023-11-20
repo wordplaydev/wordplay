@@ -2521,6 +2521,7 @@
             },
             "login": {
                 "header": "$?",
+                "subtitle": "$?",
                 "subheader": {
                     "email": "$?",
                     "username": "$?"

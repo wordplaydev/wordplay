@@ -2000,7 +2000,7 @@
                         [
                             "Map",
                             "neutral",
-                            "You might want to use our friend @otherwise if you'd rather treat a @None as something else.",
+                            "You might want to use our friend @Otherwise if you'd rather treat a @None as something else.",
                             "Here, for example, we default to \\0points\\ if there's no value."
                         ],
                         [

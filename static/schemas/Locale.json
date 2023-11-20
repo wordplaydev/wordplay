@@ -9076,10 +9076,15 @@
                         "username"
                       ],
                       "type": "object"
+                    },
+                    "subtitle": {
+                      "description": "Subtitle for the header link on the landing page",
+                      "type": "string"
                     }
                   },
                   "required": [
                     "header",
+                    "subtitle",
                     "subheader",
                     "prompt",
                     "anonymous",
