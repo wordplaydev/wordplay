@@ -14,11 +14,16 @@ import { getOutputInput } from './Valued';
 import StructureValue from '../values/StructureValue';
 import Decimal from 'decimal.js';
 import type Locales from '../locale/Locales';
+import type Alignment from './Alignment';
+import TextValue from '@values/TextValue';
 
 export function createStackType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Stack, '•')} Arrangement(
-        ${getBind(locales, (locale) => locale.output.Stack.alignment)}•-1|0|1: 0
+        ${getBind(
+            locales,
+            (locale) => locale.output.Stack.alignment
+        )}•'<'|'|'|'>': '|'
         ${getBind(locales, (locale) => locale.output.Stack.padding)}•#m: 1m
     )
 `);
@@ -26,14 +31,12 @@ export function createStackType(locales: Locales) {
 
 export class Stack extends Arrangement {
     readonly padding: number;
-    readonly alignment: -1 | 0 | 1;
+    readonly alignment: Alignment;
 
-    constructor(value: Value, alignment: NumberValue, padding: NumberValue) {
+    constructor(value: Value, alignment: TextValue, padding: NumberValue) {
         super(value);
         this.padding = padding.toNumber();
-
-        const align = alignment.toNumber();
-        this.alignment = align === 0 ? 0 : align < 0 ? -1 : 1;
+        this.alignment = alignment.text as Alignment;
     }
 
     getLayout(children: (Output | null)[], context: RenderContext) {
@@ -76,9 +79,9 @@ export class Stack extends Arrangement {
                     // Place the x in the center of the stack, or if it has a place, use that
                     child.output.place && child.output.place.x !== undefined
                         ? child.output.place.x
-                        : this.alignment === 0
+                        : this.alignment === '|'
                         ? width.sub(child.width).div(2).toNumber()
-                        : this.alignment < 0
+                        : this.alignment === '<'
                         ? 0
                         : width.sub(child.width).toNumber(),
                     // The current y, minus the child's height
@@ -133,7 +136,7 @@ export function toStack(value: Value | undefined): Stack | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     const alignment = getOutputInput(value, 0);
     const padding = getOutputInput(value, 1);
-    return padding instanceof NumberValue && alignment instanceof NumberValue
+    return padding instanceof NumberValue && alignment instanceof TextValue
         ? new Stack(value, alignment, padding)
         : undefined;
 }

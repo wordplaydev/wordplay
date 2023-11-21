@@ -28,7 +28,7 @@ ask: responses.length() < 4
 Stage([
 		``Before we have the responses, ask for responses``
 		ask ? 
-			Group(Stack(0 0.25m) [
+			Group(Stack('|' 0.25m) [
 					Phrase(`\turns[turn].count\ \turns[turn].label\ please!`)
 					Phrase('(separated by spaces)' 0.5m)
 				])
@@ -47,7 +47,7 @@ Stage([
 						`When I got home I *\responses[verbs][3]\* my mom for a *\responses[adjectives][4]\* day at the zoo.`
 					]
 				``Translate them into phrases``
-				Group(Stack(-1) sentences.translate(ƒ (sentence) Phrase(sentence)))
+				Group(Stack('<') sentences.translate(ƒ (sentence) Phrase(sentence)))
 			)
 	] 
 	face : 'Phudu' 

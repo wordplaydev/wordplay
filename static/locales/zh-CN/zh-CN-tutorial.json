@@ -1529,7 +1529,7 @@
             "title": "Ensembles",
             "performance": [
                 "fit",
-                "Group(Row(0 (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
@@ -3609,7 +3609,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack(0 2m) ",
+                            "    Stack('|' 2m) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3626,7 +3626,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Stack(0 Time(100ms) · 0.001m/ms) ",
+                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
                             "    [",
                             "        Phrase('one')",
                             "        Phrase('two')",
@@ -3643,7 +3643,7 @@
                         [
                             "edit",
                             "Group(",
-                            "    Row(0 Time(100ms) · 0.001m/ms) [",
+                            "    Row('|' Time(100ms) · 0.001m/ms) [",
                             "        Phrase('one')",
                             "        Phrase('two')",
                             "        Phrase('three')",
@@ -4566,7 +4566,7 @@
                             "",
                             "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
                             "",
-                            "Group(Stack(0 0m) [",
+                            "Group(Stack('|' 0m) [",
                             "  Phrase(messages[index])",
                             "  Phrase(messages[index] resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
@@ -4593,7 +4593,7 @@
                             "  'Lap cat'",
                             "]) … ∆ Time(2000ms) … marquee.next()",
                             "",
-                            "Group(Stack(0 0.5m) [",
+                            "Group(Stack('|' 0.5m) [",
                             "  Phrase(marquee.now())",
                             "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"
@@ -4627,7 +4627,7 @@
                             "  'Lap cat'",
                             "]) … ∆ Time(2000ms) … marquee.next()",
                             "",
-                            "Group(Stack(0 0.5m) [",
+                            "Group(Stack('|' 0.5m) [",
                             "  Phrase(marquee.now())",
                             "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
                             "])"

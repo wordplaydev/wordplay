@@ -79,7 +79,7 @@ export function createPhraseType(locales: Locales) {
         ${getBind(
             locales,
             (locale) => locale.output.Phrase.alignment
-        )}•'<'|'|'|'>': '|'
+        )}•'<'|'|'|'>': '<'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
     )`);
 }

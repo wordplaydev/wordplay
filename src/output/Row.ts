@@ -13,25 +13,29 @@ import concretize from '../locale/concretize';
 import { getOutputInput } from './Valued';
 import StructureValue from '../values/StructureValue';
 import type Locales from '../locale/Locales';
+import TextValue from '@values/TextValue';
+import type Alignment from './Alignment';
 
 export function createRowType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Row, '•')} Arrangement(
-        ${getBind(locales, (locale) => locale.output.Row.alignment)}•-1|0|1: 0
+        ${getBind(
+            locales,
+            (locale) => locale.output.Row.alignment
+        )}•'<'|'|'|'>': '|'
         ${getBind(locales, (locale) => locale.output.Row.padding)}•#m: 1m
     )
 `);
 }
 
 export class Row extends Arrangement {
-    readonly alignment: -1 | 0 | 1;
+    readonly alignment: Alignment;
     readonly padding: number;
 
-    constructor(value: Value, alignment: NumberValue, padding: NumberValue) {
+    constructor(value: Value, alignment: TextValue, padding: NumberValue) {
         super(value);
 
-        const align = alignment.toNumber();
-        this.alignment = align === 0 ? 0 : align < 0 ? -1 : 1;
+        this.alignment = alignment.text as Alignment;
         this.padding = padding.toNumber();
     }
 
@@ -72,10 +76,10 @@ export class Row extends Arrangement {
                     child.output.place && child.output.place.y !== undefined
                         ? child.output.place.y
                         : // If vertical alignment is centered, center y.
-                        this.alignment === 0
+                        this.alignment === '|'
                         ? (height - child.height) / 2
                         : // If alignment is top, 0.
-                        this.alignment < 0
+                        this.alignment === '<'
                         ? 0
                         : // If alignment is bottom
                           height - child.height,
@@ -126,7 +130,7 @@ export function toRow(value: Value | undefined): Row | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     const alignment = getOutputInput(value, 0);
     const padding = getOutputInput(value, 1);
-    return alignment instanceof NumberValue && padding instanceof NumberValue
+    return alignment instanceof TextValue && padding instanceof NumberValue
         ? new Row(value, alignment, padding)
         : undefined;
 }
