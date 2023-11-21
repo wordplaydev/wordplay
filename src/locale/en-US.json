@@ -817,7 +817,7 @@
             "emotion": "curious",
             "doc": [
                 "/@FunctionDefinition here. This is a handy way to check if a value is @None, and if it is, provide a backup value./",
-                "/For example, if you had a value that could be a @Number or @None, @NoneOr helps you give a default number:",
+                "/For example, if you had a value that could be a @Number or @None, @Otherwise helps you give a default number:",
                 "\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "ø ??",
