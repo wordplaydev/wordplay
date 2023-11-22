@@ -37,6 +37,7 @@ import {
     layoutToCSS,
     type WritingLayoutSymbol,
 } from '@locale/Scripts';
+import { toAura } from './Aura';
 import type Aura from './Aura';
 
 export function createPhraseType(locales: Locales) {
@@ -159,6 +160,9 @@ export default class Phrase extends Output {
             shadow,
             style
         );
+
+        // console.log("SHADOW")
+        // console.log(shadow)
 
         this.shadow = shadow;
         this.text = text;
@@ -420,8 +424,8 @@ export function toPhrase(
 
     const wrap = toNumber(getOutputInput(value, 20));
     const alignment = toText(getOutputInput(value, 21));
-    const direction = toText(getOutputInput(value, 22));
     const matter = toMatter(getOutputInput(value, 23));
+    const shadow = toAura(getOutputInput(value, 24));
 
     return texts !== undefined &&
         duration !== undefined &&

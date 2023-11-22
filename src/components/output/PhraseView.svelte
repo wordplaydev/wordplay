@@ -230,9 +230,11 @@
             metrics,
         )}
         style:writing-mode={layoutToCSS(phrase.direction)}
-        style:text-shadow={`${phrase.shadow?.offsetX || 12}px ${
-            phrase.shadow?.offsetY || 12
-        }px ${phrase.shadow?.blur || 12}px purple`}
+        style:text-shadow={phrase.shadow
+            ? `${phrase.shadow.offsetX || 12}px ${
+                  phrase.shadow.offsetY || 12
+              }px ${phrase.shadow.blur || 12}px ${phrase.shadow.color?.toCSS()}`
+            : 'none'}
         style:white-space={phrase.wrap !== undefined ? 'normal' : 'nowrap'}
         style:text-align={phrase.alignment === undefined
             ? null

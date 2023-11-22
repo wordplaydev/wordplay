@@ -80,10 +80,10 @@ export function toAura(
         )
     )
         return undefined;
-
     const [color, blur, offsetX, offsetY, spread, opacity] =
         getOutputInputs(value);
 
+    console.log(value);
     return new Aura(
         value,
         toColor(color),
@@ -94,6 +94,32 @@ export function toAura(
         toNumber(opacity),
     );
 }
+
+// export function toAura(
+//     project: Project,
+//     value: Value | undefined
+// ): Aura | undefined {
+//     if (
+//         !(
+//             value instanceof StructureValue &&
+//             value.type === project.shares.output.Aura
+//         )
+//     )
+//         return undefined;
+
+//     const [color, blur, offsetX, offsetY, spread, opacity] =
+//         getOutputInputs(value);
+
+//     return new Aura(
+//         value,
+//         toColor(color),
+//         toNumber(blur),
+//         toNumber(offsetX),
+//         toNumber(offsetY),
+//         toNumber(spread),
+//         toNumber(opacity)
+//     );
+// }
 
 export function createAuraLiteral(project: Project, locales: Locale[]) {
     const AuraType = project.shares.output.Aura;
