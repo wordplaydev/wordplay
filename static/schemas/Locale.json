@@ -6751,25 +6751,27 @@
             },
             "Aura": {
               "additionalProperties": false,
-              "description": "this is an AURA",
+              "description": "The shadow behind a Phrase.",
               "properties": {
                 "color": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The color of the shadow."
                 },
                 "blur": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The amount of blurriness applied to the shadow."
                 },
                 "offsetX": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The horizontal offset of the shadow from the Phrase."
                 },
                 "offsetY": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
-                "spread": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The vertical offset of the shadow from the Phrase."
                 },
                 "opacity": {
-                  "$ref": "#/definitions/NameAndDoc"
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The transparency of the shadow."
                 }
               },
               "required": [
