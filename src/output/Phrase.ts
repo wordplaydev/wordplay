@@ -30,6 +30,7 @@ import type Markup from '../nodes/Markup';
 import segmentWraps from './segmentWraps';
 import type Matter from './Matter';
 import { toMatter } from './Matter';
+import { toAura } from './Aura';
 import type Aura from './Aura';
 
 export function createPhraseType(locales: Locale[]) {
@@ -144,6 +145,9 @@ export default class Phrase extends Output {
             duration,
             style
         );
+
+        // console.log("SHADOW")
+        // console.log(shadow)
 
         this.shadow = shadow;
         this.text = text;
@@ -378,13 +382,13 @@ export function toPhrase(
         moving: move,
         exiting: exit,
         duration,
-        style,
-        shadow
+        style
     } = getTypeStyle(project, value, 1);
 
     const wrap = toNumber(getOutputInput(value, 20));
     const alignment = toText(getOutputInput(value, 21));
     const matter = toMatter(getOutputInput(value, 22));
+    const shadow = toAura(getOutputInput(value, 23));
 
     return texts !== undefined &&
         duration !== undefined &&
