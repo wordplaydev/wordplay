@@ -74,7 +74,7 @@
         "URL": "网址",
         "Code": "代码",
         "Mention": "提到",
-        "Otherwise": "$?",
+        "Otherwise": "否则",
         "None": "空的",
         "Type": "类型",
         "Literal": "字面量",
@@ -814,11 +814,15 @@
             "start": "… ø"
         },
         "Otherwise": {
-            "name": "$?",
+            "name": "否则",
             "emotion": "curious",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "doc": [
+                "/@FunctionDefinition 这里。这是一种方便的方法，用于检查一个值是否为@None，如果是，就提供一个备用值。/",
+                "/例如，如果你有一个可能是@Number或@None的值，@Otherwise可以帮助你提供一个默认的数字：/",
+                "\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
+            ],
+            "start": "ø ??",
+            "finish": "… $1"
         },
         "Previous": {
             "name": "之前",
@@ -2752,8 +2756,8 @@
                 "doc": "这是时间应该滴答作响的频率。它的默认值是\\33ms\\，大约每秒30次。"
             },
             "relative": {
-                "names": "$?relative",
-                "doc": "$?"
+                "names": ["相对的"],
+                "doc": "如果是 \\⊤\\，时间从0开始，当程序首次评估时。否则，它从今天开始的毫秒数开始，以协调世界时（UTC）为基准，使您能够跟踪一天中的时间。"
             }
         },
         "Volume": {
@@ -3714,8 +3718,8 @@
                     "off": "显示块背景"
                 },
                 "localized": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "显示本地化的文本",
+                    "off": "显示本所有文本"
                 },
                 "glyphs": {
                     "on": "折叠匹配的字形",
@@ -3751,7 +3755,7 @@
                 "incrementLiteral": "增加数字、文本或布尔值",
                 "decrementLiteral": "减少数字、文本或布尔值",
                 "insertSymbol": "插入$1",
-                "insertTab": "$?",
+                "insertTab": "插入 tab",
                 "insertTrue": "插入 true",
                 "insertFalse": "插入 false",
                 "insertNone": "插入无符号",
@@ -4086,7 +4090,7 @@
             },
             "login": {
                 "header": "登录",
-                "subtitle": "$! 建立帳戶或登入以在線保存您的工作",
+                "subtitle": "创建一个账户或登录以在线保存您的工作。",
                 "subheader": {
                     "email": "电子邮件链接",
                     "username": "用户名 + 密码"
@@ -4110,13 +4114,13 @@
                     "usernamereminder": "由於我們不收集聯絡資訊，因此如果您忘記密碼，將無法重設密碼。 將其儲存在安全的地方，例如密碼管理器。",
                     "passwordreminder": "看起来你正在创建一个账户。请检查你的密码，确保它被安全地保存并输入正确，然后重新提交以创建你的账户。",
                     "changeEmail": "想要更改您的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
-                    "changePassword": "$! 想更改您的密碼嗎？",
+                    "changePassword": "想要更改你的密码吗？提交一个新密码并重复输入。",
                     "sent": "请检查您的电子邮件以获取登录链接。",
                     "logout": "离开共享设备，想要保持项目的私密性吗？注销，我们将从该设备中删除您的项目。它们仍将在线存储。",
                     "success": "帐户已创建！",
                     "confirm": "请检查您的旧电子邮件地址以确认您的新地址。",
                     "delete": "希望我们忘记您在这里做的一切吗？这将无法撤消。",
-                    "reallyDelete": "$! 您确定吗？您的帐户和设置将立即被删除，并且您的项目将被安排删除。您项目的合作者将立即失去对它们的访问权限。请输入您的电子邮件地址以确认您的选择。",
+                    "reallyDelete": "你确定吗？您的账户和设置将立即被删除，您的项目将被安排删除。与您的项目合作的人将立即失去对它们的访问权限。输入您的电子邮件或用户名以确认这是您想要的。",
                     "name": "选择一个表情符号代表您自己。"
                 },
                 "error": {
@@ -4132,7 +4136,7 @@
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
                     "deleting": "好的，正在删除您的项目和设置……",
-                    "updatedPassword": "$! 您的密碼已更新。"
+                    "updatedPassword": "您的密碼已更新。"
                 },
                 "field": {
                     "email": {
@@ -4155,7 +4159,7 @@
                     },
                     "login": "用这个邮件登录，发送一个登录链接",
                     "updateEmail": "修改邮件",
-                    "updatePassword": "$! 提交新密碼",
+                    "updatePassword": "提交新密碼",
                     "delete": {
                         "tip": "注销我的账号",
                         "label": "删除我的用户信息……"
