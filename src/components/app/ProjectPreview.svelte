@@ -100,7 +100,7 @@
     }
 
     .project.named {
-        width: 12em;
+        min-width: 12em;
     }
 
     .output {
