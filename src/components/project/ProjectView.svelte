@@ -923,7 +923,8 @@
     function setBrowserFullscreen(on: boolean) {
         browserFullscreen = on;
         if (browserFullscreen) view?.requestFullscreen();
-        else document.exitFullscreen();
+        else if (document.fullscreenElement) document.exitFullscreen();
+        else setFullscreen(undefined);
     }
 
     async function positionTile(tile: Tile, position: Bounds) {
