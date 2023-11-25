@@ -8,6 +8,9 @@
     import { fade } from 'svelte/transition';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
+    import Link from './Link.svelte';
+    import { navigating } from '$app/stores';
+    import Spinning from './Spinning.svelte';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
@@ -22,6 +25,8 @@
     $: if (visible) {
         [evaluator, value] = updatePreview(project);
     }
+
+    $: path = link ?? project.getLink(true);
 
     function updatePreview(project: Project): [Evaluator, Value | undefined] {
         const evaluator = new Evaluator(project, DB, $locales, false);
@@ -45,7 +50,7 @@
         class="preview"
         style:width={`${size}rem`}
         style:height={`${size}rem`}
-        href={link ?? project.getLink(true)}
+        href={path}
         on:click={(event) =>
             action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
@@ -74,10 +79,13 @@
     </a>
     {#if name}
         <div class="name"
-            >{#if project.getName().length === 0}<em class="untitled"
-                    >&mdash;</em
-                >{:else}
-                {project.getName()}{/if}<slot /></div
+            ><Link to={path}
+                >{#if project.getName().length === 0}<em class="untitled"
+                        >&mdash;</em
+                    >{:else}
+                    {project.getName()}{/if}</Link
+            >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
+                <Spinning />{:else}<slot />{/if}</div
         >{/if}
 </div>
 
@@ -125,6 +133,11 @@
         overflow: hidden;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .preview:hover {
+        border-color: var(--wordplay-highlight-color);
+        border-width: var(--wordplay-focus-width);
     }
 
     .blurred {
