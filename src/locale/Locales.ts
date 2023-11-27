@@ -87,4 +87,13 @@ export default class Locales {
     getName(names: Names, symbolic = true) {
         return names.getPreferredNameString(this.locales, symbolic);
     }
+
+    isEqualTo(locales: Locales) {
+        const thisLocales = this.getLocales();
+        const thatLocales = locales.getLocales();
+        return (
+            thisLocales.length === thatLocales.length &&
+            thisLocales.every((l, index) => l === thatLocales[index])
+        );
+    }
 }

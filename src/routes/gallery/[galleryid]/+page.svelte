@@ -21,6 +21,7 @@
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import Button from '../../../components/widgets/Button.svelte';
     import { EDIT_SYMBOL } from '../../../parser/Symbols';
+    import Spinning from '@components/app/Spinning.svelte';
 
     const user = getUser();
 
@@ -33,15 +34,15 @@
         const galleryID = context
             ? decodeURI(context.params.galleryid)
             : undefined;
-        if (galleryID) {
+        if (galleryID && !(gallery && gallery.getID() === galleryID)) {
             // Unsubscribe from the previous gallery store.
             if (galleryUnsubscribe) galleryUnsubscribe();
             Galleries.getStore(galleryID).then((store) => {
                 // Found a store? Subscribe to it, updating the gallery when it changes.
                 if (store) {
-                    galleryUnsubscribe = store.subscribe(
-                        (gal) => (gallery = gal)
-                    );
+                    galleryUnsubscribe = store.subscribe((gal) => {
+                        gallery = gal;
+                    });
                 }
                 // Not found? No gallery.
                 else gallery = undefined;
@@ -58,15 +59,33 @@
         : false;
 
     // Anytime the gallery changes, refresh the project list.
-    let projects: Project[] | undefined = undefined;
+    let projectsByID: Map<string, Project | undefined> | undefined = undefined;
+    let count: 0;
     $: if (gallery) {
-        Promise.all(gallery.getProjects().map((id) => Projects.get(id))).then(
-            (results) =>
-                (projects = results.filter(
-                    (result): result is Project => result !== undefined
-                ))
-        );
-    } else projects = undefined;
+        loadProjects();
+    } else {
+        projectsByID = undefined;
+        count = 0;
+    }
+
+    $: projects =
+        gallery && count
+            ? gallery
+                  .getProjects()
+                  .map((id) => projectsByID?.get(id))
+                  .filter((proj): proj is Project => proj !== undefined)
+            : undefined;
+
+    function loadProjects() {
+        if (gallery === undefined || gallery === null) return;
+        projectsByID = new Map();
+        count = 0;
+        for (const projectID of gallery.getProjects())
+            Projects.get(projectID).then((project) => {
+                projectsByID?.set(projectID, project);
+                count++;
+            });
+    }
 
     function newProject() {
         if (gallery === undefined || gallery === null) return;
@@ -179,6 +198,8 @@
                                 : false;
                         }}
                     />
+                {:else}
+                    <Spinning />
                 {/if}
 
                 {#if editable}

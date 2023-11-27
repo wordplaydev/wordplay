@@ -48,7 +48,6 @@
                         name={false}
                         action={() =>
                             project ? goto(gallery.getLink()) : undefined}
-                        delay={0}
                         size={8}
                         link={gallery.getLink()}
                     />

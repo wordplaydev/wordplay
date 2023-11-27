@@ -1171,6 +1171,9 @@ export default class Evaluator {
     }
 
     tick(time: DOMHighResTimeStamp) {
+        // Don't tick if we're stopped.
+        if (this.#stopped) return;
+
         // First time? Just record it and bail.
         if (this.previousTime === undefined) {
             this.previousTime = time;

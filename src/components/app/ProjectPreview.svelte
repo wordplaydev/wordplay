@@ -4,7 +4,6 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { DB, animationDuration, locales } from '../../db/Database';
-    import { onMount } from 'svelte';
     import { fade } from 'svelte/transition';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
@@ -14,16 +13,26 @@
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
-    export let delay: number;
+    /**
+     * If true, evaluates the project to display a preview. Does this immediately by default,
+     * but it can be deferred for performance reasons.
+     */
+    export let load = true;
+    /** Bind to this to know when the project is evaluated. */
+    export let loaded: ((project: Project) => void) | undefined = undefined;
+    /** Whether to show the project's name. */
     export let name = true;
+    /** How many rems the preview square should be. */
     export let size = 4;
+    /** The link to go to when clicked. If none is provided, goes to the project. */
     export let link: string | undefined = undefined;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
-    let value: Value | undefined;
-    $: if (visible) {
+    let value: Value | undefined = undefined;
+    $: if (load && value === undefined) {
         [evaluator, value] = updatePreview(project);
+        if (loaded) loaded(project);
     }
 
     $: path = link ?? project.getLink(true);
@@ -34,10 +43,6 @@
         evaluator.stop();
         return [evaluator, value];
     }
-
-    // Don't show the output view immediately.
-    let visible = false;
-    onMount(() => setTimeout(() => (visible = true), delay));
 
     const user = getUser();
 
@@ -58,7 +63,7 @@
                 ? action()
                 : undefined}
     >
-        {#if visible}
+        {#if value}
             <div
                 class="output"
                 role="presentation"
