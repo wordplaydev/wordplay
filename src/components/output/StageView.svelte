@@ -67,7 +67,6 @@
 
         if (typeof ResizeObserver !== 'undefined')
             observer = new ResizeObserver((entries) => {
-                console.log('Changed size');
                 const el = entries.at(0);
                 if (el) {
                     changed =
