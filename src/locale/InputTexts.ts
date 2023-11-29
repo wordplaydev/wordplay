@@ -23,6 +23,8 @@ type InputTexts = {
     Time: NameAndDoc & {
         /** The frequency with which time should tick */
         frequency: NameAndDoc;
+        /** Whether the time should be relative or absolute */
+        relative: NameAndDoc;
     };
     /** A stream of amplitude values */
     Volume: NameAndDoc & {

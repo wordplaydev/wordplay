@@ -9,6 +9,9 @@
     import Emotion from '../lore/Emotion';
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
     import Beta from './Beta.svelte';
+    import { getUser } from '@components/project/Contexts';
+
+    let user = getUser();
 </script>
 
 <svelte:head>
@@ -19,7 +22,8 @@
 
 <Background />
 <Writing>
-    <Header>{$locales.get((l) => l.wordplay)}<sub>.dev</sub></Header>
+    <Beta />
+    <Header>{$locales.get((l) => l.wordplay)}</Header>
     <div class="welcome">
         <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
             ><svelte:fragment slot="content"
@@ -29,7 +33,6 @@
             ></Speech
         >
     </div>
-    <Beta />
     <BigLink
         to="/learn"
         subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
@@ -45,17 +48,27 @@
         subtitle={$locales.get((l) => l.ui.page.landing.link.galleries)}
         >{$locales.get((l) => l.ui.page.galleries.header)}</BigLink
     >
+    {#if $user === null}
+        <BigLink
+            to="/login"
+            subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
+            >{$locales.get((l) => l.ui.page.login.header)}</BigLink
+        >
+    {/if}
     <BigLink
+        smaller
         to="/about"
         subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
         >{$locales.get((l) => l.ui.page.about.header)}</BigLink
     >
     <BigLink
+        smaller
         to="/rights"
         subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
         >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
     >
     <BigLink
+        smaller
         to="/donate"
         subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
         >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
@@ -63,10 +76,6 @@
 </Writing>
 
 <style>
-    sub {
-        font-size: 30%;
-    }
-
     .welcome {
         margin-inline-start: -3em;
         margin-top: 2em;

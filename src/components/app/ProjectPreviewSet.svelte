@@ -4,10 +4,8 @@
     import { locales } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { goto } from '$app/navigation';
 
     export let set: Project[];
-    export let beforePlay: undefined | ((project: Project) => void) = undefined;
     export let edit:
         | {
               description: string;
@@ -32,15 +30,9 @@
 </script>
 
 <div class="projects">
-    {#each sortProjects(set).filter( (p) => p.isListed() ) as project, index (project.getID())}
+    {#each sortProjects(set).filter( (p) => p.isListed() ) as project (project.getID())}
         {@const removeMeta = remove(project)}
-        <ProjectPreview
-            {project}
-            action={() => {
-                if (beforePlay) beforePlay(project);
-                goto(project.getLink(true));
-            }}
-            delay={index * 50}
+        <ProjectPreview {project} link={project.getLink(true)}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}

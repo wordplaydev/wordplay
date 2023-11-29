@@ -10,4 +10,4 @@ symbols: 'typography'/en'tipografía'/es ÷ ''
 
 phrases: randomize() … ∆ Key() | ∆ Button() … randomize()
 
-Stage([Group(Row(0 0m) phrases place: Place(0m 0m))])
+Stage([Group(Row('|' 0m) phrases place: Place(0m 0m))])

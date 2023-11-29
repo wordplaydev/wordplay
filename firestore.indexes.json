@@ -8,6 +8,42 @@
                 { "fieldPath": "featured", "order": "ASCENDING" },
                 { "fieldPath": "id", "order": "ASCENDING" }
             ]
+        },
+        {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "flags.disclosure", "order": "ASCENDING" },
+                { "fieldPath": "public", "order": "ASCENDING" },
+                { "fieldPath": "timestamp", "order": "ASCENDING" }
+            ]
+        },
+        {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "flags.misinformation", "order": "ASCENDING" },
+                { "fieldPath": "public", "order": "ASCENDING" },
+                { "fieldPath": "timestamp", "order": "ASCENDING" }
+            ]
+        },
+        {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "flags.violence", "order": "ASCENDING" },
+                { "fieldPath": "public", "order": "ASCENDING" },
+                { "fieldPath": "timestamp", "order": "ASCENDING" }
+            ]
+        },
+        {
+            "collectionGroup": "projects",
+            "queryScope": "COLLECTION",
+            "fields": [
+                { "fieldPath": "flags.dehumanization", "order": "ASCENDING" },
+                { "fieldPath": "public", "order": "ASCENDING" },
+                { "fieldPath": "timestamp", "order": "ASCENDING" }
+            ]
         }
     ],
     "fieldOverrides": []

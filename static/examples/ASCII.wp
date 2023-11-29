@@ -1,0 +1,18 @@
+ASCII Video
+===
+colors: Camera(32px 24px 1000ms)
+scale: "@%#*+=-:. " → []
+
+Stage(
+    colors.combine(
+        []
+        ƒ(phrases•[Phrase] row•[Color] y•#)
+            phrases.append(
+                row.translate(
+                    ƒ(color•Color x•#)
+                        Phrase("\scale[(color.lightness · 9).round()]\" place: Place((x - 1) · 0.5m y · -0.5m) duration: 0s
+                )
+            )
+        )
+    )
+)

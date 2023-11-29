@@ -66,7 +66,8 @@
         <Button
             tip={$locales.get((l) => l.ui.palette.button.sequence)}
             action={convert}
-            >{project.shares.output.Sequence.getNames()[0]}</Button
+            >{project.shares.output.Sequence.getNames()[0]}
+            {$locales.get((l) => l.ui.palette.button.sequence)}</Button
         >
     {/if}
 </div>

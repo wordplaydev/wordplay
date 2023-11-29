@@ -817,7 +817,7 @@
             "emotion": "curious",
             "doc": [
                 "/@FunctionDefinition here. This is a handy way to check if a value is @None, and if it is, provide a backup value./",
-                "/For example, if you had a value that could be a @Number or @None, @NoneOr helps you give a default number:",
+                "/For example, if you had a value that could be a @Number or @None, @Otherwise helps you give a default number:",
                 "\\maybeNumber•#|ø: 1 maybeNumber ?? 0\\"
             ],
             "start": "ø ??",
@@ -2830,6 +2830,10 @@
             "frequency": {
                 "names": ["frequency"],
                 "doc": "This is the frequency with which time should tick. It defaults to \\33ms\\, which is about 30 times per second."
+            },
+            "relative": {
+                "names": ["relative"],
+                "doc": "If \\⊤\\, time starts at 0, when the program is first evaluated. Otherwise, it starts at the number of milliseconds since the start of today, UTC (Coordinated Universal Time), allowing you to keep track of the time of day."
             }
         },
         "Volume": {
@@ -3747,8 +3751,8 @@
         "tile": {
             "toggle": {
                 "fullscreen": {
-                    "on": "leave full screen",
-                    "off": "expand tile to full screen"
+                    "on": "exit full screen",
+                    "off": "expand to full screen"
                 },
                 "show": {
                     "on": "hide",
@@ -4117,7 +4121,7 @@
                 "up": "move this content up",
                 "down": "move this content down",
                 "edit": "edit this content",
-                "sequence": "convert to a sequence",
+                "sequence": "convert to Sequence",
                 "createPhrase": "create a Phrase, showing the existing value as text",
                 "createGroup": "create a Group, wrapping any existing Phrase",
                 "createStage": "create a Stage, wrapping any existing Group or Phrase"
@@ -4229,6 +4233,7 @@
             },
             "login": {
                 "header": "Login",
+                "subtitle": "Create an account or login in to save your work online",
                 "subheader": {
                     "username": "option 1: username + password",
                     "email": "option 2: email link"

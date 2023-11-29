@@ -2190,12 +2190,17 @@
                 "names": {
                   "$ref": "#/definitions/NameText",
                   "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "relative": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Whether the time should be relative or absolute"
                 }
               },
               "required": [
                 "doc",
                 "frequency",
-                "names"
+                "names",
+                "relative"
               ],
               "type": "object"
             },
@@ -9115,10 +9120,15 @@
                         "username"
                       ],
                       "type": "object"
+                    },
+                    "subtitle": {
+                      "description": "Subtitle for the header link on the landing page",
+                      "type": "string"
                     }
                   },
                   "required": [
                     "header",
+                    "subtitle",
                     "subheader",
                     "prompt",
                     "anonymous",

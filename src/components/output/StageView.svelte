@@ -62,18 +62,36 @@
     let view: HTMLElement | null = null;
 
     let mounted = false;
-    onMount(() => (mounted = true));
+    onMount(() => {
+        mounted = true;
+
+        if (typeof ResizeObserver !== 'undefined')
+            observer = new ResizeObserver((entries) => {
+                console.log('Changed size');
+                const el = entries.at(0);
+                if (el) {
+                    changed =
+                        viewportWidth !== el.contentRect.width ||
+                        viewportHeight !== el.contentRect.height;
+                    viewportWidth = el.contentRect.width;
+                    viewportHeight = el.contentRect.height;
+
+                    if (changed) setTimeout(() => (changed = false), 250);
+                }
+            });
+    });
 
     /**
      * Here we keep track of whether the stage has not been rerendered for some period of time.
      * We use this as an optimization, only generating expensive templated aria-labels for Group and Phrase views
      * when the screen is still, or when we haven't announced for a while. This is because screen reader users wouldn't be able to track something changing any faster,
      * since reading takes time.
+     * We only do this if the stage is interactive. Otherwise, no descriptions.
      */
     let stillTimeout: NodeJS.Timeout | undefined = undefined;
     let lastAnnouncement = 0;
     let announce = false;
-    $: if (stage) {
+    $: if (interactive && stage) {
         // Start by assuming we're not going to announce.
         announce = false;
         // Have we not announced in a while? Let's announce now.
@@ -85,9 +103,11 @@
         // Clear any timeout we had set up recently, then make a new one, announcing in a bit.
         if (stillTimeout) clearTimeout(stillTimeout);
         stillTimeout = setTimeout(() => {
-            announce = true;
+            if (!announce) {
+                announce = true;
+            }
             lastAnnouncement = Date.now();
-        }, 300);
+        }, 1000);
     }
 
     let exiting: OutputInfoSet = new Map();
@@ -148,7 +168,10 @@
     }
 
     /** When this is unmounted, stop all animations.*/
-    onDestroy(() => scene.stop());
+    onDestroy(() => {
+        scene.stop();
+        if (observer) observer.disconnect();
+    });
 
     /** Expose the editable context to all children */
     let editableStore = writable<boolean>(editable);
@@ -193,26 +216,14 @@
 
     /** Keep track of the tile view's content window size for use in fitting content to the window */
     let parent: Element | null;
-    let observer: ResizeObserver | undefined;
+    let observer: ResizeObserver | null = null;
     let viewportWidth = 0;
     let viewportHeight = 0;
     let changed = false;
-    $: {
-        if (observer && parent) observer.unobserve(parent);
-        if (view && view.parentElement) {
+    $: if (view && view.parentElement && observer) {
+        if (parent !== view.parentElement) {
+            if (parent) observer.unobserve(parent);
             parent = view.parentElement;
-            observer = new ResizeObserver((entries) => {
-                const el = entries.at(0);
-                if (el) {
-                    changed =
-                        viewportWidth !== el.contentRect.width ||
-                        viewportHeight !== el.contentRect.height;
-                    viewportWidth = el.contentRect.width;
-                    viewportHeight = el.contentRect.height;
-
-                    if (changed) setTimeout(() => (changed = false), 250);
-                }
-            });
             observer.observe(parent);
         }
     }

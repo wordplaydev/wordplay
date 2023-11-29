@@ -47,8 +47,7 @@
                         {project}
                         name={false}
                         action={() =>
-                            project ? goto(project.getLink(true)) : undefined}
-                        delay={0}
+                            project ? goto(gallery.getLink()) : undefined}
                         size={8}
                         link={gallery.getLink()}
                     />
@@ -57,15 +56,13 @@
         </div>
     {/if}
     <div class="description">
-        <Link to={gallery.getLink()}
-            ><Subheader
-                >{gallery.getName($locales)}
-                <sub
-                    ><span class="dots"
-                        >{'•'.repeat(gallery.getProjects().length)}</span
-                    ></sub
-                ></Subheader
-            ></Link
+        <Subheader
+            ><Link to={gallery.getLink()}>{gallery.getName($locales)}</Link>
+            <sub
+                ><span class="dots"
+                    >{'•'.repeat(gallery.getProjects().length)}</span
+                ></sub
+            ></Subheader
         >
         <MarkupHtmlView
             markup={gallery.getDescription($locales).split('\n').join('\n\n')}

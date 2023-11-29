@@ -88,8 +88,10 @@ export default class LocalesDatabase {
     }
 
     syncLocales() {
-        // Update the locales stores
-        this.locales.set(new Locales(this.computeLocales(), DefaultLocale));
+        // Update the locales stores if it's changed.
+        const newLocales = new Locales(this.computeLocales(), DefaultLocale);
+        if (!newLocales.isEqualTo(get(this.locales)))
+            this.locales.set(newLocales);
     }
 
     async loadLocale(

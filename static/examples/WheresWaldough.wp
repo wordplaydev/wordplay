@@ -1,0 +1,77 @@
+Where's Waldough?
+=== start/en
+``Where's Waldough?``
+``Look for the orange shirt man (named Waldough) and click on him to win!``
+
+name: Choice()
+caught: ⊥ … ∆ (name) … (name = 'Waldough') & ~caught
+reset: ⊥ … ∆ (name) … (name = 'ResetButton') & ~reset
+
+
+Stage([
+		💬(
+			"🔁" 
+			selectable: ⊤
+			place: Place(4m -0.5m)
+			resting: caught ? Pose(rotation: 180°) Pose()
+			duration: 0.5s
+			name: 'ResetButton'
+		)
+		Phrase("Look for the orange shirt" 0.2m 
+			place: Place(-6.1m 0.5m))
+		Phrase("man (named Waldough) and" 0.2m 
+			place: Place(-6.3m 0m))
+		Phrase("click on him to win!🧍🏻" 0.2m 
+			place: Place(-5.9m -0.5m))
+
+		Phrase("🏀" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🦧" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🍊" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("👻" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🤖" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("👽" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🐀" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🦣" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🐸" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🍎" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("💧" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🍔" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("❤️" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🍥" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		💬(
+			"🧍🏻" 
+			selectable: ⊤
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m)))
+			resting: caught ? Pose(rotation: 180°) Pose()
+			duration: 0s
+			name: 'Waldough'
+		)
+		Phrase("🔥" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🎂" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🐕" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Phrase("🦈" 
+			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
+		Shape(Rectangle(-3.5m -3m 3.5m -3.5m))
+		Shape(Rectangle(-3.5m 3.5m 3.5m 3m))
+		Shape(Rectangle(-3.5m 3.5m -3m -3.5m))
+		Shape(Rectangle(3m 3.5m 3.5m -3.5m))
+	] 
+	place: Place(0m 0m -5m)
+)

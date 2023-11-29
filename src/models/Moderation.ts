@@ -118,7 +118,6 @@ export async function isModerator(user: User) {
     return user
         .getIdTokenResult()
         .then((idTokenResult) => {
-            // Confirm the user is an Admin.
             return idTokenResult.claims.mod === true;
         })
         .catch(() => {

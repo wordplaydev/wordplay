@@ -74,7 +74,7 @@
         "URL": "URL",
         "Code": "codigo",
         "Mention": "mencionar",
-        "Otherwise": "$?",
+        "Otherwise": "si no",
         "None": "nada",
         "Type": "escribir",
         "Literal": "literal",
@@ -793,11 +793,15 @@
             "start": "… ø"
         },
         "Otherwise": {
-            "name": "$?",
+            "name": "si no",
             "emotion": "curious",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?"
+            "doc": [
+                "/@FunctionDefinition aquí. Esta es una forma práctica de verificar si un valor es @None, y si lo es, proporcionar un valor de respaldo./",
+                "/Por ejemplo, si tienes un valor que podría ser un @Number o @None, @Otherwise ayuda a dar un número predeterminado:",
+                "\\quizásNúmero•#|ø: 1 quizásNúmero ?? 0\\"
+            ],
+            "start": "ø ??",
+            "finish": "… $1"
         },
         "Previous": {
             "name": "anterior",
@@ -2872,6 +2876,10 @@
             "frequency": {
                 "names": ["frecuencia"],
                 "doc": "Esta es la frecuencia con que el tiempo avanza. Por defecto es \\33ms\\, que es alrededor de 30 veces por segundo."
+            },
+            "relative": {
+                "names": ["pariente"],
+                "doc": "Si \\⊤\\, el tiempo comienza en 0, cuando el programa se evalúa por primera vez. Si no, comienza en el número de milisegundos desde el inicio de hoy, UTC (Tiempo Universal Coordinado), lo que te permite llevar un registro de la hora del día."
             }
         },
         "Volume": {
@@ -3889,8 +3897,8 @@
                     "off": "mostrar los fondos de los bloques"
                 },
                 "localized": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "mostrar texto localizado",
+                    "off": "mostrar todo el texto"
                 },
                 "glyphs": {
                     "on": "colapsar los glifos coincidentes",
@@ -3925,8 +3933,8 @@
                 "selectAll": "seleccionar programa",
                 "incrementLiteral": "aumentar número, texto o booleano",
                 "decrementLiteral": "disminuir número, texto o booleano",
-                "insertSymbol": "inserte $1",
-                "insertTab": "$?",
+                "insertSymbol": "insertar $1",
+                "insertTab": "insertar tabulación",
                 "insertTrue": "insertar verdadera",
                 "insertFalse": "insertar falsa",
                 "insertNone": "insertar ningún símbolo",
@@ -4272,6 +4280,7 @@
             },
             "login": {
                 "header": "Iniciar sesión",
+                "subtitle": "$! Cree una cuenta o inicie sesión para guardar su trabajo en línea",
                 "subheader": {
                     "email": "opción 2: enlace de correo electrónico",
                     "username": "opción 1: nombre de usuario + contraseña"
@@ -4295,13 +4304,13 @@
                     "usernamereminder": "Debido a que no recopilamos información de contacto, no podrá restablecer su contraseña si la olvida. Guárdalo en un lugar seguro, como un administrador de contraseñas.",
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
-                    "changePassword": "$! ¿Quieres cambiar tu contraseña?",
+                    "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
                     "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
                     "delete": "¿Quieres que olvidemos todo lo que has creado aquí? Esto no se puede deshacer.",
-                    "reallyDelete": "$! ¿Estás seguro? Tu cuenta y configuraciones se eliminarán inmediatamente y tus proyectos se programarán para su eliminación. Los colaboradores en tus proyectos perderán inmediatamente el acceso a ellos. Escribe tu correo electrónico para confirmar que esto es lo que deseas.",
+                    "reallyDelete": "¿Estás segura? Tu cuenta y configuraciones se eliminarán inmediatamente, y tus proyectos se programarán para su eliminación. Las colaboradoras en tus proyectos perderán de inmediato el acceso a ellos. Escribe tu correo electrónico o nombre de usuario para confirmar que esto es lo que deseas.",
                     "name": "Elige un emoji para representarte a ti mismo ante los demás."
                 },
                 "error": {
@@ -4317,7 +4326,7 @@
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
                     "deleting": "Vale, borrando tus proyectos y configuraciones...",
-                    "updatedPassword": "$! Tu contraseña está actualizada."
+                    "updatedPassword": "Tu contraseña se ha actualizada."
                 },
                 "field": {
                     "email": {
@@ -4348,7 +4357,7 @@
                         "tip": "borrar tu cuenta para siempre",
                         "label": "¡¡¡bórralo!!!"
                     },
-                    "updatePassword": "$! enviar nueva contraseña"
+                    "updatePassword": "enviar nueva contraseña"
                 }
             },
             "rights": {

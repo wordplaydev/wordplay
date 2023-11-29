@@ -5,15 +5,15 @@ top: headlines•[''] ? headlines.subsequence(1 7) ø
 top•ø ? 
     Phrase('loading')
     Group(
-        Stack(-1) 
+        Stack('<') 
         [
             Phrase(`*New York Times Headlines*` 2m face: 'Arvo')].append(
             top.translate(
                 ƒ (headline) 
                     Phrase(
                         headline 
-                        ↵: 20m 
-                        alignment: '<' 
+                        ↵: 20m
+                        alignment: '<'
                         face: 'Ubuntu'
                         resting: Sequence(
                             {

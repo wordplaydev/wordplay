@@ -89,6 +89,8 @@
     import Arrangement from '../../db/Arrangement';
     import type Value from '../../values/Value';
     import {
+        EnterFullscreen,
+        ExitFullscreen,
         Restart,
         ShowKeyboardHelp,
         VisibleModifyCommands,
@@ -117,6 +119,7 @@
     } from '../../routes/project/constants';
     import Switch from '@components/widgets/Switch.svelte';
     import { withVariationSelector } from '../../unicode/emoji';
+    import FullscreenIcon from './FullscreenIcon.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -192,6 +195,9 @@
         on: layout.isFullscreen(),
         background: outputBackground,
     });
+
+    /** Whether the browser is in fullscreen */
+    let browserFullscreen = false;
 
     /** The conflicts present in the current project. **/
     const conflicts: ConflictsContext = writable([]);
@@ -907,9 +913,18 @@
     async function setFullscreen(tile: Tile | undefined) {
         if (tile === undefined) stopPlaying();
 
-        layout = tile
-            ? layout.withFullscreen(tile.id)
-            : layout.withoutFullscreen();
+        if (tile) {
+            layout = layout.withFullscreen(tile.id);
+        } else {
+            layout = layout.withoutFullscreen();
+        }
+    }
+
+    function setBrowserFullscreen(on: boolean) {
+        browserFullscreen = on;
+        if (browserFullscreen) view?.requestFullscreen();
+        else if (document.fullscreenElement) document.exitFullscreen();
+        else setFullscreen(undefined);
     }
 
     async function positionTile(tile: Tile, position: Bounds) {
@@ -1069,8 +1084,7 @@
         evaluator: $evaluation.evaluator,
         dragging: $dragged !== undefined,
         database: DB,
-        setFullscreen: (on: boolean) =>
-            setFullscreen(on ? layout.getOutput() : undefined),
+        setFullscreen: (on: boolean) => setBrowserFullscreen(on),
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
@@ -1561,6 +1575,14 @@
                     }}><Help /></Dialog
                 >
             </span>
+            <Toggle
+                tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                on={browserFullscreen}
+                command={browserFullscreen ? ExitFullscreen : EnterFullscreen}
+                toggle={() => setBrowserFullscreen(!browserFullscreen)}
+            >
+                <FullscreenIcon />
+            </Toggle>
         </nav>
 
         <!-- Render the menu on top of the annotations -->
