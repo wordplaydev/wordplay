@@ -11,7 +11,7 @@
     import type RenderContext from '@output/RenderContext';
     import { locales } from '../../db/Database';
     import type Shape from '../../output/Shape';
-    import { Rectangle } from '../../output/Form';
+    import { Rectangle, Line } from '../../output/Form';
 
     export let shape: Shape;
     export let place: Place;
@@ -41,7 +41,9 @@
             : null}
         class="output shape {shape.form instanceof Rectangle
             ? 'rectangle'
-            : ''}"
+            : shape.form instanceof Line
+            ? 'line'
+            :''}"
         tabIndex={interactive && (selectable || editing) ? 0 : null}
         data-id={shape.getHTMLID()}
         data-node-id={shape.value.creator.id}
@@ -86,5 +88,10 @@
         border-width: calc(2 * var(--wordplay-border-width));
         border-style: solid;
         border-color: transparent;
+    }
+
+    .shape.line {
+        border-width: 1px;
+        border-color: var(--line-color);
     }
 </style>
