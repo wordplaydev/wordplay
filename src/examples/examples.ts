@@ -105,7 +105,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [toLocaleString(l), l.gallery.games])
             ),
-            ['Adventure', 'Maze', 'WhatWord', 'Catch', 'Madlib', 'WheresWaldough']
+            ['Adventure', 'BasketballStar', 'Maze', 'WhatWord', 'Catch', 'Madlib', 'WheresWaldough']
         ),
         createGallery(
             'Visualizations',
