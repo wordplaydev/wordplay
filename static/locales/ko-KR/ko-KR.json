@@ -876,41 +876,28 @@
               "finish": "구조를 복사했지만 $1을(를) $2로 만들었어"
             },
             "PropertyReference": {
-              "name": "속성",
-              "description": "$1[$1|이름 없음] 속성",
-              "emotion": "친절한",
-              "doc": [
+                "name": "속성",
+                "description": "$1[$1|이름 없음] 속성",
+                "emotion": "친절한",
+                "doc": [
                 "@StructureDefinition을 만들 때 그 중 하나의 입력을 어떻게 얻을지에 대한 것이야.",
                 "도시에 관한 구조를 만든다면 나를 통해 이렇게 값을 얻을 수 있어:",
                 "\\•City(name•'' population•#people)\n\nportland: City('포틀랜드' 800000people)\n\nportland.population\\"
               ],
                 "start": "먼저 값을 가져오자",
-                "finish": "구조를 복사했지만 $1으로 $2을 사용했어"
+                "finish": "구조를 복사했지만 $1으로 $2을 사용했어",
+                "property": "$?"
             },
-            "PropertyReference": {
-            "name": "세부 조정",
-            "description": "세부 조정 $1[$1|이름 누락]",
-            "emotion": "친절한",
-            "doc": [
-                "때로는 @구조정의를 만들 때, 모든 것을 새로 만들지 않고 작은 부분만 변경하고 싶을 때가 있습니다.",
-                "예를 들어, 고양이의 기록을 유지하다가 다른 취미를 가진 고양이의 복사본을 만들고 싶다면요? 제가 변경을 도와드릴 수 있습니다:",
-                "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
-                "취미를 제외한 동일한 값으로 전체 새로운 \\Cat\\을 만드는 것보다 훨씬 쉽지 않나요?"
-            ],
-            "start": "$?",
-            "finish": "$?",
-            "property": "$?"
-        },
-        "Reaction": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "finish": "$?",
-            "initial": "$?",
-            "condition": "$?",
-            "next": "$?",
-            "conflict": {
+            "Reaction": {
+                "name": "$?",
+                "emotion": "$?",
+                "doc": "$?",
+                "start": "$?",
+                "finish": "$?",
+                "initial": "$?",
+                "condition": "$?",
+                "next": "$?",
+                "conflict": {
                 "ExpectedStream": "$?"
             }
         },
