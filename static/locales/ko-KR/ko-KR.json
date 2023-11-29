@@ -399,80 +399,117 @@
                 "하지만 @Is를 추가하면 이제 @함수정의는 그것들이 숫자라는 것을 알게 됩니다:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
-            "start": "$?",
-            "finish": "$?",
+            "start": "$1에서 어떤 값을 얻는지 봅시다!",
+            "finish": "오, 좋아요, $1을 얻었어요! 이름을 $2로 지어봅시다",
             "conflict": {
-                "DuplicateName": { "primary": "$?", "secondary": "$?" },
-                "DuplicateShare": { "primary": "$?", "secondary": "$?" },
-                "IncompatibleType": { "primary": "$?", "secondary": "$?" },
-                "MisplacedShare": "$?",
-                "MissingShareLanguages": "$?",
-                "RequiredAfterOptional": "$?",
-                "UnexpectedEtc": "$?",
-                "UnusedBind": "$?"
+                "DuplicateName": {
+                    "primary": "누군가가 이미 $1이라는 이름을 가지고 있어서, 이 이름을 사용할 수 없어요.",
+                    "secondary": "어, $1은 제 이름이에요" 
+                },
+                "DuplicateShare": {
+                     "primary": "$1과 같은 이름을 가지고 있어서, 무엇이 공유되는지 모호해져요", 
+                     "secondary": "$1과 같은 이름을 가지고 있어요"
+                    },
+                "IncompatibleType": {
+                    "primary": "저는 $2이어야 하는데, 실제로는 $1이에요", 
+                    "secondary": "오… 죄송해요, $1인가요, 정말로?"
+                },
+                "MisplacedShare": "@프로그램 레벨에서만 공유할 수 있어요, 어떤 것 안에서는 안 돼요!",
+                "MissingShareLanguages": "이것을 공유하고 싶다면, 어떤 언어인지 말해야 해서 다른 사람들이 읽을 수 있는지 알 수 있어요!",
+                "RequiredAfterOptional": "제가 여기 있으면 안 돼요, 저 앞에 선택적인 @바인드가 있어요",
+                "UnexpectedEtc": "@함수정의에서만 가변 길이가 될 수 있어요",
+                "UnusedBind": "이 값을 이름 지었는데, 아무도 사용하지 않고 있어요!"
             }
         },
         "Block": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "statement": "$?",
-            "start": "$?",
-            "finish": "$?",
+            "name": "블록",
+            "description": "$1 문장",
+            "emotion": "수줍은",
+            "doc": [
+                "안녕하세요. 저는 조용하고 개인적인 공간을 만들어 평가하는 것들을 위한 곳입니다.",
+                "이렇게요:",
+                "\\(1 - 1) + 2\\",
+                "이는 평가 순서를 명확하게 해줍니다.",
+                "@바인드도 도움이 됩니다.",
+                "\\(count: 10 count ^ count)\\",
+                "@바인드가 \\count\\를 만든 것을 보세요? 이것은 저 안에서만 이름이 붙여집니다. 그래서 이건 작동하지 않아요:",
+                "\\(count: 10 count ^ count) + count\\",
+                "왜냐하면 count는 저 안에서만 이름이 붙여졌기 때문입니다.",
+                "저 안에는 원하는 만큼의 표현식을 넣을 수 있습니다. 하지만 저는 마지막 것만 신경 쓰죠:",
+                "\\(1 2 3 4 5)\\",
+                "그래서 보통 저는 많은 @바인드와 마지막에 표현식을 가지고 있습니다.",
+                "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
+            ],
+            "statement": "문장",
+            "start": "첫 번째 표현식",
+            "finish": "끝났어요, $1을 얻었습니다",
             "conflict": {
-                "ExpectedEndingExpression": "$?",
-                "IgnoredExpression": { "primary": "$?", "secondary": "$?" }
+                "ExpectedEndingExpression": "표현식이 필요합니다.",
+                "IgnoredExpression": {
+                    "primary": "위의 것은 무시할 거예요.",
+                    "secondary": "@블록, 저를 무시하지 마세요!"
+                }
             }
         },
         "BooleanLiteral": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "특정 부울",
+            "description": "$1[참|거짓]",
+            "emotion": "정확한",
+            "doc": "나는 \\⊤\\ 또는 \\⊥\\ 중 하나입니다. 우리의 아름다운 논리에 대해 더 알고 싶다면 @부울을 참조하세요.",
+            "start": "$1!"
         },
         "Borrow": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "source": "$?",
-            "bind": "$?",
-            "version": "$?",
+            "name": "빌리기",
+            "description": "빌리기 $1[$1|이름 누락]",
+            "emotion": "신나는",
+            "doc": "여러 @소스로 공연을 만들 때, 다른 @소스에 공유된 @바인드를 빌리기 위해 저를 사용할 수 있습니다. 그들의 이름을 사용하기만 하면 그들의 이름과 값을 가져올게요.",
+            "start": "$1에서 $2 빌리기",
+            "source": "$source",
+            "bind": "이름",
+            "version": "버전",
             "conflict": {
-                "UnknownBorrow": "$?",
-                "BorrowCycle": "$?"
+                "UnknownBorrow": "이 이름을 가진 $source를 모르겠어요",
+                "BorrowCycle": "이것은 $1에 의존하는데, $1은 이 $source에 의존하므로 프로그램을 평가할 수 없어요"
             },
             "exception": {
                 "CycleException": {
-                    "description": "$?",
-                    "explanation": "$?"
+                    "description": "빌리기 순환",
+                    "explanation": "$1이 자기 자신에게 의존하고 있어요"
                 }
             }
         },
         "Changed": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "변경됨",
+            "emotion": "진지한",
+            "doc": [
+                "스트림이 @프로그램을 재평가하게 했는지 확인하고 @부울을 만듭니다. 이렇게요",
+                "\\∆ 시간()\\",
+                "스트림이 변경되었을 때만 무언가가 변경되기를 원할 때 정말 유용합니다.",
+                "그게 다에요."
+            ],
+            "start": "$1이 변경되었는지 보자구요…"
         },
         "Conditional": {
-            "name": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?",
-            "afterthen": "$?",
-            "else": "$?",
-            "finish": "$?",
-            "condition": "$?",
-            "yes": "$?",
-            "no": "$?",
+            "name": "조건문",
+            "emotion": "호기심 많은",
+            "doc": [
+                "제가 결정을 내려야 하나요? 이렇게 말이죠?",
+                "\\숫자: -100\n숫자 < 0 ? '음수' '양수'\\",
+                "하지만 우리가 어떻게 결정을 내리는지에 대해 생각해 본 적 있나요?",
+                "결정이 단순히 예 아니면 아니오로만 이루어져야 한다고 생각하지 않나요? \\⊤\\와 \\⊥\\ 사이에서 결정하는 것이 전부일까요?",
+                "이것들이 우리가 내릴 수 있는 유일한 종류의 결정이라면, 세상에 대한 중요한 맥락을 놓치고 있지 않을까 걱정되지 않나요?"
+            ],
+            "start": "$1이 참인지 보자",
+            "else": "$1[코드를 건너뛰는 중 | 코드를 건너뛰지 않는 중]",
+            "afterthen": "예스를 완료했으니, 노는 건너뛸까요?",
+            "finish": "아마도 $1인가요?",
+            "condition": "조건",
+            "yes": "예",
+            "no": "아니오",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "$1로 어떻게 예와 아니오를 선택할 수 있죠? 정말로, 어떻게요?",
+                    "secondary": "@조건문이 저를 @부울로 원했던 것 같은데, 저는 $1입니다."
                 }
             }
         },
