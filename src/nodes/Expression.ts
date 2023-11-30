@@ -46,15 +46,29 @@ export default abstract class Expression extends Node {
         context: Context,
         dependencies?: Set<Expression>
     ): Set<Expression> {
-        if (dependencies === undefined) dependencies = new Set();
-
-        // Prevent cycles.
-        if (dependencies.has(this)) return dependencies;
-
-        for (const dep of this.getDependencies(context)) {
-            dep.getAllDependencies(context, dependencies);
-            dependencies.add(dep);
+        // Keep track of whether this is the first in the recursive change of dependencies, so we
+        // can remove it from the dependency list. (The list should only contain dependencies, not the initial expression
+        // for which we're getting dependencies.)
+        let start = false;
+        // No list yet? Make one and add this.
+        if (dependencies === undefined) {
+            start = true;
+            dependencies = new Set();
         }
+        // Already visited this? Don't visit it again.
+        else if (dependencies.has(this)) return dependencies;
+
+        // Visit this.
+        dependencies.add(this);
+
+        // Get all dependencies of this.
+        for (const dep of this.getDependencies(context))
+            dep.getAllDependencies(context, dependencies);
+
+        // Don't include this if we started with it.
+        if (start) dependencies.delete(this);
+
+        // Return the final list of dependencies.
         return dependencies;
     }
 
