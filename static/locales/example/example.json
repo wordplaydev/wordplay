@@ -2341,7 +2341,8 @@
                     }
                 },
                 "error": {
-                    "unknown": "$?"
+                    "unknown": "$?",
+                    "anonymous": "$?"
                 },
                 "button": {
                     "submit": "$?"
