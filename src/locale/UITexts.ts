@@ -734,6 +734,8 @@ type UITexts = {
                 deleting: string;
                 /** Password successfully updated */
                 updatedPassword: string;
+                /** Email or username must match to delete account */
+                match: string;
             };
             error: {
                 /** Shown when the login link expired */

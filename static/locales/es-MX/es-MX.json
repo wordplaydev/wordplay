@@ -4328,7 +4328,8 @@
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
                     "deleting": "Vale, borrando tus proyectos y configuraciones...",
-                    "updatedPassword": "Tu contraseña se ha actualizada."
+                    "updatedPassword": "Tu contraseña se ha actualizada.",
+                    "match": "$! Esto debe coincidir con el nombre de usuario de su cuenta."
                 },
                 "field": {
                     "email": {

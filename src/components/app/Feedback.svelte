@@ -12,7 +12,6 @@
 
 <style>
     .feedback {
-        display: block;
         font-family: var(--wordplay-app-font);
         font-weight: normal;
         color: var(--wordplay-background);
@@ -21,7 +20,6 @@
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         flex-grow: 0;
-        flex-shrink: 0;
     }
 
     span {

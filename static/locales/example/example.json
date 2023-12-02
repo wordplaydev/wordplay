@@ -2566,7 +2566,8 @@
                 "feedback": {
                     "changing": "$?",
                     "deleting": "$?",
-                    "updatedPassword": ""
+                    "updatedPassword": "$?",
+                    "match": "$?"
                 },
                 "field": {
                     "email": {

@@ -4257,7 +4257,8 @@
                 "feedback": {
                     "changing": "Submitting new email...",
                     "deleting": "Okay, deleting your projects and settings...",
-                    "updatedPassword": "Your password is updated."
+                    "updatedPassword": "Your password is updated.",
+                    "match": "This must match your account's username."
                 },
                 "field": {
                     "email": {

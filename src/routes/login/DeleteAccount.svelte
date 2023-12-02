@@ -6,6 +6,8 @@
     import TextField from '../../components/widgets/TextField.svelte';
     import validEmail from '../../db/validEmail';
     import { DB, locales } from '@db/Database';
+    import Feedback from '@components/app/Feedback.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
 
     export let user: User;
 
@@ -79,6 +81,16 @@
                     (l) => l.ui.page.login.button.reallyDelete.label
                 )}</Button
             >
+            {#if confirmEmail?.length >= 5 && !readyToDeleteAccount(confirmEmail)}
+                <Feedback inline
+                    ><MarkupHtmlView
+                        inline
+                        markup={$locales.get(
+                            (l) => l.ui.page.login.feedback.match
+                        )}
+                    /></Feedback
+                >
+            {/if}
         </form>
     {/if}
 {:else if successfullyDeleted === undefined}

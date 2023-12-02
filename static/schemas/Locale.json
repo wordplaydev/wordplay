@@ -8924,6 +8924,10 @@
                           "description": "Account deleting pending",
                           "type": "string"
                         },
+                        "match": {
+                          "description": "Email or username must match to delete account",
+                          "type": "string"
+                        },
                         "updatedPassword": {
                           "description": "Password successfully updated",
                           "type": "string"
@@ -8932,7 +8936,8 @@
                       "required": [
                         "changing",
                         "deleting",
-                        "updatedPassword"
+                        "updatedPassword",
+                        "match"
                       ],
                       "type": "object"
                     },

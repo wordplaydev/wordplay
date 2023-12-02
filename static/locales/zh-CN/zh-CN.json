@@ -4138,7 +4138,8 @@
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
                     "deleting": "好的，正在删除您的项目和设置……",
-                    "updatedPassword": "您的密碼已更新。"
+                    "updatedPassword": "您的密碼已更新。",
+                    "match": "$! 這必須與您帳戶的用戶名相符。"
                 },
                 "field": {
                     "email": {
