@@ -26,7 +26,10 @@ export function createGroupType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
-        ${getBind(locales, (locale) => locale.output.Group.content)}•[Output|ø]
+        ${getBind(
+            locales,
+            (locale) => locale.output.Group.content
+        )}•[Phrase|Group|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,

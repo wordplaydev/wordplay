@@ -31,7 +31,10 @@ export const DefaultSize = 1;
 export function createStageType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Stage, '•')} Output(
-    ${getBind(locales, (locale) => locale.output.Stage.content)}•[Output]
+    ${getBind(
+        locales,
+        (locale) => locale.output.Stage.content
+    )}•[Phrase|Shape|Group]
     ${getBind(locales, (locale) => locale.output.Stage.frame)}•Rectangle|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
