@@ -4,7 +4,6 @@
         signInWithEmailAndPassword,
     } from 'firebase/auth';
     import CreatorDatabase from '@db/CreatorDatabase';
-    import validEmail from '@db/validEmail';
     import Subheader from '@components/app/Subheader.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { locales } from '@db/Database';
@@ -16,6 +15,7 @@
     import { auth } from '@db/firebase';
     import getLoginErrorDescription from './getAuthErrorDescription';
     import isValidPassword from './IsValidPassword';
+    import isValidUsername from '@db/isValidUsername';
 
     /** The username text currently in the text field */
     let username = '';
@@ -43,10 +43,6 @@
 
     /** The email to submit to Firebase given the current username (since Firebase doesn't support usernames) */
     $: emailUsername = CreatorDatabase.getUsernameEmail(username);
-
-    function isValidUsername(username: string) {
-        return !validEmail(username) && username.length >= 5;
-    }
 
     async function tryUsernameLogin() {
         if (auth && usernameIsCheckable) {
@@ -111,7 +107,7 @@
             )}
             bind:text={username}
             editable={!submitted}
-            validator={(name) => isValidUsername(name)}
+            validator={isValidUsername}
         />
         <TextField
             kind={'password'}

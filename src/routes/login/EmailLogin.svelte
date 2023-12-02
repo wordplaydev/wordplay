@@ -9,7 +9,7 @@
     import { locales } from '@db/Database';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import validEmail from '@db/validEmail';
+    import validEmail from '@db/isValidEmail';
     import LoginForm from './LoginForm.svelte';
     import { analytics, auth } from '@db/firebase';
     import { onMount } from 'svelte';

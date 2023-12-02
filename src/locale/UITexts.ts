@@ -483,8 +483,8 @@ type UITexts = {
             };
             /** Text fields in the share dialog */
             field: {
-                /** The email address of the collaborator being added */
-                email: FieldText;
+                /** The email or username of the collaborator being added */
+                emailOrUsername: FieldText;
             };
             /** Buttons in the share dialog */
             button: {
@@ -500,6 +500,8 @@ type UITexts = {
             error: {
                 /** When someone tries to add an email collaborator that doesn't have a Wordplay account */
                 unknown: string;
+                /** When someone wants to add a collaborator but isn't authenticated */
+                anonymous: string;
             };
         };
         /** The settings dialog */

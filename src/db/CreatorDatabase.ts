@@ -3,6 +3,7 @@ import type { Database } from './Database';
 import { functions } from './firebase';
 import type { UserIdentifier } from 'firebase-admin/auth';
 import type { User } from 'firebase/auth';
+import isValidEmail from './isValidEmail';
 
 export const CreatorCollection = 'creators';
 
@@ -138,7 +139,7 @@ export default class CreatorDatabase {
         return creators;
     }
 
-    async getCreatorsByEmail(
+    async getCreatorsByUIDs(
         uids: string[]
     ): Promise<Record<string, Creator | null>> {
         // First get any missing creators.
@@ -150,12 +151,16 @@ export default class CreatorDatabase {
         return map;
     }
 
-    async getUID(email: string): Promise<string | null> {
+    async getUID(emailOrUsername: string): Promise<string | null> {
+        // Append the username domain if it's not an email
+        if (!isValidEmail(emailOrUsername))
+            emailOrUsername =
+                emailOrUsername + Creator.CreatorUsernameEmailDomain;
         // First get any missing creators.
-        await this.getCreators([email], 'email');
+        await this.getCreators([emailOrUsername], 'email');
 
         // Then return what we've got.
-        return this.creatorsByEmail.get(email)?.getUID() ?? null;
+        return this.creatorsByEmail.get(emailOrUsername)?.getUID() ?? null;
     }
 
     async getCreator(uid: string): Promise<Creator | null> {

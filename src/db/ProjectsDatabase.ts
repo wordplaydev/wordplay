@@ -641,6 +641,7 @@ export default class ProjectsDatabase {
             // Now convert it to an in-memory project so we can manipulate it more easily.
             return await this.deserialize(project);
         } catch (_) {
+            console.error(_);
             return undefined;
         }
     }

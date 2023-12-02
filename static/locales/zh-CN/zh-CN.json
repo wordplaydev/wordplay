@@ -3864,7 +3864,7 @@
                 "subheader": {
                     "collaborators": {
                         "header": "合作者",
-                        "explanation": "合作者可以查看和编辑此项目。通过电子邮件添加或删除他们。"
+                        "explanation": "協作者可以檢視和編輯該項目。 只有專案所有者才能修改協作者。"
                     },
                     "gallery": {
                         "header": "画廊",
@@ -3876,9 +3876,9 @@
                     }
                 },
                 "field": {
-                    "email": {
-                        "placeholder": "电子邮件",
-                        "description": "您希望授予编辑权限的人的电子邮件地址。"
+                    "emailOrUsername": {
+                        "placeholder": "電子郵件或使用者名稱",
+                        "description": "您想要授予編輯權限的人員的電子郵件或使用者名"
                     }
                 },
                 "mode": {
@@ -3888,7 +3888,8 @@
                     }
                 },
                 "error": {
-                    "unknown": "我们不知道这封邮件的创建者是谁。"
+                    "unknown": "我们不知道这封邮件的创建者是谁。",
+                    "anonymous": "您必須登入才能共享。"
                 },
                 "button": {
                     "submit": "通过此电子邮件地址分享项目"

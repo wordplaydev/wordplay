@@ -4,7 +4,7 @@
     import { Creator } from '@db/CreatorDatabase';
     import type { User } from 'firebase/auth';
     import TextField from '../../components/widgets/TextField.svelte';
-    import validEmail from '../../db/validEmail';
+    import validEmail from '../../db/isValidEmail';
     import { DB, locales } from '@db/Database';
     import Feedback from '@components/app/Feedback.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';

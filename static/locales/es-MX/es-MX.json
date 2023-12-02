@@ -4043,7 +4043,7 @@
                 "subheader": {
                     "collaborators": {
                         "header": "Colaboradores",
-                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Agrégales o retírales acceso por correo electrónico."
+                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Sólo los propietarios del proyecto pueden modificar a los colaboradores."
                     },
                     "gallery": {
                         "header": "Galería",
@@ -4055,9 +4055,9 @@
                     }
                 },
                 "field": {
-                    "email": {
-                        "placeholder": "correo electrónico",
-                        "description": "la dirección de correo electrónico de la persona a la que deseas otorgar acceso de edición."
+                    "emailOrUsername": {
+                        "placeholder": "correo electrónico o nombre de usuario",
+                        "description": "correo electrónico o nombre de usuario de la persona a la que desea darle acceso de edición"
                     }
                 },
                 "mode": {
@@ -4067,7 +4067,8 @@
                     }
                 },
                 "error": {
-                    "unknown": "No conocemos a una creadora con este correo electrónico."
+                    "unknown": "No conocemos a una creadora con este correo electrónico.",
+                    "anonymous": "Debes iniciar sesión para compartir."
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico"

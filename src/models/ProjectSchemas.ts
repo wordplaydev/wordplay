@@ -33,7 +33,7 @@ export const ProjectSchemaV1 = z.object({
     /** The Firestore user ID owner of this project */
     owner: z.nullable(z.string()),
     /** A list of Firestore user IDs that have privileges to edit this project */
-    collaborators: z.array(z.string().uuid()),
+    collaborators: z.array(z.string()),
     /** Whether this project can be viewed by anyone */
     public: z.boolean(),
     /** True if the project is listed in a creator's list of projects */
@@ -45,7 +45,7 @@ export const ProjectSchemaV1 = z.object({
     /** Whether this project has ever been saved to the cloud. Needed for syncing. */
     persisted: z.boolean(),
     /** An optional gallery ID, indicating which gallery this project is in. */
-    gallery: z.nullable(z.string().uuid()),
+    gallery: z.nullable(z.string()),
     /** Moderation state */
     flags: z.object({
         dehumanization: z.nullable(z.boolean()),

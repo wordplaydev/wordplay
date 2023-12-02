@@ -2329,7 +2329,7 @@
                     }
                 },
                 "field": {
-                    "email": {
+                    "emailOrUsername": {
                         "placeholder": "$?",
                         "description": "$?"
                     }

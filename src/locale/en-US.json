@@ -3979,7 +3979,7 @@
                 "subheader": {
                     "collaborators": {
                         "header": "Collaborators",
-                        "explanation": "Collaborators can see and edit this project. Add or remove them by email."
+                        "explanation": "Collaborators can view and edit this project. Only project owners can modify collaborators."
                     },
                     "gallery": {
                         "header": "Gallery",
@@ -3991,9 +3991,9 @@
                     }
                 },
                 "field": {
-                    "email": {
-                        "placeholder": "email",
-                        "description": "the email address of the person who you want to grant edit access."
+                    "emailOrUsername": {
+                        "placeholder": "email or username",
+                        "description": "email or username of the person who you want to give edit access"
                     }
                 },
                 "mode": {
@@ -4003,7 +4003,8 @@
                     }
                 },
                 "error": {
-                    "unknown": "We don't know a creator with this email."
+                    "unknown": "We don't know a creator with this email.",
+                    "anonymous": "You must be logged in to share."
                 },
                 "button": {
                     "submit": "Share the project with this email address"

@@ -8195,13 +8195,18 @@
                       "additionalProperties": false,
                       "description": "Errors in the share dialog",
                       "properties": {
+                        "anonymous": {
+                          "description": "When someone wants to add a collaborator but isn't authenticated",
+                          "type": "string"
+                        },
                         "unknown": {
                           "description": "When someone tries to add an email collaborator that doesn't have a Wordplay account",
                           "type": "string"
                         }
                       },
                       "required": [
-                        "unknown"
+                        "unknown",
+                        "anonymous"
                       ],
                       "type": "object"
                     },
@@ -8223,13 +8228,13 @@
                       "additionalProperties": false,
                       "description": "Text fields in the share dialog",
                       "properties": {
-                        "email": {
+                        "emailOrUsername": {
                           "$ref": "#/definitions/FieldText",
-                          "description": "The email address of the collaborator being added"
+                          "description": "The email or username of the collaborator being added"
                         }
                       },
                       "required": [
-                        "email"
+                        "emailOrUsername"
                       ],
                       "type": "object"
                     },
