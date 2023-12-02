@@ -8730,6 +8730,10 @@
                       },
                       "type": "array"
                     },
+                    "description": {
+                      "$ref": "#/definitions/Template",
+                      "description": "A description of the platform's features"
+                    },
                     "link": {
                       "additionalProperties": false,
                       "description": "The subtitles below links",
@@ -8763,10 +8767,16 @@
                         "rights"
                       ],
                       "type": "object"
+                    },
+                    "value": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The value proposition for the site"
                     }
                   },
                   "required": [
                     "call",
+                    "value",
+                    "description",
                     "beta",
                     "link"
                   ],

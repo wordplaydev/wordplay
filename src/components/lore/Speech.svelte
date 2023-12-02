@@ -93,7 +93,7 @@
     }
 
     .dialog.big {
-        font-size: 150%;
+        font-size: 125%;
     }
 
     .dialog.scroll {

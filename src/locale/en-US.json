@@ -4138,12 +4138,14 @@
             },
             "landing": {
                 "call": ["Hi! Want to bring words to life with us? 😊"],
+                "value": "Learn to code by animating words, emojis, and symbols from the world's languages, whatever your abilities.",
+                "description": "Wordplay is an innovative programming language 🖥️ with block and text editing 📝, playful inputs like time 🕦, sound 🎤, webpages 🔗, and physics 🌎, instant time-travel debugging ⏪, and comprehensive documentation 🗂️. All in a growing list of the world's languages 🌐, following the latest web accessibility standards ♿️. Share with friends, private groups, or the world ↗️. Free forever from the <University of Washington Information School@https://ischool.uw.edu/>.",
                 "beta": [
                     "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete.",
                     "But it also means we want your feedback! Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
                 ],
                 "link": {
-                    "learn": "What is this place?",
+                    "learn": "A dramatic tutorial of cast of characters",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
                     "rights": "Responsibilities, ours and yours",

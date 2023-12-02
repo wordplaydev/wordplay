@@ -575,6 +575,10 @@ type UITexts = {
         landing: {
             /** What function says as a call to action */
             call: Template[];
+            /** The value proposition for the site */
+            value: Template;
+            /** A description of the platform's features */
+            description: Template;
             /** The landing page beta warning */
             beta: Template[];
             /** The subtitles below links */

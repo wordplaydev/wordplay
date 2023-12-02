@@ -8,8 +8,8 @@
 </script>
 
 <p class="link" class:smaller
-    ><Link {to} {external}><slot /></Link>{#if subtitle}<span class="subtitle"
-            ><br />{subtitle}</span
+    ><Link nowrap {to} {external}><slot /></Link>{#if subtitle}<span
+            class="subtitle"><br />{subtitle}</span
         >{/if}</p
 >
 
@@ -21,7 +21,7 @@
     }
 
     .link.smaller {
-        font-size: min(4vw, 24pt);
+        font-size: min(3vw, 24pt);
     }
 
     .subtitle {

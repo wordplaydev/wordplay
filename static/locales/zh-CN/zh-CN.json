@@ -4019,13 +4019,15 @@
             },
             "landing": {
                 "call": ["嗨！想要与我们一起赋予文字生命吗？😊"],
+                "value": "$! 無論您的能力如何，都可以透過世界語言中的動畫單字、表情符號和符號來學習編碼。",
+                "description": "$! Wordplay 是一種創新的程式語言 🖥️，具有區塊和文字編輯 📝、時間 🕦、聲音 🎤、網頁 🔗 和物理 🌎 等有趣的輸入、即時時間旅行調試 ⏪ 以及全面的文檔 🗂️。 所有這些都在不斷增長的世界語言清單中🌐，遵循最新的網路可訪問性標準♿️。 與朋友、私人團體或全世界分享↗️。 永遠免費來自<University of Washington Information School@https://ischool.uw.edu/>。",
                 "beta": [
                     "Wordplay 处于 测试阶段。这意味着功能可能会更改或无法按预期工作，并且本地化可能不完整。",
                     "但这也意味着我们需要您的反馈！请在 <Discord@https://discord.gg/Jh2Qq9husy> 或 <GitHub@https://github.com/wordplaydev/wordplay/issues> 上报告错误并分享想法。如果您能帮助，请查看我们的 <1.0 计划@https://github.com/wordplaydev/wordplay/milestones/1.0> 和 <贡献信息@https://github.com/wordplaydev/wordplay/wiki/contribute>。"
                 ],
                 "link": {
                     "about": "这个地方为什么存在？",
-                    "learn": "这是什么地方？",
+                    "learn": "$! 这是什么地方？",
                     "projects": "创建并分享表演",
                     "galleries": "体验他人的表演",
                     "rights": "责任，我们的和你们的"

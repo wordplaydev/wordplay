@@ -10,6 +10,8 @@
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
     import Beta from './Beta.svelte';
     import { getUser } from '@components/project/Contexts';
+    import Lead from '@components/app/Lead.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
 
     let user = getUser();
 </script>
@@ -23,7 +25,15 @@
 <Background />
 <Writing>
     <Beta />
-    <Header>{$locales.get((l) => l.wordplay)}</Header>
+    <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
+    <Lead
+        ><MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.landing.value)}
+        /></Lead
+    >
+    <MarkupHtmlView
+        markup={$locales.get((l) => l.ui.page.landing.description)}
+    />
     <div class="welcome">
         <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
             ><svelte:fragment slot="content"
@@ -55,31 +65,39 @@
             >{$locales.get((l) => l.ui.page.login.header)}</BigLink
         >
     {/if}
-    <BigLink
-        smaller
-        to="/about"
-        subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
-        >{$locales.get((l) => l.ui.page.about.header)}</BigLink
-    >
-    <BigLink
-        smaller
-        to="/rights"
-        subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
-        >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
-    >
-    <BigLink
-        smaller
-        to="/donate"
-        subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-        >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
-    >
+    <div class="details">
+        <BigLink
+            smaller
+            to="/about"
+            subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
+            >{$locales.get((l) => l.ui.page.about.header)}</BigLink
+        >
+        <BigLink
+            smaller
+            to="/rights"
+            subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
+            >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
+        >
+        <BigLink
+            smaller
+            to="/donate"
+            subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
+            >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
+        >
+    </div>
 </Writing>
 
 <style>
     .welcome {
-        margin-inline-start: -3em;
+        margin-inline-start: -2.5em;
         margin-top: 2em;
         margin-bottom: 2em;
         max-width: 100%;
+    }
+
+    .details {
+        display: flex;
+        flex-direction: row;
+        gap: calc(2 * var(--wordplay-spacing));
     }
 </style>

@@ -57,7 +57,9 @@
     {/if}
     <div class="description">
         <Subheader
-            ><Link to={gallery.getLink()}>{gallery.getName($locales)}</Link>
+            ><Link nowrap to={gallery.getLink()}
+                >{gallery.getName($locales)}</Link
+            >
             <sub
                 ><span class="dots"
                     >{'•'.repeat(gallery.getProjects().length)}</span

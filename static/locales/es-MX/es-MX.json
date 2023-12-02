@@ -4209,13 +4209,15 @@
                 "call": [
                     "¡Hola! ¿Quieres dar vida a las palabras con nosotras? 😊"
                 ],
+                "value": "$! Aprenda a codificar animando palabras, emojis y símbolos de los idiomas del mundo, sean cuales sean sus habilidades.",
+                "description": "$! Wordplay es un lenguaje de programación innovador 🖥︎️ con edición de bloques y texto 📝︎, entradas divertidas como tiempo 🕦︎, sonido 🎤︎, páginas web 🔗︎ y física 🌎︎, depuración instantánea de viajes en el tiempo ⏪︎ y documentación completa 🗂︎️. Todo en una lista cada vez mayor de idiomas del mundo 🌐︎, siguiendo los últimos estándares de accesibilidad web ♿︎️. Comparte con amigos, grupos privados o el mundo ↗︎️. Gratis para siempre de la <University of Washington Information School@https://ischool.uw.edu>.",
                 "beta": [
                     "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
                     "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
-                    "learn": "¿Qué es este lugar?",
+                    "learn": "$! ¿Qué es este lugar?",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas"

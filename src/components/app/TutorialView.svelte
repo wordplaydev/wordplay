@@ -224,7 +224,9 @@
     <div class="header">
         <Header block={false}
             >{#if fallback}🚧{/if}
-            {$locales.get((l) => l.ui.page.learn.header)}</Header
+            {$locales.get(
+                (l) => l.ui.page.learn.header
+            )}{#if fallback}🚧{/if}</Header
         >
         <nav>
             <!-- A hierarchical select of tutorial units and lessons  -->

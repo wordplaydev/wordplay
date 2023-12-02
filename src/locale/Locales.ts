@@ -75,7 +75,7 @@ export default class Locales {
         // Are we getting a string? Prepend a construction symbol.
         return (
             typeof fallbackResult === 'string'
-                ? `🚧${fallbackResult}`
+                ? `🚧${fallbackResult}🚧`
                 : // Is it a list of strings? Prepend a construction symbol to the first string.
                 Array.isArray(fallbackResult) &&
                   typeof fallbackResult[0] === 'string'

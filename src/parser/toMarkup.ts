@@ -5,6 +5,9 @@ import { toTokens } from './toTokens';
 import parseDoc from './parseDoc';
 
 export function toMarkup(template: string): [Markup, Spaces] {
-    const tokens = toTokens(DOCS_SYMBOL + template + DOCS_SYMBOL);
+    // Replace out of date markers before parsing
+    const tokens = toTokens(
+        DOCS_SYMBOL + template.replaceAll('$!', '').trim() + DOCS_SYMBOL
+    );
     return [parseDoc(tokens).markup, tokens.getSpaces()];
 }
