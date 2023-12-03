@@ -4,16 +4,13 @@
     import Background from '../components/app/Background.svelte';
     import { locales } from '../db/Database';
     import Writing from '../components/app/Writing.svelte';
-    import Speech from '../components/lore/Speech.svelte';
-    import Glyphs from '../lore/Glyphs';
-    import Emotion from '../lore/Emotion';
+    // import Speech from '../components/lore/Speech.svelte';
+    // import Glyphs from '../lore/Glyphs';
+    // import Emotion from '../lore/Emotion';
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
     import Beta from './Beta.svelte';
-    import { getUser } from '@components/project/Contexts';
     import Lead from '@components/app/Lead.svelte';
     import Emoji from '@components/app/Emoji.svelte';
-
-    let user = getUser();
 </script>
 
 <svelte:head>
@@ -31,18 +28,21 @@
             markup={$locales.get((l) => l.ui.page.landing.value)}
         /></Lead
     >
+    <!-- <div class="welcome">
+        <div style:width="10em" style:margin-inline-start="-2.5em">
+            <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
+                ><svelte:fragment slot="content"
+                    ><MarkupHtmlView
+                        markup={$locales.get((l) => l.ui.page.landing.call)}
+                    /></svelte:fragment
+                ></Speech
+            >
+        </div>
+    </div> -->
     <MarkupHtmlView
         markup={$locales.get((l) => l.ui.page.landing.description)}
     />
-    <div class="welcome">
-        <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
-            ><svelte:fragment slot="content"
-                ><MarkupHtmlView
-                    markup={$locales.get((l) => l.ui.page.landing.call)}
-                /></svelte:fragment
-            ></Speech
-        >
-    </div>
+    <br />
     <BigLink
         to="/learn"
         subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
@@ -58,46 +58,38 @@
         subtitle={$locales.get((l) => l.ui.page.landing.link.galleries)}
         >{$locales.get((l) => l.ui.page.galleries.header)}</BigLink
     >
-    {#if $user === null}
-        <BigLink
-            to="/login"
-            subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
-            >{$locales.get((l) => l.ui.page.login.header)}</BigLink
-        >
-    {/if}
-    <div class="details">
-        <BigLink
-            smaller
-            to="/about"
-            subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
-            >{$locales.get((l) => l.ui.page.about.header)}</BigLink
-        >
-        <BigLink
-            smaller
-            to="/rights"
-            subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
-            >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
-        >
-        <BigLink
-            smaller
-            to="/donate"
-            subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-            >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
-        >
-    </div>
+    <BigLink
+        to="/login"
+        subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
+        >{$locales.get((l) => l.ui.page.login.header)}</BigLink
+    >
+    <BigLink
+        smaller
+        to="/about"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
+        >{$locales.get((l) => l.ui.page.about.header)}</BigLink
+    >
+    <BigLink
+        smaller
+        to="/rights"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
+        >{$locales.get((l) => l.ui.page.rights.header)}</BigLink
+    >
+    <BigLink
+        smaller
+        to="/donate"
+        subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
+        >{$locales.get((l) => l.ui.page.donate.header)}</BigLink
+    >
 </Writing>
 
-<style>
+<!-- <style>
     .welcome {
-        margin-inline-start: -2.5em;
+        display: flex;
+        flex-direction: row;
+        gap: calc(var(--wordplay-spacing) * 2);
         margin-top: 2em;
         margin-bottom: 2em;
         max-width: 100%;
     }
-
-    .details {
-        display: flex;
-        flex-direction: row;
-        gap: calc(2 * var(--wordplay-spacing));
-    }
-</style>
+</style> -->
