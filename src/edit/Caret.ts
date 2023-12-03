@@ -384,6 +384,7 @@ export default class Caret {
         return typeof this.position === 'number';
     }
 
+    /** If the position is an index, return it, undefined otherwise. */
     getIndex() {
         return this.isIndex() ? (this.position as number) : undefined;
     }
@@ -423,7 +424,7 @@ export default class Caret {
         );
     }
 
-    // Get the code position corresponding to the beginning of the given row.
+    /** Get the code position corresponding to the beginning of the given row.  */
     rowPosition(row: number): number | undefined {
         const lines = this.source.getCode().getLines();
         if (row < 0 || row >= lines.length) return undefined;
@@ -1447,13 +1448,32 @@ export default class Caret {
         const beforeNode = before[0];
         const afterNode = after[0];
 
-        if (this.tokenExcludingSpace && this.isInsideText()) {
+        // Inside a token? Say what text we're in and what characters we're between.
+        if (this.tokenExcludingSpace) {
+            // Where is the cursor in the token, relative to the token's start?
+            const tokenPosition = this.source.getTokenTextPosition(
+                this.tokenExcludingSpace
+            );
+            const relativeIndex =
+                tokenPosition === undefined
+                    ? undefined
+                    : this.position - tokenPosition;
             return concretize(
                 locales,
                 locales.get((l) => l.ui.edit.inside),
-                new NodeRef(this.tokenExcludingSpace, locales, context)
+                new NodeRef(this.tokenExcludingSpace, locales, context),
+                // Character before cursor, if there is one
+                relativeIndex
+                    ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
+                    : undefined,
+                // Character after cursor, if there is one
+                relativeIndex
+                    ? this.tokenExcludingSpace.text.at(relativeIndex)
+                    : undefined
             ).toText();
-        } else if (this.isEmptyLine()) {
+        }
+        // Describe the empty line
+        else if (this.isEmptyLine()) {
             return concretize(
                 locales,
                 locales.get((l) => l.ui.edit.line),
@@ -1462,7 +1482,9 @@ export default class Caret {
                     : undefined,
                 afterNode ? new NodeRef(afterNode, locales, context) : undefined
             ).toText();
-        } else if (this.tokenIncludingSpace) {
+        }
+        // Describe the tokens we're between or before.
+        else if (this.tokenIncludingSpace) {
             if (this.tokenPrior && this.tokenPrior !== this.tokenIncludingSpace)
                 return concretize(
                     locales,

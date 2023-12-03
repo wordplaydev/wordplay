@@ -4411,7 +4411,7 @@
         "edit": {
             "node": "$1$2[, tipo $2|]",
             "before": "antes de $1[$1|final]",
-            "inside": "dentro de $1",
+            "inside": "dentro de $1, entre $2[$2|origen] y $3[$3|final]",
             "between": "entre $1 y $2",
             "line": "línea vacía entre $1[$1|inicio] y $2[$2|final]",
             "conflicts": "$1 conflictos",

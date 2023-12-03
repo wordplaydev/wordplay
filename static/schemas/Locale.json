@@ -8427,7 +8427,7 @@
                 },
                 "inside": {
                   "$ref": "#/definitions/Template",
-                  "description": "A way to say \"inside [description]\""
+                  "description": "A way to say \"inside [description], between character [before|start] and [after|end]\""
                 },
                 "line": {
                   "$ref": "#/definitions/Template",

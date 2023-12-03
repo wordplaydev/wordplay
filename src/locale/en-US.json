@@ -4339,7 +4339,7 @@
         "edit": {
             "node": "$1$2[, type $2|]",
             "before": "before $1[$1|end]",
-            "inside": "inside $1",
+            "inside": "in $1, between $2[$2|start] and $3[$3|end]",
             "between": "between $1 and $2",
             "line": "empty line between $1[$1|start] and $2[$2|end]",
             "conflicts": "$1 conflicts",
