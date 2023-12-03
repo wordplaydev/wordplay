@@ -8,8 +8,6 @@
     import RootView from '../project/RootView.svelte';
     import PlaceholderView from './PlaceholderView.svelte';
     import Token from '../../nodes/Token';
-    import { fade } from 'svelte/transition';
-    import { animationDuration } from '../../db/Database';
 
     export let node: Evaluate;
 
@@ -60,7 +58,6 @@
     node={node.open}
 />{#each node.inputs as input}<NodeView node={input} />{/each}{#if nextBind}<div
         class="hint"
-        transition:fade={{ duration: $animationDuration }}
         >&nbsp;<RootView
             node={nextBind.withoutValue()}
             inline

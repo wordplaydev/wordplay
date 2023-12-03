@@ -71,6 +71,7 @@ function getEditorOffset(el: HTMLElement) {
 
 function getViewRect(offset: { left: number; top: number }, view: HTMLElement) {
     const rect = view.getBoundingClientRect();
+
     const left = rect.left - offset.left;
     const top = rect.top - offset.top;
     return {
