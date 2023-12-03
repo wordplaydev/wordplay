@@ -828,6 +828,7 @@
     afterUpdate(() => {
         // Did the body get focus after the update? Focus on the nearest view in output.
         if (
+            interactive &&
             document.activeElement === document.body &&
             priorFocusRect &&
             valueView
@@ -870,8 +871,8 @@
         class:typing
         role="presentation"
         bind:this={valueView}
-        on:keydown={interactive ? handleKeyDown : undefined}
-        on:keyup={interactive ? handleKeyUp : undefined}
+        on:keydown={interactive ? handleKeyDown : null}
+        on:keyup={interactive ? handleKeyUp : null}
         on:wheel={interactive ? handleWheel : null}
         on:pointerdown|stopPropagation={(event) =>
             interactive ? handlePointerDown(event) : null}
@@ -972,12 +973,11 @@
 
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-items: stretch;
+        align-items: stretch;
         position: relative;
 
-        width: 100%;
-        height: 100%;
+        flex-grow: 1;
     }
 
     .output.editing.selected {
@@ -989,14 +989,14 @@
     .value {
         transform-origin: top right;
 
+        flex-grow: 1;
+
         display: flex;
         flex-direction: column;
-        justify-content: center;
-        align-items: center;
+        justify-content: stretch;
+        align-items: stretch;
         position: relative;
 
-        width: 100%;
-        height: 100%;
         overflow: hidden;
         transition: ease-in-out background-color, filter, ease-in,
             height ease-in;
@@ -1022,8 +1022,6 @@
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        max-height: 100%;
-        width: 100%;
         padding: var(--wordplay-spacing);
         transform-origin: center;
         align-items: center;

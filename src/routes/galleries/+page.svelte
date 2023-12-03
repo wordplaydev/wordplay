@@ -81,12 +81,12 @@
     <MarkupHtmlView markup={$locales.get((l) => l.ui.page.galleries.prompt)} />
 
     {#if galleries === undefined}
-        <Spinning label="" />
+        <Spinning large />
     {:else}
         <div class="previews">
-            {#each galleries as gallery}
+            {#each galleries as gallery, index}
                 <div class="preview">
-                    <GalleryPreview {gallery} />
+                    <GalleryPreview {gallery} delay={index * 500} />
                 </div>
             {/each}
         </div>

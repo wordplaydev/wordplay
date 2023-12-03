@@ -9,7 +9,12 @@
 
 {#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
     <slot />
-{:else}<a title={tip} href={to} target={external ? '_blank' : null} class:nowrap
+{:else}<a
+        data-sveltekit-preload-data="tap"
+        title={tip}
+        href={to}
+        target={external ? '_blank' : null}
+        class:nowrap
         ><slot />{#if external}<span class="external">↗</span>{/if}</a
     >
 {/if}

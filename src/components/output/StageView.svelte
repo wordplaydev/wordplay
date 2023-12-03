@@ -69,13 +69,18 @@
             observer = new ResizeObserver((entries) => {
                 const el = entries.at(0);
                 if (el) {
-                    changed =
+                    let resized =
                         viewportWidth !== el.contentRect.width ||
                         viewportHeight !== el.contentRect.height;
-                    viewportWidth = el.contentRect.width;
-                    viewportHeight = el.contentRect.height;
 
-                    if (changed) setTimeout(() => (changed = false), 250);
+                    if (resized) {
+                        if (viewportWidth !== 0 && viewportHeight !== 0)
+                            changed = true;
+                        viewportWidth = el.contentRect.width;
+                        viewportHeight = el.contentRect.height;
+
+                        setTimeout(() => (changed = false), 250);
+                    }
                 }
             });
     });
@@ -179,7 +184,7 @@
     setContext('project', project);
 
     /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
-    $: {
+    $: if (interactive) {
         const results = scene.update(
             stage,
             interactive,
@@ -401,16 +406,10 @@
 {/if}
 
 <style>
-    .interactor {
-        width: 100%;
-        height: 100%;
-    }
-
     .stage {
         user-select: none;
-        width: 100%;
-        height: 100%;
         position: relative;
+        flex-grow: 1;
 
         color: var(--wordplay-foreground);
 

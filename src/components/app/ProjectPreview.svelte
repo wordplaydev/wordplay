@@ -13,13 +13,6 @@
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
-    /**
-     * If true, evaluates the project to display a preview. Does this immediately by default,
-     * but it can be deferred for performance reasons.
-     */
-    export let load = true;
-    /** Bind to this to know when the project is evaluated. */
-    export let loaded: ((project: Project) => void) | undefined = undefined;
     /** Whether to show the project's name. */
     export let name = true;
     /** How many rems the preview square should be. */
@@ -29,10 +22,9 @@
 
     // Clone the project and get its initial value, then stop the project's evaluator.
     let evaluator: Evaluator;
-    let value: Value | undefined = undefined;
-    $: if (load && value === undefined) {
+    let value: Value | undefined;
+    $: {
         [evaluator, value] = updatePreview(project);
-        if (loaded) loaded(project);
     }
 
     $: path = link ?? project.getLink(true);
@@ -53,6 +45,7 @@
 <div class="project" class:named={name}>
     <a
         class="preview"
+        data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
         style:height={`${size}rem`}
         href={path}
@@ -109,6 +102,9 @@
     }
 
     .output {
+        display: flex;
+        align-items: stretch;
+        justify-items: stretch;
         width: 100%;
         height: 100%;
     }

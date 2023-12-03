@@ -320,6 +320,8 @@
 
     .content {
         position: relative;
+        display: flex;
+        flex-direction: column;
         overflow: auto;
         width: 100%;
         flex-grow: 1;

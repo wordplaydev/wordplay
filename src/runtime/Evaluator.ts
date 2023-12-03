@@ -1144,6 +1144,7 @@ export default class Evaluator {
             this.temporalStreams.push(stream);
             // If we haven't yet started a loop, start one.
             if (
+                this.reactive &&
                 !this.animating &&
                 typeof window !== 'undefined' &&
                 typeof window.requestAnimationFrame !== 'undefined'
@@ -1212,7 +1213,8 @@ export default class Evaluator {
         }
 
         // Tick again in a bit if we're not stopped.
-        if (!this.#stopped) window.requestAnimationFrame(this.tick.bind(this));
+        if (this.reactive && !this.#stopped)
+            window.requestAnimationFrame(this.tick.bind(this));
     }
 
     /** React with any pooled temporal reactions */

@@ -178,8 +178,8 @@
                 )}</Feedback
             >
         {:else}
-            {#each $galleries.values() as gallery}
-                <GalleryPreview gallery={get(gallery)} />
+            {#each $galleries.values() as gallery, index}
+                <GalleryPreview gallery={get(gallery)} delay={index * 1000} />
             {/each}
         {/if}
     {:else}
