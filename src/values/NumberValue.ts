@@ -260,6 +260,10 @@ export default class NumberValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return this.num.toString();
+    }
+
     getSize() {
         return 1;
     }

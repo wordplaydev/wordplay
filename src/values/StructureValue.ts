@@ -14,6 +14,7 @@ import {
     BIND_SYMBOL,
     EVAL_CLOSE_SYMBOL,
     EVAL_OPEN_SYMBOL,
+    TYPE_SYMBOL,
 } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
@@ -184,6 +185,10 @@ export default class StructureValue extends Value {
     ): StructureValue | undefined {
         const newContext = this.context.withValue(creator, property, value);
         return newContext ? new StructureValue(creator, newContext) : undefined;
+    }
+
+    getRepresentativeText() {
+        return TYPE_SYMBOL;
     }
 
     getSize() {

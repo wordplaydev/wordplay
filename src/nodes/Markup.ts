@@ -165,6 +165,14 @@ export default class Markup extends Content {
         );
     }
 
+    getRepresentativeText() {
+        return this.nodes()
+            .filter(
+                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words)
+            )[0]
+            ?.getText();
+    }
+
     toString() {
         return '';
     }

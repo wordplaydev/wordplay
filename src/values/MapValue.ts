@@ -129,6 +129,10 @@ export default class MapValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return SET_OPEN_SYMBOL + BIND_SYMBOL + SET_CLOSE_SYMBOL;
+    }
+
     getSize() {
         let sum = 0;
         for (const [key, value] of this.values)

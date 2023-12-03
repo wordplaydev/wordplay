@@ -35,6 +35,10 @@ export default class NoneValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return NONE_SYMBOL;
+    }
+
     getSize() {
         return 1;
     }

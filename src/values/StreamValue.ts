@@ -174,6 +174,10 @@ export default abstract class StreamValue<
         return undefined;
     }
 
+    getRepresentativeText(locales: Locales): string {
+        return this.definition.getPreferredName(locales.getLocales());
+    }
+
     /** Should start whatever is necessary to start listening to data stream. */
     abstract start(): void;
 

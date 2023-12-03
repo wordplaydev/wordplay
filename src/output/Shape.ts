@@ -148,6 +148,10 @@ export default class Shape extends Output {
         return this.form.getDescription(locales);
     }
 
+    getRepresentativeText() {
+        return undefined;
+    }
+
     isEmpty() {
         return false;
     }

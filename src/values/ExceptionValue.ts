@@ -45,6 +45,10 @@ export default abstract class ExceptionValue extends SimpleValue {
         return 'exception';
     }
 
+    getRepresentativeText() {
+        return '!';
+    }
+
     toWordplay(): string {
         return '!' + this.constructor.name;
     }

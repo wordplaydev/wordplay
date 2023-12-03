@@ -10,7 +10,7 @@ import type Sequence from './Sequence';
 import TextLang from './TextLang';
 import Output, { DefaultStyle } from './Output';
 import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
-import { TYPE_SYMBOL } from '../parser/Symbols';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
 import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
@@ -163,6 +163,17 @@ export default class Group extends Output {
             ).toText();
         }
         return this._description;
+    }
+
+    getRepresentativeText(locales: Locales) {
+        for (const output of this.content) {
+            const text = output
+                ? output.getRepresentativeText(locales)
+                : undefined;
+            if (text) return text;
+        }
+        // No text? Just give a stage symbol.
+        return GROUP_SYMBOL;
     }
 
     isEmpty() {

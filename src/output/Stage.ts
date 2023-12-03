@@ -22,6 +22,7 @@ import Shape from './Shape';
 import type Evaluator from '../runtime/Evaluator';
 import type Locales from '../locale/Locales';
 import { getFirstName } from '../locale/Locale';
+import { STAGE_SYMBOL } from '@parser/Symbols';
 
 export const DefaultGravity = 9.8;
 
@@ -102,7 +103,7 @@ export default class Stage extends Output {
         pose: DefinitePose,
         entering: Pose | Sequence | undefined = undefined,
         resting: Pose | Sequence | undefined = undefined,
-        moveing: Pose | Sequence | undefined = undefined,
+        moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration = 0,
         style: string | undefined = 'zippy',
@@ -119,7 +120,7 @@ export default class Stage extends Output {
             pose,
             entering,
             resting,
-            moveing,
+            moving,
             exiting,
             duration,
             style
@@ -221,6 +222,17 @@ export default class Stage extends Output {
             ).toText();
         }
         return this._description;
+    }
+
+    getRepresentativeText(locales: Locales) {
+        for (const output of this.content) {
+            const text = output
+                ? output.getRepresentativeText(locales)
+                : undefined;
+            if (text) return text;
+        }
+        // No text? Just give a stage symbol.
+        return STAGE_SYMBOL;
     }
 
     isEmpty() {

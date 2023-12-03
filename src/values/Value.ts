@@ -37,6 +37,9 @@ export default abstract class Value {
 
     abstract getDescription(concretizer: Concretizer, locales: Locales): Markup;
 
+    /** Used to get a shorthand textual representation of the value, for previews and other summaries. */
+    abstract getRepresentativeText(locales: Locales): string;
+
     /**
      * Should returns a rough estimate of how much memory this value uses.
      * Used to manage history size.

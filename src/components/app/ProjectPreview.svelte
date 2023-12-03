@@ -1,15 +1,18 @@
 <script lang="ts">
     import type Project from '@models/Project';
-    import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import type Value from '@values/Value';
-    import { DB, animationDuration, locales } from '../../db/Database';
-    import { fade } from 'svelte/transition';
+    import { DB, locales } from '../../db/Database';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
     import { navigating } from '$app/stores';
     import Spinning from './Spinning.svelte';
+    import { toStage } from '@output/Stage';
+    import { EXCEPTION_SYMBOL } from '@parser/Symbols';
+    import Fonts from '@basis/Fonts';
+    import { getFaceCSS } from '@output/outputToCSS';
+    import { onMount } from 'svelte';
+    import UnicodeString from '@models/UnicodeString';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
@@ -17,23 +20,47 @@
     export let name = true;
     /** How many rems the preview square should be. */
     export let size = 4;
+    /** How many milliseconds to wait until we render */
+    export let delay = 0;
     /** The link to go to when clicked. If none is provided, goes to the project. */
     export let link: string | undefined = undefined;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let evaluator: Evaluator;
-    let value: Value | undefined;
-    $: {
-        [evaluator, value] = updatePreview(project);
-    }
+    let representativeForeground: string | null;
+    let representativeBackground: string | null;
+    let representativeFace: string | null;
+    let representativeText: string;
+
+    onMount(() => {
+        if (delay === 0) updatePreview();
+        else setTimeout(updatePreview, delay);
+    });
 
     $: path = link ?? project.getLink(true);
 
-    function updatePreview(project: Project): [Evaluator, Value | undefined] {
+    function updatePreview() {
         const evaluator = new Evaluator(project, DB, $locales, false);
         const value = evaluator.getInitialValue();
+        if (value === undefined) return [null, null, null, EXCEPTION_SYMBOL];
         evaluator.stop();
-        return [evaluator, value];
+        const stage = toStage(evaluator, value);
+        if (stage && stage.face) Fonts.loadFace(stage.face);
+
+        [
+            representativeFace,
+            representativeForeground,
+            representativeBackground,
+            representativeText,
+        ] = [
+            stage ? getFaceCSS(stage.face) : null,
+            stage ? stage.pose.color?.toCSS() ?? null : null,
+            stage ? stage.back.toCSS() : null,
+            stage
+                ? new UnicodeString(stage.getRepresentativeText($locales))
+                      .substring(0, 1)
+                      .toString()
+                : value.getRepresentativeText($locales),
+        ];
     }
 
     const user = getUser();
@@ -56,24 +83,17 @@
                 ? action()
                 : undefined}
     >
-        {#if value}
-            <div
-                class="output"
-                role="presentation"
-                class:blurred={audience && isFlagged(project.getFlags())}
-                in:fade={{ duration: $animationDuration }}
-            >
-                <OutputView
-                    {project}
-                    {evaluator}
-                    {value}
-                    fit={true}
-                    grid={false}
-                    mini
-                    editable={false}
-                />
-            </div>
-        {/if}
+        <div
+            class="output"
+            role="presentation"
+            style:background={representativeBackground}
+            style:color={representativeForeground}
+            style:font-family={representativeFace}
+            style:font-size={`${size - 1}rem`}
+            class:blurred={audience && isFlagged(project.getFlags())}
+        >
+            {representativeText}
+        </div>
     </a>
     {#if name}
         <div class="name"
@@ -103,10 +123,17 @@
 
     .output {
         display: flex;
-        align-items: stretch;
-        justify-items: stretch;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
+        background: var(--wordplay-error);
+        text-decoration: none;
+        color: var(--wordplay-foreground);
+    }
+
+    a {
+        text-decoration: none;
     }
 
     .name {

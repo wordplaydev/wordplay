@@ -51,6 +51,10 @@ export default class ConversionDefinitionValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return CONVERT_SYMBOL;
+    }
+
     getSize() {
         return 1;
     }

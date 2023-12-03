@@ -25,7 +25,7 @@ import { getOutputInput } from './Valued';
 import { getTypeStyle } from './toOutput';
 import MarkupValue from '@values/MarkupValue';
 import concretize from '../locale/concretize';
-import type Markup from '../nodes/Markup';
+import Markup from '../nodes/Markup';
 import segmentWraps from './segmentWraps';
 import type Matter from './Matter';
 import { toMatter } from './Matter';
@@ -340,6 +340,13 @@ export default class Phrase extends Output {
 
     isEmpty() {
         return false;
+    }
+
+    getRepresentativeText(locales: Locales) {
+        const preferred = this.getLocalizedTextOrDoc(locales);
+        return preferred instanceof Markup
+            ? preferred.getRepresentativeText()
+            : preferred.text;
     }
 
     toString() {

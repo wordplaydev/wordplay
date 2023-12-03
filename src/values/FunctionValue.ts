@@ -61,6 +61,10 @@ export default class FunctionValue extends Value {
         );
     }
 
+    getRepresentativeText() {
+        return FUNCTION_SYMBOL;
+    }
+
     getSize() {
         return 1;
     }

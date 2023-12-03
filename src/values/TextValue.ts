@@ -105,6 +105,10 @@ export default class TextValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return new UnicodeString(this.text).at(0)?.toString() ?? '';
+    }
+
     getSize() {
         return 1;
     }

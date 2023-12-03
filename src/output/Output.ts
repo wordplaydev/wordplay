@@ -114,6 +114,8 @@ export default abstract class Output extends Valued {
         return context.withFontAndSize(this.face, this.size);
     }
 
+    abstract getRepresentativeText(locales: Locales): string | undefined;
+
     getHTMLID(): string {
         return `output-${this.getName()}`;
     }
