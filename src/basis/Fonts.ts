@@ -79,7 +79,7 @@ const NotoEmoji: Face = {
     //     'U+200d, U+2194-2195, U+2640, U+2642, U+26d3, U+27a1, U+fe0f, U+1f344, U+1f34b, U+1f3c3, U+1f3fb-1f3ff, U+1f426, U+1f468-1f469, U+1f4a5, U+1f525, U+1f642, U+1f6b6, U+1f7e9, U+1f7eb, U+1f9af, U+1f9bc-1f9bd, U+1f9ce, U+1f9d1-1f9d2',
     // ],
     // format: 'woff2',
-    format: 'ttf',
+    format: 'woff2',
 };
 
 const NotoColorEmoji: Face = {
