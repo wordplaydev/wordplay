@@ -24,7 +24,7 @@
         index = (index + 1) % gallery.getProjects().length;
         projectID = gallery.getProjects()[index];
         if (projectID) project = await Projects.get(projectID);
-        timeoutID = setTimeout(loadNext, 5000);
+        timeoutID = setTimeout(loadNext, 10000);
     }
 
     onMount(() => {
@@ -45,16 +45,14 @@
                     label={$locales.get((l) => l.ui.widget.loading.message)}
                 />
             {:else}
-                {#key project}
-                    <ProjectPreview
-                        {project}
-                        name={false}
-                        action={() =>
-                            project ? goto(gallery.getLink()) : undefined}
-                        size={8}
-                        link={gallery.getLink()}
-                    />
-                {/key}
+                <ProjectPreview
+                    {project}
+                    name={false}
+                    action={() =>
+                        project ? goto(gallery.getLink()) : undefined}
+                    size={8}
+                    link={gallery.getLink()}
+                />
             {/if}
         </div>
     {/if}

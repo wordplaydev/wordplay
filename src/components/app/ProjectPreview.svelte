@@ -11,7 +11,6 @@
     import { EXCEPTION_SYMBOL } from '@parser/Symbols';
     import Fonts from '@basis/Fonts';
     import { getFaceCSS } from '@output/outputToCSS';
-    import { onMount } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
 
@@ -21,8 +20,6 @@
     export let name = true;
     /** How many rems the preview square should be. */
     export let size = 4;
-    /** How many milliseconds to wait until we render */
-    export let delay = 0;
     /** The link to go to when clicked. If none is provided, goes to the project. */
     export let link: string | undefined = undefined;
 
@@ -32,10 +29,7 @@
     let representativeFace: string | null;
     let representativeText: string;
 
-    onMount(() => {
-        if (delay === 0) updatePreview();
-        else setTimeout(updatePreview, delay);
-    });
+    $: if (project) updatePreview();
 
     $: path = link ?? project.getLink(true);
 

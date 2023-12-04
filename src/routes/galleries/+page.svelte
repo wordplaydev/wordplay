@@ -84,9 +84,9 @@
         <Spinning large />
     {:else}
         <div class="previews">
-            {#each galleries as gallery}
+            {#each galleries as gallery, index}
                 <div class="preview">
-                    <GalleryPreview {gallery} delay={0} />
+                    <GalleryPreview {gallery} delay={index * 1000} />
                 </div>
             {/each}
         </div>
