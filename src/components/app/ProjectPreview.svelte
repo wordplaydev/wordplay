@@ -13,6 +13,7 @@
     import { getFaceCSS } from '@output/outputToCSS';
     import { onMount } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
+    import ExceptionValue from '@values/ExceptionValue';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
@@ -41,9 +42,8 @@
     function updatePreview() {
         const evaluator = new Evaluator(project, DB, $locales, false);
         const value = evaluator.getInitialValue();
-        if (value === undefined) return [null, null, null, EXCEPTION_SYMBOL];
         evaluator.stop();
-        const stage = toStage(evaluator, value);
+        const stage = value ? toStage(evaluator, value) : undefined;
         if (stage && stage.face) Fonts.loadFace(stage.face);
 
         [
@@ -53,13 +53,21 @@
             representativeText,
         ] = [
             stage ? getFaceCSS(stage.face) : null,
-            stage ? stage.pose.color?.toCSS() ?? null : null,
-            stage ? stage.back.toCSS() : null,
+            stage
+                ? stage.pose.color?.toCSS() ?? null
+                : 'var(--wordplay-evaluation-color)',
+            stage
+                ? stage.back.toCSS()
+                : value instanceof ExceptionValue || value === undefined
+                ? 'var(--wordplay-error)'
+                : null,
             stage
                 ? new UnicodeString(stage.getRepresentativeText($locales))
                       .substring(0, 1)
                       .toString()
-                : value.getRepresentativeText($locales),
+                : value
+                ? value.getRepresentativeText($locales)
+                : EXCEPTION_SYMBOL,
         ];
     }
 
@@ -127,7 +135,7 @@
         justify-content: center;
         width: 100%;
         height: 100%;
-        background: var(--wordplay-error);
+        background: var(--wordplay-background);
         text-decoration: none;
         color: var(--wordplay-foreground);
     }

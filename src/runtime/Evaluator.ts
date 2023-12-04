@@ -653,13 +653,16 @@ export default class Evaluator {
 
     getInitialValue() {
         this.setMode(Mode.Play);
-        this.start();
+        this.start(undefined, false);
         this.pause();
         return this.getLatestSourceValue(this.project.getMain());
     }
 
     /** Evaluate until we're done */
-    start(changedStreams?: StreamValue[]): void {
+    start(changedStreams?: StreamValue[], limit = true): void {
+        // If we're not done, finish first, if we were interrupted before.
+        if (!this.isDone()) this.finish();
+
         // Reset all state.
         this.resetForEvaluation(true);
 
@@ -709,7 +712,7 @@ export default class Evaluator {
         this.broadcast();
 
         // If in play mode, we finish (and notify listeners again).
-        if (this.#replayingInputs || this.isPlaying()) this.finish();
+        if (this.#replayingInputs || this.isPlaying()) this.finish(limit);
     }
 
     play() {
@@ -803,9 +806,37 @@ export default class Evaluator {
             this.stepWithinProgram();
     }
 
-    finish(): void {
+    /** @param limit If true, it will halt after 25 ms to avoid blocking the user interface, and schedule completion in an animation frame. */
+    finish(limit = false): void {
+        // See if we know how to defer to the next animation frame.
+        const deferrable =
+            limit &&
+            typeof window !== 'undefined' &&
+            typeof window.requestAnimationFrame !== 'undefined';
+        // Get the current time
+        const start = performance.now();
+        // Count the number of steps we've completed, so we can measure time
+        // after a batch of steps.
+        let count = 0;
+
         // Run all of the steps until we get a value or we're stopped.
-        while (!this.#stopped && !this.isDone()) this.step();
+        while (!this.#stopped && !this.isDone()) {
+            this.step();
+            if (deferrable) {
+                count++;
+                // Measure time every 10000 steps.
+                if (count > 10000) {
+                    const delta = performance.now() - start;
+                    // Oops, we've reached our evaluation time limit! Schedule completion in the next frame.
+                    if (delta > 25) {
+                        window.requestAnimationFrame(() => {
+                            this.finish(true);
+                        });
+                        return;
+                    } else count = 0;
+                }
+            }
+        }
 
         // Notify listeners that we finished evaluating.
         this.broadcast();

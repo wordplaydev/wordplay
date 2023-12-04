@@ -11,7 +11,8 @@
     export let value: ListValue;
     export let inline = true;
 
-    const limit = 5;
+    const CollapseLimit = 3;
+    const MaxItems = 100;
 </script>
 
 <!-- 
@@ -22,14 +23,14 @@
     <SymbolView
         symbol={LIST_OPEN_SYMBOL}
         type={Sym.ListOpen}
-    />{#if value.values.length > limit}<Expandable
+    />{#if value.values.length > CollapseLimit}<Expandable
             ><svelte:fragment slot="expanded"
                 >{#each value.values as item, index}<ValueView
                         value={item}
                         {inline}
                     />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
             ><svelte:fragment slot="collapsed"
-                >{#each value.values.slice(0, limit) as item, index}<ValueView
+                >{#each value.values.slice(0, CollapseLimit) as item, index}<ValueView
                         value={item}
                         {inline}
                     />{#if index < value.values.length - 1}{' '}{/if}{/each}…</svelte:fragment
@@ -48,9 +49,10 @@
     <SymbolView
         symbol={LIST_OPEN_SYMBOL}
         type={Sym.ListOpen}
-    />{#each value.values as item}{' '}<ValueView
+    />{#each value.values.slice(0, MaxItems) as item}{' '}<ValueView
             value={item}
             {inline}
         />{/each}
+    {#if value.values.length > MaxItems}…{/if}
     <SymbolView symbol={LIST_CLOSE_SYMBOL} type={Sym.ListClose} />
 {/if}
