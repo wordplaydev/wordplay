@@ -62,13 +62,13 @@
             explanation: '',
         }}><Beta /></Dialog
     >
-    <Link external to="https://discord.gg/Jh2Qq9husy"
+    <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
         >{$locales.get((l) => l.term.help)}/{$locales.get(
             (l) => l.term.feedback
         )}</Link
     >
     <Status />
-    <Link to="/login">
+    <Link nowrap to="/login">
         <CreatorView
             anonymize={false}
             creator={$user ? Creator.from($user) : null}
