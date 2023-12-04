@@ -4,7 +4,7 @@
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import { animationFactor } from '../../db/Database';
+    import { animationDuration } from '../../db/Database';
 
     export let id: number;
     export let annotations: AnnotationInfo[];
@@ -20,7 +20,7 @@
             }`}
             data-annotationid={id}
             transition:fade|local={{
-                duration: $animationFactor,
+                duration: $animationDuration,
             }}
         >
             <Speech

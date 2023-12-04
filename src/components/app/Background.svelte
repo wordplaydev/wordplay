@@ -6,6 +6,7 @@
     import UnicodeString from '../../models/UnicodeString';
     import { animationFactor } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     type Glyph = {
         glyph: string;
@@ -71,8 +72,8 @@
         const random: string[] = [];
         // Compute a number of glyphs roughly proportional to the window size.
         const count = Math.min(
-            100,
-            Math.round(windowWidth * windowHeight) / 40000
+            20,
+            Math.round(windowWidth * windowHeight) / 100000
         );
         for (let i = 0; i < count; i++)
             random.push(glyphs[Math.floor(Math.random() * glyphs.length)]);
@@ -91,27 +92,33 @@
             };
         });
 
-        window.requestAnimationFrame(step);
+        if (
+            typeof window !== 'undefined' &&
+            typeof window.requestAnimationFrame !== 'undefined'
+        )
+            window.requestAnimationFrame(step);
 
         return () => (mounted = false);
     });
-
-    $: if ($animationFactor > 0 && typeof window !== 'undefined')
-        window.requestAnimationFrame(step);
 </script>
 
 <svelte:window bind:innerWidth={windowWidth} bind:innerHeight={windowHeight} />
 
-<div class="background" aria-hidden="true">
-    {#each state as glyph}
-        <div
-            class="glyph"
-            data-id={glyph.index}
-            style:font-size="{glyph.size}pt"
-            >{glyph.glyph}<Eyes invert={false} emotion={Emotion.neutral} /></div
-        >
-    {/each}
-</div>
+{#if mounted}
+    <div class="background" aria-hidden="true">
+        {#each state as glyph}
+            <div
+                class="glyph"
+                data-id={glyph.index}
+                style:font-size="{glyph.size}pt"
+                >{withVariationSelector(glyph.glyph)}<Eyes
+                    invert={false}
+                    emotion={Emotion.neutral}
+                /></div
+            >
+        {/each}
+    </div>
+{/if}
 
 <style>
     .background {

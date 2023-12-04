@@ -98,7 +98,7 @@
     }
 
     p:last-of-type {
-        margin-block-end: 1em;
+        margin-block-end: 0em;
     }
 
     p:not(:first-child) {

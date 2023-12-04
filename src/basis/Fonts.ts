@@ -368,25 +368,20 @@ export const SupportedFaces = Object.keys(Faces).sort();
  * responds to requests to load more fonts, and provides notificiations of when they are loaded
  * */
 export class FontManager {
-    // Default fonts to load. (All defaults are preloaded in app.html.)
+    // All default fonts are loaded in app.html. We mark them as loaded below.
     readonly defaultFaces: SupportedFace[] = [
-        'Noto Sans Mono',
+        'Noto Sans',
         'Noto Emoji',
-        // Wasn't working in Safari for some reason, will have to debug later.
-        // For now, we load in app.html <head> with Google Fonts.
-        // We mark it as loaded below in the constructor to prevent it from being redundantly loaded.
-        // 'Noto Sans',
-        // 'Noto Color Emoji',
+        'Noto Sans Mono',
+        'Noto Color Emoji',
     ];
 
     facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
 
     constructor() {
         // Mark these as loaded so we don't redundantly load them.
-        this.facesLoaded.set('Noto Color Emoji', 'loaded');
-        this.facesLoaded.set('Noto Sans', 'loaded');
-
-        this.defaultFaces.forEach((font) => this.loadFace(font));
+        for (const face of this.defaultFaces)
+            this.facesLoaded.set(face, 'loaded');
     }
 
     /** Returns true if the given font spec appears in SupportedFonts */

@@ -22,15 +22,357 @@
         />
         <link rel="manifest" href="%sveltekit.assets%/site.webmanifest" />
 
-        <link rel="stylesheet" href="%sveltekit.assets%/style/global.css" />
-
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
         <link
-            href="https://fonts.googleapis.com/css2?family=Noto+Color+Emoji&family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+            rel="preload"
+            as="style"
+            href="https://fonts.googleapis.com/css2?family=Noto+Emoji&family=Noto+Color+Emoji&family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
+        />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Noto+Emoji&family=Noto+Color+Emoji&family=Noto+Sans+Mono&family=Noto+Sans:ital,wght@0,300;0,400;0,700;0,900;1,300;1,400;1,700;1,900&display=swap"
             rel="stylesheet"
         />
+
+        <link
+            rel="preload"
+            as="style"
+            href="%sveltekit.assets%/fonts/NotoEmoji/NotoEmoji-400.woff2"
+        />
+        <link
+            href="%sveltekit.assets%/fonts/NotoEmoji/NotoEmoji-400.woff2"
+            rel="stylesheet"
+        />
+
+        <style>
+            @font-face {
+                font-family: 'Noto Emoji';
+                font-style: normal;
+                font-weight: 400;
+                font-display: block;
+                src: url(/fonts/NotoEmoji/NotoEmoji-400.woff2);
+            }
+            :root {
+                --color-blue: #648fff;
+                --color-blue-transparent: #648fff10;
+                --color-purple: #785ef0;
+                --color-purple-transparent: #785ef010;
+                --color-pink: #dc267f;
+                --color-light-pink: #f7d3e4;
+                --color-orange: #fe6100;
+                --color-yellow: #ffb000;
+                --color-white: #ffffff;
+                --color-black: #000000;
+                --color-light-grey: #bcbcbc;
+                --color-very-light-grey: #f0f0f0;
+                --color-dark-grey: #999999;
+                --color-shadow: rgb(0, 0, 0, 0.2);
+
+                /* Colors */
+                --wordplay-foreground: var(--color-black);
+                --wordplay-background: var(--color-white);
+                --wordplay-header: var(--color-dark-grey);
+                --wordplay-chrome: var(--color-light-grey);
+                --wordplay-border-color: var(--color-light-grey);
+                --wordplay-evaluation-color: var(--color-pink);
+                --wordplay-highlight-color: var(--color-yellow);
+                --wordplay-focus-color: var(--color-orange);
+                --wordplay-hover: #feebc3;
+                --wordplay-error: var(--color-orange);
+                --wordplay-warning: var(--color-yellow);
+                --wordplay-inactive-color: var(--color-light-grey);
+                --wordplay-alternating-color: var(--color-very-light-grey);
+                --wordplay-doc-color: var(--color-purple);
+                --wordplay-doc-color-light: var(--color-purple-transparent);
+                --wordplay-relation-color: var(--color-orange);
+                --wordplay-operator-color: var(--color-orange);
+                --wordplay-type-color: var(--color-orange);
+
+                /* Fonts */
+                --wordplay-app-font: 'Noto Sans', 'Noto Emoji',
+                    'Noto Color Emoji', sans-serif;
+                --wordplay-code-font: 'Noto Sans Mono', 'Noto Sans',
+                    'Noto Emoji', 'Noto Color Emoji', monospace;
+
+                /* Spacing */
+                --wordplay-editor-indent: 3em;
+                --wordplay-editor-radius: 3px;
+                --wordplay-spacing: 0.5em;
+                --wordplay-font-weight: 400;
+                --wordplay-font-size: 14pt;
+                --wordplay-border-width: 1px;
+                --wordplay-focus-width: 4px;
+                --wordplay-border-radius: 5px;
+                --wordplay-code-line-height: 1.6;
+                --wordplay-palette-min-width: 5em;
+                --wordplay-palette-max-width: 15em;
+
+                --bounce-height: 0.5em;
+                --wobble-rotation: 2deg;
+            }
+
+            :root .dark {
+                --color-blue: #3a72fe;
+                --color-blue-transparent: #0f1e4560;
+                --color-purple: #5b3ce6;
+                --color-purple-transparent: #26186260;
+                --color-pink: #921a54;
+                --color-light-pink: rgb(77, 15, 45);
+                --color-orange: #722c00;
+                --color-yellow: #cb8b00;
+                --color-white: #ffffff;
+                --color-black: #000000;
+                --color-light-grey: #484848;
+                --color-very-light-grey: #373636;
+                --color-dark-grey: #595256;
+                --color-shadow: rgb(32, 32, 32, 0.2);
+
+                --wordplay-foreground: var(--color-white);
+                --wordplay-background: var(--color-black);
+                --wordplay-header: var(--color-dark-grey);
+                --wordplay-chrome: var(--color-dark-grey);
+                --wordplay-border-color: var(--color-dark-grey);
+                --wordplay-hover: #463000;
+                --wordplay-alternating-color: var(--color-very-light-grey);
+            }
+
+            @keyframes wobble {
+                0% {
+                    transform: rotate(var(--wobble-rotation));
+                }
+                50% {
+                    transform: rotate(calc(-1 * var(--wobble-rotation)));
+                }
+                100% {
+                    transform: rotate(var(--wobble-rotation));
+                }
+            }
+
+            @keyframes throb {
+                0% {
+                    opacity: 0.8;
+                }
+                50% {
+                    opacity: 1;
+                }
+                100% {
+                    opacity: 0.8;
+                }
+            }
+
+            @keyframes shift {
+                0% {
+                    transform: translateX(2px);
+                }
+                50% {
+                    transform: translateX(-2px);
+                }
+                100% {
+                    transform: translateX(2px);
+                }
+            }
+
+            @keyframes bounce {
+                0% {
+                    transform: scale(1, 1) translateY(0);
+                }
+                10% {
+                    transform: scale(1.1, 0.9) translateY(0);
+                }
+                30% {
+                    transform: scale(0.9, 1.1)
+                        translateY(calc(-1 * var(--bounce-height)));
+                }
+                50% {
+                    transform: scale(1.05, 0.95) translateY(0);
+                }
+                57% {
+                    transform: scale(1, 1) translateY(-7px);
+                }
+                64% {
+                    transform: scale(1, 1) translateY(0);
+                }
+                100% {
+                    transform: scale(1, 1) translateY(0);
+                }
+            }
+
+            @keyframes ybounce {
+                0% {
+                    transform: scaleY(1) translateY(0);
+                }
+                10% {
+                    transform: scaleY(0.9) translateY(0);
+                }
+                30% {
+                    transform: scaleY(1.1)
+                        translateY(calc(-1 * var(--bounce-height)));
+                }
+                50% {
+                    transform: scaleY(0.95) translateY(0);
+                }
+                57% {
+                    transform: scaleY(1) translateY(-7px);
+                }
+                64% {
+                    transform: scaleY(1) translateY(0);
+                }
+                100% {
+                    transform: scaleY(1) translateY(0);
+                }
+            }
+
+            @keyframes pulse {
+                0% {
+                    stroke-width: calc(var(--wordplay-border-width) * 2);
+                }
+
+                70% {
+                    stroke-width: var(--wordplay-border-width);
+                }
+
+                100% {
+                    stroke-width: calc(var(--wordplay-border-width) * 2);
+                }
+            }
+
+            @keyframes shake {
+                10%,
+                90% {
+                    transform: translate3d(-1px, 0, 0);
+                }
+
+                20%,
+                80% {
+                    transform: translate3d(2px, 0, 0);
+                }
+
+                30%,
+                50%,
+                70% {
+                    transform: translate3d(-4px, 0, 0);
+                }
+
+                40%,
+                60% {
+                    transform: translate3d(4px, 0, 0);
+                }
+            }
+
+            @keyframes squish {
+                10%,
+                90% {
+                    transform: translate3d(0, -1px, 0);
+                }
+                20%,
+                80% {
+                    transform: translate3d(0px, 2px, 0);
+                }
+                30%,
+                50%,
+                70% {
+                    transform: translate3d(0, -4px, 0) scale(1, 1.25);
+                }
+                40%,
+                60% {
+                    transform: translate3d(0, 4px, 0) scale(1, 0.5);
+                }
+            }
+
+            body {
+                background-color: var(--wordplay-background);
+                padding: 0;
+                margin: 0;
+                font-family: var(--wordplay-app-font);
+                font-weight: var(--wordplay-font-weight);
+                font-size: var(--wordplay-font-size);
+                color: var(--wordplay-foreground);
+            }
+
+            html {
+                box-sizing: border-box;
+            }
+
+            * {
+                box-sizing: inherit;
+            }
+
+            h1,
+            h2,
+            h3 {
+                margin-bottom: var(--wordplay-spacing);
+                margin-top: 0;
+            }
+
+            h1:not(:first-child),
+            h2:not(:first-child),
+            h3:not(:first-child) {
+                margin-top: calc(2 * var(--wordplay-spacing));
+            }
+
+            h1 {
+                font-size: calc(var(--wordplay-font-size) + 3pt);
+                font-weight: bold;
+            }
+
+            h2 {
+                font-size: calc(var(--wordplay-font-size) + 1pt);
+                font-weight: bold;
+            }
+
+            h3 {
+                font-size: var(--wordplay-font-size);
+                font-style: italic;
+                font-weight: normal;
+            }
+
+            p {
+                margin-block-start: 0;
+                margin-block-end: 1.5em;
+                line-height: 1.5;
+            }
+
+            a:hover {
+                text-decoration: underline;
+            }
+
+            *:focus {
+                outline: var(--wordplay-focus-color) solid
+                    var(--wordplay-focus-width);
+            }
+
+            body:focus {
+                outline: none;
+            }
+
+            table {
+                border-collapse: collapse;
+                border: var(--wordplay-border-color) solid
+                    var(--wordplay-border-width);
+            }
+
+            td,
+            th {
+                padding: var(--wordplay-spacing);
+                text-align: start;
+            }
+
+            tr:nth-child(odd) {
+                background: var(--wordplay-alternating-color);
+            }
+
+            .firebase-emulator-warning {
+                top: 0 !important;
+                right: 1% !important;
+                bottom: auto !important;
+                left: 99% !important;
+                font-family: var(--wordplay-app-font) !important;
+                font-size: 4pt;
+                color: var(--wordplay-error) !important;
+                background: var(--wordplay-error) !important;
+            }
+        </style>
 
         %sveltekit.head%
     </head>
