@@ -868,7 +868,7 @@
                 },
                 "StepLimitException": {
                     "description": "step limit",
-                    "explanation": "there are so. many. steps -- too many to finish! Can you make the performance simpler?"
+                    "explanation": "There are so. many. steps -- too many to finish! Can you make the performance simpler?"
                 },
                 "ValueException": {
                     "description": "missing value",
