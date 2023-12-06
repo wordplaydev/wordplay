@@ -24,6 +24,8 @@
     }
 
     function handleKeyDown({ keyCode }: any) {
+        if (isNaN(Number(text))) return
+        
         switch(keyCode) {
             case (38):  // Arrow Up
                 text = (Number(text) + 1).toString()
