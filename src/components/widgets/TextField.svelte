@@ -23,14 +23,14 @@
             changed(text);
     }
 
-    function handleKeyDown({ keyCode }: any) {
+    function handleKeyDown(keyCode: KeyboardEvent) {
         if (isNaN(Number(text))) return
-        
-        switch(keyCode) {
-            case (38):  // Arrow Up
+
+        switch(keyCode.key) {
+            case ("ArrowUp"):
                 text = (Number(text) + 1).toString()
                 break
-            case (40):  // Arrow Down
+            case ("ArrowDown"):
                 text = (Number(text) - 1).toString()
                 break
         }
