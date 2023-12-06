@@ -28,6 +28,15 @@
 
         if (Number(keyCode) !== 38 || keyCode !== 40) return;
 
+        switch (keyCode) {
+            case 38: // Arrow Up
+                text = (Number(text) + 1).toString();
+                break;
+            case 40: // Arrow Down
+                text = (Number(text) - 1).toString();
+                break;
+        }
+
         console.log('inside if');
 
         // if (!isNaN(Number(text))) {
