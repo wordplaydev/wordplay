@@ -10,7 +10,6 @@
     import { FORMATTED_SYMBOL } from '@parser/Symbols';
     import { parseFormattedLiteral } from '@parser/parseExpression';
     import { toTokens } from '@parser/toTokens';
-
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
     export let validator: (text: string) => boolean;
