@@ -24,7 +24,7 @@
     }
 
     function handleKeyDown({ keyCode }: any) {
-        console.log('keycode: ' + Number(keyCode));
+        if (isNaN(Number(text))) return;
 
         if (Number(keyCode) !== 38 || keyCode !== 40) return;
 
@@ -36,8 +36,6 @@
                 text = (Number(text) - 1).toString();
                 break;
         }
-
-        console.log('inside if');
 
         // if (!isNaN(Number(text))) {
         //     console.log("e.key: " + e.key)
