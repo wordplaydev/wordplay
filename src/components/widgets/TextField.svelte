@@ -23,6 +23,34 @@
             changed(text);
     }
 
+    function handleKeyDown({ keyCode }: any) {
+        console.log('keycode: ' + Number(keyCode));
+
+        if (Number(keyCode) !== 38 || keyCode !== 40) return;
+
+        console.log('inside if');
+
+        // if (!isNaN(Number(text))) {
+        //     console.log("e.key: " + e.key)
+        //     if (e.key == 38) {
+        //         console.log("up arrow pressed")
+        //     } else if (e.key == 40) {
+        //         console.log("down arrow pressed")
+        //     }
+
+        // switch(e.key) {
+        //     case 38:  // Arrow Up
+        //         console.log("arrow up")
+        //         text = (Number(text) + 1).toString()
+        //         break
+        //     case 40:  // Arrow Down
+        //         console.log("arrow down")
+        //         text = (Number(text) - 1).toString()
+        //         break
+        // }
+        // }
+    }
+
     function setKind(kind: 'email' | 'password' | undefined) {
         if (view === undefined) return;
         if (kind === 'email' && view) view.type = 'email';
@@ -53,7 +81,7 @@
         bind:value={text}
         bind:this={view}
         on:input={handleInput}
-        on:keydown|stopPropagation
+        on:keydown={handleKeyDown}
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
