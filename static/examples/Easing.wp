@@ -1,0 +1,19 @@
+Sequence Easing
+===
+keyframes: {
+		0%: Pose(offset: Place(-1m 0m))
+		25%: Pose(offset: Place(1m 0m))
+		50%: Pose(offset: Place(1m 0m))
+		75%: Pose(offset: Place(-1m 0m))
+		100%: Pose(offset: Place(-1m 0m))}
+
+Stage([Group(Grid(4 2 cellpadding: 0.25m ) [
+				Phrase("straight" size: 0.25m)
+				Phrase("🚗" resting: Sequence(keyframes 3s style: "straight"))
+				Phrase("cautious" size: 0.25m)
+				Phrase("🚚" resting: Sequence(keyframes 3s style: "cautious"))
+				Phrase("pokey" size: 0.25m)
+				Phrase("🚙" resting: Sequence(keyframes 3s style: "pokey"))
+				Phrase("zippy" size: 0.25m)
+				Phrase("🏎️" resting: Sequence(keyframes 3s style: "zippy"))
+			])])

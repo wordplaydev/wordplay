@@ -1,6 +1,6 @@
 ASCII Video
 ===
-colors: Camera(32px 24px 1000ms)
+colors: Camera(48px 36px 500ms)
 scale: "@%#*+=-:. " → []
 
 Stage(
@@ -10,7 +10,7 @@ Stage(
             phrases.append(
                 row.translate(
                     ƒ(color•Color x•#)
-                        Phrase("\scale[(color.lightness · 9).round()]\" place: Place((x - 1) · 0.5m y · -0.5m) duration: 0s
+                        Phrase("\scale[(color.lightness · 9).round()]\" place: Place((-x - 1) · 0.5m y · -0.5m) duration: 0s size: 0.75m face: "Noto Sans Mono"
                 )
             )
         )
