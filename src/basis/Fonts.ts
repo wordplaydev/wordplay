@@ -405,7 +405,9 @@ export class FontManager {
     }
 
     isFaceLoaded(face: SupportedFace) {
-        return this.facesLoaded.get(face) === 'loaded';
+        return (
+            this.isFaceRequested(face) && document.fonts.check(`12px "${face}"`)
+        );
     }
 
     loadLocales(locales: Locale[]) {

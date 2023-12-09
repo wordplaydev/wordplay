@@ -168,9 +168,7 @@ export default class Phrase extends Output {
 
     getMetrics(context: RenderContext, parsed = true) {
         // Return the cache, if there is one.
-        if (parsed && this._metrics) {
-            return this._metrics;
-        }
+        if (parsed && this._metrics) return this._metrics;
 
         // The font is:
         // 1) the animated font, if there is one
@@ -201,6 +199,9 @@ export default class Phrase extends Output {
                 ? [{ text: text.text, italic: false, weight: undefined }]
                 : // Otherwise, get the list of formatted segments.
                   text?.getFormats();
+
+        // Remember whether the font is loaded, so we can decide whether to save the metrics.
+        const faceLoaded = Fonts.isFaceLoaded(renderedFace);
 
         // Go through each formatted text,
         for (const formatted of formats) {
@@ -260,12 +261,10 @@ export default class Phrase extends Output {
             descent,
         };
         // If the font is loaded, these metrics can be trusted, so we cache them.
-        if (
-            height !== undefined &&
-            ascent !== undefined &&
-            Fonts.isFaceLoaded(renderedFace)
-        )
+        if (height !== undefined && ascent !== undefined && faceLoaded) {
+            console.log(`Saving, ${renderedFace} is loaded`);
             this._metrics = dimensions;
+        }
 
         // Return the current dimensions.
         return dimensions;

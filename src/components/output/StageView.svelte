@@ -83,6 +83,11 @@
                     }
                 }
             });
+
+        /** Whenever a font finishes loading, re-render. */
+        document.fonts.onloadingdone = () => {
+            stage = stage;
+        };
     });
 
     /**
