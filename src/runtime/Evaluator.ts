@@ -187,9 +187,9 @@ export default class Evaluator {
     random: NumberGenerator;
 
     /**
-     * The last time we received from requestAnimationFrame.
+     * The last time we ticked animation.
      */
-    previousTime: DOMHighResTimeStamp | undefined = undefined;
+    previousTime: number | undefined = undefined;
 
     /**
      * The time between the last evaluation
@@ -808,11 +808,6 @@ export default class Evaluator {
 
     /** @param limit If true, it will halt after 25 ms to avoid blocking the user interface, and schedule completion in an animation frame. */
     finish(limit = false): void {
-        // See if we know how to defer to the next animation frame.
-        const deferrable =
-            limit &&
-            typeof window !== 'undefined' &&
-            typeof window.requestAnimationFrame !== 'undefined';
         // Get the current time
         const start = performance.now();
         // Count the number of steps we've completed, so we can measure time
@@ -822,14 +817,14 @@ export default class Evaluator {
         // Run all of the steps until we get a value or we're stopped.
         while (!this.#stopped && !this.isDone()) {
             this.step();
-            if (deferrable) {
+            if (limit) {
                 count++;
                 // Measure time every 10000 steps.
                 if (count > 10000) {
                     const delta = performance.now() - start;
                     // Oops, we've reached our evaluation time limit! Schedule completion in the next frame.
                     if (delta > 25) {
-                        window.requestAnimationFrame(() => {
+                        this.later(() => {
                             this.finish(true);
                         });
                         return;
@@ -1174,14 +1169,9 @@ export default class Evaluator {
         if (stream instanceof TemporalStreamValue) {
             this.temporalStreams.push(stream);
             // If we haven't yet started a loop, start one.
-            if (
-                this.reactive &&
-                !this.animating &&
-                typeof window !== 'undefined' &&
-                typeof window.requestAnimationFrame !== 'undefined'
-            ) {
+            if (this.reactive && !this.animating) {
                 this.animating = true;
-                window.requestAnimationFrame(this.tick.bind(this));
+                this.later(this.tick.bind(this));
             }
         }
     }
@@ -1202,7 +1192,21 @@ export default class Evaluator {
         this.timeMultiplier = multiplier;
     }
 
-    tick(time: DOMHighResTimeStamp) {
+    /** Do something later. This is how we encapsulate the decision of whether to use requestAnimationFrame or setTimeout, depending on
+     * whether this is running in a browser or not.
+     */
+    later(activity: (time: number) => void) {
+        // Not in a browser? Use a set timeout with a performance.now() time.
+        if (
+            typeof window === 'undefined' ||
+            typeof window.requestAnimationFrame === 'undefined'
+        )
+            setTimeout(() => activity(performance.now()), 40);
+        // Otherwise, use request animation frame.
+        else window.requestAnimationFrame(activity);
+    }
+
+    tick(time: number) {
         // Don't tick if we're stopped.
         if (this.#stopped) return;
 
@@ -1244,8 +1248,7 @@ export default class Evaluator {
         }
 
         // Tick again in a bit if we're not stopped.
-        if (this.reactive && !this.#stopped)
-            window.requestAnimationFrame(this.tick.bind(this));
+        if (this.reactive && !this.#stopped) this.later(this.tick.bind(this));
     }
 
     /** React with any pooled temporal reactions */
