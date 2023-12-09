@@ -3790,8 +3790,12 @@
                 "tidy": "整理间距"
             }
         },
-        "conflicts": {
-            "label": "冲突"
+        "annotations": {
+            "label": "$! 冲突",
+            "cursor": "$?",
+            "learn": "$?",
+            "evaluating": "$?",
+            "space": "$?"
         },
         "output": {
             "label": "程序输出",

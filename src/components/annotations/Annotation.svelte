@@ -27,6 +27,7 @@
                 glyph={$index?.getNodeConcept(annotation.node) ??
                     annotation.node.getGlyphs()}
                 flip={annotation.kind === 'secondary'}
+                below
             >
                 <svelte:fragment slot="content">
                     {#each annotation.messages as markup}
@@ -45,7 +46,7 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        padding: var(--wordplay-spacing);
+        padding-block-start: var(--wordplay-spacing);
         align-items: flex-start;
     }
 

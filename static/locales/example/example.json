@@ -2243,8 +2243,12 @@
                 "tidy": "$?"
             }
         },
-        "conflicts": {
-            "label": "$?"
+        "annotations": {
+            "label": "$?",
+            "cursor": "$?",
+            "learn": "$?",
+            "evaluating": "$?",
+            "space": "$?"
         },
         "output": {
             "label": "$?",

@@ -3969,8 +3969,12 @@
                 "tidy": "espaciado ordenado"
             }
         },
-        "conflicts": {
-            "label": "conflictos"
+        "annotations": {
+            "label": "$! conflictos",
+            "cursor": "$?",
+            "learn": "$?",
+            "evaluating": "$?",
+            "space": "$?"
         },
         "output": {
             "label": "salida del programa",

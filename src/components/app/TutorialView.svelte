@@ -355,7 +355,6 @@
                         showOutput={!editable}
                         {fit}
                         autofocus={false}
-                        showHelp={false}
                         warn={false}
                         shareable={false}
                     /></div

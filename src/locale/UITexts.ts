@@ -290,10 +290,18 @@ type UITexts = {
             tidy: string;
         };
     };
-    /** The conflicts area at the bottom of the editor. */
-    conflicts: {
+    /** The conflicts area in the margin of the editor. */
+    annotations: {
         /** The ARIA label for the conflicts section in the editor. */
         label: string;
+        /** The description of the cursor position */
+        cursor: Template;
+        /** The prompt to line more about the cursor node */
+        learn: Template;
+        /** What function should say when evaluating */
+        evaluating: Template;
+        /** What function should say when the cursor is in space */
+        space: Template;
     };
     output: {
         /** The ARIA label for the output section */

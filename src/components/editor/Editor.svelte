@@ -84,7 +84,6 @@
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Adjust from './Adjust.svelte';
-    import EditorHelp from './EditorHelp.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { localized } from '../../db/Database';
 
@@ -98,7 +97,6 @@
     /** True if this editor's output is selected by the container. */
     export let selected: boolean;
     export let autofocus = true;
-    export let showHelp = true;
     export let editable: boolean;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -1504,9 +1502,6 @@
                 <PlaceholderView position={$caret.position} />{/if}</div
         >
     {/key}
-    {#if source.isEmpty() && showHelp}
-        <EditorHelp />
-    {/if}
     {#if project.getSupplements().length > 0}
         <div class="output-preview-container">
             <Button

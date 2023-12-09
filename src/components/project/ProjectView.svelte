@@ -131,8 +131,6 @@
     export let fit = true;
     /** True if the project should focus the main editor source on mount */
     export let autofocus = true;
-    /** True if the editor should show help on an empty main source file*/
-    export let showHelp = true;
     /** True if the project was overwritten by another instance of Wordplay */
     export let overwritten = false;
     /** True if the moderation warnings should show */
@@ -1064,7 +1062,7 @@
         return parseInt(id.replace('source', ''));
     }
 
-    function getSourceByID(id: string) {
+    function getSourceByTileID(id: string) {
         return project.getSources()[getSourceIndexByID(id)];
     }
 
@@ -1189,7 +1187,7 @@
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
-        const source = getSourceByID(id);
+        const source = getSourceByTileID(id);
         Projects.reviseProject(
             project.withSource(
                 source,
@@ -1308,7 +1306,7 @@
                         >
                             <svelte:fragment slot="name">
                                 {#if tile.isSource()}
-                                    {@const source = getSourceByID(tile.id)}
+                                    {@const source = getSourceByTileID(tile.id)}
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.getMain()}
                                         <ConfirmButton
@@ -1416,7 +1414,7 @@
                                     />
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else}
-                                    {@const source = getSourceByID(tile.id)}
+                                    {@const source = getSourceByTileID(tile.id)}
                                     <div class="annotated-editor">
                                         <Editor
                                             {project}
@@ -1427,9 +1425,8 @@
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
                                                 tile.isExpanded() &&
-                                                getSourceByID(tile.id) ===
+                                                getSourceByTileID(tile.id) ===
                                                     project.getMain()}
-                                            {showHelp}
                                             bind:menu
                                             on:conflicts={(event) =>
                                                 (conflictsOfInterest =
@@ -1458,9 +1455,10 @@
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
-                                        source={getSourceByID(tile.id)}
+                                        source={getSourceByTileID(tile.id)}
                                         conflicts={visibleConflicts}
                                         stepping={$evaluation.playing === false}
+                                        caret={$editors.get(tile.id)?.caret}
                                     />{/if}</svelte:fragment
                             ></TileView
                         >

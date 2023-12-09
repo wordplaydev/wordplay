@@ -7941,17 +7941,37 @@
           "additionalProperties": false,
           "description": "User interface strings",
           "properties": {
-            "conflicts": {
+            "annotations": {
               "additionalProperties": false,
-              "description": "The conflicts area at the bottom of the editor.",
+              "description": "The conflicts area in the margin of the editor.",
               "properties": {
+                "cursor": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The description of the cursor position"
+                },
+                "evaluating": {
+                  "$ref": "#/definitions/Template",
+                  "description": "What function should say when evaluating"
+                },
                 "label": {
                   "description": "The ARIA label for the conflicts section in the editor.",
                   "type": "string"
+                },
+                "learn": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The prompt to line more about the cursor node"
+                },
+                "space": {
+                  "$ref": "#/definitions/Template",
+                  "description": "What function should say when the cursor is in space"
                 }
               },
               "required": [
-                "label"
+                "label",
+                "cursor",
+                "learn",
+                "evaluating",
+                "space"
               ],
               "type": "object"
             },
@@ -10292,7 +10312,7 @@
             "project",
             "gallery",
             "source",
-            "conflicts",
+            "annotations",
             "output",
             "docs",
             "palette",
