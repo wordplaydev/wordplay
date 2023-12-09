@@ -306,7 +306,7 @@ export default class Evaluator {
             // 1) run the initial evaluation, creating any iniital streams
             this.setMode(Mode.Play);
             this.start();
-            this.finish();
+            this.finish(false);
             this.pause();
 
             // Note that we're replaying so that the streams accept values even though we're paused.
@@ -824,8 +824,9 @@ export default class Evaluator {
                     const delta = performance.now() - start;
                     // Oops, we've reached our evaluation time limit! Schedule completion in the next frame.
                     if (delta > 25) {
+                        console.log('Finishing later ' + limit);
                         this.later(() => {
-                            this.finish(true);
+                            this.finish(limit);
                         });
                         return;
                     } else count = 0;
