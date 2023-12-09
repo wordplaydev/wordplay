@@ -3,6 +3,19 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.12
+
+## Changed
+
+-   Redesigned editor annotations to avoid obscuring on hovers.
+-   Generalized mechanisms for time-based reactions in evaluations.
+-   Guaranteee re-render on font load.
+
+## Maintenance
+
+-   Updated minor versions of Playwrite, ESLint, Jester, tsx, and Firebase
+-   Upgraded to Prettier 3
+
 ## 0.9.11
 
 ## Added
