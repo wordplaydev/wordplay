@@ -1,0 +1,13 @@
+SentenceLength
+===
+sentence: Chat()
+length: Chat().length()
+
+Group(
+	Stack() 
+	[
+		Phrase(`*Hello! Welcome to the sentence length calculator.*` place: Place(0m 1m ))
+		Phrase("Type something in the message bar!" place: Place(0m -1m))
+		Phrase("Your sentence is " + (length → '') + " characters long!" resting: Sequence(sway() 3s) place: Place(0m -3m))
+		Phrase(sentence place: Place(0m -5m) wrap: 25m)
+	])

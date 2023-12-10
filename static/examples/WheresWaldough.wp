@@ -6,6 +6,7 @@ Where's Waldough?
 name: Choice()
 caught: ⊥ … ∆ (name) … (name = 'Waldough') & ~caught
 reset: ⊥ … ∆ (name) … (name = 'ResetButton') & ~reset
+score: 0 … caught … 1 + .
 
 
 Stage([
@@ -13,16 +14,18 @@ Stage([
 			"🔁" 
 			selectable: ⊤
 			place: Place(4m -0.5m)
-			resting: caught ? Pose(rotation: 180°) Pose()
+			resting: caught ? Pose( rotation: 180°) Pose()
 			duration: 0.5s
 			name: 'ResetButton'
 		)
 		Phrase("Look for the orange shirt" 0.2m 
-			place: Place(-6.1m 0.5m))
+			place: Place(-6.2m 0.75m) face: 'Carter One')
 		Phrase("man (named Waldough) and" 0.2m 
-			place: Place(-6.3m 0m))
+			place: Place(-6.4m 0.25m) face: 'Carter One')
 		Phrase("click on him to win!🧍🏻" 0.2m 
-			place: Place(-5.9m -0.5m))
+			place: Place(-6.0m -0.25m) face: 'Carter One')
+		Phrase("Score: " + score → '' 0.5m 
+			place: Place(-5.9m -1m))
 
 		Phrase("🏀" 
 			place: Place(((0.1 · Random(-9m 9m)) + Random(-2m 1m)) ((0.1 · Random(-9m 9m)) + Random(-2m 1m))))
