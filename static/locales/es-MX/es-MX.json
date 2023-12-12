@@ -3969,8 +3969,12 @@
                 "tidy": "espaciado ordenado"
             }
         },
-        "conflicts": {
-            "label": "conflictos"
+        "annotations": {
+            "label": "conflictos y ayuda",
+            "cursor": "Esto es un *$1*$2[ y es de tipo $2|].",
+            "learn": "¿Quieres aprender más sobre ellos?",
+            "evaluating": "¡Oh, diversión, evaluemos!",
+            "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?"
         },
         "output": {
             "label": "salida del programa",
@@ -4055,9 +4059,9 @@
                     }
                 },
                 "field": {
-                    "email": {
-                        "placeholder": "correo electrónico",
-                        "description": "la dirección de correo electrónico de la persona a la que deseas otorgar acceso de edición."
+                    "emailOrUsername": {
+                        "placeholder": "correo electrónico o nombre de usuario",
+                        "description": "correo electrónico o nombre de usuario de la persona a la que desea darle acceso de edición"
                     }
                 },
                 "mode": {
@@ -4067,7 +4071,8 @@
                     }
                 },
                 "error": {
-                    "unknown": "No conocemos a una creadora con este correo electrónico."
+                    "unknown": "No conocemos a una creadora con este correo electrónico.",
+                    "anonymous": "Debe estar conectado para compartir."
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico"
@@ -4209,6 +4214,8 @@
                 "call": [
                     "¡Hola! ¿Quieres dar vida a las palabras con nosotras? 😊"
                 ],
+                "value": "Aprende a programar animando palabras, emojis y símbolos de los idiomas del mundo, sea cual sea tu habilidad.",
+                "description": "Wordplay es un lenguaje de programación innovador 🖥️ con edición de bloques y texto 📝, entradas juguetonas como tiempo 🕦, sonido 🎤, páginas web 🔗 y física 🌎, depuración instantánea de viaje en el tiempo ⏪ y documentación completa 🗂️. Todo en una lista creciente de los idiomas del mundo 🌐, siguiendo los últimos estándares de accesibilidad web ♿️. Comparte con amigos, grupos privados o el mundo ↗️. Gratis para siempre desde la [Escuela de Información de la Universidad de Washington](https://ischool.uw.edu/).",
                 "beta": [
                     "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
                     "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
@@ -4326,7 +4333,8 @@
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
                     "deleting": "Vale, borrando tus proyectos y configuraciones...",
-                    "updatedPassword": "Tu contraseña se ha actualizada."
+                    "updatedPassword": "Tu contraseña se ha actualizada.",
+                    "match": "Esto debe coincidir con el nombre de usuario de su cuenta."
                 },
                 "field": {
                     "email": {
