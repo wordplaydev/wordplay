@@ -48,8 +48,8 @@
     "token": {
         "EvalOpen": "evaluación abierta",
         "EvalClose": "evaluación cerrada",
-        "SetOpen": "set abierta",
-        "SetClose": "set cerrada",
+        "SetOpen": "conjunto abierta",
+        "SetClose": "conjunto cerrada",
         "ListOpen": "lista abierta",
         "ListClose": "lista cerrada",
         "TagOpen": "etiqueta abierta",
@@ -1639,7 +1639,7 @@
                         "\\3gatos + 5gatos\\",
                         "Si las unidads no coinciden, yo parare a mostrar \\3gatos + 5gaots\\"
                     ],
-                    "names": ["+", "add"],
+                    "names": ["+", "sumar"],
                     "inputs": [
                         {
                             "doc": "El @Number a sumar",
@@ -1701,7 +1701,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["%", "remainder"],
+                    "names": ["%", "resto"],
                     "inputs": [
                         {
                             "doc": "Ell @Number a dividir por",
@@ -1955,7 +1955,7 @@
                 "\\['manzana' 10 + 10 Time()]\\",
                 "Yo puedo hacer un monton de cosas interesantes con mi @FunctionDefinition"
             ],
-            "name": ["[]", "lista"],
+            "name": ["[]", "Lista"],
             "kind": "Kind",
             "out": "Result",
             "outofbounds": "outofbounds",
@@ -2380,7 +2380,7 @@
                 "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
                 "¿Hay algo más que quieras hacer conmigo? ¡Mira todas las geniales @FunctionDefinition que tengo!"
             ],
-            "name": ["{}", "conjunto"],
+            "name": ["{}", "Conjunto"],
             "kind": "Kind",
             "out": "Result",
             "function": {
@@ -3969,12 +3969,8 @@
                 "tidy": "espaciado ordenado"
             }
         },
-        "annotations": {
-            "label": "$! conflictos",
-            "cursor": "$?",
-            "learn": "$?",
-            "evaluating": "$?",
-            "space": "$?"
+        "conflicts": {
+            "label": "conflictos"
         },
         "output": {
             "label": "salida del programa",
@@ -4047,7 +4043,7 @@
                 "subheader": {
                     "collaborators": {
                         "header": "Colaboradores",
-                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Sólo los propietarios del proyecto pueden modificar a los colaboradores."
+                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Agrégales o retírales acceso por correo electrónico."
                     },
                     "gallery": {
                         "header": "Galería",
@@ -4059,9 +4055,9 @@
                     }
                 },
                 "field": {
-                    "emailOrUsername": {
-                        "placeholder": "correo electrónico o nombre de usuario",
-                        "description": "correo electrónico o nombre de usuario de la persona a la que desea darle acceso de edición"
+                    "email": {
+                        "placeholder": "correo electrónico",
+                        "description": "la dirección de correo electrónico de la persona a la que deseas otorgar acceso de edición."
                     }
                 },
                 "mode": {
@@ -4071,8 +4067,7 @@
                     }
                 },
                 "error": {
-                    "unknown": "No conocemos a una creadora con este correo electrónico.",
-                    "anonymous": "Debes iniciar sesión para compartir."
+                    "unknown": "No conocemos a una creadora con este correo electrónico."
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico"
@@ -4189,7 +4184,7 @@
             },
             "sequence": {
                 "button": {
-                    "add": "añadir pose",
+                    "add": "añadar pose",
                     "remove": "quitar pose",
                     "up": "mover pose hacia arriba",
                     "down": "mover pose hacia abajo"
@@ -4214,15 +4209,13 @@
                 "call": [
                     "¡Hola! ¿Quieres dar vida a las palabras con nosotras? 😊"
                 ],
-                "value": "$! Aprenda a codificar animando palabras, emojis y símbolos de los idiomas del mundo, sean cuales sean sus habilidades.",
-                "description": "$! Wordplay es un lenguaje de programación innovador 🖥︎️ con edición de bloques y texto 📝︎, entradas divertidas como tiempo 🕦︎, sonido 🎤︎, páginas web 🔗︎ y física 🌎︎, depuración instantánea de viajes en el tiempo ⏪︎ y documentación completa 🗂︎️. Todo en una lista cada vez mayor de idiomas del mundo 🌐︎, siguiendo los últimos estándares de accesibilidad web ♿︎️. Comparte con amigos, grupos privados o el mundo ↗︎️. Gratis para siempre de la <University of Washington Information School@https://ischool.uw.edu>.",
                 "beta": [
                     "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
                     "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
-                    "learn": "$! ¿Qué es este lugar?",
+                    "learn": "¿Qué es este lugar?",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas"
@@ -4287,7 +4280,7 @@
             },
             "login": {
                 "header": "Iniciar sesión",
-                "subtitle": "$! Cree una cuenta o inicie sesión para guardar su trabajo en línea",
+                "subtitle": "Cree una cuenta o inicie sesión para guardar su trabajo en línea",
                 "subheader": {
                     "email": "opción 2: enlace de correo electrónico",
                     "username": "opción 1: nombre de usuario + contraseña"
@@ -4333,8 +4326,7 @@
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
                     "deleting": "Vale, borrando tus proyectos y configuraciones...",
-                    "updatedPassword": "Tu contraseña se ha actualizada.",
-                    "match": "$! Esto debe coincidir con el nombre de usuario de su cuenta."
+                    "updatedPassword": "Tu contraseña se ha actualizada."
                 },
                 "field": {
                     "email": {
@@ -4415,7 +4407,7 @@
         "edit": {
             "node": "$1$2[, tipo $2|]",
             "before": "antes de $1[$1|final]",
-            "inside": "dentro de $1, entre $2[$2|origen] y $3[$3|final]",
+            "inside": "dentro de $1",
             "between": "entre $1 y $2",
             "line": "línea vacía entre $1[$1|inicio] y $2[$2|final]",
             "conflicts": "$1 conflictos",
