@@ -57,7 +57,9 @@
     let project: Project | undefined = undefined;
 
     let newFlags: Moderation;
-
+    
+    let moderatedCount = 0;
+    let unmoderatedCount = 0;
     onMount(async () => {
         try {
             await nextBatch();
@@ -92,6 +94,10 @@
         );
         const documentSnapshots = await getDocs(unmoderated);
 
+        if(!lastBatch) { //add to total projects if there was not a last batch detected
+            unmoderatedCount += documentSnapshots.docs.length;
+        }
+
         // Remember the last document.
         lastBatch = documentSnapshots.docs[documentSnapshots.docs.length - 1];
 
@@ -110,6 +116,7 @@
         // Save the project with the new flags.
         if (project) Projects.edit(project.withFlags(newFlags), false, true);
 
+        moderatedCount += 1; //increment the moderated count when saved with new flags.
         skip();
     }
 
@@ -134,6 +141,9 @@
             {:else if project === undefined}
                 <Spinning label="" />
             {:else}
+                <div class="progress-counter">
+                    <p>Moderated: {moderatedCount} of {unmoderatedCount} projects</p>
+                </div>
                 <MarkupHtmlView
                     markup={$locales.get(
                         (l) => l.moderation.moderate.explanation
