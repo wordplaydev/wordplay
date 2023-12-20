@@ -3,42 +3,43 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 0.9.13
+## 0.9.13 2023-12-20
 
-## Added
+### Added
 
 -   [#191](https://github.com/wordplaydev/wordplay/issues/191): Added moderation progess to moderation page.
+-   [#235](https://github.com/wordplaydev/wordplay/issues/235): Pre-render static pages for speed and SEO.
 
-## Fixed
+### Fixed
 
 -   [#251](https://github.com/wordplaydev/wordplay/issues/251): Consistent tutorial lesson drop down appearance.
 -   [#330](https://github.com/wordplaydev/wordplay/issues/330): Labeled drop downs.
 -   [#314](https://github.com/wordplaydev/wordplay/issues/314): Removed low opacity footer on fullscreen for accessibility.
 
-# Maintenance
+### Maintenance
 
 -   [#313](https://github.com/wordplaydev/wordplay/issues/313): Upgraded to SvelteKit 2, Vite 5, tsx 4.7.0, and related dependencies.
 
 ## 0.9.12
 
-## Changed
+### Changed
 
 -   Redesigned editor annotations to avoid obscuring on hovers.
 -   Generalized mechanisms for time-based reactions in evaluations.
 -   Guaranteee re-render on font load.
 
-## Maintenance
+### Maintenance
 
 -   Updated minor versions of Playwrite, ESLint, Jester, tsx, and Firebase
 -   Upgraded to Prettier 3
 
 ## 0.9.11
 
-## Added
+### Added
 
 -   Added support for ø coalescing (e.g., a ?? 1) [#36](https://github.com/wordplaydev/wordplay/issues/36).
 
-## Fixed
+### Fixed
 
 -   Corrected caret position layout in the presence of tabs.
 -   Added tab insertion command and shortcut.
@@ -48,17 +49,17 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 This version includes many other changes made prior to this log was created.
 
-## Added
+### Added
 
 -   New change password form on profile.
 
-## Changed
+### Changed
 
 -   Improved design of username and password login [#272](https://github.com/wordplaydev/wordplay/issues/272), [#273](https://github.com/wordplaydev/wordplay/issues/273)
 -   Converted blocks toggle to a keyboard/mouse switch.
 -   Explicit switch control over localization of editor, instead of automatic.
 
-## Fixed
+### Fixed
 
 -   Corrected English list literal tutorial, which didn't explain wraparound behavior of indices.
 -   Decoded getWebpage response as JSON-encoded string, fixing HTML parsing and querying.
