@@ -68,7 +68,7 @@ export default class SettingsDatabase {
     /** A derived store based on animation factor */
     readonly animationDuration = derived(
         this.settings.animationFactor.value,
-        (factor) => factor * 200
+        (factor) => factor * 200,
     );
 
     constructor(database: Database, locales: SupportedLocale[]) {
@@ -86,16 +86,16 @@ export default class SettingsDatabase {
 
         // Get the config from the database
         const config = await getDoc(
-            doc(firestore, CreatorCollection, user.uid)
+            doc(firestore, CreatorCollection, user.uid),
         );
         if (config.exists()) {
             const data = upgradeSettings(
-                config.data() as SettingsSchemaUnknown
+                config.data() as SettingsSchemaUnknown,
             );
             // Copy each key/value pair from the database to memory and the local store.
             this.settings.animationFactor.set(
                 this.database,
-                data.animationFactor
+                data.animationFactor,
             );
             this.settings.locales.set(this.database, data.locales);
             this.settings.tutorial.set(this.database, data.tutorial);
@@ -118,7 +118,7 @@ export default class SettingsDatabase {
         if (currentLayout !== null && currentLayout.isEqualTo(layout)) return;
 
         const newLayout = Object.fromEntries(
-            Object.entries(this.settings.layouts.get())
+            Object.entries(this.settings.layouts.get()),
         );
         newLayout[id] = layout.toObject();
         this.setLayout(newLayout);
@@ -141,7 +141,7 @@ export default class SettingsDatabase {
     }
 
     setTutorialProgress(progress: Progress) {
-        this.settings.tutorial.set(this.database, progress.seralize());
+        this.settings.tutorial.set(this.database, progress.serialize());
     }
 
     getCamera() {

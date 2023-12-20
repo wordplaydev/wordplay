@@ -33,6 +33,7 @@
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
     import { PersistenceType } from '../../db/ProjectHistory';
+    import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
 
     export let progress: Progress;
@@ -83,8 +84,8 @@
             turn.speech
                 .nodes()
                 .filter(
-                    (node): node is ConceptLink => node instanceof ConceptLink
-                )
+                    (node): node is ConceptLink => node instanceof ConceptLink,
+                ),
         )
         .flat()
         .filter((concept) => concept.concept.getText().startsWith('@UI/'))
@@ -119,7 +120,7 @@
     $: source = isUse
         ? Performances[performance[2] as keyof typeof Performances].apply(
               undefined,
-              performance.slice(3) as [string]
+              performance.slice(3) as [string],
           )
         : performance.slice(1).join('\n');
 
@@ -134,11 +135,11 @@
             scene
                 ? scene.title
                 : act
-                ? act.title
-                : $locales.getLocale().wordplay,
+                  ? act.title
+                  : $locales.getLocale().wordplay,
             new Source(
                 $locales.get((l) => l.term.start),
-                source
+                source,
             ),
             [],
             $locales.getLocales(),
@@ -150,7 +151,7 @@
             false,
             false,
             null,
-            moderatedFlags()
+            moderatedFlags(),
         );
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
@@ -167,7 +168,7 @@
                     initialProject,
                     true,
                     PersistenceType.Local,
-                    false
+                    false,
                 )?.getStore();
         });
     }
@@ -185,12 +186,48 @@
     // When the project changes to something other than the initial project, start persisting it.
     $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
         Projects.getHistory($projectStore.getID())?.setPersist(
-            PersistenceType.Local
+            PersistenceType.Local,
         );
 
-    let selection: Progress | undefined = undefined;
-    function handleSelect() {
-        if (selection) navigate(selection);
+    // Compute the options for the select based on the tutorial
+    $: lessons = progress.tutorial.acts.map((act, actIndex) => {
+        return {
+            label: act.title,
+            options: act.scenes.map((scene, sceneIndex) => {
+                return {
+                    value: JSON.stringify(
+                        new Progress(
+                            progress.tutorial,
+                            actIndex + 1,
+                            sceneIndex + 1,
+                            0,
+                        ).serialize(),
+                    ),
+                    label: scene.subtitle ?? scene.title,
+                };
+            }),
+        };
+    });
+
+    function handleSelect(lesson: string | undefined) {
+        if (lesson === undefined) return;
+        const lessonJSON = JSON.parse(lesson);
+        if (
+            'act' in lessonJSON &&
+            typeof lessonJSON.act === 'number' &&
+            'scene' in lessonJSON &&
+            typeof lessonJSON.scene === 'number' &&
+            'line' in lessonJSON &&
+            typeof lessonJSON.line === 'number'
+        ) {
+            const newProgress = new Progress(
+                progress.tutorial,
+                lessonJSON.act,
+                lessonJSON.scene,
+                lessonJSON.line,
+            );
+            navigate(newProgress);
+        }
     }
 
     async function handleKey(event: KeyboardEvent) {
@@ -225,44 +262,25 @@
         <Header block={false}
             >{#if fallback}🚧{/if}
             {$locales.get(
-                (l) => l.ui.page.learn.header
+                (l) => l.ui.page.learn.header,
             )}{#if fallback}🚧{/if}</Header
         >
         <nav>
-            <!-- A hierarchical select of tutorial units and lessons  -->
-            <select
-                bind:value={selection}
-                on:change={handleSelect}
-                on:pointerdown|stopPropagation
-                on:keydown|stopPropagation
-            >
-                {#each progress.tutorial.acts as act, actIndex}
-                    <optgroup label={act.title}>
-                        {#each act.scenes as scene, sceneIndex}
-                            <option
-                                value={new Progress(
-                                    progress.tutorial,
-                                    actIndex + 1,
-                                    sceneIndex + 1,
-                                    0
-                                )}>{scene.subtitle ?? scene.title}</option
-                            >
-                        {/each}
-                    </optgroup>
-                {/each}
-            </select>
-            <Note
-                >{#if act !== undefined}{act.title}
+            {#if act !== undefined}
+                <Note>
+                    {act.title}
                     <sub
                         >{progress.tutorial.acts.indexOf(act) + 1}/{progress
                             .tutorial.acts.length}</sub
-                    >{/if}
-                {#if act !== undefined && scene !== undefined}&mdash; {scene.subtitle ??
-                        scene.title}
-                    <sub>
-                        {act.scenes.indexOf(scene) + 1}/{act.scenes.length}</sub
-                    >{/if}
-            </Note>
+                    ></Note
+                >{/if}
+            <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
+            <Options
+                value={JSON.stringify(progress.withLine(0).serialize())}
+                change={handleSelect}
+                id="current-lesson"
+                options={lessons}
+            ></Options>
         </nav>
     </div>
     <div class="content">
@@ -277,7 +295,7 @@
                     <Button
                         large
                         tip={$locales.get(
-                            (l) => l.ui.page.learn.button.previous
+                            (l) => l.ui.page.learn.button.previous,
                         )}
                         action={() =>
                             navigate(progress.previousPause() ?? progress)}
@@ -290,7 +308,7 @@
                                 <sub class="progress"
                                     >{progress.pause}/{scene
                                         ? scene.lines.filter(
-                                              (line) => line === null
+                                              (line) => line === null,
                                           ).length + 1
                                         : '?'}</sub
                                 >{/if}</Note
@@ -454,9 +472,10 @@
     nav {
         padding: var(--wordplay-spacing);
         display: flex;
-        flex-direction: row;
-        gap: calc(2 * var(--wordplay-spacing));
-        align-items: center;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        align-items: start;
+        justify-content: center;
         width: 100%;
     }
 
@@ -484,25 +503,6 @@
     .progress {
         flex-grow: 1;
         justify-self: center;
-    }
-
-    select {
-        width: 1.25em;
-        border: none;
-        cursor: pointer;
-        padding: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    select:focus {
-        background: var(--wordplay-focus-color);
-        color: var(--wordplay-background);
-        font-weight: bold;
-        outline: none;
-    }
-
-    select::after {
-        content: 'a';
     }
 
     .controls {

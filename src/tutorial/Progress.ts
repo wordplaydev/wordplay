@@ -30,7 +30,7 @@ export default class Progress {
             act === 0 || scene === 0
                 ? 0
                 : acts[act - 1].scenes[scene - 1].lines.filter(
-                      (line) => line === null
+                      (line) => line === null,
                   ).length + 1;
         pause = pause < 0 ? 0 : pause > pauses ? pauses : pause;
 
@@ -115,7 +115,7 @@ export default class Progress {
         }`;
     }
 
-    seralize(): TutorialProgress {
+    serialize(): TutorialProgress {
         return {
             language: this.tutorial.language,
             region: this.tutorial.region,
@@ -153,7 +153,7 @@ export default class Progress {
                 this.tutorial,
                 this.act,
                 this.scene,
-                this.pause + direction
+                this.pause + direction,
             );
         else return undefined;
     }
@@ -170,7 +170,7 @@ export default class Progress {
                 sceneIndex + 1,
                 direction < 0
                     ? newScene.lines.filter((line) => line === null).length + 1
-                    : 0
+                    : 0,
             );
         } else if (sceneIndex === -1) {
             return new Progress(this.tutorial, this.act, 0, 0);
@@ -190,10 +190,14 @@ export default class Progress {
                 direction < 0 ? nextAct.scenes.length : 0,
                 direction < 0
                     ? nextAct.scenes[nextAct.scenes.length - 1].lines.filter(
-                          (line) => line === null
+                          (line) => line === null,
                       ).length + 1
-                    : 0
+                    : 0,
             );
+    }
+
+    withLine(line: number) {
+        return new Progress(this.tutorial, this.act, this.scene, line);
     }
 
     getURL(): string {
@@ -204,7 +208,7 @@ export default class Progress {
 
     static fromURL(
         tutorial: Tutorial,
-        params: URLSearchParams
+        params: URLSearchParams,
     ): Progress | undefined {
         // Figure out where we are in the tutorial.
         const act = params.get('act');
@@ -223,7 +227,7 @@ export default class Progress {
                 tutorial,
                 parseInt(act),
                 parseInt(scene),
-                parseInt(pause)
+                parseInt(pause),
             );
         else return undefined;
     }

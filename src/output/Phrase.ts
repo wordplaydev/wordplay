@@ -38,7 +38,7 @@ export function createPhraseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.face
+            (locale) => locale.output.Phrase.face,
         )}•${SupportedFontsFamiliesType}${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Phrase.place)}•📍|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.name)}•""|ø: ø
@@ -46,39 +46,39 @@ export function createPhraseType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Phrase.color)}•🌈${'|ø: ø'}
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.background
+            (locale) => locale.output.Phrase.background,
         )}•Color${'|ø: ø'}
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.opacity
+            (locale) => locale.output.Phrase.opacity,
         )}•%${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Phrase.offset)}•📍|ø: ø
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.rotation
+            (locale) => locale.output.Phrase.rotation,
         )}•#°${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Phrase.scale)}•#${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Phrase.flipx)}•?${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Phrase.flipy)}•?${'|ø: ø'}
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.entering
+            (locale) => locale.output.Phrase.entering,
         )}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.resting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.moving)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.exiting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Phrase.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Phrase.style)}•${locales
-        .getLocales()
-        .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
-        )
-        .flat()
-        .join('|')}: "${DefaultStyle}"
+            .getLocales()
+            .map((locale) =>
+                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            )
+            .flat()
+            .join('|')}: "${DefaultStyle}"
         ${getBind(locales, (locale) => locale.output.Phrase.wrap)}•#m|ø: ø
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.alignment
+            (locale) => locale.output.Phrase.alignment,
         )}•'<'|'|'|'>': '<'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
     )`);
@@ -123,7 +123,7 @@ export default class Phrase extends Output {
         style: string,
         wrap: number | undefined,
         alignment: string | undefined,
-        matter: Matter | undefined
+        matter: Matter | undefined,
     ) {
         super(
             value,
@@ -139,7 +139,7 @@ export default class Phrase extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
         );
 
         this.text = text;
@@ -158,7 +158,7 @@ export default class Phrase extends Output {
 
     getText() {
         return (this.value as StructureValue).resolve(
-            (this.value as StructureValue).type.inputs[0].names
+            (this.value as StructureValue).type.inputs[0].names,
         );
     }
 
@@ -214,8 +214,8 @@ export default class Phrase extends Output {
                     `${formatted.weight ?? ''} ${
                         formatted.italic ? 'italic' : ''
                     } ${sizeToPx(
-                        renderedSize
-                    )} "${renderedFace}", ${CSSFallbackFaces}`
+                        renderedSize,
+                    )} "${renderedFace}", ${CSSFallbackFaces}`,
                 );
 
                 if (metrics) {
@@ -224,7 +224,7 @@ export default class Phrase extends Output {
                     height = Math.max(
                         metrics.actualBoundingBoxAscent +
                             metrics.actualBoundingBoxDescent,
-                        height
+                        height,
                     );
                     // If we're not wrapping, just accumulate the width.
                     if (maxWidth === undefined) {
@@ -262,7 +262,6 @@ export default class Phrase extends Output {
         };
         // If the font is loaded, these metrics can be trusted, so we cache them.
         if (height !== undefined && ascent !== undefined && faceLoaded) {
-            console.log(`Saving, ${renderedFace} is loaded`);
             this._metrics = dimensions;
         }
 
@@ -304,10 +303,10 @@ export default class Phrase extends Output {
                 locales
                     .getLocales()
                     .map((locale) =>
-                        options.find((text) => locale.language === text.lang)
+                        options.find((text) => locale.language === text.lang),
                     )
                     .filter(
-                        (text): text is TextLang => text !== undefined
+                        (text): text is TextLang => text !== undefined,
                     )[0] ?? this.text[0]
             );
         } else return this.text.markup;
@@ -331,7 +330,7 @@ export default class Phrase extends Output {
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.size,
                 this.face,
-                this.pose.getDescription(locales)
+                this.pose.getDescription(locales),
             ).toText();
         }
         return this._description;
@@ -362,7 +361,7 @@ export function toFont(value: Value | undefined): string | undefined {
 export function toPhrase(
     project: Project,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): Phrase | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
@@ -411,7 +410,7 @@ export function toPhrase(
               style,
               wrap,
               alignment?.text,
-              matter
+              matter,
           )
         : undefined;
 }
@@ -427,13 +426,13 @@ export function toTextLang(value: Value | undefined) {
         value instanceof TextValue
             ? [new TextLang(value, value.text, value.format)]
             : value instanceof ListValue &&
-              value.values.every((t) => t instanceof TextValue)
-            ? (value.values as TextValue[]).map(
-                  (val) => new TextLang(val, val.text, val.format)
-              )
-            : value instanceof MarkupValue
-            ? value
-            : undefined;
+                value.values.every((t) => t instanceof TextValue)
+              ? (value.values as TextValue[]).map(
+                    (val) => new TextLang(val, val.text, val.format),
+                )
+              : value instanceof MarkupValue
+                ? value
+                : undefined;
 
     return texts;
 }
