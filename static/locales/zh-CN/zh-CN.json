@@ -4265,6 +4265,7 @@
             "disclosure": "披露其他人的私人信息，如姓名、联系方式或实际地址。",
             "misinformation": "包含虚假、误导性、欺骗性或操纵性信息。"
         },
+        "progress": "$?",
         "button": {
             "submit": {
                 "tip": "保存这些审查设置",

@@ -4383,6 +4383,7 @@
             "disclosure": "Reveal private information about other people such as names, contact information, or physical addresses",
             "misinformation": "Contain false, misleading, deceptive, or manipulative information"
         },
+        "progress": "*$1* moderated, *$2* remaining",
         "button": {
             "submit": {
                 "tip": "Save these moderation settings",
