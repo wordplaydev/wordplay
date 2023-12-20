@@ -1,2 +1,2 @@
 type Alignment = '<' | '|' | '>';
-export default Alignment;
+export { type Alignment as default };

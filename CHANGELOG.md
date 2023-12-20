@@ -6,6 +6,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## 0.9.13
 
 -   [#191](https://github.com/wordplaydev/wordplay/issues/191): Added moderation progess to moderation page.
+-   [#313](https://github.com/wordplaydev/wordplay/issues/313): Upgraded to SvelteKit 2, Vite 5, tsx 4.7.0, and related dependencies.
 
 ## 0.9.12
 

@@ -76,4 +76,4 @@ type TermTexts = {
     feedback: string;
 };
 
-export default TermTexts;
+export { type TermTexts as default };

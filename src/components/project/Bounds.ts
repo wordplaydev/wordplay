@@ -5,4 +5,4 @@ type Bounds = {
     height: number;
 };
 
-export default Bounds;
+export { type Bounds as default };

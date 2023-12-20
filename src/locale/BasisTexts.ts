@@ -418,4 +418,4 @@ type BasisTexts = {
     };
 };
 
-export default BasisTexts;
+export { type BasisTexts as default };

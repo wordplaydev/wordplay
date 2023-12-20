@@ -822,4 +822,4 @@ type NodeTexts = {
     NonFunctionType: DescriptiveNodeText;
 };
 
-export default NodeTexts;
+export { type NodeTexts as default };

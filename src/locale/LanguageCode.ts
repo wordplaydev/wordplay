@@ -236,10 +236,10 @@ export const Languages = {
 } satisfies Record<string, LanguageMetadata>;
 
 type LanguageCode = keyof typeof Languages;
-export default LanguageCode;
+export { type LanguageCode as default };
 
 export const PossibleLanguages: LanguageCode[] = Object.keys(
-    Languages
+    Languages,
 ) as LanguageCode[];
 
 export function getLanguageName(code: LanguageCode): string | undefined {
