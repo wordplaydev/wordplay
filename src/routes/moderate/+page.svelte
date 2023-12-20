@@ -38,6 +38,7 @@
     import type { Flag, Moderation } from '../../models/Moderation';
     import Spinning from '../../components/app/Spinning.svelte';
     import { ProjectsCollection } from '../../db/ProjectsDatabase';
+    import Markup from '@nodes/Markup';
 
     const user = getUser();
 
@@ -57,7 +58,7 @@
     let project: Project | undefined = undefined;
 
     let newFlags: Moderation;
-    
+
     let moderatedCount = 0;
     let unmoderatedCount = 0;
     onMount(async () => {
@@ -84,17 +85,18 @@
                 where('public', '==', true),
                 or(
                     ...Array.from(Object.keys(Flags)).map((flag) =>
-                        where(new FieldPath('flags', flag), '==', null)
-                    )
-                )
+                        where(new FieldPath('flags', flag), '==', null),
+                    ),
+                ),
             ),
             orderBy('timestamp'),
             ...(lastBatch ? [startAfter(lastBatch)] : []),
-            limit(1)
+            limit(1),
         );
         const documentSnapshots = await getDocs(unmoderated);
 
-        if(!lastBatch) { //add to total projects if there was not a last batch detected
+        if (!lastBatch) {
+            //add to total projects if there was not a last batch detected
             unmoderatedCount += documentSnapshots.docs.length;
         }
 
@@ -133,8 +135,9 @@
                 <Spinning label="" />
             {:else if moderator === false}
                 <p
-                    >It looks like you're not a moderator. Do you want to become
-                    one?</p
+                    >It looks like you're not a moderator. If you were recently
+                    given moderator privileges, you may need to login again. If
+                    not, see the wiki for how to request moderation privileges.</p
                 >
             {:else if lastBatch === undefined}
                 <p>Nothing else to moderate!</p>
@@ -142,11 +145,18 @@
                 <Spinning label="" />
             {:else}
                 <div class="progress-counter">
-                    <p>Moderated: {moderatedCount} of {unmoderatedCount} projects</p>
+                    <MarkupHtmlView
+                        markup={Markup.words(
+                            $locales.get((l) => l.moderation.progress),
+                        ).concretize($locales, [
+                            moderatedCount,
+                            unmoderatedCount,
+                        ]) ?? '?'}
+                    />
                 </div>
                 <MarkupHtmlView
                     markup={$locales.get(
-                        (l) => l.moderation.moderate.explanation
+                        (l) => l.moderation.moderate.explanation,
                     )}
                 />
                 {#each Object.entries(project.getFlags()) as [flag, state]}
@@ -158,7 +168,7 @@
                                 (newFlags = withFlag(
                                     newFlags,
                                     flag,
-                                    value === true
+                                    value === true,
                                 ))}
                         />
                         <label for={flag}>
@@ -173,11 +183,11 @@
                     <Button
                         background
                         tip={$locales.get(
-                            (l) => l.moderation.button.submit.tip
+                            (l) => l.moderation.button.submit.tip,
                         )}
                         action={save}
                         >{$locales.get(
-                            (l) => l.moderation.button.submit.label
+                            (l) => l.moderation.button.submit.label,
                         )}</Button
                     >
                     <Button
@@ -185,7 +195,7 @@
                         tip={$locales.get((l) => l.moderation.button.skip.tip)}
                         action={skip}
                         >{$locales.get(
-                            (l) => l.moderation.button.skip.label
+                            (l) => l.moderation.button.skip.label,
                         )}</Button
                     >
                 </div>

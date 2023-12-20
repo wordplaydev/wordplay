@@ -34,7 +34,7 @@ export const SupportedLocales = Array.from(
         'es-MX',
         'zh-CN',
         ...(import.meta.hot ? EventuallySupportedLocales : []),
-    ])
+    ]),
 );
 
 /** One of the supported locales above */
@@ -84,6 +84,8 @@ export type Locale = {
         moderate: DialogText;
         /** Content moderation rules that creators promise to follow. See en-US.json for ground truth language. */
         flags: FlagDescriptions;
+        /** Progress message */
+        progress: Template;
         /** Buttons on the moderation page */
         button: {
             submit: ButtonText;
@@ -166,14 +168,14 @@ export function getBestSupportedLocales(locales: string[]) {
         .map((preferredLocale) => {
             // Is there an exact match?
             const exact = SupportedLocales.find(
-                (locale) => preferredLocale === locale
+                (locale) => preferredLocale === locale,
             );
             if (exact) return exact;
             // Does a language match, even if locale doesn't match?
             const languageExact = SupportedLocales.find(
                 (locale) =>
                     getLocaleLanguage(preferredLocale) ===
-                    getLocaleLanguage(locale)
+                    getLocaleLanguage(locale),
             );
             if (languageExact) return languageExact;
             // No match
@@ -190,28 +192,28 @@ export function createBind(
     locales: Locales,
     nameAndDoc: (locale: Locale) => NameAndDoc,
     type?: Type,
-    value?: Expression
+    value?: Expression,
 ) {
     return Bind.make(
         getDocLocales(locales, (l) => nameAndDoc(l).doc),
         getNameLocales(locales, (l) => nameAndDoc(l).names),
         type,
-        value
+        value,
     );
 }
 
 export function createInputs(
     locales: Locales,
     fun: (locale: Locale) => NameAndDoc[],
-    types: (Type | [Type, Expression])[]
+    types: (Type | [Type, Expression])[],
 ) {
     return types.map((type, index) =>
         createBind(
             locales,
             (l) => fun(l)[index],
             Array.isArray(type) ? type[0] : type,
-            Array.isArray(type) ? type[1] : undefined
-        )
+            Array.isArray(type) ? type[1] : undefined,
+        ),
     );
 }
 
@@ -221,7 +223,7 @@ export function createFunction(
     typeVars: TypeVariables | undefined,
     inputs: Bind[],
     output: Type,
-    expression: Expression
+    expression: Expression,
 ) {
     return FunctionDefinition.make(
         getDocLocales(locales, (l) => nameAndDoc(l).doc),
@@ -229,6 +231,6 @@ export function createFunction(
         typeVars,
         inputs,
         expression,
-        output
+        output,
     );
 }

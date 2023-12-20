@@ -4455,6 +4455,7 @@
             "disclosure": "Revelar información privada sobre otras personas, como nombres, información de contacto o direcciones físicas",
             "misinformation": "Contener información falsa, engañosa, manipuladora o manipulativa"
         },
+        "progress": "$?",
         "button": {
             "submit": {
                 "tip": "Guardar estas configuraciones de moderación",
