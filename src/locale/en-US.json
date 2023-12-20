@@ -4012,6 +4012,9 @@
                 },
                 "button": {
                     "submit": "Share the project with this email address"
+                },
+                "options": {
+                    "gallery": "gallery chooser"
                 }
             },
             "settings": {
@@ -4051,6 +4054,10 @@
                             "vertical, left to right"
                         ]
                     }
+                },
+                "options": {
+                    "mic": "selected microphone",
+                    "camera": "selected camera"
                 }
             },
             "locale": {
@@ -4162,6 +4169,9 @@
                 "button": {
                     "next": "next pause in dialog",
                     "previous": "previous pause in dialog"
+                },
+                "options": {
+                    "lesson": "current lesson"
                 }
             },
             "projects": {

@@ -8188,13 +8188,32 @@
                         "writing"
                       ],
                       "type": "object"
+                    },
+                    "options": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "camera": {
+                          "description": "The label for the camera drop down",
+                          "type": "string"
+                        },
+                        "mic": {
+                          "description": "The label for the microphone drop down",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "mic",
+                        "camera"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "button",
                     "explanation",
                     "header",
-                    "mode"
+                    "mode",
+                    "options"
                   ],
                   "type": "object"
                 },
@@ -8281,6 +8300,19 @@
                       ],
                       "type": "object"
                     },
+                    "options": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "gallery": {
+                          "description": "The label for the gallery chooser",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "gallery"
+                      ],
+                      "type": "object"
+                    },
                     "subheader": {
                       "additionalProperties": false,
                       "description": "The subheaders of the dialog",
@@ -8313,6 +8345,7 @@
                     "field",
                     "header",
                     "mode",
+                    "options",
                     "subheader"
                   ],
                   "type": "object"
@@ -8840,12 +8873,27 @@
                     "header": {
                       "description": "The header for the tutorial page",
                       "type": "string"
+                    },
+                    "options": {
+                      "additionalProperties": false,
+                      "description": "Labels for drop down menus",
+                      "properties": {
+                        "lesson": {
+                          "description": "The label for the lesson drop down",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "lesson"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "error",
-                    "button"
+                    "button",
+                    "options"
                   ],
                   "type": "object"
                 },

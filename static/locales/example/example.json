@@ -2350,6 +2350,9 @@
                 },
                 "button": {
                     "submit": "$?"
+                },
+                "options": {
+                    "gallery": "$?"
                 }
             },
             "settings": {
@@ -2375,6 +2378,10 @@
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
                     }
+                },
+                "options": {
+                    "mic": "$?",
+                    "camera": "$?"
                 }
             },
             "locale": {
@@ -2484,6 +2491,9 @@
                 "button": {
                     "next": "$?",
                     "previous": "$?"
+                },
+                "options": {
+                    "lesson": "$?"
                 }
             },
             "projects": {

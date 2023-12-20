@@ -13,6 +13,7 @@
     import { tick } from 'svelte';
 
     export let value: string | undefined;
+    export let label: string;
     export let options: Group[] | Option[];
     export let change: (value: string | undefined) => void;
     export let width = '10em';
@@ -29,6 +30,8 @@
 </script>
 
 <select
+    aria-label={label}
+    title={label}
     bind:value
     {id}
     on:change={() => commitChange(value)}

@@ -511,6 +511,10 @@ type UITexts = {
                 /** When someone wants to add a collaborator but isn't authenticated */
                 anonymous: string;
             };
+            options: {
+                /** The label for the gallery chooser */
+                gallery: string;
+            };
         };
         /** The settings dialog */
         settings: DialogText & {
@@ -527,6 +531,12 @@ type UITexts = {
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */
                 writing: ModeText<[string, string, string]>;
+            };
+            options: {
+                /** The label for the microphone drop down */
+                mic: string;
+                /** The label for the camera drop down */
+                camera: string;
             };
         };
         /** The locale chooser dialog */
@@ -615,6 +625,11 @@ type UITexts = {
                 next: string;
                 /** Navigate back to the previous pause in the dialog */
                 previous: string;
+            };
+            /** Labels for drop down menus */
+            options: {
+                /** The label for the lesson drop down */
+                lesson: string;
             };
         };
         /** The project creation and browsing page */

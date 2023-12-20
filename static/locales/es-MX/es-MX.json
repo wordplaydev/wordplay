@@ -4076,6 +4076,9 @@
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico"
+                },
+                "options": {
+                    "gallery": "$?"
                 }
             },
             "settings": {
@@ -4120,6 +4123,10 @@
                             "vertical, de izquierda a derecha"
                         ]
                     }
+                },
+                "options": {
+                    "mic": "$?",
+                    "camera": "$?"
                 }
             },
             "locale": {
@@ -4234,6 +4241,9 @@
                 "button": {
                     "next": "siguiente pausa en el diálogo",
                     "previous": "anterior pausa en el diálogo"
+                },
+                "options": {
+                    "lesson": "$?"
                 }
             },
             "projects": {

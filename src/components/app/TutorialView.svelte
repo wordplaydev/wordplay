@@ -276,6 +276,7 @@
                 >{/if}
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
             <Options
+                label={$locales.get((l) => l.ui.page.learn.options.lesson)}
                 value={JSON.stringify(progress.withLine(0).serialize())}
                 change={handleSelect}
                 id="current-lesson"

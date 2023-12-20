@@ -3897,6 +3897,9 @@
                 },
                 "button": {
                     "submit": "通过此电子邮件地址分享项目"
+                },
+                "options": {
+                    "gallery": "$?"
                 }
             },
             "settings": {
@@ -3932,6 +3935,10 @@
                             "垂直，从左到右"
                         ]
                     }
+                },
+                "options": {
+                    "mic": "$?",
+                    "camera": "$?"
                 }
             },
             "locale": {
@@ -4044,6 +4051,9 @@
                 "button": {
                     "next": "对话中的下一个暂停",
                     "previous": "对话中的前一个暂停"
+                },
+                "options": {
+                    "lesson": "$?"
                 }
             },
             "projects": {

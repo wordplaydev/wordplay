@@ -22,12 +22,12 @@
 {:else}
     <Subheader
         >{$locales.get(
-            (l) => l.ui.dialog.share.subheader.collaborators.header
+            (l) => l.ui.dialog.share.subheader.collaborators.header,
         )}</Subheader
     >
     <MarkupHtmlView
         markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.collaborators.explanation
+            (l) => l.ui.dialog.share.subheader.collaborators.explanation,
         )}
     />
 
@@ -44,17 +44,18 @@
 
     <Subheader
         >{$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.header
+            (l) => l.ui.dialog.share.subheader.gallery.header,
         )}</Subheader
     >
     <MarkupHtmlView
         markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.gallery.explanation
+            (l) => l.ui.dialog.share.subheader.gallery.explanation,
         )}
     />
 
     <Options
         id="gallerychooser"
+        label={$locales.get((l) => l.ui.dialog.share.options.gallery)}
         value={project.getGallery() ?? undefined}
         options={[
             { value: undefined, label: '—' },
