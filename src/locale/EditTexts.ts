@@ -29,4 +29,4 @@ type EditTexts = {
     bind: string;
 };
 
-export default EditTexts;
+export { type EditTexts as default };

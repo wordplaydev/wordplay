@@ -10,23 +10,6 @@
         "skipLibCheck": true,
         "sourceMap": true,
         "noEmit": true,
-        "strict": true,
-        "baseUrl": "src",
-        "paths": {
-            "@components/*": ["components/*"],
-            "@nodes/*": ["nodes/*"],
-            "@runtime/*": ["runtime/*"],
-            "@values/*": ["values/*"],
-            "@conflicts/*": ["conflicts/*"],
-            "@locale/*": ["locale/*"],
-            "@input/*": ["input/*"],
-            "@output/*": ["output/*"],
-            "@concepts/*": ["concepts/*"],
-            "@parser/*": ["parser/*"],
-            "@basis/*": ["basis/*"],
-            "@edit/*": ["edit/*"],
-            "@models/*": ["models/*"],
-            "@db/*": ["db/*"]
-        }
+        "strict": true
     }
 }

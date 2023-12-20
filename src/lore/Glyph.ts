@@ -2,4 +2,4 @@ type Glyph = {
     symbols: string;
 };
 
-export default Glyph;
+export { type Glyph as default };

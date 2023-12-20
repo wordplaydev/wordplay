@@ -6,4 +6,4 @@ type PaintingConfiguration = {
     font: SupportedFace;
 };
 
-export default PaintingConfiguration;
+export { type PaintingConfiguration as default };

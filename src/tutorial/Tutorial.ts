@@ -52,4 +52,4 @@ export const PerformanceMode = [
 
 export type PeformanceModeType = (typeof PerformanceMode)[number];
 
-export default Tutorial;
+export { type Tutorial as default };

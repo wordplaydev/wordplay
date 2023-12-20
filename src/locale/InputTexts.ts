@@ -110,4 +110,4 @@ type InputTexts = {
     };
 };
 
-export default InputTexts;
+export { type InputTexts as default };

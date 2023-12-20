@@ -8,4 +8,4 @@ type Concretizer = (
     ...inputs: TemplateInput[]
 ) => Markup;
 
-export default Concretizer;
+export { type Concretizer as default };

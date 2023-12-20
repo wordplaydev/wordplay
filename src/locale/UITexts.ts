@@ -809,4 +809,4 @@ type UITexts = {
     };
 };
 
-export default UITexts;
+export { type UITexts as default };

@@ -94,7 +94,7 @@ export type Locale = {
     };
 };
 
-export default Locale;
+export { type Locale as default };
 
 export type Template = string;
 

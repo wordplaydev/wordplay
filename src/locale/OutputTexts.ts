@@ -290,4 +290,4 @@ type OutputTexts = {
     };
 };
 
-export default OutputTexts;
+export { type OutputTexts as default };

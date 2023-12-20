@@ -13,4 +13,4 @@ type Definition =
     | StreamDefinition
     | Source;
 
-export default Definition;
+export { type Definition as default };
