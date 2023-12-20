@@ -5,11 +5,19 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.13
 
+## Added
+
 -   [#191](https://github.com/wordplaydev/wordplay/issues/191): Added moderation progess to moderation page.
--   [#313](https://github.com/wordplaydev/wordplay/issues/313): Upgraded to SvelteKit 2, Vite 5, tsx 4.7.0, and related dependencies.
+
+## Fixed
+
 -   [#251](https://github.com/wordplaydev/wordplay/issues/251): Consistent tutorial lesson drop down appearance.
 -   [#330](https://github.com/wordplaydev/wordplay/issues/330): Labeled drop downs.
 -   [#314](https://github.com/wordplaydev/wordplay/issues/314): Removed low opacity footer on fullscreen for accessibility.
+
+# Maintenance
+
+-   [#313](https://github.com/wordplaydev/wordplay/issues/313): Upgraded to SvelteKit 2, Vite 5, tsx 4.7.0, and related dependencies.
 
 ## 0.9.12
 
