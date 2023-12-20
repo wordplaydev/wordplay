@@ -3227,6 +3227,10 @@
                 "doc": "Si hay una límite de @Phrase/wrap límite establecido, si debo de alinear los simbolos al principo, en medio, or al final.",
                 "names": "alineación"
             },
+            "direction": {
+                "doc": "$?",
+                "names": "dirección"
+            },
             "matter": {
                 "doc": "¡Las propiedades a usar si choco con cosas!",
                 "names": "materia"

@@ -8,7 +8,6 @@
         camera,
         mic,
         Settings,
-        writingLayout,
         dark,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
@@ -118,7 +117,7 @@
                 modes={['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼']}
             /></p
         >
-        <p
+        <!-- <p
             ><Mode
                 descriptions={$locales.get(
                     (l) => l.ui.dialog.settings.mode.writing,
@@ -138,7 +137,7 @@
                     )}
                 modes={['→↓', '↓←', '↓→']}
             /></p
-        >
+        > -->
         {#if devicesRetrieved}
             <p
                 ><label for="camera-setting">

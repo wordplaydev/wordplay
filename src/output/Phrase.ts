@@ -30,6 +30,13 @@ import segmentWraps from './segmentWraps';
 import type Matter from './Matter';
 import { toMatter } from './Matter';
 import type Locales from '../locale/Locales';
+import {
+    HorizontalLayout,
+    VerticalLeftRightLayout,
+    VerticalRightLeftLayout,
+    layoutToCSS,
+    type WritingLayoutSymbol,
+} from '@locale/Scripts';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
@@ -80,6 +87,10 @@ export function createPhraseType(locales: Locales) {
             locales,
             (locale) => locale.output.Phrase.alignment,
         )}•'<'|'|'|'>': '<'
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.direction,
+        )}•'${HorizontalLayout}'|'${VerticalRightLeftLayout}'|'${VerticalLeftRightLayout}': '${HorizontalLayout}'
         ${getBind(locales, (locale) => locale.output.Phrase.matter)}•Matter|ø: ø
     )`);
 }
@@ -99,6 +110,7 @@ export default class Phrase extends Output {
     readonly text: TextLang[] | MarkupValue;
     readonly wrap: number | undefined;
     readonly alignment: string | undefined;
+    readonly direction: WritingLayoutSymbol;
     readonly matter: Matter | undefined;
 
     private _metrics: Metrics | undefined = undefined;
@@ -123,6 +135,7 @@ export default class Phrase extends Output {
         style: string,
         wrap: number | undefined,
         alignment: string | undefined,
+        direction: WritingLayoutSymbol,
         matter: Matter | undefined,
     ) {
         super(
@@ -145,6 +158,7 @@ export default class Phrase extends Output {
         this.text = text;
         this.wrap = wrap === undefined ? undefined : Math.max(1, wrap);
         this.alignment = alignment;
+        this.direction = direction;
         this.matter = matter;
 
         // Make sure this font is loaded. This is a little late -- we could do some static analysis
@@ -203,6 +217,9 @@ export default class Phrase extends Output {
         // Remember whether the font is loaded, so we can decide whether to save the metrics.
         const faceLoaded = Fonts.isFaceLoaded(renderedFace);
 
+        // Is the text horizontal or vertical? This determines how we calculate size.
+        const horizontal = this.direction === HorizontalLayout;
+
         // Go through each formatted text,
         for (const formatted of formats) {
             // Split the text by spaces and measure each space separated chunk.
@@ -216,6 +233,7 @@ export default class Phrase extends Output {
                     } ${sizeToPx(
                         renderedSize,
                     )} "${renderedFace}", ${CSSFallbackFaces}`,
+                    layoutToCSS(this.direction),
                 );
 
                 if (metrics) {
@@ -252,6 +270,12 @@ export default class Phrase extends Output {
         if (maxWidth !== undefined) {
             width = maxWidth;
             height = totalHeight + (width > 0 ? ascent + descent : 0);
+        }
+
+        if (!horizontal) {
+            const temp = width;
+            width = height;
+            height = temp;
         }
 
         const dimensions = {
@@ -385,11 +409,13 @@ export function toPhrase(
 
     const wrap = toNumber(getOutputInput(value, 20));
     const alignment = toText(getOutputInput(value, 21));
-    const matter = toMatter(getOutputInput(value, 22));
+    const direction = toText(getOutputInput(value, 22));
+    const matter = toMatter(getOutputInput(value, 23));
 
     return texts !== undefined &&
         duration !== undefined &&
         style !== undefined &&
+        direction !== undefined &&
         pose &&
         selectable !== undefined
         ? new Phrase(
@@ -410,6 +436,7 @@ export function toPhrase(
               style,
               wrap,
               alignment?.text,
+              direction.text as WritingLayoutSymbol,
               matter,
           )
         : undefined;

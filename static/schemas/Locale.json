@@ -6708,6 +6708,10 @@
                   "$ref": "#/definitions/Template",
                   "description": "A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose"
                 },
+                "direction": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The layout of writing"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
@@ -6802,6 +6806,7 @@
                 "background",
                 "color",
                 "description",
+                "direction",
                 "doc",
                 "duration",
                 "entering",

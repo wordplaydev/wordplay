@@ -1815,6 +1815,10 @@
                 "doc": "$?",
                 "names": "$? alignment"
             },
+            "direction": {
+                "doc": "$?",
+                "names": "$? direction"
+            },
             "matter": {
                 "doc": "$?",
                 "names": "$? matter"

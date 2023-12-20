@@ -63,6 +63,8 @@ type OutputTexts = {
         wrap: NameAndDoc;
         /** The alignment to use when wrapped */
         alignment: NameAndDoc;
+        /** The layout of writing */
+        direction: NameAndDoc;
         /** The matter properties for the phrase */
         matter: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */

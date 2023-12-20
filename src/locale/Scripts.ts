@@ -1,5 +1,22 @@
 export type WritingDirection = 'ltr' | 'rtl';
 export type WritingLayout = 'horizontal-tb' | 'vertical-rl' | 'vertical-lr';
+export const HorizontalLayout = '↔↓';
+export const VerticalRightLeftLayout = '↕←';
+export const VerticalLeftRightLayout = '↕→';
+export type WritingLayoutSymbol =
+    | typeof HorizontalLayout
+    | typeof VerticalLeftRightLayout
+    | typeof VerticalRightLeftLayout;
+
+export const CSSByLayout: Record<WritingLayoutSymbol, WritingLayout> = {
+    '↔↓': 'horizontal-tb',
+    '↕←': 'vertical-rl',
+    '↕→': 'vertical-lr',
+};
+
+export function layoutToCSS(layout: WritingLayoutSymbol): WritingLayout {
+    return CSSByLayout[layout] ?? 'horizontal-tb';
+}
 
 export type ScriptMetadata = {
     direction: WritingDirection;

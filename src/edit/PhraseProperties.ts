@@ -10,10 +10,15 @@ import OutputPropertyOptions from './OutputPropertyOptions';
 import { getTypeOutputProperties } from './OutputProperties';
 import type Project from '../models/Project';
 import type Locales from '../locale/Locales';
+import {
+    HorizontalLayout,
+    VerticalLeftRightLayout,
+    VerticalRightLeftLayout,
+} from '@locale/Scripts';
 
 export default function getPhraseProperties(
     project: Project,
-    locales: Locales
+    locales: Locales,
 ): OutputProperty[] {
     return [
         new OutputProperty(
@@ -23,7 +28,7 @@ export default function getPhraseProperties(
             false,
             (expr) => expr instanceof TextLiteral || expr instanceof Docs,
             (locales) =>
-                TextLiteral.make('', Language.make(locales.getLanguages()[0]))
+                TextLiteral.make('', Language.make(locales.getLanguages()[0])),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Phrase.wrap),
@@ -31,7 +36,7 @@ export default function getPhraseProperties(
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make('10', Unit.meters())
+            () => NumberLiteral.make('10', Unit.meters()),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Phrase.alignment),
@@ -40,12 +45,32 @@ export default function getPhraseProperties(
                 true,
                 (text) => TextLiteral.make(text),
                 (expr) =>
-                    (expr instanceof TextLiteral ? expr.getText() : null) ?? '|'
+                    (expr instanceof TextLiteral ? expr.getText() : null) ??
+                    '|',
             ),
             false,
             false,
             (expr) => expr instanceof TextLiteral,
-            () => TextLiteral.make('|')
+            () => TextLiteral.make('|'),
+        ),
+        new OutputProperty(
+            locales.get((l) => l.output.Phrase.direction),
+            new OutputPropertyOptions(
+                [
+                    HorizontalLayout,
+                    VerticalRightLeftLayout,
+                    VerticalLeftRightLayout,
+                ],
+                false,
+                (text) => TextLiteral.make(text),
+                (expr) =>
+                    (expr instanceof TextLiteral ? expr.getText() : null) ??
+                    HorizontalLayout,
+            ),
+            false,
+            false,
+            (expr) => expr instanceof TextLiteral,
+            () => TextLiteral.make(HorizontalLayout),
         ),
         ...getTypeOutputProperties(project, locales),
     ];

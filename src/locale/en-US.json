@@ -3177,6 +3177,10 @@
                 "doc": "If there's a @Phrase/wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
                 "names": "alignment"
             },
+            "direction": {
+                "doc": "Whether symbols are written horizontally or vertically, and if vertical and @Phrase/wrap is set, whether text wraps left or right.",
+                "names": "direction"
+            },
             "matter": {
                 "doc": "The properties to use if I bump into things!",
                 "names": "matter"

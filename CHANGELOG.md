@@ -10,6 +10,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#191](https://github.com/wordplaydev/wordplay/issues/191): Added moderation progess to moderation page.
 -   [#235](https://github.com/wordplaydev/wordplay/issues/235): Pre-render static pages for speed and SEO.
 
+### Changed
+
+-   [#220](https://github.com/wordplaydev/wordplay/issues/220): Less confusing use of writing mode. Removed global setting, changed editor to always be horizontal top to bottom, but respect priority script's horizontal direction, and added direction as attribute of individual outputs, groups, and stages.
+
 ### Fixed
 
 -   [#251](https://github.com/wordplaydev/wordplay/issues/251): Consistent tutorial lesson drop down appearance.
