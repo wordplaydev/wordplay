@@ -696,15 +696,13 @@ type UITexts = {
             header: string;
             /** Subtitle for the header link on the landing page */
             subtitle: string;
-            subheader: {
-                /** Header for logging in via email */
-                email: string;
-                /** Header for logging in via username and password */
-                username: string;
-            };
             prompt: {
                 /** Prompts creator to login to save their work */
                 login: string;
+                /** Forgot password regrets */
+                forgot: string;
+                /** Email login explanation */
+                email: string;
                 /** Prompt to check email for a login link. */
                 sent: string;
                 /** Tells the creator that they can change their email address. */
@@ -715,12 +713,6 @@ type UITexts = {
                 enter: string;
                 /** Encouragement to go create after logging in. */
                 play: string;
-                /** Gives rules for emails above the login form */
-                emailrules: string[];
-                /** Reminder about username limitations */
-                usernamereminder: string;
-                /** Description of username rules */
-                usernamerule: string;
                 /** Description of password rules */
                 passwordrule: string;
                 /** Reminder to write down password */
@@ -739,8 +731,6 @@ type UITexts = {
                 reallyDelete: string;
                 /** Pick an emoji as a name */
                 name: string;
-                /** Text for age prompt */
-                age: ModeText<[string, string]>;
             };
             /** Shown in the footer a creator is not logged in. */
             anonymous: string;
@@ -793,6 +783,21 @@ type UITexts = {
                 reallyDelete: ButtonText;
                 /** Update password */
                 updatePassword: string;
+            };
+            toggle: {
+                /** Reveal password toggle */
+                reveal: ToggleText;
+            };
+        };
+        join: {
+            /** The account creation header */
+            header: string;
+            /** Requests for information on the account creation page */
+            prompt: {
+                /** Username rules */
+                username: string;
+                /** Password rules and warnings */
+                password: string;
             };
         };
         /** The rights/terms of service page */

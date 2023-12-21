@@ -23,10 +23,18 @@
             changed(text);
     }
 
-    onMount(() => {
+    function setKind(kind: 'email' | 'password' | undefined) {
+        if (view === undefined) return;
         if (kind === 'email' && view) view.type = 'email';
         else if (kind === 'password' && view) view.type = 'password';
+        else view.type = 'text';
+    }
+
+    onMount(() => {
+        setKind(kind);
     });
+
+    $: setKind(kind);
 </script>
 
 <div class="field">
@@ -52,8 +60,8 @@
         >{text.length === 0
             ? placeholder
             : kind === 'password'
-            ? '•'.repeat(text.length)
-            : text}</span
+              ? '•'.repeat(text.length)
+              : text}</span
     >
 </div>
 

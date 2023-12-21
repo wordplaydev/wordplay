@@ -2543,23 +2543,14 @@
             "login": {
                 "header": "$?",
                 "subtitle": "$?",
-                "subheader": {
-                    "email": "$?",
-                    "username": "$?"
-                },
                 "anonymous": "$?",
                 "prompt": {
                     "login": "$?",
-                    "age": {
-                        "label": "$?",
-                        "modes": ["$?", "$?"]
-                    },
+                    "forgot": "$?",
+                    "email": "$?",
                     "enter": "$?",
-                    "emailrules": ["$?"],
                     "tooyoung": "$?",
-                    "usernamerule": "$?",
                     "passwordrule": "$?",
-                    "usernamereminder": "$?",
                     "passwordreminder": "$?",
                     "play": "$?",
                     "changeEmail": "$?",
@@ -2618,6 +2609,19 @@
                         "tip": "$?",
                         "label": "$?"
                     }
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$?",
+                        "off": "$?"
+                    }
+                }
+            },
+            "join": {
+                "header": "$?",
+                "prompt": {
+                    "username": "$?",
+                    "password": "$?"
                 }
             },
             "rights": {

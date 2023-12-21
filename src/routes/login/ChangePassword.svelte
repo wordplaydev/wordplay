@@ -7,6 +7,7 @@
     import getLoginErrorDescription from './getAuthErrorDescription';
     import Button from '@components/widgets/Button.svelte';
     import Feedback from '@components/app/Feedback.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
 
     export let user: User;
 
@@ -14,6 +15,7 @@
     let password2 = '';
     let submitted = false;
     let feedback: string | undefined = undefined;
+    let reveal = false;
 
     async function update() {
         if (isValidPassword(password2) && password1 === password2) {
@@ -27,7 +29,7 @@
             } finally {
                 submitted = false;
                 feedback = $locales.get(
-                    (l) => l.ui.page.login.feedback.updatedPassword
+                    (l) => l.ui.page.login.feedback.updatedPassword,
                 );
                 password1 = '';
                 password2 = '';
@@ -42,10 +44,10 @@
     <TextField
         kind={'password'}
         description={$locales.get(
-            (l) => l.ui.page.login.field.password.description
+            (l) => l.ui.page.login.field.password.description,
         )}
         placeholder={$locales.get(
-            (l) => l.ui.page.login.field.password.placeholder
+            (l) => l.ui.page.login.field.password.placeholder,
         )}
         bind:text={password1}
         editable={!submitted}
@@ -54,15 +56,20 @@
     <TextField
         kind={'password'}
         description={$locales.get(
-            (l) => l.ui.page.login.field.password.description
+            (l) => l.ui.page.login.field.password.description,
         )}
         placeholder={$locales.get(
-            (l) => l.ui.page.login.field.password.placeholder
+            (l) => l.ui.page.login.field.password.placeholder,
         )}
         bind:text={password2}
         editable={!submitted}
         validator={(pass) => pass === password1 && isValidPassword(pass)}
     />
+    <Toggle
+        tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}
+        on={reveal}
+        toggle={() => (reveal = !reveal)}>🔎</Toggle
+    >
     <Button
         submit
         background
@@ -73,7 +80,7 @@
     {#if password2.length > 0 && !isValidPassword(password2)}
         <Feedback
             >{$locales.get(
-                (l) => l.ui.page.login.prompt.passwordrule
+                (l) => l.ui.page.login.prompt.passwordrule,
             )}</Feedback
         >
     {:else if feedback}

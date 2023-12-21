@@ -8781,6 +8781,39 @@
                   ],
                   "type": "object"
                 },
+                "join": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "header": {
+                      "description": "The account creation header",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "description": "Requests for information on the account creation page",
+                      "properties": {
+                        "password": {
+                          "description": "Password rules and warnings",
+                          "type": "string"
+                        },
+                        "username": {
+                          "description": "Username rules",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "username",
+                        "password"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt"
+                  ],
+                  "type": "object"
+                },
                 "landing": {
                   "additionalProperties": false,
                   "properties": {
@@ -9054,10 +9087,6 @@
                     "prompt": {
                       "additionalProperties": false,
                       "properties": {
-                        "age": {
-                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
-                          "description": "Text for age prompt"
-                        },
                         "changeEmail": {
                           "description": "Tells the creator that they can change their email address.",
                           "type": "string"
@@ -9074,15 +9103,16 @@
                           "description": "Offers to delete account",
                           "type": "string"
                         },
-                        "emailrules": {
-                          "description": "Gives rules for emails above the login form",
-                          "items": {
-                            "type": "string"
-                          },
-                          "type": "array"
+                        "email": {
+                          "description": "Email login explanation",
+                          "type": "string"
                         },
                         "enter": {
                           "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
+                          "type": "string"
+                        },
+                        "forgot": {
+                          "description": "Forgot password regrets",
                           "type": "string"
                         },
                         "login": {
@@ -9124,26 +9154,17 @@
                         "tooyoung": {
                           "description": "Too young feedback",
                           "type": "string"
-                        },
-                        "usernamereminder": {
-                          "description": "Reminder about username limitations",
-                          "type": "string"
-                        },
-                        "usernamerule": {
-                          "description": "Description of username rules",
-                          "type": "string"
                         }
                       },
                       "required": [
                         "login",
+                        "forgot",
+                        "email",
                         "sent",
                         "changeEmail",
                         "changePassword",
                         "enter",
                         "play",
-                        "emailrules",
-                        "usernamereminder",
-                        "usernamerule",
                         "passwordrule",
                         "passwordreminder",
                         "tooyoung",
@@ -9152,44 +9173,38 @@
                         "confirm",
                         "delete",
                         "reallyDelete",
-                        "name",
-                        "age"
-                      ],
-                      "type": "object"
-                    },
-                    "subheader": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "email": {
-                          "description": "Header for logging in via email",
-                          "type": "string"
-                        },
-                        "username": {
-                          "description": "Header for logging in via username and password",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "email",
-                        "username"
+                        "name"
                       ],
                       "type": "object"
                     },
                     "subtitle": {
                       "description": "Subtitle for the header link on the landing page",
                       "type": "string"
+                    },
+                    "toggle": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reveal": {
+                          "$ref": "#/definitions/ToggleText",
+                          "description": "Reveal password toggle"
+                        }
+                      },
+                      "required": [
+                        "reveal"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
                     "header",
                     "subtitle",
-                    "subheader",
                     "prompt",
                     "anonymous",
                     "field",
                     "feedback",
                     "error",
-                    "button"
+                    "button",
+                    "toggle"
                   ],
                   "type": "object"
                 },
@@ -9373,6 +9388,7 @@
                 "galleries",
                 "about",
                 "login",
+                "join",
                 "rights",
                 "donate"
               ],

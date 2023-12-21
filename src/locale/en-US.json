@@ -4230,31 +4230,19 @@
             "login": {
                 "header": "Login",
                 "subtitle": "Create an account or login in to save your work online",
-                "subheader": {
-                    "username": "option 1: username + password",
-                    "email": "option 2: email link"
-                },
                 "anonymous": "login",
                 "prompt": {
-                    "login": "Your performances are saving on this device, but not online. If this is your device, that's okay! If it's not, others may see or delete your projects. To save them online and keep them private, log in.",
-                    "age": {
-                        "label": "What's your age?",
-                        "modes": ["12 or younger", "13 or older"]
-                    },
+                    "login": "Your performances are saving on this device, but not online. If this is your device, that's okay! If it's not, others may see or delete your projects. To save them online and keep them private, log in or <create an account@://join>:",
+                    "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
+                    "email": "Do you have a legacy email-only account? Submit your email and we'll send you a sign-in link.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
-                    "emailrules": [
-                        "• Don't provide your email if you are *12 or younger*.",
-                        "• If you *lose access* to your email account, you won't be able to log in or update your email address."
-                    ],
                     "tooyoung": "You must be 13 or older to login with an email.",
-                    "usernamereminder": "Because we do not gather contact information, you won't be able to reset your password if you forget it. Store it somewhere safe, like a password manager.",
-                    "usernamerule": "Usernames should not contain identiable information (e.g., names), cannot be an email addresses, and must be at least 5 characters long.",
                     "passwordrule": "Passwords must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
-                    "sent": "Check your email for a login link. Patience, email can be slow!",
+                    "sent": "If this email is associated with an account, it will receive a login link.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
@@ -4308,6 +4296,19 @@
                         "label": "delete it!!!"
                     },
                     "updatePassword": "submit new password"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "Show password",
+                        "off": "Hide password"
+                    }
+                }
+            },
+            "join": {
+                "header": "Join",
+                "prompt": {
+                    "username": "Ready to create an account? First, choose a *username*. It must be at least 5 characters, can't be an email address, and shouldn't contain your name or other identifing information.",
+                    "password": "Choose a password with at least *10 characters*. Enter it again to ensure you typed it correctly, and store it somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
             "rights": {
@@ -4318,7 +4319,6 @@
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",
-                    "• If you are 13 or older and choose to log in with  your email address, we store your *email address*. We use this to ensure that only you and anyone you share with can access your projects and settings. If you are younger than 13, then you should create a username and password without personally identifing information.",
                     "• Your *projects*. We store any projects you contribute and your changes to them.",
                     "• Your *settings*. This includes the languages you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device only.",
                     "• Aggregate *activity*. We track logins and the pages you visit, but not in a way that can identify you, track you across the site, or track you across other sites. We use Google Analytics in 'consent denied' mode, which only gathers minimal non-identifiable information about page views, without storing cookies, or sending IP address information to Google. We use this aggregate information to help raise funding by reporting how much the platform is being used.",

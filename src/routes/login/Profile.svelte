@@ -13,6 +13,7 @@
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
+    import { goto } from '$app/navigation';
 
     export let user: User;
 
@@ -30,7 +31,10 @@
 
     async function logout() {
         // Then sign out. (Projects will be deleted locally by the project database when user updates.)
-        if (auth) await auth.signOut();
+        if (auth) {
+            await auth.signOut();
+            goto('/login');
+        }
     }
 </script>
 
@@ -66,10 +70,10 @@
                 action={logout}
                 enabled={$status === SaveStatus.Saved}
                 prompt={`🗑️ ${$locales.get(
-                    (l) => l.ui.page.login.button.logout.label
+                    (l) => l.ui.page.login.button.logout.label,
                 )}`}
                 >{$locales.get(
-                    (l) => l.ui.page.login.button.logout.label
+                    (l) => l.ui.page.login.button.logout.label,
                 )}…</ConfirmButton
             ></p
         >

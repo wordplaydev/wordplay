@@ -4302,31 +4302,19 @@
             "login": {
                 "header": "Iniciar sesión",
                 "subtitle": "$! Cree una cuenta o inicie sesión para guardar su trabajo en línea",
-                "subheader": {
-                    "email": "opción 2: enlace de correo electrónico",
-                    "username": "opción 1: nombre de usuario + contraseña"
-                },
                 "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "Tus actuaciones se están guardando en este dispositivo, pero no en línea. ¡Si este es tu dispositivo, está bien! Si no lo es, otros pueden ver o eliminar tus proyectos. Para guardarlos en línea y mantenerlos privados, inicia sesión.",
-                    "age": {
-                        "label": "¿Cuál es tu edad?",
-                        "modes": ["12 años o menos", "13 años o más"]
-                    },
+                    "login": "$! Tus actuaciones se están guardando en este dispositivo, pero no en línea. ¡Si este es tu dispositivo, está bien! Si no lo es, otros pueden ver o eliminar tus proyectos. Para guardarlos en línea y mantenerlos privados, inicia sesión.",
+                    "forgot": "$?",
+                    "email": "$?",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
-                    "emailrules": [
-                        "• No proporciones tu correo electrónico si tienes *12 años o menos*.",
-                        "• Si *pierdes acceso* a tu cuenta de correo electrónico, no podrás iniciar sesión ni actualizar tu dirección de correo electrónico."
-                    ],
                     "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
-                    "usernamerule": "Los nombres de usuario no deben contener información identificable (por ejemplo, nombres), no pueden ser direcciones de correo electrónico y deben tener al menos 5 caracteres de longitud.",
                     "passwordrule": "Las contraseñas deben tener al menos 10 caracteres de longitud; si no estás utilizando un administrador de contraseñas, elige tres palabras largas que recuerdes.",
-                    "usernamereminder": "Debido a que no recopilamos información de contacto, no podrá restablecer su contraseña si la olvida. Guárdalo en un lugar seguro, como un administrador de contraseñas.",
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "sent": "Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
+                    "sent": "$! Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
@@ -4380,6 +4368,19 @@
                         "label": "¡¡¡bórralo!!!"
                     },
                     "updatePassword": "enviar nueva contraseña"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$?",
+                        "off": "$?"
+                    }
+                }
+            },
+            "join": {
+                "header": "$?",
+                "prompt": {
+                    "username": "$?",
+                    "password": "$?"
                 }
             },
             "rights": {
@@ -4390,7 +4391,6 @@
                     "Lo primero que debes saber es que no somos una entidad comercial. Somos un proyecto de investigación basado en la comunidad alojado en una universidad sin fines de lucro. Nuestro objetivo es crear una plataforma que te brinde alegría y nos ayude a hacer descubrimientos sobre un mundo de computación más equitativo y justo. No tenemos interés en ganar dinero con esta plataforma; cualquier dinero que recolectemos (generalmente a través de financiamiento público) se utiliza para sostener la plataforma, no para enriquecer a nadie que trabaje en ella (o contribuya a ella).",
                     "Como no buscamos obtener ganancias, esto también significa que no podemos hacer ninguna promesa sobre la confiabilidad, disponibilidad o longevidad de esta plataforma. Dicho esto, <Amy@https://amyjko.phd> está comprometida a largo plazo con su sostenibilidad, y como profesora titular, tiene un trabajo bastante estable.",
                     "Eso nos lleva a *datos*. Esto es lo que recopilamos y almacenamos en la nube:",
-                    "• Tu *dirección de correo electrónico*. Usamos esto para asegurarnos de que solo tú y quienes compartas puedan acceder a tus proyectos y configuraciones.",
                     "• Tus *proyectos*. Almacenamos cualquier proyecto que contribuyas. Esto incluye cualquier información personal identificable que pongas en tus proyectos (¡que podría ser cualquier cosa, ya que todo es texto!)",
                     "• Tus *configuraciones*. Esto incluye los idiomas que elijas, tus preferencias de animación y el progreso en los tutoriales. Todo lo demás se almacena en tu dispositivo.",
                     "• *Tráfico*. Usamos <Google Analytics@https://en.wikipedia.org/wiki/Google_Analytics> básico para recopilar datos agregados y anónimos sobre qué páginas y proyectos visita la gente y cuántas veces. Usamos esto para ayudar a recaudar fondos para sostener la plataforma.",

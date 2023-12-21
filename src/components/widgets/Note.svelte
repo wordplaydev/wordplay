@@ -8,7 +8,7 @@
     div {
         font-style: italic;
         font-size: calc(var(--wordplay-font-size) - 2pt);
-        color: var(--wordplay-inactive-color);
+        color: var(--wordplay-header);
     }
 
     .center {
