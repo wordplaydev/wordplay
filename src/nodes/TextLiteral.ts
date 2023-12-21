@@ -2,7 +2,6 @@ import TextType from './TextType';
 import type Type from './Type';
 import TextValue from '@values/TextValue';
 import type Language from './Language';
-import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, list } from './Node';
@@ -45,7 +44,7 @@ export default class TextLiteral extends Literal {
         type: Type | undefined,
         before: Node,
         selected: boolean,
-        context: Context
+        context: Context,
     ) {
         // Is the type one or more literal text types? Suggest those. Otherwise just suggest an empty text literal.
         const types = type
@@ -68,7 +67,7 @@ export default class TextLiteral extends Literal {
 
     clone(replace?: Replacement): this {
         return new TextLiteral(
-            this.replaceChild('texts', this.texts, replace)
+            this.replaceChild('texts', this.texts, replace),
         ) as this;
     }
 
@@ -92,7 +91,7 @@ export default class TextLiteral extends Literal {
                         ...parts,
                         ...part.expression.compile(evaluator, context),
                     ],
-                    []
+                    [],
                 ),
             new Finish(this),
         ];
@@ -125,7 +124,7 @@ export default class TextLiteral extends Literal {
         return new TextValue(
             this,
             text,
-            translation.language?.getLanguageText()
+            translation.language?.getLanguageText(),
         );
     }
 
@@ -145,10 +144,10 @@ export default class TextLiteral extends Literal {
                           text.open.clone(),
                           text.segments[0].clone(),
                           text.close?.clone(),
-                          text.language
+                          text.language,
                       )
-                    : TextType.make()
-            )
+                    : TextType.make(),
+            ),
         );
     }
 
@@ -172,19 +171,11 @@ export default class TextLiteral extends Literal {
             best.getText(),
             best.language === undefined
                 ? undefined
-                : best.language.getLanguageText()
+                : best.language.getLanguageText(),
         );
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        bind;
-        original;
-        context;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -207,7 +198,7 @@ export default class TextLiteral extends Literal {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.TextLiteral.start)
+            locales.get((l) => l.node.TextLiteral.start),
         );
     }
 

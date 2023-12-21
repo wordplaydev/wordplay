@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -84,7 +84,7 @@ export default class BinaryEvaluate extends Expression {
                 label: (
                     locales: Locales,
                     _: Node,
-                    context: Context
+                    context: Context,
                 ): Template => this.left.getType(context).getLabel(locales),
                 getType: (context) => this.left.getType(context),
             },
@@ -108,7 +108,7 @@ export default class BinaryEvaluate extends Expression {
                 label: (
                     locales: Locales,
                     _: Node,
-                    context: Context
+                    context: Context,
                 ): Template => {
                     const fun = this.getFunction(context);
                     return fun
@@ -140,7 +140,7 @@ export default class BinaryEvaluate extends Expression {
         return new BinaryEvaluate(
             this.replaceChild('left', this.left, replace),
             this.replaceChild('fun', this.fun, replace),
-            this.replaceChild('right', this.right, replace)
+            this.replaceChild('right', this.right, replace),
         ) as this;
     }
 
@@ -157,7 +157,7 @@ export default class BinaryEvaluate extends Expression {
         const leftType = this.getLeftType(context);
         const fun = leftType.getDefinitionOfNameInScope(
             this.getOperator(),
-            context
+            context,
         );
         return fun instanceof FunctionDefinition ? fun : undefined;
     }
@@ -191,7 +191,7 @@ export default class BinaryEvaluate extends Expression {
                 new IncompatibleInput(
                     this.fun,
                     this.left.getType(context),
-                    FunctionType.make(undefined, [], new AnyType())
+                    FunctionType.make(undefined, [], new AnyType()),
                 ),
             ];
 
@@ -205,7 +205,7 @@ export default class BinaryEvaluate extends Expression {
                 const secondInput = fun.inputs[1];
                 if (secondInput instanceof Bind)
                     conflicts.push(
-                        new MissingInput(fun, this, this.fun, secondInput)
+                        new MissingInput(fun, this, this.fun, secondInput),
                     );
             }
             // Is the right operand the correct type?
@@ -216,7 +216,7 @@ export default class BinaryEvaluate extends Expression {
                         fun,
                         firstInput,
                         this,
-                        context
+                        context,
                     );
 
                     // Pass this binary operation to the measurement type so it can reason about units correctly.
@@ -225,8 +225,8 @@ export default class BinaryEvaluate extends Expression {
                             new IncompatibleInput(
                                 this.right,
                                 rightType,
-                                expectedType
-                            )
+                                expectedType,
+                            ),
                         );
                 }
             }
@@ -243,7 +243,7 @@ export default class BinaryEvaluate extends Expression {
             : new UnknownNameType(
                   this,
                   this.fun.name,
-                  this.left.getType(context)
+                  this.left.getType(context),
               );
     }
 
@@ -334,8 +334,8 @@ export default class BinaryEvaluate extends Expression {
                 this,
                 fun,
                 left,
-                new Map().set(operand.names, right)
-            )
+                new Map().set(operand.names, right),
+            ),
         );
     }
 
@@ -349,45 +349,20 @@ export default class BinaryEvaluate extends Expression {
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // If conjunction, then we compute the intersection of the left and right's possible types.
         // Note that we pass the left's possible types because we don't evaluate the right if the left isn't true.
         if (this.getOperator() === AND_SYMBOL) {
-            const left = this.left.evaluateTypeGuards(
-                bind,
-                original,
-                current,
-                context
-            );
-            const right = this.right.evaluateTypeGuards(
-                bind,
-                original,
-                left,
-                context
-            );
-            return left.intersection(right, context);
+            const left = this.left.evaluateTypeGuards(current, guard);
+            const right = this.right.evaluateTypeGuards(left, guard);
+            return left.intersection(right, guard.context);
         }
         // If disjunction of type checks, then we return the union.
         // Note that we pass the left's possible types because we don't evaluate the right if the left is true.
         else if (this.getOperator() === OR_SYMBOL) {
-            const left = this.left.evaluateTypeGuards(
-                bind,
-                original,
-                current,
-                context
-            );
-            const right = this.right.evaluateTypeGuards(
-                bind,
-                original,
-                current,
-                context
-            );
-            return left.union(right, context);
+            const left = this.left.evaluateTypeGuards(current, guard);
+            const right = this.right.evaluateTypeGuards(current, guard);
+            return left.union(right, guard.context);
         }
         // If it's an equals check and one side is a number, text, or none literal, then reduce to the set to the literal checked
         else if (
@@ -401,8 +376,8 @@ export default class BinaryEvaluate extends Expression {
                 this.left instanceof TextLiteral
                     ? this.left
                     : this.right instanceof TextLiteral
-                    ? this.right
-                    : undefined;
+                      ? this.right
+                      : undefined;
             if (textLiteral) {
                 // Find all of the single token translations, turn them into literal text types, and find the intersection between them and the current set.
                 const types: TextType[] = [];
@@ -412,9 +387,9 @@ export default class BinaryEvaluate extends Expression {
                         translation.segments[0] instanceof Token
                     )
                         types.push(
-                            TextType.make(translation.segments[0].getText())
+                            TextType.make(translation.segments[0].getText()),
                         );
-                set = new TypeSet(types, context);
+                set = new TypeSet(types, guard.context);
             }
 
             // Is one of them a check for a none literal?
@@ -422,10 +397,10 @@ export default class BinaryEvaluate extends Expression {
                 this.left instanceof NoneLiteral
                     ? this.left
                     : this.right instanceof NoneLiteral
-                    ? this.right
-                    : undefined;
+                      ? this.right
+                      : undefined;
             if (noneLiteral) {
-                set = new TypeSet([NoneType.make()], context);
+                set = new TypeSet([NoneType.make()], guard.context);
             }
 
             // Is one of them a check for a number?
@@ -433,23 +408,23 @@ export default class BinaryEvaluate extends Expression {
                 this.left instanceof NumberLiteral
                     ? this.left
                     : this.right instanceof NumberLiteral
-                    ? this.right
-                    : undefined;
+                      ? this.right
+                      : undefined;
             if (numberLiteral)
                 set = new TypeSet(
                     [new NumberType(numberLiteral.number, numberLiteral.unit)],
-                    context
+                    guard.context,
                 );
 
             if (set)
                 return equals
-                    ? current.intersection(set, context)
-                    : current.difference(set, context);
+                    ? current.intersection(set, guard.context)
+                    : current.difference(set, guard.context);
         }
 
         // Otherwise, just pass the types down and return the original types.
-        this.left.evaluateTypeGuards(bind, original, current, context);
-        this.right.evaluateTypeGuards(bind, original, current, context);
+        this.left.evaluateTypeGuards(current, guard);
+        this.right.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -472,19 +447,19 @@ export default class BinaryEvaluate extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.BinaryEvaluate.start),
-            new NodeRef(this.left, locales, context)
+            new NodeRef(this.left, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.BinaryEvaluate.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

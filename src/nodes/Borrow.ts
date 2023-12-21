@@ -62,7 +62,7 @@ export default class Borrow extends SimpleExpression {
         source?: Reference,
         dot?: Token,
         name?: Reference,
-        version?: Token
+        version?: Token,
     ) {
         super();
 
@@ -115,7 +115,7 @@ export default class Borrow extends SimpleExpression {
             this.replaceChild('source', this.source, replace),
             this.replaceChild('dot', this.dot, replace),
             this.replaceChild('name', this.name, replace),
-            this.replaceChild('version', this.version, replace)
+            this.replaceChild('version', this.version, replace),
         ) as this;
     }
 
@@ -124,13 +124,13 @@ export default class Borrow extends SimpleExpression {
     }
 
     getShare(
-        context: Context
+        context: Context,
     ): [Source | undefined, SharedDefinition] | undefined {
         if (this.source === undefined) return undefined;
 
         return context.project.getShare(
             this.source.getName(),
-            this.name?.getName()
+            this.name?.getName(),
         );
     }
 
@@ -173,7 +173,7 @@ export default class Borrow extends SimpleExpression {
                     this,
                     this.borrow,
                     undefined,
-                    evaluator
+                    evaluator,
                 );
 
             // Otherwise, bind the definition in the current evaluation, wrapping it in a value if necessary.
@@ -181,14 +181,14 @@ export default class Borrow extends SimpleExpression {
                 definition instanceof FunctionDefinition
                     ? new FunctionValue(definition, undefined)
                     : definition instanceof StructureDefinition
-                    ? new StructureDefinitionValue(definition)
-                    : definition instanceof StreamDefinition
-                    ? new StreamDefinitionValue(definition)
-                    : definition;
+                      ? new StructureDefinitionValue(definition)
+                      : definition instanceof StreamDefinition
+                        ? new StreamDefinitionValue(definition)
+                        : definition;
 
             if (value instanceof Bind || value instanceof Source)
                 throw Error(
-                    "It should't ever be possible that a Bind or Source is shared without a source."
+                    "It should't ever be possible that a Bind or Source is shared without a source.",
                 );
 
             // Bind the value in the current evaluation for use.
@@ -222,7 +222,7 @@ export default class Borrow extends SimpleExpression {
                         this,
                         this.source.name,
                         undefined,
-                        evaluator
+                        evaluator,
                     );
                 evaluator.bind(source.names, value);
             }
@@ -235,7 +235,7 @@ export default class Borrow extends SimpleExpression {
                         this,
                         this.name.name,
                         undefined,
-                        evaluator
+                        evaluator,
                     );
                 evaluator.bind(definition.names, value);
             }
@@ -250,7 +250,7 @@ export default class Borrow extends SimpleExpression {
             : definition.getType(context);
     }
 
-    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(current: TypeSet): TypeSet {
         return current;
     }
 
@@ -285,12 +285,12 @@ export default class Borrow extends SimpleExpression {
                       this.source,
                       locales,
                       context,
-                      this.source.getName()
+                      this.source.getName(),
                   )
                 : undefined,
             this.name
                 ? new NodeRef(this.name, locales, context, this.name.getName())
-                : undefined
+                : undefined,
         );
     }
 

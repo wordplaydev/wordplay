@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import NumberType from './NumberType';
 import Token from './Token';
 import type Type from './Type';
@@ -11,7 +11,6 @@ import Finish from '@runtime/Finish';
 import type Context from './Context';
 import StreamType from './StreamType';
 import StreamValue from '@values/StreamValue';
-import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@values/TypeException';
 import AnyType from './AnyType';
@@ -41,7 +40,7 @@ export default class Previous extends Expression {
         previous: Token,
         range: Token | undefined,
         index: Expression,
-        stream: Expression
+        stream: Expression,
     ) {
         super();
 
@@ -58,7 +57,7 @@ export default class Previous extends Expression {
             new Token(PREVIOUS_SYMBOL, Sym.Previous),
             range ? new Token(PREVIOUS_SYMBOL, Sym.Previous) : undefined,
             index,
-            stream
+            stream,
         );
     }
 
@@ -66,12 +65,12 @@ export default class Previous extends Expression {
         return [
             Previous.make(
                 ExpressionPlaceholder.make(StreamType.make()),
-                ExpressionPlaceholder.make(NumberType.make())
+                ExpressionPlaceholder.make(NumberType.make()),
             ),
             Previous.make(
                 ExpressionPlaceholder.make(StreamType.make()),
                 ExpressionPlaceholder.make(NumberType.make()),
-                true
+                true,
             ),
         ];
     }
@@ -115,7 +114,7 @@ export default class Previous extends Expression {
             this.replaceChild('previous', this.previous, replace),
             this.replaceChild('range', this.range, replace),
             this.replaceChild('number', this.number, replace),
-            this.replaceChild('stream', this.stream, replace)
+            this.replaceChild('stream', this.stream, replace),
         ) as this;
     }
 
@@ -138,7 +137,7 @@ export default class Previous extends Expression {
                 new IncompatibleInput(
                     this.number,
                     indexType,
-                    NumberType.make()
+                    NumberType.make(),
                 ),
             ];
 
@@ -186,7 +185,7 @@ export default class Previous extends Expression {
                 this,
                 evaluator,
                 StreamType.make(new AnyType()),
-                value
+                value,
             );
 
         return this.range === undefined
@@ -194,16 +193,11 @@ export default class Previous extends Expression {
             : stream.range(this, num);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.stream instanceof Expression)
-            this.stream.evaluateTypeGuards(bind, original, current, context);
+            this.stream.evaluateTypeGuards(current, guard);
         if (this.number instanceof Expression)
-            this.number.evaluateTypeGuards(bind, original, current, context);
+            this.number.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -222,19 +216,19 @@ export default class Previous extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.Previous.start),
-            new NodeRef(this.stream, locales, context)
+            new NodeRef(this.stream, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Previous.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

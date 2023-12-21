@@ -5,7 +5,6 @@ import Purpose from '../concepts/Purpose';
 import Node, { list, node } from './Node';
 import Literal from './Literal';
 import type Value from '../values/Value';
-import type Bind from './Bind';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
 import concretize from '../locale/concretize';
@@ -54,8 +53,8 @@ export default class FormattedLiteral extends Literal {
             this.replaceChild<FormattedTranslation[]>(
                 'texts',
                 this.texts,
-                replace
-            )
+                replace,
+            ),
         ) as this;
     }
 
@@ -70,7 +69,7 @@ export default class FormattedLiteral extends Literal {
     getDependencies(): Expression[] {
         return this.texts
             .map((text) =>
-                text.getExamples().map((ex) => ex.program.expression)
+                text.getExamples().map((ex) => ex.program.expression),
             )
             .flat();
     }
@@ -87,7 +86,7 @@ export default class FormattedLiteral extends Literal {
                         ...parts,
                         ...part.program.expression.compile(evaluator, context),
                     ],
-                    []
+                    [],
                 ),
             new Finish(this),
         ];
@@ -141,7 +140,7 @@ export default class FormattedLiteral extends Literal {
         return FormattedType.make();
     }
 
-    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(current: TypeSet): TypeSet {
         return current;
     }
 
@@ -156,7 +155,7 @@ export default class FormattedLiteral extends Literal {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.FormattedLiteral.start)
+            locales.get((l) => l.node.FormattedLiteral.start),
         );
     }
 }

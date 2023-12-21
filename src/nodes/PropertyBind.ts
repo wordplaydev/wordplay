@@ -7,7 +7,6 @@ import type Step from '@runtime/Step';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
-import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import NameException from '@values/NameException';
 import type Value from '@values/Value';
@@ -49,7 +48,7 @@ export default class PropertyBind extends Expression {
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             node instanceof PropertyReference && selected
@@ -57,9 +56,9 @@ export default class PropertyBind extends Expression {
                 : PropertyBind.make(
                       PropertyReference.make(
                           ExpressionPlaceholder.make(),
-                          Reference.make('_')
+                          Reference.make('_'),
                       ),
-                      ExpressionPlaceholder.make(type)
+                      ExpressionPlaceholder.make(type),
                   ),
         ];
     }
@@ -80,7 +79,7 @@ export default class PropertyBind extends Expression {
         return new PropertyBind(
             this.replaceChild('reference', this.reference, replace),
             this.replaceChild('bind', this.bind, replace),
-            this.replaceChild('value', this.value, replace)
+            this.replaceChild('value', this.value, replace),
         ) as this;
     }
 
@@ -100,7 +99,7 @@ export default class PropertyBind extends Expression {
                     this.reference,
                     propertyType,
                     this,
-                    valueType
+                    valueType,
                 ),
             ];
 
@@ -145,7 +144,7 @@ export default class PropertyBind extends Expression {
         const newStructure = subject.withValue(
             this,
             this.reference.name.name.getText(),
-            value
+            value,
         );
 
         if (newStructure === undefined)
@@ -153,13 +152,13 @@ export default class PropertyBind extends Expression {
                 this.reference,
                 this.reference.name.name,
                 subject,
-                evaluator
+                evaluator,
             );
 
         return newStructure;
     }
 
-    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -177,14 +176,14 @@ export default class PropertyBind extends Expression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.PropertyBind.start)
+            locales.get((l) => l.node.PropertyBind.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
@@ -192,7 +191,7 @@ export default class PropertyBind extends Expression {
             this.reference.name
                 ? new NodeRef(this.reference.name, locales, context)
                 : undefined,
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

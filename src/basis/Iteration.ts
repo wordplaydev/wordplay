@@ -2,7 +2,6 @@ import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import AnyType from '../nodes/AnyType';
-import type Bind from '../nodes/Bind';
 import type Context from '../nodes/Context';
 import Expression from '../nodes/Expression';
 import FunctionDefinition from '../nodes/FunctionDefinition';
@@ -29,19 +28,19 @@ const IterationState = 'state';
 type CheckHandler<State, ExpressionKind extends Expression> = (
     evaluator: Evaluator,
     tracking: State,
-    expression: ExpressionKind
+    expression: ExpressionKind,
 ) => Value | boolean;
 
 type NextHandler<Kind, ExpressionKind extends Expression> = (
     evaluator: Evaluator,
     tracking: Kind,
-    expression: ExpressionKind
+    expression: ExpressionKind,
 ) => Value | boolean | undefined;
 
 type FinishHandler<Kind, ExpressionKind extends Expression> = (
     evaluator: Evaluator,
     tracking: Kind,
-    expression: ExpressionKind
+    expression: ExpressionKind,
 ) => Value;
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -49,7 +48,7 @@ export class Iteration<State = any> extends Expression {
     readonly output: Type;
     readonly initialize: (
         evaluator: Evaluator,
-        expression: Iteration<State>
+        expression: Iteration<State>,
     ) => State | Value;
     readonly check: CheckHandler<State, Iteration<State>>;
     readonly next: NextHandler<State, Iteration<State>>;
@@ -59,11 +58,11 @@ export class Iteration<State = any> extends Expression {
         output: Type,
         initial: (
             evaluator: Evaluator,
-            expression: Iteration<State>
+            expression: Iteration<State>,
         ) => State | Value,
         next: CheckHandler<State, Iteration<State>>,
         check: NextHandler<State, Iteration<State>>,
-        finish: FinishHandler<State, Iteration<State>>
+        finish: FinishHandler<State, Iteration<State>>,
     ) {
         super();
 
@@ -134,7 +133,7 @@ export class Iteration<State = any> extends Expression {
 
     getFunctionInput(
         index: number,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ): [FunctionValue, FunctionDefinition] | [undefined, undefined] {
         const fun = this.getInput(index, evaluator);
         return fun instanceof FunctionValue
@@ -146,7 +145,7 @@ export class Iteration<State = any> extends Expression {
         evaluator: Evaluator,
         input: number,
         values: Value[],
-        fallback?: FunctionDefinition
+        fallback?: FunctionDefinition,
     ) {
         let [funVal, fun] = this.getFunctionInput(input, evaluator);
         if (fun === undefined) {
@@ -163,7 +162,7 @@ export class Iteration<State = any> extends Expression {
                     ? currentFunction.inputs[input].type
                     : undefined) ??
                     FunctionType.make(undefined, [], new AnyType()),
-                funVal
+                funVal,
             );
         }
         // Apply the translator function to the value
@@ -176,9 +175,9 @@ export class Iteration<State = any> extends Expression {
                 this.createBinds(
                     fun.inputs.map((input, index) => {
                         return [input.names, values[index]];
-                    })
-                )
-            )
+                    }),
+                ),
+            ),
         );
         return true;
     }
@@ -192,15 +191,7 @@ export class Iteration<State = any> extends Expression {
         return this;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        context;
-        bind;
-        original;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -229,19 +220,19 @@ export class Iteration<State = any> extends Expression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.Iteration.start)
+            locales.get((l) => l.node.Iteration.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Iteration.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
@@ -254,10 +245,10 @@ export function getIteration<Kind, ExpressionKind extends Expression>(
     expression: ExpressionKind,
     initialize: (
         evaluator: Evaluator,
-        expression: ExpressionKind
+        expression: ExpressionKind,
     ) => Kind | Value,
     check: CheckHandler<Kind, ExpressionKind>,
-    next: NextHandler<Kind, ExpressionKind>
+    next: NextHandler<Kind, ExpressionKind>,
 ) {
     return [
         // Initialize a keep list and a counter as we iterate through the rows.
@@ -275,7 +266,7 @@ export function getIteration<Kind, ExpressionKind extends Expression>(
         new Check(expression, (evaluator) => {
             // Get the tracking value.
             const tracking = evaluator.resolve(
-                IterationState
+                IterationState,
             ) as Internal<Kind>;
             // Handle the next
             const result = check(evaluator, tracking.value, expression);
@@ -290,7 +281,7 @@ export function getIteration<Kind, ExpressionKind extends Expression>(
         new Next(expression, (evaluator) => {
             // Get the tracking value.
             const tracking = evaluator.resolve(
-                IterationState
+                IterationState,
             ) as Internal<Kind>;
             // Handle the check
             const value = next(evaluator, tracking.value, expression);

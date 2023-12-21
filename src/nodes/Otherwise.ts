@@ -9,7 +9,6 @@ import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
-import type Bind from './Bind';
 import Expression from './Expression';
 import type TypeSet from './TypeSet';
 import type Node from './Node';
@@ -44,13 +43,13 @@ export default class Otherwise extends SimpleExpression {
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return selected === false || !(node instanceof Expression)
             ? [
                   Otherwise.make(
                       ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make()
+                      ExpressionPlaceholder.make(),
                   ),
               ]
             : [Otherwise.make(node, ExpressionPlaceholder.make())];
@@ -60,7 +59,7 @@ export default class Otherwise extends SimpleExpression {
         return new Otherwise(
             left,
             new Token(COALESCE_SYMBOL, Sym.Otherwise),
-            right
+            right,
         );
     }
 
@@ -80,7 +79,7 @@ export default class Otherwise extends SimpleExpression {
         return new Otherwise(
             this.replaceChild('left', this.left, replace),
             this.replaceChild('coalesce', this.coalesce, replace),
-            this.replaceChild('right', this.right, replace)
+            this.replaceChild('right', this.right, replace),
         ) as this;
     }
 
@@ -146,11 +145,7 @@ export default class Otherwise extends SimpleExpression {
         return [this.left, this.right];
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet
-    ): TypeSet {
+    evaluateTypeGuards(current: TypeSet): TypeSet {
         return current;
     }
 
@@ -169,19 +164,19 @@ export default class Otherwise extends SimpleExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.Otherwise.start)
+            locales.get((l) => l.node.Otherwise.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Otherwise.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

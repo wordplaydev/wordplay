@@ -4,11 +4,13 @@ import type PropertyReference from './PropertyReference';
 import type Reference from './Reference';
 import type Node from './Node';
 import BinaryEvaluate from './BinaryEvaluate';
+import type ListAccess from './ListAccess';
+import type SetOrMapAccess from './SetOrMapAccess';
 
 export default function getGuards(
-    reference: Reference | PropertyReference,
+    reference: Reference | PropertyReference | ListAccess | SetOrMapAccess,
     context: Context,
-    conditionCheck: (node: Node) => boolean
+    conditionCheck: (node: Node) => boolean,
 ) {
     return (
         context
@@ -25,7 +27,7 @@ export default function getGuards(
                             .some((node) => conditionCheck(node))) ||
                     (a instanceof BinaryEvaluate &&
                         a.isLogicalOperator(context) &&
-                        a.right.nodes().some((node) => conditionCheck(node)))
+                        a.right.nodes().some((node) => conditionCheck(node))),
             )
             .reverse() ?? []
     );

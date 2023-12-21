@@ -3,7 +3,6 @@ import Token from './Token';
 import type Type from './Type';
 import BoolValue from '@values/BoolValue';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Sym from './Sym';
@@ -28,7 +27,7 @@ export default class BooleanLiteral extends Literal {
 
     static make(value: boolean) {
         return new BooleanLiteral(
-            new Token(value === true ? TRUE_SYMBOL : FALSE_SYMBOL, Sym.Boolean)
+            new Token(value === true ? TRUE_SYMBOL : FALSE_SYMBOL, Sym.Boolean),
         );
     }
 
@@ -52,7 +51,7 @@ export default class BooleanLiteral extends Literal {
 
     clone(replace?: Replacement) {
         return new BooleanLiteral(
-            this.replaceChild('value', this.value, replace)
+            this.replaceChild('value', this.value, replace),
         ) as this;
     }
 
@@ -76,15 +75,7 @@ export default class BooleanLiteral extends Literal {
         return this.value.text.toString() === TRUE_SYMBOL;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        bind;
-        original;
-        context;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -103,7 +94,7 @@ export default class BooleanLiteral extends Literal {
         return concretize(
             locales,
             locales.get((l) => l.node.BooleanLiteral.start),
-            new NodeRef(this.value, locales, context, this.value.getText())
+            new NodeRef(this.value, locales, context, this.value.getText()),
         );
     }
 

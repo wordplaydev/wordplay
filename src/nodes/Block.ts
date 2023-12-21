@@ -3,7 +3,7 @@ import Bind from './Bind';
 import type Conflict from '@conflicts/Conflict';
 import { ExpectedEndingExpression } from '@conflicts/ExpectedEndingExpression';
 import { IgnoredExpression } from '@conflicts/IgnoredExpression';
-import Expression, { ExpressionKind } from './Expression';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -51,7 +51,7 @@ export default class Block extends Expression {
         kind: BlockKind,
         open?: Token,
         close?: Token,
-        docs?: Docs
+        docs?: Docs,
     ) {
         super();
 
@@ -62,8 +62,8 @@ export default class Block extends Expression {
             docs === undefined
                 ? undefined
                 : docs instanceof Docs
-                ? docs
-                : new Docs(docs);
+                  ? docs
+                  : new Docs(docs);
         this.kind = kind;
 
         this.computeChildren();
@@ -74,14 +74,14 @@ export default class Block extends Expression {
             statements ?? [],
             BlockKind.Block,
             new EvalOpenToken(),
-            new EvalCloseToken()
+            new EvalCloseToken(),
         );
     }
 
     static getPossibleNodes(
         type: Type | undefined,
         selection: Node | undefined,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             Block.make(),
@@ -152,7 +152,7 @@ export default class Block extends Expression {
             BlockKind.Function,
             this.open,
             this.close,
-            this.docs
+            this.docs,
         );
     }
 
@@ -162,7 +162,7 @@ export default class Block extends Expression {
             this.kind,
             this.replaceChild('open', this.open, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('docs', this.docs, replace)
+            this.replaceChild('docs', this.docs, replace),
         ) as this;
     }
 
@@ -172,7 +172,7 @@ export default class Block extends Expression {
             this.kind,
             this.open,
             this.close,
-            this.docs
+            this.docs,
         );
     }
 
@@ -211,13 +211,13 @@ export default class Block extends Expression {
             .filter(
                 (s) =>
                     s instanceof Expression &&
-                    !(s instanceof DefinitionExpression || s instanceof Bind)
+                    !(s instanceof DefinitionExpression || s instanceof Bind),
             )
             .forEach((s) => conflicts.push(new IgnoredExpression(this, s)));
 
         if (this.open && this.close === undefined)
             conflicts.push(
-                new UnclosedDelimiter(this, this.open, new EvalCloseToken())
+                new UnclosedDelimiter(this, this.open, new EvalCloseToken()),
             );
 
         return conflicts;
@@ -225,10 +225,10 @@ export default class Block extends Expression {
 
     getStatementIndexContaining(
         node: Node,
-        context: Context
+        context: Context,
     ): number | undefined {
         const containingStatement = this.statements.find(
-            (s) => node === s || context.source.root.hasAncestor(node, s)
+            (s) => node === s || context.source.root.hasAncestor(node, s),
         );
         if (containingStatement === undefined) return;
         const index = this.statements.indexOf(containingStatement);
@@ -247,7 +247,7 @@ export default class Block extends Expression {
                 (s instanceof Bind ||
                     s instanceof FunctionDefinition ||
                     s instanceof StructureDefinition) &&
-                i <= index
+                i <= index,
         );
     }
 
@@ -281,7 +281,7 @@ export default class Block extends Expression {
                 ...prev,
                 ...current.compile(evaluator, context),
             ],
-            []
+            [],
         );
     }
 
@@ -299,8 +299,8 @@ export default class Block extends Expression {
                         // This is also the evaluation's definition
                         this,
                         // Closure is the current evaluation
-                        evaluator.getCurrentEvaluation()
-                    )
+                        evaluator.getCurrentEvaluation(),
+                    ),
                 );
                 return undefined;
             }),
@@ -329,16 +329,11 @@ export default class Block extends Expression {
      * Blocks don't do any type checks, but we do have them delegate type checks to their final expression.
      * since we use them for parentheticals in boolean logic.
      * */
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.statements.length === 0) return current;
         const last = this.statements[this.statements.length - 1];
         return last instanceof Expression
-            ? last.evaluateTypeGuards(bind, original, current, context)
+            ? last.evaluateTypeGuards(current, guard)
             : current;
     }
 
@@ -349,19 +344,19 @@ export default class Block extends Expression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.Block.start)
+            locales.get((l) => l.node.Block.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Block.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

@@ -14,7 +14,6 @@ import Purpose from '../concepts/Purpose';
 import concretize from '../locale/concretize';
 import Language from './Language';
 import StartFinish from '@runtime/StartFinish';
-import type Bind from './Bind';
 import type Expression from './Expression';
 import type TypeSet from './TypeSet';
 import type Node from './Node';
@@ -40,7 +39,7 @@ export default class IsLocale extends SimpleExpression {
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return selected === false
             ? [IsLocale.make(Language.make(undefined))]
@@ -64,7 +63,7 @@ export default class IsLocale extends SimpleExpression {
     clone(replace?: Replacement) {
         return new IsLocale(
             this.replaceChild('globe', this.globe, replace),
-            this.replaceChild('locale', this.locale, replace)
+            this.replaceChild('locale', this.locale, replace),
         ) as this;
     }
 
@@ -93,23 +92,19 @@ export default class IsLocale extends SimpleExpression {
             this.locale === undefined
                 ? false
                 : this.locale.region === undefined
-                ? evaluator
-                      .getLocales()
-                      .some((locale) => this.locale?.isLocaleLanguage(locale))
-                : evaluator
-                      .getLocales()
-                      .some((locale) => this.locale?.isLocale(locale))
+                  ? evaluator
+                        .getLocales()
+                        .some((locale) => this.locale?.isLocaleLanguage(locale))
+                  : evaluator
+                        .getLocales()
+                        .some((locale) => this.locale?.isLocale(locale)),
         );
     }
 
     getDependencies(): Expression[] {
         return [];
     }
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet
-    ): TypeSet {
+    evaluateTypeGuards(current: TypeSet): TypeSet {
         return current;
     }
 
@@ -129,7 +124,7 @@ export default class IsLocale extends SimpleExpression {
         return concretize(
             locales,
             locales.get((l) => l.node.IsLocale.start),
-            this.locale?.toWordplay() ?? '-'
+            this.locale?.toWordplay() ?? '-',
         );
     }
 

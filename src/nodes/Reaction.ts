@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression, { ExpressionKind } from './Expression';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -8,7 +8,6 @@ import type Step from '@runtime/Step';
 import Jump from '@runtime/Jump';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
-import type Bind from './Bind';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
@@ -44,7 +43,7 @@ export default class Reaction extends Expression {
         dots: Token,
         condition: Expression,
         nextdots: Token | undefined,
-        next: Expression
+        next: Expression,
     ) {
         super();
 
@@ -63,26 +62,26 @@ export default class Reaction extends Expression {
             new StreamToken(),
             condition,
             new StreamToken(),
-            next
+            next,
         );
     }
 
     static getPossibleNodes(
         type: Type | undefined,
         node: Node | undefined,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             node instanceof Expression && selected
                 ? Reaction.make(
                       node,
                       ExpressionPlaceholder.make(BooleanType.make()),
-                      ExpressionPlaceholder.make()
+                      ExpressionPlaceholder.make(),
                   )
                 : Reaction.make(
                       ExpressionPlaceholder.make(),
                       ExpressionPlaceholder.make(BooleanType.make()),
-                      ExpressionPlaceholder.make()
+                      ExpressionPlaceholder.make(),
                   ),
         ];
     }
@@ -133,9 +132,9 @@ export default class Reaction extends Expression {
             this.replaceChild<Token | undefined>(
                 'nextdots',
                 this.nextdots,
-                replace
+                replace,
             ),
-            this.replaceChild<Expression>('next', this.next, replace)
+            this.replaceChild<Expression>('next', this.next, replace),
         ) as this;
     }
 
@@ -158,7 +157,7 @@ export default class Reaction extends Expression {
         if (
             !Array.from(this.condition.getAllDependencies(context)).some(
                 (node) =>
-                    context.getStreamType(node.getType(context)) !== undefined
+                    context.getStreamType(node.getType(context)) !== undefined,
             )
         )
             conflicts.push(new ExpectedStream(this));
@@ -217,7 +216,7 @@ export default class Reaction extends Expression {
                         this,
                         evaluator,
                         BooleanType.make(),
-                        value
+                        value,
                     );
 
                 // See if there's a stream created for this.
@@ -235,7 +234,7 @@ export default class Reaction extends Expression {
                             return new ValueException(evaluator, this);
                         evaluator.pushValue(latest);
                         evaluator.jump(
-                            initialSteps.length + 1 + nextSteps.length + 1
+                            initialSteps.length + 1 + nextSteps.length + 1,
                         );
                     }
                 }
@@ -284,16 +283,11 @@ export default class Reaction extends Expression {
         return streamValue;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.initial instanceof Expression)
-            this.initial.evaluateTypeGuards(bind, original, current, context);
+            this.initial.evaluateTypeGuards(current, guard);
         if (this.next instanceof Expression)
-            this.next.evaluateTypeGuards(bind, original, current, context);
+            this.next.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -312,19 +306,19 @@ export default class Reaction extends Expression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.Reaction.start)
+            locales.get((l) => l.node.Reaction.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Reaction.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

@@ -1,5 +1,5 @@
 import type Node from './Node';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import Token from './Token';
 import Sym from './Sym';
 import type Conflict from '@conflicts/Conflict';
@@ -12,7 +12,6 @@ import type Step from '@runtime/Step';
 import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 import type Context from './Context';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
-import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import Docs from './Docs';
 import StartFinish from '@runtime/StartFinish';
@@ -42,7 +41,7 @@ export default class ConversionDefinition extends DefinitionExpression {
         arrow: Token,
         input: Type,
         output: Type,
-        expression: Expression
+        expression: Expression,
     ) {
         super();
 
@@ -59,14 +58,14 @@ export default class ConversionDefinition extends DefinitionExpression {
         docs: Docs | undefined,
         input: Type | string,
         output: Type | string,
-        expression: Expression
+        expression: Expression,
     ) {
         return new ConversionDefinition(
             docs,
             new Token(CONVERT_SYMBOL, Sym.Convert),
             input instanceof Type ? input : parseType(toTokens(input)),
             output instanceof Type ? output : parseType(toTokens(output)),
-            expression
+            expression,
         );
     }
 
@@ -76,7 +75,7 @@ export default class ConversionDefinition extends DefinitionExpression {
                 undefined,
                 TypePlaceholder.make(),
                 TypePlaceholder.make(),
-                ExpressionPlaceholder.make()
+                ExpressionPlaceholder.make(),
             ),
         ];
     }
@@ -117,7 +116,7 @@ export default class ConversionDefinition extends DefinitionExpression {
             this.replaceChild('arrow', this.arrow, replace),
             this.replaceChild('input', this.input, replace),
             this.replaceChild('output', this.output, replace),
-            this.replaceChild('expression', this.expression, replace)
+            this.replaceChild('expression', this.expression, replace),
         ) as this;
     }
 
@@ -171,7 +170,7 @@ export default class ConversionDefinition extends DefinitionExpression {
             return new InternalException(
                 this,
                 evaluator,
-                'there is no evaluation, which should be impossible'
+                'there is no evaluation, which should be impossible',
             );
 
         const value = new ConversionDefinitionValue(this, context);
@@ -181,19 +180,9 @@ export default class ConversionDefinition extends DefinitionExpression {
         return value;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.expression instanceof Expression)
-            this.expression.evaluateTypeGuards(
-                bind,
-                original,
-                current,
-                context
-            );
+            this.expression.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -211,7 +200,7 @@ export default class ConversionDefinition extends DefinitionExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.ConversionDefinition.start)
+            locales.get((l) => l.node.ConversionDefinition.start),
         );
     }
 

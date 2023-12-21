@@ -2,7 +2,6 @@ import Token from './Token';
 import NoneType from './NoneType';
 import type Type from './Type';
 import NoneValue from '@values/NoneValue';
-import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
@@ -47,7 +46,7 @@ export default class NoneLiteral extends Literal {
         type: Type | undefined,
         _: Node,
         __: boolean,
-        context: Context
+        context: Context,
     ) {
         return type === undefined ||
             type.getPossibleTypes(context).some((t) => t instanceof NoneType)
@@ -57,7 +56,7 @@ export default class NoneLiteral extends Literal {
 
     clone(replace?: Replacement) {
         return new NoneLiteral(
-            this.replaceChild('none', this.none, replace)
+            this.replaceChild('none', this.none, replace),
         ) as this;
     }
 
@@ -84,15 +83,7 @@ export default class NoneLiteral extends Literal {
         return this.none;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        bind;
-        original;
-        context;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -103,7 +94,7 @@ export default class NoneLiteral extends Literal {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.NoneLiteral.start)
+            locales.get((l) => l.node.NoneLiteral.start),
         );
     }
 

@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -55,7 +55,7 @@ export default class PropertyReference extends Expression {
         return new PropertyReference(
             subject,
             new Token(PROPERTY_SYMBOL, Sym.Access),
-            name
+            name,
         );
     }
 
@@ -63,7 +63,7 @@ export default class PropertyReference extends Expression {
         type: Type | undefined,
         node: Node,
         selected: boolean,
-        context: Context
+        context: Context,
     ) {
         if (!selected)
             return [
@@ -75,12 +75,12 @@ export default class PropertyReference extends Expression {
                 selectionType instanceof StructureType
                     ? selectionType.structure
                     : selectionType instanceof BasisType
-                    ? context
-                          .getBasis()
-                          .getStructureDefinition(
-                              selectionType.getBasisTypeName()
-                          )
-                    : undefined;
+                      ? context
+                            .getBasis()
+                            .getStructureDefinition(
+                                selectionType.getBasisTypeName(),
+                            )
+                      : undefined;
             // Is the type a structure? Suggest reference to it's properties.
             if (definition) {
                 const prefix = node.name?.getName() ?? '';
@@ -91,7 +91,7 @@ export default class PropertyReference extends Expression {
                         .filter((def) =>
                             def
                                 .getNames()
-                                .some((name) => name.startsWith(prefix))
+                                .some((name) => name.startsWith(prefix)),
                         )
                         .map((def) =>
                             // Bind with matching type? Generate a PropertyReference to it.
@@ -102,27 +102,27 @@ export default class PropertyReference extends Expression {
                                       (name: string) =>
                                           PropertyReference.make(
                                               node.structure,
-                                              Reference.make(name)
+                                              Reference.make(name),
                                           ),
-                                      def
+                                      def,
                                   )
                                 : // Function with a matching type? Generate an (Binary/Unary)Evaluate to it.
-                                def instanceof FunctionDefinition &&
-                                  (type === undefined ||
-                                      type.accepts(
-                                          def.getOutputType(context),
-                                          context
-                                      ))
-                                ? new Refer(
-                                      (name) =>
-                                          def.getEvaluateTemplate(
-                                              name,
-                                              context,
-                                              node.structure
-                                          ),
-                                      def
-                                  )
-                                : undefined
+                                  def instanceof FunctionDefinition &&
+                                    (type === undefined ||
+                                        type.accepts(
+                                            def.getOutputType(context),
+                                            context,
+                                        ))
+                                  ? new Refer(
+                                        (name) =>
+                                            def.getEvaluateTemplate(
+                                                name,
+                                                context,
+                                                node.structure,
+                                            ),
+                                        def,
+                                    )
+                                  : undefined,
                         )
                         .filter((node): node is Refer => node !== undefined)
                 );
@@ -156,8 +156,8 @@ export default class PropertyReference extends Expression {
                                 .some(
                                     (name) =>
                                         this.name &&
-                                        name.startsWith(this.name.getName())
-                                )
+                                        name.startsWith(this.name.getName()),
+                                ),
                         );
                     return defs;
                 },
@@ -169,7 +169,7 @@ export default class PropertyReference extends Expression {
         return new PropertyReference(
             this.replaceChild('structure', this.structure, replace),
             this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('name', this.name, replace)
+            this.replaceChild('name', this.name, replace),
         ) as this;
     }
 
@@ -208,7 +208,7 @@ export default class PropertyReference extends Expression {
         else
             return subjectType.getDefinitionOfNameInScope(
                 this.name.getName(),
-                context
+                context,
             );
     }
 
@@ -218,6 +218,10 @@ export default class PropertyReference extends Expression {
         if (structureType instanceof StreamType)
             structureType = structureType.type;
         return structureType;
+    }
+
+    getTypeGuardKey() {
+        return 'this';
     }
 
     computeType(context: Context): Type {
@@ -242,7 +246,7 @@ export default class PropertyReference extends Expression {
                     subjectType instanceof StructureType
                 ) {
                     const typeInput = subjectType.resolveTypeVariable(
-                        bindType.getNames()[0]
+                        bindType.getNames()[0],
                     );
                     if (typeInput) type = typeInput;
                 }
@@ -253,7 +257,8 @@ export default class PropertyReference extends Expression {
             // Is the type a union? Find the subset of types that are feasible, given any type checks in conditionals.
             if (
                 type instanceof UnionType &&
-                context.getReferenceType(this) === undefined
+                context.getReferenceType(this, this.getTypeGuardKey()) ===
+                    undefined
             ) {
                 // Find any conditionals with type checks that refer to the value bound to this name.
                 // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
@@ -284,17 +289,18 @@ export default class PropertyReference extends Expression {
                         : undefined;
                 if (root !== undefined) {
                     const possibleTypes = type.getTypeSet(context);
-                    root.evaluateTypeGuards(
-                        def,
-                        possibleTypes,
-                        possibleTypes,
-                        context
-                    );
+                    root.evaluateTypeGuards(possibleTypes, {
+                        bind: def,
+                        key: this.getTypeGuardKey(),
+                        original: possibleTypes,
+                        context,
+                    });
                 }
             }
 
             // Did we manage to capture a guard narrowed type? Use it instead.
-            type = context.getReferenceType(this) ?? type;
+            type =
+                context.getReferenceType(this, this.getTypeGuardKey()) ?? type;
         }
         return type;
     }
@@ -327,25 +333,29 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // Filter the types of the structure.
-        const possibleTypes = this.structure.evaluateTypeGuards(
-            bind,
-            original,
-            current,
-            context
-        );
-        if (this.resolve(context) === bind)
-            context.setReferenceType(
+        const possibleTypes = this.structure.evaluateTypeGuards(current, guard);
+        if (
+            this.resolve(guard.context) === guard.bind &&
+            guard.key === this.getTypeGuardKey()
+        )
+            guard.context.setReferenceType(
                 this,
-                UnionType.getPossibleUnion(context, possibleTypes.list())
+                this.getTypeGuardKey(),
+                UnionType.getPossibleUnion(guard.context, possibleTypes.list()),
             );
         return current;
+    }
+
+    isGuardMatch(guard: GuardContext): boolean {
+        const subjectType = this.getSubjectType(guard.context);
+        return (
+            this.name !== undefined &&
+            this.getTypeGuardKey() === guard.key &&
+            subjectType instanceof StructureType &&
+            guard.bind === subjectType.getDefinition(this.name.getName())
+        );
     }
 
     getStart() {
@@ -362,14 +372,14 @@ export default class PropertyReference extends Expression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.PropertyReference.start)
+            locales.get((l) => l.node.PropertyReference.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
@@ -377,7 +387,7 @@ export default class PropertyReference extends Expression {
             this.name
                 ? new NodeRef(this.name, locales, context, this.name?.getName())
                 : undefined,
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

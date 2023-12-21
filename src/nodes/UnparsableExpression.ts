@@ -5,7 +5,6 @@ import Halt from '@runtime/Halt';
 import UnparsableException from '@values/UnparsableException';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
-import type Bind from './Bind';
 import type Expression from './Expression';
 import Node, { node, type Grammar, type Replacement, list } from './Node';
 import type TypeSet from './TypeSet';
@@ -43,7 +42,7 @@ export default class UnparsableExpression extends SimpleExpression {
 
     clone(replace?: Replacement): this {
         return new UnparsableExpression(
-            this.replaceChild('unparsables', this.unparsables, replace)
+            this.replaceChild('unparsables', this.unparsables, replace),
         ) as this;
     }
 
@@ -51,7 +50,7 @@ export default class UnparsableExpression extends SimpleExpression {
         return new UnparsableType(this.unparsables);
     }
 
-    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -63,7 +62,7 @@ export default class UnparsableExpression extends SimpleExpression {
         return [
             new Halt(
                 (evaluator) => new UnparsableException(evaluator, this),
-                this
+                this,
             ),
         ];
     }
@@ -88,7 +87,7 @@ export default class UnparsableExpression extends SimpleExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.UnparsableExpression.start)
+            locales.get((l) => l.node.UnparsableExpression.start),
         );
     }
 

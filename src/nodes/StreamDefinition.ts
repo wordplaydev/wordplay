@@ -60,7 +60,7 @@ export default class StreamDefinition extends DefinitionExpression {
         close: Token | undefined,
         expression: Expression,
         dot: Token,
-        output: Type
+        output: Type,
     ) {
         super();
 
@@ -83,7 +83,7 @@ export default class StreamDefinition extends DefinitionExpression {
         names: Names,
         inputs: Bind[],
         expression: Expression,
-        output: Type
+        output: Type,
     ) {
         return new StreamDefinition(
             docs,
@@ -94,7 +94,7 @@ export default class StreamDefinition extends DefinitionExpression {
             new EvalCloseToken(),
             expression,
             new TypeToken(),
-            output
+            output,
         );
     }
 
@@ -139,7 +139,7 @@ export default class StreamDefinition extends DefinitionExpression {
             this.replaceChild('close', this.close, replace),
             this.replaceChild('expression', this.expression, replace),
             this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('output', this.output, replace)
+            this.replaceChild('output', this.output, replace),
         ) as this;
     }
 
@@ -149,11 +149,13 @@ export default class StreamDefinition extends DefinitionExpression {
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
                     : this.names.getPreferredNameString(nameOrLocales),
-                this
+                this,
             ),
             this.inputs
                 .filter((input) => !input.hasDefault())
-                .map((input) => ExpressionPlaceholder.make(input.type?.clone()))
+                .map((input) =>
+                    ExpressionPlaceholder.make(input.type?.clone()),
+                ),
         );
     }
 
@@ -167,7 +169,7 @@ export default class StreamDefinition extends DefinitionExpression {
             this.close,
             this.expression,
             this.dot,
-            this.output
+            this.output,
         );
     }
 
@@ -217,7 +219,7 @@ export default class StreamDefinition extends DefinitionExpression {
         // Return inputs that aren't the one asking.
         return [
             ...(this.inputs.filter(
-                (i) => i instanceof Bind && i !== node
+                (i) => i instanceof Bind && i !== node,
             ) as Bind[]),
         ];
     }
@@ -251,7 +253,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return value;
     }
 
-    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(current: TypeSet): TypeSet {
         return current;
     }
 
@@ -267,7 +269,7 @@ export default class StreamDefinition extends DefinitionExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.StreamDefinition.start)
+            locales.get((l) => l.node.StreamDefinition.start),
         );
     }
 

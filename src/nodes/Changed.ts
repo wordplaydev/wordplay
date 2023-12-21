@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -8,7 +8,6 @@ import type Step from '@runtime/Step';
 import Finish from '@runtime/Finish';
 import type Context from './Context';
 import StreamType from './StreamType';
-import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@values/TypeException';
 import AnyType from './AnyType';
@@ -69,7 +68,7 @@ export default class Changed extends SimpleExpression {
     clone(replace?: Replacement) {
         return new Changed(
             this.replaceChild('change', this.change, replace),
-            this.replaceChild('stream', this.stream, replace)
+            this.replaceChild('stream', this.stream, replace),
         ) as this;
     }
 
@@ -123,20 +122,15 @@ export default class Changed extends SimpleExpression {
                 this,
                 evaluator,
                 StreamType.make(new AnyType()),
-                value
+                value,
             );
 
         return new BoolValue(this, evaluator.didStreamCauseReaction(stream));
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.stream instanceof Expression)
-            this.stream.evaluateTypeGuards(bind, original, current, context);
+            this.stream.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -155,7 +149,7 @@ export default class Changed extends SimpleExpression {
         return concretize(
             locales,
             locales.get((l) => l.node.Changed.start),
-            new NodeRef(this.stream, locales, context)
+            new NodeRef(this.stream, locales, context),
         );
     }
 
