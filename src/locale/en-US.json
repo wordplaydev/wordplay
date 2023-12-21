@@ -4278,6 +4278,14 @@
                     "password": {
                         "description": "login password, at least 10 character",
                         "placeholder": "password"
+                    },
+                    "currentPassword": {
+                        "description": "your current login password",
+                        "placeholder": "current password"
+                    },
+                    "newPassword": {
+                        "description": "your new password",
+                        "placeholder": "new password"
                     }
                 },
                 "button": {

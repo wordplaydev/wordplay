@@ -9060,9 +9060,17 @@
                     "field": {
                       "additionalProperties": false,
                       "properties": {
+                        "currentPassword": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The old password"
+                        },
                         "email": {
                           "$ref": "#/definitions/FieldText",
                           "description": "The login email"
+                        },
+                        "newPassword": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The new password"
                         },
                         "password": {
                           "$ref": "#/definitions/FieldText",
@@ -9076,7 +9084,9 @@
                       "required": [
                         "email",
                         "username",
-                        "password"
+                        "password",
+                        "currentPassword",
+                        "newPassword"
                       ],
                       "type": "object"
                     },

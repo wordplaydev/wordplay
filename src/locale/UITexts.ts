@@ -741,6 +741,10 @@ type UITexts = {
                 username: FieldText;
                 /** The login password */
                 password: FieldText;
+                /** The old password */
+                currentPassword: FieldText;
+                /** The new password */
+                newPassword: FieldText;
             };
             feedback: {
                 /** Change email pending */

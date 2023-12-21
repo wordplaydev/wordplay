@@ -2591,6 +2591,14 @@
                     "password": {
                         "description": "$?",
                         "placeholder": "$?"
+                    },
+                    "currentPassword": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "newPassword": {
+                        "description": "$?",
+                        "placeholder": "$?"
                     }
                 },
                 "button": {

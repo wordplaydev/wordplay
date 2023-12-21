@@ -4160,6 +4160,14 @@
                     "password": {
                         "description": "登录密码，至少10个字符",
                         "placeholder": "密码"
+                    },
+                    "currentPassword": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "newPassword": {
+                        "description": "$?",
+                        "placeholder": "$?"
                     }
                 },
                 "button": {

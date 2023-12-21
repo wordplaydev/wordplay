@@ -5,9 +5,14 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.14 2023-12-21
 
+### Fixed
+
+-   Toggle buttons no longer trigger twice on keyboard activation.
+
 ### Changed
 
 -   [#305](https://github.com/wordplaydev/wordplay/issues/305): Redesigned auth for simplicity, removing email login option. Punted on account recovery.
+-   [#303](https://github.com/wordplaydev/wordplay/issues/303): Require password on account deletion and password change.
 
 ## 0.9.13 2023-12-20
 
