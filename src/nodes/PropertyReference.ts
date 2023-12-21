@@ -73,7 +73,7 @@ export default class PropertyReference extends Expression {
             const selectionType = node.structure.getType(context);
             const definition =
                 selectionType instanceof StructureType
-                    ? selectionType.structure
+                    ? selectionType.definition
                     : selectionType instanceof BasisType
                       ? context
                             .getBasis()
@@ -194,7 +194,7 @@ export default class PropertyReference extends Expression {
         const subjectType = this.getSubjectType(context);
 
         if (subjectType instanceof StructureType)
-            return subjectType.structure.getDefinitions(node);
+            return subjectType.definition.getDefinitions(node);
         else return subjectType.getDefinitions(node, context);
     }
 

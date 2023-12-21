@@ -58,6 +58,7 @@ import TypeVariable from './TypeVariable';
 import NameType from './NameType';
 import { NonFunctionType } from './NonFunctionType';
 import type Locales from '../locale/Locales';
+import UnionType from './UnionType';
 
 type Mapping = {
     expected: Bind;
@@ -131,7 +132,7 @@ export default class Evaluate extends Expression {
                     ? scopingType.getDefinitions(nodeBeingReplaced, context)
                     : // If the scope is a structure, get definitions in its scope
                       scopingType instanceof StructureType
-                      ? scopingType.structure.getDefinitions(nodeBeingReplaced)
+                      ? scopingType.definition.getDefinitions(nodeBeingReplaced)
                       : // Otherwise, get definitions in scope of the anchor
                         anchor.getDefinitionsInScope(context)
                 : // If the node is not selected, get definitions in the anchor's scope
@@ -602,7 +603,7 @@ export default class Evaluate extends Expression {
         return type instanceof FunctionType && type.definition
             ? type.definition
             : type instanceof StructureType
-              ? type.structure
+              ? type.definition
               : type instanceof StreamDefinitionType
                 ? type.definition
                 : undefined;
@@ -625,11 +626,42 @@ export default class Evaluate extends Expression {
             return getConcreteExpectedType(fun, undefined, this, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
-        else if (fun instanceof StructureDefinition)
-            return new StructureType(fun, [
-                ...(this.types ? this.types.types : []),
-            ]);
-        else if (fun instanceof StreamDefinition) {
+        else if (fun instanceof StructureDefinition) {
+            // Make a concrete structure definition based on the input types, rather than using the declared types,
+            // to reduce the need to declare types on the definition.
+            const mapping = this.getInputMapping(context);
+            const refinements = fun.inputs.map((bind) => {
+                if (mapping) {
+                    const map = mapping.inputs.find(
+                        (input) => input.expected === bind,
+                    );
+                    if (map) {
+                        if (map.given instanceof Expression)
+                            return bind.withType(
+                                map.given.getType(context).generalize(context),
+                            );
+                        else if (Array.isArray(map.given))
+                            return bind.withType(
+                                ListType.make(
+                                    UnionType.getPossibleUnion(
+                                        context,
+                                        map.given.map((e) =>
+                                            e.getType(context),
+                                        ),
+                                    ),
+                                ).generalize(context),
+                            );
+                    }
+                }
+                return bind;
+            });
+
+            return new StructureType(
+                fun,
+                [...(this.types ? this.types.types : [])],
+                refinements,
+            );
+        } else if (fun instanceof StreamDefinition) {
             // Remember that this type came from this definition.
             context.setStreamType(fun.output, fun);
             // Return the type of this stream's output.

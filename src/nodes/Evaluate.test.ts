@@ -13,6 +13,7 @@ import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
 import type Node from './Node';
 import type Conflict from '../conflicts/Conflict';
 import evaluateCode from '../runtime/evaluate';
+import BinaryEvaluate from './BinaryEvaluate';
 
 test.each([
     [
@@ -99,6 +100,17 @@ test.each([
         IncompatibleInput,
         1,
     ],
+    // Infer structure input types from evaluate inputs
+    [
+        `•Struct(c)
+        a: Struct(2)
+        a.c + 1`,
+        `•Struct(c)
+        a: Struct(2)
+        a.c + 'hi'`,
+        BinaryEvaluate,
+        IncompatibleInput,
+    ],
 ])(
     '%s => none, %s => conflict',
     (
@@ -106,10 +118,10 @@ test.each([
         bad: string,
         node: new (...params: never[]) => Node,
         conflict: new (...params: never[]) => Conflict,
-        number?: number
+        number?: number,
     ) => {
         testConflict(good, bad, node, conflict, number);
-    }
+    },
 );
 
 test.each([
@@ -154,7 +166,7 @@ test('Test generics', () => {
         •Cat⸨Kind⸩(a•Kind)
         Cat⸨""⸩("hi").a.length()
     `,
-        NumberType
+        NumberType,
     );
 
     // Infer from map keys

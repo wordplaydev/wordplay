@@ -237,6 +237,17 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.inputs.filter((i) => i instanceof Bind) as Bind[];
     }
 
+    /** Create a new structure definition with the provided inputs instead */
+    withInputs(inputs: Bind[]) {
+        // Identical inputs? Don't clone.
+        if (
+            this.inputs.length === inputs.length &&
+            this.inputs.every((input, index) => input === inputs[index])
+        )
+            return this;
+        else return this.clone({ original: 'inputs', replacement: inputs });
+    }
+
     getTypeVariableReference(index: number): NameType | undefined {
         const typeVar = this.types?.variables[index];
         return typeVar === undefined ? undefined : typeVar.getReference();

@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#191](https://github.com/wordplaydev/wordplay/issues/191): Added moderation progess to moderation page.
 -   [#235](https://github.com/wordplaydev/wordplay/issues/235): Pre-render static pages for speed and SEO.
 -   [#269](https://github.com/wordplaydev/wordplay/issues/269): Added type guard support for list and map access.
+-   [#257](https://github.com/wordplaydev/wordplay/issues/257): Infer structure input types from evaluate.
 
 ### Changed
 

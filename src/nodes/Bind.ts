@@ -225,6 +225,11 @@ export default class Bind extends Expression {
         ) as this;
     }
 
+    /** Copy this bind, but with the given type */
+    withType(type: Type) {
+        return this.clone({ original: 'type', replacement: type });
+    }
+
     /** Used to help generate function and structure types without extraneous information */
     withoutDocs() {
         return new Bind(

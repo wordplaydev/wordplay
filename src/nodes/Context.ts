@@ -60,12 +60,12 @@ export default class Context {
     getType(node: Expression) {
         let cache = this.types.get(node);
         if (cache === undefined) {
-            if (this.visited(node))
+            if (this.visited(node)) {
                 cache = new CycleType(
                     node,
                     this.stack.slice(this.stack.indexOf(node)),
                 );
-            else {
+            } else {
                 this.visit(node);
                 cache = node.computeType(this);
                 this.unvisit();
