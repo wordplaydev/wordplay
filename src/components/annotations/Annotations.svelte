@@ -4,6 +4,8 @@
         element: Element | null;
         messages: Markup[];
         kind: 'step' | 'primary' | 'secondary' | 'minor';
+        context: Context;
+        resolutions?: Resolution[];
     };
 </script>
 
@@ -30,6 +32,8 @@
     import NodeRef from '@locale/NodeRef';
     import { DOCUMENTATION_SYMBOL } from '@parser/Symbols';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
+    import type { Resolution } from '@conflicts/Conflict';
+    import Context from '@nodes/Context';
 
     /** The project for which annotations should be shown */
     export let project: Project;
@@ -86,22 +90,25 @@
                             $evaluation?.step
                                 ? ($evaluation?.step as Step).getExplanations(
                                       $locales,
-                                      evaluator
+                                      evaluator,
                                   )
                                 : evaluator.steppedToNode() &&
-                                  evaluator.isDone()
-                                ? concretize(
-                                      $locales,
-                                      $locales.get(
-                                          (l) => l.node.Program.unevaluated
-                                      )
-                                  )
-                                : concretize(
-                                      $locales,
-                                      $locales.get((l) => l.node.Program.done)
-                                  ),
+                                    evaluator.isDone()
+                                  ? concretize(
+                                        $locales,
+                                        $locales.get(
+                                            (l) => l.node.Program.unevaluated,
+                                        ),
+                                    )
+                                  : concretize(
+                                        $locales,
+                                        $locales.get(
+                                            (l) => l.node.Program.done,
+                                        ),
+                                    ),
                         ],
                         kind: 'step',
+                        context,
                     },
                 ];
         } else {
@@ -126,16 +133,19 @@
                                           primary.explanation(
                                               $locales,
                                               project.getNodeContext(
-                                                  primary.node
+                                                  primary.node,
                                               ) ??
                                                   project.getContext(
-                                                      project.getMain()
-                                                  )
+                                                      project.getMain(),
+                                                  ),
                                           ),
                                       ],
                                       kind: conflict.isMinor()
                                           ? ('minor' as const)
                                           : ('primary' as const),
+                                      context,
+                                      // Place the resolutions in the primary node.
+                                      resolutions: nodes.resolutions,
                                   },
                               ]
                             : []),
@@ -149,10 +159,11 @@
                                           secondary.explanation(
                                               $locales,
                                               project.getNodeContext(
-                                                  secondary.node
-                                              )
+                                                  secondary.node,
+                                              ),
                                           ),
                                       ],
+                                      context,
                                       kind: 'secondary' as const,
                                   },
                               ]
@@ -191,16 +202,16 @@
                               ?.getAncestors(currentStep.node)
                               .find(
                                   (a): a is Expression =>
-                                      a instanceof Expression
+                                      a instanceof Expression,
                               );
                 if (firstExpression) {
                     const value =
                         evaluator.getLatestExpressionValueInEvaluation(
-                            firstExpression
+                            firstExpression,
                         );
                     if (value)
                         nodeView = document.querySelector(
-                            `.value[data-id="${value.id}"]`
+                            `.value[data-id="${value.id}"]`,
                         );
                 }
             }
@@ -211,7 +222,7 @@
 
     function getNodeView(node: Node) {
         return document.querySelector(
-            `.editor .node-view[data-id="${node.id}"]`
+            `.editor .node-view[data-id="${node.id}"]`,
         );
     }
 </script>
@@ -223,7 +234,7 @@
             <svelte:fragment slot="content">
                 <MarkupHTMLView
                     markup={docToMarkup(
-                        $locales.get((l) => l.ui.source.empty)
+                        $locales.get((l) => l.ui.source.empty),
                     ).concretize($locales, [toShortcut(ShowMenu)]) ?? ''}
                 />
             </svelte:fragment>
@@ -235,14 +246,14 @@
                     <MarkupHTMLView
                         inline
                         markup={$locales.get(
-                            (l) => l.ui.annotations.evaluating
+                            (l) => l.ui.annotations.evaluating,
                         )}
                     />
                 {:else if caretNode}
                     <MarkupHTMLView
                         inline
                         markup={docToMarkup(
-                            $locales.get((l) => l.ui.annotations.cursor)
+                            $locales.get((l) => l.ui.annotations.cursor),
                         ).concretize($locales, [
                             caretNode.getLabel($locales),
                             caretNode instanceof Expression
@@ -251,7 +262,7 @@
                                           .getType(context)
                                           .generalize(context),
                                       $locales,
-                                      context
+                                      context,
                                   )
                                 : undefined,
                         ]) ?? ''}

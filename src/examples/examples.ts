@@ -15,7 +15,7 @@ export const ExamplePrefix = 'example-';
 
 export function parseSerializedProject(
     project: string,
-    id: string
+    id: string,
 ): SerializedProject {
     const lines = project.split('\n');
     const rest = project.substring(lines.slice(0, 1).join().length + 1);
@@ -55,12 +55,13 @@ export function parseSerializedProject(
         timestamp: Date.now(),
         gallery: null,
         flags: moderatedFlags(),
+        nonPII: [],
     };
 }
 
 /** Asynchronously fetch the example */
 export async function getExample(
-    id: string
+    id: string,
 ): Promise<SerializedProject | undefined> {
     try {
         const text = await (
@@ -76,17 +77,17 @@ export async function getExample(
 function createGallery(
     id: string,
     text: Record<string, GalleryText>,
-    projects: string[]
+    projects: string[],
 ) {
     return new Gallery({
         v: GallerySchemaLatestVersion,
         id,
         path: id,
         name: Object.fromEntries(
-            Object.entries(text).map(([locale, t]) => [locale, t.name])
+            Object.entries(text).map(([locale, t]) => [locale, t.name]),
         ),
         description: Object.fromEntries(
-            Object.entries(text).map(([locale, t]) => [locale, t.description])
+            Object.entries(text).map(([locale, t]) => [locale, t.description]),
         ),
         words: [],
         projects: projects.map((name) => ExamplePrefix + name),
@@ -103,14 +104,25 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
         createGallery(
             'Games',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.games])
+                locale.map((l) => [toLocaleString(l), l.gallery.games]),
             ),
-            ['Adventure', 'BasketballStar', 'Maze', 'WhatWord', 'Catch', 'Madlib', 'WheresWaldough']
+            [
+                'Adventure',
+                'BasketballStar',
+                'Maze',
+                'WhatWord',
+                'Catch',
+                'Madlib',
+                'WheresWaldough',
+            ],
         ),
         createGallery(
             'Visualizations',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.visualizations])
+                locale.map((l) => [
+                    toLocaleString(l),
+                    l.gallery.visualizations,
+                ]),
             ),
             [
                 'Amplitude',
@@ -124,28 +136,28 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
                 'Pumpkin',
                 'Size',
                 'FloatingFoods',
-            ]
+            ],
         ),
         createGallery(
             'Motion',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.motion])
+                locale.map((l) => [toLocaleString(l), l.gallery.motion]),
             ),
-            ['Hira', 'Layers', 'Pounce', 'FootBall', 'Christmas', 'Easing']
+            ['Hira', 'Layers', 'Pounce', 'FootBall', 'Christmas', 'Easing'],
         ),
         createGallery(
             'AV',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.av])
+                locale.map((l) => [toLocaleString(l), l.gallery.av]),
             ),
-            ['Listen', 'Talk', 'RainingLetters', 'Video', 'ASCII']
+            ['Listen', 'Talk', 'RainingLetters', 'Video', 'ASCII'],
         ),
         createGallery(
             'Tools',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.tools])
+                locale.map((l) => [toLocaleString(l), l.gallery.tools]),
             ),
-            ['Literacy', 'Timer', 'Headlines', 'SentenceLength']
+            ['Literacy', 'Timer', 'Headlines', 'SentenceLength'],
         ),
     ];
 }

@@ -694,7 +694,15 @@
             "name": "$?",
             "description": "$?",
             "emotion": "$?",
-            "doc": "$?"
+            "doc": "$?",
+            "conflict": {
+                "phone": "$?",
+                "email": "$?",
+                "tin": "$?",
+                "address": "$?",
+                "handle": "$?",
+                "resolution": "$?"
+            }
         },
         "FormattedLiteral": {
             "name": "$?",
@@ -2252,7 +2260,10 @@
             "cursor": "$?",
             "learn": "$?",
             "evaluating": "$?",
-            "space": "$?"
+            "space": "$?",
+            "button": {
+                "resolution": "$?"
+            }
         },
         "output": {
             "label": "$?",

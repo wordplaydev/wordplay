@@ -9,6 +9,9 @@ import { LanguageTagged } from './LanguageTagged';
 import Example from './Example';
 import type Program from './Program';
 import type Locales from '../locale/Locales';
+import { PossiblePII } from '@conflicts/PossiblePII';
+import type Conflict from '@conflicts/Conflict';
+import type Context from './Context';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -74,8 +77,8 @@ export default class Translation extends LanguageTagged {
         return Purpose.Value;
     }
 
-    computeConflicts() {
-        return;
+    computeConflicts(context: Context): Conflict[] {
+        return PossiblePII.analyze(this, context);
     }
 
     /** Get the text, with any escape characters processed. */

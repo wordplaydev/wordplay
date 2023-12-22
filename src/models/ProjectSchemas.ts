@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 const PathSchema = z.array(
-    z.object({ type: z.string(), index: z.number().min(0) })
+    z.object({ type: z.string(), index: z.number().min(0) }),
 );
 const CaretSchema = z.union([z.number().min(0), PathSchema]);
 
@@ -16,12 +16,12 @@ const SourceSchema = z.object({
 /** How we store sources as JSON in databases */
 export type SerializedSource = z.infer<typeof SourceSchema>;
 
-export const ProjectSchemaLatestVersion = 1;
+export const ProjectSchemaLatestVersion = 2;
 
 /** Define the schema for projects */
 export const ProjectSchemaV1 = z.object({
     /** The version of the project schema, used for keeping track of different versions of the project schema.  */
-    v: z.literal(ProjectSchemaLatestVersion),
+    v: z.literal(1),
     /** A very likely unique uuid4 string */
     id: z.string().uuid(),
     /** A single Translation, serialized */
@@ -54,26 +54,32 @@ export const ProjectSchemaV1 = z.object({
         misinformation: z.nullable(z.boolean()),
     }),
 });
-
-export const ProjectSchema = ProjectSchemaV1;
-
 type SerializedProjectV1 = z.infer<typeof ProjectSchemaV1>;
 
-/** How we store projects as JSON in databases. These could be one of many versions, but currently there's only one. */
-export type SerializedProject = SerializedProjectV1;
+export const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).merge(
+    z.object({ v: z.literal(2), nonPII: z.array(z.string()) }),
+);
+type SerializedProjectV2 = z.infer<typeof ProjectSchemaV2>;
 
-export type SerializedProjectUnknownVersion = SerializedProjectV1;
+export const ProjectSchema = ProjectSchemaV2;
+
+/** How we store projects as JSON in databases. These could be one of many versions, but currently there's only one. */
+export type SerializedProject = SerializedProjectV2;
+
+export type SerializedProjectUnknownVersion =
+    | SerializedProjectV1
+    | SerializedProjectV2;
 
 /** Project updgrader */
 export function upgradeProject(
-    project: SerializedProjectUnknownVersion
+    project: SerializedProjectUnknownVersion,
 ): SerializedProject {
-    if (project.v === undefined) project.v = 1;
-
     switch (project.v) {
+        case 1:
+            return { ...project, v: 2, nonPII: [] };
         case ProjectSchemaLatestVersion:
             return project;
         default:
-            throw new Error('Unexpected project version ' + project.v) as never;
+            throw new Error('Unexpected project version ' + project);
     }
 }

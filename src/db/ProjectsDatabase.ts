@@ -30,6 +30,7 @@ import {
     type SerializedProjectUnknownVersion,
     ProjectSchema,
 } from '../models/ProjectSchemas';
+import { PossiblePII } from '@conflicts/PossiblePII';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -46,7 +47,7 @@ export class ProjectsDexie extends Dexie {
     }
 
     async getProject(
-        id: string
+        id: string,
     ): Promise<SerializedProjectUnknownVersion | undefined> {
         const project = await this.projects.where('id').equals(id).toArray();
         return project[0];
@@ -114,7 +115,7 @@ export default class ProjectsDatabase {
             if (this.editableProjects && this.editableProjects.getValue) {
                 // Sync every time projects changes locally
                 this.editableProjects.subscribe((projects) =>
-                    this.sync(projects)
+                    this.sync(projects),
                 );
             }
         }
@@ -135,7 +136,7 @@ export default class ProjectsDatabase {
                 project.isTutorial()
                     ? PersistenceType.Local
                     : PersistenceType.Online,
-                false
+                false,
             );
     }
 
@@ -143,13 +144,13 @@ export default class ProjectsDatabase {
         // Load all of the projects and their locale dependencies.
         return (
             await Promise.all(
-                serialized.map((project) => this.parseProject(project))
+                serialized.map((project) => this.parseProject(project)),
             )
         ).filter((project): project is Project => project !== undefined);
     }
 
     async deserialize(
-        project: SerializedProjectUnknownVersion
+        project: SerializedProjectUnknownVersion,
     ): Promise<Project | undefined> {
         return Project.deserializeProject(this.database.Locales, project);
     }
@@ -180,8 +181,8 @@ export default class ProjectsDatabase {
                 collection(firestore, ProjectsCollection),
                 or(
                     where('owner', '==', user.uid),
-                    where('collaborators', 'array-contains', user.uid)
-                )
+                    where('collaborators', 'array-contains', user.uid),
+                ),
             ),
             async (snapshot) => {
                 const serialized: unknown[] = [];
@@ -231,7 +232,7 @@ export default class ProjectsDatabase {
                     console.error(error.message);
                 }
                 this.database.setStatus(SaveStatus.Error);
-            }
+            },
         );
 
         // If we have a user, save the current database to the cloud, in case there
@@ -250,7 +251,7 @@ export default class ProjectsDatabase {
         project: Project,
         editable: boolean,
         persist: PersistenceType,
-        saved: boolean
+        saved: boolean,
     ): ProjectHistory | undefined {
         if (editable) {
             // If we're not tracking this yet, create a history and store the version given.
@@ -291,12 +292,12 @@ export default class ProjectsDatabase {
         this.allEditableProjects.set(
             Array.from(this.projectHistories.values())
                 .map((history) => history.getCurrent())
-                .filter((project) => !project.isArchived())
+                .filter((project) => !project.isArchived()),
         );
         this.allArchivedProjects.set(
             Array.from(this.projectHistories.values())
                 .map((history) => history.getCurrent())
-                .filter((project) => project.isArchived())
+                .filter((project) => project.isArchived()),
         );
     }
 
@@ -328,7 +329,7 @@ export default class ProjectsDatabase {
             // Optional gallery ID
             galleryID ?? null,
             // Unknown moderation state
-            unknownFlags()
+            unknownFlags(),
         );
 
         // Track the new project, and request that it be persisted.
@@ -351,7 +352,7 @@ export default class ProjectsDatabase {
                 ? undefined
                 : Project.deserializeProject(
                       this.database.Locales,
-                      serialized
+                      serialized,
                   ));
             this.readonlyProjects.set(id, project);
             return project;
@@ -373,7 +374,7 @@ export default class ProjectsDatabase {
                         proj.isTutorial()
                             ? PersistenceType.Local
                             : PersistenceType.Online,
-                        false
+                        false,
                     );
                     return proj;
                 }
@@ -384,7 +385,7 @@ export default class ProjectsDatabase {
         if (firestore) {
             try {
                 const projectDoc = await getDoc(
-                    doc(firestore, ProjectsCollection, id)
+                    doc(firestore, ProjectsCollection, id),
                 );
                 if (projectDoc.exists()) {
                     const project = await this.parseProject(projectDoc.data());
@@ -393,7 +394,7 @@ export default class ProjectsDatabase {
                             project,
                             false,
                             PersistenceType.Online,
-                            false
+                            false,
                         );
                     return project;
                 }
@@ -430,7 +431,7 @@ export default class ProjectsDatabase {
         else if (firestore && persist) {
             setDoc(
                 doc(firestore, ProjectsCollection, project.getID()),
-                project.serialize()
+                project.serialize(),
             );
         }
     }
@@ -500,10 +501,10 @@ export default class ProjectsDatabase {
         const local = editable.filter(
             (history) =>
                 history.getPersisted() === PersistenceType.Local ||
-                history.getPersisted() === PersistenceType.Online
+                history.getPersisted() === PersistenceType.Online,
         );
         const online = editable.filter(
-            (history) => history.getPersisted() === PersistenceType.Online
+            (history) => history.getPersisted() === PersistenceType.Online,
         );
 
         // First, save all projects to the local DB, including the user ID if they don't have it already.
@@ -511,7 +512,7 @@ export default class ProjectsDatabase {
             this.database.setStatus(SaveStatus.Saving);
             try {
                 this.localDB.saveProjects(
-                    local.map((history) => history.getCurrent().serialize())
+                    local.map((history) => history.getCurrent().serialize()),
                 );
             } catch (_) {
                 this.database.setStatus(SaveStatus.Error);
@@ -526,12 +527,24 @@ export default class ProjectsDatabase {
             this.database.setStatus(SaveStatus.Saving);
 
             const unsaved = online.filter((history) => history.isUnsaved());
+            /** Whether a project was not saved because it has PII. */
+            let skipped = false;
 
             try {
                 // Create a batch of all of the new and updated projects.
                 const batch = writeBatch(firestore);
                 for (const project of unsaved.map((history) => {
                     const current = history.getCurrent();
+
+                    // Does the current one have any PII? If so, don't save it.
+                    current.analyze();
+                    if (
+                        current
+                            .getConflicts()
+                            .some((conflict) => conflict instanceof PossiblePII)
+                    )
+                        return undefined;
+
                     // If the project has no owner, make this user owner, since it was stored locally.
                     return (
                         (
@@ -543,18 +556,23 @@ export default class ProjectsDatabase {
                             .asPersisted()
                             .serialize()
                     );
-                }))
-                    batch.set(
-                        doc(firestore, ProjectsCollection, project.id),
-                        project
-                    );
+                })) {
+                    if (project)
+                        batch.set(
+                            doc(firestore, ProjectsCollection, project.id),
+                            project,
+                        );
+                    else skipped = true;
+                }
                 await batch.commit();
 
                 // Mark all projects saved to the cloud if successful.
                 this.projectHistories.forEach((history) => history.markSaved());
 
                 // Mark status as saved
-                this.database.setStatus(SaveStatus.Saved);
+                this.database.setStatus(
+                    skipped ? SaveStatus.Error : SaveStatus.Saved,
+                );
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
@@ -634,7 +652,7 @@ export default class ProjectsDatabase {
         try {
             // Assume it's a project of an unknown version and upgrade it.
             const serialized = upgradeProject(
-                data as SerializedProjectUnknownVersion
+                data as SerializedProjectUnknownVersion,
             );
             // Now parse it with Zod, verifying it complies with the schema.
             const project = ProjectSchema.parse(serialized);

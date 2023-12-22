@@ -1043,7 +1043,15 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
-            "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
+            "doc": "I represent some text, with a @Language tag. See @Text to learn more!",
+            "conflict": {
+                "phone": "Is *$1* someone's phone number? Don't share me online if so!",
+                "email": "Is *$1* someone's email? Don't share me here if so!",
+                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!",
+                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!",
+                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.",
+                "resolution": "This isn't sensitive data"
+            }
         },
         "FormattedLiteral": {
             "name": "formatted",
@@ -3911,10 +3919,13 @@
         },
         "annotations": {
             "label": "conflicts and help",
-            "cursor": "This is a *$1*$2[ and it is of type $2|].",
+            "cursor": "This is *$1*$2[ and it is of type $2|].",
             "learn": "Want to learn more about them?",
             "evaluating": "Oh fun, let's evaluate!",
-            "space": "This is space! Who knew nothing could say so much?"
+            "space": "This is space! Who knew nothing could say so much?",
+            "button": {
+                "resolution": "Resolve this conflict"
+            }
         },
         "output": {
             "label": "program output",
@@ -4327,7 +4338,7 @@
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",
-                    "• Your *projects*. We store any projects you contribute and your changes to them.",
+                    "• Your *projects*. We store any projects you contribute and your changes to them, unless those projects appear to have personally identifiable information such as phone numbers, email addresses, usernames, tax identifiers, or addresses.",
                     "• Your *settings*. This includes the languages you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device only.",
                     "• Aggregate *activity*. We track logins and the pages you visit, but not in a way that can identify you, track you across the site, or track you across other sites. We use Google Analytics in 'consent denied' mode, which only gathers minimal non-identifiable information about page views, without storing cookies, or sending IP address information to Google. We use this aggregate information to help raise funding by reporting how much the platform is being used.",
                     "We don't store anything else. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so anyone can verify this, and report any unintended tracking.",

@@ -1044,7 +1044,15 @@
             "name": "翻译",
             "description": "翻译 $1",
             "emotion": "serious",
-            "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！"
+            "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！",
+            "conflict": {
+                "phone": "$?",
+                "email": "$?",
+                "tin": "$?",
+                "address": "$?",
+                "handle": "$?",
+                "resolution": "$?"
+            }
         },
         "FormattedLiteral": {
             "name": "格式文本",
@@ -3799,7 +3807,10 @@
             "cursor": "$?",
             "learn": "$?",
             "evaluating": "$?",
-            "space": "$?"
+            "space": "$?",
+            "button": {
+                "resolution": "$?"
+            }
         },
         "output": {
             "label": "程序输出",

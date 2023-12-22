@@ -1023,7 +1023,15 @@
             "name": "traducción",
             "description": "traducción $1",
             "emotion": "serious",
-            "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!"
+            "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!",
+            "conflict": {
+                "phone": "$?",
+                "email": "$?",
+                "tin": "$?",
+                "address": "$?",
+                "handle": "$?",
+                "resolution": "$?"
+            }
         },
         "FormattedLiteral": {
             "name": "texto formateado",
@@ -3978,7 +3986,10 @@
             "cursor": "$?",
             "learn": "$?",
             "evaluating": "$?",
-            "space": "$?"
+            "space": "$?",
+            "button": {
+                "resolution": "$?"
+            }
         },
         "output": {
             "label": "salida del programa",

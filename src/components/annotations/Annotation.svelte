@@ -4,12 +4,20 @@
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import { animationDuration } from '../../db/Database';
+    import { Projects, animationDuration, locales } from '../../db/Database';
+    import Button from '@components/widgets/Button.svelte';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import type { Resolution } from '@conflicts/Conflict';
+    import type Context from '@nodes/Context';
 
     export let id: number;
     export let annotations: AnnotationInfo[];
 
     let index = getConceptIndex();
+
+    function resolveAnnotation(resolution: Resolution, context: Context) {
+        Projects.reviseProject(resolution.mediator(context));
+    }
 </script>
 
 <div class="annotations" data-uiid="conflict">
@@ -33,6 +41,33 @@
                     {#each annotation.messages as markup}
                         <aside aria-label={markup.toText()}>
                             <MarkupHTMLView {markup} />
+                            {#if annotation.resolutions}
+                                {#each annotation.resolutions as resolution}
+                                    <div class="resolution">
+                                        <Button
+                                            background
+                                            tip={$locales.get(
+                                                (l) =>
+                                                    l.ui.annotations.button
+                                                        .resolution,
+                                            )}
+                                            action={() =>
+                                                resolveAnnotation(
+                                                    resolution,
+                                                    annotation.context,
+                                                )}>✓</Button
+                                        ><div class="description"
+                                            ><MarkupHtmlView
+                                                inline
+                                                markup={resolution.description(
+                                                    $locales,
+                                                    annotation.context,
+                                                )}
+                                            /></div
+                                        >
+                                    </div>
+                                {/each}
+                            {/if}
                         </aside>
                     {/each}
                 </svelte:fragment>
@@ -71,5 +106,25 @@
     .annotation.secondary,
     .annotation.minor {
         border-color: var(--wordplay-warning);
+    }
+
+    aside {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    .resolution {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+    }
+
+    .description {
+        padding: var(--wordplay-spacing);
+        border-radius: var(--wordplay-spacing);
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
     }
 </style>

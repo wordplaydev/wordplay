@@ -302,6 +302,10 @@ type UITexts = {
         evaluating: Template;
         /** What function should say when the cursor is in space */
         space: Template;
+        button: {
+            /** How the resolution button should should be described */
+            resolution: Template;
+        };
     };
     output: {
         /** The ARIA label for the output section */

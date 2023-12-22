@@ -5870,8 +5870,90 @@
               "description": "Any token in a Wordplay program. Description inputs: $1 = token label, $2 = token text"
             },
             "Translation": {
-              "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "One alternate translation of a text literal, e.g., the `'hola/es`' of `'hi'/en'hola'/es` Description inputs: $1 = the text"
+              "additionalProperties": false,
+              "description": "One alternate translation of a text literal, e.g., the `'hola/es`' of `'hi'/en'hola'/es` Description inputs: $1 = the text",
+              "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "description": "Conflicts that this node can generate",
+                  "properties": {
+                    "address": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "email": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "handle": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "phone": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    },
+                    "resolution": {
+                      "$ref": "#/definitions/Template",
+                      "description": "How to describe the resolution of the sensitive information conflict."
+                    },
+                    "tin": {
+                      "$ref": "#/definitions/InternalConflictText"
+                    }
+                  },
+                  "required": [
+                    "phone",
+                    "email",
+                    "address",
+                    "tin",
+                    "handle",
+                    "resolution"
+                  ],
+                  "type": "object"
+                },
+                "description": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name that should be used to refer to the node type",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "conflict",
+                "description",
+                "doc",
+                "emotion",
+                "name"
+              ],
+              "type": "object"
             },
             "TypeInputs": {
               "$ref": "#/definitions/NodeText",
@@ -7955,6 +8037,19 @@
               "additionalProperties": false,
               "description": "The conflicts area in the margin of the editor.",
               "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "resolution": {
+                      "$ref": "#/definitions/Template",
+                      "description": "How the resolution button should should be described"
+                    }
+                  },
+                  "required": [
+                    "resolution"
+                  ],
+                  "type": "object"
+                },
                 "cursor": {
                   "$ref": "#/definitions/Template",
                   "description": "The description of the cursor position"
@@ -7981,7 +8076,8 @@
                 "cursor",
                 "learn",
                 "evaluating",
-                "space"
+                "space",
+                "button"
               ],
               "type": "object"
             },
