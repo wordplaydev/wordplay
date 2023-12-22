@@ -16,80 +16,70 @@ const source = new Source('basis', '');
 const project = Project.make(null, 'test', source, [], DefaultLocale);
 const context = new Context(project, source);
 
-function checkBasisNodes(nodes: Node[]) {
+function checkBasisNodes(node: Node) {
     // Check for syntax errors
-    const unparsables = nodes.reduce(
-        (unparsables: (UnparsableExpression | UnparsableType)[], def) => [
-            ...unparsables,
-            ...def.nodes(
-                (n): n is UnparsableExpression | UnparsableType =>
-                    n instanceof UnparsableExpression ||
-                    n instanceof UnparsableType
-            ),
-        ],
-        []
-    );
+    const unparsables = node
+        .nodes()
+        .filter(
+            (n): n is UnparsableExpression | UnparsableType =>
+                n instanceof UnparsableExpression ||
+                n instanceof UnparsableType,
+        );
 
-    if (unparsables.length > 0)
-        for (const unparsable of unparsables) {
-            const def = nodes.find((node) => node.contains(unparsable));
-            console.error(
-                `Syntax error: ${unparsable.toWordplay()}n\n\n in ${def?.toWordplay()}`
-            );
-        }
-
-    expect(unparsables).toHaveLength(0);
+    expect(
+        unparsables,
+        unparsables.map((unp) => unp.toWordplay()).join(),
+    ).toHaveLength(0);
 
     // Check for conflicts, ignoring unused binds.
-    for (const node of nodes) {
-        const conflicts = node
-            .getAllConflicts(context)
-            .filter((n) => !(n instanceof UnusedBind));
+    const conflicts = node.getAllConflicts(context).filter(
+        (conflict) =>
+            !(conflict instanceof UnusedBind) &&
+            !context
+                .getRoot(node)
+                ?.getAncestors(conflict.getConflictingNodes().primary.node)
+                .some((n) => n instanceof Example),
+    );
 
-        if (conflicts.length > 0) {
-            for (const conflict of conflicts) {
-                const conflictingNodes = conflict.getConflictingNodes();
-
-                // Ignore conflicts in examples
-                if (
-                    !context
-                        .getRoot(node)
-                        ?.getAncestors(conflictingNodes.primary.node)
-                        .some((n) => n instanceof Example)
-                ) {
-                    console.error(
-                        `Conflict on:\n${node
-                            .toWordplay()
-                            .substring(
-                                0,
-                                50
-                            )}\nPrimary node: ${conflictingNodes.primary.node.toWordplay()}\n\t${
-                            conflict.constructor.name
-                        }\n${conflictingNodes.primary.explanation(
-                            basis.locales,
-                            context
-                        )}`
-                    );
-
-                    expect(conflicts).toHaveLength(0);
-                }
-            }
-        }
-    }
+    expect(
+        conflicts,
+        conflicts
+            .map((c) =>
+                c
+                    .getConflictingNodes()
+                    .primary.explanation(DefaultLocales, context)
+                    .toText(),
+            )
+            .join(),
+    ).toHaveLength(0);
 }
 
-test("Verify that basis structures don't have parsing errors or conflicts.", () => {
-    // Check basis structures
-    checkBasisNodes(Object.values(basis.structureDefinitionsByName));
-
-    // Check basis functions
-    for (const funs of Object.values(basis.functionsByType))
-        checkBasisNodes(Object.values(funs));
-
-    // Check basis conversions
-    for (const funs of Object.values(basis.conversionsByType))
-        checkBasisNodes(Object.values(funs));
-
-    // Check default definition shares.
-    checkBasisNodes(project.shares.all);
+test.each([
+    // Test all of the structure definitions
+    ...Object.values(basis.structureDefinitionsByName).map(
+        (structure) => [structure.getNames()[0], structure] as const,
+    ),
+    // Test all of the functions
+    ...Object.values(basis.functionsByType)
+        .map((funs) => Object.values(funs))
+        .flat()
+        .map((fun) => [fun.getNames()[0], fun] as const),
+    // Test all of the conversions
+    ...Object.values(basis.conversionsByType)
+        .map((funs) => Object.values(funs))
+        .flat()
+        .map(
+            (fun) =>
+                [
+                    fun.input.toWordplay() + ' → ' + fun.output.toWordplay(),
+                    fun,
+                ] as const,
+        ),
+    // Test all of the shares
+    ...Object.values(basis.shares)
+        .map((funs) => Object.values(funs))
+        .flat()
+        .map((fun) => [fun.getNames()[0], fun] as const),
+])('%s should have no conflicts', (_, node) => {
+    checkBasisNodes(node);
 });

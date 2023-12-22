@@ -10,6 +10,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#310](https://github.com/wordplaydev/wordplay/issues/310): Added a new feature for detecting PII in projects and generating conflicts for them, as well as resolutions for marking text as not PII. When PII conflicts are present, projects aren't saved.
 -   [#48](https://github.com/wordplaydev/wordplay/issues/48): Added basic support for conflict resolutions.
 
+### Maintenance
+
+-   Improved error messages and converage of basis unit tests for conflicts.
+
 ## 0.9.14 2023-12-21
 
 ### Fixed
