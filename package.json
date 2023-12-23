@@ -18,7 +18,7 @@
         "build": "npm run env && vite build",
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy",
-        "release": "firebase use prod && firebase deploy",
+        "release": "firebase use prod && firebase deploy && firebase use dev",
         "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
         "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/Locale.ts' --type 'Locale' --out static/schemas/Locale.json",
         "create-schemas": "npm run tutorial-schema && npm run locale-schema",
