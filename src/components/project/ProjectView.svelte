@@ -1449,6 +1449,7 @@
                                         {project}
                                         evaluator={$evaluator}
                                         source={getSourceByTileID(tile.id)}
+                                        sourceID={tile.id}
                                         conflicts={visibleConflicts}
                                         stepping={$evaluation.playing === false}
                                         caret={$editors.get(tile.id)?.caret}

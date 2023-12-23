@@ -82,7 +82,6 @@
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import Adjust from './Adjust.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { localized } from '../../db/Database';
 
@@ -296,45 +295,6 @@
                     context,
                 ),
             );
-        }
-    }
-
-    // When the caret changes, see if there's an adjustable at it, and if so, measure it and then show it.
-    let adjustable: Node | undefined;
-    let adjustableLocation: { left: number; top: number } | undefined;
-    $: {
-        adjustable = undefined;
-        adjustableLocation = undefined;
-        if ($caret) {
-            const node =
-                $caret.position instanceof Node
-                    ? $caret.position
-                    : $caret.tokenExcludingSpace;
-            if (node) {
-                adjustable = $caret.getAdjustableLiteral();
-
-                // When adjustable disappears, focus text field
-                if (adjustable !== undefined) {
-                    tick().then(() => {
-                        if (adjustable) {
-                            const adjustableBounds =
-                                getNodeView(
-                                    adjustable,
-                                )?.getBoundingClientRect();
-                            const editorBounds =
-                                editor?.getBoundingClientRect();
-                            if (adjustableBounds && editorBounds)
-                                adjustableLocation = {
-                                    left:
-                                        adjustableBounds.right -
-                                        editorBounds.left,
-                                    top:
-                                        adjustableBounds.top - editorBounds.top,
-                                };
-                        }
-                    });
-                }
-            }
         }
     }
 
@@ -1465,8 +1425,6 @@
             lastKeyDownIgnored}
         bind:location={caretLocation}
     />
-    <!-- Render an adjust view by the caret if eligible. This should be after the input so that it's tababble. -->
-    {#if adjustable}<Adjust {sourceID} bounds={adjustableLocation} />{/if}
     <!-- 
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.

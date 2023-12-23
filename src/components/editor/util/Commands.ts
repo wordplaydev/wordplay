@@ -205,7 +205,7 @@ export const IncrementLiteral: Command = {
 };
 
 export const DecrementLiteral: Command = {
-    symbol: '−',
+    symbol: '–',
     description: (l) => l.ui.source.cursor.decrementLiteral,
     visible: Visibility.Touch,
     category: Category.Modify,
