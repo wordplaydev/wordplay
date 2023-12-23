@@ -3772,7 +3772,8 @@
                 "focusSource": "focus on the next source",
                 "focusDocs": "focus on the documentation",
                 "focusPalette": "focus on the palette",
-                "focusCycle": "focus on the next tile"
+                "focusCycle": "focus on the next tile",
+                "unsaved": "show save error"
             },
             "field": {
                 "name": {
@@ -3780,7 +3781,18 @@
                     "placeholder": "name"
                 }
             },
-            "help": "show keyboard shortcuts"
+            "help": "show keyboard shortcuts",
+            "save": {
+                "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
+                "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",
+                "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
+                "projectsNotLoadingOnline": "Unable to load online projects.",
+                "projectNotSavedOnline": "Unable to save projects online.",
+                "settingsUnsaved": "Unable to save settings online."
+            },
+            "dialog": {
+                "unsaved": "Unsaved work..."
+            }
         },
         "gallery": {
             "untitled": "Untitled",
@@ -4155,7 +4167,7 @@
         "save": {
             "saving": "saving",
             "saved": "saved online",
-            "local": "saved on this device",
+            "local": "saved in browser",
             "unsaved": "unsaved"
         },
         "page": {
@@ -4243,7 +4255,7 @@
                 "subtitle": "Create an account or login in to save your work online",
                 "anonymous": "login",
                 "prompt": {
-                    "login": "Your performances are saving on this device, but not online. If this is your device, that's okay! If it's not, others may see or delete your projects. To save them online and keep them private, log in or <create an account@://join>:",
+                    "login": "Your performances are saving in this browser, but not online. If this is your device, that's okay! If it's not, others will have access to your projects, and you may lose them. To save them online and keep them private, log in or <create an account@://join>:",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "email": "Do you have a legacy email-only account? Submit your email and we'll send you a sign-in link.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",

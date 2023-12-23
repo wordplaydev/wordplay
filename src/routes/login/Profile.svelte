@@ -68,7 +68,7 @@
                 background
                 tip={$locales.get((l) => l.ui.page.login.button.logout.tip)}
                 action={logout}
-                enabled={$status === SaveStatus.Saved}
+                enabled={$status.status === SaveStatus.Saved}
                 prompt={`🗑️ ${$locales.get(
                     (l) => l.ui.page.login.button.logout.label,
                 )}`}

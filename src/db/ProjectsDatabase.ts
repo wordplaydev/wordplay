@@ -231,7 +231,10 @@ export default class ProjectsDatabase {
                     console.error(error.code);
                     console.error(error.message);
                 }
-                this.database.setStatus(SaveStatus.Error);
+                this.database.setStatus(
+                    SaveStatus.Error,
+                    (l) => l.ui.project.save.projectsNotLoadingOnline,
+                );
             },
         );
 
@@ -509,22 +512,28 @@ export default class ProjectsDatabase {
 
         // First, save all projects to the local DB, including the user ID if they don't have it already.
         if ('indexedDB' in window) {
-            this.database.setStatus(SaveStatus.Saving);
+            this.database.setStatus(SaveStatus.Saving, undefined);
             try {
                 this.localDB.saveProjects(
                     local.map((history) => history.getCurrent().serialize()),
                 );
             } catch (_) {
-                this.database.setStatus(SaveStatus.Error);
+                this.database.setStatus(
+                    SaveStatus.Error,
+                    (l) => l.ui.project.save.projectsNotSavedLocally,
+                );
             }
-            this.database.setStatus(SaveStatus.Saved);
+            this.database.setStatus(SaveStatus.Saved, undefined);
         } else {
-            this.database.setStatus(SaveStatus.Error);
+            this.database.setStatus(
+                SaveStatus.Error,
+                (l) => l.ui.project.save.projectsCannotNotSaveLocally,
+            );
         }
 
         // Then, try to save them in Firebase if we have a user ID.
         if (firestore && userID) {
-            this.database.setStatus(SaveStatus.Saving);
+            this.database.setStatus(SaveStatus.Saving, undefined);
 
             const unsaved = online.filter((history) => history.isUnsaved());
             /** Whether a project was not saved because it has PII. */
@@ -572,13 +581,19 @@ export default class ProjectsDatabase {
                 // Mark status as saved
                 this.database.setStatus(
                     skipped ? SaveStatus.Error : SaveStatus.Saved,
+                    skipped
+                        ? (l) => l.ui.project.save.projectContainedPII
+                        : undefined,
                 );
             } catch (error) {
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
                     console.error(error.message);
                 }
-                this.database.setStatus(SaveStatus.Error);
+                this.database.setStatus(
+                    SaveStatus.Error,
+                    (l) => l.ui.project.save.projectNotSavedOnline,
+                );
             }
         }
     }
@@ -630,7 +645,7 @@ export default class ProjectsDatabase {
      */
     saveSoon() {
         // Note that we're saving.
-        this.database.setStatus(SaveStatus.Saving);
+        this.database.setStatus(SaveStatus.Saving, undefined);
 
         // Clear pending saves.
         clearTimeout(this.timer);

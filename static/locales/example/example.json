@@ -2117,7 +2117,8 @@
                 "focusSource": "$?",
                 "focusDocs": "$?",
                 "focusPalette": "$?",
-                "focusCycle": "$?"
+                "focusCycle": "$?",
+                "unsaved": "$?"
             },
             "field": {
                 "name": {
@@ -2125,7 +2126,18 @@
                     "placeholder": "$?"
                 }
             },
-            "help": "$?"
+            "help": "$?",
+            "save": {
+                "projectsNotSavedLocally": "$?",
+                "projectsCannotNotSaveLocally": "$?",
+                "projectContainedPII": "$?",
+                "projectsNotLoadingOnline": "$?",
+                "projectNotSavedOnline": "$?",
+                "settingsUnsaved": "$?"
+            },
+            "dialog": {
+                "unsaved": "$?"
+            }
         },
         "gallery": {
             "untitled": "$?",

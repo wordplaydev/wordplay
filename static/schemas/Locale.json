@@ -9808,6 +9808,10 @@
                     "showCollaborators": {
                       "description": "Shows the sharing dialog",
                       "type": "string"
+                    },
+                    "unsaved": {
+                      "description": "Show save error button",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -9821,7 +9825,21 @@
                     "focusSource",
                     "focusDocs",
                     "focusPalette",
-                    "focusCycle"
+                    "focusCycle",
+                    "unsaved"
+                  ],
+                  "type": "object"
+                },
+                "dialog": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "unsaved": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The header for the save error"
+                    }
+                  },
+                  "required": [
+                    "unsaved"
                   ],
                   "type": "object"
                 },
@@ -9854,13 +9872,54 @@
                 "help": {
                   "description": "The keyboard shortcut to show the shortcut menu",
                   "type": "string"
+                },
+                "save": {
+                  "additionalProperties": false,
+                  "description": "The messages shown for save status",
+                  "properties": {
+                    "projectContainedPII": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When a project wasn't saved because it contained PII"
+                    },
+                    "projectNotSavedOnline": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When a project couldn't be saved to the database"
+                    },
+                    "projectsCannotNotSaveLocally": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When projects can't save locally"
+                    },
+                    "projectsNotLoadingOnline": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Projects failed to load"
+                    },
+                    "projectsNotSavedLocally": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When projects fail to save locally"
+                    },
+                    "settingsUnsaved": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When settings are being saved"
+                    }
+                  },
+                  "required": [
+                    "projectsNotSavedLocally",
+                    "projectsCannotNotSaveLocally",
+                    "projectContainedPII",
+                    "projectsNotLoadingOnline",
+                    "projectNotSavedOnline",
+                    "settingsUnsaved"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
                 "error",
                 "button",
                 "field",
-                "help"
+                "help",
+                "save",
+                "dialog"
               ],
               "type": "object"
             },

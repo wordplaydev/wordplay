@@ -3836,7 +3836,8 @@
                 "focusSource": "enfoque en la siguiente fuente ",
                 "focusDocs": "enfoque en la documentación",
                 "focusPalette": "enfoque en la paleta",
-                "focusCycle": "enfoque en la siguiente teja "
+                "focusCycle": "enfoque en la siguiente teja ",
+                "unsaved": "$?"
             },
             "field": {
                 "name": {
@@ -3844,7 +3845,18 @@
                     "placeholder": "nombre"
                 }
             },
-            "help": "mostrar atajos de teclado"
+            "help": "mostrar atajos de teclado",
+            "save": {
+                "projectsNotSavedLocally": "$?",
+                "projectsCannotNotSaveLocally": "$?",
+                "projectContainedPII": "$?",
+                "projectsNotLoadingOnline": "$?",
+                "projectNotSavedOnline": "$?",
+                "settingsUnsaved": "$?"
+            },
+            "dialog": {
+                "unsaved": "$?"
+            }
         },
         "gallery": {
             "untitled": "Intitulada",

@@ -3657,7 +3657,8 @@
                 "focusSource": "聚焦到下一个源",
                 "focusDocs": "聚焦文档",
                 "focusPalette": "聚焦调色板",
-                "focusCycle": "聚焦到下一个瓷砖"
+                "focusCycle": "聚焦到下一个瓷砖",
+                "unsaved": "$?"
             },
             "field": {
                 "name": {
@@ -3665,7 +3666,18 @@
                     "placeholder": "名称"
                 }
             },
-            "help": "显示键盘快捷键"
+            "help": "显示键盘快捷键",
+            "save": {
+                "projectsNotSavedLocally": "$?",
+                "projectsCannotNotSaveLocally": "$?",
+                "projectContainedPII": "$?",
+                "projectsNotLoadingOnline": "$?",
+                "projectNotSavedOnline": "$?",
+                "settingsUnsaved": "$?"
+            },
+            "dialog": {
+                "unsaved": "$?"
+            }
         },
         "gallery": {
             "untitled": "未命名",
