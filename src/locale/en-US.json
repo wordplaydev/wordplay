@@ -3932,7 +3932,7 @@
         "annotations": {
             "label": "conflicts and help",
             "cursor": "This is *$1*$2[ and they are of type $2|].",
-            "learn": "Want to learn more about them?",
+            "learn": "Want to learn more?",
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
             "button": {
