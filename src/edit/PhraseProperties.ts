@@ -2,7 +2,6 @@ import TextLiteral from '@nodes/TextLiteral';
 import OutputProperty from './OutputProperty';
 import OutputPropertyText from './OutputPropertyText';
 import Language from '../nodes/Language';
-import Docs from '../nodes/Docs';
 import OutputPropertyRange from './OutputPropertyRange';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
@@ -15,18 +14,20 @@ import {
     VerticalLeftRightLayout,
     VerticalRightLeftLayout,
 } from '@locale/Scripts';
+import FormattedLiteral from '@nodes/FormattedLiteral';
 
 export default function getPhraseProperties(
     project: Project,
     locales: Locales,
 ): OutputProperty[] {
-    return [
+    let phraseProperties = [
         new OutputProperty(
             locales.get((l) => l.output.Phrase.text),
             new OutputPropertyText(() => true),
             true,
             false,
-            (expr) => expr instanceof TextLiteral || expr instanceof Docs,
+            (expr) =>
+                expr instanceof TextLiteral || expr instanceof FormattedLiteral,
             (locales) =>
                 TextLiteral.make('', Language.make(locales.getLanguages()[0])),
         ),
@@ -72,6 +73,23 @@ export default function getPhraseProperties(
             (expr) => expr instanceof TextLiteral,
             () => TextLiteral.make(HorizontalLayout),
         ),
-        ...getTypeOutputProperties(project, locales),
     ];
+
+    const typeProperties = getTypeOutputProperties(project, locales);
+
+    // The font face makes more sense right next to the text, so we reorder it here.
+    const faceIndex = typeProperties.findIndex(
+        (prop) => prop.name === locales.get((l) => l.output.Phrase.face),
+    );
+    if (faceIndex >= 0) {
+        const faceProperty = typeProperties[faceIndex];
+        typeProperties.splice(faceIndex, 1);
+        phraseProperties = [
+            ...phraseProperties.slice(0, 1),
+            faceProperty,
+            ...phraseProperties.slice(1),
+        ];
+    }
+
+    return [...phraseProperties, ...typeProperties];
 }

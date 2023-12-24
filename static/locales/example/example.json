@@ -2446,7 +2446,15 @@
                 "default": "$?",
                 "inherited": "$?",
                 "notSequence": "$?",
-                "notContent": "$?"
+                "notContent": "$?",
+                "format": "$?",
+                "weight": "$?",
+                "light": "$?",
+                "normal": "$?",
+                "bold": "$?",
+                "extra": "$?",
+                "italic": "$?",
+                "underline": "$?"
             },
             "button": {
                 "revert": "$?",

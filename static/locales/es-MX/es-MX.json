@@ -4191,7 +4191,15 @@
                 "default": "por defecto",
                 "inherited": "heredado",
                 "notSequence": "no es una secuencia",
-                "notContent": "no es una lista de contenido"
+                "notContent": "no es una lista de contenido",
+                "format": "$?",
+                "weight": "$?",
+                "light": "$?",
+                "normal": "$?",
+                "bold": "$?",
+                "extra": "$?",
+                "italic": "$?",
+                "underline": "$?"
             },
             "button": {
                 "revert": "volver a por defecto",

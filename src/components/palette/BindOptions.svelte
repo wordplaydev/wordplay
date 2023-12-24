@@ -31,6 +31,7 @@
     id={property.getName()}
     label={property.getName()}
     value={options.toText(values.getExpression())}
+    width="7em"
     options={[
         ...(options.allowNone ? [{ value: undefined, label: '—' }] : []),
         ...options.values.map((value) => {

@@ -7,7 +7,7 @@
 <style>
     div {
         font-style: italic;
-        font-size: calc(var(--wordplay-font-size) - 2pt);
+        font-size: var(--wordplay-small-font-size);
         color: var(--wordplay-header);
     }
 

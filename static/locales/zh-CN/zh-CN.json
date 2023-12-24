@@ -4003,7 +4003,15 @@
                 "default": "默认",
                 "inherited": "继任",
                 "notSequence": "不是一个序列",
-                "notContent": "不是内容列表"
+                "notContent": "不是内容列表",
+                "format": "$?",
+                "weight": "$?",
+                "light": "$?",
+                "normal": "$?",
+                "bold": "$?",
+                "extra": "$?",
+                "italic": "$?",
+                "underline": "$?"
             },
             "button": {
                 "revert": "回复默认设置",

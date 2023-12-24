@@ -41,16 +41,16 @@
                 concept = $index.getConceptByName(names[0]);
                 if (concept && names.length > 1) {
                     const subConcept = Array.from(
-                        concept.getSubConcepts()
+                        concept.getSubConcepts(),
                     ).find((sub) => sub.hasName(names[1], $locales));
                     if (subConcept !== undefined) concept = subConcept;
                     else if (concept.affiliation !== undefined) {
                         const structure = $index.getStructureConcept(
-                            concept.affiliation
+                            concept.affiliation,
                         );
                         if (structure) {
                             const subConcept = Array.from(
-                                structure.getSubConcepts()
+                                structure.getSubConcepts(),
                             ).find((sub) => sub.hasName(names[1], $locales));
                             if (subConcept) {
                                 container = concept;
@@ -93,7 +93,7 @@
         tip={concretize(
             $locales,
             $locales.get((l) => l.ui.docs.link),
-            longName
+            longName,
         ).toText()}
         ><span class="conceptlink interactive"
             >{#if label}{withVariationSelector(label)}{:else}<span class="long"
@@ -106,13 +106,14 @@
     />{:else if link instanceof ConceptLink}<span
         >{#if container}{container.getName(
                 $locales,
-                false
+                false,
             )}{/if}{link.concept.getText()}</span
     >{/if}
 
 <style>
     .conceptlink {
         display: inline-block;
+        font-style: normal;
     }
 
     .conceptlink.interactive {

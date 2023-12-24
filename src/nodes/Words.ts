@@ -31,7 +31,7 @@ export default class Words extends Content {
     constructor(
         open: Token | undefined,
         words: Segment[],
-        close: Token | undefined
+        close: Token | undefined,
     ) {
         super();
 
@@ -58,7 +58,7 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none('close')
+                    none('close'),
                 ),
             },
             {
@@ -71,7 +71,7 @@ export default class Words extends Content {
                     node(Example),
                     node(Sym.Words),
                     node(Mention),
-                    node(Branch)
+                    node(Branch),
                 ),
             },
             {
@@ -82,7 +82,7 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none('open')
+                    none('open'),
                 ),
             },
         ];
@@ -96,7 +96,7 @@ export default class Words extends Content {
         return new Words(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('segments', this.getNodeSegments(), replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -116,14 +116,25 @@ export default class Words extends Content {
         return this.open === undefined
             ? undefined
             : this.open.isSymbol(Sym.Italic)
-            ? 'italic'
-            : this.open.isSymbol(Sym.Underline)
-            ? 'underline'
-            : this.open.isSymbol(Sym.Light)
-            ? 'light'
-            : this.open.isSymbol(Sym.Bold)
-            ? 'bold'
-            : 'extra';
+              ? 'italic'
+              : this.open.isSymbol(Sym.Underline)
+                ? 'underline'
+                : this.open.isSymbol(Sym.Light)
+                  ? 'light'
+                  : this.open.isSymbol(Sym.Bold)
+                    ? 'bold'
+                    : 'extra';
+    }
+
+    /** Gets this format and all of the nested formats of segments that wrap the entire Word. */
+    getFormats(): Format[] {
+        const format = this.getFormat();
+        if (format && this.segments.length === 1) {
+            return this.segments[0] instanceof Token ||
+                !(this.segments[0] instanceof Words)
+                ? [format]
+                : [format, ...this.segments[0].getFormats()];
+        } else return [];
     }
 
     getWeight(): FontWeight | undefined {
@@ -131,16 +142,16 @@ export default class Words extends Content {
             ? this.open.isSymbol(Sym.Light)
                 ? 300
                 : this.open.isSymbol(Sym.Bold)
-                ? 700
-                : this.open.isSymbol(Sym.Extra)
-                ? 900
-                : 400
+                  ? 700
+                  : this.open.isSymbol(Sym.Extra)
+                    ? 900
+                    : 400
             : undefined;
     }
 
     containsText(text: string): boolean {
         return this.segments.some(
-            (segment) => segment instanceof Words && segment.containsText(text)
+            (segment) => segment instanceof Words && segment.containsText(text),
         );
     }
 
@@ -151,7 +162,7 @@ export default class Words extends Content {
     concretize(
         locales: Locales,
         inputs: TemplateInput[],
-        replacements: [Node, Node][]
+        replacements: [Node, Node][],
     ): Words | undefined {
         const concrete = this.segments.map((content) => {
             if (content instanceof ValueRef || content instanceof NodeRef)
@@ -160,8 +171,8 @@ export default class Words extends Content {
             else if (content instanceof Token) {
                 const replacement = content.withText(
                     withVariationSelector(
-                        unescapeMarkupSymbols(content.getText())
-                    )
+                        unescapeMarkupSymbols(content.getText()),
+                    ),
                 );
                 if (replacement.getText() !== content.getText()) {
                     replacements.push([content, replacement]);
@@ -183,7 +194,7 @@ export default class Words extends Content {
 
     toText(): string {
         return unescaped(
-            this.segments.map((segment) => segment.toText()).join('')
+            this.segments.map((segment) => segment.toText()).join(''),
         );
     }
 }

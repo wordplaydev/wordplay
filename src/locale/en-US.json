@@ -4122,7 +4122,15 @@
                 "default": "default",
                 "inherited": "inherited",
                 "notSequence": "not a sequence",
-                "notContent": "not a content list"
+                "notContent": "not a content list",
+                "format": "format",
+                "weight": "weight",
+                "light": "light",
+                "normal": "normal",
+                "bold": "bold",
+                "extra": "extra",
+                "italic": "italic",
+                "underline": "underline"
             },
             "button": {
                 "revert": "revert to default",

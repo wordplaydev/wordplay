@@ -9,7 +9,7 @@ import type { Template } from '../locale/Locale';
 import type Root from './Root';
 import { TextCloseByTextOpen } from '../parser/Tokenizer';
 import {
-    getLanguageQuote,
+    getLanguageQuoteOpen,
     getLanguageSecondaryQuote,
 } from '../locale/LanguageCode';
 import type Definition from './Definition';
@@ -91,7 +91,7 @@ export default class Token extends Node {
             node instanceof Token &&
             this.getText() === node.getText() &&
             this.types.some((type1) =>
-                node.types.some((type2) => type1 === type2)
+                node.types.some((type2) => type1 === type2),
             )
         );
     }
@@ -140,7 +140,7 @@ export default class Token extends Node {
     getPlaceholder(
         root: Root,
         context: Context,
-        locales: Locales
+        locales: Locales,
     ): Template | undefined {
         if (!this.isSymbol(Sym.Placeholder)) return undefined;
         const parent = root.getParent(this);
@@ -175,18 +175,18 @@ export default class Token extends Node {
                         ? leaves.at(-1)
                         : undefined;
                 if (open) {
-                    const preferredQuote = getLanguageQuote(
-                        locales[0].language
+                    const preferredQuote = getLanguageQuoteOpen(
+                        locales[0].language,
                     );
                     const preferredSecondaryQuote = getLanguageSecondaryQuote(
-                        locales[0].language
+                        locales[0].language,
                     );
                     const preferredOpen =
                         open.getText() === preferredQuote
                             ? preferredQuote
                             : open.getText() === preferredSecondaryQuote
-                            ? preferredSecondaryQuote
-                            : preferredQuote;
+                              ? preferredSecondaryQuote
+                              : preferredQuote;
                     // Is this the open and its not the preferred quote? Make it the preferred one.
                     if (open === this) text = preferredOpen;
                     // Is this the close and the close isn't the preferred?
@@ -255,7 +255,7 @@ export function getTokenLabel(token: Node, locales: Locales): string {
     if (!(token instanceof Token)) return token.getLabel(locales);
 
     const tokenType = Object.entries(Sym).find(
-        ([, val]) => val === token.types[0]
+        ([, val]) => val === token.types[0],
     );
     const tokenLabel = tokenType
         ? locales.getLocale().token[tokenType[0] as keyof typeof Sym]

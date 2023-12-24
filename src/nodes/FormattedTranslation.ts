@@ -38,12 +38,12 @@ export default class FormattedTranslation extends LanguageTagged {
         this.computeChildren();
     }
 
-    static make(content?: Paragraph[]) {
+    static make(content?: Paragraph[], language?: Language) {
         return new FormattedTranslation(
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
             new Markup(content ?? []),
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
-            undefined,
+            language,
         );
     }
 

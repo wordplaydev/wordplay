@@ -1,3 +1,4 @@
+import { TextCloseByTextOpen } from '@parser/Tokenizer';
 import {
     Scripts,
     type Script,
@@ -246,8 +247,15 @@ export function getLanguageName(code: LanguageCode): string | undefined {
     return Languages[code]?.name;
 }
 
-export function getLanguageQuote(code: LanguageCode): string {
+export function getLanguageQuoteOpen(code: LanguageCode): string {
     return (Languages[code] as LanguageMetadata)?.quote ?? "'";
+}
+
+export function getLanguageQuoteClose(code: LanguageCode): string {
+    return (
+        TextCloseByTextOpen[getLanguageQuoteOpen(code)] ??
+        getLanguageQuoteOpen(code)
+    );
 }
 
 export function getLanguageSecondaryQuote(code: LanguageCode): string {

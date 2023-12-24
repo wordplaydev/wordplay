@@ -9612,6 +9612,10 @@
                 "labels": {
                   "additionalProperties": false,
                   "properties": {
+                    "bold": {
+                      "description": "The word to describe bold font weight",
+                      "type": "string"
+                    },
                     "computed": {
                       "description": "Shown in the output palette when the output(s) selected have expressions that are not editable using the editor.",
                       "type": "string"
@@ -9620,12 +9624,32 @@
                       "description": "Shown in the output palette when the output(s) selected have no value set, but have a default",
                       "type": "string"
                     },
+                    "extra": {
+                      "description": "The word to describe extra bold font weight",
+                      "type": "string"
+                    },
+                    "format": {
+                      "description": "The word to describe whether text is rich text formatted",
+                      "type": "string"
+                    },
                     "inherited": {
                       "description": "Shown in the output palette when a value is unset but is inherited",
                       "type": "string"
                     },
+                    "italic": {
+                      "description": "The word to describe italic font style",
+                      "type": "string"
+                    },
+                    "light": {
+                      "description": "The word to describe light font weight",
+                      "type": "string"
+                    },
                     "mixed": {
                       "description": "Shown in the output palette when multiple outputs are selected but they have unequal values.",
+                      "type": "string"
+                    },
+                    "normal": {
+                      "description": "The word to describe normal font weight",
                       "type": "string"
                     },
                     "notContent": {
@@ -9635,6 +9659,14 @@
                     "notSequence": {
                       "description": "Shown in the output palette when a sequence isn't valid",
                       "type": "string"
+                    },
+                    "underline": {
+                      "description": "The word to describe underline text decoration",
+                      "type": "string"
+                    },
+                    "weight": {
+                      "description": "The word to describe font weight",
+                      "type": "string"
                     }
                   },
                   "required": [
@@ -9643,7 +9675,15 @@
                     "default",
                     "inherited",
                     "notSequence",
-                    "notContent"
+                    "notContent",
+                    "format",
+                    "weight",
+                    "light",
+                    "normal",
+                    "bold",
+                    "extra",
+                    "italic",
+                    "underline"
                   ],
                   "type": "object"
                 },

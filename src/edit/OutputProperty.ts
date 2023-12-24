@@ -39,7 +39,7 @@ class OutputProperty {
         required: boolean,
         inherited: boolean,
         editable: (expr: Expression, context: Context) => boolean,
-        create: (locales: Locales) => Expression
+        create: (locales: Locales) => Expression,
     ) {
         this.name = name;
         this.type = type;

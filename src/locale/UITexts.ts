@@ -398,6 +398,22 @@ type UITexts = {
             notSequence: string;
             /** Shown in the output palette when a list of content is isn't valid */
             notContent: string;
+            /** The word to describe whether text is rich text formatted */
+            format: string;
+            /** The word to describe font weight */
+            weight: string;
+            /** The word to describe light font weight */
+            light: string;
+            /** The word to describe normal font weight */
+            normal: string;
+            /** The word to describe bold font weight */
+            bold: string;
+            /** The word to describe extra bold font weight */
+            extra: string;
+            /** The word to describe italic font style */
+            italic: string;
+            /** The word to describe underline text decoration */
+            underline: string;
         };
         button: {
             /** Resets a property to it's default value */

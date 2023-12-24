@@ -60,7 +60,7 @@ export default class Markup extends Content {
     clone(replace?: Replacement) {
         return new Markup(
             this.replaceChild('paragraphs', this.paragraphs, replace),
-            this.spaces
+            this.spaces,
         ) as this;
     }
 
@@ -88,7 +88,7 @@ export default class Markup extends Content {
         // Create an empty list of replacements which we'll recursively fill and then update space with.
         const replacements: [Node, Node][] = [];
         const concrete = this.paragraphs.map((p) =>
-            p.concretize(locales, inputs, replacements)
+            p.concretize(locales, inputs, replacements),
         );
 
         let newSpaces = this.spaces;
@@ -103,13 +103,13 @@ export default class Markup extends Content {
 
     getMatchingText(
         text: string,
-        locales: Locales
+        locales: Locales,
     ): [string, number] | undefined {
         const wordsWithText = this.paragraphs
             .map((p) => p.nodes())
             .flat()
             .filter(
-                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words)
+                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
             )
             .filter((w) => w.getText().indexOf(text) >= 0);
 
@@ -149,7 +149,8 @@ export default class Markup extends Content {
                         words
                             .map((word) => word.getWeight())
                             .filter(
-                                (word): word is FontWeight => word !== undefined
+                                (word): word is FontWeight =>
+                                    word !== undefined,
                             )
                             .at(-1) ?? 400,
                 });
@@ -161,14 +162,14 @@ export default class Markup extends Content {
     asLine() {
         return new Markup(
             [new Paragraph(this.paragraphs.map((p) => p.segments).flat())],
-            this.spaces
+            this.spaces,
         );
     }
 
     getRepresentativeText() {
         return this.nodes()
             .filter(
-                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words)
+                (n): n is Token => n instanceof Token && n.isSymbol(Sym.Words),
             )[0]
             ?.getText();
     }
