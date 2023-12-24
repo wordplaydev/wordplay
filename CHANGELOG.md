@@ -14,6 +14,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Added explanations of save errors.
 -   Require ARIA-label for checkboxes.
 
+### Fixed
+
+-   Subconcepts are now scrolled to properly when selected via a concept link.
+
 ### Maintenance
 
 -   Improved error messages and converage of basis unit tests for conflicts.
