@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#209](https://github.com/wordplaydev/wordplay/issues/209): Redesigned adjust buttons for literals.
 -   [#276](https://github.com/wordplaydev/wordplay/issues/276): Added weight, italic, and underline formatting controls in palette.
 -   Added explanations of save errors.
+-   Require ARIA-label for checkboxes.
 
 ### Maintenance
 

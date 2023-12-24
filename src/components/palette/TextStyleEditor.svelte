@@ -229,6 +229,7 @@
     </svelte:fragment>
     <svelte:fragment slot="control">
         <Checkbox
+            label={$locales.get((l) => l.ui.palette.labels.format)}
             on={formatted}
             changed={(on) => setFormatted(on ?? false)}
             id="formatted"
@@ -272,6 +273,7 @@
                 >{$locales.get((l) => l.ui.palette.labels.italic)}</label
             >
             <Checkbox
+                label={$locales.get((l) => l.ui.palette.labels.italic)}
                 on={italic}
                 changed={() => applyStyle('italic')}
                 id={'font-italic'}
@@ -282,6 +284,7 @@
                 >{$locales.get((l) => l.ui.palette.labels.underline)}</label
             >
             <Checkbox
+                label={$locales.get((l) => l.ui.palette.labels.underline)}
                 on={underlined}
                 changed={() => applyStyle('underline')}
                 id={'text-underlined'}
