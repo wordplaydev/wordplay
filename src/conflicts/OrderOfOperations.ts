@@ -14,6 +14,8 @@ export default class OrderOfOperations extends Conflict {
         this.after = after;
     }
 
+    // splits String expression. Uses a recursive method to find all combinations of equations 
+    // by adding parenthesis in different places in the equations. 
     generateDisambiguations(expression: string): string[] {
         const parts = expression.split(' ');
         let disambiguations: string[] = [];
