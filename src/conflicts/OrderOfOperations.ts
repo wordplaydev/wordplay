@@ -14,6 +14,28 @@ export default class OrderOfOperations extends Conflict {
         this.after = after;
     }
 
+    generateDisambiguations(expression: string): string[] {
+        const parts = expression.split(' ');
+        let disambiguations: string[] = [];
+
+        function addParentheses(start: number, end: number) {
+            if (start >= end - 1) return;
+
+            let newExpr = [...parts];
+            newExpr[start] = '(' + newExpr[start];
+            newExpr[end] = newExpr[end] + ')';
+            disambiguations.push(newExpr.join(' '));
+
+            for (let i = start; i < end; i++) {
+                addParentheses(start, i);
+                addParentheses(i + 1, end);
+            }
+        }
+
+        addParentheses(0, parts.length - 1);
+        return disambiguations;
+    }
+    
     getConflictingNodes() {
         return {
             primary: {
