@@ -11,7 +11,7 @@
         "test:coverage": "vitest run --coverage",
         "end2end": "npx playwright test",
         "dev": "vite dev",
-        "emu": "firebase use && npm run env && firebase emulators:start",
+        "emu": "npm run env && firebase emulators:start --project=demo-wordplay",
         "env": "run-script-os",
         "env:default": "cp .env.${GCLOUD_PROJECT:-template} .env",
         "env:windows": "copy .env.${GCLOUD_PROJECT:-template} .env",
