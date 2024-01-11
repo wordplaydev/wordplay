@@ -4,11 +4,11 @@
     "region": "MX",
     "acts": [
         {
-            "title": "The Verse",
+            "title": "La Verso",
             "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
-                    "title": "Silence",
+                    "title": "Silencio",
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
@@ -59,7 +59,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('☁️')] background: Color(25% 0 0°))"
+                            "Escenario([Frase('☁️')] fondo: Color(25% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -69,7 +69,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('🌙')] background: Color(50% 0 0°))"
+                            "Escenario([Frase('🌙')] fondo: Color(50% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -85,7 +85,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('☀️')] background: Color(75% 0 0°))"
+                            "Escenario([Frase('☀️')] fondo: Color(75% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -101,7 +101,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('☀️')] background: Color(100% 0 0°))"
+                            "Escenario([Frase('☀️')] fondo: Color(100% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -111,7 +111,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('☀️')] background: 🌈(80% 99 270°))"
+                            "Escenario([Frase('☀️')] fondo: 🌈(80% 99 270°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -121,7 +121,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('☀️' resting:Sequence(spin() 4s 'straight'))] background: 🌈(80% 99 270°))"
+                            "Escenario([Frase('☀️' inmóvil:Secuencia(girar() 4s 'recto'))] fondo: 🌈(80% 99 270°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -131,12 +131,12 @@
                     ]
                 },
                 {
-                    "title": "Would you like a program?",
-                    "subtitle": "Program",
+                    "title": "¿Quieres programar?",
+                    "subtitle": "Programa",
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
-                        ["fit", "Phrase('📄' resting:Pose(rotation: 10°))"],
+                        ["fit", "Frase('📄' inmóvil:Pose(rotación: 10°))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -148,14 +148,14 @@
                             "¿¡En serio!? ¿Estás seguro de que eres realmente una persona? Di algo que diría una persona."
                         ],
                         null,
-                        ["fit", "Phrase('📄' entering: Sequence(spin() 1s))"],
+                        ["fit", "Frase('📄' entrando: Secuencia(girar() 1s))"],
                         [
                             "Program",
                             "serious",
                             "Hm… realmente eres una persona. ¿Y quieres dirigir?"
                         ],
                         null,
-                        ["fit", "Phrase('📄' resting: Pose(rotation: 010°))"],
+                        ["fit", "Frase('📄' inmóvil: Pose(rotación: 010°))"],
                         [
                             "Program",
                             "excited",
@@ -191,7 +191,7 @@
                             "neutral",
                             "Por ejemplo, intenta escribir mi \\'hola'\\ en el editor de allí.",
                             "(No te preocupes por cometer errores, siempre puedes volver al original con *revert* @UI/revertProject).",
-                            "¿Escribiste algo? Ese es mi amigo @Text. ¿Ya los conociste? Lo evalúan como \\'hello'\\, luego yo pongo \\'hello'\\ en el escenario. Intente cambiar \\'hola'\\ por otra cosa. Lo mostraré en su lugar. Así que evaluaré inmediatamente todo lo que escribas y mostraré el resultado."
+                            "¿Escribiste algo? Ese es mi amigo @Text. ¿Ya los conociste? Lo evalúan como \\'hola'\\, luego yo pongo \\'hola'\\ en el escenario. Intente cambiar \\'hola'\\ por otra cosa. Lo mostraré en su lugar. Así que evaluaré inmediatamente todo lo que escribas y mostraré el resultado."
                         ],
                         null,
                         [
@@ -240,8 +240,8 @@
                     ]
                 },
                 {
-                    "title": "Holding space",
-                    "subtitle": "Placeholder",
+                    "title": "Agarrando espacio",
+                    "subtitle": "Narcador de Posición",
                     "concept": "ExpressionPlaceholder",
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
@@ -268,7 +268,7 @@
                             "kind",
                             "Sí. Hace mucho tiempo que no te veo. ¿Cómo estás?"
                         ],
-                        ["ExpressionPlaceholder", "scared", "Lonely."],
+                        ["ExpressionPlaceholder", "scared", "Solitaria."],
                         null,
                         [
                             "FunctionDefinition",
@@ -287,7 +287,7 @@
                             "Lo sé. Yo también. Lo siento mucho.",
                             "En realidad, por eso estoy aquí. Quería presentarles a nuestro nuevo director en formación."
                         ],
-                        ["ExpressionPlaceholder", "scared", "Hi."],
+                        ["ExpressionPlaceholder", "scared", "Hola."],
                         null,
                         [
                             "FunctionDefinition",
@@ -301,7 +301,7 @@
                             "kind",
                             "¿Quieres decir lo que haces?"
                         ],
-                        ["ExpressionPlaceholder", "scared", "Can you?"],
+                        ["ExpressionPlaceholder", "scared", "Puedes?"],
                         null,
                         [
                             "FunctionDefinition",
@@ -351,8 +351,8 @@
                     ]
                 },
                 {
-                    "title": "Say again?",
-                    "subtitle": "Unparsable",
+                    "title": "¿Decir de nuevo?",
+                    "subtitle": "No Analizable",
                     "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
@@ -494,12 +494,12 @@
                     ]
                 },
                 {
-                    "title": "Love is in the err",
-                    "subtitle": "Evaluate",
+                    "title": "El amor está en el airrr",
+                    "subtitle": "Evaluar",
                     "concept": "Evaluate",
                     "performance": [
                         "fit",
-                        "Stage([Phrase('💔')] background: 🌈(90% 100 0°))"
+                        "Escenario([Frase('💔')] fondo: 🌈(90% 100 0°))"
                     ],
                     "lines": [
                         [
@@ -544,14 +544,14 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('❤️')] background: 🌈(90% 100 0°))"
+                            "Escenario([Frase('❤️')] fondo: 🌈(90% 100 0°))"
                         ],
                         [
                             "FunctionDefinition",
                             "serious",
                             "Nunca. No lo haré. No puedo. Te amo."
                         ],
-                        ["Evaluate", "serious", "I love you…"],
+                        ["Evaluate", "serious", "Te amo…"],
                         null,
                         [
                             "FunctionDefinition",
@@ -577,7 +577,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('ƒ ❤️ ()')] background: 🌈(90% 100 0°))"
+                            "Escenario([Frase('ƒ ❤️ ()')] fondo: 🌈(90% 100 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -623,7 +623,7 @@
                         ],
                         ["conflict", "_(_ _ _)"],
                         null,
-                        ["edit", "Phrase('hello')"],
+                        ["edit", "Frase('hola')"],
                         [
                             "Evaluate",
                             "serious",
@@ -649,7 +649,7 @@
                             "¿Ves cómo cuando haces eso, ahora tengo una nueva entrada en mí en el programa? Es la entrada @Phrase/size. Las funciones tienen un cierto orden de entradas, pero si una función tiene una lista de entradas opcionales, puedes usar su nombre para especificar cuál quieres dar. Damos @Phrase/size aquí, pero no ninguna de las otras entradas opcionales. Intente cambiar otra entrada con la paleta, tal vez la fuente."
                         ],
                         null,
-                        ["conflict", "'hi'(1 2)"],
+                        ["conflict", "'hola'(1 2)"],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -661,21 +661,21 @@
                             "Oh, sí, es una buena idea. Muchas cosas pueden salir mal. Por ejemplo, podrías darme algo que no sea una función. ¿Ves cómo me dan el número \\“hi”\\ aquí como una función y me dan dos entradas, \\1\\ y \\2\\ ? Bueno, sólo sé evaluar funciones, y \\“hi”\\ no es una función, es texto. Eso es muy confuso para mí, así que básicamente detengo la actuación si esto sucede."
                         ],
                         null,
-                        ["conflict", "Phrase()"],
+                        ["conflict", "Frase()"],
                         [
                             "Evaluate",
                             "eager",
                             "Aqui hay otro más. @Phrase requiere algo de texto como mínimo, por lo que si no me proporcionas texto, no podré evaluar @Phrase porque me faltan las entradas requeridas."
                         ],
                         null,
-                        ["conflict", "Phrase(1)"],
+                        ["conflict", "Frase(1)"],
                         [
                             "Evaluate",
                             "excited",
                             "O si me das un aporte, pero no es el que espero, eso sería un problema. Aquí @Phrase recibe el número \\1\\ en lugar de un valor de texto."
                         ],
                         null,
-                        ["fit", "Stage([] background: 🌈(90% 100 0°))"],
+                        ["fit", "Escenario([] fondo: 🌈(90% 100 0°))"],
                         [
                             "Evaluate",
                             "curious",
@@ -712,17 +712,17 @@
             ]
         },
         {
-            "title": "It's the little things",
-            "performance": ["use", "fit", "SimpleJiggle"],
+            "title": "Son las cosas pequeñas",
+            "performance": ["use", "fit", "SimpleZangoloteo"],
             "scenes": [
                 {
-                    "title": "Values",
+                    "title": "Valores",
                     "subtitle": null,
                     "performance": ["use", "fit", "Symbol", "💡"],
                     "lines": [
                         [
                             "fit",
-                            "Phrase('💔' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} duration: 3s))"
+                            "Frase('💔' inmóvil:Secuencia({0%: Pose(escala: 1) 50%: Pose(escala: 1.2) 100%: Pose(escala: 1)} duración: 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -733,7 +733,7 @@
                         null,
                         [
                             "fit",
-                            "Group(Stack() [Phrase('1') Phrase('\"hello\"')])"
+                            "Grupo(Pila() [Frase('1') Frase('\"hola\"')])"
                         ],
                         [
                             "FunctionDefinition",
@@ -741,7 +741,7 @@
                             "… *Valores*? Lo siento, sé que se supone que debemos estar en esta gran gira a través del *Verse*. Simplemente no sé qué hacer con @Evaluate. Entonces… *valores*. Aún no los he explicado, ¿verdad? Hm…, cómo explicar… ¿Sabes qué son los 'datos'? ¿Te gustan los números y el texto? Los valores son cualquiera de esas cosas. Un valor puede ser tan pequeño como un número o tan grande como una escena entera en el escenario, llena de personajes bailando y moviéndose. Algunos valores están formados por muchos otros valores, como grandes estructuras elaboradas de valores de datos, entretejidos."
                         ],
                         null,
-                        ["fit", "Group(Stack() [Phrase('#') Phrase('\"\"')])"],
+                        ["fit", "Grupo(Pila() [Frase('#') Frase('\"\"')])"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -751,7 +751,7 @@
                         null,
                         [
                             "fit",
-                            "Group(Stack() [Phrase('ƒ → 1') Phrase('ƒ → \"hello\"')])"
+                            "Grupo(Pila() [Frase('ƒ → 1') Frase('ƒ → \"hola\"')])"
                         ],
                         [
                             "FunctionDefinition",
@@ -768,17 +768,17 @@
                     ]
                 },
                 {
-                    "title": "Quote, unquote",
-                    "subtitle": "Text",
+                    "title": "Comilla, cerrar comillas",
+                    "subtitle": "Texto",
                     "concept": "TextLiteral",
                     "performance": [
                         "fit",
-                        "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 0.5 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                        "Frase('\"\"' inmóvil:Secuencia({0%: Pose(escala: 1) 50%: Pose(escala: 0.5 opacidad: 0.5) 100%: Pose(escala: 1)} duración: 2s))"
                     ],
                     "lines": [
                         [
                             "fit",
-                            "Phrase('\"\"' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 2 opacity: 0.5) 100%: Pose(scale: 1)} duration: 2s))"
+                            "Frase('\"\"' inmóvil:Secuencia({0%: Pose(escala: 1) 50%: Pose(escala: 2 opacidad: 0.5) 100%: Pose(escala: 1)} duración: 2s))"
                         ],
                         ["FunctionDefinition", "curious", "@Text?"],
                         [
@@ -830,7 +830,7 @@
                             "serious",
                             "Excelente. Por supuesto, 'adentro' puede ser complicado. Digamos que escribiste esto. ¿Ves cómo hay una cita de apertura pero no una de cierre? Bueno, ¿cómo se supone que voy a saber cuándo termina el texto?"
                         ],
-                        ["conflict", "'hello"],
+                        ["conflict", "'hola"],
                         null,
                         [
                             "Text",
@@ -855,7 +855,7 @@
                             "Puedes intentar agregar otra traducción. ¡Simplemente no pongas ningún espacio entre ellos o serán dos de mí!"
                         ],
                         null,
-                        ["edit", "'I have 7 apples'"],
+                        ["edit", "'Tengo 7 manzanas'"],
                         [
                             "Text",
                             "neutral",
@@ -868,7 +868,7 @@
                             "serious",
                             "Por ejemplo, ¿@FunctionDefinition te mostró cómo el texto sabe cómo agregarse a otro texto? ¿Como esto? Esta pequeña expresión convierte \\7\\ en texto, luego lo agrega a \\'Tengo'\\ y luego agrega \\'manzanas'\\. Pero es muy desordenado, dificulta la lectura de lo que sucede y la conversión a texto parece innecesaria."
                         ],
-                        ["edit", "'I have' + (7→'') + 'apples'"],
+                        ["edit", "'Tengo' + (7→'') + 'manzanas'"],
                         null,
                         [
                             "Text",
@@ -881,14 +881,14 @@
                             "¿No es eso mucho más elegante? Puedes ponerme en cualquier lugar dentro de @Text, convertiré tus valores en texto y trabajaré con @Text para crear un @Text..",
                             "Esto hace que sea mucho más fácil escribir una prosa hermosa que utilice valores."
                         ],
-                        ["edit", "'I have \\7\\ apples'"],
+                        ["edit", "'Tengo \\7\\ manzanas'"],
                         null,
                         [
                             "Text",
                             "neutral",
                             "Y cuando digo cualquier expresión, realmente me refiero a cualquiera. Por ejemplo, imagina que quieres hacer algo de aritmética y creas un texto con el resultado. Podrías hacer esto. Esto suma varios números y luego crea texto con la suma. Realmente maravilloso, ¿no? Y mucho más elegante que \\'Tengo ' + (1 + 2 + 5 + 8) + ' manzanas'\\, con todas esas adiciones adicionales."
                         ],
-                        ["edit", "'I have \\1 + 2 + 5 + 8\\ apples'"],
+                        ["edit", "'Tengo \\1 + 2 + 5 + 8\\ manzanas'"],
                         null,
                         [
                             "Text",
@@ -915,14 +915,14 @@
                             "curious",
                             "¿Y nuestro amigo @FunctionDefinition te contó todas las maravillosas funciones que definieron para mí? Me han permitido hacer todo tipo de cosas. Uno es bastante simple: se llama @Text/length y todo lo que hace es obtener la longitud de un texto. Por ejemplo, si nos asociamos con @Evaluate aquí y nuestro pequeño amigo @PropertyReference, podemos evaluar la función de longitud sin entradas y recuperar el valor de longitud. Intente cambiar el texto y observe cómo cambia la longitud que muestra el Programa a medida que se acorta y alarga."
                         ],
-                        ["edit", "'hello'.length()"],
+                        ["edit", "'hola'.longitud()"],
                         null,
                         [
                             "Text",
                             "happy",
                             "Aquí hay otro grandioso. Me hace reír. Se llama @Text/repeat y cuando se evalúa, toma el texto en el que se evaluó y lo repite tantas veces como usted diga. Intente cambiar el número y ver qué evalúa también."
                         ],
-                        ["edit", "'hello '.repeat(5)"],
+                        ["edit", "'hola '.repetir(5)"],
                         null,
                         [
                             "Text",
@@ -943,15 +943,15 @@
                     ]
                 },
                 {
-                    "title": "Symbol in the middle",
-                    "subtitle": "Infix",
+                    "title": "Symbolo en medio",
+                    "subtitle": "Infijo",
                     "concept": "BinaryEvaluate",
                     "performance": [
                         "fit",
-                        "Group(Row() [",
-                        "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
-                        "   Phrase('+' resting:Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 1m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)) ",
-                        "   Phrase('1' resting:Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m -1m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)) ",
+                        "Grupo(Fila() [",
+                        "   Frase('1' inmóvil:Secuencia({0%: Pose(desplazamiento: Lugar(0m 1m)) 50%: Pose(desplazamiento: Lugar(0m -1m)) 100%: Pose(desplazamiento: Lugar(0m 1m))} duración: 2s)) ",
+                        "   Frase('+' inmóvil:Secuencia({0%: Pose(desplazamiento: Lugar(0m -1m)) 50%: Pose(desplazamiento: Lugar(0m 1m)) 100%: Pose(desplazamiento: Lugar(0m -1m))} duración: 2s)) ",
+                        "   Frase('1' inmóvil:Secuencia({0%: Pose(desplazamiento: Lugar(0m 1m)) 50%: Pose(desplazamiento: Lugar(0m -1m)) 100%: Pose(desplazamiento: Lugar(0m 1m))} duración: 2s)) ",
                         "])"
                     ],
                     "lines": [
@@ -967,7 +967,7 @@
                             "neutral",
                             "Por ejemplo, ¿sabías que vienen en otra forma? Las viste en forma \\function()\\, pero también tienen este hermoso truco cuando una única función de entrada se evalúa según un valor. @Evaluate lo llama @BinaryEvaluate . Por ejemplo, ¿conoces esa función de repetición que te acaba de mostrar el texto? Se veía así."
                         ],
-                        ["edit", "'hi'.repeat(5)"],
+                        ["edit", "'hi'.repetir(5)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -979,37 +979,37 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "¡Eso me recuerda a otra de las funciones de @Text! Es útil para crear un valor de texto a partir de múltiples valores de texto. Se llama \\combine\\, pero también \\+\\, y puedes usarlo para sumar palabras. Ver ¿Cómo tomé un valor de texto y luego lo evalué \\combine\\ con \\'verse'\\? Eso hizo \\'hello verse'\\."
+                            "¡Eso me recuerda a otra de las funciones de @Text! Es útil para crear un valor de texto a partir de múltiples valores de texto. Se llama \\combine\\, pero también \\+\\, y puedes usarlo para sumar palabras. Ver ¿Cómo tomé un valor de texto y luego lo evalué \\combine\\ con \\'verse'\\? Eso hizo \\'hola verse'\\."
                         ],
-                        ["edit", "'hello '.combine('verse')"],
+                        ["edit", "'hola '.combinar('verse')"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
                             "Pero es mucho más fácil usar \\+\\ para esto."
                         ],
-                        ["edit", "'hello ' + ' verse'"],
+                        ["edit", "'hola ' + ' verse'"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "Incluso puedes unirlos en una secuencia para combinar más de dos cosas."
                         ],
-                        ["edit", "'hello ' + 'verse' + '!'"],
+                        ["edit", "'hola ' + 'verse' + '!'"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "Esto es lo mismo que una serie de evaluaciones de combinar, pero sin todos los paréntesis y \\.\\, y un nombre simbólico en lugar de un nombre de palabra."
                         ],
-                        ["edit", "'hello '.combine('verse').combine('!')"],
+                        ["edit", "'hola '.combinar('verse').combinar('!')"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "También puedes usar los nombres simbólicos en este formato, pero termina luciendo un poco desordenado, ¿no?"
                         ],
-                        ["edit", "'hello '.+('verse').+('!')"],
+                        ["edit", "'hola '.+('verse').+('!')"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1027,27 +1027,27 @@
                     ]
                 },
                 {
-                    "title": "Yes and no",
-                    "subtitle": "Truth",
+                    "title": "Sí y No",
+                    "subtitle": "Verdad",
                     "concept": "Boolean",
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('⊤') Phrase('⊥')] resting:Sequence({ 0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s))"
+                        "Grupo(Fila() [Frase('⊤') Frase('⊥')] inmóvil:Secuencia({ 0%: Pose(rotación: 0°) 50%: Pose(rotación: 180°) 100%: Pose(rotación: 360°)} duración: 2s))"
                     ],
                     "lines": [
-                        ["fit", "Stage([])"],
+                        ["fit", "Escenario([])"],
                         [
                             "FunctionDefinition",
                             "curious",
                             "\\⊤\\! \\⊥\\! ¿Están ustedes dos por aquí? Suelen estar por todos lados, pero no los veo por ningún lado."
                         ],
                         null,
-                        ["⊤", "precise", "Right here."],
-                        ["⊥", "precise", "Not there."],
+                        ["⊤", "precise", "Aquí."],
+                        ["⊥", "precise", "Ahí no."],
                         [
                             "fit",
-                            "multiple: 10",
-                            "Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph color: Color(75% 0 0°))))])"
+                            "múltiple: 10",
+                            "Escenario([Grupo(Cuadrícula(múltiple múltiple) ('⊤⊥'.repetir(múltiple ^ 2) ÷ '').traducir(ƒ(glyph•'') Frase(glyph color: Color(75% 0 0°))))])"
                         ],
                         null,
                         [
@@ -1055,40 +1055,40 @@
                             "scared",
                             "¡Oh, me asustaste! Sabía que ustedes dos no estarían muy separados. ¿Cómo han estado ustedes dos en nuestro largo silencio?"
                         ],
-                        ["⊤", "precise", "Very good!"],
-                        ["⊥", "precise", "Not bad."],
+                        ["⊤", "precise", "¡Muy bien!"],
+                        ["⊥", "precise", "Nada mal."],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
                             "¿No estás solo? Todas las personas con las que he estado hablando, @Program, @ExpressionPlaceholder, @Evaluate, se han sentido muy aisladas. (A excepción de @UnparsableExpression, parecen estar bien en casi cualquier lugar)."
                         ],
-                        ["⊤", "precise", "We have each other."],
-                        ["⊥", "precise", "We're not alone."],
+                        ["⊤", "precise", "Nos tenemos el uno al otro."],
+                        ["⊥", "precise", "No estamos solos."],
                         null,
                         [
                             "FunctionDefinition",
                             "happy",
                             "Bueno, es genial escuchar eso. Es bueno estar contigo de nuevo. Quería presentarles a nuestro nuevo quizás director. Han estado conociendo a todo el mundo, aprendiendo cómo actuar con nosotros. ¿Quieres contarles a qué te dedicas?"
                         ],
-                        ["⊤", "precise", "I am true."],
-                        ["⊥", "precise", "I am false."],
+                        ["⊤", "precise", "Soy verdad."],
+                        ["⊥", "precise", "Y soy falso."],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
                             "Sí, pero ¿qué haces tu?"
                         ],
-                        ["⊤", "precise", "I am just true."],
-                        ["⊥", "precise", "And I am not true."],
+                        ["⊤", "precise", "Soy cierto."],
+                        ["⊥", "precise", "Y no soy cierto."],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
                             "Mmm. Supongo que eso es verdad. Pero haces algunas cosas, ¿verdad? Pensé que había hecho algunas funciones para ti."
                         ],
-                        ["⊤", "precise", "Ah yes, three."],
-                        ["⊥", "precise", "Not more, not less."],
+                        ["⊤", "precise", "Ah sí, tres."],
+                        ["⊥", "precise", "No más, no menos."],
                         null,
                         ["edit", "(⊤ & ⊤) = ⊤"],
                         [
@@ -1140,8 +1140,8 @@
                             "excited",
                             "¿Pero el otro era @Boolean/not?"
                         ],
-                        ["⊤", "precise", "Correct. \\~⊤ = ⊥\\."],
-                        ["⊥", "precise", "Not wrong. \\~⊥ = ⊤\\."],
+                        ["⊤", "precise", "Correcta. \\~⊤ = ⊥\\."],
+                        ["⊥", "precise", "No esta mal. \\~⊥ = ⊤\\."],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -1150,16 +1150,16 @@
                         null,
                         [
                             "fit",
-                            "multiple:10",
-                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph color: Color(75% 0 0°))))])"
+                            "desplazamiento:10",
+                            "Escenario([Grupo(Cuadrícula(múltiple múltiple) ('⊤⊥'.repetir(múltiple ^ 2) ÷ '').traducir(ƒ(glyph•'') Frase(glyph color: Color(75% 0 0°))))])"
                         ],
                         [
                             "FunctionDefinition",
                             "curious",
                             "¿Y para qué eres útil en nuestras actuaciones?"
                         ],
-                        ["⊤", "precise", "Ask @Conditional."],
-                        ["⊥", "precise", "Don't ask us."],
+                        ["⊤", "precise", "Pregunta @Conditional."],
+                        ["⊥", "precise", "No nos preguntes."],
                         null,
                         [
                             "FunctionDefinition",
@@ -1169,8 +1169,8 @@
                         null,
                         [
                             "fit",
-                            "multiple:10",
-                            "                        Stage([Group(Grid(multiple multiple) ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(ƒ(glyph•'') Phrase(glyph color: Color(75% 0 0°) rotation: 90°)))])"
+                            "desplazamiento:10",
+                            "Escenario([Grupo(Cuadrícula(múltiple múltiple) ('⊤⊥'.repetir(múltiple ^ 2) ÷ '').traducir(ƒ(glyph•'') Frase(glyph color: Color(75% 0 0°) rotación: 90°)))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -1182,30 +1182,30 @@
                         null,
                         [
                             "fit",
-                            "multiple:10",
-                            "                        Stage(",
+                            "desplazamiento:10",
+                            "                        Escenario(",
                             "                        [",
-                            "                        Group(",
-                            "                        Grid(multiple multiple) ",
-                            "                        ('⊤⊥'.repeat(multiple ^ 2) ÷ '').translate(",
+                            "                        Grupo(",
+                            "                        Cuadrícula(múltiple múltiple) ",
+                            "                        ('⊤⊥'.repetir(múltiple ^ 2) ÷ '').traducir(",
                             "                        ƒ(glyph•'') ",
-                            "                        Phrase(glyph resting:Pose(",
+                            "                        Frase(glyph inmóvil:Pose(",
                             "                            color: Color(75% 0 0°) ",
-                            "                            rotation: 90° ",
-                            "                            offset:Place(0m (Time() ^ 2) · -0.000025m/ms^2))",
+                            "                            rotación: 90° ",
+                            "                            desplazamiento:Lugar(0m (Tiempo() ^ 2) · -0.000025m/ms^2))",
                             "                        )))])"
                         ],
                         ["⊤", "precise", "… no."],
                         ["⊥", "precise", "… no."],
                         null,
-                        ["fit", "Stage([])"],
+                        ["fit", "Escenario([])"],
                         [
                             "FunctionDefinition",
                             "serious",
                             "Hmm, ok. ¡Valió la pena intentarlo! Quizás haya otras formas de expresar estas ideas en las que no he pensado. O tal vez simplemente hay límites a lo que los datos pueden representar... ¿Estarán bien ustedes dos si salimos y encontramos otras expresiones?"
                         ],
-                        ["⊤", "precise", "We are okay."],
-                        ["⊥", "precise", "Not a problem."],
+                        ["⊤", "precise", "Estamos bien."],
+                        ["⊥", "precise", "No es un problema."],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -1214,16 +1214,16 @@
                     ]
                 },
                 {
-                    "title": "Let me count the ways",
-                    "subtitle": "Numbers",
+                    "title": "Déjame contar las formas",
+                    "subtitle": "Números",
                     "concept": "Number",
                     "performance": [
                         "fit",
                         "numbers•[#]: 25 → []",
-                        "Group(Grid(5 5) numbers.translate(",
+                        "Grupo(Cuadrícula(5 5) numbers.traducir(",
                         "    ƒ (n•#) ",
                         "        (",
-                        "            Phrase(",
+                        "            Frase(",
                         "                n → ''    ",
                         "            )",
                         "        )",
@@ -1241,16 +1241,16 @@
                         [
                             "fit",
                             "numbers•[#]:25 → []",
-                            "                        Group(Grid(5 5) numbers.translate(",
+                            "                        Grupo(Cuadrícula(5 5) numbers.traducir(",
                             "                            ƒ (n•#) ",
                             "                                (",
-                            "                                    off:Random(-3 3) · 1m",
-                            "                                    Phrase(",
+                            "                                    off:Azar(-3 3) · 1m",
+                            "                                    Frase(",
                             "                                        n → '' ",
-                            "                                        resting:Sequence({",
-                            "                                                    0%:Pose(offset: Place(z: 0m)) ",
-                            "                                                    50%:Pose(offset: Place(z: off)) ",
-                            "                                                    100%:Pose(offset: Place(z:0m))",
+                            "                                        inmóvil:Secuencia({",
+                            "                                                    0%:Pose(desplazamiento: Lugar(z: 0m)) ",
+                            "                                                    50%:Pose(desplazamiento: Lugar(z: off)) ",
+                            "                                                    100%:Pose(desplazamiento: Lugar(z:0m))",
                             "                                                } 1s)",
                             "                                    ))",
                             "                                )",
@@ -1261,7 +1261,7 @@
                             "eager",
                             "Deberíamos encontrarnos con @Number a continuación. Siempre tienen cosas muy interesantes para compartir. Hola @Number, ¿estás por aquí?"
                         ],
-                        ["Number", "kind", "Just 3 steps away!"],
+                        ["Number", "kind", "¡A solo 3 pasos de distancia!"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1298,25 +1298,25 @@
                         ],
                         ["edit", "1"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "1.0"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "1.01"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "∞"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "π"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "Ⅶ"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "万十一"],
                         null,
-                        ["Number", "excited", "Or…"],
+                        ["Number", "excited", "O…"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -1328,18 +1328,18 @@
                             "excited",
                             "¡Oh, sí, *unidades*! Simplemente coloca algunos símbolos después de un número y realizaré un seguimiento de lo que se cuenta. Como esto."
                         ],
-                        ["edit", "1dolphin"],
+                        ["edit", "1delfín"],
                         null,
-                        ["Number", "excited", "Or this."],
-                        ["edit", "1.0thunderstorm"],
+                        ["Number", "excited", "O esto."],
+                        ["edit", "1.0tormenta"],
                         null,
-                        ["Number", "excited", "Or this."],
-                        ["edit", "∞kittens"],
+                        ["Number", "excited", "O esto."],
+                        ["edit", "∞gatitas"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "1.01toes"],
                         null,
-                        ["Number", "excited", "Or…"],
+                        ["Number", "excited", "O…"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -1358,17 +1358,17 @@
                         ],
                         ["edit", "1 + 1"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "1000 + 9999"],
                         null,
-                        ["Number", "excited", "Or this."],
-                        ["edit", "1kitty + 2kitty"],
+                        ["Number", "excited", "O esto."],
+                        ["edit", "1gatita + 2gatita"],
                         null,
-                        ["Number", "excited", "Or this."],
+                        ["Number", "excited", "O esto."],
                         ["edit", "-5s + 5s"],
                         null,
-                        ["Number", "excited", "Or this."],
-                        ["conflict", "2apple + 5orange"],
+                        ["Number", "excited", "O esto."],
+                        ["conflict", "2manzana + 5naranja"],
                         null,
                         [
                             "FunctionDefinition",
@@ -1386,7 +1386,7 @@
                             "neutral",
                             "Eso es genial. @Number, ¡eres tan bueno con los números! Veo a @Number aparecer en muchas actuaciones donde la ubicación importa, y en muchos juegos en los que llevamos la cuenta de puntuaciones o vidas u otras cosas contables. . @Number, ¿hay algo más que quieras compartir con nuestro nuevo director?"
                         ],
-                        ["Number", "serious", "192 other neat tricks."],
+                        ["Number", "serious", "192 otros trucos ordenados "],
                         null,
                         [
                             "FunctionDefinition",
@@ -1401,8 +1401,8 @@
                     ]
                 },
                 {
-                    "title": "Opening (re)marks",
-                    "subtitle": "Prefix",
+                    "title": "(Re)marcas de apertura",
+                    "subtitle": "Prefijo",
                     "concept": "UnaryEvaluate",
                     "performance": ["use", "fit", "Symbol", "~"],
                     "lines": [
@@ -1415,7 +1415,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "… ¿Sabes que te decía que pueden evaluar cualquier función con paréntesis \\1.add(1)\\, pero también dos funciones de entrada con operadores infijos \\1 + 1\\? Bueno, tienen un truco más para funciones con una sola entrada: el formato unario."
+                            "… ¿Sabes que te decía que pueden evaluar cualquier función con paréntesis \\1.sumar(1)\\, pero también dos funciones de entrada con operadores infijos \\1 + 1\\? Bueno, tienen un truco más para funciones con una sola entrada: el formato unario."
                         ],
                         null,
                         [
@@ -1434,7 +1434,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "El otro es similar, pero para negar \\⊤\\ y \\⊥\\: es como un pequeño garabato menos, \\~\\ que simplemente convierte verdadero en falso y falso en verdadero. Por ejemplo, este pequeño La expresión evalúa \\⊤ | ⊥\\, que es \\⊤\\, luego invierte \\⊤\\ a \\⊥\\. Esto es lo mismo que decir \\(⊤ | ⊥).not() \\, pero mucho más elegante."
+                            "El otro es similar, pero para negar \\⊤\\ y \\⊥\\: es como un pequeño garabato menos, \\~\\ que simplemente convierte verdadero en falso y falso en verdadero. Por ejemplo, este pequeño La expresión evalúa \\⊤ | ⊥\\, que es \\⊤\\, luego invierte \\⊤\\ a \\⊥\\. Esto es lo mismo que decir \\(⊤ | ⊥).no() \\, pero mucho más elegante."
                         ],
                         ["edit", "~(⊤ | ⊥)"],
                         null,
@@ -1451,7 +1451,7 @@
                     "concept": "None",
                     "performance": [
                         "fix",
-                        "Phrase('ø' size: 5m place: Motion(velocity: Velocity(y: 5m/s)))"
+                        "Frase('ø' tamaño: 5m lugar: Movimiento(velocity: Velocidad(y: 5m/s)))"
                     ],
                     "lines": [
                         [
@@ -1503,7 +1503,7 @@
                         ],
                         ["edit", "ø = ø"],
                         null,
-                        ["edit", "Phrase('hi' face: ø)"],
+                        ["edit", "Frase('hi' fuente: ø)"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -1526,18 +1526,18 @@
             ]
         },
         {
-            "title": "Ensembles",
+            "title": "Conjuntos",
             "performance": [
                 "fit",
-                "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
+                "Grupo(Fila('|' (Tiempo() ÷ 500).sin() · 1m) [Frase('[]') Frase('{}') Frase('{:}')])"
             ],
             "scenes": [
                 {
-                    "title": "Community values",
+                    "title": "Valores de la comunidad",
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Group(Row() [Phrase('[') Phrase(' .' · (Time() ÷ 100ms)) Phrase(']')])"
+                        "Grupo(Fila() [Frase('[') Frase(' .' · (Tiempo() ÷ 100ms)) Frase(']')])"
                     ],
                     "lines": [
                         [
@@ -1547,7 +1547,7 @@
                         ],
                         [
                             "fit",
-                            "Group(Stack() [Phrase('\"\"') Phrase('⊤⊥') Phrase('#') Phrase('ø')])"
+                            "Grupo(Pila() [Frase('\"\"') Frase('⊤⊥') Frase('#') Frase('ø')])"
                         ],
                         null,
                         [
@@ -1557,7 +1557,7 @@
                         ],
                         [
                             "fit",
-                            "Group(Row() [Phrase('[') Phrase('\"hi\"') Phrase('⊤') Phrase('42') Phrase('ø') Phrase(']') ])"
+                            "Grupo(Fila() [Frase('[') Frase('\"hi\"') Frase('⊤') Frase('42') Frase('ø') Frase(']') ])"
                         ],
                         null,
                         [
@@ -1569,14 +1569,14 @@
                     ]
                 },
                 {
-                    "title": "Places, everyone!",
-                    "subtitle": "Lists",
+                    "title": "¡Lugares, todos!",
+                    "subtitle": "Listas",
                     "concept": "List",
                     "performance": [
                         "fit",
-                        "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
-                        "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row() [Phrase('[' resting:clockwise) Phrase(']' resting:counter) ])"
+                        "clockwise: Secuencia({0%: Pose(rotación: 0°) 50%: Pose(rotación: 180°) 100%: Pose(rotación: 360°)} duración: 2s)",
+                        "                    counter: Secuencia({0%: Pose(rotación: 0°) 50%: Pose(rotación: -180°) 100%: Pose(rotación: -360°)} duración: 2s)",
+                        "                    Grupo(Fila() [Frase('[' inmóvil:clockwise) Frase(']' inmóvil:counter) ])"
                     ],
                     "lines": [
                         [
@@ -1591,9 +1591,9 @@
                         ],
                         [
                             "fit",
-                            "up: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)",
-                            "                        down: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)",
-                            "                        Group(Row() [Phrase('[' resting:up) Phrase(']' resting:down)])"
+                            "up: Secuencia({0%: Pose(desplazamiento: Lugar(0m -1m)) 50%: Pose(desplazamiento: Lugar(0m 0m)) 100%: Pose(desplazamiento: Lugar(0m -1m))} duración: 2s)",
+                            "                        down: Secuencia({0%: Pose(desplazamiento: Lugar(0m 1m)) 50%: Pose(desplazamiento: Lugar(0m 0m)) 100%: Pose(desplazamiento: Lugar(0m 1m))} duración: 2s)",
+                            "                        Grupo(Fila() [Frase('[' inmóvil:up) Frase(']' inmóvil:down)])"
                         ],
                         null,
                         [
@@ -1608,9 +1608,9 @@
                         ],
                         [
                             "fit",
-                            "up: Sequence({0%: Pose(offset: Place(0m 1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 1m))} duration: 2s)",
-                            "                        down: Sequence({0%: Pose(offset: Place(0m -1m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m -1m))} duration: 2s)",
-                            "                        Group(Row() [Phrase('[' resting:up) Phrase(']' resting:down)])"
+                            "up: Secuencia({0%: Pose(desplazamiento: Lugar(0m 1m)) 50%: Pose(desplazamiento: Lugar(0m 0m)) 100%: Pose(desplazamiento: Lugar(0m 1m))} duración: 2s)",
+                            "                        down: Secuencia({0%: Pose(desplazamiento: Lugar(0m -1m)) 50%: Pose(desplazamiento: Lugar(0m 0m)) 100%: Pose(desplazamiento: Lugar(0m -1m))} duración: 2s)",
+                            "                        Grupo(Fila() [Frase('[' inmóvil:up) Frase(']' inmóvil:down)])"
                         ],
                         null,
                         [
@@ -1620,16 +1620,16 @@
                         ],
                         [
                             "fit",
-                            "wobble: Sequence({0%: Pose(offset: Place(0m)) 25%: Pose(offset: Place(-.1m)) 50%: Pose(offset: Place(.2m)) 75%: Pose(offset: Place(-.3m)) 100%: Pose(offset: Place(0m))} duration: 0.1s)",
-                            "Group(Row() [Phrase('[' resting:wobble) Phrase(']' resting:wobble)])"
+                            "wobble: Secuencia({0%: Pose(desplazamiento: Lugar(0m)) 25%: Pose(desplazamiento: Lugar(-.1m)) 50%: Pose(desplazamiento: Lugar(.2m)) 75%: Pose(desplazamiento: Lugar(-.3m)) 100%: Pose(desplazamiento: Lugar(0m))} duración: 0.1s)",
+                            "Grupo(Fila() [Frase('[' inmóvil:wobble) Frase(']' inmóvil:wobble)])"
                         ],
                         [
                             "List",
                             "excited",
                             "¡Esto es increíble! Es genial conocerte nuevo director."
                         ],
-                        ["List", "excited", "You want to know what I do?"],
-                        ["FunctionDefinition", "neutral", "Yeah, tell them!"],
+                        ["List", "excited", "¿Quieres saber lo que hago?"],
+                        ["FunctionDefinition", "neutral"," ¡Sí, diles!"],
                         null,
                         [
                             "List",
@@ -1681,14 +1681,14 @@
                             "neutral",
                             "Sí, pero @FunctionDefinition, todo eso lo haces tú. ¡Tú representas todas estas hermosas funciones para mí que me permiten hacer todo tipo de cosas! Como @List/reverse, oh, esta es maravillosa y simple. Solo requiere mi valores y los pone en el orden opuesto."
                         ],
-                        ["edit", "[ 1 2 3 4 5 ].reverse()"],
+                        ["edit", "[ 1 2 3 4 5 ].inverso()"],
                         null,
                         [
                             "List",
                             "excited",
                             "Y este es divertido: @List/sans simplemente elimina todos los valores iguales al valor dado. ¿Ves cómo no quedan ceros en la lista resultante?"
                         ],
-                        ["edit", "[ 1 0 1 0 1 ].sans(0)"],
+                        ["edit", "[ 1 0 1 0 1 ].sin(0)"],
                         null,
                         [
                             "List",
@@ -1715,7 +1715,7 @@
                         ],
                         [
                             "edit",
-                            "['cat' 'dog' 'mouse' 'parrot' 'snake'].random()"
+                            "['gato' 'dog' 'mouse' 'parrot' 'snake'].azar()"
                         ],
                         null,
                         [
@@ -1731,14 +1731,14 @@
                     ]
                 },
                 {
-                    "title": "One of each",
-                    "subtitle": "Sets",
+                    "title": "Uno de cada uno",
+                    "subtitle": "Conjuntos",
                     "concept": "Set",
                     "performance": [
                         "fit",
-                        "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
-                        "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row() [Phrase('{' resting:clockwise) Phrase('}' resting:counter) ])"
+                        "clockwise: Secuencia({0%: Pose(rotación: 0°) 50%: Pose(rotación: 180°) 100%: Pose(rotación: 360°)} duración: 2s)",
+                        "                    counter: Secuencia({0%: Pose(rotación: 0°) 50%: Pose(rotación: -180°) 100%: Pose(rotación: -360°)} duración: 2s)",
+                        "                    Grupo(Fila() [Frase('{' inmóvil:clockwise) Frase('}' inmóvil:counter) ])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -1813,7 +1813,7 @@
                             "Yes, @Set/difference.",
                             "Cuando estamos evaluando un conjunto y nos pasan otro conjunto, remueve todos los elementos que estan en el cojunto dado, en el conjunto al que estamos evaluando(Hmm, esas son palabras muy confusas, pero esto es lo que quiero decir). Aqui estan un ejemplo. Mire el resultado es el conjuton que solo tienen \\{3}\\? Ese es el unico valor que queda despues de remover los valorers \\{ 1 2 }\\."
                         ],
-                        ["edit", "{ 1 2 3 }.difference({ 1 2 })"],
+                        ["edit", "{ 1 2 3 }.diferencia({ 1 2 })"],
                         null,
                         [
                             "Set",
@@ -1849,14 +1849,14 @@
                     ]
                 },
                 {
-                    "title": "One to one",
-                    "subtitle": "Mappings",
+                    "title": "Cara a cara",
+                    "subtitle": "Mapeos",
                     "concept": "Map",
                     "performance": [
                         "fit",
-                        "clockwise: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 180°) 100%: Pose(rotation: 360°)} duration: 2s)",
-                        "                    counter: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: -180°) 100%: Pose(rotation: -360°)} duration: 2s)",
-                        "                    Group(Row() [Phrase('{' resting:clockwise) Phrase(':') Phrase('}' resting:counter) ])"
+                        "clockwise: Secuencia({0%: Pose(rotación: 0°) 50%: Pose(rotación: 180°) 100%: Pose(rotación: 360°)} duración: 2s)",
+                        "                    counter: Secuencia({0%: Pose(rotación: 0°) 50%: Pose(rotación: -180°) 100%: Pose(rotación: -360°)} duración: 2s)",
+                        "                    Grupo(Fila() [Frase('{' inmóvil:clockwise) Frase(':') Frase('}' inmóvil:counter) ])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2000,22 +2000,22 @@
             "title": "Fiesta de reparto",
             "performance": [
                 "fix",
-                "count: 32",
+                "cuenta: 32",
                 "",
-                "gravity•#m/s^2: 15m/s^2",
+                "gravedad•#m/s^2: 15m/s^2",
                 "",
-                "Stage(count → [].translate(",
+                "Escenario(cuenta → [].traducir(",
                 "   ƒ(_) ",
-                "       Phrase(",
-                "           '→?' → [].random()",
-                "           place: Motion(",
-                "               Place(y: 10m)",
-                "               Velocity(Random(-5 5) · 1m/s angle: Random(0 360) · 1°/s)",
+                "       Frase(",
+                "           '→?' → [].azar()",
+                "           lugar: Movimiento(",
+                "               Lugar(y: 10m)",
+                "               Velocidad(Azar(-5 5) · 1m/s ángulo: Azar(0 360) · 1°/s)",
                 "           )",
-                "           matter: Matter(bounciness: Random())",
+                "           materia: Materia(elasticidad: Azar())",
                 "       )",
                 "   )",
-                "   gravity: gravity",
+                "   gravedad: gravedad",
                 ")"
             ],
             "scenes": [
@@ -2047,9 +2047,9 @@
                 },
                 {
                     "title": "Nosotros podemos ser lo que sea",
-                    "subtitle": "Convert",
+                    "subtitle": "Convertir",
                     "concept": "Convert",
-                    "performance": ["use", "fix", "FlyIn", "→"],
+                    "performance": ["use", "fix", "VolarAdentro", "→"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
                         [
@@ -2119,14 +2119,14 @@
                             "serious",
                             "¿Pero @Number y yo? Hemos estado practicando algunos trucos muy enfermizos. ¿Dices que tienes algo de tiempo en días y quieres unos segundos? Te tenemos."
                         ],
-                        ["edit", "5day → #s"],
+                        ["edit", "5día → #s"],
                         null,
                         [
                             "Convert",
                             "excited",
                             "¿Pero los verdaderos trucos? Encadenamiento. Como múltiples conversiones seguidas. Mira este. Días a segundos para enviar mensajes de texto a una lista, todo en una sola cadena. Ahora tenemos una lista de dígitos. ¡Si!"
                         ],
-                        ["edit", "1day → #s → '' → []"],
+                        ["edit", "1día → #s → '' → []"],
                         null,
                         [
                             "Convert",
@@ -2175,9 +2175,9 @@
                             "¿Como si todo se tratara de convertir entradas en salidas?"
                         ],
                         null,
-                        ["FunctionDefinition", "serious", "I guess so?"],
+                        ["FunctionDefinition", "serious", "¿Supongo que sí?"],
                         ["Convert", "surprised", "🤯"],
-                        ["edit", "Phrase('🤯')"],
+                        ["edit", "Frase('🤯')"],
                         null,
                         ["use", "fit", "Symbol", "🤯"],
                         [
@@ -2205,10 +2205,10 @@
                     ]
                 },
                 {
-                    "title": "How to choose?",
-                    "subtitle": "Decisions",
+                    "title": "¿Como escoger?",
+                    "subtitle": "Decisiones",
                     "concept": "Conditional",
-                    "performance": ["use", "fix", "FlyIn", "?"],
+                    "performance": ["use", "fix", "VolarAdentro", "?"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
                         [
@@ -2252,7 +2252,7 @@
                             "kind",
                             "Pienso que si. Es más como si el director codificara la decisión, pero luego te la delega. Tú te conviertes en quien decide. ¿Quieres mostrar un ejemplo?"
                         ],
-                        ["Conditional", "curious", "Like this?"],
+                        ["Conditional", "curious", "¿Como esto?"],
                         ["conflict", "_•? ? _ _"],
                         [
                             "FunctionDefinition",
@@ -2261,14 +2261,14 @@
                             "¿Ves que el formato de @Conditional tiene cuatro partes? Primero hay una *condición*, que debe ser @Boolean. Luego está \\?\\. Luego está la expresión *sí*, luego una expresión *no*. Lo que hace @Conditional es evaluar la condición, y si es \\⊤\\, evalúan la expresión *sí*. De lo contrario, evalúan la expresión /no/. ¡Es una forma tan poderosa de decidir!"
                         ],
                         null,
-                        ["edit", "1 > 5 ? 'more' 'less'"],
+                        ["edit", "1 > 5 ? 'mas' 'menos'"],
                         [
                             "FunctionDefinition",
                             "excited",
                             "¿Puedes darnos un ejemplo más específico?"
                         ],
-                        ["Conditional", "curious", "Something like this?"],
-                        ["edit", "1 > 5 ? 'less' 'more'"],
+                        ["Conditional", "curious", "¿Algo como esto?"],
+                        ["edit", "1 > 5 ? 'menos' 'mas'"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2281,7 +2281,7 @@
                             "curious",
                             "¿Confiable? ¿Tal vez? Si aceptas que yo decido lo que me diga el director, entonces sí, pero ¿y si el director me dice esto? ¿Es realmente una decisión que el número nunca puede ser mayor que \\3\\?"
                         ],
-                        ["edit", "[1 2 3].random() > 3 ? 'big' 'small'"],
+                        ["edit", "[1 2 3].azar() > 3 ? 'gran' 'pequeño'"],
                         [
                             "FunctionDefinition",
                             "confused",
@@ -2294,14 +2294,14 @@
                             "¿Con cuidado? ¿Escéptico, tal vez? ¿Has pensado en mis buenos amigos @BooleanLiteral? ¿Cómo es posible que su visión del mundo sea suficiente para representar todas las decisiones que podríamos querer tomar? ¿Qué pasaría si, por ejemplo, quisiéramos una actuación que tomara el nombre de alguien y decidiera si es hermosa o no? ¿Es esa una decisión verdadera o falsa? ¿Es esa siquiera una decisión que deberíamos tomar? ¿No parece tremendamente reduccionista y parcial?",
                             "Director, ¿qué letras cree que hacen hermoso un nombre?"
                         ],
-                        ["edit", "'Verse'.has('e') ? 'beautiful' 'ugly'"],
+                        ["edit", "'Verse'.tiene('e') ? 'hermosa' 'fea'"],
                         null,
                         [
                             "Conditional",
                             "curious",
                             "Y piense en las preguntas que respondo: ¿por qué solo puedo responder a \\⊤\\ y \\⊥\\? ¿Por qué no un número? ¿No tengo derecho a decidir si \\1\\ es hermoso?"
                         ],
-                        ["conflict", "1 ? 'beautiful' 'ugly'"],
+                        ["conflict", "1 ? 'hermosa' 'fea'"],
                         null,
                         ["use", "fit", "SpinningInTheDark", "?"],
                         [
@@ -2332,18 +2332,18 @@
             ]
         },
         {
-            "title": "Scene change",
-            "performance": ["use", "fit", "TakeTheMic"],
+            "title": "Cambio de escena",
+            "performance": ["use", "fit", "TomaElMicrófono"],
             "scenes": [
                 {
-                    "title": "Input",
+                    "title": "Entrada",
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         [
                             "fix",
-                            "amp: (Volume() · 10)",
-                            "Phrase('.'.repeat(amp.roundDown()) resting:Pose(scale: amp))"
+                            "amp: (Volumen() · 10)",
+                            "Frase('.'.repetir(amp.rondearBajo()) inmóvil:Pose(escala: amp))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2369,7 +2369,7 @@
                 },
                 {
                     "title": "Tick, tick, tick...",
-                    "subtitle": "Time",
+                    "subtitle": "Tiempo",
                     "concept": "Time",
                     "performance": ["use", "fit", "Symbol", "🕦"],
                     "lines": [
@@ -2379,7 +2379,7 @@
                             "Empecemos por la corriente más elemental de todas: @Time. Para crear una transmisión, usamos @Evaluate y le damos el nombre del tipo de transmisión que desea."
                         ],
                         ["Time", "neutral", "tick tick tick tick tick…"],
-                        ["edit", "Time()"],
+                        ["edit", "Tiempo()"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2394,7 +2394,7 @@
                             "¿Ves eso \\1000ms\\? Es un @Time/frequency que le dice a @Time que marque cada 1000 milisegundos en lugar del valor predeterminado de cada 33 milisegundos, que es el valor predeterminado. Ahora es como un contador que marca cada segundo. Estas entradas que toma @Time son como una configuración: le dicen a la transmisión cómo comportarse."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
-                        ["edit", "Time(1000ms)"],
+                        ["edit", "Tiempo(1000ms)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2402,7 +2402,7 @@
                             "Pero podemos utilizar todos los maravillosos personajes que hemos conocido para transformar aún más el tiempo. Por ejemplo, ¿qué pasaría si quisiéramos saber si el tiempo es múltiplo de \\2\\? Podríamos usar @Number/remainder, que obtiene el resto de una división. Si el resto es cero, lo evaluaremos como \\⊤\\ y \\⊥\\ en caso contrario. ¿Ves cómo cambia entre \\⊤\\ y \\⊥\\? Es tan mágico."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
-                        ["edit", "(Time(1000ms) % 5) = 2ms"],
+                        ["edit", "(Tiempo(1000ms) % 5) = 2ms"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2417,7 +2417,7 @@
                             "Intente arrastrar la línea de tiempo @UI/timeline, usando los botones de la línea de tiempo, usando las teclas de flecha con la línea de tiempo enfocada o presionando los botones ⏸️ y ▶️ @UI/playToggle. Puedes retroceder en el tiempo, para ver evaluaciones anteriores. Las flechas discontinuas pasan a entradas de flujo anteriores y futuras. Los sólidos avanzan entre diferentes pasos del programa. Intente navegar por el tiempo y ver lo que muestra el programa. Así es como puedes ver todas las bellas expresiones que has aprendido sobre cómo ser evaluado por @Evaluate, paso a paso, lo que da como resultado el valor final que @Program muestra en el escenario."
                         ],
                         ["Time", "neutral", "tick… tick… tick… tick… tick…"],
-                        ["edit", "Time(1000ms)"],
+                        ["edit", "Tiempo(1000ms)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2427,14 +2427,14 @@
                     ]
                 },
                 {
-                    "title": "Clickity clack",
-                    "subtitle": "Key",
+                    "title": "Clic clic",
+                    "subtitle": "Tecla",
                     "concept": "Key",
                     "performance": ["use", "fit", "Symbol", "⌨️"],
                     "lines": [
                         [
                             "fit",
-                            "Phrase('⌨️' resting:Sequence({0%: Pose(rotation: -5°) 25%: Pose(rotation: 0°) 50%: Pose(rotation: 5°) 75%: Pose(rotation: 0°) 100%: Pose(rotation: -5°)} 1s 'straight'))"
+                            "Frase('⌨️' inmóvil:Secuencia({0%: Pose(rotación: -5°) 25%: Pose(rotación: 0°) 50%: Pose(rotación: 5°) 75%: Pose(rotación: 0°) 100%: Pose(rotación: -5°)} 1s 'straight'))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2447,43 +2447,43 @@
                             "neutral",
                             "He aquí un ejemplo sencillo. Haga clic en el escenario o enfóquelo con el teclado y luego presione cualquier tecla del teclado. Verás que la clave que has escrito aparece por nombre. Esto se debe a que cada vez que cambia el flujo de claves, @Program evalúa el flujo de claves como su último valor y luego lo muestra en el escenario."
                         ],
-                        ["Key", "neutral", "clickety clickety clickety"],
-                        ["edit", "Key()"],
+                        ["Key", "neutral", "clic clic clic"],
+                        ["edit", "Tecla()"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
                             "Esta transmisión cambiará cada vez que se presione cualquier tecla. Pero puede indicarle a una secuencia de claves que cambie simplemente cuando se presiona una tecla en particular. ¿Ves cómo la secuencia cambia a \\a\\ la primera vez, pero luego no cambia después? Esto se debe a que esta secuencia solo cambia cuando se presiona \\a\\, por lo que siempre muestra \\a\\. Pero siempre verá aparecer el nuevo valor clave en la línea de tiempo."
                         ],
-                        ["Key", "neutral", "clickety 'a'…"],
-                        ["edit", "Key('a')"],
+                        ["Key", "neutral", "clic 'a'…"],
+                        ["edit", "Tecla('a')"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
                             "A veces es útil saber cuándo se suelta una tecla, en lugar de presionarla. Simplemente pase \\⊥\\ para decirle a la transmisión @Key que debe saber cuándo se suelta una tecla en lugar de presionarla. Ahora, mantén presionada la tecla 'a' y luego, cuando la sueltes, verás que la 'a' aparece en el escenario. ¿No lo entendiste? Presione el botón ↻ para restablecer el rendimiento e inténtelo nuevamente."
                         ],
-                        ["Key", "neutral", "clickety 'a'…"],
-                        ["edit", "Key('a' ⊥)"],
+                        ["Key", "neutral", "clic 'a'…"],
+                        ["edit", "Tecla('a' ⊥)"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "Las transmisiones @Key son realmente útiles cuando desea que una actuación reaccione a las teclas que presiona la audiencia. Por ejemplo, puede verificar si una tecla tiene la palabra 'Flecha' para decidir si se presionó una tecla de flecha. Presione una tecla de flecha y verá \\'mover'\\, presione otra cosa y verá \\'quedarse'\\"
                         ],
-                        ["Key", "neutral", "clickety 'Arrow'…"],
-                        ["edit", "Key().has('Arrow') ? 'move' 'stay'"]
+                        ["Key", "neutral", "clic 'Arrow'…"],
+                        ["edit", "Tecla().tiene('Arrow') ? 'move' 'stay'"]
                     ]
                 },
                 {
                     "title": "Hummmmmmm…",
-                    "subtitle": "Pointer",
+                    "subtitle": "Puntero",
                     "concept": "Pointer",
                     "performance": ["use", "fit", "Symbol", "👆🏻"],
                     "lines": [
                         [
                             "fix",
-                            "Phrase('👆🏻' resting:Sequence({0%: Pose(offset: Place(0m 0m)) 25%: Pose(offset: Place(-1m 1m)) 50%: Pose(offset: Place(1m 1m)) 75%: Pose(offset: Place(1m 0m)) 100%: Pose(offset: Place(0m 0m))} 3s))"
+                            "Frase('👆🏻' inmóvil:Secuencia({0%: Pose(desplazamiento: Lugar(0m 0m)) 25%: Pose(desplazamiento: Lugar(-1m 1m)) 50%: Pose(desplazamiento: Lugar(1m 1m)) 75%: Pose(desplazamiento: Lugar(1m 0m)) 100%: Pose(desplazamiento: Lugar(0m 0m))} 3s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -2496,29 +2496,29 @@
                             "curious",
                             "Mueva el puntero por el escenario y verá la transmisión de @Place cambiar en el escenario."
                         ],
-                        ["fix", "Pointer()"],
+                        ["fix", "Puntero()"],
                         ["Pointer", "neutral", "wzzzzzzzzz…"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Now let's see it on stage!"
+                            "Now let's see it on Escenario!"
                         ],
                         ["Pointer", "neutral", "wzzzzzzzzz…"],
-                        ["fix", "Phrase(Pointer()→'' place: Pointer())"],
+                        ["fix", "Frase(Puntero()→'' lugar: Puntero())"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "@Pointer puede ser divertido si desea vincular el @Place de una @Phrase al lugar donde está el puntero."
                         ],
-                        ["fix", "Phrase('🐪' size: 4m place: Pointer())"],
+                        ["fix", "Frase('🐪' tamaño: 4m lugar: Puntero())"],
                         ["Pointer", "neutral", "wzzzzzzzz…"]
                     ]
                 },
                 {
-                    "title": "And... now!",
-                    "subtitle": "Button",
+                    "title": "¡Y... Ahora!",
+                    "subtitle": "Botón",
                     "concept": "Button",
                     "performance": ["use", "fit", "Symbol", "🖱️"],
                     "lines": [
@@ -2527,28 +2527,28 @@
                             "kind",
                             "@Button es como @Key, pero corresponde al botón de puntero principal, como un clic o un toque. Es solo una secuencia de \\⊤\\, que indica cuándo se presiona el botón del puntero. Presione ese botón y observe cómo aparecen los eventos en la línea de tiempo."
                         ],
-                        ["Button", "neutral", "click… click… click…"],
-                        ["edit", "Button()"],
+                        ["Button", "neutral", "clic… clic… clic…"],
+                        ["edit", "Botón()"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
                             "Puede configurarlo para que solo cambie hacia arriba o hacia abajo pasándole un \\⊤\\ o \\⊥\\."
                         ],
-                        ["Button", "neutral", "down… down… down…"],
-                        ["edit", "Button(⊥)"],
+                        ["Button", "neutral", "abajo… abajo… abajo…"],
+                        ["edit", "Botón(⊥)"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
                             "Usar una secuencia @Button es una forma de avanzar a través de las etapas de una actuación o de desencadenar algún cambio en una actuación. Este pequeño programa enumera las pulsaciones de botones y comienza mostrándose triste, pero cuando la secuencia @Button cambia a verdadero, @Conditional se evalúa como \\'happy'\\ en su lugar."
                         ],
-                        ["edit", "Phrase(Button(ø) ? 'sad' 'happy')"]
+                        ["edit", "Frase(Botón(ø) ? 'triste' 'feliz')"]
                     ]
                 },
                 {
-                    "title": "Is anyone listening?",
-                    "subtitle": "Volume",
+                    "title": "¿Alguien está escuchando?",
+                    "subtitle": "Volumen",
                     "concept": "Volume",
                     "performance": ["use", "fit", "Symbol", "🎤"],
                     "lines": [
@@ -2558,7 +2558,7 @@
                             "Tu mundo y el nuestro también tienen sonido. ¿Sabías que podemos escucharte con tu consentimiento? Escuchamos con una transmisión llamada @Volume, que proporciona una secuencia de amplitudes de bajo nivel. Es posible que su micrófono solicite permiso para compartirlo con nosotros. Una vez que lo hagas, verás un número que corresponde a la amplitud, entre \\0\\ y \\100\\."
                         ],
                         ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
-                        ["edit", "Volume()"],
+                        ["edit", "Volumen()"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2566,28 +2566,28 @@
                             "@Volume se puede utilizar para hacer que las actuaciones respondan al sonido del público. Por ejemplo, aquí podríamos hacer una pequeña visualización de la amplitud convirtiendo el número de amplitud del flujo a un cierto número de caracteres \\'o'\\. ¿Ves como cuando haces ruido, hay más \\'o'\\s? La amplitud de @Volume se divide por \\10\\, colocándola en el rango de \\0\\ a \\10\\. Luego, ese valor se asigna a la función @Text/repeat, que repite \\'o'\\ el número de veces indicado."
                         ],
                         ["Volume", "neutral", "bzzzZZZZZzzzzzZZZZ…"],
-                        ["edit", "'o'.repeat(Volume() · 10)"]
+                        ["edit", "'o'.repetir(Volumen() · 10)"]
                     ]
                 },
                 {
-                    "title": "You never know…",
-                    "subtitle": "Random",
+                    "title": "Nunca sabes…",
+                    "subtitle": "Azar",
                     "concept": "Random",
                     "performance": [
                         "fit",
-                        "Phrase(((Time(100ms) % 10) ÷ 1ms) → '')"
+                        "Frase(((Tiempo(100ms) % 10) ÷ 1ms) → '')"
                     ],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Hay otra fuente de aportes que quiero mostrarles. ¿Recuerdas \\[].random()\\ de antes, de @List?",
+                            "Hay otra fuente de aportes que quiero mostrarles. ¿Recuerdas \\[].azar()\\ de antes, de @List?",
                             "En su interior utiliza una @FunctionDefinition llamada @Random, que proporciona una secuencia infinita de números aleatorios. Es una especie de flujo, ya que genera información de su mundo, no del nuestro. Pero es un poco diferente de las otras secuencias en que no hace que @Program se reevalúe.",
                             "En cambio, cada vez que se evalúa, da un número aleatorio diferente.",
                             "¿Ves ese pequeño botón ↻ @UI/resetEvaluator junto a la línea de tiempo? Presione eso para reevaluar el programa manualmente y verá un nuevo número entre \\0\\ y \\1\\ cada vez."
                         ],
                         ["Random", "neutral", "0.223423… 0.823423… 0.123459"],
-                        ["edit", "Random()"],
+                        ["edit", "Azar()"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2595,29 +2595,29 @@
                             "Podemos decirle a @Random el rango de números que queremos dándole un número mínimo y máximo. Este ejemplo proporciona números entre \\1\\ y \\10\\"
                         ],
                         ["Random", "neutral", "1… 7… 3… 9… 10… 2…"],
-                        ["edit", "Random(1 10)"],
+                        ["edit", "Azar(1 10)"],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "¡El azar puede ser muy divertido! Podemos usarlo con transmisiones para crear un caos divertido. Por ejemplo, aquí elegimos una palabra aleatoria de una lista de palabras. Esto es lo mismo que \\['kitty' 'cat' 'meowy'].random()\\. ¡Sigue presionando ↻ para obtener un sinónimo de gato diferente! Intente agregar su propia palabra a la lista y vea si puede hacer que aparezca la palabra."
+                            "¡El azar puede ser muy divertido! Podemos usarlo con transmisiones para crear un caos divertido. Por ejemplo, aquí elegimos una palabra aleatoria de una lista de palabras. Esto es lo mismo que \\['kitty' 'gato' 'meowy'].azar()\\. ¡Sigue presionando ↻ para obtener un sinónimo de gato diferente! Intente agregar su propia palabra a la lista y vea si puede hacer que aparezca la palabra."
                         ],
                         ["Random", "neutral", "1… 2… 2… 1… 3…"],
-                        ["edit", "['kitty' 'cat' 'feline'][Random(1 3)]"]
+                        ["edit", "['Kitty' 'gato' 'felino'][Azar(1 3)]"]
                     ]
                 },
                 {
-                    "title": "Move me",
-                    "subtitle": "Placement",
+                    "title": "Mueve me",
+                    "subtitle": "Ubicación",
                     "concept": "Placement",
                     "performance": [
                         "fix",
-                        "Phrase('click, tap, or arrow to move me' place: Placement() moving:Pose() duration: 0.25s)"
+                        "Frase('click, tap, or arrow to move me' lugar: Ubicación() moviendo:Pose() duración: 0.25s)"
                     ],
                     "lines": [
                         [
                             "edit",
-                            "Phrase('🌭' place: Placement() moving:Pose() duration: 0.25s)"
+                            "Frase('🌭' lugar: Ubicación() moviendo:Pose() duración: 0.25s)"
                         ],
                         [
                             "FunctionDefinition",
@@ -2629,7 +2629,7 @@
                         null,
                         [
                             "edit",
-                            "Phrase('🌭' place: Placement(distance: 0.5m) moving:Pose() duration: 0.25s)"
+                            "Frase('🌭' lugar: Ubicación(distance: 0.5m) moviendo:Pose() duración: 0.25s)"
                         ],
                         [
                             "FunctionDefinition",
@@ -2640,7 +2640,7 @@
                         null,
                         [
                             "edit",
-                            "Phrase('🌭' place: Placement(depth: ⊤) moving:Pose() duration: 0.25s)"
+                            "Frase('🌭' lugar: Ubicación(depth: ⊤) moviendo:Pose() duración: 0.25s)"
                         ],
                         [
                             "FunctionDefinition",
@@ -2651,12 +2651,12 @@
                     ]
                 },
                 {
-                    "title": "Keeping moving",
-                    "subtitle": "Motion",
+                    "title": "Sigue en movimiento",
+                    "subtitle": "Movimiento",
                     "concept": "Motion",
                     "performance": [
                         "fix",
-                        "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                        "Escenario([Frase('🏀' 1m lugar: Movimiento(Lugar(0m 10m)) materia: Materia(2kg 0.8)) Forma(Rectángulo(-10m 0m 10m -1m))])"
                     ],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
@@ -2667,7 +2667,7 @@
                             "@Motion es uno de los más interesantes. Hace una secuencia de @Place."
                         ],
                         null,
-                        ["edit", "Phrase('🏀' 3m place: Motion(Place(0m 5m)))"],
+                        ["edit", "Frase('🏀' 3m lugar: Movimiento(Lugar(0m 5m)))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2677,7 +2677,7 @@
                         null,
                         [
                             "edit",
-                            "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m))) Shape(Rectangle(-10m 0m 10m -2m))])"
+                            "Escenario([Frase('🏀' 1m lugar: Movimiento(Lugar(0m 10m))) Forma(Rectángulo(-10m 0m 10m -2m))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -2689,10 +2689,10 @@
                         null,
                         [
                             "edit",
-                            "Stage(",
+                            "Escenario(",
                             "   [",
-                            "       Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(1kg 0.9))",
-                            "      Shape(Rectangle(-10m 0m 10m -2m))",
+                            "       Frase('🏀' 1m lugar: Movimiento(Lugar(0m 10m)) materia: Materia(1kg 0.9))",
+                            "      Forma(Rectángulo(-10m 0m 10m -2m))",
                             "   ]",
                             ")"
                         ],
@@ -2705,10 +2705,10 @@
                         null,
                         [
                             "edit",
-                            "Stage(",
+                            "Escenario(",
                             "\t[",
-                            "\t\tPhrase('🏀' 1m place: Motion(Place(-10m 10m) Velocity(5m/s 15m/s 10°/s)) matter: Matter(1kg 0.9))",
-                            "\t\tShape(Rectangle(-10m 0m 10m -2m))",
+                            "\t\tFrase('🏀' 1m lugar: Movimiento(Lugar(-10m 10m) Velocidad(5m/s 15m/s 10°/s)) materia: Materia(1kg 0.9))",
+                            "\t\tForma(Rectángulo(-10m 0m 10m -2m))",
                             "\t]",
                             ")"
                         ],
@@ -2723,12 +2723,12 @@
                         null,
                         [
                             "edit",
-                            "Stage(",
+                            "Escenario(",
                             "\t[",
-                            "\t\tPhrase('🏀' 1m place: Motion(Place(-10m 10m) Velocity(5m/s 15m/s 10°/s)) matter: Matter(1kg 0.9))",
-                            "\t\tShape(Rectangle(-10m 0m 10m -2m))",
+                            "\t\tFrase('🏀' 1m lugar: Movimiento(Lugar(-10m 10m) Velocidad(5m/s 15m/s 10°/s)) materia: Materia(1kg 0.9))",
+                            "\t\tForma(Rectángulo(-10m 0m 10m -2m))",
                             "\t]",
-                            "\tgravity: 1m/s^s",
+                            "\tgravedad: 1m/s^s",
                             ")"
                         ],
                         [
@@ -2742,16 +2742,16 @@
                         null,
                         [
                             "edit",
-                            "Stage(",
+                            "Escenario(",
                             "\t[",
-                            "\t\tPhrase(",
+                            "\t\tFrase(",
                             "\t\t\t'🏀'",
                             "\t\t\t1m",
-                            "\t\t\tname: 'ball'",
-                            "\t\t\tplace: Motion(Place(-10m 10m) Velocity(5m/s 15m/s 10°/s))",
-                            "\t\t\tmatter: Matter(1kg 0.9)",
-                            "\t\t\tscale: Collision('ball' 'ground')•ø ? 1 2)",
-                            "\t\tShape(Rectangle(-10m 0m 10m -2m) name: 'ground')",
+                            "\t\t\tnombre: 'ball'",
+                            "\t\t\tlugar: Movimiento(Lugar(-10m 10m) Velocidad(5m/s 15m/s 10°/s))",
+                            "\t\t\tmateria: Materia(1kg 0.9)",
+                            "\t\t\tescala: Colisión('ball' 'ground')•ø ? 1 2)",
+                            "\t\tForma(Rectángulo(-10m 0m 10m -2m) nombre: 'ground')",
                             "\t]",
                             ")"
                         ],
@@ -2766,7 +2766,7 @@
                         null,
                         [
                             "fix",
-                            "Stage([Phrase('🏀' 1m place: Motion(Place(0m 10m)) matter: Matter(2kg 0.8)) Shape(Rectangle(-10m 0m 10m -1m))])"
+                            "Escenario([Frase('🏀' 1m lugar: Movimiento(Lugar(0m 10m)) materia: Materia(2kg 0.8)) Forma(Rectángulo(-10m 0m 10m -1m))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -2777,12 +2777,12 @@
                     ]
                 },
                 {
-                    "title": "Let's talk",
-                    "subtitle": "Chat",
+                    "title": "Hablemos",
+                    "subtitle": "Charlar",
                     "concept": "Chat",
-                    "performance": ["fit", "Phrase('🗣️')"],
+                    "performance": ["fit", "Frase('🗣️')"],
                     "lines": [
-                        ["fit", "Phrase('🗣️')"],
+                        ["fit", "Frase('🗣️')"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2790,14 +2790,14 @@
                             "Para eso está @Chat. Cuando lo use, aparecerá un pequeño cuadro en el escenario para que la audiencia escriba y cuando envíen su mensaje, se agregará @Text a la transmisión para que el programa responda."
                         ],
                         null,
-                        ["edit", "Chat()"],
+                        ["edit", "Charla()"],
                         [
                             "FunctionDefinition",
                             "kind",
                             "Esta es la forma más sencilla de utilizarlo. Escribes algo y luego el escenario lo muestra, porque el valor del programa es el valor de @Chat."
                         ],
                         null,
-                        ["edit", "Chat().has('oo') ? 'choo choo' 'hmm'"],
+                        ["edit", "Charla().tiene('oo') ? 'choo choo' 'hmm'"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2806,12 +2806,12 @@
                     ]
                 },
                 {
-                    "title": "Say what?",
-                    "subtitle": "Webpage",
+                    "title": "¿Que qué?",
+                    "subtitle": "PáginaWeb",
                     "concept": "Webpage",
-                    "performance": ["fix", "Webpage('https://wordplay.dev')"],
+                    "performance": ["fix", "PáginaWeb('https://wordplay.dev')"],
                     "lines": [
-                        ["edit", "Phrase('🛜')"],
+                        ["edit", "Frase('🛜')"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2819,7 +2819,7 @@
                             "Bueno, pensamos que sería genial traer palabras de Internet /aquí/, para que puedas jugar con ellas."
                         ],
                         null,
-                        ["edit", "Webpage('https://wordplay.dev')"],
+                        ["edit", "PáginaWeb('https://wordplay.dev')"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2827,7 +2827,7 @@
                             "Como aquí, estas son las frases del sitio que visitaste para llegar hasta aquí."
                         ],
                         null,
-                        ["edit", "Webpage('https://wordplay.dev' 'a')"],
+                        ["edit", "PáginaWeb('https://wordplay.dev' 'a')"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -2836,7 +2836,7 @@
                         null,
                         [
                             "edit",
-                            "words: Webpage('https://wordplay.dev' 'a')\nwords•[''] ? Group(Stack() words.translate(ƒ(word) Phrase(word resting: Sequence(spin())))) ø"
+                            "words: PáginaWeb('https://wordplay.dev' 'a')\nwords•[''] ? Grupo(Pila() words.traducir(ƒ(word) Frase(word inmóvil: Secuencia(girar())))) ø"
                         ],
                         [
                             "FunctionDefinition",
@@ -2846,12 +2846,12 @@
                     ]
                 },
                 {
-                    "title": "On cue",
-                    "subtitle": "Reaction",
+                    "title": "En el momento justo",
+                    "subtitle": "Reacción",
                     "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
                     "lines": [
-                        ["fit", "Phrase('…' resting:Pose(rotation: 120°))"],
+                        ["fit", "Frase('…' inmóvil:Pose(rotación: 120°))"],
                         [
                             "FunctionDefinition",
                             "neutral",
@@ -2863,7 +2863,7 @@
                             "¡Si, si, si! ¡Es @FunctionDefinition! ¿Cómo estás? Todo ha sido tan... constante últimamente. ¿Has notado eso?"
                         ],
                         null,
-                        ["fit", "Phrase('…' resting:Pose(rotation: 240°))"],
+                        ["fit", "Frase('…' inmóvil:Pose(rotación: 240°))"],
                         [
                             "FunctionDefinition",
                             "curious",
@@ -2875,7 +2875,7 @@
                             "Súper extraño, súper extraño. Toda mi vida ha girado en torno al cambio, siempre escuchando y observando nuevos aportes de las personas, ayudando a transformarlos en valores. Pero no ha habido nada. Hasta hace un momento… Espera… ¿es eso una persona?"
                         ],
                         null,
-                        ["fit", "Phrase('…' resting:Pose(rotation: 360°))"],
+                        ["fit", "Frase('…' inmóvil:Pose(rotación: 360°))"],
                         [
                             "FunctionDefinition",
                             "excited",
@@ -2905,7 +2905,7 @@
                             "serious",
                             "He aquí un ejemplo. ¿Ves la transmisión de @Key? Poniendo \\∆\\ antes de preguntar: '¿Cambió esta secuencia'? Antes de que cambie, evalúo el valor inicial, \\1m\\. Pero cuando se presiona la tecla espacio, @Program reevalúa y evalúo la *siguiente* expresión, que es \\1m\\ más el valor del flujo anterior, que está representado por \\.\\. Esto añade 1 m al tamaño de la frase, haciendo que la palabra se haga cada vez más grande."
                         ],
-                        ["fit", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
+                        ["fit", "Frase('hi' tamaño: 1m … ∆ Tecla(' ') … 1m + .)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -2952,7 +2952,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 1m … Key(' ') = ' ' … 1m + .)"
+                            "Frase('hi' tamaño: 1m … Tecla(' ') = ' ' … 1m + .)"
                         ],
                         null,
                         [
@@ -2981,11 +2981,11 @@
             ]
         },
         {
-            "title": "Take the stage",
+            "title": "Subir al escenario",
             "performance": ["use", "fix", "RainingEmoji"],
             "scenes": [
                 {
-                    "title": "Output",
+                    "title": "Salida",
                     "subtitle": null,
                     "performance": ["use", "fix", "StaticRainingEmoji"],
                     "lines": [
@@ -3026,8 +3026,8 @@
                     ]
                 },
                 {
-                    "title": "Say what?",
-                    "subtitle": "Phrase",
+                    "title": "¿Que qué?",
+                    "subtitle": "Frase",
                     "concept": "Phrase",
                     "performance": ["use", "fit", "Symbol", "💬"],
                     "lines": [
@@ -3075,29 +3075,29 @@
                             "excited",
                             "Entonces sé que me has visto hacer esto."
                         ],
-                        ["edit", "Phrase('hi')"],
+                        ["edit", "Frase('hola')"],
                         null,
                         [
                             "Phrase",
                             "kind",
                             "Ésa, querida, es la forma más sencilla de hacer hablar en el escenario. ¡Pero hay mucho más! Por ejemplo, ¿sabías que puedes aplicar estilo al texto que me proporcionas trabajando con @FormattedTranslation? ¿Aún no los conoces, pero todo lo que tienes que hacer es poner símbolos especiales alrededor de tu texto? He aquí: ¡audaz!"
                         ],
-                        ["edit", "Phrase(`*hi*`)"],
+                        ["edit", "Frase(`*hola*`)"],
                         null,
                         [
                             "Phrase",
                             "kind",
                             "¿No te parece suficiente descaro? ¿Qué tal subrayado, cursiva, texto claro y texto extra en negrita, *todo a la vez*?"
                         ],
-                        ["edit", "Phrase(`/I/ _am_ ^the^ /fabulous/ 💬!`)"],
+                        ["edit", "Frase(`/I/ _am_ ^the^ /fabulous/ 💬!`)"],
                         null,
                         [
                             "Phrase",
                             "kind",
-                            "Still not impressed?",
+                            "Todavía no impresionado?",
                             "Mezclarlas todas juntas"
                         ],
-                        ["edit", "Phrase(`/_*I am the fabulous*_/ 💬!`)"],
+                        ["edit", "Frase(`/_*Soy la fabulosa*_/ 💬!`)"],
                         null,
                         [
                             "Phrase",
@@ -3106,7 +3106,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase(`Format with /italic/ (//), _underline_ (__), ~light~ (~~), /bold/ (**), ^extra bold^ (^^) `)"
+                            "Frase(`Format with /italic/ (//), _underline_ (__), ~light~ (~~), /bold/ (**), ^extra bold^ (^^) `)"
                         ],
                         null,
                         [
@@ -3114,14 +3114,14 @@
                             "excited",
                             "Pero puedo hacer más que simplemente darle estilo al texto. Por ejemplo, puedo tomar una @Phrase/size, medida en metros \\m\\. ¡Intenta cambiar el tamaño a cualquier tamaño que desees!"
                         ],
-                        ["edit", "Phrase('hi' 2m)"],
+                        ["edit", "Frase('hi' 2m)"],
                         null,
                         [
                             "Phrase",
                             "kind",
                             "Ese tamaño puede ser cualquier expresión. Por ejemplo, digamos que queremos que crezca a medida que @Time avanza. Podemos tomarnos el tiempo, multiplicarlo por una fracción de metro, y glorioso, tic tic tic, hola hola. Prueba a cambiar la frecuencia o el multiplicador. ¡Mira qué hermoso crecimiento puedes crear!"
                         ],
-                        ["fit", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fit", "Frase('hi' Tiempo(100ms) · 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
@@ -3132,7 +3132,7 @@
                             "use",
                             "fix",
                             "Symbol",
-                            "hi' Time(100ms) · 0.001m/ms 'Poor Story"
+                            "hi' Tiempo(100ms) · 0.001m/ms 'Poor Story"
                         ],
                         null,
                         [
@@ -3142,7 +3142,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m))"
+                            "Frase('hi' Tiempo(100ms) · 0.001m/ms 'Poor Story' Lugar(2m 2m))"
                         ],
                         null,
                         [
@@ -3152,7 +3152,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' Time(100ms) · 0.001m/ms 'Poor Story' Place(2m 2m) rotation: 20°)"
+                            "Frase('hi' Tiempo(100ms) · 0.001m/ms 'Poor Story' Lugar(2m 2m) rotación: 20°)"
                         ],
                         null,
                         [
@@ -3162,7 +3162,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' 3m 'Poor Story' rotation: Time(10ms) · 1°/ms)"
+                            "Frase('hi' 3m 'Poor Story' rotación: Tiempo(10ms) · 1°/ms)"
                         ],
                         null,
                         [
@@ -3177,7 +3177,7 @@
                         ],
                         [
                             "conflict",
-                            "Phrase('hi' 'Poor Story' 3m Time(10ms) · 1°/ms Place(2m 2m))"
+                            "Frase('hi' 'Poor Story' 3m Tiempo(10ms) · 1°/ms Lugar(2m 2m))"
                         ],
                         null,
                         [
@@ -3187,7 +3187,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' size: 3m rotation: Time(10ms) · 0.1°/ms)"
+                            "Frase('hi' tamaño: 3m rotación: Tiempo(10ms) · 0.1°/ms)"
                         ],
                         null,
                         [
@@ -3195,7 +3195,7 @@
                             "neutral",
                             "Ahora que hemos eliminado todo eso, ¡podemos hablar de bailar, cariño! Bailar es una de mis cosas favoritas para hacer. Hay *cuatro* maneras en que me muevo. Primero, puedo @Phrase/entering. Entrar es mi forma de entrar al escenario. Si no me dices cómo entrar, simplemente apareceré en el escenario como si me teletransportara allí. Pero si me das @Pose. Comenzaré con la postura que me diste y luego pasaré a mi postura de descanso. Por ejemplo, hagamos que pase de invisible a visible en tu cara."
                         ],
-                        ["edit", "Phrase('hi' entering: Pose(opacity: 0))"],
+                        ["edit", "Frase('hi' entrando: Pose(opacidad: 0))"],
                         null,
                         [
                             "Phrase",
@@ -3204,7 +3204,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('hi' entering: Pose(opacity: 0) duration: 5s)"
+                            "Frase('hi' entrando: Pose(opacidad: 0) duración: 5s)"
                         ],
                         null,
                         [
@@ -3214,7 +3214,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s)"
+                            "Frase('hi' tamaño: 5m lugar: Lugar(Tiempo(1000ms) · 0.001m/ms 0m) moviendo:Pose(rotación: 5°) duración: 0.5s)"
                         ],
                         null,
                         [
@@ -3224,7 +3224,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s style: “straight”)"
+                            "Frase('hi' tamaño: 5m lugar: Lugar(Tiempo(1000ms) · 0.001m/ms 0m) moviendo:Pose(rotación: 5°) duración: 0.5s estilo: “straight”)"
                         ],
                         null,
                         [
@@ -3234,9 +3234,9 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? ",
-                            "Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) duration: 0.5s) ",
-                            "Phrase('')"
+                            "Tiempo(1000ms) < 3000ms ? ",
+                            "Frase('hi' tamaño: 5m lugar: Lugar(Tiempo(1000ms) · 0.001m/ms 0m) moviendo:Pose(rotación: 5°) duración: 0.5s) ",
+                            "Frase('')"
                         ],
                         null,
                         [
@@ -3246,7 +3246,7 @@
                         ],
                         [
                             "fit",
-                            "Time(1000ms) < 3000ms ? Phrase('hi' size: 5m place: Place(Time(1000ms) · 0.001m/ms 0m) moving:Pose(rotation: 5°) exiting:Pose(scale: 10 rotation: 180° opacity: 0) duration: 0.5s) Phrase('')"
+                            "Tiempo(1000ms) < 3000ms ? Frase('hi' tamaño: 5m lugar: Lugar(Tiempo(1000ms) · 0.001m/ms 0m) moviendo:Pose(rotación: 5°) saliendo:Pose(escala: 10 rotación: 180° opacidad: 0) duración: 0.5s) Frase('')"
                         ],
                         null,
                         [
@@ -3256,16 +3256,16 @@
                         ],
                         [
                             "edit",
-                            "Time(1000ms) < 3000ms ?",
-                            "    Phrase(",
+                            "Tiempo(1000ms) < 3000ms ?",
+                            "    Frase(",
                             "        'hi'",
-                            "        size: 5m",
-                            "        place: Place(Time(1000ms) · 0.001m/ms 0m)",
-                            "        moving:Pose(rotation: 5°)",
-                            "        exiting:Pose(scale: 10 rotation: 180° opacity: 0)",
-                            "        duration: 0.5s",
+                            "        tamaño: 5m",
+                            "        lugar: Lugar(Tiempo(1000ms) · 0.001m/ms 0m)",
+                            "        moviendo:Pose(rotación: 5°)",
+                            "        saliendo:Pose(escala: 10 rotación: 180° opacidad: 0)",
+                            "        duración: 0.5s",
                             "    )",
-                            "    Phrase(“”)"
+                            "    Frase(“”)"
                         ],
                         null,
                         [
@@ -3278,7 +3278,7 @@
                             "happy",
                             "¡Por supuesto! Cada vez que te canses de jugar con las entradas de @Evaluate, siempre puedes seleccionar una frase en el escenario y aparecerá una paleta que te permitirá cambiar cualquier pequeña cosa que desees, mi tamaño, fuente, lugar, poses. Solo hay una regla: si configura cualquiera de ellos como una expresión, en lugar de solo un valor, tendrá que cambiarlos en @Program, no en la paleta. ¡Vísteme todo lo que quieras!"
                         ],
-                        ["edit", "Phrase('dress me up!')"],
+                        ["edit", "Frase('dress me up!')"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3292,7 +3292,7 @@
                             "Luego, un @Color/chroma entre 0 y 100, que se te ocurra tiene cuánto color hay, desde gris sin color hasta color completo.",
                             "Y finalmente, un @Color/chroma, que puedes considerar como una rueda de colores, del rojo al verde y al azul, en grados. ¿Entonces quieres que sea rojo brillante? Establezca el color de mi pose de descanso en \\Color(50% 300 30°)\\."
                         ],
-                        ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
+                        ["edit", "Frase('red' color: 🌈(50% 300 30°))"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3301,7 +3301,7 @@
                         ],
                         [
                             "edit",
-                            "Phrase('red' size: 5m color: 🌈(50% 300 (Time() % 360) · 1°/ms))"
+                            "Frase('red' tamaño: 5m color: 🌈(50% 300 (Tiempo() % 360) · 1°/ms))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3317,7 +3317,7 @@
                 },
                 {
                     "title": "1, 2, 3, 4, 1, 2, 3, 4",
-                    "subtitle": "Sequence",
+                    "subtitle": "Secuencia",
                     "concept": "Sequence",
                     "performance": ["use", "fix", "DancingEmoji", "💃"],
                     "lines": [
@@ -3373,7 +3373,7 @@
                         ],
                         [
                             "fit",
-                            "Phrase('😀' resting:Sequence({0%: Pose() 25%: Pose(offset: Place(0m 1m) scale: 2) 50%: Pose(offset: Place(0m 0m) flipy: ⊤) 75%: Pose(rotation: 45°) 100%: Pose()} 2s))"
+                            "Frase('😀' inmóvil:Secuencia({0%: Pose() 25%: Pose(desplazamiento: Lugar(0m 1m) escala: 2) 50%: Pose(desplazamiento: Lugar(0m 0m) flipy: ⊤) 75%: Pose(rotación: 45°) 100%: Pose()} 2s))"
                         ],
                         null,
                         [
@@ -3383,14 +3383,14 @@
                         ],
                         [
                             "edit",
-                            "Phrase(",
+                            "Frase(",
                             "    'dance'",
-                            "    entering: Sequence(",
+                            "    entrando: Secuencia(",
                             "        {",
-                            "            0%: Pose(rotation: 0°)",
-                            "            33%: Pose(rotation: -5°)",
-                            "            66%: Pose(rotation: 5°)",
-                            "            100%: Pose(rotation: 0°)",
+                            "            0%: Pose(rotación: 0°)",
+                            "            33%: Pose(rotación: -5°)",
+                            "            66%: Pose(rotación: 5°)",
+                            "            100%: Pose(rotación: 0°)",
                             "        }",
                             "    )",
                             ")"
@@ -3403,16 +3403,16 @@
                         ],
                         [
                             "edit",
-                            "Phrase(",
+                            "Frase(",
                             "    'dance'",
-                            "    entering: Sequence(",
+                            "    entrando: Secuencia(",
                             "        {",
-                            "            0%: Pose(rotation: 0°)",
-                            "            33%:Pose(rotation: -5°)",
-                            "            66%: Pose(rotation: 5°)",
-                            "            100%: Pose(rotation: 0°)",
+                            "            0%: Pose(rotación: 0°)",
+                            "            33%:Pose(rotación: -5°)",
+                            "            66%: Pose(rotación: 5°)",
+                            "            100%: Pose(rotación: 0°)",
                             "        } ",
-                            "        duration: 0.05s",
+                            "        duración: 0.05s",
                             "    )",
                             ")"
                         ],
@@ -3424,17 +3424,17 @@
                         ],
                         [
                             "edit",
-                            "Phrase(",
+                            "Frase(",
                             "    'dance'",
-                            "    entering: Sequence(",
+                            "    entrando: Secuencia(",
                             "        {",
-                            "            0%: Pose(rotation: 0°)",
-                            "            33%: Pose(rotation: -5°)",
-                            "            66%: Pose(rotation: 5°)",
-                            "            100%: Pose(rotation: 0°)",
+                            "            0%: Pose(rotación: 0°)",
+                            "            33%: Pose(rotación: -5°)",
+                            "            66%: Pose(rotación: 5°)",
+                            "            100%: Pose(rotación: 0°)",
                             "        } ",
-                            "        duration: 0.1s ",
-                            "        count: 4x)",
+                            "        duración: 0.1s ",
+                            "        cuenta: 4x)",
                             "    )"
                         ],
                         null,
@@ -3445,16 +3445,16 @@
                         ],
                         [
                             "edit",
-                            "Phrase(",
+                            "Frase(",
                             "    'dance'",
-                            "    resting:Sequence(",
+                            "    inmóvil:Secuencia(",
                             "        {",
-                            "        0%: Pose(rotation: 0°)",
-                            "        33%:Pose(rotation: -5°)",
-                            "        66%: Pose(rotation: 5°)",
-                            "        100%: Pose(rotation: 0°)",
+                            "        0%: Pose(rotación: 0°)",
+                            "        33%:Pose(rotación: -5°)",
+                            "        66%: Pose(rotación: 5°)",
+                            "        100%: Pose(rotación: 0°)",
                             "        } ",
-                            "        duration: 0.05s",
+                            "        duración: 0.05s",
                             "    )",
                             ")"
                         ],
@@ -3493,12 +3493,12 @@
                     ]
                 },
                 {
-                    "title": "Places please",
-                    "subtitle": "Group",
+                    "title": "Lugares por favor",
+                    "subtitle": "Grupo",
                     "concept": "Group",
                     "performance": [
                         "fit",
-                        "Group(Grid(2 2) [Phrase('1' resting:Sequence(spin() 1s)) Phrase('2' resting:Sequence(spin() 2s)) Phrase('3' resting:Sequence(spin() 3s)) Phrase('4' resting:Sequence(spin() 4s))])"
+                        "Grupo(Cuadrícula(2 2) [Frase('1' inmóvil:Secuencia(girar() 1s)) Frase('2' inmóvil:Secuencia(girar() 2s)) Frase('3' inmóvil:Secuencia(girar() 3s)) Frase('4' inmóvil:Secuencia(girar() 4s))])"
                     ],
                     "lines": [
                         ["use", "fit", "Symbol", "☹️"],
@@ -3528,7 +3528,7 @@
                             "¿@Group? ¿Está ahí?"
                         ],
                         null,
-                        ["fit", "Group(Grid(2 2) [Phrase('🔳')])"],
+                        ["fit", "Grupo(Cuadrícula(2 2) [Frase('🔳')])"],
                         [
                             "Group",
                             "neutral",
@@ -3540,7 +3540,7 @@
                             "Estoy bien. ¡Estamos todos bien! ¡El silencio se rompe porque encontramos a una persona! Serán nuestra inspiración."
                         ],
                         null,
-                        ["fit", "Group(Grid(2 2) [Phrase('🔳') Phrase('🔳')])"],
+                        ["fit", "Grupo(Cuadrícula(2 2) [Frase('🔳') Frase('🔳')])"],
                         [
                             "Group",
                             "happy",
@@ -3554,7 +3554,7 @@
                         null,
                         [
                             "fit",
-                            "Group(Grid(2 2) [Phrase('🔳') Phrase('🔳') Phrase('🔳')])"
+                            "Grupo(Cuadrícula(2 2) [Frase('🔳') Frase('🔳') Frase('🔳')])"
                         ],
                         [
                             "Group",
@@ -3601,12 +3601,12 @@
                         ],
                         [
                             "edit",
-                            "Group(",
+                            "Grupo(",
                             "    Pila('|' 2m) ",
                             "    [",
-                            "        Phrase('uno')",
-                            "        Phrase('dos')",
-                            "        Phrase('tres')",
+                            "        Frase('uno')",
+                            "        Frase('dos')",
+                            "        Frase('tres')",
                             "    ]",
                             ")"
                         ],
@@ -3618,12 +3618,12 @@
                         ],
                         [
                             "edit",
-                            "Group(",
-                            "    Stack('|' Time(100ms) · 0.001m/ms) ",
+                            "Grupo(",
+                            "    Pila('|' Tiempo(100ms) · 0.001m/ms) ",
                             "    [",
-                            "        Phrase('uno')",
-                            "        Phrase('dos')",
-                            "        Phrase('tres')",
+                            "        Frase('uno')",
+                            "        Frase('dos')",
+                            "        Frase('tres')",
                             "    ]",
                             ")"
                         ],
@@ -3635,11 +3635,11 @@
                         ],
                         [
                             "edit",
-                            "Group(",
-                            "    Row('|' Time(100ms) · 0.001m/ms) [",
-                            "        Phrase('uno')",
-                            "        Phrase('dos')",
-                            "        Phrase('tres')",
+                            "Grupo(",
+                            "    Fila('|' Tiempo(100ms) · 0.001m/ms) [",
+                            "        Frase('uno')",
+                            "        Frase('dos')",
+                            "        Frase('tres')",
                             "    ]",
                             ")"
                         ],
@@ -3651,12 +3651,12 @@
                         ],
                         [
                             "edit",
-                            "Group(",
-                            "    Grid(2 2) [",
-                            "        Phrase('uno')",
-                            "        Phrase('dos')",
-                            "        Phrase('tres')",
-                            "        Phrase('cuatro')",
+                            "Grupo(",
+                            "    Cuadrícula(2 2) [",
+                            "        Frase('uno')",
+                            "        Frase('dos')",
+                            "        Frase('tres')",
+                            "        Frase('cuatro')",
                             "    ]",
                             ")"
                         ],
@@ -3668,13 +3668,13 @@
                         ],
                         [
                             "edit",
-                            "Group(",
-                            "    Free() [",
-                            "        Phrase('uno' place: Place(-2m 2m))",
-                            "        Phrase('dos' place: Place(-1m 1m))",
-                            "        Phrase('tres' place: Place(0m 0m))",
-                            "        Phrase('cuatro' place: Place(1m -1m))",
-                            "        Phrase('cinco' place: Place(2m -2m))",
+                            "Grupo(",
+                            "    Suelto() [",
+                            "        Frase('uno' lugar: Lugar(-2m 2m))",
+                            "        Frase('dos' lugar: Lugar(-1m 1m))",
+                            "        Frase('tres' lugar: Lugar(0m 0m))",
+                            "        Frase('cuatro' lugar: Lugar(1m -1m))",
+                            "        Frase('cinco' lugar: Lugar(2m -2m))",
                             "    ]",
                             ")"
                         ],
@@ -3686,12 +3686,12 @@
                         ],
                         [
                             "edit",
-                            "Group(",
-                            "    Grid(2 2) [",
-                            "    Group(Stack() [Phrase('uno') Phrase(“dos”)])",
-                            "    Group(Stack() [Phrase('tres') Phrase(“cuatro”)])",
-                            "    Group(Stack() [Phrase('cinco') Phrase(“seis”)])",
-                            "    Group(Stack() [Phrase('siete') Phrase(“ocho”)])",
+                            "Grupo(",
+                            "    Cuadrícula(2 2) [",
+                            "    Grupo(Pila() [Frase('uno') Frase(“dos”)])",
+                            "    Grupo(Pila() [Frase('tres') Frase(“cuatro”)])",
+                            "    Grupo(Pila() [Frase('cinco') Frase(“seis”)])",
+                            "    Grupo(Pila() [Frase('siete') Frase(“ocho”)])",
                             "    ]",
                             ")"
                         ],
@@ -3703,12 +3703,12 @@
                         ],
                         [
                             "edit",
-                            "Group(",
-                            "    Grid(2 2) [",
-                            "    Group(Stack() [Phrase('uno') Phrase(“dos”)])",
-                            "    Group(Stack() [Phrase('tres') Phrase(“cuatro”)] resting:Pose(rotation: 45°))",
-                            "    Group(Stack() [Phrase('cinco') Phrase(“seis”)])",
-                            "    Group(Stack() [Phrase('siete') Phrase(“ocho”)] resting:Pose(rotation: 45°))",
+                            "Grupo(",
+                            "    Cuadrícula(2 2) [",
+                            "    Grupo(Pila() [Frase('uno') Frase(“dos”)])",
+                            "    Grupo(Pila() [Frase('tres') Frase(“cuatro”)] inmóvil:Pose(rotación: 45°))",
+                            "    Grupo(Pila() [Frase('cinco') Frase(“seis”)])",
+                            "    Grupo(Pila() [Frase('siete') Frase(“ocho”)] inmóvil:Pose(rotación: 45°))",
                             "    ]",
                             ")"
                         ],
@@ -3753,7 +3753,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Escenario([Frase('🎭' 5m resting:Secuencia(rebote(5m) 2s))] fondo: Color(0% 0 0°))"
+                            "Escenario([Frase('🎭' 5m inmóvil:Secuencia(rebote(5m) 2s))] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3768,7 +3768,7 @@
                         null,
                         [
                             "fix",
-                            "Escenario([Frase('🎭' 5m resting:Pose(rotación: 25° escala: 5))] fondo: Color(0% 0 0°))"
+                            "Escenario([Frase('🎭' 5m inmóvil:Pose(rotación: 25° escala: 5))] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3783,7 +3783,7 @@
                         null,
                         [
                             "fix",
-                            "Escenario([Frase('🎭' 5m resting:Pose(rotación: -150° escala: 10))] fondo: Color(0% 0 0°))"
+                            "Escenario([Frase('🎭' 5m inmóvil:Pose(rotación: -150° escala: 10))] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3836,7 +3836,7 @@
                         ],
                         [
                             "edit",
-                            "Escenario([Frase(“🐈” place: Place(-2.5m))] fondo: Color(0 0 0°) marco: Rectángulo(-2m -2m 2m 2m))"
+                            "Escenario([Frase(“🐈” lugar: Lugar(-2.5m))] fondo: Color(0 0 0°) marco: Rectángulo(-2m -2m 2m 2m))"
                         ],
                         null,
                         [
@@ -3851,11 +3851,11 @@
                         ],
                         [
                             "edit",
-                            "Stage(",
-                            "    [Phrase(“🐈” place:Place(-2.5m))]",
-                            "    background: Color(0 0 0°)",
-                            "    resting: Pose(rotation: 30°)",
-                            "    frame: Rectangle(-2m -2m 2m 2m)",
+                            "Escenario(",
+                            "    [Frase(“🐈” lugar:Lugar(-2.5m))]",
+                            "    fondo: Color(0 0 0°)",
+                            "    inmóvil: Pose(rotación: 30°)",
+                            "    marco: Rectángulo(-2m -2m 2m 2m)",
                             ")"
                         ],
                         null,
@@ -3879,7 +3879,7 @@
                     "lines": [
                         [
                             "fix",
-                            "Phrase('🔘' 10m entering: Sequence({0%: Pose(offset: Place(0m 0m)) 50%: Pose(offset: Place(0m -0.2m)) 100%: Pose(offset: Place(0m 0m))} 1s count: 3x))"
+                            "Frase('🔘' 10m entrando: Secuencia({0%: Pose(desplazamiento: Lugar(0m 0m)) 50%: Pose(desplazamiento: Lugar(0m -0.2m)) 100%: Pose(desplazamiento: Lugar(0m 0m))} 1s cuenta: 3x))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3906,10 +3906,10 @@
                         [
                             "edit",
                             "Escenario(",
-                            "    [Grupo(Stack() [",
+                            "    [Grupo(Pila() [",
                             "        Frase('🐱' nombre:'gato' seleccionable:⊤)",
                             "        Frase('🐶' nombre: 'perro' seleccionable:⊤)",
-                            "        Frase(Choice())",
+                            "        Frase(Elección())",
                             "    ])",
                             "])"
                         ],
@@ -3969,7 +3969,7 @@
                         null,
                         [
                             "fit",
-                            "Frase(':' resting:Pose(escala: 10ms ÷ Tiempo()))"
+                            "Frase(':' inmóvil:Pose(escala: 10ms ÷ Tiempo()))"
                         ],
                         [
                             "FunctionDefinition",
@@ -3984,7 +3984,7 @@
                         null,
                         [
                             "fix",
-                            "Frase(':' 10m resting:Secuencia(rebote(3m) 1s))"
+                            "Frase(':' 10m inmóvil:Secuencia(rebote(3m) 1s))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4065,7 +4065,7 @@
                         ],
                         [
                             "edit",
-                            "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"
+                            "[ 'a' 'e' 'i' 'o' 'u'].tiene(Tecla())"
                         ],
                         null,
                         [
@@ -4075,7 +4075,7 @@
                         ],
                         [
                             "edit",
-                            "Frase([ 'a' 'e' 'i' 'o' 'u'].has(Key())→'')"
+                            "Frase([ 'a' 'e' 'i' 'o' 'u'].tiene(Tecla())→'')"
                         ],
                         null,
                         [
@@ -4086,8 +4086,8 @@
                         [
                             "edit",
                             "Frase(",
-                            "   [ 'a' 'e' 'i' 'o' 'u' ].has(Key())→''",
-                            "   [ 'a' 'e' 'i' 'o' 'u' ].has(Key()) ? 2m 1m",
+                            "   [ 'a' 'e' 'i' 'o' 'u' ].tiene(Tecla())→''",
+                            "   [ 'a' 'e' 'i' 'o' 'u' ].tiene(Tecla()) ? 2m 1m",
                             ")"
                         ],
                         null,
@@ -4098,7 +4098,7 @@
                         ],
                         [
                             "edit",
-                            "magia: [ 'a' 'e' 'i' 'o' 'u'].has(Key())",
+                            "magia: [ 'a' 'e' 'i' 'o' 'u'].tiene(Tecla())",
                             "Frase(",
                             "    magia→''",
                             "    magia ? 2m 1m",
@@ -4113,9 +4113,9 @@
                         [
                             "edit",
                             "Frase(",
-                            "    [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key())→''",
-                            "    [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key()) ? 2m 1m",
-                            "    color: Color(50% 100 [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key()) ? 180° 0°)",
+                            "    [ 'a' 'e' 'i' 'o' 'u' 'z'].tiene(Tecla())→''",
+                            "    [ 'a' 'e' 'i' 'o' 'u' 'z'].tiene(Tecla()) ? 2m 1m",
+                            "    color: Color(50% 100 [ 'a' 'e' 'i' 'o' 'u' 'z'].tiene(Tecla()) ? 180° 0°)",
                             ")"
                         ],
                         null,
@@ -4126,7 +4126,7 @@
                         ],
                         [
                             "edit",
-                            "magia: [ 'a' 'e' 'i' 'o' 'u' 'z'].has(Key())",
+                            "magia: [ 'a' 'e' 'i' 'o' 'u' 'z'].tiene(Tecla())",
                             "Frase(",
                             "    magia→''",
                             "    magia ? 2m 1m",
@@ -4301,7 +4301,7 @@
                         null,
                         [
                             "fit",
-                            "Frase('()' descansando:Secuencia(girar() 1s 'recto'))"
+                            "Frase('()' inmóvil:Secuencia(girar() 1s 'recto'))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4389,7 +4389,7 @@
                             "  u: única{'u'} ? 1 0",
                             "  a + e + i + o + u",
                             ")",
-                            "vocales('hello')"
+                            "vocales('hola')"
                         ],
                         null,
                         [
@@ -4400,7 +4400,7 @@
                         [
                             "edit",
                             "ƒ par(número•#)•? (número % 2) = 0",
-                            "[ 1 2 3 4 5 6 7 8 ].filter(par)"
+                            "[ 1 2 3 4 5 6 7 8 ].filtro(par)"
                         ],
                         null,
                         [
@@ -4410,7 +4410,7 @@
                         ],
                         [
                             "fit",
-                            "Group(Grid(3 2) [Phrase('traducir') Phrase('filtrar') Phrase('combinar') Phrase('buscar') Phrase('ordenar') Phrase('hasta')])"
+                            "Grupo(Cuadrícula(3 2) [Frase('traducir') Frase('filtrar') Frase('combinar') Frase('buscar') Frase('ordenar') Frase('hasta')])"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
@@ -4436,7 +4436,7 @@
                         null,
                         [
                           "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                          "Frase('•' inmóvil:Secuencia({0%: Pose(escala: 1) 50%: Pose(escala: 1.2) 100%: Pose(escala: 1)} 3s))"
                         ],
                         [
                           "FunctionDefinition",
@@ -4461,7 +4461,7 @@
                         ],
                         [
                           "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))"
+                          "Frase('•' inmóvil:Secuencia({0%: Pose(desplazamiento: Lugar(-0.25m)) 50%: Pose(desplazamiento: Lugar(0.25m)) 100%: Pose(desplazamiento: Lugar(-0.25m))} 3s))"
                         ],
                         null,
                         [
@@ -4477,7 +4477,7 @@
                         ],
                         [
                           "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
+                          "Frase('•' inmóvil:Secuencia({0%: Pose(rotación: 0°) 80%: Pose(rotación: 15°) 100%: Pose(rotación: 0°)} 3s))"
                         ],
                         null,
                         [
@@ -4488,7 +4488,7 @@
                         ["StructureDefinition", "happy", "Podemos, ¿verdad?"],
                         [
                           "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))"
+                          "Frase('•' inmóvil:Secuencia({0%: Pose(desplazamiento: Lugar(0m 0.25m)) 50%: Pose(desplazamiento: Lugar(0m 0m)) 100%: Pose(desplazamiento: Lugar(0m 0.25m))} 3s))"
                         ],
                         null,
                         [
@@ -4499,7 +4499,7 @@
                         ["StructureDefinition", "eager", "Creo que sí."],
                         [
                           "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
+                          "Frase('•' inmóvil:Secuencia({0%: Pose(desplazamiento: Lugar(0m 0.25m)) 50%: Pose(desplazamiento: Lugar(0m 0m)) 100%: Pose(desplazamiento: Lugar(0m 0.25m))} 1.5s))"
                         ],
                         null,
                         [
@@ -4519,7 +4519,7 @@
                         ],
                         [
                           "fix",
-                          "Phrase('•' entering: Pose(scale: 0.5) resting:Pose(scale: 2))"
+                          "Frase('•' entrando: Pose(escala: 0.5) inmóvil:Pose(escala: 2))"
                         ],
                         null,
                         [
@@ -4553,7 +4553,7 @@
                           "    'Gato de regazo'",
                           "  ]",
                           "index: 1",
-                        "Phrase(messages[index])"
+                        "Frase(messages[index])"
                     ],
                     null,
                     [
@@ -4570,8 +4570,8 @@
                         "  'Enamoramiento felino'",
                         "  'Gato de regazo'",
                         "]",
-                        "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
-                        "Phrase(messages[index])"
+                        "index•#: 1 … ∆ Tiempo(2000ms) … index = messages.longitud() ? 1 index + 1",
+                        "Frase(messages[index])"
                     ],
                     null,
                     [
@@ -4589,11 +4589,11 @@
                         "  'Gato de regazo'",
                         "]",
                         "",
-                        "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
+                        "index•#: 1 … ∆ Tiempo(2000ms) … index = messages.longitud() ? 1 index + 1",
                         "",
-                        "Group(Stack('|' 0m) [",
-                        "  Phrase(messages[index])",
-                        "  Phrase(messages[index] resting:Pose(flipy: ⊤ opacity: 25%))",
+                        "Grupo(Pila('|' 0m) [",
+                        "  Frase(messages[index])",
+                        "  Frase(messages[index] inmóvil:Pose(flipy: ⊤ opacidad: 25%))",
                         "])"
                     ],
                     null,
@@ -4607,7 +4607,7 @@
                         "edit",
                         "•Marquee(messages•[''] index•#: 1) (",
                         "  ƒ now() messages[index]",
-                        "  ƒ next() Marquee(messages index ≥ messages.length() ? 1 index + 1)",
+                        "  ƒ next() Marquee(messages index ≥ messages.longitud() ? 1 index + 1)",
                         ")",
                         "",
                         "marquee•Marquee: Marquee([",
@@ -4616,11 +4616,11 @@
                         "  'Mamá de gatos.'",
                         "  'Enamoramiento felino'",
                         "  'Gato de regazo'",
-                        "]) … ∆ Time(2000ms) … marquee.next()",
+                        "]) … ∆ Tiempo(2000ms) … marquee.next()",
                         "",
-                        "Group(Stack('|' 0.5m) [",
-                        "  Phrase(marquee.now())",
-                        "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
+                        "Grupo(Pila('|' 0.5m) [",
+                        "  Frase(marquee.now())",
+                        "  Frase(marquee.now() inmóvil:Pose(flipy: ⊤ opacidad: 25%))",
                         "])"
                     ],
                     null,
@@ -4639,8 +4639,8 @@
                         "•Marquee(messages•[“”] index•#: 1) (",
                         "  ƒ now() messages[index]",
                         "  ƒ next()",
-                        "    index ≥ messages.length() ?",
-                        "      Marquee(messages.reverse() 1)",
+                        "    index ≥ messages.longitud() ?",
+                        "      Marquee(messages.inverso() 1)",
                         "      Marquee(messages index + 1)",
                         ")",
                         "",
@@ -4650,11 +4650,11 @@
                         "  'Mamá de gatos.'",
                         "  'Enamoramiento felino'",
                         "  'Gato de regazo'",
-                        "]) … ∆ Time(2000ms) … marquee.next()",
+                        "]) … ∆ Tiempo(2000ms) … marquee.next()",
                         "",
-                        "Group(Stack('|' 0.5m) [",
-                        "  Phrase(marquee.now())",
-                        "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
+                        "Grupo(Pila('|' 0.5m) [",
+                        "  Frase(marquee.now())",
+                        "  Frase(marquee.now() inmóvil:Pose(flipy: ⊤ opacidad: 25%))",
                         "])"
                     ],
                     null,
@@ -4714,7 +4714,7 @@
                     [
                         "edit",
                         "•Game(score•# lives•# level•#)",
-                        "status: Game(0 3 1) … ∆ Time() … Game(status.score + 1 status.lives status.level)"
+                        "status: Game(0 3 1) … ∆ Tiempo() … Game(status.score + 1 status.lives status.level)"
                     ],
                     null,
                     [
@@ -4725,12 +4725,12 @@
                     [
                         "edit",
                         "•Game(score•# lives•# level•#)",
-                        "status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1"
+                        "status: Game(0 3 1) … ∆ Tiempo() … status.score: status.score + 1"
                     ],
                     null,
                     [
                         "fit",
-                        "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                        "Frase('•' inmóvil:Secuencia({0%: Pose(escala: 1) 50%: Pose(escala: 1.2) 100%: Pose(escala: 1)} 3s))"
                     ],
                     [
                         "FunctionDefinition",
@@ -4875,7 +4875,7 @@
                             "``Necesitamos algún tipo de reacción para escuchar el micrófono…``",
                             "sound: 1m",
                             "``Sabemos que hay un avión, pero ¿qué más?``",
-                            "Phrase(“✈️” sound)"
+                            "Frase(“✈️” sound)"
                         ],
                         null,
                         ["use", "fit", "Symbol", "✈️🫦"],
@@ -4949,7 +4949,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('¡Silencio en el backstage!' color: Color(100% 0 0°))] background: Color(0% 0 0°))"
+                            "Escenario([Frase('¡Silencio en el backstage!' color: Color(100% 0 0°))] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -4965,7 +4965,7 @@
             "title": "Denomovimiento",
             "performance": [
                 "fit",
-                "Stage([Phrase('😨')] background: Color(0% 0 0°))"
+                "Escenario([Frase('😨')] fondo: Color(0% 0 0°))"
             ],
             "scenes": [
                 {
@@ -4973,12 +4973,12 @@
                     "subtitle": null,
                     "performance": [
                         "fit",
-                        "Stage([Phrase('😨' resting:Sequence(shake() style: 'straight'))] background: Color(0% 0 0°))"
+                        "Escenario([Frase('😨' inmóvil:Secuencia(temblor() estilo: 'straight'))] fondo: Color(0% 0 0°))"
                     ],
                     "lines": [
                         [
                             "fit",
-                            "Stage([Phrase('😡')] background: Color(0% 0 0°))"
+                            "Escenario([Frase('😡')] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -4993,7 +4993,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('😢')] background: Color(0% 0 0°))"
+                            "Escenario([Frase('😢')] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5008,7 +5008,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('😠')] background: Color(0% 0 0°))"
+                            "Escenario([Frase('😠')] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5023,7 +5023,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('😓')] background: Color(0% 0 0°))"
+                            "Escenario([Frase('😓')] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5038,7 +5038,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('😭')] background: Color(0% 0 0°))"
+                            "Escenario([Frase('😭')] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5053,7 +5053,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([Phrase('🫠')] background: Color(0% 0 0°))"
+                            "Escenario([Frase('🫠')] fondo: Color(0% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5091,7 +5091,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(10% 0 0°))"
+                            "Escenario([] fondo: Color(10% 0 0°))"
                         ],
                         [
                             "List",
@@ -5121,7 +5121,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(20% 0 0°))"
+                            "Escenario([] fondo: Color(20% 0 0°))"
                         ],
                         [
                             "Phrase",
@@ -5156,7 +5156,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(40% 0 0°))"
+                            "Escenario([] fondo: Color(40% 0 0°))"
                         ],
                         [
                             "Convert",
@@ -5186,7 +5186,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(50% 0 0°))"
+                            "Escenario([] fondo: Color(50% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5196,7 +5196,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(60% 0 0°))"
+                            "Escenario([] fondo: Color(60% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5206,7 +5206,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(70% 0 0°))"
+                            "Escenario([] fondo: Color(70% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5216,7 +5216,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(80% 0 0°))"
+                            "Escenario([] fondo: Color(80% 0 0°))"
                         ],
                         [
                             "FunctionDefinition",
@@ -5247,7 +5247,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(90% 0 0°))"
+                            "Escenario([] fondo: Color(90% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5257,7 +5257,7 @@
                         null,
                         [
                             "fit",
-                            "Stage([] background: Color(100% 0 0°))"
+                            "Escenario([] fondo: Color(100% 0 0°))"
                         ],
                         [
                             "Evaluate",
@@ -5288,7 +5288,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance1"
+                            "EvaluarBaile1"
                         ],
                         null,
                         [
@@ -5304,7 +5304,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance2"
+                            "EvaluateBaile2"
                         ],
                         null,
                         [
@@ -5320,7 +5320,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance3"
+                            "EvaluateBaile3"
                         ],
                         null,
                         [
@@ -5336,7 +5336,7 @@
                         [
                             "use",
                             "conflict",
-                            "EvaluateDance4"
+                            "EvaluateBaile4"
                         ],
                         null,
                         [
@@ -5352,7 +5352,7 @@
                         [
                             "use",
                             "conflict",
-                            "EvaluateDance5"
+                            "EvaluateBaile5"
                         ],
                         null,
                         [
@@ -5378,7 +5378,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance6"
+                            "EvaluateBaile6"
                         ],
                         null,
                         [
@@ -5389,7 +5389,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance7"
+                            "EvaluateBaile7"
                         ],
                         null,
                         [
@@ -5400,7 +5400,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance8"
+                            "EvaluateBaile8"
                         ],
                         null,
                         [
@@ -5416,7 +5416,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance9"
+                            "EvaluateBaile9"
                         ],
                         null,
                         [
@@ -5464,7 +5464,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance10"
+                            "EvaluateBaile10"
                         ],
                         null,
                         [
@@ -5475,7 +5475,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance11"
+                            "EvaluateBaile11"
                         ],
                         null,
                         [
@@ -5491,7 +5491,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance12"
+                            "EvaluateBaile12"
                         ],
                         null,
                         [
@@ -5502,7 +5502,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance13"
+                            "EvaluateBaile13"
                         ],
                         null,
                         [
@@ -5539,13 +5539,13 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateDance14"
+                            "EvaluateBaile14"
                         ],
                         null,
                         [
                             "use",
                             "fix",
-                            "EvaluateDance14"
+                            "EvaluateBaile14"
                         ],
                         [
                             "List",

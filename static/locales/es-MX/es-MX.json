@@ -2193,7 +2193,7 @@
                         "Por ejemplo, imagina yo soy una @List de @Number y solo quieres los numeros positivos:",
                         "\\[2 -4 8 -16].filtrar(ƒ(num•#) num ≥ 0)\\"
                     ],
-                    "names": "filtrar",
+                    "names": "filtro",
                     "inputs": [
                         {
                             "doc": "Una @FunctionDefinition que chequea cada elemento, produciendo \\T\\ si deberia ser conservado en la list",
@@ -2782,7 +2782,7 @@
                 "And if you pass numbers with a particular number of significant digits after the decimal, that precision will be preserved.",
                 "\\Random(2.00, 20.00)\\"
             ],
-            "names": ["🎲", "Random"],
+            "names": ["🎲", "Azar"],
             "inputs": [
                 {
                     "names": "mínimo",
@@ -2816,7 +2816,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Esto simplemente crea un @Phrase que es el valor del flujo como texto. Si lo copias en el editor y haces clic, verás que alterna entre \\⊥\\ y \\⊤\\."
             ],
-            "names": ["🖱️", "Button"],
+            "names": ["🖱️", "Botón"],
             "down": {
                 "names": "abajo",
                 "doc": "Si es @None, el flujo proporcionará tanto valores hacia arriba como hacia abajo. Si es @Boolean, solo proporcionará el valor dado por el valor @Boolean."
@@ -2969,7 +2969,7 @@
                 "\\Chat().tiene('hola') ? '¡hola!' '¿eh?'\\",
                 "¡Eso es todo! Puedes realizar todo tipo de actuaciones con esto, como chatbots, aventuras de texto o esquemas de control basados en texto para otros tipos de actuaciones."
             ],
-            "names": ["🗣️", "Chat"]
+            "names": ["🗣️", "Charla"]
         },
         "Placement": {
             "doc": [
@@ -3038,7 +3038,7 @@
             }
         },
         "Collision": {
-            "names": "colisión",
+            "names": "Colisión",
             "doc": [
                 "/¡Hola! Soy @FunctionDefinition. Echa un vistazo a esta entrada genial./",
                 "¡Puede ayudarte a descubrir cuándo se encuentran @Output! Esta es una excelente manera de hacer algo cuando nos encontramos, además de simplemente rebotar entre sí como podría hacer @Output.",
@@ -3087,7 +3087,7 @@
     },
     "output": {
         "Output": {
-            "names": "Output",
+            "names": "Salida",
             "doc": [
                 "No soy una @StructureDefinition que puedas crear realmente. Pero soy uno muy importante, ya que inspiro los elementos más importantes de nuestra danza: @Phrase, @Group y @Stage.",
                 "Ve a conocerlos para aprender más sobre cómo usarlos."
@@ -3125,7 +3125,7 @@
             },
             "place": {
                 "doc": "El lugar que debo de estar. El contenido dentro de mí se organizará en relación con allí.",
-                "names": "place"
+                "names": "lugar"
             },
             "name": {
                 "doc": ["Lo mismo que @Phrase/name"],
@@ -3149,7 +3149,7 @@
             },
             "offset": {
                 "doc": "Un @Place que indica qué tan alejado debe estar de mi @Place normal, a menos que lo anule un @Pose diferente. Útil para moverse en su lugar.",
-                "names": "compensar"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "Qué tan inclinado debería estar alrededor de mi centro, mi @Pose tiene uno diferente.",
@@ -3173,7 +3173,7 @@
             },
             "resting": {
                 "doc": "¡Igual que @Group/resting!",
-                "names": "descansando"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "¡Igual que @Group/moving!",
@@ -3259,7 +3259,7 @@
             },
             "offset": {
                 "doc": "Un @Place indicando qué tan compensado debe estar de mi @Place, a menos que fuera anulado por una @Pose diferente.",
-                "names": "compensar"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "La cantidad en grados que debo rotar alrededor del centro, a menos que fuera anulado por una @Pose diferente.",
@@ -3283,7 +3283,7 @@
             },
             "resting": {
                 "doc": "La @Pose o @Sequence que debo de hacer después que entro en el escenario, antes que salgo, y cuando mi @Place no esta cambiando. Si no me quieres dar uno, usaré el predeterminado.",
-                "names": "descansando"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "La @Pose o @Sequence que debo de hacer cuando cambio de lugar en el escenario en lugar de mi defecto.",
@@ -3418,7 +3418,7 @@
             },
             "resting": {
                 "doc": "La @Pose o @Sequence  que debería hacer después de entrar y mientras no me estoy moviendo.",
-                "names": "reposo"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "La @Pose o @Sequence  que debería hacer al moverme de lugar.",
@@ -3485,7 +3485,7 @@
             },
             "offset": {
                 "doc": "Un @Place que indica qué tan alejado debe estar del lugar de un @Output, en lugar de su valor predeterminado. Útil para moverse en su lugar.",
-                "names": "offset"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "Qué tan girado debe estar un @Output, en lugar de su valor predeterminado.",
@@ -3560,7 +3560,7 @@
             },
             "count": {
                 "doc": "Cuántas veces debe repetirse la secuencia antes de que termine. Esto es realmente útil cuando entro en escena, me muevo en escena o salgo del escenario, pero cuando es una secuencia de descanso, se ignora, ¡ya que puedo descansar para siempre!",
-                "names": "conteo"
+                "names": "cuenta"
             }
         },
         "Place": {
@@ -3703,7 +3703,7 @@
             },
             "resting": {
                 "doc": "IGUAL QUE @Group/resting!",
-                "names": "reposo"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "IGUAL QUE @Group/moving!",
