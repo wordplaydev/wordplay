@@ -26,6 +26,7 @@
     import { DOCUMENTATION_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
     import MotionEditor from './MotionEditor.svelte';
     import PlacementEditor from './PlacementEditor.svelte';
+    // import AuraEditor from './AuraEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -46,6 +47,8 @@
         await tick();
         toggleView?.focus();
     }
+
+    console.log(property.type)
 </script>
 
 <div class="property">
@@ -70,7 +73,11 @@
             >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
         >{/if}
     <div class="control">
-        {#if values.areMixed()}
+        {#if property.type === 'aura'}
+            <!-- <div style="background-color:hotpink">
+                <h2>AURA EDITOR</h2>
+            </div> -->
+        {:else if values.areMixed()}
             <Note
                 >{$locales
                     .map((locale) => locale.ui.palette.labels.mixed)
@@ -158,6 +165,8 @@
                 <PlacementEditor {project} {placement} {editable} />
             {/if}
         {/if}
+        
+                
     </div>
 </div>
 

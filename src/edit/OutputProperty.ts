@@ -16,6 +16,7 @@ type OutputPropertyType =
     | 'poses'
     | 'content'
     | 'place'
+    | 'aura'
     | 'form';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */

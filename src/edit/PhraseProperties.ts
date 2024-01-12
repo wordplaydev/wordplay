@@ -10,6 +10,9 @@ import Unit from '../nodes/Unit';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import { getTypeOutputProperties } from './OutputProperties';
 import type Project from '../models/Project';
+import getShadowProperties from './ShadowProperties';
+import Evaluate from '../nodes/Evaluate';
+import { createColorLiteral } from '../output/Color';
 
 export default function getPhraseProperties(
     project: Project,
@@ -47,6 +50,15 @@ export default function getPhraseProperties(
             (expr) => expr instanceof TextLiteral,
             () => TextLiteral.make('|')
         ),
+        new OutputProperty(
+            locale.output.Phrase.shadow,
+            'aura',
+            false,
+            false,
+            (expr) => expr instanceof TextLiteral,
+            () => TextLiteral.make('|')
+        ),
+        // ...getShadowProperties(project, locale),
         ...getTypeOutputProperties(project, locale),
     ];
 }
