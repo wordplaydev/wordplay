@@ -10,7 +10,7 @@
     import MapLiteral from '@nodes/MapLiteral';
     import KeyValue from '@nodes/KeyValue';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { Projects, locales } from '@db/Database';
+    import { Projects, locale, locales } from '../../db/Database';
     import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;
@@ -19,7 +19,7 @@
     export let sequence: boolean;
     export let editable: boolean;
 
-    $: PoseProperties = getPoseProperties(project, $locales, false);
+    $: PoseProperties = getPoseProperties(project, $locale, false);
 
     // Create a mapping from pose properties to values
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
@@ -42,7 +42,9 @@
                 output.node,
                 Evaluate.make(
                     Reference.make(
-                        $locales.getName(project.shares.output.Sequence.names),
+                        project.shares.output.Sequence.names.getPreferredNameString(
+                            $locales
+                        ),
                         project.shares.output.Sequence
                     ),
                     [
@@ -64,11 +66,8 @@
         <PaletteProperty {project} {property} {values} {editable} />
     {/each}
     {#if !sequence && editable}
-        <Button
-            tip={$locales.get((l) => l.ui.palette.button.sequence)}
-            action={convert}
-            >{project.shares.output.Sequence.getNames()[0]}
-            {$locales.get((l) => l.ui.palette.button.sequence)}</Button
+        <Button tip={$locale.ui.palette.button.sequence} action={convert}
+            >{project.shares.output.Sequence.getNames()[0]}</Button
         >
     {/if}
 </div>

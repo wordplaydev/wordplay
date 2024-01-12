@@ -73,6 +73,16 @@ export default function getPhraseProperties(
             (expr) => expr instanceof TextLiteral,
             () => TextLiteral.make(HorizontalLayout),
         ),
+        new OutputProperty(
+            locales.get((l) => l.output.Phrase.shadow),
+            'aura',
+            false,
+            false,
+            (expr) => expr instanceof TextLiteral,
+            () => TextLiteral.make('|'),
+        ),
+        // ...getShadowProperties(project, locale),
+        ...getTypeOutputProperties(project, locales),
     ];
 
     const typeProperties = getTypeOutputProperties(project, locales);
