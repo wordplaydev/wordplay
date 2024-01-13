@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.16 2024-01-13
 
+## Fixed
+
+-   [#340](https://github.com/wordplaydev/wordplay/issues/340): Corrected partial formatting edge case
+
 ## Maintenance
 
 -   Upgraded to SvelteKit 2.32.

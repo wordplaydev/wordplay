@@ -129,12 +129,13 @@ export default class Words extends Content {
     /** Gets this format and all of the nested formats of segments that wrap the entire Word. */
     getFormats(): Format[] {
         const format = this.getFormat();
-        if (format && this.segments.length === 1) {
+        if (format === undefined) return [];
+        else if (this.segments.length === 1) {
             return this.segments[0] instanceof Token ||
                 !(this.segments[0] instanceof Words)
                 ? [format]
                 : [format, ...this.segments[0].getFormats()];
-        } else return [];
+        } else return [format];
     }
 
     getWeight(): FontWeight | undefined {
