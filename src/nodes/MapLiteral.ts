@@ -180,7 +180,7 @@ export default class MapLiteral extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        // Pop all of the values. Order doesn't matter.
+        // Pop all of the values. Order matters because redundant keys that come later should override previous keys.
         const values: [Value, Value][] = [];
         for (let i = 0; i < this.values.length; i++) {
             const value = evaluator.popValue(this);
