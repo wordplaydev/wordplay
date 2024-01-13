@@ -3,6 +3,16 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.16 2024-01-13
+
+## Maintenance
+
+-   Upgraded to SvelteKit 2.32.
+-   Upgraded to Vite 5.0.11
+-   Upgraded to Firebase functions 4.6
+-   Upgraded to Pitchy 4.1
+-   Upgraded types: matter-js, node, uuid
+
 ## 0.9.15 2023-12-22
 
 ### Added
