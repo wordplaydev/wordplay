@@ -55,14 +55,15 @@
         <TextField
             bind:text={emailOrUsername}
             placeholder={$locales.get(
-                (l) => l.ui.dialog.share.field.emailOrUsername.placeholder
+                (l) => l.ui.dialog.share.field.emailOrUsername.placeholder,
             )}
             description={$locales.get(
-                (l) => l.ui.dialog.share.field.emailOrUsername.description
+                (l) => l.ui.dialog.share.field.emailOrUsername.description,
             )}
             validator={validCollaborator}
         />
         <Button
+            submit
             background
             tip={$locales.get((l) => l.ui.dialog.share.button.submit)}
             active={validCollaborator(emailOrUsername)}
@@ -72,7 +73,7 @@
         {#if unknown}
             <Feedback
                 >{$locales.get(
-                    (l) => l.ui.dialog.share.error.unknown
+                    (l) => l.ui.dialog.share.error.unknown,
                 )}</Feedback
             >{/if}
     </form>
@@ -86,7 +87,7 @@
                     {creator}
                 />{:else}?{/if}{#if editable}<Button
                     tip={$locales.get(
-                        (l) => l.ui.project.button.removeCollaborator
+                        (l) => l.ui.project.button.removeCollaborator,
                     )}
                     active={removable(uid)}
                     action={() => remove(uid)}>⨉</Button

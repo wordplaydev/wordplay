@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#340](https://github.com/wordplaydev/wordplay/issues/340): Corrected partial formatting edge case
 -   [#341](https://github.com/wordplaydev/wordplay/issues/341): Fixed key overrides in MapLiteral.
+-   [#342](https://github.com/wordplaydev/wordplay/issues/342): Fixed broken collaborator sharing button.
 
 ## Maintenance
 
