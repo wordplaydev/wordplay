@@ -23,7 +23,7 @@ export const ProjectSchemaV1 = z.object({
     /** The version of the project schema, used for keeping track of different versions of the project schema.  */
     v: z.literal(1),
     /** A very likely unique uuid4 string */
-    id: z.string().uuid(),
+    id: z.string(),
     /** A single Translation, serialized */
     name: z.string(),
     /** The source files in the project */
