@@ -91,7 +91,7 @@
     }
 
     .shape.line {
-        border-width: 1px;
-        border-color: var(--line-color);
+        background: #a0ca09;
+        border-width: 3px;
     }
 </style>
