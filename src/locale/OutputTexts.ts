@@ -145,18 +145,6 @@ type OutputTexts = {
         /** Depth of line */
         color: NameAndDoc;
     };
-    Line: NameAndDoc & {
-        /** Left of the line */
-        x1: NameAndDoc;
-        /** Top of the line */
-        y1: NameAndDoc;
-        /** Right of the line */
-        x2: NameAndDoc;
-        /** Bottom of the line */
-        y2: NameAndDoc;
-        /** Depth of line */
-        color: NameAndDoc;
-    };
     /** A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Pose: NameAndDoc & {
         duration: NameAndDoc;
