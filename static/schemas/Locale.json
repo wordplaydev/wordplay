@@ -7063,7 +7063,7 @@
               "properties": {
                 "y2": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Bottom of the rectangle"
+                  "description": "The target y coordinate of the line"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7071,7 +7071,7 @@
                 },
                 "x1": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Left of the rectangle"
+                  "description": "The starting x coordinate of the line"
                 },
                 "names": {
                   "$ref": "#/definitions/NameText",
@@ -7079,15 +7079,15 @@
                 },
                 "x2": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Right of the rectangle"
+                  "description": "The target x coordinate of the line"
                 },
                 "y1": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Top of the rectangle"
+                  "description": "The starting y coordinate of the line"
                 },
                 "z": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "Depth of rectangle"
+                  "description": "Depth of line"
                 }
               },
               "required": [
