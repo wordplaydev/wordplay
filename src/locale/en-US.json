@@ -3425,26 +3425,26 @@
             }
         },
         "Line": {
-            "doc": "I am a line",
+            "doc": "I am a line, useful for making @Stage generate a physical line shape.",
             "names": ["Line"],
             "x1": {
-                "doc": "The left edge of the stage on the x-axis",
-                "names": "left"
+                "doc": "The starting edge of the stage on the x-axis",
+                "names": "x1"
             },
             "y1": {
-                "doc": "The top edge of the stage on the y-axes",
-                "names": "top"
+                "doc": "The starting edge of the stage on the y-axes",
+                "names": "y1"
             },
             "x2": {
-                "doc": "The right edge of the stage on the x-axis",
-                "names": "right"
+                "doc": "The ending edge of the stage on the x-axis",
+                "names": "x2"
             },
             "y2": {
-                "doc": "The bottom edge of the stage on the y-axis",
-                "names": "bottom"
+                "doc": "The ending edge of the stage on the y-axis",
+                "names": "y2"
             },
             "z": {
-                "doc": "The depth position of the rectangle.",
+                "doc": "The depth position of the line.",
                 "names": "z"
             }
         },
