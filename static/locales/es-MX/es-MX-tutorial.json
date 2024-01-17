@@ -713,7 +713,7 @@
         },
         {
             "title": "Son las cosas pequeñas",
-            "performance": ["use", "fit", "SimpleZangoloteo"],
+            "performance": ["use", "fit", "SimpleJiggle"],
             "scenes": [
                 {
                     "title": "Valores",
@@ -1150,8 +1150,8 @@
                         null,
                         [
                             "fit",
-                            "desplazamiento:10",
-                            "Escenario([Grupo(Cuadrícula(múltiple múltiple) ('⊤⊥'.repetir(múltiple ^ 2) ÷ '').traducir(ƒ(glyph•'') Frase(glyph color: Color(75% 0 0°))))])"
+                            "multiple: 10",
+                            "Escenario([Grupo(Cuadrícula(multiple multiple) ('⊤⊥'.repetir(multiple ^ 2) ÷ '').traducir(ƒ(glyph•'') Frase(glyph color: Color(75% 0 0°))))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -1164,13 +1164,13 @@
                         [
                             "FunctionDefinition",
                             "sad",
-                            "Ustedes dos... está bien, hablaremos con @Conditional más tarde. (Se suponía que debían decir que son útiles para tomar decisiones con valores, pero supongo que quieren que @Conditional te cuente sobre eso. Hablaremos con @Conditional más tarde)."
+                            "Ustedes dos... están bien, hablaremos con @Conditional más tarde. (Se suponía que debían decir que son útiles para tomar decisiones con valores, pero supongo que quieren que @Conditional te cuente sobre eso. Hablaremos con @Conditional más tarde)."
                         ],
                         null,
                         [
                             "fit",
-                            "desplazamiento:10",
-                            "Escenario([Grupo(Cuadrícula(múltiple múltiple) ('⊤⊥'.repetir(múltiple ^ 2) ÷ '').traducir(ƒ(glyph•'') Frase(glyph color: Color(75% 0 0°) rotación: 90°)))])"
+                            "multiple:10",
+                            "Escenario([Grupo(Cuadrícula(multiple multiple) ('⊤⊥'.repetir(multiple ^ 2) ÷ '').traducir(ƒ(glyph•'') Frase(glyph color: Color(75% 0 0°) rotación: 90°)))])"
                         ],
                         [
                             "FunctionDefinition",
@@ -1182,12 +1182,12 @@
                         null,
                         [
                             "fit",
-                            "desplazamiento:10",
+                            "multiple:10",
                             "                        Escenario(",
                             "                        [",
                             "                        Grupo(",
-                            "                        Cuadrícula(múltiple múltiple) ",
-                            "                        ('⊤⊥'.repetir(múltiple ^ 2) ÷ '').traducir(",
+                            "                        Cuadrícula(multiple multiple) ",
+                            "                        ('⊤⊥'.repetir(multiple ^ 2) ÷ '').traducir(",
                             "                        ƒ(glyph•'') ",
                             "                        Frase(glyph inmóvil:Pose(",
                             "                            color: Color(75% 0 0°) ",
@@ -1924,17 +1924,17 @@
                         ],
                         [
                             "edit",
-                            "{ 'ben': 2points 'joe': 5points 'kate': 12points }"
+                            "{ 'ben': 2points 'josé': 5points 'kate': 12points }"
                         ],
                         null,
                         [
                             "Map",
                             "serious",
-                            "Pero como un @Set, A mi no me gustan los duplicaods. Tu no puedes llaves repetidas, pero puedes tener llaves differentes mapeadas a valores equivalentes. Por ejemplo, esto me dos de \\'ben'\\, pero yo solo tengo en cuenta la ultima. Pero esta bien que \\'ben'\\ y \\'joe'\\ tengan la misma cantidad de puntos porque tienen diferentes llaves."
+                            "Pero como un @Set, A mi no me gustan los duplicaods. Tu no puedes llaves repetidas, pero puedes tener llaves differentes mapeadas a valores equivalentes. Por ejemplo, esto me dos de \\'ben'\\, pero yo solo tengo en cuenta la ultima. Pero esta bien que \\'ben'\\ y \\'josé'\\ tengan la misma cantidad de puntos porque tienen diferentes llaves."
                         ],
                         [
                             "edit",
-                            "{'ben': 2points 'ben': 5points 'joe': 5points 'kate': 12points }"
+                            "{'ben': 2points 'ben': 5points 'josé': 5points 'kate': 12points }"
                         ],
                         [
                             "Map",
@@ -1978,7 +1978,7 @@
                         ],
                         [
                             "edit",
-                            "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}"
+                            "{ 'ben': 2points 'josé': 5points 'kate': 12points }{'ben'}"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
@@ -2049,7 +2049,7 @@
                     "title": "Nosotros podemos ser lo que sea",
                     "subtitle": "Convertir",
                     "concept": "Convert",
-                    "performance": ["use", "fix", "VolarAdentro", "→"],
+                    "performance": ["use", "fix", "FlyIn", "→"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
                         [
@@ -2119,14 +2119,14 @@
                             "serious",
                             "¿Pero @Number y yo? Hemos estado practicando algunos trucos muy enfermizos. ¿Dices que tienes algo de tiempo en días y quieres unos segundos? Te tenemos."
                         ],
-                        ["edit", "5día → #s"],
+                        ["edit", "5day → #s"],
                         null,
                         [
                             "Convert",
                             "excited",
                             "¿Pero los verdaderos trucos? Encadenamiento. Como múltiples conversiones seguidas. Mira este. Días a segundos para enviar mensajes de texto a una lista, todo en una sola cadena. Ahora tenemos una lista de dígitos. ¡Si!"
                         ],
-                        ["edit", "1día → #s → '' → []"],
+                        ["edit", "1day → #s → '' → []"],
                         null,
                         [
                             "Convert",
@@ -2208,7 +2208,7 @@
                     "title": "¿Como escoger?",
                     "subtitle": "Decisiones",
                     "concept": "Conditional",
-                    "performance": ["use", "fix", "VolarAdentro", "?"],
+                    "performance": ["use", "fix", "FlyIn", "?"],
                     "lines": [
                         ["use", "fit", "DarkVoid"],
                         [
@@ -2333,7 +2333,7 @@
         },
         {
             "title": "Cambio de escena",
-            "performance": ["use", "fit", "TomaElMicrófono"],
+            "performance": ["use", "fit", "TakeTheMic"],
             "scenes": [
                 {
                     "title": "Entrada",
@@ -3278,7 +3278,7 @@
                             "happy",
                             "¡Por supuesto! Cada vez que te canses de jugar con las entradas de @Evaluate, siempre puedes seleccionar una frase en el escenario y aparecerá una paleta que te permitirá cambiar cualquier pequeña cosa que desees, mi tamaño, fuente, lugar, poses. Solo hay una regla: si configura cualquiera de ellos como una expresión, en lugar de solo un valor, tendrá que cambiarlos en @Program, no en la paleta. ¡Vísteme todo lo que quieras!"
                         ],
-                        ["edit", "Frase('dress me up!')"],
+                        ["edit", "Frase('¡vísteme!')"],
                         null,
                         [
                             "FunctionDefinition",
@@ -3470,7 +3470,7 @@
                             "excited",
                             "¡Oh, sí! @Phrase y yo hemos estado trabajando en este nuevo baile de donas. Viene mi regalo favorito con casi todo lo que he aprendido en la danza. ¿Quieres verlo?"
                         ],
-                        ["FunctionDefinition", "excited", "Yes!!!"],
+                        ["FunctionDefinition", "excited", "¡¡¡Si!!!"],
                         null,
                         [
                             "Sequence",
@@ -5288,7 +5288,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluarBaile1"
+                            "EvaluateDance1"
                         ],
                         null,
                         [
@@ -5304,7 +5304,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile2"
+                            "EvaluateDance2"
                         ],
                         null,
                         [
@@ -5320,7 +5320,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile3"
+                            "EvaluateDance3"
                         ],
                         null,
                         [
@@ -5336,7 +5336,7 @@
                         [
                             "use",
                             "conflict",
-                            "EvaluateBaile4"
+                            "EvaluateDance4"
                         ],
                         null,
                         [
@@ -5352,7 +5352,7 @@
                         [
                             "use",
                             "conflict",
-                            "EvaluateBaile5"
+                            "EvaluateDance5"
                         ],
                         null,
                         [
@@ -5378,7 +5378,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile6"
+                            "EvaluateDance6"
                         ],
                         null,
                         [
@@ -5389,7 +5389,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile7"
+                            "EvaluateDance7"
                         ],
                         null,
                         [
@@ -5400,7 +5400,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile8"
+                            "EvaluateDance8"
                         ],
                         null,
                         [
@@ -5416,7 +5416,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile9"
+                            "EvaluateDance9"
                         ],
                         null,
                         [
@@ -5464,7 +5464,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile10"
+                            "EvaluateDance10"
                         ],
                         null,
                         [
@@ -5475,7 +5475,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile11"
+                            "EvaluateDance11"
                         ],
                         null,
                         [
@@ -5491,7 +5491,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile12"
+                            "EvaluateDance12"
                         ],
                         null,
                         [
@@ -5502,7 +5502,7 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile13"
+                            "EvaluateDance13"
                         ],
                         null,
                         [
@@ -5539,13 +5539,13 @@
                         [
                             "use",
                             "edit",
-                            "EvaluateBaile14"
+                            "EvaluateDance14"
                         ],
                         null,
                         [
                             "use",
                             "fix",
-                            "EvaluateBaile14"
+                            "EvaluateDance14"
                         ],
                         [
                             "List",
