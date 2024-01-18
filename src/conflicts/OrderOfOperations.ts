@@ -1,3 +1,19 @@
+// We need to return a resolution type. The resolution type creates an instance of the project and tests ur code
+// We need to write our code within getConflictNodes(), not create our own method
+
+// PossiblePII.ts is the only working conflict resolution so far. 
+// To test it out:
+// 1. npm run dev
+// 2. create a new project
+// 3. write a string containing PII such as an email (e.g. 'bob@gmail.com')
+// 4. a warning should be displayed. If the button is clicked, the PII will be added to something...
+
+// This week, we need to come up with a design draft
+// Current thoughts:
+//	- create a similar message as the on in PII that tells the user about PEMDAS and offer an option to evaluate equations
+//	  in-order or with PEMDAS. This means we only need to write something that will evaluate equations in terms of PEMDAS
+//	  or in-order depending on what the user chooses. 
+
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Conflict from './Conflict';
 import concretize from '../locale/concretize';
