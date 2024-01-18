@@ -10,12 +10,17 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import concretize from '../../locale/concretize';
     import Toggle from '../widgets/Toggle.svelte';
+    import Label from '@components/widgets/Label.svelte';
+    import DropdownButton from '@components/widgets/DropdownButton.svelte';
 
     export let sourceID: string;
 
     const Defaults = Commands.filter(
         (command) => command.category === Category.Insert
     );
+
+    const categories = ["Emojis", "Arrows", "Shapes", "Other"];
+    let dropdownLabel = 'Symbols';
     // [
     //     CHANGE_SYMBOL,
     //     DEGREE_SYMBOL,
@@ -42,49 +47,94 @@
     }
 </script>
 
-<section class:expanded class="directory" data-uiid="directory">
-    <TextField
-        placeholder="🔍"
-        description={$locales.get((l) => l.ui.source.cursor.search)}
-        bind:text={query}
-    />
-    <div class="matches">
-        {#if query === ''}
-            {#each Defaults as command}<CommandButton
-                    {sourceID}
-                    {command}
-                    token
-                    focusAfter
-                />{/each}
-        {:else}
-            {#each results as glyph}<Button
-                    tip={concretize(
-                        $locales,
-                        $locales.get((l) => l.ui.source.cursor.insertSymbol),
-                        glyph
-                    ).toText()}
-                    action={() => insert(glyph)}
-                    ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
-                >{:else}&mdash;{/each}
-        {/if}
+<section class="directory" data-uiid="directory">
+    <div class="topBar">
+        <div class="leftBar">
+            <div class="operators">
+                <Label>Operators</Label>
+                {#each Defaults as command}<CommandButton
+                                {sourceID}
+                                {command}
+                                token
+                                focusAfter
+                            />{/each}
+            </div>
+            <DropdownButton
+                menuItems={categories}
+                direction="up"
+                onSelect={(value) => {
+                    dropdownLabel = value;
+                    query = '';
+                    expanded = true;
+                }}
+            > {dropdownLabel} </DropdownButton> 
+        </div>
+        <div class="toggleWrapper">
+            <Toggle
+                tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
+                on={expanded}
+                toggle={() => {
+                    expanded = !expanded;
+                    dropdownLabel = 'Symbols';
+                    }}>{expanded ? '–' : '+'}</Toggle
+            >
+        </div>
     </div>
-    <Toggle
-        tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
-        on={expanded}
-        toggle={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Toggle
-    >
+    <div class:expanded class="searchArea">
+        <TextField
+            placeholder="🔍"
+            description={$locales.get((l) => l.ui.source.cursor.search)}
+            bind:text={query}
+        />
+        <div class="matches">
+            {#if query !== ''}
+                {#each results as glyph}<Button
+                        tip={concretize(
+                            $locales,
+                            $locales.get((l) => l.ui.source.cursor.insertSymbol),
+                            glyph
+                        ).toText()}
+                        action={() => insert(glyph)}
+                        ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
+                    >{:else}&mdash;{/each}
+            {/if}
+        </div>
+    </div>
 </section>
 
 <style>
     section {
+        padding: var(--wordplay-spacing);
+        border-top: var(--wordplay-border-color) solid 1px;
+    }
+
+    .topBar {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
+        align-items: start;
+        justify-content: space-between;
+        width:100%;
+        overflow: none;
+    }
+
+    .leftBar {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
         align-items: center;
-        border-top: var(--wordplay-border-color) solid 1px;
+        justify-content: start;
+        width: 95%;
+    }
+
+    .operators {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+        overflow: hidden;
     }
 
     .matches {
@@ -97,14 +147,12 @@
         padding: var(--wordplay-spacing);
     }
 
-    section.expanded {
-        height: 10em;
+    .searchArea {
+        display: none;
     }
 
-    .expanded .matches {
-        overflow-x: none;
-        overflow-y: auto;
-        flex-wrap: wrap;
-        height: 100%;
+    .expanded {
+        display: block;
     }
+
 </style>
