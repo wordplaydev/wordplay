@@ -3855,7 +3855,7 @@
                 "settingsUnsaved": "No se pueden guardar las configuraciones en línea."
             },
             "dialog": {
-                "unsaved": "$?"
+                "unsaved": "Trabajo no salvado..."
             }
         },
         "gallery": {
