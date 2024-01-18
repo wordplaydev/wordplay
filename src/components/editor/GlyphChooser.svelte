@@ -48,8 +48,8 @@
 </script>
 
 <section class="directory" data-uiid="directory">
-    <div class="topBar">
-        <div class="leftBar">
+    <div class="top-bar">
+        <div class="left-bar">
             <div class="operators">
                 <Label>Operators</Label>
                 {#each Defaults as command}<CommandButton
@@ -80,7 +80,7 @@
             >
         </div>
     </div>
-    <div class:expanded class="searchArea">
+    <div class:expanded class="search-area">
         <TextField
             placeholder="🔍"
             description={$locales.get((l) => l.ui.source.cursor.search)}
@@ -108,7 +108,7 @@
         border-top: var(--wordplay-border-color) solid 1px;
     }
 
-    .topBar {
+    .top-bar {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
@@ -119,13 +119,13 @@
         overflow: none;
     }
 
-    .leftBar {
+    .left-bar {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
         align-items: center;
         justify-content: start;
-        width: 95%;
+        min-width: 95%;
     }
 
     .operators {
@@ -147,7 +147,7 @@
         padding: var(--wordplay-spacing);
     }
 
-    .searchArea {
+    .search-area {
         display: none;
     }
 
