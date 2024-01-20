@@ -14,7 +14,8 @@
 >
 
 <style>
-    .doc {
-        color: var(--wordplay-doc-color);
+    .doc,
+    .doc :global(.token-view) {
+        color: var(--wordplay-doc-color) !important;
     }
 </style>

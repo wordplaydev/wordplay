@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 -   Filled source output preview background with error color on exception values.
+-   Distinguished color of docs and text.
 
 ## 0.9.16 2024-01-13
 
