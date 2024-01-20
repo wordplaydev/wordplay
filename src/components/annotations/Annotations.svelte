@@ -40,6 +40,7 @@
     import type { Resolution } from '@conflicts/Conflict';
     import Context from '@nodes/Context';
     import CommandButton from '@components/widgets/CommandButton.svelte';
+    import Expander from '@components/widgets/Expander.svelte';
 
     /** The project for which annotations should be shown */
     export let project: Project;
@@ -55,6 +56,9 @@
     export let conflicts: Conflict[];
     /** The caret of the editor this is annotating */
     export let caret: Caret | undefined;
+
+    /** Whether the annotations view is expanded */
+    let expanded = true;
 
     let evaluation = getEvaluation();
     let concepts = getConceptIndex();
@@ -240,102 +244,135 @@
 </script>
 
 <!-- Render annotations by node -->
-<section aria-label={$locales.get((l) => l.ui.annotations.label)}>
-    {#if source.isEmpty()}
-        <Speech glyph={Glyphs.Function} scroll={false} below>
-            <svelte:fragment slot="content">
-                <MarkupHTMLView
-                    markup={docToMarkup(
-                        $locales.get((l) => l.ui.source.empty),
-                    ).concretize($locales, [toShortcut(ShowMenu)]) ?? ''}
-                />
-            </svelte:fragment>
-        </Speech>
-    {:else}
-        <Speech glyph={Glyphs.Function} scroll={false} below>
-            <svelte:fragment slot="content">
-                {#if stepping}
+<section
+    aria-label={$locales.get((l) => l.ui.annotations.label)}
+    class:expanded
+    on:pointerdown={() => {
+        if (!expanded) expanded = true;
+    }}
+>
+    <Expander
+        {expanded}
+        toggle={() => (expanded = !expanded)}
+        vertical={false}
+    />
+    {#if expanded}
+        {#if source.isEmpty()}
+            <Speech glyph={Glyphs.Function} scroll={false} below>
+                <svelte:fragment slot="content">
                     <MarkupHTMLView
-                        inline
-                        markup={$locales.get(
-                            (l) => l.ui.annotations.evaluating,
-                        )}
+                        markup={docToMarkup(
+                            $locales.get((l) => l.ui.source.empty),
+                        ).concretize($locales, [toShortcut(ShowMenu)]) ?? ''}
                     />
-                {:else if caretNode}
-                    <div class="who">
-                        <div class="intro">
-                            <MarkupHTMLView
-                                inline
-                                markup={docToMarkup(
-                                    $locales.get(
-                                        (l) => l.ui.annotations.cursor,
-                                    ),
-                                ).concretize($locales, [
-                                    caretNode.getLabel($locales),
-                                    caretNode instanceof Expression
-                                        ? new NodeRef(
-                                              caretNode
-                                                  .getType(context)
-                                                  .generalize(context),
-                                              $locales,
-                                              context,
-                                          )
-                                        : undefined,
-                                ]) ?? ''}
-                            />
-                        </div>
-                        {#if relevantConcept}
-                            <div class="concept">
+                </svelte:fragment>
+            </Speech>
+        {:else}
+            <Speech glyph={Glyphs.Function} scroll={false} below>
+                <svelte:fragment slot="content">
+                    {#if stepping}
+                        <MarkupHTMLView
+                            inline
+                            markup={$locales.get(
+                                (l) => l.ui.annotations.evaluating,
+                            )}
+                        />
+                    {:else if caretNode}
+                        <div class="who">
+                            <div class="intro">
                                 <MarkupHTMLView
                                     inline
-                                    markup={$locales.get(
-                                        (l) => l.ui.annotations.learn,
-                                    )}
-                                />
-                                <ConceptLinkUI
-                                    link={relevantConcept}
-                                    label={DOCUMENTATION_SYMBOL}
-                                />
-                            </div>
-                        {/if}
-                        {#if adjustable}
-                            <div class="tools">
-                                <CommandButton
-                                    command={IncrementLiteral}
-                                    {sourceID}
-                                    background
-                                />
-                                <CommandButton
-                                    command={DecrementLiteral}
-                                    {sourceID}
-                                    background
+                                    markup={docToMarkup(
+                                        $locales.get(
+                                            (l) => l.ui.annotations.cursor,
+                                        ),
+                                    ).concretize($locales, [
+                                        caretNode.getLabel($locales),
+                                        caretNode instanceof Expression
+                                            ? new NodeRef(
+                                                  caretNode
+                                                      .getType(context)
+                                                      .generalize(context),
+                                                  $locales,
+                                                  context,
+                                              )
+                                            : undefined,
+                                    ]) ?? ''}
                                 />
                             </div>
-                        {/if}
-                    </div>
-                {:else}
-                    <MarkupHTMLView
-                        inline
-                        markup={$locales.get((l) => l.ui.annotations.space)}
-                    />
-                {/if}
-            </svelte:fragment>
-        </Speech>
-        {#each Array.from(annotationsByNode.values()) as annotations, index}
-            <Annotation id={index} {annotations} />
+                            {#if relevantConcept}
+                                <div class="concept">
+                                    <MarkupHTMLView
+                                        inline
+                                        markup={$locales.get(
+                                            (l) => l.ui.annotations.learn,
+                                        )}
+                                    />
+                                    <ConceptLinkUI
+                                        link={relevantConcept}
+                                        label={DOCUMENTATION_SYMBOL}
+                                    />
+                                </div>
+                            {/if}
+                            {#if adjustable}
+                                <div class="tools">
+                                    <CommandButton
+                                        command={IncrementLiteral}
+                                        {sourceID}
+                                        background
+                                    />
+                                    <CommandButton
+                                        command={DecrementLiteral}
+                                        {sourceID}
+                                        background
+                                    />
+                                </div>
+                            {/if}
+                        </div>
+                    {:else}
+                        <MarkupHTMLView
+                            inline
+                            markup={$locales.get((l) => l.ui.annotations.space)}
+                        />
+                    {/if}
+                </svelte:fragment>
+            </Speech>
+            {#each Array.from(annotationsByNode.values()) as annotations, index}
+                <Annotation id={index} {annotations} />
+            {/each}
+        {/if}
+    {:else}
+        {#each annotations as annotation}
+            <div class="annotation {annotation.kind}"></div>
         {/each}
     {/if}
 </section>
 
 <style>
     section {
-        max-width: 15em;
-        min-width: 15em;
         padding: var(--wordplay-spacing);
         overflow-y: auto;
         height: 100%;
         border-inline-start: solid var(--wordplay-border-width)
             var(--wordplay-border-color);
+        max-width: 2em;
+        min-width: 2em;
+        transition:
+            max-width calc(var(--animation-factor) * 100ms),
+            min-width calc(var(--animation-factor) * 100ms);
+    }
+
+    section.expanded {
+        max-width: 15em;
+        min-width: 15em;
+    }
+
+    section:not(.expanded) {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        cursor: pointer;
     }
 
     .who {
@@ -343,5 +380,44 @@
         flex-direction: column;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+    }
+
+    .annotation {
+        display: inline-block;
+        width: var(--wordplay-focus-width);
+        height: 1em;
+        background: var(--wordplay-error);
+        animation: spin ease-out calc(var(--animation-factor) * 100ms);
+    }
+
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        25% {
+            transform: rotate(0deg);
+        }
+        50% {
+            transform: rotate(360deg);
+        }
+        51% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(0deg);
+        }
+    }
+
+    .annotation.step {
+        background: var(--wordplay-evaluation-color);
+    }
+
+    .annotation.primary {
+        background: var(--wordplay-error);
+    }
+
+    .annotation.secondary,
+    .annotation.minor {
+        background: var(--wordplay-warning);
     }
 </style>
