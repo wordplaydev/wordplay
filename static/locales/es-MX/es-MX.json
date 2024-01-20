@@ -48,8 +48,8 @@
     "token": {
         "EvalOpen": "evaluación abierta",
         "EvalClose": "evaluación cerrada",
-        "SetOpen": "set abierta",
-        "SetClose": "set cerrada",
+        "SetOpen": "conjunto abierta",
+        "SetClose": "conjunto cerrada",
         "ListOpen": "lista abierta",
         "ListClose": "lista cerrada",
         "TagOpen": "etiqueta abierta",
@@ -1025,12 +1025,12 @@
             "emotion": "serious",
             "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!",
             "conflict": {
-                "phone": "$?",
-                "email": "$?",
-                "tin": "$?",
-                "address": "$?",
-                "handle": "$?",
-                "resolution": "$?"
+                "phone": "¿Es *$1* el número de teléfono de alguien? ¡No me compartas en línea si es así!",
+                "email": "¿Es *$1* el correo electrónico de alguien? ¡No me lo compartas aquí si es así!",
+                "tin": "¿Es *$1* un identificador fiscal? Si es así, ¡definitivamente no me compartas, soy información muy sensible!",
+                "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!",
+                "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.",
+                "resolution": "Esto no es información sensible"
             }
         },
         "FormattedLiteral": {
@@ -1647,7 +1647,7 @@
                         "\\3gatos + 5gatos\\",
                         "Si las unidads no coinciden, yo parare a mostrar \\3gatos + 5gaots\\"
                     ],
-                    "names": ["+", "add"],
+                    "names": ["+", "sumar"],
                     "inputs": [
                         {
                             "doc": "El @Number a sumar",
@@ -1709,7 +1709,7 @@
                         "\\10m % 2\\",
                         "\\10m/s % 3\\"
                     ],
-                    "names": ["%", "remainder"],
+                    "names": ["%", "resto"],
                     "inputs": [
                         {
                             "doc": "Ell @Number a dividir por",
@@ -1963,7 +1963,7 @@
                 "\\['manzana' 10 + 10 Time()]\\",
                 "Yo puedo hacer un monton de cosas interesantes con mi @FunctionDefinition"
             ],
-            "name": ["[]", "lista"],
+            "name": ["[]", "Lista"],
             "kind": "Kind",
             "out": "Result",
             "outofbounds": "outofbounds",
@@ -2199,9 +2199,9 @@
                     "doc": [
                         "Dame una @FunctionDefinition que reciva un valor y opcionalmente un indice come entradas y produce un @Boolean, Yo creare una nueva lista que solo incluye elementos con el resultado \\T\\.",
                         "Por ejemplo, imagina yo soy una @List de @Number y solo quieres los numeros positivos:",
-                        "\\[2 -4 8 -16].filtrar(ƒ(num•#) num ≥ 0)\\"
+                        "\\[2 -4 8 -16].filtro(ƒ(num•#) num ≥ 0)\\"
                     ],
-                    "names": "filtrar",
+                    "names": "filtro",
                     "inputs": [
                         {
                             "doc": "Una @FunctionDefinition que chequea cada elemento, produciendo \\T\\ si deberia ser conservado en la list",
@@ -2388,7 +2388,7 @@
                 "\\{'hey' 'hi' 'hello'}!{'yo'}\\",
                 "¿Hay algo más que quieras hacer conmigo? ¡Mira todas las geniales @FunctionDefinition que tengo!"
             ],
-            "name": ["{}", "conjunto"],
+            "name": ["{}", "Conjunto"],
             "kind": "Kind",
             "out": "Result",
             "function": {
@@ -2491,9 +2491,9 @@
                     "doc": [
                         "Dame una @FunctionDefinition  que recive un elemento y produce \\T\\ si deberia de ser convervado, y yo creare un @Set que solo contiene elementes que cumpla con tu criteria.",
                         "Por ejemplo, vamos a encontrar todos los numeros impares adentro de mi:",
-                        "\\{1 2 3 4 5 6 7 8 9}.filtrar(ƒ(num•#) (num % 2) = 1)\\"
+                        "\\{1 2 3 4 5 6 7 8 9}.filtro(ƒ(num•#) (num % 2) = 1)\\"
                     ],
-                    "names": "filtrar",
+                    "names": "filtro",
                     "inputs": [
                         {
                             "doc": "La @FunctionDefinition que verifica un elemento para ver si deberia ser conservado",
@@ -2638,9 +2638,9 @@
                     "doc": [
                         "Pasame una @FunctionDefinition  que recive una llave y un valor y evalua a \\T\\ si la pareja deberia de ser conservada. Yo creare un nuevo @Map que cumple tu criteria.",
                         "Por ejemplo, aqui queres mantener las parejas que tiene la llave 'juan' o tengo un valor de mas de cero puntos",
-                        "\\{'juan': 0points 'ana': 0points 'tony':3points}.filtrar(ƒ(llave•'' valor•#puntos) (llave = 'amy') | (valor > 0puntos))\\"
+                        "\\{'juan': 0points 'ana': 0points 'tony':3points}.filtro(ƒ(llave•'' valor•#puntos) (llave = 'amy') | (valor > 0puntos))\\"
                     ],
-                    "names": "filtrar",
+                    "names": "filtro",
                     "inputs": [
                         {
                             "doc": "La @FunctionDefinition que decide mantener una pareja o no",
@@ -2824,7 +2824,7 @@
                 "\\Phrase(Button() → '')\\",
                 "Esto simplemente crea un @Phrase que es el valor del flujo como texto. Si lo copias en el editor y haces clic, verás que alterna entre \\⊥\\ y \\⊤\\."
             ],
-            "names": ["🖱️", "Button"],
+            "names": ["🖱️", "Botón"],
             "down": {
                 "names": "abajo",
                 "doc": "Si es @None, el flujo proporcionará tanto valores hacia arriba como hacia abajo. Si es @Boolean, solo proporcionará el valor dado por el valor @Boolean."
@@ -2977,7 +2977,7 @@
                 "\\Chat().tiene('hola') ? '¡hola!' '¿eh?'\\",
                 "¡Eso es todo! Puedes realizar todo tipo de actuaciones con esto, como chatbots, aventuras de texto o esquemas de control basados en texto para otros tipos de actuaciones."
             ],
-            "names": ["🗣️", "Chat"]
+            "names": ["🗣️", "Charlar"]
         },
         "Placement": {
             "doc": [
@@ -3046,7 +3046,7 @@
             }
         },
         "Collision": {
-            "names": "colisión",
+            "names": "Colisión",
             "doc": [
                 "/¡Hola! Soy @FunctionDefinition. Echa un vistazo a esta entrada genial./",
                 "¡Puede ayudarte a descubrir cuándo se encuentran @Output! Esta es una excelente manera de hacer algo cuando nos encontramos, además de simplemente rebotar entre sí como podría hacer @Output.",
@@ -3095,7 +3095,7 @@
     },
     "output": {
         "Output": {
-            "names": "Output",
+            "names": "Salida",
             "doc": [
                 "No soy una @StructureDefinition que puedas crear realmente. Pero soy uno muy importante, ya que inspiro los elementos más importantes de nuestra danza: @Phrase, @Group y @Stage.",
                 "Ve a conocerlos para aprender más sobre cómo usarlos."
@@ -3133,7 +3133,7 @@
             },
             "place": {
                 "doc": "El lugar que debo de estar. El contenido dentro de mí se organizará en relación con allí.",
-                "names": "place"
+                "names": "lugar"
             },
             "name": {
                 "doc": ["Lo mismo que @Phrase/name"],
@@ -3157,7 +3157,7 @@
             },
             "offset": {
                 "doc": "Un @Place que indica qué tan alejado debe estar de mi @Place normal, a menos que lo anule un @Pose diferente. Útil para moverse en su lugar.",
-                "names": "compensar"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "Qué tan inclinado debería estar alrededor de mi centro, mi @Pose tiene uno diferente.",
@@ -3181,7 +3181,7 @@
             },
             "resting": {
                 "doc": "¡Igual que @Group/resting!",
-                "names": "descansando"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "¡Igual que @Group/moving!",
@@ -3236,7 +3236,7 @@
                 "names": "alineación"
             },
             "direction": {
-                "doc": "$?",
+                "doc": "Si los símbolos se escriben horizontal o verticalmente, y si se establece vertical y @Phrase/wrap, si el texto se ajusta hacia la izquierda o hacia la derecha.",
                 "names": "dirección"
             },
             "matter": {
@@ -3271,7 +3271,7 @@
             },
             "offset": {
                 "doc": "Un @Place indicando qué tan compensado debe estar de mi @Place, a menos que fuera anulado por una @Pose diferente.",
-                "names": "compensar"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "La cantidad en grados que debo rotar alrededor del centro, a menos que fuera anulado por una @Pose diferente.",
@@ -3295,7 +3295,7 @@
             },
             "resting": {
                 "doc": "La @Pose o @Sequence que debo de hacer después que entro en el escenario, antes que salgo, y cuando mi @Place no esta cambiando. Si no me quieres dar uno, usaré el predeterminado.",
-                "names": "descansando"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "La @Pose o @Sequence que debo de hacer cuando cambio de lugar en el escenario en lugar de mi defecto.",
@@ -3430,7 +3430,7 @@
             },
             "resting": {
                 "doc": "La @Pose o @Sequence  que debería hacer después de entrar y mientras no me estoy moviendo.",
-                "names": "reposo"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "La @Pose o @Sequence  que debería hacer al moverme de lugar.",
@@ -3497,7 +3497,7 @@
             },
             "offset": {
                 "doc": "Un @Place que indica qué tan alejado debe estar del lugar de un @Output, en lugar de su valor predeterminado. Útil para moverse en su lugar.",
-                "names": "offset"
+                "names": "desplazamiento"
             },
             "rotation": {
                 "doc": "Qué tan girado debe estar un @Output, en lugar de su valor predeterminado.",
@@ -3572,7 +3572,7 @@
             },
             "count": {
                 "doc": "Cuántas veces debe repetirse la secuencia antes de que termine. Esto es realmente útil cuando entro en escena, me muevo en escena o salgo del escenario, pero cuando es una secuencia de descanso, se ignora, ¡ya que puedo descansar para siempre!",
-                "names": "conteo"
+                "names": "cuenta"
             }
         },
         "Place": {
@@ -3715,7 +3715,7 @@
             },
             "resting": {
                 "doc": "IGUAL QUE @Group/resting!",
-                "names": "reposo"
+                "names": "inmóvil"
             },
             "moving": {
                 "doc": "IGUAL QUE @Group/moving!",
@@ -3837,7 +3837,7 @@
                 "focusDocs": "enfoque en la documentación",
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
-                "unsaved": "$?"
+                "unsaved": "mostrar error de guardado"
             },
             "field": {
                 "name": {
@@ -3847,15 +3847,15 @@
             },
             "help": "mostrar atajos de teclado",
             "save": {
-                "projectsNotSavedLocally": "$?",
-                "projectsCannotNotSaveLocally": "$?",
-                "projectContainedPII": "$?",
-                "projectsNotLoadingOnline": "$?",
-                "projectNotSavedOnline": "$?",
-                "settingsUnsaved": "$?"
+                "projectsNotSavedLocally": "Hubo un problema al guardar proyectos en tu navegador.",
+                "projectsCannotNotSaveLocally": "Tu navegador no admite guardar proyectos.",
+                "projectContainedPII": "Para proteger tu privacidad, un proyecto con información potencialmente identificable personalmente no se guardó en línea. Verifica el proyecto para ver si la información es identificativa.",
+                "projectsNotLoadingOnline": "No se pueden cargar proyectos en línea.",
+                "projectNotSavedOnline": "No se pueden guardar proyectos en línea.",
+                "settingsUnsaved": "No se pueden guardar las configuraciones en línea."
             },
             "dialog": {
-                "unsaved": "$?"
+                "unsaved": "Trabajo no salvado..."
             }
         },
         "gallery": {
@@ -3994,13 +3994,13 @@
             }
         },
         "annotations": {
-            "label": "$! conflictos",
-            "cursor": "$?",
-            "learn": "$?",
-            "evaluating": "$?",
-            "space": "$?",
+            "label": "conflictos y ayuda",
+            "cursor": "Esto es *$1*$2[ y son de tipo $2|].",
+            "learn": "¿Quieres aprender más?",
+            "evaluating": "¡Oh, qué divertido, evaluemos!",
+            "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
             "button": {
-                "resolution": "$?"
+                "resolution": "Resolver este conflicto"
             }
         },
         "output": {
@@ -4105,7 +4105,7 @@
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico"
                 },
                 "options": {
-                    "gallery": "$?"
+                    "gallery": "celector de la galería"
                 }
             },
             "settings": {
@@ -4152,8 +4152,8 @@
                     }
                 },
                 "options": {
-                    "mic": "$?",
-                    "camera": "$?"
+                    "mic": "micrófono seleccionado",
+                    "camera": "cámara seleccionada "
                 }
             },
             "locale": {
@@ -4192,14 +4192,14 @@
                 "inherited": "heredado",
                 "notSequence": "no es una secuencia",
                 "notContent": "no es una lista de contenido",
-                "format": "$?",
-                "weight": "$?",
-                "light": "$?",
-                "normal": "$?",
-                "bold": "$?",
-                "extra": "$?",
-                "italic": "$?",
-                "underline": "$?"
+                "format": "formato",
+                "weight": "peso",
+                "light": "ligera",
+                "normal": "normal",
+                "bold": "negrita",
+                "extra": "extra",
+                "italic": "itálica",
+                "underline": "subrayar"
             },
             "button": {
                 "revert": "volver a por defecto",
@@ -4256,15 +4256,15 @@
                 "call": [
                     "¡Hola! ¿Quieres dar vida a las palabras con nosotras? 😊"
                 ],
-                "value": "$! Aprenda a codificar animando palabras, emojis y símbolos de los idiomas del mundo, sean cuales sean sus habilidades.",
-                "description": "$! Wordplay es un lenguaje de programación innovador 🖥︎️ con edición de bloques y texto 📝︎, entradas divertidas como tiempo 🕦︎, sonido 🎤︎, páginas web 🔗︎ y física 🌎︎, depuración instantánea de viajes en el tiempo ⏪︎ y documentación completa 🗂︎️. Todo en una lista cada vez mayor de idiomas del mundo 🌐︎, siguiendo los últimos estándares de accesibilidad web ♿︎️. Comparte con amigos, grupos privados o el mundo ↗︎️. Gratis para siempre de la <University of Washington Information School@https://ischool.uw.edu>.",
+                "value": "Aprende a programar animando palabras, emojis y símbolos de los idiomas del mundo, sin importar tus habilidades.",
+                "description": "Wordplay es un lenguaje de programación innovador 🖥️ con edición de bloques y texto 📝, entradas juguetonas como el tiempo 🕦, sonido 🎤, páginas web 🔗 y física 🌎, depuración instantánea de viaje en el tiempo ⏪ y documentación completa 🗂️. Todo en una lista en crecimiento de los idiomas del mundo 🌐, siguiendo los últimos estándares de accesibilidad web ♿️. Comparte con amigos, grupos privados o el mundo ↗️. Gratis para siempre desde la <University of Washington Information School@https://ischool.uw.edu/>.",
                 "beta": [
                     "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
                     "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
-                    "learn": "$! ¿Qué es este lugar?",
+                    "learn": "Un tutorial dramático de elenco de personajes ",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas"
@@ -4278,7 +4278,7 @@
                     "previous": "anterior pausa en el diálogo"
                 },
                 "options": {
-                    "lesson": "$?"
+                    "lesson": "lección presente"
                 }
             },
             "projects": {
@@ -4332,12 +4332,12 @@
             },
             "login": {
                 "header": "Iniciar sesión",
-                "subtitle": "$! Cree una cuenta o inicie sesión para guardar su trabajo en línea",
+                "subtitle": "Crea una cuenta o inicie sesión para guardar tu trabajo en línea",
                 "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "$! Tus actuaciones se están guardando en este dispositivo, pero no en línea. ¡Si este es tu dispositivo, está bien! Si no lo es, otros pueden ver o eliminar tus proyectos. Para guardarlos en línea y mantenerlos privados, inicia sesión.",
-                    "forgot": "$?",
-                    "email": "$?",
+                    "login": "Tus actuaciones se estan guardano en este navegador, pero no en línea. Si este es tu dispositivo, ¡está bien! Si no es así, otros tendrán acceso a tus proyectos y es posible que los pierdas. Para guardarlos en línea y mantenerlos privados, inicie sesión o <cree una cuenta@://join>:",
+                    "forgot": "*¿Olvidaste tu contraseña?* Desafortunadamente, no podemos recuperar tu cuenta ya que no recopilamos información de contacto.",
+                    "email": "¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
                     "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
@@ -4345,7 +4345,7 @@
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "sent": "$! Revisa tu correo electrónico para encontrar un enlace de inicio de sesión.",
+                    "sent": "Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
@@ -4367,7 +4367,7 @@
                     "changing": "Enviando nuevo correo electrónico...",
                     "deleting": "Vale, borrando tus proyectos y configuraciones...",
                     "updatedPassword": "Tu contraseña se ha actualizada.",
-                    "match": "$! Esto debe coincidir con el nombre de usuario de su cuenta."
+                    "match": "Esto debe coincidir con el nombre de usuario de su cuenta."
                 },
                 "field": {
                     "email": {
@@ -4383,12 +4383,12 @@
                         "placeholder": "contraseña"
                     },
                     "currentPassword": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "su contraseña de inicio de sesión actual",
+                        "placeholder": "contraseña actual"
                     },
                     "newPassword": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "tu nueva contraseña",
+                        "placeholder": "nueva contraseña"
                     }
                 },
                 "button": {
@@ -4410,16 +4410,16 @@
                 },
                 "toggle": {
                     "reveal": {
-                        "on": "$?",
-                        "off": "$?"
+                        "on": "Mostrar contraseña",
+                        "off": "Ocultar contraseña"
                     }
                 }
             },
             "join": {
-                "header": "$?",
+                "header": "Unirse",
                 "prompt": {
-                    "username": "$?",
-                    "password": "$?"
+                    "username": "¿Lista para crear una cuenta? Primero, elige un *nombre de usuario*. Debe tener al menos 5 caracteres, no puede ser una dirección de correo electrónico y no debe contener tu nombre ni otra información identificativa.",
+                    "password": "Elige una contraseña con al menos *10 caracteres*. Ingrésala nuevamente para asegurarte de que la hayas escrito correctamente y guárdala en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar tu cuenta* si la pierdes, ya que no recopilamos información de contacto."
                 }
             },
             "rights": {
@@ -4468,7 +4468,7 @@
         "edit": {
             "node": "$1$2[, tipo $2|]",
             "before": "antes de $1[$1|final]",
-            "inside": "dentro de $1, entre $2[$2|origen] y $3[$3|final]",
+            "inside": "dentro de $1, entre $2[$2|inicio] y $3[$3|final]",
             "between": "entre $1 y $2",
             "line": "línea vacía entre $1[$1|inicio] y $2[$2|final]",
             "conflicts": "$1 conflictos",
@@ -4508,7 +4508,7 @@
             "disclosure": "Revelar información privada sobre otras personas, como nombres, información de contacto o direcciones físicas",
             "misinformation": "Contener información falsa, engañosa, manipuladora o manipulativa"
         },
-        "progress": "$?",
+        "progress": "*$1* moderado, *$2* restante",
         "button": {
             "submit": {
                 "tip": "Guardar estas configuraciones de moderación",
