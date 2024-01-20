@@ -48,8 +48,21 @@
     $: formatted = markupValue ? true : textValue ? false : undefined;
     $: formats = markupValue?.markup.paragraphs[0]?.getFormats();
     $: weight = formats?.find((format) => format in weights) ?? 'normal';
-    $: italic = formats?.includes('italic') ?? false;
-    $: underlined = formats?.includes('underline') ?? false;
+
+    // Account for italics inside the text, rather than wrapping it, passing indeterminate state to checkbox.
+    $: italic =
+        formats && formats.includes('italic')
+            ? true
+            : textValue?.toWordplay().includes(ITALIC_SYMBOL)
+              ? undefined
+              : false;
+    // Account for underscores inside the text, rather than wrapping it, passing indeterminate state to checkbox.
+    $: underlined =
+        formats && formats.includes('underline')
+            ? true
+            : textValue?.toWordplay().includes(UNDERSCORE_SYMBOL)
+              ? undefined
+              : false;
 
     // Given some format, apply it if not applied, and remove it if applied.
     function applyStyle(format: 'italic' | 'underline') {
@@ -71,9 +84,12 @@
             newMarkup = markupValue.markup
                 .toWordplay()
                 .replaceAll(delimiter, '');
-        // Not included yet? Wrap it.
+        // Not included yet? Remove any existing delimiters and wrap it.
         else
-            newMarkup = delimiter + markupValue.markup.toWordplay() + delimiter;
+            newMarkup =
+                delimiter +
+                markupValue.markup.toWordplay().replaceAll(delimiter, '') +
+                delimiter;
 
         Projects.revise(
             project,

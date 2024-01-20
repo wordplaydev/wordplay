@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## Fixed
 
+-   [#340](https://github.com/wordplaydev/wordplay/issues/340): Resolved nested formatting logic for text formatting.
 -   Filled source output preview background with error color on exception values.
 -   Distinguished color of docs and text.
 
