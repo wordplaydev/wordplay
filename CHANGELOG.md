@@ -9,6 +9,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#76](https://github.com/wordplaydev/wordplay/issues/76): Added `Scene`, a new input stream for showing a sequence of optionally interactive output. This will make it easier to tell typographic stories.
 
+## Fixed
+
+-   Filled source output preview background with error color on exception values.
+
 ## 0.9.16 2024-01-13
 
 ## Fixed
