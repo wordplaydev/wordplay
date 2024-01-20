@@ -2175,6 +2175,30 @@
               ],
               "type": "object"
             },
+            "Scene": {
+              "additionalProperties": false,
+              "description": "A stream of animated outputs",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "outputs": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A list of outputs to show in sequence"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "outputs"
+              ],
+              "type": "object"
+            },
             "Time": {
               "additionalProperties": false,
               "description": "A stream of times since evaluation began",
@@ -2308,6 +2332,7 @@
             "Volume",
             "Pitch",
             "Camera",
+            "Scene",
             "Motion",
             "Placement",
             "Chat",

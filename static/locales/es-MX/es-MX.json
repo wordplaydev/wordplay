@@ -2941,6 +2941,11 @@
                 "doc": "El tiempo entre muestras de @Color."
             }
         },
+        "Scene": {
+            "doc": "$?",
+            "names": "$? Scene",
+            "outputs": { "names": "$?", "doc": "$?" }
+        },
         "Motion": {
             "doc": [
                 "/boing boing boing/",

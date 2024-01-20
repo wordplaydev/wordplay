@@ -2813,6 +2813,11 @@
                 "doc": "@Color样本之间的时间间隔。"
             }
         },
+        "Scene": {
+            "doc": "$?",
+            "names": "$? Scene",
+            "outputs": { "names": "$?", "doc": "$?" }
+        },
         "Motion": {
             "names": ["⚽️", "运动"],
             "doc": [

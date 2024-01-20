@@ -1,7 +1,7 @@
 import MatterJS from 'matter-js';
 import { PX_PER_METER } from './outputToCSS';
 import type Matter from './Matter';
-import type { OutputInfo, OutputInfoSet, OutputsByName } from './Scene';
+import type { OutputInfo, OutputInfoSet } from './Animator';
 import Phrase from './Phrase';
 import Group from './Group';
 import Stage, { DefaultGravity } from './Stage';
@@ -112,7 +112,7 @@ export default class Physics {
                             direction: pair.collision.penetration,
                             starting: true,
                         };
-                    })
+                    }),
                 );
             });
 
@@ -126,7 +126,7 @@ export default class Physics {
                             direction: pair.collision.penetration,
                             starting: false,
                         };
-                    })
+                    }),
                 );
             });
         }
@@ -158,7 +158,7 @@ export default class Physics {
                     category: ShapeCategory,
                     mask: TextCategory | ShapeCategory,
                 },
-            }
+            },
         );
 
         if (rotation !== undefined && rotation !== 0)
@@ -168,7 +168,11 @@ export default class Physics {
     }
 
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
-    sync(stage: Stage, current: OutputInfoSet, exiting: OutputsByName) {
+    sync(
+        stage: Stage,
+        current: OutputInfoSet,
+        exiting: Map<string, OutputInfo>,
+    ) {
         // Update the stage
         this.stage = stage;
 
@@ -256,8 +260,8 @@ export default class Physics {
                                 info.global.x,
                                 info.global.y,
                                 info.width,
-                                info.height
-                            )
+                                info.height,
+                            ),
                         );
                         // const delta = {
                         //     x: PX_PER_METER * (info.global.x - previousPlace.x),
@@ -274,7 +278,7 @@ export default class Physics {
                     if (info.output.pose.rotation !== undefined)
                         MatterJS.Body.setAngle(
                             shape.body,
-                            (info.output.pose.rotation * Math.PI) / 180
+                            (info.output.pose.rotation * Math.PI) / 180,
                         );
 
                     // Set matter properties if available.
@@ -305,7 +309,7 @@ export default class Physics {
             if (
                 this.previousShapes.length !== shapes.length ||
                 !this.previousShapes.every((shape, index) =>
-                    shape.value.isEqualTo(shapes[index].value)
+                    shape.value.isEqualTo(shapes[index].value),
                 )
             ) {
                 // Remove the bodies previously added
@@ -318,7 +322,7 @@ export default class Physics {
                     if (barrier.form instanceof Rectangle) {
                         const shape = this.createRectangle(
                             barrier.form,
-                            barrier.pose.rotation
+                            barrier.pose.rotation,
                         );
                         if (barrier.name) shape.label = barrier.getName();
                         const engine = this.getEngineAtZ(barrier.form.z);
@@ -360,7 +364,7 @@ export default class Physics {
                         // Remove the body.
                         MatterJS.Composite.remove(
                             engine.world,
-                            outputBody.body
+                            outputBody.body,
                         );
                         this.bodyByName.delete(name);
 
@@ -390,7 +394,7 @@ export default class Physics {
             // Round corners by a fraction of their size
             (matter?.roundedness ?? 0.1) *
                 (info.output.size ?? info.context.size),
-            matter
+            matter,
         );
     }
 
@@ -436,7 +440,7 @@ export class OutputBody {
         ascent: number,
         angle: number,
         corner: number,
-        matter: Matter | undefined
+        matter: Matter | undefined,
     ) {
         const position = this.getPosition(left, bottom, width, height);
 
@@ -456,7 +460,7 @@ export class OutputBody {
                 angle,
                 sleepThreshold: 500,
                 label: name,
-            }
+            },
         );
 
         this.body.collisionFilter = getCollisionFilter(matter);

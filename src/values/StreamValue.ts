@@ -16,7 +16,7 @@ export const MAX_STREAM_LENGTH = 256;
 export default abstract class StreamValue<
     ValueType extends Value = Value,
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    Raw = any
+    Raw = any,
 > extends SimpleValue {
     /** The evaluator that processes this stream */
     readonly evaluator: Evaluator;
@@ -31,14 +31,14 @@ export default abstract class StreamValue<
     reactors: ((
         stream: StreamValue<Value, any>,
         raw: Raw,
-        silent: boolean
+        silent: boolean,
     ) => void)[] = [];
 
     constructor(
         evaluator: Evaluator,
         definition: StreamDefinition,
         initalValue: ValueType,
-        initialRaw: Raw
+        initialRaw: Raw,
     ) {
         super(evaluator.getMain());
 
@@ -53,7 +53,7 @@ export default abstract class StreamValue<
             locales,
             this.definition.docs
                 ?.getPreferredLocale(locales)
-                ?.getFirstParagraph() ?? locales.get((l) => l.term.stream)
+                ?.getFirstParagraph() ?? locales.get((l) => l.term.stream),
         );
     }
 
@@ -61,6 +61,7 @@ export default abstract class StreamValue<
         return value === this;
     }
 
+    /** Defines how the stream should process a raw input value from the past */
     abstract react(raw: Raw): void;
 
     add(value: ValueType, raw: Raw, silent = false) {
@@ -129,7 +130,7 @@ export default abstract class StreamValue<
             requestor,
             this.values
                 .slice(this.values.length - count, this.values.length)
-                .map((val) => val.value)
+                .map((val) => val.value),
         );
     }
 
@@ -137,8 +138,8 @@ export default abstract class StreamValue<
         listener: (
             stream: StreamValue<Value, unknown>,
             raw: Raw,
-            silent: boolean
-        ) => void
+            silent: boolean,
+        ) => void,
     ) {
         this.reactors.push(listener);
     }
@@ -147,8 +148,8 @@ export default abstract class StreamValue<
         listener: (
             stream: StreamValue<Value, unknown>,
             raw: Raw,
-            silent: boolean
-        ) => void
+            silent: boolean,
+        ) => void,
     ) {
         this.reactors = this.reactors.filter((l) => l !== listener);
     }

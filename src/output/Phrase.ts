@@ -360,6 +360,10 @@ export default class Phrase extends Output {
         return this._description;
     }
 
+    getEntryAnimated() {
+        return this.entering !== undefined ? [this] : [];
+    }
+
     isEmpty() {
         return false;
     }
