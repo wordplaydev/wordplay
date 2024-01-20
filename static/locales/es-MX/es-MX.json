@@ -2025,6 +2025,11 @@
                     "names": "azar",
                     "inputs": []
                 },
+                "shuffled": {
+                    "doc": ["$?"],
+                    "names": "$? shuffle",
+                    "inputs": []
+                },
                 "first": {
                     "doc": [
                         "Mi primer valor, o @None si estoy vacia.",

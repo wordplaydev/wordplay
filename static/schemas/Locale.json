@@ -664,6 +664,10 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
+                    "shuffled": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "description": "See `en-US.json` for documentation"
+                    },
                     "sorted": {
                       "additionalProperties": false,
                       "description": "See `en-US.json` for documentation",
@@ -789,6 +793,7 @@
                     "replace",
                     "length",
                     "random",
+                    "shuffled",
                     "first",
                     "last",
                     "has",

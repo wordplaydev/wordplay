@@ -2002,10 +2002,18 @@
                 },
                 "random": {
                     "doc": [
-                        "A randonly selected one of my items, or @None if I'm empty.",
+                        "A randomly selected one of my items, or @None if I'm empty.",
                         "\\['apple' 'banana' 'mango'].random()\\"
                     ],
                     "names": "random",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "Make a new list with the items in the last randomly ordered.",
+                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                    ],
+                    "names": "shuffled",
                     "inputs": []
                 },
                 "first": {

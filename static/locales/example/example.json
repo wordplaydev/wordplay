@@ -1231,6 +1231,11 @@
                 },
                 "length": { "doc": "$?", "names": "$?", "inputs": [] },
                 "random": { "doc": "$?", "names": "$?", "inputs": [] },
+                "shuffled": {
+                    "doc": ["$?"],
+                    "names": "$? shuffle",
+                    "inputs": []
+                },
                 "first": { "doc": "$?", "names": "$?", "inputs": [] },
                 "last": { "doc": "$?", "names": "$?", "inputs": [] },
                 "has": {
