@@ -12,6 +12,7 @@
     import { DB, locales } from '../../db/Database';
     import Stage, { NameGenerator, toStage } from '../../output/Stage';
     import OutputView from '../output/OutputView.svelte';
+    import Button from '@components/widgets/Button.svelte';
 
     export let example: Example;
     export let spaces: Spaces;
@@ -24,7 +25,7 @@
         'example',
         new Source('example', [example.program, spaces]),
         [],
-        $locales.getLocales()
+        $locales.getLocales(),
     );
     let value: Value | undefined = undefined;
     let stage: Stage | undefined = undefined;
@@ -79,48 +80,61 @@
     });
 </script>
 
-<div class="example" class:evaluated class:inline
-    ><CodeView
-        node={example.program}
-        {inline}
-        {spaces}
-        outline={false}
-        describe={false}
-    /></div
->{#if evaluated && value}
-    <div class="value"
-        >{#if stage && evaluator}
-            <div class="stage">
-                <OutputView
-                    {project}
-                    {evaluator}
-                    {value}
-                    mini
-                    editable={false}
-                />
-            </div>
-        {:else}<ValueView {value} inline={false} />{/if}</div
+<div class="example">
+    <div class="code" class:evaluated class:inline
+        ><CodeView
+            node={example.program}
+            {inline}
+            {spaces}
+            outline={false}
+            describe={false}
+        /></div
+    >{#if evaluated && value}
+        <div class="value"
+            >{#if stage && evaluator}
+                <div class="stage">
+                    <OutputView
+                        {project}
+                        {evaluator}
+                        {value}
+                        editable={false}
+                    />
+                </div>
+            {:else}<ValueView {value} inline={false} />{/if}</div
+        >
+    {/if}
+    <Button
+        tip={$locales.get((l) => l.ui.timeline.button.reset)}
+        action={() => {
+            project = project;
+        }}>↻</Button
     >
-{/if}
+</div>
 
 <style>
     .value {
-        margin: var(--wordplay-spacing);
         text-align: right;
     }
 
-    .example.inline {
+    .example {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    .code.inline {
         display: inline;
     }
 
     .stage {
+        display: flex;
         width: 100%;
         aspect-ratio: 4/3;
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 
-    .example.evaluated {
+    .code.evaluated {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
