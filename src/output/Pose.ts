@@ -36,7 +36,6 @@ export default class Pose extends Valued {
     readonly scale?: number;
     readonly flipx?: boolean;
     readonly flipy?: boolean;
-    readonly blur?: number;
 
     private _description: string | undefined = undefined;
 
@@ -49,7 +48,6 @@ export default class Pose extends Valued {
         scale?: number,
         flipx?: boolean,
         flipy?: boolean,
-        blur?: number,
     ) {
         super(value);
 
@@ -73,7 +71,6 @@ export default class Pose extends Valued {
             pose.scale ?? this.scale,
             pose.flipx ?? this.flipx,
             pose.flipy ?? this.flipy,
-            pose.blur ?? this.blur,
         );
     }
 
@@ -129,17 +126,7 @@ export class DefinitePose extends Pose {
         flipx: boolean | undefined,
         flipy: boolean | undefined,
     ) {
-        super(
-            value,
-            color,
-            opacity,
-            offset,
-            rotation,
-            scale,
-            flipx,
-            flipy,
-            blur,
-        );
+        super(value, color, opacity, offset, rotation, scale, flipx, flipy);
     }
 }
 
@@ -167,7 +154,6 @@ export function toPose(
         toNumber(scale),
         toBoolean(flipx),
         toBoolean(flipy),
-        toNumber(blur),
     );
 }
 

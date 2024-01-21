@@ -39,10 +39,6 @@ export type TypeTexts = {
     duration: NameAndDoc;
     /** The transition style of transitions */
     style: NameAndDoc;
-    /** The shadow blur property (testing) */
-    blur: NameAndDoc;
-    /** The shadow prop*/
-    shadow: NameAndDoc;
 };
 
 type OutputTexts = {
@@ -69,11 +65,7 @@ type OutputTexts = {
         offsetY: NameAndDoc;
         /** The blurriness of the shadow */
         blur: NameAndDoc;
-        /** How far the shadow should spread */
-        spread: NameAndDoc;
-        /** How transparent the shadow should be */
-        opacity: NameAndDoc;
-    }
+    };
     /** A sequence of glyphs */
     Phrase: NameAndDoc & {
         /** The glyphs to render */
@@ -87,7 +79,7 @@ type OutputTexts = {
         /** The matter properties for the phrase */
         matter: NameAndDoc;
         /** The shadow properties for the phrase */
-        shadow: NameAndDoc
+        aura: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
         description: Template;
     } & TypeTexts;
@@ -139,9 +131,6 @@ type OutputTexts = {
         duration: NameAndDoc;
         /** The transition style of transitions */
         style: NameAndDoc;
-        /** The shadow property (testing) */
-        blur: NameAndDoc;
-        shadow: NameAndDoc;
     };
     /** A rectangle shape, for Stage.frame */
     Rectangle: NameAndDoc & {
@@ -167,9 +156,7 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
-        /** The shadow property (testing) */
-        blur: NameAndDoc;
-        /** all optional inputs: opacity, rotation, scale, flipx, flipy */
+        /** Templated description of the pose */
         description: Template;
     };
     /** A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states */

@@ -15,6 +15,8 @@ import {
     VerticalRightLeftLayout,
 } from '@locale/Scripts';
 import FormattedLiteral from '@nodes/FormattedLiteral';
+import Evaluate from '@nodes/Evaluate';
+import Reference from '@nodes/Reference';
 
 export default function getPhraseProperties(
     project: Project,
@@ -74,15 +76,22 @@ export default function getPhraseProperties(
             () => TextLiteral.make(HorizontalLayout),
         ),
         new OutputProperty(
-            locales.get((l) => l.output.Phrase.shadow),
+            locales.get((l) => l.output.Phrase.aura),
             'aura',
             false,
             false,
-            (expr) => expr instanceof TextLiteral,
-            () => TextLiteral.make('|'),
+            (expr, context) =>
+                expr instanceof Evaluate &&
+                expr.is(project.shares.output.Aura, context),
+            () =>
+                Evaluate.make(
+                    Reference.make(
+                        locales.getName(project.shares.output.Aura.names),
+                        project.shares.output.Aura,
+                    ),
+                    [],
+                ),
         ),
-        // ...getShadowProperties(project, locale),
-        ...getTypeOutputProperties(project, locales),
     ];
 
     const typeProperties = getTypeOutputProperties(project, locales);

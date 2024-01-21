@@ -439,7 +439,6 @@ export default class Evaluate extends Expression {
                 fun instanceof StreamDefinition
             )
         ) {
-            console.log("REACHED LINE 439!")
             return [
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference

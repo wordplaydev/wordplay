@@ -16,11 +16,9 @@ export function createAuraType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Aura, '•')}(
         ${getBind(locales, (locale) => locale.output.Aura.color)}•Color|ø: ø
-        ${getBind(locales, (locale) => locale.output.Aura.blur)}•%|ø: ø
-        ${getBind(locales, (locale) => locale.output.Aura.offsetX)}•#|ø: ø
-        ${getBind(locales, (locale) => locale.output.Aura.offsetY)}•#|ø: ø
-        ${getBind(locales, (locale) => locale.output.Aura.spread)}•#|ø: ø
-        ${getBind(locales, (locale) => locale.output.Aura.opacity)}•%|ø: ø
+        ${getBind(locales, (locale) => locale.output.Aura.blur)}•#m: 0.1m
+        ${getBind(locales, (locale) => locale.output.Aura.offsetX)}•#m: 0m
+        ${getBind(locales, (locale) => locale.output.Aura.offsetY)}•#m: 0m
     )
 `);
 }
@@ -30,10 +28,6 @@ export default class Aura extends Valued {
     readonly blur?: number;
     readonly offsetX?: number;
     readonly offsetY?: number;
-    readonly spread?: number;
-    readonly opacity?: boolean;
-
-    private _description: string | undefined = undefined;
 
     constructor(
         value: Value,
@@ -41,17 +35,12 @@ export default class Aura extends Valued {
         blur?: number,
         offsetX?: number,
         offsetY?: number,
-        spread?: number,
-        opacity?: number,
     ) {
         super(value);
         this.color = color;
         this.blur = blur;
         this.offsetX = offsetX;
         this.offsetY = offsetY;
-        this.spread = spread;
-        // TODO: Opacity must be added to `color` property as rgbA - M.W 18/10/2023
-        // this.opacity =
     }
 }
 
@@ -62,10 +51,8 @@ export class DefiniteAura extends Aura {
         blur: number | undefined,
         offsetX: number | undefined,
         offsetY: number | undefined,
-        spread: number | undefined,
-        opacity: number | undefined,
     ) {
-        super(value, color, blur, offsetX, offsetY, spread, opacity);
+        super(value, color, blur, offsetX, offsetY);
     }
 }
 
@@ -80,46 +67,16 @@ export function toAura(
         )
     )
         return undefined;
-    const [color, blur, offsetX, offsetY, spread, opacity] =
-        getOutputInputs(value);
+    const [color, blur, offsetX, offsetY] = getOutputInputs(value);
 
-    console.log(value);
     return new Aura(
         value,
         toColor(color),
         toNumber(blur),
         toNumber(offsetX),
         toNumber(offsetY),
-        toNumber(spread),
-        toNumber(opacity),
     );
 }
-
-// export function toAura(
-//     project: Project,
-//     value: Value | undefined
-// ): Aura | undefined {
-//     if (
-//         !(
-//             value instanceof StructureValue &&
-//             value.type === project.shares.output.Aura
-//         )
-//     )
-//         return undefined;
-
-//     const [color, blur, offsetX, offsetY, spread, opacity] =
-//         getOutputInputs(value);
-
-//     return new Aura(
-//         value,
-//         toColor(color),
-//         toNumber(blur),
-//         toNumber(offsetX),
-//         toNumber(offsetY),
-//         toNumber(spread),
-//         toNumber(opacity)
-//     );
-// }
 
 export function createAuraLiteral(project: Project, locales: Locale[]) {
     const AuraType = project.shares.output.Aura;

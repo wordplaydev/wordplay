@@ -27,7 +27,7 @@
     import MotionEditor from './MotionEditor.svelte';
     import PlacementEditor from './PlacementEditor.svelte';
     import NamedControl from './NamedControl.svelte';
-    // import AuraEditor from './AuraEditor.svelte';
+    import AuraEditor from './AuraEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -59,13 +59,13 @@
                 /></small
             >{/if}
         <label for={property.getName()}
-            >{bindConcept?.getName($locales[0], false) ?? '—'}</label
+            >{bindConcept?.getName($locales, false) ?? '—'}</label
         >
         {#if editable}
             <Button
                 tip={valuesAreSet
-                    ? $locales[0].ui.palette.button.revert
-                    : $locales[0].ui.palette.button.set}
+                    ? $locales.get((l) => l.ui.palette.button.revert)
+                    : $locales.get((l) => l.ui.palette.button.set)}
                 bind:view={toggleView}
                 action={() => toggleValues(!valuesAreSet)}
                 >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
@@ -73,144 +73,84 @@
     </svelte:fragment>
     <svelte:fragment slot="control">
         {#if values.areMixed()}
-            <Note>{$locales[0].ui.palette.labels.mixed}</Note>
-            {bindConcept?.getName($locales[0], false) ?? '—'}
-        {/if}
-        {#if editable}
-            <Button
-                tip={valuesAreSet
-                    ? $locales[0].ui.palette.button.revert
-                    : $locales[0].ui.palette.button.set}
-                bind:view={toggleView}
-                action={() => toggleValues(!valuesAreSet)}
-                >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
-            >{/if}
-        <div class="control">
-            {#if property.type === 'aura'}
-                <!-- <div style="background-color:hotpink">
-                <h2>AURA EDITOR</h2>
-            </div> -->
-            {:else if values.areMixed()}
-                <Note
-                    >{$locales
-                        .map((locale) => locale.ui.palette.labels.mixed)
-                        .join('/')}</Note
-                >
-            {:else if !values.areSet()}
-                {@const expression = values.getExpression()}
-                <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
-                <Note
-                    >{#if property.inherited}{$locales[0].ui.palette.labels
-                            .inherited}{:else if values.areDefault() && expression !== undefined}<NodeView
-                            node={expression}
-                        />
-                        {$locales[0].ui.palette.labels
-                            .default}{:else}&mdash;{/if}</Note
-                >
-            {:else if !values.areEditable(project)}
-                <Note>{$locales[0].ui.palette.labels.computed}</Note>
-            {:else if property.type instanceof OutputPropertyRange}
-                <BindSlider
-                    {property}
-                    {values}
-                    range={property.type}
-                    {editable}
-                />
-            {:else if property.type instanceof OutputPropertyOptions}
-                <BindOptions
-                    {property}
-                    {values}
-                    options={property.type}
-                    {editable}
-                />
-            {:else if property.type instanceof OutputPropertyText}
-                <BindText
-                    {property}
-                    {values}
-                    validator={property.type.validator}
-                    {editable}
-                />
-            {:else if property.type === 'color'}
-                <BindColor {property} {values} {editable} />
-            {:else if property.type === 'bool'}
-                <BindCheckbox {property} {values} {editable} />
-            {:else if property.type === 'pose'}
-                {@const expression = values.getExpression()}
-                {#if expression instanceof Evaluate && expression.is(project.shares.output.Pose, project.getNodeContext(expression))}
-                    <PoseEditor
-                        {project}
-                        outputs={values.getOutputExpressions(project, $locales)}
-                        sequence={false}
-                        {editable}
+            <Note>{$locales.get((l) => l.ui.palette.labels.mixed)}</Note>
+        {:else if !values.areSet()}
+            {@const expression = values.getExpression()}
+            <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
+            <Note
+                >{#if property.inherited}{$locales.get(
+                        (l) => l.ui.palette.labels.inherited,
+                    )}{:else if values.areDefault() && expression !== undefined}<NodeView
+                        node={expression}
                     />
-                {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
-                    <SequenceEditor
-                        {project}
-                        outputs={values.getOutputExpressions(project, $locales)}
-                        {editable}
-                    />
-                {/if}
-            {:else if property.type == 'poses'}
-                <SequencePosesEditor
+                    {$locales.get(
+                        (l) => l.ui.palette.labels.default,
+                    )}{:else}&mdash;{/if}</Note
+            >
+        {:else if !values.areEditable(project)}
+            <Note>{$locales.get((l) => l.ui.palette.labels.computed)}</Note>
+        {:else if property.type instanceof OutputPropertyRange}
+            <BindSlider {property} {values} range={property.type} {editable} />
+        {:else if property.type instanceof OutputPropertyOptions}
+            <BindOptions
+                {property}
+                {values}
+                options={property.type}
+                {editable}
+            />
+        {:else if property.type instanceof OutputPropertyText}
+            <BindText
+                {property}
+                {values}
+                validator={property.type.validator}
+                {editable}
+            />
+        {:else if property.type === 'color'}
+            <BindColor {property} {values} {editable} />
+        {:else if property.type === 'bool'}
+            <BindCheckbox {property} {values} {editable} />
+        {:else if property.type === 'pose'}
+            {@const expression = values.getExpression()}
+            {#if expression instanceof Evaluate && expression.is(project.shares.output.Pose, project.getNodeContext(expression))}
+                <PoseEditor
                     {project}
-                    map={values.getMap()}
+                    outputs={values.getOutputExpressions(project, $locales)}
+                    sequence={false}
                     {editable}
                 />
-            {:else if property.type === 'content'}
-                <ContentEditor {project} list={values.getList()} {editable} />
-            {:else if property.type === 'place'}
-                {@const place = values.getEvaluationOf(
-                    project,
-                    project.shares.output.Place,
-                )}
-                {@const motion = values.getEvaluationOf(
-                    project,
-                    project.shares.input.Motion,
-                )}
-                {@const placement = values.getEvaluationOf(
-                    project,
-                    project.shares.input.Placement,
-                )}
-                {#if place}
-                    <PlaceEditor
-                        {project}
-                        {place}
-                        {editable}
-                        convertable={true}
-                    />
-                {:else if motion}
-                    <MotionEditor {project} {motion} {editable} />
-                {:else if placement}
-                    <PlacementEditor {project} {placement} {editable} />
-                {/if}
+            {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
+                <SequenceEditor
+                    {project}
+                    outputs={values.getOutputExpressions(project, $locales)}
+                    {editable}
+                />
             {/if}
-        </div></svelte:fragment
-    >
+        {:else if property.type === 'aura'}
+            <AuraEditor {project} {property} {values} {editable} />
+        {:else if property.type == 'poses'}
+            <SequencePosesEditor {project} map={values.getMap()} {editable} />
+        {:else if property.type === 'content'}
+            <ContentEditor {project} list={values.getList()} {editable} />
+        {:else if property.type === 'place'}
+            {@const place = values.getEvaluationOf(
+                project,
+                project.shares.output.Place,
+            )}
+            {@const motion = values.getEvaluationOf(
+                project,
+                project.shares.input.Motion,
+            )}
+            {@const placement = values.getEvaluationOf(
+                project,
+                project.shares.input.Placement,
+            )}
+            {#if place}
+                <PlaceEditor {project} {place} {editable} convertable={true} />
+            {:else if motion}
+                <MotionEditor {project} {motion} {editable} />
+            {:else if placement}
+                <PlacementEditor {project} {placement} {editable} />
+            {/if}
+        {/if}
+    </svelte:fragment>
 </NamedControl>
-
-<style>
-    .property {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: baseline;
-        gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
-    }
-
-    .name {
-        flex-basis: 5em;
-        text-align: left;
-        margin: 0;
-        white-space: nowrap;
-    }
-
-    .control {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        align-items: center;
-        gap: var(--wordplay-spacing);
-    }
-</style>

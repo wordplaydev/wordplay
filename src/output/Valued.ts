@@ -20,13 +20,8 @@ export default class Valued {
 
 export function getOutputInputs(
     value: StructureValue,
-    start = 0
+    start = 0,
 ): (Value | undefined)[] {
-    const outputInputs = value.type.inputs
-    .slice(start)
-    .map((input) => value.resolve(input.names));
-
-    console.log(outputInputs);
     return value.type.inputs
         .slice(start)
         .map((input) => value.resolve(input.names));
@@ -34,7 +29,7 @@ export function getOutputInputs(
 
 export function getOutputInput(
     value: StructureValue,
-    index: number
+    index: number,
 ): Value | undefined {
     const input = value.type.inputs[index];
     return input ? value.resolve(input.names) : undefined;

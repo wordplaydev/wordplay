@@ -6504,14 +6504,6 @@
                 "offsetY": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The vertical offset of the shadow"
-                },
-                "opacity": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "How transparent the shadow should be"
-                },
-                "spread": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "How far the shadow should spread"
                 }
               },
               "required": [
@@ -6520,9 +6512,7 @@
                 "doc",
                 "names",
                 "offsetX",
-                "offsetY",
-                "opacity",
-                "spread"
+                "offsetY"
               ],
               "type": "object"
             },
@@ -6670,10 +6660,6 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
                 },
-                "blur": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow blur property (testing)"
-                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
@@ -6762,10 +6748,6 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
-                "shadow": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow prop"
-                },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How tall glyphs in a phrase, group, or stage should be"
@@ -6777,7 +6759,6 @@
               },
               "required": [
                 "background",
-                "blur",
                 "color",
                 "content",
                 "description",
@@ -6800,7 +6781,6 @@
                 "rotation",
                 "scale",
                 "selectable",
-                "shadow",
                 "size",
                 "style"
               ],
@@ -6867,13 +6847,13 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The alignment to use when wrapped"
                 },
+                "aura": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow properties for the phrase"
+                },
                 "background": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
-                },
-                "blur": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow blur property (testing)"
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -6959,10 +6939,6 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
-                "shadow": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow properties for the phrase"
-                },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How tall glyphs in a phrase, group, or stage should be"
@@ -6982,8 +6958,8 @@
               },
               "required": [
                 "alignment",
+                "aura",
                 "background",
-                "blur",
                 "color",
                 "description",
                 "direction",
@@ -7005,7 +6981,6 @@
                 "rotation",
                 "scale",
                 "selectable",
-                "shadow",
                 "size",
                 "style",
                 "text",
@@ -7056,16 +7031,12 @@
               "additionalProperties": false,
               "description": "A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states",
               "properties": {
-                "blur": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow property (testing)"
-                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
                 "description": {
                   "$ref": "#/definitions/Template",
-                  "description": "all optional inputs: opacity, rotation, scale, flipx, flipy"
+                  "description": "Templated description of the pose"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7101,7 +7072,6 @@
                 }
               },
               "required": [
-                "blur",
                 "color",
                 "description",
                 "doc",
@@ -7242,10 +7212,6 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
                 },
-                "blur": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow property (testing)"
-                },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
@@ -7314,9 +7280,6 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
-                "shadow": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The transition style of transitions"
@@ -7324,7 +7287,6 @@
               },
               "required": [
                 "background",
-                "blur",
                 "color",
                 "doc",
                 "duration",
@@ -7342,7 +7304,6 @@
                 "rotation",
                 "scale",
                 "selectable",
-                "shadow",
                 "style"
               ],
               "type": "object"
@@ -7388,10 +7349,6 @@
                 "background": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
-                },
-                "blur": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow blur property (testing)"
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7481,10 +7438,6 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Whether a phrase, group, or stage is selectable by Choice"
                 },
-                "shadow": {
-                  "$ref": "#/definitions/NameAndDoc",
-                  "description": "The shadow prop"
-                },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "How tall glyphs in a phrase, group, or stage should be"
@@ -7496,7 +7449,6 @@
               },
               "required": [
                 "background",
-                "blur",
                 "color",
                 "content",
                 "description",
@@ -7519,7 +7471,6 @@
                 "rotation",
                 "scale",
                 "selectable",
-                "shadow",
                 "size",
                 "style"
               ],
