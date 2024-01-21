@@ -14,6 +14,7 @@
     import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;
+    // takes in a list of outputexpressions to modify
     export let outputs: OutputExpression[];
     export let sequence: boolean;
     export let editable: boolean;

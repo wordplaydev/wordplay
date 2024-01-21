@@ -22,6 +22,11 @@ export function getOutputInputs(
     value: StructureValue,
     start = 0,
 ): (Value | undefined)[] {
+    const outputInputs = value.type.inputs
+    .slice(start)
+    .map((input) => value.resolve(input.names));
+
+    console.log(outputInputs);
     return value.type.inputs
         .slice(start)
         .map((input) => value.resolve(input.names));

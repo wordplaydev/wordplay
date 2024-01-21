@@ -48,6 +48,8 @@
         await tick();
         toggleView?.focus();
     }
+
+    console.log(property.type);
 </script>
 
 <NamedControl>

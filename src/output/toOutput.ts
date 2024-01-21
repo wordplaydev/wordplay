@@ -26,6 +26,8 @@ import TextValue from '../values/TextValue';
 import type { SupportedFace } from '../basis/Fonts';
 import { toShape } from './Shape';
 import type Evaluator from '../runtime/Evaluator';
+import type Aura from './Aura';
+import { toAura } from './Aura';
 
 export function toOutput(
     evaluator: Evaluator,
@@ -102,6 +104,7 @@ export function getTypeStyle(
     exiting: Pose | Sequence | undefined;
     duration: number | undefined;
     style: string | undefined;
+    shadow: Aura | undefined;
 } {
     const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
 
@@ -125,6 +128,7 @@ export function getTypeStyle(
         exiting: style.exiting,
         duration: style.duration,
         style: style.style,
+        shadow: style.shadow
     };
 }
 
@@ -151,6 +155,7 @@ export function getStyle(
         exitVal,
         durationVal,
         styleVal,
+        shadowVal
     ] = getOutputInputs(value, index);
 
     const name = toText(nameVal);
@@ -181,6 +186,7 @@ export function getStyle(
     const move = toPose(project, moveVal) ?? toSequence(project, moveVal);
     const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
     const duration = toNumber(durationVal);
+    const shadow = toAura(project, shadowVal);
 
     return {
         name,
@@ -193,5 +199,6 @@ export function getStyle(
         exiting: exit,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
+        shadow: shadow
     };
 }

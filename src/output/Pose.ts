@@ -36,6 +36,7 @@ export default class Pose extends Valued {
     readonly scale?: number;
     readonly flipx?: boolean;
     readonly flipy?: boolean;
+    readonly blur?: number;
 
     private _description: string | undefined = undefined;
 
@@ -57,7 +58,7 @@ export default class Pose extends Valued {
         this.rotation = rotation;
         this.scale = scale;
         this.flipx = flipx;
-        this.flipy = flipy;
+        this.flipy = flipy
     }
 
     /** Override non-empty values with the values in the given pose */
