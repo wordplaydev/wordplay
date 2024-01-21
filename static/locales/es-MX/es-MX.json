@@ -3253,6 +3253,10 @@
                 "doc": "¡Las propiedades a usar si choco con cosas!",
                 "names": "materia"
             },
+            "aura": {
+                "doc": "$?",
+                "names": "$? aura"
+            },
             "name": {
                 "doc": [
                     "¡Un nombre que me das! Esto es muy útil para muchas cosas.",
@@ -3647,6 +3651,26 @@
             "shapes": {
                 "doc": "Si puede chocar con otras formas.",
                 "names": "formas"
+            }
+        },
+        "Aura": {
+            "doc": "$?",
+            "names": "$? Aura",
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "blur": {
+                "doc": "$?",
+                "names": "$? blur"
+            },
+            "offsetX": {
+                "doc": "$?",
+                "names": "$? offsetX"
+            },
+            "offsetY": {
+                "doc": "How far down the @Aura should go",
+                "names": "$? offset"
             }
         },
         "Stage": {

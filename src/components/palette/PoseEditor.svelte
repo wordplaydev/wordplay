@@ -14,6 +14,7 @@
     import getPoseProperties from '@edit/PoseProperties';
 
     export let project: Project;
+    // takes in a list of outputexpressions to modify
     export let outputs: OutputExpression[];
     export let sequence: boolean;
     export let editable: boolean;
@@ -42,18 +43,18 @@
                 Evaluate.make(
                     Reference.make(
                         $locales.getName(project.shares.output.Sequence.names),
-                        project.shares.output.Sequence
+                        project.shares.output.Sequence,
                     ),
                     [
                         MapLiteral.make([
                             KeyValue.make(
                                 NumberLiteral.make('0%'),
-                                output.node
+                                output.node,
                             ),
                         ]),
-                    ]
+                    ],
                 ),
-            ])
+            ]),
         );
     }
 </script>

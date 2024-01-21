@@ -34,6 +34,7 @@ import { createCollisionDefinition } from '../input/Collision';
 import type Locales from '../locale/Locales';
 import { createReactionDefinition } from '../values/ReactionStream';
 import { createSceneDefinition } from '@input/Scene';
+import { createAuraType } from '@output/Aura';
 
 export default function createDefaultShares(locales: Locales) {
     const TypeType = createOutputType(locales);
@@ -50,6 +51,7 @@ export default function createDefaultShares(locales: Locales) {
         Type: TypeType,
         Phrase: PhraseType,
         Group: GroupType,
+        Aura: createAuraType(locales),
         Stage: createStageType(locales),
         Shape: createShapeType(locales),
         Pose: createPoseType(locales),

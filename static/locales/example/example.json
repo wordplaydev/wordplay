@@ -1774,7 +1774,7 @@
             "layout": { "doc": "$?", "names": "$?" },
             "matter": {
                 "doc": "$?",
-                "names": "$? matter"
+                "names": "$?"
             },
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
@@ -1840,6 +1840,10 @@
             "matter": {
                 "doc": "$?",
                 "names": "$? matter"
+            },
+            "aura": {
+                "doc": "$?",
+                "names": "$?"
             },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
@@ -2048,6 +2052,26 @@
             "shapes": {
                 "doc": "$?",
                 "names": "$? shapes"
+            }
+        },
+        "Aura": {
+            "doc": "$?",
+            "names": "$? Aura",
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "blur": {
+                "doc": "$?",
+                "names": "$? blur"
+            },
+            "offsetX": {
+                "doc": "$?",
+                "names": "$? offsetX"
+            },
+            "offsetY": {
+                "doc": "$?",
+                "names": "$? offset"
             }
         },
         "Easing": {

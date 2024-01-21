@@ -27,6 +27,7 @@
     import MotionEditor from './MotionEditor.svelte';
     import PlacementEditor from './PlacementEditor.svelte';
     import NamedControl from './NamedControl.svelte';
+    import AuraEditor from './AuraEditor.svelte';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -47,6 +48,8 @@
         await tick();
         toggleView?.focus();
     }
+
+    console.log(property.type);
 </script>
 
 <NamedControl>
@@ -124,6 +127,8 @@
                     {editable}
                 />
             {/if}
+        {:else if property.type === 'aura'}
+            <AuraEditor {project} {property} {values} {editable} />
         {:else if property.type == 'poses'}
             <SequencePosesEditor {project} map={values.getMap()} {editable} />
         {:else if property.type === 'content'}

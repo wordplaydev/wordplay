@@ -3223,6 +3223,10 @@
                 "doc": "The properties to use if I bump into things!",
                 "names": "matter"
             },
+            "aura": {
+                "doc": "The optional @Aura to show behind me. Make me glow!",
+                "names": "aura"
+            },
             "name": {
                 "doc": [
                     "A name you give me! This is helpful for many things.",
@@ -3454,6 +3458,34 @@
                 "names": "z"
             }
         },
+        "Aura": {
+            "doc": ["I am an AURA"],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The color the @Aura should be",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far right the @Aura should go",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far down the @Aura should go",
+                "names": "offsetY"
+            },
+            "spread": {
+                "doc": "The strength of the @Aura",
+                "names": "spread"
+            },
+            "opacity": {
+                "doc": "How transparent the @Aura should be",
+                "names": "opacity"
+            }
+        },
         "Pose": {
             "doc": [
                 "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",
@@ -3496,7 +3528,7 @@
                 "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             },
-            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]"
+            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|] $6[shadow blurred $6 pixels]"
         },
         "Color": {
             "doc": [
@@ -3606,6 +3638,29 @@
             "shapes": {
                 "doc": "Whether it can collide with other shapes.",
                 "names": "ground"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "I am an AURA. I make @Phrase GLOW! Like this:",
+                "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+            ],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The @Color the @Aura should be.",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be. \\0m\\ means not blurry at all.",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far left or right I should appear. \\0m\\ is directly under.",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far up or down I should appear.\\0m\\ is directly under.",
+                "names": "offsetY"
             }
         },
         "Stage": {

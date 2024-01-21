@@ -438,7 +438,7 @@ export default class Evaluate extends Expression {
                 fun instanceof StructureDefinition ||
                 fun instanceof StreamDefinition
             )
-        )
+        ) {
             return [
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference
@@ -450,6 +450,7 @@ export default class Evaluate extends Expression {
                     FunctionType.make(undefined, [], new AnyType()),
                 ),
             ];
+        }
 
         // If it's a structure definition, can we create it?
         if (fun instanceof StructureDefinition) {

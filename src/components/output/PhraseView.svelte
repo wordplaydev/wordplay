@@ -227,6 +227,15 @@
             metrics,
         )}
         style:writing-mode={layoutToCSS(phrase.direction)}
+        style:text-shadow={phrase.aura
+            ? `${getSizeCSS(phrase.aura.offsetX ?? 0)} ${getSizeCSS(
+                  phrase.aura.offsetY ?? 0,
+              )} ${getSizeCSS(phrase.aura.blur ?? 0)} ${
+                  phrase.aura.color?.toCSS() ??
+                  getColorCSS(phrase.getFirstRestPose(), phrase.pose) ??
+                  ''
+              }`
+            : null}
         style:white-space={phrase.wrap !== undefined ? 'normal' : 'nowrap'}
         style:text-align={phrase.alignment === undefined
             ? null
