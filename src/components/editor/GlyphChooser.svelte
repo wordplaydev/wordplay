@@ -1,17 +1,12 @@
 <script lang="ts">
-    import { tokenize } from '../../parser/Tokenizer';
-    import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
-    import { IdleKind, getEditors } from '../project/Contexts';
-    import Button from '../widgets/Button.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import TokenView from './TokenView.svelte';
     import { locales } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import concretize from '../../locale/concretize';
     import Toggle from '../widgets/Toggle.svelte';
     import Label from '@components/widgets/Label.svelte';
-    import DropdownButton from '@components/widgets/DropdownButton.svelte';
+    import DropdownButton, { type MenuItem } from '@components/widgets/DropdownButton.svelte';
+    import GlyphSearchArea from './GlyphSearchArea.svelte';
+    import type { WordplayCategories } from '../../unicode/Unicode';
 
     export let sourceID: string;
 
@@ -19,8 +14,26 @@
         (command) => command.category === Category.Insert
     );
 
-    const categories = ["Emojis", "Arrows", "Shapes", "Other"];
+    const categories: MenuItem<WordplayCategories>[] =  [
+        {
+            label: "Emojis",
+            value: "emojis"
+        }, 
+        {
+            label: "Arrows",
+            value: "arrows"
+        }, 
+        {
+            label: "Shapes",
+            value: "shapes"
+        }, 
+        {
+            label: "Other",
+            value: "other"
+        }, 
+    ]
     let dropdownLabel = 'Symbols';
+    let dropdownValue: WordplayCategories | undefined = undefined;
     // [
     //     CHANGE_SYMBOL,
     //     DEGREE_SYMBOL,
@@ -28,23 +41,7 @@
     //     EXAMPLE_CLOSE_SYMBOL,
     // ];
 
-    const editors = getEditors();
-
     let expanded = false;
-    let query = '';
-    $: results =
-        query.length < 3
-            ? []
-            : getUnicodeWithNameText(query).map((entry) =>
-                  String.fromCodePoint(entry.hex)
-              );
-
-    function insert(glyph: string) {
-        const editor = $editors?.get(sourceID);
-        if (editor) {
-            editor.edit(editor.caret.insert(glyph), IdleKind.Typed, true);
-        }
-    }
 </script>
 
 <section class="directory" data-uiid="directory">
@@ -62,11 +59,11 @@
             <DropdownButton
                 menuItems={categories}
                 direction="up"
-                onSelect={(value) => {
-                    dropdownLabel = value;
-                    query = '';
+                onSelect={(item) => {
+                    dropdownLabel = item.label;
                     expanded = true;
                 }}
+                bind:value={dropdownValue}
             > {dropdownLabel} </DropdownButton> 
         </div>
         <div class="toggleWrapper">
@@ -81,34 +78,14 @@
         </div>
     </div>
     <div class:expanded class="search-area">
-        <TextField
-            placeholder="🔍"
-            description={$locales.get((l) => l.ui.source.cursor.search)}
-            bind:text={query}
-        />
-        <div class="matches">
-            {#if query !== ''}
-                {#each results as glyph}<Button
-                        tip={concretize(
-                            $locales,
-                            $locales.get((l) => l.ui.source.cursor.insertSymbol),
-                            glyph
-                        ).toText()}
-                        action={() => insert(glyph)}
-                        ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
-                    >{:else}&mdash;{/each}
-            {/if}
-        </div>
+        <GlyphSearchArea {sourceID} category={dropdownValue} {expanded}/>
     </div>
 </section>
 
 <style>
-    section {
-        padding: var(--wordplay-spacing);
-        border-top: var(--wordplay-border-color) solid 1px;
-    }
-
+    
     .top-bar {
+        padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
@@ -117,6 +94,8 @@
         justify-content: space-between;
         width:100%;
         overflow: none;
+        border-top: var(--wordplay-border-color) solid 1px;
+        border-bottom: var(--wordplay-border-color) solid 1px;
     }
 
     .left-bar {
@@ -136,19 +115,11 @@
         align-items: center;
         overflow: hidden;
     }
-
-    .matches {
-        flex-grow: 1;
-        display: flex;
-        flex-direction: row;
-        flex-wrap: nowrap;
-        gap: var(--wordplay-spacing);
-        overflow-x: auto;
-        padding: var(--wordplay-spacing);
-    }
-
+    
     .search-area {
         display: none;
+        padding: var(--wordplay-spacing);
+        padding-bottom: 0;
     }
 
     .expanded {

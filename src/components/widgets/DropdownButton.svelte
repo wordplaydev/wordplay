@@ -1,14 +1,20 @@
 <svelte:options immutable={true} />
 
+<script context="module" lang="ts">
+    export type MenuItem<T> = {
+        label: string;
+        value: T;
+    };
+</script>
+
 <script lang="ts">
     import { locales } from '@db/Database';
     import Toggle from './Toggle.svelte';
 
-	export let menuItems: string[] = [];
+	export let menuItems: MenuItem<any>[] = [];
     export let direction: 'up' | 'down' = 'down';
-    export let onSelect: (value: string) => void = () => {};
-
-    export let classes: string | undefined = undefined;
+    export let onSelect: (item: MenuItem<any>) => void = () => {};
+    export let value: string = '';
 
     let openUp = direction === 'up';
 
@@ -36,8 +42,9 @@
         <div on:click={() => {
             onSelect(item);
             menuOpen = false;
+            value = item.value;
         }} 
-        class="item">{item}</div>
+        class="item">{item.label}</div>
     {/each}	
   </div>	
 </section>
