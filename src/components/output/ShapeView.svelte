@@ -29,6 +29,8 @@
 
     $: width = shape.form.getWidth() * PX_PER_METER;
     $: height = shape.form.getHeight() * PX_PER_METER;
+
+    $: color = shape.getBackground();
 </script>
 
 {#if visible}
@@ -82,16 +84,16 @@
         transform-origin: 0 0;
     }
 
-    .shape.rectangle {
+    /* .shape.rectangle {
         background: var(--wordplay-inactive-color);
         border-radius: calc(2 * var(--wordplay-border-radius));
         border-width: calc(2 * var(--wordplay-border-width));
         border-style: solid;
         border-color: transparent;
-    }
+    } */
 
-    .shape.line {
-        background: #a0ca09;
+    /* .shape.line {
+        background: color;
         border-width: 3px;
-    }
+    } */
 </style>

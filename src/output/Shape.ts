@@ -148,6 +148,7 @@ export default class Shape extends Output {
     }
 
     getBackground(): Color | undefined {
+        console.log(this.background);
         return this.background;
     }
 
@@ -176,9 +177,9 @@ export function toShape(
     if (!(value instanceof StructureValue)) return undefined;
     console.log(value.getSize());
     let form;
-    if (value.getSize() == 21) {
+    if (value.getSize() == 23) {
         form = toRectangle(getOutputInput(value, 0));
-    } else if (value.getSize() == 20) {
+    } else if (value.getSize() == 22) {
         form = toLine(getOutputInput(value, 0));
     }
     

@@ -121,7 +121,7 @@ export class Line extends Form {
         y1: number,
         x2: number,
         y2: number,
-        z: number
+        z: number,
     ) {
         super(value);
 
