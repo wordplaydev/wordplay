@@ -3,6 +3,22 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.20 2024-01-20
+
+## Added
+
+-   [#76](https://github.com/wordplaydev/wordplay/issues/76): Added `Scene`, a new input stream for showing a sequence of optionally interactive output. This will make it easier to tell typographic stories.
+-   [#130](https://github.com/wordplaydev/wordplay/issues/130): Added `Phrase.aura` to allow for text shadows on text.
+-   Defined `[].shuffled()` for quick and easy list randomization.
+-   Added ability to expand and collapse the editor annotations.
+
+## Fixed
+
+-   [#340](https://github.com/wordplaydev/wordplay/issues/340): Resolved nested formatting logic for text formatting.
+-   Filled source output preview background with error color on exception values.
+-   Distinguished color of docs and text.
+-   Fixed rendering of example output in docs.
+
 ## 0.9.16 2024-01-13
 
 ## Fixed

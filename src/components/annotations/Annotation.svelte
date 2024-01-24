@@ -87,7 +87,7 @@
 
     .annotation {
         padding-inline-start: var(--wordplay-spacing);
-        border-inline-start: var(--wordplay-border-radius) solid
+        border-inline-start: var(--wordplay-focus-width) solid
             var(--wordplay-error);
     }
 

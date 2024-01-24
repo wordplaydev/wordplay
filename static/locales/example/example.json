@@ -1231,6 +1231,11 @@
                 },
                 "length": { "doc": "$?", "names": "$?", "inputs": [] },
                 "random": { "doc": "$?", "names": "$?", "inputs": [] },
+                "shuffled": {
+                    "doc": ["$?"],
+                    "names": "$? shuffle",
+                    "inputs": []
+                },
                 "first": { "doc": "$?", "names": "$?", "inputs": [] },
                 "last": { "doc": "$?", "names": "$?", "inputs": [] },
                 "has": {
@@ -1565,29 +1570,29 @@
     "input": {
         "Random": {
             "doc": "$?",
-            "names": ["Azar"],
+            "names": ["$?"],
             "inputs": [
                 { "names": "$?", "doc": "$?" },
                 { "names": "$?", "doc": "$?" }
             ]
         },
-        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
+        "Choice": { "doc": "$?", "names": ["$?"] },
         "Button": {
             "doc": "$?",
-            "names": ["Botón"],
+            "names": ["$?"],
             "down": { "names": "$?", "doc": "$?" }
         },
-        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Pointer": { "doc": "$?", "names": ["$?"] },
         "Key": {
             "doc": "$?",
-            "names": ["Teclado"],
+            "names": ["$?"],
             "key": { "names": "$?", "doc": "$?" },
             "down": { "names": "$?", "doc": "$?" }
         },
         "Time": {
             "doc": "$?",
-            "names": ["Tiempo"],
-            "frequency": { "names": ["frecuencia"], "doc": "$?" },
+            "names": ["$?"],
+            "frequency": { "names": ["$?"], "doc": "$?" },
             "relative": {
                 "names": "$?relative",
                 "doc": "$?"
@@ -1596,19 +1601,19 @@
         "Volume": {
             "doc": "$?",
             "names": "$? Volume",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["$?"], "doc": "$?" }
         },
         "Pitch": {
             "doc": "$?",
             "names": "$? Pitch",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["$?"], "doc": "$?" }
         },
         "Camera": {
             "doc": "$?",
             "names": ["Cámara"],
-            "width": { "names": ["ancho"], "doc": "$?" },
-            "height": { "names": ["altura"], "doc": "$?" },
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "width": { "names": ["$?"], "doc": "$?" },
+            "height": { "names": ["$?"], "doc": "$?" },
+            "frequency": { "names": ["$?"], "doc": "$?" }
         },
         "Motion": {
             "names": "movimiento",
@@ -1617,6 +1622,11 @@
             "velocity": { "doc": "$?", "names": "$? velocity" },
             "nextplace": { "doc": "$?", "names": "$? nextplace" },
             "nextvelocity": { "doc": "$?", "names": "$? nextvelocity" }
+        },
+        "Scene": {
+            "doc": "$?",
+            "names": "$? Scene",
+            "outputs": { "names": "$?", "doc": "$?" }
         },
         "Chat": {
             "doc": ["$?"],
@@ -1764,7 +1774,7 @@
             "layout": { "doc": "$?", "names": "$?" },
             "matter": {
                 "doc": "$?",
-                "names": "$? matter"
+                "names": "$?"
             },
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
@@ -1830,6 +1840,10 @@
             "matter": {
                 "doc": "$?",
                 "names": "$? matter"
+            },
+            "aura": {
+                "doc": "$?",
+                "names": "$?"
             },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
@@ -2038,6 +2052,26 @@
             "shapes": {
                 "doc": "$?",
                 "names": "$? shapes"
+            }
+        },
+        "Aura": {
+            "doc": "$?",
+            "names": "$? Aura",
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "blur": {
+                "doc": "$?",
+                "names": "$? blur"
+            },
+            "offsetX": {
+                "doc": "$?",
+                "names": "$? offsetX"
+            },
+            "offsetY": {
+                "doc": "$?",
+                "names": "$? offset"
             }
         },
         "Easing": {

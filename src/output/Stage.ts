@@ -34,24 +34,24 @@ export function createStageType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Stage, '•')} Output(
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.content
+        (locale) => locale.output.Stage.content,
     )}•[Phrase|Shape|Group]
     ${getBind(locales, (locale) => locale.output.Stage.frame)}•Rectangle|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.face
+        (locale) => locale.output.Stage.face,
     )}•${SupportedFontsFamiliesType}: "${locales.getLocales()[0].ui.font.app}"
     ${getBind(locales, (locale) => locale.output.Stage.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.name)}•""|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.selectable)}•?: ⊥
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.color
+        (locale) => locale.output.Stage.color,
     )}•🌈${': Color(0% 0 0°)'}
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.background
+        (locale) => locale.output.Stage.background,
     )}•Color${': Color(100% 0 0°)'}
     ${getBind(locales, (locale) => locale.output.Stage.opacity)}•%${': 1'}
     ${getBind(locales, (locale) => locale.output.Stage.offset)}•📍|ø: ø
@@ -67,13 +67,13 @@ export function createStageType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Stage.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+            Object.values(locale.output.Easing).map((id) => `"${id}"`),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
     ${getBind(
         locales,
-        (locale) => locale.output.Stage.gravity
+        (locale) => locale.output.Stage.gravity,
     )}•#m/s^2: ${DefaultGravity}m/s^2
     )
 `);
@@ -107,7 +107,7 @@ export default class Stage extends Output {
         exiting: Pose | Sequence | undefined = undefined,
         duration = 0,
         style: string | undefined = 'zippy',
-        gravity: number
+        gravity: number,
     ) {
         super(
             value,
@@ -123,7 +123,7 @@ export default class Stage extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
         );
 
         this.explicit = explicit;
@@ -139,7 +139,7 @@ export default class Stage extends Output {
 
     getShapes() {
         return this.content.filter(
-            (shape): shape is Shape => shape instanceof Shape
+            (shape): shape is Shape => shape instanceof Shape,
         );
     }
 
@@ -173,7 +173,7 @@ export default class Stage extends Output {
                               // We would normally not negate the y because its in math coordinates, but we want to move it
                               // down the y-axis by half, so we subtract.
                               -layout.height / 2,
-                              0
+                              0,
                           );
                 places.push([child, place]);
 
@@ -218,7 +218,7 @@ export default class Stage extends Output {
                 this.content.length,
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.frame?.getDescription(locales),
-                this.pose.getDescription(locales)
+                this.pose.getDescription(locales),
             ).toText();
         }
         return this._description;
@@ -237,6 +237,15 @@ export default class Stage extends Output {
 
     isEmpty() {
         return this.content.every((c) => c === null || c.isEmpty());
+    }
+
+    getEntryAnimated(): Output[] {
+        return [
+            ...(this.entering !== undefined ? [this] : []),
+            ...this.content.reduce((list: Output[], out) => {
+                return [...list, ...(out ? out.getEntryAnimated() : [])];
+            }, []),
+        ];
     }
 }
 
@@ -269,7 +278,7 @@ export class NameGenerator {
 export function toStage(
     evaluator: Evaluator,
     value: Value,
-    namer?: NameGenerator
+    namer?: NameGenerator,
 ): Stage | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
@@ -328,7 +337,7 @@ export function toStage(
                   exit,
                   duration,
                   style,
-                  gravity
+                  gravity,
               )
             : undefined;
     }
@@ -346,7 +355,7 @@ export function toStage(
                       value,
                       new Decimal(100),
                       new Decimal(0),
-                      new Decimal(0)
+                      new Decimal(0),
                   ),
                   undefined,
                   DefaultSize,
@@ -360,14 +369,14 @@ export function toStage(
                           value,
                           new Decimal(0),
                           new Decimal(0),
-                          new Decimal(0)
+                          new Decimal(0),
                       ),
                       1,
                       new Place(value, 0, 0, 0),
                       0,
                       1,
                       false,
-                      false
+                      false,
                   ),
                   undefined,
                   undefined,
@@ -375,7 +384,7 @@ export function toStage(
                   undefined,
                   0,
                   DefaultStyle,
-                  DefaultGravity
+                  DefaultGravity,
               );
     }
 }

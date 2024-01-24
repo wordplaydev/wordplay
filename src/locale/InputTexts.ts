@@ -45,6 +45,11 @@ type InputTexts = {
         /** The frequdncy with which color matrices should be sensed */
         frequency: NameAndDoc;
     };
+    /** A stream of animated outputs */
+    Scene: NameAndDoc & {
+        /** A list of outputs to show in sequence */
+        outputs: NameAndDoc;
+    };
     /** A stream of phrases in places and rotations simulating physics */
     Motion: NameAndDoc & {
         /** The initial place for the motion */

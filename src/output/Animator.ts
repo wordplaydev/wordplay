@@ -2,7 +2,7 @@ import type Output from './Output';
 import Place from './Place';
 import { createPlace } from './Place';
 import Stage from './Stage';
-import OutputAnimation from './OutputAnimation';
+import OutputAnimation, { AnimationState } from './OutputAnimation';
 import type Transition from './Transition';
 import type Node from '@nodes/Node';
 import type RenderContext from './RenderContext';
@@ -11,6 +11,7 @@ import Sequence from './Sequence';
 import Pose from './Pose';
 import type Value from '../values/Value';
 import Physics from './Physics';
+import Scene from '@input/Scene';
 
 export type OutputName = string;
 
@@ -47,7 +48,7 @@ export type Orientation = { place: Place; rotation: number | undefined };
  * that is the job of the Animator. It relies on the project to be updated
  * any time the project reevaluates.
  * */
-export default class Scene {
+export default class Animator {
     readonly evaluator: Evaluator;
 
     /** The current verse being displayed */
@@ -67,9 +68,14 @@ export default class Scene {
     focus: Place;
     priorStagePlace: Place | undefined;
 
-    /** The previous and current places where groups are at */
+    /** The current scene and its placement info */
     scene: OutputInfoSet = new Map<OutputName, OutputInfo>();
+
+    /** The previous secene and their placement info */
     priorScene: OutputInfoSet = new Map<OutputName, OutputInfo>();
+
+    /** Output info for exited outputs */
+    exitedInfo = new Map<OutputName, OutputInfo>();
 
     /** The current outputs by their corresponding values */
     outputByPlace: Map<Value, Output[]> = new Map();
@@ -98,7 +104,7 @@ export default class Scene {
     constructor(
         evaluator: Evaluator,
         exit: (name: OutputName) => void,
-        tick: (nodes: Set<Node>) => void
+        tick: (nodes: Set<Node>) => void,
     ) {
         this.evaluator = evaluator;
         evaluator.scene = this;
@@ -123,7 +129,7 @@ export default class Scene {
         focus: Place,
         width: number,
         height: number,
-        context: RenderContext
+        context: RenderContext,
     ) {
         if (this.stopped) return undefined;
 
@@ -135,10 +141,11 @@ export default class Scene {
         this.viewportWidth = width;
         this.viewportHeight = height;
 
-        // Create sets of who entered, exited, and present output by their name.
+        /** Outputs that entered in this frame and were not present in the last */
         const entered: OutputsByName = new Map();
+        /** Outputs that moved between this frame and the last */
         const moved: Moved = new Map();
-        const exited: OutputsByName = new Map();
+        /** Outputs that are present in this frame */
         const present: OutputsByName = new Map();
 
         // Add the stage to the scene. This is necessary so that animations can get its context.
@@ -146,7 +153,7 @@ export default class Scene {
             this.stage,
             [],
             new Map<OutputName, OutputInfo>(),
-            context
+            context,
         );
 
         const center = new Place(stage.value, 0, 0, 0);
@@ -170,7 +177,9 @@ export default class Scene {
             present.set(name, output);
 
             // Was this phrase not previously present? Add to the entered set.
-            if (!this.scene.has(name)) entered.set(name, output);
+            if (!this.scene.has(name)) {
+                entered.set(name, output);
+            }
 
             // Did the place change? Note the move.
             const priorOutputInfo = this.scene.get(name);
@@ -211,10 +220,13 @@ export default class Scene {
             for (const [name, info] of this.scene) {
                 const output = info.output;
                 if (!newScene.has(name)) {
-                    // If the phrase has an exit squence, then add it to the phrases to keep rendering
-                    // and remember it's current global place, so we can render it there.
-                    if (output.exiting) {
-                        exited.set(name, output);
+                    // If the output has an exit animation and we didn't already do it, then trigger one.
+                    // Remember it's global location since it will no longer be placed.
+                    const exitAnimation = this.animations.get(name);
+                    if (
+                        output.exiting &&
+                        (exitAnimation === undefined || !exitAnimation.isDone())
+                    ) {
                         const place = info.global;
                         // Use the global place since it's now parent-less.
                         const newInfo = {
@@ -227,13 +239,10 @@ export default class Scene {
                             context: info.context,
                             parents: [this.stage],
                         };
-                        // Add to the exiting list for the verse to render.
+                        // Add to the exiting list for the stage view to render.
                         exiting.set(name, newInfo);
-                        // Add to the present list so that when we later animate,
-                        // it's animation record is updated.
-                        present.set(name, output);
-                        // Re-add to the scene so that animations can get info.
-                        newScene.set(name, newInfo);
+                        // Remember exit info
+                        this.exitedInfo.set(name, newInfo);
                     }
                 }
             }
@@ -258,7 +267,7 @@ export default class Scene {
         }
 
         // Sync this scene with the Matter engine.
-        this.physics.sync(this.stage, this.scene, exited);
+        this.physics.sync(this.stage, this.scene, exiting);
 
         // Return the layout for rendering.
         return {
@@ -269,7 +278,7 @@ export default class Scene {
             // We pass back an animation function so that the view can start animating once it's refreshed
             // DOM elements. This way the animation handlers can assume DOM elements are ready for animation.
             animate: () => {
-                if (this.live) this.animate(present, entered, moved, exited);
+                if (this.live) this.animate(present, entered, moved, exiting);
             },
         };
     }
@@ -290,30 +299,46 @@ export default class Scene {
                 present: Orientation;
             }
         >,
-        exited: Map<OutputName, Output>
+        exited: Map<OutputName, OutputInfo>,
     ): Set<OutputName> {
         if (this.stopped) return new Set();
 
-        // Update the phrase of all present and exited animations, potentially
-        // ending and starting animations.
-        for (const [name, output] of present) {
-            const animation = this.animations.get(name);
-            const info = this.scene.get(name);
+        function updateOutput(
+            animator: Animator,
+            name: OutputName,
+            output: Output,
+        ) {
+            const animation = animator.animations.get(name);
+            const info = animator.scene.get(name);
             if (info) {
                 if (animation) {
                     animation.update(output, info?.context, entered.has(name));
-                } else if (output.isAnimated()) {
+                }
+                // If this is animated and its not in the list of names that finished exiting recently
+                else if (output.isAnimated()) {
                     const animation = new OutputAnimation(
-                        this,
+                        animator,
                         output,
                         info.context,
-                        entered.has(name)
+                        entered.has(name),
                     );
-                    this.animations.set(name, animation);
+                    animator.animations.set(name, animation);
                 }
             }
             // Otherwise, there must not be any animation on this name,
             // because otherwise we would have created an animation.
+        }
+
+        // Update the animations of all present output, potentially
+        // ending and starting animations.
+        for (const [name, output] of present) {
+            updateOutput(this, name, output);
+        }
+
+        // Update the animations of all exiting output, potentially
+        // ending and starting animations.
+        for (const [name, output] of exited) {
+            updateOutput(this, name, output.output);
         }
 
         // Trigger moves.
@@ -322,15 +347,19 @@ export default class Scene {
             if (animation) animation.move(change.prior, change.present);
         }
 
-        // Trigger exits for animated output, keeping track of immediate exits.
+        // Trigger exit animations if they're not already running, keeping track of immediate exits.
         const done = new Set<OutputName>();
         for (const [name] of exited) {
             const animation = this.animations.get(name);
-            // If we have an animation record, trigger exit
-            if (animation) {
+            // If we have an animation record for this and it's not exiting or done, trigger exit
+            if (
+                animation &&
+                animation.state !== AnimationState.Exiting &&
+                animation.state !== AnimationState.Done
+            ) {
                 animation.exit();
                 // If it's already done (for a variety of reasons), end it.
-                if (animation.done()) this.exited(animation);
+                if (animation.isDone()) this.cleanupAnimation(animation);
             }
         }
         return done;
@@ -338,16 +367,19 @@ export default class Scene {
 
     stop() {
         this.stopped = true;
-        this.animations.forEach((animation) => animation.exited());
+        this.animations.forEach((animation) => animation.done());
 
         this.physics.stop();
     }
 
-    exited(animation: OutputAnimation) {
-        const name = animation.output.getName();
-        this.animations.delete(name);
-        this.scene.delete(name);
-        this.exit(name);
+    /** The exit animation is complete, so we remove it from animations, scenes, and notify listeners the exit callback */
+    cleanupAnimation(animation: OutputAnimation) {
+        // Don't clean up if the animation hasn't exited yet. (Scene can force an exit animation);
+        if (this.exitedInfo.has(animation.name)) {
+            const name = animation.output.getName();
+            this.animations.delete(name);
+            this.exit(name);
+        }
     }
 
     startingSequence(transitions: Transition[]) {
@@ -364,13 +396,19 @@ export default class Scene {
         this.tick(this.animatingNodes);
     }
 
+    updatedAnimationState(animation: OutputAnimation) {
+        // Notify any scene streams about the updated animations
+        const scenes = this.evaluator.getBasisStreamsOfType(Scene);
+        for (const sc of scenes) sc.handleAnimationStateChange(animation);
+    }
+
     // A top down layout algorithm that places groups first, then their subgroups, and uses the
     // ancestor list to compute global places for each group.
     layout(
         output: Output,
         parents: Output[],
         outputInfo: Map<OutputName, OutputInfo>,
-        context: RenderContext
+        context: RenderContext,
     ) {
         // Get the name of the output
         const name = output.getName();
@@ -418,7 +456,7 @@ export default class Scene {
         name: string,
         output: OutputInfo,
         prior: OutputInfoSet,
-        secondsElapsed: number
+        secondsElapsed: number,
     ) {
         const currentPlace = output.global;
         const priorPlace = prior.get(name)?.global;
@@ -431,8 +469,8 @@ export default class Scene {
             output.output.moving instanceof Sequence
                 ? output.output.moving.duration
                 : output.output.moving instanceof Pose
-                ? output.output.duration
-                : secondsElapsed;
+                  ? output.output.duration
+                  : secondsElapsed;
 
         return {
             vx: (currentPlace.x - priorPlace.x) / duration,

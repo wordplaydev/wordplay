@@ -2002,10 +2002,18 @@
                 },
                 "random": {
                     "doc": [
-                        "A randonly selected one of my items, or @None if I'm empty.",
+                        "A randomly selected one of my items, or @None if I'm empty.",
                         "\\['apple' 'banana' 'mango'].random()\\"
                     ],
                     "names": "random",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "Make a new list with the items in the last randomly ordered.",
+                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                    ],
+                    "names": "shuffled",
                     "inputs": []
                 },
                 "first": {
@@ -2895,6 +2903,28 @@
                 "doc": "The time between @Color samples."
             }
         },
+        "Scene": {
+            "doc": [
+                "/Boop boop boop/",
+                "/Hello, @FunctionDefinition here! I see you found @Scene.",
+                "I think @Scene is particularly cool. The basic idea is that you give it a list of @Phrase or @Group and then it will show them in sequence and stop on the last one.",
+                "To control timing, you can either set the @Phrase/duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase/entering or @Phrase/exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
+                "All of that lets you do things like this little @Scene, which shows these three phrases in sequence:",
+                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "See how the first output is shown for a second, then the next for two seconds, but animated to a five degree rotation, and then it shows the last one?",
+                "You can make very elaborate sequences of output and animations with @Scene, and even make portions of them dynamic or interactive, as with any other @Phrase or @Group.",
+                "If you have animated output that is nested (a @Group with animated @Phrase inside), @Scene will wait for all of the animated content in the @Group to finish.",
+                "Oh, and one last little secret! You can even put @Boolean in the list, and if they are \\⊥\\, the @Scene will pause and wait for it to become true.",
+                "For example, if you wanted to make a sequence of @Phrase and only advance when @Button changes, you could do this:",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "See how it pauses after each @Phrase, and waits for @Button to change before advancing?"
+            ],
+            "names": ["🎬", "Scene"],
+            "outputs": {
+                "names": "outputs",
+                "doc": "The list of outputs to show in sequence."
+            }
+        },
         "Motion": {
             "doc": [
                 "/boing boing boing/",
@@ -3193,6 +3223,10 @@
                 "doc": "The properties to use if I bump into things!",
                 "names": "matter"
             },
+            "aura": {
+                "doc": "The optional @Aura to show behind me. Make me glow!",
+                "names": "aura"
+            },
             "name": {
                 "doc": [
                     "A name you give me! This is helpful for many things.",
@@ -3424,6 +3458,7 @@
                 "names": "z"
             }
         },
+<<<<<<< HEAD
         "Line": {
             "doc": "I am a line, useful for making @Stage generate a physical line shape.",
             "names": ["Line"],
@@ -3446,6 +3481,34 @@
             "z": {
                 "doc": "The depth position of the line.",
                 "names": "z"
+=======
+        "Aura": {
+            "doc": ["I am an AURA"],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The color the @Aura should be",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far right the @Aura should go",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far down the @Aura should go",
+                "names": "offsetY"
+            },
+            "spread": {
+                "doc": "The strength of the @Aura",
+                "names": "spread"
+            },
+            "opacity": {
+                "doc": "How transparent the @Aura should be",
+                "names": "opacity"
+>>>>>>> facbb13c846b6064506d974b7a5b9c427c1ddf44
             }
         },
         "Pose": {
@@ -3490,7 +3553,7 @@
                 "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             },
-            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]"
+            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|] $6[shadow blurred $6 pixels]"
         },
         "Color": {
             "doc": [
@@ -3600,6 +3663,29 @@
             "shapes": {
                 "doc": "Whether it can collide with other shapes.",
                 "names": "ground"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "I am an AURA. I make @Phrase GLOW! Like this:",
+                "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+            ],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The @Color the @Aura should be.",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be. \\0m\\ means not blurry at all.",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far left or right I should appear. \\0m\\ is directly under.",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far up or down I should appear.\\0m\\ is directly under.",
+                "names": "offsetY"
             }
         },
         "Stage": {

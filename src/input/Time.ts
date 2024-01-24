@@ -29,13 +29,13 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
     constructor(
         evaluator: Evaluator,
         frequency: number = DEFAULT_FREQUENCY,
-        relative: boolean
+        relative: boolean,
     ) {
         super(
             evaluator,
             evaluator.project.shares.input.Time,
             new NumberValue(evaluator.getMain(), 0, Unit.reuse(['ms'])),
-            0
+            0,
         );
         this.frequency = frequency;
         this.relative = relative;
@@ -45,6 +45,7 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
     start() {
         return;
     }
+
     stop() {
         return;
     }
@@ -100,7 +101,7 @@ export function createTimeType(locale: Locales) {
         getNameLocales(locale, (locale) => locale.input.Time.frequency.names),
         UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
         // Default to nothing
-        NoneLiteral.make()
+        NoneLiteral.make(),
     );
 
     const RelativeBind = Bind.make(
@@ -108,7 +109,7 @@ export function createTimeType(locale: Locales) {
         getNameLocales(locale, (locale) => locale.input.Time.relative.names),
         BooleanType.make(),
         // Default to nothing
-        BooleanLiteral.make(true)
+        BooleanLiteral.make(true),
     );
 
     return StreamDefinition.make(
@@ -124,18 +125,20 @@ export function createTimeType(locale: Locales) {
                     evaluation
                         .get(FrequencyBind.names, NumberValue)
                         ?.toNumber(),
-                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true
+                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true,
                 ),
             (stream, evaluation) => {
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
                 );
                 stream.setRelative(
-                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true
+                    evaluation.get(RelativeBind.names, BoolValue)?.bool ?? true,
                 );
-            }
+            },
         ),
 
-        TimeType.clone()
+        TimeType.clone(),
     );
 }

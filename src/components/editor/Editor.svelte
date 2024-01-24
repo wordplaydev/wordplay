@@ -84,6 +84,7 @@
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { localized } from '../../db/Database';
+    import ExceptionValue from '@values/ExceptionValue';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -1465,7 +1466,12 @@
                 action={() => dispatch('preview')}
                 scale={false}
             >
-                <div class="output-preview">
+                <div
+                    class="output-preview"
+                    class:error={!selected &&
+                        evaluator.getLatestSourceValue(source) instanceof
+                            ExceptionValue}
+                >
                     {#if selected}
                         <span style="font-size:200%"><Emoji>🎭</Emoji></span>
                     {:else}
@@ -1549,6 +1555,10 @@
         right: var(--wordplay-spacing);
         display: inline-block;
         align-self: flex-end;
+    }
+
+    .output-preview.error {
+        background: var(--wordplay-error);
     }
 
     .output-preview {

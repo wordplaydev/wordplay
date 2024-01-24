@@ -26,11 +26,13 @@ import TextValue from '../values/TextValue';
 import type { SupportedFace } from '../basis/Fonts';
 import { toShape } from './Shape';
 import type Evaluator from '../runtime/Evaluator';
+import type Aura from './Aura';
+import { toAura } from './Aura';
 
 export function toOutput(
     evaluator: Evaluator,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): Output | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     const project = evaluator.project;
@@ -50,7 +52,7 @@ export function toOutput(
 export function toOutputList(
     evaluator: Evaluator,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): (Output | null)[] | undefined {
     if (value === undefined || !(value instanceof ListValue)) return undefined;
 
@@ -68,7 +70,7 @@ export function toOutputList(
 
 export function toArrangement(
     project: Project,
-    value: Value | undefined
+    value: Value | undefined,
 ): Arrangement | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     switch (value.type) {
@@ -87,7 +89,7 @@ export function toArrangement(
 export function getTypeStyle(
     project: Project,
     value: StructureValue,
-    index: number
+    index: number,
 ): {
     size: number | undefined;
     face: SupportedFace | undefined;
@@ -102,6 +104,7 @@ export function getTypeStyle(
     exiting: Pose | Sequence | undefined;
     duration: number | undefined;
     style: string | undefined;
+    shadow: Aura | undefined;
 } {
     const [sizeVal, faceVal, placeVal] = getOutputInputs(value, index);
 
@@ -125,6 +128,7 @@ export function getTypeStyle(
         exiting: style.exiting,
         duration: style.duration,
         style: style.style,
+        shadow: style.shadow
     };
 }
 
@@ -132,7 +136,7 @@ export function getStyle(
     project: Project,
     value: StructureValue,
     index: number,
-    place?: Place | undefined
+    place?: Place | undefined,
 ) {
     const [
         nameVal,
@@ -151,6 +155,7 @@ export function getStyle(
         exitVal,
         durationVal,
         styleVal,
+        shadowVal
     ] = getOutputInputs(value, index);
 
     const name = toText(nameVal);
@@ -173,7 +178,7 @@ export function getStyle(
         place?.rotation ?? rotation,
         scale,
         flipx,
-        flipy
+        flipy,
     );
 
     const rest = toPose(project, restVal) ?? toSequence(project, restVal);
@@ -181,6 +186,7 @@ export function getStyle(
     const move = toPose(project, moveVal) ?? toSequence(project, moveVal);
     const exit = toPose(project, exitVal) ?? toSequence(project, exitVal);
     const duration = toNumber(durationVal);
+    const shadow = toAura(project, shadowVal);
 
     return {
         name,
@@ -193,5 +199,6 @@ export function getStyle(
         exiting: exit,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
+        shadow: shadow
     };
 }

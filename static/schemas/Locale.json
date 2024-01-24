@@ -664,6 +664,10 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
+                    "shuffled": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "description": "See `en-US.json` for documentation"
+                    },
                     "sorted": {
                       "additionalProperties": false,
                       "description": "See `en-US.json` for documentation",
@@ -789,6 +793,7 @@
                     "replace",
                     "length",
                     "random",
+                    "shuffled",
                     "first",
                     "last",
                     "has",
@@ -2175,6 +2180,30 @@
               ],
               "type": "object"
             },
+            "Scene": {
+              "additionalProperties": false,
+              "description": "A stream of animated outputs",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "outputs": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A list of outputs to show in sequence"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "outputs"
+              ],
+              "type": "object"
+            },
             "Time": {
               "additionalProperties": false,
               "description": "A stream of times since evaluation began",
@@ -2308,6 +2337,7 @@
             "Volume",
             "Pitch",
             "Camera",
+            "Scene",
             "Motion",
             "Placement",
             "Chat",
@@ -6447,6 +6477,45 @@
               "$ref": "#/definitions/NameAndDoc",
               "description": "The base interface for arrangement types"
             },
+            "Aura": {
+              "additionalProperties": false,
+              "description": "A shadow",
+              "properties": {
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The blurriness of the shadow"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow's color"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offsetX": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The horizontal offset of the shadow"
+                },
+                "offsetY": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The vertical offset of the shadow"
+                }
+              },
+              "required": [
+                "blur",
+                "color",
+                "doc",
+                "names",
+                "offsetX",
+                "offsetY"
+              ],
+              "type": "object"
+            },
             "Color": {
               "additionalProperties": false,
               "description": "A color in LCH spaces",
@@ -6778,6 +6847,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The alignment to use when wrapped"
                 },
+                "aura": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow properties for the phrase"
+                },
                 "background": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
@@ -6885,6 +6958,7 @@
               },
               "required": [
                 "alignment",
+                "aura",
                 "background",
                 "color",
                 "description",
@@ -6962,7 +7036,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template",
-                  "description": "all optional inputs: opacity, rotation, scale, flipx, flipy"
+                  "description": "Templated description of the pose"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7563,6 +7637,7 @@
           "required": [
             "Output",
             "Group",
+            "Aura",
             "Phrase",
             "Stage",
             "Shape",
