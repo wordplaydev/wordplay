@@ -3458,7 +3458,6 @@
                 "names": "z"
             }
         },
-<<<<<<< HEAD
         "Line": {
             "doc": "I am a line, useful for making @Stage generate a physical line shape.",
             "names": ["Line"],
@@ -3481,7 +3480,8 @@
             "z": {
                 "doc": "The depth position of the line.",
                 "names": "z"
-=======
+            }
+        },
         "Aura": {
             "doc": ["I am an AURA"],
             "names": ["🔮", "Aura"],
@@ -3508,7 +3508,6 @@
             "opacity": {
                 "doc": "How transparent the @Aura should be",
                 "names": "opacity"
->>>>>>> facbb13c846b6064506d974b7a5b9c427c1ddf44
             }
         },
         "Pose": {
