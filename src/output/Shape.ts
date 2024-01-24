@@ -148,7 +148,7 @@ export default class Shape extends Output {
     }
 
     getBackground(): Color | undefined {
-        console.log(this.background);
+        // console.log(this.background);
         return this.background;
     }
 
@@ -179,15 +179,14 @@ export function toShape(
     namer: NameGenerator,
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
-    console.log(value.getSize());
     let form;
-    if (value.getSize() == 23) {
+    if (value.toWordplay().includes("Rectangle")) {
+        console.log("RECT")
         form = toRectangle(getOutputInput(value, 0));
-    } else if (value.getSize() == 22) {
+    } else if (value.toWordplay().includes("Line")) {
+        console.log("LINE")
         form = toLine(getOutputInput(value, 0));
     }
-    
-    console.log(form);
 
     const {
         name,

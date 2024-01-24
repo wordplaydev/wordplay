@@ -84,16 +84,16 @@
         transform-origin: 0 0;
     }
 
-    /* .shape.rectangle {
+    .shape.rectangle {
         background: var(--wordplay-inactive-color);
         border-radius: calc(2 * var(--wordplay-border-radius));
         border-width: calc(2 * var(--wordplay-border-width));
         border-style: solid;
         border-color: transparent;
-    } */
+    }
 
-    /* .shape.line {
+    .shape.line {
         background: color;
         border-width: 3px;
-    } */
+    }
 </style>
