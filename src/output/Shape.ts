@@ -8,7 +8,7 @@ import type TextLang from './TextLang';
 import type { DefinitePose } from './Pose';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { Form, toRectangle, toLine, Rectangle, Line } from './Form';
+import { Form, toRectangle, toLine } from './Form';
 import type Project from '../models/Project';
 import type Value from '../values/Value';
 import type { NameGenerator } from './Stage';
@@ -181,10 +181,8 @@ export function toShape(
     if (!(value instanceof StructureValue)) return undefined;
     let form;
     if (value.toWordplay().includes("Rectangle")) {
-        console.log("RECT")
         form = toRectangle(getOutputInput(value, 0));
     } else if (value.toWordplay().includes("Line")) {
-        console.log("LINE")
         form = toLine(getOutputInput(value, 0));
     }
 

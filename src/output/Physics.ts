@@ -168,7 +168,7 @@ export default class Physics {
     }
 
     createLine(line: Line) {
-        const { x1, x2, y1, y2, z } = line;
+        const { x1, x2, y1, y2 } = line;
         const centerX = (x1 + x2) / 2;
         const centerY = (y1 + y2) / 2;
         const height = 1 * PX_PER_METER
@@ -345,6 +345,18 @@ export default class Physics {
                 for (const barrier of shapes) {
                     if (barrier.form instanceof Rectangle) {
                         const shape = this.createRectangle(
+                            barrier.form,
+                            barrier.pose.rotation,
+                        );
+                        if (barrier.name) shape.label = barrier.getName();
+                        const engine = this.getEngineAtZ(barrier.form.z);
+                        MatterJS.Composite.add(engine.world, shape);
+                        this.currentShapeBodies.push({
+                            body: shape,
+                            engine: engine,
+                        });
+                    } else if (barrier.form instanceof Line) {
+                        const shape = this.createLine(
                             barrier.form,
                             barrier.pose.rotation,
                         );

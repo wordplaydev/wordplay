@@ -5,7 +5,6 @@ import type Value from '../values/Value';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
-import Color from './Color'
 
 /** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {
@@ -113,15 +112,13 @@ export class Line extends Form {
     readonly y1: number;
     readonly x2: number;
     readonly y2: number;
-    readonly z: number;
     
     constructor(
         value: Value,
         x1: number,
         y1: number,
         x2: number,
-        y2: number,
-        z: number,
+        y2: number
     ) {
         super(value);
 
@@ -129,7 +126,6 @@ export class Line extends Form {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
-        this.z = z;
     }
 
     getLeft() {
@@ -137,14 +133,14 @@ export class Line extends Form {
     }
 
     getTop() {
-        if (Math.min(this.x1, this.x2) == this.x1) {
+        if (Math.max(this.x1, this.x2) == this.x1) {
             return this.y1;
         }
         return this.y2;
     }
 
     getZ() {
-        return this.z;
+        return 0;
     }
 
     getWidth() {
@@ -156,30 +152,30 @@ export class Line extends Form {
     }
 
     getPoints() {
-        const left = this.getLeft() * PX_PER_METER;
-        const top = -this.getTop() * PX_PER_METER;
-        const right = (this.getLeft() + this.getWidth()) * PX_PER_METER;
-        let bottom;
+        const x1 = this.getLeft() * PX_PER_METER;
+        const y1 = -this.getTop() * PX_PER_METER;
+        const x2 = (this.getLeft() + this.getWidth()) * PX_PER_METER;
+        let y2;
         if (this.y1 > this.y2) {
-            bottom = (this.getTop() - this.getHeight()) * PX_PER_METER;
+            y2 = (this.getTop() - this.getHeight()) * PX_PER_METER;
         } else {
-            bottom = (this.getTop() + this.getHeight()) * PX_PER_METER;
+            y2 = (this.getTop() + this.getHeight()) * PX_PER_METER;
         }
-        return { left, top, right, bottom };
+        return { x1, y1, x2, y2 };
     }
 
     toCSSClip() {
-        const { left, top, right, bottom } = this.getPoints();
-        return `polygon(${left}px ${top}px, ${left}px ${bottom}px, ${right}px ${bottom}px, ${right}px ${top}px)`;
+        const { x1, y1, x2, y2 } = this.getPoints();
+        return `polygon(${x1}px ${y1}px, ${x2}px ${y2}px)`;
     }
 
     toSVGPath() {
-        const { left, top, right, bottom } = this.getPoints();
-        const minX = Math.min(left, right);
-        const minY = Math.min(top, bottom);
-        return `M ${left - minX} ${top - minY} L ${left - minX} ${
-            bottom - minY
-        } L ${right - minX} ${bottom - minY} L ${right - minX} ${top - minY} Z`;
+        const { x1, y1, x2, y2 } = this.getPoints();
+        const minX = Math.min(x1, x2);
+        const minY = Math.min(y1, y2);
+        return `M ${x1 - minX} ${y1 - minY} L ${x1 - minX} ${
+            y2 - minY
+        } L ${x2 - minX} ${y2 - minY} L ${x2 - minX} ${y1 - minY} Z`;
     }
 
     getLength() {
@@ -223,6 +219,6 @@ export function toLine(value: Value | undefined) {
         y1 !== undefined &&
         x2 !== undefined &&
         y2 !== undefined
-        ? new Line(value, x1, y1, x2, y2, z)
+        ? new Line(value, x1, y1, x2, y2)
         : undefined;
 }
