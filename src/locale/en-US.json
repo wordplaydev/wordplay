@@ -4158,6 +4158,13 @@
                             "use device setting"
                         ]
                     },
+                    "space": {
+                        "label": "space indicator",
+                        "modes": [
+                            "open",
+                            "closed"
+                        ]
+                    },
                     "writing": {
                         "label": "writing layout",
                         "modes": [

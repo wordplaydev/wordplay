@@ -5,12 +5,13 @@
     import InsertionPointView from './InsertionPointView.svelte';
     import type { InsertionPoint } from '../../edit/Drag';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
+    import {locales, DB, spaceIndicator} from '../../db/Database';
 
     export let token: Token;
     export let space: string;
     export let additional: string;
     export let insertion: InsertionPoint | undefined = undefined;
-
+    
     $: insertionIndex =
         insertion !== undefined
             ? space.split('\n', insertion.line).join('\n').length + 1
@@ -19,20 +20,22 @@
     $: beforeSpaces =
         insertionIndex === undefined
             ? []
-            : render(space.substring(0, insertionIndex), true);
+            : render(space.substring(0, insertionIndex), true, $spaceIndicator);
     // If there's no insertion, just render the space, otherwise render the right side of the insertion.
     $: afterSpaces = render(
         insertionIndex === undefined ? space : space.substring(insertionIndex),
-        true
+        true,
+        $spaceIndicator
     );
 
     $: additionalSpaces =
-        additional.length === 0 ? [] : render(additional, false);
+        additional.length === 0 ? [] : render(additional, false, $spaceIndicator);
 
-    function render(text: string, explicit: boolean): string[] {
+    function render(text: string, explicit: boolean, spaceIndicator:boolean): string[] {
+        console.log('spaceIndicator change', spaceIndicator);
         return (
             explicit
-                ? text.replaceAll(' ', '·').replaceAll('\t', EXPLICIT_TAB_TEXT)
+                ? (spaceIndicator ? text.replaceAll(' ', '·').replaceAll('\t', EXPLICIT_TAB_TEXT):text.replaceAll('\t', EXPLICIT_TAB_TEXT))
                 : text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT)
         ).split('\n');
     }

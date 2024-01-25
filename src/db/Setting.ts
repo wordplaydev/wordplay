@@ -54,6 +54,7 @@ export default class Setting<Type> {
 
     set(database: Database, value: Type) {
         if (this.equal(this.get(), value)) return;
+        console.log('setting value changed, now the value is:', value)
 
         // Save in the store, notifying subscribers about the change.
         this.value.set(value);
