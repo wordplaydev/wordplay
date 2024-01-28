@@ -3,6 +3,10 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.21 2024-01-28
+
+-   [#176](https://github.com/wordplaydev/wordplay/issues/176): TextFields can increment and decrement numbers.
+
 ## 0.9.20 2024-01-20
 
 ## Added
