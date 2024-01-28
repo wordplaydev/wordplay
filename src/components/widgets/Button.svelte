@@ -53,7 +53,7 @@
         ? null
         : (event) =>
               event.button === 0 && active ? doAction(event) : undefined}
-    on:keydown={loading
+    on:keydown|stopPropagation={loading
         ? null
         : (event) =>
               (event.key === 'Enter' || event.key === ' ') &&

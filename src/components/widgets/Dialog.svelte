@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
+    import { tick } from 'svelte';
     import { locales } from '../../db/Database';
     import Button from './Button.svelte';
     import type { DialogText } from '../../locale/UITexts';
@@ -26,17 +26,6 @@
             }
         }
     }
-
-    function outclick(event: PointerEvent) {
-        if (view && event.target === view) show = false;
-    }
-
-    onMount(() => {
-        if (closeable) {
-            document.addEventListener('pointerdown', outclick);
-            return () => document.removeEventListener('pointerdown', outclick);
-        }
-    });
 </script>
 
 {#if button}

@@ -7,6 +7,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#176](https://github.com/wordplaydev/wordplay/issues/176): TextFields can increment and decrement numbers.
 -   [#364](https://github.com/wordplaydev/wordplay/issues/364): Enabled email enumeration protection.
+-   [#361](https://github.com/wordplaydev/wordplay/issues/361): Fixed popup dismissal.
 
 ## 0.9.20 2024-01-20
 
