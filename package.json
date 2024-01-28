@@ -14,7 +14,7 @@
         "emu": "npm run env && firebase emulators:start --project=demo-wordplay",
         "env": "run-script-os",
         "env:default": "cp .env.${GCLOUD_PROJECT:-template} .env",
-        "env:windows": "copy .env.${GCLOUD_PROJECT:-template} .env",
+        "env:windows": "copy .env.template .env",
         "build": "npm run env && vite build",
         "preview": "vite preview",
         "stage": "firebase use dev && firebase deploy",
