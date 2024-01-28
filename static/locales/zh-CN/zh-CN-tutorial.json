@@ -191,7 +191,7 @@
                             "neutral",
                             "For example, try typing my \\'hello'\\ in the editor over there.",
                             "(Don't worry about making mistakes, you can always revert to the original with *revert* @UI/revertProject).",
-                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to \\'hello'\\, then I put \\'hello'\\ on stage. Try changing \\'hello'\\ to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
+                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to \\'hello'\\, or whatever text you type, and then that text is placed on stage. Try changing your text to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
                         ],
                         null,
                         [
@@ -200,13 +200,13 @@
                             "The instructions can get as sophisticated as you want, but there are a few rules.",
                             "For example, I can only evaluate to one *value*, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
                             "But if you give me two things, I'll only show the last thing you give me.",
-                            "For example, try adding another instruction after \\'hello'\\, whatever word you want, in quotes."
+                            "For example, try adding another instruction after the text you typed, whatever word you want, in quotes."
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "See? I just showed your new word, not \\'hello'\\. You know you broke my rule because I underlined \\'hello'\\ and told you that I'd be ignoring it."
+                            "See? I just showed your second phrase, not your first. You know you broke my rule because I underlined your first phrase and we told you that wed'd be ignoring it."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -640,7 +640,9 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage. Once you do, you'll see the many inputs that @Phrase accepts. For example, try changing its @Phrase/size with the slider."
+                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage.",
+                            "Once you do, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase/size, which will reveal a slider.",
+                            "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate code with the size you choose."
                         ],
                         null,
                         [
@@ -1983,6 +1985,27 @@
                         [
                             "edit",
                             "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'ben'}"
+                        ],
+                        null,
+                        [
+                            "Map",
+                            "neutral",
+                            "And if I don't have a key, I'll give you @None."
+                        ],
+                        [
+                            "edit",
+                            "{ 'ben': 2points 'joe': 5points 'kate': 12points }{'anna'}"
+                        ],
+                        null,
+                        [
+                            "Map",
+                            "neutral",
+                            "You might want to use our friend @Otherwise if you'd rather treat a @None as something else.",
+                            "Here, for example, we default to \\0points\\ if there's no value."
+                        ],
+                        [
+                            "edit",
+                            "map: { 'ben': 2points 'joe': 5points 'kate': 12points }\nmap{'anna'} ?? 0points"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
@@ -3864,6 +3887,126 @@
                             "There's much more you can do with @Stage, but you can explore with them anytime. Right @Stage?"
                         ],
                         ["Stage", "excited", "ALWAYS!"]
+                    ]
+                },
+                {
+                    "title": "And... scene!",
+                    "subtitle": "Scene",
+                    "concept": "Scene",
+                    "performance": ["fix", "Phrase('🎬' 10m)"],
+                    "lines": [
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "Okay, okay, so now you know @Stage, @Group, @Phrase, and the many things you can do with them. Now you might be thinking, what if I want to tell a story with them?"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Scene is really cool. The basic idea is to give it a list of @Phrase or @Group, and it will show them in order, letting you show a sequence of content."
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3')",
+                            "    Phrase('2')",
+                            "    Phrase('1')",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Here's an example. Did you see how it counted down and then said 'Boo!'? You can reset to see it again."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "If we want to slow it down, we can specify exact durations for each @Phrase. Try editing the durations and seeing what happens when they change."
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3' duration: 1s)",
+                            "    Phrase('2' duration: 1s)",
+                            "    Phrase('1' duration: 1s)",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "And now you might be thinking, what about transitions between them? We can control that with @Phrase/entering and @Phrase/exiting, setting @Pose to start and end on. Here, for example, we start and end each @Phrase as invisible, so it fades in and out."
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('2' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('1' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "We can even set a @Sequence on one of them to animate it before advancing. Did you see the 2 spin?"
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('2' entering: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)} duration: 1s))",
+                            "    Phrase('1' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "We can change the content however we want, even making it dynamic. For example, let's make the numbers random and the ending word random! Each time it restarts, we get different content."
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase(Random(1 100)→'' duration: 1s)",
+                            "    Phrase(Random(1 100)→'' duration: 1s)",
+                            "    Phrase(Random(1 100)→'' duration: 1s)",
+                            "    Phrase(['Boo!' 'Peep!' 'Hey!' 'Helloooo'].random())",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "But you can also make them interactive."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "The secret is putting a @Boolean where you want to pause and wait for something to be true. For example, we can wait for the mouse button to change. See how @Scene waits after each @Phrase for the button to be clicked?"
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('one')",
+                            "    ∆ Button()",
+                            "    Phrase('two')",
+                            "    ∆ Button()",
+                            "    Phrase('three')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "@Scene is great for telling animated stories, either is a whole project or as part of a project! What kind of stories do you want to tell?"
+                        ]
                     ]
                 },
                 {

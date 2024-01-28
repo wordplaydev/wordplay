@@ -2,7 +2,7 @@
   "$ref": "#/definitions/Tutorial",
   "$schema": "http://json-schema.org/draft-07/schema#",
   "definitions": {
-    "Act": {
+    "Act<[def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048]>": {
       "additionalProperties": false,
       "properties": {
         "performance": {
@@ -12,6 +12,158 @@
           "items": {
             "$ref": "#/definitions/Scene"
           },
+          "maxItems": 12,
+          "minItems": 12,
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "performance",
+        "scenes"
+      ],
+      "type": "object"
+    },
+    "Act<[def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048]>": {
+      "additionalProperties": false,
+      "properties": {
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        },
+        "scenes": {
+          "items": {
+            "$ref": "#/definitions/Scene"
+          },
+          "maxItems": 7,
+          "minItems": 7,
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "performance",
+        "scenes"
+      ],
+      "type": "object"
+    },
+    "Act<[def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048]>": {
+      "additionalProperties": false,
+      "properties": {
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        },
+        "scenes": {
+          "items": {
+            "$ref": "#/definitions/Scene"
+          },
+          "maxItems": 6,
+          "minItems": 6,
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "performance",
+        "scenes"
+      ],
+      "type": "object"
+    },
+    "Act<[def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048]>": {
+      "additionalProperties": false,
+      "properties": {
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        },
+        "scenes": {
+          "items": {
+            "$ref": "#/definitions/Scene"
+          },
+          "maxItems": 5,
+          "minItems": 5,
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "performance",
+        "scenes"
+      ],
+      "type": "object"
+    },
+    "Act<[def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048]>": {
+      "additionalProperties": false,
+      "properties": {
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        },
+        "scenes": {
+          "items": {
+            "$ref": "#/definitions/Scene"
+          },
+          "maxItems": 4,
+          "minItems": 4,
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "performance",
+        "scenes"
+      ],
+      "type": "object"
+    },
+    "Act<[def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048,def-alias-1340420873-1375-1523-1340420873-0-2048]>": {
+      "additionalProperties": false,
+      "properties": {
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        },
+        "scenes": {
+          "items": {
+            "$ref": "#/definitions/Scene"
+          },
+          "maxItems": 3,
+          "minItems": 3,
+          "type": "array"
+        },
+        "title": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "performance",
+        "scenes"
+      ],
+      "type": "object"
+    },
+    "Act<[def-alias-1340420873-1375-1523-1340420873-0-2048]>": {
+      "additionalProperties": false,
+      "properties": {
+        "performance": {
+          "$ref": "#/definitions/Performance"
+        },
+        "scenes": {
+          "items": {
+            "$ref": "#/definitions/Scene"
+          },
+          "maxItems": 1,
+          "minItems": 1,
           "type": "array"
         },
         "title": {
@@ -544,9 +696,34 @@
           "type": "string"
         },
         "acts": {
-          "items": {
-            "$ref": "#/definitions/Act"
-          },
+          "items": [
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            },
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            },
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            },
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            },
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            },
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            },
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%2Cdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            },
+            {
+              "$ref": "#/definitions/Act%3C%5Bdef-alias-1340420873-1375-1523-1340420873-0-2048%5D%3E"
+            }
+          ],
+          "maxItems": 8,
+          "minItems": 8,
           "type": "array"
         },
         "language": {
