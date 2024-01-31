@@ -30,6 +30,17 @@
         else view.type = 'text';
     }
 
+    function handleKeyDown(event: KeyboardEvent) {
+        const number = parseFloat(text);
+
+        // Not a number or not an up/down arrow key? Return.
+        if (isNaN(number)) return;
+        if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+
+        text = (number + (event.key === 'ArrowUp' ? 1 : -1)).toString();
+        handleInput();
+    }
+
     onMount(() => {
         setKind(kind);
     });
@@ -53,7 +64,7 @@
         bind:value={text}
         bind:this={view}
         on:input={handleInput}
-        on:keydown|stopPropagation
+        on:keydown|stopPropagation={handleKeyDown}
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
