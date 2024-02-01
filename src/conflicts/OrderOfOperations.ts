@@ -1,3 +1,6 @@
+// PSEUDO CODE!
+//
+
 // We need to return a resolution type. The resolution type creates an instance of the project and tests ur code
 // We need to write our code within getConflictNodes(), not create our own method
 
@@ -30,34 +33,35 @@ export default class OrderOfOperations extends Conflict {
         this.after = after;
     }
 
-    // splits String expression. Uses a recursive method to find all combinations of equations 
-    // by adding parenthesis in different places in the equations. 
-    generateDisambiguations(expression: string): string[] {
-        const parts = expression.split(' ');
-        let disambiguations: string[] = [];
+    // // splits String expression. Uses a recursive method to find all combinations of equations 
+    // // by adding parenthesis in different places in the equations. 
+    // generateDisambiguations(expression: string): string[] {
+    //     const parts = expression.split(' ');
+    //     let disambiguations: string[] = [];
 
-        function addParentheses(start: number, end: number) {
-            if (start >= end - 1) return;
+    //     function addParentheses(start: number, end: number) {
+    //         if (start >= end - 1) return;
 
-            let newExpr = [...parts];
-            newExpr[start] = '(' + newExpr[start];
-            newExpr[end] = newExpr[end] + ')';
-            disambiguations.push(newExpr.join(' '));
+    //         let newExpr = [...parts];
+    //         newExpr[start] = '(' + newExpr[start];
+    //         newExpr[end] = newExpr[end] + ')';
+    //         disambiguations.push(newExpr.join(' '));
 
-            for (let i = start; i < end; i++) {
-                addParentheses(start, i);
-                addParentheses(i + 1, end);
-            }
-        }
+    //         for (let i = start; i < end; i++) {
+    //             addParentheses(start, i);
+    //             addParentheses(i + 1, end);
+    //         }
+    //     }
 
-        addParentheses(0, parts.length - 1);
-        return disambiguations;
-    }
+    //     addParentheses(0, parts.length - 1);
+    //     return disambiguations;
+    // }
     
     getConflictingNodes() {
         return {
             primary: {
                 node: this.operation,
+				// this translates text into the specificed language
                 explanation: (locales: Locales) =>
                     concretize(
                         locales,
