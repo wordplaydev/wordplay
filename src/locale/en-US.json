@@ -369,7 +369,7 @@
             "start": "let's evaluate $1 first",
             "finish": "look, I made $1!",
             "conflict": {
-                "OrderOfOperations": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
+                "OrderOfOperations": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in? TEST"
             }
         },
         "Bind": {
