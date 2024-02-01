@@ -180,9 +180,9 @@ export function toShape(
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
     let form;
-    if (value.toWordplay().includes("Rectangle")) {
+    if (value.is(project.getDefaultShares().output.Rectangle)) {
         form = toRectangle(getOutputInput(value, 0));
-    } else if (value.toWordplay().includes("Line")) {
+    } else if (value.is(project.getDefaultShares().output.Line)) {
         form = toLine(getOutputInput(value, 0));
     }
 
