@@ -1,10 +1,14 @@
 // PSEUDO CODE!
+// Check what datatypes were passed in
+// iterate to see where all the operators are
+// put parenthesis around the objects that are next to the operators
+// return as a locales object?
 //
 
 // We need to return a resolution type. The resolution type creates an instance of the project and tests ur code
 // We need to write our code within getConflictNodes(), not create our own method
 
-// PossiblePII.ts is the only working conflict resolution so far. 
+// PossiblePII.ts is the only working conflict resolution so far.
 // To test it out:
 // 1. npm run dev
 // 2. create a new project
@@ -15,7 +19,7 @@
 // Current thoughts:
 //	- create a similar message as the on in PII that tells the user about PEMDAS and offer an option to evaluate equations
 //	  in-order or with PEMDAS. This means we only need to write something that will evaluate equations in terms of PEMDAS
-//	  or in-order depending on what the user chooses. 
+//	  or in-order depending on what the user chooses.
 
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Conflict from './Conflict';
@@ -33,8 +37,8 @@ export default class OrderOfOperations extends Conflict {
         this.after = after;
     }
 
-    // // splits String expression. Uses a recursive method to find all combinations of equations 
-    // // by adding parenthesis in different places in the equations. 
+    // // splits String expression. Uses a recursive method to find all combinations of equations
+    // // by adding parenthesis in different places in the equations.
     // generateDisambiguations(expression: string): string[] {
     //     const parts = expression.split(' ');
     //     let disambiguations: string[] = [];
@@ -56,19 +60,20 @@ export default class OrderOfOperations extends Conflict {
     //     addParentheses(0, parts.length - 1);
     //     return disambiguations;
     // }
-    
+
     getConflictingNodes() {
         return {
             primary: {
                 node: this.operation,
-				// this translates text into the specificed language
+                // this translates text into the specificed language
                 explanation: (locales: Locales) =>
                     concretize(
                         locales,
                         locales.get(
                             (l) =>
-                                l.node.BinaryEvaluate.conflict.OrderOfOperations
-                        )
+                                l.node.BinaryEvaluate.conflict
+                                    .OrderOfOperations,
+                        ),
                     ),
             },
         };
