@@ -252,26 +252,26 @@
         "TypeInputs": {
             "name": "nooca gelinta",
             "emotion": "curious",
-            "doc": "Waxaan ahay liis noocyo ah oo meshaan ka baxa @TypeVariables in a @StructureDefinition or @FunctionDefinition. I help everyone know what kind of inputs they'll be receiving."
+            "doc": "Waxaan ahay listi noocyo ah oo meshaan ka baxa @TypeVariables gudaha a @StructureDefinition ama @FunctionDefinition. Waxaan ku caawin karaa qof walbo inuu ogaado nooca agabka ay heli donaan."
         },
         "TypeVariable": {
-            "name": "type variable",
+            "name": "nooca doorsooma",
             "emotion": "curious",
-            "doc": "I am a mystery type on @FunctionDefinition or @StructureDefinition, provided by @TypeInputs when either is evaluated. @Set, @List, and @Map use me.",
+            "doc": "Waxaan ahay nooc qarsoodi ah @FunctionDefinition ama @StructureDefinition, waxaa bixiyay @TypeInputs marka midkood la qiimeeyo. @Set, @List, iyo @Map i adeegso.",
             "conflict": {
                 "DuplicateTypeVariable": {
-                    "primary": "I have the same name as $1",
-                    "secondary": "I have the same name as $1"
+                    "primary": "Waxaan lee yahay magac lamid ah $1",
+                    "secondary": "Waxaan lee yahay magac lamid ah $1"
                 }
             }
         },
         "TypeVariables": {
-            "name": "type variables",
+            "name": "nooca doorsomayasha",
             "emotion": "curious",
-            "doc": "I am a list of @TypeVariable."
+            "doc": "Waxaan ahay liiska @TypeVariable."
         },
         "Markup": {
-            "name": "markup",
+            "name": "calaamadayn",
             "description": "$1 paragraphs",
             "emotion": "serious",
             "doc": [
