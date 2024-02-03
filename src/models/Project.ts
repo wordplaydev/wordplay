@@ -883,12 +883,12 @@ export default class Project {
     }
 
     withPII(text: string) {
+        // Remove from the set of text
         const withPII = this.data.nonPII.filter((piiText) => {
             return piiText != text;
         });
         return new Project({
             ...this.data,
-            // Remove from the set of text
             nonPII: withPII,
         })
     }

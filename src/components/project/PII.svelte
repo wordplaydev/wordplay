@@ -30,6 +30,7 @@
 <style>
     .piiLabel {
         font-style: italic;
+        margin-right: 0.5em;
     }
 
     .piiText {
