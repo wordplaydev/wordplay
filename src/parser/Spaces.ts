@@ -14,6 +14,8 @@ export const TAB_TEXT = SPACE_TEXT.repeat(TAB_WIDTH);
 export const EXPLICIT_TAB_TEXT =
     TAB_SYMBOL + SPACE_TEXT.repeat(TAB_WIDTH - TAB_SYMBOL.length);
 
+export const MAX_LINE_LENGTH = 40;
+
 type Spacer = TokenList | Source;
 
 /**
@@ -79,7 +81,7 @@ export default class Spaces {
         // No node given? See if any preceding spaces include a newline.
         if (node === undefined) {
             return Array.from(this.#spaces.values()).some((s) =>
-                s.includes('\n')
+                s.includes('\n'),
             );
         }
         // If a node is given, see if any of the tokens of the node have preceding newlines.
@@ -89,7 +91,7 @@ export default class Spaces {
                 .some(
                     (token) =>
                         token instanceof Token &&
-                        this.#spaces.get(token)?.includes('\n')
+                        this.#spaces.get(token)?.includes('\n'),
                 );
         }
     }
@@ -145,7 +147,7 @@ export default class Spaces {
     static getPreferredPrecedingSpace(
         root: Root,
         currentPrecedingSpace: string,
-        leaf: Node
+        leaf: Node,
     ): string {
         // Start from this node, walking up the ancestor tree
         const depth = root.getDepth(leaf);
@@ -161,7 +163,7 @@ export default class Spaces {
                     parent.getPreferredPrecedingSpace(
                         child,
                         currentPrecedingSpace,
-                        depth
+                        depth,
                     ) + preferredSpace;
             }
 
@@ -203,8 +205,8 @@ export default class Spaces {
             replacedToken === undefined
                 ? undefined
                 : replacement
-                ? (replacement.getFirstLeaf() as Token | undefined)
-                : nextToken;
+                  ? (replacement.getFirstLeaf() as Token | undefined)
+                  : nextToken;
 
         // Get the space prior to the replaced token.
         const space =
@@ -251,7 +253,7 @@ export default class Spaces {
         for (const token of source.getTokens()) {
             newSpace.#spaces.set(
                 token,
-                this.getPreferredTokenSpace(source.root, token)
+                this.getPreferredTokenSpace(source.root, token),
             );
         }
         return newSpace;
@@ -261,14 +263,14 @@ export default class Spaces {
     static withPreferredSpace(node: Node): Spaces {
         const tokens = new TokenList(
             node.nodes().filter((node): node is Token => node instanceof Token),
-            new Map()
+            new Map(),
         );
         const root = new Root(node);
         const newSpace = new Spaces(tokens, new Map());
         for (const token of tokens.getTokens()) {
             newSpace.#spaces.set(
                 token,
-                newSpace.getPreferredTokenSpace(root, token)
+                newSpace.getPreferredTokenSpace(root, token),
             );
         }
         return newSpace;
@@ -282,7 +284,7 @@ export default class Spaces {
             .filter((n): n is Token => n instanceof Token)) {
             newSpace.#spaces.set(
                 token,
-                this.getPreferredTokenSpace(root, token)
+                this.getPreferredTokenSpace(root, token),
             );
         }
         return newSpace;
@@ -293,7 +295,7 @@ export default class Spaces {
         const preferred = Spaces.getPreferredPrecedingSpace(
             root,
             currentSpace,
-            token
+            token,
         );
         return currentSpace + this.getAdditionalSpace(token, preferred);
     }

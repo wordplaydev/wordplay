@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#23](https://github.com/wordplaydev/wordplay/issues/23): Source file output with `Source()`, allowing data persistence in a project.
 -   Added support for page up and page down to navigate to start and end of source
+-   Line breaks for long literals
 
 ## Fixed
 

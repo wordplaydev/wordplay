@@ -79,7 +79,7 @@ export default class Block extends Expression {
     }
 
     static getPossibleNodes(
-        type: Type | undefined,
+        _: Type | undefined,
         selection: Node | undefined,
         selected: boolean,
     ) {

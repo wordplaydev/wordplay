@@ -25,6 +25,7 @@ import AnyType from './AnyType';
 import Spread from './Spread';
 import TypeException from '../values/TypeException';
 import type Locales from '../locale/Locales';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -77,6 +78,12 @@ export default class ListLiteral extends Expression {
                     this.getItemType(context)?.generalize(context) ??
                     new AnyType(),
                 space: true,
+                // Add line breaks if greater than 40 characters long.
+                newline:
+                    this.values.reduce(
+                        (sum, value) => sum + value.toWordplay().length,
+                        0,
+                    ) > MAX_LINE_LENGTH,
                 indent: true,
             },
             { name: 'close', kind: node(Sym.ListClose) },
