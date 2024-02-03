@@ -5,7 +5,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.3 2024-02-03
 
+## Added
+
 -   [#23](https://github.com/wordplaydev/wordplay/issues/23): Source file output with `Source()`, allowing data persistence in a project.
+
+## Fixed
+
+-   Fixed list literal types in the presence of spreads (e.g., `[:list 2 3]`)
 
 ## 0.9.21 2024-01-28
 
