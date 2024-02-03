@@ -529,6 +529,8 @@ type UITexts = {
                 gallery: DialogText;
                 /** The public/private toggle subheader and explanation */
                 public: DialogText;
+                /** The personal information subheader and explanation */
+                pii: DialogText;
             };
             /** Text fields in the share dialog */
             field: {
@@ -539,6 +541,8 @@ type UITexts = {
             button: {
                 /** Description for the email submission button. */
                 submit: string;
+                /** Description and label for the button to mark PII as sensitive again. */
+                sensitive: ButtonText;
             };
             /** Modes in the share dialog */
             mode: {

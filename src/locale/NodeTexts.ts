@@ -639,6 +639,8 @@ type NodeTexts = {
             handle: InternalConflictText;
             /** How to describe the resolution of the sensitive information conflict. */
             resolution: Template;
+            /** Note to remind users where they can manage sensitive information for their project. */
+            reminder: Template;
         }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `
