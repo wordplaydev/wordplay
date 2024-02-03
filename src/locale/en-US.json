@@ -1045,12 +1045,13 @@
             "emotion": "serious",
             "doc": "I represent some text, with a @Language tag. See @Text to learn more!",
             "conflict": {
-                "phone": "Is *$1* someone's phone number? Don't share me online if so!",
-                "email": "Is *$1* someone's email? Don't share me here if so!",
-                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!",
-                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!",
-                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.",
-                "resolution": "This isn't sensitive data"
+                "phone": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2",
+                "email": "Is *$1* someone's email? Don't share me here if so!\n\n$2",
+                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2",
+                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
+                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
+                "resolution": "This isn't sensitive data",
+                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog."
             }
         },
         "FormattedLiteral": {
@@ -4111,6 +4112,10 @@
                     "public": {
                         "header": "Public/Private",
                         "explanation": "Public projects and galleries can be seen by anyone in the world. Our goal is for this content to bring affirmation and joy, and publicly sharing is a way to do that. But it also means following some rules. You promise that your project does not:"
+                    },
+                    "pii": {
+                        "header": "Personal Information",
+                        "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
                     }
                 },
                 "field": {
@@ -4130,7 +4135,11 @@
                     "anonymous": "You must be logged in to share."
                 },
                 "button": {
-                    "submit": "Share the project with this email address"
+                    "submit": "Share the project with this email address",
+                    "sensitive": {
+                        "tip": "Mark this text as sensitive again",
+                        "label": "sensitive"
+                    }
                 },
                 "options": {
                     "gallery": "gallery chooser"

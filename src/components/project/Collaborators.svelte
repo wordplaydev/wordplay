@@ -9,6 +9,7 @@
     import CreatorList from './CreatorList.svelte';
     import Public from './Public.svelte';
     import Feedback from '@components/app/Feedback.svelte';
+    import PII from './PII.svelte';
 
     export let project: Project;
 
@@ -77,5 +78,10 @@
         isPublic={project.isPublic()}
         set={(choice) => Projects.reviseProject(project.asPublic(choice === 1))}
         flags={project.getFlags()}
+    />
+
+    <PII
+        nonPII={project.getNonPII()}
+        unmark={(piiText) => Projects.reviseProject(project.withPII(piiText))}
     />
 {/if}
