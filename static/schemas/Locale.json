@@ -10326,6 +10326,14 @@
                       "description": "Select the whole program",
                       "type": "string"
                     },
+                    "sourceEnd": {
+                      "description": "Move cursor to end of source",
+                      "type": "string"
+                    },
+                    "sourceStart": {
+                      "description": "Move cursor to start of source",
+                      "type": "string"
+                    },
                     "tidy": {
                       "description": "Tidy spacing",
                       "type": "string"
@@ -10346,6 +10354,8 @@
                     "nextInline",
                     "lineStart",
                     "lineEnd",
+                    "sourceStart",
+                    "sourceEnd",
                     "priorNode",
                     "nextNode",
                     "parent",

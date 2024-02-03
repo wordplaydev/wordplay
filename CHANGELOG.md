@@ -8,10 +8,12 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Added
 
 -   [#23](https://github.com/wordplaydev/wordplay/issues/23): Source file output with `Source()`, allowing data persistence in a project.
+-   Added support for page up and page down to navigate to start and end of source
 
 ## Fixed
 
 -   Fixed list literal types in the presence of spreads (e.g., `[:list 2 3]`)
+-   Fixed end command to go to end of last line.
 
 ## 0.9.21 2024-01-28
 

@@ -2287,6 +2287,8 @@
                 "nextInline": "$?",
                 "lineStart": "$?",
                 "lineEnd": "$?",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "$?",
                 "nextNode": "$?",
                 "parent": "$?",

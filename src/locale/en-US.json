@@ -3977,6 +3977,8 @@
                 "nextInline": "move cursor to position after",
                 "lineStart": "move cursor to start of line",
                 "lineEnd": "move cursor to end of line",
+                "sourceStart": "move cursor to start of source",
+                "sourceEnd": "move cursor to end of source",
                 "priorNode": "select neighbor before",
                 "nextNode": "select neighbor after",
                 "parent": "select container",

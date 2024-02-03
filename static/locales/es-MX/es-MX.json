@@ -4013,6 +4013,8 @@
                 "nextInline": "mover el cursor a la posición después",
                 "lineStart": "mover el cursor al inicio de la línea",
                 "lineEnd": "mover el cursor al final de la línea",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "seleccionar vecina antes",
                 "nextNode": "seleccionar vecina después",
                 "parent": "seleccionar contenedor",
