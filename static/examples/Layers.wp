@@ -2,7 +2,7 @@ Layers
 === start
 count: 10→[]
 
-ƒ balls(z•#m)•[Output] count.translate(
+ƒ balls(z•#m) count.translate(
     ƒ () 
         Phrase(
             'o'
