@@ -720,7 +720,7 @@
         ...layout.tiles.map((tile) => tile.position.top + tile.position.height),
     ]);
 
-    /** When the program steps language changes, get the latest value of the program's evaluation. */
+    /** When the program steps or locales change, get the latest value of the program's evaluation. */
     $: {
         $evaluation;
         $locales;

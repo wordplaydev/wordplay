@@ -3633,6 +3633,34 @@
                 "doc": "我创建一个@Sequence, 使@Output看起来像是害怕的。",
                 "names": ["抖动"]
             }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {

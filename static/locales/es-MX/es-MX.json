@@ -3812,6 +3812,34 @@
                 "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
                 "names": ["temblor"]
             }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {

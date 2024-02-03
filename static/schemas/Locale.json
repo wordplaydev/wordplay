@@ -7308,6 +7308,55 @@
               ],
               "type": "object"
             },
+            "Source": {
+              "additionalProperties": false,
+              "description": "A data file structure",
+              "properties": {
+                "DynamicEditLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row, too quickly"
+                },
+                "EmptySourceNameException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a source is created with an empty name"
+                },
+                "ProjectSizeLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a project has become too large to save."
+                },
+                "ReadOnlyEditException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of the data file"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "value": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The data value to persist"
+                }
+              },
+              "required": [
+                "DynamicEditLimitException",
+                "EmptySourceNameException",
+                "ProjectSizeLimitException",
+                "ReadOnlyEditException",
+                "doc",
+                "name",
+                "names",
+                "value"
+              ],
+              "type": "object"
+            },
             "Stack": {
               "additionalProperties": false,
               "description": "A vertical stack arragement",
@@ -7610,7 +7659,8 @@
             "Grid",
             "Free",
             "Easing",
-            "sequence"
+            "sequence",
+            "Source"
           ],
           "type": "object"
         },
