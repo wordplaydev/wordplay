@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Fixed list literal types in the presence of spreads (e.g., `[:list 2 3]`)
 -   Fixed end command to go to end of last line.
+-   Fixed direction of annotation toggle error.
 
 ## 0.9.21 2024-01-28
 
