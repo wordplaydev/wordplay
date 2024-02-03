@@ -21,7 +21,7 @@ export type PII = { kind: PIIKind; text: string };
  **/
 export default function getPII(text: string): PII[] {
     /** Avoid catastrophic backtracking on long strings */
-    return text.length > 25
+    return text.length > 100
         ? []
         : [
               ...matchesToPII(text, 'email', EmailRegex),
