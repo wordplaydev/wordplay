@@ -1025,12 +1025,13 @@
             "emotion": "serious",
             "doc": "Represento algún texto, con una etiqueta @Language. ¡Consulta @Text para aprender más!",
             "conflict": {
-                "phone": "¿Es *$1* el número de teléfono de alguien? ¡No me compartas en línea si es así!",
-                "email": "¿Es *$1* el correo electrónico de alguien? ¡No me lo compartas aquí si es así!",
-                "tin": "¿Es *$1* un identificador fiscal? Si es así, ¡definitivamente no me compartas, soy información muy sensible!",
-                "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!",
-                "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.",
-                "resolution": "Esto no es información sensible"
+                "phone": "¿Es *$1* el número de teléfono de alguien? ¡No me compartas en línea si es así!\n\n$2",
+                "email": "¿Es *$1* el correo electrónico de alguien? ¡No me lo compartas aquí si es así!\n\n$2",
+                "tin": "¿Es *$1* un identificador fiscal? Si es así, ¡definitivamente no me compartas, soy información muy sensible!\n\n$2",
+                "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!\n\n$2",
+                "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.\n\n$2",
+                "resolution": "Esto no es información sensible",
+                "reminder": "$?"
             }
         },
         "FormattedLiteral": {
@@ -4147,6 +4148,10 @@
                     "public": {
                         "header": "Público/Privado",
                         "explanation": "Proyectos y galerías públicas pueden ser vistos por cualquier persona en el mundo. Nuestra meta es que este contenido traiga afirmación y alegría, y compartir públicamente es una manera de lograrlo. Pero también implica seguir algunas reglas. Prometes que tu proyecto no:"
+                    },
+                    "pii": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -4166,7 +4171,11 @@
                     "anonymous": "Debes iniciar sesión para compartir."
                 },
                 "button": {
-                    "submit": "Compartir el proyecto con esta dirección de correo electrónico"
+                    "submit": "Compartir el proyecto con esta dirección de correo electrónico",
+                    "sensitive": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
                 },
                 "options": {
                     "gallery": "celector de la galería"
