@@ -229,6 +229,10 @@ type UITexts = {
             lineStart: string;
             /** Move cursor to line end */
             lineEnd: string;
+            /** Move cursor to start of source */
+            sourceStart: string;
+            /** Move cursor to end of source */
+            sourceEnd: string;
             /** Move cursor to node prior */
             priorNode: string;
             /** Move cursor to node after */

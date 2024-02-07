@@ -3,6 +3,20 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.3 2024-02-03
+
+## Added
+
+-   [#23](https://github.com/wordplaydev/wordplay/issues/23): Source file output with `Source()`, allowing data persistence in a project.
+-   Added support for page up and page down to navigate to start and end of source
+-   Line breaks for long literals
+
+## Fixed
+
+-   Fixed list literal types in the presence of spreads (e.g., `[:list 2 3]`)
+-   Fixed end command to go to end of last line.
+-   Fixed direction of annotation toggle error.
+
 ## 0.9.21 2024-01-28
 
 -   [#176](https://github.com/wordplaydev/wordplay/issues/176): TextFields can increment and decrement numbers.

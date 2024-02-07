@@ -31,9 +31,15 @@ import {
     ProjectSchema,
 } from '../models/ProjectSchemas';
 import { PossiblePII } from '@conflicts/PossiblePII';
+import { EditFailure } from './EditFailure';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
+
+/**
+ * Projects shouldn't be larger than 1,048,576 bytes, the Firestore document limit.
+ */
+export const MAX_PROJECT_BYTE_SIZE = 1048576;
 
 /** The schema of the IndexedDB cache of projects. */
 export class ProjectsDexie extends Dexie {
@@ -412,31 +418,53 @@ export default class ProjectsDatabase {
     /**
      * Given a project that is assumed to be editable, find it's history, and then edit it.
      * @param project The revised project
-     * @param remember If true, keeps the current vesion of the project in the history, otherwise replaces it.
+     * @param remember If true, keeps the current version of the project in the history, otherwise replaces it.
      * @param persist If true, try to save the change to disk and the cloud
+     *
+     * Returns true if the edit was successful, false if it was not.
      * */
-    edit(project: Project, remember: boolean, persist: boolean) {
+    edit(
+        project: Project,
+        remember: boolean,
+        persist: boolean,
+        dynamic: boolean = false,
+    ): EditFailure | undefined {
+        if (project.getSourceByteSize() > MAX_PROJECT_BYTE_SIZE)
+            return EditFailure.TooLarge;
+
         // Update or create a history for this project.
         const history = this.projectHistories.get(project.getID());
         if (history) {
             // Save the project with a new time.
-            history.edit(project.withNewTime(), remember);
+            const success = history.edit(
+                project.withNewTime(),
+                remember,
+                false,
+                dynamic,
+            );
 
-            // Update the editable projects.
-            this.refreshEditableProjects();
+            // If the save was successful, update the projects and persist if asked.
+            if (success === true) {
+                // Update the editable projects.
+                this.refreshEditableProjects();
 
-            // Defer a save.
-            if (persist) this.saveSoon();
+                // Defer a save.
+                if (persist) this.saveSoon();
+
+                return undefined;
+            } else return EditFailure.Infinite;
         }
-        // No history? Directly edit the project in the database, if connected.
-        // This is likely an edit by a curator of a gallery, e.g., removing a project from
-        // a collection.
+        // No history? Directly edit the project in the database, if connected and asked to save the edit.
+        // This is likely an edit by a curator of a gallery, e.g., removing a project from a collection.
         else if (firestore && persist) {
             setDoc(
                 doc(firestore, ProjectsCollection, project.getID()),
                 project.serialize(),
             );
+            return undefined;
         }
+        // Not editable? Return false.
+        else return EditFailure.ReadOnly;
     }
 
     /** Archive/unarchive the project with the given ID, if it exists */
@@ -610,8 +638,12 @@ export default class ProjectsDatabase {
     }
 
     /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */
-    reviseProject(revised: Project, remember = true) {
-        this.edit(revised, remember, true);
+    reviseProject(
+        revised: Project,
+        remember = true,
+        dynamic = false,
+    ): EditFailure | undefined {
+        return this.edit(revised, remember, true, dynamic);
     }
 
     /** Gets the project history for the given project ID, if there is one. */

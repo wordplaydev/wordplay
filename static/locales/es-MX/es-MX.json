@@ -3812,6 +3812,34 @@
                 "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
                 "names": ["temblor"]
             }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {
@@ -3985,6 +4013,8 @@
                 "nextInline": "mover el cursor a la posición después",
                 "lineStart": "mover el cursor al inicio de la línea",
                 "lineEnd": "mover el cursor al final de la línea",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "seleccionar vecina antes",
                 "nextNode": "seleccionar vecina después",
                 "parent": "seleccionar contenedor",

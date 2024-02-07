@@ -35,6 +35,7 @@ import type Locales from '../locale/Locales';
 import { createReactionDefinition } from '../values/ReactionStream';
 import { createSceneDefinition } from '@input/Scene';
 import { createAuraType } from '@output/Aura';
+import { createSourceType } from '@output/Source';
 
 export default function createDefaultShares(locales: Locales) {
     const TypeType = createOutputType(locales);
@@ -69,6 +70,7 @@ export default function createDefaultShares(locales: Locales) {
         Row: createRowType(locales),
         Grid: createGridType(locales),
         Free: createFreeType(locales),
+        Data: createSourceType(locales),
     };
 
     const InputTypes = {

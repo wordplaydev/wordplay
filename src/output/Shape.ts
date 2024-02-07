@@ -179,14 +179,20 @@ export function toShape(
     namer: NameGenerator,
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
+
     let form;
-    console.log(value.type)
-    console.log(project.getDefaultShares().output.Line)
-    if (value.is(project.getDefaultShares().output.Rectangle)) {
+    const outputTypes = value.context.getEvaluator().project.shares.output;
+    console.log(value);
+    console.log(outputTypes.Rectangle);
+    if(value.is(outputTypes.Rectangle)) {
         form = toRectangle(getOutputInput(value, 0));
-    } else if (value.is(project.getDefaultShares().output.Line)) {
+        console.log("rect");
+    } else if(value.is(outputTypes.Line)) {
         form = toLine(getOutputInput(value, 0));
+        console.log("line");
     }
+    console.log(form);
+    // const form = toRectangle(getOutputInput(value, 0));
 
     const {
         name,

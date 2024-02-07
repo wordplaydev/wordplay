@@ -39,6 +39,14 @@ import ReactionStream from '../values/ReactionStream';
 import type Animator from '../output/Animator';
 import Locales from '../locale/Locales';
 import DefaultLocale from '../locale/DefaultLocale';
+import StructureValue from '@values/StructureValue';
+import ListValue from '@values/ListValue';
+import TextValue from '@values/TextValue';
+import DynamicEditLimitException from '@values/DynamicEditLimitException';
+import { EditFailure } from '@db/EditFailure';
+import ReadOnlyEditException from '@values/ReadOnlyEditException';
+import EmptySourceNameException from '@values/EmptySourceNameException';
+import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -50,12 +58,19 @@ export type StreamChange = {
 };
 export type StreamCreator = Evaluate | Reaction;
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
-export const MAX_CALL_STACK_DEPTH = 512;
-export const MAX_STEP_COUNT = 262144;
 
-// Don't let source values take more than 256 MB of memory.
-// One memory unit is probably an average of about 128 bytes, given how much
-// provenance we store per value.
+/**
+ * Programs that evaluate too many functions likely have infinite recursion. Halt them!
+ * */
+export const MAX_CALL_STACK_DEPTH = 512;
+/**
+ * Programs that evaluate too many steps interfer with immediate feedback. Keep them short!
+ * */
+export const MAX_STEP_COUNT = 262144;
+/**
+Don't let source values take more than 256 MB of memory. 
+One memory unit is probably an average of about 128 bytes, given how much provenance we store per value.
+*/
 export const MAX_SOURCE_VALUE_SIZE = 52428;
 
 export enum Mode {
@@ -265,7 +280,7 @@ export default class Evaluator {
         this.seed = Math.random();
         this.random = new NumberGenerator(this.seed);
 
-        // Mirror the given prior, if there is one.
+        // Mirror the given prior, if there is one, and if we haven't persisted a source too many times.
         if (prior) this.mirror(prior);
     }
 
@@ -445,6 +460,24 @@ export default class Evaluator {
             if (val.stepNumber <= stepIndex) return val.value;
         }
         return undefined;
+    }
+
+    setLatestSourceValue(source: Source, value: Value) {
+        const stepIndex = this.getStepIndex();
+        const indexedValues = this.sourceValues.get(source);
+        if (indexedValues === undefined) return undefined;
+        for (let index = indexedValues.length - 1; index >= 0; index--) {
+            const val = indexedValues[index];
+            if (val.stepNumber <= stepIndex) {
+                val.value = value;
+                return;
+            }
+        }
+        return undefined;
+    }
+
+    replaceMainValue(value: Value) {
+        this.setLatestSourceValue(this.project.getMain(), value);
     }
 
     getStepCount() {
@@ -838,6 +871,7 @@ export default class Evaluator {
         this.broadcast();
     }
 
+    /** End the evaluation of the program, optionally with an exception, and if in the past, start again with the next stream change. */
     end(exception?: ExceptionValue) {
         // If there's an exception, end all sources with the exception.
         while (this.evaluations.length > 0) this.endEvaluation(exception);
@@ -857,8 +891,97 @@ export default class Evaluator {
             this.stopStreams();
         }
 
+        const latest = this.getLatestSourceValue(this.getMain());
+        if (latest && !this.#replayingInputs) {
+            this.editSource(latest);
+        }
+
         // Notify observers.
         this.broadcast();
+    }
+
+    /** If the value computed is a Data or list that contains Data, persist the data. */
+    editSource(value: Value): void {
+        const dataDefinition = this.getBasis().shares.output.Data;
+        const data =
+            value instanceof StructureValue && value.is(dataDefinition)
+                ? [value]
+                : value instanceof ListValue
+                  ? value.values.filter(
+                        (val): val is StructureValue =>
+                            val instanceof StructureValue &&
+                            val.is(dataDefinition),
+                    )
+                  : [];
+
+        // Persist all the data we found in the program's value.
+        for (const datum of data) {
+            const nameValue = datum.getInput(0);
+            const value = datum.getInput(1);
+
+            // Is it a valid name and value?
+            if (nameValue instanceof TextValue && value) {
+                // Get the nam eof the source
+                const name = nameValue.text;
+                // Convert the value to text
+                const valueText = value.toWordplay();
+                // See if there's an existing source with this name.
+                const current = this.project.getSourceWithName(name);
+                // If the name is empty, exception
+                if (name.length === 0) {
+                    // Override the final value to a limit exception.
+                    this.replaceMainValue(
+                        new EmptySourceNameException(
+                            this,
+                            this.project.getMain().expression,
+                        ),
+                    );
+                }
+                // If the new value is different from the current value, revise it.
+                else if (
+                    current === undefined ||
+                    current.code.toString() !== valueText
+                ) {
+                    // Revise the project with the new or overwritten source.
+                    const result = this.database.Projects.reviseProject(
+                        current
+                            ? this.project.withSource(
+                                  current,
+                                  current.withCode(valueText),
+                              )
+                            : this.project.withNewSource(name, valueText),
+                        true,
+                        true,
+                    );
+
+                    if (result === EditFailure.TooLarge) {
+                        // Override the final value to a limit exception.
+                        this.replaceMainValue(
+                            new ProjectSizeLimitException(
+                                this,
+                                this.project.getMain().expression,
+                            ),
+                        );
+                    }
+                    if (result === EditFailure.Infinite)
+                        // Override the final value to a limit exception.
+                        this.replaceMainValue(
+                            new DynamicEditLimitException(
+                                this,
+                                this.project.getMain().expression,
+                            ),
+                        );
+                    else if (result === EditFailure.ReadOnly)
+                        // Override the final value to an exception.
+                        this.replaceMainValue(
+                            new ReadOnlyEditException(
+                                this,
+                                this.project.getMain().expression,
+                            ),
+                        );
+                }
+            }
+        }
     }
 
     /**
