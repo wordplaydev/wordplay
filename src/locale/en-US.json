@@ -3460,14 +3460,14 @@
             }
         },
         "Line": {
-            "doc": "I am a line, useful for making @Stage generate a physical line shape.",
+            "doc": "I am a line, useful for making @Stage render a physical line shape from the coordinates of your choice.",
             "names": ["Line"],
             "x1": {
                 "doc": "The starting edge of the stage on the x-axis",
                 "names": "x1"
             },
             "y1": {
-                "doc": "The starting edge of the stage on the y-axes",
+                "doc": "The starting edge of the stage on the y-axis",
                 "names": "y1"
             },
             "x2": {
@@ -3479,7 +3479,7 @@
                 "names": "y2"
             },
             "z": {
-                "doc": "The depth position of the line.",
+                "doc": "The depth position of the line",
                 "names": "z"
             }
         },

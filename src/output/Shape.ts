@@ -182,6 +182,8 @@ export function toShape(
 
     let form;
     // const outputTypes = value.context.getEvaluator().project.shares.output;
+    // console.log(value);
+    // 
     if(value.toString().includes("Rectangle")) {
         form = toRectangle(getOutputInput(value, 0));
         // console.log("rect");

@@ -33,7 +33,7 @@
 
     $: top = shape.form.getTop()
     $: left = shape.form.getLeft()
-    $: color = shape.getBackground();
+    // $: color = shape.getBackground();
 
     let shapeClass = '';
     if(shape.form instanceof Rectangle) {
