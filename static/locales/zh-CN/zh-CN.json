@@ -3633,6 +3633,34 @@
                 "doc": "我创建一个@Sequence, 使@Output看起来像是害怕的。",
                 "names": ["抖动"]
             }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {
@@ -3806,6 +3834,8 @@
                 "nextInline": "将光标移到后一个位置",
                 "lineStart": "将光标移到行的开头",
                 "lineEnd": "将光标移到行的末尾",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "选择前一个邻居",
                 "nextNode": "选择后一个邻居",
                 "parent": "选择容器",

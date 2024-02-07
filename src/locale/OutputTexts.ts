@@ -1,4 +1,5 @@
 import type { NameAndDoc, Template, NameText } from './Locale';
+import type { ExceptionText } from './NodeTexts';
 
 export type TypeTexts = {
     /** How tall glyphs in a phrase, group, or stage should be */
@@ -315,6 +316,21 @@ type OutputTexts = {
         popup: NameAndDoc;
         /** Offsets randomly in multiple directions */
         shake: NameAndDoc;
+    };
+    /** A data file structure */
+    Source: NameAndDoc & {
+        /** The name of the data file */
+        name: NameAndDoc;
+        /** The data value to persist */
+        value: NameAndDoc;
+        /** When a program persists data too many times in a row, too quickly */
+        DynamicEditLimitException: ExceptionText;
+        /** When a program persists data too many times in a row */
+        ReadOnlyEditException: ExceptionText;
+        /** When a source is created with an empty name */
+        EmptySourceNameException: ExceptionText;
+        /** When a project has become too large to save. */
+        ProjectSizeLimitException: ExceptionText;
     };
 };
 

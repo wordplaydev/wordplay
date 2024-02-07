@@ -15,6 +15,5 @@ test.each([
 ])('Expect %s to be %s', (text, pii) => {
     const matches = getPII(text);
     const joined = matches.map((m) => m.text).join();
-    console.log(joined);
     expect(joined).toBe(pii.join());
 });

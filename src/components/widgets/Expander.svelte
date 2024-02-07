@@ -31,7 +31,7 @@
     .expander.horizontal {
         text-align: left;
         transform-origin: center;
-        transform: rotate(270deg);
+        transform: rotate(90deg);
     }
 
     .expander:focus {

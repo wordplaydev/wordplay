@@ -630,8 +630,8 @@ export default class Project {
         return newProject;
     }
 
-    withNewSource(name: string) {
-        const newSource = new Source(name, '');
+    withNewSource(name: string, code?: string | undefined) {
+        const newSource = new Source(name, code ?? '');
         return new Project({
             ...this.data,
             supplements: [...this.data.supplements, newSource],
@@ -914,6 +914,14 @@ export default class Project {
 
     isTutorial() {
         return this.getID().startsWith('tutorial-');
+    }
+
+    getSourceByteSize() {
+        // Estimate rather than getting exact size.
+        return this.getSources().reduce(
+            (sum, source) => sum + source.getCode().toString().length,
+            0,
+        );
     }
 
     toWordplay() {

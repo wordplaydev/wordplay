@@ -2095,6 +2095,34 @@
             "fadein": { "doc": "$?", "names": ["revelar"] },
             "popup": { "doc": "$?", "names": ["surgir"] },
             "shake": { "doc": "$?", "names": ["agitar"] }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {
@@ -2259,6 +2287,8 @@
                 "nextInline": "$?",
                 "lineStart": "$?",
                 "lineEnd": "$?",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "$?",
                 "nextNode": "$?",
                 "parent": "$?",

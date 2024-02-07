@@ -6,7 +6,7 @@ gravity•#m/s^2:  15m/s^2 … ∆ Button() … -gravity
 
 hiragana: "ぁあぃいぅうぇえぉおかがきぎくぐけげこごさざしじすずせぜそぞただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷへべぺほぼぽまみむめもゃやゅゆょよらりるれろゎわゐゑをんゔゕゖ"→['']
 
-letters•[Output]: count → [].translate(
+letters: count → [].translate(
   ƒ(number index)
       Phrase(
         hiragana[number]
