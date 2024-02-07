@@ -870,12 +870,27 @@ export default class Project {
         return this.data.timestamp;
     }
 
+    getNonPII() {
+        return this.data.nonPII;
+    }
+
     withNonPII(text: string) {
         return new Project({
             ...this.data,
             // Add to the set of text
             nonPII: Array.from(new Set([...this.data.nonPII, text])),
         });
+    }
+
+    withPII(text: string) {
+        // Remove from the set of text
+        const withPII = this.data.nonPII.filter((piiText) => {
+            return piiText != text;
+        });
+        return new Project({
+            ...this.data,
+            nonPII: withPII,
+        })
     }
 
     isNotPII(text: string) {

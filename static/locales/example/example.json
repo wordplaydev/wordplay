@@ -701,7 +701,8 @@
                 "tin": "$?",
                 "address": "$?",
                 "handle": "$?",
-                "resolution": "$?"
+                "resolution": "$?",
+                "reminder": "$?"
             }
         },
         "FormattedLiteral": {
@@ -2421,6 +2422,10 @@
                     "public": {
                         "header": "$?",
                         "explanation": "$?"
+                    },
+                    "pii": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -2440,7 +2445,11 @@
                     "anonymous": "$?"
                 },
                 "button": {
-                    "submit": "$?"
+                    "submit": "$?",
+                    "sensitive": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
                 },
                 "options": {
                     "gallery": "$?"
