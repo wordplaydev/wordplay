@@ -171,8 +171,19 @@ export function toShape(
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const form = toRectangle(getOutputInput(value, 0));
+    let form;
+    const outputTypes = value.context.getEvaluator().project.shares.output;
+    console.log(value);
+    console.log(outputTypes.Rectangle);
+    if(value.is(outputTypes.Rectangle)) {
+        form = toRectangle(getOutputInput(value, 0));
+        console.log("rect");
+    } else if(value.is(outputTypes.Line)) {
+        form = toLine(getOutputInput(value, 0));
+        console.log("line");
+    }
     console.log(form);
+    // const form = toRectangle(getOutputInput(value, 0));
 
     const {
         name,
