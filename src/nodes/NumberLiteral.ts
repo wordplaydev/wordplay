@@ -5,7 +5,6 @@ import Token from './Token';
 import type Type from './Type';
 import Unit from './Unit';
 import { NotANumber } from '@conflicts/NotANumber';
-import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Sym from './Sym';
@@ -40,11 +39,11 @@ export default class NumberLiteral extends Literal {
                 number === undefined
                     ? 'NaN'
                     : typeof number === 'number'
-                    ? '' + number
-                    : number,
-                [Sym.Number, ...(type ? [type] : [])]
+                      ? '' + number
+                      : number,
+                [Sym.Number, ...(type ? [type] : [])],
             ),
-            unit === undefined ? Unit.Empty : unit
+            unit === undefined ? Unit.Empty : unit,
         );
     }
 
@@ -52,13 +51,13 @@ export default class NumberLiteral extends Literal {
         type: Type | undefined,
         _: Node,
         __: boolean,
-        context: Context
+        context: Context,
     ) {
         const possibleNumberTypes = type
             ?.getPossibleTypes(context)
             .filter(
                 (possibleType): possibleType is NumberType =>
-                    possibleType instanceof NumberType
+                    possibleType instanceof NumberType,
             );
 
         // If a type is provided, and it has a unit, suggest numbers with corresponding units.
@@ -70,8 +69,8 @@ export default class NumberLiteral extends Literal {
                           1,
                           numberType.unit instanceof Unit
                               ? numberType.unit.clone()
-                              : undefined
-                      )
+                              : undefined,
+                      ),
             );
         } else {
             return [
@@ -100,7 +99,7 @@ export default class NumberLiteral extends Literal {
     clone(replace?: Replacement) {
         return new NumberLiteral(
             this.replaceChild('number', this.number, replace),
-            this.replaceChild('unit', this.unit, replace)
+            this.replaceChild('unit', this.unit, replace),
         ) as this;
     }
 
@@ -127,7 +126,7 @@ export default class NumberLiteral extends Literal {
                 this,
                 this.#numberCache,
                 this.unit,
-                this.#precisionCache
+                this.#precisionCache,
             );
         else {
             const value = new NumberValue(this, this.number, this.unit);
@@ -137,15 +136,7 @@ export default class NumberLiteral extends Literal {
         }
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        bind;
-        original;
-        context;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -164,7 +155,7 @@ export default class NumberLiteral extends Literal {
         return concretize(
             locales,
             locales.get((l) => l.node.NumberLiteral.start),
-            new NodeRef(this.number, locales, context)
+            new NodeRef(this.number, locales, context),
         );
     }
 
@@ -191,7 +182,7 @@ export default class NumberLiteral extends Literal {
                       .plus(direction * amount)
                       .times(isPercent ? 100 : 1)
                       .toString() + (isPercent ? '%' : ''),
-                  this.unit
+                  this.unit,
               ) as this)
             : undefined;
     }

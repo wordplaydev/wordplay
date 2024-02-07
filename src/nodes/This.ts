@@ -2,7 +2,6 @@ import type Conflict from '@conflicts/Conflict';
 import type Type from './Type';
 import type Value from '@values/Value';
 import type Step from '@runtime/Step';
-import type Bind from './Bind';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
@@ -49,7 +48,7 @@ export default class This extends SimpleExpression {
         type: Type | undefined,
         node: Node,
         selected: boolean,
-        context: Context
+        context: Context,
     ) {
         return context
             .getRoot(node)
@@ -58,7 +57,7 @@ export default class This extends SimpleExpression {
                 (a) =>
                     a instanceof StructureDefinition ||
                     a instanceof ConversionDefinition ||
-                    a instanceof Reaction
+                    a instanceof Reaction,
             )
             ? [This.make()]
             : [];
@@ -88,7 +87,7 @@ export default class This extends SimpleExpression {
                 (a) =>
                     a instanceof StructureDefinition ||
                     a instanceof ConversionDefinition ||
-                    a instanceof Reaction
+                    a instanceof Reaction,
             ) as ThisStructure | undefined;
     }
 
@@ -106,18 +105,18 @@ export default class This extends SimpleExpression {
         return structure === undefined
             ? new UnenclosedType(this)
             : // Structure definition's have the structure type
-            structure instanceof StructureDefinition
-            ? new StructureType(structure, [])
-            : // Conversion definitions have the input type
-            structure instanceof ConversionDefinition
-            ? // We strip the unit from this in order to provide a scalar for conversion.
-              structure.input instanceof NumberType
-                ? NumberType.make()
-                : structure.input
-            : // Reactions have the reaction's value type
-            structure instanceof Reaction
-            ? structure.initial.getType(context)
-            : new UnenclosedType(this);
+              structure instanceof StructureDefinition
+              ? new StructureType(structure, [])
+              : // Conversion definitions have the input type
+                structure instanceof ConversionDefinition
+                ? // We strip the unit from this in order to provide a scalar for conversion.
+                  structure.input instanceof NumberType
+                    ? NumberType.make()
+                    : structure.input
+                : // Reactions have the reaction's value type
+                  structure instanceof Reaction
+                  ? structure.initial.getType(context)
+                  : new UnenclosedType(this);
     }
 
     getDependencies(context: Context): Expression[] {
@@ -152,15 +151,7 @@ export default class This extends SimpleExpression {
         );
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        bind;
-        original;
-        context;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -179,12 +170,12 @@ export default class This extends SimpleExpression {
     getStartExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.This.start),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

@@ -1,7 +1,7 @@
 import BooleanType from './BooleanType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Step from '@runtime/Step';
@@ -10,7 +10,6 @@ import Jump from '@runtime/Jump';
 import type Context from './Context';
 import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import type Bind from './Bind';
 import Start from '@runtime/Start';
 import { QUESTION_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
@@ -36,7 +35,7 @@ export default class Conditional extends Expression {
         condition: Expression,
         conditional: Token,
         yes: Expression,
-        no: Expression
+        no: Expression,
     ) {
         super();
 
@@ -53,7 +52,7 @@ export default class Conditional extends Expression {
             condition,
             new Token(QUESTION_SYMBOL, Sym.BooleanType),
             yes,
-            no
+            no,
         );
     }
 
@@ -61,7 +60,7 @@ export default class Conditional extends Expression {
         type: Type | undefined,
         node: Node,
         selected: boolean,
-        context: Context
+        context: Context,
     ) {
         return [
             node instanceof Expression &&
@@ -70,12 +69,12 @@ export default class Conditional extends Expression {
                 ? Conditional.make(
                       node,
                       ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make()
+                      ExpressionPlaceholder.make(),
                   )
                 : Conditional.make(
                       ExpressionPlaceholder.make(BooleanType.make()),
                       ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make()
+                      ExpressionPlaceholder.make(),
                   ),
         ];
     }
@@ -123,7 +122,7 @@ export default class Conditional extends Expression {
             this.replaceChild('condition', this.condition, replace),
             this.replaceChild<Token>('question', this.question, replace),
             this.replaceChild<Expression>('yes', this.yes, replace),
-            this.replaceChild<Expression>('no', this.no, replace)
+            this.replaceChild<Expression>('no', this.no, replace),
         ) as this;
     }
 
@@ -178,35 +177,26 @@ export default class Conditional extends Expression {
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // Evaluate the condition with the current types.
-        const revisedTypes = this.condition.evaluateTypeGuards(
-            bind,
-            original,
-            current,
-            context
-        );
+        const revisedTypes = this.condition.evaluateTypeGuards(current, guard);
 
         // The condition did some guarding if the intersection of the revised and current sets is smaller than the current set
         const guarded =
-            current.intersection(revisedTypes, context).size() < current.size();
+            current.intersection(revisedTypes, guard.context).size() <
+            current.size();
 
         // Evaluate the yes branch with the revised types.
         if (this.yes instanceof Expression)
-            this.yes.evaluateTypeGuards(bind, original, revisedTypes, context);
+            this.yes.evaluateTypeGuards(revisedTypes, guard);
 
         // Evaluate the no branch with the complement of the revised types, unless they weren't guarded, in which case we pass through the current types.
         if (this.no instanceof Expression) {
             this.no.evaluateTypeGuards(
-                bind,
-                original,
-                guarded ? current.difference(revisedTypes, context) : current,
-                context
+                guarded
+                    ? current.difference(revisedTypes, guard.context)
+                    : current,
+                guard,
             );
         }
 
@@ -229,19 +219,19 @@ export default class Conditional extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.Conditional.start),
-            new NodeRef(this.condition, locales, context)
+            new NodeRef(this.condition, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Conditional.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

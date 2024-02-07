@@ -14,12 +14,7 @@
     import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
-    import {
-        animationDuration,
-        blocks,
-        locales,
-        writingLayout,
-    } from '../../db/Database';
+    import { animationDuration, blocks, locales } from '../../db/Database';
     import type Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
     import type Token from '@nodes/Token';
@@ -31,6 +26,8 @@
 
     // The current location of the caret.
     export let location: CaretBounds | undefined = undefined;
+
+    let editorPadding: number | undefined = undefined;
 
     // The HTMLElement rendering this view.
     let element: HTMLElement;
@@ -55,8 +52,8 @@
         tick().then(() =>
             setTimeout(
                 () => (location = computeLocation()),
-                $animationDuration + 25
-            )
+                $animationDuration + 25,
+            ),
         );
     }
 
@@ -66,8 +63,7 @@
         if (
             token !== undefined &&
             caret !== undefined &&
-            $locales.getDirection() &&
-            $writingLayout
+            $locales.getDirection()
         ) {
             // Get some of the token's metadata
             let spaceIndex = caret.source.getTokenSpacePosition(token);
@@ -90,7 +86,7 @@
                         (caret.position === spaceIndex &&
                             (spaceIndex === 0 ||
                                 !caret.isSpace(
-                                    caret.source.getCode().at(spaceIndex) ?? ''
+                                    caret.source.getCode().at(spaceIndex) ?? '',
                                 )))) &&
                         // ... and it must be before the end OR at the end and either the very end or at whitespace.
                         caret.position <= lastIndex))
@@ -102,7 +98,7 @@
         // Update the caret's location.
         location = computeLocation();
         // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
-        if (element) scrollToCaret();
+        scrollToCaret();
     }
 
     async function scrollToCaret() {
@@ -133,7 +129,7 @@
             const parent = parents.shift();
             if (parent) {
                 const parentView = editorView.querySelector(
-                    `.node-view[data-id="${parent.id}"]`
+                    `.node-view[data-id="${parent.id}"]`,
                 );
                 if (parentView) return parentView;
             }
@@ -146,7 +142,7 @@
         editor: HTMLElement,
         currentToken: Token,
         currentTokenRect: DOMRect,
-        horizontal: boolean
+        horizontal: boolean,
     ): [number, number] {
         // To compute line height, find two tokens on adjacent lines and difference their tops.
         const tokenViews = editor.querySelectorAll(`.Token`);
@@ -184,7 +180,7 @@
         ) {
             const firstTokenAfterLineBreakBound = (
                 firstTokenViewAfterLineBreak.querySelector(
-                    '.token-view'
+                    '.token-view',
                 ) as Element
             ).getBoundingClientRect();
             const firstTokenBound = (
@@ -207,7 +203,7 @@
 
     function computeSpaceDimensions(
         editor: HTMLElement,
-        currentToken: Token
+        currentToken: Token,
     ): {
         spaceWidth: number;
         spaceHeight: number;
@@ -216,7 +212,7 @@
     } {
         // Get some measurements on spaces and tab.
         const spaceElement = editor.querySelector(
-            `.space[data-id="${currentToken.id}"]`
+            `.space[data-id="${currentToken.id}"]`,
         );
         if (spaceElement === null)
             return { spaceWidth: 0, spaceHeight: 0, tabWidth: 0, tabHeight: 0 };
@@ -237,7 +233,8 @@
     function computeLocation(): CaretBounds | undefined {
         if (caret === undefined) return;
 
-        const horizontal = $writingLayout === 'horizontal-tb';
+        // The editor is always horizontal-tb
+        const horizontal = true;
 
         // Start assuming no position.
         location = undefined;
@@ -251,7 +248,17 @@
 
         const viewport = editorView;
         if (viewport === null) return;
+
+        // Get the padding
+        if (editorPadding === undefined) {
+            const editorStyle = window.getComputedStyle(editorView);
+            editorPadding = parseInt(
+                editorStyle.getPropertyValue('padding-left').replace('px', ''),
+            );
+        }
+
         const viewportRect = viewport.getBoundingClientRect();
+        const viewportWidth = viewportRect.width;
 
         // Compute the top left of the editor's viewport.
         const viewportXOffset = -viewportRect.left + viewport.scrollLeft;
@@ -262,25 +269,10 @@
             const nodeView = getNodeView(caret.position);
             if (nodeView === null) return;
 
-            // Find the bottom left token or value view.
-            const tokenAndValueViews = nodeView.classList.contains('token-view')
-                ? [nodeView]
-                : Array.from(
-                      nodeView.querySelectorAll(':is(.token-view, .value)')
-                  );
-            if (tokenAndValueViews.length === 0) return;
-            let tokenBounds = tokenAndValueViews.map((view) => {
-                return { view, bounds: view.getBoundingClientRect() };
-            });
-            tokenBounds.sort((a, b) => b.bounds.bottom - a.bounds.bottom);
-            tokenBounds.sort((a, b) => a.bounds.left - b.bounds.left);
-
-            const nodeViewRect = tokenBounds[0].bounds;
-
             // ... and it's a placeholder, then position a caret in it's center
             if (caret.isPlaceholderNode()) {
                 const placeholderView = nodeView.querySelector(
-                    '.token-view > .placeholder'
+                    '.token-view > .placeholder',
                 );
                 const placeholderViewRect =
                     placeholderView?.getBoundingClientRect();
@@ -298,13 +290,30 @@
             }
             // ... and it's not a placeholder, position (invisible) caret at it's top left
             // This is for scrolling purposes.
-            else
+            else {
+                // Find the bottom left token or value view.
+                const tokenAndValueViews = nodeView.classList.contains(
+                    'token-view',
+                )
+                    ? [nodeView]
+                    : Array.from(
+                          nodeView.querySelectorAll(':is(.token-view, .value)'),
+                      );
+                if (tokenAndValueViews.length === 0) return;
+                // Get the bounding rect of the last token or value in the layout
+                // and place the caret there for scrolling purposes.
+                const nodeViewRect =
+                    tokenAndValueViews[
+                        tokenAndValueViews.length - 1
+                    ].getBoundingClientRect();
+
                 return {
                     left: nodeViewRect.left + viewportXOffset,
                     top: nodeViewRect.top + viewportYOffset,
                     height: nodeViewRect.height,
                     bottom: nodeViewRect.bottom + viewportYOffset,
                 };
+            }
         }
 
         // No token? No caret.
@@ -329,7 +338,7 @@
             editorView,
             token,
             tokenViewRect,
-            horizontal
+            horizontal,
         );
 
         // Is the caret in the text, and not the space?
@@ -340,7 +349,7 @@
             const textNode = tokenView.childNodes[0];
             // Create a trimmed node, but replace spaces in the trimmed text with visible characters so that they are included in measurement.
             const tempNode = document.createTextNode(
-                trimmedText.replaceAll(' ', '·')
+                trimmedText.replaceAll(' ', '·'),
             );
             // Temporarily replace the node
             textNode.replaceWith(tempNode);
@@ -378,20 +387,11 @@
             const spaceAfter = explicitSpace.substring(spaceIndex);
 
             // Find the start position of the editor, based on language direction.
-            const editorStyle = window.getComputedStyle(editorView);
-            const editorHorizontalPadding = parseInt(
-                editorStyle.getPropertyValue('padding-left').replace('px', '')
-            );
             const editorHorizontalStart =
-                leftToRight && $writingLayout !== 'vertical-rl'
-                    ? editorHorizontalPadding
-                    : viewportRect.width - editorHorizontalPadding;
-            const editorVerticalStart =
-                parseInt(
-                    editorStyle
-                        .getPropertyValue('padding-top')
-                        .replace('px', '')
-                ) + 4;
+                leftToRight && horizontal
+                    ? editorPadding
+                    : viewportWidth - editorPadding;
+            const editorVerticalStart = editorPadding + 4;
 
             const { spaceWidth, spaceHeight, tabWidth, tabHeight } =
                 computeSpaceDimensions(editorView, token);
@@ -407,33 +407,24 @@
                     ? editorHorizontalStart
                     : (leftToRight
                           ? priorTokenViewRect.right
-                          : priorTokenViewRect.left) -
-                      viewportRect.left +
-                      viewport.scrollLeft;
+                          : priorTokenViewRect.left) + viewportXOffset;
 
             let priorTokenVerticalEnd =
                 priorTokenViewRect === undefined
                     ? editorVerticalStart
                     : (leftToRight
                           ? priorTokenViewRect.bottom
-                          : priorTokenViewRect.top) -
-                      viewportRect.top +
-                      viewport.scrollTop;
+                          : priorTokenViewRect.top) + viewportYOffset;
 
             let priorTokenLeft =
                 priorTokenViewRect === undefined
-                    ? editorHorizontalStart -
-                      ($writingLayout === 'vertical-rl' ? lineHeight : 0)
-                    : priorTokenViewRect.left -
-                      viewportRect.left +
-                      viewport.scrollLeft;
+                    ? editorHorizontalStart - (!horizontal ? lineHeight : 0)
+                    : priorTokenViewRect.left + viewportXOffset;
 
             let priorTokenTop =
                 priorTokenViewRect === undefined
                     ? editorVerticalStart
-                    : priorTokenViewRect.top -
-                      viewportRect.top +
-                      viewport.scrollTop;
+                    : priorTokenViewRect.top + viewportYOffset;
 
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOf('\n') < 0) {
@@ -513,7 +504,8 @@
                 // Truncate everything on the last line of spaces after the current position of the caret.
                 spaceOnLastLine = spaceOnLastLine.substring(
                     0,
-                    spaceOnLastLine.length - (explicitSpace.length - spaceIndex)
+                    spaceOnLastLine.length -
+                        (explicitSpace.length - spaceIndex),
                 );
 
                 // If there's preferred space after the explicit space, and we're on the last line of explicit space, include it.
@@ -523,8 +515,8 @@
                         Spaces.getPreferredPrecedingSpace(
                             caret.source.root,
                             caret.source.spaces.getSpace(token),
-                            token
-                        ) ?? ''
+                            token,
+                        ) ?? '',
                     );
                 }
 
@@ -607,12 +599,8 @@
     style:display={location === undefined ? 'none' : null}
     style:left={location ? `${location.left}px` : null}
     style:top={location ? `${location.top}px` : null}
-    style:width={location
-        ? `${$writingLayout === 'horizontal-tb' ? 2 : location.height}px`
-        : null}
-    style:height={location
-        ? `${$writingLayout === 'horizontal-tb' ? location.height : 2}px`
-        : null}
+    style:width={location ? `2px` : null}
+    style:height={location ? `${location.height}px` : null}
     bind:this={element}
 />
 

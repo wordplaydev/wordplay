@@ -110,6 +110,10 @@ export default class SetValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL;
+    }
+
     getSize() {
         let sum = 0;
         for (const value of this.values) sum += value.getSize();

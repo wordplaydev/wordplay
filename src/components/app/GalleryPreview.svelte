@@ -12,6 +12,8 @@
     import type Project from '@models/Project';
 
     export let gallery: Gallery;
+    /** How many milliseconds to wait to start updating */
+    export let delay: number;
 
     let index = 0;
     let projectID = gallery.getProjects()[0];
@@ -22,11 +24,11 @@
         index = (index + 1) % gallery.getProjects().length;
         projectID = gallery.getProjects()[index];
         if (projectID) project = await Projects.get(projectID);
-        timeoutID = setTimeout(loadNext, Math.random() * 3000 + 3000);
+        timeoutID = setTimeout(loadNext, 10000);
     }
 
     onMount(() => {
-        loadNext();
+        setTimeout(loadNext, delay);
 
         return () =>
             timeoutID !== undefined ? clearTimeout(timeoutID) : undefined;
@@ -39,25 +41,26 @@
         <div class="previews">
             {#if project === undefined}
                 <Spinning
+                    large
                     label={$locales.get((l) => l.ui.widget.loading.message)}
                 />
             {:else}
-                {#key project}
-                    <ProjectPreview
-                        {project}
-                        name={false}
-                        action={() =>
-                            project ? goto(gallery.getLink()) : undefined}
-                        size={8}
-                        link={gallery.getLink()}
-                    />
-                {/key}
+                <ProjectPreview
+                    {project}
+                    name={false}
+                    action={() =>
+                        project ? goto(gallery.getLink()) : undefined}
+                    size={8}
+                    link={gallery.getLink()}
+                />
             {/if}
         </div>
     {/if}
     <div class="description">
         <Subheader
-            ><Link to={gallery.getLink()}>{gallery.getName($locales)}</Link>
+            ><Link nowrap to={gallery.getLink()}
+                >{gallery.getName($locales)}</Link
+            >
             <sub
                 ><span class="dots"
                     >{'•'.repeat(gallery.getProjects().length)}</span

@@ -39,10 +39,8 @@ test('Too many steps', () => {
     const source = new Source('test', fib);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const evaluator = new Evaluator(project, DB, DefaultLocales);
-    evaluator.start();
-    expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
-        StepLimitException
-    );
+    const value = evaluator.getInitialValue();
+    expect(value).toBeInstanceOf(StepLimitException);
 });
 
 test('Too many evaluations', () => {
@@ -54,8 +52,6 @@ test('Too many evaluations', () => {
     const source = new Source('test', fib);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
     const evaluator = new Evaluator(project, DB, DefaultLocales);
-    evaluator.start();
-    expect(evaluator.getLatestSourceValue(source)).toBeInstanceOf(
-        EvaluationLimitException
-    );
+    const value = evaluator.getInitialValue();
+    expect(value).toBeInstanceOf(EvaluationLimitException);
 });

@@ -49,17 +49,21 @@
         <slot />
     </main>
     <footer class:fullscreen={$fullscreen.on}>
-        <Link tip={$locales.get((l) => l.ui.widget.home)} to="/"
+        <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
             ><Emoji>💬</Emoji></Link
         >
-        <Link to="/learn">{$locales.get((l) => l.ui.page.learn.header)}</Link>
-        <Link to="/projects"
+        <Link nowrap to="/learn"
+            >{$locales.get((l) => l.ui.page.learn.header)}</Link
+        >
+        <Link nowrap to="/projects"
             >{$locales.get((l) => l.ui.page.projects.header)}</Link
         >
-        <Link to="/galleries"
+        <Link nowrap to="/galleries"
             >{$locales.get((l) => l.ui.page.galleries.header)}</Link
         >
-        <Link to="/donate">{$locales.get((l) => l.ui.page.donate.header)}</Link>
+        <Link nowrap to="/donate"
+            >{$locales.get((l) => l.ui.page.donate.header)}</Link
+        >
         <Settings />
     </footer>
 </div>
@@ -103,11 +107,5 @@
         z-index: 1;
         gap: var(--wordplay-spacing);
         background: var(--wordplay-background);
-    }
-
-    .fullscreen:not(:hover) {
-        opacity: 0.2;
-        border: none;
-        background: none;
     }
 </style>

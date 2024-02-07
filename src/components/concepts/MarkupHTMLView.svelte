@@ -95,11 +95,10 @@
 
     p {
         margin-inline-start: 0;
-        line-height: 1.4;
     }
 
     p:last-of-type {
-        margin-block-end: 0;
+        margin-block-end: 0em;
     }
 
     p:not(:first-child) {

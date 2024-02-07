@@ -21,15 +21,17 @@
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.getName(),
-                newValue ? options.fromText(newValue) : undefined
-            )
+                newValue ? options.fromText(newValue) : undefined,
+            ),
         );
     }
 </script>
 
 <Options
     id={property.getName()}
+    label={property.getName()}
     value={options.toText(values.getExpression())}
+    width="7em"
     options={[
         ...(options.allowNone ? [{ value: undefined, label: '—' }] : []),
         ...options.values.map((value) => {

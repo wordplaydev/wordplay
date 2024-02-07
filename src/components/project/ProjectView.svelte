@@ -81,7 +81,6 @@
         mic,
         Settings,
         Projects,
-        writingLayout,
         blocks,
         localized,
         Creators,
@@ -131,8 +130,6 @@
     export let fit = true;
     /** True if the project should focus the main editor source on mount */
     export let autofocus = true;
-    /** True if the editor should show help on an empty main source file*/
-    export let showHelp = true;
     /** True if the project was overwritten by another instance of Wordplay */
     export let overwritten = false;
     /** True if the moderation warnings should show */
@@ -226,7 +223,7 @@
             if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
             keyboardIdleTimeout = setTimeout(
                 () => keyboardEditIdle.set(IdleKind.Idle),
-                500
+                500,
             );
         }
     }
@@ -259,15 +256,15 @@
                     return newSource.root.resolvePath(path);
                 })
                 .filter(
-                    (output): output is Evaluate => output instanceof Evaluate
+                    (output): output is Evaluate => output instanceof Evaluate,
                 );
-        }
+        },
     );
     const selectedPhrase: SelectedPhraseContext = writable(null);
 
     setContext<SelectedOutputPathsContext>(
         SelectedOutputPathsSymbol,
-        selectedOutputPaths
+        selectedOutputPaths,
     );
     setContext<SelectedOutputContext>(SelectedOutputSymbol, selectedOutput);
     setContext<SelectedPhraseContext>(SelectedPhraseSymbol, selectedPhrase);
@@ -300,7 +297,7 @@
             if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
             evaluatorTimeout = setTimeout(
                 () => updateEvaluator(newProject),
-                TYPING_DELAY
+                TYPING_DELAY,
             );
         } else updateEvaluator(newProject);
     });
@@ -315,7 +312,7 @@
             DB,
             $locales,
             true,
-            replayInputs ? $evaluator : undefined
+            replayInputs ? $evaluator : undefined,
         );
 
         // Switch back to replay after the next input.
@@ -336,7 +333,7 @@
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation: Writable<EvaluationContext> = writable(
-        getEvaluationContext()
+        getEvaluationContext(),
     );
     setContext<Writable<EvaluationContext>>(EvaluationSymbol, evaluation);
 
@@ -361,7 +358,7 @@
 
     /** Several store contexts for tracking evaluator state. */
     const animatingNodes: AnimatingNodesContext = writable<Set<Node>>(
-        new Set()
+        new Set(),
     );
 
     setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
@@ -389,10 +386,10 @@
                         ? tile.withMode(
                               tile.kind === TileKind.Output
                                   ? Mode.Expanded
-                                  : Mode.Collapsed
+                                  : Mode.Collapsed,
                           )
                         : // Not playing? Whatever it's current mode is.
-                          tile
+                          tile,
                 );
             } else {
                 const source = tile.getSource(project);
@@ -404,10 +401,10 @@
                                 requestedPlay
                                     ? Mode.Collapsed
                                     : requestedEdit &&
-                                      source === project.getMain()
-                                    ? Mode.Expanded
-                                    : tile.mode
-                            )
+                                        source === project.getMain()
+                                      ? Mode.Expanded
+                                      : tile.mode,
+                            ),
                     );
             }
         }
@@ -416,7 +413,7 @@
         let index = 0;
         for (const source of project.getSources()) {
             const tile = tiles.find(
-                (tile) => tile.id === Layout.getSourceID(index)
+                (tile) => tile.id === Layout.getSourceID(index),
             );
             // No tile for this source yet? Create one.
             if (tile === undefined)
@@ -436,7 +433,7 @@
             TileKind.Source,
             index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
             undefined,
-            Tile.randomPosition(1024, 768)
+            Tile.randomPosition(1024, 768),
         );
     }
 
@@ -447,7 +444,7 @@
             : persistedLayout
                   .withTiles(syncTiles(persistedLayout.tiles))
                   .withFullscreen(
-                      requestedEdit ? undefined : persistedLayout.fullscreenID
+                      requestedEdit ? undefined : persistedLayout.fullscreenID,
                   );
     }
 
@@ -469,21 +466,21 @@
                               TileKind.Palette,
                               Mode.Collapsed,
                               undefined,
-                              Tile.randomPosition(1024, 768)
+                              Tile.randomPosition(1024, 768),
                           ),
                           new Tile(
                               TileKind.Output,
                               TileKind.Output,
                               Mode.Expanded,
                               undefined,
-                              Tile.randomPosition(1024, 768)
+                              Tile.randomPosition(1024, 768),
                           ),
                           new Tile(
                               TileKind.Documentation,
                               TileKind.Documentation,
                               Mode.Collapsed,
                               undefined,
-                              Tile.randomPosition(1024, 768)
+                              Tile.randomPosition(1024, 768),
                           ),
                           ...project.getSources().map((source, index) =>
                               // If starting with output only, collapse the source initially too.
@@ -491,12 +488,12 @@
                                   showOutput
                                       ? Mode.Collapsed
                                       : index === 0 || source === newSource
-                                      ? Mode.Expanded
-                                      : Mode.Collapsed
-                              )
+                                        ? Mode.Expanded
+                                        : Mode.Collapsed,
+                              ),
                           ),
                       ],
-                layout ? layout.fullscreenID : undefined
+                layout ? layout.fullscreenID : undefined,
             );
 
         // Now that we've handled it, unset it.
@@ -533,7 +530,7 @@
 
             searchParams.set(
                 PROJECT_PARAM_CONCEPT,
-                `${ownerName ? `${ownerName}/` : ''}${name}`
+                `${ownerName ? `${ownerName}/` : ''}${name}`,
             );
         } else searchParams.delete(PROJECT_PARAM_CONCEPT);
 
@@ -579,7 +576,7 @@
 
     /** Set up project wide concept index and path context */
     export let index: ConceptIndexContext = writable(
-        ConceptIndex.make(project, $locales)
+        ConceptIndex.make(project, $locales),
     );
     setContext(ConceptIndexSymbol, index);
 
@@ -617,7 +614,7 @@
         const newIndex =
             project && $index
                 ? ConceptIndex.make(project, $locales).withExamples(
-                      $index.examples
+                      $index.examples,
                   )
                 : undefined;
 
@@ -631,13 +628,13 @@
                     ? $path
                           .map((concept) => $index?.getEquivalent(concept))
                           .filter((c): c is Concept => c !== undefined)
-                    : []
+                    : [],
             );
 
         // Ensure the selected source index is in bounds.
         selectedSourceIndex = Math.min(
             selectedSourceIndex,
-            project.getSupplements().length
+            project.getSupplements().length,
         );
     }
 
@@ -648,7 +645,7 @@
             $path &&
             ($path.length !== latestPath.length ||
                 !$path.every((concept, index) =>
-                    concept.isEqualTo(latestPath[index])
+                    concept.isEqualTo(latestPath[index]),
                 ))
         ) {
             const docs = layout.getDocs();
@@ -664,7 +661,7 @@
         .filter(
             (source) =>
                 layout.getSource(project.getIndexOfSource(source))?.mode ===
-                Mode.Expanded
+                Mode.Expanded,
         )
         // Convert them into lists of conflicts
         .map((source) => conflictsOfInterest.get(source) ?? [])
@@ -723,7 +720,7 @@
         ...layout.tiles.map((tile) => tile.position.top + tile.position.height),
     ]);
 
-    /** When the program steps language changes, get the latest value of the program's evaluation. */
+    /** When the program steps or locales change, get the latest value of the program's evaluation. */
     $: {
         $evaluation;
         $locales;
@@ -746,7 +743,7 @@
         // Find the tile corresponding to the menu's source file.
         const index = project.getSources().indexOf(menu.getCaret().source);
         const tile = layout.tiles.find(
-            (tile) => tile.id === Layout.getSourceID(index)
+            (tile) => tile.id === Layout.getSourceID(index),
         );
         if (tile && tile.isCollapsed()) hideMenu();
     }
@@ -775,16 +772,8 @@
         if (nodeView instanceof HTMLElement)
             outline = {
                 types: ['dragging'],
-                outline: getOutlineOf(
-                    nodeView,
-                    direction === 'rtl' || $writingLayout === 'vertical-rl',
-                    direction === 'rtl'
-                ),
-                underline: getUnderlineOf(
-                    nodeView,
-                    direction === 'rtl' || $writingLayout === 'vertical-rl',
-                    direction === 'rtl'
-                ),
+                outline: getOutlineOf(nodeView, true, direction === 'rtl'),
+                underline: getUnderlineOf(nodeView, true, direction === 'rtl'),
             };
     });
 
@@ -800,7 +789,7 @@
         if (view === undefined || view === null) return;
 
         const firstTileID = layout.tiles.find(
-            (tile) => !tile.isCollapsed()
+            (tile) => !tile.isCollapsed(),
         )?.id;
         const focusedTileView = focusedTileID
             ? getTileView(focusedTileID)
@@ -816,12 +805,12 @@
             if (tileView.contains(document.activeElement)) return;
 
             const defaultFocus = tileView.querySelectorAll(
-                '[data-defaultfocus]'
+                '[data-defaultfocus]',
             )[0];
             if (defaultFocus instanceof HTMLElement) viewToFocus = defaultFocus;
             else {
                 const focusable = tileView.querySelectorAll(
-                    'input, button, [tabindex="0"]'
+                    'input, button, [tabindex="0"]',
                 )[0];
                 if (focusable instanceof HTMLElement) viewToFocus = focusable;
             }
@@ -867,7 +856,7 @@
         else if (currentTileIndex) {
             const sources = layout.getSources();
             const index = sources.findIndex(
-                (source) => source.id === currentTile.id
+                (source) => source.id === currentTile.id,
             );
             const next =
                 sources[
@@ -999,14 +988,14 @@
                             ? tile.position.width +
                               (tile.position.left - pointerX)
                             : right
-                            ? pointerX - tile.position.left
-                            : tile.position.width,
+                              ? pointerX - tile.position.left
+                              : tile.position.width,
                         height: top
                             ? tile.position.height +
                               (tile.position.top - pointerY)
                             : bottom
-                            ? pointerY - tile.position.top
-                            : tile.position.height,
+                              ? pointerY - tile.position.top
+                              : tile.position.height,
                     };
                 }
                 if (newBounds) {
@@ -1046,7 +1035,7 @@
         id: string,
         direction: ResizeDirection,
         left: number,
-        top: number
+        top: number,
     ) {
         draggedTile = {
             id,
@@ -1064,7 +1053,7 @@
         return parseInt(id.replace('source', ''));
     }
 
-    function getSourceByID(id: string) {
+    function getSourceByTileID(id: string) {
         return project.getSources()[getSourceIndexByID(id)];
     }
 
@@ -1133,14 +1122,14 @@
     function getMenuPosition(caret: Caret) {
         // Find the editor
         const editor = document.querySelector(
-            `.editor[data-id="${caret.source.id}"]`
+            `.editor[data-id="${caret.source.id}"]`,
         );
         if (editor === null) return undefined;
 
         // Is it a node? Position near it's top left.
         if (caret.position instanceof Node) {
             const view = editor.querySelector(
-                `.node-view[data-id="${caret.position.id}"]`
+                `.node-view[data-id="${caret.position.id}"]`,
             );
             if (view == null) return undefined;
             const rect = view.getBoundingClientRect();
@@ -1165,7 +1154,7 @@
     function toggleTile(tile: Tile) {
         setMode(
             tile,
-            tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded
+            tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded,
         );
     }
 
@@ -1173,7 +1162,7 @@
         const newProject = project.withNewSource(
             `${$locales.get((l) => l.term.source)}${
                 project.getSupplements().length + 1
-            }`
+            }`,
         );
 
         // Remember this new source so when we compute the new layout, we can remember to expand it initially.
@@ -1189,12 +1178,12 @@
 
     function renameSource(id: string, name: string) {
         if (!isName(name)) return;
-        const source = getSourceByID(id);
+        const source = getSourceByTileID(id);
         Projects.reviseProject(
             project.withSource(
                 source,
-                source.withName(name, $locales.getLocales()[0])
-            )
+                source.withName(name, $locales.getLocales()[0]),
+            ),
         );
     }
 
@@ -1287,13 +1276,13 @@
                                     event.detail.id,
                                     event.detail.direction,
                                     event.detail.left,
-                                    event.detail.top
+                                    event.detail.top,
                                 )}
                             on:scroll={repositionFloaters}
                             on:rename={(event) =>
                                 renameSource(
                                     event.detail.id,
-                                    event.detail.name
+                                    event.detail.name,
                                 )}
                             on:fullscreen={(event) => {
                                 if (
@@ -1302,26 +1291,26 @@
                                 )
                                     stopPlaying();
                                 setFullscreen(
-                                    event.detail.fullscreen ? tile : undefined
+                                    event.detail.fullscreen ? tile : undefined,
                                 );
                             }}
                         >
                             <svelte:fragment slot="name">
                                 {#if tile.isSource()}
-                                    {@const source = getSourceByID(tile.id)}
+                                    {@const source = getSourceByTileID(tile.id)}
                                     <!-- Can't delete main. -->
                                     {#if editable && source !== project.getMain()}
                                         <ConfirmButton
                                             tip={$locales.get(
                                                 (l) =>
                                                     l.ui.source.confirm.delete
-                                                        .description
+                                                        .description,
                                             )}
                                             action={() => removeSource(source)}
                                             prompt={$locales.get(
                                                 (l) =>
                                                     l.ui.source.confirm.delete
-                                                        .prompt
+                                                        .prompt,
                                             )}>⨉</ConfirmButton
                                         >
                                     {/if}
@@ -1336,7 +1325,7 @@
                                             tip={$locales.get(
                                                 (l) =>
                                                     l.ui.page.projects.button
-                                                        .editproject
+                                                        .editproject,
                                             )}
                                             action={() => stopPlaying()}
                                             ><Emoji>🔎</Emoji></Button
@@ -1347,14 +1336,14 @@
                                         />{/if} -->
                                     <Toggle
                                         tips={$locales.get(
-                                            (l) => l.ui.output.toggle.grid
+                                            (l) => l.ui.output.toggle.grid,
                                         )}
                                         on={grid}
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
                                         tips={$locales.get(
-                                            (l) => l.ui.output.toggle.fit
+                                            (l) => l.ui.output.toggle.fit,
                                         )}
                                         on={fit}
                                         toggle={() => (fit = !fit)}
@@ -1366,11 +1355,12 @@
                                     <Switch
                                         onLabel={withVariationSelector('🖱️')}
                                         onTip={$locales.get(
-                                            (l) => l.ui.source.toggle.blocks.off
+                                            (l) =>
+                                                l.ui.source.toggle.blocks.off,
                                         )}
                                         offLabel={withVariationSelector('⌨️')}
                                         offTip={$locales.get(
-                                            (l) => l.ui.source.toggle.blocks.on
+                                            (l) => l.ui.source.toggle.blocks.on,
                                         )}
                                         toggle={toggleBlocks}
                                         on={$blocks}
@@ -1379,12 +1369,13 @@
                                         onLabel={$locales.getLocale().language}
                                         onTip={$locales.get(
                                             (l) =>
-                                                l.ui.source.toggle.localized.on
+                                                l.ui.source.toggle.localized.on,
                                         )}
                                         offLabel={withVariationSelector('🌎')}
                                         offTip={$locales.get(
                                             (l) =>
-                                                l.ui.source.toggle.localized.off
+                                                l.ui.source.toggle.localized
+                                                    .off,
                                         )}
                                         toggle={(on) =>
                                             Settings.setLocalized(on)}
@@ -1416,7 +1407,7 @@
                                     />
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else}
-                                    {@const source = getSourceByID(tile.id)}
+                                    {@const source = getSourceByTileID(tile.id)}
                                     <div class="annotated-editor">
                                         <Editor
                                             {project}
@@ -1427,20 +1418,19 @@
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
                                                 tile.isExpanded() &&
-                                                getSourceByID(tile.id) ===
+                                                getSourceByTileID(tile.id) ===
                                                     project.getMain()}
-                                            {showHelp}
                                             bind:menu
                                             on:conflicts={(event) =>
                                                 (conflictsOfInterest =
                                                     conflictsOfInterest.set(
                                                         event.detail.source,
-                                                        event.detail.conflicts
+                                                        event.detail.conflicts,
                                                     ))}
                                             on:preview={() =>
                                                 (selectedSourceIndex =
                                                     getSourceIndexByID(
-                                                        tile.id
+                                                        tile.id,
                                                     ))}
                                         />
                                     </div>
@@ -1458,9 +1448,11 @@
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
-                                        source={getSourceByID(tile.id)}
+                                        source={getSourceByTileID(tile.id)}
+                                        sourceID={tile.id}
                                         conflicts={visibleConflicts}
                                         stepping={$evaluation.playing === false}
+                                        caret={$editors.get(tile.id)?.caret}
                                     />{/if}</svelte:fragment
                             ></TileView
                         >
@@ -1497,7 +1489,7 @@
                         description={$locales.get((l) => l.ui.dialog.share)}
                         button={{
                             tip: $locales.get(
-                                (l) => l.ui.project.button.showCollaborators
+                                (l) => l.ui.project.button.showCollaborators,
                             ),
                             icon: project.isPublic()
                                 ? isFlagged(project.getFlags())
@@ -1506,7 +1498,7 @@
                                 : '🤫',
                             label: project.isPublic()
                                 ? $locales.get(
-                                      (l) => l.ui.dialog.share.mode.public
+                                      (l) => l.ui.dialog.share.mode.public,
                                   ).modes[1]
                                 : $locales.get((l) => l.ui.dialog.share).mode
                                       .public.modes[0],
@@ -1525,10 +1517,10 @@
             {#if editable}<TextField
                     text={project.getName()}
                     description={$locales.get(
-                        (l) => l.ui.project.field.name.description
+                        (l) => l.ui.project.field.name.description,
                     )}
                     placeholder={$locales.get(
-                        (l) => l.ui.project.field.name.placeholder
+                        (l) => l.ui.project.field.name.placeholder,
                     )}
                     changed={(name) =>
                         Projects.reviseProject(project.withName(name))}

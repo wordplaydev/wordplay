@@ -1,4 +1,4 @@
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import Row from './Row';
 import type Conflict from '@conflicts/Conflict';
 import UnknownColumn from '@conflicts/UnknownColumn';
@@ -65,9 +65,9 @@ export default class Select extends Expression {
             new Row(
                 new Token(SELECT_SYMBOL, Sym.Select),
                 [],
-                new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose)
+                new Token(TABLE_CLOSE_SYMBOL, Sym.TableClose),
             ),
-            query
+            query,
         );
     }
 
@@ -101,7 +101,7 @@ export default class Select extends Expression {
         type: Type | undefined,
         anchor: Node,
         selected: boolean,
-        context: Context
+        context: Context,
     ) {
         const anchorType =
             anchor instanceof Expression ? anchor.getType(context) : undefined;
@@ -111,7 +111,7 @@ export default class Select extends Expression {
             ? [
                   Select.make(
                       anchor,
-                      ExpressionPlaceholder.make(BooleanType.make())
+                      ExpressionPlaceholder.make(BooleanType.make()),
                   ),
               ]
             : [];
@@ -125,7 +125,7 @@ export default class Select extends Expression {
         return new Select(
             this.replaceChild('table', this.table, replace),
             this.replaceChild('row', this.row, replace),
-            this.replaceChild('query', this.query, replace)
+            this.replaceChild('query', this.query, replace),
         ) as this;
     }
 
@@ -144,7 +144,7 @@ export default class Select extends Expression {
         // Table must be table typed.
         if (!(tableType instanceof TableType))
             conflicts.push(
-                new IncompatibleInput(this, tableType, TableType.make([]))
+                new IncompatibleInput(this, tableType, TableType.make([])),
             );
 
         // The columns in a select must be names.
@@ -175,7 +175,11 @@ export default class Select extends Expression {
             !(queryType instanceof BooleanType)
         )
             conflicts.push(
-                new IncompatibleInput(this.query, queryType, BooleanType.make())
+                new IncompatibleInput(
+                    this.query,
+                    queryType,
+                    BooleanType.make(),
+                ),
             );
 
         return conflicts;
@@ -196,7 +200,7 @@ export default class Select extends Expression {
                       const column =
                           cell instanceof Reference
                               ? tableType.getColumnNamed(
-                                    cell.name.text.toString()
+                                    cell.name.text.toString(),
                                 )
                               : undefined;
                       return column === undefined ? undefined : column;
@@ -229,7 +233,7 @@ export default class Select extends Expression {
             undefined,
             [],
             this.query,
-            BooleanType.make()
+            BooleanType.make(),
         );
 
         // Evaluate the table expression then this.
@@ -246,7 +250,7 @@ export default class Select extends Expression {
                         : evaluator.getValueOrTypeException(
                               this,
                               TableType.make(),
-                              table
+                              table,
                           );
                 },
                 (evaluator, info) => {
@@ -260,8 +264,8 @@ export default class Select extends Expression {
                                 evaluator,
                                 this,
                                 query,
-                                info.table.rows[info.index]
-                            )
+                                info.table.rows[info.index],
+                            ),
                         );
                         return true;
                     }
@@ -274,7 +278,7 @@ export default class Select extends Expression {
                         info.selected.push(info.table.rows[info.index]);
                     // Increment the counter to the next row.
                     info.index = info.index + 1;
-                }
+                },
             ),
             new Finish(this),
         ];
@@ -288,7 +292,7 @@ export default class Select extends Expression {
 
         // Find the valid column references, if any
         const columns = this.row.cells.filter(
-            (cell): cell is Reference => cell instanceof Reference
+            (cell): cell is Reference => cell instanceof Reference,
         );
 
         // Create a new table type that only has the binds selected, in the order they were selected.
@@ -297,25 +301,21 @@ export default class Select extends Expression {
                 ? table.type
                 : table.type.withColumns(
                       this.row.cells.filter(
-                          (cell): cell is Reference => cell instanceof Reference
-                      )
+                          (cell): cell is Reference =>
+                              cell instanceof Reference,
+                      ),
                   );
 
         return new TableValue(this, newType, selected);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.table instanceof Expression)
-            this.table.evaluateTypeGuards(bind, original, current, context);
+            this.table.evaluateTypeGuards(current, guard);
         if (this.row instanceof Expression)
-            this.row.evaluateTypeGuards(bind, original, current, context);
+            this.row.evaluateTypeGuards(current, guard);
         if (this.query instanceof Expression)
-            this.query.evaluateTypeGuards(bind, original, current, context);
+            this.query.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -334,19 +334,19 @@ export default class Select extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.Select.start),
-            new NodeRef(this.table, locales, context)
+            new NodeRef(this.table, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Select.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

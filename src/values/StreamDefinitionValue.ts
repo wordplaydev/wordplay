@@ -47,6 +47,10 @@ export default class StreamDefinitionValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText(locales: Locales) {
+        return this.definition.getPreferredName(locales.getLocales());
+    }
+
     getSize() {
         return 1;
     }

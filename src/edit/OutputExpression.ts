@@ -57,6 +57,7 @@ export default class OutputExpression {
     getType(): StructureDefinition | undefined {
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
+
         return fun instanceof StructureDefinition &&
             (fun === this.project.shares.output.Stage ||
                 fun === this.project.shares.output.Group ||
@@ -77,7 +78,7 @@ export default class OutputExpression {
 
         // What type of output is this?
         const type = this.getType();
-        const locales = this.project.basis.locales;
+        const locales = this.locales;
 
         // We handle pose types differently, so we return an empty list here.
         return type === this.project.shares.output.Pose
@@ -88,12 +89,12 @@ export default class OutputExpression {
                   ...(type === this.project.shares.output.Phrase
                       ? getPhraseProperties(this.project, locales)
                       : type === this.project.shares.output.Group
-                      ? getGroupProperties(this.project, locales)
-                      : type === this.project.shares.output.Stage
-                      ? getStageProperties(this.project, locales)
-                      : type === this.project.shares.output.Shape
-                      ? getShapeProperties(this.project, locales)
-                      : []),
+                        ? getGroupProperties(this.project, locales)
+                        : type === this.project.shares.output.Stage
+                          ? getStageProperties(this.project, locales)
+                          : type === this.project.shares.output.Shape
+                            ? getShapeProperties(this.project, locales)
+                            : []),
               ];
     }
 
@@ -119,8 +120,8 @@ export default class OutputExpression {
             binding.given === undefined
                 ? binding.expected.value
                 : binding.given instanceof Bind
-                ? binding.given.value
-                : binding.given;
+                  ? binding.given.value
+                  : binding.given;
 
         // If the possible value is a list of expressions or undefined, bail.
         if (expression === undefined || Array.isArray(expression))
@@ -159,7 +160,7 @@ export default class OutputExpression {
         return value &&
             value.value instanceof Evaluate &&
             value.value.getFunction(
-                this.project.getNodeContext(value.value)
+                this.project.getNodeContext(value.value),
             ) === this.project.shares.output.Color
             ? value.value
             : undefined;
@@ -176,7 +177,7 @@ export default class OutputExpression {
             ? this.node.withBindAs(
                   bind,
                   undefined,
-                  this.project.getNodeContext(this.node)
+                  this.project.getNodeContext(this.node),
               )
             : this.node;
     }

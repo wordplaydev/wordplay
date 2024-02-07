@@ -4,14 +4,10 @@ import Finish from '@runtime/Finish';
 import type Step from '@runtime/Step';
 import type Value from '@values/Value';
 import BooleanType from './BooleanType';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import type Context from './Context';
 import Token from './Token';
 import Type from './Type';
-import type Bind from './Bind';
-import Reference from './Reference';
-import PropertyReference from './PropertyReference';
-import StructureType from './StructureType';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import UnionType from './UnionType';
 import TypeSet from './TypeSet';
@@ -51,7 +47,7 @@ export default class Is extends Expression {
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
@@ -77,7 +73,7 @@ export default class Is extends Expression {
         return new Is(
             this.replaceChild('expression', this.expression, replace),
             this.replaceChild('operator', this.operator, replace),
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
@@ -123,45 +119,20 @@ export default class Is extends Expression {
             this,
             this.type.accepts(
                 value.getType(evaluator.getCurrentContext()),
-                evaluator.getCurrentContext()
-            )
+                evaluator.getCurrentContext(),
+            ),
         );
     }
 
     /**
      * Type checks narrow the set to the specified type, if contained in the set and if the check is on the same bind.
      * */
-    evaluateTypeGuards(
-        bind: Bind,
-        _: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        if (this.expression instanceof Reference) {
-            // If this is the bind we're looking for and this type check's type is in the set
-            if (
-                this.expression.resolve(context) === bind &&
-                current.acceptedBy(this.type, context)
-            )
-                return new TypeSet([this.type], context);
-        }
-
-        if (
-            this.expression instanceof PropertyReference &&
-            this.expression.name
-        ) {
-            const subject = this.expression.getSubjectType(context);
-            if (subject instanceof StructureType) {
-                if (
-                    bind ===
-                        subject.getDefinition(this.expression.name.getName()) &&
-                    current.acceptedBy(this.type, context)
-                )
-                    return new TypeSet([this.type], context);
-            }
-        }
-
-        return current;
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        // If the type checked is possible and the expression being guarded is the expression checked, then narrow to the checked type.
+        return current.acceptedBy(this.type, guard.context) &&
+            this.expression.isGuardMatch(guard)
+            ? new TypeSet([this.type], guard.context)
+            : current;
     }
 
     guardsTypes() {
@@ -183,21 +154,21 @@ export default class Is extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.Is.start),
-            new NodeRef(this.expression, locales, context)
+            new NodeRef(this.expression, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         const result = evaluator.peekValue();
         return concretize(
             locales,
             locales.get((l) => l.node.Is.finish),
             result instanceof BoolValue && result.bool,
-            new NodeRef(this.type, locales, context)
+            new NodeRef(this.type, locales, context),
         );
     }
 

@@ -1044,7 +1044,15 @@
             "name": "翻译",
             "description": "翻译 $1",
             "emotion": "serious",
-            "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！"
+            "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！",
+            "conflict": {
+                "phone": "$?",
+                "email": "$?",
+                "tin": "$?",
+                "address": "$?",
+                "handle": "$?",
+                "resolution": "$?"
+            }
         },
         "FormattedLiteral": {
             "name": "格式文本",
@@ -1947,9 +1955,14 @@
                 "random": {
                     "doc": [
                         "从我的项中随机选择一个项，如果我是空的则返回@None。",
-                        "\\['苹果' '香蕉' '芒果'].random()\\"
+                        "\\['苹果' '香蕉' '芒果'].随机()\\"
                     ],
                     "names": "随机",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": ["$?"],
+                    "names": "$? shuffle",
                     "inputs": []
                 },
                 "first": {
@@ -2805,6 +2818,11 @@
                 "doc": "@Color样本之间的时间间隔。"
             }
         },
+        "Scene": {
+            "doc": "$?",
+            "names": "$? Scene",
+            "outputs": { "names": "$?", "doc": "$?" }
+        },
         "Motion": {
             "names": ["⚽️", "运动"],
             "doc": [
@@ -3067,9 +3085,17 @@
                 "doc": "如果有 @Phrase/wrap 的边界集，我是否应该将符号与边缘的开始、中心或结束对齐。",
                 "names": "对齐"
             },
+            "direction": {
+                "doc": "$?",
+                "names": "方向"
+            },
             "matter": {
                 "doc": "碰到东西时可以使用的属性！",
                 "names": "物体"
+            },
+            "aura": {
+                "doc": "$?",
+                "names": "$? aura"
             },
             "name": {
                 "doc": "你给我起一个名字！这对很多事情都有帮助。\n 首先，如果我有名字，我会用它在屏幕阅读器描述中描述自己。\n 第二，在制作动画时，您可能有多个不同的表达式，这些表达式应该在舞台上表示相同的内容；给它们相同的名称，它们就会作为一个动画。 \n 最后，我对 @Choice 很有帮助：你给我的名字出现在该信息流中。 \n 如果有帮助的话，您可以给我许多不同的名称，每个名称都采用不同的语言。我将始终在第一个选定的区域设置中使用该名称",
@@ -3451,6 +3477,26 @@
                 "names": "地面"
             }
         },
+        "Aura": {
+            "doc": "$?",
+            "names": "$? Aura",
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "blur": {
+                "doc": "$?",
+                "names": "$? blur"
+            },
+            "offsetX": {
+                "doc": "$?",
+                "names": "$? offsetX"
+            },
+            "offsetY": {
+                "doc": "$?",
+                "names": "$? offset"
+            }
+        },
         "Stage": {
             "doc": [
                 "嗨。舞台在这里。告诉我要展示什么，我会展示出来。",
@@ -3587,6 +3633,34 @@
                 "doc": "我创建一个@Sequence, 使@Output看起来像是害怕的。",
                 "names": ["抖动"]
             }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {
@@ -3645,7 +3719,8 @@
                 "focusSource": "聚焦到下一个源",
                 "focusDocs": "聚焦文档",
                 "focusPalette": "聚焦调色板",
-                "focusCycle": "聚焦到下一个瓷砖"
+                "focusCycle": "聚焦到下一个瓷砖",
+                "unsaved": "$?"
             },
             "field": {
                 "name": {
@@ -3653,7 +3728,18 @@
                     "placeholder": "名称"
                 }
             },
-            "help": "显示键盘快捷键"
+            "help": "显示键盘快捷键",
+            "save": {
+                "projectsNotSavedLocally": "$?",
+                "projectsCannotNotSaveLocally": "$?",
+                "projectContainedPII": "$?",
+                "projectsNotLoadingOnline": "$?",
+                "projectNotSavedOnline": "$?",
+                "settingsUnsaved": "$?"
+            },
+            "dialog": {
+                "unsaved": "$?"
+            }
         },
         "gallery": {
             "untitled": "未命名",
@@ -3748,6 +3834,8 @@
                 "nextInline": "将光标移到后一个位置",
                 "lineStart": "将光标移到行的开头",
                 "lineEnd": "将光标移到行的末尾",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "选择前一个邻居",
                 "nextNode": "选择后一个邻居",
                 "parent": "选择容器",
@@ -3790,8 +3878,15 @@
                 "tidy": "整理间距"
             }
         },
-        "conflicts": {
-            "label": "冲突"
+        "annotations": {
+            "label": "$! 冲突",
+            "cursor": "$?",
+            "learn": "$?",
+            "evaluating": "$?",
+            "space": "$?",
+            "button": {
+                "resolution": "$?"
+            }
         },
         "output": {
             "label": "程序输出",
@@ -3864,7 +3959,7 @@
                 "subheader": {
                     "collaborators": {
                         "header": "合作者",
-                        "explanation": "合作者可以查看和编辑此项目。通过电子邮件添加或删除他们。"
+                        "explanation": "協作者可以檢視和編輯該項目。 只有專案所有者才能修改協作者。"
                     },
                     "gallery": {
                         "header": "画廊",
@@ -3876,9 +3971,9 @@
                     }
                 },
                 "field": {
-                    "email": {
-                        "placeholder": "电子邮件",
-                        "description": "您希望授予编辑权限的人的电子邮件地址。"
+                    "emailOrUsername": {
+                        "placeholder": "電子郵件或使用者名稱",
+                        "description": "您想要授予編輯權限的人員的電子郵件或使用者名"
                     }
                 },
                 "mode": {
@@ -3888,10 +3983,14 @@
                     }
                 },
                 "error": {
-                    "unknown": "我们不知道这封邮件的创建者是谁。"
+                    "unknown": "我们不知道这封邮件的创建者是谁。",
+                    "anonymous": "您必須登入才能共享。"
                 },
                 "button": {
                     "submit": "通过此电子邮件地址分享项目"
+                },
+                "options": {
+                    "gallery": "$?"
                 }
             },
             "settings": {
@@ -3927,6 +4026,10 @@
                             "垂直，从左到右"
                         ]
                     }
+                },
+                "options": {
+                    "mic": "$?",
+                    "camera": "$?"
                 }
             },
             "locale": {
@@ -3964,7 +4067,15 @@
                 "default": "默认",
                 "inherited": "继任",
                 "notSequence": "不是一个序列",
-                "notContent": "不是内容列表"
+                "notContent": "不是内容列表",
+                "format": "$?",
+                "weight": "$?",
+                "light": "$?",
+                "normal": "$?",
+                "bold": "$?",
+                "extra": "$?",
+                "italic": "$?",
+                "underline": "$?"
             },
             "button": {
                 "revert": "回复默认设置",
@@ -4019,13 +4130,15 @@
             },
             "landing": {
                 "call": ["嗨！想要与我们一起赋予文字生命吗？😊"],
+                "value": "$! 無論您的能力如何，都可以透過世界語言中的動畫單字、表情符號和符號來學習編碼。",
+                "description": "$! Wordplay 是一種創新的程式語言 🖥️，具有區塊和文字編輯 📝、時間 🕦、聲音 🎤、網頁 🔗 和物理 🌎 等有趣的輸入、即時時間旅行調試 ⏪ 以及全面的文檔 🗂️。 所有這些都在不斷增長的世界語言清單中🌐，遵循最新的網路可訪問性標準♿️。 與朋友、私人團體或全世界分享↗️。 永遠免費來自<University of Washington Information School@https://ischool.uw.edu/>。",
                 "beta": [
                     "Wordplay 处于 测试阶段。这意味着功能可能会更改或无法按预期工作，并且本地化可能不完整。",
                     "但这也意味着我们需要您的反馈！请在 <Discord@https://discord.gg/Jh2Qq9husy> 或 <GitHub@https://github.com/wordplaydev/wordplay/issues> 上报告错误并分享想法。如果您能帮助，请查看我们的 <1.0 计划@https://github.com/wordplaydev/wordplay/milestones/1.0> 和 <贡献信息@https://github.com/wordplaydev/wordplay/wiki/contribute>。"
                 ],
                 "link": {
                     "about": "这个地方为什么存在？",
-                    "learn": "这是什么地方？",
+                    "learn": "$! 这是什么地方？",
                     "projects": "创建并分享表演",
                     "galleries": "体验他人的表演",
                     "rights": "责任，我们的和你们的"
@@ -4037,6 +4150,9 @@
                 "button": {
                     "next": "对话中的下一个暂停",
                     "previous": "对话中的前一个暂停"
+                },
+                "options": {
+                    "lesson": "$?"
                 }
             },
             "projects": {
@@ -4091,31 +4207,19 @@
             "login": {
                 "header": "登录",
                 "subtitle": "创建一个账户或登录以在线保存您的工作。",
-                "subheader": {
-                    "email": "电子邮件链接",
-                    "username": "用户名 + 密码"
-                },
                 "anonymous": "匿名",
                 "prompt": {
-                    "login": "您的表演保存在本设备上，而不是在线。要将它们保存在线，请提交您的电子邮件以获取登录链接。",
-                    "age": {
-                        "label": "你多大了？",
-                        "modes": ["12岁或以下", "13岁或以上"]
-                    },
+                    "login": "$! 您的表演保存在本设备上，而不是在线。要将它们保存在线，请提交您的电子邮件以获取登录链接。",
+                    "forgot": "$?",
+                    "email": "$?",
                     "enter": "看起来您的登录链接来自不同的浏览器或设备。您可以再次输入您的电子邮件地址，以确保是您吗？",
                     "play": "您已登录，现在我们可以将您的项目保存在线上！想要创建点什么吗？",
-                    "emailrules": [
-                        "• 如果你*12岁或以下*，请不要提供你的电子邮件地址。",
-                        "• 如果你*无法访问*你的电子邮件账户，你将无法登录或更新你的电子邮件地址。"
-                    ],
                     "tooyoung": "您必须年满13岁或以上才能使用电子邮件登录。",
-                    "usernamerule": "用户名不应包含可识别的信息（例如姓名），不能是电子邮件地址，并且至少应为5个字符长。",
                     "passwordrule": "密码必须至少为10个字符长；如果你没有使用密码管理器，请选择三个你会记住的长单词。",
-                    "usernamereminder": "由於我們不收集聯絡資訊，因此如果您忘記密碼，將無法重設密碼。 將其儲存在安全的地方，例如密碼管理器。",
                     "passwordreminder": "看起来你正在创建一个账户。请检查你的密码，确保它被安全地保存并输入正确，然后重新提交以创建你的账户。",
                     "changeEmail": "想要更改您的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
                     "changePassword": "想要更改你的密码吗？提交一个新密码并重复输入。",
-                    "sent": "请检查您的电子邮件以获取登录链接。",
+                    "sent": "$! 请检查您的电子邮件以获取登录链接。",
                     "logout": "离开共享设备，想要保持项目的私密性吗？注销，我们将从该设备中删除您的项目。它们仍将在线存储。",
                     "success": "帐户已创建！",
                     "confirm": "请检查您的旧电子邮件地址以确认您的新地址。",
@@ -4136,7 +4240,8 @@
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
                     "deleting": "好的，正在删除您的项目和设置……",
-                    "updatedPassword": "您的密碼已更新。"
+                    "updatedPassword": "您的密碼已更新。",
+                    "match": "$! 這必須與您帳戶的用戶名相符。"
                 },
                 "field": {
                     "email": {
@@ -4150,6 +4255,14 @@
                     "password": {
                         "description": "登录密码，至少10个字符",
                         "placeholder": "密码"
+                    },
+                    "currentPassword": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "newPassword": {
+                        "description": "$?",
+                        "placeholder": "$?"
                     }
                 },
                 "button": {
@@ -4168,6 +4281,19 @@
                         "tip": "永远注销账号",
                         "label": "注销！！！"
                     }
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "$?",
+                        "off": "$?"
+                    }
+                }
+            },
+            "join": {
+                "header": "$?",
+                "prompt": {
+                    "username": "$?",
+                    "password": "$?"
                 }
             },
             "rights": {
@@ -4178,7 +4304,6 @@
                     "首先要知道的是，我们不是一个商业实体。我们是一个社区性的研究项目，隶属于一个非盈利大学。我们的目标是创建一个平台，为你带来快乐，并帮助我们在计算机领域探索更加公平和正义的世界。我们对在这个平台上赚钱没有兴趣；我们收集到的任何资金（通常是通过公共资助获得）都是用来维持这个平台，而不是让任何参与其中的人（或为其做出贡献的人）受益。",
                     "因为我们不追求利润，这也意味着我们不能对这个平台的可靠性、可用性或持久性作出任何承诺。话虽如此，<Amy@https://amyjko.phd> 致力于长期维持它，并且作为终身教授，她的工作相当稳定。",
                     "这就引出了*数据*。以下是我们在云端收集和存储的内容：",
-                    "• 你的*电子邮件地址*。我们使用它来确保只有你和你分享的人可以访问你的项目和设置。",
                     "• 你的*项目*。你做出的任何贡献我们都会存储。这包括你在项目中输入的任何个人身份信息（因为都是文本，所以内容可能是任何东西！）。",
                     "• 你的*设置*。这包括你选择的语言环境、动画偏好和教程进度。其他所有内容都存储在你的设备上。",
                     "• *流量*。我们使用基本的<Google Analytics@https://en.wikipedia.org/wiki/Google_Analytics>来收集关于人们访问哪些页面和项目以及访问次数的聚合匿名数据。我们使用这些数据帮助筹集资金以维持这个平台。",
@@ -4217,7 +4342,7 @@
         "edit": {
             "node": "$1$2[, 类型 $2|]",
             "before": "在 $1[$1|end] 之前",
-            "inside": "在 $1 内",
+            "inside": "在 $1 内, 在 $2[$2|初] 和 $3[$3|界限] 之間",
             "between": "在 $1 和 $2 之间",
             "line": "$1[$1|start] 和 $2[$2|end]之间的空行",
             "conflicts": "$1 冲突",
@@ -4257,6 +4382,7 @@
             "disclosure": "披露其他人的私人信息，如姓名、联系方式或实际地址。",
             "misinformation": "包含虚假、误导性、欺骗性或操纵性信息。"
         },
+        "progress": "$?",
         "button": {
             "submit": {
                 "tip": "保存这些审查设置",

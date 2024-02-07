@@ -1,6 +1,6 @@
 import Row, { getRowFromValues } from './Row';
 import type Conflict from '@conflicts/Conflict';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import TableType from './TableType';
 import Bind from './Bind';
 import type Node from './Node';
@@ -122,12 +122,15 @@ export default class TableLiteral extends Expression {
             else if (types.length === 3)
                 return UnionType.make(
                     types[0],
-                    UnionType.make(types[1], types[2])
+                    UnionType.make(types[1], types[2]),
                 );
             else
                 return UnionType.make(
                     types[0],
-                    UnionType.make(types[1], UnionType.make(types[2], types[3]))
+                    UnionType.make(
+                        types[1],
+                        UnionType.make(types[2], types[3]),
+                    ),
                 );
         }
 
@@ -137,17 +140,17 @@ export default class TableLiteral extends Expression {
                 const name = tokens[0].isSymbol(Sym.Name)
                     ? tokens[0].getText()
                     : tokens[0].isSymbol(Sym.Number)
-                    ? `n${tokens[0].getText()}`
-                    : `n${index}`;
+                      ? `n${tokens[0].getText()}`
+                      : `n${index}`;
 
                 return Bind.make(
                     undefined,
                     // Try to make a valid name
                     Names.make([name]),
                     inferType(rows.map((row) => row.cells[index])),
-                    undefined
+                    undefined,
                 );
-            })
+            }),
         );
 
         return new TableLiteral(type, rows);
@@ -171,7 +174,7 @@ export default class TableLiteral extends Expression {
     static getPossibleNodes(
         type: Type | undefined,
         anchor: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return type === undefined && !selected ? [TableLiteral.make()] : [];
     }
@@ -207,8 +210,8 @@ export default class TableLiteral extends Expression {
                                     type,
                                     cell,
                                     expected,
-                                    given
-                                )
+                                    given,
+                                ),
                             );
                     }
                 }
@@ -245,10 +248,10 @@ export default class TableLiteral extends Expression {
                             ...cells,
                             ...cell.compile(evaluator, context),
                         ],
-                        []
+                        [],
                     ),
                 ],
-                []
+                [],
             ),
             new Finish(this),
         ];
@@ -274,7 +277,7 @@ export default class TableLiteral extends Expression {
     clone(replace?: Replacement) {
         return new TableLiteral(
             this.replaceChild('type', this.type, replace),
-            this.replaceChild('rows', this.rows, replace)
+            this.replaceChild('rows', this.rows, replace),
         ) as this;
     }
 
@@ -287,15 +290,10 @@ export default class TableLiteral extends Expression {
             : this.getParent(context);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         this.rows.forEach((row) => {
             if (row instanceof Expression)
-                row.evaluateTypeGuards(bind, original, current, context);
+                row.evaluateTypeGuards(current, guard);
         });
         return current;
     }
@@ -315,19 +313,19 @@ export default class TableLiteral extends Expression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.TableLiteral.start)
+            locales.get((l) => l.node.TableLiteral.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.TableLiteral.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

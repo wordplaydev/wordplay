@@ -59,32 +59,19 @@
         : false;
 
     // Anytime the gallery changes, refresh the project list.
-    let projectsByID: Map<string, Project | undefined> | undefined = undefined;
-    let count: 0;
-    $: if (gallery) {
-        loadProjects();
-    } else {
-        projectsByID = undefined;
-        count = 0;
-    }
+    $: if (gallery) loadProjects();
 
-    $: projects =
-        gallery && count
-            ? gallery
-                  .getProjects()
-                  .map((id) => projectsByID?.get(id))
-                  .filter((proj): proj is Project => proj !== undefined)
-            : undefined;
+    let projects: Project[] | undefined = undefined;
 
-    function loadProjects() {
+    async function loadProjects() {
         if (gallery === undefined || gallery === null) return;
-        projectsByID = new Map();
-        count = 0;
-        for (const projectID of gallery.getProjects())
-            Projects.get(projectID).then((project) => {
-                projectsByID?.set(projectID, project);
-                count++;
-            });
+        projects = (
+            await Promise.all(
+                gallery
+                    .getProjects()
+                    .map((projectID) => Projects.get(projectID))
+            )
+        ).filter((proj): proj is Project => proj !== undefined);
     }
 
     function newProject() {
@@ -199,7 +186,7 @@
                         }}
                     />
                 {:else}
-                    <Spinning />
+                    <Spinning large />
                 {/if}
 
                 {#if editable}

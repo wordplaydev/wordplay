@@ -64,6 +64,10 @@ export default class TableValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return TABLE_OPEN_SYMBOL + TABLE_CLOSE_SYMBOL;
+    }
+
     getSize() {
         let sum = 0;
         for (const row of this.rows) sum += row.getSize();

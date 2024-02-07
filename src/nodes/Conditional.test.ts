@@ -45,7 +45,7 @@ test.each([
         `
         •Cat(name•""|#)
         a: Cat(1)
-        a.name•"" ? a.name + 1 a
+        a.name•"" ? a.name + 'hi' a
         `,
         BinaryEvaluate,
         IncompatibleInput,
@@ -81,16 +81,16 @@ test.each([
         bad: string,
         node: new (...params: never[]) => Node,
         conflict: new (...params: never[]) => Conflict,
-        number?: number
+        number?: number,
     ) => {
         testConflict(good, bad, node, conflict, number);
-    }
+    },
 );
 
 test('Test conditional logic', () => {
     expect(evaluateCode("1 < 5 ? 'yes' 'no'")?.toString()).toBe('"yes"');
     expect(evaluateCode("1 > 5 ? 'yes' 'no'")?.toString()).toBe('"no"');
     expect(evaluateCode("1 > 5 ? 'yes' 1 > 0 ? 'maybe' 'no'")?.toString()).toBe(
-        '"maybe"'
+        '"maybe"',
     );
 });

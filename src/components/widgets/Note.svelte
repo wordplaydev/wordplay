@@ -1,18 +1,14 @@
 <script lang="ts">
-    import { locales } from '../../db/Database';
-
     export let center = false;
 </script>
 
-<div class="note" class:center style:direction={$locales.getDirection()}
-    ><slot /></div
->
+<div class="note" class:center><slot /></div>
 
 <style>
     div {
         font-style: italic;
-        font-size: calc(var(--wordplay-font-size) - 2pt);
-        color: var(--wordplay-inactive-color);
+        font-size: var(--wordplay-small-font-size);
+        color: var(--wordplay-header);
     }
 
     .center {

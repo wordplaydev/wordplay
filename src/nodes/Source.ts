@@ -60,7 +60,7 @@ export default class Source extends Expression {
 
     constructor(
         names: string | Names,
-        code: string | UnicodeString | [Program, Spaces]
+        code: string | UnicodeString | [Program, Spaces],
     ) {
         super();
 
@@ -69,11 +69,11 @@ export default class Source extends Expression {
         if (typeof code === 'string' || code instanceof UnicodeString) {
             // Generate the AST from the provided code.
             const tokens = tokenize(
-                code instanceof UnicodeString ? code.getText() : code
+                code instanceof UnicodeString ? code.getText() : code,
             );
             this.tokens = tokens.getTokens();
             this.expression = parseProgram(
-                new Tokens(this.tokens, tokens.getSpaces())
+                new Tokens(this.tokens, tokens.getSpaces()),
             );
             this.root = new Root(this);
             this.spaces = tokens.getSpaces().withRoot(this);
@@ -92,7 +92,7 @@ export default class Source extends Expression {
         // Create an index of the token positions and space roots.
         let index = 0;
         for (const token of this.expression.nodes(
-            (n): n is Token => n instanceof Token
+            (n): n is Token => n instanceof Token,
         )) {
             // Increment by the amount of space
             index += this.spaces.getSpace(token).length;
@@ -155,7 +155,7 @@ export default class Source extends Expression {
     /** Returns a path from a borrow in this program this to this, if one exists. */
     getCycle(
         context: Context,
-        path: Source[] = []
+        path: Source[] = [],
     ): [Borrow, Source[]] | undefined {
         // Visit this source.
         path.push(this);
@@ -194,7 +194,7 @@ export default class Source extends Expression {
             (n): n is Bind | FunctionDefinition | StructureDefinition =>
                 (n instanceof Bind && n.isShared()) ||
                 (n instanceof FunctionDefinition && n.isShared()) ||
-                (n instanceof StructureDefinition && n.isShared())
+                (n instanceof StructureDefinition && n.isShared()),
         );
     }
 
@@ -204,15 +204,15 @@ export default class Source extends Expression {
             text in DelimiterCloseByOpen
                 ? DelimiterCloseByOpen[text]
                 : text in DelimiterOpenByClose
-                ? DelimiterOpenByClose[text]
-                : undefined;
+                  ? DelimiterOpenByClose[text]
+                  : undefined;
         if (match === undefined) return;
         return this.root
             .getParent(anchor)
             ?.getChildren()
             .find(
                 (node): node is Token =>
-                    node instanceof Token && node.getText() === match
+                    node instanceof Token && node.getText() === match,
             );
     }
 
@@ -232,7 +232,7 @@ export default class Source extends Expression {
                     (child): child is Token =>
                         child instanceof Token &&
                         child !== anchor &&
-                        child.getText() === open
+                        child.getText() === open,
                 );
             if (match && this.getMatchedDelimiter(match) === undefined)
                 return match;
@@ -424,7 +424,7 @@ export default class Source extends Expression {
                 this.replaceChild('expression', this.expression, replace),
                 this.spaces.withReplacement(
                     replace.original,
-                    replace.replacement
+                    replace.replacement,
                 ),
             ]);
 
@@ -434,8 +434,8 @@ export default class Source extends Expression {
                     ? newSource.withSpaces(
                           newSource.spaces.withPreferredSpaceForNode(
                               newSource.root,
-                              replace.replacement
-                          )
+                              replace.replacement,
+                          ),
                       )
                     : newSource
             ) as this;
@@ -518,8 +518,8 @@ export default class Source extends Expression {
             renderedSpace: string,
             text: string,
             textLength: number,
-            lastOnLine: boolean
-        ) => Result | undefined
+            lastOnLine: boolean,
+        ) => Result | undefined,
     ): Result | undefined {
         const tokens = this.leaves() as Token[];
 
@@ -538,7 +538,7 @@ export default class Source extends Expression {
             // Get rendered space prior to the token.
             const renderedSpace = this.spaces.getPreferredTokenSpace(
                 this.root,
-                token
+                token,
             );
             // Get the physical space prior to the token.
             const actualSpace = this.spaces.getSpace(token);
@@ -564,7 +564,7 @@ export default class Source extends Expression {
                     // Or the next token has a line break before it.
                     this.spaces
                         .getPreferredTokenSpace(this.root, tokens[index + 1])
-                        .includes('\n')
+                        .includes('\n'),
             );
             if (result !== undefined) return result;
 
@@ -586,7 +586,7 @@ export default class Source extends Expression {
     }
 
     getRenderedLineAndColumnFromPhysicalPosition(
-        position: number
+        position: number,
     ): [number, number] | undefined {
         return this.scanLines(
             (
@@ -596,7 +596,7 @@ export default class Source extends Expression {
                 actualSpace: string,
                 renderedSpace: string,
                 text: string,
-                textLength: number
+                textLength: number,
             ) => {
                 // If this token and it's space contains the physical position, find the corresponding line and column.
                 if (
@@ -606,7 +606,7 @@ export default class Source extends Expression {
                     // Find the rendered text prior to the position, including rendered lines
                     const textBeforePosition = (renderedSpace + text).substring(
                         0,
-                        position - physical
+                        position - physical,
                     );
                     // Split the text before into lines.
                     const linesBefore = textBeforePosition.split('\n');
@@ -622,7 +622,7 @@ export default class Source extends Expression {
                     ];
                 }
                 return undefined;
-            }
+            },
         );
     }
 
@@ -634,7 +634,7 @@ export default class Source extends Expression {
 
     getPhysicalPositionFromLineAndColumn(
         preferredLine: number,
-        preferredColumn: number
+        preferredColumn: number,
     ): number | undefined {
         return this.scanLines(
             (
@@ -645,7 +645,7 @@ export default class Source extends Expression {
                 renderedSpace: string,
                 text: string,
                 textLength: number,
-                lastOnLine: boolean
+                lastOnLine: boolean,
             ) => {
                 // Get the space prior to each rendered line break.
                 const renderedSpacesBeforeBreaks = renderedSpace.split('\n');
@@ -682,7 +682,7 @@ export default class Source extends Expression {
                             physical +
                             Math.min(
                                 preferredColumn - column,
-                                spaceBeforeBreak.length
+                                spaceBeforeBreak.length,
                             )
                         );
                     // Advance to the next line, accounting for this line break.
@@ -723,10 +723,10 @@ export default class Source extends Expression {
                         physical +
                         Math.min(
                             preferredColumn - column,
-                            lastLineActualSpace + textLength
+                            lastLineActualSpace + textLength,
                         )
                     );
-            }
+            },
         );
     }
 
@@ -773,7 +773,7 @@ export default class Source extends Expression {
 
     getTokensBefore(token: Token) {
         const tokens = this.expression.nodes(
-            (n): n is Token => n instanceof Token
+            (n): n is Token => n instanceof Token,
         );
         const index = tokens.indexOf(token);
         if (index < 0) return undefined;
@@ -782,7 +782,7 @@ export default class Source extends Expression {
 
     getNextToken(token: Token, direction: -1 | 1): Token | undefined {
         const tokens = this.expression.nodes(
-            (n): n is Token => n instanceof Token
+            (n): n is Token => n instanceof Token,
         );
         const index = tokens.indexOf(token);
 
@@ -906,7 +906,7 @@ export default class Source extends Expression {
     getDependencies(): Expression[] {
         return [this.expression];
     }
-    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet): TypeSet {
+    evaluateTypeGuards(current: TypeSet): TypeSet {
         return current;
     }
 

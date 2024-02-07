@@ -51,7 +51,7 @@ export default abstract class Output extends Valued {
         moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
-        style: string
+        style: string,
     ) {
         super(value);
 
@@ -90,6 +90,8 @@ export default abstract class Output extends Valued {
     abstract getShortDescription(locales: Locales): string;
     abstract getDescription(locales: Locales): string;
 
+    abstract getEntryAnimated(): Output[];
+
     /* 
     Given a predict function that takes a type input, recursively scans
     outputs for a match.
@@ -113,6 +115,8 @@ export default abstract class Output extends Valued {
     getRenderContext(context: RenderContext) {
         return context.withFontAndSize(this.face, this.size);
     }
+
+    abstract getRepresentativeText(locales: Locales): string | undefined;
 
     getHTMLID(): string {
         return `output-${this.getName()}`;

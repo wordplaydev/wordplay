@@ -5,7 +5,6 @@ import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import type Step from '@runtime/Step';
-import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import Sym from './Sym';
 import { INITIAL_SYMBOL } from '@parser/Symbols';
@@ -50,7 +49,7 @@ export default class Initial extends SimpleExpression {
 
     clone(replace?: Replacement) {
         return new Initial(
-            this.replaceChild('diamond', this.diamond, replace)
+            this.replaceChild('diamond', this.diamond, replace),
         ) as this;
     }
 
@@ -89,7 +88,7 @@ export default class Initial extends SimpleExpression {
         return new BoolValue(this, evaluator.isInitialEvaluation());
     }
 
-    evaluateTypeGuards(_: Bind, __: TypeSet, current: TypeSet) {
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -108,7 +107,7 @@ export default class Initial extends SimpleExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.Initial.name)
+            locales.get((l) => l.node.Initial.name),
         );
     }
 

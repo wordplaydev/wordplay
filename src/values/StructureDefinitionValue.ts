@@ -53,6 +53,12 @@ export default class StructureDefinitionValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText(locales: Locales) {
+        return (
+            TYPE_SYMBOL + this.definition.getPreferredName(locales.getLocales())
+        );
+    }
+
     getSize() {
         return 1;
     }

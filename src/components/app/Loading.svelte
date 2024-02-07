@@ -1,10 +1,10 @@
 <script lang="ts">
     import { fade } from 'svelte/transition';
     import Spinning from './Spinning.svelte';
-    import { locales } from '@db/Database';
+    import { animationDuration, locales } from '@db/Database';
 </script>
 
-<div class="container" out:fade>
+<div class="container" out:fade={{ duration: $animationDuration }}>
     <Spinning label={$locales.get((l) => l.ui.widget.loading.message)} large />
     <p>{$locales.get((l) => l.ui.widget.loading.message)}</p>
 </div>

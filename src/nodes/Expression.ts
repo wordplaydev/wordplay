@@ -44,17 +44,31 @@ export default abstract class Expression extends Node {
 
     getAllDependencies(
         context: Context,
-        dependencies?: Set<Expression>
+        dependencies?: Set<Expression>,
     ): Set<Expression> {
-        if (dependencies === undefined) dependencies = new Set();
-
-        // Prevent cycles.
-        if (dependencies.has(this)) return dependencies;
-
-        for (const dep of this.getDependencies(context)) {
-            dep.getAllDependencies(context, dependencies);
-            dependencies.add(dep);
+        // Keep track of whether this is the first in the recursive change of dependencies, so we
+        // can remove it from the dependency list. (The list should only contain dependencies, not the initial expression
+        // for which we're getting dependencies.)
+        let start = false;
+        // No list yet? Make one and add this.
+        if (dependencies === undefined) {
+            start = true;
+            dependencies = new Set();
         }
+        // Already visited this? Don't visit it again.
+        else if (dependencies.has(this)) return dependencies;
+
+        // Visit this.
+        dependencies.add(this);
+
+        // Get all dependencies of this.
+        for (const dep of this.getDependencies(context))
+            dep.getAllDependencies(context, dependencies);
+
+        // Don't include this if we started with it.
+        if (start) dependencies.delete(this);
+
+        // Return the final list of dependencies.
         return dependencies;
     }
 
@@ -65,7 +79,7 @@ export default abstract class Expression extends Node {
         // Ask the project if the dependency is constant. We ask the project since it's responsible
         // for caching whether an expression is constant and preventing cycles.
         return Array.from(dependencies).every((dependency) =>
-            context.project.isConstant(dependency)
+            context.project.isConstant(dependency),
         );
     }
 
@@ -74,11 +88,17 @@ export default abstract class Expression extends Node {
      * Most expressions do not manipulate possible types at all; primarily is just logical operators and type checks.
      * */
     abstract evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
         current: TypeSet,
-        context: Context
+        context: GuardContext,
     ): TypeSet;
+
+    /** Used to check if the given expression matches guarded expression. By default, no.
+     * Subclasses should override if they can match a guarded expression.
+     */
+    isGuardMatch(guard: GuardContext) {
+        guard;
+        return false;
+    }
 
     /** Used to decide whether to consider an expression as filtering types based on the behavior of evaluateTypeGuards() */
     guardsTypes() {
@@ -94,20 +114,20 @@ export default abstract class Expression extends Node {
     abstract getStartExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ): Markup;
 
     abstract getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ): Markup;
 
     /** Utility function for getting an optional result   */
     getValueIfDefined(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         const value = evaluator.peekValue();
         return value ? new ValueRef(value, locales, context) : undefined;
@@ -118,3 +138,11 @@ export default abstract class Expression extends Node {
         return ExpressionKind.Evaluate;
     }
 }
+
+/** Info we pass around to implement type guards. Encapsulated for extensibility. */
+export type GuardContext = {
+    bind: Bind;
+    key: string;
+    original: TypeSet;
+    context: Context;
+};

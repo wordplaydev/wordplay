@@ -2,20 +2,20 @@ import type Locales from '../../locale/Locales';
 import Evaluate from '../../nodes/Evaluate';
 import Reference from '../../nodes/Reference';
 import Phrase from '../../output/Phrase';
-import type { Moved, OutputsByName } from '../../output/Scene';
+import type { Moved, OutputsByName } from '../../output/Animator';
 import Sequence from '../../output/Sequence';
 
 /** A description of phrases that have entered the scene, computed after still. */
 export function describeEnteredOutput(
     locales: Locales,
-    entered: OutputsByName
+    entered: OutputsByName,
 ) {
     return entered.size > 0
         ? locales.get((l) => l.term.entered) +
               ' ' +
               Array.from(entered.values())
                   .filter(
-                      (output): output is Phrase => output instanceof Phrase
+                      (output): output is Phrase => output instanceof Phrase,
                   )
                   .map((output) => output.getDescription(locales))
                   .join(', ')
@@ -27,7 +27,7 @@ export function describedChangedOutput(
     locales: Locales,
     entered: OutputsByName,
     present: OutputsByName,
-    previouslyPresent: OutputsByName | undefined
+    previouslyPresent: OutputsByName | undefined,
 ) {
     const changed: string[] = [];
     for (const [name, output] of present.entries()) {
@@ -62,7 +62,7 @@ export function describedChangedOutput(
                         currentText +
                             (sequenceDescription
                                 ? ` ${sequenceDescription} animation`
-                                : '')
+                                : ''),
                     );
                 }
             }

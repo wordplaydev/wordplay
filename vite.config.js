@@ -1,5 +1,4 @@
 import { sveltekit } from '@sveltejs/kit/vite';
-import eslint from 'vite-plugin-eslint';
 
 /**
  * Make a little plugin that checks for locale file changes and fires an event.
@@ -8,6 +7,7 @@ import eslint from 'vite-plugin-eslint';
 function LocaleHotReload() {
     return {
         name: 'locale-hot-reload',
+        // @ts-expect-error This is a Vite API, and eslint is warning on missing types, but this is not a TypeScript file.
         handleHotUpdate({ file, server }) {
             if (file.includes('locales') && file.endsWith('.json')) {
                 console.log(`${file} changed, sending update event.`);
@@ -22,7 +22,7 @@ function LocaleHotReload() {
 
 /** @type {import('vite').UserConfig} */
 const config = {
-    plugins: [sveltekit(), LocaleHotReload(), eslint()],
+    plugins: [sveltekit(), LocaleHotReload()],
 };
 
 export default config;

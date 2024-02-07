@@ -18,6 +18,7 @@
     export let command: Command;
     export let token = false;
     export let focusAfter = false;
+    export let background = false;
 
     const editors = getEditors();
     const context = getProjectCommandContext();
@@ -32,11 +33,12 @@
         command.active === undefined
             ? true
             : $context
-            ? command.active($context, '')
-            : false;
+              ? command.active($context, '')
+              : false;
 </script>
 
 <Button
+    {background}
     tip={$locales.get(command.description) + ` (${toShortcut(command)})`}
     bind:view
     uiid={command.uiid}
@@ -58,7 +60,7 @@
             result.then((edit) =>
                 editor
                     ? editor.edit(edit, IdleKind.Typed, focusAfter)
-                    : undefined
+                    : undefined,
             );
         else if (typeof result !== 'boolean' && result !== undefined)
             editor?.edit(result, IdleKind.Typed, focusAfter);

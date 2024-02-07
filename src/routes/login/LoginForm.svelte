@@ -14,9 +14,6 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-        padding: 1em;
-        border: var(--wordplay-border-width) solid var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
         margin-block-start: 1em;
     }
 </style>

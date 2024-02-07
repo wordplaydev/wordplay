@@ -1,6 +1,6 @@
 import type Node from './Node';
 import Bind from './Bind';
-import Expression, { ExpressionKind } from './Expression';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import type Conflict from '@conflicts/Conflict';
 import Type from './Type';
 import Block from './Block';
@@ -67,7 +67,7 @@ export default class StructureDefinition extends DefinitionExpression {
         open: Token | undefined,
         inputs: Bind[],
         close: Token | undefined,
-        block?: Block
+        block?: Block,
     ) {
         super();
 
@@ -91,7 +91,7 @@ export default class StructureDefinition extends DefinitionExpression {
         interfaces: Reference[],
         types: TypeVariables | undefined,
         inputs: Bind[],
-        block?: Block
+        block?: Block,
     ) {
         return new StructureDefinition(
             docs,
@@ -103,7 +103,7 @@ export default class StructureDefinition extends DefinitionExpression {
             new EvalOpenToken(),
             inputs,
             new EvalCloseToken(),
-            block
+            block,
         );
     }
 
@@ -115,7 +115,7 @@ export default class StructureDefinition extends DefinitionExpression {
                 [],
                 undefined,
                 [],
-                Block.make()
+                Block.make(),
             ),
         ];
     }
@@ -180,7 +180,7 @@ export default class StructureDefinition extends DefinitionExpression {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('inputs', this.inputs, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('expression', this.expression, replace)
+            this.replaceChild('expression', this.expression, replace),
         ) as this;
     }
 
@@ -214,11 +214,11 @@ export default class StructureDefinition extends DefinitionExpression {
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
                     : nameOrLocales.getName(this.names),
-                this
+                this,
             ),
             this.inputs
                 .filter((input) => !input.hasDefault())
-                .map(() => ExpressionPlaceholder.make())
+                .map(() => ExpressionPlaceholder.make()),
         );
     }
 
@@ -235,6 +235,17 @@ export default class StructureDefinition extends DefinitionExpression {
 
     getInputs() {
         return this.inputs.filter((i) => i instanceof Bind) as Bind[];
+    }
+
+    /** Create a new structure definition with the provided inputs instead */
+    withInputs(inputs: Bind[]) {
+        // Identical inputs? Don't clone.
+        if (
+            this.inputs.length === inputs.length &&
+            this.inputs.every((input, index) => input === inputs[index])
+        )
+            return this;
+        else return this.clone({ original: 'inputs', replacement: inputs });
     }
 
     getTypeVariableReference(index: number): NameType | undefined {
@@ -276,15 +287,15 @@ export default class StructureDefinition extends DefinitionExpression {
                 s instanceof FunctionDefinition
                     ? s
                     : s instanceof Bind && s.value instanceof FunctionDefinition
-                    ? s.value
-                    : undefined
+                      ? s.value
+                      : undefined,
             )
             .filter(
                 (s) =>
                     s !== undefined &&
                     (implemented === undefined ||
                         (implemented === true && !s.isAbstract()) ||
-                        (implemented === false && s.isAbstract()))
+                        (implemented === false && s.isAbstract())),
             ) as FunctionDefinition[];
     }
 
@@ -293,7 +304,7 @@ export default class StructureDefinition extends DefinitionExpression {
         if (this.expression === undefined) return [];
         return this.expression.statements.filter<Bind>(
             (s: Expression): s is Bind =>
-                s instanceof Bind && !(s.value instanceof FunctionDefinition)
+                s instanceof Bind && !(s.value instanceof FunctionDefinition),
         );
     }
 
@@ -341,7 +352,7 @@ export default class StructureDefinition extends DefinitionExpression {
             this.interfaces.length > 0 &&
             this.expression instanceof Block &&
             this.expression.statements.some(
-                (s) => s instanceof FunctionDefinition && !s.isAbstract()
+                (s) => s instanceof FunctionDefinition && !s.isAbstract(),
             )
         ) {
             for (const def of this.getInterfaces(context)) {
@@ -352,11 +363,11 @@ export default class StructureDefinition extends DefinitionExpression {
                         !this.expression.statements.some(
                             (statement) =>
                                 statement instanceof FunctionDefinition &&
-                                fun.accepts(statement, context)
+                                fun.accepts(statement, context),
                         )
                     )
                         conflicts.push(
-                            new UnimplementedInterface(this, def, fun)
+                            new UnimplementedInterface(this, def, fun),
                         );
                 }
             }
@@ -366,11 +377,11 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getDefinition(
-        name: string
+        name: string,
     ): Bind | FunctionDefinition | StructureDefinition | undefined {
         // Definitions can be inputs...
         const inputBind = this.inputs.find(
-            (i) => i instanceof Bind && i.hasName(name)
+            (i) => i instanceof Bind && i.hasName(name),
         ) as Bind;
         if (inputBind !== undefined) return inputBind;
 
@@ -381,7 +392,7 @@ export default class StructureDefinition extends DefinitionExpression {
                       (i instanceof StructureDefinition ||
                           i instanceof FunctionDefinition ||
                           i instanceof Bind) &&
-                      i.names.hasName(name)
+                      i.names.hasName(name),
               ) as FunctionDefinition | StructureDefinition | Bind)
             : undefined;
     }
@@ -392,7 +403,7 @@ export default class StructureDefinition extends DefinitionExpression {
         if (definitions === undefined) {
             definitions = [
                 ...(this.inputs.filter(
-                    (i) => i instanceof Bind && i !== node
+                    (i) => i instanceof Bind && i !== node,
                 ) as Bind[]),
                 ...(this.types ? this.types.variables : []),
                 ...(this.expression instanceof Block
@@ -400,7 +411,7 @@ export default class StructureDefinition extends DefinitionExpression {
                           (s) =>
                               s instanceof FunctionDefinition ||
                               s instanceof StructureDefinition ||
-                              s instanceof Bind
+                              s instanceof Bind,
                       ) as Definition[])
                     : []),
             ];
@@ -415,7 +426,7 @@ export default class StructureDefinition extends DefinitionExpression {
     getConversion(
         context: Context,
         input: Type,
-        output: Type
+        output: Type,
     ): ConversionDefinition | undefined {
         // Find the conversion in this type's block that produces a compatible type.
         return this.expression instanceof Block
@@ -424,7 +435,7 @@ export default class StructureDefinition extends DefinitionExpression {
                       s instanceof ConversionDefinition &&
                       s.input instanceof Type &&
                       s.output instanceof Type &&
-                      s.convertsTypeTo(input, output, context)
+                      s.convertsTypeTo(input, output, context),
               ) as ConversionDefinition | undefined)
             : undefined;
     }
@@ -432,7 +443,7 @@ export default class StructureDefinition extends DefinitionExpression {
     getAllConversions() {
         return this.expression instanceof Block
             ? (this.expression.statements.filter(
-                  (s) => s instanceof ConversionDefinition
+                  (s) => s instanceof ConversionDefinition,
               ) as ConversionDefinition[])
             : [];
     }
@@ -460,23 +471,13 @@ export default class StructureDefinition extends DefinitionExpression {
             return new InternalException(
                 this,
                 evaluator,
-                'there is no evaluation, which should be impossible'
+                'there is no evaluation, which should be impossible',
             );
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.expression instanceof Expression)
-            this.expression.evaluateTypeGuards(
-                bind,
-                original,
-                current,
-                context
-            );
+            this.expression.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -500,7 +501,7 @@ export default class StructureDefinition extends DefinitionExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.StructureDefinition.start)
+            locales.get((l) => l.node.StructureDefinition.start),
         );
     }
 

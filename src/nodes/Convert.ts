@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownConversion } from '@conflicts/UnknownConversion';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import Type from './Type';
 import Token from './Token';
 import Finish from '@runtime/Finish';
@@ -8,7 +8,6 @@ import type Step from '@runtime/Step';
 import Start from '@runtime/Start';
 import Evaluation from '@runtime/Evaluation';
 import type Context from './Context';
-import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import ExceptionValue from '@values/ExceptionValue';
 import ConversionDefinition from './ConversionDefinition';
@@ -55,21 +54,21 @@ export default class Convert extends Expression {
         return new Convert(
             expression,
             new Token(CONVERT_SYMBOL, Sym.Convert),
-            type
+            type,
         );
     }
 
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             node instanceof Expression && selected
                 ? Convert.make(node, TypePlaceholder.make())
                 : Convert.make(
                       ExpressionPlaceholder.make(),
-                      TypePlaceholder.make()
+                      TypePlaceholder.make(),
                   ),
         ];
     }
@@ -94,12 +93,12 @@ export default class Convert extends Expression {
         return new Convert(
             this.replaceChild('expression', this.expression, replace),
             this.replaceChild('convert', this.convert, replace),
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
     getConversionSequence(
-        context: Context
+        context: Context,
     ): ConversionDefinition[] | undefined {
         // What's the input type?
         const inputType = this.expression.getType(context);
@@ -119,10 +118,10 @@ export default class Convert extends Expression {
                     ...list,
                     ...block.statements.filter(
                         (s): s is ConversionDefinition =>
-                            s instanceof ConversionDefinition
+                            s instanceof ConversionDefinition,
                     ),
                 ],
-                []
+                [],
             ) ?? [];
 
         // Find a path between the input type and the desired type
@@ -130,7 +129,7 @@ export default class Convert extends Expression {
             inputType,
             this.type,
             [...typeConversions, ...scopeConversions],
-            context
+            context,
         );
     }
 
@@ -156,7 +155,10 @@ export default class Convert extends Expression {
             return new NotAType(
                 this,
                 new NeverType(),
-                ConversionType.make(this.expression.getType(context), this.type)
+                ConversionType.make(
+                    this.expression.getType(context),
+                    this.type,
+                ),
             );
         const lastConversion = conversions[conversions.length - 1];
 
@@ -175,7 +177,7 @@ export default class Convert extends Expression {
                 variable,
                 lastConversion,
                 this,
-                context
+                context,
             );
             if (concrete === variable) break;
 
@@ -212,12 +214,12 @@ export default class Convert extends Expression {
                               evaluator,
                               this,
                               value,
-                              this.type
+                              this.type,
                           );
                       }, this),
                   ]
                 : conversions.map(
-                      (conversion) => new StartConversion(this, conversion)
+                      (conversion) => new StartConversion(this, conversion),
                   )),
             new Finish(this),
         ];
@@ -235,8 +237,8 @@ export default class Convert extends Expression {
                 this,
                 conversion,
                 value,
-                new Map().set(Names.make([PROPERTY_SYMBOL]), value)
-            )
+                new Map().set(Names.make([PROPERTY_SYMBOL]), value),
+            ),
         );
 
         return undefined;
@@ -249,19 +251,9 @@ export default class Convert extends Expression {
         return evaluator.popValue(this);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.expression instanceof Expression)
-            this.expression.evaluateTypeGuards(
-                bind,
-                original,
-                current,
-                context
-            );
+            this.expression.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -280,19 +272,19 @@ export default class Convert extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.Convert.start),
-            new NodeRef(this.expression, locales, context)
+            new NodeRef(this.expression, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Convert.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 
@@ -305,7 +297,7 @@ function getConversionPath(
     input: Type,
     output: Type,
     conversions: ConversionDefinition[],
-    context: Context
+    context: Context,
 ): ConversionDefinition[] {
     // Breadth first search through the conversion graph for a path from input type to output type.
     const edges: Map<Type, Type> = new Map();
@@ -328,7 +320,7 @@ function getConversionPath(
             while (match) {
                 // Find the type that goes to this type
                 const fromKey = Array.from(edges.keys()).find((t) =>
-                    t.accepts(to, context)
+                    t.accepts(to, context),
                 );
                 const from =
                     fromKey === undefined ? undefined : edges.get(fromKey);
@@ -336,7 +328,7 @@ function getConversionPath(
                 if (from === undefined) return [];
                 // Find the conversion that maps from -> to
                 const conversion = conversions.find((c) =>
-                    c.convertsTypeTo(from, to, context)
+                    c.convertsTypeTo(from, to, context),
                 );
                 // If we didn't find one, bail; something's wrong.
                 if (conversion === undefined) return [];
@@ -357,7 +349,7 @@ function getConversionPath(
             // If we haven't already visited this one, visit it.
             if (
                 Array.from(visited).find((type) =>
-                    out.accepts(type, context)
+                    out.accepts(type, context),
                 ) === undefined
             ) {
                 // We remember the edges in reverse so we can trace backwards from it.

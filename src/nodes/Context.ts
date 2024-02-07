@@ -16,8 +16,19 @@ export default class Context {
 
     readonly stack: Node[] = [];
     readonly types: Map<Node, Type> = new Map();
-    readonly referenceUnions: Map<PropertyReference | Reference, Type> =
-        new Map();
+
+    /**
+     * This is a record of the guarded types of references and property references during evaluation,
+     * used by Reference, PropertyReference, ListAccess, and SetOrMapAccess to remember
+     * the narrowed types of their referenced bindings. We organize these by string keys representing
+     * some expression on which the reference is guarded. For regular References or PropertyReferences,
+     * there is only one key, but for List, Set, and Map references, there is a list index or key.
+     */
+    readonly referenceUnions: Map<
+        PropertyReference | Reference,
+        Map<string, Type>
+    > = new Map();
+
     readonly definitions: Map<Node, Definition[]> = new Map();
 
     readonly streamTypes: Map<Type, StreamDefinition> = new Map();
@@ -49,12 +60,12 @@ export default class Context {
     getType(node: Expression) {
         let cache = this.types.get(node);
         if (cache === undefined) {
-            if (this.visited(node))
+            if (this.visited(node)) {
                 cache = new CycleType(
                     node,
-                    this.stack.slice(this.stack.indexOf(node))
+                    this.stack.slice(this.stack.indexOf(node)),
                 );
-            else {
+            } else {
                 this.visit(node);
                 cache = node.computeType(this);
                 this.unvisit();
@@ -67,12 +78,22 @@ export default class Context {
         return this.definitions.get(node);
     }
 
-    getReferenceType(ref: Reference | PropertyReference) {
-        return this.referenceUnions.get(ref);
+    getReferenceType(
+        ref: Reference | PropertyReference,
+        key: string,
+    ): Type | undefined {
+        const keys = this.referenceUnions.get(ref);
+        return keys ? keys.get(key) : undefined;
     }
 
-    setReferenceType(ref: Reference | PropertyReference, type: Type) {
-        return this.referenceUnions.set(ref, type);
+    setReferenceType(
+        ref: Reference | PropertyReference,
+        key: string,
+        type: Type,
+    ) {
+        const keys = this.referenceUnions.get(ref) ?? new Map<string, Type>();
+        keys.set(key, type);
+        return this.referenceUnions.set(ref, keys);
     }
 
     setStreamType(type: Type, stream: StreamDefinition) {

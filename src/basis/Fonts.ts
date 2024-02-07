@@ -13,7 +13,7 @@ export type Face = {
     readonly weights: FontWeight[] | FontWeightRange; // Weights supported on the font
     readonly italic: boolean; // True if italics is supported on the weights above,
     readonly scripts: Readonly<Script[]>; // A list of ISO 15924 scripts supported,
-    readonly format: 'ttf' | 'otf' | 'woff2'; // True if the file is OTF format. Default is WOFF2.
+    readonly format: FontFormat;
     readonly preloaded?: boolean; // True if the font is preloaded in app.html, and shouldn't be reloaded.
     readonly ranges?: string | string[]; // CSS unicode-range strings. Each index corrresponds to a different numbered file.
 };
@@ -79,7 +79,7 @@ const NotoEmoji: Face = {
     //     'U+200d, U+2194-2195, U+2640, U+2642, U+26d3, U+27a1, U+fe0f, U+1f344, U+1f34b, U+1f3c3, U+1f3fb-1f3ff, U+1f426, U+1f468-1f469, U+1f4a5, U+1f525, U+1f642, U+1f6b6, U+1f7e9, U+1f7eb, U+1f9af, U+1f9bc-1f9bd, U+1f9ce, U+1f9d1-1f9d2',
     // ],
     // format: 'woff2',
-    format: 'ttf',
+    format: 'woff2',
 };
 
 const NotoColorEmoji: Face = {
@@ -127,7 +127,7 @@ const Faces: Record<string, Face> = {
         weights: { min: 100, max: 900 },
         italic: false,
         scripts: ['Jpan'],
-        format: 'ttf',
+        format: 'woff2',
     },
     'Noto Emoji': NotoEmoji,
     'Noto Color Emoji': NotoColorEmoji,
@@ -142,121 +142,121 @@ const Faces: Record<string, Face> = {
         weights: [400],
         italic: false,
         scripts: ['Kore', 'Latn'],
-        format: 'ttf',
+        format: 'woff2',
     },
     'Permanent Marker': {
         weights: [400],
         italic: false,
         scripts: ['Latn'],
-        format: 'ttf',
+        format: 'woff2',
     },
     Borel: {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Roboto: {
         weights: [100, 300, 400, 500, 700, 900],
         italic: true,
         scripts: LatinCyrillicGreek,
-        format: 'ttf',
+        format: 'woff2',
     },
     Phudu: {
         weights: { min: 300, max: 900 },
         italic: false,
         scripts: ['Latn'],
-        format: 'ttf',
+        format: 'woff2',
     },
     Ubuntu: {
         weights: [300, 400, 500, 700],
         italic: true,
         scripts: LatinCyrillicGreek,
-        format: 'ttf',
+        format: 'woff2',
     },
     Quicksand: {
         weights: { min: 300, max: 700 },
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Pacifico: {
         weights: [400],
         italic: false,
         scripts: ['Latn', 'Cyrl'],
-        format: 'ttf',
+        format: 'woff2',
     },
     Caveat: {
         weights: { min: 400, max: 700 },
         italic: false,
         scripts: ['Latn', 'Cyrl'],
-        format: 'ttf',
+        format: 'woff2',
     },
     Arvo: {
         weights: [400, 700],
         italic: true,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Shadows Into Light': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Play: {
         weights: [400, 700],
         italic: false,
         scripts: LatinCyrillicGreek,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Passion One': {
         weights: [400, 700, 900],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Titan One': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Luckiest Guy': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Creepster: {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Special Elite': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Tangerine: {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Carter One': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Monoton: {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Aclonica: {
         weights: [400],
@@ -269,91 +269,91 @@ const Faces: Record<string, Face> = {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Cabin Sketch': {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Short Stack': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Graduate: {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Silkscreen: {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Mouse Memoirs': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Megrim: {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Modak: {
         weights: [400],
         italic: false,
         scripts: ['Latn', 'Deva'],
-        format: 'ttf',
+        format: 'woff2',
     },
     'Sue Ellen Francisco': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Rampart One': {
         weights: [400],
         italic: false,
         scripts: ['Latn', 'Jpan'],
-        format: 'ttf',
+        format: 'woff2',
     },
     Codystar: {
         weights: [300, 400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Crafty Girls': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     Gorditas: {
         weights: [400, 700],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Ribeye Marrow': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
     'Bungee Outline': {
         weights: [400],
         italic: false,
         scripts: Latin,
-        format: 'ttf',
+        format: 'woff2',
     },
 };
 
@@ -368,25 +368,20 @@ export const SupportedFaces = Object.keys(Faces).sort();
  * responds to requests to load more fonts, and provides notificiations of when they are loaded
  * */
 export class FontManager {
-    // Default fonts to load. (All defaults are preloaded in app.html.)
+    // All default fonts are loaded in app.html. We mark them as loaded below.
     readonly defaultFaces: SupportedFace[] = [
-        'Noto Sans Mono',
+        'Noto Sans',
         'Noto Emoji',
-        // Wasn't working in Safari for some reason, will have to debug later.
-        // For now, we load in app.html <head> with Google Fonts.
-        // We mark it as loaded below in the constructor to prevent it from being redundantly loaded.
-        // 'Noto Sans',
-        // 'Noto Color Emoji',
+        'Noto Sans Mono',
+        'Noto Color Emoji',
     ];
 
     facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
 
     constructor() {
         // Mark these as loaded so we don't redundantly load them.
-        this.facesLoaded.set('Noto Color Emoji', 'loaded');
-        this.facesLoaded.set('Noto Sans', 'loaded');
-
-        this.defaultFaces.forEach((font) => this.loadFace(font));
+        for (const face of this.defaultFaces)
+            this.facesLoaded.set(face, 'loaded');
     }
 
     /** Returns true if the given font spec appears in SupportedFonts */
@@ -410,7 +405,9 @@ export class FontManager {
     }
 
     isFaceLoaded(face: SupportedFace) {
-        return this.facesLoaded.get(face) === 'loaded';
+        return (
+            this.isFaceRequested(face) && document.fonts.check(`12px "${face}"`)
+        );
     }
 
     loadLocales(locales: Locale[]) {

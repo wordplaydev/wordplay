@@ -23,10 +23,29 @@
             changed(text);
     }
 
-    onMount(() => {
+    function setKind(kind: 'email' | 'password' | undefined) {
+        if (view === undefined) return;
         if (kind === 'email' && view) view.type = 'email';
         else if (kind === 'password' && view) view.type = 'password';
+        else view.type = 'text';
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+        const number = parseFloat(text);
+
+        // Not a number or not an up/down arrow key? Return.
+        if (isNaN(number)) return;
+        if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+
+        text = (number + (event.key === 'ArrowUp' ? 1 : -1)).toString();
+        handleInput();
+    }
+
+    onMount(() => {
+        setKind(kind);
     });
+
+    $: setKind(kind);
 </script>
 
 <div class="field">
@@ -45,15 +64,15 @@
         bind:value={text}
         bind:this={view}
         on:input={handleInput}
-        on:keydown|stopPropagation
+        on:keydown|stopPropagation={handleKeyDown}
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0
             ? placeholder
             : kind === 'password'
-            ? '•'.repeat(text.length)
-            : text}</span
+              ? '•'.repeat(text.length)
+              : text}</span
     >
 </div>
 

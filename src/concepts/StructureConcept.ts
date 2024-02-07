@@ -46,7 +46,7 @@ export default class StructureConcept extends Concept {
         type: Type | undefined,
         examples: Node[] | undefined,
         locales: Locales,
-        context: Context
+        context: Context,
     ) {
         super(purpose, affiliation, context);
 
@@ -55,7 +55,7 @@ export default class StructureConcept extends Concept {
             type ??
             NameType.make(
                 locales.getName(this.definition.names),
-                this.definition
+                this.definition,
             );
         this.examples =
             examples === undefined || examples.length === 0
@@ -72,20 +72,20 @@ export default class StructureConcept extends Concept {
                         def,
                         this,
                         locales,
-                        context
-                    )
+                        context,
+                    ),
             );
         this.conversions = this.definition
             .getAllConversions()
             .map((def) => new ConversionConcept(def, context, this));
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(this.purpose, bind, locales, context)
+            (bind) => new BindConcept(this.purpose, bind, locales, context),
         );
         this.properties = this.definition
             .getProperties()
             .map(
-                (bind) => new BindConcept(this.purpose, bind, locales, context)
+                (bind) => new BindConcept(this.purpose, bind, locales, context),
             );
 
         this.inter = this.definition
@@ -99,8 +99,8 @@ export default class StructureConcept extends Concept {
                         NameType.make(locales.getName(inter.names), inter),
                         [],
                         locales,
-                        context
-                    )
+                        context,
+                    ),
             );
     }
 
@@ -183,7 +183,7 @@ export default class StructureConcept extends Concept {
     representsType(type: Type) {
         return (
             (type instanceof StructureType &&
-                this.definition === type.structure) ||
+                this.definition === type.definition) ||
             (type instanceof NameType &&
                 type.definition &&
                 this.definition == type.definition) ||

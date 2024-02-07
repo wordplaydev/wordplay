@@ -1,4 +1,4 @@
-import Expression, { ExpressionKind } from './Expression';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import type Context from './Context';
 import Token from './Token';
 import Type from './Type';
@@ -68,7 +68,7 @@ export default class Bind extends Expression {
         dot?: Token,
         type?: Type,
         colon?: Token,
-        value?: Expression
+        value?: Expression,
     ) {
         super();
 
@@ -97,7 +97,7 @@ export default class Bind extends Expression {
         names: Names,
         type?: Type,
         value?: Expression,
-        variable = false
+        variable = false,
     ) {
         return new Bind(
             docs,
@@ -107,7 +107,7 @@ export default class Bind extends Expression {
             type === undefined ? undefined : new TypeToken(),
             type,
             value === undefined ? undefined : new BindToken(),
-            value
+            value,
         );
     }
 
@@ -115,7 +115,7 @@ export default class Bind extends Expression {
         expectedType: Type | undefined,
         anchor: Node,
         isBeingReplaced: boolean,
-        context: Context
+        context: Context,
     ) {
         if (anchor instanceof Expression && isBeingReplaced) {
             if (
@@ -136,7 +136,7 @@ export default class Bind extends Expression {
                         undefined,
                         Names.make(['_']),
                         undefined,
-                        ExpressionPlaceholder.make()
+                        ExpressionPlaceholder.make(),
                     ),
                 ];
             }
@@ -158,10 +158,10 @@ export default class Bind extends Expression {
                                         undefined,
                                         Names.make([name]),
                                         undefined,
-                                        ExpressionPlaceholder.make()
+                                        ExpressionPlaceholder.make(),
                                     ),
-                                input.expected
-                            )
+                                input.expected,
+                            ),
                     );
             } else return [];
         }
@@ -220,9 +220,14 @@ export default class Bind extends Expression {
             this.replaceChild<Expression | undefined>(
                 'value',
                 this.value,
-                replace
-            )
+                replace,
+            ),
         ) as this;
+    }
+
+    /** Copy this bind, but with the given type */
+    withType(type: Type) {
+        return this.clone({ original: 'type', replacement: type });
     }
 
     /** Used to help generate function and structure types without extraneous information */
@@ -235,7 +240,7 @@ export default class Bind extends Expression {
             this.dot,
             this.type,
             this.colon,
-            this.value
+            this.value,
         );
     }
 
@@ -248,7 +253,7 @@ export default class Bind extends Expression {
             this.dot,
             this.type,
             undefined,
-            undefined
+            undefined,
         );
     }
 
@@ -261,7 +266,7 @@ export default class Bind extends Expression {
             undefined,
             undefined,
             undefined,
-            undefined
+            undefined,
         );
     }
 
@@ -273,7 +278,7 @@ export default class Bind extends Expression {
             this.etc,
             this.dot,
             this.type?.simplify(context),
-            undefined
+            undefined,
         );
     }
 
@@ -285,15 +290,10 @@ export default class Bind extends Expression {
         return true;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ): TypeSet {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext): TypeSet {
         return this.value === undefined
             ? current
-            : this.value.evaluateTypeGuards(bind, original, current, context);
+            : this.value.evaluateTypeGuards(current, guard);
     }
 
     hasName(name: string) {
@@ -346,8 +346,8 @@ export default class Bind extends Expression {
                         this.names,
                         this.type,
                         this.value,
-                        valueType
-                    )
+                        valueType,
+                    ),
                 );
         }
 
@@ -362,18 +362,18 @@ export default class Bind extends Expression {
                     const names = defs.reduce(
                         (names: Name[], def: Definition): Name[] =>
                             names.concat(def.names.names),
-                        []
+                        [],
                     );
                     const defsWithName = names.filter(
                         (alias) =>
                             name.getName() === alias.getName() &&
                             name !== alias &&
-                            alias.getParent(context) !== this.names
+                            alias.getParent(context) !== this.names,
                     );
 
                     if (defsWithName.length > 0)
                         conflicts.push(
-                            new DuplicateName(this, defsWithName[0])
+                            new DuplicateName(this, defsWithName[0]),
                         );
                 }
             }
@@ -415,7 +415,7 @@ export default class Bind extends Expression {
                 for (const source of sources) {
                     if (source.expression.expression instanceof Block) {
                         for (const share of source.expression.expression.statements.filter(
-                            (s) => s instanceof Bind && s.isShared()
+                            (s) => s instanceof Bind && s.isShared(),
                         ) as Bind[]) {
                             if (this.sharesName(share))
                                 conflicts.push(new DuplicateShare(this, share));
@@ -515,7 +515,7 @@ export default class Bind extends Expression {
                         .getPossibleTypes(context)
                         .find(
                             (type): type is FunctionType =>
-                                type instanceof FunctionType
+                                type instanceof FunctionType,
                         );
                     if (functionType) {
                         let type: Type | undefined;
@@ -526,17 +526,17 @@ export default class Bind extends Expression {
                             evalFunc,
                             bind,
                             evaluate,
-                            context
+                            context,
                         )
                             .getPossibleTypes(context)
                             .find(
                                 (type): type is FunctionType =>
-                                    type instanceof FunctionType
+                                    type instanceof FunctionType,
                             );
                         if (concreteFunctionType) {
                             type =
                                 concreteFunctionType.inputs[bindIndex].getType(
-                                    context
+                                    context,
                                 );
                         }
                         if (type) return type;
@@ -583,7 +583,7 @@ export default class Bind extends Expression {
             ? [
                   new Halt(
                       (evaluator) => new ValueException(evaluator, this),
-                      this
+                      this,
                   ),
               ]
             : [
@@ -598,7 +598,7 @@ export default class Bind extends Expression {
                       ) {
                           const stream = evaluator.getStreamFor(
                               this.value,
-                              true
+                              true,
                           );
                           const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
@@ -653,14 +653,14 @@ export default class Bind extends Expression {
             locales.get((l) => l.node.Bind.start),
             this.value === undefined
                 ? undefined
-                : new NodeRef(this.value, locales, context)
+                : new NodeRef(this.value, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
@@ -670,8 +670,8 @@ export default class Bind extends Expression {
                 this.names,
                 locales,
                 context,
-                locales.getName(this.names)
-            )
+                locales.getName(this.names),
+            ),
         );
     }
 

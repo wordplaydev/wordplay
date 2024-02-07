@@ -3,36 +3,24 @@
         value: string | undefined;
         label: string;
     };
+    export type Group = {
+        label: string;
+        options: Option[];
+    };
 </script>
 
 <script lang="ts">
     import { tick } from 'svelte';
 
     export let value: string | undefined;
-    export let options: Option[];
+    export let label: string;
+    export let options: Group[] | Option[];
     export let change: (value: string | undefined) => void;
     export let width = '10em';
     export let id: string;
     export let editable = true;
 
     let view: HTMLSelectElement | undefined = undefined;
-
-    function handleKey(event: KeyboardEvent) {
-        const index = options.findIndex((option) => option.value === value);
-        if (index >= 0) {
-            let newValue = null;
-            if (event.key === 'ArrowDown')
-                newValue =
-                    options[index === options.length - 1 ? 0 : index + 1];
-            else if (event.key === 'ArrowUp')
-                newValue =
-                    options[index === 0 ? options.length - 1 : index - 1];
-            if (newValue !== null) {
-                event.preventDefault();
-                commitChange(newValue.value);
-            }
-        }
-    }
 
     async function commitChange(newValue: string | undefined) {
         change(newValue);
@@ -42,18 +30,29 @@
 </script>
 
 <select
+    aria-label={label}
+    title={label}
     bind:value
     {id}
     on:change={() => commitChange(value)}
-    on:keydown|stopPropagation={handleKey}
     bind:this={view}
     style:width
     disabled={!editable}
 >
     {#each options as option}
-        <option selected={option.value === value} value={option.value}
-            >{option.label}</option
-        >
+        {#if 'options' in option}
+            <optgroup label={option.label}>
+                {#each option.options as groupoption}
+                    <option
+                        selected={groupoption.value === value}
+                        value={groupoption.value}>{groupoption.label}</option
+                    >{/each}
+            </optgroup>
+        {:else}
+            <option selected={option.value === value} value={option.value}
+                >{option.label}</option
+            >
+        {/if}
     {/each}
 </select>
 
@@ -61,6 +60,7 @@
     select {
         appearance: none;
         border: none;
+        background: var(--wordplay-background);
         padding-left: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);
         font-family: var(--wordplay-app-font);

@@ -26,13 +26,13 @@ export function createShapeType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Shape.color)}•🌈${'|ø: ø'}
         ${getBind(
             locales,
-            (locale) => locale.output.Shape.background
+            (locale) => locale.output.Shape.background,
         )}•Color${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.opacity)}•%${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.offset)}•📍|ø: ø
         ${getBind(
             locales,
-            (locale) => locale.output.Phrase.rotation
+            (locale) => locale.output.Phrase.rotation,
         )}•#°${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.scale)}•#${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Shape.flipx)}•?${'|ø: ø'}
@@ -43,12 +43,12 @@ export function createShapeType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Shape.exiting)}•ø|🤪|💃: ø
         ${getBind(locales, (locale) => locale.output.Shape.duration)}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Shape.style)}•${locales
-        .getLocales()
-        .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
-        )
-        .flat()
-        .join('|')}: "${DefaultStyle}"
+            .getLocales()
+            .map((locale) =>
+                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            )
+            .flat()
+            .join('|')}: "${DefaultStyle}"
     )
 `);
 }
@@ -91,7 +91,7 @@ export default class Shape extends Output {
         moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
-        style: string
+        style: string,
     ) {
         super(
             value,
@@ -102,7 +102,7 @@ export default class Shape extends Output {
                 form.getLeft(),
                 // We render all output from the baseline
                 form.getTop() - form.getHeight(),
-                form.getZ()
+                form.getZ(),
             ),
             name,
             selectable,
@@ -113,7 +113,7 @@ export default class Shape extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
         );
 
         this.form = form;
@@ -148,6 +148,7 @@ export default class Shape extends Output {
     }
 
     getBackground(): Color | undefined {
+        // console.log(this.background);
         return this.background;
     }
 
@@ -159,17 +160,26 @@ export default class Shape extends Output {
         return this.form.getDescription(locales);
     }
 
+    getRepresentativeText() {
+        return undefined;
+    }
+
     isEmpty() {
         return false;
+    }
+
+    getEntryAnimated() {
+        return this.entering !== undefined ? [this] : [];
     }
 }
 
 export function toShape(
     project: Project,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
+<<<<<<< HEAD
 
     let form;
     const outputTypes = value.context.getEvaluator().project.shares.output;
@@ -184,6 +194,14 @@ export function toShape(
     }
     console.log(form);
     // const form = toRectangle(getOutputInput(value, 0));
+=======
+    let form;
+    if (value.is(project.getDefaultShares().output.Rectangle)) {
+        form = toRectangle(getOutputInput(value, 0));
+    } else if (value.is(project.getDefaultShares().output.Line)) {
+        form = toLine(getOutputInput(value, 0));
+    }
+>>>>>>> 32adc6866fd74b6d1f7444c2885f42e597cffd5d
 
     const {
         name,
@@ -215,7 +233,7 @@ export function toShape(
               move,
               exit,
               duration,
-              style
+              style,
           )
         : undefined;
 }

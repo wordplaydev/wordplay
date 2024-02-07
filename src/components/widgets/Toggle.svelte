@@ -37,15 +37,6 @@
     on:dblclick|stopPropagation
     on:click={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
-    on:keydown={(event) =>
-        (event.key === 'Enter' || event.key === ' ') &&
-        // Only activate with no modifiers down. Enter is used for other shortcuts.
-        !event.shiftKey &&
-        !event.ctrlKey &&
-        !event.altKey &&
-        !event.metaKey
-            ? doToggle(event)
-            : undefined}
 >
     {#if command}<CommandHint {command} />{/if}
     <slot />

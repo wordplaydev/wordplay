@@ -1,6 +1,6 @@
 import type Node from './Node';
 import Token from './Token';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import type Conflict from '@conflicts/Conflict';
 import type Type from './Type';
 import BooleanType from './BooleanType';
@@ -80,7 +80,7 @@ export default class Delete extends Expression {
         type: Type | undefined,
         anchor: Node,
         selected: boolean,
-        context: Context
+        context: Context,
     ) {
         const anchorType =
             anchor instanceof Expression ? anchor.getType(context) : undefined;
@@ -90,7 +90,7 @@ export default class Delete extends Expression {
             ? [
                   Delete.make(
                       anchor,
-                      ExpressionPlaceholder.make(BooleanType.make())
+                      ExpressionPlaceholder.make(BooleanType.make()),
                   ),
               ]
             : [];
@@ -104,7 +104,7 @@ export default class Delete extends Expression {
         return new Delete(
             this.replaceChild('table', this.table, replace),
             this.replaceChild('del', this.del, replace),
-            this.replaceChild('query', this.query, replace)
+            this.replaceChild('query', this.query, replace),
         ) as this;
     }
 
@@ -122,7 +122,11 @@ export default class Delete extends Expression {
         // Table must be table typed.
         if (!(tableType instanceof TableType))
             conflicts.push(
-                new IncompatibleInput(this.table, tableType, TableType.make([]))
+                new IncompatibleInput(
+                    this.table,
+                    tableType,
+                    TableType.make([]),
+                ),
             );
 
         // The query must be truthy.
@@ -132,7 +136,11 @@ export default class Delete extends Expression {
             !(queryType instanceof BooleanType)
         )
             conflicts.push(
-                new IncompatibleInput(this.query, queryType, BooleanType.make())
+                new IncompatibleInput(
+                    this.query,
+                    queryType,
+                    BooleanType.make(),
+                ),
             );
 
         return conflicts;
@@ -165,7 +173,7 @@ export default class Delete extends Expression {
             undefined,
             [],
             this.query,
-            BooleanType.make()
+            BooleanType.make(),
         );
 
         return [
@@ -181,7 +189,7 @@ export default class Delete extends Expression {
                         : evaluator.getValueOrTypeException(
                               this,
                               TableType.make(),
-                              table
+                              table,
                           );
                 },
                 (evaluator, info) => {
@@ -193,8 +201,8 @@ export default class Delete extends Expression {
                                 evaluator,
                                 this,
                                 query,
-                                info.table.rows[info.index]
-                            )
+                                info.table.rows[info.index],
+                            ),
                         );
                         return true;
                     }
@@ -207,7 +215,7 @@ export default class Delete extends Expression {
                         info.list.push(info.table.rows[info.index]);
                     // Increment the counter.
                     info.index = info.index + 1;
-                }
+                },
             ),
             new Finish(this),
         ];
@@ -222,16 +230,11 @@ export default class Delete extends Expression {
         return new TableValue(this, table.type, list);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.table instanceof Expression)
-            this.table.evaluateTypeGuards(bind, original, current, context);
+            this.table.evaluateTypeGuards(current, guard);
         if (this.query instanceof Expression)
-            this.query.evaluateTypeGuards(bind, original, current, context);
+            this.query.evaluateTypeGuards(current, guard);
         return current;
     }
 
@@ -250,19 +253,19 @@ export default class Delete extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.Delete.start),
-            new NodeRef(this.table, locales, context)
+            new NodeRef(this.table, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Delete.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

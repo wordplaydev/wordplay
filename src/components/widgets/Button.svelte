@@ -49,7 +49,7 @@
     aria-disabled={!active}
     bind:this={view}
     on:dblclick|stopPropagation
-    on:click={loading
+    on:click|stopPropagation={loading
         ? null
         : (event) =>
               event.button === 0 && active ? doAction(event) : undefined}

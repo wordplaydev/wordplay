@@ -11,7 +11,8 @@
     export let value: SetValue;
     export let inline = true;
 
-    const Limit = 3;
+    const CollapsedLimit = 3;
+    const MaxItems = 100;
 </script>
 
 <!-- Inline sets are shown as a collapsed list -->
@@ -19,14 +20,14 @@
     <SymbolView
         symbol={SET_OPEN_SYMBOL}
         type={Sym.SetOpen}
-    />{#if value.values.length > Limit}<Expandable
+    />{#if value.values.length > CollapsedLimit}<Expandable
             ><svelte:fragment slot="expanded"
                 >{#each value.values as item, index}<ValueView
                         value={item}
                         {inline}
                     />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
             ><svelte:fragment slot="collapsed"
-                >{#each value.values.slice(0, Limit) as item, index}<ValueView
+                >{#each value.values.slice(0, CollapsedLimit) as item, index}<ValueView
                         value={item}
                         {inline}
                     />{#if index < value.values.length - 1}{' '}{/if}{/each}…</svelte:fragment
@@ -41,9 +42,10 @@
     <!-- Block sets are like inline, but not collapsed -->
 {:else}
     <SymbolView symbol={SET_OPEN_SYMBOL} type={Sym.SetOpen} />
-    {#each value.values as item, index}<ValueView
+    {#each value.values.slice(0, MaxItems) as item, index}<ValueView
             value={item}
             {inline}
         />{#if index < value.values.length - 1}{' '}{/if}{/each}
+    {#if value.values.length > MaxItems}…{/if}
     <SymbolView symbol={SET_CLOSE_SYMBOL} type={Sym.SetClose} />
 {/if}

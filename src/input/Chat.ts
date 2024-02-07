@@ -13,7 +13,7 @@ export default class Chat extends StreamValue<TextValue, string> {
     constructor(evaluator: Evaluator) {
         super(
             evaluator,
-            evaluator.project.shares.input.Key,
+            evaluator.project.shares.input.Chat,
             new TextValue(evaluator.getMain(), ''),
             ''
         );

@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import { IncompatibleKey } from '@conflicts/IncompatibleKey';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import type Token from './Token';
 import Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -14,7 +14,6 @@ import type Context from './Context';
 import MapType from './MapType';
 import SetType from './SetType';
 import BooleanType from './BooleanType';
-import type Bind from './Bind';
 import type TypeSet from './TypeSet';
 import TypeException from '@values/TypeException';
 import UnionType from './UnionType';
@@ -32,6 +31,10 @@ import concretize from '../locale/concretize';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 import NoneType from './NoneType';
+import getGuards from './getGuards';
+import Reference from './Reference';
+import PropertyReference from './PropertyReference';
+import Bind from './Bind';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -43,7 +46,7 @@ export default class SetOrMapAccess extends Expression {
         setOrMap: Expression,
         open: Token,
         key: Expression,
-        close?: Token
+        close?: Token,
     ) {
         super();
 
@@ -60,7 +63,7 @@ export default class SetOrMapAccess extends Expression {
             setOrMap,
             new SetOpenToken(),
             key,
-            new SetCloseToken()
+            new SetCloseToken(),
         );
     }
 
@@ -92,7 +95,7 @@ export default class SetOrMapAccess extends Expression {
             this.replaceChild('setOrMap', this.setOrMap, replace),
             this.replaceChild('open', this.open, replace),
             this.replaceChild('key', this.key, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -115,8 +118,8 @@ export default class SetOrMapAccess extends Expression {
                 new IncompatibleInput(
                     this,
                     setMapType,
-                    UnionType.make(SetType.make(), MapType.make())
-                )
+                    UnionType.make(SetType.make(), MapType.make()),
+                ),
             );
 
         if (
@@ -140,15 +143,66 @@ export default class SetOrMapAccess extends Expression {
         if (
             setOrMapType instanceof MapType &&
             setOrMapType.value instanceof Type
-        )
-            return UnionType.make(setOrMapType.value, NoneType.make());
-        else if (setOrMapType instanceof SetType) return BooleanType.make();
+        ) {
+            const itemTypes = UnionType.make(
+                setOrMapType.value,
+                NoneType.make(),
+            );
+
+            // See if there are any type guards on list accesses with equivalent expressions.
+            // Find any type guards that are also list accesses that have an equivalent index expression.
+            const guards = getGuards(this, context, (node) => {
+                if (
+                    // Node is a list access
+                    node instanceof SetOrMapAccess &&
+                    // And it's index expression is equal this access's index expression
+                    node.key.isEqualTo(this.key)
+                ) {
+                    // If the parent of the list access is an expression and it guards types, then return it.
+                    const parent = context.source.root.getParent(node);
+                    return parent instanceof Expression && parent.guardsTypes();
+                } else return false;
+            });
+
+            // Grab the furthest ancestor and evaluate possible types from there.
+            const root = guards[0];
+            if (root !== undefined) {
+                const reference = this.getReference();
+                // Get the list this refers to.
+                const bind = reference ? reference.resolve(context) : undefined;
+                if (bind instanceof Bind && reference) {
+                    // Get the possible types of the item type.
+                    const possibleTypes = itemTypes.getTypeSet(context);
+                    root.evaluateTypeGuards(possibleTypes, {
+                        bind,
+                        key: this.key.toWordplay(),
+                        original: possibleTypes,
+                        context,
+                    });
+                    // Get the narrowed type of this index. Use the expression as the key.
+                    return (
+                        context.getReferenceType(
+                            reference,
+                            this.key.toWordplay(),
+                        ) ?? itemTypes
+                    );
+                }
+            }
+            return itemTypes;
+        } else if (setOrMapType instanceof SetType) return BooleanType.make();
         else
             return new NotAType(
                 this,
                 setOrMapType,
-                UnionType.make(SetType.make(), MapType.make())
+                UnionType.make(SetType.make(), MapType.make()),
             );
+    }
+
+    getReference(): Reference | PropertyReference | undefined {
+        return this.setOrMap instanceof Reference ||
+            this.setOrMap instanceof PropertyReference
+            ? this.setOrMap
+            : undefined;
     }
 
     getDependencies(): Expression[] {
@@ -176,22 +230,36 @@ export default class SetOrMapAccess extends Expression {
                 this,
                 evaluator,
                 UnionType.make(SetType.make(), MapType.make()),
-                setOrMap
+                setOrMap,
             );
         else return setOrMap.has(this, key);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
+        // Does this expression match the expression we're guarding? Remember the types for the map.
+        if (
+            (this.setOrMap instanceof Reference ||
+                this.setOrMap instanceof PropertyReference) &&
+            this.isGuardMatch(guard)
+        )
+            guard.context.setReferenceType(
+                this.setOrMap,
+                this.key.toWordplay(),
+                UnionType.getPossibleUnion(guard.context, current.list()),
+            );
+
         if (this.setOrMap instanceof Expression)
-            this.setOrMap.evaluateTypeGuards(bind, original, current, context);
+            this.setOrMap.evaluateTypeGuards(current, guard);
         if (this.key instanceof Expression)
-            this.key.evaluateTypeGuards(bind, original, current, context);
+            this.key.evaluateTypeGuards(current, guard);
         return current;
+    }
+
+    isGuardMatch(guard: GuardContext): boolean {
+        return (
+            this.getReference()?.resolve(guard.context) === guard.bind &&
+            this.key.toWordplay() === guard.key
+        );
     }
 
     getStart() {
@@ -209,19 +277,19 @@ export default class SetOrMapAccess extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.SetOrMapAccess.start),
-            new NodeRef(this.setOrMap, locales, context)
+            new NodeRef(this.setOrMap, locales, context),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.SetOrMapAccess.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

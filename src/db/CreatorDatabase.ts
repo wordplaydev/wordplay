@@ -3,16 +3,18 @@ import type { Database } from './Database';
 import { functions } from './firebase';
 import type { UserIdentifier } from 'firebase-admin/auth';
 import type { User } from 'firebase/auth';
+import isValidEmail from './isValidEmail';
 
 export const CreatorCollection = 'creators';
 
-/** The type for a record returned by our cloud functions */
+/** The type for the record returned by our cloud functions */
 type CreatorSchema = {
     uid: string;
     name: string | null;
     email: string | null;
 };
 
+/** Tracks metadata about creators, which is primarily stored in Firebase Auth, but also Firestore, where non-auth data about users lives. */
 export class Creator {
     /** This is the domain we append to work around the lack of Firebase support for raw usernames. */
     static CreatorUsernameEmailDomain = '@u.wordplay.dev';
@@ -56,10 +58,13 @@ export class Creator {
         return this.data.email === null
             ? '—'
             : anonymous
-            ? `${this.data.email.split('@')[0].substring(0, 4)}...`
-            : this.isUsername()
-            ? this.data.email.replace(Creator.CreatorUsernameEmailDomain, '')
-            : this.data.email;
+              ? `${this.data.email.split('@')[0].substring(0, 4)}...`
+              : this.isUsername()
+                ? this.data.email.replace(
+                      Creator.CreatorUsernameEmailDomain,
+                      '',
+                  )
+                : this.data.email;
     }
 
     getUID() {
@@ -88,7 +93,7 @@ export default class CreatorDatabase {
 
     async getCreators(
         ids: string[],
-        detail: 'email' | 'uid'
+        detail: 'email' | 'uid',
     ): Promise<Creator[]> {
         const email = detail === 'email';
         let missing = ids.slice();
@@ -110,12 +115,12 @@ export default class CreatorDatabase {
         // Get missing info.
         const getCreators = httpsCallable<UserIdentifier[], CreatorSchema[]>(
             functions,
-            'getCreators'
+            'getCreators',
         );
 
         const missingCreators = (
             await getCreators(
-                missing.map((id) => (email ? { email: id } : { uid: id }))
+                missing.map((id) => (email ? { email: id } : { uid: id })),
             )
         ).data as CreatorSchema[];
 
@@ -125,7 +130,7 @@ export default class CreatorDatabase {
             if (schema.email) this.creatorsByEmail.set(schema.email, creator);
             this.creatorsByUID.set(schema.uid, creator);
             missing = missing.filter(
-                (id) => id !== (email ? schema.email : schema.uid)
+                (id) => id !== (email ? schema.email : schema.uid),
             );
             creators.push(creator);
         }
@@ -138,8 +143,8 @@ export default class CreatorDatabase {
         return creators;
     }
 
-    async getCreatorsByEmail(
-        uids: string[]
+    async getCreatorsByUIDs(
+        uids: string[],
     ): Promise<Record<string, Creator | null>> {
         // First get any missing creators.
         await this.getCreators(uids, 'uid');
@@ -150,12 +155,16 @@ export default class CreatorDatabase {
         return map;
     }
 
-    async getUID(email: string): Promise<string | null> {
+    async getUID(emailOrUsername: string): Promise<string | null> {
+        // Append the username domain if it's not an email
+        if (!isValidEmail(emailOrUsername))
+            emailOrUsername =
+                emailOrUsername + Creator.CreatorUsernameEmailDomain;
         // First get any missing creators.
-        await this.getCreators([email], 'email');
+        await this.getCreators([emailOrUsername], 'email');
 
         // Then return what we've got.
-        return this.creatorsByEmail.get(email)?.getUID() ?? null;
+        return this.creatorsByEmail.get(emailOrUsername)?.getUID() ?? null;
     }
 
     async getCreator(uid: string): Promise<Creator | null> {

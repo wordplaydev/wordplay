@@ -630,7 +630,16 @@ type NodeTexts = {
      * One alternate translation of a text literal, e.g., the `'hola/es`' of `'hi'/en'hola'/es`
      * Description inputs: $1 = the text
      */
-    Translation: DescriptiveNodeText;
+    Translation: DescriptiveNodeText &
+        Conflicts<{
+            phone: InternalConflictText;
+            email: InternalConflictText;
+            address: InternalConflictText;
+            tin: InternalConflictText;
+            handle: InternalConflictText;
+            /** How to describe the resolution of the sensitive information conflict. */
+            resolution: Template;
+        }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `
      * Description inputs: $1 = the text
@@ -822,4 +831,4 @@ type NodeTexts = {
     NonFunctionType: DescriptiveNodeText;
 };
 
-export default NodeTexts;
+export { type NodeTexts as default };

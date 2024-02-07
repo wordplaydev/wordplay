@@ -4,8 +4,6 @@ import type Type from '@nodes/Type';
 import type Step from '@runtime/Step';
 import type Expression from '@nodes/Expression';
 import type Evaluation from '@runtime/Evaluation';
-import type Bind from '@nodes/Bind';
-import type Context from '@nodes/Context';
 import type TypeSet from '@nodes/TypeSet';
 import StartFinish from '@runtime/StartFinish';
 import SimpleExpression from '@nodes/SimpleExpression';
@@ -27,7 +25,7 @@ export default class InternalExpression extends SimpleExpression {
     constructor(
         type: Type | string,
         steps: Step[],
-        evaluator: (requestor: Expression, evaluator: Evaluation) => Value
+        evaluator: (requestor: Expression, evaluator: Evaluation) => Value,
     ) {
         super();
 
@@ -80,7 +78,7 @@ export default class InternalExpression extends SimpleExpression {
             ? new InternalException(
                   this,
                   evaluator,
-                  'there is no evaluation, which should be impossible'
+                  'there is no evaluation, which should be impossible',
               )
             : this.evaluator(this, evaluation);
     }
@@ -90,15 +88,7 @@ export default class InternalExpression extends SimpleExpression {
         return this;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        context;
-        bind;
-        original;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -117,7 +107,7 @@ export default class InternalExpression extends SimpleExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.InternalExpression.start)
+            locales.get((l) => l.node.InternalExpression.start),
         );
     }
 

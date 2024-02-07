@@ -1,7 +1,7 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnexpectedTypeVariable } from '@conflicts/UnexpectedTypeVariable';
 import { UnknownName } from '@conflicts/UnknownName';
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import type Token from './Token';
 import Type from './Type';
 import TypeVariable from './TypeVariable';
@@ -62,7 +62,7 @@ export default class Reference extends SimpleExpression {
         expectedType: Type | undefined,
         anchor: Node,
         isBeingReplaced: boolean,
-        context: Context
+        context: Context,
     ): Refer[] {
         const match = (def: Definition, prefix: string, name: string) =>
             def.getNames().find((n) => n.startsWith(prefix)) ?? name;
@@ -81,8 +81,8 @@ export default class Reference extends SimpleExpression {
                 .filter((def) =>
                     def.getNames().some((name) =>
                         // Hello
-                        name.startsWith(prefix)
-                    )
+                        name.startsWith(prefix),
+                    ),
                 )
                 // Translate the definitions into References, or  to the definitions.
                 .map((definition) => {
@@ -94,19 +94,19 @@ export default class Reference extends SimpleExpression {
                                     definition
                                         .getType(context)
                                         .generalize(context),
-                                    context
+                                    context,
                                 ))) || // A function type that matches the function?
                         (expectedType instanceof FunctionType &&
                             definition instanceof FunctionDefinition &&
                             expectedType.accepts(
                                 definition.getType(context),
-                                context
+                                context,
                             ))
                     )
                         return new Refer(
                             (name) =>
                                 Reference.make(match(definition, prefix, name)),
-                            definition
+                            definition,
                         );
                     // If the anchor is in list field, and the anchor is not being replaced, offer (Binary/Unary)Evaluate in scope.
                     else if (
@@ -121,7 +121,7 @@ export default class Reference extends SimpleExpression {
                                 // A function that returns a type that matches the expected type?
                                 expectedType.accepts(
                                     definition.getOutputType(context),
-                                    context
+                                    context,
                                 ))
                         ) {
                             return new Refer(
@@ -129,9 +129,9 @@ export default class Reference extends SimpleExpression {
                                     definition.getEvaluateTemplate(
                                         match(definition, prefix, name),
                                         context,
-                                        undefined
+                                        undefined,
                                     ),
-                                definition
+                                definition,
                             );
                         }
                         // Structure definition or stream definition? Make an Evaluate.
@@ -141,15 +141,15 @@ export default class Reference extends SimpleExpression {
                             (expectedType === undefined ||
                                 expectedType.accepts(
                                     definition.getType(context),
-                                    context
+                                    context,
                                 ))
                         ) {
                             return new Refer(
                                 (name) =>
                                     definition.getEvaluateTemplate(
-                                        match(definition, prefix, name)
+                                        match(definition, prefix, name),
                                     ),
-                                definition
+                                definition,
                             );
                         }
                     } else return undefined;
@@ -174,7 +174,7 @@ export default class Reference extends SimpleExpression {
                 // The valid definitions of the name are anything in scope, except for the current name.
                 getDefinitions: (context: Context) =>
                     this.getDefinitionsInScope(context).filter(
-                        (def) => !def.hasName(this.getName())
+                        (def) => !def.hasName(this.getName()),
                     ),
             },
         ];
@@ -186,7 +186,7 @@ export default class Reference extends SimpleExpression {
 
     clone(replace?: Replacement) {
         return new Reference(
-            this.replaceChild('name', this.name, replace)
+            this.replaceChild('name', this.name, replace),
         ) as this;
     }
 
@@ -215,7 +215,10 @@ export default class Reference extends SimpleExpression {
         if (bindOrTypeVar === undefined) {
             const scope = this.getScope(context);
             conflicts.push(
-                new UnknownName(this, scope instanceof Type ? scope : undefined)
+                new UnknownName(
+                    this,
+                    scope instanceof Type ? scope : undefined,
+                ),
             );
         }
         // Can't refer to type variables with a reference, those can only be mentioned in type inputs.
@@ -259,6 +262,10 @@ export default class Reference extends SimpleExpression {
         return this.resolve(context) === def;
     }
 
+    getTypeGuardKey() {
+        return 'this';
+    }
+
     computeType(context: Context): Type {
         // The type is the type of the bind.
         const definition = this.resolve(context);
@@ -275,7 +282,7 @@ export default class Reference extends SimpleExpression {
         if (
             definition instanceof Bind &&
             type instanceof UnionType &&
-            context.getReferenceType(this) === undefined
+            context.getReferenceType(this, this.getTypeGuardKey()) === undefined
         ) {
             // Find any conditionals with type checks that refer to the value bound to this name.
             // Reverse them so they are in furthest to nearest ancestor, so we narrow types in execution order.
@@ -295,32 +302,39 @@ export default class Reference extends SimpleExpression {
             const root = guards[0];
             if (root !== undefined) {
                 const possibleTypes = type.getTypeSet(context);
-                root.evaluateTypeGuards(
-                    definition,
-                    possibleTypes,
-                    possibleTypes,
-                    context
-                );
+                root.evaluateTypeGuards(possibleTypes, {
+                    bind: definition,
+                    key: this.getTypeGuardKey(),
+                    original: possibleTypes,
+                    context,
+                });
             }
         }
 
-        return context.getReferenceType(this) ?? type;
+        return context.getReferenceType(this, this.getTypeGuardKey()) ?? type;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        _: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         // Cache the type of this name at this point in execution.
-        if (this.resolve(context) === bind)
-            context.setReferenceType(
+        if (
+            this.resolve(guard.context) === guard.bind &&
+            guard.key === this.getTypeGuardKey()
+        )
+            guard.context.setReferenceType(
                 this,
-                UnionType.getPossibleUnion(context, current.list())
+                this.getTypeGuardKey(),
+                UnionType.getPossibleUnion(guard.context, current.list()),
             );
 
         return current;
+    }
+
+    isGuardMatch(guard: GuardContext): boolean {
+        // This is a guard match if it corresponds to the same bind and key
+        return (
+            this.resolve(guard.context) === guard.bind &&
+            this.getTypeGuardKey() === guard.key
+        );
     }
 
     getDependencies(context: Context) {
@@ -363,7 +377,7 @@ export default class Reference extends SimpleExpression {
         return concretize(
             locales,
             locales.get((l) => l.node.Reference.start),
-            new NodeRef(this.name, locales, context)
+            new NodeRef(this.name, locales, context),
         );
     }
 

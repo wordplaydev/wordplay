@@ -1,0 +1,41 @@
+Basketball Star
+=== start
+click: ∆ Button()
+
+clickCount: 0 … click … 1 + .
+
+basketballPlace: (clickCount % 2) = 0 ? Place(x: Pointer().x y: 8m z: 0m) Motion(place: Place(0m 8m 0m))
+
+basketball: Phrase(
+		"🏀" 0.7m
+		matter: Matter(0.623kg 0.99)
+		place: basketballPlace
+		name: "basketball"
+	)
+
+`` Randomize basket location each time a shot is taken ``
+basketXPlace: Random(-9000m 9000m) ÷ 1000 … (click & ((clickCount % 2) = 1)) … Random(-9000m 9000m) ÷ 1000
+
+`` Keep track of scores and attempts ``
+score: 0 … (click & ((clickCount % 2) = 1) & ((basketXPlace + 1m) > basketball.place.x) & ((basketXPlace - 1m) < basketball.place.x)) … 1 + .
+attempt: (clickCount ÷ 2).roundUp()
+
+basketballStar: Group(Stack() [
+			Phrase("BASKETBALL" offset: Place(0m 2m 0m))
+			Phrase("STAR" offset: Place(0m 1m 0m))
+			Phrase("Score: " + score → '' offset: Place(0m -4.5m 3m))
+			Phrase("Attempts: " + attempt → '' offset: Place(0m -5m 3m))
+		] size: 2m face: "Sue Ellen Francisco" offset: Place(0m 4m 10m))
+
+Stage(
+	[
+		basketball
+		Shape(Rectangle(-1m + basketXPlace 0.1m 1m + basketXPlace 0m 0m) background: Color(60% 100 30°))
+		Shape(Rectangle(0.9m + basketXPlace 2m 1m + basketXPlace 0m 0m) background: Color(60% 100 30°))
+		Shape(Rectangle(-1m + basketXPlace 2m -0.9m + basketXPlace 0m 0m) background: Color(60% 100 30°))
+		Shape(Rectangle(-10m 0.01m 10m -2m))
+		basketballStar
+	]
+	place: Place(x: 0m y: 5m z: -10m)
+	gravity: 5m/s^2
+)

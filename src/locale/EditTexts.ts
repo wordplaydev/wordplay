@@ -5,7 +5,7 @@ type EditTexts = {
     node: Template;
     /** A way to say "before [token], at the beginning of the program" */
     before: Template;
-    /** A way to say "inside [description]" */
+    /** A way to say "inside [description], between character [before|start] and [after|end]" */
     inside: Template;
     /** A way to say "between [token1] and [token2]" */
     between: Template;
@@ -29,4 +29,4 @@ type EditTexts = {
     bind: string;
 };
 
-export default EditTexts;
+export { type EditTexts as default };

@@ -27,10 +27,12 @@
             a.getName().localeCompare(b.getName(), $locales.getLanguages())
         );
     }
+
+    $: listed = sortProjects(set).filter((p) => p.isListed());
 </script>
 
 <div class="projects">
-    {#each sortProjects(set).filter( (p) => p.isListed() ) as project (project.getID())}
+    {#each listed as project (project.getID())}
         {@const removeMeta = remove(project)}
         <ProjectPreview {project} link={project.getLink(true)}
             ><div class="controls">

@@ -67,6 +67,10 @@ export default class BoolValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return this.toWordplay();
+    }
+
     getSize() {
         return 1;
     }

@@ -1,4 +1,4 @@
-import Expression from './Expression';
+import Expression, { type GuardContext } from './Expression';
 import KeyValue from '@nodes/KeyValue';
 import type Token from './Token';
 import type Type from './Type';
@@ -15,7 +15,6 @@ import type TypeSet from './TypeSet';
 import { NotAKeyValue } from '@conflicts/NotAKeyValue';
 import MapType from './MapType';
 import AnyType from './AnyType';
-import type Bind from './Bind';
 import BindToken from './BindToken';
 import SetOpenToken from './SetOpenToken';
 import SetCloseToken from './SetCloseToken';
@@ -28,6 +27,7 @@ import concretize from '../locale/concretize';
 import ValueException from '../values/ValueException';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -41,7 +41,7 @@ export default class MapLiteral extends Expression {
         values: (KeyValue | Expression)[],
         bind?: Token,
         close?: Token,
-        literal?: Token
+        literal?: Token,
     ) {
         super();
 
@@ -59,7 +59,7 @@ export default class MapLiteral extends Expression {
             new SetOpenToken(),
             values ?? [],
             (values ?? []).length === 0 ? new BindToken() : undefined,
-            new SetCloseToken()
+            new SetCloseToken(),
         );
     }
 
@@ -80,6 +80,11 @@ export default class MapLiteral extends Expression {
                 kind: list(true, node(KeyValue)),
                 space: true,
                 indent: true,
+                newline:
+                    this.values.reduce(
+                        (sum, value) => sum + value.toWordplay().length,
+                        0,
+                    ) > MAX_LINE_LENGTH,
             },
             { name: 'close', kind: node(Sym.SetClose) },
             { name: 'literal', kind: node(Sym.Literal) },
@@ -92,7 +97,7 @@ export default class MapLiteral extends Expression {
             this.replaceChild('values', this.values, replace),
             this.replaceChild('bind', this.bind, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('literal', this.literal, replace)
+            this.replaceChild('literal', this.literal, replace),
         ) as this;
     }
 
@@ -113,7 +118,7 @@ export default class MapLiteral extends Expression {
 
         // Check for non-key/value pairs
         for (const expression of this.values.filter(
-            (v): v is Expression => v instanceof Expression
+            (v): v is Expression => v instanceof Expression,
         ))
             conflicts.push(new NotAKeyValue(this, expression));
 
@@ -131,7 +136,9 @@ export default class MapLiteral extends Expression {
                 ? new AnyType()
                 : UnionType.getPossibleUnion(
                       context,
-                      this.getKeyValuePairs().map((v) => v.key.getType(context))
+                      this.getKeyValuePairs().map((v) =>
+                          v.key.getType(context),
+                      ),
                   );
 
         const valueType =
@@ -140,14 +147,14 @@ export default class MapLiteral extends Expression {
                 : UnionType.getPossibleUnion(
                       context,
                       this.getKeyValuePairs().map((v) =>
-                          v.value.getType(context)
-                      )
+                          v.value.getType(context),
+                      ),
                   );
 
         // Strip away any concrete types in the item types.
         return MapType.make(
             this.literal ? keyType : keyType.generalize(context),
-            this.literal ? valueType : valueType.generalize(context)
+            this.literal ? valueType : valueType.generalize(context),
         );
     }
 
@@ -169,7 +176,7 @@ export default class MapLiteral extends Expression {
                         ...item.value.compile(evaluator, context),
                     ],
                 ],
-                []
+                [],
             ),
             // Then build the set or map.
             new Finish(this),
@@ -179,7 +186,7 @@ export default class MapLiteral extends Expression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        // Pop all of the values. Order doesn't matter.
+        // Pop all of the values. Order matters because redundant keys that come later should override previous keys.
         const values: [Value, Value][] = [];
         for (let i = 0; i < this.values.length; i++) {
             const value = evaluator.popValue(this);
@@ -191,15 +198,10 @@ export default class MapLiteral extends Expression {
         return new MapValue(this, values);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         this.values.forEach((val) => {
             if (val instanceof Expression)
-                val.evaluateTypeGuards(bind, original, current, context);
+                val.evaluateTypeGuards(current, guard);
         });
         return current;
     }
@@ -224,19 +226,19 @@ export default class MapLiteral extends Expression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.MapLiteral.start)
+            locales.get((l) => l.node.MapLiteral.start),
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.MapLiteral.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

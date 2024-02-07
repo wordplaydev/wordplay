@@ -99,11 +99,11 @@
                     const [, bMatches] = b;
                     const aMinPriority = Math.min.apply(
                         null,
-                        aMatches.map(([, , match]) => match)
+                        aMatches.map(([, , match]) => match),
                     );
                     const bMinPriority = Math.min.apply(
                         null,
-                        bMatches.map(([, , match]) => match)
+                        bMatches.map(([, , match]) => match),
                     );
                     return aMinPriority - bMinPriority;
                 });
@@ -122,10 +122,10 @@
                   .filter(
                       (n): n is ConceptLink =>
                           n instanceof ConceptLink &&
-                          n.concept.getText().startsWith('@UI/')
+                          n.concept.getText().startsWith('@UI/'),
                   )
                   .map((concept) =>
-                      concept.concept.getText().substring('@UI/'.length)
+                      concept.concept.getText().substring('@UI/'.length),
                   );
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
@@ -154,14 +154,14 @@
 
         const newSource = source.withProgram(
             source.expression.replace(node, replacement),
-            source.spaces.withReplacement(node, replacement)
+            source.spaces.withReplacement(node, replacement),
         );
 
         // Update the project with the new source files
         Projects.reviseProject(
             project
                 .withSource(source, newSource)
-                .withCaret(newSource, source.getNodeFirstPosition(node) ?? 0)
+                .withCaret(newSource, source.getNodeFirstPosition(node) ?? 0),
         );
     }
 
@@ -196,10 +196,12 @@
                 tip={$locales.get((l) => l.ui.docs.button.back)}
                 action={back}>←</Button
             >
-            {#each $path as concept, index}{#if index > 0}…{/if}<ConceptLinkUI
-                    link={concept}
-                    symbolic={false}
-                />
+            {#each $path as concept, index}{#if index > 0}
+                    ·
+                {/if}{#if index === $path.length - 1}<ConceptLinkUI
+                        link={concept}
+                        symbolic={false}
+                    />{/if}
             {/each}
         </span>
     {/if}
@@ -225,10 +227,10 @@
                                         class="match"
                                         >{match.substring(
                                             index,
-                                            index + query.length
+                                            index + query.length,
                                         )}</span
                                     >{match.substring(
-                                        index + query.length
+                                        index + query.length,
                                     )}</Note
                                 >
                             {/each}
@@ -288,7 +290,7 @@
             <ConceptsView
                 category={$locales.get((l) => l.term.evaluate)}
                 concepts={$index.getPrimaryConceptsWithPurpose(
-                    Purpose.Evaluate
+                    Purpose.Evaluate,
                 )}
             />
             <ConceptsView
@@ -314,7 +316,7 @@
             <ConceptsView
                 category={$locales.get((l) => l.term.document)}
                 concepts={$index.getPrimaryConceptsWithPurpose(
-                    Purpose.Document
+                    Purpose.Document,
                 )}
             />
             <ConceptsView
@@ -340,7 +342,10 @@
     }
 
     .palette {
-        transition: width ease-out, visibility ease-out, opacity ease-out;
+        transition:
+            width ease-out,
+            visibility ease-out,
+            opacity ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
@@ -358,6 +363,7 @@
         border-bottom: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
+        padding-top: 0;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
@@ -371,7 +377,9 @@
     .path {
         display: flex;
         flex-direction: row;
-        flex-wrap: wrap;
+        flex-wrap: nowrap;
+        overflow-x: scroll;
+        font-size: var(--wordplay-small-font-size);
         gap: var(--wordplay-spacing);
         padding-left: var(--wordplay-spacing);
         align-items: center;

@@ -15,7 +15,8 @@
     export let value: MapValue;
     export let inline = true;
 
-    const Limit = 3;
+    const CollapsedLimit = 3;
+    const MaxItems = 100;
 </script>
 
 <!-- Inline maps show a certain number key/value pairs before eliding. -->
@@ -30,7 +31,7 @@
                     {inline}
                 />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
         ><svelte:fragment slot="collapsed"
-            >{#each value.values.slice(0, Limit) as [key, val], index}<ValueView
+            >{#each value.values.slice(0, CollapsedLimit) as [key, val], index}<ValueView
                     value={key}
                     {inline}
                 /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
@@ -42,10 +43,11 @@
 {:else}
     <!-- Block maps are displayed as a two column table -->
     <table>
-        {#each value.values as [key, val]}<tr
+        {#each value.values.slice(0, MaxItems) as [key, val]}<tr
                 ><td><ValueView value={key} {inline} /></td><td>
                     <ValueView value={val} {inline} /></td
                 ></tr
             >{/each}
+        {#if value.values.length > MaxItems}<tr><td colspan="2">…</td></tr>{/if}
     </table>
 {/if}

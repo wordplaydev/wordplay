@@ -1,7 +1,7 @@
 {
-  "projects": {
-    "default": "wordplay-dev",
-    "dev": "wordplay-dev",
-    "prod": "wordplay-prod"
-  }
+    "projects": {
+        "default": "wordplay-dev",
+        "dev": "wordplay-dev",
+        "prod": "wordplay-prod"
+    }
 }

@@ -12,6 +12,9 @@ import Markup from './Markup';
 import { LanguageTagged } from './LanguageTagged';
 import Example from './Example';
 import type Locales from '../locale/Locales';
+import type Conflict from '@conflicts/Conflict';
+import { PossiblePII } from '@conflicts/PossiblePII';
+import type Context from './Context';
 
 export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
@@ -23,7 +26,7 @@ export default class FormattedTranslation extends LanguageTagged {
         open: Token,
         markup: Markup,
         close: Token | undefined,
-        lang: Language | undefined
+        lang: Language | undefined,
     ) {
         super();
 
@@ -35,12 +38,12 @@ export default class FormattedTranslation extends LanguageTagged {
         this.computeChildren();
     }
 
-    static make(content?: Paragraph[]) {
+    static make(content?: Paragraph[], language?: Language) {
         return new FormattedTranslation(
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
             new Markup(content ?? []),
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
-            undefined
+            language,
         );
     }
 
@@ -56,7 +59,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return this.markup
             .nodes()
             .filter(
-                (example): example is Example => example instanceof Example
+                (example): example is Example => example instanceof Example,
             );
     }
 
@@ -74,7 +77,7 @@ export default class FormattedTranslation extends LanguageTagged {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('language', this.language, replace)
+            this.replaceChild('language', this.language, replace),
         ) as this;
     }
 
@@ -87,7 +90,7 @@ export default class FormattedTranslation extends LanguageTagged {
             this.open,
             this.markup,
             this.close,
-            language
+            language,
         );
     }
 
@@ -101,8 +104,8 @@ export default class FormattedTranslation extends LanguageTagged {
                   .join();
     }
 
-    computeConflicts() {
-        return;
+    computeConflicts(context: Context): Conflict[] {
+        return PossiblePII.analyze(this, context);
     }
 
     getNodeLocale(locales: Locales) {

@@ -33,19 +33,26 @@ import { createReboundType } from '../output/Rebound';
 import { createCollisionDefinition } from '../input/Collision';
 import type Locales from '../locale/Locales';
 import { createReactionDefinition } from '../values/ReactionStream';
+import { createSceneDefinition } from '@input/Scene';
+import { createAuraType } from '@output/Aura';
+import { createSourceType } from '@output/Source';
 
 export default function createDefaultShares(locales: Locales) {
+    const TypeType = createOutputType(locales);
     const PlaceType = createPlaceType(locales);
     const VelocityType = createVelocityType(locales);
     const MatterType = createMatterType(locales);
     const ColorType = createColorType(locales);
     const DirectionType = createDirectionType(locales);
     const ReboundType = createReboundType(locales);
+    const PhraseType = createPhraseType(locales);
+    const GroupType = createGroupType(locales);
 
     const OutputTypes = {
-        Type: createOutputType(locales),
-        Phrase: createPhraseType(locales),
-        Group: createGroupType(locales),
+        Type: TypeType,
+        Phrase: PhraseType,
+        Group: GroupType,
+        Aura: createAuraType(locales),
         Stage: createStageType(locales),
         Shape: createShapeType(locales),
         Pose: createPoseType(locales),
@@ -63,6 +70,7 @@ export default function createDefaultShares(locales: Locales) {
         Row: createRowType(locales),
         Grid: createGridType(locales),
         Free: createFreeType(locales),
+        Data: createSourceType(locales),
     };
 
     const InputTypes = {
@@ -81,6 +89,7 @@ export default function createDefaultShares(locales: Locales) {
         Chat: createChatDefinition(locales),
         Collision: createCollisionDefinition(locales, ReboundType),
         Reaction: createReactionDefinition(locales),
+        Scene: createSceneDefinition(locales, PhraseType, GroupType),
     };
 
     const Sequences = getDefaultSequences(locales);

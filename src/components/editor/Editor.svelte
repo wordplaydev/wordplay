@@ -78,15 +78,13 @@
         animationFactor,
         blocks,
         locales,
-        writingLayout,
     } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import Adjust from './Adjust.svelte';
-    import EditorHelp from './EditorHelp.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import { localized } from '../../db/Database';
+    import ExceptionValue from '@values/ExceptionValue';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -98,12 +96,11 @@
     /** True if this editor's output is selected by the container. */
     export let selected: boolean;
     export let autofocus = true;
-    export let showHelp = true;
     export let editable: boolean;
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
     const caret = writable<Caret>(
-        new Caret(source, 0, undefined, undefined, undefined)
+        new Caret(source, 0, undefined, undefined, undefined),
     );
     setContext(CaretSymbol, caret);
 
@@ -118,8 +115,8 @@
                 project.getCaretPosition(source) ?? 0,
                 undefined,
                 undefined,
-                undefined
-            )
+                undefined,
+            ),
         );
     });
 
@@ -296,48 +293,9 @@
                 $caret.getDescription(
                     caretExpressionType,
                     conflictsOfInterest,
-                    context
-                )
+                    context,
+                ),
             );
-        }
-    }
-
-    // When the caret changes, see if there's an adjustable at it, and if so, measure it and then show it.
-    let adjustable: Node | undefined;
-    let adjustableLocation: { left: number; top: number } | undefined;
-    $: {
-        adjustable = undefined;
-        adjustableLocation = undefined;
-        if ($caret) {
-            const node =
-                $caret.position instanceof Node
-                    ? $caret.position
-                    : $caret.tokenExcludingSpace;
-            if (node) {
-                adjustable = $caret.getAdjustableLiteral();
-
-                // When adjustable disappears, focus text field
-                if (adjustable !== undefined) {
-                    tick().then(() => {
-                        if (adjustable) {
-                            const adjustableBounds =
-                                getNodeView(
-                                    adjustable
-                                )?.getBoundingClientRect();
-                            const editorBounds =
-                                editor?.getBoundingClientRect();
-                            if (adjustableBounds && editorBounds)
-                                adjustableLocation = {
-                                    left:
-                                        adjustableBounds.right -
-                                        editorBounds.left,
-                                    top:
-                                        adjustableBounds.top - editorBounds.top,
-                                };
-                        }
-                    });
-                }
-            }
         }
     }
 
@@ -352,7 +310,7 @@
                 project.getNodeContext($caret.position),
                 project.shares.output.Phrase,
                 project.shares.output.Group,
-                project.shares.output.Stage
+                project.shares.output.Stage,
             )
         )
             setSelectedOutput(selectedOutputPaths, project, [$caret.position]);
@@ -382,7 +340,7 @@
                                   .getRoot($hoveredAny)
                                   ?.getSelfAndAncestors($hoveredAny) ?? []
                           ).find((node) =>
-                              project.nodeInvolvedInConflicts(node)
+                              project.nodeInvolvedInConflicts(node),
                           );
                 if (conflictedHover) conflictSelection = conflictedHover;
 
@@ -412,7 +370,7 @@
                                           [];
                                 let nodesInConflict = nodesAtPosition.find(
                                     (node) =>
-                                        project.nodeInvolvedInConflicts(node)
+                                        project.nodeInvolvedInConflicts(node),
                                 );
                                 return [
                                     ...conflicted,
@@ -421,7 +379,7 @@
                                         : []),
                                 ];
                             },
-                            []
+                            [],
                         );
 
                         if (conflictsAtPosition !== undefined)
@@ -443,10 +401,10 @@
                     // Get all conflicts involving the selection
                     conflictsOfInterest = [
                         ...(project.getPrimaryConflictsInvolvingNode(
-                            conflictSelection
+                            conflictSelection,
                         ) ?? []),
                         ...(project.getSecondaryConflictsInvolvingNode(
-                            conflictSelection
+                            conflictSelection,
                         ) ?? []),
                     ]
                         // Eliminate duplicate conflicts
@@ -454,8 +412,8 @@
                             (c1, i1, list) =>
                                 !list.some(
                                     (c2, i2) =>
-                                        c1 === c2 && i2 > i1 && i1 !== i2
-                                )
+                                        c1 === c2 && i2 > i1 && i1 !== i2,
+                                ),
                         );
             }
             dispatch('conflicts', { source, conflicts: conflictsOfInterest });
@@ -463,7 +421,7 @@
     }
 
     // Update the highlights when any of these stores values change
-    $: if ($nodeConflicts && $evaluation && $writingLayout && $locales) {
+    $: if ($nodeConflicts && $evaluation && $locales) {
         tick().then(() =>
             highlights.set(
                 getHighlights(
@@ -475,28 +433,27 @@
                     $insertion,
                     $animatingNodes,
                     $selectedOutput,
-                    $blocks
-                )
-            )
+                    $blocks,
+                ),
+            ),
         );
     }
 
     // Update the outline positions any time the highlights change;
     $: outlines = updateOutlines(
         $highlights,
-        $writingLayout === 'horizontal-tb',
-        $locales.getDirection() === 'rtl' || $writingLayout === 'vertical-rl',
-        getNodeView
+        true,
+        $locales.getDirection() === 'rtl',
+        getNodeView,
     );
 
     // After updates, manage highlight classes on nodes
     afterUpdate(() => {
         updateOutlines(
             $highlights,
-            $writingLayout === 'horizontal-tb',
-            $locales.getDirection() === 'rtl' ||
-                $writingLayout === 'vertical-rl',
-            getNodeView
+            true,
+            $locales.getDirection() === 'rtl',
+            getNodeView,
         );
 
         // Optimization: add and remove classes for styling here rather than having them
@@ -524,7 +481,7 @@
             // Flip back to unignored after the animation so we can give more feedback.
             setTimeout(
                 () => (lastKeyDownIgnored = false),
-                $animationFactor * 250
+                $animationFactor * 250,
             );
         } else lastKeyDownIgnored = false;
     }
@@ -577,7 +534,7 @@
             project,
             source,
             $dragged,
-            $hovered ?? ($insertion as Node | InsertionPoint)
+            $hovered ?? ($insertion as Node | InsertionPoint),
         ) ?? [undefined, undefined];
 
         if (newProject === undefined || droppedNode === undefined) return;
@@ -586,12 +543,12 @@
         const newCaretPosition =
             droppedNode.getFirstPlaceholder() ?? droppedNode;
         caret.set(
-            $caret.withPosition(newCaretPosition).withAddition(droppedNode)
+            $caret.withPosition(newCaretPosition).withAddition(droppedNode),
         );
 
         // Update the project with the new source files
         Projects.reviseProject(
-            newProject.withCaret(newSource, newCaretPosition)
+            newProject.withCaret(newSource, newCaretPosition),
         );
 
         // Focus the node caret selected.
@@ -613,13 +570,13 @@
             event.shiftKey && nonTokenNodeUnderPointer !== undefined
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
-                tokenUnderPointer instanceof Token &&
-                  tokenUnderPointer.isSymbol(Sym.Placeholder)
-                ? source.root
-                      .getAncestors(tokenUnderPointer)
-                      .find((a) => a.isPlaceholder())
-                : // Otherwise choose an index position under the mouse
-                  getCaretPositionAt(event);
+                  tokenUnderPointer instanceof Token &&
+                    tokenUnderPointer.isSymbol(Sym.Placeholder)
+                  ? source.root
+                        .getAncestors(tokenUnderPointer)
+                        .find((a) => a.isPlaceholder())
+                  : // Otherwise choose an index position under the mouse
+                    getCaretPositionAt(event);
 
         // If we found a position, set it.
         if (newPosition !== undefined)
@@ -642,17 +599,17 @@
 
     function getNodeAt(
         event: PointerEvent | MouseEvent,
-        includeTokens: boolean
+        includeTokens: boolean,
     ) {
         const el = document.elementFromPoint(event.clientX, event.clientY);
         // Only return a node if hovering over its text. Space isn't eligible.
         if (el instanceof HTMLElement) {
             const nodeView = el.closest(
-                `.node-view${includeTokens ? '' : `:not(.Token)`}`
+                `.node-view${includeTokens ? '' : `:not(.Token)`}`,
             );
             if (nodeView instanceof HTMLElement && nodeView.dataset.id) {
                 return source.expression.getNodeByID(
-                    parseInt(nodeView.dataset.id)
+                    parseInt(nodeView.dataset.id),
                 );
             }
         }
@@ -660,7 +617,7 @@
     }
 
     function getTokenFromElement(
-        textOrSpace: Element
+        textOrSpace: Element,
     ): [Token, Element] | undefined {
         const tokenView = textOrSpace.closest(`.Token`);
         const token =
@@ -673,7 +630,7 @@
     }
 
     function getTokenFromLineBreak(
-        textOrSpace: Element
+        textOrSpace: Element,
     ): [Token, Element] | undefined {
         const spaceView = textOrSpace.closest('.space') as HTMLElement;
         const tokenID =
@@ -689,7 +646,7 @@
         // What element is under the mouse?
         const elementAtCursor = document.elementFromPoint(
             event.clientX,
-            event.clientY
+            event.clientY,
         );
 
         // If there's no element (which should be impossible), return nothing.
@@ -724,9 +681,9 @@
                                     ? 0
                                     : Math.round(
                                           token.getTextLength() *
-                                              (offset / tokenRect.width)
-                                      ))
-                        )
+                                              (offset / tokenRect.width),
+                                      )),
+                        ),
                     );
                     return newPosition;
                 }
@@ -761,7 +718,7 @@
                             spacePosition +
                                 percent *
                                     space.replace('\t', ' '.repeat(TAB_WIDTH))
-                                        .length
+                                        .length,
                         );
                     }
                 }
@@ -780,7 +737,7 @@
                             ? Number.POSITIVE_INFINITY
                             : Math.abs(
                                   event.clientY -
-                                      (textRect.top + textRect.height / 2)
+                                      (textRect.top + textRect.height / 2),
                               ),
                     textLeft:
                         textRect === undefined
@@ -815,13 +772,13 @@
                     !text.hidden &&
                     text.textDistance !== Number.POSITIVE_INFINITY &&
                     event.clientY >= text.textTop &&
-                    event.clientY <= text.textBottom
+                    event.clientY <= text.textBottom,
             )
             // Sort by increasing horizontal distance from the pointer
             .sort(
                 (a, b) =>
                     Math.min(a.leftDistance, a.rightDistance) -
-                    Math.min(b.leftDistance, b.rightDistance)
+                    Math.min(b.leftDistance, b.rightDistance),
             )[0]; // Choose the closest.
 
         // If we found one, choose either the beginnng or end of the line.
@@ -852,17 +809,17 @@
                         : {
                               token,
                               offset: Math.abs(
-                                  rect.top + rect.height / 2 - event.clientY
+                                  rect.top + rect.height / 2 - event.clientY,
                               ),
                               index: Array.from(
-                                  tokenView.querySelectorAll('br')
+                                  tokenView.querySelectorAll('br'),
                               ).indexOf(br as HTMLBRElement),
                           };
                 })
                 // Filter out any empty breaks that we couldn't find
                 .filter<BreakInfo>(
                     (br: BreakInfo | undefined): br is BreakInfo =>
-                        br !== undefined
+                        br !== undefined,
                 )
                 // Sort by increasing offset from mouse y
                 .sort((a, b) => a.offset - b.offset)[0]; // Chose the closest
@@ -881,7 +838,7 @@
                     tokenSpace
                         .replaceAll('\t', ' '.repeat(TAB_WIDTH))
                         .split('\n')
-                        .map((s) => s.length)
+                        .map((s) => s.length),
                 );
 
             // Offset the caret position by the number of spaces from the edge that was clicked.
@@ -891,13 +848,13 @@
                           event.clientX -
                               ($locales.getDirection() === 'ltr'
                                   ? spaceBounds.left
-                                  : spaceBounds.right)
-                      ) / spaceWidth
+                                  : spaceBounds.right),
+                      ) / spaceWidth,
                   )
                 : 0;
 
             const index = $caret.source.getTokenSpacePosition(
-                closestLine.token
+                closestLine.token,
             );
             return index !== undefined
                 ? index +
@@ -922,7 +879,7 @@
                 position,
                 undefined,
                 undefined,
-                undefined
+                undefined,
             );
             const token = caret.getToken();
             if (token === undefined) return [];
@@ -947,10 +904,10 @@
             return (
                 [
                     ...before.map((tree) =>
-                        getInsertionPoint(source, tree, false, token, line)
+                        getInsertionPoint(source, tree, false, token, line),
                     ),
                     ...after.map((tree) =>
-                        getInsertionPoint(source, tree, true, token, line)
+                        getInsertionPoint(source, tree, true, token, line),
                     ),
                 ]
                     // Filter out duplicates and undefineds
@@ -958,7 +915,7 @@
                         (
                             insertion1: InsertionPoint | undefined,
                             i1,
-                            insertions
+                            insertions,
                         ): insertion1 is InsertionPoint =>
                             insertion1 !== undefined &&
                             insertions.find(
@@ -966,8 +923,8 @@
                                     i1 > i2 &&
                                     insertion1 !== insertion2 &&
                                     insertion2 !== undefined &&
-                                    insertion1.equals(insertion2)
-                            ) === undefined
+                                    insertion1.equals(insertion2),
+                            ) === undefined,
                     )
             );
         }
@@ -979,7 +936,7 @@
             dragPoint !== undefined &&
             Math.sqrt(
                 Math.pow(event.clientX - dragPoint.x, 2) +
-                    Math.pow(event.clientY - dragPoint.y, 2)
+                    Math.pow(event.clientY - dragPoint.y, 2),
             ) >= 5
         );
     }
@@ -1027,7 +984,7 @@
                         $dragged &&
                         (kind.allows($dragged) || kind.allows([$dragged]))
                     );
-                }
+                },
             )[0];
 
             // Set the insertion, whatever we found.
@@ -1047,7 +1004,7 @@
         hovered.set(
             evaluator.isDone() || node === undefined
                 ? undefined
-                : evaluator.getEvaluableNode(node)
+                : evaluator.getEvaluableNode(node),
         );
     }
 
@@ -1069,7 +1026,7 @@
         const revisions = getEditsAt(
             project,
             $caret.withPosition(position),
-            $locales
+            $locales,
         );
 
         // Set the menu.
@@ -1080,7 +1037,7 @@
                 undefined,
                 $concepts,
                 [0, undefined],
-                handleMenuItem
+                handleMenuItem,
             );
     }
 
@@ -1093,7 +1050,7 @@
     }
 
     function handleMenuItem(
-        selection: Edit | RevisionSet | undefined
+        selection: Edit | RevisionSet | undefined,
     ): boolean {
         if (menu) {
             if (selection === undefined) {
@@ -1118,7 +1075,7 @@
     async function handleEdit(
         edit: Edit | ProjectRevision | undefined,
         idle: IdleKind,
-        focusAfter: boolean
+        focusAfter: boolean,
     ) {
         if (edit === undefined) return;
 
@@ -1141,14 +1098,14 @@
                 : [];
             const expressions = parents.filter(
                 (n): n is Expression =>
-                    n instanceof Expression && !n.isEvaluationInvolved()
+                    n instanceof Expression && !n.isEvaluationInvolved(),
             );
             const valued = expressions
                 .map((expr) => {
                     return {
                         expression: expr,
                         value: $evaluation.evaluator.getLatestExpressionValueInEvaluation(
-                            expr
+                            expr,
                         ),
                     };
                 })
@@ -1170,12 +1127,12 @@
                         ? newSource
                         : project
                               .withSource(source, newSource)
-                              .withCaret(newSource, newCaret.position)
+                              .withCaret(newSource, newCaret.position),
                 );
                 caret.set(
                     newSource instanceof Project
                         ? newCaret
-                        : newCaret.withSource(newSource)
+                        : newCaret.withSource(newSource),
                 );
             } else setIgnored(true);
         } else {
@@ -1241,7 +1198,7 @@
                 const char = lastChar.toString();
                 newSource = newSource.withPreviousGraphemeReplaced(
                     char,
-                    newCaret.position
+                    newCaret.position,
                 );
                 if (newSource) {
                     // Reset the hidden field.
@@ -1253,7 +1210,7 @@
                             newCaret.position,
                             undefined,
                             undefined,
-                            newSource.getTokenAt(newCaret.position)
+                            newSource.getTokenAt(newCaret.position),
                         ),
                     ];
                 }
@@ -1397,10 +1354,9 @@
     data-uiid="editor"
     role="application"
     aria-label={`${$locales.get((l) => l.ui.source.label)} ${$locales.getName(
-        source.names
+        source.names,
     )}`}
-    style:direction={$locales.getDirection()}
-    style:writing-mode={$writingLayout}
+    dir={$locales.getDirection()}
     data-id={source.id}
     bind:this={editor}
     on:pointerdown|stopPropagation|preventDefault={handlePointerDown}
@@ -1470,8 +1426,6 @@
             lastKeyDownIgnored}
         bind:location={caretLocation}
     />
-    <!-- Render an adjust view by the caret if eligible. This should be after the input so that it's tababble. -->
-    {#if adjustable}<Adjust {sourceID} bounds={adjustableLocation} />{/if}
     <!-- 
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
@@ -1487,7 +1441,7 @@
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
             >{#if $caret.position instanceof Node}
                 {@const relevantConcept = $concepts?.getRelevantConcept(
-                    $caret.position
+                    $caret.position,
                 )}
                 <!-- Make a link to the node's documentation -->
                 {#if relevantConcept}<ConceptLinkUI
@@ -1496,17 +1450,14 @@
                     />{/if}
                 <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
-                    $locales
+                    $locales,
                 )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay(
                         undefined,
-                        $locales.getLocale()
+                        $locales.getLocale(),
                     )}{/if}
                 <PlaceholderView position={$caret.position} />{/if}</div
         >
     {/key}
-    {#if source.isEmpty() && showHelp}
-        <EditorHelp />
-    {/if}
     {#if project.getSupplements().length > 0}
         <div class="output-preview-container">
             <Button
@@ -1515,7 +1466,12 @@
                 action={() => dispatch('preview')}
                 scale={false}
             >
-                <div class="output-preview">
+                <div
+                    class="output-preview"
+                    class:error={!selected &&
+                        evaluator.getLatestSourceValue(source) instanceof
+                            ExceptionValue}
+                >
                     {#if selected}
                         <span style="font-size:200%"><Emoji>🎭</Emoji></span>
                     {:else}
@@ -1599,6 +1555,10 @@
         right: var(--wordplay-spacing);
         display: inline-block;
         align-self: flex-end;
+    }
+
+    .output-preview.error {
+        background: var(--wordplay-error);
     }
 
     .output-preview {

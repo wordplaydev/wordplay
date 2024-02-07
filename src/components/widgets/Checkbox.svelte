@@ -1,5 +1,6 @@
 <script lang="ts">
     export let on: boolean | undefined;
+    export let label: string;
     export let changed: undefined | ((value: boolean | undefined) => void) =
         undefined;
     export let editable = true;
@@ -13,9 +14,12 @@
 
 <input
     type="checkbox"
+    aria-label={label}
+    title={label}
     {id}
     disabled={!editable}
     bind:checked={on}
+    indeterminate={on === undefined}
     on:change={handleInput}
 />
 
@@ -32,5 +36,9 @@
 
     [type='checkbox']:checked {
         background: var(--wordplay-foreground);
+    }
+
+    input:indeterminate {
+        transform: rotate(45deg);
     }
 </style>

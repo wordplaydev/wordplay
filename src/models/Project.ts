@@ -116,7 +116,7 @@ export default class Project {
 
         // Get a Basis for the requested locales.
         this.basis = Basis.getLocalizedBasis(
-            new Locales(this.data.locales, DefaultLocale)
+            new Locales(this.data.locales, DefaultLocale),
         );
 
         // Initialize default shares
@@ -146,7 +146,7 @@ export default class Project {
         gallery: string | null = null,
         flags: Moderation = moderatedFlags(),
         // This is last; omitting it updates the time.
-        timestamp: number | undefined = undefined
+        timestamp: number | undefined = undefined,
     ) {
         return new Project({
             v: ProjectSchemaLatestVersion,
@@ -169,6 +169,7 @@ export default class Project {
             gallery,
             flags,
             timestamp: timestamp ?? Date.now(),
+            nonPII: [],
         });
     }
 
@@ -183,7 +184,7 @@ export default class Project {
             this.getSources().every((source1) =>
                 project
                     .getSources()
-                    .some((source2) => source1.isEqualTo(source2))
+                    .some((source2) => source1.isEqualTo(source2)),
             )
         );
     }
@@ -270,7 +271,7 @@ export default class Project {
 
     getSourceWithProgram(program: Program) {
         return this.getSources().find(
-            (source) => source.expression === program
+            (source) => source.expression === program,
         );
     }
     getBasis() {
@@ -302,7 +303,7 @@ export default class Project {
 
             // Compute all of the conflicts in the program.
             this.analysis.conflicts = this.analysis.conflicts.concat(
-                source.expression.getAllConflicts(context)
+                source.expression.getAllConflicts(context),
             );
 
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
@@ -311,14 +312,14 @@ export default class Project {
                 const complicitNodes = conflict.getConflictingNodes();
                 this.analysis.primary.set(complicitNodes.primary.node, [
                     ...(this.analysis.primary.get(
-                        complicitNodes.primary.node
+                        complicitNodes.primary.node,
                     ) ?? []),
                     conflict,
                 ]);
                 if (complicitNodes.secondary) {
                     const nodeConflicts =
                         this.analysis.secondary.get(
-                            complicitNodes.secondary.node
+                            complicitNodes.secondary.node,
                         ) ?? [];
                     this.analysis.secondary.set(complicitNodes.secondary.node, [
                         ...nodeConflicts,
@@ -351,12 +352,12 @@ export default class Project {
                                 ) {
                                     const hofEvaluates =
                                         this.analysis.evaluations.get(
-                                            type.definition
+                                            type.definition,
                                         ) ?? new Set();
                                     hofEvaluates.add(node);
                                     this.analysis.evaluations.set(
                                         type.definition,
-                                        hofEvaluates
+                                        hofEvaluates,
                                     );
                                 }
                             }
@@ -374,7 +375,7 @@ export default class Project {
                         else
                             this.analysis.dependencies.set(
                                 dependency,
-                                new Set([node])
+                                new Set([node]),
                             );
                     }
                 }
@@ -415,7 +416,7 @@ export default class Project {
     }
 
     getEvaluationsOf(
-        fun: FunctionDefinition | StructureDefinition
+        fun: FunctionDefinition | StructureDefinition,
     ): Evaluate[] {
         return Array.from(this.getAnalysis().evaluations.get(fun) ?? []);
     }
@@ -448,16 +449,16 @@ export default class Project {
                     source.expression.borrows.some(
                         (borrow) =>
                             (borrow.getShare(this.getContext(source)) ??
-                                [])[0] === supplement
-                    )
-                )
+                                [])[0] === supplement,
+                    ),
+                ),
         );
     }
 
     /** Searches source other than the given borrow for top-level binds matching the given name. */
     getShare(
         source: string,
-        name: string | undefined
+        name: string | undefined,
     ): [Source | undefined, SharedDefinition] | undefined {
         // Do any of the sources match the requested source, or have a share that matches, or a shared bind that matches?
         const match = this.getSources().find((s) => s.hasName(source));
@@ -481,7 +482,7 @@ export default class Project {
             (definitions: SharedDefinition[], source) => {
                 return [...definitions, ...source.getShares()];
             },
-            []
+            [],
         );
     }
 
@@ -491,7 +492,7 @@ export default class Project {
             const context = this.getContext(source);
             for (const ref of source.nodes(
                 (n): n is Reference | PropertyReference =>
-                    n instanceof Reference || n instanceof PropertyReference
+                    n instanceof Reference || n instanceof PropertyReference,
             ) as (Reference | PropertyReference)[]) {
                 if (ref.resolve(context) === bind) refs.push(ref);
             }
@@ -535,7 +536,7 @@ export default class Project {
                                   ? source.root.getPath(caret)
                                   : caret,
                       }
-                    : sourceCaret
+                    : sourceCaret,
             ),
         });
     }
@@ -550,12 +551,12 @@ export default class Project {
 
     withSources(replacements: [Source, Source][]) {
         const mainReplacement = replacements.find(
-            (replacement) => replacement[0] === this.getMain()
+            (replacement) => replacement[0] === this.getMain(),
         );
         const newMain = mainReplacement ? mainReplacement[1] : this.getMain();
         const newSupplements = this.data.supplements.map((supplement) => {
             const supplementReplacement = replacements.find(
-                (replacement) => replacement[0] === supplement
+                (replacement) => replacement[0] === supplement,
             );
             return supplementReplacement
                 ? supplementReplacement[1]
@@ -565,7 +566,7 @@ export default class Project {
         const newCarets = this.data.carets.map((caret) => {
             // See if the caret's source was replaced.
             const replacement = replacements.find(
-                ([original]) => original === caret.source
+                ([original]) => original === caret.source,
             );
             return replacement !== undefined
                 ? { source: replacement[1], caret: caret.caret }
@@ -592,7 +593,7 @@ export default class Project {
             }
             // Check if we made a new source already.
             const sources = replacementSources.find(
-                ([original]) => original === source
+                ([original]) => original === source,
             );
             // If not, create a new one, mapping the original to the new source.
             if (sources === undefined)
@@ -618,7 +619,7 @@ export default class Project {
             replacementSources.map(([oldSource, newSource]) => [
                 oldSource,
                 newSource,
-            ])
+            ]),
         );
 
         // Replace the carets
@@ -629,8 +630,8 @@ export default class Project {
         return newProject;
     }
 
-    withNewSource(name: string) {
-        const newSource = new Source(name, '');
+    withNewSource(name: string, code?: string | undefined) {
+        const newSource = new Source(name, code ?? '');
         return new Project({
             ...this.data,
             supplements: [...this.data.supplements, newSource],
@@ -677,7 +678,7 @@ export default class Project {
             : new Project({
                   ...this.data,
                   collaborators: this.data.collaborators.filter(
-                      (id) => id !== uid
+                      (id) => id !== uid,
                   ),
               });
     }
@@ -693,7 +694,7 @@ export default class Project {
     getBindReplacements(
         evaluates: Evaluate[],
         name: string,
-        value: Expression | undefined
+        value: Expression | undefined,
     ): [Evaluate, Evaluate | undefined][] {
         return evaluates.map((evaluate) => {
             // Find the bind corresponding to the name.
@@ -706,7 +707,7 @@ export default class Project {
                       evaluate.withBindAs(
                           bind,
                           value?.clone(),
-                          this.getNodeContext(evaluate)
+                          this.getNodeContext(evaluate),
                       ),
                   ]
                 : [evaluate, evaluate];
@@ -720,9 +721,9 @@ export default class Project {
                 this.getSources().reduce(
                     (list: LanguageCode[], source: Source) =>
                         list.concat(source.expression.getLanguagesUsed()),
-                    []
-                )
-            )
+                    [],
+                ),
+            ),
         );
     }
 
@@ -734,27 +735,27 @@ export default class Project {
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
                     this.shares.output.Stage,
-                    this.getNodeContext(evaluate)
-                )
+                    this.getNodeContext(evaluate),
+                ),
             ),
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
                     this.shares.output.Group,
-                    this.getNodeContext(evaluate)
-                )
+                    this.getNodeContext(evaluate),
+                ),
             ),
             ...evaluates.filter((evaluate) =>
                 evaluate.is(
                     this.shares.output.Phrase,
-                    this.getNodeContext(evaluate)
-                )
+                    this.getNodeContext(evaluate),
+                ),
             ),
         ];
     }
 
     getCaretPosition(source: Source): CaretPosition | undefined {
         const position: SerializedCaret | undefined = this.data.carets.find(
-            (c) => c.source === source
+            (c) => c.source === source,
         )?.caret;
 
         return position !== undefined
@@ -770,22 +771,22 @@ export default class Project {
 
     static async deserializeProject(
         localesDB: LocalesDatabase,
-        project: SerializedProjectUnknownVersion
+        project: SerializedProjectUnknownVersion,
     ): Promise<Project> {
         // Upgrade the project just in case.
         project = upgradeProject(project);
 
         const sources = project.sources.map((source) =>
-            Project.deserializeSource(source)
+            Project.deserializeSource(source),
         );
 
         // Get all of the locales on which the project depends.
         const dependentLocales = await localesDB.loadLocales(
-            getBestSupportedLocales(project.locales)
+            getBestSupportedLocales(project.locales),
         );
 
         const locales = Array.from(
-            new Set([...dependentLocales, ...localesDB.getLocales()])
+            new Set([...dependentLocales, ...localesDB.getLocales()]),
         );
 
         return new Project({
@@ -807,6 +808,7 @@ export default class Project {
             gallery: project.gallery,
             flags: { ...project.flags },
             timestamp: project.timestamp,
+            nonPII: project.nonPII,
         });
     }
 
@@ -816,11 +818,11 @@ export default class Project {
                 ...languages,
                 ...source.expression.getLanguagesUsed(),
             ],
-            []
+            [],
         );
 
         return Array.from(
-            new Set([...this.data.locales.map((l) => l.language), ...used])
+            new Set([...this.data.locales.map((l) => l.language), ...used]),
         );
     }
 
@@ -868,6 +870,18 @@ export default class Project {
         return this.data.timestamp;
     }
 
+    withNonPII(text: string) {
+        return new Project({
+            ...this.data,
+            // Add to the set of text
+            nonPII: Array.from(new Set([...this.data.nonPII, text])),
+        });
+    }
+
+    isNotPII(text: string) {
+        return this.data.nonPII.includes(text);
+    }
+
     serialize(): SerializedProject {
         return {
             v: ProjectSchemaLatestVersion,
@@ -894,11 +908,20 @@ export default class Project {
             timestamp: this.data.timestamp,
             gallery: this.data.gallery,
             flags: { ...this.data.flags },
+            nonPII: this.data.nonPII,
         };
     }
 
     isTutorial() {
         return this.getID().startsWith('tutorial-');
+    }
+
+    getSourceByteSize() {
+        // Estimate rather than getting exact size.
+        return this.getSources().reduce(
+            (sum, source) => sum + source.getCode().toString().length,
+            0,
+        );
     }
 
     toWordplay() {
@@ -909,7 +932,7 @@ export default class Project {
                     (source) =>
                         `=== ${source.names.toWordplay()}\n${source
                             .withPreferredSpace()
-                            .code.toString()}`
+                            .code.toString()}`,
                 )
                 .join('\n')
         );

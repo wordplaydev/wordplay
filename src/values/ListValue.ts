@@ -165,6 +165,10 @@ export default class ListValue extends SimpleValue {
         );
     }
 
+    getRepresentativeText() {
+        return LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL;
+    }
+
     getSize() {
         let sum = 0;
         for (const value of this.values) sum += value.getSize();

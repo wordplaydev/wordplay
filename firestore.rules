@@ -33,7 +33,7 @@ service cloud.firestore {
           (
             resource.data.owner == request.auth.uid || 
             request.auth.uid in resource.data.collaborators || 
-            request.auth.token.mod ||
+            ("mod" in request.auth.token && request.auth.token.mod) ||
             (resource.data.gallery != null && isCuratorOfProjectInGallery(request.auth.uid, resource.data.gallery))
           );
       allow delete: if request.auth != null && resource.data.owner == request.auth.uid;

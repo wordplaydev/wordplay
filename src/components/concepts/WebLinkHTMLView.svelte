@@ -15,7 +15,7 @@
 
 {#if link.url && link.description}
     {#if spaces.getSpace(link.open).length > 0}&nbsp;{/if}<Link
-        external
+        external={!url.startsWith('/')}
         to={url}>{link.description.getText()}</Link
     >
 {:else if link.description}

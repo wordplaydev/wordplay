@@ -29,6 +29,15 @@
 
     $: width = shape.form.getWidth() * PX_PER_METER;
     $: height = shape.form.getHeight() * PX_PER_METER;
+
+    $: color = shape.getBackground();
+
+    let shapeClass = '';
+    if(shape.form instanceof Rectangle) {
+        shapeClass = 'rectangle'
+    } else if(shape.form instanceof Line) {
+        shapeClass = 'line'
+    }
 </script>
 
 {#if visible}
@@ -39,11 +48,7 @@
         aria-roledescription={!selectable
             ? $locales.get((l) => l.term.phrase)
             : null}
-        class="output shape {shape.form instanceof Rectangle
-            ? 'rectangle'
-            : shape.form instanceof Line
-            ? 'line'
-            :''}"
+        class="output shape {shapeClass}"
         tabIndex={interactive && (selectable || editing) ? 0 : null}
         data-id={shape.getHTMLID()}
         data-node-id={shape.value.creator.id}
@@ -91,7 +96,7 @@
     }
 
     .shape.line {
-        border-width: 1px;
-        border-color: var(--line-color);
+        background: color;
+        border-width: 3px;
     }
 </style>

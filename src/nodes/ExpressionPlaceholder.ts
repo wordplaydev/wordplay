@@ -38,7 +38,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     constructor(
         placeholder: Token | undefined,
         dot: Token | undefined,
-        type: Type | undefined
+        type: Type | undefined,
     ) {
         super();
 
@@ -54,7 +54,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return new ExpressionPlaceholder(
             new PlaceholderToken(),
             type !== undefined ? new TypeToken() : undefined,
-            type
+            type,
         );
     }
 
@@ -76,7 +76,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     locales: Locales,
                     _: Node,
                     context: Context,
-                    root: Root
+                    root: Root,
                 ): Template => {
                     const parent: Node | undefined = root.getParent(this);
                     // See if the parent has a label.
@@ -85,10 +85,10 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                             this,
                             locales,
                             context,
-                            root
+                            root,
                         ) ??
                         locales.get(
-                            (l) => l.node.ExpressionPlaceholder.placeholder
+                            (l) => l.node.ExpressionPlaceholder.placeholder,
                         )
                     );
                 },
@@ -109,7 +109,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return new ExpressionPlaceholder(
             this.replaceChild('placeholder', this.placeholder, replace),
             this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
@@ -160,7 +160,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return [
             new Halt(
                 (evaluator) => new UnimplementedException(evaluator, this),
-                this
+                this,
             ),
         ];
     }
@@ -170,15 +170,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return new UnimplementedException(evaluator, this);
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
-        bind;
-        original;
-        context;
+    evaluateTypeGuards(current: TypeSet) {
         return current;
     }
 
@@ -202,7 +194,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     getStartExplanations(locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.node.ExpressionPlaceholder.start)
+            locales.get((l) => l.node.ExpressionPlaceholder.start),
         );
     }
 

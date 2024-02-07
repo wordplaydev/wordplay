@@ -5,20 +5,25 @@
     import Feedback from '../../components/app/Feedback.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import Login from './Login.svelte';
-    import Profile from './Profile.svelte';
+    import { goto } from '$app/navigation';
+    import { browser } from '$app/environment';
 
     let user = getUser();
+
+    $: if (browser && $user !== null) goto('/profile');
 </script>
 
 <Writing>
-    {#if auth}
-        {#if $user}
-            <Profile user={$user} />
-        {:else}
+    <!-- Do we have a connection to the servers? -->
+    {#if $user === null}
+        {#if auth}
+            <!-- Otherwise, show the login page. -->
             <Login />
+        {:else}
+            <!-- No connection? Give some feedback. -->
+            <Feedback
+                >{$locales.get((l) => l.ui.page.login.error.offline)}</Feedback
+            >
         {/if}
-    {:else}
-        <Feedback>{$locales.get((l) => l.ui.page.login.error.offline)}</Feedback
-        >
     {/if}
 </Writing>

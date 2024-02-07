@@ -6,7 +6,7 @@ import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
 import StructureType from './StructureType';
-import Expression, { ExpressionKind } from './Expression';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
 import type Token from './Token';
 import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
@@ -58,6 +58,7 @@ import TypeVariable from './TypeVariable';
 import NameType from './NameType';
 import { NonFunctionType } from './NonFunctionType';
 import type Locales from '../locale/Locales';
+import UnionType from './UnionType';
 
 type Mapping = {
     expected: Bind;
@@ -81,7 +82,7 @@ export default class Evaluate extends Expression {
         types: TypeInputs | undefined,
         open: Token,
         inputs: Expression[],
-        close?: Token
+        close?: Token,
     ) {
         super();
 
@@ -100,7 +101,7 @@ export default class Evaluate extends Expression {
             undefined,
             new EvalOpenToken(),
             inputs,
-            new EvalCloseToken()
+            new EvalCloseToken(),
         );
     }
 
@@ -108,7 +109,7 @@ export default class Evaluate extends Expression {
         expectedType: Type | undefined,
         anchor: Node,
         isBeingReplaced: boolean,
-        context: Context
+        context: Context,
     ) {
         const nodeBeingReplaced = isBeingReplaced ? anchor : undefined;
 
@@ -130,10 +131,10 @@ export default class Evaluate extends Expression {
                   scopingType instanceof BasisType
                     ? scopingType.getDefinitions(nodeBeingReplaced, context)
                     : // If the scope is a structure, get definitions in its scope
-                    scopingType instanceof StructureType
-                    ? scopingType.structure.getDefinitions(nodeBeingReplaced)
-                    : // Otherwise, get definitions in scope of the anchor
-                      anchor.getDefinitionsInScope(context)
+                      scopingType instanceof StructureType
+                      ? scopingType.definition.getDefinitions(nodeBeingReplaced)
+                      : // Otherwise, get definitions in scope of the anchor
+                        anchor.getDefinitionsInScope(context)
                 : // If the node is not selected, get definitions in the anchor's scope
                   anchor.getDefinitionsInScope(context);
 
@@ -144,7 +145,7 @@ export default class Evaluate extends Expression {
         return definitions
             .filter(
                 (
-                    def
+                    def,
                 ): def is
                     | FunctionDefinition
                     | StructureDefinition
@@ -153,21 +154,21 @@ export default class Evaluate extends Expression {
                         (expectedType === undefined ||
                             expectedType.accepts(
                                 def.getOutputType(context),
-                                context
+                                context,
                             ))) ||
                     (def instanceof StructureDefinition &&
                         !def.isInterface() &&
                         (expectedType === undefined ||
                             expectedType.accepts(
                                 def.getType(context),
-                                context
+                                context,
                             ))) ||
                     (def instanceof StreamDefinition &&
                         (expectedType === undefined ||
                             expectedType.accepts(
                                 def.getType(context),
-                                context
-                            )))
+                                context,
+                            ))),
             )
             .map(
                 (def) =>
@@ -180,10 +181,10 @@ export default class Evaluate extends Expression {
                                     structure &&
                                     nodeBeingReplaced instanceof Expression
                                     ? nodeBeingReplaced
-                                    : undefined
+                                    : undefined,
                             ),
-                        def
-                    )
+                        def,
+                    ),
             );
     }
 
@@ -203,10 +204,10 @@ export default class Evaluate extends Expression {
                             Bind.make(
                                 undefined,
                                 Names.make(['_']),
-                                input.getType(context)
-                            )
+                                input.getType(context),
+                            ),
                         ),
-                        new AnyType()
+                        new AnyType(),
                     ),
                 label: (locales: Locales) =>
                     locales.get((l) => l.node.Evaluate.function),
@@ -230,7 +231,7 @@ export default class Evaluate extends Expression {
                             m.given !== undefined &&
                             (m.given === child ||
                                 (Array.isArray(m.given) &&
-                                    m.given.includes(child)))
+                                    m.given.includes(child))),
                     );
                     return bind === undefined
                         ? locales.get((l) => l.node.Evaluate.input)
@@ -241,14 +242,14 @@ export default class Evaluate extends Expression {
                 // The type of an input depends on the function it's calling and the position in the list.
                 getType: (
                     context: Context,
-                    index: number | undefined
+                    index: number | undefined,
                 ): Type => {
                     const fun = this.getFunction(context);
                     if (fun === undefined) return new NeverType();
                     // Determine the type of the next input
                     const insertionIndex = Math.min(
                         Math.max(0, index ?? 0),
-                        fun.inputs.length - 1
+                        fun.inputs.length - 1,
                     );
                     return fun.inputs[insertionIndex].getType(context);
                 },
@@ -267,7 +268,7 @@ export default class Evaluate extends Expression {
             this.replaceChild('types', this.types, replace),
             this.replaceChild('open', this.open, replace),
             this.replaceChild('inputs', this.inputs, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -314,7 +315,7 @@ export default class Evaluate extends Expression {
                 else {
                     // Is there a named input that matches?
                     const bind = givenInputs.find(
-                        (i) => i instanceof Bind && i.sharesName(expectedInput)
+                        (i) => i instanceof Bind && i.sharesName(expectedInput),
                     );
                     if (bind instanceof Bind) {
                         // Remove it from the given inputs list.
@@ -345,12 +346,11 @@ export default class Evaluate extends Expression {
 
     getInput(
         bind: Bind,
-        context: Context
+        context: Context,
     ): Expression | Expression[] | undefined {
         const mapping = this.getInputMapping(context);
-        const given = mapping?.inputs.find(
-            (input) => input.expected === bind
-        )?.given;
+        const given = mapping?.inputs.find((input) => input.expected === bind)
+            ?.given;
         return given instanceof Bind ? given.value : given;
     }
 
@@ -366,7 +366,7 @@ export default class Evaluate extends Expression {
         bind: Bind,
         expression: Expression | undefined,
         context: Context,
-        named = true
+        named = true,
     ): Evaluate {
         const mapping = this.getMappingFor(bind, context);
         if (mapping === undefined) return this;
@@ -391,7 +391,7 @@ export default class Evaluate extends Expression {
                           undefined,
                           Names.make([bind.getNames()[0]]),
                           undefined,
-                          expression
+                          expression,
                       )
                     : expression,
             ]);
@@ -407,7 +407,7 @@ export default class Evaluate extends Expression {
             this.types,
             this.open,
             [...this.inputs, expression],
-            this.close
+            this.close,
         );
     }
 
@@ -424,7 +424,7 @@ export default class Evaluate extends Expression {
 
         if (this.close === undefined)
             conflicts.push(
-                new UnclosedDelimiter(this, this.open, new EvalCloseToken())
+                new UnclosedDelimiter(this, this.open, new EvalCloseToken()),
             );
 
         // Get the function this evaluate is trying to... evaluate.
@@ -438,7 +438,7 @@ export default class Evaluate extends Expression {
                 fun instanceof StructureDefinition ||
                 fun instanceof StreamDefinition
             )
-        )
+        ) {
             return [
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference
@@ -447,9 +447,10 @@ export default class Evaluate extends Expression {
                     this.fun instanceof PropertyReference
                         ? this.fun.structure.getType(context)
                         : this.fun.getType(context),
-                    FunctionType.make(undefined, [], new AnyType())
+                    FunctionType.make(undefined, [], new AnyType()),
                 ),
             ];
+        }
 
         // If it's a structure definition, can we create it?
         if (fun instanceof StructureDefinition) {
@@ -483,7 +484,7 @@ export default class Evaluate extends Expression {
                             this.close ??
                                 this.inputs[this.inputs.length - 1] ??
                                 this.open,
-                            expected
+                            expected,
                         ),
                     ];
 
@@ -496,7 +497,7 @@ export default class Evaluate extends Expression {
                     fun,
                     expected,
                     this,
-                    context
+                    context,
                 );
 
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
@@ -507,8 +508,8 @@ export default class Evaluate extends Expression {
                             new IncompatibleInput(
                                 given,
                                 givenType,
-                                expectedType
-                            )
+                                expectedType,
+                            ),
                         );
                 }
 
@@ -540,8 +541,8 @@ export default class Evaluate extends Expression {
                                     new IncompatibleInput(
                                         item,
                                         givenType,
-                                        expectedType.type
-                                    )
+                                        expectedType.type,
+                                    ),
                                 );
                         }
                     }
@@ -577,8 +578,8 @@ export default class Evaluate extends Expression {
                                 new UnexpectedTypeInput(
                                     this,
                                     this.types.types[index],
-                                    fun
-                                )
+                                    fun,
+                                ),
                             );
                             break;
                         }
@@ -596,17 +597,17 @@ export default class Evaluate extends Expression {
     }
 
     getFunction(
-        context: Context
+        context: Context,
     ): FunctionDefinition | StructureDefinition | StreamDefinition | undefined {
         const type = this.fun.getType(context);
 
         return type instanceof FunctionType && type.definition
             ? type.definition
             : type instanceof StructureType
-            ? type.structure
-            : type instanceof StreamDefinitionType
-            ? type.definition
-            : undefined;
+              ? type.definition
+              : type instanceof StreamDefinitionType
+                ? type.definition
+                : undefined;
     }
 
     is(def: StructureDefinition | StreamDefinition, context: Context) {
@@ -626,11 +627,42 @@ export default class Evaluate extends Expression {
             return getConcreteExpectedType(fun, undefined, this, context);
         // If it's a structure, then this is an instantiation of the structure, so this evaluate resolves
         // to a value of the structure's type.
-        else if (fun instanceof StructureDefinition)
-            return new StructureType(fun, [
-                ...(this.types ? this.types.types : []),
-            ]);
-        else if (fun instanceof StreamDefinition) {
+        else if (fun instanceof StructureDefinition) {
+            // Make a concrete structure definition based on the input types, rather than using the declared types,
+            // to reduce the need to declare types on the definition.
+            const mapping = this.getInputMapping(context);
+            const refinements = fun.inputs.map((bind) => {
+                if (mapping) {
+                    const map = mapping.inputs.find(
+                        (input) => input.expected === bind,
+                    );
+                    if (map) {
+                        if (map.given instanceof Expression)
+                            return bind.withType(
+                                map.given.getType(context).generalize(context),
+                            );
+                        else if (Array.isArray(map.given))
+                            return bind.withType(
+                                ListType.make(
+                                    UnionType.getPossibleUnion(
+                                        context,
+                                        map.given.map((e) =>
+                                            e.getType(context),
+                                        ),
+                                    ),
+                                ).generalize(context),
+                            );
+                    }
+                }
+                return bind;
+            });
+
+            return new StructureType(
+                fun,
+                [...(this.types ? this.types.types : [])],
+                refinements,
+            );
+        } else if (fun instanceof StreamDefinition) {
             // Remember that this type came from this definition.
             context.setStreamType(fun.output, fun);
             // Return the type of this stream's output.
@@ -646,11 +678,11 @@ export default class Evaluate extends Expression {
             fun === undefined
                 ? undefined
                 : fun instanceof FunctionDefinition &&
-                  fun.expression !== undefined
-                ? fun.expression
-                : fun instanceof StructureDefinition
-                ? fun.expression
-                : undefined;
+                    fun.expression !== undefined
+                  ? fun.expression
+                  : fun instanceof StructureDefinition
+                    ? fun.expression
+                    : undefined;
 
         // Evaluates depend on their function, their inputs, and the function's expression.
         return [
@@ -682,9 +714,9 @@ export default class Evaluate extends Expression {
                             evaluator,
                             this,
                             undefined,
-                            this.fun
+                            this.fun,
                         ),
-                    this
+                    this,
                 ),
             ];
 
@@ -703,7 +735,7 @@ export default class Evaluate extends Expression {
                           new Halt(
                               (evaluator) =>
                                   new ValueException(evaluator, this),
-                              this
+                              this,
                           ),
                       ];
             }
@@ -717,7 +749,7 @@ export default class Evaluate extends Expression {
                                 ...prev,
                                 ...next.compile(evaluator, context),
                             ],
-                            []
+                            [],
                         );
                     // Otherwise, halt on an expected value.
                     else
@@ -725,7 +757,7 @@ export default class Evaluate extends Expression {
                             new Halt(
                                 (evaluator) =>
                                     new ValueException(evaluator, this),
-                                this
+                                this,
                             ),
                         ];
                 }
@@ -739,7 +771,7 @@ export default class Evaluate extends Expression {
                                 (node) =>
                                     node instanceof NameType &&
                                     node.resolve(context) instanceof
-                                        TypeVariable
+                                        TypeVariable,
                             ) ||
                         expectedType.accepts(given.getType(context), context);
 
@@ -755,9 +787,9 @@ export default class Evaluate extends Expression {
                                               this,
                                               evaluator,
                                               expectedType,
-                                              evaluator.popValue(this)
+                                              evaluator.popValue(this),
                                           ),
-                                      this
+                                      this,
                                   ),
                               ]),
                     ];
@@ -789,14 +821,14 @@ export default class Evaluate extends Expression {
                 evaluator,
                 this,
                 definitionValue,
-                this.fun
+                this.fun,
             );
 
         // Pop as many values as the definition requires, or the number of inputs provided, whichever is larger.
         // This accounts for variable length arguments.
         const count = Math.max(
             definitionValue.definition.inputs.length,
-            this.inputs.length
+            this.inputs.length,
         );
 
         // Get all the values off the stack, getting as many as is defined.
@@ -813,7 +845,7 @@ export default class Evaluate extends Expression {
         const bindings = this.buildBindings(
             evaluator,
             definition.inputs,
-            values
+            values,
         );
         if (bindings instanceof ExceptionValue) return bindings;
 
@@ -825,7 +857,7 @@ export default class Evaluate extends Expression {
             if (body === undefined)
                 return new UnimplementedException(
                     evaluator,
-                    body ?? definitionValue.definition
+                    body ?? definitionValue.definition,
                 );
 
             evaluator.startEvaluation(
@@ -834,8 +866,8 @@ export default class Evaluate extends Expression {
                     this,
                     definition,
                     definitionValue.context,
-                    bindings
-                )
+                    bindings,
+                ),
             );
         }
         // For structures, start evaluating its definition.
@@ -848,8 +880,8 @@ export default class Evaluate extends Expression {
                     this,
                     definition,
                     evaluator.getCurrentEvaluation(),
-                    bindings
-                )
+                    bindings,
+                ),
             );
         }
         // For streams, we don't evaluate anything. Instead, we check if this node has already created a
@@ -861,8 +893,8 @@ export default class Evaluate extends Expression {
                     this,
                     definition,
                     evaluator.getCurrentEvaluation(),
-                    bindings
-                )
+                    bindings,
+                ),
             );
         }
     }
@@ -876,7 +908,7 @@ export default class Evaluate extends Expression {
     buildBindings(
         evaluator: Evaluator,
         inputs: Bind[],
-        values: Value[]
+        values: Value[],
     ): Map<Names, Value> | ExceptionValue {
         // Build the bindings, backwards because they are in reverse on the stack.
         const bindings = new Map<Names, Value>();
@@ -893,7 +925,7 @@ export default class Evaluate extends Expression {
                     bind.names,
                     values[i] instanceof ListValue
                         ? values[i]
-                        : new ListValue(this, values.slice(i))
+                        : new ListValue(this, values.slice(i)),
                 );
                 break;
             }
@@ -903,17 +935,12 @@ export default class Evaluate extends Expression {
         return bindings;
     }
 
-    evaluateTypeGuards(
-        bind: Bind,
-        original: TypeSet,
-        current: TypeSet,
-        context: Context
-    ) {
+    evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.fun instanceof Expression)
-            this.fun.evaluateTypeGuards(bind, original, current, context);
+            this.fun.evaluateTypeGuards(current, guard);
         this.inputs.forEach((input) => {
             if (input instanceof Expression)
-                input.evaluateTypeGuards(bind, original, current, context);
+                input.evaluateTypeGuards(current, guard);
         });
         return current;
     }
@@ -934,19 +961,19 @@ export default class Evaluate extends Expression {
         return concretize(
             locales,
             locales.get((l) => l.node.Evaluate.start),
-            this.inputs.length > 0
+            this.inputs.length > 0,
         );
     }
 
     getFinishExplanations(
         locales: Locales,
         context: Context,
-        evaluator: Evaluator
+        evaluator: Evaluator,
     ) {
         return concretize(
             locales,
             locales.get((l) => l.node.Evaluate.finish),
-            this.getValueIfDefined(locales, context, evaluator)
+            this.getValueIfDefined(locales, context, evaluator),
         );
     }
 

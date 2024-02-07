@@ -16,6 +16,7 @@ type OutputPropertyType =
     | 'poses'
     | 'content'
     | 'place'
+    | 'aura'
     | 'form';
 
 /** Represents an editable property on the output expression, with some optional information about valid property values */
@@ -39,7 +40,7 @@ class OutputProperty {
         required: boolean,
         inherited: boolean,
         editable: (expr: Expression, context: Context) => boolean,
-        create: (locales: Locales) => Expression
+        create: (locales: Locales) => Expression,
     ) {
         this.name = name;
         this.type = type;

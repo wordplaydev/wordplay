@@ -3,12 +3,18 @@
 
     export let to: string;
     export let tip: string | undefined = undefined;
+    export let nowrap = false;
     export let external = false;
 </script>
 
 {#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
     <slot />
-{:else}<a title={tip} href={to} target={external ? '_blank' : null}
+{:else}<a
+        data-sveltekit-preload-data="tap"
+        title={tip}
+        href={to}
+        target={external ? '_blank' : null}
+        class:nowrap
         ><slot />{#if external}<span class="external">↗</span>{/if}</a
     >
 {/if}
@@ -17,6 +23,9 @@
     a {
         color: var(--wordplay-highlight-color);
         text-decoration: none;
+    }
+
+    .nowrap {
         white-space: nowrap;
     }
 

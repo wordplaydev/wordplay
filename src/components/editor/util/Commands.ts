@@ -119,7 +119,7 @@ export function toShortcut(
     command: Command,
     hideControl = false,
     hideShift = false,
-    hideAlt = false
+    hideAlt = false,
 ) {
     const mac =
         typeof navigator !== 'undefined' &&
@@ -133,7 +133,7 @@ export function toShortcut(
 
 export function handleKeyCommand(
     event: KeyboardEvent,
-    context: CommandContext
+    context: CommandContext,
 ): [Command | undefined, CommandResult, boolean] {
     // Map meta key to control on Mac OS/iOS.
     const control = event.metaKey || event.ctrlKey;
@@ -199,12 +199,13 @@ export const IncrementLiteral: Command = {
     shift: false,
     key: 'ArrowUp',
     keySymbol: '↑',
-    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    active: ({ caret }) =>
+        caret ? caret.getAdjustableLiteral() !== undefined : false,
     execute: ({ caret }) => caret?.adjustLiteral(undefined, 1) ?? false,
 };
 
 export const DecrementLiteral: Command = {
-    symbol: '−',
+    symbol: '–',
     description: (l) => l.ui.source.cursor.decrementLiteral,
     visible: Visibility.Touch,
     category: Category.Modify,
@@ -213,7 +214,8 @@ export const DecrementLiteral: Command = {
     alt: true,
     key: 'ArrowDown',
     keySymbol: '↓',
-    active: ({ caret }) => caret?.getAdjustableLiteral() !== undefined ?? false,
+    active: ({ caret }) =>
+        caret ? caret.getAdjustableLiteral() !== undefined : false,
     execute: ({ caret }) => caret?.adjustLiteral(undefined, -1) ?? false,
 };
 
@@ -612,7 +614,7 @@ export const Undo: Command = {
     keySymbol: 'Z',
     active: ({ database, evaluator }) =>
         database.Projects.getHistory(
-            evaluator.project.getID()
+            evaluator.project.getID(),
         )?.isUndoable() === true,
     execute: ({ database, evaluator }) =>
         database.Projects.undoRedo(evaluator.project.getID(), -1) !== undefined,
@@ -656,7 +658,7 @@ const Commands: Command[] = [
         execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                database.Locales.getWritingDirection() === 'ltr' ? -1 : 1
+                database.Locales.getWritingDirection() === 'ltr' ? -1 : 1,
             ) ?? false,
     },
     {
@@ -672,7 +674,7 @@ const Commands: Command[] = [
         execute: ({ caret, database }) =>
             caret?.moveInline(
                 false,
-                database.Locales.getWritingDirection() === 'ltr' ? 1 : -1
+                database.Locales.getWritingDirection() === 'ltr' ? 1 : -1,
             ) ?? false,
     },
     {
@@ -698,6 +700,30 @@ const Commands: Command[] = [
         key: 'End',
         keySymbol: '⇥',
         execute: ({ caret }) => caret?.atLineBoundary(false) ?? false,
+    },
+    {
+        symbol: '⤒',
+        description: (l) => l.ui.source.cursor.sourceStart,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: false,
+        key: 'PageUp',
+        keySymbol: '',
+        execute: ({ caret }) => caret?.atStart() ?? false,
+    },
+    {
+        symbol: '⤓',
+        description: (l) => l.ui.source.cursor.sourceEnd,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: false,
+        key: 'PageDown',
+        keySymbol: '⇥',
+        execute: ({ caret }) => caret?.atEnd() ?? false,
     },
     {
         symbol: '⬉',
@@ -752,7 +778,7 @@ const Commands: Command[] = [
                 if (token !== undefined) {
                     const parent = caret.source.root.getParent(token);
                     return caret.withPosition(
-                        parent?.getChildren()[0] === token ? parent : token
+                        parent?.getChildren()[0] === token ? parent : token,
                     );
                 }
             }
@@ -837,9 +863,9 @@ const Commands: Command[] = [
                     Names.make([]),
                     undefined,
                     [],
-                    ExpressionPlaceholder.make()
+                    ExpressionPlaceholder.make(),
                 ),
-                2
+                2,
             ) ?? false,
     },
     {
@@ -1077,7 +1103,7 @@ const Commands: Command[] = [
         keySymbol: 'Z',
         active: ({ evaluator, database }) =>
             database.Projects.getHistory(
-                evaluator.project.getID()
+                evaluator.project.getID(),
             )?.isRedoable() === true,
         execute: ({ database, evaluator }) =>
             database.Projects.undoRedo(evaluator.project.getID(), 1) !==
@@ -1098,8 +1124,8 @@ const Commands: Command[] = [
             caret === undefined
                 ? false
                 : caret.isNode()
-                ? caret.enter()
-                : caret.insert('\n') ?? true,
+                  ? caret.enter()
+                  : caret.insert('\n') ?? true,
     },
     {
         symbol: '⌫',
@@ -1145,8 +1171,8 @@ const Commands: Command[] = [
             copyNode(
                 context.caret.position,
                 context.caret.source.spaces.withPreferredSpace(
-                    context.caret.source
-                )
+                    context.caret.source,
+                ),
             );
             return context.caret.delete(context.project, false) ?? true;
         },
@@ -1167,8 +1193,8 @@ const Commands: Command[] = [
                 copyNode(
                     context.caret.position,
                     context.caret.source.spaces.withPreferredSpace(
-                        context.caret.source
-                    )
+                        context.caret.source,
+                    ),
                 ) ?? false
             );
         },
@@ -1260,7 +1286,7 @@ const Commands: Command[] = [
                     caret
                         .withSource(tidySource)
                         .withPosition(
-                            position + (tidySource.code.getLength() - length)
+                            position + (tidySource.code.getLength() - length),
                         ),
                 ];
             } else return false;
@@ -1278,7 +1304,7 @@ export const VisibleModifyCommands = Commands.filter(
     (c) =>
         (c.category === Category.Cursor || c.category === Category.Modify) &&
         (c.visible === Visibility.Visible ||
-            (TouchSupported && c.visible === Visibility.Touch))
+            (TouchSupported && c.visible === Visibility.Touch)),
 );
 
 export default Commands;

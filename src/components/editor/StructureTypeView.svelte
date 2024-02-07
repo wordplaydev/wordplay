@@ -9,7 +9,7 @@
     export let node: StructureType;
 
     // Choose what name to render based on the preferred languages.
-    $: name = new NameToken($locales.getName(node.structure.names));
+    $: name = new NameToken($locales.getName(node.definition.names));
 </script>
 
 <NodeView node={name} />

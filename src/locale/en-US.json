@@ -868,7 +868,7 @@
                 },
                 "StepLimitException": {
                     "description": "step limit",
-                    "explanation": "there are so. many. steps -- too many to finish! Can you make the performance simpler?"
+                    "explanation": "There are so. many. steps -- too many to finish! Can you make the performance simpler?"
                 },
                 "ValueException": {
                     "description": "missing value",
@@ -1043,7 +1043,15 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
-            "doc": "I represent some text, with a @Language tag. See @Text to learn more!"
+            "doc": "I represent some text, with a @Language tag. See @Text to learn more!",
+            "conflict": {
+                "phone": "Is *$1* someone's phone number? Don't share me online if so!",
+                "email": "Is *$1* someone's email? Don't share me here if so!",
+                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!",
+                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!",
+                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.",
+                "resolution": "This isn't sensitive data"
+            }
         },
         "FormattedLiteral": {
             "name": "formatted",
@@ -1994,10 +2002,18 @@
                 },
                 "random": {
                     "doc": [
-                        "A randonly selected one of my items, or @None if I'm empty.",
+                        "A randomly selected one of my items, or @None if I'm empty.",
                         "\\['apple' 'banana' 'mango'].random()\\"
                     ],
                     "names": "random",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": [
+                        "Make a new list with the items in the last randomly ordered.",
+                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                    ],
+                    "names": "shuffled",
                     "inputs": []
                 },
                 "first": {
@@ -2887,6 +2903,28 @@
                 "doc": "The time between @Color samples."
             }
         },
+        "Scene": {
+            "doc": [
+                "/Boop boop boop/",
+                "/Hello, @FunctionDefinition here! I see you found @Scene.",
+                "I think @Scene is particularly cool. The basic idea is that you give it a list of @Phrase or @Group and then it will show them in sequence and stop on the last one.",
+                "To control timing, you can either set the @Phrase/duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase/entering or @Phrase/exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
+                "All of that lets you do things like this little @Scene, which shows these three phrases in sequence:",
+                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "See how the first output is shown for a second, then the next for two seconds, but animated to a five degree rotation, and then it shows the last one?",
+                "You can make very elaborate sequences of output and animations with @Scene, and even make portions of them dynamic or interactive, as with any other @Phrase or @Group.",
+                "If you have animated output that is nested (a @Group with animated @Phrase inside), @Scene will wait for all of the animated content in the @Group to finish.",
+                "Oh, and one last little secret! You can even put @Boolean in the list, and if they are \\⊥\\, the @Scene will pause and wait for it to become true.",
+                "For example, if you wanted to make a sequence of @Phrase and only advance when @Button changes, you could do this:",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "See how it pauses after each @Phrase, and waits for @Button to change before advancing?"
+            ],
+            "names": ["🎬", "Scene"],
+            "outputs": {
+                "names": "outputs",
+                "doc": "The list of outputs to show in sequence."
+            }
+        },
         "Motion": {
             "doc": [
                 "/boing boing boing/",
@@ -3177,9 +3215,17 @@
                 "doc": "If there's a @Phrase/wrap boundary set, whether I should align symbols to the start, center, or end of edge.",
                 "names": "alignment"
             },
+            "direction": {
+                "doc": "Whether symbols are written horizontally or vertically, and if vertical and @Phrase/wrap is set, whether text wraps left or right.",
+                "names": "direction"
+            },
             "matter": {
                 "doc": "The properties to use if I bump into things!",
                 "names": "matter"
+            },
+            "aura": {
+                "doc": "The optional @Aura to show behind me. Make me glow!",
+                "names": "aura"
             },
             "name": {
                 "doc": [
@@ -3413,27 +3459,55 @@
             }
         },
         "Line": {
-            "doc": "I am a line",
+            "doc": "I am a line, useful for making @Stage generate a physical line shape.",
             "names": ["Line"],
             "x1": {
-                "doc": "The left edge of the stage on the x-axis",
-                "names": "left"
+                "doc": "The starting edge of the stage on the x-axis",
+                "names": "x1"
             },
             "y1": {
-                "doc": "The top edge of the stage on the y-axes",
-                "names": "top"
+                "doc": "The starting edge of the stage on the y-axes",
+                "names": "y1"
             },
             "x2": {
-                "doc": "The right edge of the stage on the x-axis",
-                "names": "right"
+                "doc": "The ending edge of the stage on the x-axis",
+                "names": "x2"
             },
             "y2": {
-                "doc": "The bottom edge of the stage on the y-axis",
-                "names": "bottom"
+                "doc": "The ending edge of the stage on the y-axis",
+                "names": "y2"
             },
             "z": {
-                "doc": "The depth position of the rectangle.",
+                "doc": "The depth position of the line.",
                 "names": "z"
+            }
+        },
+        "Aura": {
+            "doc": ["I am an AURA"],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The color the @Aura should be",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far right the @Aura should go",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far down the @Aura should go",
+                "names": "offsetY"
+            },
+            "spread": {
+                "doc": "The strength of the @Aura",
+                "names": "spread"
+            },
+            "opacity": {
+                "doc": "How transparent the @Aura should be",
+                "names": "opacity"
             }
         },
         "Pose": {
@@ -3478,7 +3552,7 @@
                 "doc": "Whether a @Output should be mirrored on the y-axis, instead of it's default.",
                 "names": "flipy"
             },
-            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|]"
+            "description": "$1[transparent $1|] $2[rotated $2 degrees|] $3[scaled $3|] $4[flipped horizontally|] $5[flipped vertically|] $6[shadow blurred $6 pixels]"
         },
         "Color": {
             "doc": [
@@ -3588,6 +3662,29 @@
             "shapes": {
                 "doc": "Whether it can collide with other shapes.",
                 "names": "ground"
+            }
+        },
+        "Aura": {
+            "doc": [
+                "I am an AURA. I make @Phrase GLOW! Like this:",
+                "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+            ],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The @Color the @Aura should be.",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be. \\0m\\ means not blurry at all.",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far left or right I should appear. \\0m\\ is directly under.",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far up or down I should appear.\\0m\\ is directly under.",
+                "names": "offsetY"
             }
         },
         "Stage": {
@@ -3726,6 +3823,39 @@
                 "doc": "I create a @Sequence that makes it look like a @Output is scared.",
                 "names": ["shake"]
             }
+        },
+        "Source": {
+            "names": "Source",
+            "doc": [
+                "You know how projects can have more than one @Source file? I let you create a @Source based on your project's logic. This is really helpful if you want to save some data between different evaluations of your project.",
+                "For example, imagine you wanted to make a simple counter that counts up by one each time you press a mouse button. You might use this to remember how many times you did something.",
+                "\\↓ count\n[\n\tPhrase(`\\count\\ times!`)\n\tSource('count' count … ∆ Button() … count + 1 )\n]\\",
+                "Try copying it, making a new @Source called /count/ and typing 0 in it, to start the count at 0. This little project will get the value in the /count/ source and each time the mouse button is pressed, edits the /count/ @Source with to be the current /count/ value plus /1/."
+            ],
+            "name": {
+                "names": "name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "dynamic source edit limit",
+                "explanation": "This project saved data to @Source files too many times, too quickly. Make sure it only updates @Source in response to an input, and not too fast."
+            },
+            "ReadOnlyEditException": {
+                "description": "read only source edit",
+                "explanation": "This project remembers data, but you don't have rights to edit it. Copy it if you want to try it."
+            },
+            "EmptySourceNameException": {
+                "description": "empty source name",
+                "explanation": "The @Source given had an empty name, so we couldn't save it."
+            },
+            "ProjectSizeLimitException": {
+                "description": "project size limit",
+                "explanation": "This project has too much text, so we can't save it."
+            }
         }
     },
     "ui": {
@@ -3784,7 +3914,8 @@
                 "focusSource": "focus on the next source",
                 "focusDocs": "focus on the documentation",
                 "focusPalette": "focus on the palette",
-                "focusCycle": "focus on the next tile"
+                "focusCycle": "focus on the next tile",
+                "unsaved": "show save error"
             },
             "field": {
                 "name": {
@@ -3792,7 +3923,18 @@
                     "placeholder": "name"
                 }
             },
-            "help": "show keyboard shortcuts"
+            "help": "show keyboard shortcuts",
+            "save": {
+                "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
+                "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",
+                "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
+                "projectsNotLoadingOnline": "Unable to load online projects.",
+                "projectNotSavedOnline": "Unable to save projects online.",
+                "settingsUnsaved": "Unable to save settings online."
+            },
+            "dialog": {
+                "unsaved": "Unsaved work..."
+            }
         },
         "gallery": {
             "untitled": "Untitled",
@@ -3887,6 +4029,8 @@
                 "nextInline": "move cursor to position after",
                 "lineStart": "move cursor to start of line",
                 "lineEnd": "move cursor to end of line",
+                "sourceStart": "move cursor to start of source",
+                "sourceEnd": "move cursor to end of source",
                 "priorNode": "select neighbor before",
                 "nextNode": "select neighbor after",
                 "parent": "select container",
@@ -3929,8 +4073,15 @@
                 "tidy": "tidy spacing"
             }
         },
-        "conflicts": {
-            "label": "conflicts"
+        "annotations": {
+            "label": "conflicts and help",
+            "cursor": "This is *$1*$2[ and they are of type $2|].",
+            "learn": "Want to learn more?",
+            "evaluating": "Oh fun, let's evaluate!",
+            "space": "This is space! Who knew nothing could say so much?",
+            "button": {
+                "resolution": "Resolve this conflict"
+            }
         },
         "output": {
             "label": "program output",
@@ -4003,7 +4154,7 @@
                 "subheader": {
                     "collaborators": {
                         "header": "Collaborators",
-                        "explanation": "Collaborators can see and edit this project. Add or remove them by email."
+                        "explanation": "Collaborators can view and edit this project. Only project owners can modify collaborators."
                     },
                     "gallery": {
                         "header": "Gallery",
@@ -4015,9 +4166,9 @@
                     }
                 },
                 "field": {
-                    "email": {
-                        "placeholder": "email",
-                        "description": "the email address of the person who you want to grant edit access."
+                    "emailOrUsername": {
+                        "placeholder": "email or username",
+                        "description": "email or username of the person who you want to give edit access"
                     }
                 },
                 "mode": {
@@ -4027,10 +4178,14 @@
                     }
                 },
                 "error": {
-                    "unknown": "We don't know a creator with this email."
+                    "unknown": "We don't know a creator with this email.",
+                    "anonymous": "You must be logged in to share."
                 },
                 "button": {
                     "submit": "Share the project with this email address"
+                },
+                "options": {
+                    "gallery": "gallery chooser"
                 }
             },
             "settings": {
@@ -4070,6 +4225,10 @@
                             "vertical, left to right"
                         ]
                     }
+                },
+                "options": {
+                    "mic": "selected microphone",
+                    "camera": "selected camera"
                 }
             },
             "locale": {
@@ -4107,7 +4266,15 @@
                 "default": "default",
                 "inherited": "inherited",
                 "notSequence": "not a sequence",
-                "notContent": "not a content list"
+                "notContent": "not a content list",
+                "format": "format",
+                "weight": "weight",
+                "light": "light",
+                "normal": "normal",
+                "bold": "bold",
+                "extra": "extra",
+                "italic": "italic",
+                "underline": "underline"
             },
             "button": {
                 "revert": "revert to default",
@@ -4152,7 +4319,7 @@
         "save": {
             "saving": "saving",
             "saved": "saved online",
-            "local": "saved on this device",
+            "local": "saved in browser",
             "unsaved": "unsaved"
         },
         "page": {
@@ -4162,12 +4329,13 @@
             },
             "landing": {
                 "call": ["Hi! Want to bring words to life with us? 😊"],
+                "value": "Learn to code by animating words, emojis, and symbols from the world's languages, whatever your abilities.",
+                "description": "Wordplay is an innovative programming language 🖥️ with block and text editing 📝, playful inputs like time 🕦, sound 🎤, webpages 🔗, and physics 🌎, instant time-travel debugging ⏪, and comprehensive documentation 🗂️. All in a growing list of the world's languages 🌐, following the latest web accessibility standards ♿️. Share with friends, private groups, or the world ↗️. Free forever from the <University of Washington Information School@https://ischool.uw.edu/>.",
                 "beta": [
-                    "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete.",
-                    "But it also means we want your feedback! Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
+                    "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete. Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
                 ],
                 "link": {
-                    "learn": "What is this place?",
+                    "learn": "A dramatic tutorial of cast of characters",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
                     "rights": "Responsibilities, ours and yours",
@@ -4180,6 +4348,9 @@
                 "button": {
                     "next": "next pause in dialog",
                     "previous": "previous pause in dialog"
+                },
+                "options": {
+                    "lesson": "current lesson"
                 }
             },
             "projects": {
@@ -4234,31 +4405,19 @@
             "login": {
                 "header": "Login",
                 "subtitle": "Create an account or login in to save your work online",
-                "subheader": {
-                    "username": "option 1: username + password",
-                    "email": "option 2: email link"
-                },
                 "anonymous": "login",
                 "prompt": {
-                    "login": "Your performances are saving on this device, but not online. If this is your device, that's okay! If it's not, others may see or delete your projects. To save them online and keep them private, log in.",
-                    "age": {
-                        "label": "What's your age?",
-                        "modes": ["12 or younger", "13 or older"]
-                    },
+                    "login": "Your performances are saving in this browser, but not online. If this is your device, that's okay! If it's not, others will have access to your projects, and you may lose them. To save them online and keep them private, log in or <create an account@://join>:",
+                    "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
+                    "email": "Do you have a legacy email-only account? Submit your email and we'll send you a sign-in link.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
-                    "emailrules": [
-                        "• Don't provide your email if you are *12 or younger*.",
-                        "• If you *lose access* to your email account, you won't be able to log in or update your email address."
-                    ],
                     "tooyoung": "You must be 13 or older to login with an email.",
-                    "usernamereminder": "Because we do not gather contact information, you won't be able to reset your password if you forget it. Store it somewhere safe, like a password manager.",
-                    "usernamerule": "Usernames should not contain identiable information (e.g., names), cannot be an email addresses, and must be at least 5 characters long.",
                     "passwordrule": "Passwords must be at least 10 characters long; if you're not using a password manager, choose three long words you'll remember.",
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
-                    "sent": "Check your email for a login link. Patience, email can be slow!",
+                    "sent": "If this email is associated with an account, it will receive a login link.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
@@ -4279,7 +4438,8 @@
                 "feedback": {
                     "changing": "Submitting new email...",
                     "deleting": "Okay, deleting your projects and settings...",
-                    "updatedPassword": "Your password is updated."
+                    "updatedPassword": "Your password is updated.",
+                    "match": "This must match your account's username."
                 },
                 "field": {
                     "email": {
@@ -4293,6 +4453,14 @@
                     "password": {
                         "description": "login password, at least 10 character",
                         "placeholder": "password"
+                    },
+                    "currentPassword": {
+                        "description": "your current login password",
+                        "placeholder": "current password"
+                    },
+                    "newPassword": {
+                        "description": "your new password",
+                        "placeholder": "new password"
                     }
                 },
                 "button": {
@@ -4311,6 +4479,19 @@
                         "label": "delete it!!!"
                     },
                     "updatePassword": "submit new password"
+                },
+                "toggle": {
+                    "reveal": {
+                        "on": "Show password",
+                        "off": "Hide password"
+                    }
+                }
+            },
+            "join": {
+                "header": "Join",
+                "prompt": {
+                    "username": "Ready to create an account? First, choose a *username*. It must be at least 5 characters, can't be an email address, and shouldn't contain your name or other identifing information.",
+                    "password": "Choose a password with at least *10 characters*. Enter it again to ensure you typed it correctly, and store it somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
             "rights": {
@@ -4321,8 +4502,7 @@
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",
-                    "• If you are 13 or older and choose to log in with  your email address, we store your *email address*. We use this to ensure that only you and anyone you share with can access your projects and settings. If you are younger than 13, then you should create a username and password without personally identifing information.",
-                    "• Your *projects*. We store any projects you contribute and your changes to them.",
+                    "• Your *projects*. We store any projects you contribute and your changes to them, unless those projects appear to have personally identifiable information such as phone numbers, email addresses, usernames, tax identifiers, or addresses.",
                     "• Your *settings*. This includes the languages you choose, your animation preferences, and your tutorial progress. Everything else is stored on your device only.",
                     "• Aggregate *activity*. We track logins and the pages you visit, but not in a way that can identify you, track you across the site, or track you across other sites. We use Google Analytics in 'consent denied' mode, which only gathers minimal non-identifiable information about page views, without storing cookies, or sending IP address information to Google. We use this aggregate information to help raise funding by reporting how much the platform is being used.",
                     "We don't store anything else. Our <source@https://github.com/amyjko/wordplay/tree/main/src> is public, so anyone can verify this, and report any unintended tracking.",
@@ -4360,7 +4540,7 @@
         "edit": {
             "node": "$1$2[, type $2|]",
             "before": "before $1[$1|end]",
-            "inside": "inside $1",
+            "inside": "in $1, between $2[$2|start] and $3[$3|end]",
             "between": "between $1 and $2",
             "line": "empty line between $1[$1|start] and $2[$2|end]",
             "conflicts": "$1 conflicts",
@@ -4400,6 +4580,7 @@
             "disclosure": "Reveal private information about other people such as names, contact information, or physical addresses",
             "misinformation": "Contain false, misleading, deceptive, or manipulative information"
         },
+        "progress": "*$1* moderated, *$2* remaining",
         "button": {
             "submit": {
                 "tip": "Save these moderation settings",

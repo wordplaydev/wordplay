@@ -11,13 +11,37 @@ export type Tutorial = {
     $schema: string;
     language: LanguageCode;
     region: RegionCode;
-    acts: Act[];
+    acts: [
+        Act<[Scene, Scene, Scene, Scene, Scene]>,
+        Act<[Scene, Scene, Scene, Scene, Scene, Scene, Scene]>,
+        Act<[Scene, Scene, Scene, Scene]>,
+        Act<[Scene, Scene, Scene]>,
+        Act<
+            [
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+                Scene,
+            ]
+        >,
+        Act<[Scene, Scene, Scene, Scene, Scene, Scene, Scene]>,
+        Act<[Scene, Scene, Scene, Scene, Scene, Scene]>,
+        Act<[Scene]>,
+    ];
 };
 
-export type Act = {
+export type Act<Scenes extends Scene[] = Scene[]> = {
     title: string;
     performance: Performance;
-    scenes: Scene[];
+    scenes: Scenes;
 };
 
 export type Scene = {
@@ -52,4 +76,4 @@ export const PerformanceMode = [
 
 export type PeformanceModeType = (typeof PerformanceMode)[number];
 
-export default Tutorial;
+export { type Tutorial as default };

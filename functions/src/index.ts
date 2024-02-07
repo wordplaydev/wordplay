@@ -13,8 +13,8 @@ const db = getFirestore();
 
 type UserMatch = { uid: string; email: string | null; name: string | null };
 
-export const getCreators = onCall(
-    async (request: { data: UserIdentifier[] }): Promise<UserMatch[]> => {
+export const getCreators = onCall<UserIdentifier[]>(
+    async (request): Promise<UserMatch[]> => {
         const users = await admin.auth().getUsers(request.data);
         const matches: UserMatch[] = [];
         users.users.forEach((user) => {
@@ -25,8 +25,20 @@ export const getCreators = onCall(
             });
         });
         return matches;
-    }
+    },
 );
+
+export const emailExists = onCall<string>(async (request): Promise<boolean> => {
+    return admin
+        .auth()
+        .getUserByEmail(request.data)
+        .then(() => {
+            return true;
+        })
+        .catch(() => {
+            return false;
+        });
+});
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
 export const getWebpage = onRequest(
@@ -41,8 +53,8 @@ export const getWebpage = onRequest(
             url === undefined
                 ? undefined
                 : url.startsWith('https://')
-                ? https
-                : http;
+                  ? https
+                  : http;
 
         // Cache the response for 10 minutes to minimize requests.
         response.set('Cache-Control', 'public, max-age=600, s-maxage=600');
@@ -87,7 +99,7 @@ export const getWebpage = onRequest(
             // Send the HTML back as JSON-encoded text.
             response.json(result);
         }
-    }
+    },
 );
 
 const PurgeDayDelay = 30;
@@ -102,7 +114,7 @@ export const purgeArchivedProjects = onSchedule('every day 00:00', async () => {
         .where(
             'timestamp',
             '<',
-            Date.now() - PurgeDayDelay * MillisecondsPerDay
+            Date.now() - PurgeDayDelay * MillisecondsPerDay,
         )
         .get();
 

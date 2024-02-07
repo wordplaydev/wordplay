@@ -19,6 +19,7 @@ export default class IncompatibleInput extends Conflict {
     }
 
     getConflictingNodes() {
+        console.error("Reached!");
         return {
             primary: {
                 node: this.givenNode,
@@ -28,18 +29,18 @@ export default class IncompatibleInput extends Conflict {
                         locales.get(
                             (l) =>
                                 l.node.Evaluate.conflict.IncompatibleInput
-                                    .primary
+                                    .primary,
                         ),
                         new NodeRef(
                             this.expectedType.simplify(context),
                             locales,
-                            context
+                            context,
                         ),
                         new NodeRef(
                             this.givenType.simplify(context),
                             locales,
-                            context
-                        )
+                            context,
+                        ),
                     ),
             },
             secondary: {
@@ -50,18 +51,18 @@ export default class IncompatibleInput extends Conflict {
                         locales.get(
                             (l) =>
                                 l.node.Evaluate.conflict.IncompatibleInput
-                                    .secondary
+                                    .secondary,
                         ),
                         new NodeRef(
                             this.expectedType.simplify(context),
                             locales,
-                            context
+                            context,
                         ),
                         new NodeRef(
                             this.givenType.simplify(context),
                             locales,
-                            context
-                        )
+                            context,
+                        ),
                     ),
             },
         };

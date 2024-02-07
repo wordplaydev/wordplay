@@ -243,6 +243,8 @@ type BasisTexts = {
             /** See `en-US.json` for documentation  */
             random: FunctionText<[]>;
             /** See `en-US.json` for documentation  */
+            shuffled: FunctionText<[]>;
+            /** See `en-US.json` for documentation  */
             first: FunctionText<[]>;
             /** See `en-US.json` for documentation  */
             last: FunctionText<[]>;
@@ -418,4 +420,4 @@ type BasisTexts = {
     };
 };
 
-export default BasisTexts;
+export { type BasisTexts as default };

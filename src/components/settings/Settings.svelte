@@ -8,7 +8,6 @@
         camera,
         mic,
         Settings,
-        writingLayout,
         dark,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
@@ -62,13 +61,13 @@
             explanation: '',
         }}><Beta /></Dialog
     >
-    <Link external to="https://discord.gg/Jh2Qq9husy"
+    <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
         >{$locales.get((l) => l.term.help)}/{$locales.get(
-            (l) => l.term.feedback
+            (l) => l.term.feedback,
         )}</Link
     >
     <Status />
-    <Link to="/login">
+    <Link nowrap to="/login">
         <CreatorView
             anonymize={false}
             creator={$user ? Creator.from($user) : null}
@@ -86,24 +85,24 @@
         <p
             ><Mode
                 descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.layout
+                    (l) => l.ui.dialog.settings.mode.layout,
                 )}
                 choice={$arrangement === Arrangement.Responsive
                     ? 0
                     : $arrangement === Arrangement.Horizontal
-                    ? 1
-                    : $arrangement === Arrangement.Vertical
-                    ? 2
-                    : 3}
+                      ? 1
+                      : $arrangement === Arrangement.Vertical
+                        ? 2
+                        : 3}
                 select={(choice) =>
                     Settings.setArrangement(
                         choice == 0
                             ? Arrangement.Responsive
                             : choice === 1
-                            ? Arrangement.Horizontal
-                            : choice === 2
-                            ? Arrangement.Vertical
-                            : Arrangement.Free
+                              ? Arrangement.Horizontal
+                              : choice === 2
+                                ? Arrangement.Vertical
+                                : Arrangement.Free,
                     )}
                 modes={['📐', '↔️', '↕', '⏹️']}
             /></p
@@ -111,40 +110,43 @@
         <p
             ><Mode
                 descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.animate
+                    (l) => l.ui.dialog.settings.mode.animate,
                 )}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼']}
             /></p
         >
-        <p
+        <!-- <p
             ><Mode
                 descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.writing
+                    (l) => l.ui.dialog.settings.mode.writing,
                 )}
                 choice={$writingLayout === 'horizontal-tb'
                     ? 0
                     : $writingLayout === 'vertical-rl'
-                    ? 1
-                    : 2}
+                      ? 1
+                      : 2}
                 select={(choice) =>
                     Settings.setWritingLayout(
                         choice === 0
                             ? 'horizontal-tb'
                             : choice === 1
-                            ? 'vertical-rl'
-                            : 'vertical-lr'
+                              ? 'vertical-rl'
+                              : 'vertical-lr',
                     )}
                 modes={['→↓', '↓←', '↓→']}
             /></p
-        >
+        > -->
         {#if devicesRetrieved}
             <p
                 ><label for="camera-setting">
                     🎥
                     <Options
                         value={cameraDevice?.label}
+                        label={$locales.get(
+                            (l) => l.ui.dialog.settings.options.camera,
+                        )}
                         id="camera-setting"
                         options={[
                             { value: undefined, label: '—' },
@@ -158,8 +160,8 @@
                         change={(choice) =>
                             Settings.setCamera(
                                 cameras.find(
-                                    (camera) => camera.label === choice
-                                )?.deviceId ?? null
+                                    (camera) => camera.label === choice,
+                                )?.deviceId ?? null,
                             )}
                         width="4em"
                     />
@@ -170,6 +172,9 @@
                     🎤
                     <Options
                         value={micDevice?.label}
+                        label={$locales.get(
+                            (l) => l.ui.dialog.settings.options.mic,
+                        )}
                         id="mic-setting"
                         options={[
                             { value: undefined, label: '—' },
@@ -183,7 +188,7 @@
                         change={(choice) =>
                             Settings.setMic(
                                 mics.find((mic) => mic.label === choice)
-                                    ?.deviceId ?? null
+                                    ?.deviceId ?? null,
                             )}
                         width="4em"
                     />
@@ -193,12 +198,12 @@
         <p
             ><Mode
                 descriptions={$locales.get(
-                    (l) => l.ui.dialog.settings.mode.dark
+                    (l) => l.ui.dialog.settings.mode.dark,
                 )}
                 choice={$dark === false ? 0 : $dark === true ? 1 : 2}
                 select={(choice) =>
                     Settings.setDark(
-                        choice === 0 ? false : choice === 1 ? true : null
+                        choice === 0 ? false : choice === 1 ? true : null,
                     )}
                 modes={['☼', '☽', '☼/☽']}
             />

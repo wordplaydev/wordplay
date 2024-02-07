@@ -10,7 +10,7 @@ import type Sequence from './Sequence';
 import TextLang from './TextLang';
 import Output, { DefaultStyle } from './Output';
 import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
-import { TYPE_SYMBOL } from '../parser/Symbols';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
 import type { NameGenerator } from './Stage';
 import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
@@ -26,11 +26,14 @@ export function createGroupType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Group, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Group.layout)}•Arrangement
-        ${getBind(locales, (locale) => locale.output.Group.content)}•[Output|ø]
+        ${getBind(
+            locales,
+            (locale) => locale.output.Group.content,
+        )}•[Phrase|Group|ø]
         ${getBind(locales, (locale) => locale.output.Group.size)}•${'#m|ø: ø'}
     ${getBind(
         locales,
-        (locale) => locale.output.Group.face
+        (locale) => locale.output.Group.face,
     )}•${SupportedFontsFamiliesType}${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Group.name)}•""|ø: ø
@@ -38,7 +41,7 @@ export function createGroupType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Group.color)}•🌈${'|ø: ø'}
     ${getBind(
         locales,
-        (locale) => locale.output.Group.background
+        (locale) => locale.output.Group.background,
     )}•Color${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.opacity)}•%${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.offset)}•📍|ø: ø
@@ -54,7 +57,7 @@ export function createGroupType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Group.style)}•${locales
         .getLocales()
         .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
+            Object.values(locale.output.Easing).map((id) => `"${id}"`),
         )
         .flat()
         .join('|')}: "${DefaultStyle}"
@@ -86,7 +89,7 @@ export default class Group extends Output {
         moving: Pose | Sequence | undefined = undefined,
         exiting: Pose | Sequence | undefined = undefined,
         duration: number,
-        style: string
+        style: string,
     ) {
         super(
             value,
@@ -102,7 +105,7 @@ export default class Group extends Output {
             moving,
             exiting,
             duration,
-            style
+            style,
         );
 
         this.content = content;
@@ -156,21 +159,41 @@ export default class Group extends Output {
                 locales.get((l) => l.output.Group.description),
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.layout.getDescription(this.content, locales),
-                this.pose.getDescription(locales)
+                this.pose.getDescription(locales),
             ).toText();
         }
         return this._description;
     }
 
+    getRepresentativeText(locales: Locales) {
+        for (const output of this.content) {
+            const text = output
+                ? output.getRepresentativeText(locales)
+                : undefined;
+            if (text) return text;
+        }
+        // No text? Just give a stage symbol.
+        return GROUP_SYMBOL;
+    }
+
     isEmpty() {
         return this.content.every((c) => c === null || c.isEmpty());
+    }
+
+    getEntryAnimated(): Output[] {
+        return [
+            ...(this.entering !== undefined ? [this] : []),
+            ...this.content.reduce((list: Output[], out) => {
+                return [...list, ...(out ? out.getEntryAnimated() : [])];
+            }, []),
+        ];
     }
 }
 
 export function toGroup(
     evaluator: Evaluator,
     value: Value | undefined,
-    namer: NameGenerator
+    namer: NameGenerator,
 ): Group | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
@@ -218,7 +241,7 @@ export function toGroup(
               move,
               exit,
               duration,
-              style
+              style,
           )
         : undefined;
 }

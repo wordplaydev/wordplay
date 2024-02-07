@@ -3,7 +3,7 @@ import ConceptLink from './ConceptLink';
 import Example from './Example';
 import WebLink from './WebLink';
 import type { Grammar, Replacement } from './Node';
-import Words from './Words';
+import Words, { type Format } from './Words';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
@@ -59,7 +59,7 @@ export default class Paragraph extends Content {
                     node(Example),
                     node(Branch),
                     node(Mention),
-                    node(Branch)
+                    node(Branch),
                 ),
             },
         ];
@@ -71,7 +71,7 @@ export default class Paragraph extends Content {
 
     clone(replace?: Replacement | undefined): this {
         return new Paragraph(
-            this.replaceChild('segments', this.getNodeSegments(), replace)
+            this.replaceChild('segments', this.getNodeSegments(), replace),
         ) as this;
     }
 
@@ -94,7 +94,7 @@ export default class Paragraph extends Content {
     concretize(
         locales: Locales,
         inputs: TemplateInput[],
-        replacements: [Node, Node][]
+        replacements: [Node, Node][],
     ): Paragraph | undefined {
         const concreteSegments = this.segments.map((content) => {
             if (content instanceof ValueRef || content instanceof NodeRef)
@@ -102,7 +102,7 @@ export default class Paragraph extends Content {
             // Replace all repeated special characters with single special characters.
             else if (content instanceof Token) {
                 const replacement = content.withText(
-                    unescapeMarkupSymbols(content.getText())
+                    unescapeMarkupSymbols(content.getText()),
                 );
                 if (replacement.getText() !== content.getText()) {
                     replacements.push([content, replacement]);
@@ -122,6 +122,13 @@ export default class Paragraph extends Content {
             (this.segments[0] instanceof Token &&
                 this.segments[0].getText().startsWith('•'))
         );
+    }
+
+    /** Finds all of the Words that wrap all of the content of this paragraph and gets all of their formats. */
+    getFormats(): Format[] {
+        return this.segments.length === 1 && this.segments[0] instanceof Words
+            ? this.segments[0].getFormats()
+            : [];
     }
 
     toText() {

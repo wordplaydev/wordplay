@@ -1,25 +1,21 @@
 <script lang="ts">
     import type Project from '@models/Project';
-    import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import type Value from '@values/Value';
-    import { DB, animationDuration, locales } from '../../db/Database';
-    import { fade } from 'svelte/transition';
+    import { DB, locales } from '../../db/Database';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
     import { navigating } from '$app/stores';
     import Spinning from './Spinning.svelte';
+    import { toStage } from '@output/Stage';
+    import { EXCEPTION_SYMBOL } from '@parser/Symbols';
+    import Fonts from '@basis/Fonts';
+    import { getFaceCSS } from '@output/outputToCSS';
+    import UnicodeString from '@models/UnicodeString';
+    import ExceptionValue from '@values/ExceptionValue';
 
     export let project: Project;
     export let action: (() => void) | undefined = undefined;
-    /**
-     * If true, evaluates the project to display a preview. Does this immediately by default,
-     * but it can be deferred for performance reasons.
-     */
-    export let load = true;
-    /** Bind to this to know when the project is evaluated. */
-    export let loaded: ((project: Project) => void) | undefined = undefined;
     /** Whether to show the project's name. */
     export let name = true;
     /** How many rems the preview square should be. */
@@ -28,20 +24,45 @@
     export let link: string | undefined = undefined;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let evaluator: Evaluator;
-    let value: Value | undefined = undefined;
-    $: if (load && value === undefined) {
-        [evaluator, value] = updatePreview(project);
-        if (loaded) loaded(project);
-    }
+    let representativeForeground: string | null;
+    let representativeBackground: string | null;
+    let representativeFace: string | null;
+    let representativeText: string;
+
+    $: if (project) updatePreview();
 
     $: path = link ?? project.getLink(true);
 
-    function updatePreview(project: Project): [Evaluator, Value | undefined] {
+    function updatePreview() {
         const evaluator = new Evaluator(project, DB, $locales, false);
         const value = evaluator.getInitialValue();
         evaluator.stop();
-        return [evaluator, value];
+        const stage = value ? toStage(evaluator, value) : undefined;
+        if (stage && stage.face) Fonts.loadFace(stage.face);
+
+        [
+            representativeFace,
+            representativeForeground,
+            representativeBackground,
+            representativeText,
+        ] = [
+            stage ? getFaceCSS(stage.face) : null,
+            stage
+                ? stage.pose.color?.toCSS() ?? null
+                : 'var(--wordplay-evaluation-color)',
+            stage
+                ? stage.back.toCSS()
+                : value instanceof ExceptionValue || value === undefined
+                ? 'var(--wordplay-error)'
+                : null,
+            stage
+                ? new UnicodeString(stage.getRepresentativeText($locales))
+                      .substring(0, 1)
+                      .toString()
+                : value
+                ? value.getRepresentativeText($locales)
+                : EXCEPTION_SYMBOL,
+        ];
     }
 
     const user = getUser();
@@ -53,6 +74,7 @@
 <div class="project" class:named={name}>
     <a
         class="preview"
+        data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
         style:height={`${size}rem`}
         href={path}
@@ -63,24 +85,17 @@
                 ? action()
                 : undefined}
     >
-        {#if value}
-            <div
-                class="output"
-                role="presentation"
-                class:blurred={audience && isFlagged(project.getFlags())}
-                in:fade={{ duration: $animationDuration }}
-            >
-                <OutputView
-                    {project}
-                    {evaluator}
-                    {value}
-                    fit={true}
-                    grid={false}
-                    mini
-                    editable={false}
-                />
-            </div>
-        {/if}
+        <div
+            class="output"
+            role="presentation"
+            style:background={representativeBackground}
+            style:color={representativeForeground}
+            style:font-family={representativeFace}
+            style:font-size={`${size - 1}rem`}
+            class:blurred={audience && isFlagged(project.getFlags())}
+        >
+            {representativeText}
+        </div>
     </a>
     {#if name}
         <div class="name"
@@ -109,8 +124,18 @@
     }
 
     .output {
+        display: flex;
+        align-items: center;
+        justify-content: center;
         width: 100%;
         height: 100%;
+        background: var(--wordplay-background);
+        text-decoration: none;
+        color: var(--wordplay-foreground);
+    }
+
+    a {
+        text-decoration: none;
     }
 
     .name {

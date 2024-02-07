@@ -29,6 +29,7 @@
         STAGE_SYMBOL,
     } from '../../parser/Symbols';
     import EditOffer from './EditOffer.svelte';
+    import TextStyleEditor from './TextStyleEditor.svelte';
 
     export let project: Project;
     export let editable: boolean;
@@ -42,12 +43,12 @@
         ? $selectedOutput
               .map(
                   (evaluate) =>
-                      new OutputExpression(project, evaluate, $locales)
+                      new OutputExpression(project, evaluate, $locales),
               )
               .filter((out) => out.isOutput())
         : [];
     $: definition = outputs[0]?.node.getFunction(
-        project.getNodeContext(outputs[0].node)
+        project.getNodeContext(outputs[0].node),
     );
 
     $: phrase = getSoloPhrase(project);
@@ -58,16 +59,19 @@
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
+    // Keep a reference to the text, since we need to pass that to the text style.
+    let phraseTextValues: OutputPropertyValueSet | undefined = undefined;
+
     $: {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
             outputs.reduce(
                 (
                     all: OutputProperty[],
-                    out: OutputExpression
+                    out: OutputExpression,
                 ): OutputProperty[] => [...all, ...out.getEditableProperties()],
-                []
-            )
+                [],
+            ),
         );
         propertyValues = new Map();
         // Map the properties to a set of values.
@@ -76,6 +80,9 @@
             // Exclue any properties that happen to have no values.
             if (!values.isEmpty() && values.onAll())
                 propertyValues.set(property, values);
+            // Remember the phrase text property
+            if (property.name === $locales.get((l) => l.output.Phrase.text))
+                phraseTextValues = values;
         }
     }
 </script>
@@ -98,7 +105,7 @@
                 <MarkupHtmlView
                     markup={concretize(
                         $locales,
-                        $locales.get((l) => l.ui.palette.prompt.editing)
+                        $locales.get((l) => l.ui.palette.prompt.editing),
                     )}
                 />
             </svelte:fragment>
@@ -107,6 +114,11 @@
         <!-- Something selected? Show the property values. -->
         {#each Array.from(propertyValues.entries()) as [property, values]}
             <PaletteProperty {project} {property} {values} {editable} />
+            <!-- Add the text style editor just below the face chooser. -->
+            {#if property.name === $locales.get((l) => l.output.Phrase.face) && phraseTextValues}
+                <TextStyleEditor {project} outputs={phraseTextValues}
+                ></TextStyleEditor>
+            {/if}
         {/each}
     {:else}
         {#if $evaluation.playing && hasOutput(project)}
@@ -125,7 +137,7 @@
                     symbols={PHRASE_SYMBOL}
                     locales={$locales}
                     message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerPhrase
+                        (l) => l.ui.palette.prompt.offerPhrase,
                     )}
                     tip={$locales.get((l) => l.ui.palette.button.createPhrase)}
                     action={() => addSoloPhrase(DB, project)}
@@ -137,7 +149,7 @@
                     symbols={GROUP_SYMBOL}
                     locales={$locales}
                     message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerGroup
+                        (l) => l.ui.palette.prompt.offerGroup,
                     )}
                     tip={$locales.get((l) => l.ui.palette.button.createGroup)}
                     action={() => addGroup(DB, project)}
@@ -149,7 +161,7 @@
                     symbols={STAGE_SYMBOL}
                     locales={$locales}
                     message={$locales.get(
-                        (l) => l.ui.palette.prompt.offerStage
+                        (l) => l.ui.palette.prompt.offerStage,
                     )}
                     tip={$locales.get((l) => l.ui.palette.button.createStage)}
                     action={() => addStage(DB, project, group ?? phrase)}
