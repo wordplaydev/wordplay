@@ -166,17 +166,14 @@ export class Line extends Form {
 
     toCSSClip() {
         const { x1, y1, x2, y2 } = this.getPoints();
-        return `polygon(${x1}px ${y1}px, ${x2}px ${y2}px)`;
+        return `polygon(${x1}px ${y1}px, ${x2}px ${y2}px, ${x1 - 5}px ${y1 + 5}px, ${x2 - 5}px ${y2 + 5}px)`;
     }
 
     toSVGPath() {
-        const { x1, y1, x2, y2 } = this.getPoints();
-        const minX = Math.min(x1, x2);
-        const minY = Math.min(y1, y2);
-        return `M ${x1 - minX} ${y1 - minY} L ${x1 - minX} ${
-            y2 - minY
-        } L ${x2 - minX} ${y2 - minY} L ${x2 - minX} ${y1 - minY} Z`;
-    }
+    const { x1, y1, x2, y2 } = this.getPoints();
+    return `M ${x1} ${y1} L ${x2} ${y2}`;
+}
+
 
     getLength() {
         return Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2));
@@ -208,13 +205,12 @@ export function toRectangle(value: Value | undefined) {
 export function toLine(value: Value | undefined) {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const [x1Val, y1Val, x2Val, y2Val, zVal] = getOutputInputs(value);
+    const [x1Val, y1Val, x2Val, y2Val] = getOutputInputs(value);
 
     const x1 = toNumber(x1Val);
     const y1 = toNumber(y1Val);
     const x2 = toNumber(x2Val);
     const y2 = toNumber(y2Val);
-    const z = toNumber(zVal) ?? 0;
     return x1 !== undefined &&
         y1 !== undefined &&
         x2 !== undefined &&
