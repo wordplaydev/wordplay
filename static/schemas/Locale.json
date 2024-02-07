@@ -5919,6 +5919,10 @@
                     "phone": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
+                    "reminder": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Note to remind users where they can manage sensitive information for their project."
+                    },
                     "resolution": {
                       "$ref": "#/definitions/Template",
                       "description": "How to describe the resolution of the sensitive information conflict."
@@ -5933,7 +5937,8 @@
                     "address",
                     "tin",
                     "handle",
-                    "resolution"
+                    "resolution",
+                    "reminder"
                   ],
                   "type": "object"
                 },
@@ -8498,10 +8503,15 @@
                         "submit": {
                           "description": "Description for the email submission button.",
                           "type": "string"
+                        },
+                        "sensitive": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Button to mark possible PII as sensitive."
                         }
                       },
                       "required": [
-                        "submit"
+                        "submit",
+                        "sensitive"
                       ],
                       "type": "object"
                     },
@@ -8598,12 +8608,17 @@
                         "public": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The public/private toggle subheader and explanation"
+                        },
+                        "pii": {
+                          "$ref": "#/definitions/DialogText",
+                          "description": "The personal information subheader and explanation"
                         }
                       },
                       "required": [
                         "collaborators",
                         "gallery",
-                        "public"
+                        "public",
+                        "pii"
                       ],
                       "type": "object"
                     }
