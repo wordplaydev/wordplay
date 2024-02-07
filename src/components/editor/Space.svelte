@@ -31,11 +31,10 @@
     $: additionalSpaces =
         additional.length === 0 ? [] : render(additional, false, $spaceIndicator);
 
-    function render(text: string, explicit: boolean, spaceIndicator:boolean): string[] {
-        console.log('spaceIndicator change', spaceIndicator);
+    function render(text: string, explicit: boolean, Indicator:boolean): string[] {
         return (
             explicit
-                ? (spaceIndicator ? text.replaceAll(' ', '·').replaceAll('\t', EXPLICIT_TAB_TEXT):text.replaceAll('\t', EXPLICIT_TAB_TEXT))
+                ? (Indicator ? text.replaceAll(' ', '·').replaceAll('\t', EXPLICIT_TAB_TEXT):text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT))
                 : text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT)
         ).split('\n');
     }

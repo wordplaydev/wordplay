@@ -219,7 +219,7 @@
                 Settings.setSpace(
                     choice === 0 ? true : false,
                 )}
-            modes={['On', 'Off']}
+            modes={['⭕️', '❌']}
         />
     </p>
     </Dialog>

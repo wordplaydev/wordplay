@@ -8352,6 +8352,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The project tile layout mode"
                         },
+                        "space": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The space_indicator on/off mode"
+                        },
                         "writing": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                           "description": "The writing layout direction"
@@ -8361,7 +8365,8 @@
                         "layout",
                         "animate",
                         "dark",
-                        "writing"
+                        "writing",
+                        "space"
                       ],
                       "type": "object"
                     },

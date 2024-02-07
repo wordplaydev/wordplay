@@ -4176,6 +4176,13 @@
                             "usar configuración del dispositivo"
                         ]
                     },
+                    "space": {
+                        "label": "indicador de espacio",
+                        "modes": [
+                            "abierto",
+                            "cerrado"
+                        ]
+                    },
                     "writing": {
                         "label": "diseño de escritura",
                         "modes": [
