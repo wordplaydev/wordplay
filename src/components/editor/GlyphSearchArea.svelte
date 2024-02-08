@@ -41,11 +41,14 @@
 </script>
 
 <section>
-    <TextField
-        placeholder="🔍"
-        description={$locales.get((l) => l.ui.source.cursor.search)}
-        bind:text={query}
-    />
+    <div class="search-wrapper">
+        <TextField
+            placeholder="🔍"
+            description={$locales.get((l) => l.ui.source.cursor.search)}
+            fill
+            bind:text={query}
+        />
+    </div>
     <div class="display">
         <VirtualList
             width="100%"
@@ -100,6 +103,11 @@
         align-items: center;
         justify-content: start;
         width: 100%;
+    }
+
+    .search-wrapper {
+        width:12%;
+        overflow: hidden;
     }
 
     .label-wrapper {
