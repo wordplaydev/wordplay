@@ -355,10 +355,12 @@ export default class Bind extends Expression {
         for (const [, duplicate] of this.names.names.map((name1, index1) => {
             return [
                 name1,
-                this.names.names.find(
-                    (name2, index2) =>
-                        index2 > index1 && name1.isEqualTo(name2),
-                ),
+                (name1.getName() ?? '').length > 0
+                    ? this.names.names.find(
+                          (name2, index2) =>
+                              index2 > index1 && name1.isEqualTo(name2),
+                      )
+                    : undefined,
             ] as const;
         })) {
             if (duplicate) conflicts.push(new DuplicateName(this, duplicate));
