@@ -4055,7 +4055,8 @@
                 "undo": "deshacer edición anterior",
                 "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar",
-                "tidy": "espaciado ordenado"
+                "tidy": "espaciado ordenado",
+                "elide": "$?"
             }
         },
         "annotations": {

@@ -22,6 +22,7 @@ import {
     BORROW_SYMBOL,
     SHARE_SYMBOL,
     CHANGE_SYMBOL,
+    ELISION_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -1069,6 +1070,21 @@ const Commands: Command[] = [
         execute: ({ caret }) => {
             if (caret === undefined) return false;
             return caret.insert(SHARE_SYMBOL) ?? false;
+        },
+    },
+    {
+        symbol: ELISION_SYMBOL + ELISION_SYMBOL,
+        description: (l) => l.ui.source.cursor.elide,
+        visible: Visibility.Visible,
+        category: Category.Modify,
+        alt: false,
+        shift: false,
+        control: true,
+        key: '8',
+        keySymbol: ELISION_SYMBOL,
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            else return caret.elide() ?? false;
         },
     },
 

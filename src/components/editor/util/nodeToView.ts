@@ -173,9 +173,9 @@ import Otherwise from '@nodes/Otherwise';
 
 const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
 
+nodeToView.set(Token, TokenView);
 nodeToView.set(Source, SourceView);
 nodeToView.set(Program, ProgramView);
-nodeToView.set(Token, TokenView);
 nodeToView.set(Doc, DocView);
 nodeToView.set(Docs, DocsView);
 nodeToView.set(Paragraph, ParagraphView);

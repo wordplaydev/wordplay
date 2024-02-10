@@ -2329,7 +2329,8 @@
                 "undo": "$?",
                 "redo": "$?",
                 "search": "$?",
-                "tidy": "$?"
+                "tidy": "$?",
+                "elide": "$?"
             }
         },
         "annotations": {

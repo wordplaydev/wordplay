@@ -835,22 +835,14 @@ export default class Source extends Expression {
     }
 
     getFirstToken(node: Node): Token | undefined {
-        let next = node;
-        do {
-            if (next instanceof Token) return next;
-            next = next.getChildren()[0];
-        } while (next !== undefined);
-        return undefined;
+        return node.nodes().filter((n): n is Token => n instanceof Token)[0];
     }
 
     getLastToken(node: Node): Token | undefined {
-        let next = node;
-        do {
-            if (next instanceof Token) return next;
-            const children = next.getChildren();
-            next = children[children.length - 1];
-        } while (next !== undefined);
-        return undefined;
+        return node
+            .nodes()
+            .filter((n): n is Token => n instanceof Token)
+            .at(-1);
     }
 
     getTokens() {

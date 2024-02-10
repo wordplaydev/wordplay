@@ -5025,6 +5025,9 @@
                             "``Aprende más en <Wordplay@https://wordplay.dev>.`` '¡un enlace!'"
                         ],
                         null,
+                        ["Doc", "serious", "$?"],
+                        ["edit", "[1 2 3 4 *'gato'* 5 6 7 8]"],
+                        null,
                         [
                             "fit",
                             "Stage([Phrase('¡Silencio en el backstage!' color: Color(100% 0 0°))] background: Color(0% 0 0°))"

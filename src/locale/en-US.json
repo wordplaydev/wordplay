@@ -4019,7 +4019,8 @@
                 "undo": "undo previous edit",
                 "redo": "redo undone edit",
                 "search": "search for special characters to insert",
-                "tidy": "tidy spacing"
+                "tidy": "tidy spacing",
+                "elide": "toggle elision"
             }
         },
         "annotations": {
