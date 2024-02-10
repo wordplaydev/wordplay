@@ -3783,11 +3783,11 @@
             ],
             "name": {
                 "names": "name",
-                "doc": "$?"
+                "doc": "The name of the source file to create or update."
             },
             "value": {
                 "names": "value",
-                "doc": "$?"
+                "doc": "The data value that the source file should be created or updated with."
             },
             "DynamicEditLimitException": {
                 "description": "dynamic source edit limit",

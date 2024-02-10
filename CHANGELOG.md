@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Maximum toggle length.
 -   Anchor dialog close buttons when scrolling.
 -   [#374](https://github.com/wordplaydev/wordplay/issues/374): Allow deletion of selected placeholder.
+-   Added missing Source input documentation.
 
 ## 0.9.3 2024-02-03
 
