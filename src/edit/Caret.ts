@@ -1565,7 +1565,7 @@ export default class Caret {
                                     space.replaceAll(ELISION_SYMBOL, '') +
                                     code.substring(start, code.getLength()),
                             ),
-                            this.withPosition(this.position),
+                            this.withPosition(this.position - 1),
                         ];
                     else return undefined;
                 }
