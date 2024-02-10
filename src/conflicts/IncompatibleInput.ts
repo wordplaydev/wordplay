@@ -19,7 +19,6 @@ export default class IncompatibleInput extends Conflict {
     }
 
     getConflictingNodes() {
-        console.error("Reached!");
         return {
             primary: {
                 node: this.givenNode,
