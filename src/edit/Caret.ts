@@ -1288,8 +1288,10 @@ export default class Caret {
                             ),
                         ];
                     }
-                    // If allows and requires an expression, replace it with an expression placeholder, since it's required.
+                    // If the node allows and requires an expression, replace it with an expression placeholder, since it's required,
+                    // unless it's already an expression placeholder.
                     else if (
+                        !(node instanceof ExpressionPlaceholder) &&
                         !(kind instanceof ListOf) &&
                         kind.allowsKind(Expression)
                     ) {

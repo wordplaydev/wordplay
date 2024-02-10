@@ -8456,13 +8456,13 @@
                       "additionalProperties": false,
                       "description": "Buttons in the share dialog",
                       "properties": {
+                        "sensitive": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Description and label for the button to mark PII as sensitive again."
+                        },
                         "submit": {
                           "description": "Description for the email submission button.",
                           "type": "string"
-                        },
-                        "sensitive": {
-                          "$ref": "#/definitions/ButtonText",
-                          "description": "Button to mark possible PII as sensitive."
                         }
                       },
                       "required": [
@@ -8561,13 +8561,13 @@
                           "$ref": "#/definitions/DialogText",
                           "description": "The gallery subheader and explanation"
                         },
-                        "public": {
-                          "$ref": "#/definitions/DialogText",
-                          "description": "The public/private toggle subheader and explanation"
-                        },
                         "pii": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The personal information subheader and explanation"
+                        },
+                        "public": {
+                          "$ref": "#/definitions/DialogText",
+                          "description": "The public/private toggle subheader and explanation"
                         }
                       },
                       "required": [
