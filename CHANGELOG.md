@@ -19,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Restored duplicate name warnings.
 -   Incorrectly formatted inline code in tutorial.
 -   Fixed font on non-emoji toolbar symbol icons.
+-   Remove confusing automatically inserted placeholder at end of programs.
 -   [#374](https://github.com/wordplaydev/wordplay/issues/374): Allow deletion of selected placeholder.
 -   [#381](https://github.com/wordplaydev/wordplay/issues/381): Removed confusing line break insertion behavior.
 
