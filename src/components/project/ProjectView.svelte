@@ -1524,6 +1524,7 @@
                     )}
                     changed={(name) =>
                         Projects.reviseProject(project.withName(name))}
+                    max="10em"
                 />{:else}{project.getName()}{/if}
             <Separator />
             {#each project.getSources() as source, index}

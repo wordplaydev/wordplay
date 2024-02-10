@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 -   English tutorial typos
+-   Maximum project name length in footer.
 
 ## 0.9.3 2024-02-03
 
