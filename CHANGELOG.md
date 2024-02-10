@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   English tutorial typos
 -   Maximum project name length in footer.
 -   Maximum toggle length.
+-   Anchor dialog close buttons when scrolling.
 
 ## 0.9.3 2024-02-03
 
