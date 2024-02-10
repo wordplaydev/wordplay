@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Added
 
 -   [#362](https://github.com/wordplaydev/wordplay/issues/362): Added elision syntax to allow temporary removal of code from parsing (e.g., removing `2` from `1 + *2* 3`). Also included a toolbar and keyboard command for quick toggling.
+-   [#336](https://github.com/wordplaydev/wordplay/issues/336): Added basic syntax error resolution suggestions.
 
 ## Fixed
 

@@ -741,7 +741,10 @@
             "doc": "$?",
             "start": "$?",
             "conflict": {
-                "UnparsableConflict": "$?",
+                "UnparsableConflict": {
+                    "conflict": "$?",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "$?"
             },
             "exception": {

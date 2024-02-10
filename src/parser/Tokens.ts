@@ -1,7 +1,6 @@
 import Sym from '../nodes/Sym';
 import Token from '../nodes/Token';
 import type Spaces from './Spaces';
-import type Node from '../nodes/Node';
 
 export default class Tokens {
     /** The tokens that have yet to be read. */
@@ -77,7 +76,7 @@ export default class Tokens {
         return types.every(
             (type, index) =>
                 index < this.#unread.length &&
-                this.#unread[index].isSymbol(type)
+                this.#unread[index].isSymbol(type),
         );
     }
 
@@ -167,7 +166,7 @@ export default class Tokens {
                         .map((t) => t.toWordplay())
                         .join('')}; expected ${expectedType}, received ${
                         next.types
-                    }`
+                    }`,
                 );
             }
             this.#read.push(next);
@@ -181,7 +180,7 @@ export default class Tokens {
 
     /** Used to read the remainder of a line, and at least one token, unless there are no more tokens. */
     readLine() {
-        const nodes: Node[] = [];
+        const nodes: Token[] = [];
 
         if (!this.hasNext()) return nodes;
         // Read at least one token, then keep going until we reach a token with a line break.

@@ -777,7 +777,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "map",
+            "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
@@ -1127,13 +1127,16 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is/",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is.",
+                    "resolution": "Did you mean a $1, $2?"
+                },
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
             },
             "exception": {
                 "UnparsableException": {
                     "description": "???",
-                    "explanation": "/Hi, @FunctionDefinition here! We had to stop the performance because we didn't know what kind of instruction this is./"
+                    "explanation": "Hi, @FunctionDefinition here! We're not sure what this instruction means, so we stopped."
                 }
             }
         },

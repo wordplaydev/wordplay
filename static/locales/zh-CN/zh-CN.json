@@ -1128,7 +1128,10 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "我期望在 $1 之后的某个时刻会有 $2"
             },
             "exception": {

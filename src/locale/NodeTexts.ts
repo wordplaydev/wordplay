@@ -674,7 +674,10 @@ type NodeTexts = {
              * When an unparsable expression or type is used.
              * Description inputs: $1: true if expression, false if type
              */
-            UnparsableConflict: InternalConflictText;
+            UnparsableConflict: {
+                conflict: InternalConflictText;
+                resolution: Template;
+            };
             /**
              * When a delimiter is unclosed.
              * Description inputs: $1: unclosed token, $2: opening delimiter

@@ -6204,8 +6204,21 @@
                       "description": "When a delimiter is unclosed. Description inputs: $1: unclosed token, $2: opening delimiter"
                     },
                     "UnparsableConflict": {
-                      "$ref": "#/definitions/InternalConflictText",
-                      "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type"
+                      "additionalProperties": false,
+                      "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type",
+                      "properties": {
+                        "conflict": {
+                          "$ref": "#/definitions/InternalConflictText"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "conflict",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
