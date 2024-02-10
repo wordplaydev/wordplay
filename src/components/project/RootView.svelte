@@ -64,11 +64,12 @@
             if (root.getSpaceRoot(firstLeaf) !== n) continue;
             // What's the given space?
             let space = spaces ? spaces.getSpace(firstLeaf) : '';
-            // What is the leaf's preferred space?
+            // What is the leaf's preferred space? Don't render newlines.
             let preferred = Spaces.getPreferredPrecedingSpace(
                 root,
                 space,
-                firstLeaf
+                firstLeaf,
+                false,
             );
             // Compute the additional space for rendering.
             let additional = spaces
@@ -103,7 +104,7 @@
                         n instanceof Names ||
                         n instanceof Docs ||
                         n instanceof TextLiteral ||
-                        n instanceof FormattedLiteral
+                        n instanceof FormattedLiteral,
                 )) {
                 // Get the language tags on the nodes.
                 const tags = tagged.getTags();
@@ -119,7 +120,7 @@
                         $locales
                             .getLanguages()
                             .some((lang) =>
-                                tags.some((l) => l.getLanguage() === lang)
+                                tags.some((l) => l.getLanguage() === lang),
                             )
                     ) {
                         let first = false;
@@ -163,7 +164,7 @@
                 .leaves()
                 .filter(
                     (token) =>
-                        !Array.from(newHidden).some((n) => n.contains(token))
+                        !Array.from(newHidden).some((n) => n.contains(token)),
                 )
                 .slice(5))
                 newHidden.add(token);

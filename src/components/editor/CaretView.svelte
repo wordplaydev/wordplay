@@ -516,6 +516,7 @@
                             caret.source.root,
                             caret.source.spaces.getSpace(token),
                             token,
+                            false,
                         ) ?? '',
                     );
                 }
