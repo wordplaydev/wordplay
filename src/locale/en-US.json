@@ -80,7 +80,7 @@
         "TypeOperator": "is",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
-        "Separator": "$name separator",
+        "Separator": "name separator",
         "Language": "language tag",
         "Region": "region dash",
         "BooleanType": "boolean type",
