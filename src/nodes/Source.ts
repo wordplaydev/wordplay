@@ -95,7 +95,7 @@ export default class Source extends Expression {
             (n): n is Token => n instanceof Token,
         )) {
             // Increment by the amount of space
-            index += this.spaces.getSpace(token).length;
+            index += new UnicodeString(this.spaces.getSpace(token)).getLength();
             // Remember the position.
             this.tokenPositions.set(token, index);
             // Increment by the amount of text.

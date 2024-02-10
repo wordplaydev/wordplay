@@ -1542,11 +1542,47 @@ export default class Caret {
     /** Toggles an elision at the current position */
     elide(): Edit | undefined {
         const source = this.source;
-        const code = this.source.getCode();
+        const code = source.getCode();
+
+        // If it's a position...
+        if (this.isPosition()) {
+            // Check if the position is inside an elision, including the directly before and after the elision symbols.
+            const token = source.getTokenWithSpaceAt(this.position);
+            // Is the caret at a position inside an elision? Unwrap any elisions.
+            if (token) {
+                const space = source.getSpaces().getSpace(token);
+                if (space.indexOf(ELISION_SYMBOL) >= 0) {
+                    const start = source.getNodeFirstPosition(token);
+                    const end = source.getNodeLastPosition(token);
+                    if (start !== undefined && end !== undefined)
+                        return [
+                            source.withCode(
+                                code.substring(
+                                    0,
+                                    start -
+                                        new UnicodeString(space).getLength(),
+                                ) +
+                                    space.replaceAll(ELISION_SYMBOL, '') +
+                                    code.substring(start, code.getLength()),
+                            ),
+                            this.withPosition(this.position),
+                        ];
+                    else return undefined;
+                }
+            }
+        }
+
+        // If this is a node, elide the node, otherwise, find the first expression parent of the token we're at, excluding space.
+        const node = this.isNode()
+            ? this.position
+            : this.tokenExcludingSpace
+              ? this.source.root
+                    .getAncestors(this.tokenExcludingSpace)
+                    .find((n) => n instanceof Expression)
+              : undefined;
 
         /** The caret is a node selection, elide the node. */
-        if (this.isNode()) {
-            const node = this.position;
+        if (node) {
             const start = source.getNodeFirstPosition(node);
             const end = source.getNodeLastPosition(node);
             if (start !== undefined && end !== undefined) {
@@ -1561,29 +1597,7 @@ export default class Caret {
                     this.withPosition(start + 1),
                 ];
             }
-        }
-        // If it's a position...
-        else if (this.isPosition()) {
-            // Check if the position is inside an elision, including the directly before and after the elision symbols.
-            const token = source.getTokenWithSpaceAt(this.position);
-            // Is the caret at a position inside an elision? Unwrap any elisions.
-            if (token) {
-                const space = source.getSpaces().getSpace(token);
-                if (space.indexOf(ELISION_SYMBOL) >= 0) {
-                    const start = source.getNodeFirstPosition(token);
-                    const end = this.source.getNodeLastPosition(token);
-                    if (start !== undefined && end !== undefined)
-                        return [
-                            this.source.withCode(
-                                code.substring(0, start - space.length) +
-                                    space.replaceAll(ELISION_SYMBOL, '') +
-                                    code.substring(start, code.getLength()),
-                            ),
-                            this.withPosition(this.position),
-                        ];
-                    else return undefined;
-                }
-            }
+        } else if (this.isPosition())
             // If it's not, insert a new elision and place the caret inside it.
             return [
                 source.withCode(
@@ -1594,6 +1608,5 @@ export default class Caret {
                 ),
                 this.withPosition(this.position + 1),
             ];
-        }
     }
 }
