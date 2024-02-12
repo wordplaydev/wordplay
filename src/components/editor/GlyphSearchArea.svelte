@@ -68,7 +68,7 @@
         </div>
         <VirtualList
             width="100%"
-            height={600}
+            height={400}
             itemCount={Math.max(Math.ceil(results.length / rowSize), 1)}
             itemSize={glyphSize}
         >
@@ -78,6 +78,7 @@
                         {#each getGlyphRow(index, category) as glyph}
                             <div class="glyph-wrapper">
                                 <Button
+                                    stretch
                                     tip={concretize(
                                         $locales,
                                         $locales.get((l) => l.ui.source.cursor.insertSymbol),
@@ -143,12 +144,8 @@
         grid-template-columns: repeat(16, 1fr);
         align-items: start;
         justify-content: start;
-        padding-bottom: var(--wordplay-spacing);
         width: 100%;
-    }
-
-    .glyph-row:first-child {
-        padding-top: var(--wordplay-spacing);
+        height: 100%;
     }
 
     .glyph-wrapper {
@@ -156,6 +153,8 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        width: 100%;
+        height: 100%;
     }
 
     .no-response-text {
