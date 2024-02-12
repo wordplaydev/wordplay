@@ -50,46 +50,47 @@
         />
     </div>
     <div class="display">
+        <div class="recents-bar">
+            <div class="label-wrapper">
+                <Label>Recently Used</Label>
+            </div>
+            <div class="recents-row">
+                {#each recentlyUsed as glyph}<Button
+                        tip={concretize(
+                            $locales,
+                            $locales.get((l) => l.ui.source.cursor.insertSymbol),
+                            glyph
+                        ).toText()}
+                        action={() => insert(glyph)}
+                        ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
+                    >{/each}
+            </div>
+        </div>
         <VirtualList
             width="100%"
             height={600}
-            itemCount={Math.ceil(results.length / rowSize) + 2}
+            itemCount={Math.max(Math.ceil(results.length / rowSize), 1)}
             itemSize={glyphSize}
         >
             <div slot="item" let:index let:style {style}>
-                {#if index == 0}
-                <div class="recents-bar">
-                    <div class="label-wrapper">
-                        <Label>Recently Used</Label>
+                {#if results.length > 0}
+                    <div class="glyph-row">
+                        {#each getGlyphRow(index, category) as glyph}
+                            <div class="glyph-wrapper">
+                                <Button
+                                    tip={concretize(
+                                        $locales,
+                                        $locales.get((l) => l.ui.source.cursor.insertSymbol),
+                                        glyph
+                                    ).toText()}
+                                    action={() => insert(glyph)}
+                                    ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
+                                >
+                            </div>
+                        {/each}
                     </div>
-                    <div class="recents-row">
-                        {#each recentlyUsed as glyph}<Button
-                                tip={concretize(
-                                    $locales,
-                                    $locales.get((l) => l.ui.source.cursor.insertSymbol),
-                                    glyph
-                                ).toText()}
-                                action={() => insert(glyph)}
-                                ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
-                            >{/each}
-                    </div>
-                </div>
                 {:else}
-                <div class="glyph-row">
-                    {#each getGlyphRow(index - 2, category) as glyph}
-                        <div class="glyph-wrapper">
-                            <Button
-                                tip={concretize(
-                                    $locales,
-                                    $locales.get((l) => l.ui.source.cursor.insertSymbol),
-                                    glyph
-                                ).toText()}
-                                action={() => insert(glyph)}
-                                ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
-                            >
-                        </div>
-                    {/each}
-                </div>
+                    <span class="no-response-text"> No results found </span>
                 {/if}
             </div>
         </VirtualList>
@@ -108,6 +109,7 @@
     .search-wrapper {
         width:12%;
         overflow: hidden;
+        margin-right: var(--wordplay-spacing);
     }
 
     .label-wrapper {
@@ -119,7 +121,7 @@
         display:flex;
         flex-direction: column;
         flex-grow: 1;
-        max-height: 180px;
+        max-height: 190px;
     }
 
     .recents-bar {
@@ -145,10 +147,20 @@
         width: 100%;
     }
 
+    .glyph-row:first-child {
+        padding-top: var(--wordplay-spacing);
+    }
+
     .glyph-wrapper {
         display: flex;
         flex-direction: row;
         align-items: center;
         justify-content: center;
+    }
+
+    .no-response-text {
+        color: var(--wordplay-inactive-color);
+        font-style: italic;
+        opacity: 1;
     }
 </style>
