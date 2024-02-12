@@ -36,11 +36,11 @@
     function render(
         text: string,
         explicit: boolean,
-        Indicator: boolean,
+        indicator: boolean,
     ): string[] {
         return (
             explicit
-                ? Indicator
+                ? indicator
                     ? text
                           .replaceAll(' ', '·')
                           .replaceAll('\t', EXPLICIT_TAB_TEXT)
