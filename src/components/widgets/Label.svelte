@@ -6,7 +6,6 @@
 
 <style>
     div {
-        background-color: var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         padding: calc(var(--wordplay-spacing) / 2);
     }
