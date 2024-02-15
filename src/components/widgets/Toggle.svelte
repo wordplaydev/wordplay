@@ -59,13 +59,15 @@
         padding: calc(var(--wordplay-spacing) / 2);
         cursor: pointer;
         width: fit-content;
+        max-width: 10em;
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
         line-height: 1;
 
         /** Allows for command hint layout */
         position: relative;
-        overflow: visible;
     }
 
     button.on {

@@ -589,18 +589,18 @@ export default abstract class Node {
         return this.getFieldOfChild(child)?.indent === true;
     }
 
-    /** Get the preferred preceding space of this node's child. */
+    /** Get the preferred preceding space of this node's child. Linebreaks are optional. */
     getPreferredPrecedingSpace(
         child: Node,
         space: string,
-        depth: number,
+        linebreaks: boolean,
     ): string {
         const field = this.getFieldOfChild(child);
 
         if (field === undefined) return '';
 
         // If the child should have a newline before it, and the field is a list, and it's not the first node in the list or we want a newline for the first item, return a newline (or two if it wants double, as in the case of Markup).
-        if (field.newline === true) {
+        if (linebreaks && field.newline === true) {
             const value = this.getField(field.name);
             if (
                 !Array.isArray(value) ||
@@ -713,7 +713,7 @@ export default abstract class Node {
                 const preferred = this.getPreferredPrecedingSpace(
                     child,
                     '',
-                    childDepth,
+                    true,
                 );
                 return preferred + child.toWordplay(spaces, locale, childDepth);
             })

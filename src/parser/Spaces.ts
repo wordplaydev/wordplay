@@ -148,9 +148,9 @@ export default class Spaces {
         root: Root,
         currentPrecedingSpace: string,
         leaf: Node,
+        linebreaks: boolean,
     ): string {
         // Start from this node, walking up the ancestor tree
-        const depth = root.getDepth(leaf);
         let child = leaf;
         let parent = root.getParent(leaf);
         let preferredSpace = '';
@@ -163,7 +163,7 @@ export default class Spaces {
                     parent.getPreferredPrecedingSpace(
                         child,
                         currentPrecedingSpace,
-                        depth,
+                        linebreaks,
                     ) + preferredSpace;
             }
 
@@ -253,7 +253,7 @@ export default class Spaces {
         for (const token of source.getTokens()) {
             newSpace.#spaces.set(
                 token,
-                this.getPreferredTokenSpace(source.root, token),
+                this.getPreferredTokenSpace(source.root, token, true),
             );
         }
         return newSpace;
@@ -270,7 +270,7 @@ export default class Spaces {
         for (const token of tokens.getTokens()) {
             newSpace.#spaces.set(
                 token,
-                newSpace.getPreferredTokenSpace(root, token),
+                newSpace.getPreferredTokenSpace(root, token, true),
             );
         }
         return newSpace;
@@ -284,18 +284,19 @@ export default class Spaces {
             .filter((n): n is Token => n instanceof Token)) {
             newSpace.#spaces.set(
                 token,
-                this.getPreferredTokenSpace(root, token),
+                this.getPreferredTokenSpace(root, token, true),
             );
         }
         return newSpace;
     }
 
-    getPreferredTokenSpace(root: Root, token: Token) {
+    getPreferredTokenSpace(root: Root, token: Token, linebreaks: boolean) {
         const currentSpace = this.getSpace(token);
         const preferred = Spaces.getPreferredPrecedingSpace(
             root,
             currentSpace,
             token,
+            linebreaks,
         );
         return currentSpace + this.getAdditionalSpace(token, preferred);
     }

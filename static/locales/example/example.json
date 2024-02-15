@@ -741,7 +741,10 @@
             "doc": "$?",
             "start": "$?",
             "conflict": {
-                "UnparsableConflict": "$?",
+                "UnparsableConflict": {
+                    "conflict": "$?",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "$?"
             },
             "exception": {
@@ -2329,7 +2332,8 @@
                 "undo": "$?",
                 "redo": "$?",
                 "search": "$?",
-                "tidy": "$?"
+                "tidy": "$?",
+                "elide": "$?"
             }
         },
         "annotations": {

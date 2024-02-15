@@ -313,6 +313,8 @@ type UITexts = {
             search: string;
             /** Tidy spacing */
             tidy: string;
+            /** Toggle elision */
+            elide: string;
         };
     };
     /** The conflicts area in the margin of the editor. */

@@ -18,6 +18,7 @@
     import type Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
     import type Token from '@nodes/Token';
+    import UnicodeString from '@models/UnicodeString';
 
     export let caret: Caret;
     export let source: Source;
@@ -429,7 +430,9 @@
             // 1) Trailing space (the caret is before the first newline)
             if (spaceBefore.indexOf('\n') < 0) {
                 // Count the number of spaces prior to the next newline.
-                const spaces = spaceBefore.split(' ').length - 1;
+                const nonTabs = new UnicodeString(
+                    spaceBefore.replaceAll('\t', ''),
+                ).getLength();
                 const tabs = spaceBefore.split('\t').length - 1;
 
                 if (horizontal) {
@@ -438,7 +441,7 @@
                         left:
                             priorTokenHorizontalEnd +
                             (leftToRight ? 1 : -1) *
-                                (spaces * spaceWidth + tabs * tabWidth),
+                                (nonTabs * spaceWidth + tabs * tabWidth),
                         top: priorTokenTop,
                         height: caretHeight,
                         bottom: priorTokenTop + caretHeight,
@@ -450,7 +453,7 @@
                         top:
                             priorTokenVerticalEnd +
                             (leftToRight ? 1 : -1) *
-                                (spaces * spaceHeight + tabs * tabHeight),
+                                (nonTabs * spaceHeight + tabs * tabHeight),
                         height: caretHeight,
                         bottom: priorTokenLeft + caretHeight,
                     };
@@ -465,7 +468,9 @@
                 const beforeLines = spaceBefore.split('\n');
                 const spaceOnLine = beforeLines[beforeLines.length - 1];
 
-                const spaces = spaceOnLine.split(' ').length - 1;
+                const nonTabs = new UnicodeString(
+                    spaceOnLine.replaceAll('\t', ''),
+                ).getLength();
                 const tabs = spaceOnLine.split('\t').length - 1;
 
                 const offset =
@@ -478,7 +483,7 @@
                         left:
                             editorHorizontalStart +
                             (leftToRight ? 1 : -1) *
-                                (spaces * spaceWidth + tabs * tabWidth),
+                                (nonTabs * spaceWidth + tabs * tabWidth),
                         top: spaceTop,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
@@ -490,7 +495,7 @@
                         top:
                             editorVerticalStart +
                             (leftToRight ? 1 : -1) *
-                                (spaces * spaceHeight + tabs * tabHeight),
+                                (nonTabs * spaceHeight + tabs * tabHeight),
                         height: caretHeight,
                         bottom: spaceLeft + caretHeight,
                     };
@@ -516,12 +521,15 @@
                             caret.source.root,
                             caret.source.spaces.getSpace(token),
                             token,
+                            false,
                         ) ?? '',
                     );
                 }
 
                 // Compute the spaces prior to the caret on this line.
-                const spaces = spaceOnLastLine.split(' ').length - 1;
+                const nonTabs = new UnicodeString(
+                    spaceOnLastLine.replaceAll('\t', ''),
+                ).getLength();
                 const tabs = spaceOnLastLine.split('\t').length - 1;
 
                 let spaceTop = tokenTop;
@@ -571,7 +579,7 @@
                         left:
                             horizontalStart +
                             (leftToRight ? 1 : -1) *
-                                (spaces * spaceWidth + tabs * tabWidth),
+                                (nonTabs * spaceWidth + tabs * tabWidth),
                         top: spaceTop,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
@@ -582,7 +590,7 @@
                         top:
                             editorVerticalStart +
                             (leftToRight ? 1 : -1) *
-                                (spaces * spaceWidth + tabs * tabWidth),
+                                (nonTabs * spaceWidth + tabs * tabWidth),
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
                     };

@@ -15,6 +15,8 @@
     export let defaultFocus = false;
     export let editable = true;
     export let kind: 'email' | 'password' | undefined = undefined;
+    /** CSS length or nothing, setting the max-width of the field*/
+    export let max: string | undefined = undefined;
 
     let width = 0;
 
@@ -60,6 +62,7 @@
         aria-placeholder={placeholder}
         placeholder={withVariationSelector(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
+        style:max-width={max}
         disabled={!editable}
         bind:value={text}
         bind:this={view}

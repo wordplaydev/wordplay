@@ -351,7 +351,22 @@ export default class Bind extends Expression {
                 );
         }
 
-        // It can't already be defined. Warn on similar casing.
+        // Warn on duplicate names. Find all the names that appear more than once.
+        for (const [, duplicate] of this.names.names.map((name1, index1) => {
+            return [
+                name1,
+                (name1.getName() ?? '').length > 0
+                    ? this.names.names.find(
+                          (name2, index2) =>
+                              index2 > index1 && name1.isEqualTo(name2),
+                      )
+                    : undefined,
+            ] as const;
+        })) {
+            if (duplicate) conflicts.push(new DuplicateName(this, duplicate));
+        }
+
+        // It can't already be defined by another bind. Warn on similar casing.
         // Check for duplicate names, unless this is an input in an evaluate, in which
         // case the name isn't actually a binding.
         if (!this.isEvaluationInput(context)) {

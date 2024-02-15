@@ -206,7 +206,7 @@
                         [
                             "Program",
                             "serious",
-                            "See? I just showed your second phrase, not your first. You know you broke my rule because I underlined your first phrase and we told you that wed'd be ignoring it."
+                            "See? I just showed your second phrase, not your first. You know you broke my rule because I underlined your first phrase and we told you that we'd be ignoring it."
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
@@ -5062,6 +5062,17 @@
                             "edit",
                             "``Learn more at <Wordplay@https://wordplay.dev>.`` 'a link!'"
                         ],
+                        null,
+                        [
+                            "Doc",
+                            "serious",
+                            "And one last thing.",
+                            "While I'm really all about explaining things, sometimes it's helpful to elide things too. You know, to remove something from a project temporarily, so that it isn't part of the project.",
+                            "You can do that by wrapping anything between stars.",
+                            "See how \\'cat'\\ isn't included in the list we made?",
+                            "You can remove the stars by deleting them with the keyboard, or placing the cursor inside them and using the elide command to remove them for you."
+                        ],
+                        ["edit", "[1 2 3 4 *'cat'* 5 6 7 8]"],
                         null,
                         [
                             "fit",

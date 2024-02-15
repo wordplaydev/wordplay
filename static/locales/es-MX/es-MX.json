@@ -1107,7 +1107,10 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "Esperaba $2 en algún momento después de $1"
             },
             "exception": {
@@ -4055,7 +4058,8 @@
                 "undo": "deshacer edición anterior",
                 "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar",
-                "tidy": "espaciado ordenado"
+                "tidy": "espaciado ordenado",
+                "elide": "$?"
             }
         },
         "annotations": {

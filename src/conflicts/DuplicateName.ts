@@ -25,14 +25,14 @@ export default class DuplicateName extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Bind.conflict.DuplicateName.primary
+                            (l) => l.node.Bind.conflict.DuplicateName.primary,
                         ),
                         new NodeRef(
-                            this.duplicate,
+                            this.duplicate.name ?? this.duplicate,
                             locales,
                             context,
-                            this.duplicate.getName()
-                        )
+                            this.duplicate.getName(),
+                        ),
                     ),
             },
             secondary: {
@@ -41,14 +41,17 @@ export default class DuplicateName extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Bind.conflict.DuplicateName.secondary
+                            (l) => l.node.Bind.conflict.DuplicateName.secondary,
                         ),
                         new NodeRef(
-                            this.bind,
+                            this.bind.names.names.find(
+                                (name) =>
+                                    name.getName() === this.duplicate.getName(),
+                            ) ?? this.bind.names.names[0],
                             locales,
                             context,
-                            this.duplicate.getName()
-                        )
+                            this.duplicate.getName(),
+                        ),
                     ),
             },
         };

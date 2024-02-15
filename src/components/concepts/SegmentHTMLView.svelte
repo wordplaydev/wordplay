@@ -20,6 +20,7 @@
     import concretize from '../../locale/concretize';
     import MarkupHtmlView from './MarkupHTMLView.svelte';
     import { withVariationSelector } from '../../unicode/emoji';
+    import CodeView from './CodeView.svelte';
 
     export let segment: Segment;
     export let spaces: Spaces;
@@ -30,12 +31,18 @@
 {#if segment instanceof WebLink}<WebLinkHTMLView
         link={segment}
         {spaces}
-    />{:else if segment instanceof Example}<ExampleUI
-        example={segment}
-        {spaces}
-        evaluated={alone}
-        inline={!alone}
-    />{:else if segment instanceof ConceptLink}<ConceptLinkUI
+    />{:else if segment instanceof Example}{#if alone}<ExampleUI
+            example={segment}
+            {spaces}
+            evaluated={alone}
+            inline={false}
+        />{:else}<CodeView
+            node={segment.program}
+            inline={true}
+            {spaces}
+            outline={false}
+            describe={false}
+        />{/if}{:else if segment instanceof ConceptLink}<ConceptLinkUI
         link={segment}
     />{:else if segment instanceof Words}<WordsHTMLView
         words={segment}
@@ -45,7 +52,7 @@
             markup={segment.node.getDescription(
                 concretize,
                 segment.locale,
-                segment.context
+                segment.context,
             )}
             inline
         />
@@ -61,5 +68,5 @@
         (segment.startsWith('•')
             ? segment.getText().substring(1).trimStart()
             : unescapeMarkupSymbols(segment.getText())
-        ).replaceAll('--', '—')
+        ).replaceAll('--', '—'),
     )}{/if}

@@ -3,6 +3,27 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 09.31 2024-02-10
+
+## Added
+
+-   [#362](https://github.com/wordplaydev/wordplay/issues/362): Added elision syntax to allow temporary removal of code from parsing (e.g., removing `2` from `1 + *2* 3`). Also included a toolbar and keyboard command for quick toggling.
+-   [#336](https://github.com/wordplaydev/wordplay/issues/336): Added basic syntax error resolution suggestions.
+
+## Fixed
+
+-   English tutorial typos
+-   Maximum project name length in footer.
+-   Maximum toggle length.
+-   Anchor dialog close buttons when scrolling.
+-   Added missing Source input documentation.
+-   Restored duplicate name warnings.
+-   Incorrectly formatted inline code in tutorial.
+-   Fixed font on non-emoji toolbar symbol icons.
+-   Remove confusing automatically inserted placeholder at end of programs.
+-   [#374](https://github.com/wordplaydev/wordplay/issues/374): Allow deletion of selected placeholder.
+-   [#381](https://github.com/wordplaydev/wordplay/issues/381): Removed confusing line break insertion behavior.
+
 ## 0.9.3 2024-02-03
 
 ## Added
