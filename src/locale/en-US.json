@@ -4394,7 +4394,8 @@
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
-                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username."
+                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
+                    "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",

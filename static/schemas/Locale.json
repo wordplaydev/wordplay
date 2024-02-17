@@ -9257,6 +9257,10 @@
                           "description": "When there's no connection to Firebase",
                           "type": "string"
                         },
+                        "tooMany": {
+                          "description": "When there are too mant failed attempts",
+                          "type": "string"
+                        },
                         "unchanged": {
                           "description": "When the email address couldn't be changed for unknown reasons.",
                           "type": "string"
@@ -9274,7 +9278,8 @@
                         "offline",
                         "unchanged",
                         "delete",
-                        "wrongPassword"
+                        "wrongPassword",
+                        "tooMany"
                       ],
                       "type": "object"
                     },

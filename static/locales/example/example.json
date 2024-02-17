@@ -2679,7 +2679,8 @@
                     "failure": "$?",
                     "unchanged": "$?",
                     "delete": "$?",
-                    "wrongPassword": "$?"
+                    "wrongPassword": "$?",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "$?",

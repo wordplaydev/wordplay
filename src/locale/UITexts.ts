@@ -824,6 +824,8 @@ type UITexts = {
                 delete: string;
                 /** When a password is wrong */
                 wrongPassword: string;
+                /** When there are too mant failed attempts */
+                tooMany: string;
             };
             button: {
                 /** Log out of the account */

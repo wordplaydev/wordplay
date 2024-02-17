@@ -3,7 +3,14 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 09.31 2024-02-10
+## 0.9.32 2024-02-17
+
+## Fixed
+
+-   Better feedback on too many login failures
+-   Added admin script to update user password
+
+## 0.9.31 2024-02-10
 
 ## Added
 
