@@ -3747,6 +3747,7 @@
         },
         "gallery": {
             "untitled": "未命名",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "策展人",

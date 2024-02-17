@@ -3890,6 +3890,7 @@
         },
         "gallery": {
             "untitled": "Untitled",
+            "undescribed": "No description",
             "subheader": {
                 "curators": {
                     "header": "Curators",

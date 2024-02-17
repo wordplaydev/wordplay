@@ -153,6 +153,8 @@ type UITexts = {
     gallery: {
         /** What to call a gallery by default, before it's given a name */
         untitled: string;
+        /** What to say if the description is empty */
+        undescribed: string;
         /** Headers on the page */
         subheader: {
             /** The list of curators */

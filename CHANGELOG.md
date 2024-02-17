@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#382](https://github.com/wordplaydev/wordplay/issues/382): Wait for gallery to be created before redirecting.
 -   Don't show preview if there are no projects in a gallery.
+-   Fixed text placeholder error, preventing empty gallery description from being rendered.
 -   Better feedback on too many login failures
 -   Added admin script to update user password
 -   Fixed MIME type on NotoEmoji preload

@@ -62,13 +62,13 @@ export default class Locales {
                 // Object of strings by key? See if any of the values have placeholders
                 else if (text !== null && typeof text === 'object')
                     return !Object.values(text).some(
-                        (t) => typeof t === 'string' && t.startsWith('$?')
+                        (t) => typeof t === 'string' && t.startsWith('$?'),
                     );
                 // Otherwise, just choose it
                 else return true;
             });
         // If we found a preferred result, return it.
-        if (preferredResult) return preferredResult;
+        if (preferredResult !== undefined) return preferredResult;
 
         const fallbackResult = accessor(this.fallback);
 
@@ -77,10 +77,10 @@ export default class Locales {
             typeof fallbackResult === 'string'
                 ? `🚧${fallbackResult}🚧`
                 : // Is it a list of strings? Prepend a construction symbol to the first string.
-                Array.isArray(fallbackResult) &&
-                  typeof fallbackResult[0] === 'string'
-                ? [`🚧${fallbackResult[0]}`, ...fallbackResult.slice(1)]
-                : fallbackResult
+                  Array.isArray(fallbackResult) &&
+                    typeof fallbackResult[0] === 'string'
+                  ? [`🚧${fallbackResult[0]}`, ...fallbackResult.slice(1)]
+                  : fallbackResult
         ) as Kind;
     }
 

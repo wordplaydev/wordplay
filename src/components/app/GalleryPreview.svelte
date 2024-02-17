@@ -21,6 +21,8 @@
     let project: Project | undefined = undefined;
     let timeoutID: NodeJS.Timeout;
 
+    $: description = gallery.getDescription($locales).split('\n').join('\n\n');
+
     async function loadNext() {
         index = (index + 1) % gallery.getProjects().length;
         projectID = gallery.getProjects()[index];
@@ -69,7 +71,9 @@
             ></Subheader
         >
         <MarkupHtmlView
-            markup={gallery.getDescription($locales).split('\n').join('\n\n')}
+            markup={description.length > 0
+                ? description
+                : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
         />
     </div>
 </div>

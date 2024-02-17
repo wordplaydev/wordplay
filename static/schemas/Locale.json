@@ -8877,6 +8877,10 @@
                   ],
                   "type": "object"
                 },
+                "undescribed": {
+                  "description": "What to say if the description is empty",
+                  "type": "string"
+                },
                 "untitled": {
                   "description": "What to call a gallery by default, before it's given a name",
                   "type": "string"
@@ -8884,6 +8888,7 @@
               },
               "required": [
                 "untitled",
+                "undescribed",
                 "subheader",
                 "confirm",
                 "error",

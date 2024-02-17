@@ -3926,6 +3926,7 @@
         },
         "gallery": {
             "untitled": "Intitulada",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "Curadoras",
