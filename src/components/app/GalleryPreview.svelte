@@ -16,7 +16,8 @@
     export let delay: number;
 
     let index = 0;
-    let projectID = gallery.getProjects()[0];
+    $: projectID = gallery.getProjects()[0];
+    /** Null means there are no projects */
     let project: Project | undefined = undefined;
     let timeoutID: NodeJS.Timeout;
 
@@ -37,7 +38,7 @@
 
 <div class="gallery">
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
-    {#if browser}
+    {#if browser && project !== undefined}
         <div class="previews">
             {#if project === undefined}
                 <Spinning
