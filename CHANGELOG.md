@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Better feedback on too many login failures
 -   Added admin script to update user password
+-   Fixed MIME type on NotoEmoji preload
 
 ## 0.9.31 2024-02-10
 
