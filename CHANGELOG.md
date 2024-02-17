@@ -7,6 +7,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## Fixed
 
+-   [#382](https://github.com/wordplaydev/wordplay/issues/382): Wait for gallery to be created before redirecting.
 -   Better feedback on too many login failures
 -   Added admin script to update user password
 -   Fixed MIME type on NotoEmoji preload
