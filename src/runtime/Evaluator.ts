@@ -857,7 +857,6 @@ export default class Evaluator {
                     const delta = performance.now() - start;
                     // Oops, we've reached our evaluation time limit! Schedule completion in the next frame.
                     if (delta > 25) {
-                        console.log('Finishing later ' + limit);
                         this.later(() => {
                             this.finish(limit);
                         });

@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed MIME type on NotoEmoji preload
 -   More consistent list function names.
 -   Slightly faster list creation.
+-   Slightly faster number to list conversion.
 
 ## 0.9.31 2024-02-10
 
