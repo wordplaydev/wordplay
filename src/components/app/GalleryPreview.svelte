@@ -17,8 +17,8 @@
 
     let index = 0;
     $: projectID = gallery.getProjects()[0];
-    /** Null means there are no projects */
-    let project: Project | undefined = undefined;
+    /** Null means loading */
+    let project: Project | null | undefined = null;
     let timeoutID: NodeJS.Timeout;
 
     $: description = gallery.getDescription($locales).split('\n').join('\n\n');
@@ -42,7 +42,7 @@
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
     {#if browser && project !== undefined}
         <div class="previews">
-            {#if project === undefined}
+            {#if project === null}
                 <Spinning
                     large
                     label={$locales.get((l) => l.ui.widget.loading.message)}
