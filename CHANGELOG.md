@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Added admin script to update user password
 -   Fixed MIME type on NotoEmoji preload
 -   More consistent list function names.
+-   Slightly faster list creation.
 
 ## 0.9.31 2024-02-10
 
