@@ -23,6 +23,7 @@ import { DarkSetting } from './DarkSetting';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from './firebase';
 import { CreatorCollection } from './CreatorDatabase';
+import { SpaceSetting } from './SpaceSetting';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {
@@ -63,6 +64,7 @@ export default class SettingsDatabase {
         blocks: BlocksSetting,
         localized: LocalizedSetting,
         dark: DarkSetting,
+        space: SpaceSetting,
     };
 
     /** A derived store based on animation factor */
@@ -164,8 +166,16 @@ export default class SettingsDatabase {
         this.settings.dark.set(this.database, dark);
     }
 
+    setSpace(space: boolean) {
+        this.settings.space.set(this.database, space);
+    }
+
     getDark() {
         return this.settings.dark.get();
+    }
+
+    getSpace() {
+        return this.settings.space.get();
     }
 
     setBlocks(on: boolean) {

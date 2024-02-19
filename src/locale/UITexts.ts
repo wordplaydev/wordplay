@@ -584,6 +584,8 @@ type UITexts = {
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */
                 writing: ModeText<[string, string, string]>;
+                /** The space_indicator on/off mode */
+                space: ModeText<[string, string]>;
             };
             options: {
                 /** The label for the microphone drop down */

@@ -4179,6 +4179,13 @@
                             "use device setting"
                         ]
                     },
+                    "space": {
+                        "label": "space indicator",
+                        "modes": [
+                            "show space and tab indicators explicitly",
+                            "do not show space and tab indicators"
+                        ]
+                    },
                     "writing": {
                         "label": "writing layout",
                         "modes": [
