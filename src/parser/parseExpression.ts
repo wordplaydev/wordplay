@@ -95,7 +95,7 @@ export default function parseExpression(tokens: Tokens): Expression {
 export function parseBlock(
     tokens: Tokens,
     kind: BlockKind = BlockKind.Block,
-    doc = false
+    doc = false,
 ): Block {
     const root = kind === BlockKind.Root;
 
@@ -103,14 +103,14 @@ export function parseBlock(
     const docs = root
         ? undefined
         : tokens.nextIs(Sym.Doc)
-        ? parseDocs(tokens)
-        : undefined;
+          ? parseDocs(tokens)
+          : undefined;
 
     const open = root
         ? undefined
         : tokens.nextIs(Sym.EvalOpen)
-        ? tokens.read(Sym.EvalOpen)
-        : undefined;
+          ? tokens.read(Sym.EvalOpen)
+          : undefined;
 
     const statements = [];
     // Keep reading binds and expressions until
@@ -127,14 +127,14 @@ export function parseBlock(
         statements.push(
             nextIsBind(tokens, true)
                 ? parseBind(tokens)
-                : parseExpression(tokens)
+                : parseExpression(tokens),
         );
 
     const close = root
         ? undefined
         : tokens.nextIs(Sym.EvalClose)
-        ? tokens.read(Sym.EvalClose)
-        : undefined;
+          ? tokens.read(Sym.EvalClose)
+          : undefined;
 
     return new Block(statements, kind, open, close, docs);
 }
@@ -147,7 +147,7 @@ export function parseNoneOr(left: Expression, tokens: Tokens): Otherwise {
 
 export function parseConditional(
     condition: Expression,
-    tokens: Tokens
+    tokens: Tokens,
 ): Conditional {
     const question = tokens.read(Sym.Conditional);
     const yes = parseExpression(tokens);
@@ -170,7 +170,7 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
             : new BinaryEvaluate(
                   left,
                   parseReference(tokens),
-                  parseAtomicExpression(tokens)
+                  parseAtomicExpression(tokens),
               );
     }
     return left;
@@ -183,69 +183,85 @@ function parseAtomicExpression(tokens: Tokens): Expression {
         tokens.nextIs(Sym.This)
             ? new This(tokens.read(Sym.This))
             : // Placeholder
-            tokens.nextIs(Sym.Placeholder)
-            ? parsePlaceholder(tokens)
-            : // Start
-            tokens.nextIs(Sym.Initial)
-            ? parseInitial(tokens)
-            : // Change
-            tokens.nextIs(Sym.Change)
-            ? parseChanged(tokens)
-            : // Nones
-            tokens.nextIs(Sym.None)
-            ? parseNone(tokens)
-            : // Unary expressions before names and binary operators, since some unary can be multiple.
-            tokens.nextIsUnary()
-            ? new UnaryEvaluate(
-                  parseReference(tokens),
-                  parseAtomicExpression(tokens)
-              )
-            : // References can be names or binary operators
-            tokens.nextIsOneOf(Sym.Name, Sym.Operator)
-            ? parseReference(tokens)
-            : // Booleans
-            tokens.nextIs(Sym.Boolean)
-            ? new BooleanLiteral(tokens.read(Sym.Boolean))
-            : // Numbers with units
-            tokens.nextIs(Sym.Number)
-            ? parseNumber(tokens)
-            : // Text with optional formats
-            tokens.nextIs(Sym.Text)
-            ? parseText(tokens)
-            : // A list
-            tokens.nextIs(Sym.ListOpen)
-            ? parseList(tokens)
-            : // A set or map
-            tokens.nextIs(Sym.SetOpen)
-            ? parseSetOrMap(tokens)
-            : // Table literals
-            tokens.nextIs(Sym.TableOpen)
-            ? parseTable(tokens)
-            : // A block expression
-            nextAreOptionalDocsThen(tokens, [Sym.EvalOpen])
-            ? parseBlock(tokens, BlockKind.Block)
-            : // A structure definition
-            nextAreOptionalDocsThen(tokens, [Sym.Type]) ||
-              nextAreOptionalDocsThen(tokens, [Sym.Share, Sym.Type])
-            ? parseStructure(tokens)
-            : // A function function
-            nextAreOptionalDocsThen(tokens, [Sym.Function]) ||
-              nextAreOptionalDocsThen(tokens, [Sym.Share, Sym.Function])
-            ? parseFunction(tokens)
-            : // A conversion function.
-            nextAreOptionalDocsThen(tokens, [Sym.Convert])
-            ? parseConversion(tokens)
-            : tokens.nextIs(Sym.Previous)
-            ? parsePrevious(tokens)
-            : tokens.nextIs(Sym.Formatted)
-            ? parseFormattedLiteral(tokens)
-            : tokens.nextIs(Sym.Locale)
-            ? parseIsLocale(tokens)
-            : // A documented expression
-            tokens.nextIs(Sym.Doc)
-            ? parseDocumentedExpression(tokens)
-            : // Unknown expression? Parse something appropriate.
-              parseUnparsable(tokens);
+              tokens.nextIs(Sym.Placeholder)
+              ? parsePlaceholder(tokens)
+              : // Start
+                tokens.nextIs(Sym.Initial)
+                ? parseInitial(tokens)
+                : // Change
+                  tokens.nextIs(Sym.Change)
+                  ? parseChanged(tokens)
+                  : // Nones
+                    tokens.nextIs(Sym.None)
+                    ? parseNone(tokens)
+                    : // Unary expressions before names and binary operators, since some unary can be multiple.
+                      tokens.nextIsUnary()
+                      ? new UnaryEvaluate(
+                            parseReference(tokens),
+                            parseAtomicExpression(tokens),
+                        )
+                      : // References can be names or binary operators
+                        tokens.nextIsOneOf(Sym.Name, Sym.Operator)
+                        ? parseReference(tokens)
+                        : // Booleans
+                          tokens.nextIs(Sym.Boolean)
+                          ? new BooleanLiteral(tokens.read(Sym.Boolean))
+                          : // Numbers with units
+                            tokens.nextIs(Sym.Number)
+                            ? parseNumber(tokens)
+                            : // Text with optional formats
+                              tokens.nextIs(Sym.Text)
+                              ? parseText(tokens)
+                              : // A list
+                                tokens.nextIs(Sym.ListOpen)
+                                ? parseList(tokens)
+                                : // A set or map
+                                  tokens.nextIs(Sym.SetOpen)
+                                  ? parseSetOrMap(tokens)
+                                  : // Table literals
+                                    tokens.nextIs(Sym.TableOpen)
+                                    ? parseTable(tokens)
+                                    : // A block expression
+                                      nextAreOptionalDocsThen(tokens, [
+                                            Sym.EvalOpen,
+                                        ])
+                                      ? parseBlock(tokens, BlockKind.Block)
+                                      : // A structure definition
+                                        nextAreOptionalDocsThen(tokens, [
+                                              Sym.Type,
+                                          ]) ||
+                                          nextAreOptionalDocsThen(tokens, [
+                                              Sym.Share,
+                                              Sym.Type,
+                                          ])
+                                        ? parseStructure(tokens)
+                                        : // A function function
+                                          nextAreOptionalDocsThen(tokens, [
+                                                Sym.Function,
+                                            ]) ||
+                                            nextAreOptionalDocsThen(tokens, [
+                                                Sym.Share,
+                                                Sym.Function,
+                                            ])
+                                          ? parseFunction(tokens)
+                                          : // A conversion function.
+                                            nextAreOptionalDocsThen(tokens, [
+                                                  Sym.Convert,
+                                              ])
+                                            ? parseConversion(tokens)
+                                            : tokens.nextIs(Sym.Previous)
+                                              ? parsePrevious(tokens)
+                                              : tokens.nextIs(Sym.Formatted)
+                                                ? parseFormattedLiteral(tokens)
+                                                : tokens.nextIs(Sym.Locale)
+                                                  ? parseIsLocale(tokens)
+                                                  : // A documented expression
+                                                    tokens.nextIs(Sym.Doc)
+                                                    ? parseDocumentedExpression(
+                                                          tokens,
+                                                      )
+                                                    : // Unknown expression? Parse something appropriate.
+                                                      parseUnparsable(tokens);
 
     // But wait! Is it one or more infix expressions? Slurp them up.
     let match = false;
@@ -291,7 +307,7 @@ function parseInitial(tokens: Tokens): Initial {
 
 export function parseReference(tokens: Tokens): Reference {
     const name = tokens.read(
-        tokens.nextIs(Sym.Operator) ? Sym.Operator : Sym.Name
+        tokens.nextIs(Sym.Operator) ? Sym.Operator : Sym.Name,
     );
 
     return new Reference(name);
@@ -546,7 +562,7 @@ function parseRow(tokens: Tokens, expected: Sym = Sym.TableOpen): Row {
         cells.push(
             nextIsBind(tokens, true)
                 ? parseBind(tokens)
-                : parseExpression(tokens)
+                : parseExpression(tokens),
         );
 
     // Read the closing row marker.
@@ -659,7 +675,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
         close,
         dot,
         output,
-        expression
+        expression,
     );
 }
 
@@ -707,7 +723,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
         open,
         inputs,
         close,
-        block
+        block,
     );
 }
 
@@ -743,7 +759,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
         inputs.push(
             nextIsBind(tokens, true)
                 ? parseBind(tokens)
-                : parseExpression(tokens)
+                : parseExpression(tokens),
         );
 
     const close = tokens.readIf(Sym.EvalClose);
@@ -815,7 +831,7 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
         left = new PropertyReference(
             left,
             access,
-            name ? new Reference(name) : undefined
+            name ? new Reference(name) : undefined,
         );
 
         // If there's a bind symbol next, then parse a PropertyBind
@@ -839,11 +855,7 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
 }
 
 function parseUnparsable(tokens: Tokens): Expression {
-    // Are there tokens? Make an unparsable expression with the tokens on the line.
-    if (tokens.hasNext()) return new UnparsableExpression(tokens.readLine());
-
-    // Otherwise, return an expression placeholder.
-    return new ExpressionPlaceholder(undefined, undefined, undefined);
+    return new UnparsableExpression(tokens.readLine());
 }
 
 export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
@@ -855,7 +867,7 @@ export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
 }
 
 export function parseFormattedTranslation(
-    tokens: Tokens
+    tokens: Tokens,
 ): FormattedTranslation {
     const open = tokens.read(Sym.Formatted);
     const content = parseMarkup(tokens);

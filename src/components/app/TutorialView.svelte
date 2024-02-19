@@ -270,8 +270,9 @@
                 <Note>
                     {act.title}
                     <sub
-                        >{progress.tutorial.acts.indexOf(act) + 1}/{progress
-                            .tutorial.acts.length}</sub
+                        >{progress.tutorial.acts.findIndex(
+                            (candidate) => candidate === act,
+                        ) + 1}/{progress.tutorial.acts.length}</sub
                     ></Note
                 >{/if}
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->

@@ -95,7 +95,7 @@ export default class Source extends Expression {
             (n): n is Token => n instanceof Token,
         )) {
             // Increment by the amount of space
-            index += this.spaces.getSpace(token).length;
+            index += new UnicodeString(this.spaces.getSpace(token)).getLength();
             // Remember the position.
             this.tokenPositions.set(token, index);
             // Increment by the amount of text.
@@ -539,6 +539,7 @@ export default class Source extends Expression {
             const renderedSpace = this.spaces.getPreferredTokenSpace(
                 this.root,
                 token,
+                false,
             );
             // Get the physical space prior to the token.
             const actualSpace = this.spaces.getSpace(token);
@@ -563,7 +564,11 @@ export default class Source extends Expression {
                 index + 1 === tokens.length ||
                     // Or the next token has a line break before it.
                     this.spaces
-                        .getPreferredTokenSpace(this.root, tokens[index + 1])
+                        .getPreferredTokenSpace(
+                            this.root,
+                            tokens[index + 1],
+                            false,
+                        )
                         .includes('\n'),
             );
             if (result !== undefined) return result;
@@ -830,22 +835,14 @@ export default class Source extends Expression {
     }
 
     getFirstToken(node: Node): Token | undefined {
-        let next = node;
-        do {
-            if (next instanceof Token) return next;
-            next = next.getChildren()[0];
-        } while (next !== undefined);
-        return undefined;
+        return node.nodes().filter((n): n is Token => n instanceof Token)[0];
     }
 
     getLastToken(node: Node): Token | undefined {
-        let next = node;
-        do {
-            if (next instanceof Token) return next;
-            const children = next.getChildren();
-            next = children[children.length - 1];
-        } while (next !== undefined);
-        return undefined;
+        return node
+            .nodes()
+            .filter((n): n is Token => n instanceof Token)
+            .at(-1);
     }
 
     getTokens() {

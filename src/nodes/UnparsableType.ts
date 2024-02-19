@@ -5,11 +5,13 @@ import Node, { list, type Grammar, type Replacement, node } from './Node';
 import Type from './Type';
 import Glyphs from '../lore/Glyphs';
 import type Locales from '../locale/Locales';
+import type Context from './Context';
+import type Token from './Token';
 
 export default class UnparsableType extends Type {
-    readonly unparsables: Node[];
+    readonly unparsables: Token[];
 
-    constructor(nodes: Node[]) {
+    constructor(nodes: Token[]) {
         super();
 
         this.unparsables = nodes;
@@ -31,13 +33,13 @@ export default class UnparsableType extends Type {
         return [{ name: 'unparsables', kind: list(true, node(Node)) }];
     }
 
-    computeConflicts(): void | Conflict[] {
-        return [new UnparsableConflict(this)];
+    computeConflicts(context: Context): void | Conflict[] {
+        return [new UnparsableConflict(this, context)];
     }
 
     clone(replace?: Replacement): this {
         return new UnparsableType(
-            this.replaceChild('unparsables', this.unparsables, replace)
+            this.replaceChild('unparsables', this.unparsables, replace),
         ) as this;
     }
 

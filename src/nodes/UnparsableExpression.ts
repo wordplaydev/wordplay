@@ -14,11 +14,13 @@ import Glyphs from '../lore/Glyphs';
 import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type Context from './Context';
+import type Token from './Token';
 
 export default class UnparsableExpression extends SimpleExpression {
-    readonly unparsables: Node[];
+    readonly unparsables: Token[];
 
-    constructor(nodes: Node[]) {
+    constructor(nodes: Token[]) {
         super();
 
         this.unparsables = nodes;
@@ -36,8 +38,8 @@ export default class UnparsableExpression extends SimpleExpression {
         return Purpose.Source;
     }
 
-    computeConflicts(): void | Conflict[] {
-        return [new UnparsableConflict(this)];
+    computeConflicts(context: Context): void | Conflict[] {
+        return [new UnparsableConflict(this, context)];
     }
 
     clone(replace?: Replacement): this {

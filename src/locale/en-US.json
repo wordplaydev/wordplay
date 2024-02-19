@@ -80,7 +80,7 @@
         "TypeOperator": "is",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
-        "Separator": "$name separator",
+        "Separator": "name separator",
         "Language": "language tag",
         "Region": "region dash",
         "BooleanType": "boolean type",
@@ -406,8 +406,8 @@
             "finish": "oh nice, I got $1! Let's name it $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "someone has the name $1, so I can't have this name.",
-                    "secondary": "uh, $1 is my name"
+                    "primary": "someone has the name $1 so I can't have this name.",
+                    "secondary": "hey, $1 is my name, you can't have it!"
                 },
                 "DuplicateShare": {
                     "primary": "I have the same name as $1, which makes what is shared ambiguous",
@@ -777,7 +777,7 @@
             ]
         },
         "MapLiteral": {
-            "name": "map",
+            "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
@@ -1045,12 +1045,13 @@
             "emotion": "serious",
             "doc": "I represent some text, with a @Language tag. See @Text to learn more!",
             "conflict": {
-                "phone": "Is *$1* someone's phone number? Don't share me online if so!",
-                "email": "Is *$1* someone's email? Don't share me here if so!",
-                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!",
-                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!",
-                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.",
-                "resolution": "This isn't sensitive data"
+                "phone": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2",
+                "email": "Is *$1* someone's email? Don't share me here if so!\n\n$2",
+                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2",
+                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
+                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
+                "resolution": "This isn't sensitive data",
+                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog."
             }
         },
         "FormattedLiteral": {
@@ -1126,13 +1127,16 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is/",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is.",
+                    "resolution": "Did you mean a $1, $2?"
+                },
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
             },
             "exception": {
                 "UnparsableException": {
                     "description": "???",
-                    "explanation": "/Hi, @FunctionDefinition here! We had to stop the performance because we didn't know what kind of instruction this is./"
+                    "explanation": "Hi, @FunctionDefinition here! We're not sure what this instruction means, so we stopped."
                 }
             }
         },
@@ -1958,10 +1962,10 @@
             "function": {
                 "add": {
                     "doc": [
-                        "I create a new @List with the given item.",
+                        "I create a new @List with the given item at the end.",
                         "\\['apple' 'banana' 'mango'].add('watermelon')\\"
                     ],
-                    "names": ["add"],
+                    "names": ["with", "add"],
                     "inputs": [
                         {
                             "doc": "I the value you want to add.",
@@ -1976,7 +1980,7 @@
                         "It's a little bit easier to use @Spread though, like this:",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
-                    "names": ["append"],
+                    "names": ["withList", "append"],
                     "inputs": [
                         { "doc": "The list of values to add.", "names": "list" }
                     ]
@@ -2084,7 +2088,7 @@
                         "I create a list without my first item.",
                         "\\['apple' 'banana' 'mango'].sansFirst()\\"
                     ],
-                    "names": "sansFirst",
+                    "names": ["withoutFirst", "sansFirst"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -2092,7 +2096,7 @@
                         "I create a list without my last item.",
                         "\\['apple' 'banana' 'mango'].sansLast()\\"
                     ],
-                    "names": "sansLast",
+                    "names": ["withoutLast", "sansLast"],
                     "inputs": []
                 },
                 "sans": {
@@ -2100,7 +2104,7 @@
                         "Me, but without the first occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": "sans",
+                    "names": ["without", "sans"],
                     "inputs": [
                         {
                             "doc": "The value to remove the first occurence of.",
@@ -2113,7 +2117,7 @@
                         "Me, but without all occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": "sansAll",
+                    "names": ["withoutAll", "sansAll"],
                     "inputs": [
                         {
                             "doc": "The value to remove all occurences of from the list.",
@@ -2126,7 +2130,7 @@
                         "Me, but in reverse!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": "reverse",
+                    "names": "reversed",
                     "inputs": []
                 },
                 "equals": {
@@ -2412,7 +2416,7 @@
                         "Give me an item to add and I'll make a new @Set with my items and the given item.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["add", "+"],
+                    "names": ["with", "add", "+"],
                     "inputs": [{ "doc": "The item to add", "names": "item" }]
                 },
                 "remove": {
@@ -3458,34 +3462,6 @@
                 "names": "z"
             }
         },
-        "Aura": {
-            "doc": ["I am an AURA"],
-            "names": ["🔮", "Aura"],
-            "color": {
-                "doc": "The color the @Aura should be",
-                "names": "color"
-            },
-            "blur": {
-                "doc": "How blurry the @Aura should be",
-                "names": "blur"
-            },
-            "offsetX": {
-                "doc": "How far right the @Aura should go",
-                "names": "offsetX"
-            },
-            "offsetY": {
-                "doc": "How far down the @Aura should go",
-                "names": "offsetY"
-            },
-            "spread": {
-                "doc": "The strength of the @Aura",
-                "names": "spread"
-            },
-            "opacity": {
-                "doc": "How transparent the @Aura should be",
-                "names": "opacity"
-            }
-        },
         "Pose": {
             "doc": [
                 "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",
@@ -3799,6 +3775,39 @@
                 "doc": "I create a @Sequence that makes it look like a @Output is scared.",
                 "names": ["shake"]
             }
+        },
+        "Source": {
+            "names": "Source",
+            "doc": [
+                "You know how projects can have more than one @Source file? I let you create a @Source based on your project's logic. This is really helpful if you want to save some data between different evaluations of your project.",
+                "For example, imagine you wanted to make a simple counter that counts up by one each time you press a mouse button. You might use this to remember how many times you did something.",
+                "\\↓ count\n[\n\tPhrase(`\\count\\ times!`)\n\tSource('count' count … ∆ Button() … count + 1 )\n]\\",
+                "Try copying it, making a new @Source called /count/ and typing 0 in it, to start the count at 0. This little project will get the value in the /count/ source and each time the mouse button is pressed, edits the /count/ @Source with to be the current /count/ value plus /1/."
+            ],
+            "name": {
+                "names": "name",
+                "doc": "The name of the source file to create or update."
+            },
+            "value": {
+                "names": "value",
+                "doc": "The data value that the source file should be created or updated with."
+            },
+            "DynamicEditLimitException": {
+                "description": "dynamic source edit limit",
+                "explanation": "This project saved data to @Source files too many times, too quickly. Make sure it only updates @Source in response to an input, and not too fast."
+            },
+            "ReadOnlyEditException": {
+                "description": "read only source edit",
+                "explanation": "This project remembers data, but you don't have rights to edit it. Copy it if you want to try it."
+            },
+            "EmptySourceNameException": {
+                "description": "empty source name",
+                "explanation": "The @Source given had an empty name, so we couldn't save it."
+            },
+            "ProjectSizeLimitException": {
+                "description": "project size limit",
+                "explanation": "This project has too much text, so we can't save it."
+            }
         }
     },
     "ui": {
@@ -3881,6 +3890,7 @@
         },
         "gallery": {
             "untitled": "Untitled",
+            "undescribed": "No description",
             "subheader": {
                 "curators": {
                     "header": "Curators",
@@ -3972,6 +3982,8 @@
                 "nextInline": "move cursor to position after",
                 "lineStart": "move cursor to start of line",
                 "lineEnd": "move cursor to end of line",
+                "sourceStart": "move cursor to start of source",
+                "sourceEnd": "move cursor to end of source",
                 "priorNode": "select neighbor before",
                 "nextNode": "select neighbor after",
                 "parent": "select container",
@@ -4011,7 +4023,8 @@
                 "undo": "undo previous edit",
                 "redo": "redo undone edit",
                 "search": "search for special characters to insert",
-                "tidy": "tidy spacing"
+                "tidy": "tidy spacing",
+                "elide": "toggle elision"
             }
         },
         "annotations": {
@@ -4104,6 +4117,10 @@
                     "public": {
                         "header": "Public/Private",
                         "explanation": "Public projects and galleries can be seen by anyone in the world. Our goal is for this content to bring affirmation and joy, and publicly sharing is a way to do that. But it also means following some rules. You promise that your project does not:"
+                    },
+                    "pii": {
+                        "header": "Personal Information",
+                        "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
                     }
                 },
                 "field": {
@@ -4123,7 +4140,11 @@
                     "anonymous": "You must be logged in to share."
                 },
                 "button": {
-                    "submit": "Share the project with this email address"
+                    "submit": "Share the project with this email address",
+                    "sensitive": {
+                        "tip": "Mark this text as sensitive again",
+                        "label": "sensitive"
+                    }
                 },
                 "options": {
                     "gallery": "gallery chooser"
@@ -4381,7 +4402,8 @@
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
-                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username."
+                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
+                    "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
@@ -4446,7 +4468,7 @@
                 "header": "Rights",
                 "content": [
                     "Hi!",
-                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
+                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",

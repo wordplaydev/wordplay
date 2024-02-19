@@ -19,7 +19,8 @@ export default class ListValue extends SimpleValue {
     constructor(creator: Expression, values: Value[]) {
         super(creator);
 
-        this.values = values.slice();
+        /** The fastest (as of 2024) way to copy an array. */
+        this.values = values.slice(0);
     }
 
     getValues() {
@@ -32,7 +33,7 @@ export default class ListValue extends SimpleValue {
             num === 0
                 ? undefined
                 : this.values.at(
-                      (num > 0 ? num - 1 : num) % this.values.length
+                      (num > 0 ? num - 1 : num) % this.values.length,
                   );
         return value === undefined ? new NoneValue(this.creator) : value;
     }
@@ -44,7 +45,7 @@ export default class ListValue extends SimpleValue {
     has(requestor: Expression, value: Value) {
         return new BoolValue(
             requestor,
-            this.values.find((v) => value.isEqualTo(v)) !== undefined
+            this.values.find((v) => value.isEqualTo(v)) !== undefined,
         );
     }
 
@@ -61,7 +62,7 @@ export default class ListValue extends SimpleValue {
             requestor,
             this.values
                 .map((v) => (v instanceof TextValue ? v.text : v.toString()))
-                .join(separator.text)
+                .join(separator.text),
         );
     }
 
@@ -92,26 +93,26 @@ export default class ListValue extends SimpleValue {
     subsequence(
         requestor: Expression,
         start: NumberValue | number,
-        end: NumberValue | number | NoneValue
+        end: NumberValue | number | NoneValue,
     ): ListValue {
         const actualStart = Math.max(
             1,
-            start instanceof NumberValue ? start.toNumber() : start
+            start instanceof NumberValue ? start.toNumber() : start,
         );
         const actualEnd = Math.min(
             this.values.length,
             end instanceof NoneValue
                 ? this.values.length
                 : end instanceof NumberValue
-                ? end.toNumber()
-                : end
+                  ? end.toNumber()
+                  : end,
         );
         const newList = new ListValue(
             requestor,
             this.values.slice(
                 Math.min(actualStart, actualEnd) - 1,
-                Math.max(actualStart, actualEnd)
-            )
+                Math.max(actualStart, actualEnd),
+            ),
         );
         return actualStart > actualEnd ? newList.reverse(requestor) : newList;
     }
@@ -127,7 +128,7 @@ export default class ListValue extends SimpleValue {
     sansAll(requestor: Expression, value: Value) {
         return new ListValue(
             requestor,
-            this.values.filter((v) => !v.isEqualTo(value))
+            this.values.filter((v) => !v.isEqualTo(value)),
         );
     }
 
@@ -143,8 +144,8 @@ export default class ListValue extends SimpleValue {
         return ListType.make(
             UnionType.getPossibleUnion(
                 context,
-                this.values.map((v) => v.getType(context))
-            )
+                this.values.map((v) => v.getType(context)),
+            ),
         );
     }
 
@@ -161,7 +162,7 @@ export default class ListValue extends SimpleValue {
     getDescription(concretize: Concretizer, locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.term.list)
+            locales.get((l) => l.term.list),
         );
     }
 

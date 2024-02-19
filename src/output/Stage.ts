@@ -280,6 +280,14 @@ export function toStage(
     value: Value,
     namer?: NameGenerator,
 ): Stage | undefined {
+    // If it's a list, find the last stage in the list, if there is one.
+    if (value instanceof ListValue)
+        return value.values
+            .map((val) => toStage(evaluator, val, namer))
+            .filter((stage): stage is Stage => stage instanceof Stage)
+            .at(-1);
+
+    // Otherwise, we require a structure value.
     if (!(value instanceof StructureValue)) return undefined;
 
     const project = evaluator.project;
@@ -287,6 +295,7 @@ export function toStage(
     // Create a name generator to guarantee unique default names for all TypeOutput.
     if (namer === undefined) namer = new NameGenerator();
 
+    // If it's a stage, get outputs to show.
     if (value.type === project.shares.output.Stage) {
         const possibleGroups = getOutputInput(value, 0);
         const content =

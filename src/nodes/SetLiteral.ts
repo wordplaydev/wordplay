@@ -23,6 +23,7 @@ import type Conflict from '../conflicts/Conflict';
 import concretize from '../locale/concretize';
 import AnyType from './AnyType';
 import type Locales from '../locale/Locales';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -72,11 +73,21 @@ export default class SetLiteral extends Expression {
                 getType: (context) =>
                     this.getItemType(context) ?? new AnyType(),
                 space: true,
+                newline: this.wrap(),
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {

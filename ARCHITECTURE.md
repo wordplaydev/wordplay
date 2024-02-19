@@ -132,6 +132,21 @@ The editor does many other things, including:
 -   Highlighting based on mouse, touch screen, and drag interactions, defined by `Highlights.ts`
 -   Providing descriptions for screen readers
 
+### Conflicts and resolutions
+
+After every edit, a project is analyzed for _conflicts_ (in other languages, you might call these errors).
+Subclasses of `Node` can compute conflicts based on their context.
+For example, `Evaluate` can generate many types of conflicts, such as `IncompatibleInput`, which happens when an input being provided doesn't match the function being evaluated.
+We call them conflicts partly because they are inconsistencies in a program, and not necessarily a mistake someone made, but also because we anthropomorphize language constracts, and so "conflict" is a pun: its a disagreement between different characters in the Wordplay universe.
+
+`Conflict.ts` is the base class of all conflicts, and all conflicts are required to define methods that describe conflicts, provide references to the nodes in a program that are involved in the conflict, and optionally offer a way to resolve a conflict.
+Conflict resolutions are defined by the `Resolution` type, and generally need a way to describe the resolution, and a method that produces a revised project that resolves the conflict.
+
+You can see an example of a conflict by creating a personally identifiable information conflict (`PossiblePII.ts`).
+Try typing the program email: 'ajko@uw.edu'. It'll give a conflict that it seems to be personally identifiable information.
+There's an option there to say "No, it's not", and then the warning goes away.
+Clicking that button calls `PossiblePII`'s `getResolution` method to generate a revised project.
+
 ### Palette
 
 The palette is a special kind of editor that offers user interfaces for transforming the `Evaluate` nodes that represent Phrases, Groups, and Stages. It constructs detailed models of the `Evaluate`, and defines many controls for modifying inputs to the `Evaluate`.

@@ -639,6 +639,8 @@ type NodeTexts = {
             handle: InternalConflictText;
             /** How to describe the resolution of the sensitive information conflict. */
             resolution: Template;
+            /** Note to remind users where they can manage sensitive information for their project. */
+            reminder: Template;
         }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `
@@ -672,7 +674,10 @@ type NodeTexts = {
              * When an unparsable expression or type is used.
              * Description inputs: $1: true if expression, false if type
              */
-            UnparsableConflict: InternalConflictText;
+            UnparsableConflict: {
+                conflict: InternalConflictText;
+                resolution: Template;
+            };
             /**
              * When a delimiter is unclosed.
              * Description inputs: $1: unclosed token, $2: opening delimiter

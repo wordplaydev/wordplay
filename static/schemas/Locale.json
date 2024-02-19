@@ -5919,6 +5919,10 @@
                     "phone": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
+                    "reminder": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Note to remind users where they can manage sensitive information for their project."
+                    },
                     "resolution": {
                       "$ref": "#/definitions/Template",
                       "description": "How to describe the resolution of the sensitive information conflict."
@@ -5933,7 +5937,8 @@
                     "address",
                     "tin",
                     "handle",
-                    "resolution"
+                    "resolution",
+                    "reminder"
                   ],
                   "type": "object"
                 },
@@ -6199,8 +6204,21 @@
                       "description": "When a delimiter is unclosed. Description inputs: $1: unclosed token, $2: opening delimiter"
                     },
                     "UnparsableConflict": {
-                      "$ref": "#/definitions/InternalConflictText",
-                      "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type"
+                      "additionalProperties": false,
+                      "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type",
+                      "properties": {
+                        "conflict": {
+                          "$ref": "#/definitions/InternalConflictText"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "conflict",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -7308,6 +7326,55 @@
               ],
               "type": "object"
             },
+            "Source": {
+              "additionalProperties": false,
+              "description": "A data file structure",
+              "properties": {
+                "DynamicEditLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row, too quickly"
+                },
+                "EmptySourceNameException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a source is created with an empty name"
+                },
+                "ProjectSizeLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a project has become too large to save."
+                },
+                "ReadOnlyEditException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of the data file"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "value": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The data value to persist"
+                }
+              },
+              "required": [
+                "DynamicEditLimitException",
+                "EmptySourceNameException",
+                "ProjectSizeLimitException",
+                "ReadOnlyEditException",
+                "doc",
+                "name",
+                "names",
+                "value"
+              ],
+              "type": "object"
+            },
             "Stack": {
               "additionalProperties": false,
               "description": "A vertical stack arragement",
@@ -7610,7 +7677,8 @@
             "Grid",
             "Free",
             "Easing",
-            "sequence"
+            "sequence",
+            "Source"
           ],
           "type": "object"
         },
@@ -8406,13 +8474,18 @@
                       "additionalProperties": false,
                       "description": "Buttons in the share dialog",
                       "properties": {
+                        "sensitive": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Description and label for the button to mark PII as sensitive again."
+                        },
                         "submit": {
                           "description": "Description for the email submission button.",
                           "type": "string"
                         }
                       },
                       "required": [
-                        "submit"
+                        "submit",
+                        "sensitive"
                       ],
                       "type": "object"
                     },
@@ -8506,6 +8579,10 @@
                           "$ref": "#/definitions/DialogText",
                           "description": "The gallery subheader and explanation"
                         },
+                        "pii": {
+                          "$ref": "#/definitions/DialogText",
+                          "description": "The personal information subheader and explanation"
+                        },
                         "public": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The public/private toggle subheader and explanation"
@@ -8514,7 +8591,8 @@
                       "required": [
                         "collaborators",
                         "gallery",
-                        "public"
+                        "public",
+                        "pii"
                       ],
                       "type": "object"
                     }
@@ -8804,6 +8882,10 @@
                   ],
                   "type": "object"
                 },
+                "undescribed": {
+                  "description": "What to say if the description is empty",
+                  "type": "string"
+                },
                 "untitled": {
                   "description": "What to call a gallery by default, before it's given a name",
                   "type": "string"
@@ -8811,6 +8893,7 @@
               },
               "required": [
                 "untitled",
+                "undescribed",
                 "subheader",
                 "confirm",
                 "error",
@@ -9184,6 +9267,10 @@
                           "description": "When there's no connection to Firebase",
                           "type": "string"
                         },
+                        "tooMany": {
+                          "description": "When there are too mant failed attempts",
+                          "type": "string"
+                        },
                         "unchanged": {
                           "description": "When the email address couldn't be changed for unknown reasons.",
                           "type": "string"
@@ -9201,7 +9288,8 @@
                         "offline",
                         "unchanged",
                         "delete",
-                        "wrongPassword"
+                        "wrongPassword",
+                        "tooMany"
                       ],
                       "type": "object"
                     },
@@ -10129,6 +10217,10 @@
                       "description": "Delete next symbol",
                       "type": "string"
                     },
+                    "elide": {
+                      "description": "Toggle elision",
+                      "type": "string"
+                    },
                     "enumerate": {
                       "description": "Listify selection",
                       "type": "string"
@@ -10281,6 +10373,14 @@
                       "description": "Select the whole program",
                       "type": "string"
                     },
+                    "sourceEnd": {
+                      "description": "Move cursor to end of source",
+                      "type": "string"
+                    },
+                    "sourceStart": {
+                      "description": "Move cursor to start of source",
+                      "type": "string"
+                    },
                     "tidy": {
                       "description": "Tidy spacing",
                       "type": "string"
@@ -10301,6 +10401,8 @@
                     "nextInline",
                     "lineStart",
                     "lineEnd",
+                    "sourceStart",
+                    "sourceEnd",
                     "priorNode",
                     "nextNode",
                     "parent",
@@ -10340,7 +10442,8 @@
                     "undo",
                     "redo",
                     "search",
-                    "tidy"
+                    "tidy",
+                    "elide"
                   ],
                   "type": "object"
                 },

@@ -3,6 +3,63 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.32 2024-02-17
+
+## Fixed
+
+-   [#382](https://github.com/wordplaydev/wordplay/issues/382): Wait for gallery to be created before redirecting.
+-   Don't show preview if there are no projects in a gallery.
+-   Fixed text placeholder error, preventing empty gallery description from being rendered.
+-   Better feedback on too many login failures
+-   Added admin script to update user password
+-   Fixed MIME type on NotoEmoji preload
+-   More consistent list function names.
+-   Slightly faster list creation.
+-   Slightly faster number to list conversion.
+
+## 0.9.31 2024-02-10
+
+## Added
+
+-   [#362](https://github.com/wordplaydev/wordplay/issues/362): Added elision syntax to allow temporary removal of code from parsing (e.g., removing `2` from `1 + *2* 3`). Also included a toolbar and keyboard command for quick toggling.
+-   [#336](https://github.com/wordplaydev/wordplay/issues/336): Added basic syntax error resolution suggestions.
+
+## Fixed
+
+-   English tutorial typos
+-   Maximum project name length in footer.
+-   Maximum toggle length.
+-   Anchor dialog close buttons when scrolling.
+-   Added missing Source input documentation.
+-   Restored duplicate name warnings.
+-   Incorrectly formatted inline code in tutorial.
+-   Fixed font on non-emoji toolbar symbol icons.
+-   Remove confusing automatically inserted placeholder at end of programs.
+-   [#374](https://github.com/wordplaydev/wordplay/issues/374): Allow deletion of selected placeholder.
+-   [#381](https://github.com/wordplaydev/wordplay/issues/381): Removed confusing line break insertion behavior.
+
+## 0.9.3 2024-02-03
+
+## Added
+
+-   [#23](https://github.com/wordplaydev/wordplay/issues/23): Source file output with `Source()`, allowing data persistence in a project.
+-   Added support for page up and page down to navigate to start and end of source
+-   Line breaks for long literals
+
+## Fixed
+
+-   Fixed list literal types in the presence of spreads (e.g., `[:list 2 3]`)
+-   Fixed end command to go to end of last line.
+-   Fixed direction of annotation toggle error.
+
+## 0.9.21 2024-01-28
+
+-   [#176](https://github.com/wordplaydev/wordplay/issues/176): TextFields can increment and decrement numbers.
+-   [#364](https://github.com/wordplaydev/wordplay/issues/364): Enabled email enumeration protection.
+-   [#361](https://github.com/wordplaydev/wordplay/issues/361): Fixed popup dismissal.
+-   [#359](https://github.com/wordplaydev/wordplay/issues/359): Fixed error in windows build command.
+-   [#365](https://github.com/wordplaydev/wordplay/issues/365): Enforce number of acts and scenes.
+
 ## 0.9.20 2024-01-20
 
 ## Added

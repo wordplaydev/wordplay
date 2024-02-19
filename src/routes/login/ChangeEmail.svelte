@@ -2,7 +2,7 @@
     import TextField from '@components/widgets/TextField.svelte';
     import Feedback from '../../components/app/Feedback.svelte';
     import { locales } from '@db/Database';
-    import { updateEmail } from 'firebase/auth';
+    import { verifyBeforeUpdateEmail } from 'firebase/auth';
     import type { User } from 'firebase/auth';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
@@ -20,9 +20,9 @@
         // Give some feedback when loading.
         changeSubmitted = true;
         try {
-            await updateEmail(user, newEmail);
+            await verifyBeforeUpdateEmail(user, newEmail);
             changeFeedback = $locales.get(
-                (l) => l.ui.page.login.prompt.confirm
+                (l) => l.ui.page.login.prompt.confirm,
             );
         } catch (error) {
             changeFeedback = getLoginErrorDescription($locales, error);
@@ -36,10 +36,10 @@
 <form on:submit={update}>
     <TextField
         description={$locales.get(
-            (l) => l.ui.page.login.field.email.description
+            (l) => l.ui.page.login.field.email.description,
         )}
         placeholder={$locales.get(
-            (l) => l.ui.page.login.field.email.placeholder
+            (l) => l.ui.page.login.field.email.placeholder,
         )}
         bind:text={newEmail}
         editable={!changeSubmitted}

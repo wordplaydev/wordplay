@@ -505,7 +505,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Estoy muy emocionado de que conozcas a @Evaluate. Son realmente mi mejor amigo. En cierto modo, hacemos todo juntos. Yo hago las reglas, ellos las cumplen, somos como mantequilla de maní y mermelada. Pero son mucho más... poderosos que yo. ¿@Evaluate?'"                
+                            "Estoy muy emocionado de que conozcas a @Evaluate. Son realmente mi mejor amigo. En cierto modo, hacemos todo juntos. Yo hago las reglas, ellos las cumplen, somos como mantequilla de maní y mermelada. Pero son mucho más... poderosos que yo. ¿@Evaluate?'"
                         ],
                         ["Evaluate", "shy", "@FunctionDefinition?"],
                         null,
@@ -3643,7 +3643,7 @@
                             "    ]",
                             ")"
                         ],
-                        null,   
+                        null,
                         [
                             "Group",
                             "curious",
@@ -3829,11 +3829,7 @@
                             "neutral",
                             "También puedes enmarcar el escenario, por ejemplo, con un @Rectangle, que toma un lugar en la esquina superior izquierda y un lugar en la esquina inferior derecha. ¿Ves cómo el gatito está un poco fuera de cuadro?"
                         ],
-                        [
-                            "Stage",
-                            "surprised",
-                            "EL MUNDO SE ESTÁ CERRANDO…"
-                        ],
+                        ["Stage", "surprised", "EL MUNDO SE ESTÁ CERRANDO…"],
                         [
                             "edit",
                             "Escenario([Frase(“🐈” place: Place(-2.5m))] fondo: Color(0 0 0°) marco: Rectángulo(-2m -2m 2m 2m))"
@@ -3844,11 +3840,7 @@
                             "neutral",
                             "También puedes aplicar todas las mismas propiedades a @Stage como a un @Group o @Phrase. ¡Inclinemos todo el escenario!"
                         ],
-                        [
-                            "Stage",
-                            "surprised",
-                            "¡VAYA, CON CUIDADO AHORA…!"
-                        ],
+                        ["Stage", "surprised", "¡VAYA, CON CUIDADO AHORA…!"],
                         [
                             "edit",
                             "Stage(",
@@ -3864,10 +3856,126 @@
                             "kind",
                             "Hay mucho más que puedes hacer con @Stage, pero puedes explorarlo en cualquier momento. ¿Verdad, @Stage?"
                         ],
+                        ["Stage", "excited", "¡SIEMPRE!"]
+                    ]
+                },
+                {
+                    "title": "And... scene!",
+                    "subtitle": "Scene",
+                    "concept": "Scene",
+                    "performance": ["fix", "Phrase('🎬' 10m)"],
+                    "lines": [
                         [
-                            "Stage",
+                            "FunctionDefinition",
                             "excited",
-                            "¡SIEMPRE!"
+                            "Okay, okay, so now you know @Stage, @Group, @Phrase, and the many things you can do with them. Now you might be thinking, what if I want to tell a story with them?"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Scene is really cool. The basic idea is to give it a list of @Phrase or @Group, and it will show them in order, letting you show a sequence of content."
+                        ],
+                        null,
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3')",
+                            "    Phrase('2')",
+                            "    Phrase('1')",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "Here's an example. Did you see how it counted down and then said 'Boo!'? You can reset to see it again."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "If we want to slow it down, we can specify exact durations for each @Phrase. Try editing the durations and seeing what happens when they change."
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3' duration: 1s)",
+                            "    Phrase('2' duration: 1s)",
+                            "    Phrase('1' duration: 1s)",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "And now you might be thinking, what about transitions between them? We can control that with @Phrase/entering and @Phrase/exiting, setting @Pose to start and end on. Here, for example, we start and end each @Phrase as invisible, so it fades in and out."
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('2' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('1' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "We can even set a @Sequence on one of them to animate it before advancing. Did you see the 2 spin?"
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('3' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('2' entering: Sequence({0%: Pose(rotation: 0°) 50%: Pose(rotation: 360°) 100%: Pose(rotation: 0°)} duration: 1s))",
+                            "    Phrase('1' duration: 1s entering: Pose(opacity: 0) exiting: Pose(opacity: 0))",
+                            "    Phrase('Boo!')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "We can change the content however we want, even making it dynamic. For example, let's make the numbers random and the ending word random! Each time it restarts, we get different content."
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase(Random(1 100)→'' duration: 1s)",
+                            "    Phrase(Random(1 100)→'' duration: 1s)",
+                            "    Phrase(Random(1 100)→'' duration: 1s)",
+                            "    Phrase(['Boo!' 'Peep!' 'Hey!' 'Helloooo'].random())",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "But you can also make them interactive."
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "serious",
+                            "The secret is putting a @Boolean where you want to pause and wait for something to be true. For example, we can wait for the mouse button to change. See how @Scene waits after each @Phrase for the button to be clicked?"
+                        ],
+                        [
+                            "edit",
+                            "Scene([",
+                            "    Phrase('one')",
+                            "    ∆ Button()",
+                            "    Phrase('two')",
+                            "    ∆ Button()",
+                            "    Phrase('three')",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "excited",
+                            "@Scene is great for telling animated stories, either is a whole project or as part of a project! What kind of stories do you want to tell?"
                         ]
                     ]
                 },
@@ -3918,7 +4026,7 @@
                             "FunctionDefinition",
                             "serious",
                             "@Choice realmente es la mejor manera de escuchar a la audiencia. Solo usa @Key, @Pointer o @Button si no tienes otra opción, y úsalo sabiendo que algunos en tu audiencia no podrán disfrutar de tu actuación."
-                        ]                        
+                        ]
                     ]
                 }
             ]
@@ -4002,12 +4110,7 @@
                             "No le he contado a nuestra inspiración sobre nombres en absoluto, aparte de los nombres de todos los personajes que hemos conocido. ¿Quieres explicar cómo funcionan los nombres aquí?"
                         ],
                         null,
-                        [
-                            "use",
-                            "fit",
-                            "Symbol",
-                            ":"
-                        ],
+                        ["use", "fit", "Symbol", ":"],
                         [
                             "Bind",
                             "excited",
@@ -4029,33 +4132,21 @@
                             "serious",
                             "Así que aquí hay un ejemplo muy simple. Digamos que queremos nombrar un número. Solo decimos el nombre, luego :, luego el número que queremos. Simple, ¿verdad? Ahora, cada vez que usemos el nombre número en una expresión, se evaluará como \\1\\. Como aquí, donde lo nombramos y luego usamos su nombre para darle a @Program cualquier valor que tenga."
                         ],
-                        [
-                            "edit",
-                            "número: 1",
-                            "número"
-                        ],
+                        ["edit", "número: 1", "número"],
                         null,
                         [
                             "Bind",
                             "serious",
                             "Y como, puedes decirme qué tipo de valor debería ser el nombre dándome un tipo con el símbolo \\•\\. Así que, si quisieras asegurarte de que número sea un número, dirías esto. Eso dice que nombre el valor \\número\\ y que el valor debe ser un @Number."
                         ],
-                        [
-                            "edit",
-                            "número•#: 1",
-                            "número"
-                        ],
+                        ["edit", "número•#: 1", "número"],
                         null,
                         [
                             "Bind",
                             "eager",
                             "Pero, ¿y si me das algo que no es un número? Entonces me quejaría, porque dijiste que debía ser un número, pero me diste un texto. Así que no sé qué hacer. ¿Ves?"
                         ],
-                        [
-                            "conflict",
-                            "número•#: 'oh hola'",
-                            "número"
-                        ],
+                        ["conflict", "número•#: 'oh hola'", "número"],
                         null,
                         [
                             "Bind",
@@ -4063,20 +4154,14 @@
                             "Pero bueno, a estas alturas debes estar pensando, *¿Por qué alguien nombraría un número o un texto de esta manera???*. Bueno, imagina, como, que estás escuchando a @Key y quieres saber si es una de un conjunto de letras secretas, y mostrar un @Phrase con un gran \\⊤\\ si es una letra mágica, y un pequeño \\⊥\\ si no lo es. Podríamos empezar con algo así. Eso nos da el \\⊤\\ o \\⊥\\.",
                             "Esto es genial, cuando presionas una de esas letras, \\⊤\\ y cuando presionas algo más, obtienes \\⊥\\. Bueno."
                         ],
-                        [
-                            "edit",
-                            "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"
-                        ],
+                        ["edit", "[ 'a' 'e' 'i' 'o' 'u'].has(Key())"],
                         null,
                         [
                             "Bind",
                             "serious",
                             "Ahora, hagamos la frase. Ponemos esa expresión @List/has para el texto y lo convertimos a texto. ¡Ahora obtenemos @Phrase en el escenario como \\⊤\\ o \\⊥\\. ¡Bien!"
                         ],
-                        [
-                            "edit",
-                            "Frase([ 'a' 'e' 'i' 'o' 'u'].has(Key())→'')"
-                        ],
+                        ["edit", "Frase([ 'a' 'e' 'i' 'o' 'u'].has(Key())→'')"],
                         null,
                         [
                             "Bind",
@@ -4196,7 +4281,7 @@
                             "Bind",
                             "excited",
                             "¡Um, sí! Ahora que el silencio se está rompiendo, ¡vamos a nombrar valores todo el día!"
-                        ]                        
+                        ]
                     ]
                 },
                 {
@@ -4318,7 +4403,7 @@
                             "kind",
                             "¡Yo también estoy muy curioso! Pero estoy seguro de que nuestro director decidirá en su propio tiempo. La inspiración viene en los momentos más inesperados."
                         ]
-                    ]                    
+                    ]
                 },
                 {
                     "title": "Acotaciones",
@@ -4360,11 +4445,7 @@
                             "serious",
                             "Así que aquí tienes un ejemplo más útil. ¿Conoces los números pares e impares? Una vez tuve un director que quería comprobar si un número era par (¿divisible por 2, creo que significa?), y así escribieron esto. Esta es una función llamada \\par\\ que toma un solo número llamado... \\número\\. Necesitas decirme qué tipo de valor es cada entrada, para que @Evaluate se asegure de que cualquier cosa que evalúe la función esté enviando el tipo correcto de valor. Luego, toma el número, lo divide por dos, obtiene el resto (con el @Number/remainder) y luego verifica si el resto es igual a \\0\\, con @Number/equal. Así que la función termina evaluándose a \\⊤\\ o \\⊥\\. Por ejemplo, esta evaluación de par terminó en \\⊥\\ porque \\3\\ es impar. Intenta usar los botones de rebobinado para ver cómo funciona."
                         ],
-                        [
-                            "edit",
-                            "ƒ par(número•#) (número % 2) = 0",
-                            "par(3)"
-                        ],
+                        ["edit", "ƒ par(número•#) (número % 2) = 0", "par(3)"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4429,320 +4510,317 @@
                     "lines": [
                         ["use", "fit", "DarkVoid"],
                         [
-                          "FunctionDefinition",
-                          "sad",
-                          "Solo quedan unos pocos personajes que me gustaría que conocieras. A continuación está el personaje más sofisticado que conozco y, de alguna manera, una especie de líder. Ayudan a organizar a todos nosotros, establecen las bases de una actuación y realmente hacen que todo sea mucho más ordenado. Por supuesto, eres nuestra directora, pero son como la persona a la que todos acuden para mantener un espectáculo en orden. Creo que podrían ser bastante importantes en cualquier espectáculo que realices."
+                            "FunctionDefinition",
+                            "sad",
+                            "Solo quedan unos pocos personajes que me gustaría que conocieras. A continuación está el personaje más sofisticado que conozco y, de alguna manera, una especie de líder. Ayudan a organizar a todos nosotros, establecen las bases de una actuación y realmente hacen que todo sea mucho más ordenado. Por supuesto, eres nuestra directora, pero son como la persona a la que todos acuden para mantener un espectáculo en orden. Creo que podrían ser bastante importantes en cualquier espectáculo que realices."
                         ],
                         null,
                         [
-                          "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                            "fit",
+                            "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
                         ],
                         [
-                          "FunctionDefinition",
-                          "curious",
-                          "@StructureDefinition, ¿estás ahí?"
+                            "FunctionDefinition",
+                            "curious",
+                            "@StructureDefinition, ¿estás ahí?"
                         ],
                         [
-                          "StructureDefinition",
-                          "curious",
-                          "@FunctionDefinition... mi amiga. ¿Ha estado tranquilo, verdad? ¿Dónde ha estado todo el mundo?"
-                        ],
-                        null,
-                        [
-                          "FunctionDefinition",
-                          "sad",
-                          "El silencio. Nos ha afectado a todos. Todos están bien, y he encontrado a casi todos. Pero ha sido difícil para algunos. ¿Cómo has estado?"
-                        ],
-                        [
-                          "StructureDefinition",
-                          "sad",
-                          "... ¿Quién es tu amiga? ¿Es una persona?"
-                        ],
-                        [
-                          "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))"
+                            "StructureDefinition",
+                            "curious",
+                            "@FunctionDefinition... mi amiga. ¿Ha estado tranquilo, verdad? ¿Dónde ha estado todo el mundo?"
                         ],
                         null,
                         [
-                          "FunctionDefinition",
-                          "eager",
-                          "Oh, sí, lo siento, ¡esta es nuestra nueva directora! Han venido a inspirarnos y guiarnos, compartir sus historias, ideas e imaginaciones. ¡Han roto el silencio!"
+                            "FunctionDefinition",
+                            "sad",
+                            "El silencio. Nos ha afectado a todos. Todos están bien, y he encontrado a casi todos. Pero ha sido difícil para algunos. ¿Cómo has estado?"
                         ],
                         [
-                          "StructureDefinition",
-                          "eager",
-                          "Es increíble. Y bastante aliviador. Es un gusto conocerte, directora. Estoy aquí y lista para servir.",
-                          "@FunctionDefinition... ha sido difícil. Tú, @Evaluate, todos realmente, no me di cuenta de cuánto dependía de todos ustedes. Tener un propósito, jugar, tener comunidad. No sabía que podríamos perdernos así. Sin nadie para organizar, sentía que solo podía organizarme a mí misma, lo que carecía de sentido."
+                            "StructureDefinition",
+                            "sad",
+                            "... ¿Quién es tu amiga? ¿Es una persona?"
                         ],
                         [
-                          "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
+                            "fit",
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(-0.25m)) 50%: Pose(offset: Place(0.25m)) 100%: Pose(offset: Place(-0.25m))} 3s))"
                         ],
                         null,
                         [
-                          "FunctionDefinition",
-                          "kind",
-                          "Nunca estás vacía, @StructureDefinition, incluso cuando estás sola. Todos estamos aquí, incluso si no podemos estar juntos. Y ahora que se ha roto el silencio, podemos estar juntos."
+                            "FunctionDefinition",
+                            "eager",
+                            "Oh, sí, lo siento, ¡esta es nuestra nueva directora! Han venido a inspirarnos y guiarnos, compartir sus historias, ideas e imaginaciones. ¡Han roto el silencio!"
+                        ],
+                        [
+                            "StructureDefinition",
+                            "eager",
+                            "Es increíble. Y bastante aliviador. Es un gusto conocerte, directora. Estoy aquí y lista para servir.",
+                            "@FunctionDefinition... ha sido difícil. Tú, @Evaluate, todos realmente, no me di cuenta de cuánto dependía de todos ustedes. Tener un propósito, jugar, tener comunidad. No sabía que podríamos perdernos así. Sin nadie para organizar, sentía que solo podía organizarme a mí misma, lo que carecía de sentido."
+                        ],
+                        [
+                            "fit",
+                            "Phrase('•' resting:Sequence({0%: Pose(rotation: 0°) 80%: Pose(rotation: 15°) 100%: Pose(rotation: 0°)} 3s))"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Nunca estás vacía, @StructureDefinition, incluso cuando estás sola. Todos estamos aquí, incluso si no podemos estar juntos. Y ahora que se ha roto el silencio, podemos estar juntos."
                         ],
                         ["StructureDefinition", "happy", "Podemos, ¿verdad?"],
                         [
-                          "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))"
+                            "fit",
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 3s))"
                         ],
                         null,
                         [
-                          "FunctionDefinition",
-                          "kind",
-                          "¿Qué opinas? ¿Estás lista para reunirte con todos? ¿Para poner en escena cualquier actuación que nuestra directora haya imaginado?"
+                            "FunctionDefinition",
+                            "kind",
+                            "¿Qué opinas? ¿Estás lista para reunirte con todos? ¿Para poner en escena cualquier actuación que nuestra directora haya imaginado?"
                         ],
                         ["StructureDefinition", "eager", "Creo que sí."],
                         [
-                          "fit",
-                          "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
+                            "fit",
+                            "Phrase('•' resting:Sequence({0%: Pose(offset: Place(0m 0.25m)) 50%: Pose(offset: Place(0m 0m)) 100%: Pose(offset: Place(0m 0.25m))} 1.5s))"
                         ],
                         null,
                         [
-                          "FunctionDefinition",
-                          "curious",
-                          "¿Crees que podrías ayudar a nuestra directora a aprender un poco más sobre lo que haces?"
+                            "FunctionDefinition",
+                            "curious",
+                            "¿Crees que podrías ayudar a nuestra directora a aprender un poco más sobre lo que haces?"
                         ],
                         [
-                          "StructureDefinition",
-                          "shy",
-                          "Sí. Sí... He tenido mucho tiempo para pensar en mi propósito en el silencio. Y supongo que me he dado cuenta de que lo que realmente hago es dar identidad a grupos de cosas. Por ejemplo, sé que conociste a ƒ, pero ¿has conocido a @Bind?"
+                            "StructureDefinition",
+                            "shy",
+                            "Sí. Sí... He tenido mucho tiempo para pensar en mi propósito en el silencio. Y supongo que me he dado cuenta de que lo que realmente hago es dar identidad a grupos de cosas. Por ejemplo, sé que conociste a ƒ, pero ¿has conocido a @Bind?"
                         ],
                         [
-                          "FunctionDefinition",
-                          "excited",
-                          "¡Sí! Acabamos de conocer a @Bind antes, y a @Block."
+                            "FunctionDefinition",
+                            "excited",
+                            "¡Sí! Acabamos de conocer a @Bind antes, y a @Block."
                         ],
                         [
-                          "fix",
-                          "Phrase('•' entering: Pose(scale: 0.5) resting:Pose(scale: 2))"
-                        ],
-                        null,
-                        [
-                          "StructureDefinition",
-                          "eager",
-                          "Bueno. Lo que hago es reunir valores y funciones, haciendo un pequeño contenedor ordenado para un montón de cosas relacionadas. Por ejemplo, imagina que quieres hacer un pequeño letrero luminoso que recorra una serie de mensajes. Un director anterior hizo uno de estos y quería que se mostraran estos mensajes."
-                        ],
-                        [
-                          "edit",
-                          "[",
-                          "  '¡Los gatitos son lindos!'",
-                          "  '¿Tienes gato?'",
-                          "  'Mamá de gatos.'",
-                          "  'Enamoramiento felino'",
-                          "  'Gato de regazo'",
-                          "]"
+                            "fix",
+                            "Phrase('•' entering: Pose(scale: 0.5) resting:Pose(scale: 2))"
                         ],
                         null,
                         [
-                          "StructureDefinition",
-                          "serious",
-                          "Luego tuvieron el problema de cómo recordaría la actuación en qué mensaje se encontraba. Se dieron cuenta de que necesitaban alguna manera de recordar el índice en la lista. Esto es un buen comienzo, pero solo muestra el primer mensaje."
+                            "StructureDefinition",
+                            "eager",
+                            "Bueno. Lo que hago es reunir valores y funciones, haciendo un pequeño contenedor ordenado para un montón de cosas relacionadas. Por ejemplo, imagina que quieres hacer un pequeño letrero luminoso que recorra una serie de mensajes. Un director anterior hizo uno de estos y quería que se mostraran estos mensajes."
                         ],
                         [
-                          "edit",
-                          "messages: [",
-                          "    '¡Los gatitos son lindos!'",
-                          "    '¿Tienes gato?'",
-                          "    'Mamá de gatos.'",
-                          "    'Enamoramiento felino'",
-                          "    'Gato de regazo'",
-                          "  ]",
-                          "index: 1",
-                        "Phrase(messages[index])"
-                    ],
-                    null,
-                    [
-                        "StructureDefinition",
-                        "excited",
-                        "Luego recordaron @Reaction, que se puede usar para responder a cambios en el flujo. Querían que el mensaje cambiara cada dos secciones, así que crearon un flujo @Time que marca cada 2 segundos y usaron @Reaction para incrementar el próximo índice cada vez. Este @Reaction dice comenzar en \\1\\ y, cuando el tiempo cambie cada \\2000ms\\, evaluar al valor anterior de \\index + 1\\. De esta manera, \\index\\ aumenta en \\1\\ cada dos segundos, cambiando el mensaje mostrado. ¡Yay, funciona!"
-                    ],
-                    [
-                        "edit",
-                        "messages: [",
-                        "  '¡Los gatitos son lindos!'",
-                        "  '¿Tienes gato?'",
-                        "  'Mamá de gatos.'",
-                        "  'Enamoramiento felino'",
-                        "  'Gato de regazo'",
-                        "]",
-                        "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
-                        "Phrase(messages[index])"
-                    ],
-                    null,
-                    [
-                        "StructureDefinition",
-                        "curious",
-                        "¿Añadimos un toque especial? Hagamos otra frase que sea como un reflejo debajo, como una sombra. Impresionante, ¿verdad?"
-                    ],
-                    [
-                        "edit",
-                        "messages: [",
-                        "  '¡Los gatitos son lindos!'",
-                        "  '¿Tienes gato?'",
-                        "  'Mamá de gatos.'",
-                        "  'Enamoramiento felino'",
-                        "  'Gato de regazo'",
-                        "]",
-                        "",
-                        "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
-                        "",
-                        "Group(Stack('|' 0m) [",
-                        "  Phrase(messages[index])",
-                        "  Phrase(messages[index] resting:Pose(flipy: ⊤ opacity: 25%))",
-                        "])"
-                    ],
-                    null,
-                    [
-                        "StructureDefinition",
-                        "serious",
-                        "Ahora, todo eso funciona. Y podríamos dejarlo así. Pero también es un poco difícil de leer y entender. Eso se debe en parte a que nos repetimos: \\messages[index]\\ aparece dos veces, una vez en cada frase. Y el @Reaction es muy largo. ¿Qué podemos hacer para simplificarlo? Ahí es donde yo puedo ayudar. Ordeno las cosas para hacerlas más fáciles de entender, dándoles nombres a conceptos reutilizables. Así que imagina que en lugar de todos estos @Bind, en su lugar hacemos uno de mí y lo llamamos \\Marquee\\, ¿eso es lo que hacemos primero? El trabajo de \\Marquee\\ es almacenar los mensajes, pero también tener una función para avanzar al próximo mensaje \\next()\\ y una función para obtener el mensaje actual \\now()\\?",
-                        "Entonces, podemos usar a Marquee en la reacción. Ahora solo dice que el valor inicial es un marquee con los cinco mensajes y el próximo valor, después de cada tic del reloj, es el próximo mensaje. Más simple, ¿verdad? Eso se debe a que toda la lógica para los mensajes siguientes está en \\next()\\, que simplemente crea un nuevo \\Marquee\\ con los mismos mensajes, pero con un índice actualizado. También obtenemos algunos beneficios en los dos @Phrase. En lugar de tener que referirse a los mensajes y al índice como antes, podemos simplemente decir \\marquee.now()\\, que obtiene el mensaje actual en la lista."
-                    ],
-                    [
-                        "edit",
-                        "•Marquee(messages•[''] index•#: 1) (",
-                        "  ƒ now() messages[index]",
-                        "  ƒ next() Marquee(messages index ≥ messages.length() ? 1 index + 1)",
-                        ")",
-                        "",
-                        "marquee•Marquee: Marquee([",
-                        "  '¡Los gatitos son lindos!'",
-                        "  '¿Tienes gato?'",
-                        "  'Mamá de gatos.'",
-                        "  'Enamoramiento felino'",
-                        "  'Gato de regazo'",
-                        "]) … ∆ Time(2000ms) … marquee.next()",
-                        "",
-                        "Group(Stack('|' 0.5m) [",
-                        "  Phrase(marquee.now())",
-                        "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
-                        "])"
-                    ],
-                    null,
-                    [
-                        "FunctionDefinition",
-                        "curious",
-                        "¡Eso es maravilloso @StructureDefinition! Pero tengo que decir que parece ser mucho trabajo extra. ¿Por qué pasar tanto tiempo ordenando?"
-                    ],
-                    [
-                        "StructureDefinition",
-                        "serious",
-                        "Ah, en realidad se trata de cambio. Es un poco más de código ahora, pero ¿y si decidimos cambiar \\Marquee\\ de alguna manera? Como, ¿y si quisiéramos que la lista de mensajes se invierta cada vez que llegue al final? En la versión antigua sin mí, no hay una manera fácil de hacerlo, porque tendríamos que invertir la lista de mensajes cuando el índice llega al final. Dado que @Bind no puede cambiar después de haber sido establecido, sería difícil. Pero dado que creamos \\Marquee\\, el cambio es fácil. Solo cambiamos la función \\next\\ para crear un \\Marquee\\ con una lista invertida cuando el índice está al final, y luego simplemente incrementamos cuando no lo está."
-                    ],
-                    [
-                        "edit",
-                        "•Marquee(messages•[“”] index•#: 1) (",
-                        "  ƒ now() messages[index]",
-                        "  ƒ next()",
-                        "    index ≥ messages.length() ?",
-                        "      Marquee(messages.reverse() 1)",
-                        "      Marquee(messages index + 1)",
-                        ")",
-                        "",
-                        "marquee•Marquee: Marquee([",
-                        "  '¡Los gatitos son lindos!'",
-                        "  '¿Tienes gato?'",
-                        "  'Mamá de gatos.'",
-                        "  'Enamoramiento felino'",
-                        "  'Gato de regazo'",
-                        "]) … ∆ Time(2000ms) … marquee.next()",
-                        "",
-                        "Group(Stack('|' 0.5m) [",
-                        "  Phrase(marquee.now())",
-                        "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
-                        "])"
-                    ],
-                    null,
-                    [
-                        "FunctionDefinition",
-                        "surprised",
-                        "Oh, ya veo, así que al hacer un @StructureDefinition para almacenar valores y @FunctionDefinition relacionados entre sí, hace que sea más fácil cambiar las cosas más tarde, si cambias de opinión."
-                    ],
-                    [
-                        "StructureDefinition",
-                        "happy",
-                        "Sí. Al igual que si ordenas tu habitación, hace que sea más fácil encontrar cosas después. Por supuesto, no tienes que ordenar tu habitación para encontrar cosas, simplemente hace que encontrar cosas sea más difícil. Lo mismo con una actuación: si inviertes en ordenar, cambiar las cosas será más fácil."
-                    ],
-                    null,
-                    [
-                        "FunctionDefinition",
-                        "kind",
-                        "Eso tiene mucho sentido. Somos un grupo algo desordenado. Mantenernos organizados probablemente sea una buena idea, especialmente a medida que una actuación se vuelve más complicada. ¿Hay algo más que quisieras compartir?"
-                    ],
-                    [
-                        "StructureDefinition",
-                        "eager",
-                        "Oh sí. No necesitas tener ningún @FunctionDefinition en un @StructureDefinition. Puedes tener solo valores. Por ejemplo, es posible que solo quieras mantener un montón de datos en un solo lugar. Sé que a muchos directores les gusta hacer juegos, y es muy común que pongan todo el estado del juego en un @StructureDefinition."
-                    ],
-                    [
-                        "edit",
-                        "•Game(score•# lives•# level•#)"
-                    ],
-                    null,
-                    [
-                        "FunctionDefinition",
-                        "kind",
-                        "¡Oh, es cierto! Y ¿cómo obtienes datos de una estructura una vez que los has puesto?"
-                    ],
-                    [
-                        "StructureDefinition",
-                        "surprised",
-                        "Oh cielos, olvidé explicar eso. Usas una versión mini de mí, @PropertyReference. Por ejemplo, con ese ejemplo de juego, mira cómo definimos un @StructureDefinition de Juego, luego creamos un valor \\Juego\\ con puntuación \\0\\, vidas \\3\\ y nivel \\1\\? Para obtener las vidas, simplemente decimos \\status.lives\\, y eso se evaluará como \\3\\."
-                    ],
-                    [
-                        "edit",
-                        "•Game(score•# lives•# level•#)",
-                        "status: Game(0 3 1)",
-                        "status.lives"
-                    ],
-                    null,
-                    [
-                        "FunctionDefinition",
-                        "happy",
-                        "¡Genial! Entonces solo la mini tú para obtener valores en lugar de tú. Pero entonces, ¿cómo cambias los valores?"
-                    ],
-                    [
-                        "StructureDefinition",
-                        "serious",
-                        "¿Recuerdas cómo @Bind solo te permite establecer un valor, pero no cambiarlo? Lo mismo es cierto para todos los @Bind en mí. Entonces, en su lugar, haces una nueva estructura que tiene el nuevo valor. Por ejemplo, en este juego, cada vez que cambia \\ticks\\, el jugador obtiene un punto más en su puntuación. Juego raro, ¿verdad? Entonces, el valor inicial de \\Juego\\ comienza como \\Juego(0 3 1)\\, pero luego el siguiente es el valor antiguo de \\Juego\\, pero con la puntuación sumando \\1\\."
-                    ],
-                    [
-                        "edit",
-                        "•Game(score•# lives•# level•#)",
-                        "status: Game(0 3 1) … ∆ Time() … Game(status.score + 1 status.lives status.level)"
-                    ],
-                    null,
-                    [
-                        "StructureDefinition",
-                        "eager",
-                        "Puede ser bastante molesto tener que repetir todos esos valores antiguos si solo una cosa está cambiando, así que @Bind y yo ideamos un truco ingenioso para copiar un valor @StructureDefinition con un nuevo valor. ¿Ves cómo se ve como un @Bind regular? La única diferencia es que está en un @StructureDefinition en lugar de un solo nombre, y se copian todos los valores del @StructureDefinition, excepto el modificado."
-                    ],
-                    [
-                        "edit",
-                        "•Game(score•# lives•# level•#)",
-                        "status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1"
-                    ],
-                    null,
-                    [
-                        "fit",
-                        "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
-                    ],
-                    [
-                        "FunctionDefinition",
-                        "happy",
-                        "¡Es tan ingenioso! Bueno, ¿hay algo más?"
-                    ],
-                    [
-                        "StructureDefinition",
-                        "curious",
-                        "Creo que todo lo que nos falta es inspiración..."
+                            "edit",
+                            "[",
+                            "  '¡Los gatitos son lindos!'",
+                            "  '¿Tienes gato?'",
+                            "  'Mamá de gatos.'",
+                            "  'Enamoramiento felino'",
+                            "  'Gato de regazo'",
+                            "]"
+                        ],
+                        null,
+                        [
+                            "StructureDefinition",
+                            "serious",
+                            "Luego tuvieron el problema de cómo recordaría la actuación en qué mensaje se encontraba. Se dieron cuenta de que necesitaban alguna manera de recordar el índice en la lista. Esto es un buen comienzo, pero solo muestra el primer mensaje."
+                        ],
+                        [
+                            "edit",
+                            "messages: [",
+                            "    '¡Los gatitos son lindos!'",
+                            "    '¿Tienes gato?'",
+                            "    'Mamá de gatos.'",
+                            "    'Enamoramiento felino'",
+                            "    'Gato de regazo'",
+                            "  ]",
+                            "index: 1",
+                            "Phrase(messages[index])"
+                        ],
+                        null,
+                        [
+                            "StructureDefinition",
+                            "excited",
+                            "Luego recordaron @Reaction, que se puede usar para responder a cambios en el flujo. Querían que el mensaje cambiara cada dos secciones, así que crearon un flujo @Time que marca cada 2 segundos y usaron @Reaction para incrementar el próximo índice cada vez. Este @Reaction dice comenzar en \\1\\ y, cuando el tiempo cambie cada \\2000ms\\, evaluar al valor anterior de \\index + 1\\. De esta manera, \\index\\ aumenta en \\1\\ cada dos segundos, cambiando el mensaje mostrado. ¡Yay, funciona!"
+                        ],
+                        [
+                            "edit",
+                            "messages: [",
+                            "  '¡Los gatitos son lindos!'",
+                            "  '¿Tienes gato?'",
+                            "  'Mamá de gatos.'",
+                            "  'Enamoramiento felino'",
+                            "  'Gato de regazo'",
+                            "]",
+                            "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
+                            "Phrase(messages[index])"
+                        ],
+                        null,
+                        [
+                            "StructureDefinition",
+                            "curious",
+                            "¿Añadimos un toque especial? Hagamos otra frase que sea como un reflejo debajo, como una sombra. Impresionante, ¿verdad?"
+                        ],
+                        [
+                            "edit",
+                            "messages: [",
+                            "  '¡Los gatitos son lindos!'",
+                            "  '¿Tienes gato?'",
+                            "  'Mamá de gatos.'",
+                            "  'Enamoramiento felino'",
+                            "  'Gato de regazo'",
+                            "]",
+                            "",
+                            "index•#: 1 … ∆ Time(2000ms) … index = messages.length() ? 1 index + 1",
+                            "",
+                            "Group(Stack('|' 0m) [",
+                            "  Phrase(messages[index])",
+                            "  Phrase(messages[index] resting:Pose(flipy: ⊤ opacity: 25%))",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "StructureDefinition",
+                            "serious",
+                            "Ahora, todo eso funciona. Y podríamos dejarlo así. Pero también es un poco difícil de leer y entender. Eso se debe en parte a que nos repetimos: \\messages[index]\\ aparece dos veces, una vez en cada frase. Y el @Reaction es muy largo. ¿Qué podemos hacer para simplificarlo? Ahí es donde yo puedo ayudar. Ordeno las cosas para hacerlas más fáciles de entender, dándoles nombres a conceptos reutilizables. Así que imagina que en lugar de todos estos @Bind, en su lugar hacemos uno de mí y lo llamamos \\Marquee\\, ¿eso es lo que hacemos primero? El trabajo de \\Marquee\\ es almacenar los mensajes, pero también tener una función para avanzar al próximo mensaje \\next()\\ y una función para obtener el mensaje actual \\now()\\?",
+                            "Entonces, podemos usar a Marquee en la reacción. Ahora solo dice que el valor inicial es un marquee con los cinco mensajes y el próximo valor, después de cada tic del reloj, es el próximo mensaje. Más simple, ¿verdad? Eso se debe a que toda la lógica para los mensajes siguientes está en \\next()\\, que simplemente crea un nuevo \\Marquee\\ con los mismos mensajes, pero con un índice actualizado. También obtenemos algunos beneficios en los dos @Phrase. En lugar de tener que referirse a los mensajes y al índice como antes, podemos simplemente decir \\marquee.now()\\, que obtiene el mensaje actual en la lista."
+                        ],
+                        [
+                            "edit",
+                            "•Marquee(messages•[''] index•#: 1) (",
+                            "  ƒ now() messages[index]",
+                            "  ƒ next() Marquee(messages index ≥ messages.length() ? 1 index + 1)",
+                            ")",
+                            "",
+                            "marquee•Marquee: Marquee([",
+                            "  '¡Los gatitos son lindos!'",
+                            "  '¿Tienes gato?'",
+                            "  'Mamá de gatos.'",
+                            "  'Enamoramiento felino'",
+                            "  'Gato de regazo'",
+                            "]) … ∆ Time(2000ms) … marquee.next()",
+                            "",
+                            "Group(Stack('|' 0.5m) [",
+                            "  Phrase(marquee.now())",
+                            "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "curious",
+                            "¡Eso es maravilloso @StructureDefinition! Pero tengo que decir que parece ser mucho trabajo extra. ¿Por qué pasar tanto tiempo ordenando?"
+                        ],
+                        [
+                            "StructureDefinition",
+                            "serious",
+                            "Ah, en realidad se trata de cambio. Es un poco más de código ahora, pero ¿y si decidimos cambiar \\Marquee\\ de alguna manera? Como, ¿y si quisiéramos que la lista de mensajes se invierta cada vez que llegue al final? En la versión antigua sin mí, no hay una manera fácil de hacerlo, porque tendríamos que invertir la lista de mensajes cuando el índice llega al final. Dado que @Bind no puede cambiar después de haber sido establecido, sería difícil. Pero dado que creamos \\Marquee\\, el cambio es fácil. Solo cambiamos la función \\next\\ para crear un \\Marquee\\ con una lista invertida cuando el índice está al final, y luego simplemente incrementamos cuando no lo está."
+                        ],
+                        [
+                            "edit",
+                            "•Marquee(messages•[“”] index•#: 1) (",
+                            "  ƒ now() messages[index]",
+                            "  ƒ next()",
+                            "    index ≥ messages.length() ?",
+                            "      Marquee(messages.reverse() 1)",
+                            "      Marquee(messages index + 1)",
+                            ")",
+                            "",
+                            "marquee•Marquee: Marquee([",
+                            "  '¡Los gatitos son lindos!'",
+                            "  '¿Tienes gato?'",
+                            "  'Mamá de gatos.'",
+                            "  'Enamoramiento felino'",
+                            "  'Gato de regazo'",
+                            "]) … ∆ Time(2000ms) … marquee.next()",
+                            "",
+                            "Group(Stack('|' 0.5m) [",
+                            "  Phrase(marquee.now())",
+                            "  Phrase(marquee.now() resting:Pose(flipy: ⊤ opacity: 25%))",
+                            "])"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "surprised",
+                            "Oh, ya veo, así que al hacer un @StructureDefinition para almacenar valores y @FunctionDefinition relacionados entre sí, hace que sea más fácil cambiar las cosas más tarde, si cambias de opinión."
+                        ],
+                        [
+                            "StructureDefinition",
+                            "happy",
+                            "Sí. Al igual que si ordenas tu habitación, hace que sea más fácil encontrar cosas después. Por supuesto, no tienes que ordenar tu habitación para encontrar cosas, simplemente hace que encontrar cosas sea más difícil. Lo mismo con una actuación: si inviertes en ordenar, cambiar las cosas será más fácil."
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "Eso tiene mucho sentido. Somos un grupo algo desordenado. Mantenernos organizados probablemente sea una buena idea, especialmente a medida que una actuación se vuelve más complicada. ¿Hay algo más que quisieras compartir?"
+                        ],
+                        [
+                            "StructureDefinition",
+                            "eager",
+                            "Oh sí. No necesitas tener ningún @FunctionDefinition en un @StructureDefinition. Puedes tener solo valores. Por ejemplo, es posible que solo quieras mantener un montón de datos en un solo lugar. Sé que a muchos directores les gusta hacer juegos, y es muy común que pongan todo el estado del juego en un @StructureDefinition."
+                        ],
+                        ["edit", "•Game(score•# lives•# level•#)"],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "kind",
+                            "¡Oh, es cierto! Y ¿cómo obtienes datos de una estructura una vez que los has puesto?"
+                        ],
+                        [
+                            "StructureDefinition",
+                            "surprised",
+                            "Oh cielos, olvidé explicar eso. Usas una versión mini de mí, @PropertyReference. Por ejemplo, con ese ejemplo de juego, mira cómo definimos un @StructureDefinition de Juego, luego creamos un valor \\Juego\\ con puntuación \\0\\, vidas \\3\\ y nivel \\1\\? Para obtener las vidas, simplemente decimos \\status.lives\\, y eso se evaluará como \\3\\."
+                        ],
+                        [
+                            "edit",
+                            "•Game(score•# lives•# level•#)",
+                            "status: Game(0 3 1)",
+                            "status.lives"
+                        ],
+                        null,
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "¡Genial! Entonces solo la mini tú para obtener valores en lugar de tú. Pero entonces, ¿cómo cambias los valores?"
+                        ],
+                        [
+                            "StructureDefinition",
+                            "serious",
+                            "¿Recuerdas cómo @Bind solo te permite establecer un valor, pero no cambiarlo? Lo mismo es cierto para todos los @Bind en mí. Entonces, en su lugar, haces una nueva estructura que tiene el nuevo valor. Por ejemplo, en este juego, cada vez que cambia \\ticks\\, el jugador obtiene un punto más en su puntuación. Juego raro, ¿verdad? Entonces, el valor inicial de \\Juego\\ comienza como \\Juego(0 3 1)\\, pero luego el siguiente es el valor antiguo de \\Juego\\, pero con la puntuación sumando \\1\\."
+                        ],
+                        [
+                            "edit",
+                            "•Game(score•# lives•# level•#)",
+                            "status: Game(0 3 1) … ∆ Time() … Game(status.score + 1 status.lives status.level)"
+                        ],
+                        null,
+                        [
+                            "StructureDefinition",
+                            "eager",
+                            "Puede ser bastante molesto tener que repetir todos esos valores antiguos si solo una cosa está cambiando, así que @Bind y yo ideamos un truco ingenioso para copiar un valor @StructureDefinition con un nuevo valor. ¿Ves cómo se ve como un @Bind regular? La única diferencia es que está en un @StructureDefinition en lugar de un solo nombre, y se copian todos los valores del @StructureDefinition, excepto el modificado."
+                        ],
+                        [
+                            "edit",
+                            "•Game(score•# lives•# level•#)",
+                            "status: Game(0 3 1) … ∆ Time() … status.score: status.score + 1"
+                        ],
+                        null,
+                        [
+                            "fit",
+                            "Phrase('•' resting:Sequence({0%: Pose(scale: 1) 50%: Pose(scale: 1.2) 100%: Pose(scale: 1)} 3s))"
+                        ],
+                        [
+                            "FunctionDefinition",
+                            "happy",
+                            "¡Es tan ingenioso! Bueno, ¿hay algo más?"
+                        ],
+                        [
+                            "StructureDefinition",
+                            "curious",
+                            "Creo que todo lo que nos falta es inspiración..."
+                        ]
                     ]
-                ]
                 },
                 {
                     "title": "Notas del Director",
@@ -4947,6 +5025,9 @@
                             "``Aprende más en <Wordplay@https://wordplay.dev>.`` '¡un enlace!'"
                         ],
                         null,
+                        ["Doc", "serious", "$?"],
+                        ["edit", "[1 2 3 4 *'gato'* 5 6 7 8]"],
+                        null,
                         [
                             "fit",
                             "Stage([Phrase('¡Silencio en el backstage!' color: Color(100% 0 0°))] background: Color(0% 0 0°))"
@@ -4957,7 +5038,7 @@
                             "¡Guau. No tenía idea de que pudieras hacer tanto! Gracias @Doc, ¡creo que podríamos estar listos para un espectáculo!"
                         ],
                         ["Doc", "excited", "¡Hagámoslo!"]
-                    ]                    
+                    ]
                 }
             ]
         },
@@ -4995,11 +5076,7 @@
                             "fit",
                             "Stage([Phrase('😢')] background: Color(0% 0 0°))"
                         ],
-                        [
-                            "Evaluate",
-                            "shy",
-                            "No pensé que tardarías tanto..."
-                        ],
+                        ["Evaluate", "shy", "No pensé que tardarías tanto..."],
                         [
                             "FunctionDefinition",
                             "sad",
@@ -5040,11 +5117,7 @@
                             "fit",
                             "Stage([Phrase('😭')] background: Color(0% 0 0°))"
                         ],
-                        [
-                            "Evaluate",
-                            "sad",
-                            "¿No me amas?"
-                        ],
+                        ["Evaluate", "sad", "¿No me amas?"],
                         [
                             "FunctionDefinition",
                             "angry",
@@ -5066,22 +5139,14 @@
                             "Te amo @Evaluate. Pero necesito que te ames a ti misma. Estoy emocionado por nuestro mundo que vuelve a la vida y lo que significará estar juntos de nuevo, pero necesito que te encuentres a ti misma, tus necesidades y tu propio propósito. No puedo ser tu propósito."
                         ],
                         null,
-                        [
-                            "use",
-                            "fit",
-                            "DarkVoid"
-                        ],
+                        ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "sad",
                             "Necesito un poco de espacio. Lo siento, amigo-director. Tal vez @Evaluate pueda terminar esta fiesta de bienvenida sin mí."
                         ],
                         null,
-                        [
-                            "Evaluate",
-                            "shy",
-                            "… Hola."
-                        ],
+                        ["Evaluate", "shy", "… Hola."],
                         null,
                         [
                             "Evaluate",
@@ -5089,80 +5154,31 @@
                             "… ¿Aprendiste mucho? @FunctionDefinition sabe tanto."
                         ],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(10% 0 0°))"
-                        ],
-                        [
-                            "List",
-                            "kind",
-                            "Eso no es verdad, @Evaluate."
-                        ],
-                        [
-                            "Boolean",
-                            "precise",
-                            "No es verdad."
-                        ],
-                        [
-                            "Text",
-                            "happy",
-                            "¡Nada de verdad en lo más mínimo!"
-                        ],
-                        [
-                            "Changed",
-                            "happy",
-                            "¡Súper nada de verdad!"
-                        ],
+                        ["fit", "Stage([] background: Color(10% 0 0°))"],
+                        ["List", "kind", "Eso no es verdad, @Evaluate."],
+                        ["Boolean", "precise", "No es verdad."],
+                        ["Text", "happy", "¡Nada de verdad en lo más mínimo!"],
+                        ["Changed", "happy", "¡Súper nada de verdad!"],
                         [
                             "Number",
                             "serious",
                             "1) Básicamente diriges nuestras actuaciones, 2) @Evaluate sería inútil sin ti, 3) literalmente transformas las cosas en valores completamente nuevos, 4) vienes en muchas formas diferentes, 5) nos das a todos un propósito, 6) todos te miramos en busca de orientación…"
                         ],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(20% 0 0°))"
-                        ],
+                        ["fit", "Stage([] background: Color(20% 0 0°))"],
                         [
                             "Phrase",
                             "kind",
                             "@Number tiene razón @Evaluate, eres fabulosa de cincuenta maneras."
                         ],
-                        [
-                            "Sequence",
-                            "happy",
-                            "¡Giro cuando te veo!"
-                        ],
-                        [
-                            "Group",
-                            "kind",
-                            "¡Me inspiras a reunirnos!"
-                        ],
-                        [
-                            "Stage",
-                            "serious",
-                            "ERES LOS HUESOS DE NUESTRO SER"
-                        ],
-                        [
-                            "None",
-                            "serious",
-                            "…"
-                        ],
-                        [
-                            "Program",
-                            "kind",
-                            "¡Soy todo lo que me haces!"
-                        ],
+                        ["Sequence", "happy", "¡Giro cuando te veo!"],
+                        ["Group", "kind", "¡Me inspiras a reunirnos!"],
+                        ["Stage", "serious", "ERES LOS HUESOS DE NUESTRO SER"],
+                        ["None", "serious", "…"],
+                        ["Program", "kind", "¡Soy todo lo que me haces!"],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(40% 0 0°))"
-                        ],
-                        [
-                            "Convert",
-                            "kind",
-                            "¡Aprendí todo de ti!"
-                        ],
+                        ["fit", "Stage([] background: Color(40% 0 0°))"],
+                        ["Convert", "kind", "¡Aprendí todo de ti!"],
                         [
                             "StructureDefinition",
                             "kind",
@@ -5178,51 +5194,23 @@
                             "curious",
                             "¿Cómo podríamos hacer algo sin ti?"
                         ],
-                        [
-                            "Block",
-                            "kind",
-                            "... tú eres @Evaluate!"
-                        ],
+                        ["Block", "kind", "... tú eres @Evaluate!"],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(50% 0 0°))"
-                        ],
-                        [
-                            "Evaluate",
-                            "happy",
-                            "…"
-                        ],
+                        ["fit", "Stage([] background: Color(50% 0 0°))"],
+                        ["Evaluate", "happy", "…"],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(60% 0 0°))"
-                        ],
-                        [
-                            "Evaluate",
-                            "kind",
-                            "Son todos tan amables… yo…"
-                        ],
+                        ["fit", "Stage([] background: Color(60% 0 0°))"],
+                        ["Evaluate", "kind", "Son todos tan amables… yo…"],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(70% 0 0°))"
-                        ],
+                        ["fit", "Stage([] background: Color(70% 0 0°))"],
                         [
                             "Evaluate",
                             "kind",
                             "¿Podemos simplemente bailar? Los extrañé mucho."
                         ],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(80% 0 0°))"
-                        ],
-                        [
-                            "FunctionDefinition",
-                            "happy",
-                            "Bailemos."
-                        ],
+                        ["fit", "Stage([] background: Color(80% 0 0°))"],
+                        ["FunctionDefinition", "happy", "Bailemos."],
                         [
                             "Evaluate",
                             "sad",
@@ -5234,94 +5222,44 @@
                             "¿Por qué no nos lideras?"
                         ],
                         null,
-                        [
-                            "Evaluate",
-                            "shy",
-                            "… No puedo…"
-                        ],
-                        [
-                            "FunctionDefinition",
-                            "happy",
-                            "Sí *puedes*."
-                        ],
+                        ["Evaluate", "shy", "… No puedo…"],
+                        ["FunctionDefinition", "happy", "Sí *puedes*."],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(90% 0 0°))"
-                        ],
-                        [
-                            "Evaluate",
-                            "shy",
-                            "… L … Lo intentaré."
-                        ],
+                        ["fit", "Stage([] background: Color(90% 0 0°))"],
+                        ["Evaluate", "shy", "… L … Lo intentaré."],
                         null,
-                        [
-                            "fit",
-                            "Stage([] background: Color(100% 0 0°))"
-                        ],
+                        ["fit", "Stage([] background: Color(100% 0 0°))"],
                         [
                             "Evaluate",
                             "shy",
                             "Quiero… quiero que todos nos movamos al ritmo. Inclinarnos al ritmo… en la oscuridad. ¿Podemos hacer eso?"
                         ],
                         null,
-                        [
-                            "Program",
-                            "happy",
-                            "¡Podemos hacerlo!"
-                        ],
-                        [
-                            "Stage",
-                            "kind",
-                            "EMPECEMOS CONMIGOOOO"
-                        ],
+                        ["Program", "happy", "¡Podemos hacerlo!"],
+                        ["Stage", "kind", "EMPECEMOS CONMIGOOOO"],
                         [
                             "Evaluate",
                             "kind",
                             "De acuerdo, @Stage, ¿puedes oscurecerlo?"
                         ],
-                        [
-                            "Stage",
-                            "kind",
-                            "¡OSCURECERLO!"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance1"
-                        ],
+                        ["Stage", "kind", "¡OSCURECERLO!"],
+                        ["use", "edit", "EvaluateDance1"],
                         null,
                         [
                             "Evaluate",
                             "kind",
                             "@StructureDefinition, creo que necesitamos una forma de recordar nuestros lugares. ¿Puedes hacer una estructura para nosotros?"
                         ],
-                        [
-                            "StructureDefinition",
-                            "curious",
-                            "¿Así?"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance2"
-                        ],
+                        ["StructureDefinition", "curious", "¿Así?"],
+                        ["use", "edit", "EvaluateDance2"],
                         null,
                         [
                             "Evaluate",
                             "kind",
                             "Sí… también quiero que rotamos al ritmo. ¿Puedes recordar una rotación también?"
                         ],
-                        [
-                            "StructureDefinition",
-                            "curious",
-                            "¿Qué tal esto?"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance3"
-                        ],
+                        ["StructureDefinition", "curious", "¿Qué tal esto?"],
+                        ["use", "edit", "EvaluateDance3"],
                         null,
                         [
                             "Evaluate",
@@ -5333,75 +5271,39 @@
                             "happy",
                             "Es un placer, mi querido. ¿Servirá esto?"
                         ],
-                        [
-                            "use",
-                            "conflict",
-                            "EvaluateDance4"
-                        ],
+                        ["use", "conflict", "EvaluateDance4"],
                         null,
                         [
                             "Evaluate",
                             "happy",
                             "¡Sí, está genial! Solo necesitamos convertirlos en personajes ahora. @List, ¿podemos traducirlos? ¿@FunctionDefinition, nos ayudarás?"
                         ],
-                        [
-                            "List",
-                            "happy",
-                            "¡Traducción, 1, 2, 3! ¿Así?"
-                        ],
-                        [
-                            "use",
-                            "conflict",
-                            "EvaluateDance5"
-                        ],
+                        ["List", "happy", "¡Traducción, 1, 2, 3! ¿Así?"],
+                        ["use", "conflict", "EvaluateDance5"],
                         null,
                         [
                             "Evaluate",
                             "happy",
                             "¡Espléndido! Ahora necesitamos estar en el escenario. ¿Podemos traducir los personajes en @Phrase? Tal vez en un @Group @Free?"
                         ],
-                        [
-                            "List",
-                            "kind",
-                            "¡Una vez más!"
-                        ],
-                        [
-                            "Phrase",
-                            "kind",
-                            "¡Toda la atención!"
-                        ],
-                        [
-                            "Group",
-                            "kind",
-                            "Vamos todos, lugares por favor…"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance6"
-                        ],
+                        ["List", "kind", "¡Una vez más!"],
+                        ["Phrase", "kind", "¡Toda la atención!"],
+                        ["Group", "kind", "Vamos todos, lugares por favor…"],
+                        ["use", "edit", "EvaluateDance6"],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "Oh… ¿dónde estamos? ¡Oh! Necesitamos color. @Pose, ¿podemos ser blancos?"
                         ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance7"
-                        ],
+                        ["use", "edit", "EvaluateDance7"],
                         null,
                         [
                             "Evaluate",
                             "surprised",
                             "¡Ups, estamos todos encima uno del otro! Necesitamos lugares de inicio. Usemos @Random?"
                         ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance8"
-                        ],
+                        ["use", "edit", "EvaluateDance8"],
                         null,
                         [
                             "Evaluate",
@@ -5413,11 +5315,7 @@
                             "kind",
                             "¡Puedo cambiarlo! Necesitamos un flujo de @Time, pero también necesitamos cambiar los personajes. ¿Pero cuál debería ser el próximo valor?"
                         ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance9"
-                        ],
+                        ["use", "edit", "EvaluateDance9"],
                         null,
                         [
                             "Evaluate",
@@ -5430,21 +5328,9 @@
                             "No sé cómo hacer una función…"
                         ],
                         null,
-                        [
-                            "Evaluate",
-                            "sad",
-                            "…"
-                        ],
-                        [
-                            "FunctionDefinition",
-                            "happy",
-                            "Puedo ayudar."
-                        ],
-                        [
-                            "Evaluate",
-                            "happy",
-                            "…"
-                        ],
+                        ["Evaluate", "sad", "…"],
+                        ["FunctionDefinition", "happy", "Puedo ayudar."],
+                        ["Evaluate", "happy", "…"],
                         [
                             "FunctionDefinition",
                             "happy",
@@ -5461,49 +5347,29 @@
                             "eager",
                             "Por supuesto. Una función de \\mover\\, en camino. La iniciaré, tú la terminas…"
                         ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance10"
-                        ],
+                        ["use", "edit", "EvaluateDance10"],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "Gracias @FunctionDefinition. No se están moviendo… Oh cierto, ¡\\mover\\ no cambió nada! Tomemos la posición actual y muévanos en una dirección horizontal y vertical aleatoria. Y tal vez una profundidad aleatoria, así todos tenemos la oportunidad de estar al frente. ¿Y alguna rotación aleatoria?"
                         ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance11"
-                        ],
+                        ["use", "edit", "EvaluateDance11"],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "Hmm… aún no nos estamos moviendo. ¡Oh! No evaluamos \\mover\\ en @Reaction. @List, ¿pueden traducir cada \\Personaje\\ en un \\Personaje\\ _movido_?"
                         ],
-                        [
-                            "List",
-                            "excited",
-                            "¡Traduciendo con tu ayuda!"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance12"
-                        ],
+                        ["List", "excited", "¡Traduciendo con tu ayuda!"],
+                        ["use", "edit", "EvaluateDance12"],
                         null,
                         [
                             "Evaluate",
                             "confused",
                             "Estamos tan entrecortados. Oh, @Phrase, olvidamos establecer un @Pose de movimiento y duración. ¿Puedes elegir algo más pequeño que el tic de @Time, para que nos movamos y luego descansemos un poco?"
                         ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance13"
-                        ],
+                        ["use", "edit", "EvaluateDance13"],
                         null,
                         [
                             "Evaluate",
@@ -5515,11 +5381,7 @@
                             "kind",
                             "Solo olvidamos a una persona..."
                         ],
-                        [
-                            "Evaluate",
-                            "excited",
-                            "¿Quién?"
-                        ],
+                        ["Evaluate", "excited", "¿Quién?"],
                         [
                             "FunctionDefinition",
                             "kind",
@@ -5531,87 +5393,35 @@
                             "excited",
                             "Oh sí, por supuesto. ¿Qué tal si les dejamos hacer la música? @Phrase, ¿puedes escuchar a @Volume y conectarlo a @Color/lightness y @Color/chroma en tu color? ¡Así, nos pondremos blancos brillantes cuando nuestro director haga ruido!"
                         ],
-                        [
-                            "Phrase",
-                            "kind",
-                            "¡Excelente idea!"
-                        ],
-                        [
-                            "use",
-                            "edit",
-                            "EvaluateDance14"
-                        ],
+                        ["Phrase", "kind", "¡Excelente idea!"],
+                        ["use", "edit", "EvaluateDance14"],
                         null,
-                        [
-                            "use",
-                            "fix",
-                            "EvaluateDance14"
-                        ],
-                        [
-                            "List",
-                            "excited",
-                            "1, 2, 3, 1, 2, 3"
-                        ],
-                        [
-                            "Boolean",
-                            "excited",
-                            "¡Mover!"
-                        ],
-                        [
-                            "Text",
-                            "excited",
-                            "¡Elevación!"
-                        ],
+                        ["use", "fix", "EvaluateDance14"],
+                        ["List", "excited", "1, 2, 3, 1, 2, 3"],
+                        ["Boolean", "excited", "¡Mover!"],
+                        ["Text", "excited", "¡Elevación!"],
                         [
                             "Conditional",
                             "excited",
                             "¿Qué es bailar, realmente?"
                         ],
-                        [
-                            "Changed",
-                            "excited",
-                            "Boom, boom, boom"
-                        ],
+                        ["Changed", "excited", "Boom, boom, boom"],
                         [
                             "Number",
                             "excited",
                             "izquierda 5 grados, arriba 1 metro"
                         ],
-                        [
-                            "Phrase",
-                            "excited",
-                            "¡Maravilloso!"
-                        ],
-                        [
-                            "Sequence",
-                            "excited",
-                            "¡La sensación!"
-                        ],
-                        [
-                            "Group",
-                            "excited",
-                            "¡Juntos ahora!"
-                        ],
-                        [
-                            "Stage",
-                            "excited",
-                            "BOOM BOOM BOOM"
-                        ],
-                        [
-                            "None",
-                            "excited",
-                            "…"
-                        ],
+                        ["Phrase", "excited", "¡Maravilloso!"],
+                        ["Sequence", "excited", "¡La sensación!"],
+                        ["Group", "excited", "¡Juntos ahora!"],
+                        ["Stage", "excited", "BOOM BOOM BOOM"],
+                        ["None", "excited", "…"],
                         [
                             "StructureDefinition",
                             "excited",
                             "¡Recuerden moverse!"
                         ],
-                        [
-                            "Bind",
-                            "excited",
-                            "¡Personajes!"
-                        ],
+                        ["Bind", "excited", "¡Personajes!"],
                         null,
                         [
                             "FunctionDefinition",
@@ -5629,23 +5439,14 @@
                             "curious",
                             "¿Acabamos de poner nuestra propia actuación?"
                         ],
-                        [
-                            "Reaction",
-                            "eager",
-                            "Creo que sí…"
-                        ],
+                        ["Reaction", "eager", "Creo que sí…"],
                         [
                             "FunctionDefinition",
                             "serious",
                             "Sí… pero no podríamos haberlo hecho sin nuestro nuevo amigo director. Rompieron nuestro silencio, nos recordaron por qué somos expresiones, juntos."
                         ],
                         null,
-                        [
-                            "use",
-                            "fit",
-                            "Symbol",
-                            "?"
-                        ],
+                        ["use", "fit", "Symbol", "?"],
                         [
                             "FunctionDefinition",
                             "excited",

@@ -25,6 +25,7 @@ import AnyType from './AnyType';
 import Spread from './Spread';
 import TypeException from '../values/TypeException';
 import type Locales from '../locale/Locales';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -77,11 +78,22 @@ export default class ListLiteral extends Expression {
                     this.getItemType(context)?.generalize(context) ??
                     new AnyType(),
                 space: true,
+                // Add line breaks if greater than 40 characters long.
+                newline: this.wrap(),
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {
@@ -102,15 +114,17 @@ export default class ListLiteral extends Expression {
     }
 
     getItemType(context: Context): Type | undefined {
-        const expressions = this.values.filter(
-            (e) => e instanceof Expression,
-        ) as Expression[];
-        return expressions.length === 0
+        const types = this.values
+            .map((e) => {
+                if (e instanceof Spread) {
+                    const type = e.list?.getType(context);
+                    return type instanceof ListType ? type.type : undefined;
+                } else return e.getType(context);
+            })
+            .filter((type): type is Type => type !== undefined);
+        return types.length === 0
             ? undefined
-            : UnionType.getPossibleUnion(
-                  context,
-                  expressions.map((v) => v.getType(context)),
-              );
+            : UnionType.getPossibleUnion(context, types);
     }
 
     computeType(context: Context): Type {

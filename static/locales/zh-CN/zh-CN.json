@@ -1051,7 +1051,8 @@
                 "tin": "$?",
                 "address": "$?",
                 "handle": "$?",
-                "resolution": "$?"
+                "resolution": "$?",
+                "reminder": "$?"
             }
         },
         "FormattedLiteral": {
@@ -1127,7 +1128,10 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "我期望在 $1 之后的某个时刻会有 $2"
             },
             "exception": {
@@ -3633,6 +3637,34 @@
                 "doc": "我创建一个@Sequence, 使@Output看起来像是害怕的。",
                 "names": ["抖动"]
             }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {
@@ -3715,6 +3747,7 @@
         },
         "gallery": {
             "untitled": "未命名",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "策展人",
@@ -3806,6 +3839,8 @@
                 "nextInline": "将光标移到后一个位置",
                 "lineStart": "将光标移到行的开头",
                 "lineEnd": "将光标移到行的末尾",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "选择前一个邻居",
                 "nextNode": "选择后一个邻居",
                 "parent": "选择容器",
@@ -3845,7 +3880,8 @@
                 "undo": "类型字符",
                 "redo": "撤销上次编辑",
                 "search": "查找要插入的特殊字符",
-                "tidy": "整理间距"
+                "tidy": "整理间距",
+                "elide": "$?"
             }
         },
         "annotations": {
@@ -3938,6 +3974,10 @@
                     "public": {
                         "header": "公开/私有",
                         "explanation": "公开项目和画廊可以被世界上任何人看到。通过将项目或画廊设为公开，您承诺："
+                    },
+                    "pii": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -3957,7 +3997,11 @@
                     "anonymous": "您必須登入才能共享。"
                 },
                 "button": {
-                    "submit": "通过此电子邮件地址分享项目"
+                    "submit": "通过此电子邮件地址分享项目",
+                    "sensitive": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
                 },
                 "options": {
                     "gallery": "$?"
@@ -4212,7 +4256,8 @@
                     "offline": "您似乎处于离线状态。",
                     "unchanged": "我们无法更改您的电子邮件地址，但我们不知道原因。",
                     "delete": "我们无法删除您的帐户，但我们不知道原因。",
-                    "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。"
+                    "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",

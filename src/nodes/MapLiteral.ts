@@ -27,6 +27,7 @@ import concretize from '../locale/concretize';
 import ValueException from '../values/ValueException';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import { MAX_LINE_LENGTH } from '@parser/Spaces';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -79,10 +80,20 @@ export default class MapLiteral extends Expression {
                 kind: list(true, node(KeyValue)),
                 space: true,
                 indent: true,
+                newline: this.wrap(),
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {
