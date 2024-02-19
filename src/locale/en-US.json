@@ -4161,8 +4161,8 @@
                     "space": {
                         "label": "space indicator",
                         "modes": [
-                            "open",
-                            "closed"
+                            "show space and tab indicators explicitly",
+                            "do not show space and tab indicators"
                         ]
                     },
                     "writing": {

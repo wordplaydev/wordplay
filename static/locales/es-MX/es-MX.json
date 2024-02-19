@@ -4177,10 +4177,10 @@
                         ]
                     },
                     "space": {
-                        "label": "indicador de espacio",
+                        "label": "$! indicador de espacio",
                         "modes": [
-                            "abierto",
-                            "cerrado"
+                            "$! abierto",
+                            "$! cerrado"
                         ]
                     },
                     "writing": {

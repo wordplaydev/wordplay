@@ -5,7 +5,7 @@
     import InsertionPointView from './InsertionPointView.svelte';
     import type { InsertionPoint } from '../../edit/Drag';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
-    import { locales, DB, spaceIndicator } from '../../db/Database';
+    import { spaceIndicator } from '../../db/Database';
 
     export let token: Token;
     export let space: string;

@@ -8,8 +8,6 @@
     export let choice: number;
     export let select: (choice: number) => void;
     export let active = true;
-    console.log(descriptions);
-
 </script>
 
 <div class="mode">
