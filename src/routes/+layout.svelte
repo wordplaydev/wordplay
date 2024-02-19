@@ -8,7 +8,6 @@
     import { locales, DB, animationFactor, dark } from '../db/Database';
     import { browser } from '$app/environment';
     import { getLanguageDirection } from '../locale/LanguageCode';
-    console.log('*****初始值dark', $dark);
 
     /** Expose the translations as context, updating them as necessary */
     $: setContext(LocalesSymbol, $locales);
@@ -59,7 +58,6 @@
 
     /** When dark mode changes, update the body's dark class */
     $: if (browser) {
-        console.log('dark mode changes', $dark)
         if ($dark === true || ($dark === null && prefersDark()))
             document.body.classList.add('dark');
         else document.body.classList.remove('dark');
