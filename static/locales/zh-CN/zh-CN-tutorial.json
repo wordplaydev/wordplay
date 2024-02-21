@@ -3389,51 +3389,51 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Phrase is just wonderful, aren't they? They have so much energy, so many amazing flourishes. Did you know they work closely with our choreographer, @Sequence? @Sequence and @Phrase together can do some incredible things that @Phrase can't do alone. Do you want to meet them?"
+                            "@Phrase 太棒了，不是吗？ 他们有如此多的能量，有如此多令人惊叹的繁荣。 您知道他们与我们的编舞@Sequence 密切合作吗？ @Sequence 和@Phrase 一起可以做一些@Phrase 单独做不到的令人难以置信的事情。 你想认识他们吗？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Yay! @Sequence, we have a guest. Are you back there?"
+                            "耶！ @Sequence，我们有一位客人。 你回来了吗？"
                         ],
                         [
                             "Sequence",
                             "curious",
-                            "@FunctionDefinition! You look beautiful. How long has it been? A week? A month? A century? It was like 1, 2, 3 and then everything was quiet. I feel like I've been dancing alone forever…"
+                            "@函数定义！ 你看起来很美。 已经多久了？ 一周？ 一个月？ 一个世纪？ 就像1、2、3，然后一切都安静了。 我感觉我一直在独自跳舞……"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "It was silent, wasn't it? But I can totally see you dancing alone. I was doing my own choreography all alone too, just having to imagine all of you working together. But it wasn't the same."
+                            "一切都沉默了，不是吗？ 但我完全可以看到你独自跳舞。 我也在独自一人编舞，只是想象你们所有人一起工作。 但这不一样。"
                         ],
                         [
                             "Sequence",
                             "kind",
-                            "And you an @Evaluate? Are you still…"
+                            "你是@Evaluate 吗？ 你是否还在…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "shy",
-                            "I just saw them earlier. They… Oh, we have a guest! @Sequence, this is our new director pal. They've come to bring us inspiration!"
+                            "我早些时候刚刚见过他们。 他们……哦，我们有客人！ @Sequence，这是我们的新导演朋友。 他们来给我们带来灵感！"
                         ],
                         [
                             "Sequence",
                             "excited",
-                            "(We're going to come back to that tea, @FunctionDefinition). Director pal, it's so exciting to meet you! Have you come here to learn to dance?"
+                            "（我们将回到那杯茶，@FunctionDefinition）。 导演朋友，很高兴见到你！ 你来这里是为了学跳舞吗？"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Of course they did! Do you want to show them the steps?"
+                            "他们当然做到了！ 您想向他们展示步骤吗？"
                         ],
                         null,
                         [
                             "Sequence",
                             "serious",
-                            "Absolutely. You know time? 1, 2, 3, 4, 1, 2, 3, 4? Well I make time beautiful, arranging a sequence of poses over time for @Phrase to follow. You tell me what the poses are and I'll help @Phrase follow the steps. Like this example: our smiley friend here has four poses, and smoothly moves between them."
+                            "绝对地。 你知道时间吗？ 1、2、3、4、1、2、3、4？ 好吧，我让时间变得美丽，随着时间的推移安排一系列姿势供@Phrase 遵循。 你告诉我姿势是什么，我会帮助@Phrase 遵循步骤。 就像这个例子：我们的笑脸朋友有四种姿势，并且可以在它们之间平滑地移动。"
                         ],
                         [
                             "fit",
@@ -3443,7 +3443,7 @@
                         [
                             "Sequence",
                             "neutral",
-                            "Here's a simple example of how I work. Here's @Phrase (hi @Phrase!) with the word “dance”, and they have an enter pose that's a @Sequence rather than a single @Pose. Follow me? The sequence has four steps. Straight, tilt left, tilt right, straight. When @Phrase enters, they do this cute little wobble, and then stop. I work with @MapLiteral to map percentages to a @Pose. Each of those percentages are how far through the sequence each @Pose should happen. Try changing the percentages, especially those two middle ones. It changes the flow and style of the wobble."
+                            "这是我的工作方式的一个简单示例。 这是带有“舞蹈”一词的@Phrase（嗨@Phrase！），他们有一个输入姿势，它是一个@Sequence，而不是单个@Pose。 跟我来？ 该序列有四个步骤。 直，左倾斜，右倾斜，直。 当@Phrase进入时，他们会做出这个可爱的小摆动，然后停止。 我使用 @MapLiteral 将百分比映射到 @Pose。 这些百分比中的每一个都是每个 @Pose 在序列中应该发生的距离。 尝试更改百分比，尤其是中间的两个百分比。 它改变了摆动的流程和风格。"
                         ],
                         [
                             "edit",
@@ -3463,7 +3463,7 @@
                         [
                             "Sequence",
                             "serious",
-                            "Okay, so now imagine you wanted this to be really fast. By default, I'm pretty quick, so any sequence will be a quarter second and it's done. But what if you wanted it to be even faster? Give me a shorter duration and I'll speed every @Pose up to get it done faster. 1, 2, 3, 4! It doesn't look like a wobble anymore, does it? More like a frantic little shake! See what it looks like if you slow me down to 2 or 3 seconds…"
+                            "好的，现在假设您希望速度非常快。 默认情况下，我的速度很快，所以任何序列都将在四分之一秒内完成。 但如果您希望速度更快怎么办？ 给我一个较短的持续时间，我会加快每个 @Pose 的速度，以更快地完成它。 1、2、3、4！ 它看起来不再像摇晃了，不是吗？ 更像是疯狂的小震动！ 看看如果你把我的速度放慢到 2 或 3 秒会是什么样子......"
                         ],
                         [
                             "edit",
@@ -3484,7 +3484,7 @@
                         [
                             "Sequence",
                             "excited",
-                            "But sometimes, we come up with a lovely move and we just can't help but want to do it over and over, for emphasis! That looks a little violent… try changing my duration and count until we get it just right…"
+                            "但有时，我们想出了一个可爱的动作，我们就是情不自禁地想一遍又一遍地这样做，以示强调！ 这看起来有点暴力……尝试改变我的持续时间并计数，直到我们得到正确的结果……"
                         ],
                         [
                             "edit",
@@ -3505,7 +3505,7 @@
                         [
                             "Sequence",
                             "curious",
-                            "But, you say, what if we wanted to do it forever? You can set a @Phrase/resting to me. For as long as @Phrase is on stage and resting, they'll repeat a sequence. Infinite wobbles!"
+                            "但是，你说，如果我们想永远这样做怎么办？ 你可以给我设置一个@Phrase/resting。 只要@Phrase 在舞台上休息，他们就会重复一个序列。 无限摇摆！"
                         ],
                         [
                             "edit",
@@ -3527,19 +3527,19 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "@Sequence, this is so great! This is exactly what I was hoping you could show us. But I'm curious, what have you been working on lately, dances of your own? Maybe something that shows everything you're capable of?"
+                            "@Sequence，这太棒了！ 这正是我希望你能向我们展示的。 但我很好奇，你最近在忙什么，有自己的舞蹈吗？ 也许有一些东西可以展示你的一切能力？"
                         ],
                         [
                             "Sequence",
                             "excited",
-                            "Oh my yes! @Phrase and I have been working on this new donut dance. It comes my favorite treat with nearly everything I've learned in dance. Do you want to see it?"
+                            "噢，天哪，是的！ @Phrase 和我一直在致力于这个新的甜甜圈舞蹈。 这是我最喜欢的享受，几乎包含了我在舞蹈中学到的一切。 你想看看吗？"
                         ],
-                        ["FunctionDefinition", "excited", "Yes!!!"],
+                        ["FunctionDefinition", "excited", "是的!!!"],
                         null,
                         [
                             "Sequence",
                             "serious",
-                            "Yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, yeah, hmm, oooh, up, eee, eee, eee, eee, bam, boo, …"
+                            "是啊，嗯，哦，向上，eee，eee，eee，eee，bam，boo，是的，嗯，哦，向上，eee，eee，eee，eee，bam，boo，是的，嗯，oooh，向上，eee， 哎呀，哎呀，哎呀，嘭，嘘，……"
                         ],
                         ["use", "fit", "DonutDance"],
                         null,
@@ -3547,12 +3547,12 @@
                         [
                             "FunctionDefinition",
                             "happy",
-                            "@Sequence, that's amazing! How could that not be the next viral dance?"
+                            "@Sequence，太棒了！ 这怎么可能不是下一个中毒性的舞蹈呢？"
                         ],
                         [
                             "Sequence",
                             "excited",
-                            "You mean next spiral dance. Cheers!"
+                            "你是说下一个螺旋舞。 干杯!"
                         ]
                     ]
                 },
@@ -3932,12 +3932,12 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Okay, okay, so now you know @Stage, @Group, @Phrase, and the many things you can do with them. Now you might be thinking, what if I want to tell a story with them?"
+                            "好吧，好吧，现在你知道了@Stage、@Group、@Phrase，以及你可以用它们做的很多事情。 现在你可能会想，如果我想和他们讲一个故事怎么办？"
                         ],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Scene is really cool. The basic idea is to give it a list of @Phrase or @Group, and it will show them in order, letting you show a sequence of content."
+                            "场景真的很酷。 基本思想是给它一个@Phrase或@Group的列表，它会按顺序显示它们，让你显示一系列内容。"
                         ],
                         null,
                         [
@@ -3952,13 +3952,13 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Here's an example. Did you see how it counted down and then said 'Boo!'? You can reset to see it again."
+                            "这是一个例子。 你看到它是如何倒计时然后说“嘘！”的吗？ 您可以重置以再次看到它。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "If we want to slow it down, we can specify exact durations for each @Phrase. Try editing the durations and seeing what happens when they change."
+                            "如果我们想减慢速度，我们可以为每个@Phrase指定确切的持续时间。 尝试编辑持续时间并看看它们发生变化时会发生什么。"
                         ],
                         [
                             "edit",
@@ -3973,7 +3973,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "And now you might be thinking, what about transitions between them? We can control that with @Phrase/entering and @Phrase/exiting, setting @Pose to start and end on. Here, for example, we start and end each @Phrase as invisible, so it fades in and out."
+                            "现在您可能会想，它们之间的转换怎么样？ 我们可以使用@Phrase/entering 和@Phrase/exiting 来控制，设置@Pose 的开始和结束。 例如，在这里，我们将每个 @Phrase 开始和结束为不可见，因此它会淡入和淡出。"
                         ],
                         [
                             "edit",
@@ -3988,7 +3988,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "We can even set a @Sequence on one of them to animate it before advancing. Did you see the 2 spin?"
+                            "我们甚至可以在其中一个上设置一个@Sequence，以便在继续之前对其进行动画处理。 你看到2旋转了吗？"
                         ],
                         [
                             "edit",
@@ -4003,7 +4003,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "We can change the content however we want, even making it dynamic. For example, let's make the numbers random and the ending word random! Each time it restarts, we get different content."
+                            "我们可以随心所欲地更改内容，甚至使其成为动态的。 例如，让数字随机，结尾词随机！ 每次重新启动时，我们都会得到不同的内容。"
                         ],
                         [
                             "edit",
@@ -4018,12 +4018,12 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "But you can also make them interactive."
+                            "但你也可以让它们互动。"
                         ],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "The secret is putting a @Boolean where you want to pause and wait for something to be true. For example, we can wait for the mouse button to change. See how @Scene waits after each @Phrase for the button to be clicked?"
+                            "秘密是在你想要暂停并等待某事成为真的地方放置一个@Boolean。 例如，我们可以等待鼠标按钮发生变化。 看看 @Scene 如何在每个 @Phrase 之后等待按钮被单击？"
                         ],
                         [
                             "edit",
@@ -4039,7 +4039,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "@Scene is great for telling animated stories, either is a whole project or as part of a project! What kind of stories do you want to tell?"
+                            "@Scene 非常适合讲述动画故事，无论是整个项目还是作为项目的一部分！ 你想讲什么样的故事？"
                         ]
                     ]
                 },
