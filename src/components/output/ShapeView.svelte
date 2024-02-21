@@ -81,6 +81,7 @@
             )}
         />
     {/if}
+    <!-- style:background-color="{color?.toCSS()}" add this if implementing color-->
     {#if shapeClass == 'line'}
         <div
             role={selectable ? 'button' : 'presentation'}
@@ -140,7 +141,9 @@
     }
 
     .shape.line {
-        transform-origin: 0 0;
+        border-style: solid;
         border-width: 3px;
+        /* Line did render, however background was white so basically transparent. Increase border-width or change background
+        color to see. */
     }
 </style>

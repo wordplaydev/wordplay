@@ -2,6 +2,7 @@ import { getFirstName } from '../locale/Locale';
 import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';
 import type Value from '../values/Value';
+// import type Color from './Color';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
@@ -49,6 +50,7 @@ export class Rectangle extends Form {
         top: number,
         right: number,
         bottom: number,
+        // color: Color, 
         z: number
     ) {
         super(value);
