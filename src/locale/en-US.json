@@ -1962,10 +1962,10 @@
             "function": {
                 "add": {
                     "doc": [
-                        "I create a new @List with the given item.",
+                        "I create a new @List with the given item at the end.",
                         "\\['apple' 'banana' 'mango'].add('watermelon')\\"
                     ],
-                    "names": ["add"],
+                    "names": ["with", "add"],
                     "inputs": [
                         {
                             "doc": "I the value you want to add.",
@@ -1980,7 +1980,7 @@
                         "It's a little bit easier to use @Spread though, like this:",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
-                    "names": ["append"],
+                    "names": ["withList", "append"],
                     "inputs": [
                         { "doc": "The list of values to add.", "names": "list" }
                     ]
@@ -2088,7 +2088,7 @@
                         "I create a list without my first item.",
                         "\\['apple' 'banana' 'mango'].sansFirst()\\"
                     ],
-                    "names": "sansFirst",
+                    "names": ["withoutFirst", "sansFirst"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -2096,7 +2096,7 @@
                         "I create a list without my last item.",
                         "\\['apple' 'banana' 'mango'].sansLast()\\"
                     ],
-                    "names": "sansLast",
+                    "names": ["withoutLast", "sansLast"],
                     "inputs": []
                 },
                 "sans": {
@@ -2104,7 +2104,7 @@
                         "Me, but without the first occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": "sans",
+                    "names": ["without", "sans"],
                     "inputs": [
                         {
                             "doc": "The value to remove the first occurence of.",
@@ -2117,7 +2117,7 @@
                         "Me, but without all occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": "sansAll",
+                    "names": ["withoutAll", "sansAll"],
                     "inputs": [
                         {
                             "doc": "The value to remove all occurences of from the list.",
@@ -2130,7 +2130,7 @@
                         "Me, but in reverse!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": "reverse",
+                    "names": "reversed",
                     "inputs": []
                 },
                 "equals": {
@@ -2416,7 +2416,7 @@
                         "Give me an item to add and I'll make a new @Set with my items and the given item.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["add", "+"],
+                    "names": ["with", "add", "+"],
                     "inputs": [{ "doc": "The item to add", "names": "item" }]
                 },
                 "remove": {
@@ -3942,6 +3942,7 @@
         },
         "gallery": {
             "untitled": "Untitled",
+            "undescribed": "No description",
             "subheader": {
                 "curators": {
                     "header": "Curators",
@@ -4230,6 +4231,13 @@
                             "use device setting"
                         ]
                     },
+                    "space": {
+                        "label": "space indicator",
+                        "modes": [
+                            "show space and tab indicators explicitly",
+                            "do not show space and tab indicators"
+                        ]
+                    },
                     "writing": {
                         "label": "writing layout",
                         "modes": [
@@ -4446,7 +4454,8 @@
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
-                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username."
+                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
+                    "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
@@ -4511,7 +4520,7 @@
                 "header": "Rights",
                 "content": [
                     "Hi!",
-                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
+                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",

@@ -2207,6 +2207,7 @@
         },
         "gallery": {
             "untitled": "$?",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "$?",
@@ -2478,6 +2479,10 @@
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
                     },
+                    "space": {
+                        "label": "$?",
+                        "modes": ["$?","$?"]
+                    },
                     "writing": {
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
@@ -2679,7 +2684,8 @@
                     "failure": "$?",
                     "unchanged": "$?",
                     "delete": "$?",
-                    "wrongPassword": "$?"
+                    "wrongPassword": "$?",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "$?",

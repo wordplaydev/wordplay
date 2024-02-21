@@ -31,6 +31,9 @@ function getFirebaseErrorCodeDescription(
             'auth/network-request-failed': locales.get(
                 (l) => l.ui.page.login.error.offline,
             ),
+            'auth/too-many-requests': locales.get(
+                (l) => l.ui.page.login.error.tooMany,
+            ),
         }[code] ?? locales.get((l) => l.ui.page.login.error.failure)
     );
 }

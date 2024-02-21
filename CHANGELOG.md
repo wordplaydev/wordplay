@@ -3,7 +3,27 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 09.31 2024-02-10
+## 0.9.33 2024-02-19
+
+## Added
+
+-   [#256](https://github.com/wordplaydev/wordplay/issues/256): Allow explicit space indicators to be shown or hidden.
+
+## 0.9.32 2024-02-17
+
+## Fixed
+
+-   [#382](https://github.com/wordplaydev/wordplay/issues/382): Wait for gallery to be created before redirecting.
+-   Don't show preview if there are no projects in a gallery.
+-   Fixed text placeholder error, preventing empty gallery description from being rendered.
+-   Better feedback on too many login failures
+-   Added admin script to update user password
+-   Fixed MIME type on NotoEmoji preload
+-   More consistent list function names.
+-   Slightly faster list creation.
+-   Slightly faster number to list conversion.
+
+## 0.9.31 2024-02-10
 
 ## Added
 

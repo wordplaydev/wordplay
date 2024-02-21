@@ -153,6 +153,8 @@ type UITexts = {
     gallery: {
         /** What to call a gallery by default, before it's given a name */
         untitled: string;
+        /** What to say if the description is empty */
+        undescribed: string;
         /** Headers on the page */
         subheader: {
             /** The list of curators */
@@ -582,6 +584,8 @@ type UITexts = {
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */
                 writing: ModeText<[string, string, string]>;
+                /** The space_indicator on/off mode */
+                space: ModeText<[string, string]>;
             };
             options: {
                 /** The label for the microphone drop down */
@@ -824,6 +828,8 @@ type UITexts = {
                 delete: string;
                 /** When a password is wrong */
                 wrongPassword: string;
+                /** When there are too mant failed attempts */
+                tooMany: string;
             };
             button: {
                 /** Log out of the account */
