@@ -29,11 +29,11 @@
 
     $: width = shape.form.getWidth() * PX_PER_METER;
     $: height = shape.form.getHeight() * PX_PER_METER;
-
+    // $: lineWidth = 10 - 
 
     $: top = shape.form.getTop()
     $: left = shape.form.getLeft()
-    // $: color = shape.getBackground();
+    $: color = shape.getBackground()?.toCSS()
 
     let shapeClass = '';
     if(shape.form instanceof Rectangle) {
@@ -76,7 +76,7 @@
                     width,
                     height,
                     ascent: height,
-                    descent: 0,
+                    descent: 0
                 }
             )}
         />
@@ -87,9 +87,7 @@
             role={selectable ? 'button' : 'presentation'}
             aria-disabled={!selectable}
             aria-label={still ? shape.getDescription($locales) : null}
-            aria-roledescription={!selectable
-                ? $locales.get((l) => l.term.phrase)
-                : null}
+            aria-roledescription={!selectable ? $locales.get((l) => l.term.phrase) : null}
             class="output shape {shapeClass}"
             tabIndex={interactive && (selectable || editing) ? 0 : null}
             data-id={shape.getHTMLID()}
@@ -99,13 +97,9 @@
             style:font-family={getFaceCSS(context.face)}
             style:font-size={getSizeCSS(context.size)}
             style:border-color={shape.getDefaultPose()?.color?.toCSS()}
-            style:background={shape.background?.toCSS() ?? null}
+            style:background-color={null}
             style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
             style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
-            style:width="10px"
-            style:height="{height}px"
-            style:top="{top}px"
-            style:left="{left}px"
             style:transform={toOutputTransform(
                 shape.getFirstRestPose(),
                 shape.pose,
@@ -119,7 +113,11 @@
                     descent: 0,
                 }
             )}
-        />
+        >
+            <svg width="100%" height="100%">
+                <line x1="0" y1="0" x2="{width}" y2="{height}" style="stroke:rgb(255,0,0);stroke-width:10;" />
+            </svg>
+        </div>
     {/if}
 {/if}
 
@@ -141,9 +139,7 @@
     }
 
     .shape.line {
-        border-style: solid;
-        border-width: 3px;
-        /* Line did render, however background was white so basically transparent. Increase border-width or change background
-        color to see. */
+        /* background: var(--wordplay-inactive-color); */
+        
     }
 </style>
