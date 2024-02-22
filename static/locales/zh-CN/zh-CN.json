@@ -1948,6 +1948,14 @@
                     "names": "随机",
                     "inputs": []
                 },
+                "shuffled": {
+                    "doc": [
+                        "Make a new list with the items in the last randomly ordered.",
+                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                    ],
+                    "names": "shuffled",
+                    "inputs": []
+                },
                 "first": {
                     "doc": [
                         "我里面的第一个项，如果我是空的则返回@None。",
