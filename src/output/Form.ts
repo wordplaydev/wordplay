@@ -131,14 +131,12 @@ export class Line extends Form {
     }
 
     getLeft() {
-        return Math.min(this.x1, this.x2);
+        return this.x1;
     }
 
     getTop() {
-        if (Math.max(this.x1, this.x2) == this.x1) {
-            return this.y1;
-        }
-        return this.y2;
+        
+        return this.y1;
     }
 
     getZ() {
@@ -146,11 +144,11 @@ export class Line extends Form {
     }
 
     getWidth() {
-        return Math.abs(this.x1 - this.x2);
+        return (this.x2 - this.x1);
     }
 
     getHeight() {
-        return Math.abs(this.y1 - this.y2);
+        return (this.y2 - this.y1);
     }
 
     getPoints() {

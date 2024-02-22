@@ -31,15 +31,26 @@
     $: height = shape.form.getHeight() * PX_PER_METER;
     // $: lineWidth = 10 - 
 
-    $: top = shape.form.getTop()
-    $: left = shape.form.getLeft()
-    $: color = shape.getBackground()?.toCSS()
+    let top = shape.form.getTop()
+    let left = shape.form.getLeft()
+    let color = shape.getBackground()?.toCSS()
 
     let shapeClass = '';
     if(shape.form instanceof Rectangle) {
         shapeClass = 'rectangle'
     } else if(shape.form instanceof Line) {
         shapeClass = 'line'
+    }
+
+    const lineWidth = 10;
+    $: lineLength = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
+    $: angle = calcAngle(shape.form.getLeft(), shape.form.getTop(), shape.form.getLeft() + shape.form.getWidth(), shape.form.getTop() + shape.form.getHeight())
+
+    function calcAngle(x1: number, y1: number, x2: number, y2: number) {
+        const angleRadians = Math.atan2(y2 - y1, x2 - x1);
+        const angleDegrees = (angleRadians * 180) / Math.PI;
+        const positiveAngle = angleDegrees >= 0 ? angleDegrees : 360 + angleDegrees;
+        return positiveAngle;
     }
 </script>
 
@@ -87,7 +98,9 @@
             role={selectable ? 'button' : 'presentation'}
             aria-disabled={!selectable}
             aria-label={still ? shape.getDescription($locales) : null}
-            aria-roledescription={!selectable ? $locales.get((l) => l.term.phrase) : null}
+            aria-roledescription={!selectable
+                ? $locales.get((l) => l.term.phrase)
+                : null}
             class="output shape {shapeClass}"
             tabIndex={interactive && (selectable || editing) ? 0 : null}
             data-id={shape.getHTMLID()}
@@ -96,28 +109,14 @@
             data-selectable={selectable}
             style:font-family={getFaceCSS(context.face)}
             style:font-size={getSizeCSS(context.size)}
-            style:border-color={shape.getDefaultPose()?.color?.toCSS()}
-            style:background-color={null}
+            style:border-color="rgb(255,0,0)"
+            style:background={shape.background?.toCSS() ?? null}
             style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
             style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
-            style:transform={toOutputTransform(
-                shape.getFirstRestPose(),
-                shape.pose,
-                place,
-                focus,
-                parentAscent,
-                {
-                    width,
-                    height,
-                    ascent: height,
-                    descent: 0,
-                }
-            )}
-        >
-            <svg width="100%" height="100%">
-                <line x1="0" y1="0" x2="{width}" y2="{height}" style="stroke:rgb(255,0,0);stroke-width:10;" />
-            </svg>
-        </div>
+            style:width="{lineWidth}px"
+            style:height="{lineLength}px"
+            style:transform={`translate(${left}px, ${top}px) rotate(${angle}deg)`}
+        />
     {/if}
 {/if}
 
@@ -139,7 +138,8 @@
     }
 
     .shape.line {
-        /* background: var(--wordplay-inactive-color); */
-        
+        background: var(--wordplay-inactive-color);
+        transform-origin: top left;
+        position: absolute;
     }
 </style>
