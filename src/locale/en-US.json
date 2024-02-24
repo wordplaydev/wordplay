@@ -2130,7 +2130,7 @@
                         "Me, but in reverse!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": "reversed",
+                    "names": ["reversed", "reverse"],
                     "inputs": []
                 },
                 "equals": {
