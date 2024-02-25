@@ -4447,6 +4447,77 @@
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Markup text used in documentation or phrase text, e.g., ` ``Hello, I am *bold*`` ` Description inputs: $1 = paragraph count"
             },
+            "Match": {
+              "additionalProperties": false,
+              "description": "A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other' Start inputs: $1 = description of value expression",
+              "properties": {
+                "case": {
+                  "$ref": "#/definitions/Template",
+                  "description": "How to describe when a case is checked"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "finish": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The text shown when this expression type finishes evaluating and has a value."
+                },
+                "name": {
+                  "description": "The name that should be used to refer to the node type",
+                  "type": "string"
+                },
+                "other": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The label for the default value if none of the cases match"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The text shown when this expression type first begins evaluating."
+                },
+                "value": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The label for the value to be compared against."
+                }
+              },
+              "required": [
+                "case",
+                "doc",
+                "emotion",
+                "finish",
+                "name",
+                "other",
+                "start",
+                "value"
+              ],
+              "type": "object"
+            },
             "Mention": {
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ``My value is $1`` or `$bind` in ` ``I am a $bind`` ` Description inputs: $1 = the name or number mentioned"
@@ -4681,6 +4752,7 @@
             },
             "Otherwise": {
               "additionalProperties": false,
+              "description": "A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.",
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6412,6 +6484,7 @@
             "Changed",
             "Conditional",
             "Otherwise",
+            "Match",
             "ConversionDefinition",
             "Convert",
             "Delete",
@@ -7996,6 +8069,9 @@
             "Locale": {
               "type": "string"
             },
+            "Match": {
+              "type": "string"
+            },
             "Mention": {
               "type": "string"
             },
@@ -8158,8 +8234,9 @@
             "This",
             "Locale",
             "Operator",
-            "Otherwise",
             "Conditional",
+            "Otherwise",
+            "Match",
             "Text",
             "Code",
             "Number",

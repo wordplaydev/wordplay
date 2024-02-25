@@ -48,7 +48,7 @@ import TextType from './TextType';
 import NoneLiteral from './NoneLiteral';
 import NoneType from './NoneType';
 import NumberLiteral from './NumberLiteral';
-import JumpIf from '../runtime/JumpIf';
+import JumpIfEqual from '../runtime/JumpIf';
 import BooleanType from './BooleanType';
 
 export default class BinaryEvaluate extends Expression {
@@ -277,7 +277,7 @@ export default class BinaryEvaluate extends Expression {
                     new Start(this),
                     ...left,
                     // Jump past the right's instructions if false and just push a false on the stack.
-                    new JumpIf(right.length + 1, true, false, this),
+                    new JumpIfEqual(right.length + 1, true, false, this),
                     ...right,
                     new StartEvaluation(this),
                     new Finish(this),
@@ -289,7 +289,7 @@ export default class BinaryEvaluate extends Expression {
                     new Start(this),
                     ...left,
                     // Jump past the right's instructions if true and just push a true on the stack.
-                    new JumpIf(right.length + 1, true, true, this),
+                    new JumpIfEqual(right.length + 1, true, true, this),
                     ...right,
                     new StartEvaluation(this),
                     new Finish(this),

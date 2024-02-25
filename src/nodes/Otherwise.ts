@@ -27,14 +27,14 @@ import type Conflict from '@conflicts/Conflict';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;
-    readonly coalesce: Token;
+    readonly question: Token;
     readonly right: Expression;
 
-    constructor(left: Expression, coalesce: Token, right: Expression) {
+    constructor(left: Expression, question: Token, right: Expression) {
         super();
 
         this.left = left;
-        this.coalesce = coalesce;
+        this.question = question;
         this.right = right;
 
         this.computeChildren();
@@ -70,7 +70,7 @@ export default class Otherwise extends SimpleExpression {
     getGrammar(): Grammar {
         return [
             { name: 'left', kind: node(Expression) },
-            { name: 'coalesce', kind: node(Sym.Otherwise), space: true },
+            { name: 'question', kind: node(Sym.Otherwise), space: true },
             { name: 'right', kind: node(Expression), space: true },
         ];
     }
@@ -78,7 +78,7 @@ export default class Otherwise extends SimpleExpression {
     clone(replace?: Replacement) {
         return new Otherwise(
             this.replaceChild('left', this.left, replace),
-            this.replaceChild('coalesce', this.coalesce, replace),
+            this.replaceChild('question', this.question, replace),
             this.replaceChild('right', this.right, replace),
         ) as this;
     }
@@ -150,11 +150,11 @@ export default class Otherwise extends SimpleExpression {
     }
 
     getStart() {
-        return this.coalesce;
+        return this.question;
     }
 
     getFinish() {
-        return this.coalesce;
+        return this.question;
     }
 
     getNodeLocale(locales: Locales) {

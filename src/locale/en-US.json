@@ -74,6 +74,7 @@
         "URL": "URL",
         "Mention": "mention",
         "Otherwise": "otherwise",
+        "Match": "match",
         "None": "nothing",
         "Type": "type",
         "Literal": "literal",
@@ -789,6 +790,23 @@
                     "secondary": "oops, where's my value?"
                 }
             }
+        },
+        "Match": {
+            "name": "match",
+            "emotion": "curious",
+            "doc": [
+                "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
+                "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
+                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
+                "If none match, I evaluate the default expression you give me.",
+                "I'm really helpful for convering one of many possible @Number, @Text, or more complex values into something else.",
+                "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
+            ],
+            "start": "Let's see what $1 is...",
+            "case": "Let's check this condition",
+            "finish": "Okay, we have a final value!",
+            "value": "value",
+            "other": "default"
         },
         "NumberLiteral": {
             "name": "number literal",

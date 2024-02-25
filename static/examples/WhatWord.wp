@@ -41,42 +41,40 @@ fade/en,descolorar/es,يختفي/ar: Pose(opacity: 0)
 ``Construye la escena del juego``/es
 ``قم ببناء مشهد اللعبة``/ar
 screen/en,cine/es,إظهار/ar: 
-  state.status = "start" ? 
-    Group(⬇() [
-      	💬(`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
-        	3m 
-        	place: 📍(z: -1m) 
-        	entering: Pose(opacity: 0%)
-        	resting: Sequence(sway() 1s)
-      )
-      	💬(`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar)
-    ]
-    	exiting:fade
-  )
-  	state.status = "lost" ? 
-    	Group(⬇() [
+  state.status ???
+    "start": Group(⬇() [
+	    💬(`What*Word*`/en`Que*Palabra*`/es`اي كلمة`/ar
+          3m 
+          place: 📍(z: -1m) 
+          entering: Pose(opacity: 0%)
+          resting: Sequence(sway() 1s)
+        )
+        💬(`press *space* to begin`/en`presiona espacio para comenzar`/es`اضغط على * مسافة * للبدء`/ar)
+      ]
+      exiting:fade
+    )
+  	"lost": Group(⬇() [
       		board 
       		💬(	`You lost. Press *space* to play again.`/en`Perdiste. Presiona *espacio* para volver a jugar`/es`لقد خسرت. اضغط على * مسافة * للعب مرة أخرى.`/ar
         		entering: Pose(rotation: 0°) 
         		resting: Pose(rotation: -5°)
-      )
-    ] exiting:fade)
-  		state.status = "won" ?
-    		Group(⬇() [
+        )
+      ] exiting:fade)
+  	"won": Group(⬇() [
         		board.resting:Sequence(bounce(3m) 1s) 
         		💬("You won, nice job! Press space to play again."/en"¡Ganaste, buen trabajo! Presiona la barra espaciadora para volver a jugar"/es"لقد فزت ، عمل جيد! اضغط على الفضاء للعب مرة أخرى."/ar
           )
     ] exiting:fade)
-    		Group(⬇() [
-      			board 
-      			💬(state.guesses.length() = 0 ? 
-        				"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar"Guesses: \state.guesses.join(' ')\"/en"Suposiciones: \state.guesses.join(' ')\"/es"التخمينات \state.guesses.join(' ')\"/ar
-				)
-      			💬("\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
-        			resting: Sequence(sway(2°) (state.guessesRemaining ÷ 5) · 1s
-				)
-      )
-    ])
+    Group(⬇() [
+		board 
+		💬(state.guesses.length() = 0 ? 
+				"Type a letter to guess"/en"Escribe una carta a"/es"اكتب حرفًا للتخمين"/ar "اكتب حرفًا للتخمين"/ar"Guesses: \state.guesses.join(' ')\"/en"Suposiciones: \state.guesses.join(' ')\"/es"التخمينات \state.guesses.join(' ')\"/ar
+		)
+		💬("\state.guessesRemaining\ remaining"/en"\state.guessesRemaining\ restante"/es"متبقي \state.guessesRemaining\"/ar
+			resting: Sequence(sway(2°) (state.guessesRemaining ÷ 5) · 1s
+		)
+	)
+	])
 
 ``Create a world with the screen in it``/en
 ``Crea un mundo con la pantalla en él``/es

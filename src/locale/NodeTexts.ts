@@ -261,7 +261,23 @@ type NodeTexts = {
              */
             ExpectedBooleanCondition: ConflictText;
         }>;
+    /**
+     * A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.
+     */
     Otherwise: NodeText & ExpressionText;
+    /**
+     * A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other'
+     * Start inputs: $1 = description of value expression
+     */
+    Match: NodeText &
+        ExpressionText & {
+            /** The label for the value to be compared against. */
+            value: Template;
+            /** The label for the default value if none of the cases match */
+            other: Template;
+            /** How to describe when a case is checked */
+            case: Template;
+        };
     /** A definition of a conversion, e.g. `→ # #m 5` */
     ConversionDefinition: DescriptiveNodeText &
         SimpleExpressionText &

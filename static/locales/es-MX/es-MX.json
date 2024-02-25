@@ -75,6 +75,7 @@
         "Code": "codigo",
         "Mention": "mencionar",
         "Otherwise": "si no",
+        "Match": "$?",
         "None": "nada",
         "Type": "escribir",
         "Literal": "literal",
@@ -769,6 +770,16 @@
                     "secondary": "ups, ¿dónde está mi valor?"
                 }
             }
+        },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
         },
         "NumberLiteral": {
             "name": "número específico",

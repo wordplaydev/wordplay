@@ -74,6 +74,7 @@ import Delete from '../nodes/Delete';
 import Translation from '../nodes/Translation';
 import Borrow from '../nodes/Borrow';
 import Otherwise from '@nodes/Otherwise';
+import Match from '@nodes/Match';
 
 /** These are ordered by appearance in the docs. */
 const Templates: Node[] = [
@@ -136,6 +137,16 @@ const Templates: Node[] = [
     ),
     Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
     Otherwise.make(ExpressionPlaceholder.make(), ExpressionPlaceholder.make()),
+    Match.make(
+        ExpressionPlaceholder.make(),
+        [
+            KeyValue.make(
+                ExpressionPlaceholder.make(),
+                ExpressionPlaceholder.make(),
+            ),
+        ],
+        ExpressionPlaceholder.make(),
+    ),
     IsLocale.make(Language.make(undefined)),
     Initial.make(),
     Changed.make(ExpressionPlaceholder.make(StreamType.make())),

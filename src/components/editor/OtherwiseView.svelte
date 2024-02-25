@@ -7,6 +7,6 @@
     export let node: Otherwise;
 </script>
 
-<NodeView node={node.left} /><NodeView node={node.coalesce} /><NodeView
+<NodeView node={node.left} /><NodeView node={node.question} /><NodeView
     node={node.right}
 />

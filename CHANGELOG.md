@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Added
 
 -   [#343](https://github.com/wordplaydev/wordplay/issues/343): Improved login feedback.
+-   [#37](https://github.com/wordplaydev/wordplay/issues/37): Added match, e.g., `number ??? 1: 'one' 2: 'two' 'other'
 
 ## 0.9.33 2024-02-19
 

@@ -5,7 +5,7 @@ import Expression, { type GuardContext } from './Expression';
 import Token from './Token';
 import type Type from './Type';
 import type Step from '@runtime/Step';
-import JumpIf from '@runtime/JumpIf';
+import JumpIfEqual from '@runtime/JumpIf';
 import Jump from '@runtime/Jump';
 import type Context from './Context';
 import UnionType from './UnionType';
@@ -159,7 +159,7 @@ export default class Conditional extends Expression {
         return [
             new Start(this),
             ...this.condition.compile(evaluator, context),
-            new JumpIf(yes.length + 1, false, false, this),
+            new JumpIfEqual(yes.length + 1, false, false, this),
             ...yes,
             new Jump(no.length, this),
             ...no,

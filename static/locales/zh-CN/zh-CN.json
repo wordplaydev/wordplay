@@ -75,6 +75,7 @@
         "Code": "代码",
         "Mention": "提到",
         "Otherwise": "否则",
+        "Match": "$?",
         "None": "空的",
         "Type": "类型",
         "Literal": "字面量",
@@ -790,6 +791,16 @@
                     "secondary": "哎呀，我的值在哪里？"
                 }
             }
+        },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
         },
         "NumberLiteral": {
             "name": "具体数字",
