@@ -41,16 +41,16 @@
 </script>
 
 <section>
-    <div class="search-wrapper">
-        <TextField
-            placeholder="🔍"
-            description={$locales.get((l) => l.ui.source.cursor.search)}
-            fill
-            bind:text={query}
-        />
-    </div>
     <div class="display">
         <div class="recents-bar">
+            <div class="search-wrapper">
+                <TextField
+                    placeholder="🔍"
+                    description={$locales.get((l) => l.ui.source.cursor.search)}
+                    fill
+                    bind:text={query}
+                />
+            </div>
             <div class="label-wrapper">
                 <Label>Recently Used</Label>
             </div>
