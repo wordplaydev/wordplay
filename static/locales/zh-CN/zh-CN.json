@@ -1956,13 +1956,13 @@
                     ],
                     "names": "随机",
                     "inputs": []
-                },
+                },    
                 "shuffled": {
                     "doc": [
-                        "Make a new list with the items in the last randomly ordered.",
-                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                        "生成一个新的列表，其中最后的项被随机排序",
+                        "\\['苹果' '香蕉' '芒果'].shuffled()\\"
                     ],
-                    "names": "shuffled",
+                    "names": "打乱次序",
                     "inputs": []
                 },
                 "first": {
