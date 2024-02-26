@@ -4411,6 +4411,10 @@
         "template": {
             "unwritten": "TBD",
             "unparsable": "Unparsable template: $1"
+        },
+        "label": {
+            "operator": "Operators",
+            "recent": "Recently Used"
         }
     },
     "moderation": {

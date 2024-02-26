@@ -872,6 +872,13 @@ type UITexts = {
         /** The placeholder string indicating that a template string could not be parsed */
         unparsable: string;
     };
+    /** Labels used throughout glyph picker */
+    label: {
+        /** The label for the quickly accessible operators */
+        operator: string;
+        /** The label for the recently used glyphs */
+        recent: string;
+    };
 };
 
 export { type UITexts as default };

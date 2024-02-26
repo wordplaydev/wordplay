@@ -4293,6 +4293,10 @@
         "template": {
             "unwritten": "待定",
             "unparsable": "无法解析的模板: $1"
+        },
+        "label": {
+            "operator": "算子",
+            "recent": "最近使用"
         }
     },
     "moderation": {
