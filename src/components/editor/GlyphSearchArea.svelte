@@ -51,6 +51,13 @@
                     bind:text={query}
                 />
             </div>
+            <Button
+                tip={"Unicode search and descriptions are only available in English"}
+                action={() => {}}
+            >
+                <span class="disclaimer">⚠️</span>
+            </Button>
+            <div class="divider"/>
             <div class="label-wrapper">
                 <Label>{$locales.get((l) => l.ui.label.recent)}</Label>
             </div>
@@ -118,6 +125,14 @@
         flex-grow: 0;
     }
 
+    .divider {
+        height: 35px;
+        width: 1px;
+        background-color: var(--wordplay-border-color);
+        margin-right: var(--wordplay-spacing);
+        margin-left: var(--wordplay-spacing);
+    }
+
     .display {
         display:flex;
         flex-direction: column;
@@ -161,5 +176,9 @@
         color: var(--wordplay-inactive-color);
         font-style: italic;
         opacity: 1;
+    }
+
+    .disclaimer {
+        color: var(--wordplay-inactive-color);
     }
 </style>
