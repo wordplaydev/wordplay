@@ -52,7 +52,7 @@
                 />
             </div>
             <div class="label-wrapper">
-                <Label>Recently Used</Label>
+                <Label>{$locales.get((l) => l.ui.label.recent)}</Label>
             </div>
             <div class="recents-row">
                 {#each recentlyUsed as glyph}<Button

@@ -48,7 +48,7 @@
     <div class="top-bar">
         <div class="left-bar">
             <div class="operators">
-                <Label>Operators</Label>
+                <Label>{$locales.get((l) => l.ui.label.operator)}</Label>
                 {#each Defaults as command}<CommandButton
                                 {sourceID}
                                 {command}
