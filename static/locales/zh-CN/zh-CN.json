@@ -4100,7 +4100,8 @@
                 "default": "默认",
                 "inherited": "继任",
                 "notSequence": "不是一个序列",
-                "notContent": "不是内容列表"
+                "notContent": "不是内容列表",
+                "format": "格式"
             },
             "button": {
                 "revert": "回复默认设置",
@@ -4235,21 +4236,14 @@
                 },
                 "anonymous": "匿名",
                 "prompt": {
+                    "forgot": "看起来您忘记了密码，请点击忘记密码以找回密码",
+                    "email": "Email login explanation",
                     "login": "您的$[act]保存在本设备上，而不是在线。要将它们保存在线，请提交您的电子邮件以获取登录链接。",
-                    "age": {
-                        "label": "你多大了？",
-                        "modes": ["12岁或以下", "13岁或以上"]
-                    },
+                
                     "enter": "看起来您的登录链接来自不同的浏览器或设备。您可以再次$[input]您的电子邮件地址，以确保是您吗？",
                     "play": "您已登录，现在我们可以将您的项目保存在线上！想要创建点什么吗？",
-                    "emailrules": [
-                        "• 如果你*12岁或以下*，请不要提供你的电子邮件地址。",
-                        "• 如果你*无法访问*你的电子邮件账户，你将无法登录或更新你的电子邮件地址。"
-                    ],
                     "tooyoung": "您必须年满13岁或以上才能使用电子邮件登录。",
-                    "usernamerule": "用户名不应包含可识别的信息（例如姓名），不能是电子邮件地址，并且至少应为5个字符长。",
                     "passwordrule": "密码必须至少为10个字符长；如果你没有使用密码管理器，请选择三个你会记住的长单词。",
-                    "usernamereminder": "由於我們不收集聯絡資訊，因此如果您忘記密碼，將無法重設密碼。 將其儲存在安全的地方，例如密碼管理器。",
                     "passwordreminder": "看起来你正在创建一个账户。请检查你的密码，确保它被安全地保存并$[input]正确，然后重新提交以创建你的账户。",
                     "changeEmail": "想要更改您的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
                     "changePassword": "$! 想更改您的密碼嗎？",
@@ -4274,7 +4268,8 @@
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
                     "deleting": "好的，正在删除您的项目和设置……",
-                    "updatedPassword": "$! 您的密碼已更新。"
+                    "updatedPassword": "$! 您的密碼已更新。",
+                    "match": "要删除帐户，电子邮件或用户名必须匹配"
                 },
                 "field": {
                     "email": {
@@ -4287,6 +4282,14 @@
                     },
                     "password": {
                         "description": "登录密码，至少10个字符",
+                        "placeholder": "密码"
+                    },
+                    "currentPassword": {
+                        "description": "原来的密码",
+                        "placeholder": "密码"
+                    },
+                    "newPassword": {
+                        "description": "新的密码",
                         "placeholder": "密码"
                     }
                 },
