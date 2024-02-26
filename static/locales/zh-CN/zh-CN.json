@@ -1040,7 +1040,16 @@
             "name": "翻译",
             "description": "翻译 $1",
             "emotion": "serious",
-            "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！"
+            "doc": "我代表一些文本，带有 @Language 标签。请参阅 @Text 以了解更多！",
+            "conflict": {
+                "phone": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2",
+                "email": "Is *$1* someone's email? Don't share me here if so!\n\n$2",
+                "tin": "Is *$1* a tax identifier? If yes, definitely don't share me, I'm very sensitive information!\n\n$2",
+                "address": "Is *$1* someone's home address? If so, don't put me here, we don't want anyone getting stalked!\n\n$2",
+                "handle": "Is *$1* your username for somewhere else on the internet? If so, don't share me here unless you really mean to.\n\n$2",
+                "resolution": "This isn't sensitive data",
+                "reminder": "Note: You can undo this action and see other things you've marked as non-sensitive in the sharing dialog."
+            }
         },
         "FormattedLiteral": {
             "name": "格式文本",
@@ -1948,6 +1957,14 @@
                     "names": "随机",
                     "inputs": []
                 },
+                "shuffled": {
+                    "doc": [
+                        "Make a new list with the items in the last randomly ordered.",
+                        "\\['apple' 'banana' 'mango'].shuffled()\\"
+                    ],
+                    "names": "shuffled",
+                    "inputs": []
+                },
                 "first": {
                     "doc": [
                         "我里面的第一个项，如果我是空的则返回@None。",
@@ -2801,6 +2818,28 @@
                 "doc": "@Color样本之间的时间间隔。"
             }
         },
+        "Scene": {
+            "doc": [
+                "/Boop boop boop/",
+                "/Hello, @FunctionDefinition here! I see you found @Scene.",
+                "I think @Scene is particularly cool. The basic idea is that you give it a list of @Phrase or @Group and then it will show them in sequence and stop on the last one.",
+                "To control timing, you can either set the @Phrase/duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase/entering or @Phrase/exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
+                "All of that lets you do things like this little @Scene, which shows these three phrases in sequence:",
+                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "See how the first output is shown for a second, then the next for two seconds, but animated to a five degree rotation, and then it shows the last one?",
+                "You can make very elaborate sequences of output and animations with @Scene, and even make portions of them dynamic or interactive, as with any other @Phrase or @Group.",
+                "If you have animated output that is nested (a @Group with animated @Phrase inside), @Scene will wait for all of the animated content in the @Group to finish.",
+                "Oh, and one last little secret! You can even put @Boolean in the list, and if they are \\⊥\\, the @Scene will pause and wait for it to become true.",
+                "For example, if you wanted to make a sequence of @Phrase and only advance when @Button changes, you could do this:",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "See how it pauses after each @Phrase, and waits for @Button to change before advancing?"
+            ],
+            "names": ["🎬", "Scene"],
+            "outputs": {
+                "names": "outputs",
+                "doc": "The list of outputs to show in sequence."
+            }
+        },
         "Motion": {
             "names": ["⚽️", "运动"],
             "doc": [
@@ -3063,9 +3102,17 @@
                 "doc": "如果有 @Phrase/wrap 的边界集，我是否应该将符号与边缘的开始、中心或结束对齐。",
                 "names": "对齐"
             },
+            "direction": {
+                "doc": "Whether symbols are written horizontally or vertically, and if vertical and @Phrase/wrap is set, whether text wraps left or right.",
+                "names": "direction"
+            },
             "matter": {
                 "doc": "碰到东西时可以使用的属性！",
                 "names": "物体"
+            },
+            "aura": {
+                "doc": "The optional @Aura to show behind me. Make me glow!",
+                "names": "aura"
             },
             "name": {
                 "doc": "你给我起一个名字！这对很多事情都有帮助。\n 首先，如果我有名字，我会用它在屏幕阅读器描述中描述自己。\n 第二，在制作动画时，您可能有多个不同的表达式，这些表达式应该在舞台上表示相同的内容；给它们相同的名称，它们就会作为一个动画。 \n 最后，我对 @Choice 很有帮助：你给我的名字出现在该信息流中。 \n 如果有帮助的话，您可以给我许多不同的名称，每个名称都采用不同的语言。我将始终在第一个选定的区域设置中使用该名称",
@@ -3447,6 +3494,29 @@
                 "names": "地面"
             }
         },
+        "Aura": {
+            "doc": [
+                "I am an AURA. I make @Phrase GLOW! Like this:",
+                "\\Phrase(\n\t'I am GLOWING!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+            ],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The @Color the @Aura should be.",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be. \\0m\\ means not blurry at all.",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far left or right I should appear. \\0m\\ is directly under.",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far up or down I should appear.\\0m\\ is directly under.",
+                "names": "offsetY"
+            }
+        },
         "Stage": {
             "doc": [
                 "嗨。舞台在这里。告诉我要展示什么，我会展示出来。",
@@ -3583,6 +3653,39 @@
                 "doc": "我创建一个@Sequence, 使@Output看起来像是害怕的。",
                 "names": ["抖动"]
             }
+        },
+        "Source": {
+            "names": "Source",
+            "doc": [
+                "You know how projects can have more than one @Source file? I let you create a @Source based on your project's logic. This is really helpful if you want to save some data between different evaluations of your project.",
+                "For example, imagine you wanted to make a simple counter that counts up by one each time you press a mouse button. You might use this to remember how many times you did something.",
+                "\\↓ count\n[\n\tPhrase(`\\count\\ times!`)\n\tSource('count' count … ∆ Button() … count + 1 )\n]\\",
+                "Try copying it, making a new @Source called /count/ and typing 0 in it, to start the count at 0. This little project will get the value in the /count/ source and each time the mouse button is pressed, edits the /count/ @Source with to be the current /count/ value plus /1/."
+            ],
+            "name": {
+                "names": "name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "dynamic source edit limit",
+                "explanation": "This project saved data to @Source files too many times, too quickly. Make sure it only updates @Source in response to an input, and not too fast."
+            },
+            "ReadOnlyEditException": {
+                "description": "read only source edit",
+                "explanation": "This project remembers data, but you don't have rights to edit it. Copy it if you want to try it."
+            },
+            "EmptySourceNameException": {
+                "description": "empty source name",
+                "explanation": "The @Source given had an empty name, so we couldn't save it."
+            },
+            "ProjectSizeLimitException": {
+                "description": "project size limit",
+                "explanation": "This project has too much text, so we can't save it."
+            }
         }
     },
     "ui": {
@@ -3641,7 +3744,8 @@
                 "focusSource": "聚焦到下一个源",
                 "focusDocs": "聚焦文档",
                 "focusPalette": "聚焦调色板",
-                "focusCycle": "聚焦到下一个瓷砖"
+                "focusCycle": "聚焦到下一个瓷砖",
+                "unsaved": "show save error"
             },
             "field": {
                 "name": {
@@ -3649,7 +3753,18 @@
                     "placeholder": "名称"
                 }
             },
-            "help": "显示键盘快捷键"
+            "help": "显示键盘快捷键",
+            "save": {
+                "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
+                "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",
+                "projectContainedPII": "To protect your privacy, a project with potentially personally identifiable information was not saved online. Check the project to see if the information is identifying.",
+                "projectsNotLoadingOnline": "Unable to load online projects.",
+                "projectNotSavedOnline": "Unable to save projects online.",
+                "settingsUnsaved": "Unable to save settings online."
+            },
+            "dialog": {
+                "unsaved": "Unsaved work..."
+            }
         },
         "gallery": {
             "untitled": "未命名",
@@ -3744,6 +3859,8 @@
                 "nextInline": "将光标移到后一个位置",
                 "lineStart": "将光标移到行的开头",
                 "lineEnd": "将光标移到行的末尾",
+                "sourceStart": "move cursor to start of source",
+                "sourceEnd": "move cursor to end of source",
                 "priorNode": "选择前一个邻居",
                 "nextNode": "选择后一个邻居",
                 "parent": "选择容器",
@@ -3786,8 +3903,15 @@
                 "tidy": "整理间距"
             }
         },
-        "conflicts": {
-            "label": "冲突"
+        "annotations": {
+            "label": "conflicts and help",
+            "cursor": "This is *$1*$2[ and they are of type $2|].",
+            "learn": "Want to learn more?",
+            "evaluating": "Oh fun, let's evaluate!",
+            "space": "This is space! Who knew nothing could say so much?",
+            "button": {
+                "resolution": "Resolve this conflict"
+            }
         },
         "output": {
             "label": "程序$[output]",
@@ -3869,12 +3993,16 @@
                     "public": {
                         "header": "公开/私有",
                         "explanation": "公开项目和画廊可以被世界上任何人看到。通过将项目或画廊设为公开，您承诺："
+                    },
+                    "pii": {
+                        "header": "Personal Information",
+                        "explanation": "Sharing personally identifiable information (PII) publicly can put creators at risk, so we detect possible PII and warn creators to either remove the sensitive data or mark it as non-sensitive.\n\nBelow is a list of possible PII in this project you have marked as non-sensitive. You can click the button next to it to mark it as sensitive again, but doing so means that your project won't be saved online anymore."
                     }
                 },
                 "field": {
-                    "email": {
-                        "placeholder": "电子邮件",
-                        "description": "您希望授予编辑权限的人的电子邮件地址。"
+                    "emailOrUsername": {
+                        "placeholder": "email or username",
+                        "description": "email or username of the person who you want to give edit access"
                     }
                 },
                 "mode": {
@@ -3884,10 +4012,18 @@
                     }
                 },
                 "error": {
-                    "unknown": "我们不知道这封邮件的创建者是谁。"
+                    "unknown": "We don't know a creator with this email.",
+                    "anonymous": "You must be logged in to share."
                 },
                 "button": {
-                    "submit": "通过此电子邮件地址分享项目"
+                    "submit": "Share the project with this email address",
+                    "sensitive": {
+                        "tip": "Mark this text as sensitive again",
+                        "label": "sensitive"
+                    }
+                },
+                "options": {
+                    "gallery": "gallery chooser"
                 }
             },
             "settings": {
@@ -3923,6 +4059,10 @@
                             "垂直，从左到右"
                         ]
                     }
+                },
+                "options": {
+                    "mic": "selected microphone",
+                    "camera": "selected camera"
                 }
             },
             "locale": {
@@ -4255,6 +4395,7 @@
             "disclosure": "披露其他人的私人信息，如姓名、联系方式或实际地址。",
             "misinformation": "包含虚假、误导性、欺骗性或操纵性信息。"
         },
+        "progress": "*$1* moderated, *$2* remaining",
         "button": {
             "submit": {
                 "tip": "保存这些审查设置",
