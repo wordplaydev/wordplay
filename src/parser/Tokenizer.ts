@@ -61,6 +61,7 @@ import {
     UPDATE_SYMBOL,
     COALESCE_SYMBOL,
     ELISION_SYMBOL,
+    MATCH_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -260,6 +261,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: EVAL_CLOSE_SYMBOL, types: [Sym.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: MEASUREMENT_SYMBOL, types: [Sym.NumberType] },
+    {
+        pattern: MATCH_SYMBOL,
+        types: [Sym.Match],
+    },
     {
         pattern: COALESCE_SYMBOL,
         types: [Sym.Otherwise],

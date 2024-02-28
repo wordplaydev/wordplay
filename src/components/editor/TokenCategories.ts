@@ -55,6 +55,7 @@ TokenCategories.set(Sym.Placeholder, TokenCategoryPlaceholder);
 TokenCategories.set(Sym.Operator, TokenCategoryOperator);
 TokenCategories.set(Sym.Conditional, TokenCategoryOperator);
 TokenCategories.set(Sym.Otherwise, TokenCategoryOperator);
+TokenCategories.set(Sym.Match, TokenCategoryOperator);
 TokenCategories.set(Sym.Text, TokenCategoryLiteral);
 TokenCategories.set(Sym.Code, TokenCategoryDocs);
 TokenCategories.set(Sym.Number, TokenCategoryLiteral);

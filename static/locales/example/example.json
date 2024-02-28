@@ -75,6 +75,7 @@
         "Code": "$?",
         "Mention": "$?",
         "Otherwise": "$?",
+        "Match": "$?",
         "None": "$?",
         "Type": "$?",
         "Literal": "$?",
@@ -510,6 +511,16 @@
             "conflict": {
                 "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
             }
+        },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
         },
         "NumberLiteral": {
             "name": "$?",
@@ -2481,7 +2492,7 @@
                     },
                     "space": {
                         "label": "$?",
-                        "modes": ["$?","$?"]
+                        "modes": ["$?", "$?"]
                     },
                     "writing": {
                         "label": "$?",

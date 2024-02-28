@@ -75,6 +75,7 @@
         "Code": "codigo",
         "Mention": "mencionar",
         "Otherwise": "si no",
+        "Match": "$?",
         "None": "nada",
         "Type": "escribir",
         "Literal": "literal",
@@ -769,6 +770,16 @@
                     "secondary": "ups, ¿dónde está mi valor?"
                 }
             }
+        },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
         },
         "NumberLiteral": {
             "name": "número específico",
@@ -4222,10 +4233,7 @@
                     },
                     "space": {
                         "label": "$! indicador de espacio",
-                        "modes": [
-                            "$! abierto",
-                            "$! cerrado"
-                        ]
+                        "modes": ["$! abierto", "$! cerrado"]
                     },
                     "writing": {
                         "label": "diseño de escritura",
@@ -4422,7 +4430,6 @@
                 "prompt": {
                     "login": "Tus actuaciones se estan guardano en este navegador, pero no en línea. Si este es tu dispositivo, ¡está bien! Si no es así, otros tendrán acceso a tus proyectos y es posible que los pierdas. Para guardarlos en línea y mantenerlos privados, inicie sesión o <cree una cuenta@://join>:",
                     "forgot": "*¿Olvidaste tu contraseña?* Desafortunadamente, no podemos recuperar tu cuenta ya que no recopilamos información de contacto.",
-                    "email": "¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
                     "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
@@ -4430,7 +4437,8 @@
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "sent": "Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
+                    "email": "$! ¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
+                    "sent": "$! Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",

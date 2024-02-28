@@ -73,7 +73,7 @@
             style:font-family={getFaceCSS(context.face)}
             style:font-size={getSizeCSS(context.size)}
             style:border-color={shape.getDefaultPose()?.color?.toCSS()}
-            style:background={shape.background?.toCSS() ?? null}
+            style:background={color ?? null}
             style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
             style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
             style:width="{width}px"
@@ -111,7 +111,7 @@
             style:font-family={getFaceCSS(context.face)}
             style:font-size={getSizeCSS(context.size)}
             style:border-color="rgb(255,0,0)"
-            style:background={shape.background?.toCSS() ?? null}
+            style:background={color ?? null}
             style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
             style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
             style:width="{lineWidth}px"
@@ -140,6 +140,7 @@
 
     .shape.line {
         background: var(--wordplay-inactive-color);
+        transform-origin: 0 0;
         position: absolute;
     }
 </style>
