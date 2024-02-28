@@ -144,12 +144,12 @@ export class Line extends Form {
     }
 
     getWidth() {
-        console.log(this.x2 - this.x1);
+        // console.log(this.x2 - this.x1);
         return (this.x2 - this.x1);
     }
 
     getHeight() {
-        console.log(this.y2 - this.y1);
+        // console.log(this.y2 - this.y1);
         return (this.y2 - this.y1);
     }
 
