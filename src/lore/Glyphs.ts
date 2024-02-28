@@ -43,6 +43,7 @@ import {
     FORMATTED_SYMBOL,
     GLOBE1_SYMBOL,
     COALESCE_SYMBOL,
+    MATCH_SYMBOL,
 } from '@parser/Symbols';
 import type Glyph from './Glyph';
 
@@ -103,6 +104,9 @@ const GlyphSet = {
     },
     NoneOr: {
         symbols: COALESCE_SYMBOL,
+    },
+    Match: {
+        symbols: MATCH_SYMBOL,
     },
     Conversion: {
         symbols: CONVERT_SYMBOL,

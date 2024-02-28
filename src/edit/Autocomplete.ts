@@ -74,6 +74,7 @@ import Update from '../nodes/Update';
 import Changed from '../nodes/Changed';
 import type Locales from '../locale/Locales';
 import Otherwise from '@nodes/Otherwise';
+import Match from '@nodes/Match';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -85,7 +86,7 @@ function note(message: string, level: number) {
 export function getEditsAt(
     project: Project,
     caret: Caret,
-    locales: Locales
+    locales: Locales,
 ): Revision[] {
     const source = caret.source;
     const context = project.getContext(source);
@@ -98,7 +99,7 @@ export function getEditsAt(
     if (caret.position instanceof Node) {
         note(
             `Getting possible field edits for node selection ${caret.position.toWordplay()}`,
-            1
+            1,
         );
 
         edits = getNodeEdits(caret.position, context);
@@ -111,7 +112,7 @@ export function getEditsAt(
         if (caret.insideToken() && caret.tokenExcludingSpace) {
             note(
                 `Inside token, getting possible replacements for it ${caret.tokenExcludingSpace.toWordplay()}`,
-                1
+                1,
             );
 
             edits = getNodeEdits(caret.tokenExcludingSpace, context);
@@ -132,7 +133,7 @@ export function getEditsAt(
                     adjacent,
                     isEmptyLine,
                     context,
-                    locales
+                    locales,
                 ),
             ];
         }
@@ -149,7 +150,7 @@ export function getEditsAt(
                     adjacent,
                     isEmptyLine,
                     context,
-                    locales
+                    locales,
                 ),
             ];
         }
@@ -174,11 +175,11 @@ export function getEditsAt(
                                 undefined,
                                 source.expression.expression,
                                 false,
-                                context
+                                context,
                             )
                                 .filter(
                                     (kind): kind is Node | Refer =>
-                                        kind !== undefined
+                                        kind !== undefined,
                                 )
                                 .map(
                                     (insertion) =>
@@ -188,9 +189,9 @@ export function getEditsAt(
                                             source.expression.expression,
                                             source.expression.expression.statements,
                                             0,
-                                            insertion
-                                        )
-                                )
+                                            insertion,
+                                        ),
+                                ),
                         )
                         .flat(),
                 ];
@@ -203,8 +204,8 @@ export function getEditsAt(
     return edits.filter(
         (edit1, index1) =>
             !edits.some(
-                (edit2, index2) => index2 > index1 && edit1.equals(edit2)
-            )
+                (edit2, index2) => index2 > index1 && edit1.equals(edit2),
+            ),
     );
 }
 
@@ -225,7 +226,7 @@ function getNodeEdits(anchor: Node, context: Context) {
             `Finding possible replacement nodes for "${
                 field.name
             }" with type ${expectedType?.toWordplay()}`,
-            2
+            2,
         );
 
         return [
@@ -239,11 +240,11 @@ function getNodeEdits(anchor: Node, context: Context) {
                         expectedType,
                         node,
                         true,
-                        context
+                        context,
                     ).map(
                         (replacement) =>
-                            new Replace(context, parent, node, replacement)
-                    )
+                            new Replace(context, parent, node, replacement),
+                    ),
                 )
                 .flat(),
             // Is this node in a list field? Offer to remove it if it can be empty or can't but has more than one element.
@@ -274,7 +275,7 @@ function getNodeEdits(anchor: Node, context: Context) {
                     ...(field.kind
                         .enumerateFieldKinds()
                         .find((kind): kind is Empty => kind instanceof Empty)
-                        ?.getDependencies(parent, context) ?? [])
+                        ?.getDependencies(parent, context) ?? []),
                 ),
             ];
         }
@@ -287,7 +288,7 @@ function getNodeEdits(anchor: Node, context: Context) {
 function getFieldEdits(
     node: Node,
     context: Context,
-    handler: (field: Field, parent: Node, node: Node) => Revision[]
+    handler: (field: Field, parent: Node, node: Node) => Revision[],
 ): Revision[] {
     let parent = node.getParent(context);
     let current = node;
@@ -318,7 +319,7 @@ function getRelativeFieldEdits(
     /** True if the line the caret is on is empty */
     empty: boolean,
     context: Context,
-    locales: Locales
+    locales: Locales,
 ): Revision[] {
     let edits: Revision[] = [];
 
@@ -346,7 +347,7 @@ function getRelativeFieldEdits(
 
         note(
             `Getting replacements that would "complete" ${anchorNode.toWordplay()} of type ${expectedType?.toWordplay()}`,
-            2
+            2,
         );
 
         edits = [
@@ -362,7 +363,7 @@ function getRelativeFieldEdits(
                             : expectedType,
                         anchorNode,
                         true,
-                        context
+                        context,
                     )
                         // If not on an empty line, only include recommendations that "complete" the selection
                         .filter(
@@ -373,8 +374,8 @@ function getRelativeFieldEdits(
                                         anchorNode,
                                         replacement instanceof Node
                                             ? replacement
-                                            : replacement.getNode(locales)
-                                    ))
+                                            : replacement.getNode(locales),
+                                    )),
                         )
                         // Convert the matching nodes to replacements.
                         .map(
@@ -383,9 +384,9 @@ function getRelativeFieldEdits(
                                     context,
                                     parent,
                                     anchorNode,
-                                    replacement
-                                )
-                        )
+                                    replacement,
+                                ),
+                        ),
                 )
                 .flat(),
         ];
@@ -402,7 +403,7 @@ function getRelativeFieldEdits(
     for (const relativeField of relativeFields) {
         note(
             `Checking field "${relativeField.name}" for possible insertions or field sets`,
-            2
+            2,
         );
 
         const fieldValue = parent.getField(relativeField.name);
@@ -446,12 +447,12 @@ function getRelativeFieldEdits(
                                     expectedType,
                                     anchorNode,
                                     false,
-                                    context
+                                    context,
                                 )
                                     // Some nodes will suggest removals. We filter those here.
                                     .filter(
                                         (kind): kind is Node | Refer =>
-                                            kind !== undefined
+                                            kind !== undefined,
                                     )
                                     .map(
                                         (insertion) =>
@@ -461,9 +462,9 @@ function getRelativeFieldEdits(
                                                 parent,
                                                 list,
                                                 index + 1,
-                                                insertion
-                                            )
-                                    )
+                                                insertion,
+                                            ),
+                                    ),
                             )
                             .flat(),
                     ];
@@ -491,7 +492,7 @@ function getRelativeFieldEdits(
                                 expectedType,
                                 anchorNode,
                                 false,
-                                context
+                                context,
                             )
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)
@@ -502,9 +503,9 @@ function getRelativeFieldEdits(
                                             position,
                                             parent,
                                             relativeField.name,
-                                            addition
-                                        )
-                                )
+                                            addition,
+                                        ),
+                                ),
                         )
                         .flat(),
                 ];
@@ -540,7 +541,7 @@ function completes(original: Node, replacement: Node): boolean {
                     n1.getText().startsWith(n2.getText())) ||
                 (!n1isToken && !n2isToken && n1.isEqualTo(n2))
             );
-        })
+        }),
     );
 }
 
@@ -579,6 +580,7 @@ const PossibleNodes = [
     Is,
     IsLocale,
     Otherwise,
+    Match,
     // Define
     FunctionDefinition,
     StructureDefinition,
@@ -620,7 +622,7 @@ function getPossibleNodes(
     type: Type | undefined,
     anchor: Node,
     selected: boolean,
-    context: Context
+    context: Context,
 ): (Node | Refer | undefined)[] {
     // Undefined? That's just undefined,
     if (kind === undefined) return [undefined];
@@ -640,12 +642,12 @@ function getPossibleNodes(
         // Filter nodes by the kind provided.
         PossibleNodes.filter(
             (possibleKind) =>
-                possibleKind.prototype instanceof kind || kind === possibleKind
+                possibleKind.prototype instanceof kind || kind === possibleKind,
         )
             // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
             // from the context given.
             .map((possibleKind) =>
-                possibleKind.getPossibleNodes(type, anchor, selected, context)
+                possibleKind.getPossibleNodes(type, anchor, selected, context),
             )
             // Flatten the list of possible nodes.
             .flat()
@@ -662,7 +664,7 @@ function getPossibleNodes(
                                 (anchor instanceof Reference &&
                                     node.definition !==
                                         anchor.resolve(context)))) ||
-                        (node instanceof Node && !anchor.isEqualTo(node)))
+                        (node instanceof Node && !anchor.isEqualTo(node))),
             )
     );
 }

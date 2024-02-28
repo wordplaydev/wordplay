@@ -60,6 +60,7 @@ import parseDoc from './parseDoc';
 import type Doc from '../nodes/Doc';
 import Spread from '../nodes/Spread';
 import Otherwise from '@nodes/Otherwise';
+import Match from '@nodes/Match';
 
 export function toExpression(code: string): Expression {
     return parseExpression(toTokens(code));
@@ -79,9 +80,11 @@ export function parseDocs(tokens: Tokens): Docs {
 export default function parseExpression(tokens: Tokens): Expression {
     let left = parseBinaryEvaluate(tokens);
 
-    // Is it none or statement?
+    // Is it a match expression?
+    if (tokens.nextIs(Sym.Match)) left = parseMatch(left, tokens);
+    // Is it an otherwise expression?
     if (tokens.nextIs(Sym.Otherwise)) left = parseNoneOr(left, tokens);
-    // Is it conditional statement?
+    // Is it conditional expression?
     if (tokens.nextIs(Sym.Conditional)) left = parseConditional(left, tokens);
 
     // Is it a reaction and are reactions allowed?
@@ -140,9 +143,9 @@ export function parseBlock(
 }
 
 export function parseNoneOr(left: Expression, tokens: Tokens): Otherwise {
-    const coalesce = tokens.read(Sym.Otherwise);
+    const question = tokens.read(Sym.Otherwise);
     const right = parseExpression(tokens);
-    return new Otherwise(left, coalesce, right);
+    return new Otherwise(left, question, right);
 }
 
 export function parseConditional(
@@ -153,6 +156,28 @@ export function parseConditional(
     const yes = parseExpression(tokens);
     const no = parseExpression(tokens);
     return new Conditional(condition, question, yes, no);
+}
+
+export function parseMatch(value: Expression, tokens: Tokens): Match {
+    // We have the expression and we know there's a mark next.
+    const mark = tokens.read(Sym.Match);
+
+    // Keep reading expressions until they're not folowed by a bind token. The last expression that isn't is the default expression.
+    const pairs: KeyValue[] = [];
+    let condition: Expression | undefined;
+    let result: Expression | undefined = undefined;
+    do {
+        condition = undefined;
+        result = undefined;
+        condition = parseExpression(tokens);
+        const bind = tokens.nextIs(Sym.Bind)
+            ? tokens.read(Sym.Bind)
+            : undefined;
+        result = bind ? parseExpression(tokens) : undefined;
+        if (result) pairs.push(new KeyValue(condition, result, bind));
+    } while (result);
+
+    return new Match(value, mark, pairs, condition);
 }
 
 export function parseBinaryEvaluate(tokens: Tokens): Expression {

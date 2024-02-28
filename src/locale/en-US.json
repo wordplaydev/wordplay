@@ -74,6 +74,7 @@
         "URL": "URL",
         "Mention": "mention",
         "Otherwise": "otherwise",
+        "Match": "match",
         "None": "nothing",
         "Type": "type",
         "Literal": "literal",
@@ -789,6 +790,23 @@
                     "secondary": "oops, where's my value?"
                 }
             }
+        },
+        "Match": {
+            "name": "match",
+            "emotion": "curious",
+            "doc": [
+                "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
+                "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
+                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
+                "If none match, I evaluate the default expression you give me.",
+                "I'm really helpful for convering one of many possible @Number, @Text, or more complex values into something else.",
+                "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
+            ],
+            "start": "Let's see what $1 is...",
+            "case": "Let's check this condition",
+            "finish": "Okay, we have a final value!",
+            "value": "value",
+            "other": "default"
         },
         "NumberLiteral": {
             "name": "number literal",
@@ -2130,7 +2148,7 @@
                         "Me, but in reverse!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": "reversed",
+                    "names": ["reversed", "reverse"],
                     "inputs": []
                 },
                 "equals": {
@@ -4430,7 +4448,6 @@
                 "prompt": {
                     "login": "Your performances are saving in this browser, but not online. If this is your device, that's okay! If it's not, others will have access to your projects, and you may lose them. To save them online and keep them private, log in or <create an account@://join>:",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
-                    "email": "Do you have a legacy email-only account? Submit your email and we'll send you a sign-in link.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "tooyoung": "You must be 13 or older to login with an email.",
@@ -4438,7 +4455,8 @@
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
-                    "sent": "If this email is associated with an account, it will receive a login link.",
+                    "email": "Do you have an email-only account? Login by submit your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
+                    "sent": "If this email is associated with an account, it will receive an email with a login link. It may take a few minutes to appear. If there is no account associated with this email, you will not receive anything.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",

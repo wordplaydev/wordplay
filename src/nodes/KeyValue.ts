@@ -33,7 +33,7 @@ export default class KeyValue extends Node {
         return [
             KeyValue.make(
                 ExpressionPlaceholder.make(),
-                ExpressionPlaceholder.make()
+                ExpressionPlaceholder.make(),
             ),
         ];
     }
@@ -48,6 +48,7 @@ export default class KeyValue extends Node {
                 name: 'key',
                 kind: node(Expression),
                 label: (locales: Locales) => locales.get((l) => l.term.key),
+                space: true,
             },
             { name: 'bind', kind: node(Sym.Bind) },
             {
@@ -63,7 +64,7 @@ export default class KeyValue extends Node {
         return new KeyValue(
             this.replaceChild('key', this.key, replace),
             this.replaceChild('value', this.value, replace),
-            this.replaceChild('bind', this.bind, replace)
+            this.replaceChild('bind', this.bind, replace),
         ) as this;
     }
 
