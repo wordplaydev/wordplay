@@ -148,8 +148,6 @@ export default class Shape extends Output {
     }
 
     getBackground(): Color | undefined {
-        console.log(this.background?.toCSS());
-        console.log(this.background);
         return this.background;
     }
 

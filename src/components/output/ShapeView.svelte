@@ -31,8 +31,8 @@
     $: height = shape.form.getHeight() * PX_PER_METER;
     // $: lineWidth = 10 - 
 
-    let top = shape.form.getTop()
-    let left = shape.form.getLeft()
+    let top = shape.form.getTop() * PX_PER_METER
+    let left = shape.form.getLeft() * PX_PER_METER  
     let color = shape.getBackground()?.toCSS()
 
     let shapeClass = '';
@@ -44,8 +44,9 @@
 
     const lineWidth = 10;
     $: lineLength = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
-    $: angle = calcAngle(shape.form.getLeft(), shape.form.getTop(), shape.form.getLeft() + shape.form.getWidth(), shape.form.getTop() + shape.form.getHeight())
+    $: angle = calcAngle(shape.form.getLeft(), shape.form.getTop(), shape.form.getLeft() + shape.form.getWidth(), shape.form.getTop() + shape.form.getHeight());
 
+    // Function to calculate angle
     function calcAngle(x1: number, y1: number, x2: number, y2: number) {
         const angleRadians = Math.atan2(y2 - y1, x2 - x1);
         const angleDegrees = (angleRadians * 180) / Math.PI;
@@ -139,7 +140,6 @@
 
     .shape.line {
         background: var(--wordplay-inactive-color);
-        transform-origin: top left;
         position: absolute;
     }
 </style>
