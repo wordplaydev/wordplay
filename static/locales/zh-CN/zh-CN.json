@@ -1947,14 +1947,6 @@
                     ],
                     "names": "随机",
                     "inputs": []
-                },    
-                "shuffled": {
-                    "doc": [
-                        "生成一个新的列表，其中最后的项被随机排序",
-                        "\\['苹果' '香蕉' '芒果'].shuffled()\\"
-                    ],
-                    "names": "打乱次序",
-                    "inputs": []
                 },
                 "shuffled": {
                     "doc": [
@@ -2815,6 +2807,28 @@
             "frequency": {
                 "names": ["频率"],
                 "doc": "@Color样本之间的时间间隔。"
+            }
+        },
+        "Scene": {
+            "doc": [
+                "/Boop boop boop/",
+                "/Hello, @FunctionDefinition here! I see you found @Scene.",
+                "I think @Scene is particularly cool. The basic idea is that you give it a list of @Phrase or @Group and then it will show them in sequence and stop on the last one.",
+                "To control timing, you can either set the @Phrase/duration on each output, and it will show it for that long before moving on to the next one, and use whatever @Phrase/entering or @Phrase/exiting transitions you might have set. If you set them to a @Sequence, it will use the its duration.",
+                "All of that lets you do things like this little @Scene, which shows these three phrases in sequence:",
+                "\\Scene([\n\tPhrase('Hello' duration: 1s)\n\tPhrase('How are you?' duration: 2s rotation: 5° entering: Pose(rotation: 0°))\n\tPhrase('I am fine')\n])\\",
+                "See how the first output is shown for a second, then the next for two seconds, but animated to a five degree rotation, and then it shows the last one?",
+                "You can make very elaborate sequences of output and animations with @Scene, and even make portions of them dynamic or interactive, as with any other @Phrase or @Group.",
+                "If you have animated output that is nested (a @Group with animated @Phrase inside), @Scene will wait for all of the animated content in the @Group to finish.",
+                "Oh, and one last little secret! You can even put @Boolean in the list, and if they are \\⊥\\, the @Scene will pause and wait for it to become true.",
+                "For example, if you wanted to make a sequence of @Phrase and only advance when @Button changes, you could do this:",
+                "\\click: ∆ Button()\nScene([\n\tPhrase('Hello')\n\tclick\n\tPhrase('How are you?' duration: 0.25s rotation: 5° entering: Pose(rotation: 0°))\n\tclick\n\tPhrase('I am fine')\n])\\",
+                "See how it pauses after each @Phrase, and waits for @Button to change before advancing?"
+            ],
+            "names": ["🎬", "Scene"],
+            "outputs": {
+                "names": "outputs",
+                "doc": "The list of outputs to show in sequence."
             }
         },
         "Motion": {
@@ -3888,7 +3902,7 @@
                     }
                 },
                 "field": {
-                    "email": {
+                    "emailOrUsername": {
                         "placeholder": "电子邮件",
                         "description": "您希望授予编辑权限的人的电子邮件地址。"
                     }
@@ -3976,7 +3990,15 @@
                 "default": "默认",
                 "inherited": "继任",
                 "notSequence": "不是一个序列",
-                "notContent": "不是内容列表"
+                "notContent": "不是内容列表",
+                "format": "format",
+                "weight": "weight",
+                "light": "light",
+                "normal": "normal",
+                "bold": "bold",
+                "extra": "extra",
+                "italic": "italic",
+                "underline": "underline"
             },
             "button": {
                 "revert": "回复默认设置",
