@@ -1,7 +1,7 @@
 // We need to return a resolution type. The resolution type creates an instance of the project and tests ur code
 // We need to write our code within getConflictNodes(), not create our own method
 
-// PossiblePII.ts is the only working conflict resolution so far. 
+// PossiblePII.ts is the only working conflict resolution so far.
 // To test it out:
 // 1. npm run dev
 // 2. create a new project
@@ -31,8 +31,8 @@ export default class OrderOfOperations extends Conflict {
         this.after = after;
     }
 
-    // // splits String expression. Uses a recursive method to find all combinations of equations 
-    // // by adding parenthesis in different places in the equations. 
+    // // splits String expression. Uses a recursive method to find all combinations of equations
+    // // by adding parenthesis in different places in the equations.
     // generateDisambiguations(expression: string): string[] {
     //     const parts = expression.split(' ');
     //     let disambiguations: string[] = [];
@@ -54,7 +54,7 @@ export default class OrderOfOperations extends Conflict {
     //     addParentheses(0, parts.length - 1);
     //     return disambiguations;
     // }
-    
+
 
 	// SAVE ORIGINAL STATE OF getConflictNodes IN CASE OF FAILURE
     // getConflictingNodes() {
@@ -82,8 +82,8 @@ export default class OrderOfOperations extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) =>
-							'I evaluate in reading order. Traditionally, mathematical expressions are evaluated in the order of Parenthesis, Exponents, Multiplication and Division, and finally Addition and Subtraction (PEMDAS). Would you like me to evaluate using PEMDAS?'
+                            (l) => l.node.BinaryEvaluate.conflict.OrderOfOperations
+                            // already changed en-US.json's 'OrderOfOperation' value
 						)
                     ),
             },
@@ -94,12 +94,14 @@ export default class OrderOfOperations extends Conflict {
                             locales,
                             locales.get(
                                 (l) => `use PEMDAS`
+                                // Unable to add 'resolution' key to en-US.json --> "property resolution is not allowed"
 						),
 					),
-					mediator: (context: Context) => {
+					mediator: () => {
                         // enforce PEMDAS here...
 						// no idea how to do this ask Amy on wednesday
                         // return context.project.enforcePEMDAS(this.operation);
+                        return
                     },
 				}
 			]
