@@ -4044,7 +4044,7 @@
                     ]
                 },
                 {
-                    "title": "Is there someone named...",
+                    "title": "有人叫...",
                     "subtitle": "Choice",
                     "concept": "Choice",
                     "performance": ["fix", "Phrase('🔘' 10m)"],
@@ -4056,24 +4056,24 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "So you know @Key, @Pointer, and @Button, the streams we just talked about? They can be very fun, but they have one problem: not everyone in the audience can use them. Some people do not have hands, or cannot use their hands, or cannot use them precisely to click keys or use a mouse. We know that many some people use their voices to communicate with our world, or even their eyes. So using @Key, @Pointer, or @Button means some people in your audience won't be able to participate."
+                            "那么你知道 @Key、@Pointer 和 @Button，我们刚刚谈论过的流吗？它们可能非常有趣，但它们有一个问题：并不是观众中的每个人都能使用它们。有些人没有手，或者不能使用他们的手，或者不能精确地点击键盘或使用鼠标。我们知道许多人使用他们的声音来与我们的世界沟通，甚至使用他们的眼睛。因此，使用 @Key、@Pointer 或 @Button 意味着你的观众中有些人将无法参与。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Everyone should be able to participate! So now that we've talked about @Phrase in more detail, I wanted to show y ou one final stream, @Choice, which is a stream of @Phrase names that have been selected, independent of how it was selected. For example, an audience might use a mouse to click on a @Phrase, or they might use a keyboard to select it, or there might be other devices they use. Whatever they use, @Choice will contain their latest selection."
+                            "每个人都应该能够参与！所以现在我们更详细地谈论了 @Phrase，我想向你展示最后一个流，@Choice，这是一个已被选择的 @Phrase 名称流，独立于选择方式。例如，观众可能会使用鼠标点击一个 @Phrase，或者他们可能会使用键盘选择它，或者可能会使用其他设备。无论他们使用什么，@Choice 都会包含他们的最新选择。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Here's a simple example. See how it has three phrases? The first two have two important details. First, they're set to be selectable. This tells @Stage that if they are clicked, or if the keyboard is used to select them, that they are chosen. The second detail is that they have a @Phrase/name. That gives @Stage a unique name for the phrase that was chosen. It's important that it's unique so that @Stage knows what was chosen. The third phrase is set to a @Choice stream, which is a series of @Phrase or @Group names are selected. Here, we're just giving the name to another phrase, so that it shows what name is selected. Try clicking the cat or dog, or using the keyboard to select one. See how the third @Phrase shows the name selected?"
+                            "这里有一个简单的例子。看看它有三个短语？前两个有两个重要的细节。首先，它们被设置为可选择。这告诉 @Stage 如果它们被点击，或者如果使用键盘选择它们，它们就被选中了。第二个细节是它们有一个 @Phrase/name。这为 @Stage 提供了一个被选择的短语的唯一名称。这很重要，因为它是唯一的，这样 @Stage 就知道被选择了什么。第三个短语被设置为一个 @Choice 流，这是一系列被选择的 @Phrase 或 @Group 名称。在这里，我们只是给另一个短语一个名称，这样它就显示了选择的名称。试着点击猫或狗，或者使用键盘选择一个。看看第三个 @Phrase 显示了选择的名称？"
                         ],
                         [
                             "Choice",
                             "neutral",
-                            "cat... 'dog'... 'cat'... 'dog'..."
+                            "猫... '狗'... '猫'... '狗'.."
                         ],
                         [
                             "edit",
@@ -4089,7 +4089,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "@Choice really is the best way to listen to the audience. Only use @Key, @Pointer, or @Button if you have no other option, and use it knowing that some in your audience won't be able to enjoy your performance."
+                            "@Choice 真的是倾听观众的最佳方式。只有在没有其他选择的情况下才使用 @Key、@Pointer 或 @Button，并且要知道你的观众中有些人无法享受你的表演。"
                         ]
                     ]
                 }
