@@ -114,13 +114,15 @@ export class Line extends Form {
     readonly y1: number;
     readonly x2: number;
     readonly y2: number;
+    readonly z: number;
     
     constructor(
         value: Value,
         x1: number,
         y1: number,
         x2: number,
-        y2: number
+        y2: number,
+        z: number
     ) {
         super(value);
 
@@ -128,6 +130,7 @@ export class Line extends Form {
         this.y1 = y1;
         this.x2 = x2;
         this.y2 = y2;
+        this.z = z;
     }
 
     getLeft() {
@@ -140,7 +143,7 @@ export class Line extends Form {
     }
 
     getZ() {
-        return 0;
+        return this.z;
     }
 
     getWidth() {
@@ -207,16 +210,17 @@ export function toRectangle(value: Value | undefined) {
 export function toLine(value: Value | undefined) {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const [x1Val, y1Val, x2Val, y2Val] = getOutputInputs(value);
+    const [x1Val, y1Val, x2Val, y2Val, zVal] = getOutputInputs(value);
 
     const x1 = toNumber(x1Val);
     const y1 = toNumber(y1Val);
     const x2 = toNumber(x2Val);
     const y2 = toNumber(y2Val);
+    const z = toNumber(zVal) ?? 0;
     return x1 !== undefined &&
         y1 !== undefined &&
         x2 !== undefined &&
         y2 !== undefined
-        ? new Line(value, x1, y1, x2, y2)
+        ? new Line(value, x1, y1, x2, y2, z)
         : undefined;
 }

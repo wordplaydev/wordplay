@@ -72,6 +72,7 @@ export function createLineType(locales: Locales) {
         ${getBind(locales, (locale) => locale.output.Line.y1)}•#m
         ${getBind(locales, (locale) => locale.output.Line.x2)}•#m
         ${getBind(locales, (locale) => locale.output.Line.y2)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.z)}•#m: 0m
     )
 `);
 }
