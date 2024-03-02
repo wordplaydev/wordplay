@@ -860,7 +860,11 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
         );
 
         // If there's a bind symbol next, then parse a PropertyBind
-        if (left instanceof PropertyReference && tokens.nextIs(Sym.Bind)) {
+        if (
+            left instanceof PropertyReference &&
+            tokens.nextIs(Sym.Bind) &&
+            tokens.nextLacksPrecedingSpace()
+        ) {
             const bind = tokens.read(Sym.Bind);
             const value = parseExpression(tokens);
 
