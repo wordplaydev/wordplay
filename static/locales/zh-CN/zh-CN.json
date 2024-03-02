@@ -423,7 +423,7 @@
                 "MissingShareLanguages": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
                 "RequiredAfterOptional": "我不能在这，这里还有一个可选的 @Bind 在我前面",
                 "UnexpectedEtc": "只有在 @FunctionDefinition 中我才是可变的长度",
-                "UnusedBind": "嘿，我给这这个变量命名了，但是它还没有被使用呢！"
+                "UnusedBind": "$! 嘿，我给这这个变量命名了，但是它还没有被使用呢！"
             }
         },
         "Block": {

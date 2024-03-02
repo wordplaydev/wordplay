@@ -402,7 +402,7 @@
                 "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
                 "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
                 "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
-                "UnusedBind": "oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
+                "UnusedBind": "$! oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
             }
         },
         "Block": {

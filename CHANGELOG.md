@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Allow paste in `Chat` input box
 -   Disabled automatic pretty printing.
 -   Fixed list spread doc example.
+-   Better unused bind conflict message.
 
 ## 0.9.34 2024-02-24
 
