@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 -   Moved `Chat` input box above stage output
+-   Allow paste in `Chat` input box
 
 ## 0.9.34 2024-02-24
 

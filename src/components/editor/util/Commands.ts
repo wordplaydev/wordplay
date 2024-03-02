@@ -1225,10 +1225,12 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyV',
         keySymbol: 'V',
-        active: () =>
+        active: ({ editor }) =>
+            editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ caret }) => {
+        execute: async ({ editor, caret }) => {
+            if (!editor) return undefined;
             // Make sure clipboard is supported.
             if (
                 navigator.clipboard === undefined ||
