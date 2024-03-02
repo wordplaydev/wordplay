@@ -64,19 +64,24 @@
             if (root.getSpaceRoot(firstLeaf) !== n) continue;
             // What's the given space?
             let space = spaces ? spaces.getSpace(firstLeaf) : '';
+
+            // We disabled automatic pretty printing. It's too jumpy to be usable.
+            // Pretty printing can be applied on demand.
+
             // What is the leaf's preferred space? Don't render newlines.
-            let preferred = Spaces.getPreferredPrecedingSpace(
-                root,
-                space,
-                firstLeaf,
-                false,
-            );
+            // let preferred = Spaces.getPreferredPrecedingSpace(
+            //     root,
+            //     space,
+            //     firstLeaf,
+            //     false,
+            // );
             // Compute the additional space for rendering.
-            let additional = spaces
-                ? spaces.getAdditionalSpace(firstLeaf, preferred)
-                : preferred;
+            // let additional = spaces
+            //     ? spaces.getAdditionalSpace(firstLeaf, preferred)
+            //     : preferred;
             // Save what we computed
-            newSpace.set(n, { token: firstLeaf, space, additional });
+
+            newSpace.set(n, { token: firstLeaf, space, additional: '' });
         }
 
         renderedSpace.set(newSpace);

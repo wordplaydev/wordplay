@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Moved `Chat` input box above stage output
 -   Allow paste in `Chat` input box
+-   Disabled automatic pretty printing.
 
 ## 0.9.34 2024-02-24
 
