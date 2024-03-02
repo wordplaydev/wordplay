@@ -39,14 +39,14 @@ export default class UnionType extends Type {
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             node instanceof Type && selected
                 ? UnionType.make(node, TypePlaceholder.make())
                 : UnionType.make(
                       TypePlaceholder.make(),
-                      TypePlaceholder.make()
+                      TypePlaceholder.make(),
                   ),
         ];
     }
@@ -71,7 +71,7 @@ export default class UnionType extends Type {
         return new UnionType(
             this.replaceChild('left', this.left, replace),
             this.replaceChild('or', this.or, replace),
-            this.replaceChild('right', this.right, replace)
+            this.replaceChild('right', this.right, replace),
         ) as this;
     }
 
@@ -120,7 +120,7 @@ export default class UnionType extends Type {
     getConversion(
         context: Context,
         input: Type,
-        output: Type
+        output: Type,
     ): ConversionDefinition | undefined {
         const left = context
             .getBasis()
@@ -128,7 +128,7 @@ export default class UnionType extends Type {
                 this.left.getBasisTypeName(),
                 context,
                 input,
-                output
+                output,
             );
         if (left !== undefined) return left;
         return this.right instanceof Type
@@ -138,14 +138,14 @@ export default class UnionType extends Type {
                       this.right.getBasisTypeName(),
                       context,
                       input,
-                      output
+                      output,
                   )
             : undefined;
     }
 
     getFunction(
         context: Context,
-        name: string
+        name: string,
     ): FunctionDefinition | undefined {
         const left = context
             .getBasis()
@@ -189,8 +189,8 @@ export default class UnionType extends Type {
             ? first
             : first.filter((def1) =>
                   rest.every((definitions) =>
-                      definitions.some((def2) => def1.isEquivalentTo(def2))
-                  )
+                      definitions.some((def2) => def1.isEquivalentTo(def2)),
+                  ),
               );
     }
 
@@ -244,10 +244,17 @@ export default class UnionType extends Type {
         ];
     }
 
+    concretize(context: Context) {
+        return UnionType.make(
+            this.left.concretize(context),
+            this.right.concretize(context),
+        );
+    }
+
     generalize(context: Context): Type {
         // First, generalize all of the types in the union.
         const generalized = this.getPossibleTypes(context).map((type) =>
-            type.generalize(context)
+            type.generalize(context),
         );
 
         // Next, find the smallest subset of types to represent the set.

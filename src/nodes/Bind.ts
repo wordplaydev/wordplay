@@ -6,8 +6,6 @@ import type Conflict from '@conflicts/Conflict';
 import UnusedBind from '@conflicts/UnusedBind';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
-import NameType from './NameType';
-import StructureType from './StructureType';
 import StructureDefinition from './StructureDefinition';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -50,6 +48,7 @@ import Refer from '../edit/Refer';
 import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
 import DocumentedExpression from './DocumentedExpression';
+import NameType from './NameType';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -482,10 +481,9 @@ export default class Bind extends Expression {
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
-        if (type instanceof NameType) {
-            const nameType = type.getType(context);
-            if (nameType instanceof StructureType) return nameType;
-        }
+        type = type.nodes().some((t) => t instanceof NameType)
+            ? type.concretize(context)
+            : type;
 
         return type;
     }
