@@ -1994,7 +1994,7 @@
                 "append": {
                     "doc": [
                         "I create a new @List with my values, then all the values of the given @List after me.",
-                        "\\['apple' 'banana' 'mango'].append(['watermelon' 'starfruit'])\\",
+                        "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
                         "It's a little bit easier to use @Spread though, like this:",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
