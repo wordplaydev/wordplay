@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.35 2024-03-2
+
+## Fixed
+
+-   Moved `Chat` input box above stage output
+
 ## 0.9.34 2024-02-24
 
 ## Added
