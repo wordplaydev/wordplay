@@ -75,6 +75,7 @@ import Translation from '../nodes/Translation';
 import Borrow from '../nodes/Borrow';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
+import Spread from '@nodes/Spread';
 
 /** These are ordered by appearance in the docs. */
 const Templates: Node[] = [
@@ -219,6 +220,7 @@ const Templates: Node[] = [
     BooleanLiteral.make(true),
     NoneLiteral.make(),
     ListLiteral.make(),
+    Spread.make(ExpressionPlaceholder.make()),
     SetLiteral.make(),
     MapLiteral.make(),
     TableLiteral.make(),

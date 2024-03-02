@@ -770,11 +770,11 @@
             "item": "item"
         },
         "Spread": {
-            "name": "list spread",
+            "name": "spread",
             "emotion": "serious",
             "doc": [
                 "A help you make lists with the values of other lists. Like this:",
-                "\\list1: [1 2 3]\nlist2: [4 5 6]\nfinal: [list1… list2…]"
+                "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
             ]
         },
         "MapLiteral": {
