@@ -49,6 +49,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
 import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
+import DocumentedExpression from './DocumentedExpression';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -603,18 +604,20 @@ export default class Bind extends Expression {
               ]
             : [
                   new Start(this, (evaluator) => {
+                      const value =
+                          this.value instanceof DocumentedExpression
+                              ? this.value.expression
+                              : this.value;
+
                       // Before evaluating the bind's value, see if the value expression previously evaluated to
                       // a stream, and if so, bind this Bind's names to the previous value. This allows
                       // for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
                       if (
-                          this.value instanceof Evaluate ||
-                          this.value instanceof Reaction
+                          value instanceof Evaluate ||
+                          value instanceof Reaction
                       ) {
-                          const stream = evaluator.getStreamFor(
-                              this.value,
-                              true,
-                          );
+                          const stream = evaluator.getStreamFor(value, true);
                           const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
                       }

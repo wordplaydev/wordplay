@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed list spread doc example.
 -   Better unused bind conflict message.
 -   Narrowed parsing of structure refinements to avoid conflicting with spreads in lists.
+-   Account for documented expressions in bind recurrence relations.
 
 ## 0.9.34 2024-02-24
 
