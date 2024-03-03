@@ -1,12 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright'; 
 
-
-
-
-// Print out the accessiblity scan results from AxeBuilder.
-function printAccessibilityScanResults(axeBuilderScanResults: any) {
-    // populate your array of violations
+//Print out the accessibility scan results from AxeBuilder.
+function printAccessibilityScanResults(axeBuilderScanResults: any){
     let violations = axeBuilderScanResults.violations;
     violations.forEach((violation) => {
       console.error("Test ID:", violation.id);
@@ -28,13 +24,13 @@ function printAccessibilityScanResults(axeBuilderScanResults: any) {
 }
 
 test('Test Wordplay homepage subtitles for WCAG violations',
-    async ({ page }) => {
+  async ({ page }) => {
   await page.goto('/');
   let accessibilityScanResults : any;
   try {
     accessibilityScanResults = await new AxeBuilder({ page })
     // Use CSS selector to include only subtitle class for WCAG tests.
-    // e.g., the "Why does this place exist" <span> element.
+    // e.g., the "Why does this place exist?" <span> element.
     .include('.link>.subtitle')
     // Limit analysis to WCAGs.
     .withTags(['wcag2a', 'wcag2aa','wcag2aaa'])
@@ -46,112 +42,66 @@ test('Test Wordplay homepage subtitles for WCAG violations',
   printAccessibilityScanResults(accessibilityScanResults);
 });
 
-test('Test Wordplay "Learn" page subtitles for WCAG violations', 
-  async ({ page }) => {
+async function clickLinkAndTestSubtitlesWCAG(page:Page,linkToClick: string) {  
     await page.goto('/');
-    let targetLink: string = "Learn";
-    await page.getByRole('link', { name: targetLink }).first().click();
-    await page.waitForURL('**/' + targetLink.toLowerCase());
+
+    // Click the first link.
+    await page.getByRole('link', { name: linkToClick }).first().click();
+    
+    // Ensure page is loaded for testing.
+    await page.waitForURL('**/' + linkToClick.toLowerCase());
+    
+    // Use AxeBuilder to scan subtitles for acessiblity violations
+    // with CSS selector of ".link>.subtitle".
     let accessibilityScanResults : any;
     try {
       accessibilityScanResults = await new AxeBuilder({ page })
-      // Use CSS selector to include only subtitle class for WCAG tests.
-      // e.g., the "Why does this place exist" <span> element.
+      // Use CSS selector to include only subtitle class for WCAG test,
+      // e.g., the "Why does this place exist?" <span> element.
       .include('.link>.subtitle')
       // Limit analysis to WCAGs.
       .withTags(['wcag2a', 'wcag2aa','wcag2aaa'])
       .analyze();
     } catch (cannotFindSubtitleLink) {
-      console.log("No subtitle found\n");
+      console.log("No subtitle(s) found\n");
       return;
     }
     printAccessibilityScanResults(accessibilityScanResults);
-});
+}
 
+// Do subtitle tests for all main pages.
+test('Test Wordplay "Learn" page subtitles for WCAG violations', 
+  async ({ page }) => {
+    await clickLinkAndTestSubtitlesWCAG(page, 'Learn');
+});
+    
 test('Test Wordplay "Projects" page subtitles for WCAG violations',
     async ({ page }) => {
-  await page.goto('/');
-  let targetLink: string = "Projects";
-  await page.getByRole('link', { name: targetLink }).first().click();
-  await page.waitForURL('**/' + targetLink.toLowerCase());
-  let accessibilityScanResults : any;
-  try {
-    accessibilityScanResults = await new AxeBuilder({ page })
-    // Use CSS selector to include only subtitle class for WCAG tests.
-    // e.g., the "Why does this place exist" <span> element.
-    .include('.link>.subtitle')
-    // Limit analysis to WCAGs.
-    .withTags(['wcag2a', 'wcag2aa','wcag2aaa'])
-    .analyze();
-  } catch (cannotFindSubtitleLink) {
-    console.log("No subtitle found");
-    return;
-  }
-  printAccessibilityScanResults(accessibilityScanResults);
+      await clickLinkAndTestSubtitlesWCAG(page, 'Projects');
 });
-
+ 
 test('Test Wordplay "Galleries" page subtitles for WCAG violations',
     async ({ page }) => {
-  await page.goto('/');
-  let targetLink: string = "Galleries";
-  await page.getByRole('link', { name: targetLink }).first().click();
-  await page.waitForURL('**/' + targetLink.toLowerCase());
-  let accessibilityScanResults : any;
-  try {
-    accessibilityScanResults = await new AxeBuilder({ page })
-    // Use CSS selector to include only subtitle class for WCAG tests.
-    // e.g., the "Why does this place exist" <span> element.
-    .include('.link>.subtitle')
-    // Limit analysis to WCAGs.
-    .withTags(['wcag2a', 'wcag2aa','wcag2aaa'])
-    .analyze();
-  } catch (cannotFindSubtitleLink) {
-    console.log("No subtitle found");
-    return;
-  }
-  printAccessibilityScanResults(accessibilityScanResults);
+      await clickLinkAndTestSubtitlesWCAG(page, 'Galleries');
 });
 
+test('Test Wordplay "Login" page subtitles for WCAG violations',
+    async ({ page }) => {
+      await clickLinkAndTestSubtitlesWCAG(page, 'Login');
+});
+ 
 test('Test Wordplay "About" page subtitles for WCAG violations',
     async ({ page }) => {
-  await page.goto('/');
-  let targetLink: string = "About";
-  await page.getByRole('link', { name: targetLink }).first().click();
-  await page.waitForURL('**/' + targetLink.toLowerCase());
-  let accessibilityScanResults : any;
-  try {
-    accessibilityScanResults = await new AxeBuilder({ page })
-    // Use CSS selector to include only subtitle class for WCAG tests.
-    // e.g., the "Why does this place exist" <span> element.
-    .include('.link>.subtitle')
-    // Limit analysis to WCAGs.
-    .withTags(['wcag2a', 'wcag2aa','wcag2aaa'])
-    .analyze();
-  } catch (cannotFindSubtitleLink) {
-    console.log("No subtitle found");
-    return;
-  }
-  printAccessibilityScanResults(accessibilityScanResults);
+      await clickLinkAndTestSubtitlesWCAG(page, 'About');
 });
-
+ 
 test('Test Wordplay "Rights" page subtitles for WCAG violations',
     async ({ page }) => {
-  await page.goto('/');
-  let targetLink: string = "Rights";
-  await page.getByRole('link', { name: targetLink }).first().click();
-  await page.waitForURL('**/' + targetLink.toLowerCase());
-  let accessibilityScanResults : any;
-  try {
-    accessibilityScanResults = await new AxeBuilder({ page })
-    // Use CSS selector to include only subtitle class for WCAG tests.
-    // e.g., the "Why does this place exist" <span> element.
-    .include('.link>.subtitle')
-    // Limit analysis to WCAGs.
-    .withTags(['wcag2a', 'wcag2aa','wcag2aaa'])
-    .analyze();
-  } catch (cannotFindSubtitleLink) {
-    console.log("No subtitle found");
-    return;
-  }
-  printAccessibilityScanResults(accessibilityScanResults);
+      await clickLinkAndTestSubtitlesWCAG(page, 'Rights');
 });
+
+test('Test Wordplay "Donate" page subtitles for WCAG violations',
+    async ({ page }) => {
+      await clickLinkAndTestSubtitlesWCAG(page, 'Donate');
+});
+ 
