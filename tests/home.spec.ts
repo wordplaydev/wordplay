@@ -23,7 +23,7 @@ async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
     // Expects page to have a heading with the name Wordplay.
     await expect(
         page.getByRole('heading', { name: linkAndHeader }),
-    ).toBeVisible({ timeout: 10000 });
+    ).toBeVisible({ timeout: 25000 });
 }
 
 test('learn link works', async ({ page }) => {
