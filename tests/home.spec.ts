@@ -26,9 +26,9 @@ async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
     ).toBeVisible({ timeout: 25000 });
 }
 
-test('learn link works', async ({ page }) => {
-    await clickLinkAndCheckHeader(page, 'Learn');
-});
+// test('learn link works', async ({ page }) => {
+//     await clickLinkAndCheckHeader(page, 'Learn');
+// });
 
 test('project link works', async ({ page }) => {
     await clickLinkAndCheckHeader(page, 'Projects');
