@@ -23,9 +23,13 @@ async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
     // Expects page to have a heading with the name Wordplay.
     await expect(
         page.getByRole('heading', { name: linkAndHeader }),
-    ).toBeVisible({ timeout: 25000 });
+    ).toBeVisible();
 }
 
+// This test succeeds on all platforms except Mobile Safari when running in a GitHub action.
+// We haven't been able to track down why; it likely has to do with the timing and loading of
+// the tutorial file. Another suspicious detail is that Playwright doesn't seem to be respecting
+// the 5 second default timeout above.
 // test('learn link works', async ({ page }) => {
 //     await clickLinkAndCheckHeader(page, 'Learn');
 // });
