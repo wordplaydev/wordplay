@@ -14,36 +14,34 @@ test('has Wordplay header', async ({ page }) => {
     await expect(page.getByRole('heading', { name: 'Wordplay' })).toBeVisible();
 });
 
-function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
-    return async () => {
-        await page.goto('/');
+async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
+    await page.goto('/');
 
-        // Click the get started link.
-        await page.getByRole('link', { name: linkAndHeader }).click();
+    // Click the first matching link.
+    await page.getByRole('link', { name: linkAndHeader }).nth(0).click();
 
-        // Expects page to have a heading with the name Wordplay.
-        await expect(
-            page.getByRole('heading', { name: linkAndHeader })
-        ).toBeVisible();
-    };
+    // Expects page to have a heading with the name Wordplay.
+    await expect(
+        page.getByRole('heading', { name: linkAndHeader }),
+    ).toBeVisible();
 }
 
 test('learn link works', async ({ page }) => {
-    clickLinkAndCheckHeader(page, 'Learn');
+    await clickLinkAndCheckHeader(page, 'Learn');
 });
 
 test('project link works', async ({ page }) => {
-    clickLinkAndCheckHeader(page, 'Projects');
+    await clickLinkAndCheckHeader(page, 'Projects');
 });
 
 test('galleries link works', async ({ page }) => {
-    clickLinkAndCheckHeader(page, 'Galleries');
+    await clickLinkAndCheckHeader(page, 'Galleries');
 });
 
 test('about link works', async ({ page }) => {
-    clickLinkAndCheckHeader(page, 'About');
+    await clickLinkAndCheckHeader(page, 'About');
 });
 
 test('rights link works', async ({ page }) => {
-    clickLinkAndCheckHeader(page, 'Rights');
+    await clickLinkAndCheckHeader(page, 'Rights');
 });

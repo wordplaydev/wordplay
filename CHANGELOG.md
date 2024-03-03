@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Narrowed parsing of structure refinements to avoid conflicting with spreads in lists.
 -   Account for documented expressions in bind recurrence relations.
 -   More consistently concretize name types in binds.
+-   [#402](https://github.com/wordplaydev/wordplay/issues/402): Fixed defect in page loading test.
 
 ## 0.9.34 2024-02-24
 
