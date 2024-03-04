@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Account for documented expressions in bind recurrence relations.
 -   More consistently concretize name types in binds.
 -   [#402](https://github.com/wordplaydev/wordplay/issues/402): Fixed defect in page loading test.
+-   Check for collisions even when there's no temporal stream, to allow for objects to collide even when not in motion.
 
 ## 0.9.34 2024-02-24
 

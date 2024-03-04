@@ -895,6 +895,12 @@ export default class Evaluator {
             this.editSource(latest);
         }
 
+        // Update the physics engine to see if there are any collisions.
+        // We do this here at the end of a program evaluation just in case
+        // there aren't any temporal streams that tick the physics engine.
+        // based on time.
+        if (this.scene) this.scene.physics.tick(0);
+
         // Notify observers.
         this.broadcast();
     }
