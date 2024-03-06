@@ -29,11 +29,16 @@
 
     $: width = shape.form.getWidth() * PX_PER_METER;
     $: height = shape.form.getHeight() * PX_PER_METER;
-    // $: lineWidth = 10 - 
 
-    let top = shape.form.getTop()
-    let left = shape.form.getLeft()
+    $: height, console.log(height / 64);
+    $: width, console.log(width / 64);
+
+    let top = shape.form.getTop() * PX_PER_METER
+    let left = shape.form.getLeft() * PX_PER_METER  
     let color = shape.getBackground()?.toCSS()
+
+    $: top, console.log(top / 64);
+    $: left, console.log(left / 64);
 
     let shapeClass = '';
     if(shape.form instanceof Rectangle) {
@@ -44,8 +49,12 @@
 
     const lineWidth = 10;
     $: lineLength = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2));
-    $: angle = calcAngle(shape.form.getLeft(), shape.form.getTop(), shape.form.getLeft() + shape.form.getWidth(), shape.form.getTop() + shape.form.getHeight())
+    $: angle = calcAngle(shape.form.getLeft(), shape.form.getTop(), shape.form.getLeft() + shape.form.getWidth(), shape.form.getTop() + shape.form.getHeight());
 
+    $: lineLength, console.log(lineLength / 64);
+    $: angle, console.log(angle);
+
+    // Function to calculate angle
     function calcAngle(x1: number, y1: number, x2: number, y2: number) {
         const angleRadians = Math.atan2(y2 - y1, x2 - x1);
         const angleDegrees = (angleRadians * 180) / Math.PI;
@@ -109,13 +118,12 @@
             data-selectable={selectable}
             style:font-family={getFaceCSS(context.face)}
             style:font-size={getSizeCSS(context.size)}
-            style:border-color="rgb(255,0,0)"
             style:background={color ?? null}
             style:color={getColorCSS(shape.getFirstRestPose(), shape.pose)}
             style:opacity={getOpacityCSS(shape.getFirstRestPose(), shape.pose)}
             style:width="{lineWidth}px"
             style:height="{lineLength}px"
-            style:transform={`translate(${left}px, ${top}px) rotate(${angle}deg)`}
+            style:transform={`translate(${left}px, ${-1 * top}px) rotate(${270 - angle}deg)`}
         />
     {/if}
 {/if}
