@@ -1,0 +1,25 @@
+Problem: People can post things that are inappropriate/violate policies.
+Solution: Ban them from publicly publishing after repeated offenses.
+
+What we have: Content Warning
+
+Ideas:
+Keep track of the number of content warnings on an account
+When passed a certain threshold, ban tag on account (different bans in future)
+When an account has the ban tag, restrict public publishing
+Unbanning function, if another content warning is banned again (different amount of lengths?)
+
+Question:
+Where is the code for the content warnings (if we keep track of this number, we can ban)
+Do we need Firebase access to do this
+How long for the ban
+Code for creator attributes & publishing privileges
+
+Functions:
+If banned, take down all previous postings (change visibility)
+After n 
+
+Important files:
+Moderation.ts - Flags projects
+Project.ts - Individual project
+CreatorDatabase.ts - Creator attributes
