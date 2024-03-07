@@ -39,3 +39,10 @@ Smartphone
 -   Browser + version [e.g. Safari]
 
 If you're not reporting an issue on the production site, also describe the environment you are running in (vite dev server, vite build, whether the Firebase emulator is running, whether you're authenticated using the emulator and how.)
+
+## Design specification
+
+If this defect requires some redesign, include a design proposal here (and if you don't have one, add the `needs design` label, and you can just write TBD here).
+Design proposals should describe, in precise detail _what_ the proposed design is, but not necessarily how it might be built. Note that the design proposal for a defect should align with the expected behavior you described above.
+
+Once the design is approved, we will add the `buildable` tag is added.

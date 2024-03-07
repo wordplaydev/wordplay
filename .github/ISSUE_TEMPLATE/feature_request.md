@@ -21,4 +21,4 @@ What do you propose to change or add to address the problem above? Describe some
 
 ## Design specification
 
-(This section should be included after a design proposal is ready and approved, and the `buildable` tag is added. This text can remain until then. Designers should add their proposal here, not in a comment).
+_Reporters can leave this blank. Designers should write a detailed, precise description of what is to be built. If images are necessary to convey this precisely, make sure to include image descriptions, so everyone can see what is in the image. Do not link to external documents; everything should be embedded here. Once the design is approved, we will remove the `needs design` tag and replace it with the `buildable` tag, signalling that it can be built._
