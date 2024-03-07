@@ -2812,7 +2812,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "你甚至可以改变@Stage/gravity让它变得非常极端。",
+                            "你甚至可以改变 @Stage/gravity 让它变得非常极端。",
                             "尝试将其更改为像月球一样，其中重力非常低！",
                             "或尝试更改@Matter/mass或@Matter/bounciness，这会影响@Phrase的弹跳方式。"
                         ],
