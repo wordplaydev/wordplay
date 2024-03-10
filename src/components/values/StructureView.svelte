@@ -26,10 +26,8 @@
         type={Sym.Name}
     /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Sym.EvalOpen} /><Expandable
         ><svelte:fragment slot="expanded">
-            {#each [...value.context.getBindings()] as [name, val], index}<SymbolView
-                    symbol={name instanceof Names
-                        ? $locales.getName(name)
-                        : name}
+            {#each [...value.context.getBindingsByNames()] as [name, val], index}<SymbolView
+                    symbol={$locales.getName(name)}
                     type={Sym.Name}
                 /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={val}
@@ -65,7 +63,7 @@
                     ></th
                 >{/if}</tr
         >
-        {#each [...value.context.getBindings()] as [name, val]}<tr
+        {#each [...value.context.getBindingsByNames()] as [name, val]}<tr
                 ><td
                     ><SymbolView
                         symbol={name instanceof Names

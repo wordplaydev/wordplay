@@ -75,18 +75,22 @@ export default class StructureValue extends Value {
         )
             return false;
 
-        const thisBindings = this.context.getBindings();
-        const thatBindings = structure.context.getBindings();
+        const thisBindings = this.context.getBindingsByNames();
+        const thatBindings = structure.context.getBindingsByNames();
 
         if (thisBindings.size !== thatBindings.size) return false;
 
+        const thatValues = [...thatBindings];
+
         return Array.from(thisBindings.keys()).every((key) => {
             const thisValue = thisBindings.get(key);
-            const thatValue = thatBindings.get(key);
+            const thatValue = thatValues.find(([names]) =>
+                key.sharesName(names),
+            );
             return (
                 thisValue !== undefined &&
                 thatValue !== undefined &&
-                thisValue.isEqualTo(thatValue)
+                thisValue.isEqualTo(thatValue[1])
             );
         });
     }

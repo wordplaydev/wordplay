@@ -280,7 +280,7 @@ export default class Evaluation {
         return this.#values.length > 0;
     }
 
-    getBindings(): Map<Names, Value> {
+    getBindingsByNames(): Map<Names, Value> {
         const bindings = new Map<Names, Value>();
         for (const binding of this.#bindings) {
             for (const [key, value] of binding) {
