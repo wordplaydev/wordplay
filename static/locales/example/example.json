@@ -592,7 +592,13 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "$?",

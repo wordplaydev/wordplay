@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.36 2024-03-10
+
+## Fixed
+
+-   [#405](https://github.com/wordplaydev/wordplay/issues/405): Fixed closures on property binds.
+
 ## 0.9.35 2024-03-2
 
 ## Fixed

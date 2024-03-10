@@ -878,7 +878,13 @@
                 "¡Eso es mucho más fácil que hacer un nuevo \\Gato\\ con los mismos valores excepto por el pasatiempo, ¿verdad?"
             ],
             "start": "primero obtengamos el valor",
-            "finish": "Copié la estructura, pero con $1 como $2"
+            "finish": "Copié la estructura, pero con $1 como $2",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "propiedad",

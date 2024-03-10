@@ -905,7 +905,13 @@
                 "That's so much easier than making a whole new \\Cat\\ with the same values except for the hobby, isn't it?"
             ],
             "start": "first let's get the value",
-            "finish": "I copied the structure, but with $1 as $2"
+            "finish": "I copied the structure, but with $1 as $2",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "I'm not an input of $1, so I can't be refined.",
+                    "secondary": "I don't have an input named $1"
+                }
+            }
         },
         "PropertyReference": {
             "name": "property",

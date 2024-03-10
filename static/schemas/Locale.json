@@ -4971,6 +4971,19 @@
               "additionalProperties": false,
               "description": "Revising a structure with a new value, e.g., `mammal.name: 5` Description input: $1 = the name being refined Finish inputs: $1: revised property, $2: revised value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "description": "Conflicts that this node can generate",
+                  "properties": {
+                    "InvalidProperty": {
+                      "$ref": "#/definitions/ConflictText"
+                    }
+                  },
+                  "required": [
+                    "InvalidProperty"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
@@ -5019,6 +5032,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",

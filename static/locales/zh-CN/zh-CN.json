@@ -899,7 +899,13 @@
                 "这比做一个全新的\\猫\\ \\要简单得多，除了爱好之外，还有相同的值，不是吗?"
             ],
             "start": "首先让我们获取值",
-            "finish": "我复制了这个结构，但是把1$改成了2$"
+            "finish": "我复制了这个结构，但是把1$改成了2$",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "性质",

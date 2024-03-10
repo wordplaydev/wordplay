@@ -522,7 +522,9 @@ type NodeTexts = {
      * Description input: $1 = the name being refined
      * Finish inputs: $1: revised property, $2: revised value
      */
-    PropertyBind: DescriptiveNodeText & ExpressionText;
+    PropertyBind: DescriptiveNodeText &
+        ExpressionText &
+        Conflicts<{ InvalidProperty: ConflictText }>;
     /**
      * Getting a structure property, e.g., `mammal.name`
      * Finish inputs: $1: property name, $2: value
