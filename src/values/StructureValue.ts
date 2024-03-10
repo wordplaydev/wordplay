@@ -47,7 +47,7 @@ export default class StructureValue extends Value {
                 throw new Error(
                     `Inputs are missing input # ${index}, ${type.inputs[index]
                         .getNames()
-                        .join(', ')}`
+                        .join(', ')}`,
                 );
             map.set(bind.names, inputs[index]);
         }
@@ -57,7 +57,7 @@ export default class StructureValue extends Value {
             creator,
             type,
             undefined,
-            map
+            map,
         );
 
         const structure = new StructureValue(creator, evaluation);
@@ -78,12 +78,11 @@ export default class StructureValue extends Value {
         const thisBindings = this.context.getBindings();
         const thatBindings = structure.context.getBindings();
 
-        if (thisBindings[0].size !== thatBindings[0].size) return false;
+        if (thisBindings.size !== thatBindings.size) return false;
 
-        return Array.from(thisBindings[0].keys()).every((key) => {
-            const thisKey = typeof key === 'string' ? key : key.getNames()[0];
-            const thisValue = thisBindings[0].get(thisKey);
-            const thatValue = thatBindings[0].get(thisKey);
+        return Array.from(thisBindings.keys()).every((key) => {
+            const thisValue = thisBindings.get(key);
+            const thatValue = thatBindings.get(key);
             return (
                 thisValue !== undefined &&
                 thatValue !== undefined &&
@@ -146,7 +145,7 @@ export default class StructureValue extends Value {
 
     getConversion(
         input: Type,
-        output: Type
+        output: Type,
     ): ConversionDefinitionValue | undefined {
         return this.context.getConversion(input, output);
     }
@@ -158,7 +157,7 @@ export default class StructureValue extends Value {
                     locales
                         ? locales.getName(bind.names)
                         : bind.names.getNames()[0]
-                }${BIND_SYMBOL} ${this.resolve(bind.getNames()[0])}`
+                }${BIND_SYMBOL} ${this.resolve(bind.getNames()[0])}`,
         );
         return `${
             locales
@@ -170,7 +169,7 @@ export default class StructureValue extends Value {
     getDescription(concretize: Concretizer, locales: Locales) {
         return concretize(
             locales,
-            locales.get((l) => l.term.structure)
+            locales.get((l) => l.term.structure),
         );
     }
 
@@ -181,7 +180,7 @@ export default class StructureValue extends Value {
     withValue(
         creator: EvaluationNode,
         property: string,
-        value: Value
+        value: Value,
     ): StructureValue | undefined {
         const newContext = this.context.withValue(creator, property, value);
         return newContext ? new StructureValue(creator, newContext) : undefined;
@@ -199,7 +198,7 @@ export default class StructureValue extends Value {
 export function createStructure(
     evaluator: Evaluator,
     definition: StructureDefinition,
-    values: Map<Names, Value>
+    values: Map<Names, Value>,
 ): StructureValue {
     return new StructureValue(
         definition,
@@ -208,7 +207,7 @@ export function createStructure(
             evaluator.getMain(),
             definition,
             undefined,
-            values
-        )
+            values,
+        ),
     );
 }
