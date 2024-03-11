@@ -25,7 +25,7 @@
     }
 
     .subtitle {
-        color: var(--wordplay-subtitle);
+        color: var(--wordplay-header);
         font-size: min(4vw, 16pt);
     }
 
