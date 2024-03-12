@@ -52,10 +52,15 @@ export default defineConfig({
             name: 'Mobile Chrome',
             use: { ...devices['Pixel 5'] },
         },
+
+        // Disable Mobile Safari due to slowness in Github Test bot.
+        // See: https://github.com/wordplaydev/wordplay/issues/408 
+        /*
         {
             name: 'Mobile Safari',
             use: { ...devices['iPhone 12'] },
         },
+        */
 
         /* Test against branded browsers. */
         {
