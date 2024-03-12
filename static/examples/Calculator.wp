@@ -1,3 +1,74 @@
 Calculator
 === start/en
 
+` Functions that performs calculations `
+ƒ addition(num1•# num2•#) num1 + num2
+ƒ subtraction(num1•# num2•#) num1 - num2
+ƒ multiplication(num1•# num2•#) num1 · num2
+ƒ division(num1•# num2•#) num1 ÷ num2
+
+choice: Choice()
+frame: 1 … ∆ (choice) … 1 + .
+
+` Booleans to keep track of whether each value has been selected `
+num1picked: ⊥ … ∆ (choice) … (choice.starts("num1")) & ~num1picked
+num2picked: ⊥ … ∆ (choice) … (choice.starts("num2")) & ~num2picked
+opicked: ⊥ … ∆ (choice) … (choice.starts("op")) & ~opicked
+
+` Keeps track of the operands and operators `
+num1: ø → # … num1picked … ((choice ÷ '')[-1]) → #
+num2: ø → # … num2picked … ((choice ÷ '')[-1]) → #
+operator: ø … opicked … ((choice ÷ '')[-1])
+
+` Screen for selecting the first number `
+numbers1: Group(
+		Grid(2 5) [
+			Phrase("0️⃣" selectable: ⊤ name: "num1_0")
+			Phrase("1️⃣" selectable: ⊤ name: "num1_1")
+			Phrase("2️⃣" selectable: ⊤ name: "num1_2")
+			Phrase("3️⃣" selectable: ⊤ name: "num1_3")
+			Phrase("4️⃣" selectable: ⊤ name: "num1_4")
+			Phrase("5️⃣" selectable: ⊤ name: "num1_5")
+			Phrase("6️⃣" selectable: ⊤ name: "num1_6")
+			Phrase("7️⃣" selectable: ⊤ name: "num1_7")
+			Phrase("8️⃣" selectable: ⊤ name: "num1_8")
+			Phrase("9️⃣" selectable: ⊤ name: "num1_9")
+		]
+	)
+
+` Screen for selecting the second number `
+numbers2: Group(
+		Grid(2 5) [
+			Phrase("0️⃣" selectable: ⊤ name: "num2_0")
+			Phrase("1️⃣" selectable: ⊤ name: "num2_1")
+			Phrase("2️⃣" selectable: ⊤ name: "num2_2")
+			Phrase("3️⃣" selectable: ⊤ name: "num2_3")
+			Phrase("4️⃣" selectable: ⊤ name: "num2_4")
+			Phrase("5️⃣" selectable: ⊤ name: "num2_5")
+			Phrase("6️⃣" selectable: ⊤ name: "num2_6")
+			Phrase("7️⃣" selectable: ⊤ name: "num2_7")
+			Phrase("8️⃣" selectable: ⊤ name: "num2_8")
+			Phrase("9️⃣" selectable: ⊤ name: "num2_9")
+		]
+	)
+
+` Screen for selecting the operator `
+operators: Group(
+		Grid(2 2) [
+			Phrase("➕" selectable: ⊤ name: "op_a")
+			Phrase("➖" selectable: ⊤ name: "op_s")
+			Phrase("✖" selectable: ⊤ name: "op_m")
+			Phrase("➗" selectable: ⊤ name: "op_d")
+		]
+	)
+
+` Screen for displaying the result `
+result: ((operator = 'a') | (operator = 's')) ?
+		(operator = 'a' ? addition(num1 num2) subtraction(num1 num2))
+		(operator = 'm' ? multiplication(num1 num2) division(num1 num2))
+
+` Go through each screens `
+setup: [numbers1 operators numbers2 result]
+
+`Display `
+setup[frame]
