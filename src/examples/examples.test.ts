@@ -41,6 +41,7 @@ test.each([...projects])(
                 conflictingNodes.primary.explanation(DefaultLocales, context)
             );
         }
+        console.log(project);
         expect(project.getPrimaryConflicts()).toHaveLength(0);
     }
 );

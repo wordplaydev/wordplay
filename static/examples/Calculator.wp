@@ -1,7 +1,7 @@
 Calculator
 === start/en
 
-` Functions that performs calculations `
+`` Functions that performs calculations ``
 ƒ addition(num1•# num2•#) num1 + num2
 ƒ subtraction(num1•# num2•#) num1 - num2
 ƒ multiplication(num1•# num2•#) num1 · num2
@@ -10,17 +10,17 @@ Calculator
 choice: Choice()
 frame: 1 … ∆ (choice) … 1 + .
 
-` Booleans to keep track of whether each value has been selected `
+`` Booleans to keep track of whether each value has been selected ``
 num1picked: ⊥ … ∆ (choice) … (choice.starts("num1")) & ~num1picked
 num2picked: ⊥ … ∆ (choice) … (choice.starts("num2")) & ~num2picked
 opicked: ⊥ … ∆ (choice) … (choice.starts("op")) & ~opicked
 
-` Keeps track of the operands and operators `
+`` Keeps track of the operands and operators ``
 num1: ø → # … num1picked … ((choice ÷ '')[-1]) → #
 num2: ø → # … num2picked … ((choice ÷ '')[-1]) → #
 operator: ø … opicked … ((choice ÷ '')[-1])
 
-` Screen for selecting the first number `
+`` Screen for selecting the first number ``
 numbers1: Group(
 		Grid(2 5) [
 			Phrase("0️⃣" selectable: ⊤ name: "num1_0")
@@ -36,7 +36,7 @@ numbers1: Group(
 		]
 	)
 
-` Screen for selecting the second number `
+`` Screen for selecting the second number ``
 numbers2: Group(
 		Grid(2 5) [
 			Phrase("0️⃣" selectable: ⊤ name: "num2_0")
@@ -52,7 +52,7 @@ numbers2: Group(
 		]
 	)
 
-` Screen for selecting the operator `
+`` Screen for selecting the operator ``
 operators: Group(
 		Grid(2 2) [
 			Phrase("➕" selectable: ⊤ name: "op_a")
@@ -62,13 +62,13 @@ operators: Group(
 		]
 	)
 
-` Screen for displaying the result `
+`` Screen for displaying the result ``
 result: ((operator = 'a') | (operator = 's')) ?
 		(operator = 'a' ? addition(num1 num2) subtraction(num1 num2))
 		(operator = 'm' ? multiplication(num1 num2) division(num1 num2))
 
-` Go through each screens `
+`` Go through each screens ``
 setup: [numbers1 operators numbers2 result]
 
-`Display `
+`` Display ``
 setup[frame]
