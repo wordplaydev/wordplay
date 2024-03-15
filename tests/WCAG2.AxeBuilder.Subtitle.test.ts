@@ -38,9 +38,9 @@ test('Test Wordplay homepage subtitles for WCAG violations', async ({
             // Limit analysis to WCAGs.
             .withTags(['wcag2a', 'wcag2aa', 'wcag2aaa'])
             .analyze();
-        printAccessibilityScanResults(accessibilityScanResults);
     } catch (cannotFindSubtitleLink) {
         console.log('No subtitle found');
         return;
     }
+    printAccessibilityScanResults(accessibilityScanResults);
 });
