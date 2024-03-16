@@ -15,15 +15,15 @@ readdirSync(path.join('static', 'examples'), { withFileTypes: true }).forEach(
         if (file.isFile()) {
             const text = readFileSync(
                 path.join('static', 'examples', file.name),
-                'utf8'
+                'utf8',
             );
             const project = parseSerializedProject(
                 text,
-                file.name.split('.')[0]
+                file.name.split('.')[0],
             );
             projects.push(project);
         }
-    }
+    },
 );
 
 test.each([...projects])(
@@ -34,16 +34,15 @@ test.each([...projects])(
         project.getAnalysis();
         const context = project.getContext(project.getMain());
         for (const conflict of Array.from(
-            project.getPrimaryConflicts().values()
+            project.getPrimaryConflicts().values(),
         ).flat()) {
             const conflictingNodes = conflict.getConflictingNodes();
             console.error(
-                conflictingNodes.primary.explanation(DefaultLocales, context)
+                conflictingNodes.primary.explanation(DefaultLocales, context),
             );
         }
-        console.log(project);
         expect(project.getPrimaryConflicts()).toHaveLength(0);
-    }
+    },
 );
 
 test.each([
@@ -55,7 +54,7 @@ test.each([
         const file = path.join(
             'static',
             'examples',
-            `${example.split('-')[1]}.wp`
+            `${example.split('-')[1]}.wp`,
         );
         readFileSync(file, 'utf8');
         expect(true).toBe(true);
@@ -72,5 +71,5 @@ test.each([...projects])(
         const value = evaluator.getInitialValue();
         evaluator.stop();
         expect(value).not.toBeInstanceOf(ExceptionValue);
-    }
+    },
 );
