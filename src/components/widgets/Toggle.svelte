@@ -24,8 +24,10 @@
     }`;
 </script>
 
-<!-- Note that we don't make the button inactive using "disabled" because that makes
-    it invisible to screen readers. -->
+<!-- 
+    Note: we don't make the button inactive using "disabled" because that makes it invisible to screen readers. 
+    Note: we prevent mouse down default to avoid stealing keyboard focus. 
+-->
 <button
     type="button"
     data-uiid={uiid}
@@ -35,6 +37,7 @@
     aria-disabled={!active}
     aria-pressed={on}
     on:dblclick|stopPropagation
+    on:mousedown|preventDefault
     on:click={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >
