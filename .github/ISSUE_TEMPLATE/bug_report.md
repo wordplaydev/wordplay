@@ -1,5 +1,5 @@
 ---
-name: Bug report
+name: Bug
 about: Tell us about something that seems broken
 title: ''
 labels: ['defect', 'needs triage']

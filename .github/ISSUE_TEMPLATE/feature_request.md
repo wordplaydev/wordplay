@@ -1,6 +1,6 @@
 ---
-name: Feature request
-about: Suggest a new or improved feature for this project
+name: Enhancement
+about: Suggest new or improved features, functionalty, or content
 title: ''
 labels: ['enhancement', 'needs design', 'needs triage']
 assignees: ''
@@ -8,7 +8,7 @@ assignees: ''
 
 ## What's the problem?
 
--   What is the task, goal, or need this request would help someone accomplish?
+-   What is the task, goal, need, or opportunity this request would address?
 -   What is the context or scenario in which they would experience it?
 -   Who is the group of people who would be in this situation?
 -   What is it about the current design that makes the need above hard to satisfy?
