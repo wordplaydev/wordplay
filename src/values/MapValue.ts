@@ -17,6 +17,7 @@ import type Locales from '../locale/Locales';
 
 export default class MapValue extends SimpleValue {
     readonly values: [Value, Value][];
+    private _type: MapType | undefined = undefined;
 
     /** Later values with equivalent keys override earlier values in the list. */
     constructor(creator: Expression, values: [Value, Value][]) {
@@ -98,16 +99,18 @@ export default class MapValue extends SimpleValue {
     }
 
     getType(context: Context) {
-        return MapType.make(
-            UnionType.getPossibleUnion(
-                context,
-                this.values.map((v) => v[0].getType(context)),
-            ),
-            UnionType.getPossibleUnion(
-                context,
-                this.values.map((v) => v[1].getType(context)),
-            ),
-        );
+        if (this._type === undefined)
+            this._type = MapType.make(
+                UnionType.getPossibleUnion(
+                    context,
+                    this.values.map((v) => v[0].getType(context)),
+                ),
+                UnionType.getPossibleUnion(
+                    context,
+                    this.values.map((v) => v[1].getType(context)),
+                ),
+            );
+        return this._type;
     }
 
     getBasisTypeName(): BasisTypeName {

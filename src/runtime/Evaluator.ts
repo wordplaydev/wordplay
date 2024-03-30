@@ -852,8 +852,8 @@ export default class Evaluator {
             this.step();
             if (limit) {
                 count++;
-                // Measure time every 10000 steps.
-                if (count > 10000) {
+                // Measure time every 1000 steps.
+                if (count > 1000) {
                     const delta = performance.now() - start;
                     // Oops, we've reached our evaluation time limit! Schedule completion in the next frame.
                     if (delta > 25) {

@@ -15,6 +15,8 @@ import type Locales from '../locale/Locales';
 
 export default class ListValue extends SimpleValue {
     readonly values: Value[] = [];
+    /** A cache of the type, for very long union types */
+    private _type: ListType | undefined = undefined;
 
     constructor(creator: Expression, values: Value[]) {
         super(creator);
@@ -141,12 +143,16 @@ export default class ListValue extends SimpleValue {
     }
 
     getType(context: Context) {
-        return ListType.make(
-            UnionType.getPossibleUnion(
-                context,
-                this.values.map((v) => v.getType(context)),
-            ),
-        );
+        // Do we have a cache of the list type? Just use that; this is immutable anyway.
+        if (this._type === undefined)
+            // Cache a list type for this.
+            this._type = ListType.make(
+                UnionType.getPossibleUnion(
+                    context,
+                    this.values.map((v) => v.getType(context)),
+                ),
+            );
+        return this._type;
     }
 
     getBasisTypeName(): BasisTypeName {

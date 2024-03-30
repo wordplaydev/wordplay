@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.9.37",
+    "version": "0.9.38",
     "scripts": {
         "postinstall": "run-script-os",
         "postinstall:default": "svelte-kit sync && cp .env.template .env",
