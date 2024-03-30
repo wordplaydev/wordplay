@@ -24,7 +24,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed rendering of structure values, showing all bound values, not just input values.
 -   Fixed structure value equality, comparing all bound values in scope, not just first level of scope.
 
-## 0.9.35 2024-03-2
+## 0.9.35 2024-03-02
 
 ## Fixed
 
