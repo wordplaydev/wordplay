@@ -119,6 +119,8 @@
     import Switch from '@components/widgets/Switch.svelte';
     import { withVariationSelector } from '../../unicode/emoji';
     import FullscreenIcon from './FullscreenIcon.svelte';
+    import Glyphs from '../../lore/Glyphs';
+    import Speech from '@components/lore/Speech.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1249,7 +1251,13 @@
         {#key tileIDSequence}
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
-                <div class="empty">⬇</div>
+                <div class="empty">
+                    <Speech glyph={Glyphs.Function}>
+                        <svelte:fragment slot="content">
+                            {$locales.get((l) => l.ui.project.collapsed)} ⬇
+                        </svelte:fragment>
+                    </Speech>
+                </div>
             {:else}
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
                 {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
@@ -1529,7 +1537,7 @@
             <Separator />
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
-                {#if tile}
+                {#if tile && tile.isCollapsed()}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
                         {source}
@@ -1542,7 +1550,8 @@
                 <Button
                     uiid="addSource"
                     tip={$locales.get((l) => l.ui.project.button.addSource)}
-                    action={addSource}>+</Button
+                    action={addSource}
+                    >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
                 >{/if}
             {#if overwritten}
                 <span class="overwritten"
@@ -1551,11 +1560,13 @@
             {/if}
             <Separator />
             {#each layout.getNonSources() as tile}
-                <NonSourceTileToggle
-                    {project}
-                    {tile}
-                    on:toggle={() => toggleTile(tile)}
-                />
+                {#if tile.isCollapsed()}
+                    <NonSourceTileToggle
+                        {project}
+                        {tile}
+                        on:toggle={() => toggleTile(tile)}
+                    />
+                {/if}
             {/each}
             <ProjectLanguages {project} />
             <span class="help">
@@ -1690,12 +1701,12 @@
     .empty {
         width: 100%;
         height: 100%;
-        color: var(--wordplay-border-color);
-        font-size: 1000%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-alternating-color);
     }
 
     .annotated-editor {

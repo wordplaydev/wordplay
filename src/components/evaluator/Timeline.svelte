@@ -53,7 +53,7 @@
         dragging = false;
 
         const el = document.querySelector(
-            `.stream-input[data-inputindex="${currentReaction.stepIndex}"]`
+            `.stream-input[data-inputindex="${currentReaction.stepIndex}"]`,
         );
         // Move the timeline's scroll left such that the element is in the center.
         if (el && timeline) {
@@ -124,7 +124,7 @@
             if (view.dataset.inputindex !== undefined) {
                 const index = parseInt(view.dataset.inputindex);
                 const change = $evaluation.streams.find(
-                    (change) => change.stepIndex === index
+                    (change) => change.stepIndex === index,
                 );
                 if (change) evaluator.stepTo(change.stepIndex);
             }
@@ -144,7 +144,7 @@
                     (event.offsetX - view.offsetLeft) / view.offsetWidth;
                 const step = Math.min(
                     end,
-                    Math.max(0, Math.round(percent * (end - start) + start))
+                    Math.max(0, Math.round(percent * (end - start) + start)),
                 );
                 evaluator.stepTo(step);
             }
@@ -225,11 +225,11 @@
                         change.stream instanceof Key &&
                         change.value instanceof StructureValue
                             ? change.value.resolve(
-                                  change.value.type.inputs[1].names
+                                  change.value.type.inputs[1].names,
                               )
                             : change.stream instanceof Button
-                            ? change.value
-                            : undefined}
+                              ? change.value
+                              : undefined}
                     <!-- Show an emoji representing the cause of the reevaluation -->
                     <span
                         class={`event stream-input ${
@@ -289,6 +289,7 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
+        align-items: center;
         gap: var(--wordplay-spacing);
         width: 100%;
     }

@@ -3900,6 +3900,7 @@
                 }
             },
             "help": "show keyboard shortcuts",
+            "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
             "save": {
                 "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
                 "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",

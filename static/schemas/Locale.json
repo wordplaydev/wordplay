@@ -10129,6 +10129,10 @@
                   ],
                   "type": "object"
                 },
+                "collapsed": {
+                  "description": "The text to show when all of the tiles are collapsed.",
+                  "type": "string"
+                },
                 "dialog": {
                   "additionalProperties": false,
                   "properties": {
@@ -10217,6 +10221,7 @@
                 "button",
                 "field",
                 "help",
+                "collapsed",
                 "save",
                 "dialog"
               ],

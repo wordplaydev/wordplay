@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Fixed
 
 -   [#422](https://github.com/wordplaydev/wordplay/issues/422): Improved performance of very long list, set, and map values.
+-   [#423](https://github.com/wordplaydev/wordplay/issues/423): Improved design of tile expand/collapse.
 
 ## 0.9.37 2024-03-16
 

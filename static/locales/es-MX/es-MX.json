@@ -3929,6 +3929,7 @@
                 }
             },
             "help": "mostrar atajos de teclado",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "Hubo un problema al guardar proyectos en tu navegador.",
                 "projectsCannotNotSaveLocally": "Tu navegador no admite guardar proyectos.",

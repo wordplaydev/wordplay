@@ -3750,6 +3750,7 @@
                 }
             },
             "help": "显示键盘快捷键",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "$?",
                 "projectsCannotNotSaveLocally": "$?",

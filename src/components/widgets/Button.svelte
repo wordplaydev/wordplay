@@ -80,7 +80,7 @@
         transform-origin: center;
         user-select: none;
         border: none;
-        padding: 0;
+        padding: calc(var(--wordplay-spacing) / 2);
         background: none;
         color: currentcolor;
         cursor: pointer;

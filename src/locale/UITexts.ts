@@ -129,6 +129,8 @@ type UITexts = {
         };
         /** The keyboard shortcut to show the shortcut menu */
         help: string;
+        /** The text to show when all of the tiles are collapsed. */
+        collapsed: string;
         /** The messages shown for save status */
         save: {
             /** When projects fail to save locally */

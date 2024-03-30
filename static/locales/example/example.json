@@ -2210,6 +2210,7 @@
                 }
             },
             "help": "$?",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "$?",
                 "projectsCannotNotSaveLocally": "$?",
