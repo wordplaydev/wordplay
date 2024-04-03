@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ## Maintenance
 
 -   Updated Svelte, SvelteKit, and Firebase versions.
+-   Updated TypeScript to 5.4.
 
 ## 0.9.38 2024-03-30
 

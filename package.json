@@ -73,7 +73,7 @@
         "ts-json-schema-generator": "^1",
         "tslib": "^2.6",
         "tsx": "^4.7.0",
-        "typescript": "^5",
+        "typescript": "^5.4",
         "vite": "^5.2.7",
         "vite-plugin-eslint": "^1.8.1",
         "vitest": "^1.4.0"
