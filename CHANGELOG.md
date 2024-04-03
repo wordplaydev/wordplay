@@ -3,7 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 09.38 2024-03-30
+## 0.9.39 2024-04-06
+
+## Maintenance
+
+-   Updated Svelte, SvelteKit, and Firebase versions.
+
+## 0.9.38 2024-03-30
 
 ## Fixed
 
