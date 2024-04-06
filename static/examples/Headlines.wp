@@ -1,14 +1,13 @@
 Headlines
 === start/en
 headlines: Webpage('https://www.nytimes.com' '.indicate-hover')
-top: headlines•[''] ? headlines.subsequence(1 7) ø
-top•ø ? 
+headlines•ø ? 
     Phrase('loading')
     Group(
         Stack('<') 
         [
             Phrase(`*New York Times Headlines*` 2m face: 'Arvo')].append(
-            top.translate(
+            headlines.subsequence(1 7).translate(
                 ƒ (headline) 
                     Phrase(
                         headline 
