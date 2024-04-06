@@ -191,7 +191,8 @@
     >('fullscreen');
 
     $: pageFullscreen?.set({
-        on: layout.isFullscreen(),
+        // Don't turn on fullscreen if we were requested to show output.
+        on: layout.isFullscreen() && !showOutput,
         background: outputBackground,
     });
 
@@ -495,7 +496,12 @@
                               ),
                           ),
                       ],
-                layout ? layout.fullscreenID : undefined,
+                layout
+                    ? layout.fullscreenID
+                    : // If no layout, and showing output was requested, we fullscreen on output
+                      showOutput
+                      ? TileKind.Output
+                      : undefined,
             );
 
         // Now that we've handled it, unset it.
@@ -1328,7 +1334,7 @@
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     <CommandButton command={Restart} />
-                                    {#if requestedPlay}<Button
+                                    {#if showOutput || requestedPlay}<Button
                                             uiid="editProject"
                                             tip={$locales.get(
                                                 (l) =>
