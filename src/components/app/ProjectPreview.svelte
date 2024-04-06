@@ -91,7 +91,7 @@
             style:background={representativeBackground}
             style:color={representativeForeground}
             style:font-family={representativeFace}
-            style:font-size={`${size - 2}rem`}
+            style:font-size={`${Math.max(4, size - 3)}rem`}
             class:blurred={audience && isFlagged(project.getFlags())}
         >
             {representativeText}
@@ -126,7 +126,7 @@
     .output {
         display: flex;
         /** For some reason this is necessary for keeping the glyph centered. */
-        align-items: end;
+        align-items: center;
         justify-content: center;
         width: 100%;
         height: 100%;
