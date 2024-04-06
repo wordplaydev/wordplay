@@ -5,28 +5,32 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.39 2024-04-06
 
-## Maintenance
+### Fixed
+
+-   Added emoji variation selectors to `PhraseView` to ensure proper rendering of color emoji on WebKit browsers.
+
+### Maintenance
 
 -   Updated Svelte, SvelteKit, and Firebase versions.
 -   Updated TypeScript to 5.4.
 
 ## 0.9.38 2024-03-30
 
-## Fixed
+### Fixed
 
 -   [#422](https://github.com/wordplaydev/wordplay/issues/422): Improved performance of very long list, set, and map values.
 -   [#423](https://github.com/wordplaydev/wordplay/issues/423): Improved design of tile expand/collapse.
 
 ## 0.9.37 2024-03-16
 
-## Fixed
+### Fixed
 
 -   [#424](https://github.com/wordplaydev/wordplay/issues/424): Fixed text to list conversion grapheme segmentation.
 -   [#425](https://github.com/wordplaydev/wordplay/issues/425): Prevent buttons from capturing keyboard focus on mouse down, in order to keep focus on stage and other components.
 
 ## 0.9.36 2024-03-10
 
-## Fixed
+### Fixed
 
 -   [#405](https://github.com/wordplaydev/wordplay/issues/405): Fixed closures on property binds.
 -   Fixed rendering of structure values, showing all bound values, not just input values.
@@ -34,7 +38,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.35 2024-03-02
 
-## Fixed
+### Fixed
 
 -   Moved `Chat` input box above stage output
 -   Allow paste in `Chat` input box
@@ -49,20 +53,20 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.34 2024-02-24
 
-## Added
+### Added
 
 -   [#343](https://github.com/wordplaydev/wordplay/issues/343): Improved login feedback.
 -   [#37](https://github.com/wordplaydev/wordplay/issues/37): Added match, e.g., `number ??? 1: 'one' 2: 'two' 'other'
 
 ## 0.9.33 2024-02-19
 
-## Added
+### Added
 
 -   [#256](https://github.com/wordplaydev/wordplay/issues/256): Allow explicit space indicators to be shown or hidden.
 
 ## 0.9.32 2024-02-17
 
-## Fixed
+### Fixed
 
 -   [#382](https://github.com/wordplaydev/wordplay/issues/382): Wait for gallery to be created before redirecting.
 -   Don't show preview if there are no projects in a gallery.
@@ -76,12 +80,12 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.31 2024-02-10
 
-## Added
+### Added
 
 -   [#362](https://github.com/wordplaydev/wordplay/issues/362): Added elision syntax to allow temporary removal of code from parsing (e.g., removing `2` from `1 + *2* 3`). Also included a toolbar and keyboard command for quick toggling.
 -   [#336](https://github.com/wordplaydev/wordplay/issues/336): Added basic syntax error resolution suggestions.
 
-## Fixed
+### Fixed
 
 -   English tutorial typos
 -   Maximum project name length in footer.
@@ -97,13 +101,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.3 2024-02-03
 
-## Added
+### Added
 
 -   [#23](https://github.com/wordplaydev/wordplay/issues/23): Source file output with `Source()`, allowing data persistence in a project.
 -   Added support for page up and page down to navigate to start and end of source
 -   Line breaks for long literals
 
-## Fixed
+### Fixed
 
 -   Fixed list literal types in the presence of spreads (e.g., `[:list 2 3]`)
 -   Fixed end command to go to end of last line.
@@ -119,14 +123,14 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.20 2024-01-20
 
-## Added
+### Added
 
 -   [#76](https://github.com/wordplaydev/wordplay/issues/76): Added `Scene`, a new input stream for showing a sequence of optionally interactive output. This will make it easier to tell typographic stories.
 -   [#130](https://github.com/wordplaydev/wordplay/issues/130): Added `Phrase.aura` to allow for text shadows on text.
 -   Defined `[].shuffled()` for quick and easy list randomization.
 -   Added ability to expand and collapse the editor annotations.
 
-## Fixed
+### Fixed
 
 -   [#340](https://github.com/wordplaydev/wordplay/issues/340): Resolved nested formatting logic for text formatting.
 -   Filled source output preview background with error color on exception values.
@@ -135,13 +139,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.16 2024-01-13
 
-## Fixed
+### Fixed
 
 -   [#340](https://github.com/wordplaydev/wordplay/issues/340): Corrected partial formatting edge case
 -   [#341](https://github.com/wordplaydev/wordplay/issues/341): Fixed key overrides in MapLiteral.
 -   [#342](https://github.com/wordplaydev/wordplay/issues/342): Fixed broken collaborator sharing button.
 
-## Maintenance
+### Maintenance
 
 -   Upgraded to SvelteKit 2.32.
 -   Upgraded to Vite 5.0.11
