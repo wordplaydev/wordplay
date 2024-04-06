@@ -1,7 +1,7 @@
 Headlines
 === start/en
 headlines: Webpage('https://www.nytimes.com' '.indicate-hover')
-headlines•ø ? 
+headlines•# ? 
     Phrase('loading')
     Group(
         Stack('<') 

@@ -70,14 +70,14 @@ export default class Webpage extends StreamValue<
         evaluator: Evaluator,
         url: string,
         query: string,
-        frequency: number
+        frequency: number,
     ) {
         super(
             evaluator,
             evaluator.project.shares.input.Webpage,
             // Percent loaded starts at 0
             new NumberValue(evaluator.project.shares.input.Webpage, 0),
-            { url, response: 0 }
+            { url, response: 0 },
         );
 
         this.url = url.trim();
@@ -99,7 +99,7 @@ export default class Webpage extends StreamValue<
         if (typeof event.response === 'number') {
             return this.add(
                 new NumberValue(this.creator, `${event.response}%`),
-                event
+                event,
             );
         }
         // Is it a string
@@ -107,18 +107,18 @@ export default class Webpage extends StreamValue<
             try {
                 const doc = new DOMParser().parseFromString(
                     event.response,
-                    'text/html'
+                    'text/html',
                 );
                 const text = (
                     this.query === ''
                         ? getTextInNode(doc.body)
                         : Array.from(doc.querySelectorAll(this.query)).map(
                               (n) =>
-                                  n instanceof HTMLElement ? n.innerText : ''
+                                  n instanceof HTMLElement ? n.innerText : '',
                           )
                 )
                     .map((t) =>
-                        t.replaceAll('\\n', '').replaceAll('\\t', '').trim()
+                        t.replaceAll('\\n', '').replaceAll('\\t', '').trim(),
                     )
                     .filter((t) => t !== '')
                     .map((t) => new TextValue(this.creator, t));
@@ -130,17 +130,17 @@ export default class Webpage extends StreamValue<
                         'message' in error &&
                         typeof error.message === 'string'
                         ? error.message
-                        : '?'
+                        : '?',
                 );
                 this.add(
                     new MessageException(
                         this.creator,
                         this.evaluator,
                         FetchErrors['unparsable' as FetchError](
-                            this.evaluator.getLocales()[0]
-                        )
+                            this.evaluator.getLocales()[0],
+                        ),
                     ),
-                    event
+                    event,
                 );
             }
         }
@@ -152,9 +152,9 @@ export default class Webpage extends StreamValue<
                     new MessageException(
                         this.evaluator.project.shares.input.Webpage,
                         this.evaluator,
-                        error(this.evaluator.getLocales()[0])
+                        error(this.evaluator.getLocales()[0]),
                     ),
-                    event
+                    event,
                 );
         }
     }
@@ -184,7 +184,7 @@ export default class Webpage extends StreamValue<
             // Not a valid URL?
             if (
                 !/(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?\/[a-zA-Z0-9]{2,}|((https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z]{2,}(\.[a-zA-Z]{2,})(\.[a-zA-Z]{2,})?)|(https:\/\/www\.|http:\/\/www\.|https:\/\/|http:\/\/)?[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}\.[a-zA-Z0-9]{2,}(\.[a-zA-Z0-9]{2,})? /.test(
-                    this.url
+                    this.url,
                 )
             ) {
                 response = 'no-connection';
@@ -210,7 +210,7 @@ export default class Webpage extends StreamValue<
             if (typeof localStorage !== 'undefined')
                 localStorage.setItem(
                     'domainRequests',
-                    JSON.stringify(DomainCounts)
+                    JSON.stringify(DomainCounts),
                 );
 
             // console.error(
@@ -232,7 +232,7 @@ export default class Webpage extends StreamValue<
             } else {
                 // Get the response object from the fetch.
                 const fetchResponse = await this.evaluator.database.getHTML(
-                    this.url
+                    this.url,
                 );
 
                 // Get a reader from the response
@@ -288,7 +288,7 @@ export default class Webpage extends StreamValue<
 
                     // Decode into a UTF-8 string, then parse it as a JSON string, then set it as the response.
                     response = JSON.parse(
-                        new TextDecoder('utf-8').decode(chunksAll)
+                        new TextDecoder('utf-8').decode(chunksAll),
                     );
                 }
             }
@@ -307,13 +307,13 @@ export default class Webpage extends StreamValue<
         this.resetTimeout();
         this.timeout = setTimeout(
             () => this.get(),
-            Math.max(1, this.frequency) * 60 * 1000
+            Math.max(1, this.frequency) * 60 * 1000,
         );
     }
 
     getType() {
         return StreamType.make(
-            UnionType.make(ListType.make(TextType.make()), NoneType.make())
+            UnionType.make(ListType.make(TextType.make()), NoneType.make()),
         );
     }
 }
@@ -322,24 +322,24 @@ export function createWebpageDefinition(locales: Locales) {
     const url = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Webpage.url.doc),
         getNameLocales(locales, (locale) => locale.input.Webpage.url.names),
-        TextType.make()
+        TextType.make(),
     );
 
     const query = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Webpage.query.doc),
         getNameLocales(locales, (locale) => locale.input.Webpage.query.names),
         TextType.make(),
-        TextLiteral.make('')
+        TextLiteral.make(''),
     );
 
     const frequency = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Webpage.frequency.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Webpage.frequency.names
+            (locale) => locale.input.Webpage.frequency.names,
         ),
         NumberType.make(Unit.create(['min'])),
-        NumberLiteral.make('1', Unit.create(['min']))
+        NumberLiteral.make('1', Unit.create(['min'])),
     );
 
     return StreamDefinition.make(
@@ -347,7 +347,7 @@ export function createWebpageDefinition(locales: Locales) {
         getNameLocales(locales, (locale) => locale.input.Webpage.names),
         [url, query, frequency],
         createStreamEvaluator(
-            UnionType.make(ListType.make(TextType.make()), NoneType.make()),
+            UnionType.make(ListType.make(TextType.make()), NumberType.make()),
             Webpage,
             (evaluation) =>
                 new Webpage(
@@ -355,17 +355,17 @@ export function createWebpageDefinition(locales: Locales) {
                     evaluation.get(url.names, TextValue)?.text ?? '',
                     evaluation.get(query.names, TextValue)?.text ?? '',
                     evaluation.get(frequency.names, NumberValue)?.toNumber() ??
-                        1
+                        1,
                 ),
             (stream, evaluation) =>
                 stream.configure(
                     evaluation.get(url.names, TextValue)?.text ?? '',
                     evaluation.get(query.names, TextValue)?.text ?? '',
                     evaluation.get(frequency.names, NumberValue)?.toNumber() ??
-                        1
-                )
+                        1,
+                ),
         ),
-        UnionType.make(ListType.make(TextType.make()), NoneType.make())
+        UnionType.make(ListType.make(TextType.make()), NumberType.make()),
     );
 }
 
@@ -398,8 +398,8 @@ function getTextInNode(node: HTMLElement) {
         return n.nodeName === 'SCRIPT' || n.nodeName === 'STYLE'
             ? NodeFilter.FILTER_REJECT
             : n.nodeType === Node.TEXT_NODE
-            ? NodeFilter.FILTER_ACCEPT
-            : NodeFilter.FILTER_SKIP;
+              ? NodeFilter.FILTER_ACCEPT
+              : NodeFilter.FILTER_SKIP;
     });
     do {
         child = walk.nextNode();

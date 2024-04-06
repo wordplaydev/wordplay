@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Added emoji variation selectors to `PhraseView` to ensure proper rendering of color emoji on WebKit browsers.
 -   Empty list values should have an undefined item type, not a never type.
+-   Fixed types of Webpage stream, should have been number, not none.
 
 ### Maintenance
 
