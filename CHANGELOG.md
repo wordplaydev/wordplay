@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed types of Webpage stream, should have been number, not none.
 -   Don't show project footer in tutorial when in non-editable mode.
 -   [#410](https://github.com/wordplaydev/wordplay/issues/410): Fixed alignment of project preview glyphs.
+-   [#420](https://github.com/wordplaydev/wordplay/issues/420): Avoid setting tutorial project name.
 
 ### Maintenance
 
