@@ -147,10 +147,12 @@ export default class ListValue extends SimpleValue {
         if (this._type === undefined)
             // Cache a list type for this.
             this._type = ListType.make(
-                UnionType.getPossibleUnion(
-                    context,
-                    this.values.map((v) => v.getType(context)),
-                ),
+                this.values.length === 0
+                    ? undefined
+                    : UnionType.getPossibleUnion(
+                          context,
+                          this.values.map((v) => v.getType(context)),
+                      ),
             );
         return this._type;
     }
