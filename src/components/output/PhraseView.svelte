@@ -260,6 +260,7 @@
             />
         {:else if text instanceof TextLang}{withVariationSelector(
                 text.text,
+                true,
             )}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
                 inline
