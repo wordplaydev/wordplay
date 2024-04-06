@@ -19,7 +19,7 @@
     /** Whether to show the project's name. */
     export let name = true;
     /** How many rems the preview square should be. */
-    export let size = 4;
+    export let size = 6;
     /** The link to go to when clicked. If none is provided, goes to the project. */
     export let link: string | undefined = undefined;
 
