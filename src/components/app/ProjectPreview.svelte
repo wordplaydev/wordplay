@@ -53,15 +53,15 @@
             stage
                 ? stage.back.toCSS()
                 : value instanceof ExceptionValue || value === undefined
-                ? 'var(--wordplay-error)'
-                : null,
+                  ? 'var(--wordplay-error)'
+                  : null,
             stage
                 ? new UnicodeString(stage.getRepresentativeText($locales))
                       .substring(0, 1)
                       .toString()
                 : value
-                ? value.getRepresentativeText($locales)
-                : EXCEPTION_SYMBOL,
+                  ? value.getRepresentativeText($locales)
+                  : EXCEPTION_SYMBOL,
         ];
     }
 
@@ -91,7 +91,7 @@
             style:background={representativeBackground}
             style:color={representativeForeground}
             style:font-family={representativeFace}
-            style:font-size={`${size - 1}rem`}
+            style:font-size={`${size - 2}rem`}
             class:blurred={audience && isFlagged(project.getFlags())}
         >
             {representativeText}
@@ -125,7 +125,8 @@
 
     .output {
         display: flex;
-        align-items: center;
+        /** For some reason this is necessary for keeping the glyph centered. */
+        align-items: end;
         justify-content: center;
         width: 100%;
         height: 100%;
