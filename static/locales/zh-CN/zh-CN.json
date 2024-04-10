@@ -3115,9 +3115,15 @@
                 "names": "物体"
             },
             "aura": {
+<<<<<<< Updated upstream
                 "doc": "可选的@Aura显示在我后面。让我发光！",
                 "names": "aura"
             },            
+=======
+                "doc": "可选的光晕 @Aura。让我发光吧！",
+                "names": "光晕"
+            },
+>>>>>>> Stashed changes
             "name": {
                 "doc": "你给我起一个名字！这对很多事情都有帮助。\n 首先，如果我有名字，我会用它在屏幕阅读器描述中描述自己。\n 第二，在制作动画时，您可能有多个不同的表达式，这些表达式应该在舞台上表示相同的内容；给它们相同的名称，它们就会作为一个动画。 \n 最后，我对 @Choice 很有帮助：你给我的名字出现在该信息流中。 \n 如果有帮助的话，您可以给我许多不同的名称，每个名称都采用不同的语言。我将始终在第一个选定的区域设置中使用该名称",
                 "names": "名字"
@@ -3499,6 +3505,7 @@
             }
         },
         "Aura": {
+<<<<<<< Updated upstream
             "doc": [
                 "我是一个AURA。我让@Phrase发光！像这样：",
                 "\\Phrase(\n\t'我在发光！' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
@@ -3519,6 +3526,25 @@
             "offsetY": {
                 "doc": "我应该出现在上方还是下方多远。\\0m\\是正下方。",
                 "names": "offsetY"
+=======
+            "doc": "我是光晕",
+            "names": ["🔮", "光晕"],
+            "color": {
+                "doc": "@Aura 的颜色。",
+                "names": "颜色"
+            },
+            "blur": {
+                "doc": "@Aura 的模糊程度。",
+                "names": "模糊度"
+            },
+            "offsetX": {
+                "doc": "@Aura 向右偏移多少。",
+                "names": "水平偏移量"
+            },
+            "offsetY": {
+                "doc": "@Aura 向下偏移多少。",
+                "names": "垂直偏移量"
+>>>>>>> Stashed changes
             }
         },        
         "Stage": {
@@ -4106,6 +4132,7 @@
                 "notSequence": "不是一个序列",
                 "notContent": "不是内容列表",
                 "format": "格式",
+<<<<<<< Updated upstream
                 "weight": "weight",
                 "light": "light",
                 "normal": "normal",
@@ -4113,6 +4140,15 @@
                 "extra": "extra",
                 "italic": "italic",
                 "underline": "underline"
+=======
+                "weight": "粗细",
+                "light": "细体",
+                "normal": "正常",
+                "bold": "粗体",
+                "extra": "粗粗体",
+                "italic": "斜体",
+                "underline": "下划线"
+>>>>>>> Stashed changes
             },
             "button": {
                 "revert": "回复默认设置",
