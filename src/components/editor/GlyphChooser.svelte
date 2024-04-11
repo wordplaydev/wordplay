@@ -4,7 +4,7 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Label from '@components/widgets/Label.svelte';
-    import DropdownButton, { type MenuItem } from '@components/widgets/DropdownButton.svelte';
+    import DropdownButton from '@components/widgets/DropdownButton.svelte';
     import GlyphSearchArea from './GlyphSearchArea.svelte';
     import type { WordplayCategories } from '../../unicode/Unicode';
 
@@ -14,32 +14,15 @@
         (command) => command.category === Category.Insert
     );
 
-    const categories: MenuItem<WordplayCategories>[] =  [
-        {
-            label: "Emojis",
-            value: "emojis"
-        }, 
-        {
-            label: "Arrows",
-            value: "arrows"
-        }, 
-        {
-            label: "Shapes",
-            value: "shapes"
-        }, 
-        {
-            label: "Other",
-            value: "other"
-        }, 
+    const categories: (WordplayCategories | "symbols")[] =  [
+        "symbols",
+        "emojis",
+        "arrows",
+        "shapes",
+        "other",
     ]
     let dropdownLabel = 'Symbols';
     let dropdownValue: WordplayCategories | undefined = undefined;
-    // [
-    //     CHANGE_SYMBOL,
-    //     DEGREE_SYMBOL,
-    //     EXAMPLE_OPEN_SYMBOL,
-    //     EXAMPLE_CLOSE_SYMBOL,
-    // ];
 
     let expanded = false;
 </script>
@@ -56,15 +39,18 @@
                                 focusAfter
                             />{/each}
             </div>
-            <DropdownButton
-                menuItems={categories}
-                direction="up"
-                onSelect={(item) => {
-                    dropdownLabel = item.label;
-                    expanded = true;
-                }}
-                bind:value={dropdownValue}
-            > {dropdownLabel} </DropdownButton> 
+            <div class="combo-wrapper">
+                <DropdownButton
+                    options={categories}
+                    direction="up"
+                    fill
+                    onSelect={(item) => {
+                        dropdownLabel = item;
+                        expanded = true;
+                    }}
+                    bind:value={dropdownValue}
+                />
+            </div>
         </div>
         <div class="toggleWrapper">
             <Toggle
@@ -124,6 +110,15 @@
 
     .expanded {
         display: block;
+    }
+
+    .combo-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+        justify-content: start;
+        width: 120px;
     }
 
 </style>
