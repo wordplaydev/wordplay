@@ -74,13 +74,14 @@
         "URL": "URL",
         "Mention": "mention",
         "Otherwise": "otherwise",
+        "Match": "match",
         "None": "nothing",
         "Type": "type",
         "Literal": "literal",
         "TypeOperator": "is",
         "TypeOpen": "type input open",
         "TypeClose": "type input close",
-        "Separator": "$name separator",
+        "Separator": "name separator",
         "Language": "language tag",
         "Region": "region dash",
         "BooleanType": "boolean type",
@@ -406,8 +407,8 @@
             "finish": "oh nice, I got $1! Let's name it $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "someone has the name $1, so I can't have this name.",
-                    "secondary": "uh, $1 is my name"
+                    "primary": "someone has the name $1 so I can't have this name.",
+                    "secondary": "hey, $1 is my name, you can't have it!"
                 },
                 "DuplicateShare": {
                     "primary": "I have the same name as $1, which makes what is shared ambiguous",
@@ -421,7 +422,7 @@
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
                 "RequiredAfterOptional": "I can't be here, there's an optional @Bind before me",
                 "UnexpectedEtc": "I can only be variable length in a @FunctionDefinition",
-                "UnusedBind": "hey, I named this value, but no one is using it!"
+                "UnusedBind": "I named $1, but no one is using it. Maybe it's not needed?"
             }
         },
         "Block": {
@@ -769,15 +770,15 @@
             "item": "item"
         },
         "Spread": {
-            "name": "list spread",
+            "name": "spread",
             "emotion": "serious",
             "doc": [
                 "A help you make lists with the values of other lists. Like this:",
-                "\\list1: [1 2 3]\nlist2: [4 5 6]\nfinal: [list1… list2…]"
+                "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
             ]
         },
         "MapLiteral": {
-            "name": "map",
+            "name": "map literal",
             "description": "$1 pairing map",
             "emotion": "kind",
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
@@ -789,6 +790,23 @@
                     "secondary": "oops, where's my value?"
                 }
             }
+        },
+        "Match": {
+            "name": "match",
+            "emotion": "curious",
+            "doc": [
+                "I am the most glorious of all conditional checks! I take a value and compares it against any number of cases, and evaluates the corresponding expression that matches.",
+                "For example, if you had a @Number and wanted to convert it to a @Text, you might do something like this:",
+                "\\number: 2\nnumber ??? 1: 'one' 2: 'two' 3: 'three' 'bigger!'\\",
+                "If none match, I evaluate the default expression you give me.",
+                "I'm really helpful for convering one of many possible @Number, @Text, or more complex values into something else.",
+                "You can use it for @Boolean or @None, but they can't really be that many things, so I'm not as useful for those simple values."
+            ],
+            "start": "Let's see what $1 is...",
+            "case": "Let's check this condition",
+            "finish": "Okay, we have a final value!",
+            "value": "value",
+            "other": "default"
         },
         "NumberLiteral": {
             "name": "number literal",
@@ -887,7 +905,13 @@
                 "That's so much easier than making a whole new \\Cat\\ with the same values except for the hobby, isn't it?"
             ],
             "start": "first let's get the value",
-            "finish": "I copied the structure, but with $1 as $2"
+            "finish": "I copied the structure, but with $1 as $2",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "I'm not an input of $1, so I can't be refined.",
+                    "secondary": "I don't have an input named $1"
+                }
+            }
         },
         "PropertyReference": {
             "name": "property",
@@ -1127,13 +1151,16 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is/",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition here, @UnparsableExpression doesn't know what kind of $1[ expression | type ] this is.",
+                    "resolution": "Did you mean a $1, $2?"
+                },
                 "UnclosedDelimiter": "I expected $2 sometime after $1"
             },
             "exception": {
                 "UnparsableException": {
                     "description": "???",
-                    "explanation": "/Hi, @FunctionDefinition here! We had to stop the performance because we didn't know what kind of instruction this is./"
+                    "explanation": "Hi, @FunctionDefinition here! We're not sure what this instruction means, so we stopped."
                 }
             }
         },
@@ -1959,10 +1986,10 @@
             "function": {
                 "add": {
                     "doc": [
-                        "I create a new @List with the given item.",
+                        "I create a new @List with the given item at the end.",
                         "\\['apple' 'banana' 'mango'].add('watermelon')\\"
                     ],
-                    "names": ["add"],
+                    "names": ["with", "add"],
                     "inputs": [
                         {
                             "doc": "I the value you want to add.",
@@ -1973,11 +2000,11 @@
                 "append": {
                     "doc": [
                         "I create a new @List with my values, then all the values of the given @List after me.",
-                        "\\['apple' 'banana' 'mango'].append(['watermelon' 'starfruit'])\\",
+                        "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
                         "It's a little bit easier to use @Spread though, like this:",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
-                    "names": ["append"],
+                    "names": ["withList", "append"],
                     "inputs": [
                         { "doc": "The list of values to add.", "names": "list" }
                     ]
@@ -2085,7 +2112,7 @@
                         "I create a list without my first item.",
                         "\\['apple' 'banana' 'mango'].sansFirst()\\"
                     ],
-                    "names": "sansFirst",
+                    "names": ["withoutFirst", "sansFirst"],
                     "inputs": []
                 },
                 "sansLast": {
@@ -2093,7 +2120,7 @@
                         "I create a list without my last item.",
                         "\\['apple' 'banana' 'mango'].sansLast()\\"
                     ],
-                    "names": "sansLast",
+                    "names": ["withoutLast", "sansLast"],
                     "inputs": []
                 },
                 "sans": {
@@ -2101,7 +2128,7 @@
                         "Me, but without the first occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": "sans",
+                    "names": ["without", "sans"],
                     "inputs": [
                         {
                             "doc": "The value to remove the first occurence of.",
@@ -2114,7 +2141,7 @@
                         "Me, but without all occurences of the given value.",
                         "\\['apple' 'banana' 'mango' 'apple'].sans('apple')\\"
                     ],
-                    "names": "sansAll",
+                    "names": ["withoutAll", "sansAll"],
                     "inputs": [
                         {
                             "doc": "The value to remove all occurences of from the list.",
@@ -2127,7 +2154,7 @@
                         "Me, but in reverse!",
                         "\\['apple' 'banana' 'mango'].reverse()\\"
                     ],
-                    "names": "reverse",
+                    "names": ["reversed", "reverse"],
                     "inputs": []
                 },
                 "equals": {
@@ -2413,7 +2440,7 @@
                         "Give me an item to add and I'll make a new @Set with my items and the given item.",
                         "\\{1 2 3} + 4\\"
                     ],
-                    "names": ["add", "+"],
+                    "names": ["with", "add", "+"],
                     "inputs": [{ "doc": "The item to add", "names": "item" }]
                 },
                 "remove": {
@@ -3783,11 +3810,11 @@
             ],
             "name": {
                 "names": "name",
-                "doc": "$?"
+                "doc": "The name of the source file to create or update."
             },
             "value": {
                 "names": "value",
-                "doc": "$?"
+                "doc": "The data value that the source file should be created or updated with."
             },
             "DynamicEditLimitException": {
                 "description": "dynamic source edit limit",
@@ -3873,6 +3900,7 @@
                 }
             },
             "help": "show keyboard shortcuts",
+            "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
             "save": {
                 "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
                 "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",
@@ -3887,6 +3915,7 @@
         },
         "gallery": {
             "untitled": "Untitled",
+            "undescribed": "No description",
             "subheader": {
                 "curators": {
                     "header": "Curators",
@@ -4019,7 +4048,8 @@
                 "undo": "undo previous edit",
                 "redo": "redo undone edit",
                 "search": "search for special characters to insert",
-                "tidy": "tidy spacing"
+                "tidy": "tidy spacing",
+                "elide": "toggle elision"
             }
         },
         "annotations": {
@@ -4172,6 +4202,13 @@
                             "light colors",
                             "dark colors",
                             "use device setting"
+                        ]
+                    },
+                    "space": {
+                        "label": "space indicator",
+                        "modes": [
+                            "show space and tab indicators explicitly",
+                            "do not show space and tab indicators"
                         ]
                     },
                     "writing": {
@@ -4366,7 +4403,6 @@
                 "prompt": {
                     "login": "Your performances are saving in this browser, but not online. If this is your device, that's okay! If it's not, others will have access to your projects, and you may lose them. To save them online and keep them private, log in or <create an account@://join>:",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
-                    "email": "Do you have a legacy email-only account? Submit your email and we'll send you a sign-in link.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
                     "tooyoung": "You must be 13 or older to login with an email.",
@@ -4374,7 +4410,8 @@
                     "passwordreminder": "It looks like you don't have an account yet. Enter your password again and make sure you've stored it safely and correctly, since it is not recoverable.",
                     "changeEmail": "Want to change your email? Submit a new one and we'll send a confirmation to the old one.",
                     "changePassword": "Want to change your password? Submit a new one and repeat it.",
-                    "sent": "If this email is associated with an account, it will receive a login link.",
+                    "email": "Do you have an email-only account? Login by submit your email, and if there is account associated with it, we'll send you an email with sign-in link. New email-only accounts are not supported, to preserve privacy.",
+                    "sent": "If this email is associated with an account, it will receive an email with a login link. It may take a few minutes to appear. If there is no account associated with this email, you will not receive anything.",
                     "logout": "Are you using a shared device and want to keep your projects private? Logout and we'll *delete your projects* from this device, but they will be saved online.",
                     "success": "Account created!",
                     "confirm": "Check your old email address to confirm you new address.",
@@ -4390,7 +4427,8 @@
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
-                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username."
+                    "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
+                    "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
                 },
                 "feedback": {
                     "changing": "Submitting new email...",
@@ -4455,7 +4493,7 @@
                 "header": "Rights",
                 "content": [
                     "Hi!",
-                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>)",
+                    "Let's set some expectations about your rights and ours (also in light of policy, such as the <COPPA@https://www.ecfr.gov/current/title-16/chapter-I/subchapter-C/part-312> and <GDPR@https://gdpr.eu/compliance-checklist-us-companies/>).",
                     "The first thing to know is that we are not a commercial entity. We are a community-based research project housed at a not-for-profit university. Our goal is to create a platform that brings you joy and helps us make discoveries about a more equitable and just world of computing. We have no interest in making money on this platform; any money we gather (usually through public funding) is used to sustain the platform, not to enrich anyone who works on it (or contributes to it).",
                     "Because we are not seeking profit, this also means that we can't make any promises about the reliability, availability, or longevity of this platform. That said, <Amy@https://amyjko.phd> is committed long term to sustaining it, and as a tenured professor, she's got a pretty stable gig.",
                     "That brings is to *data*. Here's what we gather and store in the cloud:",

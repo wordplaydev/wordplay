@@ -16,6 +16,7 @@ import {
 } from '@parser/Tokenizer';
 import {
     CONVERT_SYMBOL,
+    ELISION_SYMBOL,
     PROPERTY_SYMBOL,
     STREAM_SYMBOL,
 } from '@parser/Symbols';
@@ -397,8 +398,12 @@ export default class Caret {
         return /[\t]/.test(c);
     }
 
-    isNode() {
+    isNode(): this is { position: Node } {
         return this.position instanceof Node;
+    }
+
+    isPosition(): this is { position: number } {
+        return typeof this.position === 'number';
     }
 
     isAtPropertyReference() {
@@ -1288,8 +1293,10 @@ export default class Caret {
                             ),
                         ];
                     }
-                    // If allows and requires an expression, replace it with an expression placeholder, since it's required.
+                    // If the node allows and requires an expression, replace it with an expression placeholder, since it's required,
+                    // unless it's already an expression placeholder.
                     else if (
+                        !(node instanceof ExpressionPlaceholder) &&
                         !(kind instanceof ListOf) &&
                         kind.allowsKind(Expression)
                     ) {
@@ -1530,5 +1537,76 @@ export default class Caret {
             (a): a is LanguageTagged => a instanceof LanguageTagged,
         );
         return text?.language?.getLanguageCode();
+    }
+
+    /** Toggles an elision at the current position */
+    elide(): Edit | undefined {
+        const source = this.source;
+        const code = source.getCode();
+
+        // If it's a position...
+        if (this.isPosition()) {
+            // Check if the position is inside an elision, including the directly before and after the elision symbols.
+            const token = source.getTokenWithSpaceAt(this.position);
+            // Is the caret at a position inside an elision? Unwrap any elisions.
+            if (token) {
+                const space = source.getSpaces().getSpace(token);
+                if (space.indexOf(ELISION_SYMBOL) >= 0) {
+                    const start = source.getNodeFirstPosition(token);
+                    const end = source.getNodeLastPosition(token);
+                    if (start !== undefined && end !== undefined)
+                        return [
+                            source.withCode(
+                                code.substring(
+                                    0,
+                                    start -
+                                        new UnicodeString(space).getLength(),
+                                ) +
+                                    space.replaceAll(ELISION_SYMBOL, '') +
+                                    code.substring(start, code.getLength()),
+                            ),
+                            this.withPosition(this.position - 1),
+                        ];
+                    else return undefined;
+                }
+            }
+        }
+
+        // If this is a node, elide the node, otherwise, find the first expression parent of the token we're at, excluding space.
+        const node = this.isNode()
+            ? this.position
+            : this.tokenExcludingSpace
+              ? this.source.root
+                    .getAncestors(this.tokenExcludingSpace)
+                    .find((n) => n instanceof Expression)
+              : undefined;
+
+        /** The caret is a node selection, elide the node. */
+        if (node) {
+            const start = source.getNodeFirstPosition(node);
+            const end = source.getNodeLastPosition(node);
+            if (start !== undefined && end !== undefined) {
+                return [
+                    source.withCode(
+                        code.substring(0, start) +
+                            ELISION_SYMBOL +
+                            code.substring(start, end) +
+                            ELISION_SYMBOL +
+                            code.substring(end, code.getLength()),
+                    ),
+                    this.withPosition(start + 1),
+                ];
+            }
+        } else if (this.isPosition())
+            // If it's not, insert a new elision and place the caret inside it.
+            return [
+                source.withCode(
+                    code.substring(0, this.position) +
+                        ELISION_SYMBOL +
+                        ELISION_SYMBOL +
+                        code.substring(this.position, code.getLength()),
+                ),
+                this.withPosition(this.position + 1),
+            ];
     }
 }

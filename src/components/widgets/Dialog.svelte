@@ -42,18 +42,19 @@
         ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
         : undefined}
 >
+    {#if closeable}
+        <div class="close">
+            <Button
+                tip={$locales.get((l) => l.ui.widget.dialog.close)}
+                action={() => (show = false)}>❌</Button
+            >
+        </div>
+    {/if}
+
     <div class="content">
         <Header>{description.header}</Header>
         <MarkupHtmlView markup={description.explanation} />
         <slot />
-        {#if closeable}
-            <div class="close">
-                <Button
-                    tip={$locales.get((l) => l.ui.widget.dialog.close)}
-                    action={() => (show = false)}>❌</Button
-                >
-            </div>
-        {/if}
     </div>
 </dialog>
 
@@ -61,7 +62,7 @@
     dialog {
         position: relative;
         border-radius: var(--wordplay-border-radius);
-        padding: 2em;
+        padding: 1em;
         margin-left: auto;
         margin-right: auto;
         max-width: 40em;
@@ -77,12 +78,15 @@
     }
 
     .close {
-        position: absolute;
-        top: calc(2 * var(--wordplay-spacing));
-        right: calc(2 * var(--wordplay-spacing));
+        position: sticky;
+        top: 0;
+        width: 100%;
+        text-align: right;
     }
 
     .content {
         min-height: 100%;
+        padding: 1em;
+        padding-top: 0;
     }
 </style>

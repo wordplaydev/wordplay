@@ -852,12 +852,11 @@ export default class Evaluator {
             this.step();
             if (limit) {
                 count++;
-                // Measure time every 10000 steps.
-                if (count > 10000) {
+                // Measure time every 1000 steps.
+                if (count > 1000) {
                     const delta = performance.now() - start;
                     // Oops, we've reached our evaluation time limit! Schedule completion in the next frame.
                     if (delta > 25) {
-                        console.log('Finishing later ' + limit);
                         this.later(() => {
                             this.finish(limit);
                         });
@@ -895,6 +894,12 @@ export default class Evaluator {
         if (latest && !this.#replayingInputs) {
             this.editSource(latest);
         }
+
+        // Update the physics engine to see if there are any collisions.
+        // We do this here at the end of a program evaluation just in case
+        // there aren't any temporal streams that tick the physics engine.
+        // based on time.
+        if (this.scene) this.scene.physics.tick(0);
 
         // Notify observers.
         this.broadcast();

@@ -137,10 +137,8 @@
                 : act
                   ? act.title
                   : $locales.getLocale().wordplay,
-            new Source(
-                $locales.get((l) => l.term.start),
-                source,
-            ),
+            // Don't give the souce a name, otherwise it won't be localized on language change.
+            new Source('', source),
             [],
             $locales.getLocales(),
             $user?.uid ?? null,

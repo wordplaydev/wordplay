@@ -80,15 +80,20 @@ export default class MapLiteral extends Expression {
                 kind: list(true, node(KeyValue)),
                 space: true,
                 indent: true,
-                newline:
-                    this.values.reduce(
-                        (sum, value) => sum + value.toWordplay().length,
-                        0,
-                    ) > MAX_LINE_LENGTH,
+                newline: this.wrap(),
             },
-            { name: 'close', kind: node(Sym.SetClose) },
+            { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {

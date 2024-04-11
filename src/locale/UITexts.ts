@@ -129,6 +129,8 @@ type UITexts = {
         };
         /** The keyboard shortcut to show the shortcut menu */
         help: string;
+        /** The text to show when all of the tiles are collapsed. */
+        collapsed: string;
         /** The messages shown for save status */
         save: {
             /** When projects fail to save locally */
@@ -153,6 +155,8 @@ type UITexts = {
     gallery: {
         /** What to call a gallery by default, before it's given a name */
         untitled: string;
+        /** What to say if the description is empty */
+        undescribed: string;
         /** Headers on the page */
         subheader: {
             /** The list of curators */
@@ -313,6 +317,8 @@ type UITexts = {
             search: string;
             /** Tidy spacing */
             tidy: string;
+            /** Toggle elision */
+            elide: string;
         };
     };
     /** The conflicts area in the margin of the editor. */
@@ -580,6 +586,8 @@ type UITexts = {
                 dark: ModeText<[string, string, string]>;
                 /** The writing layout direction */
                 writing: ModeText<[string, string, string]>;
+                /** The space_indicator on/off mode */
+                space: ModeText<[string, string]>;
             };
             options: {
                 /** The label for the microphone drop down */
@@ -822,6 +830,8 @@ type UITexts = {
                 delete: string;
                 /** When a password is wrong */
                 wrongPassword: string;
+                /** When there are too mant failed attempts */
+                tooMany: string;
             };
             button: {
                 /** Log out of the account */

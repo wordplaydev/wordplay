@@ -28,7 +28,7 @@
                   .getDescription(
                       concretize,
                       $locales,
-                      $evaluation.evaluator.project.getNodeContext(node)
+                      $evaluation.evaluator.project.getNodeContext(node),
                   )
                   .toText()
             : null;
@@ -47,13 +47,13 @@
         )
             value =
                 $evaluation.evaluator.getLatestExpressionValueInEvaluation(
-                    node
+                    node,
                 );
     }
 
     // Get the root's computed spaces store
     let spaces = getSpace();
-    // See if this node has any to render.
+    // See if this node has any space to render.
     $: space = node && $spaces ? $spaces.get(node) : undefined;
 
     // Get the hidden context.

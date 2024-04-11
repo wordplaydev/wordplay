@@ -23,7 +23,7 @@ export default class ListType extends BasisType {
         open: Token,
         type: Type | undefined,
         close: Token | undefined,
-        length?: number
+        length?: number,
     ) {
         super();
 
@@ -40,14 +40,14 @@ export default class ListType extends BasisType {
             new Token(LIST_OPEN_SYMBOL, Sym.ListOpen),
             type,
             new Token(LIST_CLOSE_SYMBOL, Sym.ListClose),
-            length
+            length,
         );
     }
 
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             ListType.make(),
@@ -71,7 +71,7 @@ export default class ListType extends BasisType {
         return new ListType(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('type', this.type, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -87,8 +87,12 @@ export default class ListType extends BasisType {
                 (this.type === undefined ||
                     // If the given type has no type specified, any will do
                     type.type === undefined ||
-                    this.type.accepts(type.type, context))
+                    this.type.accepts(type.type, context)),
         );
+    }
+
+    concretize(context: Context): Type {
+        return ListType.make(this.type?.concretize(context));
     }
 
     generalize(context: Context) {

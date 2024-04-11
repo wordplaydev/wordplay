@@ -75,6 +75,7 @@
         "Code": "codigo",
         "Mention": "mencionar",
         "Otherwise": "si no",
+        "Match": "$?",
         "None": "nada",
         "Type": "escribir",
         "Literal": "literal",
@@ -401,7 +402,7 @@
                 "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
                 "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
                 "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
-                "UnusedBind": "oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
+                "UnusedBind": "$! oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
             }
         },
         "Block": {
@@ -770,6 +771,16 @@
                 }
             }
         },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
+        },
         "NumberLiteral": {
             "name": "número específico",
             "description": "$1 $2[$2|]",
@@ -867,7 +878,13 @@
                 "¡Eso es mucho más fácil que hacer un nuevo \\Gato\\ con los mismos valores excepto por el pasatiempo, ¿verdad?"
             ],
             "start": "primero obtengamos el valor",
-            "finish": "Copié la estructura, pero con $1 como $2"
+            "finish": "Copié la estructura, pero con $1 como $2",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "propiedad",
@@ -1107,7 +1124,10 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "Esperaba $2 en algún momento después de $1"
             },
             "exception": {
@@ -3909,6 +3929,7 @@
                 }
             },
             "help": "mostrar atajos de teclado",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "Hubo un problema al guardar proyectos en tu navegador.",
                 "projectsCannotNotSaveLocally": "Tu navegador no admite guardar proyectos.",
@@ -3923,6 +3944,7 @@
         },
         "gallery": {
             "untitled": "Intitulada",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "Curadoras",
@@ -4055,7 +4077,8 @@
                 "undo": "deshacer edición anterior",
                 "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar",
-                "tidy": "espaciado ordenado"
+                "tidy": "espaciado ordenado",
+                "elide": "$?"
             }
         },
         "annotations": {
@@ -4214,6 +4237,10 @@
                             "colores oscuros",
                             "usar configuración del dispositivo"
                         ]
+                    },
+                    "space": {
+                        "label": "$! indicador de espacio",
+                        "modes": ["$! abierto", "$! cerrado"]
                     },
                     "writing": {
                         "label": "diseño de escritura",
@@ -4410,7 +4437,6 @@
                 "prompt": {
                     "login": "Tus actuaciones se estan guardano en este navegador, pero no en línea. Si este es tu dispositivo, ¡está bien! Si no es así, otros tendrán acceso a tus proyectos y es posible que los pierdas. Para guardarlos en línea y mantenerlos privados, inicie sesión o <cree una cuenta@://join>:",
                     "forgot": "*¿Olvidaste tu contraseña?* Desafortunadamente, no podemos recuperar tu cuenta ya que no recopilamos información de contacto.",
-                    "email": "¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
                     "tooyoung": "Debes tener 13 años o más para iniciar sesión con un correo electrónico.",
@@ -4418,7 +4444,8 @@
                     "passwordreminder": "Parece que estás creando una cuenta. Verifica tu contraseña, asegúrate de haberla almacenado de manera segura y correctamente, luego envía nuevamente para crear tu cuenta.",
                     "changeEmail": "¿Quieres cambiar tu correo electrónico? Envía uno nuevo y te enviaremos una confirmación al antiguo.",
                     "changePassword": "¿Quieres cambiar tu contraseña? Envía una nueva y repítela.",
-                    "sent": "Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
+                    "email": "$! ¿Tiene una cuenta heredada solo de correo electrónico? Envíe su correo electrónico y le enviaremos un enlace de inicio de sesión",
+                    "sent": "$! Si este correo electrónico está asociado con una cuenta, recibirá un enlace de inicio de sesión.",
                     "logout": "¿Estás saliendo de un dispositivo compartido y quieres mantener tus proyectos privados? Cierra la sesión y borraremos tus proyectos de este dispositivo. Todavía se almacenarán en línea.",
                     "success": "¡Cuenta creada!",
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
@@ -4434,7 +4461,8 @@
                     "offline": "Pareces estar desconectada.",
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
                     "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
-                    "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario."
+                    "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",

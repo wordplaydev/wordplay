@@ -28,7 +28,7 @@ export default class ConversionType extends Type {
         return new ConversionType(
             input,
             new Token(CONVERT_SYMBOL, Sym.Convert),
-            output
+            output,
         );
     }
 
@@ -48,7 +48,7 @@ export default class ConversionType extends Type {
         return new ConversionType(
             this.replaceChild('input', this.input, replace),
             this.replaceChild('convert', this.convert, replace),
-            this.replaceChild('output', this.output, replace)
+            this.replaceChild('output', this.output, replace),
         ) as this;
     }
 
@@ -65,8 +65,15 @@ export default class ConversionType extends Type {
                     this.input.accepts(type.input, context) &&
                     this.output instanceof Type &&
                     type.output instanceof Type &&
-                    this.output.accepts(type.output, context)
+                    this.output.accepts(type.output, context),
             );
+    }
+
+    concretize(context: Context) {
+        return ConversionType.make(
+            this.input.concretize(context),
+            this.output.concretize(context),
+        );
     }
 
     getBasisTypeName(): BasisTypeName {

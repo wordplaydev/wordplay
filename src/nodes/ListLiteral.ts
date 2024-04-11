@@ -79,16 +79,21 @@ export default class ListLiteral extends Expression {
                     new AnyType(),
                 space: true,
                 // Add line breaks if greater than 40 characters long.
-                newline:
-                    this.values.reduce(
-                        (sum, value) => sum + value.toWordplay().length,
-                        0,
-                    ) > MAX_LINE_LENGTH,
+                newline: this.wrap(),
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.ListClose) },
+            { name: 'close', kind: node(Sym.ListClose), newline: this.wrap() },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
+    }
+
+    wrap(): boolean {
+        return (
+            this.values.reduce(
+                (sum, value) => sum + value.toWordplay().length,
+                0,
+            ) > MAX_LINE_LENGTH
+        );
     }
 
     clone(replace?: Replacement) {

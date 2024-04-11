@@ -24,8 +24,10 @@
     }`;
 </script>
 
-<!-- Note that we don't make the button inactive using "disabled" because that makes
-    it invisible to screen readers. -->
+<!-- 
+    Note: we don't make the button inactive using "disabled" because that makes it invisible to screen readers. 
+    Note: we prevent mouse down default to avoid stealing keyboard focus. 
+-->
 <button
     type="button"
     data-uiid={uiid}
@@ -35,6 +37,7 @@
     aria-disabled={!active}
     aria-pressed={on}
     on:dblclick|stopPropagation
+    on:mousedown|preventDefault
     on:click={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >
@@ -59,13 +62,17 @@
         padding: calc(var(--wordplay-spacing) / 2);
         cursor: pointer;
         width: fit-content;
+        max-width: 10em;
+        overflow: hidden;
+        text-overflow: ellipsis;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
         line-height: 1;
+        /* Don't let it shrink smaller than its width */
+        flex-shrink: 0;
 
         /** Allows for command hint layout */
         position: relative;
-        overflow: visible;
     }
 
     button.on {
@@ -73,12 +80,13 @@
         color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
-        box-shadow: inset 0px 1px var(--wordplay-chrome);
+        box-shadow: inset 1px 2px var(--wordplay-chrome);
         transform: scale(0.9);
     }
 
     button:hover {
         transform: scale(1.1);
+        background: var(--wordplay-alternating-color);
     }
 
     [aria-disabled='true'] {

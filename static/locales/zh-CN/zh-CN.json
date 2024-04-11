@@ -75,6 +75,7 @@
         "Code": "代码",
         "Mention": "提到",
         "Otherwise": "否则",
+        "Match": "$?",
         "None": "空的",
         "Type": "类型",
         "Literal": "字面量",
@@ -422,7 +423,7 @@
                 "MissingShareLanguages": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
                 "RequiredAfterOptional": "我不能在这，这里还有一个可选的 @Bind 在我前面",
                 "UnexpectedEtc": "只有在 @FunctionDefinition 中我才是可变的长度",
-                "UnusedBind": "嘿，我给这这个变量命名了，但是它还没有被使用呢！"
+                "UnusedBind": "$! 嘿，我给这这个变量命名了，但是它还没有被使用呢！"
             }
         },
         "Block": {
@@ -791,6 +792,16 @@
                 }
             }
         },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
+        },
         "NumberLiteral": {
             "name": "具体数字",
             "description": "$1 $2[$2|]",
@@ -888,7 +899,13 @@
                 "这比做一个全新的\\猫\\ \\要简单得多，除了爱好之外，还有相同的值，不是吗?"
             ],
             "start": "首先让我们获取值",
-            "finish": "我复制了这个结构，但是把1$改成了2$"
+            "finish": "我复制了这个结构，但是把1$改成了2$",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "性质",
@@ -1128,7 +1145,10 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "我期望在 $1 之后的某个时刻会有 $2"
             },
             "exception": {
@@ -3115,15 +3135,9 @@
                 "names": "物体"
             },
             "aura": {
-<<<<<<< Updated upstream
-                "doc": "可选的@Aura显示在我后面。让我发光！",
-                "names": "aura"
-            },            
-=======
                 "doc": "可选的光晕 @Aura。让我发光吧！",
                 "names": "光晕"
             },
->>>>>>> Stashed changes
             "name": {
                 "doc": "你给我起一个名字！这对很多事情都有帮助。\n 首先，如果我有名字，我会用它在屏幕阅读器描述中描述自己。\n 第二，在制作动画时，您可能有多个不同的表达式，这些表达式应该在舞台上表示相同的内容；给它们相同的名称，它们就会作为一个动画。 \n 最后，我对 @Choice 很有帮助：你给我的名字出现在该信息流中。 \n 如果有帮助的话，您可以给我许多不同的名称，每个名称都采用不同的语言。我将始终在第一个选定的区域设置中使用该名称",
                 "names": "名字"
@@ -3505,28 +3519,6 @@
             }
         },
         "Aura": {
-<<<<<<< Updated upstream
-            "doc": [
-                "我是一个AURA。我让@Phrase发光！像这样：",
-                "\\Phrase(\n\t'我在发光！' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
-            ],
-            "names": ["🔮", "Aura"],
-            "color": {
-                "doc": "@Color是@Aura应该呈现的颜色。",
-                "names": "color"
-            },
-            "blur": {
-                "doc": "@Aura应该有多模糊。\\0m\\意味着完全不模糊。",
-                "names": "blur"
-            },
-            "offsetX": {
-                "doc": "我应该出现在左边还是右边多远。\\0m\\是正下方。",
-                "names": "offsetX"
-            },
-            "offsetY": {
-                "doc": "我应该出现在上方还是下方多远。\\0m\\是正下方。",
-                "names": "offsetY"
-=======
             "doc": "我是光晕",
             "names": ["🔮", "光晕"],
             "color": {
@@ -3544,7 +3536,6 @@
             "offsetY": {
                 "doc": "@Aura 向下偏移多少。",
                 "names": "垂直偏移量"
->>>>>>> Stashed changes
             }
         },        
         "Stage": {
@@ -3784,6 +3775,7 @@
                 }
             },
             "help": "显示键盘快捷键",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "在浏览器中保存项目时遇到问题。",
                 "projectsCannotNotSaveLocally": "您的浏览器不支持保存项目。",
@@ -3798,6 +3790,7 @@
         },
         "gallery": {
             "untitled": "未命名",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "策展人",
@@ -3930,7 +3923,8 @@
                 "undo": "类型字符",
                 "redo": "撤销上次编辑",
                 "search": "查找要插入的特殊字符",
-                "tidy": "整理间距"
+                "tidy": "整理间距",
+                "elide": "$?"
             }
         },
         "annotations": {
@@ -4081,6 +4075,10 @@
                         "label": "主题",
                         "modes": ["浅色", "深色", "使用设备设置"]
                     },
+                    "space": {
+                        "label": "$! 空格指示器",
+                        "modes": ["$! 开启", "$! 关闭"]
+                    },
                     "writing": {
                         "label": "写作布局",
                         "modes": [
@@ -4132,15 +4130,6 @@
                 "notSequence": "不是一个序列",
                 "notContent": "不是内容列表",
                 "format": "格式",
-<<<<<<< Updated upstream
-                "weight": "weight",
-                "light": "light",
-                "normal": "normal",
-                "bold": "bold",
-                "extra": "extra",
-                "italic": "italic",
-                "underline": "underline"
-=======
                 "weight": "粗细",
                 "light": "细体",
                 "normal": "正常",
@@ -4148,7 +4137,6 @@
                 "extra": "粗粗体",
                 "italic": "斜体",
                 "underline": "下划线"
->>>>>>> Stashed changes
             },
             "button": {
                 "revert": "回复默认设置",
@@ -4309,7 +4297,8 @@
                     "offline": "您似乎处于离线状态。",
                     "unchanged": "我们无法更改您的电子邮件地址，但我们不知道原因。",
                     "delete": "我们无法删除您的帐户，但我们不知道原因。",
-                    "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。"
+                    "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",

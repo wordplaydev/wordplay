@@ -5314,6 +5314,17 @@
                         ],
                         null,
                         [
+                            "Doc",
+                            "serious",
+                            "And one last thing.",
+                            "While I'm really all about explaining things, sometimes it's helpful to elide things too. You know, to remove something from a project temporarily, so that it isn't part of the project.",
+                            "You can do that by wrapping anything between stars.",
+                            "See how \\'cat'\\ isn't included in the list we made?",
+                            "You can remove the stars by deleting them with the keyboard, or placing the cursor inside them and using the elide command to remove them for you."
+                        ],
+                        ["edit", "[1 2 3 4 *'cat'* 5 6 7 8]"],
+                        null,
+                        [
                             "fit",
                             "舞台([Phrase('安静的后台！' color: Color(100% 0 0°))] 背景: Color(0% 0 0°))"
                         ],

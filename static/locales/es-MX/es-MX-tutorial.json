@@ -4,11 +4,11 @@
     "region": "MX",
     "acts": [
         {
-            "title": "The Verse",
+            "title": "El verso",
             "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
-                    "title": "Silence",
+                    "title": "Silencio",
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
@@ -131,7 +131,7 @@
                     ]
                 },
                 {
-                    "title": "Would you like a program?",
+                    "title": "¿Quieres un programa?",
                     "subtitle": "Program",
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
@@ -240,7 +240,7 @@
                     ]
                 },
                 {
-                    "title": "Holding space",
+                    "title": "Mantener espacios",
                     "subtitle": "Placeholder",
                     "concept": "ExpressionPlaceholder",
                     "performance": ["use", "fit", "DarkVoid"],
@@ -351,7 +351,7 @@
                     ]
                 },
                 {
-                    "title": "Say again?",
+                    "title": "¿Decir de nuevo?",
                     "subtitle": "Unparsable",
                     "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
@@ -494,7 +494,7 @@
                     ]
                 },
                 {
-                    "title": "Love is in the err",
+                    "title": "El amor está en el err",
                     "subtitle": "Evaluate",
                     "concept": "Evaluate",
                     "performance": [
@@ -712,7 +712,7 @@
             ]
         },
         {
-            "title": "It's the little things",
+            "title": "Son las cosas pequeñas",
             "performance": ["use", "fit", "SimpleJiggle"],
             "scenes": [
                 {
@@ -943,7 +943,7 @@
                     ]
                 },
                 {
-                    "title": "Symbol in the middle",
+                    "title": "Símbolo en el medio",
                     "subtitle": "Infix",
                     "concept": "BinaryEvaluate",
                     "performance": [
@@ -1027,7 +1027,7 @@
                     ]
                 },
                 {
-                    "title": "Yes and no",
+                    "title": "Si y no",
                     "subtitle": "Truth",
                     "concept": "Boolean",
                     "performance": [
@@ -1214,7 +1214,7 @@
                     ]
                 },
                 {
-                    "title": "Let me count the ways",
+                    "title": "Déjame contar las formas",
                     "subtitle": "Numbers",
                     "concept": "Number",
                     "performance": [
@@ -1401,7 +1401,7 @@
                     ]
                 },
                 {
-                    "title": "Opening (re)marks",
+                    "title": "Marcas de apertura",
                     "subtitle": "Prefix",
                     "concept": "UnaryEvaluate",
                     "performance": ["use", "fit", "Symbol", "~"],
@@ -1446,7 +1446,7 @@
                     ]
                 },
                 {
-                    "title": "Emptiness",
+                    "title": "Vacío",
                     "subtitle": "Nothing",
                     "concept": "None",
                     "performance": [
@@ -1526,14 +1526,14 @@
             ]
         },
         {
-            "title": "Ensembles",
+            "title": "Conjuntos",
             "performance": [
                 "fit",
                 "Group(Row('|' (Time() ÷ 500).sin() · 1m) [Phrase('[]') Phrase('{}') Phrase('{:}')])"
             ],
             "scenes": [
                 {
-                    "title": "Community values",
+                    "title": "Valores comunitarios",
                     "subtitle": null,
                     "performance": [
                         "fit",
@@ -1569,7 +1569,7 @@
                     ]
                 },
                 {
-                    "title": "Places, everyone!",
+                    "title": "Lugares, todas!",
                     "subtitle": "Lists",
                     "concept": "List",
                     "performance": [
@@ -1731,7 +1731,7 @@
                     ]
                 },
                 {
-                    "title": "One of each",
+                    "title": "Uno de cada uno",
                     "subtitle": "Sets",
                     "concept": "Set",
                     "performance": [
@@ -1849,7 +1849,7 @@
                     ]
                 },
                 {
-                    "title": "One to one",
+                    "title": "Cara a cara",
                     "subtitle": "Mappings",
                     "concept": "Map",
                     "performance": [
@@ -2205,7 +2205,7 @@
                     ]
                 },
                 {
-                    "title": "How to choose?",
+                    "title": "¿Como escoger?",
                     "subtitle": "Decisions",
                     "concept": "Conditional",
                     "performance": ["use", "fix", "FlyIn", "?"],
@@ -2332,7 +2332,7 @@
             ]
         },
         {
-            "title": "Scene change",
+            "title": "Cambio de escena",
             "performance": ["use", "fit", "TakeTheMic"],
             "scenes": [
                 {
@@ -2368,7 +2368,7 @@
                     ]
                 },
                 {
-                    "title": "Tick, tick, tick...",
+                    "title": "Tic, tic, tic...",
                     "subtitle": "Time",
                     "concept": "Time",
                     "performance": ["use", "fit", "Symbol", "🕦"],
@@ -2427,7 +2427,7 @@
                     ]
                 },
                 {
-                    "title": "Clickity clack",
+                    "title": "Clic clic",
                     "subtitle": "Key",
                     "concept": "Key",
                     "performance": ["use", "fit", "Symbol", "⌨️"],
@@ -2517,7 +2517,7 @@
                     ]
                 },
                 {
-                    "title": "And... now!",
+                    "title": "¡Y... ahora!",
                     "subtitle": "Button",
                     "concept": "Button",
                     "performance": ["use", "fit", "Symbol", "🖱️"],
@@ -2547,7 +2547,7 @@
                     ]
                 },
                 {
-                    "title": "Is anyone listening?",
+                    "title": "¿Alguien está escuchando?",
                     "subtitle": "Volume",
                     "concept": "Volume",
                     "performance": ["use", "fit", "Symbol", "🎤"],
@@ -2570,7 +2570,7 @@
                     ]
                 },
                 {
-                    "title": "You never know…",
+                    "title": "Nunca sabes…",
                     "subtitle": "Random",
                     "concept": "Random",
                     "performance": [
@@ -2607,7 +2607,7 @@
                     ]
                 },
                 {
-                    "title": "Move me",
+                    "title": "Mueve me",
                     "subtitle": "Placement",
                     "concept": "Placement",
                     "performance": [
@@ -2651,7 +2651,7 @@
                     ]
                 },
                 {
-                    "title": "Keeping moving",
+                    "title": "Seguir moviéndose",
                     "subtitle": "Motion",
                     "concept": "Motion",
                     "performance": [
@@ -2777,7 +2777,7 @@
                     ]
                 },
                 {
-                    "title": "Let's talk",
+                    "title": "Hablemos",
                     "subtitle": "Chat",
                     "concept": "Chat",
                     "performance": ["fit", "Phrase('🗣️')"],
@@ -2806,7 +2806,7 @@
                     ]
                 },
                 {
-                    "title": "Say what?",
+                    "title": "¿Que dices?",
                     "subtitle": "Webpage",
                     "concept": "Webpage",
                     "performance": ["fix", "Webpage('https://wordplay.dev')"],
@@ -2846,7 +2846,7 @@
                     ]
                 },
                 {
-                    "title": "On cue",
+                    "title": "En el momento justo",
                     "subtitle": "Reaction",
                     "concept": "Reaction",
                     "performance": ["use", "fit", "Symbol", "…"],
@@ -2981,11 +2981,11 @@
             ]
         },
         {
-            "title": "Take the stage",
+            "title": "Subir al escenario",
             "performance": ["use", "fix", "RainingEmoji"],
             "scenes": [
                 {
-                    "title": "Output",
+                    "title": "Producción",
                     "subtitle": null,
                     "performance": ["use", "fix", "StaticRainingEmoji"],
                     "lines": [
@@ -3026,7 +3026,7 @@
                     ]
                 },
                 {
-                    "title": "Say what?",
+                    "title": "¿Que dices?",
                     "subtitle": "Phrase",
                     "concept": "Phrase",
                     "performance": ["use", "fit", "Symbol", "💬"],
@@ -3493,7 +3493,7 @@
                     ]
                 },
                 {
-                    "title": "Places please",
+                    "title": "Lugares por favor",
                     "subtitle": "Group",
                     "concept": "Group",
                     "performance": [
@@ -3860,7 +3860,7 @@
                     ]
                 },
                 {
-                    "title": "And... scene!",
+                    "title": "Y ... escena!",
                     "subtitle": "Scene",
                     "concept": "Scene",
                     "performance": ["fix", "Phrase('🎬' 10m)"],
@@ -4032,7 +4032,7 @@
             ]
         },
         {
-            "title": "Callbacks",
+            "title": "Devoluciones de llamada",
             "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
@@ -5024,6 +5024,9 @@
                             "edit",
                             "``Aprende más en <Wordplay@https://wordplay.dev>.`` '¡un enlace!'"
                         ],
+                        null,
+                        ["Doc", "serious", "$?"],
+                        ["edit", "[1 2 3 4 *'gato'* 5 6 7 8]"],
                         null,
                         [
                             "fit",

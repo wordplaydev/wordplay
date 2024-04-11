@@ -37,7 +37,7 @@ export default class SetType extends BasisType {
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             SetType.make(),
@@ -61,7 +61,7 @@ export default class SetType extends BasisType {
         return new SetType(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('key', this.key, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -83,8 +83,12 @@ export default class SetType extends BasisType {
                     // If it is a specific type, see if the other set's type is unspecified or compatible
                     type.key === undefined ||
                     (type.key instanceof Type &&
-                        this.key.accepts(type.key, context)))
+                        this.key.accepts(type.key, context))),
         );
+    }
+
+    concretize(context: Context): Type {
+        return SetType.make(this.key?.concretize(context));
     }
 
     generalize(context: Context) {

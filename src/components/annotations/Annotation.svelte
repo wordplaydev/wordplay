@@ -124,7 +124,5 @@
     .description {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
     }
 </style>

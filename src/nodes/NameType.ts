@@ -19,6 +19,7 @@ import { UnknownName } from '@conflicts/UnknownName';
 import Emotion from '../lore/Emotion';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import StructureType from './StructureType';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -28,7 +29,7 @@ export default class NameType extends Type {
     constructor(
         type: Token | string,
         types?: TypeInputs,
-        definition?: Definition
+        definition?: Definition,
     ) {
         super();
 
@@ -57,7 +58,7 @@ export default class NameType extends Type {
     clone(replace?: Replacement) {
         return new NameType(
             this.replaceChild('name', this.name, replace),
-            this.replaceChild('types', this.types, replace)
+            this.replaceChild('types', this.types, replace),
         ) as this;
     }
 
@@ -105,8 +106,8 @@ export default class NameType extends Type {
                             new UnexpectedTypeInput(
                                 this,
                                 this.types.types[index],
-                                def
-                            )
+                                def,
+                            ),
                         );
                         break;
                     }
@@ -125,6 +126,12 @@ export default class NameType extends Type {
 
     getPossibleTypes(context: Context): Type[] {
         return [this.getType(context)];
+    }
+
+    concretize(context: Context): Type {
+        const concrete = this.getType(context);
+        // If it's a structure type, return it, otherwise leave it as a type variable.
+        return concrete instanceof StructureType ? concrete : this;
     }
 
     resolve(context?: Context): Definition | undefined {

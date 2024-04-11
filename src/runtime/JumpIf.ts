@@ -16,7 +16,7 @@ export default class JumpIf extends Step {
         count: number,
         peek: boolean,
         yes: boolean,
-        requestor: Expression
+        requestor: Expression,
     ) {
         super(requestor);
 
@@ -39,7 +39,7 @@ export default class JumpIf extends Step {
         return concretize(
             locales,
             locales.get((l) => l.node.Conditional.else),
-            val instanceof BoolValue && val.bool === this.yes
+            val instanceof BoolValue && val.bool === this.yes,
         );
     }
 }

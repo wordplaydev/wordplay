@@ -25,17 +25,22 @@ export default abstract class Type extends Node {
         return this.acceptsAll(
             new TypeSet(type.getPossibleTypes(context), context),
             context,
-            expression
+            expression,
         );
     }
 
     abstract acceptsAll(
         types: TypeSet,
         context: Context,
-        expression?: Expression
+        expression?: Expression,
     ): boolean;
 
     abstract getBasisTypeName(): BasisTypeName;
+
+    /** Subclasses can optionally resolve names. Mainly used to resolve name types into concrete structure types. */
+    concretize(_: Context): Type {
+        return this;
+    }
 
     /** Subclasses override to abstract away from any literal types specified inside the type. */
     generalize(_: Context): Type {
@@ -72,7 +77,7 @@ export default abstract class Type extends Node {
     getConversion(
         context: Context,
         input: Type,
-        output: Type
+        output: Type,
     ): ConversionDefinition | undefined {
         return context
             .getBasis()
@@ -87,7 +92,7 @@ export default abstract class Type extends Node {
 
     getFunction(
         context: Context,
-        name: string
+        name: string,
     ): FunctionDefinition | undefined {
         return context.getBasis().getFunction(this.getBasisTypeName(), name);
     }

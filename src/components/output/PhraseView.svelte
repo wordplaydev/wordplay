@@ -32,6 +32,7 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -257,7 +258,10 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
+        {:else if text instanceof TextLang}{withVariationSelector(
+                text.text,
+                true,
+            )}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
                 inline
             />{/if}

@@ -75,6 +75,7 @@
         "Code": "$?",
         "Mention": "$?",
         "Otherwise": "$?",
+        "Match": "$?",
         "None": "$?",
         "Type": "$?",
         "Literal": "$?",
@@ -511,6 +512,16 @@
                 "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
             }
         },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
+        },
         "NumberLiteral": {
             "name": "$?",
             "description": "$?",
@@ -581,7 +592,13 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "$?",
@@ -741,7 +758,10 @@
             "doc": "$?",
             "start": "$?",
             "conflict": {
-                "UnparsableConflict": "$?",
+                "UnparsableConflict": {
+                    "conflict": "$?",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "$?"
             },
             "exception": {
@@ -2190,6 +2210,7 @@
                 }
             },
             "help": "$?",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "$?",
                 "projectsCannotNotSaveLocally": "$?",
@@ -2204,6 +2225,7 @@
         },
         "gallery": {
             "untitled": "$?",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "$?",
@@ -2329,7 +2351,8 @@
                 "undo": "$?",
                 "redo": "$?",
                 "search": "$?",
-                "tidy": "$?"
+                "tidy": "$?",
+                "elide": "$?"
             }
         },
         "annotations": {
@@ -2473,6 +2496,10 @@
                     "dark": {
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
+                    },
+                    "space": {
+                        "label": "$?",
+                        "modes": ["$?", "$?"]
                     },
                     "writing": {
                         "label": "$?",
@@ -2675,7 +2702,8 @@
                     "failure": "$?",
                     "unchanged": "$?",
                     "delete": "$?",
-                    "wrongPassword": "$?"
+                    "wrongPassword": "$?",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "$?",

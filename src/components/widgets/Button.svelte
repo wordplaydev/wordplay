@@ -34,8 +34,10 @@
     }
 </script>
 
-<!-- Note that we don't make the button inactive using "disabled" because that makes
-    it invisible to screen readers. -->
+<!-- 
+    Note: we don't make the button inactive using "disabled" because that makes it invisible to screen readers. 
+    Note: we prevent focus on click in order to preserve keyboard focus prior to the click.
+-->
 <button
     class:stretch
     class:background
@@ -48,6 +50,7 @@
     aria-label={tip}
     aria-disabled={!active}
     bind:this={view}
+    on:mousedown|preventDefault
     on:dblclick|stopPropagation
     on:click|stopPropagation={loading
         ? null
@@ -77,7 +80,7 @@
         transform-origin: center;
         user-select: none;
         border: none;
-        padding: 0;
+        padding: calc(var(--wordplay-spacing) / 2);
         background: none;
         color: currentcolor;
         cursor: pointer;
