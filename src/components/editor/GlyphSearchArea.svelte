@@ -12,7 +12,6 @@
 
     export let sourceID: string;
     export let category: WordplayCategories | undefined;
-    export let expanded: boolean;
 
     const editors = getEditors();
 
