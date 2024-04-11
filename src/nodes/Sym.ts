@@ -41,6 +41,7 @@ enum Sym {
     BooleanType = '•?',
     NumberType = '•#',
     JapaneseNumeral = '#jpn',
+    KoreanNumeral = '#kor',
     RomanNumeral = '#rom',
     Pi = '#pi',
     Infinity = '∞',
