@@ -46,6 +46,8 @@ export const ProjectSchemaV1 = z.object({
     persisted: z.boolean(),
     /** An optional gallery ID, indicating which gallery this project is in. */
     gallery: z.nullable(z.string()),
+    /** Recently used Glyphs for the project */
+    recentGlyphs: z.array(z.string()),
     /** Moderation state */
     flags: z.object({
         dehumanization: z.nullable(z.boolean()),

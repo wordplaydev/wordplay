@@ -21,7 +21,6 @@
         "shapes",
         "other",
     ]
-    let dropdownLabel = 'Symbols';
     let dropdownValue: WordplayCategories | undefined = undefined;
 
     let expanded = false;
@@ -45,7 +44,6 @@
                     direction="up"
                     fill
                     onSelect={(item) => {
-                        dropdownLabel = item;
                         expanded = true;
                     }}
                     bind:value={dropdownValue}
@@ -58,13 +56,12 @@
                 on={expanded}
                 toggle={() => {
                     expanded = !expanded;
-                    dropdownLabel = 'Symbols';
                     }}>{expanded ? '–' : '+'}</Toggle
             >
         </div>
     </div>
     <div class:expanded class="search-area">
-        <GlyphSearchArea {sourceID} category={dropdownValue} {expanded}/>
+        <GlyphSearchArea {sourceID} category={dropdownValue}/>
     </div>
 </section>
 

@@ -77,7 +77,7 @@ export class ProjectHistory {
         // Is the undo pointer before the end? Trim the future before we add the future.
         this.history.splice(
             this.index + 1,
-            this.history.length - this.index - 1
+            this.history.length - this.index - 1,
         );
 
         // If we're remembering the last change, append the new project version.

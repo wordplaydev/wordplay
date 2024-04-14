@@ -21,6 +21,7 @@
   import Toggle from './Toggle.svelte';
 
   export let direction: 'up' | 'down' = 'down';
+  export let onSelect: (option: string) => void = () => {};
   export let options:string[] = [];
   export let value: string = options[0];
   export let fill: boolean = false;

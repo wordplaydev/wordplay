@@ -1,12 +1,12 @@
 <script lang="ts">
     import { getUnicodeNamed as getUnicodeWithNameText, type WordplayCategories } from '../../unicode/Unicode';
-    import { IdleKind, getEditors } from '../project/Contexts';
+    import { IdleKind, getEditors, getProject } from '../project/Contexts';
     import concretize from '../../locale/concretize';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
     import { tokenize } from '../../parser/Tokenizer';
-    import { locales } from '@db/Database';
+    import { locales, Projects } from '@db/Database';
     import Label from '@components/widgets/Label.svelte';
     import VirtualList from 'svelte-tiny-virtual-list';
 
@@ -14,8 +14,9 @@
     export let category: WordplayCategories | undefined;
 
     const editors = getEditors();
+    const project = getProject();
 
-    const recentlyUsed: string[] = ['👍', '👎', '👌', '👀', '👁️', '👄', '👅', '👂', '👃', '👤', '👥'];
+    $: recentlyUsed = $project?.getRecentGlyphs() ?? [];
 
     const glyphSize = 32;
 
@@ -31,10 +32,37 @@
         return results.slice(row * rowSize, (row + 1) * rowSize);
     }
 
+    const RECENTLY_USED_SIZE = 10;
+
+    function updateRecentGlyphs(glyph: string) {
+        if (!$project) return;
+
+        const recentGlyphs = $project.getRecentGlyphs();
+        
+        const glyphIndex = recentGlyphs.indexOf(glyph);
+        let newGlyphs: string[] = [];
+        // If the glyph is already in the list, move it to the front.
+        // Otherwise, add it to the front and remove the last one.
+        if (glyphIndex !== -1) {
+            const front = recentGlyphs.splice(0, glyphIndex);            
+            const back = recentGlyphs.splice(1);
+            newGlyphs = [glyph].concat(front, back);
+        } else {
+            newGlyphs = [glyph].concat(recentGlyphs.splice(0, RECENTLY_USED_SIZE - 1));
+        }
+        console.log(newGlyphs);
+        
+        const newProj = $project.withRecentGlyphs(newGlyphs)
+        Projects.reviseProject(
+            newProj
+        )
+    }
+
     function insert(glyph: string) {
         const editor = $editors?.get(sourceID);
         if (editor) {
             editor.edit(editor.caret.insert(glyph), IdleKind.Typed, true);
+            updateRecentGlyphs(glyph);
         }
     }
 </script>
@@ -61,7 +89,9 @@
                 <Label>{$locales.get((l) => l.ui.label.recent)}</Label>
             </div>
             <div class="recents-row">
-                {#each recentlyUsed as glyph}<Button
+                {#each recentlyUsed as glyph}<div class="glyph-wrapper">
+                    <Button
+                        stretch
                         tip={concretize(
                             $locales,
                             $locales.get((l) => l.ui.source.cursor.insertSymbol),
@@ -69,7 +99,8 @@
                         ).toText()}
                         action={() => insert(glyph)}
                         ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
-                    >{/each}
+                    >
+                </div>{/each}
             </div>
         </div>
         <VirtualList
@@ -143,14 +174,15 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        padding: var(--wordplay-spacing);
         border-bottom: var(--wordplay-border-color) solid 1px;
+        padding-bottom: var(--wordplay-spacing);
     }
 
     .recents-row {
         display: grid;
-        grid-template-columns: repeat(12, 1fr);
+        grid-template-columns: repeat(10, 1fr);
         flex-grow: 1;
+        height: 32px;
     }
 
     .glyph-row {
