@@ -2,6 +2,7 @@ export const TYPE_SYMBOL = '•';
 export const LITERAL_SYMBOL = '!';
 export const QUESTION_SYMBOL = '?';
 export const COALESCE_SYMBOL = '??';
+export const MATCH_SYMBOL = '???';
 export const TABLE_OPEN_SYMBOL = '⎡';
 export const TABLE_CLOSE_SYMBOL = '⎦';
 export const INSERT_SYMBOL = `${TABLE_OPEN_SYMBOL}+`;
@@ -33,6 +34,7 @@ export const CHANGE_SYMBOL = '∆';
 export const INITIAL_SYMBOL = '◆';
 export const PREVIOUS_SYMBOL = '←';
 export const TEXT_SYMBOL = "'";
+export const ELISION_SYMBOL = '*';
 // ⊤⊥
 export const TRUE_SYMBOL = '⊤';
 export const FALSE_SYMBOL = '⊥';

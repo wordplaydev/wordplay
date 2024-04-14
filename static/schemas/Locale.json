@@ -664,6 +664,10 @@
                       "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
+                    "shuffled": {
+                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "description": "See `en-US.json` for documentation"
+                    },
                     "sorted": {
                       "additionalProperties": false,
                       "description": "See `en-US.json` for documentation",
@@ -789,6 +793,7 @@
                     "replace",
                     "length",
                     "random",
+                    "shuffled",
                     "first",
                     "last",
                     "has",
@@ -2175,6 +2180,30 @@
               ],
               "type": "object"
             },
+            "Scene": {
+              "additionalProperties": false,
+              "description": "A stream of animated outputs",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "outputs": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "A list of outputs to show in sequence"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "outputs"
+              ],
+              "type": "object"
+            },
             "Time": {
               "additionalProperties": false,
               "description": "A stream of times since evaluation began",
@@ -2308,6 +2337,7 @@
             "Volume",
             "Pitch",
             "Camera",
+            "Scene",
             "Motion",
             "Placement",
             "Chat",
@@ -4417,6 +4447,77 @@
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "Markup text used in documentation or phrase text, e.g., ` ``Hello, I am *bold*`` ` Description inputs: $1 = paragraph count"
             },
+            "Match": {
+              "additionalProperties": false,
+              "description": "A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other' Start inputs: $1 = description of value expression",
+              "properties": {
+                "case": {
+                  "$ref": "#/definitions/Template",
+                  "description": "How to describe when a case is checked"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "finish": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The text shown when this expression type finishes evaluating and has a value."
+                },
+                "name": {
+                  "description": "The name that should be used to refer to the node type",
+                  "type": "string"
+                },
+                "other": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The label for the default value if none of the cases match"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The text shown when this expression type first begins evaluating."
+                },
+                "value": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The label for the value to be compared against."
+                }
+              },
+              "required": [
+                "case",
+                "doc",
+                "emotion",
+                "finish",
+                "name",
+                "other",
+                "start",
+                "value"
+              ],
+              "type": "object"
+            },
             "Mention": {
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ``My value is $1`` or `$bind` in ` ``I am a $bind`` ` Description inputs: $1 = the name or number mentioned"
@@ -4651,6 +4752,7 @@
             },
             "Otherwise": {
               "additionalProperties": false,
+              "description": "A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.",
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -4869,6 +4971,19 @@
               "additionalProperties": false,
               "description": "Revising a structure with a new value, e.g., `mammal.name: 5` Description input: $1 = the name being refined Finish inputs: $1: revised property, $2: revised value",
               "properties": {
+                "conflict": {
+                  "additionalProperties": false,
+                  "description": "Conflicts that this node can generate",
+                  "properties": {
+                    "InvalidProperty": {
+                      "$ref": "#/definitions/ConflictText"
+                    }
+                  },
+                  "required": [
+                    "InvalidProperty"
+                  ],
+                  "type": "object"
+                },
                 "description": {
                   "$ref": "#/definitions/Template",
                   "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
@@ -4917,6 +5032,7 @@
                 }
               },
               "required": [
+                "conflict",
                 "description",
                 "doc",
                 "emotion",
@@ -5889,6 +6005,10 @@
                     "phone": {
                       "$ref": "#/definitions/InternalConflictText"
                     },
+                    "reminder": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Note to remind users where they can manage sensitive information for their project."
+                    },
                     "resolution": {
                       "$ref": "#/definitions/Template",
                       "description": "How to describe the resolution of the sensitive information conflict."
@@ -5903,7 +6023,8 @@
                     "address",
                     "tin",
                     "handle",
-                    "resolution"
+                    "resolution",
+                    "reminder"
                   ],
                   "type": "object"
                 },
@@ -6169,8 +6290,21 @@
                       "description": "When a delimiter is unclosed. Description inputs: $1: unclosed token, $2: opening delimiter"
                     },
                     "UnparsableConflict": {
-                      "$ref": "#/definitions/InternalConflictText",
-                      "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type"
+                      "additionalProperties": false,
+                      "description": "When an unparsable expression or type is used. Description inputs: $1: true if expression, false if type",
+                      "properties": {
+                        "conflict": {
+                          "$ref": "#/definitions/InternalConflictText"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "conflict",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6364,6 +6498,7 @@
             "Changed",
             "Conditional",
             "Otherwise",
+            "Match",
             "ConversionDefinition",
             "Convert",
             "Delete",
@@ -6446,6 +6581,45 @@
             "Arrangement": {
               "$ref": "#/definitions/NameAndDoc",
               "description": "The base interface for arrangement types"
+            },
+            "Aura": {
+              "additionalProperties": false,
+              "description": "A shadow",
+              "properties": {
+                "blur": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The blurriness of the shadow"
+                },
+                "color": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow's color"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "offsetX": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The horizontal offset of the shadow"
+                },
+                "offsetY": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The vertical offset of the shadow"
+                }
+              },
+              "required": [
+                "blur",
+                "color",
+                "doc",
+                "names",
+                "offsetX",
+                "offsetY"
+              ],
+              "type": "object"
             },
             "Color": {
               "additionalProperties": false,
@@ -6778,6 +6952,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The alignment to use when wrapped"
                 },
+                "aura": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The shadow properties for the phrase"
+                },
                 "background": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The background color behind a phrase, group, or stage"
@@ -6885,6 +7063,7 @@
               },
               "required": [
                 "alignment",
+                "aura",
                 "background",
                 "color",
                 "description",
@@ -6962,7 +7141,7 @@
                 },
                 "description": {
                   "$ref": "#/definitions/Template",
-                  "description": "all optional inputs: opacity, rotation, scale, flipx, flipy"
+                  "description": "Templated description of the pose"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7231,6 +7410,55 @@
                 "scale",
                 "selectable",
                 "style"
+              ],
+              "type": "object"
+            },
+            "Source": {
+              "additionalProperties": false,
+              "description": "A data file structure",
+              "properties": {
+                "DynamicEditLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row, too quickly"
+                },
+                "EmptySourceNameException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a source is created with an empty name"
+                },
+                "ProjectSizeLimitException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a project has become too large to save."
+                },
+                "ReadOnlyEditException": {
+                  "$ref": "#/definitions/ExceptionText",
+                  "description": "When a program persists data too many times in a row"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "name": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The name of the data file"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "value": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The data value to persist"
+                }
+              },
+              "required": [
+                "DynamicEditLimitException",
+                "EmptySourceNameException",
+                "ProjectSizeLimitException",
+                "ReadOnlyEditException",
+                "doc",
+                "name",
+                "names",
+                "value"
               ],
               "type": "object"
             },
@@ -7519,6 +7747,7 @@
           "required": [
             "Output",
             "Group",
+            "Aura",
             "Phrase",
             "Stage",
             "Shape",
@@ -7535,7 +7764,8 @@
             "Grid",
             "Free",
             "Easing",
-            "sequence"
+            "sequence",
+            "Source"
           ],
           "type": "object"
         },
@@ -7853,6 +8083,9 @@
             "Locale": {
               "type": "string"
             },
+            "Match": {
+              "type": "string"
+            },
             "Mention": {
               "type": "string"
             },
@@ -8015,8 +8248,9 @@
             "This",
             "Locale",
             "Operator",
-            "Otherwise",
             "Conditional",
+            "Otherwise",
+            "Match",
             "Text",
             "Code",
             "Number",
@@ -8277,6 +8511,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The project tile layout mode"
                         },
+                        "space": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
+                          "description": "The space_indicator on/off mode"
+                        },
                         "writing": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
                           "description": "The writing layout direction"
@@ -8286,7 +8524,8 @@
                         "layout",
                         "animate",
                         "dark",
-                        "writing"
+                        "writing",
+                        "space"
                       ],
                       "type": "object"
                     },
@@ -8326,13 +8565,18 @@
                       "additionalProperties": false,
                       "description": "Buttons in the share dialog",
                       "properties": {
+                        "sensitive": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Description and label for the button to mark PII as sensitive again."
+                        },
                         "submit": {
                           "description": "Description for the email submission button.",
                           "type": "string"
                         }
                       },
                       "required": [
-                        "submit"
+                        "submit",
+                        "sensitive"
                       ],
                       "type": "object"
                     },
@@ -8426,6 +8670,10 @@
                           "$ref": "#/definitions/DialogText",
                           "description": "The gallery subheader and explanation"
                         },
+                        "pii": {
+                          "$ref": "#/definitions/DialogText",
+                          "description": "The personal information subheader and explanation"
+                        },
                         "public": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The public/private toggle subheader and explanation"
@@ -8434,7 +8682,8 @@
                       "required": [
                         "collaborators",
                         "gallery",
-                        "public"
+                        "public",
+                        "pii"
                       ],
                       "type": "object"
                     }
@@ -8724,6 +8973,10 @@
                   ],
                   "type": "object"
                 },
+                "undescribed": {
+                  "description": "What to say if the description is empty",
+                  "type": "string"
+                },
                 "untitled": {
                   "description": "What to call a gallery by default, before it's given a name",
                   "type": "string"
@@ -8731,6 +8984,7 @@
               },
               "required": [
                 "untitled",
+                "undescribed",
                 "subheader",
                 "confirm",
                 "error",
@@ -9104,6 +9358,10 @@
                           "description": "When there's no connection to Firebase",
                           "type": "string"
                         },
+                        "tooMany": {
+                          "description": "When there are too mant failed attempts",
+                          "type": "string"
+                        },
                         "unchanged": {
                           "description": "When the email address couldn't be changed for unknown reasons.",
                           "type": "string"
@@ -9121,7 +9379,8 @@
                         "offline",
                         "unchanged",
                         "delete",
-                        "wrongPassword"
+                        "wrongPassword",
+                        "tooMany"
                       ],
                       "type": "object"
                     },
@@ -9870,6 +10129,10 @@
                   ],
                   "type": "object"
                 },
+                "collapsed": {
+                  "description": "The text to show when all of the tiles are collapsed.",
+                  "type": "string"
+                },
                 "dialog": {
                   "additionalProperties": false,
                   "properties": {
@@ -9958,6 +10221,7 @@
                 "button",
                 "field",
                 "help",
+                "collapsed",
                 "save",
                 "dialog"
               ],
@@ -10047,6 +10311,10 @@
                     },
                     "delete": {
                       "description": "Delete next symbol",
+                      "type": "string"
+                    },
+                    "elide": {
+                      "description": "Toggle elision",
                       "type": "string"
                     },
                     "enumerate": {
@@ -10201,6 +10469,14 @@
                       "description": "Select the whole program",
                       "type": "string"
                     },
+                    "sourceEnd": {
+                      "description": "Move cursor to end of source",
+                      "type": "string"
+                    },
+                    "sourceStart": {
+                      "description": "Move cursor to start of source",
+                      "type": "string"
+                    },
                     "tidy": {
                       "description": "Tidy spacing",
                       "type": "string"
@@ -10221,6 +10497,8 @@
                     "nextInline",
                     "lineStart",
                     "lineEnd",
+                    "sourceStart",
+                    "sourceEnd",
                     "priorNode",
                     "nextNode",
                     "parent",
@@ -10260,7 +10538,8 @@
                     "undo",
                     "redo",
                     "search",
-                    "tidy"
+                    "tidy",
+                    "elide"
                   ],
                   "type": "object"
                 },

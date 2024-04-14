@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount, tick } from 'svelte';
+    import { tick } from 'svelte';
     import { locales } from '../../db/Database';
     import Button from './Button.svelte';
     import type { DialogText } from '../../locale/UITexts';
@@ -26,17 +26,6 @@
             }
         }
     }
-
-    function outclick(event: PointerEvent) {
-        if (view && event.target === view) show = false;
-    }
-
-    onMount(() => {
-        if (closeable) {
-            document.addEventListener('pointerdown', outclick);
-            return () => document.removeEventListener('pointerdown', outclick);
-        }
-    });
 </script>
 
 {#if button}
@@ -53,18 +42,19 @@
         ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
         : undefined}
 >
+    {#if closeable}
+        <div class="close">
+            <Button
+                tip={$locales.get((l) => l.ui.widget.dialog.close)}
+                action={() => (show = false)}>❌</Button
+            >
+        </div>
+    {/if}
+
     <div class="content">
         <Header>{description.header}</Header>
         <MarkupHtmlView markup={description.explanation} />
         <slot />
-        {#if closeable}
-            <div class="close">
-                <Button
-                    tip={$locales.get((l) => l.ui.widget.dialog.close)}
-                    action={() => (show = false)}>❌</Button
-                >
-            </div>
-        {/if}
     </div>
 </dialog>
 
@@ -72,7 +62,7 @@
     dialog {
         position: relative;
         border-radius: var(--wordplay-border-radius);
-        padding: 2em;
+        padding: 1em;
         margin-left: auto;
         margin-right: auto;
         max-width: 40em;
@@ -88,12 +78,15 @@
     }
 
     .close {
-        position: absolute;
-        top: calc(2 * var(--wordplay-spacing));
-        right: calc(2 * var(--wordplay-spacing));
+        position: sticky;
+        top: 0;
+        width: 100%;
+        text-align: right;
     }
 
     .content {
         min-height: 100%;
+        padding: 1em;
+        padding-top: 0;
     }
 </style>

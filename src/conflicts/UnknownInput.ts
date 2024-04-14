@@ -16,7 +16,7 @@ export default class UnknownInput extends Conflict {
     constructor(
         func: FunctionDefinition | StructureDefinition | StreamDefinition,
         evaluate: Evaluate | BinaryEvaluate,
-        given: Bind
+        given: Bind,
     ) {
         super(false);
 
@@ -33,8 +33,9 @@ export default class UnknownInput extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Evaluate.conflict.UnknownInput.primary
-                        )
+                            (l) =>
+                                l.node.Evaluate.conflict.UnknownInput.primary,
+                        ),
                     ),
             },
             secondary: {
@@ -44,8 +45,8 @@ export default class UnknownInput extends Conflict {
                         locales,
                         locales.get(
                             (l) =>
-                                l.node.Evaluate.conflict.UnknownInput.secondary
-                        )
+                                l.node.Evaluate.conflict.UnknownInput.secondary,
+                        ),
                     ),
             },
         };

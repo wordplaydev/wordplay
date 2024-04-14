@@ -1,4 +1,5 @@
 import type { NameAndDoc, Template, NameText } from './Locale';
+import type { ExceptionText } from './NodeTexts';
 
 export type TypeTexts = {
     /** How tall glyphs in a phrase, group, or stage should be */
@@ -55,6 +56,17 @@ type OutputTexts = {
         /** $1 = Layout description, $2 = pose description */
         description: Template;
     } & TypeTexts;
+    /** A shadow */
+    Aura: NameAndDoc & {
+        /** The shadow's color */
+        color: NameAndDoc;
+        /** The horizontal offset of the shadow */
+        offsetX: NameAndDoc;
+        /** The vertical offset of the shadow */
+        offsetY: NameAndDoc;
+        /** The blurriness of the shadow */
+        blur: NameAndDoc;
+    };
     /** A sequence of glyphs */
     Phrase: NameAndDoc & {
         /** The glyphs to render */
@@ -67,6 +79,8 @@ type OutputTexts = {
         direction: NameAndDoc;
         /** The matter properties for the phrase */
         matter: NameAndDoc;
+        /** The shadow properties for the phrase */
+        aura: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
         description: Template;
     } & TypeTexts;
@@ -143,7 +157,7 @@ type OutputTexts = {
         scale: NameAndDoc;
         flipx: NameAndDoc;
         flipy: NameAndDoc;
-        /** all optional inputs: opacity, rotation, scale, flipx, flipy */
+        /** Templated description of the pose */
         description: Template;
     };
     /** A sequence of poses, keyed by percentage complete, for use in overriding an output's defaults for entering, resting, moving, or existing states */
@@ -289,6 +303,21 @@ type OutputTexts = {
         popup: NameAndDoc;
         /** Offsets randomly in multiple directions */
         shake: NameAndDoc;
+    };
+    /** A data file structure */
+    Source: NameAndDoc & {
+        /** The name of the data file */
+        name: NameAndDoc;
+        /** The data value to persist */
+        value: NameAndDoc;
+        /** When a program persists data too many times in a row, too quickly */
+        DynamicEditLimitException: ExceptionText;
+        /** When a program persists data too many times in a row */
+        ReadOnlyEditException: ExceptionText;
+        /** When a source is created with an empty name */
+        EmptySourceNameException: ExceptionText;
+        /** When a project has become too large to save. */
+        ProjectSizeLimitException: ExceptionText;
     };
 };
 

@@ -32,6 +32,7 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -227,6 +228,15 @@
             metrics,
         )}
         style:writing-mode={layoutToCSS(phrase.direction)}
+        style:text-shadow={phrase.aura
+            ? `${getSizeCSS(phrase.aura.offsetX ?? 0)} ${getSizeCSS(
+                  phrase.aura.offsetY ?? 0,
+              )} ${getSizeCSS(phrase.aura.blur ?? 0)} ${
+                  phrase.aura.color?.toCSS() ??
+                  getColorCSS(phrase.getFirstRestPose(), phrase.pose) ??
+                  ''
+              }`
+            : null}
         style:white-space={phrase.wrap !== undefined ? 'normal' : 'nowrap'}
         style:text-align={phrase.alignment === undefined
             ? null
@@ -248,7 +258,10 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
+        {:else if text instanceof TextLang}{withVariationSelector(
+                text.text,
+                true,
+            )}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
                 inline
             />{/if}

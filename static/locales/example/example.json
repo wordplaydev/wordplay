@@ -75,6 +75,7 @@
         "Code": "$?",
         "Mention": "$?",
         "Otherwise": "$?",
+        "Match": "$?",
         "None": "$?",
         "Type": "$?",
         "Literal": "$?",
@@ -511,6 +512,16 @@
                 "NotAKeyValue": { "primary": "$?", "secondary": "$?" }
             }
         },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
+        },
         "NumberLiteral": {
             "name": "$?",
             "description": "$?",
@@ -581,7 +592,13 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "$?",
@@ -701,7 +718,8 @@
                 "tin": "$?",
                 "address": "$?",
                 "handle": "$?",
-                "resolution": "$?"
+                "resolution": "$?",
+                "reminder": "$?"
             }
         },
         "FormattedLiteral": {
@@ -740,7 +758,10 @@
             "doc": "$?",
             "start": "$?",
             "conflict": {
-                "UnparsableConflict": "$?",
+                "UnparsableConflict": {
+                    "conflict": "$?",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "$?"
             },
             "exception": {
@@ -1231,6 +1252,11 @@
                 },
                 "length": { "doc": "$?", "names": "$?", "inputs": [] },
                 "random": { "doc": "$?", "names": "$?", "inputs": [] },
+                "shuffled": {
+                    "doc": ["$?"],
+                    "names": "$? shuffle",
+                    "inputs": []
+                },
                 "first": { "doc": "$?", "names": "$?", "inputs": [] },
                 "last": { "doc": "$?", "names": "$?", "inputs": [] },
                 "has": {
@@ -1565,29 +1591,29 @@
     "input": {
         "Random": {
             "doc": "$?",
-            "names": ["Azar"],
+            "names": ["$?"],
             "inputs": [
                 { "names": "$?", "doc": "$?" },
                 { "names": "$?", "doc": "$?" }
             ]
         },
-        "Choice": { "doc": "$?", "names": ["Selección", "Elección"] },
+        "Choice": { "doc": "$?", "names": ["$?"] },
         "Button": {
             "doc": "$?",
-            "names": ["Botón"],
+            "names": ["$?"],
             "down": { "names": "$?", "doc": "$?" }
         },
-        "Pointer": { "doc": "$?", "names": ["Puntero"] },
+        "Pointer": { "doc": "$?", "names": ["$?"] },
         "Key": {
             "doc": "$?",
-            "names": ["Teclado"],
+            "names": ["$?"],
             "key": { "names": "$?", "doc": "$?" },
             "down": { "names": "$?", "doc": "$?" }
         },
         "Time": {
             "doc": "$?",
-            "names": ["Tiempo"],
-            "frequency": { "names": ["frecuencia"], "doc": "$?" },
+            "names": ["$?"],
+            "frequency": { "names": ["$?"], "doc": "$?" },
             "relative": {
                 "names": "$?relative",
                 "doc": "$?"
@@ -1596,19 +1622,19 @@
         "Volume": {
             "doc": "$?",
             "names": "$? Volume",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["$?"], "doc": "$?" }
         },
         "Pitch": {
             "doc": "$?",
             "names": "$? Pitch",
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "frequency": { "names": ["$?"], "doc": "$?" }
         },
         "Camera": {
             "doc": "$?",
             "names": ["Cámara"],
-            "width": { "names": ["ancho"], "doc": "$?" },
-            "height": { "names": ["altura"], "doc": "$?" },
-            "frequency": { "names": ["frecuencia"], "doc": "$?" }
+            "width": { "names": ["$?"], "doc": "$?" },
+            "height": { "names": ["$?"], "doc": "$?" },
+            "frequency": { "names": ["$?"], "doc": "$?" }
         },
         "Motion": {
             "names": "movimiento",
@@ -1617,6 +1643,11 @@
             "velocity": { "doc": "$?", "names": "$? velocity" },
             "nextplace": { "doc": "$?", "names": "$? nextplace" },
             "nextvelocity": { "doc": "$?", "names": "$? nextvelocity" }
+        },
+        "Scene": {
+            "doc": "$?",
+            "names": "$? Scene",
+            "outputs": { "names": "$?", "doc": "$?" }
         },
         "Chat": {
             "doc": ["$?"],
@@ -1764,7 +1795,7 @@
             "layout": { "doc": "$?", "names": "$?" },
             "matter": {
                 "doc": "$?",
-                "names": "$? matter"
+                "names": "$?"
             },
             "size": { "doc": "$?", "names": "$?" },
             "face": { "doc": "$?", "names": "$?" },
@@ -1830,6 +1861,10 @@
             "matter": {
                 "doc": "$?",
                 "names": "$? matter"
+            },
+            "aura": {
+                "doc": "$?",
+                "names": "$?"
             },
             "name": { "doc": "$?", "names": "$?" },
             "selectable": { "doc": "$?", "names": "$?" },
@@ -2040,6 +2075,26 @@
                 "names": "$? shapes"
             }
         },
+        "Aura": {
+            "doc": "$?",
+            "names": "$? Aura",
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "blur": {
+                "doc": "$?",
+                "names": "$? blur"
+            },
+            "offsetX": {
+                "doc": "$?",
+                "names": "$? offsetX"
+            },
+            "offsetY": {
+                "doc": "$?",
+                "names": "$? offset"
+            }
+        },
         "Easing": {
             "straight": "$?",
             "cautious": "$?",
@@ -2061,6 +2116,34 @@
             "fadein": { "doc": "$?", "names": ["revelar"] },
             "popup": { "doc": "$?", "names": ["surgir"] },
             "shake": { "doc": "$?", "names": ["agitar"] }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {
@@ -2127,6 +2210,7 @@
                 }
             },
             "help": "$?",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "$?",
                 "projectsCannotNotSaveLocally": "$?",
@@ -2141,6 +2225,7 @@
         },
         "gallery": {
             "untitled": "$?",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "$?",
@@ -2225,6 +2310,8 @@
                 "nextInline": "$?",
                 "lineStart": "$?",
                 "lineEnd": "$?",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "$?",
                 "nextNode": "$?",
                 "parent": "$?",
@@ -2264,7 +2351,8 @@
                 "undo": "$?",
                 "redo": "$?",
                 "search": "$?",
-                "tidy": "$?"
+                "tidy": "$?",
+                "elide": "$?"
             }
         },
         "annotations": {
@@ -2357,6 +2445,10 @@
                     "public": {
                         "header": "$?",
                         "explanation": "$?"
+                    },
+                    "pii": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -2376,7 +2468,11 @@
                     "anonymous": "$?"
                 },
                 "button": {
-                    "submit": "$?"
+                    "submit": "$?",
+                    "sensitive": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
                 },
                 "options": {
                     "gallery": "$?"
@@ -2400,6 +2496,10 @@
                     "dark": {
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
+                    },
+                    "space": {
+                        "label": "$?",
+                        "modes": ["$?", "$?"]
                     },
                     "writing": {
                         "label": "$?",
@@ -2602,7 +2702,8 @@
                     "failure": "$?",
                     "unchanged": "$?",
                     "delete": "$?",
-                    "wrongPassword": "$?"
+                    "wrongPassword": "$?",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "$?",

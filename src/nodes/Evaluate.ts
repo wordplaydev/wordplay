@@ -438,7 +438,7 @@ export default class Evaluate extends Expression {
                 fun instanceof StructureDefinition ||
                 fun instanceof StreamDefinition
             )
-        )
+        ) {
             return [
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference
@@ -450,6 +450,7 @@ export default class Evaluate extends Expression {
                     FunctionType.make(undefined, [], new AnyType()),
                 ),
             ];
+        }
 
         // If it's a structure definition, can we create it?
         if (fun instanceof StructureDefinition) {
@@ -841,10 +842,11 @@ export default class Evaluate extends Expression {
         const definition = definitionValue.definition;
 
         // Build the bindings using the definition's inputs and bail if there's an exception
-        const bindings = this.buildBindings(
+        const bindings = buildBindings(
             evaluator,
             definition.inputs,
             values,
+            this,
         );
         if (bindings instanceof ExceptionValue) return bindings;
 
@@ -904,36 +906,6 @@ export default class Evaluate extends Expression {
         return evaluator.popValue(this);
     }
 
-    buildBindings(
-        evaluator: Evaluator,
-        inputs: Bind[],
-        values: Value[],
-    ): Map<Names, Value> | ExceptionValue {
-        // Build the bindings, backwards because they are in reverse on the stack.
-        const bindings = new Map<Names, Value>();
-        for (let i = 0; i < inputs.length; i++) {
-            const bind = inputs[i];
-
-            // Are we missing an input? Throw an excpected value exception.
-            if (i >= values.length) return new ValueException(evaluator, this);
-
-            // If it's variable length, take the rest of the values and stop.
-            if (bind.isVariableLength()) {
-                // If there's only one more value and it's already a list, just set it to the list.
-                bindings.set(
-                    bind.names,
-                    values[i] instanceof ListValue
-                        ? values[i]
-                        : new ListValue(this, values.slice(i)),
-                );
-                break;
-            }
-            // Otherwise, just set this value.
-            bindings.set(bind.names, values[i]);
-        }
-        return bindings;
-    }
-
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {
         if (this.fun instanceof Expression)
             this.fun.evaluateTypeGuards(current, guard);
@@ -988,4 +960,35 @@ export default class Evaluate extends Expression {
     getKind() {
         return ExpressionKind.Evaluate;
     }
+}
+
+export function buildBindings(
+    evaluator: Evaluator,
+    inputs: Bind[],
+    values: Value[],
+    creator: Expression,
+): Map<Names, Value> | ExceptionValue {
+    // Build the bindings, backwards because they are in reverse on the stack.
+    const bindings = new Map<Names, Value>();
+    for (let i = 0; i < inputs.length; i++) {
+        const bind = inputs[i];
+
+        // Are we missing an input? Throw an excpected value exception.
+        if (i >= values.length) return new ValueException(evaluator, creator);
+
+        // If it's variable length, take the rest of the values and stop.
+        if (bind.isVariableLength()) {
+            // If there's only one more value and it's already a list, just set it to the list.
+            bindings.set(
+                bind.names,
+                values[i] instanceof ListValue
+                    ? values[i]
+                    : new ListValue(creator, values.slice(i)),
+            );
+            break;
+        }
+        // Otherwise, just set this value.
+        bindings.set(bind.names, values[i]);
+    }
+    return bindings;
 }

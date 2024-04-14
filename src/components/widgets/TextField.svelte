@@ -15,6 +15,8 @@
     export let defaultFocus = false;
     export let editable = true;
     export let kind: 'email' | 'password' | undefined = undefined;
+    /** CSS length or nothing, setting the max-width of the field*/
+    export let max: string | undefined = undefined;
 
     let width = 0;
 
@@ -28,6 +30,17 @@
         if (kind === 'email' && view) view.type = 'email';
         else if (kind === 'password' && view) view.type = 'password';
         else view.type = 'text';
+    }
+
+    function handleKeyDown(event: KeyboardEvent) {
+        const number = parseFloat(text);
+
+        // Not a number or not an up/down arrow key? Return.
+        if (isNaN(number)) return;
+        if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+
+        text = (number + (event.key === 'ArrowUp' ? 1 : -1)).toString();
+        handleInput();
     }
 
     onMount(() => {
@@ -49,11 +62,12 @@
         aria-placeholder={placeholder}
         placeholder={withVariationSelector(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
+        style:max-width={max}
         disabled={!editable}
         bind:value={text}
         bind:this={view}
         on:input={handleInput}
-        on:keydown|stopPropagation
+        on:keydown|stopPropagation={handleKeyDown}
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}

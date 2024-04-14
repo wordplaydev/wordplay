@@ -137,10 +137,8 @@
                 : act
                   ? act.title
                   : $locales.getLocale().wordplay,
-            new Source(
-                $locales.get((l) => l.term.start),
-                source,
-            ),
+            // Don't give the souce a name, otherwise it won't be localized on language change.
+            new Source('', source),
             [],
             $locales.getLocales(),
             $user?.uid ?? null,
@@ -270,8 +268,9 @@
                 <Note>
                     {act.title}
                     <sub
-                        >{progress.tutorial.acts.indexOf(act) + 1}/{progress
-                            .tutorial.acts.length}</sub
+                        >{progress.tutorial.acts.findIndex(
+                            (candidate) => candidate === act,
+                        ) + 1}/{progress.tutorial.acts.length}</sub
                     ></Note
                 >{/if}
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->

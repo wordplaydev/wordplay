@@ -632,8 +632,8 @@ export default class Project {
         return newProject;
     }
 
-    withNewSource(name: string) {
-        const newSource = new Source(name, '');
+    withNewSource(name: string, code?: string | undefined) {
+        const newSource = new Source(name, code ?? '');
         return new Project({
             ...this.data,
             supplements: [...this.data.supplements, newSource],
@@ -881,12 +881,27 @@ export default class Project {
         return this.data.timestamp;
     }
 
+    getNonPII() {
+        return this.data.nonPII;
+    }
+
     withNonPII(text: string) {
         return new Project({
             ...this.data,
             // Add to the set of text
             nonPII: Array.from(new Set([...this.data.nonPII, text])),
         });
+    }
+
+    withPII(text: string) {
+        // Remove from the set of text
+        const withPII = this.data.nonPII.filter((piiText) => {
+            return piiText != text;
+        });
+        return new Project({
+            ...this.data,
+            nonPII: withPII,
+        })
     }
 
     isNotPII(text: string) {
@@ -926,6 +941,14 @@ export default class Project {
 
     isTutorial() {
         return this.getID().startsWith('tutorial-');
+    }
+
+    getSourceByteSize() {
+        // Estimate rather than getting exact size.
+        return this.getSources().reduce(
+            (sum, source) => sum + source.getCode().toString().length,
+            0,
+        );
     }
 
     toWordplay() {

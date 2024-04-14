@@ -64,18 +64,24 @@
             if (root.getSpaceRoot(firstLeaf) !== n) continue;
             // What's the given space?
             let space = spaces ? spaces.getSpace(firstLeaf) : '';
-            // What is the leaf's preferred space?
-            let preferred = Spaces.getPreferredPrecedingSpace(
-                root,
-                space,
-                firstLeaf
-            );
+
+            // We disabled automatic pretty printing. It's too jumpy to be usable.
+            // Pretty printing can be applied on demand.
+
+            // What is the leaf's preferred space? Don't render newlines.
+            // let preferred = Spaces.getPreferredPrecedingSpace(
+            //     root,
+            //     space,
+            //     firstLeaf,
+            //     false,
+            // );
             // Compute the additional space for rendering.
-            let additional = spaces
-                ? spaces.getAdditionalSpace(firstLeaf, preferred)
-                : preferred;
+            // let additional = spaces
+            //     ? spaces.getAdditionalSpace(firstLeaf, preferred)
+            //     : preferred;
             // Save what we computed
-            newSpace.set(n, { token: firstLeaf, space, additional });
+
+            newSpace.set(n, { token: firstLeaf, space, additional: '' });
         }
 
         renderedSpace.set(newSpace);
@@ -103,7 +109,7 @@
                         n instanceof Names ||
                         n instanceof Docs ||
                         n instanceof TextLiteral ||
-                        n instanceof FormattedLiteral
+                        n instanceof FormattedLiteral,
                 )) {
                 // Get the language tags on the nodes.
                 const tags = tagged.getTags();
@@ -119,7 +125,7 @@
                         $locales
                             .getLanguages()
                             .some((lang) =>
-                                tags.some((l) => l.getLanguage() === lang)
+                                tags.some((l) => l.getLanguage() === lang),
                             )
                     ) {
                         let first = false;
@@ -163,7 +169,7 @@
                 .leaves()
                 .filter(
                     (token) =>
-                        !Array.from(newHidden).some((n) => n.contains(token))
+                        !Array.from(newHidden).some((n) => n.contains(token)),
                 )
                 .slice(5))
                 newHidden.add(token);

@@ -261,7 +261,23 @@ type NodeTexts = {
              */
             ExpectedBooleanCondition: ConflictText;
         }>;
+    /**
+     * A none coalesce expression, e.g., `value ?? 'default', to choose between a possibly none value and a default.
+     */
     Otherwise: NodeText & ExpressionText;
+    /**
+     * A match expression, e.g., `value ??? 1: 'one' 2: 'two' 'other'
+     * Start inputs: $1 = description of value expression
+     */
+    Match: NodeText &
+        ExpressionText & {
+            /** The label for the value to be compared against. */
+            value: Template;
+            /** The label for the default value if none of the cases match */
+            other: Template;
+            /** How to describe when a case is checked */
+            case: Template;
+        };
     /** A definition of a conversion, e.g. `→ # #m 5` */
     ConversionDefinition: DescriptiveNodeText &
         SimpleExpressionText &
@@ -506,7 +522,9 @@ type NodeTexts = {
      * Description input: $1 = the name being refined
      * Finish inputs: $1: revised property, $2: revised value
      */
-    PropertyBind: DescriptiveNodeText & ExpressionText;
+    PropertyBind: DescriptiveNodeText &
+        ExpressionText &
+        Conflicts<{ InvalidProperty: ConflictText }>;
     /**
      * Getting a structure property, e.g., `mammal.name`
      * Finish inputs: $1: property name, $2: value
@@ -639,6 +657,8 @@ type NodeTexts = {
             handle: InternalConflictText;
             /** How to describe the resolution of the sensitive information conflict. */
             resolution: Template;
+            /** Note to remind users where they can manage sensitive information for their project. */
+            reminder: Template;
         }>;
     /**
      * A formatted text literal, e.g., ` `hello *wordplay*` `
@@ -672,7 +692,10 @@ type NodeTexts = {
              * When an unparsable expression or type is used.
              * Description inputs: $1: true if expression, false if type
              */
-            UnparsableConflict: InternalConflictText;
+            UnparsableConflict: {
+                conflict: InternalConflictText;
+                resolution: Template;
+            };
             /**
              * When a delimiter is unclosed.
              * Description inputs: $1: unclosed token, $2: opening delimiter

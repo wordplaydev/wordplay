@@ -75,6 +75,7 @@
         "Code": "代码",
         "Mention": "提到",
         "Otherwise": "否则",
+        "Match": "$?",
         "None": "空的",
         "Type": "类型",
         "Literal": "字面量",
@@ -422,7 +423,7 @@
                 "MissingShareLanguages": "如果你想要分享这个，你需要说明它是什么语言的，这样其他人才知道他们能不能阅读你分享的东西！",
                 "RequiredAfterOptional": "我不能在这，这里还有一个可选的 @Bind 在我前面",
                 "UnexpectedEtc": "只有在 @FunctionDefinition 中我才是可变的长度",
-                "UnusedBind": "嘿，我给这这个变量命名了，但是它还没有被使用呢！"
+                "UnusedBind": "$! 嘿，我给这这个变量命名了，但是它还没有被使用呢！"
             }
         },
         "Block": {
@@ -791,6 +792,16 @@
                 }
             }
         },
+        "Match": {
+            "name": "$?",
+            "emotion": "curious",
+            "doc": ["$?"],
+            "start": "$?",
+            "case": "$?",
+            "finish": "$?",
+            "value": "$?",
+            "other": "$?"
+        },
         "NumberLiteral": {
             "name": "具体数字",
             "description": "$1 $2[$2|]",
@@ -888,7 +899,13 @@
                 "这比做一个全新的\\猫\\ \\要简单得多，除了爱好之外，还有相同的值，不是吗?"
             ],
             "start": "首先让我们获取值",
-            "finish": "我复制了这个结构，但是把1$改成了2$"
+            "finish": "我复制了这个结构，但是把1$改成了2$",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "性质",
@@ -1051,7 +1068,8 @@
                 "tin": "$?",
                 "address": "$?",
                 "handle": "$?",
-                "resolution": "$?"
+                "resolution": "$?",
+                "reminder": "$?"
             }
         },
         "FormattedLiteral": {
@@ -1127,7 +1145,10 @@
             ],
             "start": "???",
             "conflict": {
-                "UnparsableConflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                "UnparsableConflict": {
+                    "conflict": "@FunctionDefinition 在此，@UnparsableExpression 不知道这是什么类型的 $1[表达式 | 类型]。",
+                    "resolution": "$?"
+                },
                 "UnclosedDelimiter": "我期望在 $1 之后的某个时刻会有 $2"
             },
             "exception": {
@@ -1955,9 +1976,14 @@
                 "random": {
                     "doc": [
                         "从我的项中随机选择一个项，如果我是空的则返回@None。",
-                        "\\['苹果' '香蕉' '芒果'].random()\\"
+                        "\\['苹果' '香蕉' '芒果'].随机()\\"
                     ],
                     "names": "随机",
+                    "inputs": []
+                },
+                "shuffled": {
+                    "doc": ["$?"],
+                    "names": "$? shuffle",
                     "inputs": []
                 },
                 "first": {
@@ -2813,6 +2839,11 @@
                 "doc": "@Color样本之间的时间间隔。"
             }
         },
+        "Scene": {
+            "doc": "$?",
+            "names": "$? Scene",
+            "outputs": { "names": "$?", "doc": "$?" }
+        },
         "Motion": {
             "names": ["⚽️", "运动"],
             "doc": [
@@ -3082,6 +3113,10 @@
             "matter": {
                 "doc": "碰到东西时可以使用的属性！",
                 "names": "物体"
+            },
+            "aura": {
+                "doc": "$?",
+                "names": "$? aura"
             },
             "name": {
                 "doc": "你给我起一个名字！这对很多事情都有帮助。\n 首先，如果我有名字，我会用它在屏幕阅读器描述中描述自己。\n 第二，在制作动画时，您可能有多个不同的表达式，这些表达式应该在舞台上表示相同的内容；给它们相同的名称，它们就会作为一个动画。 \n 最后，我对 @Choice 很有帮助：你给我的名字出现在该信息流中。 \n 如果有帮助的话，您可以给我许多不同的名称，每个名称都采用不同的语言。我将始终在第一个选定的区域设置中使用该名称",
@@ -3463,6 +3498,26 @@
                 "names": "地面"
             }
         },
+        "Aura": {
+            "doc": "$?",
+            "names": "$? Aura",
+            "color": {
+                "doc": "$?",
+                "names": "$? color"
+            },
+            "blur": {
+                "doc": "$?",
+                "names": "$? blur"
+            },
+            "offsetX": {
+                "doc": "$?",
+                "names": "$? offsetX"
+            },
+            "offsetY": {
+                "doc": "$?",
+                "names": "$? offset"
+            }
+        },
         "Stage": {
             "doc": [
                 "嗨。舞台在这里。告诉我要展示什么，我会展示出来。",
@@ -3599,6 +3654,34 @@
                 "doc": "我创建一个@Sequence, 使@Output看起来像是害怕的。",
                 "names": ["抖动"]
             }
+        },
+        "Source": {
+            "names": "$? Source",
+            "doc": "$?",
+            "name": {
+                "names": "$? name",
+                "doc": "$?"
+            },
+            "value": {
+                "names": "$? value",
+                "doc": "$?"
+            },
+            "DynamicEditLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ReadOnlyEditException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "EmptySourceNameException": {
+                "description": "$?",
+                "explanation": "$?"
+            },
+            "ProjectSizeLimitException": {
+                "description": "$?",
+                "explanation": "$?"
+            }
         }
     },
     "ui": {
@@ -3667,6 +3750,7 @@
                 }
             },
             "help": "显示键盘快捷键",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "$?",
                 "projectsCannotNotSaveLocally": "$?",
@@ -3681,6 +3765,7 @@
         },
         "gallery": {
             "untitled": "未命名",
+            "undescribed": "$?",
             "subheader": {
                 "curators": {
                     "header": "策展人",
@@ -3772,6 +3857,8 @@
                 "nextInline": "将光标移到后一个位置",
                 "lineStart": "将光标移到行的开头",
                 "lineEnd": "将光标移到行的末尾",
+                "sourceStart": "$?",
+                "sourceEnd": "$?",
                 "priorNode": "选择前一个邻居",
                 "nextNode": "选择后一个邻居",
                 "parent": "选择容器",
@@ -3811,7 +3898,8 @@
                 "undo": "类型字符",
                 "redo": "撤销上次编辑",
                 "search": "查找要插入的特殊字符",
-                "tidy": "整理间距"
+                "tidy": "整理间距",
+                "elide": "$?"
             }
         },
         "annotations": {
@@ -3904,6 +3992,10 @@
                     "public": {
                         "header": "公开/私有",
                         "explanation": "公开项目和画廊可以被世界上任何人看到。通过将项目或画廊设为公开，您承诺："
+                    },
+                    "pii": {
+                        "header": "$?",
+                        "explanation": "$?"
                     }
                 },
                 "field": {
@@ -3923,7 +4015,11 @@
                     "anonymous": "您必須登入才能共享。"
                 },
                 "button": {
-                    "submit": "通过此电子邮件地址分享项目"
+                    "submit": "通过此电子邮件地址分享项目",
+                    "sensitive": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
                 },
                 "options": {
                     "gallery": "$?"
@@ -3953,6 +4049,10 @@
                     "dark": {
                         "label": "主题",
                         "modes": ["浅色", "深色", "使用设备设置"]
+                    },
+                    "space": {
+                        "label": "$! 空格指示器",
+                        "modes": ["$! 开启", "$! 关闭"]
                     },
                     "writing": {
                         "label": "写作布局",
@@ -4147,7 +4247,6 @@
                 "prompt": {
                     "login": "$! 您的表演保存在本设备上，而不是在线。要将它们保存在线，请提交您的电子邮件以获取登录链接。",
                     "forgot": "$?",
-                    "email": "$?",
                     "enter": "看起来您的登录链接来自不同的浏览器或设备。您可以再次输入您的电子邮件地址，以确保是您吗？",
                     "play": "您已登录，现在我们可以将您的项目保存在线上！想要创建点什么吗？",
                     "tooyoung": "您必须年满13岁或以上才能使用电子邮件登录。",
@@ -4155,6 +4254,7 @@
                     "passwordreminder": "看起来你正在创建一个账户。请检查你的密码，确保它被安全地保存并输入正确，然后重新提交以创建你的账户。",
                     "changeEmail": "想要更改您的电子邮件地址吗？提交新的电子邮件地址，我们将向旧的地址发送确认信息。",
                     "changePassword": "想要更改你的密码吗？提交一个新密码并重复输入。",
+                    "email": "$?",
                     "sent": "$! 请检查您的电子邮件以获取登录链接。",
                     "logout": "离开共享设备，想要保持项目的私密性吗？注销，我们将从该设备中删除您的项目。它们仍将在线存储。",
                     "success": "帐户已创建！",
@@ -4171,7 +4271,8 @@
                     "offline": "您似乎处于离线状态。",
                     "unchanged": "我们无法更改您的电子邮件地址，但我们不知道原因。",
                     "delete": "我们无法删除您的帐户，但我们不知道原因。",
-                    "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。"
+                    "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
+                    "tooMany": "$?"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",

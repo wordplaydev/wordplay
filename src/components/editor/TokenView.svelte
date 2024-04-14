@@ -66,7 +66,7 @@
 
 <span
     class="token-view token-category-{TokenCategories.get(
-        Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types
+        Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
     )}"
     class:hide
     class:active

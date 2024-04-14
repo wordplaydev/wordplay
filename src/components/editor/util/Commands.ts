@@ -22,6 +22,7 @@ import {
     BORROW_SYMBOL,
     SHARE_SYMBOL,
     CHANGE_SYMBOL,
+    ELISION_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -702,6 +703,30 @@ const Commands: Command[] = [
         execute: ({ caret }) => caret?.atLineBoundary(false) ?? false,
     },
     {
+        symbol: '⤒',
+        description: (l) => l.ui.source.cursor.sourceStart,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: false,
+        key: 'PageUp',
+        keySymbol: '',
+        execute: ({ caret }) => caret?.atStart() ?? false,
+    },
+    {
+        symbol: '⤓',
+        description: (l) => l.ui.source.cursor.sourceEnd,
+        visible: Visibility.Touch,
+        category: Category.Cursor,
+        alt: false,
+        control: false,
+        shift: false,
+        key: 'PageDown',
+        keySymbol: '⇥',
+        execute: ({ caret }) => caret?.atEnd() ?? false,
+    },
+    {
         symbol: '⬉',
         description: (l) => l.ui.source.cursor.priorNode,
         visible: Visibility.Visible,
@@ -1047,6 +1072,21 @@ const Commands: Command[] = [
             return caret.insert(SHARE_SYMBOL) ?? false;
         },
     },
+    {
+        symbol: ELISION_SYMBOL + ELISION_SYMBOL,
+        description: (l) => l.ui.source.cursor.elide,
+        visible: Visibility.Visible,
+        category: Category.Modify,
+        alt: false,
+        shift: false,
+        control: true,
+        key: '8',
+        keySymbol: ELISION_SYMBOL,
+        execute: ({ caret }) => {
+            if (caret === undefined) return false;
+            else return caret.elide() ?? false;
+        },
+    },
 
     // EVALUATE
     StepBackNode,
@@ -1185,10 +1225,12 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyV',
         keySymbol: 'V',
-        active: () =>
+        active: ({ editor }) =>
+            editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ caret }) => {
+        execute: async ({ editor, caret }) => {
+            if (!editor) return undefined;
             // Make sure clipboard is supported.
             if (
                 navigator.clipboard === undefined ||

@@ -36,9 +36,17 @@ import Evaluate from '../nodes/Evaluate';
 import NumberGenerator from 'recoverable-random';
 import type { Database } from '../db/Database';
 import ReactionStream from '../values/ReactionStream';
-import type Scene from '../output/Scene';
+import type Animator from '../output/Animator';
 import Locales from '../locale/Locales';
 import DefaultLocale from '../locale/DefaultLocale';
+import StructureValue from '@values/StructureValue';
+import ListValue from '@values/ListValue';
+import TextValue from '@values/TextValue';
+import DynamicEditLimitException from '@values/DynamicEditLimitException';
+import { EditFailure } from '@db/EditFailure';
+import ReadOnlyEditException from '@values/ReadOnlyEditException';
+import EmptySourceNameException from '@values/EmptySourceNameException';
+import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -50,12 +58,19 @@ export type StreamChange = {
 };
 export type StreamCreator = Evaluate | Reaction;
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
-export const MAX_CALL_STACK_DEPTH = 512;
-export const MAX_STEP_COUNT = 262144;
 
-// Don't let source values take more than 256 MB of memory.
-// One memory unit is probably an average of about 128 bytes, given how much
-// provenance we store per value.
+/**
+ * Programs that evaluate too many functions likely have infinite recursion. Halt them!
+ * */
+export const MAX_CALL_STACK_DEPTH = 512;
+/**
+ * Programs that evaluate too many steps interfer with immediate feedback. Keep them short!
+ * */
+export const MAX_STEP_COUNT = 262144;
+/**
+Don't let source values take more than 256 MB of memory. 
+One memory unit is probably an average of about 128 bytes, given how much provenance we store per value.
+*/
 export const MAX_SOURCE_VALUE_SIZE = 52428;
 
 export enum Mode {
@@ -224,7 +239,7 @@ export default class Evaluator {
     }[] = [];
 
     /** The scene corresponding to what's rendered, which is needed in providing streams access to collisions */
-    scene: Scene | undefined = undefined;
+    scene: Animator | undefined = undefined;
 
     /**
      * Create a new evalutor, given some project.
@@ -237,7 +252,7 @@ export default class Evaluator {
         database: Database,
         locales: Locales,
         reactive = true,
-        prior: Evaluator | undefined = undefined
+        prior: Evaluator | undefined = undefined,
     ) {
         this.project = project;
         this.database = database;
@@ -265,7 +280,7 @@ export default class Evaluator {
         this.seed = Math.random();
         this.random = new NumberGenerator(this.seed);
 
-        // Mirror the given prior, if there is one.
+        // Mirror the given prior, if there is one, and if we haven't persisted a source too many times.
         if (prior) this.mirror(prior);
     }
 
@@ -277,7 +292,7 @@ export default class Evaluator {
         database: Database,
         locale: Locale,
         main: string,
-        supplements?: string[]
+        supplements?: string[],
     ): Value | undefined {
         const source = new Source('test', main);
         const project = Project.make(
@@ -285,14 +300,14 @@ export default class Evaluator {
             'test',
             source,
             (supplements ?? []).map(
-                (code, index) => new Source(`sup${index + 1}`, code)
+                (code, index) => new Source(`sup${index + 1}`, code),
             ),
-            locale
+            locale,
         );
         return new Evaluator(
             project,
             database,
-            new Locales([locale], DefaultLocale)
+            new Locales([locale], DefaultLocale),
         ).getInitialValue();
     }
 
@@ -322,7 +337,7 @@ export default class Evaluator {
                     // Resolve the node from the path.
                     const evaluate = this.project.resolvePath(
                         input.source,
-                        input.path
+                        input.path,
                     );
 
                     // Couldn't find the node, or it's not an evaluate? Stop here.
@@ -447,6 +462,24 @@ export default class Evaluator {
         return undefined;
     }
 
+    setLatestSourceValue(source: Source, value: Value) {
+        const stepIndex = this.getStepIndex();
+        const indexedValues = this.sourceValues.get(source);
+        if (indexedValues === undefined) return undefined;
+        for (let index = indexedValues.length - 1; index >= 0; index--) {
+            const val = indexedValues[index];
+            if (val.stepNumber <= stepIndex) {
+                val.value = value;
+                return;
+            }
+        }
+        return undefined;
+    }
+
+    replaceMainValue(value: Value) {
+        this.setLatestSourceValue(this.project.getMain(), value);
+    }
+
     getStepCount() {
         return this.#stepCount;
     }
@@ -495,8 +528,8 @@ export default class Evaluator {
         return step instanceof Start
             ? step.node.getStart()
             : step instanceof Finish
-            ? step.node.getFinish()
-            : step.node.getStart();
+              ? step.node.getFinish()
+              : step.node.getStart();
     }
 
     getLatestExpressionValueInEvaluation(expression: Expression) {
@@ -508,14 +541,14 @@ export default class Evaluator {
             ? this.getLatestExpressionValue(
                   expression,
                   this.getStepIndex(),
-                  eva.getStepNumber()
+                  eva.getStepNumber(),
               )
             : undefined;
     }
 
     getExpressionValueAtIndex(
         expression: Expression,
-        index: number
+        index: number,
     ): Value | undefined {
         return this.values.get(expression)?.find((v) => v.stepNumber === index)
             ?.value;
@@ -524,7 +557,7 @@ export default class Evaluator {
     getLatestExpressionValue(
         expression: Expression,
         beforeStepNumber?: number,
-        afterStepNumber?: number
+        afterStepNumber?: number,
     ): Value | undefined {
         const values = this.values.get(expression);
         // No values? Return nothing.
@@ -682,7 +715,7 @@ export default class Evaluator {
                     })
                     .filter(
                         (change): change is StreamValueChange =>
-                            change !== undefined
+                            change !== undefined,
                     ),
                 stepIndex: this.getStepCount(),
             });
@@ -690,11 +723,11 @@ export default class Evaluator {
             if (this.reactions.length > MAX_STREAM_LENGTH) {
                 const oldest = Math.max(
                     0,
-                    this.reactions.length - MAX_STREAM_LENGTH
+                    this.reactions.length - MAX_STREAM_LENGTH,
                 );
                 this.reactions = this.reactions.slice(
                     oldest,
-                    oldest + MAX_STREAM_LENGTH
+                    oldest + MAX_STREAM_LENGTH,
                 );
             }
         }
@@ -705,7 +738,7 @@ export default class Evaluator {
 
         // Push the main source file onto the evaluation stack.
         this.evaluations.push(
-            new Evaluation(this, this.getMain(), this.getMain())
+            new Evaluation(this, this.getMain(), this.getMain()),
         );
 
         // Tell listeners that we started.
@@ -819,12 +852,11 @@ export default class Evaluator {
             this.step();
             if (limit) {
                 count++;
-                // Measure time every 10000 steps.
-                if (count > 10000) {
+                // Measure time every 1000 steps.
+                if (count > 1000) {
                     const delta = performance.now() - start;
                     // Oops, we've reached our evaluation time limit! Schedule completion in the next frame.
                     if (delta > 25) {
-                        console.log('Finishing later ' + limit);
                         this.later(() => {
                             this.finish(limit);
                         });
@@ -838,6 +870,7 @@ export default class Evaluator {
         this.broadcast();
     }
 
+    /** End the evaluation of the program, optionally with an exception, and if in the past, start again with the next stream change. */
     end(exception?: ExceptionValue) {
         // If there's an exception, end all sources with the exception.
         while (this.evaluations.length > 0) this.endEvaluation(exception);
@@ -857,8 +890,103 @@ export default class Evaluator {
             this.stopStreams();
         }
 
+        const latest = this.getLatestSourceValue(this.getMain());
+        if (latest && !this.#replayingInputs) {
+            this.editSource(latest);
+        }
+
+        // Update the physics engine to see if there are any collisions.
+        // We do this here at the end of a program evaluation just in case
+        // there aren't any temporal streams that tick the physics engine.
+        // based on time.
+        if (this.scene) this.scene.physics.tick(0);
+
         // Notify observers.
         this.broadcast();
+    }
+
+    /** If the value computed is a Data or list that contains Data, persist the data. */
+    editSource(value: Value): void {
+        const dataDefinition = this.getBasis().shares.output.Data;
+        const data =
+            value instanceof StructureValue && value.is(dataDefinition)
+                ? [value]
+                : value instanceof ListValue
+                  ? value.values.filter(
+                        (val): val is StructureValue =>
+                            val instanceof StructureValue &&
+                            val.is(dataDefinition),
+                    )
+                  : [];
+
+        // Persist all the data we found in the program's value.
+        for (const datum of data) {
+            const nameValue = datum.getInput(0);
+            const value = datum.getInput(1);
+
+            // Is it a valid name and value?
+            if (nameValue instanceof TextValue && value) {
+                // Get the nam eof the source
+                const name = nameValue.text;
+                // Convert the value to text
+                const valueText = value.toWordplay();
+                // See if there's an existing source with this name.
+                const current = this.project.getSourceWithName(name);
+                // If the name is empty, exception
+                if (name.length === 0) {
+                    // Override the final value to a limit exception.
+                    this.replaceMainValue(
+                        new EmptySourceNameException(
+                            this,
+                            this.project.getMain().expression,
+                        ),
+                    );
+                }
+                // If the new value is different from the current value, revise it.
+                else if (
+                    current === undefined ||
+                    current.code.toString() !== valueText
+                ) {
+                    // Revise the project with the new or overwritten source.
+                    const result = this.database.Projects.reviseProject(
+                        current
+                            ? this.project.withSource(
+                                  current,
+                                  current.withCode(valueText),
+                              )
+                            : this.project.withNewSource(name, valueText),
+                        true,
+                        true,
+                    );
+
+                    if (result === EditFailure.TooLarge) {
+                        // Override the final value to a limit exception.
+                        this.replaceMainValue(
+                            new ProjectSizeLimitException(
+                                this,
+                                this.project.getMain().expression,
+                            ),
+                        );
+                    }
+                    if (result === EditFailure.Infinite)
+                        // Override the final value to a limit exception.
+                        this.replaceMainValue(
+                            new DynamicEditLimitException(
+                                this,
+                                this.project.getMain().expression,
+                            ),
+                        );
+                    else if (result === EditFailure.ReadOnly)
+                        // Override the final value to an exception.
+                        this.replaceMainValue(
+                            new ReadOnlyEditException(
+                                this,
+                                this.project.getMain().expression,
+                            ),
+                        );
+                }
+            }
+        }
     }
 
     /**
@@ -883,16 +1011,16 @@ export default class Evaluator {
                 ? new EvaluationLimitException(
                       this,
                       this.project.getMain().expression,
-                      this.evaluations.map((e) => e.getDefinition())
+                      this.evaluations.map((e) => e.getDefinition()),
                   )
                 : // If it seems like we're evaluating something very time consuming, halt.
-                this.#totalStepCount > MAX_STEP_COUNT
-                ? new StepLimitException(
-                      this,
-                      this.project.getMain().expression
-                  )
-                : // Otherwise, step the current evaluation and get it's value
-                  evaluation.step(this);
+                  this.#totalStepCount > MAX_STEP_COUNT
+                  ? new StepLimitException(
+                        this,
+                        this.project.getMain().expression,
+                    )
+                  : // Otherwise, step the current evaluation and get it's value
+                    evaluation.step(this);
 
         // If it's an exception on main, halt execution by returning the exception value.
         if (
@@ -955,7 +1083,7 @@ export default class Evaluator {
         // Compute our our target step
         const destinationStep = Math.max(
             this.#stepIndex + offset,
-            this.getEarliestStepIndexAvailable()
+            this.getEarliestStepIndexAvailable(),
         );
 
         // Find the latest reaction prior to the desired step.
@@ -975,9 +1103,7 @@ export default class Evaluator {
             // If done, then something's broken in the program, since it should always be possible to ... GET BACK TO THE FUTURE (lol)
             if (this.isDone()) {
                 console.error(
-                    `Couldn't get back to the future; step ${destinationStep}/${
-                        this.#stepCount
-                    } unreachable. Fatal defect in Evaluator.`
+                    `Couldn't get back to the future; step ${destinationStep}/${this.#stepCount} unreachable. Fatal defect in Evaluator.`,
                 );
                 return false;
             }
@@ -1011,7 +1137,7 @@ export default class Evaluator {
     stepToInput(): boolean {
         // Find the input after the current index.
         const change = this.reactions.find(
-            (change) => change.stepIndex > this.getStepIndex()
+            (change) => change.stepIndex > this.getStepIndex(),
         );
 
         // If there's no change after the current step, step to the end.
@@ -1123,7 +1249,7 @@ export default class Evaluator {
     }
 
     getBasisStreamsOfType<Kind extends StreamValue>(
-        type: new (...params: never[]) => Kind
+        type: new (...params: never[]) => Kind,
     ) {
         // Make a big list of all the streams and filter by the ones of the given type.
         return Array.from(this.streamsByCreator.values())
@@ -1141,7 +1267,7 @@ export default class Evaluator {
     /** Given a stream creator, find the corresponding stream value. */
     getStreamFor(
         creator: StreamCreator,
-        before = false
+        before = false,
     ): StreamValue | undefined {
         const streams = this.streamsByCreator.get(creator);
         const count =
@@ -1181,7 +1307,7 @@ export default class Evaluator {
         if (!this.isInPast())
             this.addStreamFor(
                 reaction,
-                new ReactionStream(this, reaction, value)
+                new ReactionStream(this, reaction, value),
             );
     }
 
@@ -1231,14 +1357,14 @@ export default class Evaluator {
             // If we're in play mode, tick all the temporal streams.
             if (this.temporalReactions.length > 0)
                 console.error(
-                    "Something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!"
+                    "Something is modifying temporal streams outside of the Evaluator's control. Tsk tsk!",
                 );
             // Tick each one, indirectly filling this.temporalReactions.
             for (const stream of this.temporalStreams)
                 stream.tick(
                     this.currentTime,
                     this.timeDelta,
-                    this.timeMultiplier
+                    this.timeMultiplier,
                 );
 
             // Now reevaluate with all of the temporal stream updates.
@@ -1268,7 +1394,7 @@ export default class Evaluator {
             const evaluate = this.creatorByStream.get(stream);
             if (evaluate === undefined)
                 console.error(
-                    "Warning: received a stream change that doesn't correspond to an evaluate. There must be a defect somewhere."
+                    "Warning: received a stream change that doesn't correspond to an evaluate. There must be a defect somewhere.",
                 );
             else {
                 const number = this.streamsByCreator
@@ -1277,11 +1403,11 @@ export default class Evaluator {
                 const root = this.project.getRoot(evaluate);
                 if (root === undefined)
                     console.error(
-                        "Warning: evaluate associated with a stream isn't in the project."
+                        "Warning: evaluate associated with a stream isn't in the project.",
                     );
                 else if (number === undefined || number < 0)
                     console.error(
-                        "Warning: Couldn't find the stream associated with an evaluate."
+                        "Warning: Couldn't find the stream associated with an evaluate.",
                     );
                 else {
                     const source = this.project
@@ -1419,7 +1545,7 @@ export default class Evaluator {
         const evaluation = this.evaluations.shift();
         if (evaluation === undefined)
             throw Error(
-                "Shouldn't be possible to end an evaluation on an empty evaluation stack."
+                "Shouldn't be possible to end an evaluation on an empty evaluation stack.",
             );
         this.#lastEvaluation = evaluation;
         const def = evaluation.getDefinition();
@@ -1434,11 +1560,11 @@ export default class Evaluator {
                 // Trim the history to the same length that streams are trimmed.
                 const oldest = Math.max(
                     0,
-                    indexedValues.length - MAX_STREAM_LENGTH
+                    indexedValues.length - MAX_STREAM_LENGTH,
                 );
                 indexedValues = indexedValues.slice(
                     oldest,
-                    oldest + MAX_STREAM_LENGTH
+                    oldest + MAX_STREAM_LENGTH,
                 );
 
                 // Update the size
@@ -1493,7 +1619,7 @@ export default class Evaluator {
     evaluateFunction(
         catalyst: EvaluationNode,
         fun: FunctionDefinition,
-        values: Value[]
+        values: Value[],
     ): Value | undefined {
         // Do nothing if the function has no expression
         if (!(fun.expression instanceof Expression)) return undefined;
@@ -1527,7 +1653,7 @@ export default class Evaluator {
     getValueOrTypeException(
         expression: Expression,
         expected: Type,
-        value: Value | Evaluation | undefined
+        value: Value | Evaluation | undefined,
     ) {
         return value === undefined || value instanceof Evaluation
             ? new ValueException(this, expression)

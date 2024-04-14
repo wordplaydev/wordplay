@@ -29,7 +29,7 @@ export default class MapType extends BasisType {
         key: Type | undefined,
         bind: Token,
         value: Type | undefined,
-        close?: Token
+        close?: Token,
     ) {
         super();
 
@@ -48,14 +48,14 @@ export default class MapType extends BasisType {
             key,
             new BindToken(),
             value,
-            new SetCloseToken()
+            new SetCloseToken(),
         );
     }
 
     static getPossibleNodes(
         type: Type | undefined,
         node: Node,
-        selected: boolean
+        selected: boolean,
     ) {
         return [
             MapType.make(),
@@ -85,7 +85,7 @@ export default class MapType extends BasisType {
             this.replaceChild('key', this.key, replace),
             this.replaceChild('bind', this.bind, replace),
             this.replaceChild('value', this.value, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -111,14 +111,21 @@ export default class MapType extends BasisType {
                 (this.value === undefined ||
                     type.key === undefined ||
                     (type.value instanceof Type &&
-                        this.value.accepts(type.value, context)))
+                        this.value.accepts(type.value, context))),
+        );
+    }
+
+    concretize(context: Context) {
+        return MapType.make(
+            this.key?.concretize(context),
+            this.value?.concretize(context),
         );
     }
 
     generalize(context: Context) {
         return MapType.make(
             this.key?.generalize(context),
-            this.value?.generalize(context)
+            this.value?.generalize(context),
         );
     }
 
@@ -133,10 +140,10 @@ export default class MapType extends BasisType {
             this.key instanceof Type
             ? this.key
             : mapDef.types !== undefined &&
-              mapDef.types.variables[1].hasName(name) &&
-              this.value instanceof Type
-            ? this.value
-            : undefined;
+                mapDef.types.variables[1].hasName(name) &&
+                this.value instanceof Type
+              ? this.value
+              : undefined;
     }
 
     getNodeLocale(locales: Locales) {

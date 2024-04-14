@@ -107,7 +107,7 @@ export default class Evaluation {
         evaluation: EvaluationNode,
         definition: DefinitionNode,
         closure?: Evaluation | Value,
-        bindings?: Map<Names | string, Value>
+        bindings?: Map<Names | string, Value>,
     ) {
         this.#evaluator = evaluator;
         this.#evaluation = evaluation;
@@ -120,7 +120,7 @@ export default class Evaluation {
         // Derive some state
         this.#source = evaluator.project.getSourceOf(definition);
         this.#context = evaluator.project.getContext(
-            this.#source ?? evaluator.project.getMain()
+            this.#source ?? evaluator.project.getMain(),
         );
 
         // Ask the evaluator to compile (and optionally cache) steps for this definition.
@@ -168,7 +168,7 @@ export default class Evaluation {
     getValueOrTypeException(
         expression: Expression,
         expected: Type,
-        value: Value | Evaluation | undefined
+        value: Value | Evaluation | undefined,
     ) {
         return value === undefined || value instanceof Evaluation
             ? new ValueException(this.getEvaluator(), expression)
@@ -176,7 +176,7 @@ export default class Evaluation {
                   expression,
                   this.getEvaluator(),
                   expected,
-                  value
+                  value,
               );
     }
 
@@ -233,7 +233,7 @@ export default class Evaluation {
             if (this.#definition.kind === BlockKind.Root)
                 return new BlankException(
                     this.#evaluator,
-                    this.#evaluator.getMain().expression
+                    this.#evaluator.getMain().expression,
                 );
             else if (this.#definition.kind === BlockKind.Structure)
                 return new NoneValue(this.#definition);
@@ -280,8 +280,14 @@ export default class Evaluation {
         return this.#values.length > 0;
     }
 
-    getBindings() {
-        return this.#bindings.map((b) => new Map(b));
+    getBindingsByNames(): Map<Names, Value> {
+        const bindings = new Map<Names, Value>();
+        for (const binding of this.#bindings) {
+            for (const [key, value] of binding) {
+                if (key instanceof Names) bindings.set(key, value);
+            }
+        }
+        return bindings;
     }
 
     getValues() {
@@ -290,7 +296,7 @@ export default class Evaluation {
 
     binds(value: Value) {
         return this.#bindings.some((bindings) =>
-            Array.from(bindings.values()).includes(value)
+            Array.from(bindings.values()).includes(value),
         );
     }
 
@@ -302,7 +308,7 @@ export default class Evaluation {
         this.#bindings.shift();
         if (this.#bindings.length === 0)
             console.error(
-                'Error in evaluation, no bindings remaining in evaluation'
+                'Error in evaluation, no bindings remaining in evaluation',
             );
     }
 
@@ -326,7 +332,7 @@ export default class Evaluation {
                 requestor,
                 this.#evaluator,
                 expected,
-                value
+                value,
             );
         else return value;
     }
@@ -346,7 +352,7 @@ export default class Evaluation {
     /** A convience function for getting a value by name, but only if it is a certain type */
     get<Kind>(
         name: string | Names,
-        type: new (...params: never[]) => Kind
+        type: new (...params: never[]) => Kind,
     ): Kind | undefined {
         const value = this.resolve(name);
         return value instanceof type ? value : undefined;
@@ -368,7 +374,7 @@ export default class Evaluation {
 
     resolveDefault(name: string): Value | undefined {
         const def = this.#evaluator.project.shares.all.find((def) =>
-            def.hasName(name)
+            def.hasName(name),
         );
 
         // Any of the defaults match? Wrap them in values.
@@ -392,7 +398,7 @@ export default class Evaluation {
     getConversion(input: Type, output: Type) {
         // Do any of the conversions in scope do the requested conversion?
         return this.#conversions.find((c) =>
-            c.definition.convertsTypeTo(input, output, this.#context)
+            c.definition.convertsTypeTo(input, output, this.#context),
         );
     }
 
@@ -425,7 +431,7 @@ export default class Evaluation {
     withValue(
         creator: EvaluationNode,
         property: string,
-        value: Value
+        value: Value,
     ): Evaluation | undefined {
         const bindings = this.#bindings[0];
 
@@ -436,12 +442,12 @@ export default class Evaluation {
             creator,
             this.#definition,
             this.#closure,
-            this.#bindings[0]
+            this.#bindings[0],
         );
 
         // Find the corresponding name.
         const names = Array.from(newEvaluation.#bindings[0].keys()).find(
-            (name) => name instanceof Names && name.hasName(property)
+            (name) => name instanceof Names && name.hasName(property),
         );
 
         // Otherwise, set the bindings.

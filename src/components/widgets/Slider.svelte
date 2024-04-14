@@ -7,6 +7,7 @@
     export let max: number;
     export let unit: string;
     export let increment: number;
+    export let label: string | undefined = undefined;
     export let tip: string;
     export let change: (value: Decimal) => void;
     export let precision = 0;
@@ -19,7 +20,7 @@
             change(
                 new Decimal(value)
                     // Add two digits of precision to percent units
-                    .toDecimalPlaces(precision + (unit === '%' ? 2 : 0))
+                    .toDecimalPlaces(precision + (unit === '%' ? 2 : 0)),
             );
         await tick();
         view?.focus();
@@ -34,11 +35,15 @@
         makes it vertically off center.
     -->
     &#8203;
+    {#if label}
+        <label for="label">{label}</label>
+    {/if}
     <input
         class="slider"
         type="range"
         aria-label={tip}
         title={tip}
+        id={label}
         {min}
         {max}
         step={increment}
@@ -52,7 +57,7 @@
             ø
         {:else}
             {(value * (unit === '%' ? 100 : 1)).toFixed(
-                Math.max(0, precision)
+                Math.max(0, precision),
             ) + unit}
         {/if}
     </div>
@@ -71,6 +76,10 @@
 
     .slider {
         flex: 1;
+    }
+
+    label {
+        font-style: italic;
     }
 
     .text {

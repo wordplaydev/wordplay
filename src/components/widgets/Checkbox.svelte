@@ -19,6 +19,7 @@
     {id}
     disabled={!editable}
     bind:checked={on}
+    indeterminate={on === undefined}
     on:change={handleInput}
 />
 
@@ -35,5 +36,9 @@
 
     [type='checkbox']:checked {
         background: var(--wordplay-foreground);
+    }
+
+    input:indeterminate {
+        transform: rotate(45deg);
     }
 </style>

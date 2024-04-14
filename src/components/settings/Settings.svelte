@@ -9,6 +9,7 @@
         mic,
         Settings,
         dark,
+        spaceIndicator,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import Options from '../widgets/Options.svelte';
@@ -208,6 +209,19 @@
                 modes={['☼', '☽', '☼/☽']}
             />
         </p>
+        <p
+        ><Mode
+            descriptions={$locales.get(
+                (l) => l.ui.dialog.settings.mode.space,
+            )}
+            choice={$spaceIndicator === false ? 1 : 0}
+            select={(choice) =>
+                Settings.setSpace(
+                    choice === 0 ? true : false,
+                )}
+            modes={['✓', '✗']}
+        />
+    </p>
     </Dialog>
 </div>
 

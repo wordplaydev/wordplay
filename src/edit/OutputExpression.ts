@@ -57,6 +57,7 @@ export default class OutputExpression {
     getType(): StructureDefinition | undefined {
         const context = this.project.getNodeContext(this.node);
         const fun = this.node.getFunction(context);
+
         return fun instanceof StructureDefinition &&
             (fun === this.project.shares.output.Stage ||
                 fun === this.project.shares.output.Group ||

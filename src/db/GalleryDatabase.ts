@@ -99,8 +99,8 @@ export default class GalleryDatabase {
                 collection(firestore, GalleriesCollection),
                 or(
                     where('curators', 'array-contains', user.uid),
-                    where('creators', 'array-contains', user.uid)
-                )
+                    where('creators', 'array-contains', user.uid),
+                ),
             ),
             async (snapshot) => {
                 // Get the existing galleries, or make a map if we don't have them.
@@ -143,7 +143,7 @@ export default class GalleryDatabase {
                     console.error(error.code);
                     console.error(error.message);
                 }
-            }
+            },
         );
     }
 
@@ -157,7 +157,7 @@ export default class GalleryDatabase {
         const id = uuidv4();
         const name: Record<string, string> = {};
         name[toLocaleString(locales.getLocales()[0])] = locales.get(
-            (l) => l.ui.gallery.untitled
+            (l) => l.ui.gallery.untitled,
         );
         const description: Record<string, string> = {};
         description[toLocaleString(locales.getLocales()[0])] = '';
@@ -175,8 +175,8 @@ export default class GalleryDatabase {
             featured: false,
         };
 
-        // Save the gallery locally.
-        this.edit(new Gallery(gallery));
+        // Save the gallery online, and then locally. Return when it's created.
+        await this.edit(new Gallery(gallery));
 
         return id;
     }
@@ -197,7 +197,7 @@ export default class GalleryDatabase {
         if (firestore) {
             try {
                 const galDoc = await getDoc(
-                    doc(firestore, GalleriesCollection, id)
+                    doc(firestore, GalleriesCollection, id),
                 );
                 if (galDoc.exists()) {
                     const gallery = deserializeGallery(galDoc.data());
@@ -228,14 +228,14 @@ export default class GalleryDatabase {
         if (firestore === undefined) return undefined;
         await setDoc(
             doc(firestore, GalleriesCollection, gallery.getID()),
-            gallery.data
+            gallery.data,
         );
 
         // Update the gallery store for this gallery.
         const galleries = get(this.creatorGalleries);
         galleries.set(
             gallery.getID(),
-            galleries.get(gallery.getID()) ?? writable(gallery)
+            galleries.get(gallery.getID()) ?? writable(gallery),
         );
     }
 
@@ -260,7 +260,7 @@ export default class GalleryDatabase {
         this.database.Projects.edit(
             project.withGallery(galleryID),
             false,
-            true
+            true,
         );
 
         // Remove the project from other galleries, since a project can only be in one gallery.
@@ -307,7 +307,7 @@ export default class GalleryDatabase {
 
     async removeCreatorPojrects(
         gallery: Gallery,
-        uid: string
+        uid: string,
     ): Promise<string[]> {
         // Find all of the projects for which the given creator is an owner
         // so we can remove them from the given gallery.
@@ -320,7 +320,7 @@ export default class GalleryDatabase {
                 this.database.Projects.edit(
                     project.withGallery(null),
                     false,
-                    true
+                    true,
                 );
             }
         }

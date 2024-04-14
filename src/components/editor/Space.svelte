@@ -5,6 +5,7 @@
     import InsertionPointView from './InsertionPointView.svelte';
     import type { InsertionPoint } from '../../edit/Drag';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
+    import { spaceIndicator } from '../../db/Database';
 
     export let token: Token;
     export let space: string;
@@ -19,20 +20,31 @@
     $: beforeSpaces =
         insertionIndex === undefined
             ? []
-            : render(space.substring(0, insertionIndex), true);
+            : render(space.substring(0, insertionIndex), true, $spaceIndicator);
     // If there's no insertion, just render the space, otherwise render the right side of the insertion.
     $: afterSpaces = render(
         insertionIndex === undefined ? space : space.substring(insertionIndex),
-        true
+        true,
+        $spaceIndicator,
     );
 
     $: additionalSpaces =
-        additional.length === 0 ? [] : render(additional, false);
+        additional.length === 0
+            ? []
+            : render(additional, false, $spaceIndicator);
 
-    function render(text: string, explicit: boolean): string[] {
+    function render(
+        text: string,
+        explicit: boolean,
+        indicator: boolean,
+    ): string[] {
         return (
             explicit
-                ? text.replaceAll(' ', '·').replaceAll('\t', EXPLICIT_TAB_TEXT)
+                ? indicator
+                    ? text
+                          .replaceAll(' ', '·')
+                          .replaceAll('\t', EXPLICIT_TAB_TEXT)
+                    : text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT)
                 : text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT)
         ).split('\n');
     }
@@ -42,21 +54,23 @@
     This monstrosity renders space, accounting for insertion points. We key on space
     to work around a Svelte defect that doesn't correctly update changes in text nodes.
 -->
-{#key space}
-    <span class="space" role="none" data-id={token.id}
-        ><span role="none" class="before"
-            >{#each beforeSpaces as s, index}{#if index > 0}<span
-                        ><br class="break" /></span
-                    >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
-                />{/if}</span
-        ><span role="none" class="after"
-            >{#each afterSpaces as s, index}{#if index > 0}<span
-                        ><br class="break" /></span
-                    >{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
-                        ><br class="break" /></span
-                    >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
-        ></span
-    >
+{#key $spaceIndicator}
+    {#key space}
+        <span class="space" role="none" data-id={token.id}
+            ><span role="none" class="before"
+                >{#each beforeSpaces as s, index}{#if index > 0}<span
+                            ><br class="break" /></span
+                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+                    />{/if}</span
+            ><span role="none" class="after"
+                >{#each afterSpaces as s, index}{#if index > 0}<span
+                            ><br class="break" /></span
+                        >{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
+                            ><br class="break" /></span
+                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
+            ></span
+        >
+    {/key}
 {/key}
 
 <style>

@@ -28,7 +28,7 @@ export default class StreamType extends Type {
     static make(type?: Type) {
         return new StreamType(
             new Token(STREAM_SYMBOL, Sym.Stream),
-            type ?? new AnyType()
+            type ?? new AnyType(),
         );
     }
 
@@ -53,7 +53,7 @@ export default class StreamType extends Type {
             .every(
                 (type) =>
                     type instanceof StreamType &&
-                    this.type.accepts(type.type, context)
+                    this.type.accepts(type.type, context),
             );
     }
 
@@ -61,10 +61,14 @@ export default class StreamType extends Type {
         return 'stream';
     }
 
+    concretize(context: Context) {
+        return StreamType.make(this.type.concretize(context));
+    }
+
     clone(replace?: Replacement) {
         return new StreamType(
             this.replaceChild('stream', this.stream, replace),
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 

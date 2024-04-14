@@ -11,9 +11,7 @@ const flags = ['admin', 'mod', 'banned'];
 // If there aren't any arguments, bail.
 if (process.argv.length <= 2) {
     console.log('usage:');
-    console.log(
-        `node claims.cjs [email] [dev|prod] [+|-] [${flags.join('|')}]`
-    );
+    console.log(`node claims.js [email] [dev|prod] [+|-] [${flags.join('|')}]`);
     process.exit();
 }
 
@@ -28,7 +26,7 @@ if (email === undefined) {
 const project = process.argv[3];
 if (project !== 'dev' && project !== 'prod') {
     console.log(
-        `Expected 'dev' or 'prod' after email, but received ${project}`
+        `Expected 'dev' or 'prod' after email, but received ${project}`,
     );
     process.exit();
 }
@@ -53,7 +51,7 @@ const serviceKeyPath = `../firebase-${project}-service-key.json`;
 
 // Log in with the secret service key generated in the Firebase service accounts console.
 const serviceAccount = JSON.parse(
-    readFileSync(`../wordplay-${project}-service-key.json`, 'utf8')
+    readFileSync(`../wordplay-${project}-service-key.json`, 'utf8'),
 );
 
 if (serviceAccount === undefined) {
@@ -91,7 +89,7 @@ getAuth()
                     console.log(
                         `Successfully ${
                             operation === '+' ? 'added' : 'removed'
-                        } '${privilege}' privilege`
+                        } '${privilege}' privilege`,
                     );
                 });
         }

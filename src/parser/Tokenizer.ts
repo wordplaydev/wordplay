@@ -60,6 +60,8 @@ import {
     DELETE_SYMBOL,
     UPDATE_SYMBOL,
     COALESCE_SYMBOL,
+    ELISION_SYMBOL,
+    MATCH_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ConceptRegEx from './ConceptRegEx';
@@ -71,7 +73,7 @@ const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRO
 export const OperatorRegEx = new RegExp(`^[${OPERATORS}]`, 'u');
 export const URLRegEx = new RegExp(
     /^(https?)?:\/\/(www.)?[-a-zA-Z0-9@:%._+~#=]{1,256}.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()!@:%_+.~#?&//=]*)/,
-    'u'
+    'u',
 );
 
 export const MarkupSymbols = [
@@ -102,7 +104,7 @@ export const FormattingSymbols = [
 export function unescapeMarkupSymbols(text: string) {
     return MarkupSymbols.reduce(
         (literal, special) => literal.replaceAll(special + special, special),
-        text
+        text,
     );
 }
 
@@ -128,13 +130,13 @@ export const WordsRegEx = new RegExp(
         (c) =>
             `${
                 c === '\\' || c === '/' || c === '[' || c === ']' ? '\\' : ''
-            }${c}`
+            }${c}`,
     ).join('')}])+`,
-    'u'
+    'u',
 );
 
 export const NameRegExPattern = `^[^\n\t ${ReservedSymbols.map((s) =>
-    escapeRegexCharacter(s)
+    escapeRegexCharacter(s),
 ).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
 export const NameRegEx = new RegExp(NameRegExPattern, 'u');
 
@@ -259,6 +261,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: EVAL_CLOSE_SYMBOL, types: [Sym.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: MEASUREMENT_SYMBOL, types: [Sym.NumberType] },
+    {
+        pattern: MATCH_SYMBOL,
+        types: [Sym.Match],
+    },
     {
         pattern: COALESCE_SYMBOL,
         types: [Sym.Otherwise],
@@ -406,7 +412,7 @@ export function tokenize(source: string): TokenList {
     // Maintain a stack of context tokens, helping us know when we are opening and closing text, docs, and code, as each has different tokenization rules.
     const context: Token[] = [];
     while (source.length > 0) {
-        // First read whitespace
+        // Initialize possible elisions and preceding space.
         let space = '';
 
         const container = context.length > 0 && context[0];
@@ -423,8 +429,9 @@ export function tokenize(source: string): TokenList {
             const spaceMatch = source.match(/^\n[ \t\n]*/);
             space = spaceMatch === null ? '' : spaceMatch[0];
         }
-        // If we're not in a doc, then slurp preceding space before the next token.
+        // If we're not in a doc, then slurp up elisions and preceding space before the next token.
         else {
+            // Read any preceding space.
             space = getNextSpace(source);
         }
 
@@ -435,7 +442,7 @@ export function tokenize(source: string): TokenList {
         // has not changed since we've entered.
         const stuff = getNextToken(source, context);
 
-        // Did the next token pull out some unexpected space? Override the space
+        // Did the next token pull out some unexpected space? Override the space. Apply the elision.
         const nextToken = Array.isArray(stuff) ? stuff[0] : stuff;
 
         if (Array.isArray(stuff) && stuff[1] !== undefined) {
@@ -505,7 +512,7 @@ export function tokenize(source: string): TokenList {
 
 function getNextToken(
     source: string,
-    context: Token[]
+    context: Token[],
 ): Token | [Token, string | undefined] {
     // If there's nothing left after trimming source, return an end of file token.
     if (source.length === 0) return new Token('', Sym.End);
@@ -524,13 +531,13 @@ function getNextToken(
             // For code, we want a standalone code open not preceded or followed by another.
             const codeIndex = source.match(/(?<!\\)\\(?!\\)/)?.index ?? -1;
             const closeIndex = source.indexOf(
-                TextCloseByTextOpen[container.getText()]
+                TextCloseByTextOpen[container.getText()],
             );
             const lineIndex = source.indexOf('\n');
             const stopIndex = Math.min(
                 codeIndex < 0 ? Number.POSITIVE_INFINITY : codeIndex,
                 closeIndex < 0 ? Number.POSITIVE_INFINITY : closeIndex,
-                lineIndex < 0 ? Number.POSITIVE_INFINITY : lineIndex
+                lineIndex < 0 ? Number.POSITIVE_INFINITY : lineIndex,
             );
 
             // If we ended this text with a newline, then shift out of the context.
@@ -543,9 +550,9 @@ function getNextToken(
                         0,
                         stopIndex === Number.POSITIVE_INFINITY
                             ? source.length
-                            : stopIndex
+                            : stopIndex,
                     ),
-                    Sym.Words
+                    Sym.Words,
                 );
             // Otherwise, read any preceding space for the next token, and tokenize whatever comes next.
             else {
@@ -610,7 +617,31 @@ function getNextToken(
     return new Token(source.substring(0, Math.max(end, 1)), Sym.Unknown);
 }
 
+/** Find all space and elisions, assuming an arbitrary number of spaces and elisions in sequence before another token is found. */
 function getNextSpace(source: string) {
-    const spaceMatch = source.match(/^[ \t\n]+/);
-    return spaceMatch === null ? '' : spaceMatch[0];
+    let index = 0;
+    let found = false;
+    do {
+        const next = source.charAt(index);
+        // Is the next character a space, newline, or tab? Eat it.
+        if (next === ' ' || next === '\t' || next === '\n') {
+            found = true;
+            index++;
+        }
+        // Is the next character an elision? Eat it.
+        else if (next === ELISION_SYMBOL) {
+            found = true;
+            index++;
+            while (
+                index < source.length &&
+                source.charAt(index) !== ELISION_SYMBOL
+            )
+                index++;
+            index++;
+        } else {
+            found = false;
+        }
+    } while (index < source.length && found);
+
+    return source.substring(0, index);
 }

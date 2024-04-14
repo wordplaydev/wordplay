@@ -87,7 +87,7 @@
 
     .annotation {
         padding-inline-start: var(--wordplay-spacing);
-        border-inline-start: var(--wordplay-border-radius) solid
+        border-inline-start: var(--wordplay-focus-width) solid
             var(--wordplay-error);
     }
 
@@ -124,7 +124,5 @@
     .description {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
     }
 </style>

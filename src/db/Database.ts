@@ -233,6 +233,7 @@ export const locales = DB.Locales.locales;
 export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
+export const spaceIndicator = Settings.settings.space.value;
 export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
 export const localized = Settings.settings.localized.value;

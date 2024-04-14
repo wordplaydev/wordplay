@@ -143,7 +143,15 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [toLocaleString(l), l.gallery.motion]),
             ),
-            ['Hira', 'Layers', 'Pounce', 'FootBall', 'Christmas', 'Easing'],
+            [
+                'Hira',
+                'Layers',
+                'Pounce',
+                'FootBall',
+                'Christmas',
+                'Easing',
+                'Lyrics',
+            ],
         ),
         createGallery(
             'AV',
@@ -157,7 +165,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             Object.fromEntries(
                 locale.map((l) => [toLocaleString(l), l.gallery.tools]),
             ),
-            ['Literacy', 'Timer', 'Headlines', 'SentenceLength'],
+            ['Calculator', 'Literacy', 'Timer', 'Headlines', 'SentenceLength'],
         ),
     ];
 }
