@@ -1,110 +1,121 @@
 <script lang="ts">
-    import { tokenize } from '../../parser/Tokenizer';
-    import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
-    import { IdleKind, getEditors } from '../project/Contexts';
-    import Button from '../widgets/Button.svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import TokenView from './TokenView.svelte';
     import { locales } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import concretize from '../../locale/concretize';
     import Toggle from '../widgets/Toggle.svelte';
+    import Label from '@components/widgets/Label.svelte';
+    import DropdownButton from '@components/widgets/DropdownButton.svelte';
+    import GlyphSearchArea from './GlyphSearchArea.svelte';
+    import type { WordplayCategories } from '../../unicode/Unicode';
 
     export let sourceID: string;
 
     const Defaults = Commands.filter(
         (command) => command.category === Category.Insert
     );
-    // [
-    //     CHANGE_SYMBOL,
-    //     DEGREE_SYMBOL,
-    //     EXAMPLE_OPEN_SYMBOL,
-    //     EXAMPLE_CLOSE_SYMBOL,
-    // ];
 
-    const editors = getEditors();
+    const categories: (WordplayCategories | "symbols")[] =  [
+        "symbols",
+        "emojis",
+        "arrows",
+        "shapes",
+        "other",
+    ]
+    let dropdownValue: WordplayCategories | undefined = undefined;
 
     let expanded = false;
-    let query = '';
-    $: results =
-        query.length < 3
-            ? []
-            : getUnicodeWithNameText(query).map((entry) =>
-                  String.fromCodePoint(entry.hex)
-              );
-
-    function insert(glyph: string) {
-        const editor = $editors?.get(sourceID);
-        if (editor) {
-            editor.edit(editor.caret.insert(glyph), IdleKind.Typed, true);
-        }
-    }
 </script>
 
-<section class:expanded class="directory" data-uiid="directory">
-    <TextField
-        placeholder="🔍"
-        description={$locales.get((l) => l.ui.source.cursor.search)}
-        bind:text={query}
-    />
-    <div class="matches">
-        {#if query === ''}
-            {#each Defaults as command}<CommandButton
-                    {sourceID}
-                    {command}
-                    token
-                    focusAfter
-                />{/each}
-        {:else}
-            {#each results as glyph}<Button
-                    tip={concretize(
-                        $locales,
-                        $locales.get((l) => l.ui.source.cursor.insertSymbol),
-                        glyph
-                    ).toText()}
-                    action={() => insert(glyph)}
-                    ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
-                >{:else}&mdash;{/each}
-        {/if}
+<section class="directory" data-uiid="directory">
+    <div class="top-bar">
+        <div class="left-bar">
+            <div class="operators">
+                <Label>{$locales.get((l) => l.ui.label.operator)}</Label>
+                {#each Defaults as command}<CommandButton
+                                {sourceID}
+                                {command}
+                                token
+                                focusAfter
+                            />{/each}
+            </div>
+            <div class="combo-wrapper">
+                <DropdownButton
+                    options={categories}
+                    direction="up"
+                    fill
+                    onSelect={(item) => {
+                        expanded = true;
+                    }}
+                    bind:value={dropdownValue}
+                />
+            </div>
+        </div>
+        <div class="toggleWrapper">
+            <Toggle
+                tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
+                on={expanded}
+                toggle={() => {
+                    expanded = !expanded;
+                    }}>{expanded ? '–' : '+'}</Toggle
+            >
+        </div>
     </div>
-    <Toggle
-        tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
-        on={expanded}
-        toggle={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Toggle
-    >
+    <div class:expanded class="search-area">
+        <GlyphSearchArea {sourceID} category={dropdownValue}/>
+    </div>
 </section>
 
 <style>
-    section {
+    
+    .top-bar {
+        padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        padding-left: var(--wordplay-spacing);
-        padding-right: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
-        align-items: center;
+        align-items: start;
+        justify-content: space-between;
+        width:100%;
+        overflow: none;
         border-top: var(--wordplay-border-color) solid 1px;
+        border-bottom: var(--wordplay-border-color) solid 1px;
     }
 
-    .matches {
-        flex-grow: 1;
+    .left-bar {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+        justify-content: start;
+        min-width: 95%;
+    }
+
+    .operators {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
-        overflow-x: auto;
+        align-items: center;
+        overflow: hidden;
+    }
+    
+    .search-area {
+        display: none;
         padding: var(--wordplay-spacing);
+        padding-bottom: 0;
     }
 
-    section.expanded {
-        height: 10em;
+    .expanded {
+        display: block;
     }
 
-    .expanded .matches {
-        overflow-x: none;
-        overflow-y: auto;
-        flex-wrap: wrap;
-        height: 100%;
+    .combo-wrapper {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+        justify-content: start;
+        width: 120px;
     }
+
 </style>

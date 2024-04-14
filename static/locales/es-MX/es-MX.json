@@ -4584,6 +4584,10 @@
         "template": {
             "unwritten": "Por determinar",
             "unparsable": "Plantilla no analizable: $1"
+        },
+        "label": {
+            "operator": "Operadores",
+            "recent": "Usados Recientemente"
         }
     },
     "moderation": {

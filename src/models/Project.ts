@@ -147,6 +147,7 @@ export default class Project {
         flags: Moderation = moderatedFlags(),
         // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined,
+        recentGlyphs: string[] = [],
     ) {
         return new Project({
             v: ProjectSchemaLatestVersion,
@@ -167,6 +168,7 @@ export default class Project {
             archived,
             persisted,
             gallery,
+            recentGlyphs,
             flags,
             timestamp: timestamp ?? Date.now(),
             nonPII: [],
@@ -806,6 +808,7 @@ export default class Project {
             archived: project.archived,
             persisted: project.persisted,
             gallery: project.gallery,
+            recentGlyphs: project.recentGlyphs,
             flags: { ...project.flags },
             timestamp: project.timestamp,
             nonPII: project.nonPII,
@@ -852,6 +855,14 @@ export default class Project {
 
     withGallery(id: string | null) {
         return new Project({ ...this.data, gallery: id });
+    }
+
+    getRecentGlyphs() {
+        return this.data.recentGlyphs;
+    }
+
+    withRecentGlyphs(glyphs: string[]) {
+        return new Project({ ...this.data, recentGlyphs: glyphs });
     }
 
     getFlags() {
@@ -922,6 +933,7 @@ export default class Project {
             persisted: this.isPersisted(),
             timestamp: this.data.timestamp,
             gallery: this.data.gallery,
+            recentGlyphs: this.data.recentGlyphs,
             flags: { ...this.data.flags },
             nonPII: this.data.nonPII,
         };

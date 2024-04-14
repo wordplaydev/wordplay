@@ -11,6 +11,10 @@
     export let active = true;
     export let uiid: string | undefined = undefined;
     export let command: Command | undefined = undefined;
+    export let fill: boolean = false;
+
+    export let onBlur: ((event: FocusEvent) => void) | undefined = undefined
+    export let onKeyDown: ((event: KeyboardEvent) => void) | undefined = undefined;
 
     async function doToggle(event: Event) {
         if (active) {
@@ -33,10 +37,13 @@
     data-uiid={uiid}
     class:on
     {title}
+    class:fill
     aria-label={title}
     aria-disabled={!active}
     aria-pressed={on}
     on:dblclick|stopPropagation
+    on:blur={onBlur}
+    on:keydown={onKeyDown}
     on:mousedown|preventDefault
     on:click={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
@@ -93,5 +100,9 @@
         cursor: default;
         background: none;
         color: var(--wordplay-inactive-color);
+    }
+
+    .fill {
+        width: 100%;
     }
 </style>

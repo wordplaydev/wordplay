@@ -10646,6 +10646,24 @@
               ],
               "type": "object"
             },
+            "label": {
+              "additionalProperties": false,
+              "properties": {
+                "operator": {
+                  "description": "The label for the quickly accessible operators",
+                  "type": "string"
+                },
+                "recent": {
+                  "description": "The label for the recently used glyphs",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "operator",
+                "recent"
+              ],
+              "type": "object"
+            },
             "tile": {
               "additionalProperties": false,
               "description": "Controls for the tiled windows in the project",
