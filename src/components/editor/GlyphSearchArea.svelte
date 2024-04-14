@@ -50,7 +50,6 @@
         } else {
             newGlyphs = [glyph].concat(recentGlyphs.splice(0, RECENTLY_USED_SIZE - 1));
         }
-        console.log(newGlyphs);
         
         const newProj = $project.withRecentGlyphs(newGlyphs)
         Projects.reviseProject(

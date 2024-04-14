@@ -196,18 +196,9 @@
     return searchString;
   };
 
-  const onComboBlur = (event: FocusEvent) => {
-    // select current option and close
-    if (menuOpen) {
-      selectOption(activeIndex);
-      updateMenuState(false, false);
-    }
-  };
-
   const onComboKeyDown = (event: KeyboardEvent) => {
     const { key } = event;
     const max = options.length - 1;
-
     const action = getActionFromKey(event, menuOpen);
 
     switch (action) {
@@ -328,7 +319,6 @@
       on={menuOpen} 
       fill={fill}
       toggle={() => (menuOpen = !menuOpen)}
-      onBlur={onComboBlur}
       onKeyDown={onComboKeyDown}
       >
       <div class="toggleInner">
@@ -338,14 +328,16 @@
     </Toggle>
   </div>
 	
-  <div id="myDropdown" class:openUp bind:this={listBox} class:show={menuOpen} class="dropdown-content"
+  <div class:openUp bind:this={listBox} class:show={menuOpen} class="dropdown-content"
   >		
     {#each options as item, i}
         <button 
           bind:this={optionRefs[i]}
           on:click={() => {
+            console.log("fired", item);
+            
             onOptionClick(i);
-            menuOpen = false;
+            // menuOpen = false;
             value = item;
           }}
           class="item"
