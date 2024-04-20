@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.391 2024-40-20
+
+### Maintenance
+
+-   Updated Firebase
+
 ## 0.9.39 2024-04-06
 
 ### Fixed
