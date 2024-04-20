@@ -3,7 +3,7 @@ name: Enhancement
 about: Suggest new or improved features, functionalty, or content
 title: ''
 labels: ['enhancement', 'needs design', 'needs triage']
-projects: ['wordplaydev/wordplay']
+projects: ['wordplaydev/7']
 assignees: ''
 ---
 
