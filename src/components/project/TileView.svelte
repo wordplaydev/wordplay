@@ -180,8 +180,9 @@
     on:pointerdown={handlePointerDown}
     on:keydown={handleKeyDown}
 >
+<!-- COMMENT: added class resizeable -->
     <section
-        class="tile {resizeDirection
+        class="resizeable tile {resizeDirection
             ? `resize-${resizeDirection}`
             : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
             ? 'editor-viewport'
@@ -274,6 +275,13 @@
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
+    }
+
+    /* COMMENT: added */
+    .resizeable {
+        resize: horizontal;
+        width: 100%;
+        /* overflow: auto; */
     }
 
     .main {

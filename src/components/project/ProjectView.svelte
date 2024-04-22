@@ -1244,6 +1244,7 @@
         bind:clientHeight={canvasHeight}
         bind:this={canvas}
     >
+    <!-- COMMENT: Right-hand side -->
         <!-- This little guy enables the scroll bars to appear at the furthest extent a window has moved. -->
         {#if $arrangement === Arrangement.Free}
             <div
@@ -1268,7 +1269,8 @@
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
                 {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
                     {#if tile.isExpanded() && (layout.fullscreenID === undefined || layout.fullscreenID === tile.id)}
-                        <TileView
+                        <!-- COMMENT: added class -->
+                        <div class="resizeable"><TileView
                             {project}
                             {tile}
                             {layout}
@@ -1469,7 +1471,7 @@
                                         caret={$editors.get(tile.id)?.caret}
                                     />{/if}</svelte:fragment
                             ></TileView
-                        >
+                        ></div>
                     {/if}
                 {/each}
             {/if}
@@ -1665,6 +1667,11 @@
 
     .canvas {
         flex: 1;
+    }
+
+    /* COMMENT: changed here */
+    .resizeable {
+        resize: horizontal;
     }
 
     /** If in free layout mode, allow scrolling of content */

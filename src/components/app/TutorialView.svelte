@@ -93,8 +93,8 @@
 
     const conceptPath = getConceptPath();
 
-    /* 
-        Silly workaround to only modify code when it actually changes. 
+    /*
+        Silly workaround to only modify code when it actually changes.
         The keyed each below should only update when it's different code,
         not just when it's assigned.
     */
@@ -246,6 +246,54 @@
         await tick();
         focusView?.focus();
     }
+
+    // const BORDER_SIZE = 4;
+    // const panel = document.getElementById("leftside");
+
+    // let m_pos = 0;
+    // function resize(e: any){
+    //     const dx = m_pos - e.x;
+    //     m_pos = e.x;
+    //     if (panel === null) {
+    //         return;
+    //     }
+    //     panel.style.width = (parseInt(getComputedStyle(panel, '').width) + dx) + "px";
+    // }
+
+    // panel?.addEventListener("mousedown", function(e){
+    // if (e.offsetX < BORDER_SIZE) {
+    //     m_pos = e.x;
+    //     document.addEventListener("mousemove", resize, false);
+    // }
+    // }, false);
+
+    // document.addEventListener("mouseup", function(){
+    //     document.removeEventListener("mousemove", resize, false);
+    // }, false);
+
+    // ATTEMPT 2
+
+    // let resize_el = document.getElementById("leftside");
+    // let m_pos = 0;
+    // function resize(e: any){
+    //     if (resize_el === null) {
+    //         return;
+    //     }
+    //     let parent = resize_el.parentElement;
+    //     let dx = m_pos - e.x;
+    //     m_pos = e.x;
+    //     if (parent === null) {
+    //         return;
+    //     }
+    //     parent.style.width = (parseInt(getComputedStyle(parent, '').width) + dx) + "px";
+    // }
+    // resize_el?.addEventListener("mousedown", function(e){
+    //     m_pos = e.x;
+    //     document.addEventListener("mousemove", resize, false);
+    // }, false);
+    // document.addEventListener("mouseup", function(){
+    //     document.removeEventListener("mousemove", resize, false);
+    // }, false);
 </script>
 
 <!-- If the body gets focus, focus the instructions. -->
@@ -284,7 +332,8 @@
         </nav>
     </div>
     <div class="content">
-        <div role="article" class="dialog">
+        <div role="article" id="leftside" class="dialog">
+            <!-- COMMENT: left-hand side, added leftside ID -->
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div
                 class="turns"
@@ -366,7 +415,8 @@
         {#key initialProject}
             {#if scene}
                 <div class="project"
-                    ><ProjectView
+                    >
+                    <ProjectView
                         project={$projectStore ?? initialProject}
                         original={initialProject}
                         bind:index={concepts}
@@ -451,9 +501,13 @@
     }
 
     .dialog {
+        /* cursor: w-resize; */
         height: 100%;
+        /* COMMENT: changed here */
+        resize: horizontal;
+        overflow: auto;
+        min-width: 0;
         width: 30%;
-        min-width: 30%;
         display: flex;
         flex-direction: column;
         min-height: 0;
@@ -498,6 +552,9 @@
         min-width: 0;
         width: 100%;
         height: 100%;
+        /* COMMENT: changed here */
+        resize: horizontal;
+        overflow: auto;
     }
 
     .progress {
