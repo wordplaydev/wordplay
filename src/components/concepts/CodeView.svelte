@@ -47,7 +47,7 @@
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
                     : undefined}
-            ><RootView {node} {inline} {spaces} preferred /></div
+            ><RootView {node} {inline} {spaces} preferred={true} /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}

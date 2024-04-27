@@ -67,20 +67,15 @@
             // What's the given space?
             let space = spaces ? spaces.getSpace(firstLeaf) : '';
 
-            let additional = '';
-            if (space === undefined && preferred) {
-                // What is the leaf's preferred space? Don't render newlines.
-                let preferred = Spaces.getPreferredPrecedingSpace(
-                    root,
-                    space,
-                    firstLeaf,
-                    false,
-                );
-                // Compute the additional space for rendering.
-                additional = spaces
-                    ? spaces.getAdditionalSpace(firstLeaf, preferred)
-                    : preferred;
-            }
+            let additional =
+                spaces === undefined && preferred
+                    ? Spaces.getPreferredPrecedingSpace(
+                          root,
+                          space,
+                          firstLeaf,
+                          false,
+                      )
+                    : '';
             newSpace.set(n, { token: firstLeaf, space, additional });
         }
 
