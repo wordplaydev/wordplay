@@ -327,6 +327,8 @@ type UITexts = {
         label: string;
         /** The description of the cursor position */
         cursor: Template;
+        /** The description fo the cursor position's parent */
+        cursorParent: Template;
         /** The prompt to line more about the cursor node */
         learn: Template;
         /** What function should say when evaluating */

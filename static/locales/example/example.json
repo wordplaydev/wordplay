@@ -2358,6 +2358,7 @@
         "annotations": {
             "label": "$?",
             "cursor": "$?",
+            "cursorParent": "$?",
             "learn": "$?",
             "evaluating": "$?",
             "space": "$?",

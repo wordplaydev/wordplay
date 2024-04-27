@@ -3905,6 +3905,7 @@
         "annotations": {
             "label": "$! 冲突",
             "cursor": "$?",
+            "cursorParent": "$?",
             "learn": "$?",
             "evaluating": "$?",
             "space": "$?",

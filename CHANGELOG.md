@@ -21,6 +21,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Removed unused font preload.
 -   Less aggressive local project persistence
 
+### Added
+
+-   Added description of the parent of the node the cursor is at.
+
 ### Maintenance
 
 -   Upgraded to Dexie 4.0.4.
