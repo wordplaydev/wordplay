@@ -29,7 +29,7 @@
         if (character) {
             const tutorial = await Locales.getTutorial(
                 locale.language,
-                locale.region
+                locale.region,
             );
             if (tutorial) {
                 for (const [actIndex, act] of tutorial.acts.entries()) {
@@ -39,7 +39,7 @@
                                 tutorial,
                                 actIndex + 1,
                                 sceneIndex + 1,
-                                0
+                                0,
                             ).getURL();
                         }
                     }
@@ -69,14 +69,14 @@
             {:else}
                 {concretize(
                     $locales,
-                    $locales.get((l) => l.ui.docs.nodoc)
+                    $locales.get((l) => l.ui.docs.nodoc),
                 )}
             {/if}
         </svelte:fragment>
         <svelte:fragment slot="aside"
             >{#if variables}{#each variables.variables as variable, index}{#if index > 0},
                     {/if}{@const name = variable.names.getPreferredName(
-                        $locales.getLocales()
+                        $locales.getLocales(),
                     )}{#if name}<RootView
                             localized
                             node={name.withoutLanguage()}

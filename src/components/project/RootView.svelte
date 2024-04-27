@@ -27,8 +27,10 @@
     import type Caret from '@edit/Caret';
 
     export let node: Node;
-    /** Optional space; if not provided, all nodes are rendered with preferred space. */
+    /** Optional space. To enable preferred space, set flag below. */
     export let spaces: Spaces | undefined = undefined;
+    /** If on, and no space is provided, preferred space is rendered. */
+    export let preferred = false;
     export let inert = false;
     export let inline = false;
     /** If inline, and true, this will be a maximum width */
@@ -65,23 +67,21 @@
             // What's the given space?
             let space = spaces ? spaces.getSpace(firstLeaf) : '';
 
-            // We disabled automatic pretty printing. It's too jumpy to be usable.
-            // Pretty printing can be applied on demand.
-
-            // What is the leaf's preferred space? Don't render newlines.
-            // let preferred = Spaces.getPreferredPrecedingSpace(
-            //     root,
-            //     space,
-            //     firstLeaf,
-            //     false,
-            // );
-            // Compute the additional space for rendering.
-            // let additional = spaces
-            //     ? spaces.getAdditionalSpace(firstLeaf, preferred)
-            //     : preferred;
-            // Save what we computed
-
-            newSpace.set(n, { token: firstLeaf, space, additional: '' });
+            let additional = '';
+            if (space === undefined && preferred) {
+                // What is the leaf's preferred space? Don't render newlines.
+                let preferred = Spaces.getPreferredPrecedingSpace(
+                    root,
+                    space,
+                    firstLeaf,
+                    false,
+                );
+                // Compute the additional space for rendering.
+                additional = spaces
+                    ? spaces.getAdditionalSpace(firstLeaf, preferred)
+                    : preferred;
+            }
+            newSpace.set(n, { token: firstLeaf, space, additional });
         }
 
         renderedSpace.set(newSpace);
