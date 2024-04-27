@@ -19,7 +19,6 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Only highlight definitions and uses of caret position when inside a token.
 -   Fixed incorrect placement of caret; it was assuming pretty printing.
 -   Removed unused font preload.
--   Less aggressive local project persistence
 
 ### Added
 
