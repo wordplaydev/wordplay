@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   When deleting program node, also delete its preceding space.
 -   Remove caret entry direction when selecting parent of caret.
 -   Only highlight definitions and uses of caret position when inside a token.
+-   Fixed incorrect placement of caret; it was assuming pretty printing.
 
 ## 0.9.391 2024-04-20
 
