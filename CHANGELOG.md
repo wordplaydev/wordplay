@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#450](https://github.com/wordplaydev/wordplay/issues/450) Tutorial typos!
 -   [#444](https://github.com/wordplaydev/wordplay/issues/444) Fixed fullscreen background behavior.
+-   [#452](https://github.com/wordplaydev/wordplay/issues/452) Fixed aggressive local project persistence causing slowdown.
 -   Removed `Toggle.svelte` background color when off.
 -   Restored preferred spacing on `CodeView`.
 -   Removed padding from `ConceptLinkUI` for better guide typography.
@@ -18,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Only highlight definitions and uses of caret position when inside a token.
 -   Fixed incorrect placement of caret; it was assuming pretty printing.
 -   Removed unused font preload.
+-   Less aggressive local project persistence
 
 ### Maintenance
 
