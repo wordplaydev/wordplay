@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   [#450](https://github.com/wordplaydev/wordplay/issues/450) Tutorial typos!
+-   [#444](https://github.com/wordplaydev/wordplay/issues/444) Fixed fullscreen background behavior.
 
 ## 0.9.391 2024-04-20
 

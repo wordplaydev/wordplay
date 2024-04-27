@@ -24,7 +24,7 @@ export default class Layout {
     constructor(
         projectID: string,
         tiles: Tile[],
-        fullscreenID: string | undefined
+        fullscreenID: string | undefined,
     ) {
         this.projectID = projectID;
         this.fullscreenID = fullscreenID;
@@ -58,15 +58,19 @@ export default class Layout {
                               tile.kind,
                               tile.expanded ? Mode.Expanded : Mode.Collapsed,
                               tile.bounds ?? undefined,
-                              tile.position ?? undefined
-                          )
+                              tile.position ?? undefined,
+                          ),
                   ),
-                  layout.fullscreen ?? undefined
+                  layout.fullscreen ?? undefined,
               );
     }
 
     isFullscreen() {
         return this.fullscreenID !== undefined;
+    }
+
+    isStageFullscreen() {
+        return this.fullscreenID === TileKind.Output;
     }
 
     isFullscreenNonSource() {
@@ -129,7 +133,7 @@ export default class Layout {
                       newTile,
                       ...this.tiles.slice(index + 1),
                   ],
-                  this.fullscreenID
+                  this.fullscreenID,
               );
     }
 
@@ -148,7 +152,7 @@ export default class Layout {
                       ...this.tiles.slice(index + 1),
                       tile,
                   ],
-                  this.fullscreenID
+                  this.fullscreenID,
               );
     }
 
@@ -169,9 +173,9 @@ export default class Layout {
         return new Layout(
             this.projectID,
             this.tiles.map((tile) =>
-                tile.id === tileID ? tile.withMode(Mode.Expanded) : tile
+                tile.id === tileID ? tile.withMode(Mode.Expanded) : tile,
             ),
-            tileID
+            tileID,
         );
     }
 
@@ -193,10 +197,10 @@ export default class Layout {
                 ? this.horizontal(width, height)
                 : this.vertical(width, height)
             : arrangement === Arrangement.Vertical
-            ? this.vertical(width, height)
-            : arrangement === Arrangement.Horizontal
-            ? this.horizontal(width, height)
-            : this.positioned();
+              ? this.vertical(width, height)
+              : arrangement === Arrangement.Horizontal
+                ? this.horizontal(width, height)
+                : this.positioned();
     }
 
     /* A stack of output and source files with optional palette next to output and docs next to source */
@@ -204,7 +208,7 @@ export default class Layout {
         let newLayout: Layout = new Layout(
             this.projectID,
             this.tiles,
-            this.fullscreenID
+            this.fullscreenID,
         );
         const expanded = this.expanded();
 
@@ -212,7 +216,7 @@ export default class Layout {
         const palette = expanded.find((tile) => tile.id === TileKind.Palette);
         const sources = expanded.filter((tile) => tile.id.startsWith('source'));
         const docs = expanded.find(
-            (tile) => tile.id === TileKind.Documentation
+            (tile) => tile.id === TileKind.Documentation,
         );
 
         let top = 0;
@@ -287,7 +291,7 @@ export default class Layout {
         let newLayout: Layout = new Layout(
             this.projectID,
             this.tiles,
-            this.fullscreenID
+            this.fullscreenID,
         );
         const expanded = this.expanded();
 
@@ -295,7 +299,7 @@ export default class Layout {
         const palette = expanded.find((tile) => tile.id === TileKind.Palette);
         const sources = expanded.filter((tile) => tile.id.startsWith('source'));
         const docs = expanded.find(
-            (tile) => tile.id === TileKind.Documentation
+            (tile) => tile.id === TileKind.Documentation,
         );
 
         let left = 0;
@@ -362,7 +366,7 @@ export default class Layout {
         let newLayout: Layout = new Layout(
             this.projectID,
             this.tiles,
-            this.fullscreenID
+            this.fullscreenID,
         );
         for (const tile of this.tiles)
             newLayout = newLayout.withTileBounds(tile, tile.position);
