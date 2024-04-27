@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#444](https://github.com/wordplaydev/wordplay/issues/444) Fixed fullscreen background behavior.
 -   Removed `Toggle.svelte` background color when off.
 -   Restored preferred spacing on `CodeView`.
+-   Removed padding from `ConceptLinkUI` for better guide typography.
 
 ## 0.9.391 2024-04-20
 
