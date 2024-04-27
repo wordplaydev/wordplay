@@ -12,6 +12,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Removed `Toggle.svelte` background color when off.
 -   Restored preferred spacing on `CodeView`.
 -   Removed padding from `ConceptLinkUI` for better guide typography.
+-   Included text in whitespace in selection bounding box.
+-   When deleting program node, also delete its preceding space.
 
 ## 0.9.391 2024-04-20
 
