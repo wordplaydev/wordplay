@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Removed padding from `ConceptLinkUI` for better guide typography.
 -   Included text in whitespace in selection bounding box.
 -   When deleting program node, also delete its preceding space.
+-   Remove caret entry direction when selecting parent of caret.
 
 ## 0.9.391 2024-04-20
 

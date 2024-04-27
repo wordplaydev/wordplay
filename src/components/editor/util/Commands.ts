@@ -767,7 +767,7 @@ const Commands: Command[] = [
             if (position instanceof Node) {
                 const parent = caret.source.root.getParent(position);
                 if (parent && !(parent instanceof Source))
-                    return caret.withPosition(parent);
+                    return caret.withPosition(parent).withEntry(undefined);
             }
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
@@ -778,9 +778,11 @@ const Commands: Command[] = [
                         : caret.getToken();
                 if (token !== undefined) {
                     const parent = caret.source.root.getParent(token);
-                    return caret.withPosition(
-                        parent?.getChildren()[0] === token ? parent : token,
-                    );
+                    return caret
+                        .withEntry(undefined)
+                        .withPosition(
+                            parent?.getChildren()[0] === token ? parent : token,
+                        );
                 }
             }
             return false;
