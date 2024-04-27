@@ -55,7 +55,7 @@
         user-select: none;
         border: none;
         border-radius: var(--wordplay-border-radius);
-        background: var(--wordplay-background);
+        background: none;
         color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
