@@ -249,7 +249,7 @@
     }
 
     // hard-coded
-    let dialogWidth: number = 300;
+    let dialogWidth: number = 400;
     let startWidth = -1;
 
     // Resizing stage with mouse drag
@@ -499,7 +499,7 @@
     .dialog {
         height: 100%;
         width: calc(var(--dialogWidth) * 1px);
-        min-width: 30%;
+        min-width: 0;
         display: flex;
         flex-direction: column;
         min-height: 0;
