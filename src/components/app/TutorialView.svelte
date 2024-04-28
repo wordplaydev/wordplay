@@ -35,6 +35,7 @@
     import { PersistenceType } from '../../db/ProjectHistory';
     import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
+    import { deltaE } from 'colorjs.io/fn';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -93,8 +94,8 @@
 
     const conceptPath = getConceptPath();
 
-    /* 
-        Silly workaround to only modify code when it actually changes. 
+    /*
+        Silly workaround to only modify code when it actually changes.
         The keyed each below should only update when it's different code,
         not just when it's assigned.
     */
@@ -246,6 +247,41 @@
         await tick();
         focusView?.focus();
     }
+
+    // hard-coded
+    let dialogWidth: number = 300;
+    let startWidth = -1;
+
+    // Resizing stage with mouse drag
+    const onDrag = (node, params) => {
+        let startPos = -1;
+        const mouseDownAction = (e) => {
+            node.dispatchEvent(new CustomEvent('dragStart', {detail: ''}));
+            document.body.style['pointer-events'] = 'none';
+            startPos = e['screenX'];
+        }
+        const mouseUpAction = (e) => {
+            node.dispatchEvent(new CustomEvent('dragEnd', {detail: ''}));
+            document.body.style['pointer-events'] = 'auto';
+            startPos = -1;
+        }
+        const mouseMoveAction = (e) => {
+            if (startPos > 0) {
+                let delta = e['screenX'] - startPos;
+                node.dispatchEvent(new CustomEvent('drag', {detail: delta}));
+            }
+        }
+        node.addEventListener('mousedown', mouseDownAction);
+        document.addEventListener('mouseup', mouseUpAction);
+        document.addEventListener('mousemove', mouseMoveAction);
+        return {
+            destroy() {
+                node.removeEventListener('mousedown', mouseDownAction);
+                document.removeEventListener('mouseup', mouseUpAction);
+                document.removeEventListener('mousemove', mouseMoveAction);
+            }
+        }
+    }
 </script>
 
 <!-- If the body gets focus, focus the instructions. -->
@@ -284,7 +320,7 @@
         </nav>
     </div>
     <div class="content">
-        <div role="article" class="dialog">
+        <div role="article" class="dialog" style="--dialogWidth: {dialogWidth}">
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div
                 class="turns"
@@ -361,6 +397,15 @@
                 {/if}
             </div>
         </div>
+        <div
+            class="resizeable"
+            use:onDrag={{}}
+            on:dragStart={() => {
+                startWidth = dialogWidth;
+            }}
+            on:drag={({detail: delta}) => {
+                dialogWidth = startWidth + delta;
+            }}></div>
         <!-- Create a new view from scratch when the code changes -->
         <!-- Autofocus the main editor if it's currently focused -->
         {#key initialProject}
@@ -453,7 +498,7 @@
 
     .dialog {
         height: 100%;
-        width: 30%;
+        width: calc(var(--dialogWidth) * 1px);
         min-width: 30%;
         display: flex;
         flex-direction: column;
@@ -468,6 +513,15 @@
 
     .dialog:focus {
         outline-offset: calc(-1 * var(--wordplay-focus-width));
+    }
+
+    .resizeable {
+        background-color: gray;
+        width: 4px;
+        height: 100%;
+        left: 0;
+        cursor: ew-resize;
+        overflow: hidden;
     }
 
     nav {
