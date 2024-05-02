@@ -50,7 +50,7 @@ function addHighlight(
     source: Source,
     map: Highlights,
     node: Node,
-    type: HighlightType
+    type: HighlightType,
 ) {
     if (source.has(node)) {
         if (!map.has(node)) map.set(node, new Set<HighlightType>());
@@ -67,7 +67,7 @@ export function getHighlights(
     insertion: InsertionPoint | undefined,
     animatingNodes: Set<Node> | undefined,
     selectedOutput: Evaluate[] | undefined,
-    blocks: boolean
+    blocks: boolean,
 ): Highlights {
     const project = evaluator.project;
 
@@ -98,7 +98,7 @@ export function getHighlights(
             source,
             newHighlights,
             caret.position,
-            tokensSelected ? 'selected' : 'blockselected'
+            tokensSelected ? 'selected' : 'blockselected',
         );
         if (tokensSelected)
             addHighlight(source, newHighlights, caret.position, 'hovered');
@@ -126,7 +126,7 @@ export function getHighlights(
             if (dragged instanceof Expression)
                 for (const placeholder of source.expression.nodes(
                     (n): n is ExpressionPlaceholder =>
-                        n instanceof ExpressionPlaceholder
+                        n instanceof ExpressionPlaceholder,
                 ))
                     if (
                         !dragged.contains(placeholder) &&
@@ -134,20 +134,20 @@ export function getHighlights(
                             project,
                             dragged,
                             placeholder,
-                            insertion
+                            insertion,
                         )
                     )
                         addHighlight(
                             source,
                             newHighlights,
                             placeholder,
-                            'target'
+                            'target',
                         );
 
             // Find all of the type placeholders and highlight them sa drop target
             if (dragged instanceof Type)
                 for (const placeholder of source.expression.nodes<TypePlaceholder>(
-                    (n): n is TypePlaceholder => n instanceof TypePlaceholder
+                    (n): n is TypePlaceholder => n instanceof TypePlaceholder,
                 ))
                     if (
                         !dragged.contains(placeholder) &&
@@ -155,14 +155,14 @@ export function getHighlights(
                             project,
                             dragged,
                             placeholder,
-                            insertion
+                            insertion,
                         )
                     )
                         addHighlight(
                             source,
                             newHighlights,
                             placeholder,
-                            'target'
+                            'target',
                         );
         }
     }
@@ -190,7 +190,7 @@ export function getHighlights(
             source,
             newHighlights,
             primary,
-            conflicts.every((c) => !c.isMinor()) ? 'primary' : 'minor'
+            conflicts.every((c) => !c.isMinor()) ? 'primary' : 'minor',
         );
 
     // Tag all nodes with secondary conflicts as primary
@@ -218,22 +218,23 @@ export function getHighlights(
         }
     }
 
-    // Get the caret's parent and give it a hover highlight
+    // Get the caret's parent (if it's inside a token) and give it a hover highlight
     let caretParent: Node | undefined;
     if (caret.position instanceof Node)
         caretParent = source.root.getParent(caret.position);
-    else {
+    else if (caret.insideToken()) {
         const token = source.getTokenAt(caret.position);
         if (token) caretParent = source.root.getParent(token);
     }
 
+    // Should we highlight a node that the caret is hovering over?
     if (
         !blocks &&
         caretParent &&
         !caret.isNode() &&
         (animatingNodes === undefined ||
             !Array.from(animatingNodes).some((node) =>
-                node.contains(caretParent as Node)
+                node.contains(caretParent as Node),
             )) &&
         !(caretParent instanceof Program) &&
         !(caretParent instanceof Block && caretParent.isRoot())
@@ -246,26 +247,27 @@ export function getHighlights(
         caret.position instanceof NameType
             ? caret.position
             : caretParent instanceof Reference ||
-              caretParent instanceof NameType
-            ? caretParent
-            : undefined;
+                caretParent instanceof NameType
+              ? caretParent
+              : undefined;
 
     const name =
         caret.position instanceof Name
             ? caret.position
             : caretParent instanceof Name
-            ? caretParent
-            : undefined;
+              ? caretParent
+              : undefined;
     const definition = reference
         ? reference.resolve(project.getContext(source))
         : name
-        ? source.root
-              .getAncestors(name)
-              .find(
-                  (def): def is DefinitionExpression | Bind =>
-                      def instanceof DefinitionExpression || def instanceof Bind
-              )
-        : undefined;
+          ? source.root
+                .getAncestors(name)
+                .find(
+                    (def): def is DefinitionExpression | Bind =>
+                        def instanceof DefinitionExpression ||
+                        def instanceof Bind,
+                )
+          : undefined;
     if (definition) {
         if (reference) {
             if (definition !== undefined)
@@ -276,7 +278,7 @@ export function getHighlights(
                     source,
                     newHighlights,
                     definition.names,
-                    'hovered'
+                    'hovered',
                 );
             const context = project.getContext(source);
             for (const ref of source
@@ -284,7 +286,7 @@ export function getHighlights(
                 .filter(
                     (def): def is Reference | NameType =>
                         (def instanceof Reference || def instanceof NameType) &&
-                        def.resolve(context) === definition
+                        def.resolve(context) === definition,
                 ))
                 addHighlight(source, newHighlights, ref, 'hovered');
         }
@@ -299,7 +301,7 @@ export function updateOutlines(
     highlights: Highlights,
     horizontal: boolean,
     rtl: boolean,
-    getNodeView: (node: Node) => HTMLElement | undefined
+    getNodeView: (node: Node) => HTMLElement | undefined,
 ) {
     const outlines = [];
     const nodeViews = new Map<HighlightSpec, HTMLElement>();
@@ -323,7 +325,7 @@ export function updateOutlines(
         (a, b) =>
             b.underline.maxx -
             b.underline.minx -
-            (a.underline.maxx - a.underline.minx)
+            (a.underline.maxx - a.underline.minx),
     );
 
     const UnderlineHeight = 4;
@@ -350,8 +352,8 @@ export function updateOutlines(
                         Math.min(outline.underline.maxx, other.underline.maxx) -
                             Math.max(
                                 outline.underline.minx,
-                                other.underline.minx
-                            )
+                                other.underline.minx,
+                            ),
                     ) > 0
                 ) {
                     // Limit to 3 levels deep.
@@ -369,7 +371,7 @@ export function updateOutlines(
                     view,
                     horizontal,
                     rtl,
-                    offset
+                    offset,
                 );
         }
     }

@@ -190,10 +190,12 @@
         Writable<{ on: boolean; background: Color | string | null }> | undefined
     >('fullscreen');
 
+    /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $: pageFullscreen?.set({
         // Don't turn on fullscreen if we were requested to show output.
         on: layout.isFullscreen() && !showOutput,
-        background: outputBackground,
+        // Only set a background if it's the stage that's in fullscreen
+        background: layout.isStageFullscreen() ? outputBackground : null,
     });
 
     /** Whether the browser is in fullscreen */

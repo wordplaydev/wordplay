@@ -39,7 +39,7 @@
             : glyph.symbols;
 
     $: symbols = withVariationSelector(
-        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs
+        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs,
     );
 </script>
 
@@ -65,15 +65,14 @@
                 {symbols}
             {/if}
             <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
-        </div>
-        <slot name="aside" />
+        </div><slot name="aside" />
     </div>
     <div
         class="message {below
             ? 'below'
             : flip
-            ? 'flip'
-            : 'reading'} {typeof document !== 'undefined'
+              ? 'flip'
+              : 'reading'} {typeof document !== 'undefined'
             ? document.documentElement.dir
             : 'ltr'}"
     >

@@ -396,6 +396,7 @@
         flex-wrap: nowrap;
         width: 100%;
         height: 100%;
+        background: var(--wordplay-background);
     }
 
     .header {

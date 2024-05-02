@@ -11,7 +11,7 @@
 
 <script lang="ts">
     import { afterUpdate, tick } from 'svelte';
-    import Spaces, { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
+    import { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
     import { animationDuration, blocks, locales } from '../../db/Database';
@@ -512,19 +512,6 @@
                     spaceOnLastLine.length -
                         (explicitSpace.length - spaceIndex),
                 );
-
-                // If there's preferred space after the explicit space, and we're on the last line of explicit space, include it.
-                if (explicitSpace.length - spaceIndex === 0) {
-                    spaceOnLastLine += caret.source.spaces.getAdditionalSpace(
-                        token,
-                        Spaces.getPreferredPrecedingSpace(
-                            caret.source.root,
-                            caret.source.spaces.getSpace(token),
-                            token,
-                            false,
-                        ) ?? '',
-                    );
-                }
 
                 // Compute the spaces prior to the caret on this line.
                 const nonTabs = new UnicodeString(

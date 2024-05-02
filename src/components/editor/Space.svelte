@@ -56,18 +56,23 @@
 -->
 {#key $spaceIndicator}
     {#key space}
-        <span class="space" role="none" data-id={token.id}
+        <span class="space" role="none" data-id={token.id} data-uiid="space"
             ><span role="none" class="before"
                 >{#each beforeSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
-                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
+                            data-uiid="space-text">{s}</span
+                        >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                     />{/if}</span
             ><span role="none" class="after"
                 >{#each afterSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
-                        >{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
+                        >{/if}<span data-uiid="space-text">{s}</span
+                    >{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
-                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
+                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
+                            data-uiid="space-text">{s}</span
+                        >{/if}{/each}</span
             ></span
         >
     {/key}
@@ -76,6 +81,7 @@
 <style>
     /* Make space visible, but just so. */
     .space {
+        position: relative;
         color: var(--wordplay-inactive-color);
     }
 

@@ -4084,6 +4084,7 @@
         "annotations": {
             "label": "conflictos y ayuda",
             "cursor": "Esto es *$1*$2[ y son de tipo $2|].",
+            "cursorParent": "$?",
             "learn": "¿Quieres aprender más?",
             "evaluating": "¡Oh, qué divertido, evaluemos!",
             "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",

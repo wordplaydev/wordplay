@@ -19,6 +19,7 @@
     export let view: HTMLButtonElement | undefined = undefined;
     export let large = false;
     export let background = false;
+    export let padding = true;
 
     let loading = false;
 
@@ -41,6 +42,7 @@
 <button
     class:stretch
     class:background
+    class:padding
     class:scale
     class:large
     data-uiid={uiid}
@@ -79,8 +81,8 @@
         font-style: inherit;
         transform-origin: center;
         user-select: none;
+        padding: 0;
         border: none;
-        padding: calc(var(--wordplay-spacing) / 2);
         background: none;
         color: currentcolor;
         cursor: pointer;
@@ -94,6 +96,10 @@
         overflow: visible;
         /* Don't let it shrink smaller than its width */
         flex-shrink: 0;
+    }
+
+    .padding {
+        padding: calc(var(--wordplay-spacing) / 2);
     }
 
     button.stretch {

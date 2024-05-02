@@ -3,6 +3,38 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.392 2024-04-29
+
+### Fixed
+
+-   [#450](https://github.com/wordplaydev/wordplay/issues/450) Tutorial typos!
+-   [#444](https://github.com/wordplaydev/wordplay/issues/444) Fixed fullscreen background behavior.
+-   [#452](https://github.com/wordplaydev/wordplay/issues/452) Fixed aggressive local project persistence causing slowdown.
+-   Removed `Toggle.svelte` background color when off.
+-   Restored preferred spacing on `CodeView`.
+-   Removed padding from `ConceptLinkUI` for better guide typography.
+-   Included text in whitespace in selection bounding box.
+-   When deleting program node, also delete its preceding space.
+-   Remove caret entry direction when selecting parent of caret.
+-   Only highlight definitions and uses of caret position when inside a token.
+-   Fixed incorrect placement of caret; it was assuming pretty printing.
+-   Removed unused font preload.
+-   Less aggressive local project persistence
+
+### Added
+
+-   Added description of the parent of the node the cursor is at.
+
+### Maintenance
+
+-   Upgraded to Dexie 4.0.4.
+
+## 0.9.391 2024-04-20
+
+### Maintenance
+
+-   Updated Firebase
+
 ## 0.9.39 2024-04-06
 
 ### Fixed

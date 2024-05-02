@@ -22,7 +22,7 @@ function leftmost(rects: Rect[], at?: number) {
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.t < at && at < rect.b))
-            .map((r) => r.l)
+            .map((r) => r.l),
     );
 }
 
@@ -31,7 +31,7 @@ function topmost(rects: Rect[], at?: number) {
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.l < at && at < rect.r))
-            .map((r) => r.t)
+            .map((r) => r.t),
     );
 }
 
@@ -40,7 +40,7 @@ function rightmost(rects: Rect[], at?: number) {
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.t < at && at < rect.b))
-            .map((r) => r.r)
+            .map((r) => r.r),
     );
 }
 
@@ -49,7 +49,7 @@ function bottommost(rects: Rect[], at?: number) {
         undefined,
         rects
             .filter((rect) => at === undefined || (rect.l < at && at < rect.r))
-            .map((r) => r.b)
+            .map((r) => r.b),
     );
 }
 
@@ -84,6 +84,19 @@ function getViewRect(offset: { left: number; top: number }, view: HTMLElement) {
     };
 }
 
+/** Given a node view, get the bounding boxes of the space prior to it. */
+function getPrecedingSpaceRects(nodeView: HTMLElement): Rect[] {
+    const rects: Rect[] = [];
+
+    // Find the space view preceding the node view.
+    const spaceView = nodeView.previousElementSibling;
+    if (spaceView instanceof HTMLElement) {
+        rects.push(getViewRect(getEditorOffset(nodeView), spaceView));
+    }
+
+    return rects;
+}
+
 function getTokenRects(nodeView: HTMLElement) {
     const rects: Rect[] = [];
 
@@ -93,8 +106,24 @@ function getTokenRects(nodeView: HTMLElement) {
     // Get the rectangles of all of the tokens's text (or if a value, it's symbols).
     const tokenViews = nodeView.querySelectorAll('.token-view, .symbol');
     for (const view of tokenViews) {
-        if (view.closest('.hide') === null)
-            rects.push(getViewRect(nodeViewportOffset, view as HTMLElement));
+        if (view instanceof HTMLElement) {
+            if (view.closest('.hide') === null) {
+                // Find space textAdd rects for space prior to token
+                const spaceViews = nodeView.querySelectorAll(
+                    '.space[data-id="' +
+                        view.dataset.id +
+                        '"] [data-uiid="space-text"]',
+                );
+                for (const spaceView of spaceViews)
+                    if (spaceView instanceof HTMLElement)
+                        rects.push(
+                            getViewRect(getEditorOffset(nodeView), spaceView),
+                        );
+
+                // Add rects for token
+                rects.push(getViewRect(nodeViewportOffset, view));
+            }
+        }
     }
 
     return rects;
@@ -119,9 +148,15 @@ export function createRectangleOutlineOf(nodeView: HTMLElement): string {
 function toRows(
     nodeView: HTMLElement,
     horizontal: boolean,
-    rtl: boolean
+    rtl: boolean,
 ): Rect[] {
-    const rects: Rect[] = getTokenRects(nodeView);
+    const rects: Rect[] = [
+        // If this is a program node, include the program's preceding space, since it will be deleted if the program is deleted.
+        ...(nodeView.dataset.uiid === 'Program'
+            ? getPrecedingSpaceRects(nodeView)
+            : []),
+        ...getTokenRects(nodeView),
+    ];
 
     // The official way to render nothing...
     if (rects.length === 0) return [];
@@ -140,8 +175,8 @@ function toRows(
             (horizontal
                 ? rect.t + rect.h / 2 <= lastRect.b
                 : rtl
-                ? rect.r - rect.w / 2 >= lastRect.l
-                : rect.l + rect.w / 2 <= lastRect.r)
+                  ? rect.r - rect.w / 2 >= lastRect.l
+                  : rect.l + rect.w / 2 <= lastRect.r)
         )
             currentRow.push(rect);
         else rows.push([rect]);
@@ -164,7 +199,7 @@ export function getUnderlineOf(
     nodeView: HTMLElement,
     horizontal: boolean,
     rtl: boolean,
-    offset = 0
+    offset = 0,
 ) {
     const rows = toRows(nodeView, horizontal, rtl);
 
@@ -209,7 +244,7 @@ export function getUnderlineOf(
 export default function getOutlineOf(
     nodeView: HTMLElement,
     horizontal: boolean,
-    rtl: boolean
+    rtl: boolean,
 ): Outline {
     const lines = toRows(nodeView, horizontal, rtl);
 

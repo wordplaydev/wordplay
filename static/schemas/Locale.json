@@ -8288,6 +8288,10 @@
                   "$ref": "#/definitions/Template",
                   "description": "The description of the cursor position"
                 },
+                "cursorParent": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The description fo the cursor position's parent"
+                },
                 "evaluating": {
                   "$ref": "#/definitions/Template",
                   "description": "What function should say when evaluating"
@@ -8308,6 +8312,7 @@
               "required": [
                 "label",
                 "cursor",
+                "cursorParent",
                 "learn",
                 "evaluating",
                 "space",

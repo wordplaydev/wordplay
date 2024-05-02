@@ -4054,8 +4054,9 @@
         },
         "annotations": {
             "label": "conflicts and help",
-            "cursor": "This is *$1*$2[ and they are of type $2|].",
-            "learn": "Want to learn more?",
+            "cursor": "This is *$1*$2[ and they are of type $2|].    $3[ They're inside a *$3*.|]",
+            "cursorParent": "They're inside a *$1*$2[ of type $2|].",
+            "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
             "button": {

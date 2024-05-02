@@ -3,6 +3,7 @@ name: Maintenance
 about: Suggest an improvement to project maintenance
 title: ''
 labels: ['maintainability', 'needs triage']
+projects: ['wordplaydev/7']
 assignees: ''
 ---
 

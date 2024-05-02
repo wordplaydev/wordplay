@@ -142,7 +142,7 @@ export default class ProjectsDatabase {
                 project.isTutorial()
                     ? PersistenceType.Local
                     : PersistenceType.Online,
-                false,
+                true,
             );
     }
 
@@ -529,10 +529,12 @@ export default class ProjectsDatabase {
         const userID = this.database.getUserID();
 
         const editable = Array.from(this.projectHistories.values());
+        // Only save unsaved local projects.
         const local = editable.filter(
             (history) =>
-                history.getPersisted() === PersistenceType.Local ||
-                history.getPersisted() === PersistenceType.Online,
+                history.isUnsaved() &&
+                (history.getPersisted() === PersistenceType.Local ||
+                    history.getPersisted() === PersistenceType.Online),
         );
         const online = editable.filter(
             (history) => history.getPersisted() === PersistenceType.Online,

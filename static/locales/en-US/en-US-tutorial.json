@@ -183,7 +183,7 @@
                             "Program",
                             "neutral",
                             "Sure. I'm basically the organizer of the program for a performance.",
-                            "You can see me over there, with an *editor* @UI/editor showing me the *stage* @UI/stage showing the what I evaluate to (currently nothing). The *director* — that's you — helps everyone figure out what they're doing, writing a program for what will happen in the show. And then I evaluate the program and put the result on on stage for the audience to see."
+                            "You can see me over there, with an *editor* @UI/editor showing me the *stage* @UI/stage showing the what I evaluate to (currently nothing). The *director* — that's you — helps everyone figure out what they're doing, writing a program for what will happen in the show. And then I evaluate the program and put the result on stage for the audience to see."
                         ],
                         null,
                         [
@@ -346,7 +346,7 @@
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "They don't like being on stage, or even in a program for very long. They'd never admit it, but they're kind of a big deal, and most directors can't work without them. Think of the like a little helpful stagehand, reminding you of things you haven't figured out yet."
+                            "They don't like being on stage, or even in a program for very long. They'd never admit it, but they're kind of a big deal, and most directors can't work without them. Think of them like a little helpful stagehand, reminding you of things you haven't figured out yet."
                         ]
                     ]
                 },
@@ -824,7 +824,7 @@
                             "serious",
                             "You might not be able to type every character you want with the device you're using to communicate with us.",
                             "If you can't, you can search for characters in the *directory* @UI/directory. That contains every character in the Verse.",
-                            "For example, if you wanted an arrow of some kind, you could type 'arrow', and choose from the many arrows. Alas, they only have English names, so searching only works if you know English words :/"
+                            "For example, if you wanted an arrow of some kind, you could type 'arrow', and choose from the many arrows. Alas, they only have English names, so searching only works if you know English words :("
                         ],
                         null,
                         [
