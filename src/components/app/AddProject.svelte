@@ -4,8 +4,8 @@
     import Button from '@components/widgets/Button.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import { getTemplates } from '../../examples/examples';
-    import Loading from './Loading.svelte';
     import type Project from '@models/Project';
+    import Spinning from './Spinning.svelte';
 
     export let add: (newProject: Project) => void;
 
@@ -37,7 +37,7 @@
     <div class="templates">
         {#each templates as project}
             <ProjectPreview {project} action={() => add(project)} />{:else}
-            <Loading></Loading>
+            <div class="center"><Spinning large></Spinning></div>
         {/each}
     </div>
 </Dialog>
@@ -48,5 +48,11 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+    }
+
+    .center {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
     }
 </style>
