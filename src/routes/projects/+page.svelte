@@ -19,16 +19,9 @@
     import { get } from 'svelte/store';
     import Subheader from '@components/app/Subheader.svelte';
     import { EDIT_SYMBOL } from '../../parser/Symbols';
+    import AddProject from '@components/app/AddProject.svelte';
 
     const user = getUser();
-
-    function newProject() {
-        const newProjectID = Projects.create(
-            $locales.getLocales(),
-            $locales.get((l) => l.newProject)
-        );
-        goto(`/project/${newProjectID}`);
-    }
 
     let newGalleryError = false;
     async function newGallery() {
@@ -58,18 +51,18 @@
     <MarkupHtmlView
         markup={$locales.get((l) => l.ui.page.projects.projectprompt)}
     />
-    <p class="add">
-        <Button
-            tip={$locales.get((l) => l.ui.page.projects.button.newproject)}
-            action={newProject}
-            ><span style:font-size="xxx-large">+</span>
-        </Button></p
-    >
+    <AddProject
+        add={(template) => {
+            const newProjectID = Projects.copy(template);
+            goto(`/project/${newProjectID}`);
+        }}
+    />
+
     <ProjectPreviewSet
         set={$editableProjects}
         edit={{
             description: $locales.get(
-                (l) => l.ui.page.projects.button.editproject
+                (l) => l.ui.page.projects.button.editproject,
             ),
             action: (project) => goto(project.getLink(false)),
             label: EDIT_SYMBOL,
@@ -77,10 +70,10 @@
         remove={(project) => {
             return {
                 prompt: $locales.get(
-                    (l) => l.ui.page.projects.confirm.archive.prompt
+                    (l) => l.ui.page.projects.confirm.archive.prompt,
                 ),
                 description: $locales.get(
-                    (l) => l.ui.page.projects.confirm.archive.description
+                    (l) => l.ui.page.projects.confirm.archive.description,
                 ),
                 action: () => Projects.archiveProject(project.getID(), true),
                 label: '🗑️',
@@ -97,13 +90,13 @@
         />
         {#if $user === null}<Feedback
                 >{$locales.get(
-                    (l) => l.ui.page.projects.error.nodeletes
+                    (l) => l.ui.page.projects.error.nodeletes,
                 )}</Feedback
             >{/if}
         {#if deleteError}
             <Feedback
                 >{$locales.get(
-                    (l) => l.ui.page.projects.error.delete
+                    (l) => l.ui.page.projects.error.delete,
                 )}</Feedback
             >
         {/if}
@@ -111,7 +104,7 @@
             set={$archivedProjects}
             edit={{
                 description: $locales.get(
-                    (l) => l.ui.page.projects.button.unarchive
+                    (l) => l.ui.page.projects.button.unarchive,
                 ),
                 action: (project) =>
                     Projects.archiveProject(project.getID(), false),
@@ -121,10 +114,10 @@
                 $user && project.getOwner() === $user.uid
                     ? {
                           prompt: $locales.get(
-                              (l) => l.ui.page.projects.confirm.delete
+                              (l) => l.ui.page.projects.confirm.delete,
                           ).prompt,
                           description: $locales.get(
-                              (l) => l.ui.page.projects.confirm.delete
+                              (l) => l.ui.page.projects.confirm.delete,
                           ).description,
                           action: () => {
                               deleteError = false;
@@ -156,7 +149,7 @@
         {#if newGalleryError}
             <Feedback
                 >{$locales.get(
-                    (l) => l.ui.page.projects.error.newgallery
+                    (l) => l.ui.page.projects.error.newgallery,
                 )}</Feedback
             >
         {/if}
@@ -168,13 +161,13 @@
         {:else if $status === 'noaccess'}
             <Feedback
                 >{$locales.get(
-                    (l) => l.ui.page.projects.error.noaccess
+                    (l) => l.ui.page.projects.error.noaccess,
                 )}</Feedback
             >
         {:else if $status === 'loggedout'}
             <Feedback
                 >{$locales.get(
-                    (l) => l.ui.page.projects.error.nogalleryedits
+                    (l) => l.ui.page.projects.error.nogalleryedits,
                 )}</Feedback
             >
         {:else}
@@ -185,7 +178,7 @@
     {:else}
         <Feedback
             >{$locales.get(
-                (l) => l.ui.page.projects.error.nogalleryedits
+                (l) => l.ui.page.projects.error.nogalleryedits,
             )}</Feedback
         >
     {/if}

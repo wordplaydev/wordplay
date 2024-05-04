@@ -40,6 +40,8 @@ import {
     PROJECT_PARAM_EDIT,
     PROJECT_PARAM_PLAY,
 } from '../routes/project/constants';
+import Name from '@nodes/Name';
+import Doc from '@nodes/Doc';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -890,11 +892,98 @@ export default class Project {
         return new Project({
             ...this.data,
             nonPII: withPII,
-        })
+        });
     }
 
     isNotPII(text: string) {
         return this.data.nonPII.includes(text);
+    }
+
+    /**
+     * Creates a new project, filtering any Name or Doc that aren't one of the given locales' languages, and converting any references
+     * to the first preferred language given.
+     */
+    withRevisedLocales(locales: Locales) {
+        // Find all language tagged names that aren't in the desired locales so we can remove them.
+        const unnecessaryNames = this.getSources().reduce(
+            (matches: Name[], source) => {
+                return [
+                    ...matches,
+                    ...source.nodes().filter((n): n is Name => {
+                        if (!(n instanceof Name)) return false;
+                        const language = n.getLanguage();
+                        if (language === undefined) return false;
+                        return !locales.hasLanguage(language);
+                    }),
+                ];
+            },
+            [],
+        );
+
+        // Find all the language tagged docs that aren't in the desired locales so we can remove them.
+        const unnecessaryDocs = this.getSources().reduce(
+            (matches: Doc[], source) => {
+                return [
+                    ...matches,
+                    ...source.nodes().filter((n): n is Doc => {
+                        if (!(n instanceof Doc)) return false;
+                        const language = n.getLanguage();
+                        if (language === undefined) return false;
+                        return !locales.hasLanguage(language);
+                    }),
+                ];
+            },
+            [],
+        );
+
+        // Replace all the references in the project to the preferred language
+        const replacedReferences: [Reference, Reference][] =
+            this.getSources().reduce(
+                (matches: [Reference, Reference][], source) => {
+                    // Resolve the reference.
+                    const revisions: [Reference, Reference][] = [];
+                    for (const ref of source
+                        .nodes()
+                        .filter(
+                            (n): n is Reference => n instanceof Reference,
+                        )) {
+                        const def = ref.resolve(this.getNodeContext(ref));
+                        if (def) {
+                            const preferred = def.names
+                                .getPreferredName(locales.getLocales(), false)
+                                ?.getName();
+                            if (preferred) {
+                                revisions.push([
+                                    ref,
+                                    Reference.make(preferred),
+                                ]);
+                            }
+                        }
+                    }
+                    return [...matches, ...revisions];
+                },
+                [],
+            );
+
+        return (
+            // Remove all spacing before docs to be removed so there's no extra space.
+            this.withSources(
+                this.getSources().map((source) => {
+                    let spacing = source.getSpaces();
+                    for (const doc of unnecessaryDocs) {
+                        spacing = spacing.withSpace(doc, '');
+                    }
+                    return [source, source.withSpaces(spacing)];
+                }),
+            )
+                // Remove all the unnecessary nodes from the project, and replace others.
+                .withRevisedNodes(
+                    [...unnecessaryNames, ...unnecessaryDocs].map((node) => {
+                        return [node, undefined];
+                    }),
+                )
+                .withRevisedNodes(replacedReferences)
+        );
     }
 
     serialize(): SerializedProject {

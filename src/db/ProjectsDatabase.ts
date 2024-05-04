@@ -348,6 +348,12 @@ export default class ProjectsDatabase {
         return newProject.getID();
     }
 
+    copy(project: Project) {
+        const clone = project.copy();
+        this.track(clone, true, PersistenceType.Online, false);
+        return clone.getID();
+    }
+
     /** Returns the current version of the project with the given ID, if it exists. */
     async get(id: string): Promise<Project | undefined> {
         // First, check read only projects.

@@ -3,7 +3,6 @@
     "language": "en",
     "region": "US",
     "wordplay": "Wordplay",
-    "newProject": "Phrase('🐈' resting:Sequence(sway() 1s))",
     "term": {
         "bind": "bind",
         "evaluate": "evaluate",
@@ -4355,6 +4354,10 @@
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "Galleries",
                 "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
+                "add": {
+                    "header": "New Project",
+                    "explanation": "Choose a template to create a new project."
+                },
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",

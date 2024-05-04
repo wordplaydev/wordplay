@@ -2,13 +2,15 @@ import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
 import Gallery, { GallerySchemaLatestVersion } from '../models/Gallery';
 import { moderatedFlags } from '../models/Moderation';
-import type Locales from '../locale/Locales';
 import { toLocaleString } from '../locale/Locale';
 import type { GalleryText } from '../locale/GalleryTexts';
 import {
     ProjectSchemaLatestVersion,
     type SerializedProject,
 } from '../models/ProjectSchemas';
+import Project from '@models/Project';
+import type Locales from '@locale/Locales';
+import { Locales as LocalesDB } from '@db/Database';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';
@@ -68,6 +70,42 @@ export async function getExample(
             await fetch(`/examples/${id.split('-')[1]}.wp`)
         ).text();
         return parseSerializedProject(text, id);
+    } catch (error) {
+        console.error(error);
+        return undefined;
+    }
+}
+
+/** File names of template projects */
+export const Templates = [
+    'blank',
+    'phrase',
+    'animate',
+    'move',
+    'scene',
+    'mic',
+    'video',
+];
+
+export async function getTemplates(locales: Locales): Promise<Project[]> {
+    const projects = await Promise.all(
+        Templates.map((name) => getTemplate(name, locales)),
+    );
+
+    return projects.filter((p): p is Project => p !== undefined);
+}
+
+/** Function to load template project with particular locales */
+export async function getTemplate(
+    name: string,
+    locales: Locales,
+): Promise<Project | undefined> {
+    try {
+        const text = await (await fetch(`/templates/${name}.wp`)).text();
+        const project = parseSerializedProject(text, name);
+        return (await Project.deserializeProject(LocalesDB, project))
+            .withLocales(locales.getLocales())
+            .withRevisedLocales(locales);
     } catch (error) {
         console.error(error);
         return undefined;

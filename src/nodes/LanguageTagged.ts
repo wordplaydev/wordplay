@@ -1,3 +1,4 @@
+import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '../locale/Locale';
 import type Language from './Language';
 import Node from './Node';
@@ -10,18 +11,18 @@ export abstract class LanguageTagged extends Node {
         this.language = language;
     }
 
-    getLanguage() {
+    getLanguage(): LanguageCode | undefined {
         const locale =
             this.language === undefined
                 ? undefined
                 : this.language.getLanguageText();
-        return locale ? locale.split('-')[0] : undefined;
+        return locale ? (locale.split('-')[0] as LanguageCode) : undefined;
     }
 }
 
 export function getPreferred<Kind extends LanguageTagged>(
     locales: Locale[],
-    texts: Kind[]
+    texts: Kind[],
 ): Kind {
     // Find the first locale for which there's a matching locale or language.
     for (const locale of locales) {

@@ -14,6 +14,7 @@ import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type Context from './Context';
+import type LanguageCode from '@locale/LanguageCode';
 
 export default class Doc extends LanguageTagged {
     readonly open: Token;
@@ -78,6 +79,14 @@ export default class Doc extends LanguageTagged {
 
     withLanguage(language: Language) {
         return new Doc(this.open, this.markup, this.close, language);
+    }
+
+    hasLanguage() {
+        return this.language !== undefined;
+    }
+
+    isLanguage(language: LanguageCode) {
+        return this.language?.getLanguageCode() === language;
     }
 
     getFirstParagraph(): string {

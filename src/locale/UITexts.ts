@@ -705,6 +705,8 @@ type UITexts = {
             galleriesheader: string;
             /** A prompt to create galleries */
             galleryprompt: string;
+            /** Dialog text for the project addition dialog */
+            add: DialogText;
             /** Buttons on the project page */
             button: {
                 /** Create a new project */
