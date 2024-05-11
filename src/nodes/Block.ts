@@ -117,7 +117,8 @@ export default class Block extends Expression {
                 indent: !this.isRoot(),
                 newline:
                     this.isRoot() ||
-                    (this.isStructure() && this.statements.length > 0),
+                    (this.isStructure() && this.statements.length > 0) ||
+                    this.statements.length > 1,
                 initial: this.isStructure(),
             },
             {
