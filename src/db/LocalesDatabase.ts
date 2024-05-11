@@ -44,7 +44,7 @@ export default class LocalesDatabase {
         database: Database,
         locales: SupportedLocale[],
         defaultLocale: Locale,
-        setting: Setting<SupportedLocale[]>
+        setting: Setting<SupportedLocale[]>,
     ) {
         this.database = database;
         this.defaultLocale = defaultLocale;
@@ -57,7 +57,7 @@ export default class LocalesDatabase {
 
         // Load the requested locales, combining those given (from the browser) and those from the local storage settings.
         this.loadLocales(
-            Array.from(new Set([...locales, ...this.setting.get()]))
+            Array.from(new Set([...locales, ...this.setting.get()])),
         );
     }
 
@@ -67,14 +67,14 @@ export default class LocalesDatabase {
 
     async loadLocales(
         preferredLocales: SupportedLocale[],
-        refresh = false
+        refresh = false,
     ): Promise<Locale[]> {
         // Asynchronously load all unloaded locales.
         const locales = (
             await Promise.all(
                 preferredLocales.map(async (locale) =>
-                    this.loadLocale(locale, refresh)
-                )
+                    this.loadLocale(locale, refresh),
+                ),
             )
         ).filter((locale): locale is Locale => locale !== undefined);
 
@@ -96,7 +96,7 @@ export default class LocalesDatabase {
 
     async loadLocale(
         lang: SupportedLocale,
-        refresh: boolean
+        refresh: boolean,
     ): Promise<Locale | undefined> {
         // Already checked and it doesn't exist? Just return undefined.
         if (
@@ -123,7 +123,7 @@ export default class LocalesDatabase {
                     // First, see if the locale exists
                     fetch(path)
                         .then(async (response) =>
-                            response.ok ? await response.json() : undefined
+                            response.ok ? await response.json() : undefined,
                         )
                         .catch(() => undefined);
                 this.localesLoaded[lang] = promise;
@@ -156,7 +156,7 @@ export default class LocalesDatabase {
             .map((locale) => this.localesLoaded[locale])
             .filter(
                 (locale): locale is Locale =>
-                    locale !== undefined && !(locale instanceof Promise)
+                    locale !== undefined && !(locale instanceof Promise),
             );
 
         // Update the locales stores
@@ -195,7 +195,7 @@ export default class LocalesDatabase {
 
     async getTutorial(
         language: LanguageCode,
-        region: RegionCode
+        region: RegionCode,
     ): Promise<Tutorial | undefined> {
         const localeString = `${language}-${region}`;
 

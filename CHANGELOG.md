@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Changed toggle button color to always contrast backgrounds
 -   Defined foreground of footer to ensure button text is visible.
+-   Reset stage output when locales change.
 
 ## 0.9.4 2024-05-04
 
