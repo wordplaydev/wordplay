@@ -14,7 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.4 2024-05-04
 
-### Add
+### Added
 
 -   [#451](https://github.com/wordplaydev/wordplay/issues/451) New project templates.
 
