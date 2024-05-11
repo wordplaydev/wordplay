@@ -40,7 +40,7 @@ const templates: SerializedProject[] = readProjects('templates');
 test.each([...projects, ...templates])(
     `Ensure $name has no conflicts`,
     async (example: SerializedProject) => {
-        const project = await Project.deserializeProject(Locales, example);
+        const project = await Project.deserialize(Locales, example);
         project.analyze();
         project.getAnalysis();
         const context = project.getContext(project.getMain());
@@ -66,7 +66,7 @@ test.each([...projects, ...templates])(
 test.each([...templates])(
     'Ensure template names are localized',
     async (template: SerializedProject) => {
-        const project = await Project.deserializeProject(Locales, template);
+        const project = await Project.deserialize(Locales, template);
 
         // Find all names, except the binds that are inputs to an evaluae
         const names = project.getSources().reduce((binds: Names[], source) => {
@@ -113,7 +113,7 @@ test.each([...templates])(
 test.each([...templates])(
     'Ensure template docs are localized',
     async (template: SerializedProject) => {
-        const project = await Project.deserializeProject(Locales, template);
+        const project = await Project.deserialize(Locales, template);
 
         const supportedLanguages = SupportedLocales.map((locale) =>
             getLocaleLanguage(locale),
@@ -168,7 +168,7 @@ test.each([
 test.each([...projects])(
     `Ensure $name doesn't evaluate to exception`,
     async (example: SerializedProject) => {
-        const project = await Project.deserializeProject(Locales, example);
+        const project = await Project.deserialize(Locales, example);
         const evaluator = new Evaluator(project, DB, DefaultLocales, false);
         const value = evaluator.getInitialValue();
         evaluator.stop();

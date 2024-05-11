@@ -1,6 +1,8 @@
 import { get, writable, type Writable } from 'svelte/store';
-import type Project from '../models/Project';
+import Project from '../models/Project';
 import type Locale from '../locale/Locale';
+import type { SerializedProject } from '@models/ProjectSchemas';
+import type LocalesDatabase from './LocalesDatabase';
 
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;
@@ -40,7 +42,7 @@ export class ProjectHistory {
      * There is one history for the entire project; no per-source history.
      * History is not persisted, it's session-only.
      */
-    private history: Project[] = [];
+    private history: SerializedProject[] = [];
 
     /**  The index of the current project in the history. */
     private index: number;
@@ -61,19 +63,27 @@ export class ProjectHistory {
     /** True if the last edit was an overwrite */
     private overwrite = false;
 
-    constructor(project: Project, persist: PersistenceType, saved: boolean) {
+    /** A reference to the locales database so necessary locales can be loaded */
+    private locales: LocalesDatabase;
+
+    constructor(
+        project: Project,
+        persist: PersistenceType,
+        saved: boolean,
+        locales: LocalesDatabase,
+    ) {
         this.id = project.getID();
         this.current = writable(project);
-        this.history.push(project);
+        this.history.push(project.serialize());
         this.index = 0;
         this.persist = persist;
         this.saved = saved;
+        this.locales = locales;
     }
 
     /** Revise this project history to have all of the specified locales. */
     withLocales(locales: Locale[]) {
         this.current.set(get(this.current).withLocales(locales));
-        this.history = this.history.map((proj) => proj.withLocales(locales));
     }
 
     getCurrent() {
@@ -106,9 +116,9 @@ export class ProjectHistory {
         );
 
         // If we're remembering the last change, append the new project version.
-        if (remember) this.history = [...this.history, project];
+        if (remember) this.history = [...this.history, project.serialize()];
         // Otherwise, replace the latest version.
-        else this.history[this.history.length - 1] = project;
+        else this.history[this.history.length - 1] = project.serialize();
 
         // Mark this as an edit change.
         this.change = ChangeType.Edit;
@@ -149,7 +159,7 @@ export class ProjectHistory {
         return this.overwrite;
     }
 
-    undoRedo(direction: -1 | 1): Project | undefined {
+    async undoRedo(direction: -1 | 1): Promise<Project | undefined> {
         // In the present? Do nothing.
         if (direction > 0 && this.index === this.history.length - 1)
             return undefined;
@@ -159,7 +169,10 @@ export class ProjectHistory {
         // Move the index back a step in time
         this.index += direction;
 
-        const newProject = this.history[this.index];
+        const newProject: Project = await Project.deserialize(
+            this.locales,
+            this.history[this.index],
+        );
 
         // Change the current project to the historical project.
         this.current.set(newProject);

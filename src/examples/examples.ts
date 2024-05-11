@@ -103,7 +103,7 @@ export async function getTemplate(
     try {
         const text = await (await fetch(`/templates/${name}.wp`)).text();
         const project = parseSerializedProject(text, name);
-        return (await Project.deserializeProject(LocalesDB, project))
+        return (await Project.deserialize(LocalesDB, project))
             .withLocales(locales.getLocales())
             .withRevisedLocales(locales);
     } catch (error) {

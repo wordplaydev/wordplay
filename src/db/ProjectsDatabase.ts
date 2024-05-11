@@ -3,7 +3,7 @@ import { PersistenceType, ProjectHistory } from './ProjectHistory';
 import { writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type { Locale } from '../locale/Locale';
-import { SaveStatus, type Database } from './Database';
+import { Locales, SaveStatus, type Database } from './Database';
 import {
     collection,
     deleteDoc,
@@ -158,7 +158,7 @@ export default class ProjectsDatabase {
     async deserialize(
         project: SerializedProjectUnknownVersion,
     ): Promise<Project | undefined> {
-        return Project.deserializeProject(this.database.Locales, project);
+        return Project.deserialize(this.database.Locales, project);
     }
 
     /** When the user changes, update the projects from the cloud query */
@@ -266,7 +266,7 @@ export default class ProjectsDatabase {
             // If we're not tracking this yet, create a history and store the version given.
             let history = this.projectHistories.get(project.getID());
             if (history === undefined) {
-                history = new ProjectHistory(project, persist, saved);
+                history = new ProjectHistory(project, persist, saved, Locales);
                 this.projectHistories.set(project.getID(), history);
 
                 // Update the editable projects
@@ -365,10 +365,7 @@ export default class ProjectsDatabase {
             const serialized = await getExample(id);
             const project = await (serialized === undefined
                 ? undefined
-                : Project.deserializeProject(
-                      this.database.Locales,
-                      serialized,
-                  ));
+                : Project.deserialize(this.database.Locales, serialized));
             this.readonlyProjects.set(id, project);
             return project;
         }
@@ -665,13 +662,16 @@ export default class ProjectsDatabase {
     }
 
     /** Given a project ID and direction, undo or redo */
-    undoRedo(id: string, direction: -1 | 1): Project | undefined {
+    async undoRedo(
+        id: string,
+        direction: -1 | 1,
+    ): Promise<Project | undefined> {
         const history = this.projectHistories.get(id);
         // No record of this project? Do nothing.
         if (history === undefined) return undefined;
 
         // Try to undo/redo
-        const project = history.undoRedo(direction);
+        const project = await history.undoRedo(direction);
 
         // If some change was made, persist the change
         if (project) this.saveSoon();

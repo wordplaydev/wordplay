@@ -771,16 +771,20 @@ export default class Project {
         return new Source(parseNames(toTokens(source.names)), source.code);
     }
 
-    static async deserializeProject(
+    /**
+     * Given a project and a locales database, return a deserialized project.
+     * Loads necessary locales on demand.
+     *
+     * @param localesDB A locales database, so any necessary locales can be loaded.
+     * @param project The serialized project to deserialize
+     * @returns A deserialized Project.
+     */
+    static async deserialize(
         localesDB: LocalesDatabase,
         project: SerializedProjectUnknownVersion,
     ): Promise<Project> {
         // Upgrade the project just in case.
         project = upgradeProject(project);
-
-        const sources = project.sources.map((source) =>
-            Project.deserializeSource(source),
-        );
 
         // Get all of the locales on which the project depends.
         const dependentLocales = await localesDB.loadLocales(
@@ -789,6 +793,10 @@ export default class Project {
 
         const locales = Array.from(
             new Set([...dependentLocales, ...localesDB.getLocales()]),
+        );
+
+        const sources = project.sources.map((source) =>
+            Project.deserializeSource(source),
         );
 
         return new Project({
