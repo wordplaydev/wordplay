@@ -80,6 +80,7 @@ export default class MapLiteral extends Expression {
                 kind: list(true, node(KeyValue)),
                 space: true,
                 indent: true,
+                initial: true,
                 newline: this.wrap(),
             },
             { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },

@@ -1,4 +1,5 @@
 import type Names from '../nodes/Names';
+import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
 import type Locale from './Locale';
 
@@ -40,6 +41,10 @@ export default class Locales {
     /** Get the writing direction for the most preferred locale. */
     getDirection() {
         return getLanguageDirection(this.getLocale().language);
+    }
+
+    hasLanguage(lang: LanguageCode) {
+        return this.getLanguages().includes(lang);
     }
 
     /**

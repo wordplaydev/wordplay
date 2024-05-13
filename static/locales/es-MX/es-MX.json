@@ -3,7 +3,6 @@
     "language": "es",
     "region": "MX",
     "wordplay": "Wordplay",
-    "newProject": "Frase('🐈' descansando:Sequencia(vaivén() 1s))",
     "term": {
         "evaluate": "evaluar",
         "bind": "unir",
@@ -4389,6 +4388,10 @@
                 "archiveprompt": "Estos son proyectos que has archivado. Solo los propietarios pueden eliminarlos permanentemente o desarchivarlos. Los proyectos archivados se eliminarán permanentemente 30 días después de su última edición.",
                 "galleriesheader": "Galerías",
                 "galleryprompt": "Crea y cura galerías para compartir una colección de proyectos con otros.",
+                "add": {
+                    "header": "$?",
+                    "explanation": "$?"
+                },
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",

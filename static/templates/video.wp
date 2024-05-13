@@ -1,0 +1,37 @@
+Video transformation
+===
+``Renders video pixels as a grid of colored phrases.``/en
+``Renderiza los píxeles del video como una cuadrícula de frases coloreadas.``/es
+``将视频像素渲染为一组彩色短语的网格。``/zh
+
+``The number of columns to have``/en
+``El número de columnas que tener``/es
+``要有的列数``/zh
+width/en,ancho/es,宽度/zh: 24
+``The number of rows to have``/en
+``El número de filas que tener``/es
+``要有的行数``/zh
+height/en,altura/es,高度/zh: 24
+``A stream of colors from the camera.``/en
+``Un flujo de colores desde la cámara.``/es
+``从摄像头传来的一股色彩流。``/zh
+colors/en,colores/es,颜色/zh: Camera(width · 1px height · 1px 33ms)
+
+Stage(
+    [
+		Group(
+            Grid(height width 0m) 
+            ``This combines the 2D list of colors into a 1D list of Phrases with the color. Try changing the phrase text or transforming the color.``/en
+            ``Esto combina la lista 2D de colores en una lista 1D de frases con el color. Prueba cambiar el texto de la frase o transformar el color.``/es
+            ``这将2D颜色列表合并为具有颜色的1D短语列表。尝试更改短语文本或转换颜色。``/zh
+            colors.combine(
+                [] 
+                ƒ(phrases/en,frases/es,短语/zh row/en,fila/es,列/zh) 
+                    [
+                        :phrases 
+                        :row.translate(ƒ(color/en,color/es,像素/zh) Phrase("⬤" color: color duration: 0s))
+                    ]
+        	)
+        )
+	]
+)

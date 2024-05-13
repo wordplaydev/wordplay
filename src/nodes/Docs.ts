@@ -5,6 +5,7 @@ import Purpose from '../concepts/Purpose';
 import Node, { list, node } from './Node';
 import { getPreferred } from './LanguageTagged';
 import type Locales from '../locale/Locales';
+import type LanguageCode from '@locale/LanguageCode';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -31,7 +32,7 @@ export default class Docs extends Node {
 
     clone(replace?: Replacement) {
         return new Docs(
-            this.replaceChild<Doc[]>('docs', this.docs, replace)
+            this.replaceChild<Doc[]>('docs', this.docs, replace),
         ) as this;
     }
 
@@ -45,6 +46,10 @@ export default class Docs extends Node {
 
     getTags(): Doc[] {
         return this.docs;
+    }
+
+    containsLanguage(lang: LanguageCode) {
+        return this.docs.some((doc) => doc.isLanguage(lang));
     }
 
     getPreferredLocale(preferred: Locales): Doc {

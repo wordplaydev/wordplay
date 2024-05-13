@@ -3,6 +3,22 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.5 2024-05-11
+
+### Fixed
+
+-   Changed toggle button color to always contrast backgrounds
+-   Defined foreground of footer to ensure button text is visible.
+-   Reset stage output when locales change.
+-   Signficantly reduced memory usage of edit history
+-   Improved preferred spacing of compound data structures and blocks.
+
+## 0.9.4 2024-05-04
+
+### Added
+
+-   [#451](https://github.com/wordplaydev/wordplay/issues/451) New project templates.
+
 ## 0.9.392 2024-04-29
 
 ### Fixed
@@ -19,7 +35,6 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Only highlight definitions and uses of caret position when inside a token.
 -   Fixed incorrect placement of caret; it was assuming pretty printing.
 -   Removed unused font preload.
--   Less aggressive local project persistence
 
 ### Added
 

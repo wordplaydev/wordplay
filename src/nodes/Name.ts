@@ -14,6 +14,7 @@ import ReservedSymbols from '../parser/ReservedSymbols';
 import Node, { node, optional } from './Node';
 import { LanguageTagged } from './LanguageTagged';
 import type Locales from '../locale/Locales';
+import type LanguageCode from '@locale/LanguageCode';
 
 export default class Name extends LanguageTagged {
     readonly separator: Token | undefined;
@@ -22,7 +23,7 @@ export default class Name extends LanguageTagged {
     constructor(
         separator: Token | undefined,
         name: Token | undefined,
-        language?: Language
+        language?: Language,
     ) {
         super(language);
 
@@ -52,7 +53,7 @@ export default class Name extends LanguageTagged {
         return new Name(
             this.replaceChild('separator', this.separator, replace),
             this.replaceChild('name', this.name, replace),
-            this.replaceChild('language', this.language, replace)
+            this.replaceChild('language', this.language, replace),
         ) as this;
     }
 
@@ -86,13 +87,17 @@ export default class Name extends LanguageTagged {
         return this.language !== undefined && this.language.slash !== undefined;
     }
 
+    isLanguage(lang: LanguageCode) {
+        return this.language?.getLanguageCode() === lang;
+    }
+
     withSeparator(): Name {
         return this.separator !== undefined
             ? this
             : new Name(
                   new Token(COMMA_SYMBOL, Sym.Separator),
                   this.name,
-                  this.language
+                  this.language,
               );
     }
 

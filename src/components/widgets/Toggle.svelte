@@ -56,8 +56,8 @@
         border: none;
         border-radius: var(--wordplay-border-radius);
         background: none;
-        color: var(--wordplay-foreground);
-        stroke: var(--wordplay-background);
+        color: currentColor;
+        stroke: currentColor;
         fill: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 2);
         cursor: pointer;
