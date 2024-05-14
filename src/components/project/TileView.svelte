@@ -181,41 +181,31 @@
     on:keydown={handleKeyDown}
 >
     <section
-        class="tile {resizeDirection
-            ? `resize-${resizeDirection}`
-            : ''} {arrangement} {tile.id} {tile.id.startsWith('source')
-            ? 'editor-viewport'
-            : ''}"
+        class="tile free {resizeDirection ? `resize-${resizeDirection}` : ''} {arrangement} {tile.id} {tile.id.startsWith('source') ? 'editor-viewport' : ''}"
         class:fullscreen
         class:dragging
         class:focuscontent
         class:animated={mounted}
         data-id={tile.id}
-        style:background={background instanceof Color
-            ? background.toCSS()
-            : background}
+        style:background={background instanceof Color ? background.toCSS() : background}
         style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
         style:top={fullscreen ? null : `${tile.bounds?.top ?? 0}px`}
         style:width={fullscreen ? null : `${tile.bounds?.width ?? 0}px`}
         style:height={fullscreen ? null : `${tile.bounds?.height ?? 0}px`}
         bind:this={view}
-    >
+        >
         <!-- Render the toolbar -->
         <div class="header" style:color={foreground} style:fill={foreground}>
             {#if !layout.isFullscreen()}
                 <Button
                     tip={$locales.get((l) => l.ui.tile.button.collapse)}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                    >–</Button
-                >
+                    >–</Button>
             {/if}
             <Toggle
                 tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
                 on={fullscreen}
-                toggle={() =>
-                    dispatch('fullscreen', {
-                        fullscreen: !fullscreen,
-                    })}
+                toggle={() => dispatch('fullscreen', { fullscreen: !fullscreen })}
             >
                 <FullscreenIcon />
             </Toggle>
@@ -223,23 +213,14 @@
                 {#if editable && tile.isSource()}
                     <Emoji>{Glyphs.Program.symbols}</Emoji>
                     <TextField
-                        text={tile
-                            .getSource(project)
-                            ?.getPreferredName($locales.getLocales())}
-                        description={$locales.get(
-                            (l) => l.ui.source.field.name.description,
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.source.field.name.placeholder,
-                        )}
+                        text={tile.getSource(project)?.getPreferredName($locales.getLocales())}
+                        description={$locales.get((l) => l.ui.source.field.name.description)}
+                        placeholder={$locales.get((l) => l.ui.source.field.name.placeholder)}
                         validator={(text) => isName(text)}
                         changed={handleRename}
                     />
                 {:else}
-                    <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
-                        project,
-                        $locales,
-                    )}
+                    <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(project, $locales)}
                 {/if}
                 <slot name="name" />
             </div>
@@ -260,6 +241,16 @@
         {/if}
         <!-- Render the footer -->
         <div class="footer"><slot name="footer" /></div>
+
+        <!-- Edges and Corners for resizing cursor -->
+        <div class="edge top"></div>
+        <div class="edge right"></div>
+        <div class="edge bottom"></div>
+        <div class="edge left"></div>
+        <div class="corner top-left"></div>
+        <div class="corner top-right"></div>
+        <div class="corner bottom-right"></div>
+        <div class="corner bottom-left"></div>
     </section>
 </div>
 
@@ -388,6 +379,86 @@
     }
     .tile.free.resize-bottom {
         cursor: s-resize;
+    }
+
+    .tile.free .edge {
+    position: absolute;
+    z-index: 10;
+    pointer-events: auto;
+    }
+
+    /* Top edge */
+    .tile.free.resize-ns .edge.top {
+        cursor: ns-resize;
+        top: -5px;
+        left: 0;
+        right: 0;
+        height: 10px;
+    }
+
+    /* Right edge */
+    .tile.free.resize-ew .edge.right {
+        cursor: ew-resize;
+        top: 0;
+        right: -5px;
+        bottom: 0;
+        width: 10px;
+    }
+
+    /* Bottom edge */
+    .tile.free.resize-ns .edge.bottom {
+        cursor: ns-resize;
+        bottom: -5px;
+        left: 0;
+        right: 0;
+        height: 10px;
+    }
+
+    /* Left edge */
+    .tile.free.resize-ew .edge.left {
+        cursor: ew-resize;
+        top: 0;
+        left: -5px;
+        bottom: 0;
+        width: 10px;
+    }
+
+    /* Corners */
+
+    /* Top-left corner */
+    .tile.free.resize-nwse .corner.top-left {
+        cursor: nwse-resize;
+        top: -5px;
+        left: -5px;
+        width: 10px;
+        height: 10px;
+    }
+
+    /* Top-right corner */
+    .tile.free.resize-nesw .corner.top-right {
+        cursor: nesw-resize;
+        top: -5px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+    }
+
+    /* Bottom-right corner */
+    .tile.free.resize-nwse .corner.bottom-right {
+        cursor: nwse-resize;
+        bottom: -5px;
+        right: -5px;
+        width: 10px;
+        height: 10px;
+    }
+
+    /* Bottom-left corner */
+    .tile.free.resize-nesw .corner.bottom-left {
+        cursor: nesw-resize;
+        bottom: -5px;
+        left: -5px;
+        width: 10px;
+        height: 10px;
     }
 
     .tile.dragging {
