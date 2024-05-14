@@ -69,6 +69,7 @@ import { toTokens } from './toTokens';
 import parseDoc from './parseDoc';
 import { parseBlock } from './parseExpression';
 import Otherwise from '@nodes/Otherwise';
+import getPreferredSpaces from './getPreferredSpaces';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -253,7 +254,7 @@ test.each([
         kind: Function,
         property?: string,
         propertyKind?: Function,
-        propertyValue?: string | number | boolean | Function
+        propertyValue?: string | number | boolean | Function,
     ) => {
         const block = toProgram(code).expression;
         expect(block.statements.length).toBe(1);
@@ -270,12 +271,14 @@ test.each([
                     expect(field.length).toBe(propertyValue);
             } else {
                 if (typeof propertyValue === 'string')
-                    expect(field?.toWordplay()).toBe(propertyValue);
+                    expect(field?.toWordplay(getPreferredSpaces(field))).toBe(
+                        propertyValue,
+                    );
                 else if (propertyValue !== undefined)
                     expect(field).toBe(propertyValue);
             }
         }
-    }
+    },
 );
 
 test('Blocks and binds', () => {
@@ -287,7 +290,7 @@ test('Blocks and binds', () => {
     expect(bindMap).toBeInstanceOf(Block);
     expect((bindMap as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindMap as Block).statements[0] as Bind).value).toBeInstanceOf(
-        MapLiteral
+        MapLiteral,
     );
 
     const table = parseBlock(toTokens('⎡a•# b•#⎦\n⎡1 2⎦'));
@@ -298,17 +301,17 @@ test('Blocks and binds', () => {
     expect(bindTable).toBeInstanceOf(Block);
     expect((bindTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(((bindTable as Block).statements[0] as Bind).value).toBeInstanceOf(
-        TableLiteral
+        TableLiteral,
     );
 
     const bindTypedTable = parseBlock(toTokens('table•⎡a•# b•#⎦: ⎡a•# b•#⎦'));
     expect(bindTypedTable).toBeInstanceOf(Block);
     expect((bindTypedTable as Block).statements[0]).toBeInstanceOf(Bind);
     expect(
-        ((bindTypedTable as Block).statements[0] as Bind).type
+        ((bindTypedTable as Block).statements[0] as Bind).type,
     ).toBeInstanceOf(TableType);
     expect(
-        ((bindTypedTable as Block).statements[0] as Bind).value
+        ((bindTypedTable as Block).statements[0] as Bind).value,
     ).toBeInstanceOf(TableLiteral);
 });
 
@@ -322,7 +325,7 @@ test('plain docs', () => {
 
 test('multi-paragraph docs', () => {
     const doc = parseDoc(
-        toTokens('``this is what I am.\n\nthis is another point.``')
+        toTokens('``this is what I am.\n\nthis is another point.``'),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -332,19 +335,19 @@ test('multi-paragraph docs', () => {
 
 test('linked docs', () => {
     const doc = parseDoc(
-        toTokens('``go see more at <wikipedia@https://wikipedia.org>.``')
+        toTokens('``go see more at <wikipedia@https://wikipedia.org>.``'),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
     expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(WebLink);
     expect(
-        (doc.markup.paragraphs[0].segments[1] as WebLink).url?.getText()
+        (doc.markup.paragraphs[0].segments[1] as WebLink).url?.getText(),
     ).toBe('https://wikipedia.org');
 });
 
 test('docs in docs', () => {
     const doc = parseDoc(
-        toTokens("``This is a doc: \\``my doc``\\. Don't you see it?``")
+        toTokens("``This is a doc: \\``my doc``\\. Don't you see it?``"),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);

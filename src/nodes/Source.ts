@@ -32,6 +32,7 @@ import Tokens from '../parser/Tokens';
 import type Definition from './Definition';
 import type Locales from '../locale/Locales';
 import type Evaluator from '@runtime/Evaluator';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -432,9 +433,9 @@ export default class Source extends Expression {
             return (
                 replace.replacement
                     ? newSource.withSpaces(
-                          newSource.spaces.withPreferredSpaceForNode(
-                              newSource.root,
+                          getPreferredSpaces(
                               replace.replacement,
+                              newSource.spaces,
                           ),
                       )
                     : newSource
@@ -535,17 +536,11 @@ export default class Source extends Expression {
             const token = tokens[index];
             const tokenLength = token.getTextLength();
 
-            // Get rendered space prior to the token.
-            const renderedSpace = this.spaces.getPreferredTokenSpace(
-                this.root,
-                token,
-                false,
-            );
             // Get the physical space prior to the token.
             const actualSpace = this.spaces.getSpace(token);
 
             // Get the space before each line break.
-            const lineSpaces = renderedSpace.split('\n');
+            const lineSpaces = actualSpace.split('\n');
             // Compute the number of lines in the preceding rendered space.
             const lineCount = lineSpaces.length - 1;
             // Compute the space on the final line prior to the token text.
@@ -557,19 +552,13 @@ export default class Source extends Expression {
                 column,
                 physical,
                 actualSpace,
-                renderedSpace,
+                actualSpace,
                 token.getText(),
                 tokenLength,
                 // Last on line if the last token
                 index + 1 === tokens.length ||
                     // Or the next token has a line break before it.
-                    this.spaces
-                        .getPreferredTokenSpace(
-                            this.root,
-                            tokens[index + 1],
-                            false,
-                        )
-                        .includes('\n'),
+                    this.spaces.getSpace(tokens[index + 1]).includes('\n'),
             );
             if (result !== undefined) return result;
 
@@ -580,7 +569,7 @@ export default class Source extends Expression {
                     ? // Set the column to the length of the last line of space plus the token's length.
                       lastLineSpace.length + tokenLength
                     : // Increment the column by the rendered length of space and text.
-                      column + renderedSpace.length + tokenLength;
+                      column + actualSpace.length + tokenLength;
 
             // Increment the physical position based on actual space and token.
             physical += actualSpace.length + tokenLength;
@@ -886,7 +875,7 @@ export default class Source extends Expression {
 
     withPreferredSpace() {
         // Pretty print and get the column
-        return this.withSpaces(this.spaces.withPreferredSpace(this));
+        return this.withSpaces(getPreferredSpaces(this));
     }
 
     toWordplay(spaces?: Spaces) {

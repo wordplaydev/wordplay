@@ -11,6 +11,7 @@ import Append from './Append';
 import Reference from '../nodes/Reference';
 import type Revision from './Revision';
 import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 test.each([
     ['blank program suggestions', '**', undefined, Append, '0'],
@@ -95,7 +96,7 @@ test.each([
         code: string,
         position: ((node: Node) => boolean) | undefined,
         kind: new (...params: never[]) => Revision,
-        edit: string
+        edit: string,
     ) => {
         // See if there's a placeholder for the caret.
         const insertionPoint = code.indexOf('**');
@@ -117,15 +118,18 @@ test.each([
                 resolvedPosition,
                 undefined,
                 undefined,
-                undefined
+                undefined,
             );
             const transforms = getEditsAt(project, caret, DefaultLocales);
 
-            const match = transforms.find(
-                (transform) =>
+            const match = transforms.find((transform) => {
+                const newNode = transform.getNewNode(DefaultLocales);
+                return (
                     transform instanceof kind &&
-                    transform.getNewNode(DefaultLocales)?.toWordplay() === edit
-            );
+                    newNode &&
+                    newNode.toWordplay(getPreferredSpaces(newNode)) === edit
+                );
+            });
             if (match === undefined) {
                 console.error(
                     transforms
@@ -133,13 +137,15 @@ test.each([
                             (t) =>
                                 `${t.constructor.name}\t${t
                                     .getNewNode(DefaultLocales)
-                                    ?.toWordplay()}`
+                                    ?.toWordplay()}`,
                         )
-                        .join('\n')
+                        .join('\n'),
                 );
             }
 
-            expect(match?.getNewNode(DefaultLocales)?.toWordplay()).toBe(edit);
+            const newNode = match?.getNewNode(DefaultLocales);
+
+            expect(newNode?.toWordplay(getPreferredSpaces(newNode))).toBe(edit);
         }
-    }
+    },
 );

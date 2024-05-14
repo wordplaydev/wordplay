@@ -1451,10 +1451,7 @@
                 <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
                     $locales,
-                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay(
-                        undefined,
-                        $locales.getLocale(),
-                    )}{/if}
+                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
                 <PlaceholderView position={$caret.position} />{/if}</div
         >
     {/key}

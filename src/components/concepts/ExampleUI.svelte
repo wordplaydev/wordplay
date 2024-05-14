@@ -119,7 +119,6 @@
     .example {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
     }
 
     .code.inline {

@@ -48,6 +48,7 @@ import NameType from '../nodes/NameType';
 import TypeVariable from '../nodes/TypeVariable';
 import Bind from '../nodes/Bind';
 import Spaces from '@parser/Spaces';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -709,7 +710,7 @@ export default class Caret {
             const position = this.position;
             if (position === undefined) return;
             const newSource = this.source.withGraphemesAt(
-                node.toWordplay(),
+                node.toWordplay(getPreferredSpaces(node)),
                 position,
             );
             if (newSource === undefined) return undefined;

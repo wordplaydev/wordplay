@@ -85,7 +85,11 @@ export default class ListLiteral extends Expression {
                 // Include an indent before all items in the list
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.ListClose), newline: this.wrap() },
+            {
+                name: 'close',
+                kind: node(Sym.ListClose),
+                newline: this.wrap(),
+            },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
     }

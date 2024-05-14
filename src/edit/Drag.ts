@@ -10,6 +10,7 @@ import Sym from '@nodes/Sym';
 import Program from '@nodes/Program';
 import Block from '@nodes/Block';
 import Bind from '../nodes/Bind';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 /**
  * Represents a node, list on the node, and index in the list at which to insert a node.
@@ -35,7 +36,7 @@ export class InsertionPoint {
         list: Node[],
         token: Token,
         line: number,
-        index: number
+        index: number,
     ) {
         this.node = node;
         this.field = field;
@@ -65,7 +66,7 @@ export function dropNodeOnSource(
     project: Project,
     source: Source,
     dragged: Node,
-    target: Node | InsertionPoint
+    target: Node | InsertionPoint,
 ): [Project, Source, Node] {
     const root = project.getRoot(dragged);
     const draggedRoot = root?.root;
@@ -92,18 +93,19 @@ export function dropNodeOnSource(
         field === undefined || !draggedInSource
             ? null
             : // Does the field allow undefined or the field is a list? Replace with undefined (which means unset or remove from the list).
-            field.kind.isOptional() || field.kind instanceof ListOf
-            ? undefined
-            : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
-            dragged instanceof Expression && field.kind.allowsKind(Expression)
-            ? ExpressionPlaceholder.make(
-                  dragged.getType(project.getContext(source))
-              )
-            : // Is the field a type? Replace with a type placeholder.
-            field.kind.allowsKind(Type)
-            ? new TypePlaceholder()
-            : // Otherwise, don't do a replacement.
-              null;
+              field.kind.isOptional() || field.kind instanceof ListOf
+              ? undefined
+              : // Is the node an expression and the field allows expressions? Replace with an expression placeholder of the type of the current expression.
+                dragged instanceof Expression &&
+                  field.kind.allowsKind(Expression)
+                ? ExpressionPlaceholder.make(
+                      dragged.getType(project.getContext(source)),
+                  )
+                : // Is the field a type? Replace with a type placeholder.
+                  field.kind.allowsKind(Type)
+                  ? new TypePlaceholder()
+                  : // Otherwise, don't do a replacement.
+                    null;
 
     // This is a list of sources to replace with other sources. This can be
     // one or more sources, since it's possible to drag from one source to another.
@@ -194,8 +196,8 @@ export function dropNodeOnSource(
                     .withSpaces(
                         draggedRoot.spaces.withReplacement(
                             draggedNode,
-                            replacement
-                        )
+                            replacement,
+                        ),
                     ),
             ]);
         }
@@ -204,7 +206,7 @@ export function dropNodeOnSource(
     // Make a new source
     let newSource = source.withProgram(editedProgram, editedSpace);
     newSource = newSource.withSpaces(
-        editedSpace.withPreferredSpaceForNode(newSource.root, nodeToFormat)
+        getPreferredSpaces(nodeToFormat, editedSpace),
     );
 
     // Finally, add this editor's updated source to the list of sources to replace in the project.
@@ -218,7 +220,7 @@ export function getInsertionPoint(
     node: Node,
     after: boolean,
     token: Token,
-    line: number
+    line: number,
 ) {
     const parent = source.root.getParent(node);
     if (parent === undefined) return;
@@ -233,7 +235,7 @@ export function getInsertionPoint(
                 node,
                 line,
                 // The index is at the end of the statements.
-                parent.expression.statements.length
+                parent.expression.statements.length,
             );
         }
     }
@@ -253,7 +255,7 @@ export function getInsertionPoint(
         token,
         line,
         // Account for empty lists
-        index + (after ? 0 : 1)
+        index + (after ? 0 : 1),
     );
 }
 
@@ -261,7 +263,7 @@ export function isValidDropTarget(
     project: Project,
     dragged: Node | undefined,
     target: Node | undefined,
-    insertion: InsertionPoint | undefined
+    insertion: InsertionPoint | undefined,
 ): boolean {
     if (dragged === undefined) return false;
 

@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Reset stage output when locales change.
 -   Signficantly reduced memory usage of edit history
 -   Improved preferred spacing of compound data structures and blocks.
+-   Faster and more correct and stable preferred spacing algorithm.
 
 ## 0.9.4 2024-05-04
 

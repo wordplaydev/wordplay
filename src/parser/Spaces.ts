@@ -2,7 +2,6 @@ import Token from '@nodes/Token';
 import type Node from '@nodes/Node';
 import type Source from '@nodes/Source';
 import TokenList from './TokenList';
-import Root from '@nodes/Root';
 
 export const TAB_SYMBOL = '—';
 export const TAB_WIDTH = 2;
@@ -52,15 +51,14 @@ export default class Spaces {
     hasSpace(token: Token) {
         return this.#spaces.has(token);
     }
+
     getSpace(node: Node): string {
-        const token =
-            node instanceof Token
-                ? node
-                : (node.getFirstLeaf() as Token | undefined);
+        const token = node.isLeaf() ? node : node.getFirstLeaf();
         return token ? this.#spaces.get(token) ?? '' : '';
     }
+
     getSpaces() {
-        return this.#spaces;
+        return new Map(this.#spaces);
     }
     getLines(token: Token): string[] {
         return this.getSpace(token).split('\n');
@@ -143,47 +141,6 @@ export default class Spaces {
         return additionalSpace;
     }
 
-    /** Recurse up the ancestors, constructing preferred preceding space. */
-    static getPreferredPrecedingSpace(
-        root: Root,
-        currentPrecedingSpace: string,
-        leaf: Node,
-        linebreaks: boolean,
-    ): string {
-        // Start from this node, walking up the ancestor tree
-        let child = leaf;
-        let parent = root.getParent(leaf);
-        let preferredSpace = '';
-        while (parent) {
-            const field = parent.getFieldOfChild(child);
-
-            // Prepend space if the child's first leaf is the leaf we're analyzing.
-            if (child.getFirstLeaf() === leaf) {
-                preferredSpace =
-                    parent.getPreferredPrecedingSpace(
-                        child,
-                        currentPrecedingSpace,
-                        linebreaks,
-                    ) + preferredSpace;
-            }
-
-            // Add a tab if there's a newline and the parent wishes the child indented.
-            if (
-                field &&
-                (field.indent === true ||
-                    (field.indent instanceof Function &&
-                        field.indent(parent, child) === true)) &&
-                currentPrecedingSpace.indexOf('\n') >= 0
-            )
-                preferredSpace = preferredSpace + '\t';
-
-            // Move to the next parent.
-            child = parent;
-            parent = root.getParent(parent);
-        }
-        return preferredSpace;
-    }
-
     /**
      * Creates a new set of spaces with the same mapping, but replacing the space for the first token of the
      * replaced node with the first token of the replacement node.
@@ -245,60 +202,6 @@ export default class Spaces {
         const newSpaces = new Map(this.#spaces);
         newSpaces.set(firstToken, space);
         return new Spaces(this.root, newSpaces);
-    }
-
-    /** Create a version of space with preferred space for all tokens, including any existing space. (Pretty print). */
-    withPreferredSpace(source: Source) {
-        const newSpace = new Spaces(this.root, this.#spaces);
-        for (const token of source.getTokens()) {
-            newSpace.#spaces.set(
-                token,
-                this.getPreferredTokenSpace(source.root, token, true),
-            );
-        }
-        return newSpace;
-    }
-
-    /** Given some arbitrary node, generate spaces that pretty print it */
-    static withPreferredSpace(node: Node): Spaces {
-        const tokens = new TokenList(
-            node.nodes().filter((node): node is Token => node instanceof Token),
-            new Map(),
-        );
-        const root = new Root(node);
-        const newSpace = new Spaces(tokens, new Map());
-        for (const token of tokens.getTokens()) {
-            newSpace.#spaces.set(
-                token,
-                newSpace.getPreferredTokenSpace(root, token, true),
-            );
-        }
-        return newSpace;
-    }
-
-    /** Create a version of this that pretty prints the given node */
-    withPreferredSpaceForNode(root: Root, node: Node) {
-        const newSpace = new Spaces(this.root, this.#spaces);
-        for (const token of node
-            .nodes()
-            .filter((n): n is Token => n instanceof Token)) {
-            newSpace.#spaces.set(
-                token,
-                this.getPreferredTokenSpace(root, token, true),
-            );
-        }
-        return newSpace;
-    }
-
-    getPreferredTokenSpace(root: Root, token: Token, linebreaks: boolean) {
-        const currentSpace = this.getSpace(token);
-        const preferred = Spaces.getPreferredPrecedingSpace(
-            root,
-            currentSpace,
-            token,
-            linebreaks,
-        );
-        return currentSpace + this.getAdditionalSpace(token, preferred);
     }
 
     replace(existing: Token, replacement: Token) {

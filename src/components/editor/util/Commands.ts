@@ -38,6 +38,7 @@ import type Project from '../../../models/Project';
 import interpret from './interpret';
 import { TileKind } from '../../project/Tile';
 import { TAB_SYMBOL } from '@parser/Spaces';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -1188,9 +1189,7 @@ const Commands: Command[] = [
             if (!(context.caret?.position instanceof Node)) return false;
             copyNode(
                 context.caret.position,
-                context.caret.source.spaces.withPreferredSpace(
-                    context.caret.source,
-                ),
+                getPreferredSpaces(context.caret.source),
             );
             return context.caret.delete(context.project, false) ?? true;
         },
@@ -1210,9 +1209,7 @@ const Commands: Command[] = [
             return (
                 copyNode(
                     context.caret.position,
-                    context.caret.source.spaces.withPreferredSpace(
-                        context.caret.source,
-                    ),
+                    getPreferredSpaces(context.caret.source),
                 ) ?? false
             );
         },
@@ -1300,7 +1297,9 @@ const Commands: Command[] = [
             if (caret) {
                 const length = caret.source.code.getLength();
                 const position = caret.getTextPosition(true) ?? 0;
-                const tidySource = caret.source.withPreferredSpace();
+                const tidySource = caret.source.withSpaces(
+                    getPreferredSpaces(caret.source.root, caret.source.spaces),
+                );
                 return [
                     tidySource,
                     caret

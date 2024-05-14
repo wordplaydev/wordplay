@@ -9,7 +9,6 @@
 
     export let token: Token;
     export let space: string;
-    export let additional: string;
     export let insertion: InsertionPoint | undefined = undefined;
 
     $: insertionIndex =
@@ -27,11 +26,6 @@
         true,
         $spaceIndicator,
     );
-
-    $: additionalSpaces =
-        additional.length === 0
-            ? []
-            : render(additional, false, $spaceIndicator);
 
     function render(
         text: string,
@@ -68,11 +62,7 @@
                 >{#each afterSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
                         >{/if}<span data-uiid="space-text">{s}</span
-                    >{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
-                            ><br class="break" /></span
-                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
-                            data-uiid="space-text">{s}</span
-                        >{/if}{/each}</span
+                    >{/each}</span
             ></span
         >
     {/key}

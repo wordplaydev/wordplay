@@ -8,6 +8,7 @@
     import type Type from '../../nodes/Type';
     import Spaces from '../../parser/Spaces';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
 
     export let node: Node;
     export let concept: Concept | undefined = undefined;
@@ -30,7 +31,7 @@
 
     function copy() {
         // Copy node needs a source to manage spacing, so we make one.
-        copyNode(node, Spaces.withPreferredSpace(node));
+        copyNode(node, getPreferredSpaces(node));
     }
 </script>
 
@@ -46,8 +47,7 @@
             on:keydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
-                    : undefined}
-            ><RootView {node} {inline} {spaces} preferred={true} /></div
+                    : undefined}><RootView {node} {inline} {spaces} /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}

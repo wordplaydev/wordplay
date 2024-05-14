@@ -6,6 +6,7 @@ import Caret from './Caret';
 import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 /** Set a field on a child */
 export default class Assign<NodeType extends Node> extends Revision {
@@ -19,7 +20,7 @@ export default class Assign<NodeType extends Node> extends Revision {
         position: number,
         parent: Node,
         field: string,
-        child: NodeType | Refer | undefined
+        child: NodeType | Refer | undefined,
     ) {
         super(context);
 
@@ -45,8 +46,8 @@ export default class Assign<NodeType extends Node> extends Revision {
         return this.child === undefined
             ? undefined
             : this.child instanceof Node
-            ? this.child
-            : this.child.getNode(locales);
+              ? this.child
+              : this.child.getNode(locales);
     }
 
     getEditedNode(locales: Locales): [Node, Node] {
@@ -63,7 +64,7 @@ export default class Assign<NodeType extends Node> extends Revision {
             ? this.context.source.getNodeFirstPosition(
                   Array.isArray(existingChild)
                       ? existingChild[0]
-                      : existingChild
+                      : existingChild,
               )
             : undefined;
 
@@ -74,7 +75,7 @@ export default class Assign<NodeType extends Node> extends Revision {
                 : Revision.splitSpace(
                       this.context.source,
                       this.position,
-                      newNode
+                      newNode,
                   );
 
         let newSource = this.context.source
@@ -84,10 +85,7 @@ export default class Assign<NodeType extends Node> extends Revision {
         // Ensure new child has preferred space.
         if (newNode)
             newSource = newSource.withSpaces(
-                newSource.spaces.withPreferredSpaceForNode(
-                    newSource.root,
-                    newNode
-                )
+                getPreferredSpaces(newNode, newSource.spaces),
             );
 
         // Place the caret at first placeholder or the end of the node in the source.
@@ -107,7 +105,7 @@ export default class Assign<NodeType extends Node> extends Revision {
                       newCaretPosition,
                       undefined,
                       undefined,
-                      newNode
+                      newNode,
                   ),
               ];
     }
@@ -121,7 +119,7 @@ export default class Assign<NodeType extends Node> extends Revision {
             locales,
             locales.get((l) => l.ui.edit.assign),
             this.field,
-            node?.getLabel(locales)
+            node?.getLabel(locales),
         );
     }
 

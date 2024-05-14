@@ -6,6 +6,7 @@
         getEvaluation,
         getHidden,
         getInsertionPoint,
+        getRoot,
         getSpace,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
@@ -21,6 +22,7 @@
     export let small = false;
 
     const evaluation = getEvaluation();
+    const root = getRoot();
 
     $: description =
         node && $evaluation
@@ -54,7 +56,9 @@
     // Get the root's computed spaces store
     let spaces = getSpace();
     // See if this node has any space to render.
-    $: space = node && $spaces ? $spaces.get(node) : undefined;
+    $: firstToken = node?.getFirstLeaf();
+    $: spaceRoot = $root && node ? $root.getSpaceRoot(node) : undefined;
+    $: space = spaceRoot && $spaces ? $spaces.getSpace(spaceRoot) : '';
 
     // Get the hidden context.
     let hidden = getHidden();
@@ -70,9 +74,10 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if space && !hide}<Space
-            {...space}
-            insertion={$insertion?.token === space.token
+    {#if !hide && firstToken && spaceRoot === node}<Space
+            token={firstToken}
+            {space}
+            insertion={$insertion?.token === firstToken
                 ? $insertion
                 : undefined}
         />{/if}<div
