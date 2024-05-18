@@ -17,7 +17,8 @@ basketball: Phrase(
 basketXPlace: Random(-9000m 9000m) ÷ 1000 … (click & ((clickCount % 2) = 1)) … Random(-9000m 9000m) ÷ 1000
 
 `` Keep track of scores and attempts ``
-score: 0 … (click & ((clickCount % 2) = 1) & ((basketXPlace + 1m) > basketball.place.x) & ((basketXPlace - 1m) < basketball.place.x)) … 1 + .
+score: 0 … (click & ((clickCount % 2) = 1) & ((basketXPlace + 0.81m) > basketball.place.x) & ((basketXPlace - 0.8m) < basketball.place.x)) & (2.1m > basketball.place.y) … 1 + . 
+
 attempt: (clickCount ÷ 2).roundUp()
 
 basketballStar: Group(Stack() [
