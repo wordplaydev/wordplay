@@ -12,10 +12,10 @@ import { TYPE_SYMBOL } from '@parser/Symbols';
 
 /** This is a wrapper class for a Form value, which represents some kind of shape that's used as a collision boundary. */
 export abstract class Form extends Valued {
-    /** Should return a valid CSS clip-path value, used as a clip-path in Stage. */
+    /** Should return a valid CSS clip-path value, used as a clip-path in GroupView and ShapeView. */
     abstract toCSSClip(): string;
     /** Used to create a border when a StageView is clipped. Should mirror the clip-path value. */
-    abstract toSVGPath(): string;
+    abstract toSVGPath(x: number, y: number): string;
     /**
      * The left coordinate of the top left of the rectangular bounding box for the shape, regardless of it's shape.
      * Used to position the clip frame of the Stage, to define the rectangular border in the Physics engine, and to determine
@@ -115,8 +115,12 @@ export class Rectangle extends Form {
         return `polygon(${left}px ${top}px, ${left}px ${bottom}px, ${right}px ${bottom}px, ${right}px ${top}px)`;
     }
 
-    toSVGPath() {
-        const { left, top, right, bottom } = this.getPoints();
+    toSVGPath(x: number, y: number) {
+        let { left, top, right, bottom } = this.getPoints();
+        left += x;
+        top += y;
+        right += x;
+        bottom += y;
         const minX = Math.min(left, right);
         const minY = Math.min(top, bottom);
         return `M ${left - minX} ${top - minY} L ${left - minX} ${
@@ -133,8 +137,8 @@ export function createCircleType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Circle, TYPE_SYMBOL)} Form (
         ${getBind(locales, (locale) => locale.output.Circle.radius)}•#m
-        ${getBind(locales, (locale) => locale.output.Circle.x)}•#m
-        ${getBind(locales, (locale) => locale.output.Circle.y)}•#m
+        ${getBind(locales, (locale) => locale.output.Circle.x)}•#m: 0m
+        ${getBind(locales, (locale) => locale.output.Circle.y)}•#m: 0m
         ${getBind(locales, (locale) => locale.output.Circle.z)}•#m: 0m
     )
 `);
@@ -152,7 +156,7 @@ export class Circle extends Form {
         this.x = x;
         this.y = y;
         this.z = z;
-        this.radius = radius;
+        this.radius = Math.abs(radius);
     }
 
     getLeft() {
@@ -177,26 +181,120 @@ export class Circle extends Form {
 
     getCoordinates() {
         return {
-            x: this.x * PX_PER_METER,
-            y: -this.y * PX_PER_METER,
+            x: (this.x - this.getLeft()) * PX_PER_METER,
+            y: -(this.y - this.getTop()) * PX_PER_METER,
             radius: this.radius * PX_PER_METER,
         };
     }
 
     toCSSClip() {
         const { x, y, radius } = this.getCoordinates();
-        return `circle(${radius}px ${y}px ${x}px)`;
+        return `circle(${radius}px at ${y}px ${x}px)`;
     }
 
-    toSVGPath() {
+    toSVGPath(offsetX: number, offsetY: number) {
         const { x, y, radius } = this.getCoordinates();
-        return `M ${x - radius}, ${y} a ${radius},${radius} 0 1,0 ${
-            radius * 2
-        },0 a ${radius},${radius} 0 1,0 ${-radius * 2},0`;
+        const newX = x + offsetX;
+        const newY = y + offsetY;
+        return `M ${newX} ${newY} m ${radius}, 0
+        a ${radius},${radius} 0 1,0 ${-radius * 2},0
+        a ${radius},${radius} 0 1,0 ${radius * 2},0`;
     }
 
     getDescription(locales: Locales): string {
-        return locales.get((l) => getFirstName(l.output.Rectangle.names));
+        return locales.get((l) => getFirstName(l.output.Circle.names));
+    }
+}
+
+export function createPolygonType(locales: Locales) {
+    return toStructure(`
+    ${getBind(locales, (locale) => locale.output.Polygon, TYPE_SYMBOL)} Form (
+        ${getBind(locales, (locale) => locale.output.Polygon.radius)}•#m
+        ${getBind(locales, (locale) => locale.output.Polygon.sides)}•#
+        ${getBind(locales, (locale) => locale.output.Polygon.x)}•#m: 0m
+        ${getBind(locales, (locale) => locale.output.Polygon.y)}•#m: 0m
+        ${getBind(locales, (locale) => locale.output.Polygon.z)}•#m: 0m
+    )
+`);
+}
+
+export class Polygon extends Form {
+    readonly radius: number;
+    readonly sides: number;
+    readonly x: number;
+    readonly y: number;
+    readonly z: number;
+
+    constructor(
+        value: Value,
+        radius: number,
+        sides: number,
+        x: number,
+        y: number,
+        z: number,
+    ) {
+        super(value);
+
+        this.radius = Math.abs(radius);
+        this.sides = Math.floor(Math.abs(sides));
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
+    getLeft() {
+        return this.x - this.radius;
+    }
+
+    getTop() {
+        return this.y + this.radius;
+    }
+
+    getZ() {
+        return this.z;
+    }
+
+    getWidth() {
+        return this.radius * 2;
+    }
+
+    getHeight() {
+        return this.radius * 2;
+    }
+
+    /** Compute regular polygon coordinates based on x, y, radius, and sides */
+    getCoordinates() {
+        const points: { x: number; y: number }[] = [];
+        for (let i = 0; i < this.sides; i++) {
+            points.push({
+                x:
+                    PX_PER_METER *
+                    (this.x +
+                        this.radius * Math.cos((2 * Math.PI * i) / this.sides) -
+                        this.getLeft()),
+                y:
+                    -PX_PER_METER *
+                    (this.y +
+                        this.radius * Math.sin((2 * Math.PI * i) / this.sides) -
+                        this.getTop()),
+            });
+        }
+
+        return points;
+    }
+
+    toCSSClip() {
+        const points = this.getCoordinates();
+        return `polygon(${points.map((p) => `${p.x}px ${p.y}px`).join(', ')})`;
+    }
+
+    toSVGPath(x: number, y: number) {
+        const points = this.getCoordinates();
+        return `M ${points.map((p) => `${p.x + x},${p.y + y}`).join(' ')} Z`;
+    }
+
+    getDescription(locales: Locales): string {
+        return locales.get((l) => getFirstName(l.output.Polygon.names));
     }
 }
 
@@ -208,6 +306,7 @@ export function toForm(
 
     if (value.is(project.shares.output.Rectangle)) return toRectangle(value);
     else if (value.is(project.shares.output.Circle)) return toCircle(value);
+    else if (value.is(project.shares.output.Polygon)) return toPolygon(value);
     else return undefined;
 }
 
@@ -238,5 +337,23 @@ export function toCircle(value: Value | undefined) {
     const z = toNumber(zVal) ?? 0;
     return x !== undefined && y !== undefined && radius !== undefined
         ? new Circle(value, x, y, z, radius)
+        : undefined;
+}
+
+export function toPolygon(value: Value | undefined) {
+    if (!(value instanceof StructureValue)) return undefined;
+
+    const [radiusVal, sidesVal, xVal, yVal, zVal] = getOutputInputs(value);
+
+    const radius = toNumber(radiusVal);
+    const sides = toNumber(sidesVal);
+    const x = toNumber(xVal);
+    const y = toNumber(yVal);
+    const z = toNumber(zVal) ?? 0;
+    return x !== undefined &&
+        y !== undefined &&
+        radius !== undefined &&
+        sides !== undefined
+        ? new Polygon(value, radius, sides, x, y, z)
         : undefined;
 }

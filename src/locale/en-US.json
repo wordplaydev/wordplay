@@ -3509,6 +3509,30 @@
                 "names": "z"
             }
         },
+        "Polygon": {
+            "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
+            "names": ["Polygon"],
+            "radius": {
+                "doc": "The radius of the polygon",
+                "names": "radius"
+            },
+            "sides": {
+                "doc": "The number of sides of the polygon",
+                "names": "sides"
+            },
+            "x": {
+                "doc": "The horizontal center of the polygon.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "The vertical center of the polygon.",
+                "names": "y"
+            },
+            "z": {
+                "doc": "The depth position of the polygon.",
+                "names": "z"
+            }
+        },
         "Pose": {
             "doc": [
                 "You know when someone strikes the most amazing way of standing, a pauses, and everyone looks? That's me. I capture a pose for @Output to be in, and am the building block of their movements.",

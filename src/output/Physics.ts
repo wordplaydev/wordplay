@@ -10,7 +10,7 @@ import Motion from '../input/Motion';
 import type Evaluator from '../runtime/Evaluator';
 import type { ReboundEvent } from '../input/Collision';
 import Collision from '../input/Collision';
-import { Circle, Rectangle } from './Form';
+import { Circle, Polygon, Rectangle } from './Form';
 import type Shape from './Shape';
 
 const TextCategory = 0b0001;
@@ -180,6 +180,23 @@ export default class Physics {
         return MatterJS.Bodies.circle(x, y, radius, this.ShapeOptions);
     }
 
+    /** Create a circle form */
+    createPolygon(polygon: Polygon) {
+        // Compute rectangle boundaries in engine coordinates.
+        const x = polygon.x * PX_PER_METER;
+        const y = -polygon.y * PX_PER_METER;
+        const radius = polygon.radius * PX_PER_METER;
+
+        // Place the rectangle at the center of bounds
+        return MatterJS.Bodies.polygon(
+            x,
+            y,
+            polygon.sides,
+            radius,
+            this.ShapeOptions,
+        );
+    }
+
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
     sync(
         stage: Stage,
@@ -340,15 +357,13 @@ export default class Physics {
                               )
                             : barrier.form instanceof Circle
                               ? this.createCircle(barrier.form)
-                              : undefined;
+                              : barrier.form instanceof Polygon
+                                ? this.createPolygon(barrier.form)
+                                : undefined;
 
-                    if (
-                        shape &&
-                        (barrier.form instanceof Rectangle ||
-                            barrier.form instanceof Circle)
-                    ) {
+                    if (shape) {
                         if (barrier.name) shape.label = barrier.getName();
-                        const engine = this.getEngineAtZ(barrier.form.z);
+                        const engine = this.getEngineAtZ(barrier.form.getZ());
                         MatterJS.Composite.add(engine.world, shape);
                         this.currentShapeBodies.push({
                             body: shape,

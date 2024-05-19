@@ -6619,7 +6619,7 @@
             },
             "Circle": {
               "additionalProperties": false,
-              "description": "A rectangle shape, for Stage.frame",
+              "description": "A circle form",
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7171,6 +7171,50 @@
               ],
               "type": "object"
             },
+            "Polygon": {
+              "additionalProperties": false,
+              "description": "A regular polygon form",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "radius": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Radius of the polygon"
+                },
+                "sides": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Radius of the polygon"
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Horizontal center of the polygon"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Vertical center of the polygon"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Z coordinate the polygon"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "radius",
+                "sides",
+                "x",
+                "y",
+                "z"
+              ],
+              "type": "object"
+            },
             "Pose": {
               "additionalProperties": false,
               "description": "A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states",
@@ -7233,7 +7277,7 @@
             },
             "Rectangle": {
               "additionalProperties": false,
-              "description": "A rectangle shape, for Stage.frame",
+              "description": "A rectangle form",
               "properties": {
                 "bottom": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7793,6 +7837,7 @@
             "Form",
             "Rectangle",
             "Circle",
+            "Polygon",
             "Pose",
             "Sequence",
             "Color",

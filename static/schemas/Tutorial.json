@@ -306,6 +306,7 @@
         "Form",
         "Rectangle",
         "Circle",
+        "Polygon",
         "Pose",
         "Sequence",
         "Color",

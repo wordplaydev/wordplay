@@ -21,7 +21,7 @@ Stage(
 		:balls(10m)
 		Shape(Circle(2m 0m 1m 0m))
 		Shape(Circle(2m 9m -3m 10m))
-		Shape(Circle(2m -5m 0m -10m))
+		Shape(Polygon(2m 5 -5m 0m -10m))
 		Shape(Rectangle(-20m 0m 20m -1m 0m))
 		Shape(Rectangle(-20m 0m 20m -1m 10m) rotation: 25°)
 		Shape(Rectangle(-20m 0m 20m -1m -10m) rotation: -10°)

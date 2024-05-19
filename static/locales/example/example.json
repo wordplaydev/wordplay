@@ -2014,6 +2014,30 @@
                 "names": "$?"
             }
         },
+        "Polygon": {
+            "doc": "$?",
+            "names": ["$?"],
+            "radius": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sides": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
         "Pose": {
             "names": "$?",
             "doc": "$?",

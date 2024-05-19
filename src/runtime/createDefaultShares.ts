@@ -39,6 +39,7 @@ import { createSourceType } from '@output/Source';
 import {
     createCircleType,
     createFormType,
+    createPolygonType,
     createRectangleType,
 } from '@output/Form';
 
@@ -71,6 +72,7 @@ export default function createDefaultShares(locales: Locales) {
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
         Circle: createCircleType(locales),
+        Polygon: createPolygonType(locales),
         Arrangement: createArrangementType(locales),
         Stack: createStackType(locales),
         Row: createRowType(locales),

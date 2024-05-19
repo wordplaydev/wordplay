@@ -11,7 +11,7 @@
     import type RenderContext from '@output/RenderContext';
     import { locales } from '../../db/Database';
     import type Shape from '../../output/Shape';
-    import { Circle, Rectangle } from '../../output/Form';
+    import { Circle, Polygon, Rectangle } from '../../output/Form';
 
     export let shape: Shape;
     export let place: Place;
@@ -43,7 +43,9 @@
             ? 'rectangle'
             : shape.form instanceof Circle
               ? 'circle'
-              : ''}"
+              : shape.form instanceof Polygon
+                ? 'polygon'
+                : ''}"
         tabIndex={interactive && (selectable || editing) ? 0 : null}
         data-id={shape.getHTMLID()}
         data-node-id={shape.value.creator.id}
@@ -70,7 +72,21 @@
                 descent: 0,
             },
         )}
-    />
+    >
+        <svg
+            class="form"
+            role="presentation"
+            width={shape.form.getWidth() * PX_PER_METER}
+            height={shape.form.getHeight() * PX_PER_METER}
+            xmlns="http://www.w3.org/2000/svg"
+        >
+            <path
+                class="border"
+                d={shape.form.toSVGPath(0, 0)}
+                fill={shape.background?.toCSS() ?? null}
+            />
+        </svg>
+    </div>
 {/if}
 
 <style>
@@ -80,21 +96,21 @@
         top: 0;
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
+
+        border-width: calc(2 * var(--wordplay-border-width));
+        border-style: solid;
+        border-color: transparent;
+    }
+
+    .form {
+        fill: var(--wordplay-inactive-color);
     }
 
     .shape.rectangle {
-        background: var(--wordplay-inactive-color);
         border-radius: calc(2 * var(--wordplay-border-radius));
-        border-width: calc(2 * var(--wordplay-border-width));
-        border-style: solid;
-        border-color: transparent;
     }
 
     .shape.circle {
-        background: var(--wordplay-inactive-color);
         border-radius: 50%;
-        border-width: calc(2 * var(--wordplay-border-width));
-        border-style: solid;
-        border-color: transparent;
     }
 </style>

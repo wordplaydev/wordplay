@@ -13,7 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Added
 
--   Added a `Circle` form, which can be added to a stage as a background.
+-   Added `Circle` and regular `Polygon` forms, which can be added to a stage as a background.
 
 ## 0.9.394 2024-05-11
 

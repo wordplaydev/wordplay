@@ -20,10 +20,7 @@ import type Locales from '../locale/Locales';
 export function createShapeType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} Output(
-        ${getBind(
-            locales,
-            (locale) => locale.output.Shape.form,
-        )}•Rectangle|Circle
+        ${getBind(locales, (locale) => locale.output.Shape.form)}•Form
         ${getBind(locales, (locale) => locale.output.Shape.name)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Shape.selectable)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Shape.color)}•🌈${'|ø: ø'}
