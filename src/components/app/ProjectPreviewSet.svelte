@@ -61,7 +61,7 @@
         align-items: center;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
-        justify-content: space-evenly;
+        justify-content: space-between;
     }
 
     .controls {
