@@ -26,7 +26,7 @@
             event.target.releasePointerCapture(event.pointerId);
 
         // Set the dragged node to a deep clone of the (it may contain nodes from declarations that we don't want leaking into the program);
-        dragged.set(node.clone());
+        if (dragged) dragged.set(node.clone());
     }
 
     function copy() {
@@ -40,7 +40,8 @@
         <div
             role="textbox"
             aria-readonly="true"
-            class="draggable node"
+            class:node
+            class:draggable={dragged !== undefined}
             class:outline
             tabindex="0"
             on:pointerdown|stopPropagation={handlePointerDown}
@@ -69,13 +70,16 @@
 
     .node {
         display: inline-block;
-        cursor: grab;
         user-select: none;
         display: inline-block;
         vertical-align: middle;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;
+    }
+
+    .draggable {
+        cursor: grab;
     }
 
     .node.outline {

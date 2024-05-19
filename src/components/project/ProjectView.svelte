@@ -573,7 +573,7 @@
     let maxBottom = 0;
 
     /* A global context for a node being dragged */
-    let dragged = writable<Node | undefined>(undefined);
+    export let dragged = writable<Node | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
     /** True if the output should show a grid */

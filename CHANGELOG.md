@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Enabled content security policy to enhance security.
 -   Improved layout of example code output refresh.
 -   Tidier spacing of project preview lists.
+-   [#468](https://github.com/wordplaydev/wordplay/issues/468) Fixed example dragging from tutorial dialog.
 
 ### Added
 

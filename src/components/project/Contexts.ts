@@ -163,7 +163,7 @@ export function getInsertionPoint() {
 export type DraggedContext = Writable<Node | undefined>;
 export const DraggedSymbol = Symbol('dragged');
 export function getDragged() {
-    return getContext<DraggedContext>(DraggedSymbol);
+    return getContext<DraggedContext | undefined>(DraggedSymbol);
 }
 
 export type HighlightContext = Writable<Highlights> | undefined;

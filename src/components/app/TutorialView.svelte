@@ -12,6 +12,8 @@
         getConceptPath,
         type ProjectContext,
         ProjectSymbol,
+        DraggedSymbol,
+        type DraggedContext,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -63,6 +65,14 @@
     $: act = progress.getAct();
     $: scene = progress.getScene();
     $: dialog = progress.getDialog();
+
+    /** This is bound to the project view's context */
+    let dragged: DraggedContext;
+    /** This is the tutorial's own dragged store, which we keep in a context */
+    let localDragged: DraggedContext = writable(undefined);
+    setContext(DraggedSymbol, localDragged);
+    /** Whenever the local tutorial dragged context changes, push it to the project's store */
+    $: if (dragged) dragged.set($localDragged);
 
     /** Convert the instructions into a sequence of docs/space pairs */
     let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = [];
@@ -370,6 +380,7 @@
                         project={$projectStore ?? initialProject}
                         original={initialProject}
                         bind:index={concepts}
+                        bind:dragged
                         showOutput={!editable}
                         {fit}
                         autofocus={false}
