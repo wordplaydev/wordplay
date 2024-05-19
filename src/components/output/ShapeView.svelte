@@ -11,7 +11,7 @@
     import type RenderContext from '@output/RenderContext';
     import { locales } from '../../db/Database';
     import type Shape from '../../output/Shape';
-    import { Rectangle } from '../../output/Form';
+    import { Circle, Rectangle } from '../../output/Form';
 
     export let shape: Shape;
     export let place: Place;
@@ -41,7 +41,9 @@
             : null}
         class="output shape {shape.form instanceof Rectangle
             ? 'rectangle'
-            : ''}"
+            : shape.form instanceof Circle
+              ? 'circle'
+              : ''}"
         tabIndex={interactive && (selectable || editing) ? 0 : null}
         data-id={shape.getHTMLID()}
         data-node-id={shape.value.creator.id}
@@ -66,7 +68,7 @@
                 height,
                 ascent: height,
                 descent: 0,
-            }
+            },
         )}
     />
 {/if}
@@ -83,6 +85,14 @@
     .shape.rectangle {
         background: var(--wordplay-inactive-color);
         border-radius: calc(2 * var(--wordplay-border-radius));
+        border-width: calc(2 * var(--wordplay-border-width));
+        border-style: solid;
+        border-color: transparent;
+    }
+
+    .shape.circle {
+        background: var(--wordplay-inactive-color);
+        border-radius: 50%;
         border-width: calc(2 * var(--wordplay-border-width));
         border-style: solid;
         border-color: transparent;

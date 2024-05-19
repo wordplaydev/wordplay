@@ -3461,6 +3461,10 @@
                 "names": "style"
             }
         },
+        "Form": {
+            "doc": "I am an abstract form, like a @Rectangle or @Circle.",
+            "names": ["Form"]
+        },
         "Rectangle": {
             "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
             "names": ["Rectangle"],
@@ -3482,6 +3486,26 @@
             },
             "z": {
                 "doc": "The depth position of the rectangle.",
+                "names": "z"
+            }
+        },
+        "Circle": {
+            "doc": "I am a circle, useful for making shapes on @Stage.",
+            "names": ["Circle"],
+            "radius": {
+                "doc": "The radius of the circle",
+                "names": "radius"
+            },
+            "x": {
+                "doc": "The horizontal center of the circle.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "The vertical center of the circle.",
+                "names": "y"
+            },
+            "z": {
+                "doc": "The depth position of the circle.",
                 "names": "z"
             }
         },

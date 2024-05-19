@@ -3483,6 +3483,10 @@
                 "names": "estilo"
             }
         },
+        "Form": {
+            "doc": "$?",
+            "names": ["$?"]
+        },
         "Rectangle": {
             "names": "Rectángulo",
             "doc": "Soy un @Rectangle, útil para hacer un border de tu elección para el @Stage.",
@@ -3505,6 +3509,26 @@
             "z": {
                 "doc": "La posición de profundidad del rectángulo.",
                 "names": "z"
+            }
+        },
+        "Circle": {
+            "doc": "$?",
+            "names": ["$? Circle"],
+            "radius": {
+                "doc": "$?",
+                "names": "$? radius"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Pose": {

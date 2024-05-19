@@ -17,7 +17,7 @@ import type Sequence from './Sequence';
 import concretize from '../locale/concretize';
 import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import { toRectangle, type Rectangle } from './Form';
+import { Form, toForm } from './Form';
 import Shape from './Shape';
 import type Evaluator from '../runtime/Evaluator';
 import type Locales from '../locale/Locales';
@@ -36,7 +36,7 @@ export function createStageType(locales: Locales) {
         locales,
         (locale) => locale.output.Stage.content,
     )}•[Phrase|Shape|Group]
-    ${getBind(locales, (locale) => locale.output.Stage.frame)}•Rectangle|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.frame)}•Form|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.size)}•${'#m: 1m'}
     ${getBind(
         locales,
@@ -83,7 +83,7 @@ export default class Stage extends Output {
     /** True if the stage was explicit in the program or generated to wrap some other content. */
     readonly explicit: boolean;
     readonly content: (Output | null)[];
-    readonly frame: Rectangle | undefined;
+    readonly frame: Form | undefined;
     readonly back: Color;
     readonly gravity: number;
 
@@ -94,7 +94,7 @@ export default class Stage extends Output {
         explicit: boolean,
         content: (Output | null)[],
         background: Color,
-        frame: Rectangle | undefined = undefined,
+        frame: Form | undefined = undefined,
         size: number,
         face: SupportedFace,
         place: Place | undefined = undefined,
@@ -302,7 +302,7 @@ export function toStage(
             possibleGroups instanceof ListValue
                 ? toOutputList(evaluator, possibleGroups, namer)
                 : toOutput(evaluator, possibleGroups, namer);
-        const frame = toRectangle(getOutputInput(value, 1));
+        const frame = toForm(project, getOutputInput(value, 1));
 
         const gravity = toNumber(getOutputInput(value, 21)) ?? DefaultGravity;
 

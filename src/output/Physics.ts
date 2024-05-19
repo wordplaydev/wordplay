@@ -10,7 +10,7 @@ import Motion from '../input/Motion';
 import type Evaluator from '../runtime/Evaluator';
 import type { ReboundEvent } from '../input/Collision';
 import Collision from '../input/Collision';
-import { Rectangle } from './Form';
+import { Circle, Rectangle } from './Form';
 import type Shape from './Shape';
 
 const TextCategory = 0b0001;
@@ -135,6 +135,15 @@ export default class Physics {
         return engine;
     }
 
+    readonly ShapeOptions = {
+        isStatic: true,
+        collisionFilter: {
+            group: 1,
+            category: ShapeCategory,
+            mask: TextCategory | ShapeCategory,
+        },
+    };
+
     /** Rotation is degrees */
     createRectangle(rectangle: Rectangle, rotation: number | undefined) {
         // Compute rectangle boundaries in engine coordinates.
@@ -151,20 +160,24 @@ export default class Physics {
             (top + bottom) / 2,
             Math.abs(right - left),
             Math.abs(bottom - top),
-            {
-                isStatic: true,
-                collisionFilter: {
-                    group: 1,
-                    category: ShapeCategory,
-                    mask: TextCategory | ShapeCategory,
-                },
-            },
+            this.ShapeOptions,
         );
 
         if (rotation !== undefined && rotation !== 0)
             MatterJS.Body.rotate(rect, (rotation * Math.PI) / 180);
 
         return rect;
+    }
+
+    /** Create a circle form */
+    createCircle(circle: Circle) {
+        // Compute rectangle boundaries in engine coordinates.
+        const x = circle.x * PX_PER_METER;
+        const y = -circle.y * PX_PER_METER;
+        const radius = circle.radius * PX_PER_METER;
+
+        // Place the rectangle at the center of bounds
+        return MatterJS.Bodies.circle(x, y, radius, this.ShapeOptions);
     }
 
     /** Given the current and prior scenes, and the time elapsed since the last one, sync the matter engine. */
@@ -319,11 +332,21 @@ export default class Physics {
                 // Add the revised bodies
                 this.currentShapeBodies = [];
                 for (const barrier of shapes) {
-                    if (barrier.form instanceof Rectangle) {
-                        const shape = this.createRectangle(
-                            barrier.form,
-                            barrier.pose.rotation,
-                        );
+                    const shape =
+                        barrier.form instanceof Rectangle
+                            ? this.createRectangle(
+                                  barrier.form,
+                                  barrier.pose.rotation,
+                              )
+                            : barrier.form instanceof Circle
+                              ? this.createCircle(barrier.form)
+                              : undefined;
+
+                    if (
+                        shape &&
+                        (barrier.form instanceof Rectangle ||
+                            barrier.form instanceof Circle)
+                    ) {
                         if (barrier.name) shape.label = barrier.getName();
                         const engine = this.getEngineAtZ(barrier.form.z);
                         MatterJS.Composite.add(engine.world, shape);

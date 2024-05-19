@@ -3318,6 +3318,10 @@
                 "names": "样式"
             }
         },
+        "Form": {
+            "doc": "$?",
+            "names": ["$?"]
+        },
         "Rectangle": {
             "doc": "我是一个矩形，用于使@Stage具有您选择的大小的边界。",
             "names": ["矩形"],
@@ -3340,6 +3344,26 @@
             "z": {
                 "doc": "矩形的深度位置。",
                 "names": "z"
+            }
+        },
+        "Circle": {
+            "doc": "$?",
+            "names": ["$? Circle"],
+            "radius": {
+                "doc": "$?",
+                "names": "$? radius"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Pose": {

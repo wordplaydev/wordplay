@@ -6617,6 +6617,45 @@
               ],
               "type": "object"
             },
+            "Circle": {
+              "additionalProperties": false,
+              "description": "A rectangle shape, for Stage.frame",
+              "properties": {
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "radius": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Radius of the circle"
+                },
+                "x": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Horizontal center of the circle"
+                },
+                "y": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Vertical center of the circle"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Z coordinate the circle"
+                }
+              },
+              "required": [
+                "doc",
+                "names",
+                "radius",
+                "x",
+                "y",
+                "z"
+              ],
+              "type": "object"
+            },
             "Color": {
               "additionalProperties": false,
               "description": "A color in LCH spaces",
@@ -6679,6 +6718,10 @@
                 "zippy"
               ],
               "type": "object"
+            },
+            "Form": {
+              "$ref": "#/definitions/NameAndDoc",
+              "description": "The base form type"
             },
             "Free": {
               "additionalProperties": false,
@@ -7747,7 +7790,9 @@
             "Phrase",
             "Stage",
             "Shape",
+            "Form",
             "Rectangle",
+            "Circle",
             "Pose",
             "Sequence",
             "Color",

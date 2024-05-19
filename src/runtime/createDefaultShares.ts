@@ -18,7 +18,7 @@ import { createArrangementType } from '../output/Arrangement';
 import { getDefaultSequences } from '../output/DefaultSequences';
 import { createChoiceDefinition } from '../input/Choice';
 import { createGridType } from '../output/Grid';
-import { createRectangleType, createShapeType } from '../output/Shape';
+import { createShapeType } from '../output/Shape';
 import { createFreeType } from '../output/Free';
 import { createCameraDefinition } from '../input/Camera';
 import { createSequenceType } from '../output/Sequence';
@@ -36,6 +36,11 @@ import { createReactionDefinition } from '../values/ReactionStream';
 import { createSceneDefinition } from '@input/Scene';
 import { createAuraType } from '@output/Aura';
 import { createSourceType } from '@output/Source';
+import {
+    createCircleType,
+    createFormType,
+    createRectangleType,
+} from '@output/Form';
 
 export default function createDefaultShares(locales: Locales) {
     const TypeType = createOutputType(locales);
@@ -63,7 +68,9 @@ export default function createDefaultShares(locales: Locales) {
         Velocity: VelocityType,
         Direction: DirectionType,
         Rebound: ReboundType,
+        Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
+        Circle: createCircleType(locales),
         Arrangement: createArrangementType(locales),
         Stack: createStackType(locales),
         Row: createRowType(locales),

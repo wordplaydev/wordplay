@@ -133,6 +133,8 @@ type OutputTexts = {
         /** The transition style of transitions */
         style: NameAndDoc;
     };
+    /** The base form type */
+    Form: NameAndDoc;
     /** A rectangle shape, for Stage.frame */
     Rectangle: NameAndDoc & {
         /** Left of the rectangle */
@@ -144,6 +146,17 @@ type OutputTexts = {
         /** Bottom of the rectangle */
         bottom: NameAndDoc;
         /** Depth of rectangle */
+        z: NameAndDoc;
+    };
+    /** A rectangle shape, for Stage.frame */
+    Circle: NameAndDoc & {
+        /** Radius of the circle */
+        radius: NameAndDoc;
+        /** Horizontal center of the circle */
+        x: NameAndDoc;
+        /** Vertical center of the circle */
+        y: NameAndDoc;
+        /** Z coordinate the circle */
         z: NameAndDoc;
     };
     /** A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states */

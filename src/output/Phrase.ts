@@ -39,10 +39,11 @@ import {
 } from '@locale/Scripts';
 import { toAura } from './Aura';
 import type Aura from './Aura';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
+    ${getBind(locales, (locale) => locale.output.Phrase, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(

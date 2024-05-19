@@ -1981,6 +1981,10 @@
             "duration": { "doc": "$?", "names": ["$? duration"] },
             "style": { "doc": "$?", "names": "$? style" }
         },
+        "Form": {
+            "doc": "$?",
+            "names": ["$?"]
+        },
         "Rectangle": {
             "names": "$?",
             "doc": "$?",
@@ -1989,6 +1993,26 @@
             "right": { "doc": "$?", "names": "$?" },
             "bottom": { "doc": "$?", "names": "$?" },
             "z": { "doc": "$?", "names": "$? z" }
+        },
+        "Circle": {
+            "doc": "$?",
+            "names": ["$? Circle"],
+            "radius": {
+                "doc": "$?",
+                "names": "$? radius"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Pose": {
             "names": "$?",
