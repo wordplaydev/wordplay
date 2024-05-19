@@ -1,4 +1,4 @@
-import type Pose from './Pose';
+import Pose from './Pose';
 import type Value from '@values/Value';
 import type Color from './Color';
 import Fonts, {
@@ -361,7 +361,9 @@ export default class Phrase extends Output {
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.size,
                 this.face,
-                this.pose.getDescription(locales),
+                this.resting instanceof Pose
+                    ? this.resting.getDescription(locales)
+                    : this.pose.getDescription(locales),
             ).toText();
         }
         return this._description;

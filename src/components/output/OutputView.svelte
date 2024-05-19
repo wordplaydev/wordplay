@@ -849,7 +849,6 @@
 <section
     class="output"
     data-uuid="stage"
-    role="application"
     aria-label={$locales.get((l) => l.ui.output.label)}
     class:mini
     class:editing={$evaluation?.playing === false && !painting}
@@ -859,11 +858,11 @@
         $selectedOutput &&
         $selectedOutput.includes(stageValue.value.creator)}
 >
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
         class="value"
         class:ignored
         class:typing
-        role="presentation"
         bind:this={valueView}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}

@@ -192,7 +192,7 @@
 
 {#if visible}
     <div
-        role={selectable ? 'button' : 'presentation'}
+        role={selectable ? 'button' : null}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
         aria-label={still ? phrase.getDescription($locales) : null}

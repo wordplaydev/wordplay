@@ -173,8 +173,8 @@
     }
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-    role="presentation"
     on:pointermove={handlePointerMove}
     on:pointerleave={() => (resizeDirection = null)}
     on:pointerdown={handlePointerDown}

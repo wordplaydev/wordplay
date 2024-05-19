@@ -33,7 +33,7 @@
 
 {#if visible}
     <div
-        role={selectable ? 'button' : 'presentation'}
+        role={selectable ? 'button' : null}
         aria-disabled={!selectable}
         aria-label={still ? shape.getDescription($locales) : null}
         aria-roledescription={!selectable

@@ -58,7 +58,7 @@
 </script>
 
 <div
-    role={!group.selectable ? 'presentation' : 'group'}
+    role={!group.selectable ? null : 'group'}
     aria-label={still ? group.getDescription($locales) : null}
     aria-roledescription={group instanceof Group
         ? $locales.get((l) => l.term.group)
