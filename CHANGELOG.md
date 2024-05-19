@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Enabled content security policy to enhance security.
+-   Improved layout of example code output refresh.
 
 ## 0.9.394 2024-05-11
 
