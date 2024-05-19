@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Enabled content security policy to enhance security.
 -   Improved layout of example code output refresh.
+-   Tidier spacing of project preview lists.
 
 ## 0.9.394 2024-05-11
 
