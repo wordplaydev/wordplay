@@ -30,6 +30,19 @@ const config = {
             '@models': path.resolve('./src/models'),
             '@db': path.resolve('./src/db'),
         },
+        csp: {
+            directives: {
+                'script-src': [
+                    'self',
+                    'https://fonts.googleapis.com',
+                    'https://fonts.gstatic.com',
+                    'https://www.googletagmanager.com',
+                    'https://apis.google.com',
+                    'https://*.googleapis.com',
+                    'https://*.firebaseapp.com',
+                ],
+            },
+        },
     },
 };
 

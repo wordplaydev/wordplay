@@ -1,66 +1,60 @@
 {
-  "projects": {
-    "default": "wordplay-dev",
-    "dev": "wordplay-dev",
-    "prod": "wordplay-prod"
-  },
-  "firestore": {
-    "rules": "firestore.rules",
-    "indexes": "firestore.indexes.json"
-  },
-  "functions": [
-    {
-      "source": "functions",
-      "codebase": "default",
-      "ignore": [
-        "node_modules",
-        ".git",
-        "firebase-debug.log",
-        "firebase-debug.*.log"
-      ],
-      "predeploy": [
-        "npm run build"
-      ]
-    }
-  ],
-  "hosting": {
-    "public": "build",
-    "ignore": [
-      "firebase.json",
-      "**/.*",
-      "**/node_modules/**"
-    ],
-    "rewrites": [
-      {
-        "source": "/function/getWebpage",
-        "run": {
-          "serviceId": "getwebpage",
-          "region": "us-central1",
-          "pinTag": true
-        }
-      },
-      {
-        "source": "**",
-        "destination": "/index.html"
-      }
-    ]
-  },
-  "emulators": {
-    "auth": {
-      "port": 9099
-    },
-    "functions": {
-      "port": 5001
+    "projects": {
+        "default": "wordplay-dev",
+        "dev": "wordplay-dev",
+        "prod": "wordplay-prod"
     },
     "firestore": {
-      "port": 8080
+        "rules": "firestore.rules",
+        "indexes": "firestore.indexes.json"
     },
+    "functions": [
+        {
+            "source": "functions",
+            "codebase": "default",
+            "ignore": [
+                "node_modules",
+                ".git",
+                "firebase-debug.log",
+                "firebase-debug.*.log"
+            ],
+            "predeploy": ["npm run build"]
+        }
+    ],
     "hosting": {
-      "port": 5002
+        "public": "build",
+        "ignore": ["firebase.json", "**/.*", "**/node_modules/**"],
+        "rewrites": [
+            {
+                "source": "/function/getWebpage",
+                "run": {
+                    "serviceId": "getwebpage",
+                    "region": "us-central1",
+                    "pinTag": true
+                }
+            },
+            {
+                "source": "**",
+                "destination": "/index.html"
+            }
+        ]
     },
-    "ui": {
-      "enabled": true
-    },
-    "singleProjectMode": true
-  }
+    "emulators": {
+        "auth": {
+            "port": 9099
+        },
+        "functions": {
+            "port": 5001
+        },
+        "firestore": {
+            "port": 8080
+        },
+        "hosting": {
+            "port": 5002
+        },
+        "ui": {
+            "enabled": true
+        },
+        "singleProjectMode": true
+    }
 }

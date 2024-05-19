@@ -3,7 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 0.9.5 2024-05-11
+## 0.9.395 2024-05-18
+
+### Fixed
+
+-   Enabled content security policy to enhance security.
+
+## 0.9.394 2024-05-11
 
 ### Fixed
 
@@ -14,7 +20,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Improved preferred spacing of compound data structures and blocks.
 -   Faster and more correct and stable preferred spacing algorithm.
 
-## 0.9.4 2024-05-04
+## 0.9.393 2024-05-04
 
 ### Added
 
