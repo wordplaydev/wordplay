@@ -53,7 +53,7 @@
         "ListClose": "组关闭",
         "TagOpen": "标签打开",
         "TagClose": "标签关闭",
-        "Bind": "$bind",
+        "Bind": "绑定",
         "Access": "访问",
         "Function": "函数",
         "Borrow": "借",
@@ -374,8 +374,8 @@
             }
         },
         "Bind": {
-            "name": "$bind",
-            "description": "$bind $1",
+            "name": "联结",
+            "description": "联结 $1",
             "emotion": "excited",
             "doc": [
                 "我给 *values* 命名。",
@@ -4211,8 +4211,8 @@
                 "link": {
                     "about": "这个地方为什么存在？",
                     "learn": "这是什么地方？",
-                    "projects": "创建并分享$act",
-                    "galleries": "体验他人的$act",
+                    "projects": "创建并分享表演",
+                    "galleries": "体验他人的表演",
                     "rights": "责任，我们的和你们的"
                 }
             },
@@ -4246,11 +4246,11 @@
                 },
                 "confirm": {
                     "archive": {
-                        "description": "存档这个$act",
+                        "description": "存档这个表演",
                         "prompt": "存档"
                     },
                     "delete": {
-                        "description": "永久删除这个$act",
+                        "description": "永久删除这个表演",
                         "prompt": "永久删除"
                     }
                 },
