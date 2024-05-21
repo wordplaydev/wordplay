@@ -129,6 +129,8 @@
                 direction: resizeDirection,
                 left: event.clientX - rect.left,
                 top: event.clientY - rect.top,
+                clientX: event.clientX,
+                clientY: event.clientY,
             });
             event.stopPropagation();
         }
