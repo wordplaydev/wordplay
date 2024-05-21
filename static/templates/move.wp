@@ -1,0 +1,9 @@
+Moveable Phrase
+=== start/en
+``A phrase that can be moved with arrow keys or pointer clicks.``/en
+``Una frase que se puede mover con las teclas de flecha o haciendo clic con el puntero.``/es
+``可以使用箭头键或指针单击移动的短语。``/zh
+Stage(
+    [ Phrase('✢' place: Placement())] 
+    place: Place(0m 0m -6m)
+)

@@ -77,7 +77,7 @@
         data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
         style:height={`${size}rem`}
-        href={path}
+        href={action ? undefined : path}
         on:click={(event) =>
             action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
@@ -99,13 +99,13 @@
     </a>
     {#if name}
         <div class="name"
-            ><Link to={path}
-                >{#if project.getName().length === 0}<em class="untitled"
-                        >&mdash;</em
-                    >{:else}
-                    {project.getName()}{/if}</Link
-            >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
-                <Spinning />{:else}<slot />{/if}</div
+            >{#if action}{project.getName()}{:else}<Link to={path}
+                    >{#if project.getName().length === 0}<em class="untitled"
+                            >&mdash;</em
+                        >{:else}
+                        {project.getName()}{/if}</Link
+                >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
+                    <Spinning />{:else}<slot />{/if}{/if}</div
         >{/if}
 </div>
 

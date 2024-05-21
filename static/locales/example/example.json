@@ -3,7 +3,6 @@
     "language": "en",
     "region": "US",
     "wordplay": "$?",
-    "newProject": "$?",
     "term": {
         "evaluate": "$?",
         "bind": "$?",
@@ -2639,6 +2638,10 @@
                 "archiveprompt": "$?",
                 "galleriesheader": "$?",
                 "galleryprompt": "$?",
+                "add": {
+                    "header": "$?",
+                    "explanation": "$?"
+                },
                 "button": {
                     "newproject": "$?",
                     "editproject": "$?",

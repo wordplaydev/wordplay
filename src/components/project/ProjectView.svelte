@@ -307,6 +307,9 @@
         } else updateEvaluator(newProject);
     });
 
+    // When the locales change, reset the evaluator to use the new locales.
+    $: if ($locales) resetInputs();
+
     function updateEvaluator(newProject: Project) {
         // Stop the old evaluator.
         $evaluator?.stop();
@@ -734,6 +737,7 @@
     $: {
         $evaluation;
         $locales;
+
         // We don't use the source we compute in the reaction above because we want this to be based only
         // on the current evaluator. This is because we sometimes evaluate some time after updating the project
         // for typing responsiveness.

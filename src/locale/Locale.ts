@@ -54,8 +54,6 @@ export type Locale = {
     region: RegionCode;
     /** The name of the platform */
     wordplay: string;
-    /** The default Program for a new project */
-    newProject: string;
     /** Common vocabulary that can be used in documentation and descriptions. */
     term: TermTexts;
     /** Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */

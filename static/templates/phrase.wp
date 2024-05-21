@@ -1,0 +1,6 @@
+Animated Phrase
+=== start/en
+``A simple phrase with a resting animation.``/en
+``Una frase sencilla con una animación de descanso.``/es
+``一个带有休息动画的简单短语。``/zh
+Phrase('🐈' resting:Sequence(sway() 1s))

@@ -74,6 +74,7 @@ export default class SetLiteral extends Expression {
                     this.getItemType(context) ?? new AnyType(),
                 space: true,
                 newline: this.wrap(),
+                initial: true,
                 indent: true,
             },
             { name: 'close', kind: node(Sym.SetClose), newline: this.wrap() },

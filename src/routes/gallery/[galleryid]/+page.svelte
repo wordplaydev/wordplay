@@ -19,7 +19,7 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import type Project from '../../../models/Project';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
-    import Button from '../../../components/widgets/Button.svelte';
+    import AddProject from '@components/app/AddProject.svelte';
     import { EDIT_SYMBOL } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
 
@@ -69,24 +69,9 @@
             await Promise.all(
                 gallery
                     .getProjects()
-                    .map((projectID) => Projects.get(projectID))
+                    .map((projectID) => Projects.get(projectID)),
             )
         ).filter((proj): proj is Project => proj !== undefined);
-    }
-
-    function newProject() {
-        if (gallery === undefined || gallery === null) return;
-        // Add the new project
-        const newProjectID = Projects.create(
-            $locales.getLocales(),
-            $locales.getLocale().newProject,
-            gallery.getID()
-        );
-        // Add it to this gallery.
-        Galleries.edit(gallery.withProject(newProjectID));
-
-        // Go to the project
-        goto(`/project/${newProjectID}`);
     }
 </script>
 
@@ -103,22 +88,22 @@
                 >{#if editable}<TextField
                         text={name ?? ''}
                         description={$locales.get(
-                            (l) => l.ui.gallery.field.name.description
+                            (l) => l.ui.gallery.field.name.description,
                         )}
                         placeholder={$locales.get(
-                            (l) => l.ui.gallery.field.name.placeholder
+                            (l) => l.ui.gallery.field.name.placeholder,
                         )}
                         done={(text) =>
                             gallery
                                 ? Galleries.edit(
                                       gallery.withName(
                                           text,
-                                          $locales.getLocale()
-                                      )
+                                          $locales.getLocale(),
+                                      ),
                                   )
                                 : undefined}
                     />{:else if name}{name}{:else}{$locales.get(
-                        (l) => l.ui.gallery.field.name.placeholder
+                        (l) => l.ui.gallery.field.name.placeholder,
                     )}{/if}</Header
             >
             <div class="collection">
@@ -127,26 +112,41 @@
                             ? description.split('\n').join('\n\n')
                             : $locales.get(
                                   (l) =>
-                                      l.ui.gallery.field.description.placeholder
+                                      l.ui.gallery.field.description
+                                          .placeholder,
                               )}
                     />{:else}
                     <TextBox
                         text={description ?? ''}
                         description={$locales.get(
-                            (l) => l.ui.gallery.field.description.description
+                            (l) => l.ui.gallery.field.description.description,
                         )}
                         placeholder={$locales.get(
-                            (l) => l.ui.gallery.field.description.placeholder
+                            (l) => l.ui.gallery.field.description.placeholder,
                         )}
                         done={(text) =>
                             gallery
                                 ? Galleries.edit(
                                       gallery.withDescription(
                                           text,
-                                          $locales.getLocale()
-                                      )
+                                          $locales.getLocale(),
+                                      ),
                                   )
                                 : undefined}
+                    />
+                {/if}
+
+                {#if editable}
+                    <AddProject
+                        add={(template) => {
+                            if (gallery) {
+                                const newProjectID = Projects.copy(template);
+                                Galleries.edit(
+                                    gallery.withProject(newProjectID),
+                                );
+                                goto(`/project/${newProjectID}`);
+                            }
+                        }}
                     />
                 {/if}
 
@@ -157,7 +157,7 @@
                             ? {
                                   description: $locales.get(
                                       (l) =>
-                                          l.ui.page.projects.button.editproject
+                                          l.ui.page.projects.button.editproject,
                                   ),
                                   action: (project) =>
                                       goto(project.getLink(false)),
@@ -169,12 +169,13 @@
                                 ? {
                                       prompt: $locales.get(
                                           (l) =>
-                                              l.ui.gallery.confirm.remove.prompt
+                                              l.ui.gallery.confirm.remove
+                                                  .prompt,
                                       ),
                                       description: $locales.get(
                                           (l) =>
                                               l.ui.gallery.confirm.remove
-                                                  .description
+                                                  .description,
                                       ),
                                       action: () =>
                                           gallery
@@ -188,27 +189,17 @@
                 {:else}
                     <Spinning large />
                 {/if}
-
-                {#if editable}
-                    <Button
-                        tip={$locales.get(
-                            (l) => l.ui.page.projects.button.newproject
-                        )}
-                        action={newProject}
-                        ><span style:font-size="xxx-large">+</span>
-                    </Button>
-                {/if}
             </div>
 
             {#if editable || gallery.getCurators().length > 0}
                 <Subheader
                     >{$locales.get(
-                        (l) => l.ui.gallery.subheader.curators.header
+                        (l) => l.ui.gallery.subheader.curators.header,
                     )}</Subheader
                 >
                 <MarkupHtmlView
                     markup={$locales.get(
-                        (l) => l.ui.gallery.subheader.curators.explanation
+                        (l) => l.ui.gallery.subheader.curators.explanation,
                     )}
                 />
                 <CreatorList
@@ -235,12 +226,12 @@
             {#if editable || gallery.getCreators().length > 0}
                 <Subheader
                     >{$locales.get(
-                        (l) => l.ui.gallery.subheader.creators.header
+                        (l) => l.ui.gallery.subheader.creators.header,
                     )}</Subheader
                 >
                 <MarkupHtmlView
                     markup={$locales.get(
-                        (l) => l.ui.gallery.subheader.creators.explanation
+                        (l) => l.ui.gallery.subheader.creators.explanation,
                     )}
                 />
                 <CreatorList
@@ -270,12 +261,12 @@
                 />
                 <Subheader
                     >{$locales.get(
-                        (l) => l.ui.gallery.subheader.delete.header
+                        (l) => l.ui.gallery.subheader.delete.header,
                     )}</Subheader
                 >
                 <MarkupHtmlView
                     markup={$locales.get(
-                        (l) => l.ui.gallery.subheader.delete.explanation
+                        (l) => l.ui.gallery.subheader.delete.explanation,
                     )}
                 />
 
@@ -283,10 +274,10 @@
                     <ConfirmButton
                         background
                         tip={$locales.get(
-                            (l) => l.ui.gallery.confirm.delete.description
+                            (l) => l.ui.gallery.confirm.delete.description,
                         )}
                         prompt={$locales.get(
-                            (l) => l.ui.gallery.confirm.delete.prompt
+                            (l) => l.ui.gallery.confirm.delete.prompt,
                         )}
                         action={async () => {
                             if (gallery) {
@@ -295,7 +286,7 @@
                             }
                         }}
                         >{$locales.get(
-                            (l) => l.ui.gallery.confirm.delete.prompt
+                            (l) => l.ui.gallery.confirm.delete.prompt,
                         )}</ConfirmButton
                     >
                 </p>
