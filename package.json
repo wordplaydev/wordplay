@@ -88,6 +88,7 @@
         "firebase-functions": "^4.9.0",
         "graphemer": "^1.4.0",
         "matter-js": "^0.19.0",
+        "node-fetch": "^3.3.2",
         "pitchy": "^4.1.0",
         "recoverable-random": "^1.0.3",
         "uuid": "^9",

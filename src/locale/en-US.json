@@ -4355,8 +4355,8 @@
                 "galleriesheader": "Galleries",
                 "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
                 "add": {
-                    "header": "New Project",
-                    "explanation": "Choose a template to create a new project."
+                    "header": "新项目",
+                    "explanation": "选择一个模板来创建新项目。"                    
                 },
                 "button": {
                     "newproject": "new project",
