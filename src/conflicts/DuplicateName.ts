@@ -25,7 +25,7 @@ export default class DuplicateName extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Bind.conflict.DuplicateName.primary,
+                            (l) => l.node.Bind.conflict.DuplicateName.conflict.primary,
                         ),
                         new NodeRef(
                             this.duplicate.name ?? this.duplicate,
@@ -41,7 +41,7 @@ export default class DuplicateName extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Bind.conflict.DuplicateName.secondary,
+                            (l) => l.node.Bind.conflict.DuplicateName.conflict.secondary,
                         ),
                         new NodeRef(
                             this.bind.names.names.find(
@@ -54,6 +54,21 @@ export default class DuplicateName extends Conflict {
                         ),
                     ),
             },
+            resolutions: [
+                {
+                    description: (locales: Locales) =>
+                        concretize(
+                            locales,
+                            locales.get(
+                                (l) => l.node.Bind.conflict.DuplicateName.resolution,
+                            ),
+                        ),
+                        // TODO: revise project accordingly
+                    mediator: (context: Context) => {
+                        return context.project;
+                    },
+                },
+            ]
         };
     }
 }

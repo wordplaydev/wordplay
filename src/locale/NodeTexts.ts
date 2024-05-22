@@ -167,7 +167,10 @@ type NodeTexts = {
         ExpressionText &
         Conflicts<{
             /** When a bind has duplicate names. Description inputs: $1: The name that shadowed this one */
-            DuplicateName: ConflictText;
+            DuplicateName: {
+                conflict: ConflictText;
+                resolution: Template;
+            }
             /** When a shared bind has a duplicate name that's shared. Description inputs: $1: The duplicate */
             DuplicateShare: ConflictText;
             /**
