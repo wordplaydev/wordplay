@@ -36,6 +36,8 @@
     import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
     import { deltaE } from 'colorjs.io/fn';
+    import type { ResizeDirection } from '@components/project/TileView.svelte';
+    import type Bounds from '@components/project/Bounds';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -56,6 +58,16 @@
     let nextButton: HTMLButtonElement | undefined;
     let previousButton: HTMLButtonElement | undefined;
     let focusView: HTMLButtonElement | undefined = undefined;
+
+    let resizeDirection: ResizeDirection | null;
+    let dialogWidthPercent: number = 30;
+    let dialogView: HTMLElement | undefined;
+    type Position = {
+        clientX: number,
+        width: number,
+        widthPercent: number,
+    }
+    let initialPosition: Position | null;
 
     // Focus next button on load.
     onMount(() => nextButton?.focus());
@@ -248,38 +260,65 @@
         focusView?.focus();
     }
 
-    // hard-coded
-    let dialogWidth: number = 400;
-    let startWidth = -1;
+    async function handlePointerMove(event: PointerEvent) {
+        if (dialogView === undefined) {
+            return;
+        }
+        if (event.buttons === 0) {
+            const x = event.clientX;
+            const rect = dialogView.getBoundingClientRect();
+            const threshold = 20;
+            const containsRight = x > rect.right - threshold;
 
-    // Resizing stage with mouse drag
-    const onDrag = (node, params) => {
-        let startPos = -1;
-        const mouseDownAction = (e) => {
-            node.dispatchEvent(new CustomEvent('dragStart', {detail: ''}));
-            document.body.style['pointer-events'] = 'none';
-            startPos = e['screenX'];
+            resizeDirection = containsRight
+                              ? 'right'
+                              : null;
         }
-        const mouseUpAction = (e) => {
-            node.dispatchEvent(new CustomEvent('dragEnd', {detail: ''}));
-            document.body.style['pointer-events'] = 'auto';
-            startPos = -1;
-        }
-        const mouseMoveAction = (e) => {
-            if (startPos > 0) {
-                let delta = e['screenX'] - startPos;
-                node.dispatchEvent(new CustomEvent('drag', {detail: delta}));
+        if (resizeDirection === 'right' && initialPosition) {
+            let deltaX = event.clientX - initialPosition.clientX;
+            // dialogWidthPercent = dialogWidth * 100.0 / tutorialWidth
+            // dialogWidthPercent1 = dialogWidth1 * 100.0 / tutorialWidth
+            // dialogWidth1 = dialogWidth + deltaX
+            // Find dialogWidthPercent1 in terms of dialogWidth, deltaX, dialogWidthPercent
+            // dialogWidthPercent1 = (dialogWidth + deltaX) * dialogWidthPercent / dialogWidth
+            let newWidthPercent = (initialPosition.width + deltaX) *
+                dialogWidthPercent / initialPosition.width;
+            if (newWidthPercent >= 10 && newWidthPercent <= 90) {
+                dialogWidthPercent = newWidthPercent;
             }
         }
-        node.addEventListener('mousedown', mouseDownAction);
-        document.addEventListener('mouseup', mouseUpAction);
-        document.addEventListener('mousemove', mouseMoveAction);
+    }
+
+    function handlePointerUp() {
+        resizeDirection = null;
+        initialPosition = null;
+    }
+
+    function getBoundsForElement(e: Element | null): Bounds | null {
+        if (!e)
+            return null;
+
+        const style = getComputedStyle(e);
         return {
-            destroy() {
-                node.removeEventListener('mousedown', mouseDownAction);
-                document.removeEventListener('mouseup', mouseUpAction);
-                document.removeEventListener('mousemove', mouseMoveAction);
+            left: parseFloat(style.left),
+            top: parseFloat(style.top),
+            width: parseFloat(style.width),
+            height: parseFloat(style.height),
+        }
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+        if (event.buttons !== 1) return;
+        if (resizeDirection && dialogView) {
+            let bounds = getBoundsForElement(dialogView);
+            if (bounds) {
+                initialPosition = {
+                    clientX: event.clientX,
+                    width: bounds.width,
+                    widthPercent: dialogWidthPercent,
+                }
             }
+            event.stopPropagation();
         }
     }
 </script>
@@ -291,7 +330,11 @@
 />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section class="tutorial" on:keydown={handleKey}>
+<section class="tutorial"
+        on:keydown={handleKey}
+        on:pointerdown={handlePointerDown}
+        on:pointerup={handlePointerUp}
+        on:pointermove={handlePointerMove}>
     <div class="header">
         <Header block={false}
             >{#if fallback}🚧{/if}
@@ -320,7 +363,11 @@
         </nav>
     </div>
     <div class="content">
-        <div role="article" class="dialog" style="--dialogWidth: {dialogWidth}">
+        <div role="article" class="dialog {resizeDirection
+                ? `resize-${resizeDirection}`
+                : ''}"
+            style="--dialogWidthPercent: {dialogWidthPercent}"
+            bind:this={dialogView}>
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div
                 class="turns"
@@ -397,15 +444,6 @@
                 {/if}
             </div>
         </div>
-        <div
-            class="resizeable"
-            use:onDrag={{}}
-            on:dragStart={() => {
-                startWidth = dialogWidth;
-            }}
-            on:drag={({detail: delta}) => {
-                dialogWidth = startWidth + delta;
-            }}></div>
         <!-- Create a new view from scratch when the code changes -->
         <!-- Autofocus the main editor if it's currently focused -->
         {#key initialProject}
@@ -498,7 +536,7 @@
 
     .dialog {
         height: 100%;
-        width: calc(var(--dialogWidth) * 1px);
+        width: calc(var(--dialogWidthPercent) * 1%);
         min-width: 0;
         display: flex;
         flex-direction: column;
@@ -511,17 +549,12 @@
             var(--wordplay-border-color);
     }
 
-    .dialog:focus {
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+    .dialog.resize-right {
+        cursor: ew-resize;
     }
 
-    .resizeable {
-        background-color: gray;
-        width: 4px;
-        height: 100%;
-        left: 0;
-        cursor: ew-resize;
-        overflow: hidden;
+    .dialog:focus {
+        outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
     nav {

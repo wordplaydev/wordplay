@@ -953,10 +953,10 @@
 
         const style = getComputedStyle(e);
         return {
-            left: parseInt(style.left),
-            top: parseInt(style.top),
-            width: parseInt(style.width),
-            height: parseInt(style.height),
+            left: parseFloat(style.left),
+            top: parseFloat(style.top),
+            width: parseFloat(style.width),
+            height: parseFloat(style.height),
         }
     }
 
@@ -1070,7 +1070,7 @@
                     width: pos1.bounds.width,
                     height: pos1.bounds.height,
                 };
-                const threshold = 10;
+                // const threshold = 10;
                 if (left && pos1.relativeDirection && pos1.relativeDirection.includes('left')) {
                     nextBounds.width += deltaX;
                     hasLeft = true;
