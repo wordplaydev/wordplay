@@ -584,7 +584,7 @@
         flex-direction: row;
         flex-grow: 1;
         min-width: 0;
-        width: 100%;
+        width: auto;
         height: 100%;
     }
 
