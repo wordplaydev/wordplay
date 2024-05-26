@@ -54,6 +54,17 @@ export default class DuplicateName extends Conflict {
                         ),
                     ),
             },
+            resolutions: [
+                {
+                    description: (locales: Locales) =>
+                        concretize(locales, 'Yes'),
+                    mediator: (context: Context) => {
+                        return context.project.withNonPII(
+                            this.duplicate.getName() || '',
+                        );
+                    },
+                },
+            ],
         };
     }
 }
