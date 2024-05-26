@@ -1059,10 +1059,6 @@
             //         if (draggedTile) scrollToTileView(draggedTile.id);
             //     }
             // }
-            let hasLeft = false,
-                hasRight = false,
-                hasTop = false,
-                hasBottom = false;
             for (let [id, pos1] of initialPositions) {
                 let nextBounds : Bounds = {
                     left: pos1.bounds.left,
@@ -1071,47 +1067,61 @@
                     height: pos1.bounds.height,
                 };
                 // const threshold = 10;
-                if (left && pos1.relativeDirection && pos1.relativeDirection.includes('left')) {
-                    nextBounds.width += deltaX;
-                    hasLeft = true;
+                if (left && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('left')) {
+                        nextBounds.width += deltaX;
+                    }
+                    else if (pos1.relativeDirection.includes('ll')) {
+                        nextBounds.left += deltaX;
+                        nextBounds.width -= deltaX;
+                    }
                 }
-                if (right && pos1.relativeDirection && pos1.relativeDirection.includes('right')) {
-                    nextBounds.left += deltaX;
-                    nextBounds.width -= deltaX;
-                    hasRight = true;
+                if (right && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('right')) {
+                        nextBounds.left += deltaX;
+                        nextBounds.width -= deltaX;
+                    }
+                    else if (pos1.relativeDirection.includes('rr')) {
+                        nextBounds.width += deltaX;
+                    }
                 }
-                if (top && pos1.relativeDirection && pos1.relativeDirection.includes('top')) {
-                    nextBounds.height += deltaY;
-                    // if (Math.abs(pos1.bounds.left - initialPos.bounds.left) < threshold) {
-                    //     nextBounds.left += deltaX;
-                    //     nextBounds.width -= deltaX;
-                    // }
-                    hasTop = true;
+                if (top && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('top')) {
+                        nextBounds.height += deltaY;
+                    }
+                    else if (pos1.relativeDirection.includes('tt')) {
+                        nextBounds.left += deltaX;
+                        nextBounds.width -= deltaX;
+                    }
                 }
-                if (bottom && pos1.relativeDirection && pos1.relativeDirection.includes('bottom')) {
-                    nextBounds.top += deltaY;
-                    nextBounds.height -= deltaY;
-                    hasBottom = true;
+                if (bottom && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('bottom')) {
+                        nextBounds.top += deltaY;
+                        nextBounds.height -= deltaY;
+                    }
+                    else if (pos1.relativeDirection.includes('bb')) {
+                        nextBounds.height += deltaY;
+                    }
                 }
                 setBoundsForElement(getTileView(id), nextBounds);
             }
             if (initialPos) {
                 let pos = initialPos.bounds;
                 let newBounds = {
-                    left: hasLeft
+                    left: left
                         ? pos.left + deltaX
                         : pos.left,
-                    top: hasTop
+                    top: top
                         ? pos.top + deltaY
                         : pos.top,
-                    width: hasLeft
+                    width: left
                         ? pos.width - deltaX
-                        : hasRight
+                        : right
                             ? pos.width + deltaX
                             : pos.width,
-                    height: hasTop
+                    height: top
                         ? pos.height - deltaY
-                        : hasBottom
+                        : bottom
                             ? pos.height + deltaY
                             : pos.height,
                 };
@@ -1165,6 +1175,10 @@
         const threshold = 10;
         let bounds = getBoundsForElement(getTileView(id));
         initialPositions = new Map();
+        let hasLeft = false,
+            hasRight = false,
+            hasTop = false,
+            hasBottom = false;
         for (let tile of layout.tiles) {
             if (!bounds) {
                 break;
@@ -1180,7 +1194,11 @@
             const atRight = Math.abs(curr.left - bounds.left - bounds.width) < threshold;
             const atTop = Math.abs(curr.top + curr.height - bounds.top) < threshold;
             const atBottom = Math.abs(curr.top - bounds.top - bounds.height) < threshold;
-            const relativeDirection = atLeft && atTop
+            const alignLeft = Math.abs(curr.left - bounds.left) < threshold;
+            const alignRight = Math.abs(curr.left + curr.width - (bounds.left + bounds.width)) < threshold;
+            const alignTop = Math.abs(curr.top - bounds.top) < threshold;
+            const alignBottom = Math.abs(curr.top + curr.height - bounds.top - bounds.height) < threshold;
+            let relativeDirection = atLeft && atTop
                 ? 'top-left'
                 : atLeft && atBottom
                     ? 'bottom-left'
@@ -1197,9 +1215,66 @@
                                         : atBottom
                                             ? 'bottom'
                                             : null;
+            if (relativeDirection) {
+                relativeDirection = alignLeft
+                    ? relativeDirection + 'll'
+                    : relativeDirection;
+                relativeDirection = alignRight
+                    ? relativeDirection + 'rr'
+                    : relativeDirection;
+                relativeDirection = alignTop
+                    ? relativeDirection + 'tt'
+                    : relativeDirection;
+                relativeDirection = alignBottom
+                    ? relativeDirection + 'bb'
+                    : relativeDirection;
+            }
+            hasLeft = hasLeft || atLeft;
+            hasRight = hasRight || atRight;
+            hasTop = hasTop || atTop;
+            hasBottom = hasBottom || atBottom;
             let tilePos = {relativeDirection: relativeDirection, bounds: curr}
             initialPositions.set(tile.id, tilePos);
         }
+        draggedTile.direction = getResizeDirection(direction, hasLeft, hasRight, hasTop, hasBottom);
+    }
+
+    function getResizeDirection(
+        direction: ResizeDirection | null,
+        hasLeft: boolean,
+        hasRight: boolean,
+        hasTop: boolean,
+        hasBottom: boolean
+    ) {
+        if (!hasLeft && direction && direction.includes('left')) {
+            direction = direction === 'top-left'
+                ? 'top'
+                : direction === 'bottom-left'
+                    ? 'bottom'
+                    : null;
+        }
+        if (!hasRight && direction && direction.includes('right')) {
+            direction = direction === 'top-right'
+                ? 'top'
+                : direction === 'bottom-right'
+                    ? 'bottom'
+                    : null;
+        }
+        if (!hasTop && direction && direction.includes('top')) {
+            direction = direction === 'top-left'
+                ? 'left'
+                : direction === 'top-right'
+                    ? 'right'
+                    : null;
+        }
+        if (!hasBottom && direction && direction.includes('bottom')) {
+            direction = direction === 'bottom-left'
+                ? 'left'
+                : direction === 'bottom-right'
+                    ? 'right'
+                    : null;
+        }
+        return direction;
     }
 
     function repositionFloaters() {
