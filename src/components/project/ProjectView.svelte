@@ -1066,7 +1066,6 @@
                     width: pos1.bounds.width,
                     height: pos1.bounds.height,
                 };
-                // const threshold = 10;
                 if (left && pos1.relativeDirection) {
                     if (pos1.relativeDirection.includes('left')) {
                         nextBounds.width += deltaX;
