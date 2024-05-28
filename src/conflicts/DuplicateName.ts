@@ -63,9 +63,8 @@ export default class DuplicateName extends Conflict {
                                 (l) => l.node.Bind.conflict.DuplicateName.resolution,
                             ),
                         ),
-                        // TODO: revise project accordingly
                     mediator: (context: Context) => {
-                        return context.project;
+                        return context.project.withRevisedNodes([[this.duplicate, undefined]]);
                     },
                 },
             ]
