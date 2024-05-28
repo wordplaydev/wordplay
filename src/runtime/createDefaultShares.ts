@@ -53,6 +53,7 @@ export default function createDefaultShares(locales: Locales) {
     const ReboundType = createReboundType(locales);
     const PhraseType = createPhraseType(locales);
     const GroupType = createGroupType(locales);
+    const ShapeType = createShapeType(locales);
 
     const OutputTypes = {
         Type: TypeType,
@@ -60,7 +61,7 @@ export default function createDefaultShares(locales: Locales) {
         Group: GroupType,
         Aura: createAuraType(locales),
         Stage: createStageType(locales),
-        Shape: createShapeType(locales),
+        Shape: ShapeType,
         Pose: createPoseType(locales),
         Sequence: createSequenceType(locales),
         Color: ColorType,
@@ -97,7 +98,7 @@ export default function createDefaultShares(locales: Locales) {
         Chat: createChatDefinition(locales),
         Collision: createCollisionDefinition(locales, ReboundType),
         Reaction: createReactionDefinition(locales),
-        Scene: createSceneDefinition(locales, PhraseType, GroupType),
+        Scene: createSceneDefinition(locales, PhraseType, GroupType, ShapeType),
     };
 
     const Sequences = getDefaultSequences(locales);
