@@ -54,7 +54,8 @@ export default class DuplicateName extends Conflict {
                         ),
                     ),
             },
-            resolutions: [
+            // If declarations are not on one line, do not show resolutions
+            resolutions: this.duplicate.separator ? [
                 {
                     description: (locales: Locales) =>
                         concretize(
@@ -64,10 +65,12 @@ export default class DuplicateName extends Conflict {
                             ),
                         ),
                     mediator: (context: Context) => {
-                        return context.project.withRevisedNodes([[this.duplicate, undefined]]);
+                        return context.project.withRevisedNodes([
+                            [this.duplicate, undefined]
+                        ]);
                     },
                 },
-            ]
+            ] : []
         };
     }
 }
