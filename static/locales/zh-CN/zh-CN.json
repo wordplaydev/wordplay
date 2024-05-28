@@ -411,7 +411,7 @@
                         "primary": "有其他人已经被命名为 $1 了，所以我不能叫这个名字。",
                         "secondary": "噢, $1 是我的名字"
                     },
-                    "resolution": "TODO: placeholder"
+                    "resolution": "$?"
                 },
                 "DuplicateShare": {
                     "primary": "我有和 $1 一样的名字，这让事情有些模棱两可",
