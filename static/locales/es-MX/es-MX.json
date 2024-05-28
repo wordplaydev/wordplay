@@ -386,8 +386,11 @@
             "finish": "¡Oh bien, obtuve $1! Vamos a llamarlo $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
-                    "secondary": "eh, $1 es mi nombre"
+                    "conflict": {
+                        "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
+                        "secondary": "eh, $1 es mi nombre"
+                    },
+                    "resolution": "$?"
                 },
                 "DuplicateShare": {
                     "primary": "tengo el mismo nombre que $1, lo que hace que lo compartido sea ambiguo",

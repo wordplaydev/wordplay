@@ -406,8 +406,11 @@
             "finish": "oh nice, I got $1! Let's name it $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "someone has the name $1 so I can't have this name.",
-                    "secondary": "hey, $1 is my name, you can't have it!"
+                    "conflict": {
+                        "primary": "someone has the name $1 so I can't have this name.",
+                        "secondary": "hey, $1 is my name, you can't have it!"
+                    },
+                    "resolution": "There are duplicate names, do you want to remove one?"
                 },
                 "DuplicateShare": {
                     "primary": "I have the same name as $1, which makes what is shared ambiguous",

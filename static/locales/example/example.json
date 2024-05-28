@@ -266,7 +266,10 @@
             "start": "$?",
             "finish": "$?",
             "conflict": {
-                "DuplicateName": { "primary": "$?", "secondary": "$?" },
+                "DuplicateName": {
+                    "conflict": { "primary": "$?", "secondary": "$?" },
+                    "resolution": "$?"
+                },
                 "DuplicateShare": { "primary": "$?", "secondary": "$?" },
                 "IncompatibleType": { "primary": "$?", "secondary": "$?" },
                 "MisplacedShare": "$?",
