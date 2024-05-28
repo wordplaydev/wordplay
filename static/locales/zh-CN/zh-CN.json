@@ -407,8 +407,11 @@
             "finish": "太好啦，我得到了 $1! 让我们给它命名为 $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "有其他人已经被命名为 $1 了，所以我不能叫这个名字。",
-                    "secondary": "噢, $1 是我的名字"
+                    "conflict": {
+                        "primary": "有其他人已经被命名为 $1 了，所以我不能叫这个名字。",
+                        "secondary": "噢, $1 是我的名字"
+                    },
+                    "resolution": "$?"
                 },
                 "DuplicateShare": {
                     "primary": "我有和 $1 一样的名字，这让事情有些模棱两可",

@@ -2614,8 +2614,20 @@
                   "description": "Conflicts that this node can generate",
                   "properties": {
                     "DuplicateName": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a bind has duplicate names. Description inputs: $1: The name that shadowed this one"
+                      "description": "When a bind has duplicate names. Description inputs: $1: The name that shadowed this one",
+                      "properties": {
+                        "conflict": {
+                          "$ref": "#/definitions/ConflictText"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "conflict",
+                        "resolution"
+                      ],
+                      "type": "object"
                     },
                     "DuplicateShare": {
                       "$ref": "#/definitions/ConflictText",
