@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   `Scene` now supports shapes.
 -   Conflict resolution for duplicate names.
+-   Fixed `Stage` documentation examples.
 
 ## 0.9.395 2024-05-18
 
