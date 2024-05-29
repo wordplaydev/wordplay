@@ -201,6 +201,13 @@
     /** Whether the browser is in fullscreen */
     let browserFullscreen = false;
 
+    type TilePosition = {
+        relativeDirection: string | null;
+        bounds: Bounds;
+    };
+    /** Initial tile positions */
+    let initialPositions : Map<string, TilePosition>;
+
     /** The conflicts present in the current project. **/
     const conflicts: ConflictsContext = writable([]);
 
@@ -565,6 +572,8 @@
               left: number;
               top: number;
               direction: ResizeDirection | null;
+              clientX: number;
+              clientY: number;
           }
         | undefined = undefined;
 
@@ -938,6 +947,28 @@
         if (draggedTile) scrollToTileView(tile.id);
     }
 
+    function getBoundsForElement(e: Element | null): Bounds | null {
+        if (!e)
+            return null;
+
+        const style = getComputedStyle(e);
+        return {
+            left: parseFloat(style.left),
+            top: parseFloat(style.top),
+            width: parseFloat(style.width),
+            height: parseFloat(style.height),
+        }
+    }
+
+    function setBoundsForElement(e: Element | null, rect: Bounds) {
+        if (e instanceof HTMLElement) {
+            e.style.left = rect.left + "px";
+            e.style.width = rect.width + "px";
+            e.style.top = rect.top + "px";
+            e.style.height = rect.height + "px";
+        }
+    }
+
     function handlePointerDown(event: PointerEvent) {
         if (event.buttons !== 1) return;
 
@@ -956,6 +987,8 @@
                     left: event.clientX - rect.left,
                     top: event.clientY - rect.top,
                     direction: null,
+                    clientX: event.clientX,
+                    clientY: event.clientY,
                 };
 
                 const tile = layout.getTileWithID(id);
@@ -976,46 +1009,123 @@
     }
 
     async function handlePointerMove(event: PointerEvent) {
-        pointerX = event.clientX + canvas.scrollLeft;
-        pointerY = event.clientY + canvas.scrollTop;
+        // pointerX = event.clientX + canvas.scrollLeft;
+        // pointerY = event.clientY + canvas.scrollTop;
 
         if (draggedTile) {
-            const tile = layout.getTileWithID(draggedTile.id);
-            if (tile) {
-                let newBounds;
-                if (draggedTile.direction === null) {
-                    newBounds = {
-                        left: pointerX - draggedTile.left,
-                        top: pointerY - draggedTile.top,
-                        width: tile.position.width,
-                        height: tile.position.height,
-                    };
-                } else {
-                    const left = draggedTile.direction.includes('left');
-                    const top = draggedTile.direction.includes('top');
-                    const right = draggedTile.direction.includes('right');
-                    const bottom = draggedTile.direction.includes('bottom');
-                    newBounds = {
-                        left: left ? pointerX : tile.position.left,
-                        top: top ? pointerY : tile.position.top,
-                        width: left
-                            ? tile.position.width +
-                              (tile.position.left - pointerX)
-                            : right
-                              ? pointerX - tile.position.left
-                              : tile.position.width,
-                        height: top
-                            ? tile.position.height +
-                              (tile.position.top - pointerY)
-                            : bottom
-                              ? pointerY - tile.position.top
-                              : tile.position.height,
-                    };
-                }
-                if (newBounds) {
-                    layout = layout.withTilePosition(tile, newBounds);
+            if (!draggedTile.direction) {
+                return;
+            }
+            let initialPos = initialPositions.get(draggedTile.id);
+            // const tile = layout.getTileWithID(draggedTile.id);
+            let deltaX = event.clientX - draggedTile.clientX;
+            let deltaY = event.clientY - draggedTile.clientY;
+            // if (tile) {
+            //     let newBounds;
+            //     if (draggedTile.direction === null) {
+            //         newBounds = {
+            //             left: pointerX - draggedTile.left,
+            //             top: pointerY - draggedTile.top,
+            //             width: tile.position.width,
+            //             height: tile.position.height,
+            //         };
+            //     } else {
+            const left = draggedTile.direction.includes('left');
+            const top = draggedTile.direction.includes('top');
+            const right = draggedTile.direction.includes('right');
+            const bottom = draggedTile.direction.includes('bottom');
+            //         newBounds = {
+            //             left: left ? pointerX : tile.position.left,
+            //             top: top ? pointerY : tile.position.top,
+            //             width: left
+            //                 ? tile.position.width +
+            //                   (tile.position.left - pointerX)
+            //                 : right
+            //                   ? pointerX - tile.position.left
+            //                   : tile.position.width,
+            //             height: top
+            //                 ? tile.position.height +
+            //                   (tile.position.top - pointerY)
+            //                 : bottom
+            //                   ? pointerY - tile.position.top
+            //                   : tile.position.height,
+            //         };
+            //     }
+            //     if (newBounds) {
+            //         layout = layout.withTilePosition(tile, newBounds);
 
-                    // Scroll tile into view if out
+            //         // Scroll tile into view if out
+            //         await tick();
+            //         if (draggedTile) scrollToTileView(draggedTile.id);
+            //     }
+            // }
+            for (let [id, pos1] of initialPositions) {
+                let nextBounds : Bounds = {
+                    left: pos1.bounds.left,
+                    top: pos1.bounds.top,
+                    width: pos1.bounds.width,
+                    height: pos1.bounds.height,
+                };
+                if (left && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('left')) {
+                        nextBounds.width += deltaX;
+                    }
+                    else if (pos1.relativeDirection.includes('ll')) {
+                        nextBounds.left += deltaX;
+                        nextBounds.width -= deltaX;
+                    }
+                }
+                if (right && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('right')) {
+                        nextBounds.left += deltaX;
+                        nextBounds.width -= deltaX;
+                    }
+                    else if (pos1.relativeDirection.includes('rr')) {
+                        nextBounds.width += deltaX;
+                    }
+                }
+                if (top && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('top')) {
+                        nextBounds.height += deltaY;
+                    }
+                    else if (pos1.relativeDirection.includes('tt')) {
+                        nextBounds.left += deltaX;
+                        nextBounds.width -= deltaX;
+                    }
+                }
+                if (bottom && pos1.relativeDirection) {
+                    if (pos1.relativeDirection.includes('bottom')) {
+                        nextBounds.top += deltaY;
+                        nextBounds.height -= deltaY;
+                    }
+                    else if (pos1.relativeDirection.includes('bb')) {
+                        nextBounds.height += deltaY;
+                    }
+                }
+                setBoundsForElement(getTileView(id), nextBounds);
+            }
+            if (initialPos) {
+                let pos = initialPos.bounds;
+                let newBounds = {
+                    left: left
+                        ? pos.left + deltaX
+                        : pos.left,
+                    top: top
+                        ? pos.top + deltaY
+                        : pos.top,
+                    width: left
+                        ? pos.width - deltaX
+                        : right
+                            ? pos.width + deltaX
+                            : pos.width,
+                    height: top
+                        ? pos.height - deltaY
+                        : bottom
+                            ? pos.height + deltaY
+                            : pos.height,
+                };
+                setBoundsForElement(getTileView(draggedTile.id), newBounds);
+                if (newBounds) {
                     await tick();
                     if (draggedTile) scrollToTileView(draggedTile.id);
                 }
@@ -1050,13 +1160,120 @@
         direction: ResizeDirection,
         left: number,
         top: number,
+        clientX: number,
+        clientY: number,
     ) {
         draggedTile = {
             id,
             left,
             top,
             direction,
+            clientX,
+            clientY,
         };
+        const threshold = 10;
+        let bounds = getBoundsForElement(getTileView(id));
+        initialPositions = new Map();
+        let hasLeft = false,
+            hasRight = false,
+            hasTop = false,
+            hasBottom = false;
+        for (let tile of layout.tiles) {
+            if (!bounds) {
+                break;
+            }
+            if (tile.isCollapsed()) {
+                continue;
+            }
+            let curr = getBoundsForElement(getTileView(tile.id));
+            if (!curr) {
+                continue;
+            }
+            const atLeft = Math.abs(curr.left + curr.width - bounds.left) < threshold;
+            const atRight = Math.abs(curr.left - bounds.left - bounds.width) < threshold;
+            const atTop = Math.abs(curr.top + curr.height - bounds.top) < threshold;
+            const atBottom = Math.abs(curr.top - bounds.top - bounds.height) < threshold;
+            const alignLeft = Math.abs(curr.left - bounds.left) < threshold;
+            const alignRight = Math.abs(curr.left + curr.width - (bounds.left + bounds.width)) < threshold;
+            const alignTop = Math.abs(curr.top - bounds.top) < threshold;
+            const alignBottom = Math.abs(curr.top + curr.height - bounds.top - bounds.height) < threshold;
+            let relativeDirection = atLeft && atTop
+                ? 'top-left'
+                : atLeft && atBottom
+                    ? 'bottom-left'
+                    : atRight && atTop
+                        ? 'top-right'
+                        : atRight && atBottom
+                            ? 'bottom-right'
+                            : atLeft
+                                ? 'left'
+                                : atRight
+                                    ? 'right'
+                                    : atTop
+                                        ? 'top'
+                                        : atBottom
+                                            ? 'bottom'
+                                            : null;
+            if (relativeDirection) {
+                relativeDirection = alignLeft
+                    ? relativeDirection + 'll'
+                    : relativeDirection;
+                relativeDirection = alignRight
+                    ? relativeDirection + 'rr'
+                    : relativeDirection;
+                relativeDirection = alignTop
+                    ? relativeDirection + 'tt'
+                    : relativeDirection;
+                relativeDirection = alignBottom
+                    ? relativeDirection + 'bb'
+                    : relativeDirection;
+            }
+            hasLeft = hasLeft || atLeft;
+            hasRight = hasRight || atRight;
+            hasTop = hasTop || atTop;
+            hasBottom = hasBottom || atBottom;
+            let tilePos = {relativeDirection: relativeDirection, bounds: curr}
+            initialPositions.set(tile.id, tilePos);
+        }
+        draggedTile.direction = getResizeDirection(direction, hasLeft, hasRight, hasTop, hasBottom);
+    }
+
+    function getResizeDirection(
+        direction: ResizeDirection | null,
+        hasLeft: boolean,
+        hasRight: boolean,
+        hasTop: boolean,
+        hasBottom: boolean
+    ) {
+        if (!hasLeft && direction && direction.includes('left')) {
+            direction = direction === 'top-left'
+                ? 'top'
+                : direction === 'bottom-left'
+                    ? 'bottom'
+                    : null;
+        }
+        if (!hasRight && direction && direction.includes('right')) {
+            direction = direction === 'top-right'
+                ? 'top'
+                : direction === 'bottom-right'
+                    ? 'bottom'
+                    : null;
+        }
+        if (!hasTop && direction && direction.includes('top')) {
+            direction = direction === 'top-left'
+                ? 'left'
+                : direction === 'top-right'
+                    ? 'right'
+                    : null;
+        }
+        if (!hasBottom && direction && direction.includes('bottom')) {
+            direction = direction === 'bottom-left'
+                ? 'left'
+                : direction === 'bottom-right'
+                    ? 'right'
+                    : null;
+        }
+        return direction;
     }
 
     function repositionFloaters() {
@@ -1297,6 +1514,8 @@
                                     event.detail.direction,
                                     event.detail.left,
                                     event.detail.top,
+                                    event.detail.clientX,
+                                    event.detail.clientY,
                                 )}
                             on:scroll={repositionFloaters}
                             on:rename={(event) =>

@@ -37,6 +37,9 @@
     import { PersistenceType } from '../../db/ProjectHistory';
     import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
+    import { deltaE } from 'colorjs.io/fn';
+    import type { ResizeDirection } from '@components/project/TileView.svelte';
+    import type Bounds from '@components/project/Bounds';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -57,6 +60,16 @@
     let nextButton: HTMLButtonElement | undefined;
     let previousButton: HTMLButtonElement | undefined;
     let focusView: HTMLButtonElement | undefined = undefined;
+
+    let resizeDirection: ResizeDirection | null;
+    let dialogWidthPercent: number = 30;
+    let dialogView: HTMLElement | undefined;
+    type Position = {
+        clientX: number,
+        width: number,
+        widthPercent: number,
+    }
+    let initialPosition: Position | null;
 
     // Focus next button on load.
     onMount(() => nextButton?.focus());
@@ -103,8 +116,8 @@
 
     const conceptPath = getConceptPath();
 
-    /* 
-        Silly workaround to only modify code when it actually changes. 
+    /*
+        Silly workaround to only modify code when it actually changes.
         The keyed each below should only update when it's different code,
         not just when it's assigned.
     */
@@ -256,6 +269,68 @@
         await tick();
         focusView?.focus();
     }
+
+    async function handlePointerMove(event: PointerEvent) {
+        if (dialogView === undefined) {
+            return;
+        }
+        if (event.buttons === 0) {
+            const x = event.clientX;
+            const rect = dialogView.getBoundingClientRect();
+            const threshold = 20;
+            const containsRight = x > rect.right - threshold;
+
+            resizeDirection = containsRight
+                              ? 'right'
+                              : null;
+        }
+        if (resizeDirection === 'right' && initialPosition) {
+            let deltaX = event.clientX - initialPosition.clientX;
+            // dialogWidthPercent = dialogWidth * 100.0 / tutorialWidth
+            // dialogWidthPercent1 = dialogWidth1 * 100.0 / tutorialWidth
+            // dialogWidth1 = dialogWidth + deltaX
+            // Find dialogWidthPercent1 in terms of dialogWidth, deltaX, dialogWidthPercent
+            // dialogWidthPercent1 = (dialogWidth + deltaX) * dialogWidthPercent / dialogWidth
+            let newWidthPercent = (initialPosition.width + deltaX) *
+                dialogWidthPercent / initialPosition.width;
+            if (newWidthPercent >= 10 && newWidthPercent <= 90) {
+                dialogWidthPercent = newWidthPercent;
+            }
+        }
+    }
+
+    function handlePointerUp() {
+        resizeDirection = null;
+        initialPosition = null;
+    }
+
+    function getBoundsForElement(e: Element | null): Bounds | null {
+        if (!e)
+            return null;
+
+        const style = getComputedStyle(e);
+        return {
+            left: parseFloat(style.left),
+            top: parseFloat(style.top),
+            width: parseFloat(style.width),
+            height: parseFloat(style.height),
+        }
+    }
+
+    function handlePointerDown(event: PointerEvent) {
+        if (event.buttons !== 1) return;
+        if (resizeDirection && dialogView) {
+            let bounds = getBoundsForElement(dialogView);
+            if (bounds) {
+                initialPosition = {
+                    clientX: event.clientX,
+                    width: bounds.width,
+                    widthPercent: dialogWidthPercent,
+                }
+            }
+            event.stopPropagation();
+        }
+    }
 </script>
 
 <!-- If the body gets focus, focus the instructions. -->
@@ -265,7 +340,11 @@
 />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
-<section class="tutorial" on:keydown={handleKey}>
+<section class="tutorial"
+        on:keydown={handleKey}
+        on:pointerdown={handlePointerDown}
+        on:pointerup={handlePointerUp}
+        on:pointermove={handlePointerMove}>
     <div class="header">
         <Header block={false}
             >{#if fallback}🚧{/if}
@@ -294,7 +373,11 @@
         </nav>
     </div>
     <div class="content">
-        <div role="article" class="dialog">
+        <div role="article" class="dialog {resizeDirection
+                ? `resize-${resizeDirection}`
+                : ''}"
+            style="--dialogWidthPercent: {dialogWidthPercent}"
+            bind:this={dialogView}>
             <!-- svelte-ignore a11y-click-events-have-key-events -->
             <div
                 class="turns"
@@ -464,8 +547,8 @@
 
     .dialog {
         height: 100%;
-        width: 30%;
-        min-width: 30%;
+        width: calc(var(--dialogWidthPercent) * 1%);
+        min-width: 0;
         display: flex;
         flex-direction: column;
         min-height: 0;
@@ -475,6 +558,10 @@
             var(--wordplay-border-color);
         border-left: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
+    }
+
+    .dialog.resize-right {
+        cursor: ew-resize;
     }
 
     .dialog:focus {
@@ -508,7 +595,7 @@
         flex-direction: row;
         flex-grow: 1;
         min-width: 0;
-        width: 100%;
+        width: auto;
         height: 100%;
     }
 
