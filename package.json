@@ -84,7 +84,7 @@
         "colorjs.io": "^0",
         "decimal.js": "^10",
         "dexie": "^4.0.1-alpha.25",
-        "firebase": "^10.10.0",
+        "firebase": "^10.6.0",
         "firebase-functions": "^4.8.2",
         "graphemer": "^1.4.0",
         "matter-js": "^0.19.0",
