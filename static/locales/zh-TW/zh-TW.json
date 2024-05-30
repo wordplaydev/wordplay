@@ -4166,9 +4166,9 @@
             "landing": {
                 "call": ["嗨！想要與我們一起賦予文字生命嗎？😊"],
                 "value": "$! 無論您的能力如何，都可以透過世界語言中的動畫單字、表情符號和符號來學習編碼。",
-                "description": "$! Wordplay 是一種創新的程式語言🖥️，具有區塊和文字編輯📝、時間🕦、聲音🎤、網頁🔗 和實體🌎 等有趣的輸入、即時時間旅行調試⏪ 以及全面的文檔🗂️ 。 ischool.uw.edu/>。",
+                "description": "$! Wordplay 是一種創新的程式語言🖥️，具有區塊和文字編輯📝、時間🕦、聲音🎤、網頁🔗 和實體🌎 等有趣的輸入、即時時間旅行調試⏪ 以及無所不包的文檔🗂️ 。 ischool.uw.edu/>。",
                 "beta": [
-                    "Wordplay 處於測試階段。這意味著功能可能會更改或無法按預期工作，並且本地化可能不完整。",
+                    "Wordplay 處於測試階段。它的功能可能會更改或無法按預期工作，並且本地化可能不完整。",
                     "但這也意味著我們需要您的回饋！請在<Discord@https://discord.gg/Jh2Qq9husy> 或<GitHub@https://github.com/wordplaydev/wordplay/issues> 上報告錯誤並分享想法。 contribute>。"
                 ],
                 "link": {
