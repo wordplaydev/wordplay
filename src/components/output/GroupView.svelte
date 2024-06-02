@@ -42,6 +42,8 @@
 
     $: empty = group.isEmpty();
 
+    $: console.log(clip?.toSVGPath(0, 0));
+
     $: layout = group.getLayout(context);
 
     // Filter out groups that are behind the focus
@@ -95,6 +97,7 @@
         },
         viewport,
     )}
+    style:clip-path={clip ? clip.toCSSClip() : null}
 >
     <slot />
     {#each ordered as [child, childPlace] (child.getName())}
