@@ -80,29 +80,31 @@
     });
 </script>
 
-<div class="example">
-    <div class="code" class:evaluated class:inline
-        ><CodeView
-            node={example.program}
-            {inline}
-            {spaces}
-            outline={false}
-            describe={false}
-        /></div
-    >{#if evaluated && value}
-        <div class="value"
-            >{#if stage && evaluator}
-                <div class="stage">
-                    <OutputView
-                        {project}
-                        {evaluator}
-                        {value}
-                        editable={false}
-                    />
-                </div>
-            {:else}<ValueView {value} inline={false} />{/if}</div
-        >
-    {/if}
+<div class="container">
+    <div class="example">
+        <div class="code" class:evaluated class:inline
+            ><CodeView
+                node={example.program}
+                {inline}
+                {spaces}
+                outline={false}
+                describe={false}
+            /></div
+        >{#if evaluated && value}
+            <div class="value"
+                >{#if stage && evaluator}
+                    <div class="stage">
+                        <OutputView
+                            {project}
+                            {evaluator}
+                            {value}
+                            editable={false}
+                        />
+                    </div>
+                {:else}<ValueView {value} inline={false} />{/if}</div
+            >
+        {/if}
+    </div>
     <Button
         tip={$locales.get((l) => l.ui.timeline.button.reset)}
         action={() => {
@@ -112,6 +114,13 @@
 </div>
 
 <style>
+    .container {
+        display: flex;
+        flex-direction: row;
+        align-items: end;
+        max-width: 100%;
+    }
+
     .value {
         text-align: right;
     }
@@ -119,7 +128,7 @@
     .example {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        flex-grow: 1;
     }
 
     .code.inline {

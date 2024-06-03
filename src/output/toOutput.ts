@@ -57,6 +57,7 @@ export function toOutputList(
     if (value === undefined || !(value instanceof ListValue)) return undefined;
 
     const phrases: (Output | null)[] = [];
+
     for (const val of value.values) {
         if (!(val instanceof StructureValue || val instanceof NoneValue))
             return undefined;
@@ -128,7 +129,7 @@ export function getTypeStyle(
         exiting: style.exiting,
         duration: style.duration,
         style: style.style,
-        shadow: style.shadow
+        shadow: style.shadow,
     };
 }
 
@@ -155,7 +156,7 @@ export function getStyle(
         exitVal,
         durationVal,
         styleVal,
-        shadowVal
+        shadowVal,
     ] = getOutputInputs(value, index);
 
     const name = toText(nameVal);
@@ -199,6 +200,6 @@ export function getStyle(
         exiting: exit,
         duration,
         style: styleVal instanceof TextValue ? styleVal.text : undefined,
-        shadow: shadow
+        shadow: shadow,
     };
 }

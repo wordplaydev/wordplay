@@ -9,7 +9,6 @@
 
     export let token: Token;
     export let space: string;
-    export let additional: string;
     export let insertion: InsertionPoint | undefined = undefined;
 
     $: insertionIndex =
@@ -27,11 +26,6 @@
         true,
         $spaceIndicator,
     );
-
-    $: additionalSpaces =
-        additional.length === 0
-            ? []
-            : render(additional, false, $spaceIndicator);
 
     function render(
         text: string,
@@ -56,18 +50,19 @@
 -->
 {#key $spaceIndicator}
     {#key space}
-        <span class="space" role="none" data-id={token.id}
+        <span class="space" role="none" data-id={token.id} data-uiid="space"
             ><span role="none" class="before"
                 >{#each beforeSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
-                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
+                            data-uiid="space-text">{s}</span
+                        >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                     />{/if}</span
             ><span role="none" class="after"
                 >{#each afterSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
-                        >{/if}{s}{/each}{#each additionalSpaces as s, index}{#if index > 0}<span
-                            ><br class="break" /></span
-                        >{/if}{#if s === ''}&ZeroWidthSpace;{:else}{s}{/if}{/each}</span
+                        >{/if}<span data-uiid="space-text">{s}</span
+                    >{/each}</span
             ></span
         >
     {/key}
@@ -76,6 +71,7 @@
 <style>
     /* Make space visible, but just so. */
     .space {
+        position: relative;
         color: var(--wordplay-inactive-color);
     }
 

@@ -518,7 +518,7 @@
         if (isValidDropTarget(project, $dragged, $hovered, $insertion)) drop();
 
         // Release the dragged node.
-        dragged.set(undefined);
+        if (dragged) dragged.set(undefined);
         dragCandidate = undefined;
         dragPoint = undefined;
 
@@ -960,7 +960,7 @@
         hoveredAny.set(getNodeAt(event, true));
 
         // If we have a drag candidate and it's past 5 pixels from the start point, set the insertion points to whatever points are under the mouse.
-        if (dragCandidate && exceededDragThreshold(event)) {
+        if (dragged && dragCandidate && exceededDragThreshold(event)) {
             dragged.set(dragCandidate);
             dragCandidate = undefined;
             dragPoint = undefined;
@@ -1451,10 +1451,7 @@
                 <!-- Show the node's label and type -->
                 {$caret.position.getLabel(
                     $locales,
-                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay(
-                        undefined,
-                        $locales.getLocale(),
-                    )}{/if}
+                )}{#if caretExpressionType}&nbsp;{TYPE_SYMBOL}&nbsp;{caretExpressionType.toWordplay()}{/if}
                 <PlaceholderView position={$caret.position} />{/if}</div
         >
     {/key}

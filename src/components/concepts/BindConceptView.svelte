@@ -16,9 +16,8 @@
         {:else}
             {$locales.get((l) => l.ui.docs.nodoc)}
         {/if}
-    </svelte:fragment>
-    <svelte:fragment slot="aside"
-        >{#if concept.bind.type}• <RootView
+    </svelte:fragment><svelte:fragment slot="aside"
+        >{#if concept.bind.type}•<RootView
                 node={concept.bind.type}
                 inline
                 localized

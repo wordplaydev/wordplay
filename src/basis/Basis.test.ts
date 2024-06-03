@@ -28,7 +28,13 @@ function checkBasisNodes(node: Node) {
 
     expect(
         unparsables,
-        unparsables.map((unp) => unp.toWordplay()).join(),
+        'Unparsable at: `' +
+            node.toWordplay().substring(0, 30) +
+            '...' +
+            unparsables
+                .map((unp) => unp.unparsables.map((t) => t.toWordplay()).join())
+                .join() +
+            '`',
     ).toHaveLength(0);
 
     // Check for conflicts, ignoring unused binds.

@@ -106,6 +106,7 @@
             var(--wordplay-border-width);
         z-index: 1;
         gap: var(--wordplay-spacing);
+        color: var(--wordplay-foreground);
         background: var(--wordplay-background);
     }
 </style>

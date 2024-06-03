@@ -1,4 +1,4 @@
-import type Pose from './Pose';
+import Pose from './Pose';
 import type Value from '@values/Value';
 import type Color from './Color';
 import Fonts, {
@@ -39,10 +39,11 @@ import {
 } from '@locale/Scripts';
 import { toAura } from './Aura';
 import type Aura from './Aura';
+import { TYPE_SYMBOL } from '@parser/Symbols';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
-    ${getBind(locales, (locale) => locale.output.Phrase, '•')} Output(
+    ${getBind(locales, (locale) => locale.output.Phrase, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Phrase.text)}•""|[""]|\`…\`
         ${getBind(locales, (locale) => locale.output.Phrase.size)}•${'#m|ø: ø'}
         ${getBind(
@@ -360,7 +361,9 @@ export default class Phrase extends Output {
                 this.name instanceof TextLang ? this.name.text : undefined,
                 this.size,
                 this.face,
-                this.pose.getDescription(locales),
+                this.resting instanceof Pose
+                    ? this.resting.getDescription(locales)
+                    : this.pose.getDescription(locales),
             ).toText();
         }
         return this._description;

@@ -76,7 +76,14 @@ export default class Scene extends StreamValue<
         return StreamType.make(
             UnionType.make(
                 new StructureType(this.evaluator.project.shares.output.Phrase),
-                new StructureType(this.evaluator.project.shares.output.Group),
+                UnionType.make(
+                    new StructureType(
+                        this.evaluator.project.shares.output.Group,
+                    ),
+                    new StructureType(
+                        this.evaluator.project.shares.output.Shape,
+                    ),
+                ),
             ),
         );
     }
@@ -90,7 +97,8 @@ export default class Scene extends StreamValue<
                 val instanceof BoolValue ||
                 (val instanceof StructureValue &&
                     (val.is(this.evaluator.project.shares.output.Phrase) ||
-                        val.is(this.evaluator.project.shares.output.Group))),
+                        val.is(this.evaluator.project.shares.output.Group) ||
+                        val.is(this.evaluator.project.shares.output.Shape))),
         );
     }
 
@@ -209,10 +217,11 @@ export function createSceneDefinition(
     locale: Locales,
     phrase: StructureDefinition,
     group: StructureDefinition,
+    shape: StructureDefinition,
 ): StreamDefinition {
     const streamOutputType = UnionType.make(
         new StructureType(phrase),
-        new StructureType(group),
+        UnionType.make(new StructureType(group), new StructureType(shape)),
     );
     const streamInputType = UnionType.make(
         streamOutputType.clone(),

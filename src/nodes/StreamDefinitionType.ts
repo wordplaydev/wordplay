@@ -1,7 +1,6 @@
 import Type from './Type';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type TypeSet from './TypeSet';
-import type Locale from '@locale/Locale';
 import type StreamDefinition from './StreamDefinition';
 import Glyphs from '../lore/Glyphs';
 import { STREAM_SYMBOL } from '../parser/Symbols';
@@ -52,11 +51,8 @@ export default class StreamDefinitionType extends Type {
     }
 
     /** Mirror StreamType */
-    toWordplay(_: Spaces | undefined, locale: Locale) {
-        return `${STREAM_SYMBOL}${this.definition.output.toWordplay(
-            _,
-            locale
-        )}`;
+    toWordplay(_: Spaces | undefined) {
+        return `${STREAM_SYMBOL}${this.definition.output.toWordplay(_)}`;
     }
 
     getNodeLocale(locales: Locales) {

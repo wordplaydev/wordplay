@@ -3,22 +3,149 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.9.396 2024-06-02
+
+### Added
+
+-   `Scene` now supports shapes.
+-   Conflict resolution for duplicate names.
+-   Fixed `Stage` documentation examples.
+
+### Fixed
+
+-   Added clip path to stage rendering.
+
+## 0.9.395 2024-05-18
+
+### Fixed
+
+-   Enabled content security policy to enhance security.
+-   Improved layout of example code output refresh.
+-   Tidier spacing of project preview lists.
+-   [#468](https://github.com/wordplaydev/wordplay/issues/468) Fixed example dragging from tutorial dialog.
+-   [#465](https://github.com/wordplaydev/wordplay/issues/465) Fixed ARIA roles for output.
+
+### Added
+
+-   Added `Circle` and regular `Polygon` forms, which can be added to a stage as a background.
+
+## 0.9.394 2024-05-11
+
+### Fixed
+
+-   Changed toggle button color to always contrast backgrounds
+-   Defined foreground of footer to ensure button text is visible.
+-   Reset stage output when locales change.
+-   Signficantly reduced memory usage of edit history
+-   Improved preferred spacing of compound data structures and blocks.
+-   Faster and more correct and stable preferred spacing algorithm.
+
+## 0.9.393 2024-05-04
+
+### Added
+
+-   [#451](https://github.com/wordplaydev/wordplay/issues/451) New project templates.
+
+## 0.9.392 2024-04-29
+
+### Fixed
+
+-   [#450](https://github.com/wordplaydev/wordplay/issues/450) Tutorial typos!
+-   [#444](https://github.com/wordplaydev/wordplay/issues/444) Fixed fullscreen background behavior.
+-   [#452](https://github.com/wordplaydev/wordplay/issues/452) Fixed aggressive local project persistence causing slowdown.
+-   Removed `Toggle.svelte` background color when off.
+-   Restored preferred spacing on `CodeView`.
+-   Removed padding from `ConceptLinkUI` for better guide typography.
+-   Included text in whitespace in selection bounding box.
+-   When deleting program node, also delete its preceding space.
+-   Remove caret entry direction when selecting parent of caret.
+-   Only highlight definitions and uses of caret position when inside a token.
+-   Fixed incorrect placement of caret; it was assuming pretty printing.
+-   Removed unused font preload.
+
+### Added
+
+-   Added description of the parent of the node the cursor is at.
+
+### Maintenance
+
+-   Upgraded to Dexie 4.0.4.
+
+## 0.9.391 2024-04-20
+
+### Maintenance
+
+-   Updated Firebase
+
+## 0.9.39 2024-04-06
+
+### Fixed
+
+-   Added emoji variation selectors to `PhraseView` to ensure proper rendering of color emoji on WebKit browsers.
+-   Empty list values should have an undefined item type, not a never type.
+-   Fixed types of Webpage stream, should have been number, not none.
+-   Don't show project footer in tutorial when in non-editable mode.
+-   [#410](https://github.com/wordplaydev/wordplay/issues/410): Fixed alignment of project preview glyphs.
+-   [#420](https://github.com/wordplaydev/wordplay/issues/420): Avoid setting tutorial project name.
+
+### Maintenance
+
+-   Updated Svelte, SvelteKit, and Firebase versions.
+-   Updated TypeScript to 5.4.
+
+## 0.9.38 2024-03-30
+
+### Fixed
+
+-   [#422](https://github.com/wordplaydev/wordplay/issues/422): Improved performance of very long list, set, and map values.
+-   [#423](https://github.com/wordplaydev/wordplay/issues/423): Improved design of tile expand/collapse.
+
+## 0.9.37 2024-03-16
+
+### Fixed
+
+-   [#424](https://github.com/wordplaydev/wordplay/issues/424): Fixed text to list conversion grapheme segmentation.
+-   [#425](https://github.com/wordplaydev/wordplay/issues/425): Prevent buttons from capturing keyboard focus on mouse down, in order to keep focus on stage and other components.
+
+## 0.9.36 2024-03-10
+
+### Fixed
+
+-   [#405](https://github.com/wordplaydev/wordplay/issues/405): Fixed closures on property binds.
+-   Fixed rendering of structure values, showing all bound values, not just input values.
+-   Fixed structure value equality, comparing all bound values in scope, not just first level of scope.
+
+## 0.9.35 2024-03-02
+
+### Fixed
+
+-   Moved `Chat` input box above stage output
+-   Allow paste in `Chat` input box
+-   Disabled automatic pretty printing.
+-   Fixed list spread doc example.
+-   Better unused bind conflict message.
+-   Narrowed parsing of structure refinements to avoid conflicting with spreads in lists.
+-   Account for documented expressions in bind recurrence relations.
+-   More consistently concretize name types in binds.
+-   [#402](https://github.com/wordplaydev/wordplay/issues/402): Fixed defect in page loading test.
+-   Check for collisions even when there's no temporal stream, to allow for objects to collide even when not in motion.
+
 ## 0.9.34 2024-02-24
 
-## Added
+### Added
 
 -   [#343](https://github.com/wordplaydev/wordplay/issues/343): Improved login feedback.
 -   [#37](https://github.com/wordplaydev/wordplay/issues/37): Added match, e.g., `number ??? 1: 'one' 2: 'two' 'other'
 
 ## 0.9.33 2024-02-19
 
-## Added
+### Added
 
 -   [#256](https://github.com/wordplaydev/wordplay/issues/256): Allow explicit space indicators to be shown or hidden.
 
 ## 0.9.32 2024-02-17
 
-## Fixed
+### Fixed
 
 -   [#382](https://github.com/wordplaydev/wordplay/issues/382): Wait for gallery to be created before redirecting.
 -   Don't show preview if there are no projects in a gallery.
@@ -32,12 +159,12 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.31 2024-02-10
 
-## Added
+### Added
 
 -   [#362](https://github.com/wordplaydev/wordplay/issues/362): Added elision syntax to allow temporary removal of code from parsing (e.g., removing `2` from `1 + *2* 3`). Also included a toolbar and keyboard command for quick toggling.
 -   [#336](https://github.com/wordplaydev/wordplay/issues/336): Added basic syntax error resolution suggestions.
 
-## Fixed
+### Fixed
 
 -   English tutorial typos
 -   Maximum project name length in footer.
@@ -53,13 +180,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.3 2024-02-03
 
-## Added
+### Added
 
 -   [#23](https://github.com/wordplaydev/wordplay/issues/23): Source file output with `Source()`, allowing data persistence in a project.
 -   Added support for page up and page down to navigate to start and end of source
 -   Line breaks for long literals
 
-## Fixed
+### Fixed
 
 -   Fixed list literal types in the presence of spreads (e.g., `[:list 2 3]`)
 -   Fixed end command to go to end of last line.
@@ -75,14 +202,14 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.20 2024-01-20
 
-## Added
+### Added
 
 -   [#76](https://github.com/wordplaydev/wordplay/issues/76): Added `Scene`, a new input stream for showing a sequence of optionally interactive output. This will make it easier to tell typographic stories.
 -   [#130](https://github.com/wordplaydev/wordplay/issues/130): Added `Phrase.aura` to allow for text shadows on text.
 -   Defined `[].shuffled()` for quick and easy list randomization.
 -   Added ability to expand and collapse the editor annotations.
 
-## Fixed
+### Fixed
 
 -   [#340](https://github.com/wordplaydev/wordplay/issues/340): Resolved nested formatting logic for text formatting.
 -   Filled source output preview background with error color on exception values.
@@ -91,13 +218,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.9.16 2024-01-13
 
-## Fixed
+### Fixed
 
 -   [#340](https://github.com/wordplaydev/wordplay/issues/340): Corrected partial formatting edge case
 -   [#341](https://github.com/wordplaydev/wordplay/issues/341): Fixed key overrides in MapLiteral.
 -   [#342](https://github.com/wordplaydev/wordplay/issues/342): Fixed broken collaborator sharing button.
 
-## Maintenance
+### Maintenance
 
 -   Upgraded to SvelteKit 2.32.
 -   Upgraded to Vite 5.0.11

@@ -44,7 +44,7 @@ export default class FunctionType extends Type {
         inputs: Bind[],
         close: Token | undefined,
         output: Type,
-        definition?: FunctionDefinition
+        definition?: FunctionDefinition,
     ) {
         super();
 
@@ -63,7 +63,7 @@ export default class FunctionType extends Type {
         typeVars: TypeVariables | undefined,
         inputs: Bind[],
         output: Type,
-        definition?: FunctionDefinition
+        definition?: FunctionDefinition,
     ) {
         return new FunctionType(
             new Token(FUNCTION_SYMBOL, Sym.Function),
@@ -72,7 +72,7 @@ export default class FunctionType extends Type {
             inputs,
             new EvalCloseToken(),
             output,
-            definition
+            definition,
         );
     }
 
@@ -92,7 +92,7 @@ export default class FunctionType extends Type {
             this.inputs
                 .filter((input) => input.isRequired())
                 .map((input) => input.simplify(context).withoutType()),
-            ExpressionPlaceholder.make()
+            ExpressionPlaceholder.make(),
         );
     }
 
@@ -123,7 +123,7 @@ export default class FunctionType extends Type {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('inputs', this.inputs, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('output', this.output, replace)
+            this.replaceChild('output', this.output, replace),
         ) as this;
     }
 
@@ -162,6 +162,16 @@ export default class FunctionType extends Type {
         });
     }
 
+    concretize(context: Context) {
+        return FunctionType.make(
+            this.types,
+            this.inputs.map((i) =>
+                i.type ? i.withType(i.type.concretize(context)) : i,
+            ),
+            this.output.concretize(context),
+        );
+    }
+
     simplify(context: Context) {
         // Simplify all of the binds
         return new FunctionType(
@@ -171,7 +181,7 @@ export default class FunctionType extends Type {
             this.inputs.map((i) => i.simplify(context)),
             this.close,
             this.output.simplify(context),
-            this.definition
+            this.definition,
         );
     }
 

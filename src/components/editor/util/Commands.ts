@@ -38,6 +38,7 @@ import type Project from '../../../models/Project';
 import interpret from './interpret';
 import { TileKind } from '../../project/Tile';
 import { TAB_SYMBOL } from '@parser/Spaces';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -767,7 +768,7 @@ const Commands: Command[] = [
             if (position instanceof Node) {
                 const parent = caret.source.root.getParent(position);
                 if (parent && !(parent instanceof Source))
-                    return caret.withPosition(parent);
+                    return caret.withPosition(parent).withEntry(undefined);
             }
             // Find the node corresponding to the position.
             // And if it's parent only has the one child, select it.
@@ -778,9 +779,11 @@ const Commands: Command[] = [
                         : caret.getToken();
                 if (token !== undefined) {
                     const parent = caret.source.root.getParent(token);
-                    return caret.withPosition(
-                        parent?.getChildren()[0] === token ? parent : token,
-                    );
+                    return caret
+                        .withEntry(undefined)
+                        .withPosition(
+                            parent?.getChildren()[0] === token ? parent : token,
+                        );
                 }
             }
             return false;
@@ -1186,9 +1189,7 @@ const Commands: Command[] = [
             if (!(context.caret?.position instanceof Node)) return false;
             copyNode(
                 context.caret.position,
-                context.caret.source.spaces.withPreferredSpace(
-                    context.caret.source,
-                ),
+                getPreferredSpaces(context.caret.source),
             );
             return context.caret.delete(context.project, false) ?? true;
         },
@@ -1208,9 +1209,7 @@ const Commands: Command[] = [
             return (
                 copyNode(
                     context.caret.position,
-                    context.caret.source.spaces.withPreferredSpace(
-                        context.caret.source,
-                    ),
+                    getPreferredSpaces(context.caret.source),
                 ) ?? false
             );
         },
@@ -1225,10 +1224,12 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyV',
         keySymbol: 'V',
-        active: () =>
+        active: ({ editor }) =>
+            editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ caret }) => {
+        execute: async ({ editor, caret }) => {
+            if (!editor) return undefined;
             // Make sure clipboard is supported.
             if (
                 navigator.clipboard === undefined ||
@@ -1296,7 +1297,9 @@ const Commands: Command[] = [
             if (caret) {
                 const length = caret.source.code.getLength();
                 const position = caret.getTextPosition(true) ?? 0;
-                const tidySource = caret.source.withPreferredSpace();
+                const tidySource = caret.source.withSpaces(
+                    getPreferredSpaces(caret.source.root, caret.source.spaces),
+                );
                 return [
                     tidySource,
                     caret

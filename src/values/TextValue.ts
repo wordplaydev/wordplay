@@ -27,7 +27,7 @@ export default class TextValue extends SimpleValue {
     getType() {
         return TextType.make(
             undefined,
-            this.format === undefined ? undefined : Language.make(this.format)
+            this.format === undefined ? undefined : Language.make(this.format),
         );
     }
 
@@ -44,12 +44,14 @@ export default class TextValue extends SimpleValue {
         return new TextValue(requestor, this.text.repeat(count), this.format);
     }
 
-    segment(requestor: Expression, delimiter: TextValue) {
+    segment(requestor: Expression, delimiter: TextValue | string) {
         return new ListValue(
             requestor,
             new UnicodeString(this.text)
-                .split(delimiter.text)
-                .map((s) => new TextValue(requestor, s))
+                .split(
+                    typeof delimiter === 'string' ? delimiter : delimiter.text,
+                )
+                .map((s) => new TextValue(requestor, s)),
         );
     }
 
@@ -101,7 +103,7 @@ export default class TextValue extends SimpleValue {
     getDescription(concretizer: Concretizer, locales: Locales) {
         return concretizer(
             locales,
-            locales.get((l) => l.term.text)
+            locales.get((l) => l.term.text),
         );
     }
 

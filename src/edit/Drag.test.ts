@@ -19,7 +19,7 @@ test.each([
         (sources: Source[]) =>
             sources[0].nodes(
                 (node): node is ExpressionPlaceholder =>
-                    node instanceof ExpressionPlaceholder
+                    node instanceof ExpressionPlaceholder,
             )[0],
         '1 + 1',
     ],
@@ -37,14 +37,14 @@ test.each([
         (sources: Source[]) =>
             sources[0].nodes(
                 (node): node is ExpressionPlaceholder =>
-                    node instanceof ExpressionPlaceholder
+                    node instanceof ExpressionPlaceholder,
             )[0],
         '1 + 2',
         '',
     ],
     // Insertion rootless expression in source
     [
-        ['[ 1 3 4 5 ]'],
+        ['[1 3 4 5]'],
         () => parseExpression(toTokens('2')),
         (sources: Source[]) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
@@ -54,14 +54,14 @@ test.each([
                 node.values,
                 node.find(Token, 2),
                 0,
-                1
+                1,
             );
         },
-        '[ 1 2 3 4 5 ]',
+        '[1 2 3 4 5]',
     ],
     // Insertion expression from source in expression
     [
-        ['[ 1 3 4 5 ]\n2'],
+        ['[1 3 4 5]\n2'],
         (sources) => sources[0].find(NumberLiteral, 4),
         (sources) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
@@ -71,14 +71,14 @@ test.each([
                 node.values,
                 node.find(Token, 2),
                 0,
-                1
+                1,
             );
         },
-        '[ 1 2 3 4 5 ]\n',
+        '[1 2 3 4 5]\n',
     ],
     // Insert expression from other source in expression
     [
-        ['[ 1 3 4 5 ]', '2'],
+        ['[1 3 4 5]', '2'],
         (sources) => sources[1].find(NumberLiteral),
         (sources) => {
             const node = sources[0].find<ListLiteral>(ListLiteral);
@@ -88,10 +88,10 @@ test.each([
                 node.values,
                 node.find(Token, 2),
                 0,
-                1
+                1,
             );
         },
-        '[ 1 2 3 4 5 ]',
+        '[1 2 3 4 5]',
         '',
     ],
 ])(
@@ -101,7 +101,7 @@ test.each([
         dragged: (sources: Source[]) => Node,
         target: (sources: Source[]) => Node | InsertionPoint,
         mainExpected: string,
-        supplementExpected?: string
+        supplementExpected?: string,
     ) => {
         const sources = source.map((s) => new Source('test', s));
         const project = Project.make(
@@ -109,20 +109,20 @@ test.each([
             'test',
             sources[0],
             sources.slice(1),
-            DefaultLocale
+            DefaultLocale,
         );
         const [newProject] = dropNodeOnSource(
             project,
             sources[0],
             dragged(sources),
-            target(sources)
+            target(sources),
         ) ?? [undefined, undefined];
 
         expect(newProject).toBeDefined();
         expect(newProject?.getMain().toWordplay()).toBe(mainExpected);
         if (supplementExpected)
             expect(newProject?.getSupplements()[0].toWordplay()).toBe(
-                supplementExpected
+                supplementExpected,
             );
-    }
+    },
 );

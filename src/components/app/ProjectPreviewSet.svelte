@@ -24,7 +24,7 @@
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
-            a.getName().localeCompare(b.getName(), $locales.getLanguages())
+            a.getName().localeCompare(b.getName(), $locales.getLanguages()),
         );
     }
 
@@ -61,7 +61,7 @@
         align-items: center;
         gap: calc(2 * var(--wordplay-spacing));
         row-gap: calc(2 * var(--wordplay-spacing));
-        justify-content: flex-start;
+        justify-content: space-between;
     }
 
     .controls {

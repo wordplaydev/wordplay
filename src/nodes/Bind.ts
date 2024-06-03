@@ -6,8 +6,6 @@ import type Conflict from '@conflicts/Conflict';
 import UnusedBind from '@conflicts/UnusedBind';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import UnexpectedEtc from '@conflicts/UnexpectedEtc';
-import NameType from './NameType';
-import StructureType from './StructureType';
 import StructureDefinition from './StructureDefinition';
 import type Evaluator from '@runtime/Evaluator';
 import type Step from '@runtime/Step';
@@ -49,6 +47,8 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
 import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
+import DocumentedExpression from './DocumentedExpression';
+import NameType from './NameType';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -481,10 +481,9 @@ export default class Bind extends Expression {
 
         // If the type is a name, and it refers to a structure, resolve it.
         // Leave any other names (namely those that refer to type variables) to be concretized by others.
-        if (type instanceof NameType) {
-            const nameType = type.getType(context);
-            if (nameType instanceof StructureType) return nameType;
-        }
+        type = type.nodes().some((t) => t instanceof NameType)
+            ? type.concretize(context)
+            : type;
 
         return type;
     }
@@ -603,18 +602,20 @@ export default class Bind extends Expression {
               ]
             : [
                   new Start(this, (evaluator) => {
+                      const value =
+                          this.value instanceof DocumentedExpression
+                              ? this.value.expression
+                              : this.value;
+
                       // Before evaluating the bind's value, see if the value expression previously evaluated to
                       // a stream, and if so, bind this Bind's names to the previous value. This allows
                       // for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
                       if (
-                          this.value instanceof Evaluate ||
-                          this.value instanceof Reaction
+                          value instanceof Evaluate ||
+                          value instanceof Reaction
                       ) {
-                          const stream = evaluator.getStreamFor(
-                              this.value,
-                              true,
-                          );
+                          const stream = evaluator.getStreamFor(value, true);
                           const latest = stream?.latest();
                           if (latest) evaluator.bind(this.names, latest);
                       }

@@ -10,11 +10,12 @@ import Name from '../nodes/Name';
 import Language from '../nodes/Language';
 import DefaultLocale from './DefaultLocale';
 import type Locales from './Locales';
+import { getFormattedWordplay } from '@parser/getPreferredSpaces';
 
 export function getBind(
     locales: Locales,
     select: (locale: Locale) => NameAndDoc,
-    separator = ' '
+    separator = ' ',
 ): string {
     // Get the symbolic names from English (US), which we always include.
     const enNames = locales
@@ -25,7 +26,7 @@ export function getBind(
     const symbolic = enNames
         ? Name.make(
               (Array.isArray(enNames) ? enNames : [enNames])[0],
-              Language.make('😀')
+              Language.make('😀'),
           )
         : undefined;
 
@@ -33,21 +34,25 @@ export function getBind(
         .getLocales()
         .map((locale) => [locale, select(locale)] as const);
     return (
-        new Docs(
-            names.map(([locale, input]) =>
-                parseLocaleDoc(toDocString(input.doc)).withLanguage(
-                    localeToLanguage(locale)
-                )
-            ) as [Doc, ...Doc[]]
-        ).toWordplay() +
+        getFormattedWordplay(
+            new Docs(
+                names.map(([locale, input]) =>
+                    parseLocaleDoc(toDocString(input.doc)).withLanguage(
+                        localeToLanguage(locale),
+                    ),
+                ) as [Doc, ...Doc[]],
+            ),
+        ) +
         separator +
-        new Names([
-            ...(symbolic ? [symbolic] : []),
-            ...names
-                .map(([locale, nameAndDoc]) =>
-                    getLocaleNames(nameAndDoc, locale)
-                )
-                .flat(),
-        ]).toWordplay()
+        getFormattedWordplay(
+            new Names([
+                ...(symbolic ? [symbolic] : []),
+                ...names
+                    .map(([locale, nameAndDoc]) =>
+                        getLocaleNames(nameAndDoc, locale),
+                    )
+                    .flat(),
+            ]),
+        )
     );
 }

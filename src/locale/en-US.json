@@ -3,7 +3,6 @@
     "language": "en",
     "region": "US",
     "wordplay": "Wordplay",
-    "newProject": "Phrase('🐈' resting:Sequence(sway() 1s))",
     "term": {
         "bind": "bind",
         "evaluate": "evaluate",
@@ -407,8 +406,11 @@
             "finish": "oh nice, I got $1! Let's name it $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "someone has the name $1 so I can't have this name.",
-                    "secondary": "hey, $1 is my name, you can't have it!"
+                    "conflict": {
+                        "primary": "someone has the name $1 so I can't have this name.",
+                        "secondary": "hey, $1 is my name, you can't have it!"
+                    },
+                    "resolution": "There are duplicate names, do you want to remove one?"
                 },
                 "DuplicateShare": {
                     "primary": "I have the same name as $1, which makes what is shared ambiguous",
@@ -422,7 +424,7 @@
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
                 "RequiredAfterOptional": "I can't be here, there's an optional @Bind before me",
                 "UnexpectedEtc": "I can only be variable length in a @FunctionDefinition",
-                "UnusedBind": "hey, I named this value, but no one is using it!"
+                "UnusedBind": "I named $1, but no one is using it. Maybe it's not needed?"
             }
         },
         "Block": {
@@ -770,11 +772,11 @@
             "item": "item"
         },
         "Spread": {
-            "name": "list spread",
+            "name": "spread",
             "emotion": "serious",
             "doc": [
                 "A help you make lists with the values of other lists. Like this:",
-                "\\list1: [1 2 3]\nlist2: [4 5 6]\nfinal: [list1… list2…]"
+                "\\list: [1 2 3]\nfinal: [:list 4 5 6]\\"
             ]
         },
         "MapLiteral": {
@@ -905,7 +907,13 @@
                 "That's so much easier than making a whole new \\Cat\\ with the same values except for the hobby, isn't it?"
             ],
             "start": "first let's get the value",
-            "finish": "I copied the structure, but with $1 as $2"
+            "finish": "I copied the structure, but with $1 as $2",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "I'm not an input of $1, so I can't be refined.",
+                    "secondary": "I don't have an input named $1"
+                }
+            }
         },
         "PropertyReference": {
             "name": "property",
@@ -1994,7 +2002,7 @@
                 "append": {
                     "doc": [
                         "I create a new @List with my values, then all the values of the given @List after me.",
-                        "\\['apple' 'banana' 'mango'].append(['watermelon' 'starfruit'])\\",
+                        "\\['apple' 'banana' 'mango'].withList(['watermelon' 'starfruit'])\\",
                         "It's a little bit easier to use @Spread though, like this:",
                         "\\['apple' 'banana' 'mango' :['watermelon' 'starfruit']]\\"
                     ],
@@ -3456,6 +3464,10 @@
                 "names": "style"
             }
         },
+        "Form": {
+            "doc": "I am an abstract form, like a @Rectangle or @Circle.",
+            "names": ["Form"]
+        },
         "Rectangle": {
             "doc": "I am a rectangle, useful for making @Stage have a boundary the size of your choosing.",
             "names": ["Rectangle"],
@@ -3530,6 +3542,50 @@
             "opacity": {
                 "doc": "How transparent the @Aura should be",
                 "names": "opacity"
+            }
+        },
+        "Circle": {
+            "doc": "I am a circle, useful for making shapes on @Stage.",
+            "names": ["Circle"],
+            "radius": {
+                "doc": "The radius of the circle",
+                "names": "radius"
+            },
+            "x": {
+                "doc": "The horizontal center of the circle.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "The vertical center of the circle.",
+                "names": "y"
+            },
+            "z": {
+                "doc": "The depth position of the circle.",
+                "names": "z"
+            }
+        },
+        "Polygon": {
+            "doc": "I am a 'regular' polygon with equal length sides and angles, useful for making shapes on @Stage.",
+            "names": ["Polygon"],
+            "radius": {
+                "doc": "The radius of the polygon",
+                "names": "radius"
+            },
+            "sides": {
+                "doc": "The number of sides of the polygon",
+                "names": "sides"
+            },
+            "x": {
+                "doc": "The horizontal center of the polygon.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "The vertical center of the polygon.",
+                "names": "y"
+            },
+            "z": {
+                "doc": "The depth position of the polygon.",
+                "names": "z"
             }
         },
         "Pose": {
@@ -3714,9 +3770,9 @@
                 "HI. STAGE HERE. TELL ME WHAT TO SHOW AND I WILL SHOW IT.",
                 "\\Stage([Phrase('stufffffff')])\\",
                 "IF YOU WANT, GIVE ME A BACKGROUND @Color AND I WILL LIGHT THE STAGE ACCORDINGLY.",
-                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) color: Color(100% 0 0°))\\",
+                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°)\\",
                 "YOU MAY ALSO GIVE ME A FRAME BORDER AND I WILL CROP.",
-                "\\Stage([Phrase('stufffffff')] Color(0% 0 0°) Rectangle(-1m -1m 1m 1m) color: Color(100% 0 0°))\\"
+                "\\Stage([Phrase('stufffffff')] background: Color(75% 50 100°) frame: Rectangle(-1m -1m 1m 1m))\\"
             ],
             "names": ["🎭", "Stage"],
             "content": {
@@ -3946,6 +4002,7 @@
                 }
             },
             "help": "show keyboard shortcuts",
+            "collapsed": "All of your windows are collapsed! You can find them in the toolbar below",
             "save": {
                 "projectsNotSavedLocally": "There was a problem saving projects in your browser.",
                 "projectsCannotNotSaveLocally": "Your browser doesn't support saving projects.",
@@ -4099,8 +4156,9 @@
         },
         "annotations": {
             "label": "conflicts and help",
-            "cursor": "This is *$1*$2[ and they are of type $2|].",
-            "learn": "Want to learn more?",
+            "cursor": "This is *$1*$2[ and they are of type $2|].    $3[ They're inside a *$3*.|]",
+            "cursorParent": "They're inside a *$1*$2[ of type $2|].",
+            "learn": "/Learn more/",
             "evaluating": "Oh fun, let's evaluate!",
             "space": "This is space! Who knew nothing could say so much?",
             "button": {
@@ -4399,6 +4457,10 @@
                 "archiveprompt": "These are projects you've archived. Only owners can permanently delete or unarchive them. Archived projects will be permanently deleted 30 days after they were last edited.",
                 "galleriesheader": "Galleries",
                 "galleryprompt": "Create and curate galleries to share a collection of projects with others.",
+                "add": {
+                    "header": "New Project",
+                    "explanation": "Choose a template to create a new project."
+                },
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",

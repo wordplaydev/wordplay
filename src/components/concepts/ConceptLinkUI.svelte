@@ -89,6 +89,7 @@
 </script>
 
 {#if concept}<Button
+        padding={false}
         action={navigate}
         tip={concretize(
             $locales,

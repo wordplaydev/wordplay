@@ -1,27 +1,30 @@
 Layers
 === start
-count: 10→[]
+count: 10 → []
 
 ƒ balls(z•#m) count.translate(
-    ƒ () 
-        Phrase(
-            'o'
-            place: Motion(
-            Place(Random(-10 10)· 1m Random(0 10)· 1m z)
-            Velocity(Random(-10 10)· 1m/s Random(-5 5)· 1m/s)
-        )
-        matter: Matter(bounciness: 1.2 friction:0)
-    )
-)
+		ƒ()
+			Phrase(
+				'o'
+				place: Motion(
+						Place(Random(-10 10) · 1m Random(0 10) · 1m z)
+						Velocity(Random(-10 10) · 1m/s Random(-5 5) · 1m/s)
+					)
+				matter: Matter(bounciness: 1.2 friction: 0)
+			)
+	)
 
 Stage(
-    [ 
-        :balls(0m) 
-        :balls(-10m) 
-        :balls(10m) 
-        Shape(Rectangle(-20m 0m 20m -1m 0m))
-        Shape(Rectangle(-20m 0m 20m -1m 10m) rotation: 25°)
-        Shape(Rectangle(-20m 0m 20m -1m -10m) rotation: -10°)
-    ]
-    place: Place(0m 10m -30m)
+	[
+		:balls(0m)
+		:balls(-10m)
+		:balls(10m)
+		Shape(Circle(2m 0m 1m 0m))
+		Shape(Circle(2m 9m -3m 10m))
+		Shape(Polygon(2m 5 -5m 0m -10m))
+		Shape(Rectangle(-20m 0m 20m -1m 0m))
+		Shape(Rectangle(-20m 0m 20m -1m 10m) rotation: 25°)
+		Shape(Rectangle(-20m 0m 20m -1m -10m) rotation: -10°)
+	]
+	place: Place(0m 10m -30m)
 )

@@ -113,11 +113,11 @@ export default class Block extends Expression {
                 kind: list(true, node(Expression), node(Bind)),
                 label: (locales: Locales) =>
                     locales.get((l) => l.node.Block.statement),
-                space: true,
                 indent: !this.isRoot(),
                 newline:
                     this.isRoot() ||
-                    (this.isStructure() && this.statements.length > 0),
+                    (this.isStructure() && this.statements.length > 0) ||
+                    this.statements.length > 1,
                 initial: this.isStructure(),
             },
             {

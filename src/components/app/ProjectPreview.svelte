@@ -19,7 +19,7 @@
     /** Whether to show the project's name. */
     export let name = true;
     /** How many rems the preview square should be. */
-    export let size = 4;
+    export let size = 6;
     /** The link to go to when clicked. If none is provided, goes to the project. */
     export let link: string | undefined = undefined;
 
@@ -53,15 +53,15 @@
             stage
                 ? stage.back.toCSS()
                 : value instanceof ExceptionValue || value === undefined
-                ? 'var(--wordplay-error)'
-                : null,
+                  ? 'var(--wordplay-error)'
+                  : null,
             stage
                 ? new UnicodeString(stage.getRepresentativeText($locales))
                       .substring(0, 1)
                       .toString()
                 : value
-                ? value.getRepresentativeText($locales)
-                : EXCEPTION_SYMBOL,
+                  ? value.getRepresentativeText($locales)
+                  : EXCEPTION_SYMBOL,
         ];
     }
 
@@ -77,7 +77,7 @@
         data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
         style:height={`${size}rem`}
-        href={path}
+        href={action ? undefined : path}
         on:click={(event) =>
             action && event.button === 0 ? action() : undefined}
         on:keydown={(event) =>
@@ -91,7 +91,7 @@
             style:background={representativeBackground}
             style:color={representativeForeground}
             style:font-family={representativeFace}
-            style:font-size={`${size - 1}rem`}
+            style:font-size={`${Math.max(4, size - 3)}rem`}
             class:blurred={audience && isFlagged(project.getFlags())}
         >
             {representativeText}
@@ -99,13 +99,13 @@
     </a>
     {#if name}
         <div class="name"
-            ><Link to={path}
-                >{#if project.getName().length === 0}<em class="untitled"
-                        >&mdash;</em
-                    >{:else}
-                    {project.getName()}{/if}</Link
-            >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
-                <Spinning />{:else}<slot />{/if}</div
+            >{#if action}{project.getName()}{:else}<Link to={path}
+                    >{#if project.getName().length === 0}<em class="untitled"
+                            >&mdash;</em
+                        >{:else}
+                        {project.getName()}{/if}</Link
+                >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
+                    <Spinning />{:else}<slot />{/if}{/if}</div
         >{/if}
 </div>
 
@@ -125,6 +125,7 @@
 
     .output {
         display: flex;
+        /** For some reason this is necessary for keeping the glyph centered. */
         align-items: center;
         justify-content: center;
         width: 100%;

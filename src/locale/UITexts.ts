@@ -129,6 +129,8 @@ type UITexts = {
         };
         /** The keyboard shortcut to show the shortcut menu */
         help: string;
+        /** The text to show when all of the tiles are collapsed. */
+        collapsed: string;
         /** The messages shown for save status */
         save: {
             /** When projects fail to save locally */
@@ -325,6 +327,8 @@ type UITexts = {
         label: string;
         /** The description of the cursor position */
         cursor: Template;
+        /** The description fo the cursor position's parent */
+        cursorParent: Template;
         /** The prompt to line more about the cursor node */
         learn: Template;
         /** What function should say when evaluating */
@@ -701,6 +705,8 @@ type UITexts = {
             galleriesheader: string;
             /** A prompt to create galleries */
             galleryprompt: string;
+            /** Dialog text for the project addition dialog */
+            add: DialogText;
             /** Buttons on the project page */
             button: {
                 /** Create a new project */

@@ -43,7 +43,7 @@ export default class TableType extends BasisType {
         return new TableType(
             new Token(TABLE_OPEN_SYMBOL, [Sym.TableOpen]),
             columns,
-            new Token(TABLE_CLOSE_SYMBOL, [Sym.TableClose])
+            new Token(TABLE_CLOSE_SYMBOL, [Sym.TableClose]),
         );
     }
 
@@ -63,7 +63,7 @@ export default class TableType extends BasisType {
         return new TableType(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('columns', this.columns, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -90,7 +90,7 @@ export default class TableType extends BasisType {
             [],
             undefined,
             this.columns,
-            undefined
+            undefined,
         );
     }
 
@@ -98,9 +98,9 @@ export default class TableType extends BasisType {
         return TableType.make(
             references
                 .map((ref) =>
-                    this.columns.find((bind) => bind.hasName(ref.getName()))
+                    this.columns.find((bind) => bind.hasName(ref.getName())),
                 )
-                .filter((bind): bind is Bind => bind !== undefined)
+                .filter((bind): bind is Bind => bind !== undefined),
         );
     }
 

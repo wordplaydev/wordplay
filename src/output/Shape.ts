@@ -8,7 +8,7 @@ import type TextLang from './TextLang';
 import type { DefinitePose } from './Pose';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { Form, toRectangle, toLine } from './Form';
+import { Form, toForm, toLine } from './Form';
 import type Project from '../models/Project';
 import type Value from '../values/Value';
 import type { NameGenerator } from './Stage';
@@ -20,7 +20,7 @@ import type Locales from '../locale/Locales';
 export function createShapeType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} Output(
-        ${getBind(locales, (locale) => locale.output.Shape.form)}•Rectangle|Line
+        ${getBind(locales, (locale) => locale.output.Shape.form)}•Form
         ${getBind(locales, (locale) => locale.output.Shape.name)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Shape.selectable)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Shape.color)}•🌈${'|ø: ø'}
@@ -181,18 +181,11 @@ export function toShape(
     if (!(value instanceof StructureValue)) return undefined;
 
     let form;
-    // const outputTypes = value.context.getEvaluator().project.shares.output;
-    // console.log(value);
-    // 
-    if(value.toString().includes("Rectangle")) {
-        form = toRectangle(getOutputInput(value, 0));
-        // console.log("rect");
-    } else if(value.toString().includes("Line")) {
+    if(value.toString().includes("Line")) {
         form = toLine(getOutputInput(value, 0));
         // console.log("line");
     }
-    // console.log(form);
-    // const form = toRectangle(getOutputInput(value, 0));
+    form = toForm(project, getOutputInput(value, 0));
 
     const {
         name,

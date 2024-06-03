@@ -6,7 +6,6 @@ import type { InsertionPoint } from '../../edit/Drag';
 import type Caret from '../../edit/Caret';
 import type Project from '@models/Project';
 import type Node from '@nodes/Node';
-import type Token from '@nodes/Token';
 import type { Highlights } from '../editor/util/Highlights';
 import type Evaluate from '@nodes/Evaluate';
 import type Step from '@runtime/Step';
@@ -25,6 +24,7 @@ import type {
 } from '../editor/util/Commands';
 import type { CaretPosition } from '../../edit/Caret';
 import type LanguageCode from '../../locale/LanguageCode';
+import type Spaces from '@parser/Spaces';
 
 // App related contexts
 
@@ -70,7 +70,7 @@ export type KeyModifierState = {
 export const KeyModfifierSymbol = Symbol('modifiers');
 export function getKeyboardModifiers() {
     return getContext<Writable<KeyModifierState> | undefined>(
-        KeyModfifierSymbol
+        KeyModfifierSymbol,
     );
 }
 
@@ -118,7 +118,7 @@ export function getCaret() {
 export type EditHandler = (
     edit: Edit | ProjectRevision | undefined,
     idle: IdleKind,
-    focus: boolean
+    focus: boolean,
 ) => void;
 
 /** Various components outside the editor use this to apply edits */
@@ -163,7 +163,7 @@ export function getInsertionPoint() {
 export type DraggedContext = Writable<Node | undefined>;
 export const DraggedSymbol = Symbol('dragged');
 export function getDragged() {
-    return getContext<DraggedContext>(DraggedSymbol);
+    return getContext<DraggedContext | undefined>(DraggedSymbol);
 }
 
 export type HighlightContext = Writable<Highlights> | undefined;
@@ -173,9 +173,7 @@ export function getHighlights() {
 }
 
 export const SpaceSymbol = Symbol('space');
-export type SpaceContext = Writable<
-    Map<Node, { token: Token; space: string; additional: string }>
->;
+export type SpaceContext = Writable<Spaces>;
 export function getSpace() {
     return getContext<SpaceContext>(SpaceSymbol);
 }
@@ -230,7 +228,7 @@ export function getSelectedOutputPaths():
 export function setSelectedOutput(
     paths: SelectedOutputPathsContext,
     project: Project,
-    evaluates: Evaluate[]
+    evaluates: Evaluate[],
 ) {
     // Map each selected output to its replacement, then set the selected output to the replacements.
     paths.set(
@@ -239,7 +237,7 @@ export function setSelectedOutput(
                 source: project.getSourceOf(output),
                 path: project.getRoot(output)?.getPath(output),
             };
-        })
+        }),
     );
 }
 
@@ -268,7 +266,7 @@ export const AnnouncerSymbol = Symbol('announcer');
 export type Announce = (
     id: string,
     language: LanguageCode | undefined,
-    message: string
+    message: string,
 ) => void;
 export function getAnnounce(): Readable<Announce | undefined> {
     return getContext(AnnouncerSymbol);

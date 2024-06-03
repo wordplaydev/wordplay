@@ -9,6 +9,7 @@ import concretize from '../locale/concretize';
 import Markup from '../nodes/Markup';
 import Reference from '../nodes/Reference';
 import type Locales from '../locale/Locales';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
@@ -22,7 +23,7 @@ export default class Replace<NodeType extends Node> extends Revision {
         node: Node,
         replacement: NodeType | Refer | undefined,
         /** True if this replacement completes an existing node */
-        description: ((translation: Locale) => string) | undefined = undefined
+        description: ((translation: Locale) => string) | undefined = undefined,
     ) {
         super(context);
 
@@ -57,8 +58,8 @@ export default class Replace<NodeType extends Node> extends Revision {
             replacement.some(
                 (ref2) =>
                     ref1.getName() !== ref2.getName() &&
-                    ref2.getName().startsWith(ref2.getName())
-            )
+                    ref2.getName().startsWith(ref2.getName()),
+            ),
         );
     }
 
@@ -78,17 +79,14 @@ export default class Replace<NodeType extends Node> extends Revision {
                 .withSpaces(
                     this.context.source.spaces.withReplacement(
                         this.node,
-                        replacement
-                    )
+                        replacement,
+                    ),
                 );
 
         // Give the replacement it's preferred space to make space-sensitive parsing happy.
         if (replacement)
             newSource = newSource.withSpaces(
-                newSource.spaces.withPreferredSpaceForNode(
-                    newSource.root,
-                    replacement
-                )
+                getPreferredSpaces(replacement, newSource.spaces),
             );
 
         const newCaretPosition =
@@ -106,7 +104,7 @@ export default class Replace<NodeType extends Node> extends Revision {
                 newCaretPosition ?? position,
                 undefined,
                 undefined,
-                replacement
+                replacement,
             ),
         ];
     }
@@ -134,7 +132,7 @@ export default class Replace<NodeType extends Node> extends Revision {
         return concretize(
             locales,
             locales.get((l) => l.ui.edit.replace),
-            node?.getLabel(locales)
+            node?.getLabel(locales),
         );
     }
 

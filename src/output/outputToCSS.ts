@@ -83,7 +83,7 @@ export function toOutputTransform(
     focus: Place,
     parentAscent: number,
     metrics: Metrics,
-    viewport: { width: number; height: number } | undefined = undefined
+    viewport: { width: number; height: number } | undefined = undefined,
 ) {
     const root = viewport !== undefined;
 

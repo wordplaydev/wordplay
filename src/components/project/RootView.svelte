@@ -6,7 +6,6 @@
     import Docs from '@nodes/Docs';
     import Names from '@nodes/Names';
     import type Node from '@nodes/Node';
-    import type Token from '@nodes/Token';
     import Spaces from '@parser/Spaces';
     import NodeView from '@components/editor/NodeView.svelte';
     import {
@@ -25,9 +24,10 @@
     import TextLiteral from '../../nodes/TextLiteral';
     import FormattedLiteral from '../../nodes/FormattedLiteral';
     import type Caret from '@edit/Caret';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
 
     export let node: Node;
-    /** Optional space; if not provided, all nodes are rendered with preferred space. */
+    /** Optional space. To enable preferred space, set flag below. */
     export let spaces: Spaces | undefined = undefined;
     export let inert = false;
     export let inline = false;
@@ -46,41 +46,13 @@
     setContext(RootSymbol, rootStore);
 
     // When the spaces change, update the rendered spaces
-    let renderedSpace: SpaceContext = writable(new Map());
+    let renderedSpace: SpaceContext = writable(
+        spaces ?? getPreferredSpaces(node),
+    );
     setContext(SpaceSymbol, renderedSpace);
+    $: renderedSpace.set(spaces ?? getPreferredSpaces(node));
 
     $: if (inert) setContext(CaretSymbol, undefined);
-
-    $: {
-        // Reset the space.
-        const newSpace = new Map();
-
-        // Compute the space for every node
-        for (const n of node.nodes()) {
-            // Get the first leaf of this node.
-            const firstLeaf = n.getFirstLeaf() as Token | undefined;
-            if (firstLeaf === undefined) continue;
-            // Determine if the first leaf is the leaf's space root.
-            if (root.getSpaceRoot(firstLeaf) !== n) continue;
-            // What's the given space?
-            let space = spaces ? spaces.getSpace(firstLeaf) : '';
-            // What is the leaf's preferred space? Don't render newlines.
-            let preferred = Spaces.getPreferredPrecedingSpace(
-                root,
-                space,
-                firstLeaf,
-                false,
-            );
-            // Compute the additional space for rendering.
-            let additional = spaces
-                ? spaces.getAdditionalSpace(firstLeaf, preferred)
-                : preferred;
-            // Save what we computed
-            newSpace.set(n, { token: firstLeaf, space, additional });
-        }
-
-        renderedSpace.set(newSpace);
-    }
 
     // A set of hidden nodes, such as hidden translations.
     let hidden = writable<Set<Node>>(new Set());

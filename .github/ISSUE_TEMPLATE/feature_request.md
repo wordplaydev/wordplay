@@ -1,14 +1,15 @@
 ---
-name: Feature request
-about: Suggest a new or improved feature for this project
+name: Enhancement
+about: Suggest new or improved features, functionalty, or content
 title: ''
 labels: ['enhancement', 'needs design', 'needs triage']
+projects: ['wordplaydev/7']
 assignees: ''
 ---
 
 ## What's the problem?
 
--   What is the task, goal, or need this request would help someone accomplish?
+-   What is the task, goal, need, or opportunity this request would address?
 -   What is the context or scenario in which they would experience it?
 -   Who is the group of people who would be in this situation?
 -   What is it about the current design that makes the need above hard to satisfy?
@@ -21,4 +22,4 @@ What do you propose to change or add to address the problem above? Describe some
 
 ## Design specification
 
-(This section should be included after a design proposal is ready and approved, and the `buildable` tag is added. This text can remain until then. Designers should add their proposal here, not in a comment).
+_Reporters can leave this blank. Designers should write a detailed, precise description of what is to be built. If images are necessary to convey this precisely, make sure to include image descriptions, so everyone can see what is in the image. Do not link to external documents; everything should be embedded here. Once the design is approved, we will remove the `needs design` tag and replace it with the `buildable` tag, signalling that it can be built._

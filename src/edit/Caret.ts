@@ -47,6 +47,8 @@ import DefinitionExpression from '../nodes/DefinitionExpression';
 import NameType from '../nodes/NameType';
 import TypeVariable from '../nodes/TypeVariable';
 import Bind from '../nodes/Bind';
+import Spaces from '@parser/Spaces';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -708,7 +710,7 @@ export default class Caret {
             const position = this.position;
             if (position === undefined) return;
             const newSource = this.source.withGraphemesAt(
-                node.toWordplay(),
+                node.toWordplay(getPreferredSpaces(node)),
                 position,
             );
             if (newSource === undefined) return undefined;
@@ -1086,7 +1088,11 @@ export default class Caret {
         }
     }
 
-    /** Remove content in the specified direction at the current position */
+    /**
+     * Remove content in the specified direction at the current position
+     * @param project The project being edited
+     * @param forward If true, delete content after caret, otherwise delete content before caret.
+     */
     delete(
         project: Project,
         forward: boolean,
@@ -1268,11 +1274,13 @@ export default class Caret {
                             this.withPosition(index).withAddition(undefined),
                         ];
                     }
-                    // If the selected node is a program, replace it with an empty program.
+                    // If the selected node is a program, replace it with an empty program, and replace its preceding space with nothing.
                     else if (node instanceof Program) {
                         return [
-                            this.source.replace(node, Program.make()),
-                            this.withPosition(index).withAddition(undefined),
+                            this.source
+                                .replace(node, Program.make())
+                                .withSpaces(new Spaces(this.source, new Map())),
+                            this.withPosition(0).withAddition(undefined),
                         ];
                     }
                     // Is the parent an expression with a single token and its field accepts expressions? Replace the parent.

@@ -18,7 +18,7 @@ import { createArrangementType } from '../output/Arrangement';
 import { getDefaultSequences } from '../output/DefaultSequences';
 import { createChoiceDefinition } from '../input/Choice';
 import { createGridType } from '../output/Grid';
-import { createLineType, createRectangleType, createShapeType } from '../output/Shape';
+import { createLineType, createShapeType } from '../output/Shape';
 import { createFreeType } from '../output/Free';
 import { createCameraDefinition } from '../input/Camera';
 import { createSequenceType } from '../output/Sequence';
@@ -36,6 +36,12 @@ import { createReactionDefinition } from '../values/ReactionStream';
 import { createSceneDefinition } from '@input/Scene';
 import { createAuraType } from '@output/Aura';
 import { createSourceType } from '@output/Source';
+import {
+    createCircleType,
+    createFormType,
+    createPolygonType,
+    createRectangleType,
+} from '@output/Form';
 
 export default function createDefaultShares(locales: Locales) {
     const TypeType = createOutputType(locales);
@@ -47,6 +53,7 @@ export default function createDefaultShares(locales: Locales) {
     const ReboundType = createReboundType(locales);
     const PhraseType = createPhraseType(locales);
     const GroupType = createGroupType(locales);
+    const ShapeType = createShapeType(locales);
 
     const OutputTypes = {
         Type: TypeType,
@@ -54,7 +61,7 @@ export default function createDefaultShares(locales: Locales) {
         Group: GroupType,
         Aura: createAuraType(locales),
         Stage: createStageType(locales),
-        Shape: createShapeType(locales),
+        Shape: ShapeType,
         Pose: createPoseType(locales),
         Sequence: createSequenceType(locales),
         Color: ColorType,
@@ -63,8 +70,11 @@ export default function createDefaultShares(locales: Locales) {
         Velocity: VelocityType,
         Direction: DirectionType,
         Rebound: ReboundType,
+        Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
         Line: createLineType(locales),
+        Circle: createCircleType(locales),
+        Polygon: createPolygonType(locales),
         Arrangement: createArrangementType(locales),
         Stack: createStackType(locales),
         Row: createRowType(locales),
@@ -89,7 +99,7 @@ export default function createDefaultShares(locales: Locales) {
         Chat: createChatDefinition(locales),
         Collision: createCollisionDefinition(locales, ReboundType),
         Reaction: createReactionDefinition(locales),
-        Scene: createSceneDefinition(locales, PhraseType, GroupType),
+        Scene: createSceneDefinition(locales, PhraseType, GroupType, ShapeType),
     };
 
     const Sequences = getDefaultSequences(locales);

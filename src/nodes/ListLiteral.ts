@@ -78,11 +78,18 @@ export default class ListLiteral extends Expression {
                     this.getItemType(context)?.generalize(context) ??
                     new AnyType(),
                 space: true,
-                // Add line breaks if greater than 40 characters long.
+                // Only add line breaks if greater than 40 characters long.
                 newline: this.wrap(),
+                // Include a newline before the first item in the list
+                initial: true,
+                // Include an indent before all items in the list
                 indent: true,
             },
-            { name: 'close', kind: node(Sym.ListClose), newline: this.wrap() },
+            {
+                name: 'close',
+                kind: node(Sym.ListClose),
+                newline: this.wrap(),
+            },
             { name: 'literal', kind: node(Sym.Literal) },
         ];
     }

@@ -65,14 +65,14 @@
                 event.key === 'ArrowLeft'
                     ? -1
                     : event.key === 'ArrowRight'
-                    ? 1
-                    : 0;
+                      ? 1
+                      : 0;
             const vertical =
                 event.key === 'ArrowUp'
                     ? -1
                     : event.key === 'ArrowDown'
-                    ? 1
-                    : 0;
+                      ? 1
+                      : 0;
             if (horizontal !== 0)
                 dispatch('position', {
                     position: resize
@@ -81,14 +81,14 @@
                               top: tile.position.top,
                               width: Math.max(
                                   100,
-                                  tile.position.width + increment * horizontal
+                                  tile.position.width + increment * horizontal,
                               ),
                               height: tile.position.height,
                           }
                         : {
                               left: Math.max(
                                   0,
-                                  tile.position.left + increment * horizontal
+                                  tile.position.left + increment * horizontal,
                               ),
                               top: tile.position.top,
                               width: tile.position.width,
@@ -104,14 +104,14 @@
                               width: tile.position.width,
                               height: Math.max(
                                   100,
-                                  tile.position.height + increment * vertical
+                                  tile.position.height + increment * vertical,
                               ),
                           }
                         : {
                               left: tile.position.left,
                               top: Math.max(
                                   0,
-                                  tile.position.top + increment * vertical
+                                  tile.position.top + increment * vertical,
                               ),
                               width: tile.position.width,
                               height: tile.position.height,
@@ -151,20 +151,20 @@
                 containsLeft && containsTop
                     ? 'top-left'
                     : containsLeft && containsBottom
-                    ? 'bottom-left'
-                    : containsRight && containsTop
-                    ? 'top-right'
-                    : containsRight && containsBottom
-                    ? 'bottom-right'
-                    : containsLeft
-                    ? 'left'
-                    : containsRight
-                    ? 'right'
-                    : containsTop
-                    ? 'top'
-                    : containsBottom
-                    ? 'bottom'
-                    : null;
+                      ? 'bottom-left'
+                      : containsRight && containsTop
+                        ? 'top-right'
+                        : containsRight && containsBottom
+                          ? 'bottom-right'
+                          : containsLeft
+                            ? 'left'
+                            : containsRight
+                              ? 'right'
+                              : containsTop
+                                ? 'top'
+                                : containsBottom
+                                  ? 'bottom'
+                                  : null;
         }
     }
 
@@ -173,8 +173,8 @@
     }
 </script>
 
+<!-- svelte-ignore a11y-no-static-element-interactions -->
 <div
-    role="presentation"
     on:pointermove={handlePointerMove}
     on:pointerleave={() => (resizeDirection = null)}
     on:pointerdown={handlePointerDown}
@@ -202,6 +202,23 @@
     >
         <!-- Render the toolbar -->
         <div class="header" style:color={foreground} style:fill={foreground}>
+            {#if !layout.isFullscreen()}
+                <Button
+                    tip={$locales.get((l) => l.ui.tile.button.collapse)}
+                    action={() => dispatch('mode', { mode: Mode.Collapsed })}
+                    >–</Button
+                >
+            {/if}
+            <Toggle
+                tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                on={fullscreen}
+                toggle={() =>
+                    dispatch('fullscreen', {
+                        fullscreen: !fullscreen,
+                    })}
+            >
+                <FullscreenIcon />
+            </Toggle>
             <div class="name" class:source={tile.isSource()}>
                 {#if editable && tile.isSource()}
                     <Emoji>{Glyphs.Program.symbols}</Emoji>
@@ -210,10 +227,10 @@
                             .getSource(project)
                             ?.getPreferredName($locales.getLocales())}
                         description={$locales.get(
-                            (l) => l.ui.source.field.name.description
+                            (l) => l.ui.source.field.name.description,
                         )}
                         placeholder={$locales.get(
-                            (l) => l.ui.source.field.name.placeholder
+                            (l) => l.ui.source.field.name.placeholder,
                         )}
                         validator={(text) => isName(text)}
                         changed={handleRename}
@@ -221,31 +238,13 @@
                 {:else}
                     <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
                         project,
-                        $locales
+                        $locales,
                     )}
                 {/if}
                 <slot name="name" />
             </div>
             <div class="toolbar">
                 <slot name="extra" />
-                <Toggle
-                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                    on={fullscreen}
-                    toggle={() =>
-                        dispatch('fullscreen', {
-                            fullscreen: !fullscreen,
-                        })}
-                >
-                    <FullscreenIcon />
-                </Toggle>
-                {#if !layout.isFullscreen()}
-                    <Button
-                        tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                        action={() =>
-                            dispatch('mode', { mode: Mode.Collapsed })}
-                        >–</Button
-                    >
-                {/if}
             </div>
         </div>
         <!-- Render the content -->
@@ -285,18 +284,13 @@
         gap: var(--wordplay-spacing);
     }
 
-    /** Dim the header a bit so that they don't demand so much attention */
-    .header {
-        opacity: 0.8;
-    }
-
     .toolbar {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
         min-width: max-content;
-        gap: calc(var(--wordplay-spacing));
+        gap: var(--wordplay-spacing);
     }
 
     .footer {
@@ -357,7 +351,11 @@
     }
 
     .tile.animated {
-        transition: left ease-out, top ease-out, width ease-out, height ease-out;
+        transition:
+            left ease-out,
+            top ease-out,
+            width ease-out,
+            height ease-out;
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
@@ -404,10 +402,12 @@
         flex-wrap: nowrap;
         align-items: center;
         padding: var(--wordplay-spacing);
-        gap: var(--wordplay-spacing);
+        gap: calc(var(--wordplay-spacing) / 2);
         width: 100%;
         overflow-x: auto;
         flex-shrink: 0;
+        /** Dim the header a bit so that they don't demand so much attention */
+        opacity: 0.8;
     }
 
     .focus-indicator {

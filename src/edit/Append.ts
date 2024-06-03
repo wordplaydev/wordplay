@@ -7,6 +7,7 @@ import type Context from '@nodes/Context';
 import concretize from '../locale/concretize';
 import Bind from '../nodes/Bind';
 import type Locales from '../locale/Locales';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 export default class Append<NodeType extends Node> extends Revision {
     readonly parent: Node;
@@ -22,7 +23,7 @@ export default class Append<NodeType extends Node> extends Revision {
         parent: Node,
         list: Node[],
         index: number,
-        insertion: NodeType | Refer
+        insertion: NodeType | Refer,
     ) {
         super(context);
 
@@ -57,13 +58,13 @@ export default class Append<NodeType extends Node> extends Revision {
         const newSpaces = Revision.splitSpace(
             this.context.source,
             this.position,
-            newChild
+            newChild,
         );
 
         // Make a new program with the new parent
         const newProgram = this.context.source.expression.replace(
             this.parent,
-            newParent
+            newParent,
         );
 
         // Clone the source with the new parent.
@@ -71,7 +72,7 @@ export default class Append<NodeType extends Node> extends Revision {
 
         // Ensure insertion has preferred space.
         newSource = newSource.withSpaces(
-            newSource.spaces.withPreferredSpaceForNode(newSource.root, newChild)
+            getPreferredSpaces(newChild, newSource.spaces),
         );
 
         // Find it's last token index.
@@ -90,7 +91,7 @@ export default class Append<NodeType extends Node> extends Revision {
                 newCaretPosition ?? this.position,
                 undefined,
                 undefined,
-                newChild
+                newChild,
             ),
         ];
     }
@@ -121,7 +122,7 @@ export default class Append<NodeType extends Node> extends Revision {
         return concretize(
             locales,
             locales.get((l) => l.ui.edit.append),
-            node.getLabel(locales)
+            node.getLabel(locales),
         );
     }
 

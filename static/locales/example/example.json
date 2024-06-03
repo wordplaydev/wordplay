@@ -3,7 +3,6 @@
     "language": "en",
     "region": "US",
     "wordplay": "$?",
-    "newProject": "$?",
     "term": {
         "evaluate": "$?",
         "bind": "$?",
@@ -267,7 +266,10 @@
             "start": "$?",
             "finish": "$?",
             "conflict": {
-                "DuplicateName": { "primary": "$?", "secondary": "$?" },
+                "DuplicateName": {
+                    "conflict": { "primary": "$?", "secondary": "$?" },
+                    "resolution": "$?"
+                },
                 "DuplicateShare": { "primary": "$?", "secondary": "$?" },
                 "IncompatibleType": { "primary": "$?", "secondary": "$?" },
                 "MisplacedShare": "$?",
@@ -592,7 +594,13 @@
             "emotion": "$?",
             "doc": "$?",
             "start": "$?",
-            "finish": "$?"
+            "finish": "$?",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "$?",
@@ -1976,6 +1984,10 @@
             "duration": { "doc": "$?", "names": ["$? duration"] },
             "style": { "doc": "$?", "names": "$? style" }
         },
+        "Form": {
+            "doc": "$?",
+            "names": ["$?"]
+        },
         "Rectangle": {
             "names": "$?",
             "doc": "$?",
@@ -1984,6 +1996,50 @@
             "right": { "doc": "$?", "names": "$?" },
             "bottom": { "doc": "$?", "names": "$?" },
             "z": { "doc": "$?", "names": "$? z" }
+        },
+        "Circle": {
+            "doc": "$?",
+            "names": ["$? Circle"],
+            "radius": {
+                "doc": "$?",
+                "names": "$? radius"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Polygon": {
+            "doc": "$?",
+            "names": ["$?"],
+            "radius": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sides": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
+            }
         },
         "Pose": {
             "names": "$?",
@@ -2204,6 +2260,7 @@
                 }
             },
             "help": "$?",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "$?",
                 "projectsCannotNotSaveLocally": "$?",
@@ -2351,6 +2408,7 @@
         "annotations": {
             "label": "$?",
             "cursor": "$?",
+            "cursorParent": "$?",
             "learn": "$?",
             "evaluating": "$?",
             "space": "$?",
@@ -2631,6 +2689,10 @@
                 "archiveprompt": "$?",
                 "galleriesheader": "$?",
                 "galleryprompt": "$?",
+                "add": {
+                    "header": "$?",
+                    "explanation": "$?"
+                },
                 "button": {
                     "newproject": "$?",
                     "editproject": "$?",

@@ -25,7 +25,7 @@ import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
-export const EventuallySupportedLocales = [];
+export const EventuallySupportedLocales = ['zh-TW'];
 
 /** A list of locales officially supported by Wordplay. */
 export const SupportedLocales = Array.from(
@@ -54,8 +54,6 @@ export type Locale = {
     region: RegionCode;
     /** The name of the platform */
     wordplay: string;
-    /** The default Program for a new project */
-    newProject: string;
     /** Common vocabulary that can be used in documentation and descriptions. */
     term: TermTexts;
     /** Descriptions of all token categories. See Sym.ts for the symbol or symbol category that each represents. */

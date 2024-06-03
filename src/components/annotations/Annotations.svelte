@@ -76,6 +76,13 @@
             ? $concepts?.getRelevantConcept(caret.position)
             : undefined;
 
+    $: caretNodeParent =
+        caretNode instanceof Node ? caretNode.getParent(context) : undefined;
+    $: relevantParentConcept =
+        $concepts && caretNodeParent
+            ? $concepts?.getRelevantConcept(caretNodeParent)
+            : undefined;
+
     // See if the caret is adjustable.
     $: adjustable =
         caret && caretNode ? caret.getAdjustableLiteral() : undefined;
@@ -327,6 +334,46 @@
                                         background
                                     />
                                 </div>
+                            {/if}
+                            {#if caretNodeParent}
+                                <div class="intro">
+                                    <MarkupHTMLView
+                                        inline
+                                        markup={docToMarkup(
+                                            $locales.get(
+                                                (l) =>
+                                                    l.ui.annotations
+                                                        .cursorParent,
+                                            ),
+                                        ).concretize($locales, [
+                                            caretNodeParent.getLabel($locales),
+                                            caretNodeParent instanceof
+                                            Expression
+                                                ? new NodeRef(
+                                                      caretNodeParent
+                                                          .getType(context)
+                                                          .generalize(context),
+                                                      $locales,
+                                                      context,
+                                                  )
+                                                : undefined,
+                                        ]) ?? ''}
+                                    />
+                                </div>
+                                {#if relevantParentConcept}
+                                    <div class="concept">
+                                        <MarkupHTMLView
+                                            inline
+                                            markup={$locales.get(
+                                                (l) => l.ui.annotations.learn,
+                                            )}
+                                        />
+                                        <ConceptLinkUI
+                                            link={relevantParentConcept}
+                                            label={DOCUMENTATION_SYMBOL}
+                                        />
+                                    </div>
+                                {/if}
                             {/if}
                         </div>
                     {:else}

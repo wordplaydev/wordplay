@@ -164,7 +164,7 @@ export default class StructureDefinition extends DefinitionExpression {
                 name: 'expression',
                 kind: optional(node(Block)),
                 space: true,
-                indent: (_: Node, child: Node) => !(child instanceof Block),
+                indent: !(this.expression instanceof Block),
             },
         ];
     }

@@ -1,0 +1,17 @@
+Animation Sequence
+===
+``An phrase that repeatedly animates with a sequence.``/en
+``Una frase que se anima repetidamente con una secuencia.``/es
+``一个用序列重复动画的短语。``/zh
+Phrase(
+    '🐈' 
+    resting: Sequence({
+        0%: Pose(rotation: 0°)
+        15%: Pose(rotation: 15°)
+        30%: Pose(rotation: 0°)
+        45%: Pose(offset: Place(-0.25m))
+        60%: Pose(offset: Place(0.25m))
+        75%: Pose(offset: Place(-0.25m))
+        90%: Pose(offset: Place(0m))
+    } 2s)
+)

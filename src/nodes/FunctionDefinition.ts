@@ -29,7 +29,6 @@ import type Locale from '@locale/Locale';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import Block from './Block';
 import concretize from '../locale/concretize';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import NameType from './NameType';
@@ -207,7 +206,7 @@ export default class FunctionDefinition extends DefinitionExpression {
                 name: 'expression',
                 kind: any(node(Expression), node(Sym.Etc), none()),
                 space: true,
-                indent: (_: Node, child: Node) => !(child instanceof Block),
+                indent: true,
                 // Must match output type if provided
                 getType: (context) => this.getOutputType(context),
             },

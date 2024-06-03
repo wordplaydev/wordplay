@@ -7,7 +7,6 @@ import type Context from './Context';
 import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
-import type Locale from '@locale/Locale';
 import type { Template, DocText } from '@locale/Locale';
 import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
@@ -31,7 +30,7 @@ export default abstract class Node {
     _children: undefined | Node[] = undefined;
 
     /** A cache of leaves in this node */
-    _leaves: Node[] | undefined = undefined;
+    _leaves: Token[] | undefined = undefined;
 
     constructor() {
         this.id = NODE_ID_COUNTER++;
@@ -39,7 +38,7 @@ export default abstract class Node {
 
     // PREDICTATES
 
-    isLeaf() {
+    isLeaf(): this is Token {
         return false;
     }
     isPlaceholder() {
@@ -89,7 +88,7 @@ export default abstract class Node {
         return children;
     }
 
-    getFirstLeaf(): Node | undefined {
+    getFirstLeaf(): Token | undefined {
         if (this.isLeaf()) return this;
         for (const child of this.getChildren()) {
             const leaf = child.getFirstLeaf();
@@ -133,7 +132,7 @@ export default abstract class Node {
         return sequence;
     }
 
-    leaves(): Node[] {
+    leaves(): Token[] {
         if (this._leaves === undefined) {
             this._leaves = [];
             if (this.isLeaf()) this._leaves.push(this);
@@ -589,41 +588,6 @@ export default abstract class Node {
         return this.getFieldOfChild(child)?.indent === true;
     }
 
-    /** Get the preferred preceding space of this node's child. Linebreaks are optional. */
-    getPreferredPrecedingSpace(
-        child: Node,
-        space: string,
-        linebreaks: boolean,
-    ): string {
-        const field = this.getFieldOfChild(child);
-
-        if (field === undefined) return '';
-
-        // If the child should have a newline before it, and the field is a list, and it's not the first node in the list or we want a newline for the first item, return a newline (or two if it wants double, as in the case of Markup).
-        if (linebreaks && field.newline === true) {
-            const value = this.getField(field.name);
-            if (
-                !Array.isArray(value) ||
-                (Array.isArray(value) && (field.initial || child !== value[0]))
-            )
-                return field.double ? '\n\n' : '\n';
-        }
-
-        // If there's no newline before this child, and this node wants it to have a space before it,
-        // return a space.
-        if (
-            space.indexOf('\n') < 0 &&
-            (field.space === true ||
-                (typeof field.space === 'function' && field.space(this)))
-        ) {
-            // Get the field value of this child, and if it's not a list and it's not the first child, then
-            // return the space. Otherwise, no space.
-            const value = this.getField(field.name);
-            return !Array.isArray(value) || value[0] !== child ? ' ' : '';
-        }
-        return '';
-    }
-
     // EQUALITY
 
     /** A node equals another node if its of the same type and its children are equal */
@@ -702,21 +666,9 @@ export default abstract class Node {
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
-    toWordplay(spaces?: Spaces, locale?: Locale, depth?: number): string {
+    toWordplay(spaces?: Spaces): string {
         return this.getChildren()
-            .map((child) => {
-                // If spaces were provided, just use those.
-                if (spaces) return child.toWordplay(spaces, locale);
-                // Otherwise, get the preferred space.
-                const childInBlock = this.isBlockFor(child);
-                const childDepth = (depth ?? 0) + (childInBlock ? 1 : 0);
-                const preferred = this.getPreferredPrecedingSpace(
-                    child,
-                    '',
-                    true,
-                );
-                return preferred + child.toWordplay(spaces, locale, childDepth);
-            })
+            .map((child) => child.toWordplay(spaces))
             .join('');
     }
 
@@ -744,7 +696,7 @@ export type Field = {
     /** True if a preceding space is preferred the node */
     space?: boolean | ((node: Node) => boolean);
     /** True if the field should be indented if on a new line */
-    indent?: boolean | ((parent: Node, child: Node) => boolean);
+    indent?: boolean;
     /** True if the field prefers newlines */
     newline?: boolean;
     /** True if the field should have double newlines */

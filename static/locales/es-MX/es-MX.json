@@ -3,7 +3,6 @@
     "language": "es",
     "region": "MX",
     "wordplay": "Wordplay",
-    "newProject": "Frase('🐈' descansando:Sequencia(vaivén() 1s))",
     "term": {
         "evaluate": "evaluar",
         "bind": "unir",
@@ -387,8 +386,11 @@
             "finish": "¡Oh bien, obtuve $1! Vamos a llamarlo $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
-                    "secondary": "eh, $1 es mi nombre"
+                    "conflict": {
+                        "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
+                        "secondary": "eh, $1 es mi nombre"
+                    },
+                    "resolution": "$?"
                 },
                 "DuplicateShare": {
                     "primary": "tengo el mismo nombre que $1, lo que hace que lo compartido sea ambiguo",
@@ -402,7 +404,7 @@
                 "MissingShareLanguages": "si quieres compartir esto, debes decir en qué idioma está, para que los demás sepan si pueden leerlo!",
                 "RequiredAfterOptional": "No puedo estar aquí, hay un @Bind opcional antes que yo",
                 "UnexpectedEtc": "Solo puedo tener una longitud variable en un @FunctionDefinition",
-                "UnusedBind": "oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
+                "UnusedBind": "$! oye, le puse nombre a este valor, ¡pero nadie lo está usando!"
             }
         },
         "Block": {
@@ -878,7 +880,13 @@
                 "¡Eso es mucho más fácil que hacer un nuevo \\Gato\\ con los mismos valores excepto por el pasatiempo, ¿verdad?"
             ],
             "start": "primero obtengamos el valor",
-            "finish": "Copié la estructura, pero con $1 como $2"
+            "finish": "Copié la estructura, pero con $1 como $2",
+            "conflict": {
+                "InvalidProperty": {
+                    "primary": "$?",
+                    "secondary": "$?"
+                }
+            }
         },
         "PropertyReference": {
             "name": "propiedad",
@@ -3478,6 +3486,10 @@
                 "names": "estilo"
             }
         },
+        "Form": {
+            "doc": "$?",
+            "names": ["$?"]
+        },
         "Rectangle": {
             "names": "Rectángulo",
             "doc": "Soy un @Rectangle, útil para hacer un border de tu elección para el @Stage.",
@@ -3500,6 +3512,50 @@
             "z": {
                 "doc": "La posición de profundidad del rectángulo.",
                 "names": "z"
+            }
+        },
+        "Circle": {
+            "doc": "$?",
+            "names": ["$? Circle"],
+            "radius": {
+                "doc": "$?",
+                "names": "$? radius"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Polygon": {
+            "doc": "$?",
+            "names": ["$?"],
+            "radius": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sides": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Pose": {
@@ -3923,6 +3979,7 @@
                 }
             },
             "help": "mostrar atajos de teclado",
+            "collapsed": "$?",
             "save": {
                 "projectsNotSavedLocally": "Hubo un problema al guardar proyectos en tu navegador.",
                 "projectsCannotNotSaveLocally": "Tu navegador no admite guardar proyectos.",
@@ -4077,6 +4134,7 @@
         "annotations": {
             "label": "conflictos y ayuda",
             "cursor": "Esto es *$1*$2[ y son de tipo $2|].",
+            "cursorParent": "$?",
             "learn": "¿Quieres aprender más?",
             "evaluating": "¡Oh, qué divertido, evaluemos!",
             "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
@@ -4381,6 +4439,10 @@
                 "archiveprompt": "Estos son proyectos que has archivado. Solo los propietarios pueden eliminarlos permanentemente o desarchivarlos. Los proyectos archivados se eliminarán permanentemente 30 días después de su última edición.",
                 "galleriesheader": "Galerías",
                 "galleryprompt": "Crea y cura galerías para compartir una colección de proyectos con otros.",
+                "add": {
+                    "header": "$?",
+                    "explanation": "$?"
+                },
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",

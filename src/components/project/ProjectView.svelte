@@ -119,6 +119,8 @@
     import Switch from '@components/widgets/Switch.svelte';
     import { withVariationSelector } from '../../unicode/emoji';
     import FullscreenIcon from './FullscreenIcon.svelte';
+    import Glyphs from '../../lore/Glyphs';
+    import Speech from '@components/lore/Speech.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -188,9 +190,12 @@
         Writable<{ on: boolean; background: Color | string | null }> | undefined
     >('fullscreen');
 
+    /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $: pageFullscreen?.set({
-        on: layout.isFullscreen(),
-        background: outputBackground,
+        // Don't turn on fullscreen if we were requested to show output.
+        on: layout.isFullscreen() && !showOutput,
+        // Only set a background if it's the stage that's in fullscreen
+        background: layout.isStageFullscreen() ? outputBackground : null,
     });
 
     /** Whether the browser is in fullscreen */
@@ -301,6 +306,9 @@
             );
         } else updateEvaluator(newProject);
     });
+
+    // When the locales change, reset the evaluator to use the new locales.
+    $: if ($locales) resetInputs();
 
     function updateEvaluator(newProject: Project) {
         // Stop the old evaluator.
@@ -493,7 +501,12 @@
                               ),
                           ),
                       ],
-                layout ? layout.fullscreenID : undefined,
+                layout
+                    ? layout.fullscreenID
+                    : // If no layout, and showing output was requested, we fullscreen on output
+                      showOutput
+                      ? TileKind.Output
+                      : undefined,
             );
 
         // Now that we've handled it, unset it.
@@ -560,7 +573,7 @@
     let maxBottom = 0;
 
     /* A global context for a node being dragged */
-    let dragged = writable<Node | undefined>(undefined);
+    export let dragged = writable<Node | undefined>(undefined);
     setContext<DraggedContext>(DraggedSymbol, dragged);
 
     /** True if the output should show a grid */
@@ -724,6 +737,7 @@
     $: {
         $evaluation;
         $locales;
+
         // We don't use the source we compute in the reaction above because we want this to be based only
         // on the current evaluator. This is because we sometimes evaluate some time after updating the project
         // for typing responsiveness.
@@ -1249,7 +1263,13 @@
         {#key tileIDSequence}
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
-                <div class="empty">⬇</div>
+                <div class="empty">
+                    <Speech glyph={Glyphs.Function}>
+                        <svelte:fragment slot="content">
+                            {$locales.get((l) => l.ui.project.collapsed)} ⬇
+                        </svelte:fragment>
+                    </Speech>
+                </div>
             {:else}
                 <!-- Lay out each of the tiles according to its specification, in order if in free layout, but in layout order if not. -->
                 {#each $arrangement === Arrangement.Free ? layout.tiles : layout.getTilesInReadingOrder() as tile (tile.id)}
@@ -1320,7 +1340,7 @@
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
                                     <CommandButton command={Restart} />
-                                    {#if requestedPlay}<Button
+                                    {#if showOutput || requestedPlay}<Button
                                             uiid="editProject"
                                             tip={$locales.get(
                                                 (l) =>
@@ -1529,7 +1549,7 @@
             <Separator />
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
-                {#if tile}
+                {#if tile && tile.isCollapsed()}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
                         {source}
@@ -1542,7 +1562,8 @@
                 <Button
                     uiid="addSource"
                     tip={$locales.get((l) => l.ui.project.button.addSource)}
-                    action={addSource}>+</Button
+                    action={addSource}
+                    >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
                 >{/if}
             {#if overwritten}
                 <span class="overwritten"
@@ -1551,11 +1572,13 @@
             {/if}
             <Separator />
             {#each layout.getNonSources() as tile}
-                <NonSourceTileToggle
-                    {project}
-                    {tile}
-                    on:toggle={() => toggleTile(tile)}
-                />
+                {#if tile.isCollapsed()}
+                    <NonSourceTileToggle
+                        {project}
+                        {tile}
+                        on:toggle={() => toggleTile(tile)}
+                    />
+                {/if}
             {/each}
             <ProjectLanguages {project} />
             <span class="help">
@@ -1690,12 +1713,12 @@
     .empty {
         width: 100%;
         height: 100%;
-        color: var(--wordplay-border-color);
-        font-size: 1000%;
         display: flex;
         flex-direction: column;
         align-items: center;
         justify-content: center;
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-alternating-color);
     }
 
     .annotated-editor {

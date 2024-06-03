@@ -14,6 +14,7 @@
     <span class="label" id={descriptions.label}>{descriptions.label}</span>
     <div class="group" role="radiogroup" aria-labelledby={descriptions.label}>
         {#each modes as mode, index}
+            <!-- We prevent mouse down default to avoid stealing keyboard focus. -->
             <button
                 type="button"
                 role="radio"
@@ -23,6 +24,7 @@
                 title={descriptions.modes[index]}
                 aria-disabled={!active}
                 on:dblclick|stopPropagation
+                on:mousedown|preventDefault
                 on:pointerdown={(event) =>
                     event.button === 0 && active ? select(index) : undefined}
                 on:keydown={(event) =>

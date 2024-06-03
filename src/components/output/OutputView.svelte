@@ -849,7 +849,6 @@
 <section
     class="output"
     data-uuid="stage"
-    role="application"
     aria-label={$locales.get((l) => l.ui.output.label)}
     class:mini
     class:editing={$evaluation?.playing === false && !painting}
@@ -859,11 +858,11 @@
         $selectedOutput &&
         $selectedOutput.includes(stageValue.value.creator)}
 >
+    <!-- svelte-ignore a11y-no-static-element-interactions -->
     <div
         class="value"
         class:ignored
         class:typing
-        role="presentation"
         bind:this={valueView}
         on:keydown={interactive ? handleKeyDown : null}
         on:keyup={interactive ? handleKeyUp : null}
@@ -874,42 +873,6 @@
         on:pointermove={interactive ? handlePointerMove : null}
         on:pointerleave={interactive ? handlePointerLeave : null}
     >
-        <!-- These streams need keyboard input, so we make a text input field. If there's a chat stream, we make it visible. -->
-        {#if keys || placements || chats}
-            <div class="keyboard" class:visible={chats}>
-                <input
-                    type="text"
-                    class="keyboard-input"
-                    placeholder={chats
-                        ? $locales.get((l) => l.ui.output.field.key.placeholder)
-                        : null}
-                    data-defaultfocus
-                    aria-autocomplete="none"
-                    aria-label={$locales.get(
-                        (l) => l.ui.output.field.key.description,
-                    )}
-                    autocomplete={chats ? 'on' : 'off'}
-                    autocorrect={chats ? 'on' : 'off'}
-                    on:keydown={(event) =>
-                        chats &&
-                        event.key === 'Enter' &&
-                        event.target &&
-                        'value' in event.target
-                            ? submitChat()
-                            : null}
-                    bind:value={keyboardInputText}
-                    bind:this={keyboardInputView}
-                />
-                {#if chats}
-                    <ButtonUI
-                        background
-                        tip={$locales.get((l) => l.ui.output.button.submit)}
-                        action={submitChat}>↑</ButtonUI
-                    >
-                {/if}
-            </div>
-        {/if}
-
         <!-- If there's an exception, show that. -->
         {#if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
@@ -957,6 +920,41 @@
                 interactive={!mini}
                 {editable}
             />
+        {/if}
+        <!-- These streams need keyboard input, so we make a text input field. If there's a chat stream, we make it visible. -->
+        {#if keys || placements || chats}
+            <div class="keyboard" class:visible={chats}>
+                <input
+                    type="text"
+                    class="keyboard-input"
+                    placeholder={chats
+                        ? $locales.get((l) => l.ui.output.field.key.placeholder)
+                        : null}
+                    data-defaultfocus
+                    aria-autocomplete="none"
+                    aria-label={$locales.get(
+                        (l) => l.ui.output.field.key.description,
+                    )}
+                    autocomplete={chats ? 'on' : 'off'}
+                    autocorrect={chats ? 'on' : 'off'}
+                    on:keydown={(event) =>
+                        chats &&
+                        event.key === 'Enter' &&
+                        event.target &&
+                        'value' in event.target
+                            ? submitChat()
+                            : null}
+                    bind:value={keyboardInputText}
+                    bind:this={keyboardInputView}
+                />
+                {#if chats}
+                    <ButtonUI
+                        background
+                        tip={$locales.get((l) => l.ui.output.button.submit)}
+                        action={submitChat}>↑</ButtonUI
+                    >
+                {/if}
+            </div>
         {/if}
     </div>
 </section>

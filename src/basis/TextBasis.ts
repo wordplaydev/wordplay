@@ -12,7 +12,6 @@ import {
 import TextValue from '@values/TextValue';
 import StructureDefinition from '@nodes/StructureDefinition';
 import NumberValue from '@values/NumberValue';
-import ListValue from '@values/ListValue';
 import Block, { BlockKind } from '@nodes/Block';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
@@ -28,9 +27,9 @@ export default function bootstrapText(locales: Locales) {
         fun: (
             requestor: Expression,
             text: TextValue,
-            input: TextValue
+            input: TextValue,
         ) => OutputType,
-        outputType: Type
+        outputType: Type,
     ) {
         return createBasisFunction(
             locales,
@@ -45,10 +44,10 @@ export default function bootstrapText(locales: Locales) {
                     return evaluation.getValueOrTypeException(
                         requestor,
                         TextType.make(),
-                        input
+                        input,
                     );
                 return fun(requestor, text, input);
-            }
+            },
         );
     }
 
@@ -67,7 +66,7 @@ export default function bootstrapText(locales: Locales) {
                     [],
                     NumberType.make(),
                     (requestor, evaluator) =>
-                        (evaluator.getClosure() as TextValue).length(requestor)
+                        (evaluator.getClosure() as TextValue).length(requestor),
                 ),
                 createBasisFunction(
                     locales,
@@ -82,7 +81,7 @@ export default function bootstrapText(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 TextType.make(),
-                                text
+                                text,
                             );
                         if (
                             count === undefined ||
@@ -91,43 +90,43 @@ export default function bootstrapText(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 NumberType.make(),
-                                count
+                                count,
                             );
                         return text.repeat(
                             requestor,
-                            Math.max(0, Math.floor(count.num.toNumber()))
+                            Math.max(0, Math.floor(count.num.toNumber())),
                         );
-                    }
+                    },
                 ),
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Text.function.equals,
-                    true
+                    true,
                 ),
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Text.function.notequals,
-                    false
+                    false,
                 ),
                 createBinaryTextFunction(
                     (locale) => locale.basis.Text.function.segment,
                     (requestor, text, input) => text.segment(requestor, input),
-                    ListType.make(TextType.make())
+                    ListType.make(TextType.make()),
                 ),
                 createBinaryTextFunction<BoolValue>(
                     (locale) => locale.basis.Text.function.has,
                     (requestor, text, input) => text.has(requestor, input),
-                    BooleanType.make()
+                    BooleanType.make(),
                 ),
                 createBinaryTextFunction<BoolValue>(
                     (locale) => locale.basis.Text.function.starts,
                     (requestor, text, input) => text.starts(requestor, input),
-                    BooleanType.make()
+                    BooleanType.make(),
                 ),
                 createBinaryTextFunction<BoolValue>(
                     (locale) => locale.basis.Text.function.ends,
                     (requestor, text, input) => text.ends(requestor, input),
-                    BooleanType.make()
+                    BooleanType.make(),
                 ),
                 createBasisFunction(
                     locales,
@@ -145,38 +144,33 @@ export default function bootstrapText(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 TextType.make(),
-                                other
+                                other,
                             );
                         return text.combine(requestor, other);
-                    }
+                    },
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.Text.conversion.list
+                        (locale) => locale.basis.Text.conversion.list,
                     ),
                     '""',
                     '[""]',
                     (requestor: Expression, val: TextValue) =>
-                        new ListValue(
-                            requestor,
-                            val.text
-                                .split('')
-                                .map((c) => new TextValue(requestor, c))
-                        )
+                        val.segment(requestor, ''),
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.Text.conversion.number
+                        (locale) => locale.basis.Text.conversion.number,
                     ),
                     '""',
                     '#',
                     (requestor: Expression, val: TextValue) =>
-                        new NumberValue(requestor, val.text)
+                        new NumberValue(requestor, val.text),
                 ),
             ],
-            BlockKind.Structure
-        )
+            BlockKind.Structure,
+        ),
     );
 }
