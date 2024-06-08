@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Prevented palette addition of `Phrase` when `Stage` is already present.
 -   Corrected Boolean or operator description in tutorials.
+-   Fixed typo in number tutorial.
 
 ## 0.9.396 2024-06-02
 
