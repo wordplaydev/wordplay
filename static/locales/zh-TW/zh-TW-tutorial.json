@@ -1128,7 +1128,7 @@
                         [
                             "⊥",
                             "precise",
-                            "Not wrong. \\⊥ & ⊥ = ⊥\\, but \\⊤\\ otherwise."
+                            "Not wrong. \\⊥ | ⊥ = ⊥\\, but \\⊤\\ otherwise."
                         ],
                         [
                             "FunctionDefinition",
