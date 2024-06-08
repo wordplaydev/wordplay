@@ -132,7 +132,7 @@
             />
         {/if}
         {#if editable}
-            {#if phrase === undefined}
+            {#if stage === undefined && phrase === undefined}
                 <EditOffer
                     symbols={PHRASE_SYMBOL}
                     locales={$locales}

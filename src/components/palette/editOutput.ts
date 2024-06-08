@@ -28,12 +28,12 @@ export function getNumber(given: Expression): number | undefined {
         given instanceof NumberLiteral
             ? given
             : given instanceof Bind && given.value instanceof NumberLiteral
-            ? given.value
-            : given instanceof UnaryEvaluate &&
-              given.isNegation() &&
-              given.input instanceof NumberLiteral
-            ? given.input
-            : undefined;
+              ? given.value
+              : given instanceof UnaryEvaluate &&
+                  given.isNegation() &&
+                  given.input instanceof NumberLiteral
+                ? given.input
+                : undefined;
     return measurement
         ? (given instanceof UnaryEvaluate && given.isNegation() ? -1 : 1) *
               measurement.getValue().num.toNumber()
@@ -47,7 +47,7 @@ export default function moveOutput(
     locales: Locales,
     horizontal: number,
     vertical: number,
-    relative: boolean
+    relative: boolean,
 ) {
     const PlaceType = project.shares.output.Place;
 
@@ -64,15 +64,15 @@ export default function moveOutput(
 
             const x = place?.getInput(
                 project.shares.output.Place.inputs[0],
-                ctx
+                ctx,
             );
             const y = place?.getInput(
                 project.shares.output.Place.inputs[1],
-                ctx
+                ctx,
             );
             const z = place?.getInput(
                 project.shares.output.Place.inputs[2],
-                ctx
+                ctx,
             );
 
             const xValue = x instanceof Expression ? getNumber(x) : undefined;
@@ -82,8 +82,8 @@ export default function moveOutput(
             const bind = evaluate.is(project.shares.output.Phrase, ctx)
                 ? project.shares.output.Phrase.inputs[3]
                 : evaluate.is(project.shares.output.Group, ctx)
-                ? project.shares.output.Phrase.inputs[4]
-                : undefined;
+                  ? project.shares.output.Phrase.inputs[4]
+                  : undefined;
 
             return [
                 evaluate,
@@ -94,7 +94,7 @@ export default function moveOutput(
                           Evaluate.make(
                               Reference.make(
                                   locales.getName(PlaceType.names),
-                                  PlaceType
+                                  PlaceType,
                               ),
                               [
                                   // If coordinate is computed, and not a literal, don't change it.
@@ -107,7 +107,7 @@ export default function moveOutput(
                                                       .add(horizontal)
                                                       .toNumber()
                                                 : horizontal,
-                                            Unit.meters()
+                                            Unit.meters(),
                                         ),
                                   y instanceof Expression &&
                                   yValue === undefined
@@ -118,18 +118,18 @@ export default function moveOutput(
                                                       .add(vertical)
                                                       .toNumber()
                                                 : vertical,
-                                            Unit.meters()
+                                            Unit.meters(),
                                         ),
                                   z instanceof Expression &&
                                   zValue !== undefined
                                       ? z
                                       : NumberLiteral.make(0, Unit.meters()),
-                              ]
+                              ],
                           ),
-                          ctx
+                          ctx,
                       ),
             ];
-        })
+        }),
     );
 }
 
@@ -145,7 +145,7 @@ export function addContent(
     project: Project,
     list: ListLiteral,
     index: number,
-    kind: 'phrase' | 'group' | 'shape'
+    kind: 'phrase' | 'group' | 'shape',
 ) {
     const GroupType = project.shares.output.Group;
     const RowType = project.shares.output.Row;
@@ -156,23 +156,30 @@ export function addContent(
             ? // Create a placeholder phrase
               createPlaceholderPhrase(project, locales)
             : // Create a group with a Row layout and a single phrase
-            kind === 'group'
-            ? Evaluate.make(GroupType.getReference(locales), [
-                  Evaluate.make(RowType.getReference(locales), []),
-                  ListLiteral.make([createPlaceholderPhrase(project, locales)]),
-              ])
-            : // Create a placeholder shape
-              Evaluate.make(project.shares.output.Shape.getReference(locales), [
-                  Evaluate.make(
-                      project.shares.output.Rectangle.getReference(locales),
-                      [
-                          NumberLiteral.make(-5, Unit.meters()),
-                          NumberLiteral.make(0, Unit.meters()),
-                          NumberLiteral.make(5, Unit.meters()),
-                          NumberLiteral.make(-1, Unit.meters()),
-                      ]
-                  ),
-              ]),
+              kind === 'group'
+              ? Evaluate.make(GroupType.getReference(locales), [
+                    Evaluate.make(RowType.getReference(locales), []),
+                    ListLiteral.make([
+                        createPlaceholderPhrase(project, locales),
+                    ]),
+                ])
+              : // Create a placeholder shape
+                Evaluate.make(
+                    project.shares.output.Shape.getReference(locales),
+                    [
+                        Evaluate.make(
+                            project.shares.output.Rectangle.getReference(
+                                locales,
+                            ),
+                            [
+                                NumberLiteral.make(-5, Unit.meters()),
+                                NumberLiteral.make(0, Unit.meters()),
+                                NumberLiteral.make(5, Unit.meters()),
+                                NumberLiteral.make(-1, Unit.meters()),
+                            ],
+                        ),
+                    ],
+                ),
         ...list.values.slice(index + 1),
     ]);
 }
@@ -181,7 +188,7 @@ export function reviseContent(
     db: Database,
     project: Project,
     list: ListLiteral,
-    newValues: (Expression | Spread)[]
+    newValues: (Expression | Spread)[],
 ) {
     db.Projects.revise(project, [[list, ListLiteral.make(newValues)]]);
 }
@@ -190,7 +197,7 @@ export function removeContent(
     projects: Database,
     project: Project,
     list: ListLiteral,
-    index: number
+    index: number,
 ) {
     if (list === undefined) return;
     reviseContent(projects, project, list, [
@@ -204,7 +211,7 @@ export function moveContent(
     project: Project,
     list: ListLiteral,
     index: number,
-    direction: 1 | -1
+    direction: 1 | -1,
 ) {
     if (list === undefined) return;
     const content = list.values[index];
@@ -225,7 +232,7 @@ export function moveContent(
 export function addStageContent(
     database: Database,
     project: Project,
-    content: Expression | undefined
+    content: Expression | undefined,
 ) {
     const StageType = project.shares.output.Stage;
 
@@ -243,7 +250,7 @@ export function addStageContent(
     if (content === undefined)
         content = createPlaceholderPhrase(
             project,
-            database.Locales.getLocaleSet()
+            database.Locales.getLocaleSet(),
         );
 
     if (stage) {
@@ -265,7 +272,7 @@ export function getStage(project: Project): Evaluate | undefined {
         const context = project.getContext(source);
         const stage = source.expression.nodes(
             (node): node is Evaluate =>
-                node instanceof Evaluate && node.is(StageType, context)
+                node instanceof Evaluate && node.is(StageType, context),
         )[0];
         if (stage) return stage;
     }
@@ -279,7 +286,7 @@ export function getSoloPhrase(project: Project): Evaluate | undefined {
         const context = project.getContext(source);
         const phrase = source.expression.expression.statements.find(
             (n): n is Evaluate =>
-                n instanceof Evaluate && n.is(PhraseType, context)
+                n instanceof Evaluate && n.is(PhraseType, context),
         );
         if (phrase) return phrase;
     }
@@ -293,7 +300,7 @@ export function getSoloGroup(project: Project): Evaluate | undefined {
         const context = project.getContext(source);
         const group = source.expression.expression.statements.find(
             (n): n is Evaluate =>
-                n instanceof Evaluate && n.is(GroupType, context)
+                n instanceof Evaluate && n.is(GroupType, context),
         );
         if (group) return group;
     }
@@ -308,19 +315,19 @@ export function addSoloPhrase(db: Database, project: Project) {
     // If there's not, find the last non-bind value of the program.
     const block = project.getMain().expression.expression;
     const statements = block.statements.filter(
-        (node) => !(node instanceof Bind)
+        (node) => !(node instanceof Bind),
     );
     const last = statements.at(-1);
 
     const text =
-        //Nothing? Use a welcome phrase.
+        // Nothing? Use a welcome phrase.
         last === undefined
             ? TextLiteral.make(db.Locales.getLocale().ui.phrases.welcome)
             : // Already text or formatted? Just use it without modification.
-            last instanceof TextLiteral || last instanceof FormattedLiteral
-            ? last
-            : // Something else? Convert it to text.
-              Convert.make(last, TextType.make());
+              last instanceof TextLiteral || last instanceof FormattedLiteral
+              ? last
+              : // Something else? Convert it to text.
+                Convert.make(last, TextType.make());
 
     // Build a new Phrase
     phrase = Evaluate.make(Reference.make(PHRASE_SYMBOL), [text]);
@@ -328,7 +335,7 @@ export function addSoloPhrase(db: Database, project: Project) {
     db.Projects.reviseProject(
         project.withRevisedNodes([
             last ? [last, phrase] : [block, block.withStatement(phrase)],
-        ])
+        ]),
     );
 }
 
@@ -341,7 +348,7 @@ export function addGroup(db: Database, project: Project) {
     const group = Evaluate.make(Reference.make(GROUP_SYMBOL), [
         Evaluate.make(
             Reference.make(project.shares.output.Stack.names.getNames()[0]),
-            []
+            [],
         ),
         ListLiteral.make([phrase]),
     ]);
@@ -353,7 +360,7 @@ export function addGroup(db: Database, project: Project) {
 export function addStage(
     db: Database,
     project: Project,
-    existing: Evaluate | undefined
+    existing: Evaluate | undefined,
 ) {
     // Make sure there's not already a stage.
     let stage = getStage(project);
@@ -374,7 +381,7 @@ export function addStage(
     db.Projects.reviseProject(
         project.withRevisedNodes([
             existing ? [existing, stage] : [block, block.withStatement(stage)],
-        ])
+        ]),
     );
 }
 
@@ -388,7 +395,7 @@ export function hasOutput(project: Project) {
                     n instanceof Evaluate &&
                     (n.is(project.shares.output.Phrase, context) ||
                         n.is(project.shares.output.Group, context) ||
-                        n.is(project.shares.output.Stage, context))
+                        n.is(project.shares.output.Stage, context)),
             );
     });
 }
