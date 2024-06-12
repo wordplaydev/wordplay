@@ -3492,6 +3492,58 @@
                 "names": "z"
             }
         },
+        "Line": {
+            "doc": "I am a line, useful for making @Stage render a physical line shape from the coordinates of your choice.",
+            "names": ["Line"],
+            "x1": {
+                "doc": "The starting edge of the stage on the x-axis",
+                "names": "x1"
+            },
+            "y1": {
+                "doc": "The starting edge of the stage on the y-axis",
+                "names": "y1"
+            },
+            "x2": {
+                "doc": "The ending edge of the stage on the x-axis",
+                "names": "x2"
+            },
+            "y2": {
+                "doc": "The ending edge of the stage on the y-axis",
+                "names": "y2"
+            },
+            "z": {
+                "doc": "The depth position of the line",
+                "names": "z"
+            }
+        },
+        "Aura": {
+            "doc": ["I am an AURA"],
+            "names": ["🔮", "Aura"],
+            "color": {
+                "doc": "The color the @Aura should be",
+                "names": "color"
+            },
+            "blur": {
+                "doc": "How blurry the @Aura should be",
+                "names": "blur"
+            },
+            "offsetX": {
+                "doc": "How far right the @Aura should go",
+                "names": "offsetX"
+            },
+            "offsetY": {
+                "doc": "How far down the @Aura should go",
+                "names": "offsetY"
+            },
+            "spread": {
+                "doc": "The strength of the @Aura",
+                "names": "spread"
+            },
+            "opacity": {
+                "doc": "How transparent the @Aura should be",
+                "names": "opacity"
+            }
+        },
         "Circle": {
             "doc": "I am a circle, useful for making shapes on @Stage.",
             "names": ["Circle"],

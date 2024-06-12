@@ -8,7 +8,7 @@ import type TextLang from './TextLang';
 import type { DefinitePose } from './Pose';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
-import { Form, toForm } from './Form';
+import { Form, toForm, toLine } from './Form';
 import type Project from '../models/Project';
 import type Value from '../values/Value';
 import type { NameGenerator } from './Stage';
@@ -49,6 +49,30 @@ export function createShapeType(locales: Locales) {
             )
             .flat()
             .join('|')}: "${DefaultStyle}"
+    )
+`);
+}
+
+export function createRectangleType(locales: Locales) {
+    return toStructure(`
+    ${getBind(locales, (locale) => locale.output.Rectangle, TYPE_SYMBOL)}(
+        ${getBind(locales, (locale) => locale.output.Rectangle.left)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.top)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.right)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.bottom)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.z)}•#m: 0m
+    )
+`);
+}
+
+export function createLineType(locales: Locales) {
+    return toStructure(`
+    ${getBind(locales, (locale) => locale.output.Line, TYPE_SYMBOL)}(
+        ${getBind(locales, (locale) => locale.output.Line.x1)}•#m
+        ${getBind(locales, (locale) => locale.output.Line.y1)}•#m
+        ${getBind(locales, (locale) => locale.output.Line.x2)}•#m
+        ${getBind(locales, (locale) => locale.output.Line.y2)}•#m
+        ${getBind(locales, (locale) => locale.output.Rectangle.z)}•#m: 0m
     )
 `);
 }
@@ -156,7 +180,12 @@ export function toShape(
 ): Shape | undefined {
     if (!(value instanceof StructureValue)) return undefined;
 
-    const form = toForm(project, getOutputInput(value, 0));
+    let form;
+    if(value.toString().includes("Line")) {
+        form = toLine(getOutputInput(value, 0));
+        // console.log("line");
+    }
+    form = toForm(project, getOutputInput(value, 0));
 
     const {
         name,

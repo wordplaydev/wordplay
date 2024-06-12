@@ -18,7 +18,7 @@ import { createArrangementType } from '../output/Arrangement';
 import { getDefaultSequences } from '../output/DefaultSequences';
 import { createChoiceDefinition } from '../input/Choice';
 import { createGridType } from '../output/Grid';
-import { createShapeType } from '../output/Shape';
+import { createLineType, createShapeType } from '../output/Shape';
 import { createFreeType } from '../output/Free';
 import { createCameraDefinition } from '../input/Camera';
 import { createSequenceType } from '../output/Sequence';
@@ -72,6 +72,7 @@ export default function createDefaultShares(locales: Locales) {
         Rebound: ReboundType,
         Form: createFormType(locales),
         Rectangle: createRectangleType(locales),
+        Line: createLineType(locales),
         Circle: createCircleType(locales),
         Polygon: createPolygonType(locales),
         Arrangement: createArrangementType(locales),

@@ -3,6 +3,7 @@ import { getFirstName } from '../locale/Locale';
 import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';
 import type Value from '../values/Value';
+// import type Color from './Color';
 import { toNumber } from './Stage';
 import Valued, { getOutputInputs } from './Valued';
 import { PX_PER_METER } from './outputToCSS';
@@ -133,6 +134,85 @@ export class Rectangle extends Form {
     }
 }
 
+export class Line extends Form {
+    readonly x1: number;
+    readonly y1: number;
+    readonly x2: number;
+    readonly y2: number;
+    readonly z: number;
+    
+    constructor(
+        value: Value,
+        x1: number,
+        y1: number,
+        x2: number,
+        y2: number,
+        z: number
+    ) {
+        super(value);
+
+        this.x1 = x1;
+        this.y1 = y1;
+        this.x2 = x2;
+        this.y2 = y2;
+        this.z = z;
+    }
+
+    getLeft() {
+        return this.x1;
+    }
+
+    getTop() {
+        
+        return this.y1;
+    }
+
+    getZ() {
+        return this.z;
+    }
+
+    getWidth() {
+       // console.log(this.x2 - this.x1);
+       return (this.x2 - this.x1);
+    }
+
+    getHeight() {
+        // console.log(this.y2 - this.y1);
+        return (this.y2 - this.y1);
+    }
+
+    getPoints() {
+        const x1 = this.getLeft() * PX_PER_METER;
+        const y1 = -this.getTop() * PX_PER_METER;
+        const x2 = (this.getLeft() + this.getWidth()) * PX_PER_METER;
+        let y2;
+        if (this.y1 > this.y2) {
+            y2 = (this.getTop() - this.getHeight()) * PX_PER_METER;
+        } else {
+            y2 = (this.getTop() + this.getHeight()) * PX_PER_METER;
+        }
+        return { x1, y1, x2, y2 };
+    }
+
+    toCSSClip() {
+        const { x1, y1, x2, y2 } = this.getPoints();
+        return `polygon(${x1}px ${y1}px, ${x2}px ${y2}px, ${x1 - 5}px ${y1 + 5}px, ${x2 - 5}px ${y2 + 5}px)`;
+    }
+
+    toSVGPath() {
+        const { x1, y1, x2, y2 } = this.getPoints();
+        return `M ${x1} ${y1} L ${x2} ${y2}`;
+    }
+
+
+    getLength() {
+        return Math.sqrt(Math.pow(this.x2 - this.x1, 2) + Math.pow(this.y2 - this.y1, 2));
+    }
+
+    getDescription(locales: Locales): string {
+        return locales.get((l) => getFirstName(l.output.Line.names));
+    }
+}
 export function createCircleType(locales: Locales) {
     return toStructure(`
     ${getBind(locales, (locale) => locale.output.Circle, TYPE_SYMBOL)} Form (
@@ -326,6 +406,23 @@ export function toRectangle(value: StructureValue) {
         : undefined;
 }
 
+export function toLine(value: Value | undefined) {
+    if (!(value instanceof StructureValue)) return undefined;
+
+    const [x1Val, y1Val, x2Val, y2Val, zVal] = getOutputInputs(value);
+
+    const x1 = toNumber(x1Val);
+    const y1 = toNumber(y1Val);
+    const x2 = toNumber(x2Val);
+    const y2 = toNumber(y2Val);
+    const z = toNumber(zVal) ?? 0;
+    return x1 !== undefined &&
+        y1 !== undefined &&
+        x2 !== undefined &&
+        y2 !== undefined
+        ? new Line(value, x1, y1, x2, y2, z)
+        : undefined;
+}
 export function toCircle(value: Value | undefined) {
     if (!(value instanceof StructureValue)) return undefined;
 

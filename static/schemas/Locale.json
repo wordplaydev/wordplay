@@ -7331,6 +7331,50 @@
               ],
               "type": "object"
             },
+            "Line": {
+              "additionalProperties": false,
+              "description": "A line shape, for Stage.frame",
+              "properties": {
+                "y2": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The target y coordinate of the line"
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation for this definition, to appear in the documentation browser."
+                },
+                "x1": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The starting x coordinate of the line"
+                },
+                "names": {
+                  "$ref": "#/definitions/NameText",
+                  "description": "One or more names for this definition. Be careful not to introduce duplicates."
+                },
+                "x2": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The target x coordinate of the line"
+                },
+                "y1": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The starting y coordinate of the line"
+                },
+                "z": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Depth of line"
+                }
+              },
+              "required": [
+                "y2",
+                "doc",
+                "x1",
+                "names",
+                "x2",
+                "y1",
+                "z"
+              ],
+              "type": "object"
+            },
             "Row": {
               "additionalProperties": false,
               "description": "A horizontal row arrangement",
