@@ -234,9 +234,13 @@ export default async function translateProject(
                         parent.fun === reference
                             ? true
                             : undefined;
-                    const translation = definition.names
-                        .getNameInLanguage(targetLanguage, infix)
-                        ?.getName();
+                    const translation =
+                        definition.names
+                            .getNameInLanguage(targetLanguage, infix)
+                            ?.getName() ??
+                        definition.names.names
+                            .find((name) => !name.hasLanguage())
+                            ?.getName();
 
                     if (
                         translation === undefined ||
