@@ -54,10 +54,10 @@ export function parseNames(tokens: Tokens): Names {
         const name = tokens.nextIs(Sym.Name)
             ? tokens.read(Sym.Name)
             : tokens.nextIs(Sym.Placeholder)
-            ? tokens.read(Sym.Placeholder)
-            : tokens.nextIs(Sym.Operator)
-            ? tokens.read(Sym.Operator)
-            : undefined;
+              ? tokens.read(Sym.Placeholder)
+              : tokens.nextIs(Sym.Operator)
+                ? tokens.read(Sym.Operator)
+                : undefined;
         const lang = tokens.nextIs(Sym.Language)
             ? parseLanguage(tokens)
             : undefined;
@@ -81,6 +81,8 @@ export function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
     // It's a bind if it has a name and either doesn't expect a value, or has one, or has a name with a language tag
     return (
         bind.names.names.length > 0 &&
-        (!expectValue || bind.colon !== undefined || bind.names.hasLanguage())
+        (!expectValue ||
+            bind.colon !== undefined ||
+            bind.names.hasALanguageTag())
     );
 }

@@ -38,12 +38,12 @@ export default class Doc extends LanguageTagged {
         this.computeChildren();
     }
 
-    static make(content?: Paragraph[]) {
+    static make(content?: Paragraph[], lang: Language | undefined = undefined) {
         return new Doc(
             new Token(DOCS_SYMBOL, Sym.Doc),
             new Markup(content ?? []),
             new Token(DOCS_SYMBOL, Sym.Doc),
-            undefined,
+            lang,
         );
     }
 

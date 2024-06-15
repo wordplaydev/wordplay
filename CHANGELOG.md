@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.10.0 2024-6-15
 
+### Added
+
+-   [#106](https://github.com/wordplaydev/wordplay/issues/106). Added ability to translate names and text in a program to other supported languages.
+
 ### Maintenance
 
 -   Upgraded to latest versions of Firebase Functions and Firebase Admin.

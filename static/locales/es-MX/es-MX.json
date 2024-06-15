@@ -3956,7 +3956,8 @@
         },
         "project": {
             "error": {
-                "unknown": "Esta actuación no existe o no es pública."
+                "unknown": "Esta actuación no existe o no es pública.",
+                "translate": "$?"
             },
             "button": {
                 "showCollaborators": "mostrar a los colaboradores el diálogo",
@@ -3970,7 +3971,8 @@
                 "focusDocs": "enfoque en la documentación",
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
-                "unsaved": "mostrar error de guardado"
+                "unsaved": "mostrar error de guardado",
+                "translate": { "label": "$?", "tip": "$?" }
             },
             "field": {
                 "name": {
@@ -3989,7 +3991,11 @@
                 "settingsUnsaved": "No se pueden guardar las configuraciones en línea."
             },
             "dialog": {
-                "unsaved": "Trabajo no salvado..."
+                "unsaved": "Trabajo no salvado...",
+                "translate": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "gallery": {

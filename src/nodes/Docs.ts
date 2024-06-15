@@ -36,6 +36,10 @@ export default class Docs extends Node {
         ) as this;
     }
 
+    withOption(doc: Doc) {
+        return new Docs([...this.docs, doc]);
+    }
+
     getPurpose() {
         return Purpose.Document;
     }
@@ -48,8 +52,16 @@ export default class Docs extends Node {
         return this.docs;
     }
 
+    getOptions() {
+        return this.docs;
+    }
+
     containsLanguage(lang: LanguageCode) {
         return this.docs.some((doc) => doc.isLanguage(lang));
+    }
+
+    getLanguage(lang: LanguageCode) {
+        return this.docs.find((doc) => doc.isLanguage(lang));
     }
 
     getPreferredLocale(preferred: Locales): Doc {

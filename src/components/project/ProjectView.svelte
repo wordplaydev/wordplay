@@ -121,6 +121,7 @@
     import FullscreenIcon from './FullscreenIcon.svelte';
     import Glyphs from '../../lore/Glyphs';
     import Speech from '@components/lore/Speech.svelte';
+    import Translate from './Translate.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1581,6 +1582,7 @@
                 {/if}
             {/each}
             <ProjectLanguages {project} />
+            <Translate {project}></Translate>
             <span class="help">
                 <Dialog
                     description={$locales.get((l) => l.ui.dialog.help)}

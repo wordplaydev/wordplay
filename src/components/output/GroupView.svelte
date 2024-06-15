@@ -42,8 +42,6 @@
 
     $: empty = group.isEmpty();
 
-    $: console.log(clip?.toSVGPath(0, 0));
-
     $: layout = group.getLayout(context);
 
     // Filter out groups that are behind the focus

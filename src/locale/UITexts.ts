@@ -96,6 +96,8 @@ type UITexts = {
         /** The error shown when a project ID is unknown. */
         error: {
             unknown: string;
+            /** The error to show if translation wasn't possible */
+            translate: string;
         };
         button: {
             /** Shows the sharing dialog */
@@ -122,6 +124,8 @@ type UITexts = {
             focusCycle: string;
             /** Show save error button */
             unsaved: string;
+            /** Show translation button */
+            translate: ButtonText;
         };
         field: {
             /** The project name text field */
@@ -149,6 +153,8 @@ type UITexts = {
         dialog: {
             /** The header for the save error */
             unsaved: Template;
+            /** The content for the translation dialog */
+            translate: DialogText;
         };
     };
     /** Gallery page labels */

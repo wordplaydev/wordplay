@@ -3,7 +3,6 @@
     "language": "zh",
     "region": "TW",
     "wordplay": "雙關語",
-    "newProject": "片語('🐈' 休息:排序(搖擺() 1s))",
     "term": {
         "evaluate": "評價",
         "bind": "聯結",
@@ -18,7 +17,7 @@
         "scene": "場景",
         "phrase": "片語",
         "group": "群組",
-        "stage":"舞台",
+        "stage": "舞台",
         "type": "型別",
         "start": "開始",
         "entered": "進入",
@@ -26,7 +25,7 @@
         "moved": "移動了",
         "name": "姓名",
         "value": "價值",
-        "text":"字元",
+        "text": "字元",
         "boolean": "布林值",
         "map": "映射?",
         "number": "數字",
@@ -45,7 +44,7 @@
         "help": "幫助",
         "feedback": "回饋"
     },
-    "token":{
+    "token": {
         "EvalOpen": "評估開放",
         "EvalClose": "評估結束",
         "SetOpen": "設定開啟",
@@ -123,7 +122,7 @@
             "description": "尺寸",
 
             "emotion": "serious",
-            "doc":[
+            "doc": [
                 "我是一個/計量單位/！",
                 "我可以是任何標準化單位，例如 \\1米\\、\\10秒\\、\\100克\\ 或任何其他科學單位。我也很高興能成為任何想要組成的單位，例如\\17蘋果\\。",
                 "我可以與 \\/\\ 組合起來製作比率單位，如 \\17蘋果/日\\ ，並與 \\^\\ 組合製作指數單位，如 \\9.8米/秒^2\\",
@@ -132,7 +131,7 @@
                 "如果您想在不同的單位值之間進行轉換，請和@Convert說說吧。"
             ]
         },
-        "Doc":{
+        "Doc": {
             "name": "解釋說明",
             "emotion": "serious",
             "doc": [
@@ -155,7 +154,7 @@
         "Docs": {
             "name": "解釋清單清單",
             "emotion": "serious",
-            "doc":[
+            "doc": [
                 "我是 @Doc 的一個列表， 在你有許多不同語言的 @Doc 的翻譯時會非常有用。",
                 "創造一個清單不需要你做任何特殊的事情， 只用把一些 @Doc 像這樣排列在一起，一個就在另一個的旁邊:",
                 "\\``你好``/zh\n``Hola``/es\n問候語: '…'\\"
@@ -165,7 +164,7 @@
         "KeyValue": {
             "name": "映射",
             "emotion": "kind",
-            "doc":[
+            "doc": [
                 "我是在一個 @Map 中從一個 *關鍵碼* 到一個 *值* 的映射。",
                 "我可以映射任意類型的值。例如，這裡有一個數字們的映射:",
                 "\\{1:1}\\",
@@ -177,7 +176,7 @@
             "name": "語言",
             "description": "語言 $1[$1|unknown]",
             "emotion": "eager",
-            "doc":[
+            "doc": [
                 "我是一個語言標籤，我與 @Name 和 @Doc 一起工作!",
                 "我真的擅長讓別人 *超級清楚* 事物是用什麼語言寫的。",
                 "這就是我做的事情。 只需一個小小斜線和幾個字母，大家就都清楚一些文本使用的是什麼語言了。",
@@ -198,7 +197,7 @@
             "name": "命名",
             "description": "$1[$1 | 未命名]",
             "emotion": "kind",
-            "doc":[
+            "doc": [
                 "我會辨識一個數值，而且能夠幫你將難以運算的事物貼上簡潔的標籤，不然你就要一遍又一遍地運算它們。",
                 "@Bind 像這樣為我命名：",
                 "\\嗨: 5\\",
@@ -215,7 +214,7 @@
         "Names": {
             "name": "命名清單",
             "emotion": "kind",
-            "doc":[
+            "doc": [
                 "我是一個 @Name 的列表，當你想給一個值幾個名字的時候特別有用，常常是和不同的 @Language。",
                 "名字們用 \\,\\ 符號隔開。例如， 這就是 @Bind 給一個值好幾個 @Name :",
                 "\\嗨/zh,你好/zh,hola/es: '歡迎'\\"
@@ -245,20 +244,20 @@
         "Token": {
             "name": "令牌",
             "description": "$1 $2",
-            "emotion":"neutral",
-            "doc":[
+            "emotion": "neutral",
+            "doc": [
                 "你怎麼找到我的？",
                 "我是表演中最微小的一部分。我是讓所有文字成為文字的基礎。我是我們編舞裡原子大小的微粒。"
             ]
         },
-        "TypeInputs":{
+        "TypeInputs": {
             "name": "輸入類型",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "我是一個類型列表，可以代替 @StructureDefinition 或 @FunctionDefinition 中的 @TypeVariables。我可以幫助每個人知道他們將收到什麼樣的輸入。"
         },
-        "TypeVariable":{
+        "TypeVariable": {
             "name": "變數類型",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "我是 @FunctionDefinition 或 @StructureDefinition 上的神秘類型，由 @TypeInputs 在對其中任一類型進行求值時提供。@Set、@List 和 @Map 都可以使用我。",
             "conflict": {
                 "DuplicateTypeVariable": {
@@ -269,21 +268,21 @@
         },
         "TypeVariables": {
             "name": "變數類型清單",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "我是一個清單的 @TypeVariable 。"
         },
         "Markup": {
             "name": "標記",
             "description": "$1 段落",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我是一個段落列表，使用了解釋中可用的多種標記，如 @Words、@WebLink、@ConceptLink 和 @Example 等."
             ]
         },
         "Paragraph": {
             "name": "段落",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我是一系列的 @Words、@ConceptLink、@WebLink 和 @Example ，我們在 @Doc 內用空白行隔開。",
                 "你只在 @Doc 寫好多好多字就可以構成我:",
                 "\\``我是文檔中的一個段落。``'一個段落'\\",
@@ -294,8 +293,8 @@
         "WebLink": {
             "name": "連結",
             "description": "連結 $1",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我是能帶你去網路上一個地方的連結。我只需要一個描述和一個網址:",
                 "\\``我是文件中的 <連結@https://wordplay.dev>``\n'連結範例'\\",
                 "如果有人選中了我，我將會打開去往這個網址的新視窗。"
@@ -304,8 +303,8 @@
         "ConceptLink": {
             "name": "概念",
             "description": "概念連結",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 " 我是一個通往詩篇角色的連結。我在你想要寫一篇 @Doc 以及引用我們中的任何一個時非常有幫助。",
                 "比如說，要是你想要談談 @Evaluate 以及它們有多好，你就可以這樣寫:",
                 "\\`` 你知道嗎？@Evaluate 真的非常出色。``\n' 看，一個概念連結！'\\",
@@ -314,8 +313,8 @@
         },
         "Words": {
             "name": "文字",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我是你在一篇 @Doc 中喜愛的所有文字。例如:",
                 "\\``願力量與你同在。``\n'只是一些文字！'\\",
                 "雖然有些時候，你可能會想用@Doc 裡的特殊字元 /作為/ 文字。例如:",
@@ -325,8 +324,8 @@
         },
         "Example": {
             "name": "範例",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我是一個例子，能夠幫助解釋 @Doc 中的一些功能是怎麼運用的！",
                 "\\``這裡是一個相加的例子： \\1 + 1\\``'範例程式碼'\\",
                 "如果你把我單獨放在一個段落裡，我就會出現在一個漂亮的盒子裡，展示我的評估結果。",
@@ -336,16 +335,16 @@
         "Mention": {
             "name": "提到",
             "description": "提到 $1",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我是一個術語 \\$program\\ 或一個動態輸入 \\$1\\的參考資料。",
                 "不過這主要是一個內部功能，你應該不需要知道。"
             ]
         },
         "Branch": {
             "name": "分支",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我是一個種在兩個部分之間根據有無定義和真假與否進行選擇的方法。",
                 "不過這主要是一個內部功能，你應該不需要知道。"
             ]
@@ -354,7 +353,7 @@
             "name": "二進位評估",
             "description": "$1 操作",
             "emotion": "insecure",
-            "doc":[
+            "doc": [
                 "我是形式較簡單的 @Evaluate,當你想要使用接收兩個輸入的 @FunctionDefinition 時很有用。",
                 "例如，這樣就是你怎麼用 @Evaluate 來加兩個數字：",
                 "\\1.+(1)\\",
@@ -408,8 +407,11 @@
             "finish": "太好啦，我得到了 $1! 讓我們給它命名為 $2",
             "conflict": {
                 "DuplicateName": {
-                    "primary": "有其他人已經被命名為 $1 了，所以我不能叫這個名字。",
-                    "secondary": "噢, $1 是我的名字"
+                    "conflict": {
+                        "primary": "有其他人已經被命名為 $1 了，所以我不能叫這個名字。",
+                        "secondary": "噢, $1 是我的名字"
+                    },
+                    "resolution": "$?"
                 },
                 "DuplicateShare": {
                     "primary": "我有和 $1 一樣的名字，這讓事情有些模稜兩可",
@@ -466,7 +468,7 @@
         "Borrow": {
             "name": "借用",
             "description": "借用 $1[$1|不存在的命名]",
-            "emotion":"excited",
+            "emotion": "excited",
             "doc": "如果你用多種@Source 創造了一個表演，你可以使用我去借用在其他@Source 里共享的@Bind 。只要使用它們的名字，我就可以同時帶來它們的名字和值。",
             "start": "向 $1 借用 $2",
             "source": "$source",
@@ -485,8 +487,8 @@
         },
         "Changed": {
             "name": "改變",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我檢查流是否導致 @Program 重新評估，並產生一個 @Boolean 值。像這樣",
                 "\\∆ 時間()\\",
                 "我會很好地在你想只有資料流發生變化才改變某些內容的時候幫到你。",
@@ -496,8 +498,8 @@
         },
         "Conditional": {
             "name": "有條件的",
-            "emotion":"curious",
-            "doc":[
+            "emotion": "curious",
+            "doc": [
                 "I我想我應該是來做決定的？就像這樣？",
                 "\\數字: -100\n數字 < 0 ? '負數' '正數'\\",
                 "但你有沒有想過我們是怎樣做出選擇的呢？",
@@ -521,8 +523,8 @@
         "ConversionDefinition": {
             "name": "轉換定義",
             "description": "$1 → $2",
-            "emotion":"excited",
-            "doc":[
+            "emotion": "excited",
+            "doc": [
                 "哥們兒，我定義了從一種類型到另一種類型的轉換！我在 @Block 中執行，就像這樣：",
                 "\\→ #貓咪 #貓 . ÷ 2\n6貓咪→#貓\\",
                 "看我是如何將貓咪變成貓的？酷了！",
@@ -536,7 +538,7 @@
         "Convert": {
             "name": "轉換",
             "emotion": "cheerful",
-            "doc":[
+            "doc": [
                 "嘿，我可以將一個類型的值轉換成另一個類型。看看這個例子：",
                 "\\1 → \"\"\\",
                 "\\5s → #毫秒\\",
@@ -559,8 +561,8 @@
         },
         "Delete": {
             "name": "刪除",
-            "emotion":"angry",
-            "doc":[
+            "emotion": "angry",
+            "doc": [
                 "有時候你有一個表格，它裡面有太多東西了！",
                 "比如說你在一個遊戲中有一些玩家，其中一個離開了，你只想說「走開吧，玩家，離開我的桌子！ ”",
                 "\\玩家們: ⎡姓名•'' 隊伍•'' 分數•#⎦\n⎡'珍' '紅' 8⎦\n⎡'瓊' '藍' 11⎦\n⎡'傑夫' '紅' 9⎦\n⎡'珍妮特' '藍' 7⎦\n玩家們⎡- 姓名= '傑夫'\\",
@@ -572,7 +574,7 @@
         "DocumentedExpression": {
             "name": "解釋表達式",
             "emotion": "eager",
-            "doc":[
+            "doc": [
                 "我是任何表達式，但附帶了 @Doc！",
                 "要創建我，只需在表達式前面加上 @Do​​c，然後你就會得到我：",
                 "\\雙加: 1\n(2 · 雙加) + \n``讓它再大一點點``\n1\\",
@@ -583,8 +585,8 @@
         "Evaluate": {
             "name": "評估",
             "description": "評估 $1[$1|匿名]",
-            "emotion":"shy",
-            "doc":[
+            "emotion": "shy",
+            "doc": [
                 "嗨。我會評估我心愛的 @FunctionDefinition",
                 "\\ƒ 問候(訊息•'')\n問候('小貓')\\",
                 "函數可以來自任何地方。例如，@Text 有函數。就像這樣：",
@@ -636,7 +638,7 @@
             "name": "表達式佔位符",
             "description": "$1[$1|佔位符]",
             "emotion": "scared",
-            "doc":[
+            "doc": [
                 "我是一個 *表達式*，但不是一個真正的表達式... 我只是替代品。",
                 "如果你還不知道要寫什麼，我很有用。就像這樣：",
                 "\\1 + _\\",
@@ -786,9 +788,9 @@
             "start": "讓我們先評估鍵和值",
             "finish": "我把每個連結在一起了，$1",
             "conflict": {
-                "NotAKeyValue": { 
+                "NotAKeyValue": {
                     "primary": "我的某個鍵缺少值",
-                    "secondary": "哎呀，我的值在哪裡？" 
+                    "secondary": "哎呀，我的值在哪裡？"
                 }
             }
         },
@@ -837,8 +839,8 @@
         },
         "Previous": {
             "name": "之前",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "你有沒有想過要記住過去？",
                 "我是 詩 的官方記錄員。給我一個流和一個數字，我會往回看，告訴你那個流在歷史上的值是什麼。",
                 "例如，這是五個滴答前的 @Time 是什麼時候：",
@@ -911,7 +913,7 @@
             "name": "性質",
             "description": "屬性$1[$1|缺少名稱]",
             "emotion": "kind",
-            "doc":[
+            "doc": [
                 "當您建立一個@StructureDefinition時，您如何獲得它的一個輸入?我如何",
                 "例如，如果你有一個關於城市的結構，你可以像這樣得到它的值:",
                 "\\•城市(名稱•人口•#people)\n\nportland:城市('Portland' 800000people)\n\nportland.population\\"
@@ -922,8 +924,8 @@
         },
         "Reaction": {
             "name": "反應",
-            "emotion":"excited",
-            "doc":[
+            "emotion": "excited",
+            "doc": [
                 "流是如此的棒!我可以根據它們的變化來製作新的，這太酷了!",
                 "例如，如果你想讓@Time打勾，但想顯示單字而不是數字，你可以這樣做:",
                 "\\時間:時間(1000毫秒)\n 'start「∆時間…((% 2)= 0 ms) ?「偶數」\\「奇數」",
@@ -956,7 +958,7 @@
                 "UnexpectedTypeVariable": "我不知道該怎麼處理這些輸入"
             },
             "exception": {
-                "NameException":{
+                "NameException": {
                     "description": "未知名字",
                     "explanation": "$1[我不知道有誰在$2[$2]中命名$1[$2]…］"
                 }
@@ -966,21 +968,21 @@
             "name": "選擇",
             "emotion": "excited",
             "doc": [
-                    "有時你有一張桌子，你只想佔有它的一部分。我可以幫你拿來!",
-                    "例如，如果你在遊戲中有一張玩家表格，你想找出得分在10分以上的人，看看誰贏了:",
-                    "\\球員：⎡名字•「隊伍•」點•#⎦\n⎡「jen」「紅色」8⎦\n⎡「瓊」「藍」11⎦\n⎡「傑夫」「紅色」9⎦ \n⎡「珍妮」「藍」7⎦\nplayers⎡嗎?名稱⎦分≥10\\",
-                    "就這樣，我得到了一排獲勝者的名單!記住，我不會換桌子，我會做一張新的。你得決定把它放在哪裡。"
-                ],
-                "start": "我們先拿那張表格",
-                "finish": "我用選定的行和列建立了一個新的表格!",
-                "conflict": {
-                    "ExpectedSelectName": "我至少需要一個欄位名稱"
-                }
+                "有時你有一張桌子，你只想佔有它的一部分。我可以幫你拿來!",
+                "例如，如果你在遊戲中有一張玩家表格，你想找出得分在10分以上的人，看看誰贏了:",
+                "\\球員：⎡名字•「隊伍•」點•#⎦\n⎡「jen」「紅色」8⎦\n⎡「瓊」「藍」11⎦\n⎡「傑夫」「紅色」9⎦ \n⎡「珍妮」「藍」7⎦\nplayers⎡嗎?名稱⎦分≥10\\",
+                "就這樣，我得到了一排獲勝者的名單!記住，我不會換桌子，我會做一張新的。你得決定把它放在哪裡。"
+            ],
+            "start": "我們先拿那張表格",
+            "finish": "我用選定的行和列建立了一個新的表格!",
+            "conflict": {
+                "ExpectedSelectName": "我至少需要一個欄位名稱"
+            }
         },
         "SetLiteral": {
             "name": "具體組",
             "description": "$1，物體",
-            "emotion":"eager",
+            "emotion": "eager",
             "doc": "我是特定值的特定集合。請參閱@Set以了解更多關於如何與我合作的資訊。",
             "start": "讓我們先估計數值吧",
             "finish": "我做了一個群組$1"
@@ -1006,8 +1008,8 @@
         },
         "Source": {
             "name": "資源",
-            "emotion":"curious",
-            "doc":[
+            "emotion": "curious",
+            "doc": [
                 "哦，你知道 @Program 嗎?我幫你取名字。把我想像成 @Program 周圍的窗口，以及你給他們起的名字。",
                 "你也可以建立其他 @Source @UI/addSource ，使用其他 @Program ，並從其他@Program@Borrow東西以供其他程式使用。",
                 "這是將大型表現組織到單獨文件中的好方法。"
@@ -1015,7 +1017,7 @@
         },
         "StreamDefinition": {
             "name": "流",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "我/我想/我應該創造新的溪流。但我真的不知道該怎麼做。現在，我想就用現有的流吧?",
             "start": "建立這種新的流"
         },
@@ -1027,7 +1029,7 @@
                 "你好，你好嗎?我嗎?我很好。我喜歡定義存儲值和功能的結構，所以只要我能整天這樣做，我就很高興。",
                 "我這樣工作！",
                 "\\•披薩( \\ 原料•['']\n大小•#in\n) (\n\tƒ 成本() 大小· 10美元/in\n)\n\n披薩(['義大利臘腸' '胡椒'] 12in).成本()\\",
-                "明白是怎麼回事了吧?我定義了\\Pizza\\，它有兩個輸入，\\ingredients\\ (@Text列表)和\\size\\(以英寸為單位的數字)。" ,
+                "明白是怎麼回事了吧?我定義了\\Pizza\\，它有兩個輸入，\\ingredients\\ (@Text列表)和\\size\\(以英寸為單位的數字)。",
                 "在內部，@FunctionDefinition創建了一個計算披薩價格的函數，假設每英吋$10。",
                 "我不需要@FunctionDefinition。我可以只是輸入。",
                 "\\•披薩(\n原料•['']\n大小•#in\n)\\",
@@ -1053,14 +1055,14 @@
         "TextLiteral": {
             "name": "文字量",
             "description": "文本 $1",
-            "emotion":"serious",
+            "emotion": "serious",
             "doc": "我代表一個或多個特定的文字翻譯。請參閱 @Text 以了解我可以做什麼！",
             "start": "讓我們在目前語言環境中建立文字"
         },
         "Translation": {
             "name": "翻譯",
             "description": "翻譯 $1",
-            "emotion":"serious",
+            "emotion": "serious",
             "doc": "我代表一些文本，帶有 @Language 標籤。請參閱 @Text 以了解更多！",
             "conflict": {
                 "phone": "$?",
@@ -1069,21 +1071,21 @@
                 "address": "$?",
                 "handle": "$?",
                 "resolution": "$?",
-                "reminder":"$?"
+                "reminder": "$?"
             }
         },
         "FormattedLiteral": {
             "name": "格式文字",
             "description": "文本 $1",
-            "emotion":"serious",
+            "emotion": "serious",
             "doc": "我代表許多不同的格式化文本的 @FormattedTranslation。當我進行評估時，我會根據受眾選擇的語言選擇最佳匹配。",
             "start": "讓我們建立目前語言環境下的文字"
         },
         "FormattedTranslation": {
             "name": "格式化",
             "description": "文本 $1",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我代表一些格式化的文本，帶有 @Language 標籤。",
                 "我可以是：",
                 "\\`/斜體/`\\",
@@ -1097,8 +1099,8 @@
         },
         "This": {
             "name": "這個",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "有時候，隱含地引用值比命名它更有幫助。",
                 "例如，假設您想要建立一個新的 @ConversionDefinition，它不命名正在轉換的值。您可以使用我來引用它：",
                 "\\→ #彩虹 #歡樂 . · 1000000歡樂\n2彩虹 → #歡樂\\",
@@ -1171,15 +1173,15 @@
             "finish": "評估為具有修訂行的新表格！",
             "conflict": {
                 "ExpectedColumnBind": "我需要每列的值",
-                "IncompatibleCellType": { 
-                    "primary": "我需要一個 $1，但得到了 $2", 
-                    "secondary": "我得到了一個 $2" 
+                "IncompatibleCellType": {
+                    "primary": "我需要一個 $1，但得到了 $2",
+                    "secondary": "我得到了一個 $2"
                 }
             }
         },
         "AnyType": {
             "name": "任意",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "我代表任何可能的類型。有時我會出現，因為不知道某些東西是什麼類型，所以它可以是任何類型。"
         },
         "BooleanType": {
@@ -1201,8 +1203,8 @@
         },
         "FormattedType": {
             "name": "格式化",
-            "emotion":"serious",
-            "doc":[
+            "emotion": "serious",
+            "doc": [
                 "我與 @Bind 一起註明名稱是 @FormattedLiteral 值。就像這樣：",
                 "\\飢餓•`…`: `我太/奇特/了！`\\",
                 "想要確保某物是 @FormattedLiteral 值？這就是您確保的方法。"
@@ -1210,14 +1212,14 @@
         },
         "ExceptionType": {
             "name": "異常",
-            "emotion":"neutral",
+            "emotion": "neutral",
             "doc": "我代表一個異常。沒有辦法告訴綁定我是一個異常，因為異常只會中止 @Program，所以無法將它們用作值。"
         },
         "FunctionType": {
             "name": "函數",
             "description": "帶有 $1 輸入和 $2 輸出的函數",
-            "emotion":"curious",
-            "doc":[
+            "emotion": "curious",
+            "doc": [
                 "我代表 @FunctionDefinition。如果要說明 @Bind 包含的是什麼類型的函數，我會非常有幫助！就像這樣：",
                 "\\數學•f (# # ##) #: f 有趣(a•# b•# c•# d•#) a + b + c + d\\"
             ]
@@ -1234,8 +1236,8 @@
         "MapType": {
             "name": "映射",
             "description": "$1[$1|任意] 到 $2[$2|任意] 的映射",
-            "emotion":"kind",
-            "doc":[
+            "emotion": "kind",
+            "doc": [
                 "您知道 @Map 有多棒嗎？真的很棒。我總是告訴 @Bind 他們是什麼類型的映射，就像這樣將數字映射到列表：",
                 "\\東西•{'':[]}: {}\\"
             ]
@@ -1243,8 +1245,8 @@
         "NumberType": {
             "name": "數值",
             "description": "$1[$1 | 數值]",
-            "emotion":"precise",
-            "doc":[
+            "emotion": "precise",
+            "doc": [
                 "你知道 @Bind 應該是什麼嗎？應該是 @Number。因為數值是最好的。",
                 "\\計數•#: 17\\"
             ]
@@ -1252,8 +1254,8 @@
         "NameType": {
             "name": "結構",
             "description": "$1 型態",
-            "emotion":"curious",
-            "doc":[
+            "emotion": "curious",
+            "doc": [
                 "我透過名稱代表 @StructureDefinition。所以，如果你有這樣一個結構，你可以建立一個 @Bind 來儲存它所建立的值。",
                 "\\•朋友(名字•'')\n最好朋友•朋友: 朋友('喬納')\\"
             ],
@@ -1263,13 +1265,13 @@
         },
         "NeverType": {
             "name": "不可能",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "我代表一種不可能的類型。就像當你詢問 @Is 是否是 @Number，但它永遠不可能是一個數值時一樣。"
         },
         "NoneType": {
             "name": "無",
-            "emotion":"neutral",
-            "doc":[
+            "emotion": "neutral",
+            "doc": [
                 "@None 是最好的不存在之一，而我是它們的忠實代表。",
                 "\\空間•ø: ø\\"
             ]
@@ -1277,29 +1279,29 @@
         "SetType": {
             "name": "集合",
             "description": "$1[$1 套|套]",
-            "emotion":"kind",
-            "doc":[
+            "emotion": "kind",
+            "doc": [
                 "@Set 是最好的，真的。我一直告訴 @Bind，讓事物成為某種東西的集合！",
                 "\\獨特•{''}: {'某物' '任何物' '某人'}\\"
             ]
         },
         "StreamDefinitionType": {
             "name": "流定義",
-            "emotion":"angry",
+            "emotion": "angry",
             "doc": "我代表你定義的流，這是不可能的，那麼為什麼你還在閱讀這個？"
         },
         "StreamType": {
             "name": "流",
-            "emotion":"curious",
-            "doc":[
+            "emotion": "curious",
+            "doc": [
                 "我慶祝流的美麗和意義... 通過告訴 @Bind 來存儲它們：",
                 "\\時間•…#毫秒: 時間()\\"
             ]
         },
         "StructureType": {
             "name": "結構",
-            "description":"$1",
-            "emotion":"kind",
+            "description": "$1",
+            "emotion": "kind",
             "doc": "我是一個內部類型，代表預設值類型的類型。"
         },
         "UnknownType": {
@@ -1310,7 +1312,7 @@
         },
         "TableType": {
             "name": "表",
-            "emotion":"angry",
+            "emotion": "angry",
             "doc": "我代表一個表。",
             "conflict": {
                 "ExpectedColumnType": "我需要一個垂直列類型"
@@ -1319,31 +1321,31 @@
         "TextType": {
             "name": "文字",
             "description": "$1[$1|文本]",
-            "emotion":"happy",
-            "doc":[
+            "emotion": "happy",
+            "doc": [
                 "我精彩地代表最精彩的數值，@Text。",
                 "\\故事•'': '從前有一個故事…'\\"
             ]
         },
         "TypePlaceholder": {
             "name": "佔位",
-            "emotion":"eager",
+            "emotion": "eager",
             "doc": "我希望有一天能代表一種類型，有點像我的好朋友 @ExpressionPlaceholder 代表一個表達式！你會幫我決定是什麼類型嗎？"
         },
         "UnionType": {
             "name": "選項",
-            "description":"$1 | $2",
-            "emotion":"curious",
-            "doc":[
+            "description": "$1 | $2",
+            "emotion": "curious",
+            "doc": [
                 "我應該代表誰，A 還是 B 還是其他什麼？我永遠無法決定！",
                 "\\猶豫•''|#|{ø}: \"我不知道！ \"\\"
             ]
         },
         "Unit": {
             "name": "單位",
-            "description":"$1",
-            "emotion":"precise",
-            "doc":[
+            "description": "$1",
+            "emotion": "precise",
+            "doc": [
                 "我代表 @Number 可能具有的任何單位，包括無單位，以及你可以想像的最複雜單位。例如重力：",
                 "\\重力•米/秒^2: 9.8米/秒^2\\",
                 "我出現在 @Bind 之後，也出現在 @Number 之後。我幫助確保數字具有相同的類型，如果它們不同，我肯定會告訴你，以防它是個錯誤！"
@@ -1351,56 +1353,56 @@
         },
         "UnparsableType": {
             "name": "無法解析",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "我代表未知表達式的類型。當你嘗試將該表達式用於某事時，我會出現。"
         },
         "VariableType": {
             "name": "變數類型",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "你了解 @TypeVariable, 以及它們代表某種未知類型的值嗎? 我在值之間的所有協商中代表它們。"
         },
         "CycleType": {
             "name": "循環",
             "description": "依賴自身",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "有時值依賴自身，所以我們不知道它們是什麼類型的值。我代表這種情況。"
         },
         "NotAType": {
             "name": "意外",
             "description": "不是 $1",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "有時我們知道某種值應該是什麼類型，就像 @ListAccess 需要 @Number 一樣。如果我們沒有得到它，我代表某個類型與我們預期的不同。"
         },
         "NoExpressionType": {
             "name": "無表達式",
-            "emotion":"angry",
+            "emotion": "angry",
             "doc": "你知道 @Block 至少需要一個表達式嗎？當你不提供一個表達式時，我就是你得到的。所以，請提供一個！"
         },
         "NotEnclosedType": {
             "name": "不在結構、轉換或反應",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "@This，儘管它很好，但只適用於特定的地方。當它們迷路時，我會出現，所以沒有人知道它們代表什麼值。"
         },
         "NotImplementedType": {
             "name": "未實現",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "當你使用 @ExpressionPlaceholder，但沒有說明它們的類型時，我就是你得到的類型。接受吧！"
         },
         "UnknownNameType": {
             "name": "未知名稱",
             "description": "$1[$1 未定義|未提供名稱]",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "你知道有時候 @Reference 和 @PropertyReference 不知道你在談論什麼名稱嗎？當發生這種情況時，我會出現，代表我們不知道你在談論誰。"
         },
         "NonFunctionType": {
             "name": "非函數",
             "description": "非函數",
-            "emotion":"confused",
+            "emotion": "confused",
             "doc": "有些人期望函數；當我們沒有得到函數時，我就會出現。"
         },
         "UnknownVariableType": {
             "name": "未知變數",
-            "emotion":"curious",
+            "emotion": "curious",
             "doc": "有時我們試著猜測某種值的類型；當我們不知道時，我會出現。"
         }
     },
@@ -1446,10 +1448,10 @@
                         }
                     ]
                 },
-                "not": { 
-                    "doc": "我得到與自己相反的結果：如果是 \\⊤\\，則得到 \\⊥\\；如果是 \\⊥\\，則得到 \\⊤\\。", 
-                    "names": ["~", "非"], 
-                    "inputs": [] 
+                "not": {
+                    "doc": "我得到與自己相反的結果：如果是 \\⊤\\，則得到 \\⊥\\；如果是 \\⊥\\，則得到 \\⊤\\。",
+                    "names": ["~", "非"],
+                    "inputs": []
                 },
                 "equals": {
                     "doc": "如果兩者都是 \\⊤\\ 或兩者都是 \\⊥\\，則為 \\⊤\\。",
@@ -1462,7 +1464,7 @@
                     "inputs": [{ "doc": "要檢查的另一個值。", "names": "值" }]
                 }
             },
-            "conversion": { 
+            "conversion": {
                 "text": "將 @布林 轉換為等效的 @文字 值，即 \\'⊤'\\ 和 \\'⊥'\\"
             }
         },
@@ -1484,7 +1486,7 @@
                     "inputs": [{ "doc": "另一個值。", "names": "值" }]
                 }
             },
-            "conversion": { 
+            "conversion": {
                 "text": "想要將 \\ø\\ 轉換為 \\'ø'\\ 嗎？這是你的機會。"
             }
         },
@@ -1506,13 +1508,13 @@
             "name": ["''", "文字"],
             "function": {
                 "length": {
-                    "doc":[
+                    "doc": [
                         "我評估為文本中可讀字符的數量；一個字母是一個字符，一個表情符號也是一個字符，依此類推。例如：",
                         "\\'你好'.length()\\",
                         "\\'🐈📚'.length()\\"
                     ],
                     "names": ["📏", "長度"],
-                    "inputs":[]
+                    "inputs": []
                 },
                 "equals": {
                     "doc": "如果我與給定的 @Text 具有相同的字元序列，則為 \\⊤\\。",
@@ -1525,7 +1527,7 @@
                     "inputs": [{ "doc": "要比較的 @Text", "names": "值" }]
                 },
                 "repeat": {
-                    "doc":[
+                    "doc": [
                         "我創建一個新的 @Text，就是我，重複了 \\計數\\ 次：",
                         "\\'嗨 ' · 5\\",
                         "如果你給我一個分數 @Number，我會忽略小數部分：",
@@ -1534,7 +1536,7 @@
                         "\\'嗨 ' · -5\\"
                     ],
                     "names": ["·", "🔁", "重複"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "在新文本中重複自己的次數。",
                             "names": "計數"
@@ -1557,7 +1559,7 @@
                     ]
                 },
                 "combine": {
-                    "doc":[
+                    "doc": [
                         "有時將兩個 @Text 合併在一起很有幫助。給我另一個 @Text，我會創建一個新的文本，將我們連接在一起：",
                         "\\'你好 ' + '詩'\\"
                     ],
@@ -1565,12 +1567,12 @@
                     "inputs": [{ "doc": "要附加的 @Text。", "names": "文字" }]
                 },
                 "has": {
-                    "doc":[
+                    "doc": [
                         "如果給定的 @Text 出現在我中，為 \\⊤\\。",
                         "\\'你找到你要找的東西了嗎？'.has('you')\\"
                     ],
                     "names": ["⊆", "包含"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "要在我中搜尋的 @Text。",
                             "names": "文字"
@@ -1578,13 +1580,13 @@
                     ]
                 },
                 "starts": {
-                    "doc":[
+                    "doc": [
                         "\\⊤\\ 如果我以 @Text 來開始",
                         "\\'你好，詞句！'。以('你好')開始\\",
                         "\\'詞句，你好！'。以('詞句')開始\\"
                     ],
                     "names": ["開始"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "這樣的 @Text 為我檢查了文字的開頭",
                             "names": "文字"
@@ -1592,13 +1594,13 @@
                     ]
                 },
                 "ends": {
-                    "doc":[
+                    "doc": [
                         "\\⊤\\ 如果我以 @Text 來結尾。",
                         "\\'我是問句嗎？'。以('?')結尾\\",
                         "\\' 我不是問句。'。以('?')結尾\\"
                     ],
                     "names": ["結束"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "這樣的 @Text 為我檢查了文本的結尾。",
                             "names": "文字"
@@ -1606,7 +1608,7 @@
                     ]
                 }
             },
-            "conversion": { 
+            "conversion": {
                 "list": "將文字分割成單一字元的清單。",
                 "number": "將文字轉換成 @Number，如果不是數值，則為非數值值。"
             }
@@ -1669,7 +1671,7 @@
                     ]
                 },
                 "multiply": {
-                    "doc":[
+                    "doc": [
                         "我在我自己的基礎上乘以你給我的 @Number , 得到以我的 @Unit 和指定數字的 @Unit 相結合的結果：",
                         "\\5·5\\",
                         "\\5US · 5US\\",
@@ -1679,14 +1681,14 @@
                     "inputs": [{ "doc": "需要相乘的數字", "names": "數字" }]
                 },
                 "divide": {
-                    "doc":[
+                    "doc": [
                         "我將自己除以你指定的 @Number , 得到以我的 @Unit 和指定數字的 @Unit 結合的結果：",
                         "\\5 ÷ 5\\",
                         "\\5US ÷ 5US\\",
                         "\\5公尺 ÷ 5秒\\"
                     ],
                     "names": ["÷", "除以"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "讓我被除的 @Number。",
                             "names": "數字"
@@ -1694,14 +1696,14 @@
                     ]
                 },
                 "remainder": {
-                    "doc":[
+                    "doc": [
                         "我把自己除以你指定的 @Number ，但我會給出這個結果的餘數：",
                         "\\10%2\\",
                         "\\10米 % 2\\",
                         "\\10米/秒 % 3\\"
                     ],
                     "names": ["%", "取模"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "讓我被除的 @Number。",
                             "names": "數字"
@@ -1709,45 +1711,45 @@
                     ]
                 },
                 "positive": {
-                    "doc":[
+                    "doc": [
                         "我會給出一個新的 @Number 使我是一個正數，即使輸入的數字是一個負數。",
                         "\\-200.正數()\\"
                     ],
                     "names": ["正數"],
-                    "inputs":[]
+                    "inputs": []
                 },
                 "round": {
-                    "doc":[
+                    "doc": [
                         "我會把 @Number 四捨五入成最接近的一個整數。",
                         "\\9.4.四捨五入()\\",
                         "\\9.5.四捨五入()\\",
                         "\\9.6.四捨五入()\\"
                     ],
                     "names": ["四捨五入"],
-                    "inputs":[]
+                    "inputs": []
                 },
                 "roundDown": {
-                    "doc":[
+                    "doc": [
                         "我會把 @Number 變成最接近我的比我小的整數。",
                         "\\10.5.roundDown()\\",
                         "\\10.1.roundDown()\\",
                         "\\10.01.roundDown()\\"
                     ],
                     "names": ["向下取整"],
-                    "inputs":[]
+                    "inputs": []
                 },
                 "roundUp": {
-                    "doc":[
+                    "doc": [
                         "我會把 @Number 變成最接近我的比我大的整數。",
                         "\\10.5.roundUp()\\",
                         "\\10.9.roundUp()\\",
                         "\\10.99.roundUp()\\"
                     ],
                     "names": ["向上取整"],
-                    "inputs":[]
+                    "inputs": []
                 },
                 "power": {
-                    "doc":[
+                    "doc": [
                         "我將自己提高到給定 @Number 的冪 小數指數也可以！",
                         "\\2^8\\",
                         "\\10^-2\\",
@@ -1757,7 +1759,7 @@
                     "inputs": [{ "doc": "將我提升到的指數", "names": "數字" }]
                 },
                 "root": {
-                    "doc":[
+                    "doc": [
                         "我使用給定的根號創建自己的根。",
                         "\\4√2\\",
                         "\\1000 √ 3\\"
@@ -1766,83 +1768,71 @@
                     "inputs": [{ "doc": "要計算的根。", "names": "數" }]
                 },
                 "lessThan": {
-                    "doc":[
+                    "doc": [
                         "\\⊤\\ 如果我小於 @Number:",
                         "\\1 < 2\\",
                         "\\2 < 1\\"
                     ],
                     "names": ["<", "小於"],
-                    "inputs":[
-                        { "doc": "與我比較的 @Number", "names": "數字" }
-                    ]
+                    "inputs": [{ "doc": "與我比較的 @Number", "names": "數字" }]
                 },
                 "lessOrEqual": {
-                    "doc":[
+                    "doc": [
                         "\\⊤\\ 如果我小於或等於 @Number:",
                         "\\1≤2\\",
                         "\\2≤1\\",
                         "\\2≤2\\"
                     ],
                     "names": ["≤", "小於或等於"],
-                    "inputs":[
-                        { "doc": "與我比較的 @Number", "names": "數字" }
-                    ]
+                    "inputs": [{ "doc": "與我比較的 @Number", "names": "數字" }]
                 },
                 "greaterThan": {
-                    "doc":[
+                    "doc": [
                         "\\⊤\\ 如果我大於 @Number:",
                         "\\1 > 2\\",
                         "\\2 > 1\\"
                     ],
                     "names": [">", "大於"],
-                    "inputs":[
-                        { "doc": "與我比較的 @Number", "names": "數字" }
-                    ]
+                    "inputs": [{ "doc": "與我比較的 @Number", "names": "數字" }]
                 },
                 "greaterOrEqual": {
-                    "doc":[
+                    "doc": [
                         "\\⊤\\ 如果我大於或等於 @Number:",
                         "\\1≥2\\",
                         "\\2≥1\\",
                         "\\2≥2\\"
                     ],
                     "names": ["≥", "大於或等於"],
-                    "inputs":[
-                        { "doc": "與我比較的 @Number", "names": "數字" }
-                    ]
+                    "inputs": [{ "doc": "與我比較的 @Number", "names": "數字" }]
                 },
                 "equal": {
-                    "doc":[
+                    "doc": [
                         "\\⊤\\ 如果我等於 @Number:",
                         "\\1 = 2\\",
                         "\\2 = 2\\"
                     ],
                     "names": ["=", "等於"],
-                    "inputs":[
-                        { "doc": "與我比較的 @Number", "names": "數字" }
-                    ]
+                    "inputs": [{ "doc": "與我比較的 @Number", "names": "數字" }]
                 },
                 "notequal": {
                     "doc": ["\\⊤\\ 不等於 @Number:", "\\1 ≠ 2\\", "\\2 ≠ 2\\"],
                     "names": ["≠", "不等於"],
-                    "inputs":[
-                        { "doc": "與我比較的 @Number", "names": "數字" }
-                    ]
+                    "inputs": [{ "doc": "與我比較的 @Number", "names": "數字" }]
                 },
                 "cos": {
                     "doc": ["計算我的餘弦值。", "\\π.cos()\\"],
                     "names": ["cos", "cosine", "餘弦"],
-                    "inputs":[]
+                    "inputs": []
                 },
-                "sin": { 
+                "sin": {
                     "doc": "計算我的正弦值。",
                     "names": ["sin", "sine", "正弦"],
-                    "inputs":[]
+                    "inputs": []
                 },
                 "min": {
                     "doc": ["找出我和其他人中的最小數。", "\\1.min(2 3 -1)\\"],
                     "names": "最小",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "你想給我的任意數量的數字！",
                             "names": "數字"
@@ -1852,7 +1842,7 @@
                 "max": {
                     "doc": ["找出我和其他人中的最大數。", "\\1.max(2 3 4)\\"],
                     "names": "最大",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "你想給我的任意數量的數字！",
                             "names": "數字"
@@ -1937,7 +1927,7 @@
                         "\\['蘋果' '香蕉' '芒果'].add('西瓜')\\"
                     ],
                     "names": ["加"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "你想要加的值。",
                             "names": "項目"
@@ -1955,12 +1945,12 @@
                     "inputs": [{ "doc": "要新增的值的清單。", "names": "列表" }]
                 },
                 "replace": {
-                    "doc":[
+                    "doc": [
                         "我建立一個新的列表,用給定值替換給定索引處的值。",
                         "\\['蘋果' '香蕉' '芒果'].replace(1 '獼猴桃')\\"
                     ],
                     "names": ["替換"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "要替換的值的索引。",
                             "names": "索引"
@@ -1968,42 +1958,42 @@
                         { "doc": "被替換的值", "names": "值" }
                     ]
                 },
-                "length": { 
+                "length": {
                     "doc": "我裡面的項數,作為@Number返回。",
                     "names": ["📏", "長度"],
-                    "inputs":[] 
+                    "inputs": []
                 },
-                "random": { 
-                    "doc":[
+                "random": {
+                    "doc": [
                         "從我的項中隨機選擇一個項,如果我是空的則回傳@None。",
                         "\\['蘋果' '香蕉' '芒果'].隨機()\\"
                     ],
                     "names": "隨機",
-                    "inputs":[]
+                    "inputs": []
                 },
                 "shuffled": {
                     "doc": ["$?"],
                     "names": "$? shuffle",
                     "inputs": []
                 },
-                "first": { 
-                    "doc":[
+                "first": {
+                    "doc": [
                         "我裡面的第一個項,如果我是空的則回傳@None。",
                         "\\['蘋果' '香蕉' '芒果'].first()\\"
                     ],
                     "names": "第一個",
-                    "inputs":[]
+                    "inputs": []
                 },
-                "last": { 
-                    "doc":[
+                "last": {
+                    "doc": [
                         "我裡面的最後一個項,如果我是空的則回傳@None。",
                         "\\['蘋果' '香蕉' '芒果'].first()\\"
                     ],
                     "names": "最後一個",
-                    "inputs":[]
+                    "inputs": []
                 },
                 "has": {
-                    "doc":[
+                    "doc": [
                         "如果我裡面有與給定項相等的項,則回傳\\⊤\\。",
                         "\\['蘋果' '香蕉' '芒果'].has('香蕉')\\"
                     ],
@@ -2011,12 +2001,12 @@
                     "inputs": [{ "doc": "要搜尋的值。", "names": "項目" }]
                 },
                 "join": {
-                    "doc":[
+                    "doc": [
                         "我將我的清單中的項目組合成@Text,用給定的分隔符號@Text分隔。",
                         "\\['蘋果' '香蕉' '芒果'].join(', ')\\"
                     ],
                     "names": "連線",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "用於分隔項目的文本,可以為空。",
                             "names": "分隔符號"
@@ -2024,7 +2014,7 @@
                     ]
                 },
                 "subsequence": {
-                    "doc":[
+                    "doc": [
                         "我獲得一個在此列表內部的列表,從你提供的索引開始,到最後一個項目結束,或者如果你提供了一個,直到特定項目結束。",
                         "\\['蘋果' '香蕉' '芒果'].subsequence(2)\\",
                         "\\['蘋果' '香蕉' '芒果'].subsequence(1 2)\\",
@@ -2036,7 +2026,7 @@
                         "\\['蘋果' '香蕉' '芒果'].subsequence(3 2304032432)\\"
                     ],
                     "names": "子序列",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "你想要的子序列的第一個項目的索引。",
                             "names": "開始"
@@ -2048,28 +2038,28 @@
                     ]
                 },
                 "sansFirst": {
-                    "doc":[
+                    "doc": [
                         "我建立一個沒有我的第一個項目的@List。",
                         "\\['蘋果' '香蕉' '芒果'].sansFirst()\\"
                     ],
                     "names": "除第一個",
-                    "inputs":[]
+                    "inputs": []
                 },
-                "sansLast": { 
-                    "doc":[
+                "sansLast": {
+                    "doc": [
                         "我建立一個沒有我的最後一個項目的@List。",
                         "\\['蘋果' '香蕉' '芒果'].sansLast()\\"
                     ],
                     "names": "除最後一個",
-                    "inputs":[]
+                    "inputs": []
                 },
                 "sans": {
-                    "doc":[
+                    "doc": [
                         "我,但是沒有給定值的第一個出現。",
                         "\\['蘋果' '香蕉' '芒果' '蘋果'].sans('蘋果')\\"
                     ],
                     "names": "除",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "要刪除第一個出現的值。",
                             "names": "值"
@@ -2077,33 +2067,33 @@
                     ]
                 },
                 "sansAll": {
-                    "doc":[
+                    "doc": [
                         "我,但是沒有給定值的所有出現。",
                         "\\['蘋果' '香蕉' '芒果' '蘋果'].sans('蘋果')\\"
                     ],
                     "names": "全部除",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "要從清單中刪除所有出現的值。",
                             "names": "值"
                         }
                     ]
                 },
-                "reverse": { 
-                    "doc":[
+                "reverse": {
+                    "doc": [
                         "我,但是倒序！",
                         "\\['蘋果' '香蕉' '芒果'].reverse()\\"
                     ],
                     "names": "倒序",
-                    "inputs":[]
+                    "inputs": []
                 },
                 "equals": {
-                    "doc":[
+                    "doc": [
                         "如果我的項和順序與給定的@List完全相同,則回傳\\⊤\\。",
                         "\\['蘋果' '香蕉' '芒果'] = ['蘋果' '芒果' '香蕉']\\"
                     ],
                     "names": ["=", "等於"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "要跟我比較的@List。",
                             "names": "列表"
@@ -2111,12 +2101,12 @@
                     ]
                 },
                 "notequals": {
-                    "doc":[
+                    "doc": [
                         "如果我的項和順序/不/與給定的@List完全相同,則回傳\\⊤\\。",
                         "\\['蘋果' '香蕉' '芒果'] ≠ ['蘋果' '芒果' '香蕉']\\"
                     ],
                     "names": ["≠", "不等於"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "要跟我比較的@List。",
                             "names": "列表"
@@ -2124,13 +2114,13 @@
                     ]
                 },
                 "translate": {
-                    "doc":[
+                    "doc": [
                         "給我一個以值和可選索引為輸入的@FunctionDefinition,產生一個值,我會在我的每個項目上評估它,將我的值轉化為新的值。",
                         "例如,假設我是@Number的列表,你想將它們都加倍：",
                         "\\[2 4 6 8].translate(f(num•#) num · 2)\\"
                     ],
                     "names": "翻譯",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "將轉化每個項目的@FunctionDefinition。",
                             "names": "翻譯器"
@@ -2152,19 +2142,19 @@
                     ]
                 },
                 "filter": {
-                    "doc":[
+                    "doc": [
                         "給我一個接受一個值和可選的索引作為輸入並產生一個 @Boolean 值的 @FunctionDefinition,我將創建一個只包含結果為 \\⊤\\ 的新列表。",
                         "例如,假設我是一個 @Number 列表,你只想要其中的正數：",
                         "\\[2 -4 8 -16].filter(f(num•#) num ≥ 0)\\"
                     ],
                     "names": "過濾器",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "一個 @FunctionDefinition,檢查每個項目,如果應該保留,則產生 \\⊤\\。",
                             "names": "檢查器"
                         }
                     ],
-                    "checker":[
+                    "checker": [
                         {
                             "doc": "正在檢查的項目。",
                             "names": "項目"
@@ -2180,19 +2170,19 @@
                     ]
                 },
                 "all": {
-                    "doc":[
+                    "doc": [
                         "給我一個 @FunctionDefinition 把一個值作為輸入值並且如果它滿足一些條件就產生一個@Boolean. 如果所有的物品滿足條件, 我會創造一個\\⊤\\",
                         "例如, 想像我是一串 @Number 並且你想要去知道是不是所有數字都是正數:",
                         "\\[2 -4 8 -16].all(ƒ(數字•#) 數字 ≥ 0)\\"
                     ],
                     "names": "所有",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "@FunctionDefinition that 產生 \\⊤\\ 若物品滿足你的條件。",
                             "names": "檢驗員"
                         }
                     ],
-                    "checker":[
+                    "checker": [
                         {
                             "doc": "這個物品正在被檢查。",
                             "names": "物品"
@@ -2208,19 +2198,19 @@
                     ]
                 },
                 "until": {
-                    "doc":[
+                    "doc": [
                         "給我一個@FunctionDefinition 把一個值作為輸入值並且如果它滿足一些條件就產生一個@Boolean. 我會創造一個包含所有物品的@List直到條件不被滿足。",
                         "例如, 想像我是一個@Text動物的列表並且你想要所有的 東西直到\\'rat'\\被找到:",
                         "\\['貓''狗''老鼠''老鼠''小馬'].until(f(動物•'')動物='老鼠')\\"
                     ],
                     "names": "直到",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "@FunctionDefinition 會產生\\⊤\\如果我應該停止再囊括更多物品。",
                             "names": "檢驗員"
                         }
                     ],
-                    "checker":[
+                    "checker": [
                         {
                             "doc": "這個物品正在被檢查。",
                             "names": "物品"
@@ -2236,19 +2226,19 @@
                     ]
                 },
                 "find": {
-                    "doc":[
+                    "doc": [
                         "給我一個@FunctionDefinition 把一個值作為輸入值並且如果它滿足一些標準就產生一個@Boolean, 並且我會計算滿足條件的物品。",
                         "例如, 想像你想要去找出第一個有這個母音\\'e'\\的動物:",
                         "\\['cat' 'dog' 'rat' 'mouse' 'pony'].找(ƒ(動物•'') 動物.有('e'))\\"
                     ],
                     "names": "找到",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "The @FunctionDefinition 如果符合你的搜尋條件, 會產生\\⊤\\。",
                             "names": "檢驗員"
                         }
                     ],
-                    "checker":[
+                    "checker": [
                         {
                             "doc": "這個物品正在被檢查。",
                             "names": "物品"
@@ -2270,7 +2260,7 @@
                         "\\[3 9 2 8 1 4].結合(0 ƒ(總和•# 數字•#) 總和 + 數字)\\"
                     ],
                     "names": "結合",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "開始的結合。",
                             "names": "初始的"
@@ -2309,7 +2299,7 @@
                         "\\[[1] [2 3] [4 8 12] [8]].排序(ƒ(列表) 列表.長度())\\"
                     ],
                     "names": "排序好的",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "可選擇性使用@FunctionDefinition 來給列表的值排序。它應該將值變成可以被用來給列表排序的@Number。",
                             "names": "定序器"
@@ -2323,7 +2313,7 @@
                     ]
                 }
             },
-            "conversion": { 
+            "conversion": {
                 "text": "@Text 清單的表現。",
                 "set": "@Set, 對於移除重複有幫助。"
             }
@@ -2347,10 +2337,10 @@
                 "size": {
                     "doc": "我會告訴你我有幾個值。",
                     "names": "大小",
-                    "inputs":[]
+                    "inputs": []
                 },
                 "equals": {
-                    "doc":[
+                    "doc": [
                         "我是\\⊤\\ 如果已有的@Set 跟我有一摸一樣的值:",
                         "\\{1 2 3} = {2 3 4}\\"
                     ],
@@ -2358,7 +2348,7 @@
                     "inputs": [{ "doc": "拿來比較的@Set.", "names": "指令" }]
                 },
                 "notequals": {
-                    "doc":[
+                    "doc": [
                         "我是\\⊤\\如果已有的@Set 跟我有一摸一樣的值:",
                         "\\{1 2 3} ≠ {2 3 4}\\"
                     ],
@@ -2366,7 +2356,7 @@
                     "inputs": [{ "doc": "拿來比較的@Set.", "names": "指令" }]
                 },
                 "add": {
-                    "doc":[
+                    "doc": [
                         "給我一個拿來增加的值並且我會拿我的物品和給我的物品做一個新的@Set。",
                         "\\{1 2 3} + 4\\"
                     ],
@@ -2374,7 +2364,7 @@
                     "inputs": [{ "doc": "拿來增加的物品", "names": "物品" }]
                 },
                 "remove": {
-                    "doc":[
+                    "doc": [
                         "給我一個拿來移除的物品並且我會產生一個沒有物品的@Set。",
                         "\\{1 2 3} - 2\\",
                         "如果我沒有物品, 我就只會自己算一下。"
@@ -2383,12 +2373,12 @@
                     "inputs": [{ "doc": "拿來減去的物品。", "names": "物品" }]
                 },
                 "union": {
-                    "doc":[
+                    "doc": [
                         "給我一個@Set, 並且我會創造一個新的有我物品的@Set 和這條指令的值。",
                         "\\{1 2 3} ∪ {3 4 5}\\"
                     ],
                     "names": ["聯合", "∪"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "和我結合的@Set。",
                             "names": "指令"
@@ -2396,22 +2386,22 @@
                     ]
                 },
                 "intersection": {
-                    "doc":[
+                    "doc": [
                         "給我一個@Set並且我會創造一個新的@Set, 它裡面只有我們都有的物品。",
                         "\\{1 2 3} ∩ {3 4 5}\\"
                     ],
                     "names": ["交集", "∩"],
-                    "inputs":[
+                    "inputs": [
                         { "doc": "跟我比較的一個指令.", "names": "指令" }
                     ]
                 },
                 "difference": {
-                    "doc":[
+                    "doc": [
                         "給我一個@Set 並且我會創造一個新的@Set, 它裡面只有我們都有的物品.",
                         "\\{1 2 3}.difference({3 4 5})\\"
                     ],
                     "names": "不同",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "這套的物品應該從我這裡移除的物品.",
                             "names": "群組"
@@ -2419,19 +2409,19 @@
                     ]
                 },
                 "filter": {
-                    "doc":[
+                    "doc": [
                         "給我一個可以接收物品並且產生\\⊤\\的@FunctionDefinition, 如果它應該被保留, 我會創造一個只包含可以滿足你要求的物品的@Set.",
                         "例如, 讓我們找出我這裡的奇數:",
                         "\\{1 2 3 4 5 6 7 8 9}.過濾(ƒ(數字•#) (數字 % 2) = 1)\\"
                     ],
                     "names": "過濾",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "檢查物品是否需要被保留的@FunctionDefinition。",
                             "names": "檢驗員"
                         }
                     ],
-                    "checker":[
+                    "checker": [
                         {
                             "doc": "正在被檢查的物品。",
                             "names": "值"
@@ -2443,13 +2433,13 @@
                     ]
                 },
                 "translate": {
-                    "doc":[
+                    "doc": [
                         "給我一個可以接收物品並且可以產生新的物品的@FunctionDefinition, 之後我會翻譯我的所有物品到新的@Set (移除任何的重複)。",
                         "例如, 讓我們把所有的@Number變成@Text:",
                         "\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(數字•#) 數字→'')\\"
                     ],
                     "names": "翻譯",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "可以將我其中一個物品翻譯成你想要的新物品的@FunctionDefinition。",
                             "names": "指令"
@@ -2467,7 +2457,7 @@
                     ]
                 }
             },
-            "conversion": { 
+            "conversion": {
                 "text": "@Set 的體現@Text",
                 "list": "在指令裡面的物品的代表@List。"
             }
@@ -2494,15 +2484,15 @@
                 "size": {
                     "doc": "我會告訴你我有多少價值。",
                     "names": "大小",
-                    "inputs":[]
+                    "inputs": []
                 },
                 "equals": {
-                    "doc":[
+                    "doc": [
                         "\\{⊤}\\ 如果我的配對和給定的@Map 一模一樣。",
                         "\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
                     "names": ["=", "等於"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "比較我的@Map。",
                             "names": "值"
@@ -2510,12 +2500,12 @@
                     ]
                 },
                 "notequals": {
-                    "doc":[
+                    "doc": [
                         "\\{⊤}\\ 如果我的配對並/不是/ 和給的@Map的 一摸一樣。",
                         "\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
                     "names": ["≠", "不等於"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "跟我比較的@Map。",
                             "names": "值"
@@ -2523,12 +2513,12 @@
                     ]
                 },
                 "set": {
-                    "doc":[
+                    "doc": [
                         "我會創造一個新的@Map, 它有一樣的配對, 但是有你給我的新的配對. 如果我已經有密鑰, 我會將它配對到新的值。",
                         "\\{'艾米': 6分 '托尼':3分}.匹配('詹' 0分)\\"
                     ],
                     "names": "配對",
-                    "inputs":[
+                    "inputs": [
                         { "doc": "符合值的金鑰.", "names": "金鑰" },
                         {
                             "doc": "和金鑰匹配的值",
@@ -2537,7 +2527,7 @@
                     ]
                 },
                 "unset": {
-                    "doc":[
+                    "doc": [
                         "我會創造一個沒有你給我密鑰的@Map, 移除配對。",
                         "\\{'艾米': 6分 '東尼':3分}.不符('艾米')\\"
                     ],
@@ -2545,12 +2535,12 @@
                     "inputs": [{ "doc": "忘記的金鑰.", "names": "金鑰" }]
                 },
                 "remove": {
-                    "doc":[
+                    "doc": [
                         "我會創造一個新的沒有任何金鑰的@Map, 這些金鑰是沒有值的。",
                         "\\{'艾米': 0分 '詹': 0分 '托尼':3分}.移除(0分)\\"
                     ],
                     "names": "移除",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "從我身上移除的值,以及與之配對的任何密鑰。",
                             "names": "值"
@@ -2558,19 +2548,19 @@
                     ]
                 },
                 "filter": {
-                    "doc":[
+                    "doc": [
                         "給我一個可以接收金鑰和值的@FunctionDefinition 計算\\⊤\\ 如果一個配對應該被保留。我會創造一個新的可以滿足你要求的@Map。",
                         "例如,在這裡我們希望保留艾米或積分超過零的配對。",
                         "\\{'艾米': 0分'詹': 0分'托尼':3分}.過濾(ƒ(密鑰•'' 值•#分) (密鑰= '艾米') | (值> 0分))\\"
                     ],
                     "names": "過濾",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "可以決定是否保留一個配對的@FunctionDefinition.",
                             "names": "檢驗員"
                         }
                     ],
-                    "checker":[
+                    "checker": [
                         { "doc": "正在被檢查的金鑰.", "names": "金鑰" },
                         {
                             "doc": "正在被檢查的值.",
@@ -2583,19 +2573,19 @@
                     ]
                 },
                 "translate": {
-                    "doc":[
+                    "doc": [
                         "可以接收金鑰和值的@FunctionDefinition, 並且計算值到一個新的值. 我會創造一個新的帶著一樣金鑰的但是更新過值的@Map.",
                         "例如, 讓我們給每個人一分自從他們一直表現的很好.",
                         "\\{'艾米': 5分 '詹': 3分 '托尼': 0分}.翻譯(ƒ(密鑰•'' 值•#分數) 值 + 1分數)\\"
                     ],
                     "names": "翻譯",
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "翻譯每個值的@FunctionDefinition.",
                             "names": "翻譯家"
                         }
                     ],
-                    "translator":[
+                    "translator": [
                         {
                             "doc": "正在被翻譯的值的金鑰.",
                             "names": "金鑰"
@@ -2611,14 +2601,14 @@
                     ]
                 }
             },
-            "conversion": { 
+            "conversion": {
                 "text": "映射的代表@Text.",
                 "set": "@Map 的金鑰",
                 "list": "一個在有值的@Map 裡面有值的列表"
             }
         },
         "Table": {
-            "doc":[
+            "doc": [
                 "我是一組表格行! 我可以幫助你追蹤具有相同結構的值的大型集合.",
                 "例如, 想像你想要去追蹤一大堆石頭:",
                 "\\⎡名字•'' 顏色•''⎦\n⎡'黑曜石' '黑色'⎦\n⎡'浮岩' '灰色'⎦\n⎡'黃水晶' '黃色'⎦\\",
@@ -2659,7 +2649,7 @@
                 "equals": {
                     "doc": "如果我的參數與另外一個結構的參數是相同的名字和值, 我會檢查。",
                     "names": ["=", "等於"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "另一個要檢查的結構.",
                             "names": "值"
@@ -2669,7 +2659,7 @@
                 "notequal": {
                     "doc": "如果我的參數和另外一個結構的參數有任何的名字和值上面的不同, 我會檢查.",
                     "names": ["≠", "不等於"],
-                    "inputs":[
+                    "inputs": [
                         {
                             "doc": "另一個要檢查的結構.",
                             "names": "值"
@@ -2684,7 +2674,7 @@
     },
     "input": {
         "Random": {
-            "doc":[
+            "doc": [
                 "17！",
                 "/@FunctionDefinition, 我會解釋這個./",
                 "所以 @Random 是一個充滿好奇心的生成隨機數的方法 他很好奇,因為每次你評估它時,它都會創造出不同的東西。",
@@ -2701,12 +2691,12 @@
                 "\\隨機(1.00 10.00)\\"
             ],
             "names": ["🎲", "隨機"],
-            "inputs":[
+            "inputs": [
                 { "names": "最小值", "doc": "最小的可能值" },
                 { "names": "最大值", "doc": "最大的可能值" }
             ]
         },
-        "Choice": { 
+        "Choice": {
             "doc": [
                 "/點擊一下！/",
                 "/@FunctionDefinition, 我來解釋下這個吧！/",
@@ -2719,7 +2709,7 @@
             "names": ["🔘", "選擇"]
         },
         "Button": {
-            "doc":[
+            "doc": [
                 "/點擊點擊點擊/",
                 "/@FunctionDefinition 這裡,我解釋一下這個。/",
                 "@Button 是監聽滑鼠或觸控板的好方法。當然,滑鼠或觸控板並不是聆聽觀眾說話的理想選擇,因為並非每個人都可以使用。更容易訪問的選擇是@Choice。",
@@ -2729,13 +2719,13 @@
                 "這只是創建一個@Phrase,它是流的文本值。如果將其複製到編輯器中並單擊,您將看到它在 \\⊥\\ 和 \\⊤\\ 之間來回切換。"
             ],
             "names": ["按鈕"],
-            "down": { 
+            "down": {
                 "names": "按下",
                 "doc": "如果@None,流將提供向上和向下值。如果@Boolean,它只會提供給定@Boolean值的值。"
             }
         },
-        "Pointer": { 
-            "doc":[
+        "Pointer": {
+            "doc": [
                 "/嗡嗡聲/",
                 "/@FunctionDefinition 這裡,我解釋一下這個。/",
                 "您了解滑鼠、觸控板和觸控螢幕嗎？有時您想知道觀眾指向哪裡。這就是 @Pointer 提供的。",
@@ -2762,17 +2752,17 @@
                 "\\鍵（'a'⊥）\\"
             ],
             "names": ["⌨️", "鑰匙"],
-            "key": { 
+            "key": {
                 "names": "鑰匙",
                 "doc": "如果是@None,則提供所有鍵。如果是特定的@Text,則只提供該鍵"
             },
-            "down": { 
+            "down": {
                 "names": "下",
                 "doc": "如果@None,則按下鍵產生輸入。如果\\⊥\\,那麼只提供向下的輸入,如果\\⊥\\,那麼只提供釋放的輸入。"
             }
         },
         "Time": {
-            "doc":[
+            "doc": [
                 "/嘀嗒嘀嗒嘀嗒～/",
                 "@FunctionDefinition在這裡,我將解釋@Time,因為它沒有說話。",
                 "時間是一條以一定頻率滴答作響的溪流。",
@@ -2785,7 +2775,7 @@
                 "最小的可能在\\20ms\\左右."
             ],
             "names": ["🕕", "時間"],
-            "frequency": { 
+            "frequency": {
                 "names": ["頻率"],
                 "doc": "這是時間應該滴答作響的頻率。它的預設值是\\33ms\\,大約每秒30次。"
             },
@@ -2795,10 +2785,10 @@
             }
         },
         "Volume": {
-            "doc":[
+            "doc": [
                 "/滋滋滋～/",
                 "@FunctionDefinition,我來拿麥克風吧。",
-                "該串流是一系列介於0和1之間的音量,以您選擇的頻率取樣。預設情況下,頻率為30hz,即每秒30次,但您可以將其變更為更低的頻率。" ,
+                "該串流是一系列介於0和1之間的音量,以您選擇的頻率取樣。預設情況下,頻率為30hz,即每秒30次,但您可以將其變更為更低的頻率。",
                 "\\體積（）\\",
                 "這對傾聽聽眾的聲音是很好的!"
             ],
@@ -2806,10 +2796,10 @@
             "frequency": { "names": ["頻率"], "doc": "取樣間隔時間" }
         },
         "Pitch": {
-            "doc":[
+            "doc": [
                 "/嗡嗡聲/",
                 "@FunctionDefinition在這裡,讓我們來談談音調!",
-                "這個流是一系列以赫茲為單位的頻率,表示聲音的音高,以你選擇的頻率採樣。我們發現人類的聲音在20赫茲到5000赫茲之間,所以計劃在這個範圍內的數字。" ,
+                "這個流是一系列以赫茲為單位的頻率,表示聲音的音高,以你選擇的頻率採樣。我們發現人類的聲音在20赫茲到5000赫茲之間,所以計劃在這個範圍內的數字。",
                 "\\瀝青（）\\",
                 "這對聽別人說話或唱歌的語氣很有幫助。"
             ],
@@ -2817,7 +2807,7 @@
             "frequency": { "names": ["頻率"], "doc": "取樣間隔時間" }
         },
         "Camera": {
-            "doc":[
+            "doc": [
                 "/嗡嗡聲～/",
                 "@FunctionDefinition在這裡,我可以解釋@Camera!",
                 "所以@Camera提供了一個來自你的世界的@Color的@List。該列表本質上代表一個圖像,但如何處理它取決於您",
@@ -2826,7 +2816,7 @@
                 "但是你也可以透過分析顏色來決定一盞燈是開著還是關著,或者一種特定的顏色是否常見,讓觀眾用他們展示的顏色來影響表演。"
             ],
             "names": ["🎥", "相機"],
-            "width": { 
+            "width": {
                 "names": ["寬度"],
                 "doc": "要在一行中採樣的@Color的數量。"
             },
@@ -2834,14 +2824,14 @@
                 "names": ["高度"],
                 "doc": "列中要採樣的@Color的個數。"
             },
-            "frequency": { 
+            "frequency": {
                 "names": ["頻率"],
                 "doc": "@Color樣本之間的時間間隔。"
             }
         },
         "Motion": {
             "names": ["⚽️", "運動"],
-            "doc":[
+            "doc": [
                 "/砰！砰！砰！/",
                 "/嗨！@FunctionDefinition這裡。我來解釋一下@Motion怎麼樣?",
                 "基本上,@Motion是@Phrase的流。你給它一個起始的@Phrase,然後它會根據重力用一個新的位置和旋轉來改進它。",
@@ -2852,8 +2842,11 @@
             ],
             "place": { "doc": "開始點", "names": "點" },
             "velocity": { "doc": "初始速度", "names": "速度" },
-            "nextplace": { "doc": "下一個地點,無視物理", "names": "下一個地點" },
-            "nextvelocity": { 
+            "nextplace": {
+                "doc": "下一個地點,無視物理",
+                "names": "下一個地點"
+            },
+            "nextvelocity": {
                 "doc": "下一個地點,無視速度",
                 "names": " 下一個速度"
             }
@@ -2864,7 +2857,7 @@
             "outputs": { "names": "$?", "doc": "$?" }
         },
         "Chat": {
-            "doc":[
+            "doc": [
                 "/你好!@FunctionDefinition這裡。你想聊聊嗎?",
                 "聊天流的基本想法是受眾輸入訊息,然後程式對其進行回應。",
                 "例如,這個簡單的程式檢查訊息是否為“hello”，如果是,程式計算為“hi”。否則,它的求值為 \"huh\" ?",
@@ -2874,7 +2867,7 @@
             "names": ["🗣️", "聊天"]
         },
         "Placement": {
-            "doc":[
+            "doc": [
                 "/嘿,這裡是@FunctionDefinition。我們來談談如何讓我們行動起來!/",
                 "所以有很多方法可以把我們放在@Stage上。你可以給我們一個顯式的@Place。你可以使用@Motion,讓重力發揮作用。你也可以把我們放在一個@Group裡,讓他們按照特定的方式安排我們。",
                 "但有時你想讓觀眾控制我們在舞台上的位置。這就是@Placement的作用。",
@@ -2885,7 +2878,7 @@
                 "您可以自訂@Place,在某些維度上啟用和停用移動,更改@Place移動的距離,以及流開始的初始@Place。"
             ],
             "names": ["✥", "擺放"],
-            "inputs":[
+            "inputs": [
                 {
                     "doc": "開始的初始位置。",
                     "names": "初始"
@@ -2921,7 +2914,7 @@
             "names": ["🔗", "網頁"],
             "url": { "doc": "要取得的HTML網頁連結。", "names": "網頁連結" },
             "query": { "doc": "要在HTML上計算的CSS查詢", "names": "請求" },
-            "frequency": { 
+            "frequency": {
                 "doc": "在再次取得該頁之前應該經過的分鐘數",
                 "names": "頻率"
             },
@@ -2935,7 +2928,7 @@
         },
         "Collision": {
             "names": "撞擊",
-            "doc":[
+            "doc": [
                 "/你好!@FunctionDefinition這裡。看看這個很酷的輸入/",
                 "它可以幫助您發現@Output何時相互碰撞!當我們相互碰撞時,這是一種很好的方式,而不是像@Output那樣相互反彈。",
                 "只要給我一個@Output的名字,當它碰到另一個名字時,我將創建一個新的@Rebound值。@Rebound有關於碰撞的名字和它們碰撞的方向的信息。",
@@ -2972,7 +2965,7 @@
             "names": "方向",
             "doc": "我是方向和大小,沿著x軸和y軸。",
             "x": {
-                "names":"x",
+                "names": "x",
                 "doc": "沿著x軸方向的方向和大小。"
             },
             "y": {
@@ -3090,11 +3083,11 @@
             "names": ["🔳", "組合"],
             "doc": "哦你好,你過的怎麼樣？當有其他人在身邊時,我總是很愉快,所以能和你在一起真是太好了！\n 我將@Phrase 和@Group 組合一起放在@Stage上,並將它們放在@Arrangement中,這樣它們的位置就有了一些秩序。以進行安排。 \n 例如,在這裡我用了一個@Stack Arrnagement和一些垂直堆疊的@Phrase：\n \\組(堆疊() [短語('第一個') 短語('第二個' )])\\ \n 我如何安排事物取決於你給我的@Arrangement。",
             "description": "$1[$1|] $2 $3",
-            "content": { 
+            "content": {
                 "doc": "已安排的 @Output 清單。",
                 "names": "內容"
             },
-            "layout": { 
+            "layout": {
                 "doc": "將 @Output 放置在其位置的安排方式。",
                 "names": "佈局"
             },
@@ -3102,23 +3095,23 @@
                 "doc": "如果我不小心碰到其他物體,我該如何反應。",
                 "names": "物體"
             },
-            "size": { 
+            "size": {
                 "doc": "我內心美好的內容應該有多高,除非它們有自己的尺寸！",
-                "names": "尺寸" 
+                "names": "尺寸"
             },
-            "face": { 
+            "face": {
                 "doc": "我內部的字體名稱內容應該有,除非他們有自己的字體可以使用。",
                 "names": "表面"
             },
-            "place": { 
+            "place": {
                 "doc": "舞台上我應該在的位置。 我內部的內容會相對於那裡進行排列。",
                 "names": "位置"
             },
-            "name": { 
+            "name": {
                 "doc": "與 @Phrase/name 相同！",
                 "names": "名稱"
             },
-            "selectable": { 
+            "selectable": {
                 "doc": "與 @Phrase/selectable 的相同! ",
                 "names": "可選擇的"
             },
@@ -3126,7 +3119,7 @@
                 "doc": "我內部的內容應該是 @Color,除非它們有自己的顏色。",
                 "names": "顏色"
             },
-            "background": { 
+            "background": {
                 "doc": "投影在我背後的 @Color。",
                 "names": "背景"
             },
@@ -3154,9 +3147,9 @@
                 "doc": "與 @Phrase/flipy 相同！",
                 "names": "垂直翻轉"
             },
-            "entering": { 
+            "entering": {
                 "doc": "與 @Phrase/entering 相同！",
-                "names": "進入" 
+                "names": "進入"
             },
             "resting": {
                 "doc": "與 @Phrase/resting 相同！",
@@ -3216,7 +3209,7 @@
                 "names": "物體"
             },
             "aura": {
-                "doc":"$?",
+                "doc": "$?",
                 "names": "$? aura"
             },
             "name": {
@@ -3284,7 +3277,7 @@
                 "names": "風格"
             }
         },
-        "Arrangement": { 
+        "Arrangement": {
             "doc": "我是Verse中各種排列方式的靈感, 包括@Row、@Stack、@Grid和@Free。我與@Group密切合作,",
             "names": ["⠿", "排列"]
         },
@@ -3296,7 +3289,7 @@
                 "doc": "是否在每列上的起始、中間或末尾對齊文字。",
                 "names": "對齊"
             },
-            "padding": { 
+            "padding": {
                 "doc": "在輸出之間放置的填充量。",
                 "names": "填滿"
             }
@@ -3340,7 +3333,7 @@
             }
         },
         "Free": {
-            "doc":[
+            "doc": [
                 "我隨便怎麼樣。隨便坐在哪裡都行。只要坐在某個地方！確保你給我所有的@Output都有一個@Place,否則它們就不知道該去哪裡。",
                 "哦,記住,你給每個@Output的@Place都是相對於@Group的@Place！所以如果你想知道為什麼事情沒有出現在你期望的地方,嘗試給@Group也設置一個地方。"
             ],
@@ -3440,11 +3433,59 @@
             },
             "z": {
                 "doc": "矩形的深度位置。",
-                "names":"z"
+                "names": "z"
+            }
+        },
+        "Form": {
+            "doc": "$?",
+            "names": ["$?"]
+        },
+        "Circle": {
+            "doc": "$?",
+            "names": ["$? Circle"],
+            "radius": {
+                "doc": "$?",
+                "names": "$? radius"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
+            }
+        },
+        "Polygon": {
+            "doc": "$?",
+            "names": ["$?"],
+            "radius": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "sides": {
+                "doc": "$?",
+                "names": "$?"
+            },
+            "x": {
+                "doc": "$?",
+                "names": "$? x"
+            },
+            "y": {
+                "doc": "$?",
+                "names": "$? y"
+            },
+            "z": {
+                "doc": "$?",
+                "names": "$?"
             }
         },
         "Pose": {
-            "doc":[
+            "doc": [
                 "想像一下,某某一下子擺了個最精彩的姿勢,一停頓,每個人的目光都聚集在了他身上。所說的姿勢就是我,我為@Output 勾勒姿勢,而他們的動作都是以我組成的。",
                 "別小看我！自個看一看我的許多的$input,你會創造出什麼樣的姿勢呢？"
             ],
@@ -3488,7 +3529,7 @@
             "description": "$1[透明$1|] $2[旋轉$2度|] $3[縮放$3|] $4[水平翻轉|] $5[垂直翻轉|]"
         },
         "Color": {
-            "doc":[
+            "doc": [
                 "我是一種可見的顏色,由三個維度構成。",
                 "一下是一些色輪上常見的顏色,用中等亮度和高色度顯示。",
                 "\\顏色(50% 100 0°)\\",
@@ -3519,7 +3560,7 @@
             }
         },
         "Sequence": {
-            "doc":[
+            "doc": [
                 "喔。喔。哇！導演,你今天精神看起來棒極了！你想跟我一起跳舞嗎？這很容易。",
                 "你只要給我一個 @Map。每個$key表示我們跳的過程完成了百分之多少,每個$key的值都應該有個 @Pose。",
                 "有好多不同的方式用這個功能製作動畫。給你一個比較簡單的例子：",
@@ -3726,7 +3767,8 @@
         },
         "project": {
             "error": {
-                "unknown": "該演出不存在或未公開"
+                "unknown": "該演出不存在或未公開",
+                "translate": "$?"
             },
             "button": {
                 "showCollaborators": "顯示合作者對話方塊",
@@ -3740,7 +3782,8 @@
                 "focusDocs": "聚焦文件",
                 "focusPalette": "聚焦調色盤",
                 "focusCycle": "聚焦到下一個磁磚",
-                "unsaved": "$?"
+                "unsaved": "$?",
+                "translate": { "label": "$?", "tip": "$?" }
             },
             "field": {
                 "name": {
@@ -3759,7 +3802,11 @@
                 "settingsUnsaved": "$?"
             },
             "dialog": {
-                "unsaved": "$?"
+                "unsaved": "$?",
+                "translate": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "gallery": {
@@ -3909,7 +3956,8 @@
             "space": "$?",
             "button": {
                 "resolution": "$?"
-            }
+            },
+            "cursorParent": "$?"
         },
         "output": {
             "label": "程式輸出",
@@ -4219,6 +4267,10 @@
                     "newgallery": "我們無法建立新的圖庫。",
                     "nodeletes": "您必須登入才能刪除已歸檔的項目。",
                     "delete": "哎呀，我們無法刪除該項目！"
+                },
+                "add": {
+                    "header": "$?",
+                    "explanation": "$?"
                 }
             },
             "galleries": {

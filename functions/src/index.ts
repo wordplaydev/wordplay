@@ -7,6 +7,7 @@ import * as http from 'http';
 import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { PromisePool } from '@supercharge/promise-pool';
+import Translate from '@google-cloud/translate';
 
 initializeApp();
 const db = getFirestore();
@@ -39,6 +40,39 @@ export const emailExists = onCall<string>(async (request): Promise<boolean> => {
             return false;
         });
 });
+
+/**
+ * Given a from to locale (using ll, where ll is a two character language code),
+ * and a list of strings, use Google Cloud Translate to translate the list of strings into the target language.)
+ */
+export const getTranslations = onCall<{
+    from: string;
+    to: string;
+    text: string[];
+}>(
+    // Permit local testing.
+    { cors: ['/firebase.com$/', '/127.0.0.1*/', '/localhost*/'] },
+    async (request): Promise<string[] | null> => {
+        const from = request.data.from;
+        const to = request.data.to;
+        const text = request.data.text;
+
+        try {
+            // Creates a Google Translate client
+            const translator = new Translate.v2.Translate();
+
+            const [translations] = await translator.translate(text, {
+                from,
+                to,
+            });
+
+            return translations;
+        } catch (e) {
+            console.error(e);
+            return null;
+        }
+    },
+);
 
 /** Given a URL that should refer to an HTML document, sends a GET request to the URL to try to get the document's text. */
 export const getWebpage = onRequest(

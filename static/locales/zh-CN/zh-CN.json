@@ -3082,11 +3082,13 @@
             "description": "$1[$1|] $2 $3"
         },
         "Phrase": {
-            "doc": ["你好，你好！还记得我吗？怎么会有人忘记/我/。没错，我就是伟大的 @Phrase，准备好在 @Stage 上表达最可爱的 @Text.",
-            "只要让我这样，我就会出现在 @Stage：",
-            "\\Phrase('magnificient!')\\",
-            "显然，我需要一些 @Text，但除此之外，我可以做任何 @Output 可以做的所有事情，包括更改我的大小、字体、旋转，以及使用 @Pose 和 @Sequence 进行所有令人难以置信的舞蹈.",
-            "你也可以在 @Stage 上选择我，然后在隔壁的调色板上编辑我。"],
+            "doc": [
+                "你好，你好！还记得我吗？怎么会有人忘记/我/。没错，我就是伟大的 @Phrase，准备好在 @Stage 上表达最可爱的 @Text.",
+                "只要让我这样，我就会出现在 @Stage：",
+                "\\Phrase('magnificient!')\\",
+                "显然，我需要一些 @Text，但除此之外，我可以做任何 @Output 可以做的所有事情，包括更改我的大小、字体、旋转，以及使用 @Pose 和 @Sequence 进行所有令人难以置信的舞蹈.",
+                "你也可以在 @Stage 上选择我，然后在隔壁的调色板上编辑我。"
+            ],
             "names": ["💬", "短语"],
             "text": {
                 "doc": "在 @Stage 上展示的角色。",
@@ -3784,7 +3786,8 @@
         },
         "project": {
             "error": {
-                "unknown": "该演出不存在或未公开"
+                "unknown": "该演出不存在或未公开",
+                "translate": "$?"
             },
             "button": {
                 "showCollaborators": "显示合作者对话框",
@@ -3798,7 +3801,8 @@
                 "focusDocs": "聚焦文档",
                 "focusPalette": "聚焦调色板",
                 "focusCycle": "聚焦到下一个瓷砖",
-                "unsaved": "$?"
+                "unsaved": "$?",
+                "translate": { "label": "$?", "tip": "$?" }
             },
             "field": {
                 "name": {
@@ -3817,7 +3821,11 @@
                 "settingsUnsaved": "$?"
             },
             "dialog": {
-                "unsaved": "$?"
+                "unsaved": "$?",
+                "translate": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "gallery": {

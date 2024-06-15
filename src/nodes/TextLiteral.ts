@@ -23,6 +23,7 @@ import Finish from '@runtime/Finish';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
 import type Locales from '../locale/Locales';
+import type LanguageCode from '@locale/LanguageCode';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */
@@ -77,6 +78,20 @@ export default class TextLiteral extends Literal {
 
     getDependencies(): Expression[] {
         return this.texts.map((text) => text.getExpressions()).flat();
+    }
+
+    getLanguage(lang: LanguageCode) {
+        return this.texts.find(
+            (text) => text.language?.getLanguageCode() === lang,
+        );
+    }
+
+    withOption(text: Translation) {
+        return new TextLiteral([...this.texts, text]);
+    }
+
+    getOptions() {
+        return this.texts;
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {

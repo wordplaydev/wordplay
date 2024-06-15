@@ -3927,7 +3927,8 @@
         },
         "project": {
             "error": {
-                "unknown": "This performance doesn't exist or isn't public."
+                "unknown": "This project doesn't exist or isn't public.",
+                "translate": "There was a problem translating your project."
             },
             "button": {
                 "showCollaborators": "show collaborators dialog",
@@ -3941,7 +3942,11 @@
                 "focusDocs": "focus on the documentation",
                 "focusPalette": "focus on the palette",
                 "focusCycle": "focus on the next tile",
-                "unsaved": "show save error"
+                "unsaved": "show save error",
+                "translate": {
+                    "label": "translate",
+                    "tip": "translate this project into another language"
+                }
             },
             "field": {
                 "name": {
@@ -3960,7 +3965,15 @@
                 "settingsUnsaved": "Unable to save settings online."
             },
             "dialog": {
-                "unsaved": "Unsaved work..."
+                "unsaved": "Unsaved work...",
+                "translate": {
+                    "header": "Translate",
+                    "explanation": [
+                        "Want to translate the names and text in your project into other languages, to help others see your project in their language? Choose a locale below.",
+                        "• We will use your project's primary language as the source language.",
+                        "• Not all languages are supported and translations will be imperfect, so review the results!"
+                    ]
+                }
             }
         },
         "gallery": {

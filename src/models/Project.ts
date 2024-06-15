@@ -11,7 +11,6 @@ import Node from '@nodes/Node';
 import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
-import type Bind from '@nodes/Bind';
 import Reference from '@nodes/Reference';
 import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
@@ -42,6 +41,7 @@ import {
 } from '../routes/project/constants';
 import Name from '@nodes/Name';
 import Doc from '@nodes/Doc';
+import type Definition from '@nodes/Definition';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -488,7 +488,7 @@ export default class Project {
         );
     }
 
-    getReferences(bind: Bind): (Reference | PropertyReference)[] {
+    getReferences(bind: Definition): (Reference | PropertyReference)[] {
         const refs: (Reference | PropertyReference)[] = [];
         for (const source of this.getSources()) {
             const context = this.getContext(source);
@@ -727,6 +727,10 @@ export default class Project {
                 ),
             ),
         );
+    }
+
+    getPrimaryLanguage() {
+        return this.getLocales().getLocale().language;
     }
 
     getOutput() {

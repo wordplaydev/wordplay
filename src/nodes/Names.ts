@@ -80,7 +80,7 @@ export default class Names extends Node {
             .filter((lang): lang is LanguageCode => lang !== undefined);
     }
 
-    hasLanguage() {
+    hasALanguageTag() {
         return this.names.some((name) => name.hasLanguage());
     }
 
@@ -132,9 +132,11 @@ export default class Names extends Node {
         );
     }
 
-    hasLocale(lang: LanguageCode) {
-        return (
-            this.names.find((name) => name.getLanguage() === lang) !== undefined
+    getNameInLanguage(lang: LanguageCode, symbolic: boolean | undefined) {
+        return this.names.find(
+            (name) =>
+                name.getLanguage() === lang &&
+                (symbolic === undefined || name.isSymbolic() === symbolic),
         );
     }
 
@@ -168,14 +170,9 @@ export default class Names extends Node {
     }
 
     withName(name: string, language: LanguageCode) {
-        const languageMatchIndex = this.names.findIndex(
+        const index = this.names.findIndex(
             (name) => name.getLanguage() === language,
         );
-        const untaggedMatchIndex = this.names.findIndex(
-            (name) => name.getLanguage() === undefined,
-        );
-        const index =
-            languageMatchIndex >= 0 ? languageMatchIndex : untaggedMatchIndex;
 
         const newName = Name.make(name, Language.make(language));
         return new Names(

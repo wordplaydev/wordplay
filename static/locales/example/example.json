@@ -2237,7 +2237,8 @@
         },
         "project": {
             "error": {
-                "unknown": "$?"
+                "unknown": "$?",
+                "translate": "$?"
             },
             "button": {
                 "showCollaborators": "$?",
@@ -2251,7 +2252,8 @@
                 "focusDocs": "$?",
                 "focusPalette": "$?",
                 "focusCycle": "$?",
-                "unsaved": "$?"
+                "unsaved": "$?",
+                "translate": { "label": "$?", "tip": "$?" }
             },
             "field": {
                 "name": {
@@ -2270,7 +2272,11 @@
                 "settingsUnsaved": "$?"
             },
             "dialog": {
-                "unsaved": "$?"
+                "unsaved": "$?",
+                "translate": {
+                    "header": "$?",
+                    "explanation": "$?"
+                }
             }
         },
         "gallery": {

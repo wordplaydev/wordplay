@@ -230,6 +230,10 @@ export default class Bind extends Expression {
         return this.clone({ original: 'type', replacement: type });
     }
 
+    withNames(names: Names) {
+        return this.clone({ original: 'names', replacement: names });
+    }
+
     /** Used to help generate function and structure types without extraneous information */
     withoutDocs() {
         return new Bind(

@@ -22,6 +22,7 @@ import Token from './Token';
 import Sym from './Sym';
 import TextValue from '../values/TextValue';
 import type Locales from '../locale/Locales';
+import type LanguageCode from '@locale/LanguageCode';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -60,6 +61,20 @@ export default class FormattedLiteral extends Literal {
 
     getPurpose() {
         return Purpose.Value;
+    }
+
+    getOptions() {
+        return this.texts;
+    }
+
+    withOption(text: FormattedTranslation) {
+        return new FormattedLiteral([...this.texts, text]);
+    }
+
+    getLanguage(lang: LanguageCode) {
+        return this.texts.find(
+            (text) => text.language?.getLanguageCode() === lang,
+        );
     }
 
     computeConflicts() {
