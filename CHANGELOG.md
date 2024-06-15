@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.10.0 2024-6-15
+
+### Maintenance
+
+-   Upgraded to latest versions of Firebase Functions and Firebase Admin.
+
 ## 0.9.397 2024-06-07
 
 ### Fixed
