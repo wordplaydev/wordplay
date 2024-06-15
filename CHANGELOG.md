@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 -   Upgraded to latest versions of Firebase Functions and Firebase Admin.
+-   Added pull request template
 
 ## 0.9.397 2024-06-07
 
