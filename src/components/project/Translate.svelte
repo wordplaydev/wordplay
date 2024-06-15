@@ -1,6 +1,6 @@
 <script lang="ts">
     import Feedback from '@components/app/Feedback.svelte';
-    import Loading from '@components/app/Loading.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
@@ -26,15 +26,14 @@
                 project,
                 targetLanguage as LanguageCode,
             );
+            translating = false;
 
             if (revisedProject) {
                 Projects.reviseProject(revisedProject);
+                show = false;
             } else {
                 error = true;
             }
-
-            translating = false;
-            show = false;
         }
     }
 </script>
@@ -53,7 +52,7 @@
     }}
 >
     {#if translating}
-        <Loading />
+        <Spinning />
     {/if}
     {#if error}
         <Feedback>{$locales.get((l) => l.ui.project.error.translate)}</Feedback>
