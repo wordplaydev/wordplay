@@ -318,7 +318,7 @@
         const newEvaluator = new Evaluator(
             newProject,
             DB,
-            $locales,
+            newProject.getLocales(),
             true,
             replayInputs ? $evaluator : undefined,
         );

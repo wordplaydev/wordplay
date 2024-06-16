@@ -94,7 +94,6 @@
             <div class="option">
                 <Button
                     action={() => translate(supported)}
-                    active={supported !== primaryLocale}
                     tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
                     ><LocaleName locale={supported} supported /></Button
                 >

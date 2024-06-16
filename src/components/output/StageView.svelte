@@ -253,7 +253,7 @@
     $: context = new RenderContext(
         stage.face ?? $locales.getLocale().ui.font.app,
         stage.size ?? DefaultSize,
-        $locales,
+        project.getLocales(),
         $loadedFonts,
         $animationFactor,
     );

@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#106](https://github.com/wordplaydev/wordplay/issues/106). Added ability to translate names and text in a program to other supported languages.
 -   [#484](https://github.com/wordplaydev/wordplay/issues/484). Cleaned up project locales and translations.
+-   [#485](https://github.com/wordplaydev/wordplay/issues/485). Have runtime respect project locales.
 
 ### Maintenance
 
