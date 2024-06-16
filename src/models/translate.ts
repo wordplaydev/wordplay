@@ -5,7 +5,6 @@ import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import Names from '@nodes/Names';
 import { Locales } from '@db/Database';
-import { SupportedLocales } from '@locale/Locale';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Docs from '@nodes/Docs';
 import Doc from '@nodes/Doc';
@@ -27,8 +26,10 @@ const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
 export default async function translateProject(
     functions: Functions,
     project: Project,
-    targetLanguage: LanguageCode,
+    targetLocaleCode: string,
 ) {
+    const targetLanguage = targetLocaleCode.split('-')[0] as LanguageCode;
+
     try {
         // Get the project's primary language.
         const sourceLanguage = project.getPrimaryLanguage();
@@ -48,12 +49,12 @@ export default async function translateProject(
             )
             .map((names) => {
                 // Is there a name in the source language or a name with no language? Use that as the source name.
-                const nameToTranslate =
-                    names.names.find(
-                        (name) =>
-                            name.isLanguage(sourceLanguage) ||
-                            !name.hasLanguage(),
-                    ) ?? names.names[0];
+                const nameToTranslate = names.names.find(
+                    (name) =>
+                        name.isLanguage(sourceLanguage) || !name.hasLanguage(),
+                );
+
+                if (nameToTranslate === undefined) return undefined;
 
                 // Get the name already in the target language, if there is one.
                 const targetName = names
@@ -71,7 +72,17 @@ export default async function translateProject(
                     // The translation, or undefined if there is no translation yet.
                     translation: targetName,
                 };
-            });
+            })
+            // Skip any names that don't need a translation.
+            .filter(
+                (
+                    text,
+                ): text is {
+                    names: Names;
+                    original: string;
+                    translation: string | undefined;
+                } => text !== undefined,
+            );
 
         // Find all the docs in the program needing translation.
         const textToTranslate = project
@@ -152,17 +163,9 @@ export default async function translateProject(
         }
 
         // First, revise the project to contain the target locale, so we have names from the locale.
-        const targetLocaleName = SupportedLocales.find((l) =>
-            l.startsWith(targetLanguage),
-        );
-        if (targetLocaleName) {
-            const targetLocale = await Locales.loadLocale(
-                targetLocaleName,
-                false,
-            );
-            if (targetLocale)
-                newProject = newProject.withLocales([targetLocale]);
-        }
+        const targetLocale = await Locales.loadLocale(targetLocaleCode, false);
+        if (targetLocale)
+            newProject = newProject.withPrimaryLocale(targetLocale);
 
         // Revise the project to include the new translated names and updated references to those new names.
         newProject = newProject.withRevisedNodes(
@@ -295,7 +298,7 @@ export default async function translateProject(
             }),
         );
 
-        // Return the revised project.
+        // Return the revised project
         return newProject;
     } catch (e) {
         return null;

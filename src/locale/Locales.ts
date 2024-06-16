@@ -21,14 +21,15 @@ export default class Locales {
         return this.locales[0] ?? this.fallback;
     }
 
-    /** Get all preferred locales */
+    /** Get all preferred locales, but with the fallback at the end if not included. */
     getLocales() {
         return [
-            ...this.locales.filter((l) => l !== this.fallback),
-            this.fallback,
+            ...this.locales,
+            ...(this.locales.includes(this.fallback) ? [] : [this.fallback]),
         ];
     }
 
+    /** Get preferred locales, in order of preference */
     getPreferredLocales() {
         return [...this.locales];
     }

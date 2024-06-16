@@ -733,6 +733,13 @@ export default class Project {
         return this.getLocales().getLocale().language;
     }
 
+    withPrimaryLocale(locale: Locale) {
+        return new Project({
+            ...this.data,
+            locales: [locale, ...this.data.locales.filter((l) => l !== locale)],
+        });
+    }
+
     getOutput() {
         const evaluates = this.getMain()
             .nodes()

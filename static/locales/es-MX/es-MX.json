@@ -3972,7 +3972,8 @@
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
                 "unsaved": "mostrar error de guardado",
-                "translate": { "label": "$?", "tip": "$?" }
+                "translate": "$?",
+                "primary": "$?"
             },
             "field": {
                 "name": {
@@ -3996,6 +3997,10 @@
                     "header": "$?",
                     "explanation": "$?"
                 }
+            },
+            "subheader": {
+                "source": "$?",
+                "destination": "$?"
             }
         },
         "gallery": {

@@ -10205,6 +10205,10 @@
                       "description": "Keyboard shortcut to focus source tiles",
                       "type": "string"
                     },
+                    "primary": {
+                      "description": "The tooltip for the primary locale setting button",
+                      "type": "string"
+                    },
                     "removeCollaborator": {
                       "description": "Remove a collaborator that has been shared with",
                       "type": "string"
@@ -10218,8 +10222,8 @@
                       "type": "string"
                     },
                     "translate": {
-                      "$ref": "#/definitions/ButtonText",
-                      "description": "Show translation button"
+                      "description": "Show translation button",
+                      "type": "string"
                     },
                     "unsaved": {
                       "description": "Show save error button",
@@ -10239,7 +10243,8 @@
                     "focusPalette",
                     "focusCycle",
                     "unsaved",
-                    "translate"
+                    "translate",
+                    "primary"
                   ],
                   "type": "object"
                 },
@@ -10338,6 +10343,24 @@
                     "settingsUnsaved"
                   ],
                   "type": "object"
+                },
+                "subheader": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "destination": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The header for the destination language"
+                    },
+                    "source": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The header for the source language"
+                    }
+                  },
+                  "required": [
+                    "source",
+                    "destination"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -10347,7 +10370,8 @@
                 "help",
                 "collapsed",
                 "save",
-                "dialog"
+                "dialog",
+                "subheader"
               ],
               "type": "object"
             },

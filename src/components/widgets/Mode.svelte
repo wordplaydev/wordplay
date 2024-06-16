@@ -26,7 +26,9 @@
                 on:dblclick|stopPropagation
                 on:mousedown|preventDefault
                 on:pointerdown={(event) =>
-                    event.button === 0 && active ? select(index) : undefined}
+                    index !== choice && event.button === 0 && active
+                        ? select(index)
+                        : undefined}
                 on:keydown={(event) =>
                     (event.key === 'Enter' || event.key === ' ') &&
                     // Only activate with no modifiers down. Enter is used for other shortcuts.

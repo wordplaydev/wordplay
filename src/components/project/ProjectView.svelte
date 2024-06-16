@@ -98,7 +98,6 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import Help from './Shortcuts.svelte';
     import type Color from '../../output/Color';
-    import ProjectLanguages from './ProjectLanguages.svelte';
     import Collaborators from './Collaborators.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
@@ -1505,6 +1504,26 @@
                     {/await}
                 {/if}
             {:else}
+                <Button
+                    tip={$locales.get((l) => l.ui.project.button.copy)}
+                    action={() => toClipboard(project.toWordplay())}
+                    ><Emoji>📋</Emoji></Button
+                >
+            {/if}
+
+            {#if editable}
+                <TextField
+                    text={project.getName()}
+                    description={$locales.get(
+                        (l) => l.ui.project.field.name.description,
+                    )}
+                    placeholder={$locales.get(
+                        (l) => l.ui.project.field.name.placeholder,
+                    )}
+                    changed={(name) =>
+                        Projects.reviseProject(project.withName(name))}
+                    max="10em"
+                />
                 {#if shareable}
                     <Dialog
                         description={$locales.get((l) => l.ui.dialog.share)}
@@ -1528,25 +1547,8 @@
                         <Collaborators {project} />
                     </Dialog>
                 {/if}
-                <Button
-                    tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}
-                    ><Emoji>📋</Emoji></Button
-                >
-            {/if}
-
-            {#if editable}<TextField
-                    text={project.getName()}
-                    description={$locales.get(
-                        (l) => l.ui.project.field.name.description,
-                    )}
-                    placeholder={$locales.get(
-                        (l) => l.ui.project.field.name.placeholder,
-                    )}
-                    changed={(name) =>
-                        Projects.reviseProject(project.withName(name))}
-                    max="10em"
-                />{:else}{project.getName()}{/if}
+                <Translate {project}></Translate>
+            {:else}{project.getName()}{/if}
             <Separator />
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
@@ -1581,8 +1583,6 @@
                     />
                 {/if}
             {/each}
-            <ProjectLanguages {project} />
-            <Translate {project}></Translate>
             <span class="help">
                 <Dialog
                     description={$locales.get((l) => l.ui.dialog.help)}

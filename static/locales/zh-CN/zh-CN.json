@@ -3802,7 +3802,8 @@
                 "focusPalette": "聚焦调色板",
                 "focusCycle": "聚焦到下一个瓷砖",
                 "unsaved": "$?",
-                "translate": { "label": "$?", "tip": "$?" }
+                "translate": "$?",
+                "primary": "$?"
             },
             "field": {
                 "name": {
@@ -3826,6 +3827,10 @@
                     "header": "$?",
                     "explanation": "$?"
                 }
+            },
+            "subheader": {
+                "source": "$?",
+                "destination": "$?"
             }
         },
         "gallery": {

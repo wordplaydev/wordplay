@@ -125,7 +125,9 @@ type UITexts = {
             /** Show save error button */
             unsaved: string;
             /** Show translation button */
-            translate: ButtonText;
+            translate: string;
+            /** The tooltip for the primary locale setting button */
+            primary: string;
         };
         field: {
             /** The project name text field */
@@ -155,6 +157,12 @@ type UITexts = {
             unsaved: Template;
             /** The content for the translation dialog */
             translate: DialogText;
+        };
+        subheader: {
+            /** The header for the source language */
+            source: Template;
+            /** The header for the destination language */
+            destination: Template;
         };
     };
     /** Gallery page labels */

@@ -2633,7 +2633,8 @@
                 "focusPalette": "$?",
                 "focusCycle": "$?",
                 "unsaved": "$?",
-                "translate": { "label": "$?", "tip": "$?" }
+                "translate": "$?",
+                "primary": "$?"
             },
             "field": {
                 "name": {
@@ -2648,6 +2649,10 @@
                     "header": "$?",
                     "explanation": "$?"
                 }
+            },
+            "subheader": {
+                "source": "$?",
+                "destination": "$?"
             }
         },
         "gallery": {

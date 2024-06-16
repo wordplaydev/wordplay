@@ -3783,7 +3783,8 @@
                 "focusPalette": "聚焦調色盤",
                 "focusCycle": "聚焦到下一個磁磚",
                 "unsaved": "$?",
-                "translate": { "label": "$?", "tip": "$?" }
+                "translate": "$?",
+                "primary": "$?"
             },
             "field": {
                 "name": {
@@ -3807,6 +3808,10 @@
                     "header": "$?",
                     "explanation": "$?"
                 }
+            },
+            "subheader": {
+                "source": "$?",
+                "destination": "$?"
             }
         },
         "gallery": {
