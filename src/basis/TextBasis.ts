@@ -21,6 +21,8 @@ import type { FunctionText, NameAndDoc } from '../locale/Locale';
 import ListType from '../nodes/ListType';
 import type Locales from '../locale/Locales';
 
+const MAX_TEXT_LENGTH = 65536;
+
 export default function bootstrapText(locales: Locales) {
     function createBinaryTextFunction<OutputType extends Value>(
         functionText: (locale: Locale) => FunctionText<NameAndDoc[]>,
@@ -92,9 +94,16 @@ export default function bootstrapText(locales: Locales) {
                                 NumberType.make(),
                                 count,
                             );
+
+                        const textLength = text.text.length;
+                        const desiredCount = count.num.toNumber();
+                        const actualCount =
+                            textLength * desiredCount > MAX_TEXT_LENGTH
+                                ? Math.floor(MAX_TEXT_LENGTH / textLength)
+                                : count.num.toNumber();
                         return text.repeat(
                             requestor,
-                            Math.max(0, Math.floor(count.num.toNumber())),
+                            Math.max(0, Math.floor(actualCount)),
                         );
                     },
                 ),

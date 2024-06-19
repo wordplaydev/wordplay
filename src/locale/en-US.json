@@ -1588,7 +1588,8 @@
                         "If you give me a fractional @Number, I ignore the fraction:",
                         "\\'hi ' · 5.5\\",
                         "If you give me a negative @Number or zero, I give an empty @Text.",
-                        "\\'hi ' · -5\\"
+                        "\\'hi ' · -5\\",
+                        "The longest text I can make is 65,535 characters. If you try to make a longer text, I'll repeat the text as many times as I can."
                     ],
                     "names": ["·", "🔁", "repeat"],
                     "inputs": [
