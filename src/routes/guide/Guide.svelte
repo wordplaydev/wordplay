@@ -1,4 +1,5 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import { afterNavigate, goto } from '$app/navigation';
     import { page } from '$app/stores';
     import Header from '@components/app/Header.svelte';
@@ -66,7 +67,7 @@
     });
 
     // When the concept path changes, navigate to the corresponding URL.
-    $: if ($path) {
+    $: if (browser && $path) {
         const current = $path.at(-1);
         if (current) {
             concept = current.getName($locales, false);
