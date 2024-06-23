@@ -111,7 +111,11 @@
     let performance: Performance;
     $: {
         let newPerformance = progress.getPerformance();
-        if (newPerformance !== undefined && newPerformance !== performance) {
+        if (
+            newPerformance !== undefined &&
+            newPerformance !== performance &&
+            conceptPath
+        ) {
             // Reset the concept path when code changes.
             conceptPath.set([]);
             performance = newPerformance;
@@ -408,6 +412,7 @@
         width: 100%;
         height: 100%;
         background: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
     }
 
     .header {

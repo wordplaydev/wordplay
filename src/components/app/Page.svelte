@@ -55,6 +55,9 @@
         <Link nowrap to="/learn"
             >{$locales.get((l) => l.ui.page.learn.header)}</Link
         >
+        <Link nowrap to="/guide"
+            >{$locales.get((l) => l.ui.page.guide.header)}</Link
+        >
         <Link nowrap to="/projects"
             >{$locales.get((l) => l.ui.page.projects.header)}</Link
         >
@@ -108,5 +111,6 @@
         gap: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
+        white-space: nowrap;
     }
 </style>

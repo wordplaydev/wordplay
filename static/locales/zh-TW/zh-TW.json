@@ -4227,6 +4227,7 @@
                 "link": {
                     "about": "這個地方為什麼存在？",
                     "learn": "$! 這是什麼地方？",
+                    "guide": "$?",
                     "projects": "創作並分享表演",
                     "galleries": "體驗他人的表演",
                     "rights": "責任，我們的和你們的"
@@ -4242,6 +4243,10 @@
                 "options": {
                     "lesson": "$?"
                 }
+            },
+            "guide": {
+                "header": "$?",
+                "description": "$?"
             },
             "projects": {
                 "header": "項目",

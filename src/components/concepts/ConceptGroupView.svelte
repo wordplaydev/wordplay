@@ -7,6 +7,7 @@
     import { animationDuration } from '../../db/Database';
 
     export let concepts: Concept[];
+    export let collapse: boolean = true;
 
     let expanded = false;
 
@@ -17,7 +18,7 @@
 
 <div class="concept-group">
     {#each concepts as concept, index}
-        {#if expanded || index < 3}
+        {#if !collapse || expanded || index < 3}
             <span
                 transition:slide|local={{
                     duration: $animationDuration,

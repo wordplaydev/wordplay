@@ -9235,6 +9235,24 @@
                   ],
                   "type": "object"
                 },
+                "guide": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "description": "A description of the guide",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "The header for the guide page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "description"
+                  ],
+                  "type": "object"
+                },
                 "join": {
                   "additionalProperties": false,
                   "properties": {
@@ -9301,6 +9319,10 @@
                           "description": "What content is on the galleries page",
                           "type": "string"
                         },
+                        "guide": {
+                          "description": "What content is on the guide page",
+                          "type": "string"
+                        },
                         "learn": {
                           "description": "What content is on the learn page",
                           "type": "string"
@@ -9317,6 +9339,7 @@
                       "required": [
                         "about",
                         "learn",
+                        "guide",
                         "projects",
                         "galleries",
                         "rights"
@@ -9858,6 +9881,7 @@
                 "unknown",
                 "landing",
                 "learn",
+                "guide",
                 "projects",
                 "galleries",
                 "about",

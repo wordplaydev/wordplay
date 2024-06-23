@@ -2993,6 +2993,7 @@
                 "link": {
                     "about": "$?",
                     "learn": "$?",
+                    "guide": "$?",
                     "projects": "$?",
                     "galleries": "$?",
                     "rights": "$?"
@@ -3005,6 +3006,10 @@
                     "next": "$?",
                     "previous": "$?"
                 }
+            },
+            "guide": {
+                "header": "$?",
+                "description": "$?"
             },
             "projects": {
                 "header": "$?",

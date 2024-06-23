@@ -2677,6 +2677,7 @@
                 "link": {
                     "about": "$?",
                     "learn": "$?",
+                    "guide": "$?",
                     "projects": "$?",
                     "galleries": "$?",
                     "rights": "$?"
@@ -2692,6 +2693,10 @@
                 "options": {
                     "lesson": "$?"
                 }
+            },
+            "guide": {
+                "header": "$?",
+                "description": "$?"
             },
             "projects": {
                 "header": "$?",

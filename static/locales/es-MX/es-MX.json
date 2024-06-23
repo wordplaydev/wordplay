@@ -4427,6 +4427,7 @@
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "Un tutorial dramático de elenco de personajes ",
+                    "guide": "$?",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas"
@@ -4442,6 +4443,10 @@
                 "options": {
                     "lesson": "lección presente"
                 }
+            },
+            "guide": {
+                "header": "$?",
+                "description": "$?"
             },
             "projects": {
                 "header": "Proyectos",

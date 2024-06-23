@@ -66,7 +66,7 @@ export default class ConceptIndex {
                 source.expression
                     .nodes(
                         (n): n is StructureDefinition =>
-                            n instanceof StructureDefinition
+                            n instanceof StructureDefinition,
                     )
                     .map(
                         (def) =>
@@ -77,9 +77,9 @@ export default class ConceptIndex {
                                 undefined,
                                 [],
                                 locales,
-                                project.getContext(source)
-                            )
-                    )
+                                project.getContext(source),
+                            ),
+                    ),
             )
             .flat();
 
@@ -88,7 +88,7 @@ export default class ConceptIndex {
                 source.expression.expression.statements
                     .filter(
                         (n): n is FunctionDefinition =>
-                            n instanceof FunctionDefinition
+                            n instanceof FunctionDefinition,
                     )
                     .map(
                         (def) =>
@@ -98,9 +98,9 @@ export default class ConceptIndex {
                                 def,
                                 undefined,
                                 locales,
-                                project.getContext(source)
-                            )
-                    )
+                                project.getContext(source),
+                            ),
+                    ),
             )
             .flat();
 
@@ -114,9 +114,9 @@ export default class ConceptIndex {
                                 Purpose.Project,
                                 def,
                                 locales,
-                                project.getContext(source)
-                            )
-                    )
+                                project.getContext(source),
+                            ),
+                    ),
             )
             .flat();
 
@@ -133,8 +133,8 @@ export default class ConceptIndex {
                       def,
                       undefined,
                       locales,
-                      project.getContext(main)
-                  )
+                      project.getContext(main),
+                  ),
         );
 
         const constructs = getNodeConcepts(project.getContext(main));
@@ -142,7 +142,7 @@ export default class ConceptIndex {
         const basis = getBasisConcepts(
             project.basis,
             locales,
-            project.getContext(main)
+            project.getContext(main),
         );
 
         const output = getOutputConcepts(locales, project.getContext(main));
@@ -159,7 +159,7 @@ export default class ConceptIndex {
                 ...constructs,
                 ...output,
             ],
-            locales
+            locales,
         );
     }
 
@@ -184,34 +184,36 @@ export default class ConceptIndex {
             node instanceof UnaryEvaluate
                 ? node.getFunction(context)
                 : node instanceof Reference
-                ? node.resolve(context)
-                : node instanceof Bind
-                ? node
-                : undefined;
+                  ? node.resolve(context)
+                  : node instanceof Bind
+                    ? node
+                    : undefined;
         const definitionConcept =
             definition instanceof FunctionDefinition
                 ? this.getFunctionConcept(definition)
                 : definition instanceof StructureDefinition
-                ? this.getStructureConcept(definition)
-                : definition instanceof StreamDefinition
-                ? this.getStreamConcept(definition)
-                : definition instanceof Bind
-                ? this.getBindConcept(definition)
-                : undefined;
+                  ? this.getStructureConcept(definition)
+                  : definition instanceof StreamDefinition
+                    ? this.getStreamConcept(definition)
+                    : definition instanceof Bind
+                      ? this.getBindConcept(definition)
+                      : undefined;
 
         return definitionConcept ?? this.getNodeConcept(node);
     }
 
     getBindConcept(bind: Bind) {
         return this.concepts.find(
-            (concept) => concept instanceof BindConcept && concept.bind === bind
+            (concept) =>
+                concept instanceof BindConcept && concept.bind === bind,
         );
     }
 
     getFunctionConcept(fun: FunctionDefinition): FunctionConcept | undefined {
         return this.concepts.find(
             (concept): concept is FunctionConcept =>
-                concept instanceof FunctionConcept && concept.definition === fun
+                concept instanceof FunctionConcept &&
+                concept.definition === fun,
         );
     }
 
@@ -219,14 +221,14 @@ export default class ConceptIndex {
         return this.concepts.find(
             (concept) =>
                 concept instanceof StructureConcept &&
-                concept.definition === definition
+                concept.definition === definition,
         );
     }
 
     getStreamConcept(fun: StreamDefinition): StreamConcept | undefined {
         return this.concepts.find(
             (concept): concept is StreamConcept =>
-                concept instanceof StreamConcept && concept.definition === fun
+                concept instanceof StreamConcept && concept.definition === fun,
         );
     }
 
@@ -234,7 +236,7 @@ export default class ConceptIndex {
         return this.concepts.find(
             (concept) =>
                 concept instanceof NodeConcept &&
-                concept.template.constructor === node.constructor
+                concept.template.constructor === node.constructor,
         );
     }
 
@@ -248,14 +250,14 @@ export default class ConceptIndex {
     }
 
     getConceptOfType(
-        type: Type
+        type: Type,
     ): FunctionConcept | StructureConcept | undefined {
         if (type instanceof FunctionType && type.definition)
             return this.getFunctionConcept(type.definition);
 
         return this.concepts.find(
             (c): c is StructureConcept =>
-                c instanceof StructureConcept && c.representsType(type)
+                c instanceof StructureConcept && c.representsType(type),
         );
     }
 
@@ -269,7 +271,7 @@ export default class ConceptIndex {
         const subconcepts = this.getConceptByName(owner)?.getSubConcepts();
         return subconcepts
             ? Array.from(subconcepts).find((c) =>
-                  c.hasName(concept, this.locales)
+                  c.hasName(concept, this.locales),
               )
             : undefined;
     }
@@ -300,7 +302,7 @@ export default class ConceptIndex {
 
     getQuery(
         locales: Locales,
-        query: string
+        query: string,
     ): [Concept, [string, number, number][]][] {
         // Find matching concepts for each locale and the string that matched.
         const matches = locales
@@ -314,7 +316,7 @@ export default class ConceptIndex {
                             .map((c) => {
                                 const match = c.getTextMatching(
                                     locales,
-                                    lowerQuery
+                                    lowerQuery,
                                 );
                                 return match !== undefined
                                     ? [c, match]
@@ -322,15 +324,15 @@ export default class ConceptIndex {
                             })
                             .filter(
                                 (
-                                    match
+                                    match,
                                 ): match is [
                                     Concept,
-                                    [string, number, number]
-                                ] => Array.isArray(match)
+                                    [string, number, number],
+                                ] => Array.isArray(match),
                             ),
                     ];
                 },
-                []
+                [],
             );
         // Collapse matching text of equivalent concepts
         const map = new Map<Concept, [string, number, number][]>();

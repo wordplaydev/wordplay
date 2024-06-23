@@ -13,6 +13,7 @@
     import Stage, { NameGenerator, toStage } from '../../output/Stage';
     import OutputView from '../output/OutputView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
 
     export let example: Example;
     export let spaces: Spaces;
@@ -86,7 +87,7 @@
             ><CodeView
                 node={example.program}
                 {inline}
-                {spaces}
+                spaces={getPreferredSpaces(example.program)}
                 outline={false}
                 describe={false}
             /></div

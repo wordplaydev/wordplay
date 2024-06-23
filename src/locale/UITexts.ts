@@ -680,6 +680,8 @@ type UITexts = {
                 about: string;
                 /** What content is on the learn page */
                 learn: string;
+                /** What content is on the guide page */
+                guide: string;
                 /** What content is on the projects page */
                 projects: string;
                 /** What content is on the galleries page */
@@ -704,6 +706,12 @@ type UITexts = {
                 /** The label for the lesson drop down */
                 lesson: string;
             };
+        };
+        guide: {
+            /** The header for the guide page */
+            header: string;
+            /** A description of the guide */
+            description: string;
         };
         /** The project creation and browsing page */
         projects: {

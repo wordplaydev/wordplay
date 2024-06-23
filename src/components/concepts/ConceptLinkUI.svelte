@@ -8,6 +8,7 @@
     import Button from '../widgets/Button.svelte';
     import concretize from '../../locale/concretize';
     import { withVariationSelector } from '../../unicode/emoji';
+    import { goto } from '$app/navigation';
 
     export let link: ConceptRef | ConceptLink | Concept;
     export let label: string | undefined = undefined;
@@ -75,15 +76,22 @@
     function navigate() {
         // If we have a concept and the last concept isn't it, navigate
         if (concept) {
-            // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
-            const alreadyHere = $path.at(-1) === concept;
-            if (alreadyHere)
-                path.set([...$path.slice(0, $path.length - 1), concept]);
-            // If the concept before the last is the concept, just go back
-            else if ($path.length >= 2 && $path[$path.length - 2] === concept)
-                path.set($path.slice(0, $path.length - 1));
-            // Otherwise, append the concept.
-            else path.set([...$path, concept]);
+            if (path) {
+                // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
+                const alreadyHere = $path.at(-1) === concept;
+                if (alreadyHere)
+                    path.set([...$path.slice(0, $path.length - 1), concept]);
+                // If the concept before the last is the concept, just go back
+                else if (
+                    $path.length >= 2 &&
+                    $path[$path.length - 2] === concept
+                )
+                    path.set($path.slice(0, $path.length - 1));
+                // Otherwise, append the concept.
+                else path.set([...$path, concept]);
+            } else {
+                goto('/guide');
+            }
         }
     }
 </script>

@@ -49,6 +49,11 @@
         >{$locales.get((l) => l.ui.page.learn.header)}</BigLink
     >
     <BigLink
+        to="/guide"
+        subtitle={$locales.get((l) => l.ui.page.landing.link.guide)}
+        >{$locales.get((l) => l.ui.page.guide.header)}</BigLink
+    >
+    <BigLink
         to="/projects"
         subtitle={$locales.get((l) => l.ui.page.landing.link.projects)}
         >{$locales.get((l) => l.ui.page.projects.header)}</BigLink

@@ -10,7 +10,7 @@
     import Source from '@nodes/Source';
     import ConceptsView from './ConceptsView.svelte';
     import StructureConceptView from './StructureConceptView.svelte';
-    import { onDestroy, setContext } from 'svelte';
+    import { onDestroy } from 'svelte';
     import StructureConcept from '@concepts/StructureConcept';
     import FunctionConcept from '@concepts/FunctionConcept';
     import BindConcept from '@concepts/BindConcept';
@@ -36,6 +36,7 @@
     import ConceptLink from '../../nodes/ConceptLink';
 
     export let project: Project;
+    export let collapse: boolean = true;
 
     let view: HTMLElement | undefined;
 
@@ -56,10 +57,6 @@
 
     let currentConcept: Concept | undefined = undefined;
     $: currentConcept = $path[$path.length - 1];
-
-    // Set a context that stores a project context for nodes in the palette to use.
-    // Keep it up to date as the project changes.
-    $: setContext('context', project.getContext(project.getMain()));
 
     async function scrollToTop() {
         // Wait for everything to render
@@ -130,6 +127,9 @@
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
+        // No project? No drop.
+        if (project === undefined) return;
+
         const node: Node | undefined = $dragged;
 
         // Release the dragged node.
@@ -207,7 +207,7 @@
     {/if}
 </div>
 <section
-    class="palette"
+    class="documentation"
     aria-label={$locales.get((l) => l.ui.docs.label)}
     on:pointerup={handleDrop}
     bind:this={view}
@@ -279,49 +279,64 @@
             {/if}
             <!-- Home page is default. -->
         {:else if $index}
-            <ConceptsView
-                category={$locales.get((l) => l.term.project)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Project)}
-            />
+            {@const projectConcepts = $index.getPrimaryConceptsWithPurpose(
+                Purpose.Project,
+            )}
+            {#if projectConcepts.length > 0}
+                <ConceptsView
+                    category={$locales.get((l) => l.term.project)}
+                    concepts={projectConcepts}
+                    {collapse}
+                />
+            {/if}
             <ConceptsView
                 category={$locales.get((l) => l.term.value)}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Value)}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.evaluate)}
                 concepts={$index.getPrimaryConceptsWithPurpose(
                     Purpose.Evaluate,
                 )}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.bind)}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Bind)}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.decide)}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.input)}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Input)}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.output)}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.type)}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Type)}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.document)}
                 concepts={$index.getPrimaryConceptsWithPurpose(
                     Purpose.Document,
                 )}
+                {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.source)}
                 concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Source)}
+                {collapse}
             />
         {/if}
     </div>
@@ -333,15 +348,12 @@
 </section>
 
 <style>
-    .palette {
+    .documentation {
         flex: 1;
         background-color: var(--wordplay-background);
         display: flex;
         flex-direction: column;
         height: 100%;
-    }
-
-    .palette {
         transition:
             width ease-out,
             visibility ease-out,

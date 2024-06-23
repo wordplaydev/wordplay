@@ -4396,7 +4396,8 @@
                     "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete. Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
                 ],
                 "link": {
-                    "learn": "A dramatic tutorial of cast of characters",
+                    "learn": "Learn the language with a dramatic cast of characters",
+                    "guide": "Search and browse the language reference",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
                     "rights": "Responsibilities, ours and yours",
@@ -4413,6 +4414,10 @@
                 "options": {
                     "lesson": "current lesson"
                 }
+            },
+            "guide": {
+                "header": "Guide",
+                "description": "This is a reference for every part of the Wordplay programming language. Search for a concept or browse the list to learn more."
             },
             "projects": {
                 "header": "Projects",

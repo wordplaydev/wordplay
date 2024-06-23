@@ -2,12 +2,14 @@
     import type Concept from '@concepts/Concept';
     import ConceptGroupView from './ConceptGroupView.svelte';
     import TiltedHeader from '../app/Tilted.svelte';
+
     export let category: string;
     export let concepts: Concept[];
+    export let collapse: boolean;
 </script>
 
 <h1><TiltedHeader>{category}</TiltedHeader></h1>
-<ConceptGroupView {concepts} />
+<ConceptGroupView {concepts} {collapse} />
 
 <style>
     h1 {
