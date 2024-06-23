@@ -9,7 +9,6 @@
         locales,
         tutorialProgress,
     } from '../../db/Database';
-    import { onMount } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import Page from '@components/app/Page.svelte';
     import Speech from '../../components/lore/Speech.svelte';
@@ -18,22 +17,16 @@
     import Writing from '../../components/app/Writing.svelte';
     import Header from '../../components/app/Header.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
+    import { browser } from '$app/environment';
 
     let tutorial: Tutorial | undefined | null = undefined;
 
-    $: if ($locales) {
+    $: if (browser && $locales) {
         Locales.getTutorial(
             $locales.get((l) => l.language),
             $locales.get((l) => l.region),
         ).then((t) => (tutorial = t));
     }
-
-    onMount(async () => {
-        tutorial = await Locales.getTutorial(
-            $locales.get((l) => l.language),
-            $locales.get((l) => l.region),
-        );
-    });
 
     // If hot module reloading, and there's a locale update, refresh the tutorial.
     if (import.meta.hot) {
