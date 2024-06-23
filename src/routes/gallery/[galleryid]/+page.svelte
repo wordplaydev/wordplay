@@ -57,6 +57,8 @@
     $: editable = gallery
         ? $user !== null && gallery.getCurators().includes($user.uid)
         : false;
+    $: addable =
+        gallery && $user ? gallery.getCreators().includes($user.uid) : false;
 
     // Anytime the gallery changes, refresh the project list.
     $: if (gallery) loadProjects();
@@ -136,7 +138,7 @@
                     />
                 {/if}
 
-                {#if editable}
+                {#if editable || addable}
                     <AddProject
                         add={(template) => {
                             if (gallery) {
