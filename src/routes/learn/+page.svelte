@@ -20,17 +20,19 @@
     import type Tutorial from '../../tutorial/Tutorial';
 
     let tutorial: Tutorial | undefined | null = undefined;
-    let fallback = false;
+
+    $: if ($locales) {
+        Locales.getTutorial(
+            $locales.get((l) => l.language),
+            $locales.get((l) => l.region),
+        ).then((t) => (tutorial = t));
+    }
 
     onMount(async () => {
         tutorial = await Locales.getTutorial(
             $locales.get((l) => l.language),
-            $locales.get((l) => l.region)
+            $locales.get((l) => l.region),
         );
-        fallback =
-            $locales
-                .getLanguages()
-                .some((lang) => tutorial?.language === lang) === false;
     });
 
     // If hot module reloading, and there's a locale update, refresh the tutorial.
@@ -38,17 +40,15 @@
         import.meta.hot.on('locales-update', async () => {
             tutorial = await Locales.getTutorial(
                 $locales.get((l) => l.language),
-                $locales.get((l) => l.region)
+                $locales.get((l) => l.region),
             );
         });
     }
 
     // Set progress if URL indicates one.
-    $: {
-        if (tutorial) {
-            const progress = Progress.fromURL(tutorial, $page.url.searchParams);
-            if (progress) Settings.setTutorialProgress(progress);
-        }
+    $: if (tutorial) {
+        const progress = Progress.fromURL(tutorial, $page.url.searchParams);
+        if (progress) Settings.setTutorialProgress(progress);
     }
 
     function navigate(newProgress: Progress) {
@@ -79,10 +79,12 @@
                 tutorial,
                 $tutorialProgress.act,
                 $tutorialProgress.scene,
-                $tutorialProgress.line
+                $tutorialProgress.line,
             )}
             {navigate}
-            {fallback}
+            fallback={$locales
+                .getLanguages()
+                .some((lang) => tutorial?.language === lang) === false}
         />
     </Page>
 {/if}
