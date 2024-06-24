@@ -1918,7 +1918,10 @@
             },
             "conversion": {
                 "text": "An Arabic @Text representation of my digits.",
-                "list": "A list of the numbers 1 to whatever number is given, such as\n\\10→[]\\.",
+                "list": [
+                    "I convert a number to a list of the numbers from \\1\\ to whatever number is given. For example:",
+                    "\\10→[]\\"
+                ],
                 "s2m": "Seconds to minutes",
                 "s2h": "Seconds to hours",
                 "s2day": "Seconds to days",
