@@ -8,25 +8,25 @@
         "bind": "$?",
         "decide": "$?",
         "document": "$?",
-        "project": "$?",
+        "project": "Projekt",
         "source": "$?",
         "input": "$?",
         "output": "$?",
         "convert": "$?",
-        "act": "$?",
+        "act": "speilen",
         "scene": "Szene",
-        "phrase": "$?",
+        "phrase": "Satzglied",
         "group": "$?",
-        "stage": "$?",
+        "stage": "Bühne",
         "type": "$?",
         "start": "Anfang",
         "entered": "$?",
         "changed": "$?",
         "moved": "$?",
         "name": "Name",
-        "value": "$?",
+        "value": "Wert",
         "text": "$?",
-        "boolean": "$?",
+        "boolean": "boolescher Wert",
         "map": "$?",
         "number": "Nummer",
         "function": "$?",
@@ -40,7 +40,7 @@
         "query": "$?",
         "row": "$?",
         "set": "$?",
-        "key": "$?",
+        "key": "Schlüssel",
         "help": "$?",
         "feedback": "$?"
     },
@@ -57,17 +57,17 @@
         "Access": "$?",
         "Function": "$?",
         "Borrow": "$?",
-        "Share": "$?",
+        "Share": "teilen",
         "Convert": "$?",
         "Doc": "$?",
         "Formatted": "$?",
         "FormattedType": "$?",
-        "Words": "$?",
+        "Words": "Wörter",
         "Link": "$?",
-        "Italic": "$?",
-        "Underline": "$?",
+        "Italic": "Kursiv",
+        "Underline": "Unterstrich",
         "Light": "$?",
-        "Bold": "$?",
+        "Bold": "Fett",
         "Extra": "$?",
         "Concept": "$?",
         "URL": "$?",
@@ -82,13 +82,13 @@
         "TypeOpen": "$?",
         "TypeClose": "$?",
         "Separator": "$?",
-        "Language": "$?",
+        "Language": "Sprache",
         "Region": "$?",
         "BooleanType": "$?",
         "NumberType": "$?",
         "JapaneseNumeral": "$?",
         "RomanNumeral": "$?",
-        "Pi": "$?",
+        "Pi": "Kreiszahl",
         "Infinity": "$?",
         "TableOpen": "$?",
         "TableClose": "$?",
@@ -102,19 +102,19 @@
         "Initial": "$?",
         "Previous": "$?",
         "Placeholder": "$?",
-        "Etc": "$?",
-        "This": "$?",
+        "Etc": "usw.",
+        "This": "diese",
         "Operator": "$?",
         "Conditional": "$?",
         "Text": "$?",
-        "Number": "$?",
-        "Decimal": "$?",
+        "Number": "Nummer",
+        "Decimal": "Punkt",
         "Base": "$?",
-        "Boolean": "$?",
-        "Name": "$?",
+        "Boolean": "boolesche Wert",
+        "Name": "Name",
         "Unknown": "$?",
         "Locale": "$?",
-        "End": "$?"
+        "End": "Ende"
     },
     "node": {
         "Dimension": {
@@ -140,7 +140,7 @@
             "doc": "$?"
         },
         "Language": {
-            "name": "$?",
+            "name": "Sprache",
             "description": "$?",
             "emotion": "$?",
             "doc": "$?",
@@ -150,13 +150,13 @@
             }
         },
         "Name": {
-            "name": "$?",
+            "name": "Name",
             "description": "$?",
             "emotion": "$?",
             "doc": "$?"
         },
         "Names": {
-            "name": "$?",
+            "name": "Namen",
             "emotion": "$?",
             "doc": "$?"
         },
@@ -1841,8 +1841,8 @@
             "style": { "doc": "$?", "names": "$?" }
         },
         "Phrase": {
-            "names": ["💬", "Frase"],
-            "doc": "$?",
+            "names": ["💬", "Satzglied"],
+            "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
             "description": "$?",
             "text": { "doc": "$?", "names": "$?" },
             "size": { "doc": "$?", "names": "$?" },
@@ -2202,7 +2202,7 @@
             "code": "Noto Sans Mono"
         },
         "phrases": {
-            "welcome": "$?"
+            "welcome": "Wilkommen"
         },
         "widget": {
             "confirm": { "cancel": "$?" },
@@ -2212,7 +2212,7 @@
             "loading": {
                 "message": "$?"
             },
-            "home": "$?"
+            "home": "Startseite"
         },
         "tile": {
             "toggle": {
