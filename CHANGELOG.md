@@ -8,6 +8,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Better tab symbol to clarify keyboard shortcut and whitespace meaning.
+-   Improved contrast of delimiters and borders in dark mode.
+-   Correct typos in tutorial.
 
 ## 0.10.1 2024-06-22
 
