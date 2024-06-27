@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.10.2 2024-06-29
+
+### Fixed
+
+-   Better tab symbol to clarify keyboard shortcut and whitespace meaning.
+
 ## 0.10.1 2024-06-22
 
 ### Fixed

@@ -3,15 +3,15 @@ import type Node from '@nodes/Node';
 import type Source from '@nodes/Source';
 import TokenList from './TokenList';
 
-export const TAB_SYMBOL = '—';
+export const TAB_SYMBOL = '⇥';
 export const TAB_WIDTH = 2;
 export const SPACE_HTML = '&middot;';
 export const TAB_HTML =
-    TAB_SYMBOL + '&nbsp;'.repeat(TAB_WIDTH - TAB_SYMBOL.length);
+    '&nbsp;'.repeat(TAB_WIDTH - TAB_SYMBOL.length) + TAB_SYMBOL;
 export const SPACE_TEXT = '\xa0';
 export const TAB_TEXT = SPACE_TEXT.repeat(TAB_WIDTH);
 export const EXPLICIT_TAB_TEXT =
-    TAB_SYMBOL + SPACE_TEXT.repeat(TAB_WIDTH - TAB_SYMBOL.length);
+    SPACE_TEXT.repeat(TAB_WIDTH - TAB_SYMBOL.length) + TAB_SYMBOL;
 
 export const MAX_LINE_LENGTH = 40;
 
