@@ -2933,7 +2933,7 @@
                         [
                             "Reaction",
                             "serious",
-                            "Here's an example. See the @Key stream? Putting \\∆\\ before it asks, 'Did this stream change'? Before it changes, I evaluate to the initial value, \\1m\\. But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* expression, which is \\1m\\ plus whatever the previous stream value was; that's represented by \\.\\. This adds 1m to the size of the phrase, making the word get bigger and bigger."
+                            "Here's an example. See the @Key stream? Putting \\∆ _\\ before it asks, 'Did this stream change'? Before it changes, I evaluate to the initial value, \\1m\\. But when the space key is pressed, @Program reevaluates, and I evaluate to the *next* expression, which is \\1m\\ plus whatever the previous stream value was; that's represented by \\.\\. This adds \\1m\\ to the size of the phrase, making the word get bigger and bigger."
                         ],
                         ["fit", "Phrase('hi' size: 1m … ∆ Key(' ') … 1m + .)"],
                         null,
