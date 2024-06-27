@@ -815,7 +815,7 @@
                             "Text",
                             "serious",
                             "Why don't you try making a text in this blank @Program?",
-                            "You can use whatever quotes you like — single \\''\\, double \\''\\, angle \\«»\\, brackets \\「」\\ — in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text value I will create!"
+                            "You can use whatever quotes you like — single \\''\\, double \\\"\"\\, angle \\«»\\, brackets \\「」\\ — in whatever language you like. The only rule is that if you start some text with an opening quote symbol, you must finish it with a closing one. Everything inside is the text value I will create!"
                         ],
                         ["edit", "''"],
                         null,
