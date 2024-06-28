@@ -10,8 +10,8 @@
         "document": "$?",
         "project": "Projekt",
         "source": "$?",
-        "input": "$?",
-        "output": "$?",
+        "input": "Eingabe",
+        "output": "Ausgabe",
         "convert": "$?",
         "act": "speilen",
         "scene": "Szene",
@@ -29,20 +29,20 @@
         "boolean": "boolescher Wert",
         "map": "$?",
         "number": "Nummer",
-        "function": "$?",
+        "function": "Funktion",
         "exception": "$?",
-        "table": "$?",
+        "table": "Tabelle",
         "none": "$?",
-        "list": "$?",
+        "list": "Liste",
         "stream": "$?",
         "structure": "$?",
         "index": "$?",
         "query": "$?",
-        "row": "$?",
+        "row": "Reihe",
         "set": "$?",
         "key": "Schlüssel",
-        "help": "$?",
-        "feedback": "$?"
+        "help": "Hilfe",
+        "feedback": "Bewertung"
     },
     "token": {
         "EvalOpen": "$?",
@@ -2675,15 +2675,15 @@
                 "description": "$?",
                 "beta": ["$?"],
                 "link": {
-                    "about": "$?",
-                    "learn": "$?",
-                    "projects": "$?",
+                    "about": "Warum existiert diese Website?",
+                    "learn": "Ein dramatisches Tutorial mit einer schillernden Besetzung von Charakturen",
+                    "projects": "Wo du deine Aufführungen machen und teilen kannst",
                     "galleries": "$?",
-                    "rights": "$?"
+                    "rights": "Unsere und deine Verantwortungen"
                 }
             },
             "learn": {
-                "header": "$?",
+                "header": "Lernen",
                 "error": "$?",
                 "button": {
                     "next": "$?",
@@ -2694,11 +2694,11 @@
                 }
             },
             "projects": {
-                "header": "$?",
+                "header": "Projekte",
                 "projectprompt": "$?",
                 "archiveheader": "$?",
                 "archiveprompt": "$?",
-                "galleriesheader": "$?",
+                "galleriesheader": "Galerien",
                 "galleryprompt": "$?",
                 "add": {
                     "header": "$?",
@@ -2729,16 +2729,16 @@
                 }
             },
             "galleries": {
-                "header": "$?",
+                "header": "Galerien",
                 "prompt": "$?",
                 "examples": "ejemplos"
             },
             "about": {
-                "header": "$?",
+                "header": "Über uns",
                 "content": ["$?"]
             },
             "login": {
-                "header": "$?",
+                "header": "Einloggen",
                 "subtitle": "$?",
                 "anonymous": "$?",
                 "prompt": {
@@ -2831,13 +2831,13 @@
                 }
             },
             "rights": {
-                "header": "$?",
+                "header": "Rechte",
                 "content": ["$?"],
                 "consequences": ["$?"]
             },
             "donate": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "Spenden",
+                "prompt": "Um zugängliche und weltweite Programmierungen zu befähigen",
                 "content": ["$?"]
             }
         },
