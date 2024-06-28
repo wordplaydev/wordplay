@@ -25,7 +25,7 @@ import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
-export const EventuallySupportedLocales = ['zh-TW'];
+export const EventuallySupportedLocales = ['zh-TW', 'de-DE'];
 
 /** A list of locales officially supported by Wordplay. */
 export const SupportedLocales = Array.from(
