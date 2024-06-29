@@ -11,14 +11,19 @@
 
 <script lang="ts">
     import { afterUpdate, tick } from 'svelte';
-    import { SPACE_HTML, TAB_HTML } from '@parser/Spaces';
     import type Source from '@nodes/Source';
     import Node from '@nodes/Node';
-    import { animationDuration, blocks, locales } from '../../db/Database';
+    import {
+        animationDuration,
+        blocks,
+        locales,
+        spaceIndicator,
+    } from '../../db/Database';
     import type Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
     import type Token from '@nodes/Token';
     import UnicodeString from '@models/UnicodeString';
+    import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
 
     export let caret: Caret;
     export let source: Source;
@@ -205,30 +210,82 @@
     function computeSpaceDimensions(
         editor: HTMLElement,
         currentToken: Token,
+        /** The index into the space where the caret is. */
+        caretIndex: number,
     ): {
-        spaceWidth: number;
-        spaceHeight: number;
-        tabWidth: number;
-        tabHeight: number;
+        beforeSpaceWidth: number;
+        beforeSpaceHeight: number;
     } {
         // Get some measurements on spaces and tab.
         const spaceElement = editor.querySelector(
             `.space[data-id="${currentToken.id}"]`,
         );
-        if (spaceElement === null)
-            return { spaceWidth: 0, spaceHeight: 0, tabWidth: 0, tabHeight: 0 };
-        const spaceText = spaceElement.innerHTML;
-        spaceElement.innerHTML = SPACE_HTML;
-        const spaceBounds = spaceElement.getBoundingClientRect();
-        const spaceWidth = spaceBounds.width;
-        const spaceHeight = spaceBounds.height;
-        spaceElement.innerHTML = TAB_HTML;
-        const tabBounds = spaceElement.getBoundingClientRect();
-        const tabWidth = tabBounds.width;
-        const tabHeight = tabBounds.height;
-        spaceElement.innerHTML = spaceText;
+        // Couldn't find the space for some reason? Return zero dimensions.
+        if (!(spaceElement instanceof HTMLElement))
+            return {
+                beforeSpaceWidth: 0,
+                beforeSpaceHeight: 0,
+            };
 
-        return { spaceWidth, spaceHeight, tabWidth, tabHeight };
+        // Remember the original HTML
+        const originalHTML = spaceElement.innerHTML;
+
+        // Get the lines in the HTML (which are separated by line breaks). This depends closely on the structure created in Space.svelte.
+        const lines = Array.from(spaceElement.querySelectorAll('.line'));
+
+        // The line that contains the caret index
+        let containingLine: UnicodeString | undefined = undefined;
+        let currentIndex = 0;
+        for (let lineIndex = 0; lineIndex < lines.length; lineIndex++) {
+            const nextLine = lines[lineIndex];
+            if (nextLine instanceof HTMLElement) {
+                // Replace tab text with actual tabs for an accurate count.
+                const lineText = new UnicodeString(
+                    nextLine.innerText.replaceAll(
+                        $spaceIndicator ? EXPLICIT_TAB_TEXT : TAB_TEXT,
+                        '\t',
+                    ),
+                );
+                // If the caret index is between and the end of this line (inclusive), then we found our line.
+                if (currentIndex + lineText.getLength() >= caretIndex) {
+                    containingLine = lineText;
+                    // Adjust the caret index to be relative to this line's text so we can compute the dimensions of the text on this line.
+                    caretIndex -= currentIndex;
+                    // Found it, so we stop looping through lines.
+                    break;
+                } else {
+                    // Increment the glyph count by the number of glyphs in this line, plus one for the newline.
+                    currentIndex += lineText.getLength() + 1;
+                }
+            }
+        }
+
+        // If we didn't find a line, return zero dimensions.
+        if (containingLine === undefined)
+            return {
+                beforeSpaceWidth: 0,
+                beforeSpaceHeight: 0,
+            };
+
+        // If we found the line, find the glyphs before the caret index.
+        const beforeSpace = containingLine.substring(0, caretIndex);
+
+        // Temporarily assign the inner HTML of the space component to the text before the caret on the line.
+        spaceElement.innerHTML = beforeSpace
+            .toString()
+            .replaceAll('\t', $spaceIndicator ? EXPLICIT_TAB_TEXT : TAB_TEXT);
+        const beforeSpaceBounds = spaceElement.getBoundingClientRect();
+        const beforeSpaceWidth = beforeSpaceBounds.width;
+        const beforeSpaceHeight = beforeSpaceBounds.height;
+
+        // Restore the original HTML
+        spaceElement.innerHTML = originalHTML;
+
+        // Return the computed space.
+        return {
+            beforeSpaceWidth,
+            beforeSpaceHeight,
+        };
     }
 
     function computeLocation(): CaretBounds | undefined {
@@ -381,11 +438,16 @@
             //   3) The caret is in the space preceding a token.
             // Figure out which three of this is the case, then position accordingly.
 
-            const explicitSpace = source.spaces.getSpace(token);
+            const explicitSpace = new UnicodeString(
+                source.spaces.getSpace(token),
+            );
 
-            const spaceIndex = explicitSpace.length + caretIndex;
+            const spaceIndex = explicitSpace.getLength() + caretIndex;
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
             const spaceAfter = explicitSpace.substring(spaceIndex);
+
+            const { beforeSpaceWidth, beforeSpaceHeight } =
+                computeSpaceDimensions(editorView, token, spaceIndex);
 
             // Find the start position of the editor, based on language direction.
             const editorHorizontalStart =
@@ -393,9 +455,6 @@
                     ? editorPadding
                     : viewportWidth - editorPadding;
             const editorVerticalStart = editorPadding + 4;
-
-            const { spaceWidth, spaceHeight, tabWidth, tabHeight } =
-                computeSpaceDimensions(editorView, token);
 
             // Find the right side of token just prior to the current one that has this space.
             const priorToken = caret.source.getNextToken(token, -1);
@@ -428,20 +487,13 @@
                     : priorTokenViewRect.top + viewportYOffset;
 
             // 1) Trailing space (the caret is before the first newline)
-            if (spaceBefore.indexOf('\n') < 0) {
-                // Count the number of spaces prior to the next newline.
-                const nonTabs = new UnicodeString(
-                    spaceBefore.replaceAll('\t', ''),
-                ).getLength();
-                const tabs = spaceBefore.split('\t').length - 1;
-
+            if (spaceBefore.indexOfCharacter('\n') < 0) {
                 if (horizontal) {
                     // For horizontal layout, place the caret to the right of the prior token, {spaces} after.
                     return {
                         left:
                             priorTokenHorizontalEnd +
-                            (leftToRight ? 1 : -1) *
-                                (nonTabs * spaceWidth + tabs * tabWidth),
+                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: priorTokenTop,
                         height: caretHeight,
                         bottom: priorTokenTop + caretHeight,
@@ -452,8 +504,7 @@
                         left: priorTokenLeft,
                         top:
                             priorTokenVerticalEnd +
-                            (leftToRight ? 1 : -1) *
-                                (nonTabs * spaceHeight + tabs * tabHeight),
+                            (leftToRight ? 1 : -1) * beforeSpaceHeight,
                         height: caretHeight,
                         bottom: priorTokenLeft + caretHeight,
                     };
@@ -461,18 +512,10 @@
             }
             // 2) Empty line (there is a newline before and after the current position)
             else if (
-                spaceBefore.indexOf('\n') >= 0 &&
-                spaceAfter.indexOf('\n') >= 0
+                spaceBefore.indexOfCharacter('\n') >= 0 &&
+                spaceAfter.indexOfCharacter('\n') >= 0
             ) {
                 // Place the caret's left the number of spaces on this line
-                const beforeLines = spaceBefore.split('\n');
-                const spaceOnLine = beforeLines[beforeLines.length - 1];
-
-                const nonTabs = new UnicodeString(
-                    spaceOnLine.replaceAll('\t', ''),
-                ).getLength();
-                const tabs = spaceOnLine.split('\t').length - 1;
-
                 const offset =
                     (spaceBefore.split('\n').length - 1) * lineHeight;
 
@@ -482,8 +525,7 @@
                     return {
                         left:
                             editorHorizontalStart +
-                            (leftToRight ? 1 : -1) *
-                                (nonTabs * spaceWidth + tabs * tabWidth),
+                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: spaceTop,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
@@ -494,8 +536,7 @@
                         left: spaceLeft,
                         top:
                             editorVerticalStart +
-                            (leftToRight ? 1 : -1) *
-                                (nonTabs * spaceHeight + tabs * tabHeight),
+                            (leftToRight ? 1 : -1) * beforeSpaceHeight,
                         height: caretHeight,
                         bottom: spaceLeft + caretHeight,
                     };
@@ -510,14 +551,8 @@
                 spaceOnLastLine = spaceOnLastLine.substring(
                     0,
                     spaceOnLastLine.length -
-                        (explicitSpace.length - spaceIndex),
+                        (explicitSpace.getLength() - spaceIndex),
                 );
-
-                // Compute the spaces prior to the caret on this line.
-                const nonTabs = new UnicodeString(
-                    spaceOnLastLine.replaceAll('\t', ''),
-                ).getLength();
-                const tabs = spaceOnLastLine.split('\t').length - 1;
 
                 let spaceTop = tokenTop;
 
@@ -565,8 +600,7 @@
                     return {
                         left:
                             horizontalStart +
-                            (leftToRight ? 1 : -1) *
-                                (nonTabs * spaceWidth + tabs * tabWidth),
+                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: spaceTop,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
@@ -576,8 +610,7 @@
                         left: tokenStart,
                         top:
                             editorVerticalStart +
-                            (leftToRight ? 1 : -1) *
-                                (nonTabs * spaceWidth + tabs * tabWidth),
+                            (leftToRight ? 1 : -1) * beforeSpaceHeight,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
                     };

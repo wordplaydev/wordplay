@@ -19,26 +19,17 @@
     $: beforeSpaces =
         insertionIndex === undefined
             ? []
-            : render(space.substring(0, insertionIndex), true, $spaceIndicator);
+            : render(space.substring(0, insertionIndex), $spaceIndicator);
     // If there's no insertion, just render the space, otherwise render the right side of the insertion.
     $: afterSpaces = render(
         insertionIndex === undefined ? space : space.substring(insertionIndex),
-        true,
         $spaceIndicator,
     );
 
-    function render(
-        text: string,
-        explicit: boolean,
-        indicator: boolean,
-    ): string[] {
+    function render(text: string, indicator: boolean): string[] {
         return (
-            explicit
-                ? indicator
-                    ? text
-                          .replaceAll(' ', '·')
-                          .replaceAll('\t', EXPLICIT_TAB_TEXT)
-                    : text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT)
+            indicator
+                ? text.replaceAll(' ', '·').replaceAll('\t', EXPLICIT_TAB_TEXT)
                 : text.replaceAll(' ', '\xa0').replaceAll('\t', TAB_TEXT)
         ).split('\n');
     }
@@ -47,6 +38,7 @@
 <!-- 
     This monstrosity renders space, accounting for insertion points. We key on space
     to work around a Svelte defect that doesn't correctly update changes in text nodes.
+    Note that CaretView.computeSpaceDimensions() depends closely on this structure.
 -->
 {#key $spaceIndicator}
     {#key space}
@@ -55,13 +47,15 @@
                 >{#each beforeSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
                         >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
+                            class="line"
                             data-uiid="space-text">{s}</span
                         >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                     />{/if}</span
             ><span role="none" class="after"
                 >{#each afterSpaces as s, index}{#if index > 0}<span
                             ><br class="break" /></span
-                        >{/if}<span data-uiid="space-text">{s}</span
+                        >{/if}<span class="line" data-uiid="space-text"
+                        >{s}</span
                     >{/each}</span
             ></span
         >

@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Improved contrast of delimiters and borders in dark mode.
 -   Correct typos in tutorial.
 -   [#503](https://github.com/wordplaydev/wordplay/issues/503). Prevent infinite loops in parser.
+-   [#504](https://github.com/wordplaydev/wordplay/issues/504). Account for non-fixed-width characters in caret positioning.
 
 ## 0.10.1 2024-06-22
 

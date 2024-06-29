@@ -26,7 +26,7 @@ export default class UnicodeString {
         if (this._segments === undefined)
             this._segments = [
                 ...Array.from(Segmenter.splitGraphemes(this.text)).map(
-                    (s) => s
+                    (s) => s,
                 ),
             ];
         return this._segments;
@@ -44,6 +44,10 @@ export default class UnicodeString {
         return this.text.indexOf(text) >= 0;
     }
 
+    indexOfCharacter(text: string) {
+        return this.getGraphemes().findIndex((g) => g === text);
+    }
+
     withPreviousGraphemeReplaced(char: string, position: number) {
         return position < 0 || position > this.getGraphemes().length
             ? undefined
@@ -54,7 +58,7 @@ export default class UnicodeString {
                           .join(''),
                       char,
                       ...this.getGraphemes().slice(position),
-                  ].join('')
+                  ].join(''),
               );
     }
 
@@ -66,7 +70,7 @@ export default class UnicodeString {
                       ...this.getGraphemes().slice(0, position).join(''),
                       graphemes,
                       ...this.getGraphemes().slice(position),
-                  ].join('')
+                  ].join(''),
               );
     }
 
@@ -77,7 +81,7 @@ export default class UnicodeString {
                   [
                       ...this.getGraphemes().slice(0, position),
                       ...this.getGraphemes().slice(position + 1),
-                  ].join('')
+                  ].join(''),
               );
     }
 
@@ -92,7 +96,7 @@ export default class UnicodeString {
                   [
                       ...segments.slice(0, start),
                       ...segments.slice(endExclusive),
-                  ].join('')
+                  ].join(''),
               );
     }
 
@@ -108,9 +112,9 @@ export default class UnicodeString {
         return this.text.split('\n').map((t) => new UnicodeString(t));
     }
 
-    substring(start: number, end: number) {
+    substring(start: number, end?: number | undefined) {
         return new UnicodeString(
-            this.getGraphemes().slice(start, end).join('')
+            this.getGraphemes().slice(start, end).join(''),
         );
     }
 
@@ -124,13 +128,13 @@ export default class UnicodeString {
             if (
                 graphemes.length >= delimiterGraphemes.length &&
                 delimiterGraphemes.every(
-                    (grapheme, index) => graphemes[index] === grapheme
+                    (grapheme, index) => graphemes[index] === grapheme,
                 )
             ) {
                 if (delimiterGraphemes.length === 0)
                     current = current + graphemes[0];
                 graphemes = graphemes.slice(
-                    Math.max(1, delimiterGraphemes.length)
+                    Math.max(1, delimiterGraphemes.length),
                 );
                 segments.push(current);
                 current = '';
@@ -138,7 +142,7 @@ export default class UnicodeString {
                 current += graphemes.shift();
             }
         }
-        if (current.length > 0) segments.push(current);
+        if (delimiter.length > 0) segments.push(current);
         return segments;
     }
 
