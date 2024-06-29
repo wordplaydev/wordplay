@@ -3320,7 +3320,7 @@
                             "sad",
                             "Omigod omigod omigod, I CANNOT believe I forgot about color. Okay, so any @Pose can have a color, right? But @Color comes in three parts. First, a @Color/lightness between 0 and 100%, which you can think of as how bright a room is, from black to white with color in the middle at 50%.",
                             "Then, a @Color/chroma between 0 and 100, which you can think of has how much color there is, from no color gray to full color.",
-                            "And finally, a @Color/chroma, which you can think of like a color wheel, from red to green to blue in degrees. So you want me to be bright red? Set my rest pose color to \\Color(50% 300 30°)\\."
+                            "And finally, a @Color/hue, which you can think of like a color wheel, from red to green to blue in degrees. So you want me to be bright red? Set my rest pose color to \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,

@@ -3290,7 +3290,7 @@
                             "sad",
                             "Dios mío, Dios mío, Dios mío, NO PUEDO creer que me haya olvidado del color. Bien, entonces cualquier @Pose puede tener un color, ¿verdad? Pero @Color viene en tres partes. Primero, un @Color/lightness entre 0 y 100%, que se puede considerar como qué tan brillante es una habitación, de negro a blanco, con color en el medio al 50%.",
                             "Luego, un @Color/chroma entre 0 y 100, que se te ocurra tiene cuánto color hay, desde gris sin color hasta color completo.",
-                            "Y finalmente, un @Color/chroma, que puedes considerar como una rueda de colores, del rojo al verde y al azul, en grados. ¿Entonces quieres que sea rojo brillante? Establezca el color de mi pose de descanso en \\Color(50% 300 30°)\\."
+                            "Y finalmente, un @Color/hue, que puedes considerar como una rueda de colores, del rojo al verde y al azul, en grados. ¿Entonces quieres que sea rojo brillante? Establezca el color de mi pose de descanso en \\Color(50% 300 30°)\\."
                         ],
                         ["edit", "Phrase('red' color: 🌈(50% 300 30°))"],
                         null,
