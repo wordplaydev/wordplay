@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Correct typos in tutorial.
 -   Ensured type errors when a structure definition is given instead of a structure value.
 -   When generalizing a union type of function types, generalize their output types.
+-   Repaired structure of Korean locale.
 -   [#503](https://github.com/wordplaydev/wordplay/issues/503). Prevent infinite loops in parser.
 -   [#504](https://github.com/wordplaydev/wordplay/issues/504). Account for non-fixed-width characters in caret positioning.
 -   [#488](https://github.com/wordplaydev/wordplay/issues/488). Added animations off indicator on stage.

@@ -1263,7 +1263,7 @@
                 "random": { "doc": "$?", "names": "$?", "inputs": [] },
                 "shuffled": {
                     "doc": ["$?"],
-                    "names": "$? shuffle",
+                    "names": "$?",
                     "inputs": []
                 },
                 "first": { "doc": "$?", "names": "$?", "inputs": [] },
@@ -1745,7 +1745,7 @@
     },
     "output": {
         "Output": {
-            "names": "$? Output",
+            "names": "$?",
             "doc": "$?"
         },
         "Stage": {
@@ -1848,7 +1848,7 @@
             "style": { "doc": "$?", "names": "$?" }
         },
         "Phrase": {
-            "names": ["💬", "Frase"],
+            "names": "$?",
             "doc": "$?",
             "description": "$?",
             "text": { "doc": "$?", "names": "$?" },
