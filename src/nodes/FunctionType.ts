@@ -134,7 +134,12 @@ export default class FunctionType extends Type {
             const outputToCheck = type.output;
 
             if (!(outputToCheck instanceof Type)) return false;
-            if (!this.output.accepts(outputToCheck, context)) return false;
+            if (
+                !this.output
+                    .generalize(context)
+                    .accepts(outputToCheck.generalize(context), context)
+            )
+                return false;
             // If this function takes fewer than the number of inputs that the given function expects,
             // then the given function will not function correctly. But it is okay if the given
             // function takes fewer inputs then this function, since it just means it's ignoring some of the inputs.

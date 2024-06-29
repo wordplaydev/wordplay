@@ -10,10 +10,11 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Better tab symbol to clarify keyboard shortcut and whitespace meaning.
 -   Improved contrast of delimiters and borders in dark mode.
 -   Correct typos in tutorial.
+-   Ensured type errors when a structure definition is given instead of a structure value.
+-   When generalizing a union type of function types, generalize their output types.
 -   [#503](https://github.com/wordplaydev/wordplay/issues/503). Prevent infinite loops in parser.
 -   [#504](https://github.com/wordplaydev/wordplay/issues/504). Account for non-fixed-width characters in caret positioning.
 -   [#488](https://github.com/wordplaydev/wordplay/issues/488). Added animations off indicator on stage.
--   Ensured type errors when a structure definition is given instead of a structure value.
 -   [#500](https://github.com/wordplaydev/wordplay/issues/500). Improved explanation when there's a space between an evaluation's name and inputs.
 
 ## 0.10.1 2024-06-22
