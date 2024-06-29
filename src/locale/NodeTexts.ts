@@ -368,6 +368,10 @@ type NodeTexts = {
              * When a list of inputs is given but isn't last.
              */
             InputListMustBeLast: InternalConflictText;
+            /**
+             * When something looks like an Evaluate with space
+             */
+            SeparatedEvaluate: InternalConflictText;
         }> &
         Exceptions<{
             /**

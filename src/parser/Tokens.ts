@@ -108,7 +108,7 @@ export default class Tokens {
         return types.find((type) => this.nextIs(type)) !== undefined;
     }
 
-    /** Returns true if and only if the next token is the specified type. */
+    /** Returns true if and only if the next token has no preceding space. */
     nextLacksPrecedingSpace(): boolean {
         return this.hasNext() && !this.#spaces.hasSpace(this.#unread[0]);
     }

@@ -3495,6 +3495,10 @@
                       "$ref": "#/definitions/InternalConflictText",
                       "description": "When the structure definition given is an interface, and can't be created"
                     },
+                    "SeparatedEvaluate": {
+                      "$ref": "#/definitions/InternalConflictText",
+                      "description": "When something looks like an Evaluate with space"
+                    },
                     "UnexpectedInput": {
                       "$ref": "#/definitions/ConflictText",
                       "description": "When an input value is given but not expected Description inputs: $1 = evaluate with unexected input, $2: unexpected input"
@@ -3516,7 +3520,8 @@
                     "NotInstantiable",
                     "UnexpectedInput",
                     "UnknownInput",
-                    "InputListMustBeLast"
+                    "InputListMustBeLast",
+                    "SeparatedEvaluate"
                   ],
                   "type": "object"
                 },

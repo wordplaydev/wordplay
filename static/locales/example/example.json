@@ -400,7 +400,8 @@
                 "NotInstantiable": "$?",
                 "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
                 "UnknownInput": { "primary": "$?", "secondary": "$?" },
-                "InputListMustBeLast": "$?"
+                "InputListMustBeLast": "$?",
+                "SeparatedEvaluate": "$?"
             },
             "exception": {
                 "FunctionException": {

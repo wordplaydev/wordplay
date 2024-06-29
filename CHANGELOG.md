@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#504](https://github.com/wordplaydev/wordplay/issues/504). Account for non-fixed-width characters in caret positioning.
 -   [#488](https://github.com/wordplaydev/wordplay/issues/488). Added animations off indicator on stage.
 -   Ensured type errors when a structure definition is given instead of a structure value.
+-   [#500](https://github.com/wordplaydev/wordplay/issues/500). Improved explanation when there's a space between an evaluation's name and inputs.
 
 ## 0.10.1 2024-06-22
 

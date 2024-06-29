@@ -604,7 +604,8 @@
                     "primary": "No conozco un input con este nombre",
                     "secondary": "No creo que pertenezca aquí"
                 },
-                "InputListMustBeLast": "la lista de inputs debe ir al final"
+                "InputListMustBeLast": "la lista de inputs debe ir al final",
+                "SeparatedEvaluate": "$?"
             },
             "exception": {
                 "FunctionException": {

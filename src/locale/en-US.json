@@ -624,7 +624,8 @@
                     "primary": "I don't know of an input by this name",
                     "secondary": "I don't think I belong here"
                 },
-                "InputListMustBeLast": "list of inputs must be last"
+                "InputListMustBeLast": "list of inputs must be last",
+                "SeparatedEvaluate": "Is $1 the name of a $2[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
             },
             "exception": {
                 "FunctionException": {

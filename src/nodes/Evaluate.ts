@@ -61,6 +61,9 @@ import type Locales from '../locale/Locales';
 import UnionType from './UnionType';
 import NoExpressionType from './NoExpressionType';
 import StructureDefinitionType from './StructureDefinitionType';
+import Block from './Block';
+import Reference from './Reference';
+import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
 
 type Mapping = {
     expected: Bind;
@@ -422,7 +425,7 @@ export default class Evaluate extends Expression {
     }
 
     computeConflicts(context: Context): Conflict[] {
-        const conflicts = [];
+        const conflicts: Conflict[] = [];
 
         if (this.close === undefined)
             conflicts.push(
@@ -593,6 +596,53 @@ export default class Evaluate extends Expression {
                     }
                 }
             }
+        }
+
+        // If there are two consectutive IncompatibleInput conflicts, and the first is a StructureDefinitionType and the next is a block,
+        // offer to remove the space separating them.
+
+        const possibleEvaluates: [
+            Reference,
+            boolean,
+            Block,
+            Conflict,
+            Conflict,
+        ][] = [];
+        conflicts.find((conflict, index, conflicts) => {
+            const next = conflicts[index + 1];
+            if (
+                conflict instanceof IncompatibleInput &&
+                (conflict.givenType instanceof StructureDefinitionType ||
+                    conflict.givenType instanceof FunctionType) &&
+                next instanceof IncompatibleInput &&
+                next.givenNode instanceof Block
+            ) {
+                const ref = conflict.givenNode
+                    .nodes()
+                    .findLast((n): n is Reference => n instanceof Reference);
+                if (ref instanceof Reference)
+                    possibleEvaluates.push([
+                        ref,
+                        conflict.givenType instanceof StructureDefinitionType,
+                        next.givenNode,
+                        conflict,
+                        next,
+                    ]);
+            }
+        });
+
+        for (const [
+            ref,
+            structure,
+            block,
+            first,
+            second,
+        ] of possibleEvaluates) {
+            // Remove the two conflicts from the list.
+            conflicts.splice(conflicts.indexOf(first), 1);
+            conflicts.splice(conflicts.indexOf(second), 1);
+            // Add a new one.
+            conflicts.push(new SeparatedEvaluate(ref, block, structure));
         }
 
         return conflicts;

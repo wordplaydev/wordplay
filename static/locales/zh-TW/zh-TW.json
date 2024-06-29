@@ -625,7 +625,8 @@
                     "primary": "我不知道這個名字的輸入",
                     "secondary": "我覺得我不應該在這裡"
                 },
-                "InputListMustBeLast": "輸入清單必須放在最後"
+                "InputListMustBeLast": "輸入清單必須放在最後",
+                "SeparatedEvaluate": "$?"
             },
             "exception": {
                 "FunctionException": {

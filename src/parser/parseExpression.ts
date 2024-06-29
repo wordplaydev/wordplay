@@ -515,8 +515,7 @@ function parseListAccess(left: Expression, tokens: Tokens): Expression {
             left = new ListAccess(left, open, index, close);
 
             // But wait, is it a function evaluation?
-            if (nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())
-                left = parseEvaluate(left, tokens);
+            if (nextIsEvaluate(tokens)) left = parseEvaluate(left, tokens);
         },
         () => tokens.nextIs(Sym.ListOpen),
     );
@@ -573,8 +572,7 @@ function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
             left = new SetOrMapAccess(left, open, key, close);
 
             // But wait, is it a function evaluation?
-            if (nextIsEvaluate(tokens) && tokens.nextLacksPrecedingSpace())
-                left = parseEvaluate(left, tokens);
+            if (nextIsEvaluate(tokens)) left = parseEvaluate(left, tokens);
         },
         () => tokens.hasNext() && tokens.nextIs(Sym.SetOpen),
     );
@@ -798,6 +796,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
 }
 
 function nextIsEvaluate(tokens: Tokens): boolean {
+    // If the next token is a line break, then it's not an evaluate.
     if (!tokens.nextLacksPrecedingSpace()) return false;
 
     const rollbackToken = tokens.peek();
@@ -924,11 +923,7 @@ function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
             }
 
             // But wait, is it a function evaluation?
-            if (
-                tokens.nextIsOneOf(Sym.EvalOpen, Sym.TypeOpen) &&
-                tokens.nextLacksPrecedingSpace()
-            )
-                left = parseEvaluate(left, tokens);
+            if (nextIsEvaluate(tokens)) left = parseEvaluate(left, tokens);
         },
         () => tokens.nextIs(Sym.Access),
     );

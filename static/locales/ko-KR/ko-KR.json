@@ -617,7 +617,8 @@
                     "primary": "이런 이름의 입력수는 모르는걸",
                     "secondary": "나는 여기에 속하지 않는것 같아"
                 },
-                "InputListMustBeLast": "list of inputs must be last"
+                "InputListMustBeLast": "$?",
+                "SeparatedEvaluate": "$?"
             },
             "exception": {
                 "FunctionException": {
