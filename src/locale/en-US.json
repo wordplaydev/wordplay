@@ -4259,8 +4259,8 @@
                     "animate": {
                         "label": "animations",
                         "modes": [
-                            "off",
-                            "on",
+                            "animations off",
+                            "normal speed",
                             "half speed",
                             "third speed",
                             "quarter speed"

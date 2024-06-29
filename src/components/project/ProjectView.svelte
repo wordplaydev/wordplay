@@ -84,6 +84,7 @@
         blocks,
         localized,
         Creators,
+        animationFactor,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import type Value from '../../values/Value';
@@ -121,6 +122,7 @@
     import Glyphs from '../../lore/Glyphs';
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
+    import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1334,6 +1336,24 @@
                                             )}>⨉</ConfirmButton
                                         >
                                     {/if}
+                                {:else if tile.kind === TileKind.Output}
+                                    <span
+                                        title={$locales.get(
+                                            (l) =>
+                                                l.ui.dialog.settings.mode
+                                                    .animate,
+                                        ).modes[$animationFactor]}
+                                        ><Emoji
+                                            >{AnimationFactorIcons[
+                                                $animationFactor
+                                            ]}</Emoji
+                                        >
+                                        {#if $animationFactor === 0}{$locales.get(
+                                                (l) =>
+                                                    l.ui.dialog.settings.mode
+                                                        .animate,
+                                            ).modes[0]}{/if}</span
+                                    >
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="extra">

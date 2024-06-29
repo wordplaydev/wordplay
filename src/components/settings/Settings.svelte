@@ -21,6 +21,7 @@
     import CreatorView from '../app/CreatorView.svelte';
     import Beta from '../../routes/Beta.svelte';
     import { Creator } from '../../db/CreatorDatabase';
+    import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
 
     let user = getUser();
 
@@ -115,7 +116,7 @@
                 )}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
-                modes={['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼']}
+                modes={AnimationFactorIcons}
             /></p
         >
         <!-- <p
@@ -210,18 +211,16 @@
             />
         </p>
         <p
-        ><Mode
-            descriptions={$locales.get(
-                (l) => l.ui.dialog.settings.mode.space,
-            )}
-            choice={$spaceIndicator === false ? 1 : 0}
-            select={(choice) =>
-                Settings.setSpace(
-                    choice === 0 ? true : false,
+            ><Mode
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.space,
                 )}
-            modes={['✓', '✗']}
-        />
-    </p>
+                choice={$spaceIndicator === false ? 1 : 0}
+                select={(choice) =>
+                    Settings.setSpace(choice === 0 ? true : false)}
+                modes={['✓', '✗']}
+            />
+        </p>
     </Dialog>
 </div>
 
