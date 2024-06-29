@@ -356,3 +356,17 @@ test('docs in docs', () => {
     expect(doc.markup.paragraphs[0].segments[2]).toBeInstanceOf(Token);
     expect(doc.markup.paragraphs[0].segments.length).toBe(3);
 });
+
+test('unparsables in docs', () => {
+    const doc = parseDoc(
+        toTokens(
+            "``This is a broken example ina doc: \\∆\\. Don't you see it?``",
+        ),
+    );
+    expect(doc).toBeInstanceOf(Doc);
+    expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
+    expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
+    expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(Example);
+    expect(doc.markup.paragraphs[0].segments[2]).toBeInstanceOf(Token);
+    expect(doc.markup.paragraphs[0].segments.length).toBe(3);
+});

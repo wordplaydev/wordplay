@@ -13,12 +13,13 @@ import type Tokens from './Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
     const content: Paragraph[] = [];
-    while (
-        tokens.hasNext() &&
-        tokens.nextIsnt(Sym.Doc) &&
-        nextIsContent(tokens)
-    )
-        content.push(parseParagraph(tokens));
+    tokens.untilDo(
+        () =>
+            tokens.hasNext() &&
+            tokens.nextIsnt(Sym.Doc) &&
+            nextIsContent(tokens),
+        () => content.push(parseParagraph(tokens)),
+    );
     return new Markup(content, tokens.getSpaces());
 }
 
@@ -27,14 +28,16 @@ export function parseParagraph(tokens: Tokens): Paragraph {
 
     // Read until hitting two newlines or a closing doc symbol.
     // Stop the paragraph if the content we just parsed has a Words with two or more line breaks.
-    while (
-        tokens.hasNext() &&
-        tokens.nextIsnt(Sym.Doc) &&
-        nextIsContent(tokens)
-    ) {
-        content.push(parseSegment(tokens));
-        if (tokens.nextHasMoreThanOneLineBreak()) break;
-    }
+    tokens.untilDo(
+        () =>
+            tokens.hasNext() &&
+            tokens.nextIsnt(Sym.Doc) &&
+            nextIsContent(tokens),
+        () => {
+            content.push(parseSegment(tokens));
+            if (tokens.nextHasMoreThanOneLineBreak()) return false;
+        },
+    );
 
     return new Paragraph(content);
 }
@@ -43,14 +46,14 @@ function parseSegment(tokens: Tokens) {
     return tokens.nextIs(Sym.Words)
         ? tokens.read(Sym.Words)
         : tokens.nextIs(Sym.TagOpen)
-        ? parseWebLink(tokens)
-        : tokens.nextIs(Sym.Concept)
-        ? parseConceptLink(tokens)
-        : tokens.nextIs(Sym.Code)
-        ? parseExample(tokens)
-        : tokens.nextIs(Sym.Mention)
-        ? parseMention(tokens)
-        : parseWords(tokens);
+          ? parseWebLink(tokens)
+          : tokens.nextIs(Sym.Concept)
+            ? parseConceptLink(tokens)
+            : tokens.nextIs(Sym.Code)
+              ? parseExample(tokens)
+              : tokens.nextIs(Sym.Mention)
+                ? parseMention(tokens)
+                : parseWords(tokens);
 }
 
 function parseWebLink(tokens: Tokens): WebLink {
@@ -84,19 +87,21 @@ function parseWords(tokens: Tokens): Words {
 
     // Read segments until reaching the matching closing format or the end of the paragraph or the end of the doc or there are no more tokens.
     const segments: Segment[] = [];
-    while (
-        tokens.hasNext() &&
-        tokens.nextIsnt(Sym.Doc) &&
-        (format === undefined || !tokens.nextIs(format)) &&
-        nextIsContent(tokens)
-    ) {
-        segments.push(
-            tokens.nextIs(Sym.Words)
-                ? tokens.read(Sym.Words)
-                : parseSegment(tokens)
-        );
-        if (tokens.nextHasMoreThanOneLineBreak()) break;
-    }
+    tokens.untilDo(
+        () =>
+            tokens.hasNext() &&
+            tokens.nextIsnt(Sym.Doc) &&
+            (format === undefined || !tokens.nextIs(format)) &&
+            nextIsContent(tokens),
+        () => {
+            segments.push(
+                tokens.nextIs(Sym.Words)
+                    ? tokens.read(Sym.Words)
+                    : parseSegment(tokens),
+            );
+            if (tokens.nextHasMoreThanOneLineBreak()) return false;
+        },
+    );
 
     // Read closing format if it matches.
     const close = format && tokens.nextIs(format) ? tokens.read() : undefined;
@@ -142,6 +147,6 @@ function nextIsContent(tokens: Tokens) {
         Sym.Light,
         Sym.Bold,
         Sym.Underline,
-        Sym.Extra
+        Sym.Extra,
     );
 }

@@ -14,9 +14,11 @@ export default function parseProgram(tokens: Tokens, doc = false): Program {
     // If a borrow is next or there's no whitespace, parse a docs.
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
-    const borrows = [];
-    while (tokens.hasNext() && tokens.nextIs(Sym.Borrow))
-        borrows.push(parseBorrow(tokens));
+    const borrows: Borrow[] = [];
+    tokens.untilDo(
+        () => tokens.hasNext() && tokens.nextIs(Sym.Borrow),
+        () => borrows.push(parseBorrow(tokens)),
+    );
 
     const block = parseBlock(tokens, BlockKind.Root, doc);
 

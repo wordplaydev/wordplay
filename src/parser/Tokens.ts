@@ -178,21 +178,50 @@ export default class Tokens {
         return this.nextIs(type) ? this.read() : undefined;
     }
 
-    /** Used to read the remainder of a line, and at least one token, unless there are no more tokens. */
+    /** Used to read the remainder of a line, unless there are no more tokens, or we reach the end of a code example. */
     readLine() {
         const nodes: Token[] = [];
 
         if (!this.hasNext()) return nodes;
         // Read at least one token, then keep going until we reach a token with a line break.
-        do {
-            const next = this.read();
-            nodes.push(next);
-        } while (
-            this.hasNext() &&
-            this.nextHasPrecedingLineBreak() === false &&
-            this.nextIsnt(Sym.Code)
+        this.untilDo(
+            () =>
+                this.hasNext() &&
+                this.nextHasPrecedingLineBreak() === false &&
+                this.nextIsnt(Sym.Code),
+            () => {
+                const next = this.read();
+                nodes.push(next);
+            },
         );
         return nodes;
+    }
+
+    /**
+     * Checks a condition, if if true, does something, then checks again.
+     * If the action returns false, we stop.
+     * If the action doesn't consume a token, we stop, to prevent infinite loops.
+     **/
+    untilDo(condition: () => boolean, action: () => unknown) {
+        while (condition()) {
+            const currentToken = this.peek();
+            if (action() === false) break;
+            // If we didn't advance, then we're stuck in an infinite loop. Break.
+            if (currentToken === this.peek()) break;
+        }
+    }
+
+    /**
+     * Completes an action, then checks a condition, and stops if false, otherwise repeats. If the action returns false, we stop.
+     * If the action doesn't consume a token, we stop, to prevent infinite loops.
+     **/
+    doUntil(action: () => unknown, condition: () => boolean) {
+        do {
+            const currentToken = this.peek();
+            if (action() === false) break;
+            // If we didn't advance, then we're stuck in an infinite loop. Break.
+            if (currentToken === this.peek()) break;
+        } while (condition());
     }
 
     /** Rollback to the given token. */
