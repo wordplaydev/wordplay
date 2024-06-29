@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Better tab symbol to clarify keyboard shortcut and whitespace meaning.
 -   Improved contrast of delimiters and borders in dark mode.
 -   Correct typos in tutorial.
+-   [#503](https://github.com/wordplaydev/wordplay/issues/503). Prevent infinite loops in parser.
 
 ## 0.10.1 2024-06-22
 
