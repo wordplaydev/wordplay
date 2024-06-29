@@ -1009,6 +1009,12 @@
                 "UnimplementedInterface": "저는 $1을 구현하지만 $2를 구현하지 않았어요"
             }
         },
+        "StructureDefinitionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "description": "$?",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "특정 테이블",
             "description": "$1 행 테이블",

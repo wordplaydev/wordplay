@@ -694,6 +694,12 @@
                 "UnimplementedInterface": "$?"
             }
         },
+        "StructureDefinitionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "description": "$?",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "$?",
             "description": "$?",

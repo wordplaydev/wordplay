@@ -12,7 +12,6 @@ import type Step from '@runtime/Step';
 import StructureDefinitionValue from '@values/StructureDefinitionValue';
 import type Context from './Context';
 import type Definition from './Definition';
-import StructureType from './StructureType';
 import Token from './Token';
 import type TypeSet from './TypeSet';
 import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
@@ -41,6 +40,8 @@ import Evaluate from './Evaluate';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
+import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -449,7 +450,7 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     computeType(): Type {
-        return new StructureType(this, []);
+        return new StructureDefinitionType(new StructureType(this));
     }
 
     getDependencies(): Expression[] {

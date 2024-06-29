@@ -1,28 +1,28 @@
 import Type from './Type';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type TypeSet from './TypeSet';
-import type StreamDefinition from './StreamDefinition';
 import Glyphs from '../lore/Glyphs';
-import { STREAM_SYMBOL } from '../parser/Symbols';
 import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
+import type StructureType from './StructureType';
 
-export default class StreamDefinitionType extends Type {
-    readonly definition: StreamDefinition;
+export default class StructureDefinitionType extends Type {
+    readonly type: StructureType;
 
-    constructor(definition: StreamDefinition) {
+    constructor(definition: StructureType) {
         super();
 
-        this.definition = definition;
+        this.type = definition;
     }
 
     getDescriptor() {
-        return 'StreamDefinitionType';
+        return 'StructureDefinitionType';
     }
 
     getGrammar() {
         return [];
     }
+
     computeConflicts() {
         return [];
     }
@@ -31,35 +31,38 @@ export default class StreamDefinitionType extends Type {
     acceptsAll(types: TypeSet): boolean {
         return types.list().every((type) => {
             if (
-                type instanceof StreamDefinitionType &&
-                this.definition === type.definition
+                type instanceof StructureDefinitionType &&
+                this.type.definition === type.type.definition
             )
                 return true;
         });
     }
 
     simplify() {
-        return new StreamDefinitionType(this.definition.withoutDocs());
+        return this;
+    }
+
+    getDescriptionInputs(locales: Locales) {
+        return [locales.getName(this.type.definition.names)];
     }
 
     getBasisTypeName(): BasisTypeName {
-        return 'streamdefinition';
+        return 'structuredefinition';
     }
 
     clone() {
-        return new StreamDefinitionType(this.definition) as this;
+        return new StructureDefinitionType(this.type) as this;
     }
 
-    /** Mirror StreamType */
     toWordplay(_: Spaces | undefined) {
-        return `${STREAM_SYMBOL}${this.definition.output.toWordplay(_)}`;
+        return `•${this.type.definition.names.toWordplay(_)}`;
     }
 
     getNodeLocale(locales: Locales) {
-        return locales.get((l) => l.node.StreamDefinitionType);
+        return locales.get((l) => l.node.StructureDefinitionType);
     }
 
     getGlyphs() {
-        return Glyphs.Stream;
+        return Glyphs.Type;
     }
 }

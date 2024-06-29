@@ -17,6 +17,7 @@ import { UnknownVariableType } from './UnknownVariableType';
 import type ConversionDefinition from './ConversionDefinition';
 import type Convert from './Convert';
 import UnionType from './UnionType';
+import StructureType from './StructureType';
 
 export type EvaluationType = Evaluate | BinaryEvaluate | UnaryEvaluate;
 
@@ -33,13 +34,14 @@ export default function getConcreteExpectedType(
     definition: FunctionDefinition | StructureDefinition | StreamDefinition,
     input: Bind | undefined,
     evaluation: EvaluationType,
-    context: Context
+    context: Context,
 ): Type {
     let type;
     // If the input is undefined, we're getting the output type of the function or structure.
     if (input === undefined) {
-        if (definition instanceof StructureDefinition)
-            return definition.getType(context);
+        if (definition instanceof StructureDefinition) {
+            return new StructureType(definition);
+        }
         const functionType = definition.getType(context);
         if (
             !(
@@ -55,7 +57,7 @@ export default function getConcreteExpectedType(
         // Verify that the bind provided exists on the given evaluate.
         if (!definition.inputs.includes(input))
             throw Error(
-                "The Bind given doesn't exist on this function or structure. Something is broken!"
+                "The Bind given doesn't exist on this function or structure. Something is broken!",
             );
         // Get the bind's type, resolving any non-type variable references and converting any type variables to variable types.
         type = input.getType(context);
@@ -77,7 +79,7 @@ export default function getConcreteExpectedType(
         const abstractTypes: (NameType | NumberType)[] = type.nodes(
             (n): n is NameType | NumberType =>
                 (n instanceof NameType && n.isTypeVariable(context)) ||
-                (n instanceof NumberType && n.hasDerivedUnit())
+                (n instanceof NumberType && n.hasDerivedUnit()),
         );
         moreAbstractTypes = abstractTypes.length > 0;
         const nextAbstractType = abstractTypes[0];
@@ -89,12 +91,12 @@ export default function getConcreteExpectedType(
                           nextAbstractType,
                           definition,
                           evaluation,
-                          context
+                          context,
                       )
                     : getConcreteNumberInput(
                           nextAbstractType,
                           evaluation,
-                          context
+                          context,
                       );
             // Clone the current type, replacing the abstract type with the concrete type.
             type = type.replace(nextAbstractType, concreteType);
@@ -116,7 +118,7 @@ export default function getConcreteExpectedType(
 function getConcreteNumberInput(
     type: NumberType,
     evaluation: EvaluationType,
-    context: Context
+    context: Context,
 ) {
     // If the type is abstract, concretize it. Otherwise, just return the existing concrete type.
     return type.unit instanceof Function
@@ -132,7 +134,7 @@ function getConcreteTypeVariable(
     type: NameType,
     definition: FunctionDefinition | StructureDefinition | StreamDefinition,
     evaluation: EvaluationType,
-    context: Context
+    context: Context,
 ): Type {
     if (definition instanceof StreamDefinition)
         return new UnknownVariableType(evaluation);
@@ -147,7 +149,7 @@ function getConcreteTypeVariable(
     // First, the easy case: let's see if the evaluate has a type input that defines this type variable. See if the type for the type variable was provided explicitly in the evaluation.
     // What is the index of the type variable in the definition?
     const typeVarIndex = definition.types?.variables.findIndex(
-        (v) => v === typeVariable
+        (v) => v === typeVariable,
     );
     if (typeVarIndex !== undefined && evaluation instanceof Evaluate) {
         const typeInputs = evaluation.getTypeInputs();
@@ -173,7 +175,7 @@ function getConcreteTypeVariable(
         const structureType = evaluation.fun.structure.getType(context);
         const typeInput = structureType.resolveTypeVariable(
             type.getName(),
-            context
+            context,
         );
         if (typeInput !== undefined) return typeInput;
     }
@@ -183,7 +185,7 @@ function getConcreteTypeVariable(
         const structureType = evaluation.left.getType(context);
         const typeInput = structureType.resolveTypeVariable(
             type.getName(),
-            context
+            context,
         );
         if (typeInput !== undefined) return typeInput;
     }
@@ -202,7 +204,7 @@ function getConcreteTypeVariable(
                 if (input instanceof Bind && input.type !== undefined)
                     return canBeTypeVariable(typeVariable, input.type, context);
                 else return false;
-            }
+            },
         );
 
         // Let's see if any input is a function with a variable output
@@ -215,7 +217,7 @@ function getConcreteTypeVariable(
                     return canBeTypeVariable(
                         typeVariable,
                         input.type.output,
-                        context
+                        context,
                     );
                 } else return false;
             });
@@ -246,7 +248,7 @@ function getConcreteTypeVariable(
                         i instanceof Bind &&
                         inputWithVariableType
                             .getNames()
-                            .find((n) => i.hasName(n)) !== undefined
+                            .find((n) => i.hasName(n)) !== undefined,
                 ) as Bind | undefined;
                 if (namedInput !== undefined) {
                     // Infer the type of the type variable from the input's value expression.
@@ -292,7 +294,7 @@ export function getConcreteConversionTypeVariable(
     type: NameType,
     definition: ConversionDefinition,
     convert: Convert,
-    context: Context
+    context: Context,
 ): Type {
     // Get the type of the input on the convert.
     const inputType = convert.expression.getType(context);
@@ -308,7 +310,7 @@ export function getConcreteConversionTypeVariable(
 function canBeTypeVariable(
     variable: TypeVariable,
     type: Type,
-    context: Context
+    context: Context,
 ) {
     const types = type instanceof UnionType ? type.enumerate() : [type];
     // Are any of them type variables with a matching name?
@@ -316,6 +318,6 @@ function canBeTypeVariable(
         (type) =>
             type instanceof NameType &&
             type.isTypeVariable(context) &&
-            variable.hasName(type.getName())
+            variable.hasName(type.getName()),
     );
 }

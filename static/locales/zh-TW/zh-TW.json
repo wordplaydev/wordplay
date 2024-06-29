@@ -1044,6 +1044,12 @@
                 "UnimplementedInterface": "我實作了1$，但沒有實作2$"
             }
         },
+        "StructureDefinitionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "description": "$?",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "表面量",
             "description": "$1 行表格",

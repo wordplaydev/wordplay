@@ -5739,6 +5739,9 @@
               ],
               "type": "object"
             },
+            "StructureDefinitionType": {
+              "$ref": "#/definitions/DescriptiveNodeText"
+            },
             "StructureType": {
               "$ref": "#/definitions/DescriptiveNodeText",
               "description": "A structure type, internally generated to represent a structure definition. Description inputs: $1 = name of structure"
@@ -6539,6 +6542,7 @@
             "Source",
             "StreamDefinition",
             "StructureDefinition",
+            "StructureDefinitionType",
             "TableLiteral",
             "TextLiteral",
             "Translation",

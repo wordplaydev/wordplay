@@ -14,6 +14,7 @@ import BasisType from './BasisType';
 import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
 import type Bind from './Bind';
+import StructureDefinitionType from './StructureDefinitionType';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -95,7 +96,11 @@ export default class StructureType extends BasisType {
             // Are any of the given type's interfaces compatible with this?
             return (
                 type.definition.interfaces.find((int) => {
-                    return this.accepts(int.getType(context), context);
+                    const interfaceType = int.getType(context);
+                    return (
+                        interfaceType instanceof StructureDefinitionType &&
+                        this.accepts(interfaceType.type, context)
+                    );
                 }) !== undefined
             );
         });

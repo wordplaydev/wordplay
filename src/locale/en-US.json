@@ -1050,6 +1050,14 @@
                 "UnimplementedInterface": "I implement $1 but haven't implemented $2"
             }
         },
+        "StructureDefinitionType": {
+            "name": "structure definition",
+            "emotion": "kind",
+            "description": "definition of $1",
+            "doc": [
+                "I refer to some kind of @StructureDefinition. People don't usually refer to me directly"
+            ]
+        },
         "TableLiteral": {
             "name": "table literal",
             "description": "$1 row table",

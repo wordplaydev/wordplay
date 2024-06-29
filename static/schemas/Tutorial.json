@@ -239,6 +239,7 @@
         "Source",
         "StreamDefinition",
         "StructureDefinition",
+        "StructureDefinitionType",
         "TableLiteral",
         "TextLiteral",
         "Translation",

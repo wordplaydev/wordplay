@@ -168,8 +168,11 @@ export default class NameType extends Type {
         // Type variable? If it has a constraint, return that type. Otherwise return a variable type.
         else if (definition instanceof TypeVariable) {
             if (definition.type) return definition.type;
-            else return new VariableType(definition);
-        }
+            else {
+                return new VariableType(definition);
+            }
+        } else if (definition instanceof StructureDefinition)
+            return new StructureType(definition, this.types?.types ?? []);
         // Some other type? Get the definition's type.
         else return definition.getType(context);
     }

@@ -59,6 +59,8 @@ import NameType from './NameType';
 import { NonFunctionType } from './NonFunctionType';
 import type Locales from '../locale/Locales';
 import UnionType from './UnionType';
+import NoExpressionType from './NoExpressionType';
+import StructureDefinitionType from './StructureDefinitionType';
 
 type Mapping = {
     expected: Bind;
@@ -502,7 +504,12 @@ export default class Evaluate extends Expression {
 
                 // Figure out what type this expected input is. Resolve any type variables to concrete values.
                 if (given instanceof Expression) {
-                    const givenType = given.getType(context);
+                    // Don't rely on the bind's specified type, since it's not a reliable source of type information. Ask it's value directly.
+                    const givenType =
+                        given instanceof Bind
+                            ? given.value?.getType(context) ??
+                              new NoExpressionType(given)
+                            : given.getType(context);
                     if (!expectedType.accepts(givenType, context, given))
                         conflicts.push(
                             new IncompatibleInput(
@@ -603,8 +610,8 @@ export default class Evaluate extends Expression {
 
         return type instanceof FunctionType && type.definition
             ? type.definition
-            : type instanceof StructureType
-              ? type.definition
+            : type instanceof StructureDefinitionType
+              ? type.type.definition
               : type instanceof StreamDefinitionType
                 ? type.definition
                 : undefined;

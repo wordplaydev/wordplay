@@ -1023,6 +1023,12 @@
                 "UnimplementedInterface": "Implemento $1 pero no he implementado $2"
             }
         },
+        "StructureDefinitionType": {
+            "name": "$?",
+            "emotion": "$?",
+            "description": "$?",
+            "doc": ["$?"]
+        },
         "TableLiteral": {
             "name": "tabla específica",
             "description": "tabla de $1 filas",
