@@ -52,7 +52,7 @@ export default class Token extends Node {
         return [];
     }
 
-    isLeaf() {
+    isLeaf(): this is Token {
         return true;
     }
 

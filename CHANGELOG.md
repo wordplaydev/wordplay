@@ -18,6 +18,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#488](https://github.com/wordplaydev/wordplay/issues/488). Added animations off indicator on stage.
 -   [#500](https://github.com/wordplaydev/wordplay/issues/500). Improved explanation when there's a space between an evaluation's name and inputs.
 
+### Maintenance
+
+-   Upgraded to TypeScript 5.5.
+
 ## 0.10.1 2024-06-22
 
 ### Fixed

@@ -637,9 +637,8 @@
             spaceView instanceof HTMLElement && spaceView.dataset.id
                 ? parseInt(spaceView.dataset.id)
                 : undefined;
-        return tokenID
-            ? [source.getNodeByID(tokenID) as Token, spaceView]
-            : undefined;
+        const node = tokenID ? source.getNodeByID(tokenID) : undefined;
+        return node instanceof Token ? [node, spaceView] : undefined;
     }
 
     function getCaretPositionAt(event: PointerEvent): number | undefined {

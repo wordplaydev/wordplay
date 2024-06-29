@@ -73,7 +73,7 @@
         "ts-json-schema-generator": "^1",
         "tslib": "^2.6",
         "tsx": "^4.7.0",
-        "typescript": "^5.4",
+        "typescript": "^5.5.2",
         "vite": "^5.2.7",
         "vite-plugin-eslint": "^1.8.1",
         "vitest": "^1.4.0"
@@ -81,7 +81,7 @@
     "type": "module",
     "dependencies": {
         "@axe-core/playwright": "^4.8.5",
-        "colorjs.io": "^0",
+        "colorjs.io": "^5.2",
         "decimal.js": "^10",
         "dexie": "^4.0",
         "firebase": "^10.11.0",
