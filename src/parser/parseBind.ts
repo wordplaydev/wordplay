@@ -88,3 +88,10 @@ export function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {
             bind.names.hasALanguageTag())
     );
 }
+
+export function nextIsInput(tokens: Tokens): boolean {
+    return (
+        tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
+        tokens.afterNextIs(Sym.Bind)
+    );
+}

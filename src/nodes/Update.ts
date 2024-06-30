@@ -39,6 +39,7 @@ import { TABLE_CLOSE_SYMBOL, UPDATE_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import Input from './Input';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
 
@@ -147,25 +148,12 @@ export default class Update extends Expression {
         }
 
         this.row.cells.forEach((cell) => {
-            // The columns in an update must be binds with expressions.
-            if (
-                !(
-                    cell instanceof Bind &&
-                    cell.value !== undefined &&
-                    cell.names.names.length === 1
-                )
-            )
+            // The columns in an update must be inputs
+            if (!(cell instanceof Input))
                 conflicts.push(new ExpectedColumnBind(this, cell));
             else if (tableType instanceof TableType) {
-                const alias =
-                    cell instanceof Bind && cell.names.names.length > 0
-                        ? cell.names.names[0]
-                        : undefined;
-                const name = alias === undefined ? undefined : alias.getName();
-                const columnType =
-                    name === undefined
-                        ? undefined
-                        : tableType.getColumnNamed(name);
+                const name = cell.getName();
+                const columnType = tableType.getColumnNamed(name);
                 // The named table column must exist.
                 if (columnType === undefined)
                     conflicts.push(new UnknownColumn(tableType, cell));
@@ -208,13 +196,12 @@ export default class Update extends Expression {
         return this.table.getType(context);
     }
 
-    getDefinitions(node: Node, context: Context): Definition[] {
-        node;
+    getDefinitions(_: Node, context: Context): Definition[] {
         const type = this.table.getType(context);
         if (type instanceof TableType)
             return type.columns
                 .filter((col) => col instanceof Bind)
-                .map((col) => col) as Bind[];
+                .map((col) => col);
         else return [];
     }
 
@@ -231,15 +218,13 @@ export default class Update extends Expression {
                 : new AnyType();
 
         // Get the binds
-        const binds = this.row.cells;
+        const inputs = this.row.cells.filter(
+            (c): c is Input => c instanceof Input,
+        );
 
         // Get the update steps
-        const updates = binds
-            .map((bind) =>
-                bind instanceof Bind && bind.value
-                    ? bind.value.compile(evaluator, context)
-                    : [],
-            )
+        const updates = inputs
+            .map((input) => input.value.compile(evaluator, context))
             .flat();
 
         /** A derived function based on the query, used to evaluate each row of the table. */
@@ -267,12 +252,10 @@ export default class Update extends Expression {
                         );
                     // Get the values computed
                     const values: Value[] = [];
-                    for (const bind of binds) {
-                        if (bind instanceof Bind && bind.value) {
-                            const value = evaluation.popValue(this, undefined);
-                            if (value instanceof ExceptionValue) return value;
-                            values.unshift(value);
-                        }
+                    for (let count = 0; count < inputs.length; count++) {
+                        const value = evaluation.popValue(this, undefined);
+                        if (value instanceof ExceptionValue) return value;
+                        values.unshift(value);
                     }
                     // Get the query result
                     const match = evaluation.popValue(
@@ -282,17 +265,17 @@ export default class Update extends Expression {
                     if (!(match instanceof BoolValue)) return match;
                     // Not a query match? Don't modify the row.
                     if (match.bool === false) return row;
-                    // Otherwise, refine the row with the updtes
+                    // Otherwise, refine the row with the updates
                     else {
                         let newRow: StructureValue = row;
-                        for (const bind of binds) {
-                            if (bind instanceof Bind && bind.value) {
+                        for (const input of inputs) {
+                            if (input instanceof Input) {
                                 const value = values.shift();
                                 const revised: StructureValue | undefined =
                                     value
                                         ? newRow.withValue(
                                               this,
-                                              bind.names.getNames()[0],
+                                              input.getName(),
                                               value,
                                           )
                                         : undefined;

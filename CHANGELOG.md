@@ -17,7 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#504](https://github.com/wordplaydev/wordplay/issues/504). Account for non-fixed-width characters in caret positioning.
 -   [#488](https://github.com/wordplaydev/wordplay/issues/488). Added animations off indicator on stage.
 -   [#500](https://github.com/wordplaydev/wordplay/issues/500). Improved explanation when there's a space between an evaluation's name and inputs.
--   [#455](https://github.com/wordplaydev/wordplay/issues/455). Replaced `Bind`s with `Input`'s in `Evaluate` to prevent invalid bind metadata in evaluations.
+-   [#455](https://github.com/wordplaydev/wordplay/issues/455). Replaced `Bind`s with `Input`'s in `Evaluate` and table operations to prevent invalid bind metadata in evaluations.
 
 ### Maintenance
 

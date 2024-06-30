@@ -18,7 +18,7 @@ export default class InvalidRow extends Conflict {
                 explanation: (locales: Locales) =>
                     concretize(
                         locales,
-                        locales.get((l) => l.node.Row.conflict.InvalidRow)
+                        locales.get((l) => l.node.Row.conflict.InvalidRow),
                     ),
             },
         };

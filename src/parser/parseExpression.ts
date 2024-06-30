@@ -9,7 +9,7 @@ import Sym from '../nodes/Sym';
 import This from '../nodes/This';
 import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import UnparsableExpression from '../nodes/UnparsableExpression';
-import parseBind, { nextIsBind, parseNames } from './parseBind';
+import parseBind, { nextIsBind, nextIsInput, parseNames } from './parseBind';
 import type Tokens from './Tokens';
 import ListLiteral from '@nodes/ListLiteral';
 import type Bind from '@nodes/Bind';
@@ -612,7 +612,7 @@ function parseRow(tokens: Tokens, expected: Sym = Sym.TableOpen): Row {
     // Don't allow reactions on row values.
     tokens.pushReactionAllowed(false);
 
-    const cells: (Bind | Expression)[] = [];
+    const cells: (Input | Expression)[] = [];
     // Read the cells.
     tokens.untilDo(
         () =>
@@ -622,8 +622,8 @@ function parseRow(tokens: Tokens, expected: Sym = Sym.TableOpen): Row {
             !tokens.nextHasPrecedingLineBreak(),
         () =>
             cells.push(
-                nextIsBind(tokens, true)
-                    ? parseBind(tokens)
+                nextIsInput(tokens)
+                    ? parseInput(tokens)
                     : parseExpression(tokens),
             ),
     );
@@ -828,8 +828,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
             tokens.nextIsnt(Sym.EvalClose),
         () =>
             inputs.push(
-                tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
-                    tokens.afterNextIs(Sym.Bind)
+                nextIsInput(tokens)
                     ? parseInput(tokens)
                     : parseExpression(tokens),
             ),

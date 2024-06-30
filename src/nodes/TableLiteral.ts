@@ -285,9 +285,11 @@ export default class TableLiteral extends Expression {
      * Is a binding enclosure of its columns and rows, because it defines columns.
      * */
     getScopeOfChild(child: Node, context: Context): Node | undefined {
-        return this.rows.includes(child as Row)
-            ? this.type
-            : this.getParent(context);
+        return child instanceof Row
+            ? this.rows.includes(child)
+                ? this.type
+                : this.getParent(context)
+            : undefined;
     }
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {

@@ -34,6 +34,7 @@ import { INSERT_SYMBOL, TABLE_CLOSE_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import Input from './Input';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -132,12 +133,12 @@ export default class Insert extends Expression {
         // Rows can either be all unnamed and provide values for every column or they can be selectively named,
         // but must provide a value for all non-default columns. No other format is allowed.
         // Additionally, all values must match their column's types.
-        if (this.row.allBinds()) {
+        if (this.row.cells.every((c) => c instanceof Input)) {
             // Ensure every bind is a valid column.
             const matchedColumns = [];
             for (const cell of this.row.cells) {
-                if (cell instanceof Bind) {
-                    const column = tableType.getColumnNamed(cell.getNames()[0]);
+                if (cell instanceof Input) {
+                    const column = tableType.getColumnNamed(cell.getName());
                     if (column === undefined)
                         conflicts.push(new UnknownColumn(tableType, cell));
                     else {

@@ -28,14 +28,14 @@ export default class MissingCell extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Row.conflict.MissingCell.primary
+                            (l) => l.node.Row.conflict.MissingCell.primary,
                         ),
                         new NodeRef(
                             this.column,
                             locales,
                             context,
-                            locales.getName(this.column.names)
-                        )
+                            locales.getName(this.column.names),
+                        ),
                     ),
             },
             secondary: {
@@ -44,9 +44,9 @@ export default class MissingCell extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Row.conflict.MissingCell.secondary
+                            (l) => l.node.Row.conflict.MissingCell.secondary,
                         ),
-                        new NodeRef(this.row, locales, context)
+                        new NodeRef(this.row, locales, context),
                     ),
             },
         };

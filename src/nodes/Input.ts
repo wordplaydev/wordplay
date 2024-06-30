@@ -109,6 +109,11 @@ export default class Input extends SimpleExpression {
         return this.value.getType(context);
     }
 
+    /** Never constant, as we always reevaluate functions. */
+    isConstant(): boolean {
+        return false;
+    }
+
     getDependencies(): Expression[] {
         return [this.value];
     }
