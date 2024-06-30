@@ -427,6 +427,7 @@ export function toPhrase(
     const shadow = toAura(project, getOutputInput(value, 24));
 
     return texts !== undefined &&
+        (!Array.isArray(texts) || texts.length > 0) &&
         duration !== undefined &&
         style !== undefined &&
         direction !== undefined &&
