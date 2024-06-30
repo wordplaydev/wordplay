@@ -76,11 +76,14 @@ import Borrow from '../nodes/Borrow';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
 import Spread from '@nodes/Spread';
+import Input from '@nodes/Input';
 
 /** These are ordered by appearance in the docs. */
 const Templates: Node[] = [
     // Evaluation
     Evaluate.make(ExpressionPlaceholder.make(), []),
+    Input.make('_', ExpressionPlaceholder.make()),
+
     FunctionDefinition.make(
         undefined,
         Names.make(['_']),

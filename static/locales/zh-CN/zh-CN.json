@@ -611,7 +611,6 @@
                     "primary": "我没料到会得到这种类型的输入",
                     "secondary": "哦，我这里不应该出现吗？"
                 },
-                "MisplacedInput": "这个输入放错位置了。",
                 "MissingInput": {
                     "primary": "我缺少 $1，你能添加吗？",
                     "secondary": "这个输入是必需的，但 $2 没有提供它"
@@ -634,6 +633,13 @@
                     "explanation": "哦不，$1 在 $2[$2|这个 @Block] 中不是一个函数！"
                 }
             }
+        },
+        "Input": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
         },
         "ExpressionPlaceholder": {
             "name": "表达式占位符",

@@ -610,7 +610,6 @@
                     "primary": "I wasn't expecting this type input",
                     "secondary": "oh, am I not supposed to be here?"
                 },
-                "MisplacedInput": "this input is out of order.",
                 "MissingInput": {
                     "primary": "I'm missing $1, can you add it?",
                     "secondary": "this input is required, but $1 didn't provide it"
@@ -621,8 +620,8 @@
                     "secondary": "Oh, am I not supposed to be here?"
                 },
                 "UnknownInput": {
-                    "primary": "I don't know of an input by this name",
-                    "secondary": "I don't think I belong here"
+                    "primary": "I don't know of an input by this name in $1",
+                    "secondary": "I don't have an input with the name $1"
                 },
                 "InputListMustBeLast": "list of inputs must be last",
                 "SeparatedEvaluate": "Is $1 the name of a $2[$structure|$function] you're trying to evaluate? Try removing the space after me, so I know it's an @Evaluate and not a separate @Block."
@@ -633,6 +632,18 @@
                     "explanation": "oh no, $1 isn't a function in $2[$2|this @Block]!"
                 }
             }
+        },
+        "Input": {
+            "name": "Input",
+            "description": "named input",
+            "emotion": "serious",
+            "doc": [
+                "I'm an input given to an @Evaluate. My name corresponds to the name of input in the @FunctionDefinition or @StructureDefinition being evaluated.",
+                "I'm helpful with functions that have many default values, where you just want to override a specific input, without giving everything else.",
+                "For example, @Phrase has many, many default values to control it's style. Let's say you wanted to give some @Text and a @Color, but nothing else in its input list. You can use me to do that:",
+                "\\Phrase('I am purple!' color: Color(50% 52 300°))\\"
+            ],
+            "start": "Let's evaluate my value."
         },
         "ExpressionPlaceholder": {
             "name": "placeholder",

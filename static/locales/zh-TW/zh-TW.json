@@ -611,7 +611,6 @@
                     "primary": "我沒料到會得到這種類型的輸入",
                     "secondary": "哦，我這裡不應該出現嗎？"
                 },
-                "MisplacedInput": "這個輸入放錯位置了。",
                 "MissingInput": {
                     "primary": "我缺少 $1，你能加嗎？",
                     "secondary": "這個輸入是必要的，但 $2 沒有提供它"
@@ -634,6 +633,13 @@
                     "explanation": "喔不，$1 在 $2[$2|這個 @Block] 中不是一個函數！"
                 }
             }
+        },
+        "Input": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
         },
         "ExpressionPlaceholder": {
             "name": "表達式佔位符",

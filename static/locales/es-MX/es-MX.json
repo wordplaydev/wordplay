@@ -590,7 +590,6 @@
                     "primary": "No esperaba este tipo de input",
                     "secondary": "oh, ¿no debería estar aquí?"
                 },
-                "MisplacedInput": "este input está fuera de lugar.",
                 "MissingInput": {
                     "primary": "Me falta $1, ¿puedes agregarlo?",
                     "secondary": "este input es necesario, pero $1 no lo proporcionó"
@@ -613,6 +612,13 @@
                     "explanation": "oh no, $1 no es una función en $2[$2|este @Block!"
                 }
             }
+        },
+        "Input": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
         },
         "ExpressionPlaceholder": {
             "name": "marcador de posición",

@@ -61,6 +61,7 @@ import type Doc from '../nodes/Doc';
 import Spread from '../nodes/Spread';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
+import Input from '@nodes/Input';
 
 export function toExpression(code: string): Expression {
     return parseExpression(toTokens(code));
@@ -827,8 +828,9 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
             tokens.nextIsnt(Sym.EvalClose),
         () =>
             inputs.push(
-                nextIsBind(tokens, true)
-                    ? parseBind(tokens)
+                tokens.nextIsOneOf(Sym.Name, Sym.Operator) &&
+                    tokens.afterNextIs(Sym.Bind)
+                    ? parseInput(tokens)
                     : parseExpression(tokens),
             ),
     );
@@ -836,6 +838,14 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     const close = tokens.readIf(Sym.EvalClose);
 
     return new Evaluate(left, types, open, inputs, close);
+}
+
+function parseInput(tokens: Tokens): Expression {
+    const name = tokens.read();
+    const bind = tokens.read(Sym.Bind);
+    const value = parseExpression(tokens);
+
+    return new Input(name, bind, value);
 }
 
 function parseConversion(tokens: Tokens): ConversionDefinition {

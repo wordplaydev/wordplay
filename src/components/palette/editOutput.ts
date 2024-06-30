@@ -22,12 +22,13 @@ import { toExpression } from '../../parser/parseExpression';
 import { getPlaceExpression } from '../../output/getOrCreatePlace';
 import type Spread from '../../nodes/Spread';
 import type Locales from '../../locale/Locales';
+import Input from '@nodes/Input';
 
 export function getNumber(given: Expression): number | undefined {
     const measurement =
         given instanceof NumberLiteral
             ? given
-            : given instanceof Bind && given.value instanceof NumberLiteral
+            : given instanceof Input && given.value instanceof NumberLiteral
               ? given.value
               : given instanceof UnaryEvaluate &&
                   given.isNegation() &&

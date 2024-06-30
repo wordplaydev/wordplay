@@ -70,6 +70,7 @@ import parseDoc from './parseDoc';
 import { parseBlock } from './parseExpression';
 import Otherwise from '@nodes/Otherwise';
 import getPreferredSpaces from './getPreferredSpaces';
+import Input from '@nodes/Input';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -176,7 +177,7 @@ test.each([
     ['ƒ⸨T⸩(a: T b: T) a + b', FunctionDefinition, 'types', TypeVariables],
     ['a()', Evaluate, 'fun', Reference, 'a'],
     ['a(1 2)', Evaluate, 'inputs', Array, 2],
-    ['a(b:2 c:2)', Evaluate, 'inputs', Array, Bind],
+    ['a(b:2 c:2)', Evaluate, 'inputs', Array, Input],
     ['a⸨Cat⸩(b c)', Evaluate, 'types', TypeInputs],
     ['a⸨Cat #⸩(b c)', Evaluate, 'types', TypeInputs],
     ["→ # '' meow()", ConversionDefinition, 'output', TextType],

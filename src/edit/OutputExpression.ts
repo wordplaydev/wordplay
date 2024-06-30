@@ -13,6 +13,7 @@ import getGroupProperties from './GroupProperties';
 import getPhraseProperties from './PhraseProperties';
 import getShapeProperties from './getShapeProperties';
 import type Locales from '../locale/Locales';
+import Input from '@nodes/Input';
 
 /**
  * Represents the value of a property. If given is true, it means its set explicitly.
@@ -119,7 +120,7 @@ export default class OutputExpression {
         const expression =
             binding.given === undefined
                 ? binding.expected.value
-                : binding.given instanceof Bind
+                : binding.given instanceof Input
                   ? binding.given.value
                   : binding.given;
 

@@ -13,6 +13,7 @@ import { SupportedLocales, getLocaleLanguage } from '@locale/Locale';
 import type LanguageCode from '@locale/LanguageCode';
 import Names from '@nodes/Names';
 import Evaluate from '@nodes/Evaluate';
+import Templates from '@concepts/Templates';
 
 function readProjects(dir: string): SerializedProject[] {
     const proj: SerializedProject[] = [];
@@ -49,7 +50,7 @@ test.each([...projects, ...templates])(
         ).flat();
         const messages: string[] = [];
         for (const conflict of conflicts) {
-            const conflictingNodes = conflict.getConflictingNodes();
+            const conflictingNodes = conflict.getConflictingNodes(Templates);
             messages.push(
                 conflictingNodes.primary
                     .explanation(DefaultLocales, context)

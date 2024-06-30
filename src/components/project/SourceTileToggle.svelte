@@ -6,6 +6,7 @@
     import Toggle from '../widgets/Toggle.svelte';
     import { locales } from '../../db/Database';
     import Emoji from '@components/app/Emoji.svelte';
+    import Templates from '@concepts/Templates';
 
     export let source: Source;
     export let expanded: boolean;
@@ -22,7 +23,7 @@
         secondaryCount = 0;
         if ($conflicts) {
             for (const conflict of $conflicts) {
-                const nodes = conflict.getConflictingNodes();
+                const nodes = conflict.getConflictingNodes(Templates);
                 if (source.has(nodes.primary.node)) {
                     if (!conflict.isMinor()) primaryCount++;
                     else secondaryCount++;

@@ -343,10 +343,6 @@ type NodeTexts = {
              * */
             UnexpectedTypeInput: ConflictText;
             /**
-             * When an input is given, but in the wrong order.
-             */
-            MisplacedInput: InternalConflictText;
-            /**
              * When an input is expected, but not given.
              * Description inputs: $1 = missing input, $2: evaluate that is missing input
              * */
@@ -380,6 +376,7 @@ type NodeTexts = {
              */
             FunctionException: ExceptionText;
         }>;
+    Input: DescriptiveNodeText & SimpleExpressionText;
     /**
      * An expression placeholder, e.g., `1 + _`
      * Description inputs: $1: type or undefined

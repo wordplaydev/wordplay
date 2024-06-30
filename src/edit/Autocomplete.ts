@@ -75,6 +75,7 @@ import Changed from '../nodes/Changed';
 import type Locales from '../locale/Locales';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
+import Input from '@nodes/Input';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -570,6 +571,7 @@ const PossibleNodes = [
     BinaryEvaluate,
     UnaryEvaluate,
     Evaluate,
+    Input,
     Convert,
     Insert,
     Select,

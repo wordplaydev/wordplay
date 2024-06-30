@@ -3483,10 +3483,6 @@
                       "$ref": "#/definitions/InternalConflictText",
                       "description": "When a list of inputs is given but isn't last."
                     },
-                    "MisplacedInput": {
-                      "$ref": "#/definitions/InternalConflictText",
-                      "description": "When an input is given, but in the wrong order."
-                    },
                     "MissingInput": {
                       "$ref": "#/definitions/ConflictText",
                       "description": "When an input is expected, but not given. Description inputs: $1 = missing input, $2: evaluate that is missing input"
@@ -3515,7 +3511,6 @@
                   "required": [
                     "IncompatibleInput",
                     "UnexpectedTypeInput",
-                    "MisplacedInput",
                     "MissingInput",
                     "NotInstantiable",
                     "UnexpectedInput",
@@ -3852,6 +3847,61 @@
             "Initial": {
               "$ref": "#/definitions/NodeText",
               "description": "Whether the evaluation happening is the first one, e.g., `◆` in `◆ ? 'first' 'later'`"
+            },
+            "Input": {
+              "additionalProperties": false,
+              "properties": {
+                "description": {
+                  "$ref": "#/definitions/Template",
+                  "description": "A precise description of the node's contents, more specific than a name. If not provided, name is used."
+                },
+                "doc": {
+                  "$ref": "#/definitions/DocText",
+                  "description": "Documentation text that appears in the documentation view"
+                },
+                "emotion": {
+                  "description": "The emotion that should be conveyed in animations of the node type",
+                  "enum": [
+                    "$?",
+                    "angry",
+                    "arrogant",
+                    "bored",
+                    "cheerful",
+                    "curious",
+                    "confused",
+                    "eager",
+                    "excited",
+                    "grumpy",
+                    "happy",
+                    "insecure",
+                    "kind",
+                    "neutral",
+                    "sad",
+                    "scared",
+                    "serious",
+                    "shy",
+                    "surprised",
+                    "precise"
+                  ],
+                  "type": "string"
+                },
+                "name": {
+                  "description": "The name that should be used to refer to the node type",
+                  "type": "string"
+                },
+                "start": {
+                  "$ref": "#/definitions/Template",
+                  "description": "The text shown when this expression type first begins evaluating."
+                }
+              },
+              "required": [
+                "description",
+                "doc",
+                "emotion",
+                "name",
+                "start"
+              ],
+              "type": "object"
             },
             "Insert": {
               "additionalProperties": false,
@@ -6521,6 +6571,7 @@
             "Delete",
             "DocumentedExpression",
             "Evaluate",
+            "Input",
             "ExpressionPlaceholder",
             "FunctionDefinition",
             "Iteration",

@@ -41,6 +41,7 @@
     import Context from '@nodes/Context';
     import CommandButton from '@components/widgets/CommandButton.svelte';
     import Expander from '@components/widgets/Expander.svelte';
+    import Templates from '@concepts/Templates';
 
     /** The project for which annotations should be shown */
     export let project: Project;
@@ -138,7 +139,7 @@
             // Conflict all of the active conflicts to a list of annotations.
             annotations = conflicts
                 .map((conflict: Conflict) => {
-                    const nodes = conflict.getConflictingNodes();
+                    const nodes = conflict.getConflictingNodes(Templates);
                     const primary = nodes.primary;
                     const secondary = nodes.secondary;
                     // Based on the primary and secondary nodes given, decide what to show.

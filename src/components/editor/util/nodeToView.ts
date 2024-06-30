@@ -84,6 +84,7 @@ import FormattedTranslationView from '../FormattedTranslationView.svelte';
 import IsLocaleView from '../IsLocaleView.svelte';
 import SpreadView from '../SpreadView.svelte';
 import MatchView from '../MatchView.svelte';
+import InputView from '../InputView.svelte';
 
 import type Node from '@nodes/Node';
 import Program from '@nodes/Program';
@@ -172,6 +173,7 @@ import Spread from '@nodes/Spread';
 import NoneOrView from '../OtherwiseView.svelte';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
+import Input from '@nodes/Input';
 
 const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
 
@@ -217,6 +219,7 @@ nodeToView.set(TextType, TextTypeView);
 nodeToView.set(FunctionDefinition, FunctionDefinitionView);
 nodeToView.set(FunctionType, FunctionTypeView);
 nodeToView.set(Evaluate, EvaluateView);
+nodeToView.set(Input, InputView);
 
 nodeToView.set(ExpressionPlaceholder, ExpressionPlaceholderView);
 nodeToView.set(BinaryEvaluate, BinaryEvaluateView);

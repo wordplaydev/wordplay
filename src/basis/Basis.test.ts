@@ -9,6 +9,7 @@ import Project from '../models/Project';
 import Example from '../nodes/Example';
 import { Basis } from './Basis';
 import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import Templates from '@concepts/Templates';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
 
@@ -43,7 +44,9 @@ function checkBasisNodes(node: Node) {
             !(conflict instanceof UnusedBind) &&
             !context
                 .getRoot(node)
-                ?.getAncestors(conflict.getConflictingNodes().primary.node)
+                ?.getAncestors(
+                    conflict.getConflictingNodes(Templates).primary.node,
+                )
                 .some((n) => n instanceof Example),
     );
 
@@ -52,7 +55,7 @@ function checkBasisNodes(node: Node) {
         conflicts
             .map((c) =>
                 c
-                    .getConflictingNodes()
+                    .getConflictingNodes(Templates)
                     .primary.explanation(DefaultLocales, context)
                     .toText(),
             )

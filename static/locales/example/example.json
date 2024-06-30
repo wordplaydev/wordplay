@@ -395,7 +395,6 @@
             "conflict": {
                 "IncompatibleInput": { "primary": "$?", "secondary": "$?" },
                 "UnexpectedTypeInput": { "primary": "$?", "secondary": "$?" },
-                "MisplacedInput": "$?",
                 "MissingInput": { "primary": "$?", "secondary": "$?" },
                 "NotInstantiable": "$?",
                 "UnexpectedInput": { "primary": "$?", "secondary": "$?" },
@@ -409,6 +408,13 @@
                     "explanation": "$?"
                 }
             }
+        },
+        "Input": {
+            "name": "$?",
+            "description": "$?",
+            "emotion": "$?",
+            "doc": "$?",
+            "start": "$?"
         },
         "ExpressionPlaceholder": {
             "name": "$?",

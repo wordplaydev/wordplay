@@ -10,6 +10,7 @@ import { toTokens } from '@parser/toTokens';
 import { Any, IsA } from '@nodes/Node';
 import Token from '@nodes/Token';
 import NodeRef from '@locale/NodeRef';
+import type Node from '@nodes/Node';
 
 export class UnparsableConflict extends Conflict {
     readonly unparsable: UnparsableType | UnparsableExpression;
@@ -24,7 +25,7 @@ export class UnparsableConflict extends Conflict {
         this.context = context;
     }
 
-    getConflictingNodes() {
+    getConflictingNodes(nodes: Node[]) {
         return {
             primary: {
                 node: this.unparsable,
@@ -39,11 +40,11 @@ export class UnparsableConflict extends Conflict {
                         this.unparsable instanceof UnparsableExpression,
                     ),
             },
-            resolutions: this.getLikelyIntensions(),
+            resolutions: this.getLikelyIntentions(nodes),
         };
     }
 
-    getLikelyIntensions(): Resolution[] {
+    getLikelyIntentions(templates: Node[]): Resolution[] {
         // Construct a set of tokens that weren't parseable so that we can find overlaps between this and possible templates.
         const unparsableTokens = new Set(
             this.unparsable.unparsables.map((t) => t.toWordplay()),
@@ -51,8 +52,7 @@ export class UnparsableConflict extends Conflict {
 
         // Scan through templates of possible expressions in the language, scoring them by number of overlapping tokens.
         return (
-            this.context
-                .getTemplates()
+            templates
                 // Only consider expressions
                 .filter(
                     (template): template is Expression =>

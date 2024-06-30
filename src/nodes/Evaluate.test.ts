@@ -4,7 +4,6 @@ import IncompatibleInput from '@conflicts/IncompatibleInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
 import Evaluate from './Evaluate';
 import MissingInput from '@conflicts/MissingInput';
-import MisplacedInput from '@conflicts/MisplacedInput';
 import NumberType from './NumberType';
 import SetType from './SetType';
 import MapType from './MapType';
@@ -14,6 +13,7 @@ import type Node from './Node';
 import type Conflict from '../conflicts/Conflict';
 import evaluateCode from '../runtime/evaluate';
 import BinaryEvaluate from './BinaryEvaluate';
+import UnexpectedInput from '@conflicts/UnexpectedInput';
 
 test.each([
     [
@@ -44,7 +44,7 @@ test.each([
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 c:2)',
         Evaluate,
-        MisplacedInput,
+        UnexpectedInput,
     ],
     [
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
@@ -56,7 +56,7 @@ test.each([
         'x: ƒ(a•# b•#) a - b\nx(1 2)',
         'ƒ x(a•# b•#) a - b\nx(a:1 a:2)',
         Evaluate,
-        MisplacedInput,
+        UnexpectedInput,
     ],
     [
         'x: ƒ(num…•#) a - b\nx(1 2 3)',

@@ -1,6 +1,5 @@
 import Bind from '@nodes/Bind';
 import type Conflict from '@conflicts/Conflict';
-import MisplacedInput from '@conflicts/MisplacedInput';
 import MissingInput from '@conflicts/MissingInput';
 import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
@@ -64,6 +63,7 @@ import StructureDefinitionType from './StructureDefinitionType';
 import Block from './Block';
 import Reference from './Reference';
 import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
+import Input from './Input';
 
 type Mapping = {
     expected: Bind;
@@ -320,9 +320,11 @@ export default class Evaluate extends Expression {
                 else {
                     // Is there a named input that matches?
                     const bind = givenInputs.find(
-                        (i) => i instanceof Bind && i.sharesName(expectedInput),
+                        (i) =>
+                            i instanceof Input &&
+                            expectedInput.hasName(i.getName()),
                     );
-                    if (bind instanceof Bind) {
+                    if (bind instanceof Input) {
                         // Remove it from the given inputs list.
                         givenInputs.splice(givenInputs.indexOf(bind), 1);
                         mapping.given = bind;
@@ -330,7 +332,7 @@ export default class Evaluate extends Expression {
                     // If there wasn't a named input matching, see if the next non-bind expression matches the type.
                     else if (
                         givenInputs.length > 0 &&
-                        !(givenInputs[0] instanceof Bind)
+                        !(givenInputs[0] instanceof Input)
                     ) {
                         mapping.given = givenInputs.shift();
                     }
@@ -356,7 +358,7 @@ export default class Evaluate extends Expression {
         const mapping = this.getInputMapping(context);
         const given = mapping?.inputs.find((input) => input.expected === bind)
             ?.given;
-        return given instanceof Bind ? given.value : given;
+        return given instanceof Input ? given.value : given;
     }
 
     getLastInput(): Expression | undefined {
@@ -376,10 +378,8 @@ export default class Evaluate extends Expression {
         const mapping = this.getMappingFor(bind, context);
         if (mapping === undefined) return this;
 
-        // If we'replacing with nothing
-
         // If it's already bound, replace the binding.
-        if (mapping.given instanceof Bind) {
+        if (mapping.given instanceof Input) {
             if (expression === undefined)
                 return this.replace(mapping.given, expression);
             else if (mapping.given.value)
@@ -391,14 +391,7 @@ export default class Evaluate extends Expression {
         else if (mapping.given === undefined && expression !== undefined) {
             return this.replace(this.inputs, [
                 ...this.inputs,
-                named
-                    ? Bind.make(
-                          undefined,
-                          Names.make([bind.getNames()[0]]),
-                          undefined,
-                          expression,
-                      )
-                    : expression,
+                named ? Input.make(bind.getNames()[0], expression) : expression,
             ]);
         }
 
@@ -493,9 +486,12 @@ export default class Evaluate extends Expression {
                         ),
                     ];
 
-                // Given a bind with an incompatible name? Conflict.
-                if (given instanceof Bind && !expected.sharesName(given))
-                    return [new MisplacedInput(fun, this, expected, given)];
+                // Given a named with an incompatible name? Conflict.
+                if (
+                    given instanceof Input &&
+                    !expected.hasName(given.getName())
+                )
+                    return [new UnexpectedInput(fun, this, given)];
 
                 // Concretize the expected type.
                 const expectedType = getConcreteExpectedType(
@@ -509,7 +505,7 @@ export default class Evaluate extends Expression {
                 if (given instanceof Expression) {
                     // Don't rely on the bind's specified type, since it's not a reliable source of type information. Ask it's value directly.
                     const givenType =
-                        given instanceof Bind
+                        given instanceof Input
                             ? given.value?.getType(context) ??
                               new NoExpressionType(given)
                             : given.getType(context);
@@ -562,16 +558,14 @@ export default class Evaluate extends Expression {
             // See if any of the remaining given inputs are bound to unknown names.
             for (const given of mapping.extra) {
                 if (
-                    given instanceof Bind &&
-                    !fun.inputs.some((expected) => expected.sharesName(given))
-                )
+                    given instanceof Input &&
+                    !fun.inputs.some((expected) =>
+                        expected.hasName(given.getName()),
+                    )
+                ) {
                     conflicts.push(new UnknownInput(fun, this, given));
+                } else conflicts.push(new UnexpectedInput(fun, this, given));
             }
-
-            // If there are remaining given inputs that didn't match anything, something's wrong.
-            if (mapping.extra.length > 0)
-                for (const extra of mapping.extra)
-                    conflicts.push(new UnexpectedInput(fun, this, extra));
 
             // Check type
             if (!(fun instanceof StreamDefinition)) {

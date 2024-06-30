@@ -13,6 +13,7 @@
     import Token from '../../nodes/Token';
     import Bind from '../../nodes/Bind';
     import Evaluate from '../../nodes/Evaluate';
+    import Input from '@nodes/Input';
 
     export let menu: Menu;
     /* What to run when hiding the menu */
@@ -48,13 +49,13 @@
     let evaluateBind: Bind | undefined;
     $: if (
         selectedRevision instanceof Revision &&
-        newNode instanceof Bind &&
+        newNode instanceof Input &&
         newParent instanceof Evaluate
     ) {
         const fun = newParent.getFunction(selectedRevision.context);
         evaluateBind = fun?.inputs.find(
             (input) =>
-                newNode instanceof Bind && input.hasName(newNode.getNames()[0])
+                newNode instanceof Input && input.hasName(newNode.getName()),
         );
     }
     $: selectedConcept =
@@ -108,11 +109,11 @@
                           .some(
                               (node) =>
                                   node instanceof Token &&
-                                  node.getText().startsWith(event.key)
+                                  node.getText().startsWith(event.key),
                           )
                     : $locales
                           .get((l) => l.term[revision.purpose])
-                          .startsWith(event.key)
+                          .startsWith(event.key),
             );
             if (match)
                 menu = menu.inSubmenu()
@@ -194,8 +195,8 @@
                             `/${$locales.get((l) =>
                                 entry instanceof RevisionSet
                                     ? l.term[entry.purpose]
-                                    : ''
-                            )}…/`
+                                    : '',
+                            )}…/`,
                         )}
                     />
                 {/if}

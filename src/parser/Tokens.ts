@@ -123,6 +123,11 @@ export default class Tokens {
         );
     }
 
+    afterNextIs(type: Sym) {
+        const after = this.#unread[1];
+        return after !== undefined && after.isSymbol(type);
+    }
+
     hasAfter(): boolean {
         const after = this.#unread[1];
         return (

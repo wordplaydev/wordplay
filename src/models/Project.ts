@@ -42,6 +42,7 @@ import {
 import Name from '@nodes/Name';
 import Doc from '@nodes/Doc';
 import type Definition from '@nodes/Definition';
+import Templates from '@concepts/Templates';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -311,7 +312,7 @@ export default class Project {
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
             for (const conflict of this.analysis.conflicts) {
-                const complicitNodes = conflict.getConflictingNodes();
+                const complicitNodes = conflict.getConflictingNodes(Templates);
                 this.analysis.primary.set(complicitNodes.primary.node, [
                     ...(this.analysis.primary.get(
                         complicitNodes.primary.node,
