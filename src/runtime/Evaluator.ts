@@ -1285,7 +1285,7 @@ export default class Evaluator {
         this.streamsByCreator.set(evaluate, [...streams, stream]);
         this.creatorByStream.set(stream, evaluate);
 
-        // Start the stream if this is reactive. Otherwise, we just take it's initial value.
+        // Start the stream if this evaluator is reactive. Otherwise, we just take it's initial value.
         if (this.reactive) stream.start();
 
         // Listen to it so we can react to changes.

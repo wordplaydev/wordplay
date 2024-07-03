@@ -92,6 +92,9 @@ export default class Webpage extends StreamValue<
     }
 
     react(event: FetchResponse) {
+        // If we're mirroring, and the input was a different URL, then don't replay it, since it's not relevant.
+        if (event.url !== this.url) return;
+
         // Cache the response
         URLResponseCache.set(event.url, { response: event, time: Date.now() });
 
@@ -160,16 +163,21 @@ export default class Webpage extends StreamValue<
     }
 
     start() {
-        this.get();
+        this.resetTimeout(true, true);
     }
 
     stop() {
-        this.resetTimeout();
+        this.resetTimeout(false, false);
         return;
     }
 
-    resetTimeout() {
+    resetTimeout(again: boolean, soon: boolean) {
         if (this.timeout) clearTimeout(this.timeout);
+        if (again)
+            this.timeout = setTimeout(
+                () => this.get(),
+                soon ? 50 : Math.max(1, this.frequency) * 60 * 1000,
+            );
     }
 
     async get() {
@@ -304,11 +312,7 @@ export default class Webpage extends StreamValue<
         });
 
         // Get it again in the next period.
-        this.resetTimeout();
-        this.timeout = setTimeout(
-            () => this.get(),
-            Math.max(1, this.frequency) * 60 * 1000,
-        );
+        this.resetTimeout(true, false);
     }
 
     getType() {
