@@ -186,16 +186,19 @@ export default class Tokens {
     /** Used to read the remainder of a line, unless there are no more tokens, or we reach the end of a code example. */
     readLine() {
         const nodes: Token[] = [];
+        let onFirst = true;
 
         if (!this.hasNext()) return nodes;
-        // Read at least one token, then keep going until we reach a token with a line break.
+        // If there are more tokens, and and it's not the end of a code block in markup, and we're either on the first token, or the next token has a line break, read another token.
         this.untilDo(
             () =>
                 this.hasNext() &&
-                this.nextHasPrecedingLineBreak() === false &&
+                (onFirst === true ||
+                    this.nextHasPrecedingLineBreak() === false) &&
                 this.nextIsnt(Sym.Code),
             () => {
                 const next = this.read();
+                onFirst = false;
                 nodes.push(next);
             },
         );
