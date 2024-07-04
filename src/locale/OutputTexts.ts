@@ -174,7 +174,6 @@ type OutputTexts = {
     };
     /** A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Pose: NameAndDoc & {
-        duration: NameAndDoc;
         style: NameAndDoc;
         color: NameAndDoc;
         opacity: NameAndDoc;

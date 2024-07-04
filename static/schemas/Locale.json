@@ -7303,9 +7303,6 @@
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
                 },
-                "duration": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
                 "flipx": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -7336,7 +7333,6 @@
                 "color",
                 "description",
                 "doc",
-                "duration",
                 "flipx",
                 "flipy",
                 "names",

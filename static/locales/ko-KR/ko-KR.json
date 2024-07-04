@@ -2555,7 +2555,6 @@
         "Pose": {
             "names": "$?",
             "doc": "$?",
-            "duration": { "doc": "$?", "names": "$?" },
             "style": { "doc": "$?", "names": "$?" },
             "color": { "doc": "$?", "names": "$?" },
             "opacity": { "doc": "$?", "names": "$?" },

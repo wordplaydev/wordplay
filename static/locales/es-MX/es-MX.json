@@ -3577,10 +3577,6 @@
                 "Sabes cuando alguien adopta la forma más maravilloso de pararse, hace una pausa y todos miran? Ese soy yo. Capturo una pose para @Output y soy el componente básico de sus movimientos.",
                 "Muchas cosas entran en una pose. ¡Mira mis muchas aportaciones para ver qué tipo de poses puedes hacer!"
             ],
-            "duration": {
-                "doc": "Cuánto tiempo debería tomar esta pose para entrar desde una pose anterior.",
-                "names": "duración"
-            },
             "style": {
                 "doc": "El estilo de animación que se utilizará al pasar a esta pose.",
                 "names": "estilo"

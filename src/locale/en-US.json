@@ -3566,10 +3566,6 @@
                 "So much goes into a pose. Check out my many inputs to see what kinds of poses you might make!"
             ],
             "names": ["🤪", "Pose"],
-            "duration": {
-                "doc": "How long this pose should take to enter from a previous pose.",
-                "names": "duration"
-            },
             "style": {
                 "doc": "The style of animation to use when moving to this pose.",
                 "names": "style"
