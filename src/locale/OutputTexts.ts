@@ -324,6 +324,8 @@ type OutputTexts = {
         spin: NameAndDoc;
         /** Fades in from purely transparent to purely opaque */
         fadein: NameAndDoc;
+        /** Fades out from purely opaque to purely transprent */
+        fadeout: NameAndDoc;
         /** Scales from 0 to larger than its size, then back to scale of 1 */
         popup: NameAndDoc;
         /** Offsets randomly in multiple directions */

@@ -3877,19 +3877,23 @@
                 }
             },
             "spin": {
-                "doc": "Creo una @Sequence  que rota un @Output alrededor de su centro.",
+                "doc": "Creo una @Sequence que rota un @Output alrededor de su centro.",
                 "names": ["girar"]
             },
             "fadein": {
-                "doc": "Creo una @Sequence  que hace que un @Output aparezca gradualmente de invisible a visible.",
+                "doc": "Creo una @Sequence que hace que un @Output aparezca gradualmente de invisible a visible.",
                 "names": ["aparecer"]
             },
+            "fadeout": {
+                "doc": "$?",
+                "names": ["$?"]
+            },
             "popup": {
-                "doc": "Creo una @Sequence  que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
+                "doc": "Creo una @Sequence que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
                 "names": ["aparecer"]
             },
             "shake": {
-                "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
+                "doc": "Creo una @Sequence que hace que parezca que un @Output está asustado.",
                 "names": ["temblor"]
             }
         },

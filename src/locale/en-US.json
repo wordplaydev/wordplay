@@ -3861,6 +3861,10 @@
                 "doc": "I create a @Sequence that fades @Output in from invisible to visible.",
                 "names": ["fadein"]
             },
+            "fadeout": {
+                "doc": "I create a @Sequence that fades @Output from visible to invisible. Try me in an exiting @Sequence!",
+                "names": ["fadeout"]
+            },
             "popup": {
                 "doc": "I create a @Sequence that makes @Output scale in quickly than shrink to its normal size.",
                 "names": ["popup"]

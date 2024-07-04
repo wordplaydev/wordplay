@@ -3695,6 +3695,10 @@
                 "doc": "我建立一個@Sequence, 將@Output從不可見狀態淡入可見狀態。",
                 "names": ["淡入"]
             },
+            "fadeout": {
+                "doc": "$?",
+                "names": ["$?"]
+            },
             "popup": {
                 "doc": "我創建一個@Sequence, 使@Output迅速放大然後縮小到正常尺寸。",
                 "names": ["彈出"]

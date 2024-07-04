@@ -18,14 +18,14 @@ export function createSway(locales: Locales) {
             Bind.make(
                 getDocLocales(
                     locales,
-                    (locale) => locale.output.sequence.sway.angle.doc
+                    (locale) => locale.output.sequence.sway.angle.doc,
                 ),
                 getNameLocales(
                     locales,
-                    (locale) => locale.output.sequence.sway.angle.names
+                    (locale) => locale.output.sequence.sway.angle.names,
                 ),
                 NumberType.make(Unit.reuse(['°'])),
-                NumberLiteral.make(2, Unit.reuse(['°']))
+                NumberLiteral.make(2, Unit.reuse(['°'])),
             ),
         ],
         parseExpression(
@@ -33,8 +33,8 @@ export function createSway(locales: Locales) {
             0%: Pose(rotation: -1 · angle)
             50%: Pose(rotation: angle) 
             100%: Pose(rotation: -1 · angle)
-    }`)
-        )
+    }`),
+        ),
     );
 }
 
@@ -43,21 +43,21 @@ export function createBounce(locales: Locales) {
         getDocLocales(locales, (locale) => locale.output.sequence.bounce.doc),
         getNameLocales(
             locales,
-            (locale) => locale.output.sequence.bounce.names
+            (locale) => locale.output.sequence.bounce.names,
         ),
         undefined,
         [
             Bind.make(
                 getDocLocales(
                     locales,
-                    (locale) => locale.output.sequence.bounce.height.doc
+                    (locale) => locale.output.sequence.bounce.height.doc,
                 ),
                 getNameLocales(
                     locales,
-                    (locale) => locale.output.sequence.bounce.height.names
+                    (locale) => locale.output.sequence.bounce.height.names,
                 ),
                 NumberType.make(Unit.reuse(['m'])),
-                NumberLiteral.make(2, Unit.reuse(['m']))
+                NumberLiteral.make(2, Unit.reuse(['m'])),
             ),
         ],
         parseExpression(
@@ -69,8 +69,8 @@ export function createBounce(locales: Locales) {
                   57%: Pose(scale: 1 offset: Place(y: .1m))
                   64%: Pose(scale: 1 offset: Place(y: 0m))
                   100%: Pose(scale: 1 offset: Place(y: 0m))
-        }`)
-        )
+        }`),
+        ),
     );
 }
 
@@ -84,8 +84,8 @@ export function createSpin(locales: Locales) {
             toTokens(`{ 
 				  	0%: Pose(rotation: 360°)
 				  	100%: Pose(rotation: 0°)
-			}`)
-        )
+			}`),
+        ),
     );
 }
 
@@ -94,7 +94,7 @@ export function createFadeIn(locales: Locales) {
         getDocLocales(locales, (locale) => locale.output.sequence.fadein.doc),
         getNameLocales(
             locales,
-            (locale) => locale.output.sequence.fadein.names
+            (locale) => locale.output.sequence.fadein.names,
         ),
         undefined,
         [],
@@ -102,8 +102,26 @@ export function createFadeIn(locales: Locales) {
             toTokens(`{ 
                           0%: Pose(opacity: 0)
                           100%: Pose(opacity: 1)
-                }`)
-        )
+                }`),
+        ),
+    );
+}
+
+export function createFadeOut(locales: Locales) {
+    return FunctionDefinition.make(
+        getDocLocales(locales, (locale) => locale.output.sequence.fadeout.doc),
+        getNameLocales(
+            locales,
+            (locale) => locale.output.sequence.fadeout.names,
+        ),
+        undefined,
+        [],
+        parseExpression(
+            toTokens(`{ 
+                          0%: Pose(opacity: 1)
+                          100%: Pose(opacity: 0)
+                }`),
+        ),
     );
 }
 
@@ -119,8 +137,8 @@ export function createPopup(locales: Locales) {
                           80%: Pose(scale: 1.1)
                         90%: Pose(scale: 0.9)
                         100%: Pose(scale: 1)
-                }`)
-        )
+                }`),
+        ),
     );
 }
 
@@ -137,8 +155,8 @@ export function createShake(locales: Locales) {
                     50%: Pose(offset: Place(.1m 0m)) 
                     75%: Pose(offset: Place(-.1m 0.1m)) 
                     100%: Pose(offset: Place(0m 0m)) 
-                }`)
-        )
+                }`),
+        ),
     );
 }
 
@@ -148,6 +166,7 @@ export function getDefaultSequences(locales: Locales) {
         bounce: createBounce(locales),
         spin: createSpin(locales),
         fadein: createFadeIn(locales),
+        fadeout: createFadeOut(locales),
         popup: createPopup(locales),
         shake: createShake(locales),
     };
