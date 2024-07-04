@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#509](https://github.com/wordplaydev/wordplay/issues/509) Fixed parsing regression from infinite loop fixes.
 -   [#507](https://github.com/wordplaydev/wordplay/issues/507) Fixed Webpage stream replay bug.
+-   Added fade out sequence.
 
 ## 0.10.2 2024-06-29
 
