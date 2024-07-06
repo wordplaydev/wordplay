@@ -109,7 +109,11 @@ export default class Names extends Node {
 
     getPreferredNameString(preferred: Locale | Locale[], symbolic = true) {
         preferred = Array.isArray(preferred) ? preferred : [preferred];
-        return this.getPreferredName(preferred, symbolic)?.getName() ?? '-';
+        return (
+            this.getPreferredName(preferred, symbolic)?.getName() ??
+            this.names[0].getName() ??
+            '-'
+        );
     }
 
     getPreferredName(
