@@ -111,7 +111,7 @@ export default class Names extends Node {
         preferred = Array.isArray(preferred) ? preferred : [preferred];
         return (
             this.getPreferredName(preferred, symbolic)?.getName() ??
-            this.names[0].getName() ??
+            this.names[0]?.getName() ??
             '-'
         );
     }
