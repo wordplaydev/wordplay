@@ -4,6 +4,6 @@ export const BlocksSetting = new Setting<boolean>(
     'blocks',
     true,
     false,
-    () => true,
-    (current, value) => current === value
+    (value) => (typeof value === 'boolean' ? value : false),
+    (current, value) => current === value,
 );
