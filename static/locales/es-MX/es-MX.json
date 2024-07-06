@@ -4475,6 +4475,7 @@
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
+                    "viewcode": "$?",
                     "newgallery": "nueva galería",
                     "unarchive": "desarchivar este proyecto"
                 },

@@ -4294,6 +4294,7 @@
                 "button": {
                     "newproject": "新项目",
                     "editproject": "编辑这个项目",
+                    "viewcode": "$?",
                     "newgallery": "新画廊",
                     "unarchive": "取消归档此项目"
                 },

@@ -9796,11 +9796,16 @@
                         "unarchive": {
                           "description": "The project unarchive button description",
                           "type": "string"
+                        },
+                        "viewcode": {
+                          "description": "View a project's code",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "newproject",
                         "editproject",
+                        "viewcode",
                         "newgallery",
                         "unarchive"
                       ],

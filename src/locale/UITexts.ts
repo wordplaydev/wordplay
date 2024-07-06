@@ -735,6 +735,8 @@ type UITexts = {
                 newproject: string;
                 /** Edit a project */
                 editproject: string;
+                /** View a project's code */
+                viewcode: string;
                 /** Create a new gallery */
                 newgallery: string;
                 /** The project unarchive button description */

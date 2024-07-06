@@ -1502,6 +1502,37 @@
         gap: var(--wordplay-spacing);
     }
 
+    .editor.readonly {
+        --size: 10px;
+
+        background-image: linear-gradient(
+                45deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                -45deg,
+                var(--wordplay-alternating-color) 25%,
+                transparent 25%
+            ),
+            linear-gradient(
+                45deg,
+                transparent 75%,
+                var(--wordplay-alternating-color) 75%
+            ),
+            linear-gradient(
+                -45deg,
+                transparent 75%,
+                var(--wordplay-alternating-color) 75%
+            );
+        background-size: var(--size) var(--size);
+        background-position:
+            0 0,
+            0 calc(var(--size) / 2),
+            calc(var(--size) / 2) calc(-1 * var(--size) / 2),
+            calc(-1 * var(--size) / 2) 0px;
+    }
+
     .editor.dragging {
         touch-action: none;
         cursor: grabbing;

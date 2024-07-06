@@ -4271,6 +4271,7 @@
                 "button": {
                     "newproject": "新專案",
                     "editproject": "編輯這個專案",
+                    "viewcode": "查看程式碼",
                     "newgallery": "新圖庫",
                     "unarchive": "取消歸檔此項目"
                 },
