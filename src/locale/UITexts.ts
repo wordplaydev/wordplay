@@ -666,12 +666,10 @@ type UITexts = {
             message: string;
         };
         landing: {
-            /** What function says as a call to action */
-            call: Template[];
             /** The value proposition for the site */
             value: Template;
             /** A description of the platform's features */
-            description: Template;
+            description: Template | Template[];
             /** The landing page beta warning */
             beta: Template[];
             /** The subtitles below links */
@@ -688,6 +686,16 @@ type UITexts = {
                 galleries: string;
                 /** What content is on the rights page */
                 rights: string;
+                /** The community link */
+                community: {
+                    label: string;
+                    subtitle: string;
+                };
+                /** The contributor link */
+                contribute: {
+                    label: string;
+                    subtitle: string;
+                };
             };
         };
         learn: {

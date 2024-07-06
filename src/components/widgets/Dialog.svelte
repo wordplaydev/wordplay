@@ -65,7 +65,7 @@
         padding: 1em;
         margin-left: auto;
         margin-right: auto;
-        max-width: 40em;
+        max-width: 95vw;
         height: max-content;
         background-color: var(--wordplay-background);
         color: var(--wordplay-foreground);

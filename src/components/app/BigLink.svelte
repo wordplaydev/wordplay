@@ -7,20 +7,22 @@
     export let smaller = false;
 </script>
 
-<p class="link" class:smaller
-    ><Link nowrap {to} {external}><slot /></Link>{#if subtitle}<span
-            class="subtitle"><br />{subtitle}</span
-        >{/if}</p
+<div class="biglink" class:smaller>
+    <div class="link"><Link nowrap {to} {external}><slot /></Link></div>
+    {#if subtitle}<div class="subtitle">{subtitle}</div>{/if}</div
 >
 
 <style>
+    .biglink {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
     .link {
         font-size: min(6vw, 32pt);
-        margin-block-end: 1em;
-        line-height: 0.85;
     }
 
-    .link.smaller {
+    .biglink.smaller .link {
         font-size: min(3vw, 24pt);
     }
 

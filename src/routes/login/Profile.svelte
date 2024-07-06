@@ -14,6 +14,7 @@
     import ChangePassword from './ChangePassword.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
     import { goto } from '$app/navigation';
+    import Action from '@components/app/Action.svelte';
 
     export let user: User;
 
@@ -44,22 +45,22 @@
 >
 
 <div class="actions">
-    <div class="action">
+    <Action>
         <p>{$locales.get((l) => l.ui.page.login.prompt.play)}</p>
         <p
             ><Link to="/projects"
                 >{$locales.get((l) => l.ui.page.projects.header)}</Link
             ></p
         >
-    </div>
-    <div class="action">
+    </Action>
+    <Action>
         <p>{$locales.get((l) => l.ui.page.login.prompt.name)}</p>
         <EmojiChooser
             pick={(name) => rename(name)}
             emoji={user.displayName ?? ''}
         />
-    </div>
-    <div class="action">
+    </Action>
+    <Action>
         <MarkupHtmlView
             markup={$locales.get((l) => l.ui.page.login.prompt.logout)}
         />
@@ -77,21 +78,21 @@
                 )}…</ConfirmButton
             ></p
         >
-    </div>
+    </Action>
     {#if !creator.isUsername()}
-        <div class="action">
+        <Action>
             <ChangeEmail {user} />
-        </div>
+        </Action>
     {:else}
-        <div class="action">
+        <Action>
             <ChangePassword {user} />
-        </div>
+        </Action>
     {/if}
-    <div class="action"><DeleteAccount {user} /></div>
+    <Action><DeleteAccount {user} /></Action>
     {#if moderator}
-        <div class="action">
+        <Action>
             You're a moderator. Go <Link to="/moderate">moderate</Link>?
-        </div>
+        </Action>
     {/if}
 </div>
 
@@ -101,14 +102,6 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
-    }
-
-    .action {
-        min-width: 15em;
-        width: calc(50% - var(--wordplay-spacing));
-        padding: var(--wordplay-spacing);
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
     }
 
     .emoji {

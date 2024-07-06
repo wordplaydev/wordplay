@@ -9357,15 +9357,18 @@
                       },
                       "type": "array"
                     },
-                    "call": {
-                      "description": "What function says as a call to action",
-                      "items": {
-                        "$ref": "#/definitions/Template"
-                      },
-                      "type": "array"
-                    },
                     "description": {
-                      "$ref": "#/definitions/Template",
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
                       "description": "A description of the platform's features"
                     },
                     "link": {
@@ -9375,6 +9378,40 @@
                         "about": {
                           "description": "What content is on the about page",
                           "type": "string"
+                        },
+                        "community": {
+                          "additionalProperties": false,
+                          "description": "The community link",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "subtitle"
+                          ],
+                          "type": "object"
+                        },
+                        "contribute": {
+                          "additionalProperties": false,
+                          "description": "The contributor link",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "subtitle"
+                          ],
+                          "type": "object"
                         },
                         "galleries": {
                           "description": "What content is on the galleries page",
@@ -9403,7 +9440,9 @@
                         "guide",
                         "projects",
                         "galleries",
-                        "rights"
+                        "rights",
+                        "community",
+                        "contribute"
                       ],
                       "type": "object"
                     },
@@ -9413,7 +9452,6 @@
                     }
                   },
                   "required": [
-                    "call",
                     "value",
                     "description",
                     "beta",

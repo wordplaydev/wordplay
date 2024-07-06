@@ -421,7 +421,7 @@ export class FontManager {
         const face = Faces[name];
 
         // If preloaded, don't load it.
-        if (face.preloaded === true) return;
+        if (face !== undefined && face.preloaded === true) return;
 
         if (this.facesLoaded.get(name) === 'loaded') return;
 
@@ -435,8 +435,8 @@ export class FontManager {
                 face.ranges === undefined
                     ? undefined
                     : Array.isArray(face.ranges)
-                    ? face.ranges
-                    : [face.ranges];
+                      ? face.ranges
+                      : [face.ranges];
 
             // If the face has specific weights, load all of the individual ways, split by the ranges specified.
             if (Array.isArray(face.weights)) {
@@ -447,7 +447,7 @@ export class FontManager {
                         face.weights,
                         false,
                         ranges,
-                        face.format
+                        face.format,
                     ),
                 ];
                 if (face.italic)
@@ -458,7 +458,7 @@ export class FontManager {
                             face.weights,
                             true,
                             ranges,
-                            face.format
+                            face.format,
                         ),
                     ];
             }
@@ -472,7 +472,7 @@ export class FontManager {
                             italic: face.italic,
                             format: face.format,
                             range: undefined,
-                        })
+                        }),
                     );
                 else {
                     for (const range of ranges)
@@ -483,7 +483,7 @@ export class FontManager {
                                 italic: face.italic,
                                 format: face.format,
                                 range: range,
-                            })
+                            }),
                         );
                 }
             }
@@ -496,7 +496,7 @@ export class FontManager {
 
         this.facesLoaded.set(
             name,
-            loads.every((loaded) => loaded) ? 'loaded' : 'failed'
+            loads.every((loaded) => loaded) ? 'loaded' : 'failed',
         );
     }
 
@@ -505,7 +505,7 @@ export class FontManager {
         weights: FontWeight[],
         ital: boolean,
         ranges: string[] | undefined,
-        format: FontFormat
+        format: FontFormat,
     ): Promise<boolean>[] {
         const promises: Promise<boolean>[] = [];
         for (const weight of weights) {
@@ -517,7 +517,7 @@ export class FontManager {
                         italic: ital,
                         format: format,
                         range: undefined,
-                    })
+                    }),
                 );
             else {
                 for (const range of ranges) {
@@ -528,7 +528,7 @@ export class FontManager {
                             italic: ital,
                             format: format,
                             range: range,
-                        })
+                        }),
                     );
                 }
             }
@@ -575,7 +575,7 @@ export class FontManager {
                     ? font.weight.toString()
                     : `${supportedFace.weights.min} ${supportedFace.weights.max}`,
                 unicodeRange: font.range,
-            }
+            },
         );
         document.fonts.add(fontFace);
 
@@ -590,5 +590,5 @@ const Fonts = new FontManager();
 export default Fonts;
 
 export const SupportedFontsFamiliesType = SupportedFaces.map(
-    (font) => `"${font}"`
+    (font) => `"${font}"`,
 ).join(OR_SYMBOL);

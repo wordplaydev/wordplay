@@ -19,7 +19,6 @@
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import CreatorView from '../app/CreatorView.svelte';
-    import Beta from '../../routes/Beta.svelte';
     import { Creator } from '../../db/CreatorDatabase';
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
 
@@ -53,21 +52,6 @@
 </script>
 
 <div class="settings">
-    <Dialog
-        button={{
-            tip: 'Show dialog to what beta means',
-            label: 'beta',
-        }}
-        description={{
-            header: 'Beta?',
-            explanation: '',
-        }}><Beta /></Dialog
-    >
-    <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
-        >{$locales.get((l) => l.term.help)}/{$locales.get(
-            (l) => l.term.feedback,
-        )}</Link
-    >
     <Status />
     <Link nowrap to="/login">
         <CreatorView

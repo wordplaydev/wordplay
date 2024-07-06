@@ -9,6 +9,8 @@
     import Color from '../../output/Color';
     import Emoji from './Emoji.svelte';
 
+    export let home = false;
+
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
     // It's primarily ProjectView that does this.
@@ -49,25 +51,29 @@
         <slot />
     </main>
     <footer class:fullscreen={$fullscreen.on}>
-        <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
-            ><Emoji>💬</Emoji></Link
-        >
-        <Link nowrap to="/learn"
-            >{$locales.get((l) => l.ui.page.learn.header)}</Link
-        >
-        <Link nowrap to="/guide"
-            >{$locales.get((l) => l.ui.page.guide.header)}</Link
-        >
-        <Link nowrap to="/projects"
-            >{$locales.get((l) => l.ui.page.projects.header)}</Link
-        >
-        <Link nowrap to="/galleries"
-            >{$locales.get((l) => l.ui.page.galleries.header)}</Link
-        >
-        <Link nowrap to="/donate"
-            >{$locales.get((l) => l.ui.page.donate.header)}</Link
-        >
-        <Settings />
+        <nav>
+            {#if !home}
+                <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
+                    ><Emoji>💬</Emoji></Link
+                >
+                <Link nowrap to="/projects"
+                    >{$locales.get((l) => l.ui.page.projects.header)}</Link
+                >
+                <Link nowrap to="/learn"
+                    >{$locales.get((l) => l.ui.page.learn.header)}</Link
+                >
+                <Link nowrap to="/galleries"
+                    >{$locales.get((l) => l.ui.page.galleries.header)}</Link
+                >
+                <Link nowrap to="/guide"
+                    >{$locales.get((l) => l.ui.page.guide.header)}</Link
+                >
+                <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
+                    >{$locales.get((l) => l.term.help)}</Link
+                >
+            {/if}
+            <Settings />
+        </nav>
     </footer>
 </div>
 
@@ -97,20 +103,23 @@
     }
 
     footer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
         width: 100%;
         max-width: 100%;
         overflow: auto;
-        padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         border-top: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         z-index: 1;
-        gap: var(--wordplay-spacing);
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
         white-space: nowrap;
+    }
+
+    nav {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        padding: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
     }
 </style>

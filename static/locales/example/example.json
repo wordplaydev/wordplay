@@ -2683,7 +2683,6 @@
                 "message": "$?"
             },
             "landing": {
-                "call": ["$?"],
                 "value": "$?",
                 "description": "$?",
                 "beta": ["$?"],
@@ -2693,7 +2692,15 @@
                     "guide": "$?",
                     "projects": "$?",
                     "galleries": "$?",
-                    "rights": "$?"
+                    "rights": "$?",
+                    "community": {
+                        "label": "$?",
+                        "subtitle": "$?"
+                    },
+                    "contribute": {
+                        "label": "$?",
+                        "subtitle": "$?"
+                    }
                 }
             },
             "learn": {
