@@ -53,6 +53,7 @@
         if (editor) {
             caretyContext.caret = editor?.caret;
             caretyContext.toggleMenu = editor?.toggleMenu;
+            caretyContext.editor = true;
         }
 
         const result = command.execute(caretyContext, '');
