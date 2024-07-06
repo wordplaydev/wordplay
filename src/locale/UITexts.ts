@@ -213,8 +213,6 @@ type UITexts = {
             blocks: ToggleText;
             /** The glyph chooser expand/collapse toggle */
             glyphs: ToggleText;
-            /** The localized on/off toggle */
-            localized: ToggleText;
         };
         button: {
             /** Output preview button for selecting output for display in output tile */
@@ -604,6 +602,8 @@ type UITexts = {
                 writing: ModeText<[string, string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
+                /** The localized none/localized/symbolic mode */
+                localized: ModeText<[string, string, string]>;
             };
             options: {
                 /** The label for the microphone drop down */

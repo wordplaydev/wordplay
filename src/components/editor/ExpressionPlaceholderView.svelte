@@ -30,7 +30,7 @@
                     node,
                     $locales,
                     context,
-                    $root
+                    $root,
                 );
         } else placeholder = undefined;
     }
@@ -48,7 +48,12 @@
             />{:else if inferredType && !(inferredType instanceof UnknownType)}<span
                 >•</span
             ><div class:inferred={node.type === undefined && inferredType}
-                ><RootView elide inert localized node={inferredType} /></div
+                ><RootView
+                    elide
+                    inert
+                    localized="symbolic"
+                    node={inferredType}
+                /></div
             >{/if}{#if caret}<PlaceholderView position={node} />{/if}</span
     ></span
 >

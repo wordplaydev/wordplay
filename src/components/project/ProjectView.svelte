@@ -125,6 +125,8 @@
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
+    import { toLocaleString } from '@locale/Locale';
+    import { default as ModeChooser } from '@components/widgets/Mode.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1404,21 +1406,33 @@
                                         toggle={toggleBlocks}
                                         on={$blocks}
                                     />
-                                    <Switch
-                                        onLabel={$locales.getLocale().language}
-                                        onTip={$locales.get(
+                                    <ModeChooser
+                                        labeled={false}
+                                        descriptions={$locales.get(
                                             (l) =>
-                                                l.ui.source.toggle.localized.on,
+                                                l.ui.dialog.settings.mode
+                                                    .localized,
                                         )}
-                                        offLabel={withVariationSelector('🌎')}
-                                        offTip={$locales.get(
-                                            (l) =>
-                                                l.ui.source.toggle.localized
-                                                    .off,
-                                        )}
-                                        toggle={(on) =>
-                                            Settings.setLocalized(on)}
-                                        on={$localized}
+                                        choice={$localized === 'actual'
+                                            ? 0
+                                            : $localized === 'localized'
+                                              ? 1
+                                              : 2}
+                                        select={(choice) =>
+                                            Settings.setLocalized(
+                                                choice === 0
+                                                    ? 'actual'
+                                                    : choice === 1
+                                                      ? 'localized'
+                                                      : 'symbolic',
+                                            )}
+                                        modes={[
+                                            '...',
+                                            toLocaleString(
+                                                $locales.getLocale(),
+                                            ),
+                                            '😀',
+                                        ]}
                                     />
                                     <!-- Make a Button for every navigate command -->
                                     {#each VisibleNavigateCommands as command}<CommandButton
@@ -1648,7 +1662,7 @@
                 <RootView
                     node={$dragged}
                     spaces={project.getSourceOf($dragged)?.spaces}
-                    localized
+                    localized={$localized}
                 />
                 <div class="cursor">🐲</div>
             </div>

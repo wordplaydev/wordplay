@@ -8676,6 +8676,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The project tile layout mode"
                         },
+                        "localized": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The localized none/localized/symbolic mode"
+                        },
                         "space": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The space_indicator on/off mode"
@@ -8690,7 +8694,8 @@
                         "animate",
                         "dark",
                         "writing",
-                        "space"
+                        "space",
+                        "localized"
                       ],
                       "type": "object"
                     },
@@ -10877,16 +10882,11 @@
                     "glyphs": {
                       "$ref": "#/definitions/ToggleText",
                       "description": "The glyph chooser expand/collapse toggle"
-                    },
-                    "localized": {
-                      "$ref": "#/definitions/ToggleText",
-                      "description": "The localized on/off toggle"
                     }
                   },
                   "required": [
                     "blocks",
-                    "glyphs",
-                    "localized"
+                    "glyphs"
                   ],
                   "type": "object"
                 }

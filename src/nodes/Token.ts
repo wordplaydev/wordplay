@@ -153,7 +153,12 @@ export default class Token extends Node {
         return [getTokenLabel(this, locales), this.getText()];
     }
 
-    localized(locales: Locale[], root: Root, context: Context) {
+    localized(
+        symbolic: boolean,
+        locales: Locale[],
+        root: Root,
+        context: Context,
+    ) {
         // Get this token's text
         let text = this.getText();
 
@@ -203,9 +208,7 @@ export default class Token extends Node {
             if (parent) {
                 def = parent.getCorrespondingDefinition(context);
                 if (def) {
-                    text =
-                        def.names.getSymbolicName() ??
-                        def.names.getPreferredNameString(locales);
+                    text = def.names.getPreferredNameString(locales, symbolic);
                 }
             }
         }

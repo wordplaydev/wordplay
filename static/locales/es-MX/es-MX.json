@@ -4079,10 +4079,6 @@
                     "on": "esconder los fondos de los bloques",
                     "off": "mostrar los fondos de los bloques"
                 },
-                "localized": {
-                    "on": "mostrar texto localizado",
-                    "off": "mostrar todo el texto"
-                },
                 "glyphs": {
                     "on": "colapsar los glifos coincidentes",
                     "off": "expandir los glifos coincidentes"
@@ -4323,6 +4319,14 @@
                             "horizontal, de izquierda a derecha",
                             "vertical, de derecha a izquierda",
                             "vertical, de izquierda a derecha"
+                        ]
+                    },
+                    "localized": {
+                        "label": "localización de código",
+                        "modes": [
+                            "no localizar el código",
+                            "localizar el código cuando esté disponible",
+                            "localizar el código pero preferir símbolos"
                         ]
                     }
                 },

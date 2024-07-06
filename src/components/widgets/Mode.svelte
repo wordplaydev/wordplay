@@ -8,10 +8,13 @@
     export let choice: number;
     export let select: (choice: number) => void;
     export let active = true;
+    export let labeled = true;
 </script>
 
 <div class="mode">
-    <span class="label" id={descriptions.label}>{descriptions.label}</span>
+    {#if labeled}
+        <span class="label" id={descriptions.label}>{descriptions.label}</span>
+    {/if}
     <div class="group" role="radiogroup" aria-labelledby={descriptions.label}>
         {#each modes as mode, index}
             <!-- We prevent mouse down default to avoid stealing keyboard focus. -->

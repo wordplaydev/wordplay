@@ -78,7 +78,7 @@
                     {/if}{@const name = variable.names.getPreferredName(
                         $locales.getLocales(),
                     )}{#if name}<RootView
-                            localized
+                            localized="symbolic"
                             node={name.withoutLanguage()}
                         />{/if}{/each}{/if}</svelte:fragment
         >

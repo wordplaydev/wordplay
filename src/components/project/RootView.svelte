@@ -25,6 +25,7 @@
     import FormattedLiteral from '../../nodes/FormattedLiteral';
     import type Caret from '@edit/Caret';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import type { LocalizedValue } from '@db/LocalizedSetting';
 
     export let node: Node;
     /** Optional space. To enable preferred space, set flag below. */
@@ -34,7 +35,7 @@
     /** If inline, and true, this will be a maximum width */
     export let elide = false;
     /** If true, hides names and docs not in a selected locale */
-    export let localized = false;
+    export let localized: LocalizedValue = 'symbolic';
     export let caret: Caret | undefined = undefined;
 
     /** Get the root, or make one if it's not a source. */
@@ -58,9 +59,9 @@
     let hidden = writable<Set<Node>>(new Set());
     setContext(HiddenSymbol, hidden);
 
-    let localize = writable<boolean>(localized);
+    let localize = writable<LocalizedValue>(localized ?? 'symbolic');
     setContext(LocalizeSymbol, localize);
-    $: localize.set(localized);
+    $: localize.set(localized ?? 'symbolic');
 
     // Update what's hidden.
     $: {

@@ -35,7 +35,7 @@
                 concept && (event.key === 'Enter' || event.key === ' ')
                     ? navigate(concept)
                     : undefined}
-            ><RootView node={type} inert inline localized /></span
+            ><RootView node={type} inert inline localized="symbolic" /></span
         >{/each}
 </span>
 

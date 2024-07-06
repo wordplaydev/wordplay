@@ -59,7 +59,7 @@
     {:else}<RootView
             node={segment.node}
             inline
-            localized
+            localized="symbolic"
         />{/if}{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI link={segment} />

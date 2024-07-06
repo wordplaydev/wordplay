@@ -35,11 +35,18 @@
             ? node.getPlaceholder($root, context, $locales)
             : undefined;
 
+    $: isInCaret =
+        $caret &&
+        node.getTextLength() > 0 &&
+        ($caret.getTokenExcludingSpace() === node ||
+            ($caret.tokenPrior === node && $caret.atBeginningOfTokenSpace()));
+
     // True if the caret is "on" this token.
     $: active =
+        $caret &&
         node.getTextLength() > 0 &&
-        ($caret?.getTokenExcludingSpace() === node ||
-            ($caret?.tokenPrior === node &&
+        ($caret.getTokenExcludingSpace() === node ||
+            ($caret.tokenPrior === node &&
                 $caret.atBeginningOfTokenSpace() &&
                 $caret.tokenIncludingSpace &&
                 $caret.tokenAtHasPrecedingSpace()));
@@ -47,11 +54,20 @@
     // True if this is the recently added token.
     $: added = $caret?.addition?.contains(node) ?? false;
 
-    // Localize the token's text using the preferred translation.
+    // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     $: text =
-        context && $root && localize && $localize
-            ? node.localized($locales.getLocales(), $root, context)
+        !isInCaret &&
+        context &&
+        $root &&
+        localize &&
+        ($localize === 'localized' || $localize === 'symbolic')
+            ? node.localized(
+                  $localize === 'symbolic',
+                  $locales.getLocales(),
+                  $root,
+                  context,
+              )
             : node.getText();
 
     // Prepare the text for rendering by replacing spaces with non-breaking spaces
