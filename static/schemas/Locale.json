@@ -7303,9 +7303,6 @@
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
                 },
-                "duration": {
-                  "$ref": "#/definitions/NameAndDoc"
-                },
                 "flipx": {
                   "$ref": "#/definitions/NameAndDoc"
                 },
@@ -7336,7 +7333,6 @@
                 "color",
                 "description",
                 "doc",
-                "duration",
                 "flipx",
                 "flipy",
                 "names",
@@ -7852,6 +7848,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Fades in from purely transparent to purely opaque"
                 },
+                "fadeout": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "Fades out from purely opaque to purely transprent"
+                },
                 "popup": {
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "Scales from 0 to larger than its size, then back to scale of 1"
@@ -7894,6 +7894,7 @@
                 "bounce",
                 "spin",
                 "fadein",
+                "fadeout",
                 "popup",
                 "shake"
               ],
@@ -8675,6 +8676,10 @@
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%2Cstring%5D%3E",
                           "description": "The project tile layout mode"
                         },
+                        "localized": {
+                          "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%2Cstring%5D%3E",
+                          "description": "The localized none/localized/symbolic mode"
+                        },
                         "space": {
                           "$ref": "#/definitions/ModeText%3C%5Bstring%2Cstring%5D%3E",
                           "description": "The space_indicator on/off mode"
@@ -8689,7 +8694,8 @@
                         "animate",
                         "dark",
                         "writing",
-                        "space"
+                        "space",
+                        "localized"
                       ],
                       "type": "object"
                     },
@@ -9356,15 +9362,18 @@
                       },
                       "type": "array"
                     },
-                    "call": {
-                      "description": "What function says as a call to action",
-                      "items": {
-                        "$ref": "#/definitions/Template"
-                      },
-                      "type": "array"
-                    },
                     "description": {
-                      "$ref": "#/definitions/Template",
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
                       "description": "A description of the platform's features"
                     },
                     "link": {
@@ -9374,6 +9383,40 @@
                         "about": {
                           "description": "What content is on the about page",
                           "type": "string"
+                        },
+                        "community": {
+                          "additionalProperties": false,
+                          "description": "The community link",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "subtitle"
+                          ],
+                          "type": "object"
+                        },
+                        "contribute": {
+                          "additionalProperties": false,
+                          "description": "The contributor link",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "subtitle"
+                          ],
+                          "type": "object"
                         },
                         "galleries": {
                           "description": "What content is on the galleries page",
@@ -9402,7 +9445,9 @@
                         "guide",
                         "projects",
                         "galleries",
-                        "rights"
+                        "rights",
+                        "community",
+                        "contribute"
                       ],
                       "type": "object"
                     },
@@ -9412,7 +9457,6 @@
                     }
                   },
                   "required": [
-                    "call",
                     "value",
                     "description",
                     "beta",
@@ -9795,11 +9839,16 @@
                         "unarchive": {
                           "description": "The project unarchive button description",
                           "type": "string"
+                        },
+                        "viewcode": {
+                          "description": "View a project's code",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "newproject",
                         "editproject",
+                        "viewcode",
                         "newgallery",
                         "unarchive"
                       ],
@@ -10833,16 +10882,11 @@
                     "glyphs": {
                       "$ref": "#/definitions/ToggleText",
                       "description": "The glyph chooser expand/collapse toggle"
-                    },
-                    "localized": {
-                      "$ref": "#/definitions/ToggleText",
-                      "description": "The localized on/off toggle"
                     }
                   },
                   "required": [
                     "blocks",
-                    "glyphs",
-                    "localized"
+                    "glyphs"
                   ],
                   "type": "object"
                 }

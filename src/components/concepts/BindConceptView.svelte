@@ -20,11 +20,11 @@
         >{#if concept.bind.type}•<RootView
                 node={concept.bind.type}
                 inline
-                localized
+                localized="symbolic"
             />{#if concept.bind.value}: <RootView
                     node={concept.bind.value}
                     inline
-                    localized
+                    localized="symbolic"
                 />{/if}{/if}
     </svelte:fragment>
 </Speech>

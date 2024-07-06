@@ -112,6 +112,10 @@ export default class Layout {
         return this.getTileWithID(TileKind.Documentation);
     }
 
+    hasVisibleCollapsedSource() {
+        return this.getSources().some((tile) => !tile.isCollapsed());
+    }
+
     getSources() {
         return this.tiles.filter((tile) => tile.id.startsWith('source'));
     }

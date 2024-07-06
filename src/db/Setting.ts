@@ -18,7 +18,7 @@ export default class Setting<Type> {
         device: boolean,
         defaultValue: Type,
         validator: (value: unknown) => Type | undefined,
-        equal: (current: Type, value: Type) => boolean
+        equal: (current: Type, value: Type) => boolean,
     ) {
         this.key = key;
         this.device = device;
@@ -39,7 +39,8 @@ export default class Setting<Type> {
         try {
             if (valueString !== null) {
                 const parsed = JSON.parse(valueString);
-                if (this.validator(parsed)) value = parsed;
+                const validation = this.validator(parsed);
+                value = validation;
             }
             if (value === undefined) value = this.defaultValue;
         } catch (_) {

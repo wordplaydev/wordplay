@@ -27,16 +27,16 @@
                 value instanceof Evaluate &&
                 (value.is(
                     project.shares.output.Phrase,
-                    project.getNodeContext(value)
+                    project.getNodeContext(value),
                 ) ||
                     value.is(
                         project.shares.output.Group,
-                        project.getNodeContext(value)
+                        project.getNodeContext(value),
                     ) ||
                     value.is(
                         project.shares.output.Shape,
-                        project.getNodeContext(value)
-                    ))
+                        project.getNodeContext(value),
+                    )),
         );
 
     function editContent(index: number) {
@@ -82,7 +82,7 @@
                     active={editable}
                     action={() => editContent(index)}>{EDIT_SYMBOL}</Button
                 >
-                <RootView node={content} localized />
+                <RootView node={content} localized="symbolic" />
             </div>
         {/each}
         <div class="add">
@@ -96,7 +96,7 @@
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
-                              'phrase'
+                              'phrase',
                           )
                         : undefined}
                 >+{project.shares.output.Phrase.getNames()[0]}</Button
@@ -111,7 +111,7 @@
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
-                              'group'
+                              'group',
                           )
                         : undefined}
                 >+{project.shares.output.Group.getNames()[0]}</Button
@@ -126,7 +126,7 @@
                               project,
                               list,
                               list?.values.length ?? 1 - 1,
-                              'shape'
+                              'shape',
                           )
                         : undefined}
                 >+{project.shares.output.Shape.getNames()[0]}</Button

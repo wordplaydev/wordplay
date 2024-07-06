@@ -1321,7 +1321,14 @@ const TouchSupported =
 
 export const VisibleModifyCommands = Commands.filter(
     (c) =>
-        (c.category === Category.Cursor || c.category === Category.Modify) &&
+        c.category === Category.Modify &&
+        (c.visible === Visibility.Visible ||
+            (TouchSupported && c.visible === Visibility.Touch)),
+);
+
+export const VisibleNavigateCommands = Commands.filter(
+    (c) =>
+        c.category === Category.Cursor &&
         (c.visible === Visibility.Visible ||
             (TouchSupported && c.visible === Visibility.Touch)),
 );

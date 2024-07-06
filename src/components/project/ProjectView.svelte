@@ -94,6 +94,7 @@
         Restart,
         ShowKeyboardHelp,
         VisibleModifyCommands,
+        VisibleNavigateCommands,
         handleKeyCommand,
     } from '../editor/util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
@@ -103,7 +104,6 @@
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
-    import { PersistenceType } from '../../db/ProjectHistory';
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Moderation from './Moderation.svelte';
@@ -123,6 +123,10 @@
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
+    import { COPY_SYMBOL } from '@parser/Symbols';
+    import CopyButton from './CopyButton.svelte';
+    import { toLocaleString } from '@locale/Locale';
+    import { default as ModeChooser } from '@components/widgets/Mode.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -1215,13 +1219,6 @@
     function revert() {
         if (original) Projects.reviseProject(original);
     }
-
-    /** Copy the project, make it private, track it, then gotoProject(). */
-    function copy() {
-        const copy = project.copy().asPublic(false);
-        Projects.track(copy, true, PersistenceType.Online, false);
-        goto(copy.getLink(false));
-    }
 </script>
 
 <svelte:head><title>Wordplay - {project.getName()}</title></svelte:head>
@@ -1359,17 +1356,19 @@
                             <svelte:fragment slot="extra">
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
-                                    <CommandButton command={Restart} />
+                                    {#if !editable}<CopyButton {project}
+                                        ></CopyButton>{/if}
                                     {#if showOutput || requestedPlay}<Button
                                             uiid="editProject"
                                             tip={$locales.get(
                                                 (l) =>
                                                     l.ui.page.projects.button
-                                                        .editproject,
+                                                        .viewcode,
                                             )}
                                             action={() => stopPlaying()}
-                                            ><Emoji>🔎</Emoji></Button
+                                            ><Emoji>👁️</Emoji></Button
                                         >{/if}
+                                    <CommandButton command={Restart} />
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting
                                             bind:painting
@@ -1392,6 +1391,8 @@
                                         ></Toggle
                                     >
                                 {:else if tile.isSource()}
+                                    {#if !editable}<CopyButton {project}
+                                        ></CopyButton>{/if}
                                     <Switch
                                         onLabel={withVariationSelector('🖱️')}
                                         onTip={$locales.get(
@@ -1405,27 +1406,46 @@
                                         toggle={toggleBlocks}
                                         on={$blocks}
                                     />
-                                    <Switch
-                                        onLabel={$locales.getLocale().language}
-                                        onTip={$locales.get(
+                                    <ModeChooser
+                                        labeled={false}
+                                        descriptions={$locales.get(
                                             (l) =>
-                                                l.ui.source.toggle.localized.on,
+                                                l.ui.dialog.settings.mode
+                                                    .localized,
                                         )}
-                                        offLabel={withVariationSelector('🌎')}
-                                        offTip={$locales.get(
-                                            (l) =>
-                                                l.ui.source.toggle.localized
-                                                    .off,
-                                        )}
-                                        toggle={(on) =>
-                                            Settings.setLocalized(on)}
-                                        on={$localized}
+                                        choice={$localized === 'actual'
+                                            ? 0
+                                            : $localized === 'localized'
+                                              ? 1
+                                              : 2}
+                                        select={(choice) =>
+                                            Settings.setLocalized(
+                                                choice === 0
+                                                    ? 'actual'
+                                                    : choice === 1
+                                                      ? 'localized'
+                                                      : 'symbolic',
+                                            )}
+                                        modes={[
+                                            '...',
+                                            toLocaleString(
+                                                $locales.getLocale(),
+                                            ),
+                                            '😀',
+                                        ]}
                                     />
-                                    <!-- Make a Button for every modify command -->
-                                    {#each VisibleModifyCommands as command}<CommandButton
+                                    <!-- Make a Button for every navigate command -->
+                                    {#each VisibleNavigateCommands as command}<CommandButton
                                             {command}
                                             sourceID={tile.id}
                                         />{/each}
+                                    <!-- Make a Button for every modify command if editable -->
+                                    {#if editable}
+                                        {#each VisibleModifyCommands as command}<CommandButton
+                                                {command}
+                                                sourceID={tile.id}
+                                            />{/each}
+                                    {/if}
                                 {/if}
                             </svelte:fragment>
                             <svelte:fragment slot="content">
@@ -1476,15 +1496,14 @@
                                     </div>
                                 {/if}</svelte:fragment
                             ><svelte:fragment slot="footer"
-                                >{#if tile.kind === TileKind.Source}
-                                    <GlyphChooser
-                                        sourceID={tile.id}
-                                    />{:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
+                                >{#if tile.kind === TileKind.Source && editable}
+                                    <GlyphChooser sourceID={tile.id} />
+                                {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline
                                         evaluator={$evaluator}
                                     />{/if}</svelte:fragment
                             ><svelte:fragment slot="margin"
-                                >{#if tile.kind === TileKind.Source}
+                                >{#if tile.kind === TileKind.Source && editable}
                                     <Annotations
                                         {project}
                                         evaluator={$evaluator}
@@ -1511,10 +1530,6 @@
                     action={() => revert()}>↺</Button
                 >{/if}
             {#if !editable}
-                <Button
-                    tip={$locales.get((l) => l.ui.project.button.duplicate)}
-                    action={copy}><span class="copy">✐+</span></Button
-                >
                 {@const owner = project.getOwner()}
                 {#if owner}
                     {#await Creators.getCreator(owner)}
@@ -1527,7 +1542,7 @@
                 <Button
                     tip={$locales.get((l) => l.ui.project.button.copy)}
                     action={() => toClipboard(project.toWordplay())}
-                    ><Emoji>📋</Emoji></Button
+                    ><Emoji>{COPY_SYMBOL}</Emoji></Button
                 >
             {/if}
 
@@ -1569,7 +1584,9 @@
                 {/if}
                 <Translate {project}></Translate>
             {:else}{project.getName()}{/if}
-            <Separator />
+            {#if editable && layout.hasVisibleCollapsedSource()}
+                <Separator />
+            {/if}
             {#each project.getSources() as source, index}
                 {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
                 {#if tile && tile.isCollapsed()}
@@ -1593,9 +1610,9 @@
                     >{$locales.get((l) => l.ui.source.overwritten)}</span
                 >
             {/if}
-            <Separator />
             {#each layout.getNonSources() as tile}
-                {#if tile.isCollapsed()}
+                <!-- No need to show the palette if not editable. -->
+                {#if tile.isVisibleCollapsed(editable)}
                     <NonSourceTileToggle
                         {project}
                         {tile}
@@ -1645,7 +1662,7 @@
                 <RootView
                     node={$dragged}
                     spaces={project.getSourceOf($dragged)?.spaces}
-                    localized
+                    localized={$localized}
                 />
                 <div class="cursor">🐲</div>
             </div>
@@ -1755,17 +1772,8 @@
         flex-direction: row;
         flex-wrap: nowrap;
         align-items: center;
+        margin-left: auto;
         gap: var(--wordplay-spacing);
-    }
-
-    .copy {
-        display: inline-block;
-        background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
-        border-radius: var(--wordplay-border-radius);
-        padding-inline-start: var(--wordplay-spacing);
-        padding-inline-end: var(--wordplay-spacing);
-        user-select: none;
     }
 
     .footer {

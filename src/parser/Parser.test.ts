@@ -71,6 +71,7 @@ import { parseBlock } from './parseExpression';
 import Otherwise from '@nodes/Otherwise';
 import getPreferredSpaces from './getPreferredSpaces';
 import Input from '@nodes/Input';
+import UnparsableExpression from '@nodes/UnparsableExpression';
 
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
@@ -94,6 +95,18 @@ test('Parse shares', () => {
     expect(good.expression).toBeInstanceOf(Block);
     expect((good.expression as Block).statements).toHaveLength(1);
     expect((good.expression as Block).statements[0]).toBeInstanceOf(Bind);
+});
+
+test('Unparsable runaways', () => {
+    const program = toProgram('a:\nb: [\n] 1');
+    expect(program.expression.statements.length).toBe(3);
+    expect(program.expression.statements[0]).toBeInstanceOf(Bind);
+    expect(program.expression.statements[1]).toBeInstanceOf(
+        UnparsableExpression,
+    );
+    expect(program.expression.statements[2]).toBeInstanceOf(
+        UnparsableExpression,
+    );
 });
 
 test.each([

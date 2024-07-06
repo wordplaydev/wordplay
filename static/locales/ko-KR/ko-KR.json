@@ -2555,7 +2555,6 @@
         "Pose": {
             "names": "$?",
             "doc": "$?",
-            "duration": { "doc": "$?", "names": "$?" },
             "style": { "doc": "$?", "names": "$?" },
             "color": { "doc": "$?", "names": "$?" },
             "opacity": { "doc": "$?", "names": "$?" },
@@ -2675,6 +2674,10 @@
             },
             "spin": { "doc": "$?", "names": ["girar"] },
             "fadein": { "doc": "$?", "names": ["revelar"] },
+            "fadeout": {
+                "doc": "$?",
+                "names": ["$?"]
+            },
             "popup": { "doc": "$?", "names": ["surgir"] },
             "shake": { "doc": "$?", "names": ["agitar"] }
         },
@@ -2848,10 +2851,6 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$?",
-                    "off": "$?"
-                },
-                "localized": {
                     "on": "$?",
                     "off": "$?"
                 },
@@ -3077,6 +3076,14 @@
                     "writing": {
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
+                    },
+                    "localized": {
+                        "label": "코드 현지화",
+                        "modes": [
+                            "코드를 현지화하지 마세요",
+                            "가능한 경우 코드 현지화",
+                            "코드를 현지화하지만 기호를 선호합니다."
+                        ]
                     }
                 },
                 "options": {
@@ -3181,9 +3188,18 @@
                 "message": "$?"
             },
             "landing": {
-                "call": ["$?"],
-                "value": "$?",
-                "description": "$?",
+                "value": "단어, 기호, 이모티콘, 코드를 사용하여 대화형 스토리를 만들어보세요!",
+                "description": [
+                    "Wordplay는 다음을 수행할 수 있는 프로그래밍 언어입니다",
+                    "• 단어와 이모티콘에 장난스럽게 애니메이션을 적용해보세요 🤪︎",
+                    "• 시간 🕦︎, 소리 🎤︎, 웹사이트 🔗︎, 물리학 🌎︎을 활용하세요.",
+                    "• 친구, 그룹 또는 누구와도 🤝︎ 공유하세요",
+                    "• 모든 세계 언어로 코드를 작성하세요 🌐︎",
+                    "• 마우스 🖱︎️, 터치 👆︎, 키보드 ⌨︎️로 편집하세요",
+                    "• 디버그 앞으로 ⏩︎ 및 뒤로 ⏪︎",
+                    "• 화면🖥︎️ 및 화면 리더로 보기 🔊",
+                    "워싱턴 대학교↗에서 영원히 무료입니다."
+                ],
                 "beta": ["$?"],
                 "link": {
                     "about": "$?",
@@ -3191,7 +3207,15 @@
                     "guide": "$?",
                     "projects": "$?",
                     "galleries": "$?",
-                    "rights": "$?"
+                    "rights": "$?",
+                    "community": {
+                        "label": "지역 사회",
+                        "subtitle": "Discord에서 우리와 채팅하세요"
+                    },
+                    "contribute": {
+                        "label": "기여하다",
+                        "subtitle": "워드플레이를 만들 수 있도록 도와주세요."
+                    }
                 }
             },
             "learn": {
@@ -3223,6 +3247,7 @@
                 "button": {
                     "newproject": "$?",
                     "editproject": "$?",
+                    "viewcode": "$?",
                     "newgallery": "$?",
                     "unarchive": "$?"
                 },

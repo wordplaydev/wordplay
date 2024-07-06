@@ -32,7 +32,7 @@ export default class Tile {
         kind: TileKind,
         mode: Mode,
         bounds: Bounds | undefined,
-        position: Bounds
+        position: Bounds,
     ) {
         this.id = id;
         this.kind = kind;
@@ -70,14 +70,20 @@ export default class Tile {
         return this.kind === TileKind.Source;
     }
 
+    isVisibleCollapsed(editable: boolean) {
+        return (
+            this.isCollapsed() && (editable || this.kind !== TileKind.Palette)
+        );
+    }
+
     getOrder() {
         return this.kind === TileKind.Palette
             ? 0
             : this.kind === TileKind.Output
-            ? 1
-            : this.kind === TileKind.Documentation
-            ? 2
-            : 3;
+              ? 1
+              : this.kind === TileKind.Documentation
+                ? 2
+                : 3;
     }
 
     withBounds(bounds: Bounds) {

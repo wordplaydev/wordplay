@@ -8,7 +8,6 @@
         SupportedLocales,
         getLocaleLanguage,
         type SupportedLocale,
-        getLocaleLanguageName,
         EventuallySupportedLocales,
     } from '../../locale/Locale';
     import Link from '../app/Link.svelte';
@@ -25,7 +24,7 @@
 
     function select(
         locale: SupportedLocale,
-        action: 'remove' | 'replace' | 'add'
+        action: 'remove' | 'replace' | 'add',
     ) {
         selectedLocales =
             // If removing, only remove if there's more than one.
@@ -34,17 +33,17 @@
                     ? selectedLocales.filter((l) => l !== locale)
                     : selectedLocales
                 : // If replacing, just choose the single locale
-                action === 'replace'
-                ? [locale]
-                : // Put the selected locale at the end, removing it from the beginning if included
-                  [...selectedLocales.filter((l) => l !== locale), locale];
+                  action === 'replace'
+                  ? [locale]
+                  : // Put the selected locale at the end, removing it from the beginning if included
+                    [...selectedLocales.filter((l) => l !== locale), locale];
 
         // Set the layout and direction based on the preferred language.
         if (selectedLocales.length > 0) {
             Settings.setWritingLayout(
                 getLanguageLayout(
-                    getLocaleLanguage(selectedLocales[0]) as LanguageCode
-                )
+                    getLocaleLanguage(selectedLocales[0]) as LanguageCode,
+                ),
             );
             // Save setLocales
             DB.Locales.setLocales(selectedLocales as SupportedLocale[]);
@@ -56,13 +55,13 @@
     description={$locales.get((l) => l.ui.dialog.locale)}
     button={{
         tip: $locales.get((l) => l.ui.dialog.locale.button.show),
-        label: selectedLocales.map((l) => getLocaleLanguageName(l)).join(' + '),
+        label: selectedLocales.join(' + '),
     }}
 >
     <h2
         >{concretize(
             $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.selected)
+            $locales.get((l) => l.ui.dialog.locale.subheader.selected),
         ).toText()}</h2
     >
     <div class="languages">
@@ -80,7 +79,7 @@
     <h2
         >{concretize(
             $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.supported)
+            $locales.get((l) => l.ui.dialog.locale.subheader.supported),
         ).toText()}</h2
     >
     <div class="supported">
@@ -103,7 +102,7 @@
     <h2
         >{concretize(
             $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.coming)
+            $locales.get((l) => l.ui.dialog.locale.subheader.coming),
         ).toText()}</h2
     >
 
@@ -121,7 +120,7 @@
             to="https://github.com/wordplaydev/wordplay/wiki/localize"
             >{concretize(
                 $locales,
-                $locales.get((l) => l.ui.dialog.locale.subheader.help)
+                $locales.get((l) => l.ui.dialog.locale.subheader.help),
             ).toText()}</Link
         ></h2
     >

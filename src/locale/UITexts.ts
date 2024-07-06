@@ -213,8 +213,6 @@ type UITexts = {
             blocks: ToggleText;
             /** The glyph chooser expand/collapse toggle */
             glyphs: ToggleText;
-            /** The localized on/off toggle */
-            localized: ToggleText;
         };
         button: {
             /** Output preview button for selecting output for display in output tile */
@@ -604,6 +602,8 @@ type UITexts = {
                 writing: ModeText<[string, string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
+                /** The localized none/localized/symbolic mode */
+                localized: ModeText<[string, string, string]>;
             };
             options: {
                 /** The label for the microphone drop down */
@@ -666,12 +666,10 @@ type UITexts = {
             message: string;
         };
         landing: {
-            /** What function says as a call to action */
-            call: Template[];
             /** The value proposition for the site */
             value: Template;
             /** A description of the platform's features */
-            description: Template;
+            description: Template | Template[];
             /** The landing page beta warning */
             beta: Template[];
             /** The subtitles below links */
@@ -688,6 +686,16 @@ type UITexts = {
                 galleries: string;
                 /** What content is on the rights page */
                 rights: string;
+                /** The community link */
+                community: {
+                    label: string;
+                    subtitle: string;
+                };
+                /** The contributor link */
+                contribute: {
+                    label: string;
+                    subtitle: string;
+                };
             };
         };
         learn: {
@@ -735,6 +743,8 @@ type UITexts = {
                 newproject: string;
                 /** Edit a project */
                 editproject: string;
+                /** View a project's code */
+                viewcode: string;
                 /** Create a new gallery */
                 newgallery: string;
                 /** The project unarchive button description */

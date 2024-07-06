@@ -18,7 +18,7 @@ import type { WritingLayout } from '../locale/Scripts';
 import type Progress from '../tutorial/Progress';
 import Layout from '../components/project/Layout';
 import { BlocksSetting } from './BlocksSetting';
-import { LocalizedSetting } from './LocalizedSetting';
+import { LocalizedSetting, type LocalizedValue } from './LocalizedSetting';
 import { DarkSetting } from './DarkSetting';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from './firebase';
@@ -190,8 +190,8 @@ export default class SettingsDatabase {
         return this.settings.localized.get();
     }
 
-    setLocalized(on: boolean) {
-        this.settings.localized.set(this.database, on);
+    setLocalized(value: LocalizedValue) {
+        this.settings.localized.set(this.database, value);
     }
 
     /** To serialize to a database */

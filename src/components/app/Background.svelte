@@ -26,7 +26,7 @@
 
     const bounds = 0.2;
     const glyphs = new UnicodeString(
-        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ'
+        '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ',
     ).getGraphemes();
 
     let mounted = false;
@@ -53,7 +53,7 @@
                     glyph.y = windowHeight * (1 + bounds);
 
                 const element = document.querySelector(
-                    `[data-id="${glyph.index}"]`
+                    `[data-id="${glyph.index}"]`,
                 );
                 if (element instanceof HTMLElement) {
                     element.style.left = `${glyph.x}px`;
@@ -73,7 +73,7 @@
         // Compute a number of glyphs roughly proportional to the window size.
         const count = Math.min(
             20,
-            Math.round(windowWidth * windowHeight) / 100000
+            Math.round(windowWidth * windowHeight) / 100000,
         );
         for (let i = 0; i < count; i++)
             random.push(glyphs[Math.floor(Math.random() * glyphs.length)]);

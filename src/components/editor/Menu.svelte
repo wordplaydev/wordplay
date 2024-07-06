@@ -178,10 +178,13 @@
                     {#if newNode !== undefined}
                         {#if revision.isRemoval()}
                             <strike
-                                ><RootView node={newNode} localized /></strike
+                                ><RootView
+                                    node={newNode}
+                                    localized="symbolic"
+                                /></strike
                             >
                         {:else}
-                            <RootView node={newNode} localized />
+                            <RootView node={newNode} localized="symbolic" />
                         {/if}
                     {:else}
                         <MarkupHTMLView
@@ -232,7 +235,7 @@
                             newNode.statements.length > 1
                                 ? newNode
                                 : newNode}
-                            localized
+                            localized="symbolic"
                         />
                     </div>
                 {/if}

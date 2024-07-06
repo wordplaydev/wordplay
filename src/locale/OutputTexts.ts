@@ -174,7 +174,6 @@ type OutputTexts = {
     };
     /** A pose, for use in overriding an output's defaults for entering, resting, moving, or existing states */
     Pose: NameAndDoc & {
-        duration: NameAndDoc;
         style: NameAndDoc;
         color: NameAndDoc;
         opacity: NameAndDoc;
@@ -325,6 +324,8 @@ type OutputTexts = {
         spin: NameAndDoc;
         /** Fades in from purely transparent to purely opaque */
         fadein: NameAndDoc;
+        /** Fades out from purely opaque to purely transprent */
+        fadeout: NameAndDoc;
         /** Scales from 0 to larger than its size, then back to scale of 1 */
         popup: NameAndDoc;
         /** Offsets randomly in multiple directions */

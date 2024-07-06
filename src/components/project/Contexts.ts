@@ -25,6 +25,7 @@ import type {
 import type { CaretPosition } from '../../edit/Caret';
 import type LanguageCode from '../../locale/LanguageCode';
 import type Spaces from '@parser/Spaces';
+import type { LocalizedValue } from '@db/LocalizedSetting';
 
 // App related contexts
 
@@ -186,7 +187,7 @@ export function getHidden() {
 
 export const LocalizeSymbol = Symbol('localize');
 export function getLocalize() {
-    return getContext<Writable<boolean> | undefined>(LocalizeSymbol);
+    return getContext<Writable<LocalizedValue> | undefined>(LocalizeSymbol);
 }
 
 export const ConceptPathSymbol = Symbol('palette-path');

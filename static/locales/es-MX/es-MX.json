@@ -3577,10 +3577,6 @@
                 "Sabes cuando alguien adopta la forma más maravilloso de pararse, hace una pausa y todos miran? Ese soy yo. Capturo una pose para @Output y soy el componente básico de sus movimientos.",
                 "Muchas cosas entran en una pose. ¡Mira mis muchas aportaciones para ver qué tipo de poses puedes hacer!"
             ],
-            "duration": {
-                "doc": "Cuánto tiempo debería tomar esta pose para entrar desde una pose anterior.",
-                "names": "duración"
-            },
             "style": {
                 "doc": "El estilo de animación que se utilizará al pasar a esta pose.",
                 "names": "estilo"
@@ -3881,19 +3877,23 @@
                 }
             },
             "spin": {
-                "doc": "Creo una @Sequence  que rota un @Output alrededor de su centro.",
+                "doc": "Creo una @Sequence que rota un @Output alrededor de su centro.",
                 "names": ["girar"]
             },
             "fadein": {
-                "doc": "Creo una @Sequence  que hace que un @Output aparezca gradualmente de invisible a visible.",
+                "doc": "Creo una @Sequence que hace que un @Output aparezca gradualmente de invisible a visible.",
                 "names": ["aparecer"]
             },
+            "fadeout": {
+                "doc": "$?",
+                "names": ["$?"]
+            },
             "popup": {
-                "doc": "Creo una @Sequence  que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
+                "doc": "Creo una @Sequence que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
                 "names": ["aparecer"]
             },
             "shake": {
-                "doc": "Creo una @Sequence  que hace que parezca que un @Output está asustado.",
+                "doc": "Creo una @Sequence que hace que parezca que un @Output está asustado.",
                 "names": ["temblor"]
             }
         },
@@ -4078,10 +4078,6 @@
                 "blocks": {
                     "on": "esconder los fondos de los bloques",
                     "off": "mostrar los fondos de los bloques"
-                },
-                "localized": {
-                    "on": "mostrar texto localizado",
-                    "off": "mostrar todo el texto"
                 },
                 "glyphs": {
                     "on": "colapsar los glifos coincidentes",
@@ -4324,6 +4320,14 @@
                             "vertical, de derecha a izquierda",
                             "vertical, de izquierda a derecha"
                         ]
+                    },
+                    "localized": {
+                        "label": "localización de código",
+                        "modes": [
+                            "no localizar el código",
+                            "localizar el código cuando esté disponible",
+                            "localizar el código pero preferir símbolos"
+                        ]
                     }
                 },
                 "options": {
@@ -4428,11 +4432,18 @@
                 "message": "¿Dónde estamos? ¿Podemos ir a casa?"
             },
             "landing": {
-                "call": [
-                    "¡Hola! ¿Quieres dar vida a las palabras con nosotras? 😊"
+                "value": "¡Crea historias interactivas con palabras, símbolos, emojis y codifica con nosotros!",
+                "description": [
+                    "Wordplay es un lenguaje de programación que te permite:",
+                    "• Anima palabras y emojis de forma divertida 🤪︎",
+                    "• Utilice el tiempo 🕦︎, el sonido 🎤︎, los sitios web 🔗︎ y la física 🌎︎",
+                    "• Comparte 🤝︎ con amigos, grupos o cualquier persona",
+                    "• Código en cualquier idioma del mundo 🌐︎",
+                    "• Edite con mouse 🖱︎️, toque 👆︎ y teclados ⌨︎️",
+                    "• Depurar hacia adelante ⏩︎ y hacia atrás ⏪︎",
+                    "• Ver con pantallas 🖥︎️ y lectores de pantalla 🔊",
+                    "• Gratis para siempre de la Universidad de Washington↗."
                 ],
-                "value": "Aprende a programar animando palabras, emojis y símbolos de los idiomas del mundo, sin importar tus habilidades.",
-                "description": "Wordplay es un lenguaje de programación innovador 🖥️ con edición de bloques y texto 📝, entradas juguetonas como el tiempo 🕦, sonido 🎤, páginas web 🔗 y física 🌎, depuración instantánea de viaje en el tiempo ⏪ y documentación completa 🗂️. Todo en una lista en crecimiento de los idiomas del mundo 🌐, siguiendo los últimos estándares de accesibilidad web ♿️. Comparte con amigos, grupos privados o el mundo ↗️. Gratis para siempre desde la <University of Washington Information School@https://ischool.uw.edu/>.",
                 "beta": [
                     "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
                     "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
@@ -4443,7 +4454,15 @@
                     "guide": "$?",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta actuaciones de otros",
-                    "rights": "Responsabilidades, las nuestras y las tuyas"
+                    "rights": "Responsabilidades, las nuestras y las tuyas",
+                    "community": {
+                        "label": "Comunidad",
+                        "subtitle": "Chatea con nosotras en Discord."
+                    },
+                    "contribute": {
+                        "label": "Contribuir",
+                        "subtitle": "Ayúdanos a hacer Wordplay."
+                    }
                 }
             },
             "learn": {
@@ -4475,6 +4494,7 @@
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
+                    "viewcode": "$?",
                     "newgallery": "nueva galería",
                     "unarchive": "desarchivar este proyecto"
                 },

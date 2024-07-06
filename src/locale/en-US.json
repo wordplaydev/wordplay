@@ -41,7 +41,7 @@
         "row": "row",
         "set": "set",
         "key": "key",
-        "help": "help",
+        "help": "Help",
         "feedback": "feedback"
     },
     "token": {
@@ -3566,10 +3566,6 @@
                 "So much goes into a pose. Check out my many inputs to see what kinds of poses you might make!"
             ],
             "names": ["🤪", "Pose"],
-            "duration": {
-                "doc": "How long this pose should take to enter from a previous pose.",
-                "names": "duration"
-            },
             "style": {
                 "doc": "The style of animation to use when moving to this pose.",
                 "names": "style"
@@ -3865,6 +3861,10 @@
                 "doc": "I create a @Sequence that fades @Output in from invisible to visible.",
                 "names": ["fadein"]
             },
+            "fadeout": {
+                "doc": "I create a @Sequence that fades @Output from visible to invisible. Try me in an exiting @Sequence!",
+                "names": ["fadeout"]
+            },
             "popup": {
                 "doc": "I create a @Sequence that makes @Output scale in quickly than shrink to its normal size.",
                 "names": ["popup"]
@@ -4064,10 +4064,6 @@
                 "blocks": {
                     "on": "hide block backgrounds",
                     "off": "show block backgrounds"
-                },
-                "localized": {
-                    "on": "show localized text",
-                    "off": "show all text"
                 },
                 "glyphs": {
                     "on": "collapse the matching glyphs",
@@ -4308,6 +4304,14 @@
                             "vertical, right to left",
                             "vertical, left to right"
                         ]
+                    },
+                    "localized": {
+                        "label": "code localization",
+                        "modes": [
+                            "do not localize code",
+                            "localize code when available",
+                            "localize code but prefer symbols"
+                        ]
                     }
                 },
                 "options": {
@@ -4412,11 +4416,20 @@
                 "message": "Where is this place? Can we go home?"
             },
             "landing": {
-                "call": ["Hi! Want to bring words to life with us? 😊"],
-                "value": "Learn to code by animating words, emojis, and symbols from the world's languages, whatever your abilities.",
-                "description": "Wordplay is an innovative programming language 🖥️ with block and text editing 📝, playful inputs like time 🕦, sound 🎤, webpages 🔗, and physics 🌎, instant time-travel debugging ⏪, and comprehensive documentation 🗂️. All in a growing list of the world's languages 🌐, following the latest web accessibility standards ♿️. Share with friends, private groups, or the world ↗️. Free forever from the <University of Washington Information School@https://ischool.uw.edu/>.",
+                "value": "Create interactive stories with words, symbols, emojis, and code with us!",
+                "description": [
+                    "Wordplay is programming language that enables you to:",
+                    "• Playfully animate words and emojis 🤪",
+                    "• Use time 🕦, sound 🎤, websites 🔗, and physics 🌎",
+                    "• Share 🤝 with friends, groups, or anyone",
+                    "• Code in any world language 🌐",
+                    "• Edit with mice 🖱️, touch 👆, and keyboards ⌨️",
+                    "• Debug forwards ⏩ and backwards ⏪",
+                    "• View with screens 🖥️ and screen readers 🔊",
+                    "Free forever from the <University of Washington@https://ischool.uw.edu/>."
+                ],
                 "beta": [
-                    "Wordplay is in *beta*. That means that functionality might change or not work as intended, and localizations might be incomplete. Report bugs and share ideas in <Discord@https://discord.gg/Jh2Qq9husy>, or <GitHub@https://github.com/wordplaydev/wordplay/issues>. See our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0> and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute> if you can!"
+                    "Wordplay is in *beta*, so it might not work as intended or be complete. Report bugs and share ideas in <GitHub@https://github.com/wordplaydev/wordplay/issues>, see our <1.0 plans@https://github.com/wordplaydev/wordplay/milestones/1.0>, and <contribute@https://github.com/wordplaydev/wordplay/wiki/contribute>."
                 ],
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
@@ -4424,7 +4437,15 @@
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
                     "rights": "Responsibilities, ours and yours",
-                    "about": "Why does this place exist?"
+                    "about": "Why does this place exist?",
+                    "community": {
+                        "label": "Community",
+                        "subtitle": "Chat with us on Discord."
+                    },
+                    "contribute": {
+                        "label": "Contribute",
+                        "subtitle": "Help us make Wordplay."
+                    }
                 }
             },
             "learn": {
@@ -4456,6 +4477,7 @@
                 "button": {
                     "newproject": "new project",
                     "editproject": "edit this project",
+                    "viewcode": "view this project's code",
                     "newgallery": "new gallery",
                     "unarchive": "unarchive this project"
                 },
@@ -4617,7 +4639,7 @@
             },
             "donate": {
                 "header": "Donate",
-                "prompt": "Enable more accessible, global programming",
+                "prompt": "Help us pay for bandwidth and compensate student and teacher contributors.",
                 "content": [
                     "Wordplay is a free, community-based project supported by the <University of Washington@https://washington.edu>. We rely on gifts from people who believe in our mission of accessible, language-inclusive, educational programming languages.",
                     "Here are our current costs:",

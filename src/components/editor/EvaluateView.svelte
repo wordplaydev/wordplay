@@ -62,7 +62,7 @@
             node={nextBind.withoutValue()}
             inline
             elide
-            localized
+            localized="symbolic"
             inert
         />{#if menuPosition}<PlaceholderView
                 position={menuPosition}

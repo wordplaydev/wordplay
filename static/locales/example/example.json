@@ -2057,7 +2057,6 @@
         "Pose": {
             "names": "$?",
             "doc": "$?",
-            "duration": { "doc": "$?", "names": "$?" },
             "style": { "doc": "$?", "names": "$?" },
             "color": { "doc": "$?", "names": "$?" },
             "opacity": { "doc": "$?", "names": "$?" },
@@ -2176,7 +2175,8 @@
                 "height": { "doc": "$?", "names": ["altura"] }
             },
             "spin": { "doc": "$?", "names": ["girar"] },
-            "fadein": { "doc": "$?", "names": ["revelar"] },
+            "fadein": { "doc": "$?", "names": ["$?"] },
+            "fadeout": { "doc": "$?", "names": ["$?"] },
             "popup": { "doc": "$?", "names": ["surgir"] },
             "shake": { "doc": "$?", "names": ["agitar"] }
         },
@@ -2350,10 +2350,6 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "$?",
-                    "off": "$?"
-                },
-                "localized": {
                     "on": "$?",
                     "off": "$?"
                 },
@@ -2579,6 +2575,10 @@
                     "writing": {
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
+                    },
+                    "localized": {
+                        "label": "$?",
+                        "modes": ["$?", "$?", "$?"]
                     }
                 },
                 "options": {
@@ -2683,7 +2683,6 @@
                 "message": "$?"
             },
             "landing": {
-                "call": ["$?"],
                 "value": "$?",
                 "description": "$?",
                 "beta": ["$?"],
@@ -2693,7 +2692,15 @@
                     "guide": "$?",
                     "projects": "$?",
                     "galleries": "$?",
-                    "rights": "$?"
+                    "rights": "$?",
+                    "community": {
+                        "label": "$?",
+                        "subtitle": "$?"
+                    },
+                    "contribute": {
+                        "label": "$?",
+                        "subtitle": "$?"
+                    }
                 }
             },
             "learn": {
@@ -2725,6 +2732,7 @@
                 "button": {
                     "newproject": "$?",
                     "editproject": "$?",
+                    "viewcode": "$?",
                     "newgallery": "$?",
                     "unarchive": "$?"
                 },
