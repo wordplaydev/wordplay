@@ -725,15 +725,7 @@ export default class Evaluate extends Expression {
 
     getDependencies(context: Context): Expression[] {
         const fun = this.getFunction(context);
-        const expression =
-            fun === undefined
-                ? undefined
-                : fun instanceof FunctionDefinition &&
-                    fun.expression !== undefined
-                  ? fun.expression
-                  : fun instanceof StructureDefinition
-                    ? fun.expression
-                    : undefined;
+        const expression = fun?.expression;
 
         // Evaluates depend on their function, their inputs, and the function's expression.
         return [

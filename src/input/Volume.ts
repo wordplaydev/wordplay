@@ -1,4 +1,3 @@
-import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
@@ -12,6 +11,7 @@ import NumberValue from '@values/NumberValue';
 import createStreamEvaluator from './createStreamEvaluator';
 import AudioStream, { DEFAULT_FREQUENCY } from './AudioStream';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 const FFT_SIZE = 32;
 
@@ -20,8 +20,8 @@ const FFT_SIZE = 32;
 export default class Volume extends AudioStream {
     frequencies: Uint8Array = new Uint8Array(FFT_SIZE);
 
-    constructor(evaluator: Evaluator, frequency: number | undefined) {
-        super(evaluator, frequency, FFT_SIZE);
+    constructor(evaluation: Evaluation, frequency: number | undefined) {
+        super(evaluation, frequency, FFT_SIZE);
     }
 
     react(percent: number) {
@@ -63,10 +63,10 @@ export function createVolumeDefinition(locales: Locales) {
         getDocLocales(locales, (locale) => locale.input.Volume.frequency.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Volume.frequency.names
+            (locale) => locale.input.Volume.frequency.names,
         ),
         UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
-        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms']))
+        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms'])),
     );
 
     return StreamDefinition.make(
@@ -78,14 +78,18 @@ export function createVolumeDefinition(locales: Locales) {
             Volume,
             (evaluation) =>
                 new Volume(
-                    evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
+                    evaluation,
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
                 ),
             (stream, evaluation) =>
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
-                )
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
+                ),
         ),
-        NumberType.make()
+        NumberType.make(),
     );
 }

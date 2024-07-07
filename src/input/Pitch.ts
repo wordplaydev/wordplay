@@ -1,4 +1,3 @@
-import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
@@ -13,6 +12,7 @@ import createStreamEvaluator from './createStreamEvaluator';
 import AudioStream from './AudioStream';
 import { PitchDetector } from 'pitchy';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 /** We want more deail in the frequency domain and less in the amplitude domain, but we also want to minimize how much data we analyze. */
 const FFT_SIZE = 1024;
@@ -24,8 +24,8 @@ export default class Pitch extends AudioStream {
     readonly amplitudes = new Float32Array(FFT_SIZE);
     readonly detector: PitchDetector<Float32Array>;
 
-    constructor(evaluator: Evaluator, frequency: number | undefined) {
-        super(evaluator, frequency, FFT_SIZE);
+    constructor(evaluation: Evaluation, frequency: number | undefined) {
+        super(evaluation, frequency, FFT_SIZE);
 
         this.frequency = Math.max(15, frequency ?? DEFAULT_FREQUENCY);
         this.detector = PitchDetector.forFloat32Array(FFT_SIZE);
@@ -35,7 +35,7 @@ export default class Pitch extends AudioStream {
         // Add the stream value.
         this.add(
             new NumberValue(this.creator, pitch, Unit.reuse(['hz'])),
-            pitch
+            pitch,
         );
     }
 
@@ -44,7 +44,7 @@ export default class Pitch extends AudioStream {
 
         const [frequency, clarity] = this.detector.findPitch(
             this.amplitudes,
-            sampleRate
+            sampleRate,
         );
 
         return clarity < 0.75 ? 0 : Math.floor(frequency);
@@ -60,7 +60,7 @@ export function createPitchDefinition(locales: Locales) {
         getDocLocales(locales, (locale) => locale.input.Pitch.frequency.doc),
         getNameLocales(locales, (locale) => locale.input.Pitch.frequency.names),
         UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
-        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms']))
+        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms'])),
     );
 
     return StreamDefinition.make(
@@ -72,14 +72,18 @@ export function createPitchDefinition(locales: Locales) {
             Pitch,
             (evaluation) =>
                 new Pitch(
-                    evaluation.getEvaluator(),
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
+                    evaluation,
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
                 ),
             (stream, evaluation) =>
                 stream.setFrequency(
-                    evaluation.get(FrequencyBind.names, NumberValue)?.toNumber()
-                )
+                    evaluation
+                        .get(FrequencyBind.names, NumberValue)
+                        ?.toNumber(),
+                ),
         ),
-        NumberType.make(Unit.create(['hz']))
+        NumberType.make(Unit.create(['hz'])),
     );
 }

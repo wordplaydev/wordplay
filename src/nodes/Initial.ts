@@ -78,6 +78,10 @@ export default class Initial extends SimpleExpression {
         return false;
     }
 
+    isInternal(): boolean {
+        return false;
+    }
+
     compile(): Step[] {
         return [new StartFinish(this)];
     }

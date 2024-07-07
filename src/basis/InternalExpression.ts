@@ -66,6 +66,10 @@ export default class InternalExpression extends SimpleExpression {
         return false;
     }
 
+    isInternal() {
+        return true;
+    }
+
     compile(): Step[] {
         return this.steps.length === 0
             ? [new StartFinish(this)]

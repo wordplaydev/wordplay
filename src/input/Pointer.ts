@@ -14,21 +14,22 @@ import createStreamEvaluator from './createStreamEvaluator';
 import type Type from '../nodes/Type';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 function position(evaluator: Evaluator, x: number, y: number) {
     const PlaceType = evaluator.project.shares.output.Place;
     const bindings = new Map<Names, Value>();
     bindings.set(
         PlaceType.inputs[0].names,
-        new NumberValue(evaluator.getMain(), x, Unit.reuse(['m']))
+        new NumberValue(evaluator.getMain(), x, Unit.reuse(['m'])),
     );
     bindings.set(
         PlaceType.inputs[1].names,
-        new NumberValue(evaluator.getMain(), y, Unit.reuse(['m']))
+        new NumberValue(evaluator.getMain(), y, Unit.reuse(['m'])),
     );
     bindings.set(
         PlaceType.inputs[2].names,
-        new NumberValue(evaluator.getMain(), 0, Unit.reuse(['m']))
+        new NumberValue(evaluator.getMain(), 0, Unit.reuse(['m'])),
     );
     return createStructure(evaluator, PlaceType, bindings);
 }
@@ -40,22 +41,22 @@ export default class Pointer extends StreamValue<
     readonly evaluator: Evaluator;
     on = false;
 
-    constructor(evaluator: Evaluator) {
+    constructor(evaluation: Evaluation) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Pointer,
-            position(evaluator, 0, 0),
-            { x: 0, y: 0 }
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Pointer,
+            position(evaluation.getEvaluator(), 0, 0),
+            { x: 0, y: 0 },
         );
 
-        this.evaluator = evaluator;
+        this.evaluator = evaluation.getEvaluator();
     }
 
     react(coordinate: { x: number; y: number }) {
         if (this.on)
             this.add(
                 position(this.evaluator, coordinate.x, coordinate.y),
-                coordinate
+                coordinate,
             );
     }
 
@@ -68,14 +69,14 @@ export default class Pointer extends StreamValue<
 
     getType(): Type {
         return StreamType.make(
-            new StructureType(this.evaluator.project.shares.output.Place, [])
+            new StructureType(this.evaluator.project.shares.output.Place, []),
         );
     }
 }
 
 export function createPointerDefinition(
     locales: Locales,
-    PlaceType: StructureDefinition
+    PlaceType: StructureDefinition,
 ) {
     return StreamDefinition.make(
         getDocLocales(locales, (locale) => locale.input.Pointer.doc),
@@ -84,11 +85,11 @@ export function createPointerDefinition(
         createStreamEvaluator(
             new StructureType(PlaceType),
             Pointer,
-            (evaluation) => new Pointer(evaluation.getEvaluator()),
+            (evaluation) => new Pointer(evaluation),
             () => {
                 return;
-            }
+            },
         ),
-        new StructureType(PlaceType)
+        new StructureType(PlaceType),
     );
 }

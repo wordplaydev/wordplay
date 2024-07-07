@@ -202,6 +202,9 @@ export default class Reaction extends Expression {
                 // track of the number of types the node has evaluated, identifying individual streams.
                 evaluator.incrementStreamEvaluationCount(this);
 
+                // Note that we're evaluating a reaction so we don't reuse memoized values.
+                evaluator.startEvaluatingReaction();
+
                 return undefined;
             }),
             // Then evaluate the condition.
@@ -256,6 +259,9 @@ export default class Reaction extends Expression {
     evaluate(evaluator: Evaluator, value: Value | undefined): Value {
         // Get the new value.
         const streamValue = value ?? evaluator.popValue(this);
+
+        // Unset the reaction tracking.
+        evaluator.stopEvaluatingReaction();
 
         // At this point in the compiled steps above, we should have a value on the stack
         // that is either the initial value for this reaction's stream or a new value.

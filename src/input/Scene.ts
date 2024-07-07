@@ -1,4 +1,3 @@
-import type Evaluator from '@runtime/Evaluator';
 import Bind from '../nodes/Bind';
 import StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
@@ -20,6 +19,7 @@ import UnionType from '@nodes/UnionType';
 import type { OutputName } from '@output/Animator';
 import BooleanType from '@nodes/BooleanType';
 import BoolValue from '@values/BoolValue';
+import type Evaluation from '@runtime/Evaluation';
 
 export default class Scene extends StreamValue<
     StructureValue | NoneValue,
@@ -36,21 +36,18 @@ export default class Scene extends StreamValue<
     /** Whether we're in the middle of updating a dynamic output. Prevents infinite recursion. */
     private updating = false;
 
-    constructor(evaluator: Evaluator, outputs: ListValue) {
+    constructor(evaluation: Evaluation, outputs: ListValue) {
         // Get the first value in the list, if there is one.
         // If there isn't create a none value.
         const firstValue = outputs.get(1);
         const firstOutput =
             firstValue instanceof StructureValue
                 ? firstValue
-                : new NoneValue(
-                      evaluator.getCurrentEvaluation()?.getCreator() ??
-                          evaluator.project.getMain(),
-                  );
+                : new NoneValue(evaluation.getCreator());
 
         super(
-            evaluator,
-            evaluator.project.shares.input.Scene,
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Scene,
             firstOutput,
             firstOutput,
         );
@@ -244,7 +241,7 @@ export function createSceneDefinition(
             // On initial creation, get the list of outputs provided
             (evaluation) =>
                 new Scene(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     // If we don't find a list, default to an empty list.
                     evaluation.get(OutputsBind.names, ListValue) ??
                         new ListValue(evaluation.getCreator(), []),

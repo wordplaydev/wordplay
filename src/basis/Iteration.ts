@@ -73,6 +73,10 @@ export class Iteration<State = any> extends Expression {
         this.finish = finish;
     }
 
+    isInternal() {
+        return true;
+    }
+
     getDescriptor() {
         return 'Iteration';
     }

@@ -23,17 +23,17 @@ export default class Start extends Step {
         return this.node.getStartExplanations(
             locales,
             evaluator.project.getNodeContext(this.node),
-            evaluator
+            evaluator,
         );
     }
 }
 
 export function start(evaluator: Evaluator, expr: Expression) {
-    // If this expression is constant and it has a latest value, don't evaluate.
-    // Finish.finish() will return the latest value.
+    // This expression should be identical to that in Finish.finish().
+    // If this expression is 1) constant or not dependent on a reaction's streams and 2) it has a latest value, skip evaluating it.
+    // Finish.finish() will return the latest value and process any side effects.
     if (
-        !evaluator.isInPast() &&
-        evaluator.project.isConstant(expr) &&
+        shouldSkip(evaluator, expr) &&
         evaluator.getLatestExpressionValue(expr)
     ) {
         // Ask the evaluator to jump past this start's corresponding finish.
@@ -41,4 +41,15 @@ export function start(evaluator: Evaluator, expr: Expression) {
     }
 
     return undefined;
+}
+
+export function shouldSkip(evaluator: Evaluator, expr: Expression) {
+    return (
+        !expr.isInternal() &&
+        !evaluator.isInPast() &&
+        (evaluator.project.isConstant(expr) ||
+            (evaluator.isReacting() &&
+                !evaluator.isEvaluatingReaction() &&
+                !evaluator.isDependentOnReactingStream(expr)))
+    );
 }

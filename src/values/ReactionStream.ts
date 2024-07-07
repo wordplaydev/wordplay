@@ -5,21 +5,25 @@ import { getNameLocales } from '@locale/getNameLocales';
 import AnyType from '../nodes/AnyType';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import StreamDefinition from '../nodes/StreamDefinition';
-import type Evaluator from '@runtime/Evaluator';
 import StreamValue from '@values/StreamValue';
 import type Value from '@values/Value';
 import { STREAM_SYMBOL } from '../parser/Symbols';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 export default class ReactionStream extends StreamValue<Value, null> {
     readonly reaction: Reaction;
 
-    constructor(evaluator: Evaluator, reaction: Reaction, initialValue: Value) {
+    constructor(
+        evaluation: Evaluation,
+        reaction: Reaction,
+        initialValue: Value,
+    ) {
         super(
-            evaluator,
-            evaluator.project.basis.shares.input.Reaction,
+            evaluation,
+            evaluation.getEvaluator().project.basis.shares.input.Reaction,
             initialValue,
-            null
+            null,
         );
 
         this.reaction = reaction;
@@ -47,6 +51,6 @@ export function createReactionDefinition(locales: Locales) {
         getNameLocales(locales, () => STREAM_SYMBOL),
         [],
         ExpressionPlaceholder.make(),
-        new AnyType()
+        new AnyType(),
     );
 }

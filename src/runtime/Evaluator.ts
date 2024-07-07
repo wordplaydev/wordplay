@@ -132,6 +132,9 @@ export default class Evaluator {
     /** The streams changes that triggered this evaluation */
     reactions: StreamChange[] = [];
 
+    /** Whether currently evaluating a reaction. We use this to determine whether to reuse memoized values. */
+    #inReaction = 0;
+
     /**
      * The raw inputs that streams received during evaluation, in the order they were received
      * so that we can replay them. We keep the path to the node that the input corresponded to
@@ -170,6 +173,12 @@ export default class Evaluator {
     streamsByCreator: Map<StreamCreator, StreamValue[]> = new Map();
     streamCreatorCount: Map<StreamCreator, number> = new Map();
     creatorByStream: Map<StreamValue, StreamCreator> = new Map();
+
+    /** A cache of the expressions affected by each stream, so we know what to reevaluate it. */
+    #streamDependencies: Map<Expression, Set<Expression>> = new Map();
+
+    /** The set of expressions affected by the currently evaluating changes */
+    #currentStreamDependencies: Set<Expression> | null = null;
 
     /** A derived cache of temporal streams, to avoid having to look them up. */
     temporalStreams: TemporalStreamValue<Value, unknown>[] = [];
@@ -625,6 +634,10 @@ export default class Evaluator {
         return this.evaluations.some((e) => e.getSource() === source);
     }
 
+    isEvaluatingFunction() {
+        return this.evaluations.some((e) => e.isFunction());
+    }
+
     /** True if the given evaluation node is on the stack */
     isEvaluating(expression: Expression) {
         return this.getEvaluationOf(expression) !== undefined;
@@ -660,10 +673,14 @@ export default class Evaluator {
 
     /** Reset everything necessary for a new evaluation. */
     resetForEvaluation(keepConstants: boolean, broadcast = true) {
-        // Reset the non-constant expression values.
+        // Reset the non-constant expression values and any values dependent on reaction.
         if (keepConstants) {
             for (const [expression] of this.values)
-                if (!this.project.isConstant(expression))
+                if (
+                    !this.project.isConstant(expression) &&
+                    (this.#currentStreamDependencies === null ||
+                        this.#currentStreamDependencies.has(expression))
+                )
                     this.values.delete(expression);
         } else this.values.clear();
 
@@ -696,6 +713,24 @@ export default class Evaluator {
         // If we're not done, finish first, if we were interrupted before.
         if (!this.isDone()) this.finish();
 
+        // First, initialize any stream dependencies
+        // If there are changed streams, construct a set of affected expressions that need to be reevaluated.
+        // We'll reuse previous values for anything not affected.
+        if (changedStreams && !this.isInPast()) {
+            this.#currentStreamDependencies = new Set();
+            for (const stream of changedStreams) {
+                const dependencies = this.#streamDependencies.get(
+                    stream.creator,
+                );
+                if (dependencies) {
+                    for (const dependency of dependencies) {
+                        this.#currentStreamDependencies.add(dependency);
+                    }
+                }
+            }
+        } // Reset the current stream dependencies.
+        else this.#currentStreamDependencies = null;
+
         // Reset all state.
         this.resetForEvaluation(true);
 
@@ -705,8 +740,9 @@ export default class Evaluator {
         // Reset the recent step count to zero.
         this.#totalStepCount = 0;
 
-        // If we're in the present, remember the stream change. (If we're in the past, we use the history.)
+        // If we're in the present...
         if (!this.isInPast()) {
+            // ... remember the stream change. (If we're in the past, we use the history.)
             this.reactions.push({
                 changes: (changedStreams ?? [])
                     .map((stream) => {
@@ -1036,8 +1072,6 @@ export default class Evaluator {
             // If there's another Evaluation on the stack, pass the value to it by pushing it onto it's stack.
             if (this.evaluations.length > 0) {
                 this.evaluations[0].pushValue(value);
-                // Remember that this creator created this value.
-                this.rememberExpressionValue(value.creator, value);
             }
             // Otherwise, save the value and clean up this final evaluation; nothing left to do!
             else this.end();
@@ -1230,6 +1264,30 @@ export default class Evaluator {
         );
     }
 
+    /** True if the current evaluation is in response to a stream change. */
+    isReacting() {
+        return this.#currentStreamDependencies !== null;
+    }
+
+    isEvaluatingReaction() {
+        return this.#inReaction > 0;
+    }
+
+    startEvaluatingReaction() {
+        this.#inReaction++;
+    }
+
+    stopEvaluatingReaction() {
+        this.#inReaction--;
+    }
+
+    isDependentOnReactingStream(expression: Expression): boolean {
+        return (
+            this.#currentStreamDependencies !== null &&
+            this.#currentStreamDependencies.has(expression)
+        );
+    }
+
     getStreamResolved(value: Value): StreamValue | undefined {
         const stream = this.streamsResolved.get(value);
 
@@ -1304,10 +1362,11 @@ export default class Evaluator {
     }
 
     createReactionStream(reaction: Reaction, value: Value) {
-        if (!this.isInPast())
+        const evaluation = this.getCurrentEvaluation();
+        if (!this.isInPast() && evaluation)
             this.addStreamFor(
                 reaction,
-                new ReactionStream(this, reaction, value),
+                new ReactionStream(evaluation, reaction, value),
             );
     }
 
@@ -1436,51 +1495,51 @@ export default class Evaluator {
     }
 
     evaluate(changed: StreamValue[]) {
-        // A stream changed!
-        // STEP 1: Find the zero or more nodes that depend on this stream.
-        const affectedExpressions: Set<Expression> = new Set();
-        const streamReferences = new Set<Expression>();
+        // One or more streams changed! Let's find out what expressions to update.
         for (const stream of changed) {
             const streamNode = stream.creator;
-            const affected = this.project.getExpressionsAffectedBy(streamNode);
-            if (affected.size > 0) {
-                for (const dependency of affected) {
-                    affectedExpressions.add(dependency);
-                    streamReferences.add(dependency);
-                }
-            }
-        }
+            // Have we already computed the expressions affected by this stream? Don't do it again.
+            if (!this.#streamDependencies.has(streamNode)) {
+                // Force an analysis if one isn't done.
+                this.project.analyze();
+                // STEP 1: Find the zero or more nodes that depend on this stream.
+                const affectedExpressions: Set<Expression> = new Set();
+                const streamReferences = new Set<Expression>();
 
-        // STEP 2: Traverse the dependency graphs of each source, finding all that directly or indirectly are affected by this stream's change.
-        const affectedSources: Set<Source> = new Set();
-        const unvisited = new Set(affectedExpressions);
-        while (unvisited.size > 0) {
-            for (const expr of unvisited) {
-                // Remove from the visited list.
-                unvisited.delete(expr);
-
-                // Mark that the source was affected.
-                const affectedSource = this.project
-                    .getSources()
-                    .find((source) => source.has(expr));
-                if (affectedSource) affectedSources.add(affectedSource);
-
-                const affected = this.project.getExpressionsAffectedBy(expr);
-                // Visit all of the affected nodes.
-                for (const newExpr of affected) {
-                    // Avoid cycles
-                    if (!affectedExpressions.has(newExpr)) {
-                        affectedExpressions.add(newExpr);
-                        unvisited.add(newExpr);
+                affectedExpressions.add(streamNode);
+                const affected =
+                    this.project.getExpressionsAffectedBy(streamNode);
+                if (affected.size > 0) {
+                    for (const dependency of affected) {
+                        affectedExpressions.add(dependency);
+                        streamReferences.add(dependency);
                     }
                 }
+
+                // STEP 2: Visit all transitively dependent expressions, including in other sources.
+                const unvisited = new Set(affectedExpressions);
+                while (unvisited.size > 0) {
+                    for (const expr of unvisited) {
+                        // Remove from the visited list.
+                        unvisited.delete(expr);
+
+                        const affected =
+                            this.project.getExpressionsAffectedBy(expr);
+                        // Visit all of the affected nodes.
+                        for (const newExpr of affected) {
+                            // Avoid cycles
+                            if (!affectedExpressions.has(newExpr)) {
+                                affectedExpressions.add(newExpr);
+                                unvisited.add(newExpr);
+                            }
+                        }
+                    }
+                }
+
+                // Cache expressions affected by this stream.
+                this.#streamDependencies.set(streamNode, affectedExpressions);
             }
         }
-
-        // STEP 3: After traversal, remove the stream references from the affected expressions; they will evaluate to the same thing, so they don't need to
-        // be reevaluated.
-        for (const streamRef of streamReferences)
-            affectedExpressions.delete(streamRef);
 
         // STEP 4: Reevaluate the program
         this.start(changed);
@@ -1598,7 +1657,7 @@ export default class Evaluator {
         }
         const index = this.getStepIndex();
 
-        // If we haven't stored any values yet, or the most recent vvalue is before the current index, remember it.
+        // If we haven't stored any values yet, or the most recent value is before the current index, remember it.
         if (list.length === 0 || list[list.length - 1].stepNumber < index) {
             list.push({ value: value, stepNumber: index });
             this.values.set(expression, list);

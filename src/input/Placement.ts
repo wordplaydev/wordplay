@@ -24,6 +24,7 @@ import type Type from '../nodes/Type';
 import StructureType from '../nodes/StructureType';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 type Direction = -1 | 0 | 1;
 type PlacementEvent = { x: Direction; y: Direction; z: Direction };
@@ -45,20 +46,25 @@ export default class Placement extends StreamValue<
     depth: boolean;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         start: StructureValue,
         distance: number,
         horizontal: boolean,
         vertical: boolean,
-        depth: boolean
+        depth: boolean,
     ) {
-        super(evaluator, evaluator.project.shares.input.Placement, start, {
-            x: 0,
-            y: 0,
-            z: 0,
-        });
+        super(
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Placement,
+            start,
+            {
+                x: 0,
+                y: 0,
+                z: 0,
+            },
+        );
 
-        this.evaluator = evaluator;
+        this.evaluator = evaluation.getEvaluator();
         this.x = start.getNumber(0) ?? 0;
         this.y = start.getNumber(1) ?? 0;
         this.z = start.getNumber(2) ?? 0;
@@ -72,7 +78,7 @@ export default class Placement extends StreamValue<
         distance: number,
         horizontal: boolean,
         vertical: boolean,
-        depth: boolean
+        depth: boolean,
     ) {
         this.distance = distance;
         this.horizontal = horizontal;
@@ -89,7 +95,7 @@ export default class Placement extends StreamValue<
 
         this.add(
             createPlaceStructure(this.evaluator, this.x, this.y, this.z),
-            event
+            event,
         );
     }
 
@@ -103,15 +109,15 @@ export default class Placement extends StreamValue<
     getType(context: Context): Type {
         return StreamType.make(
             NameType.make(
-                context.project.shares.output.Place.names.getNames()[0]
-            )
+                context.project.shares.output.Place.names.getNames()[0],
+            ),
         );
     }
 }
 
 export function createPlacementDefinition(
     locales: Locales,
-    placeType: StructureDefinition
+    placeType: StructureDefinition,
 ) {
     const PlaceName = locales.get((l) => getFirstName(l.output.Place.names));
     const inputs = createInputs(locales, (l) => l.input.Placement.inputs, [
@@ -138,19 +144,19 @@ export function createPlacementDefinition(
             Placement,
             (evaluation) =>
                 new Placement(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation.get(inputs[0].names, StructureValue) ??
                         createPlaceStructure(
                             evaluation.getEvaluator(),
                             0,
                             0,
-                            0
+                            0,
                         ),
                     evaluation.get(inputs[1].names, NumberValue)?.toNumber() ??
                         1,
                     evaluation.get(inputs[2].names, BoolValue)?.bool ?? true,
                     evaluation.get(inputs[3].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false
+                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false,
                 ),
             (stream, evaluation) =>
                 stream.configure(
@@ -158,9 +164,9 @@ export function createPlacementDefinition(
                         1,
                     evaluation.get(inputs[2].names, BoolValue)?.bool ?? true,
                     evaluation.get(inputs[3].names, BoolValue)?.bool ?? true,
-                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false
-                )
+                    evaluation.get(inputs[4].names, BoolValue)?.bool ?? false,
+                ),
         ),
-        new StructureType(placeType)
+        new StructureType(placeType),
     );
 }
