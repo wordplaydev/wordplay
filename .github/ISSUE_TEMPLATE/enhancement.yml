@@ -4,22 +4,22 @@ labels: ['enhancement', 'triage']
 projects: ['wordplaydev/7']
 body:
     - type: markdown
-      attributes:
-      value: |
-          Thanks for sharing your idea!
+        attributes:
+        value: |
+            Thanks for sharing your idea!
     - type: textarea
-      id: problem
-      attributes:
-        label: What are you trying to do that you can't?
-        description: In as much detail as possible, describe the task or problem you want to solve that Adminima doesn't currently support.
-        placeholder: Problem
-    validations:
-        required: true
+        id: problem
+        attributes:
+            label: What are you trying to do that you can't?
+            description: In as much detail as possible, describe the task or problem you want to solve that Adminima doesn't currently support.
+            placeholder: Problem
+        validations:
+            required: true
     - type: textarea
-      id: idea
-      attributes:
-        label: What is your idea?
-        description: If you have an idea for how to change Wordplay to support your task, share it here. It's okay if you don't.
-        placeholder: Ideas
-      validations:
-        required: true
+        id: idea
+        attributes:
+            label: What is your idea?
+            description: If you have an idea for how to change Wordplay to support your task, share it here. It's okay if you don't.
+            placeholder: Ideas
+        validations:
+            required: true
