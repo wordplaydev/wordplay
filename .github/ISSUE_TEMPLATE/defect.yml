@@ -19,8 +19,8 @@ body:
               1. Run '...'
               1. See error...
               Make the steps as minimal as possible, finding the smallest possible set of steps that still produce the unexpected behavior. What is the defect and what did you expect to happen instead?
-          validations:
-              required: true
+      validations:
+          required: true
     - type: textarea
       attributes:
           label: Anything else?
@@ -36,6 +36,8 @@ body:
               - Chrome
               - Safari
               - Microsoft Edge
+      validations:
+          required: true
     - type: dropdown
       id: os
       attributes:
@@ -45,3 +47,5 @@ body:
               - Windows
               - macOS
               - Linux
+      validations:
+          required: true
