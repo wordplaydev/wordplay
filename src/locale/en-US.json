@@ -1483,14 +1483,20 @@
                     "doc": "\\⊤\\ if both are \\⊤\\ or both are \\⊥\\.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        { "doc": "The other value to check.", "names": "value" }
+                        {
+                            "doc": "The other value to check.",
+                            "names": "value"
+                        }
                     ]
                 },
                 "notequal": {
                     "doc": "\\⊤\\ if both are opposites.",
                     "names": ["≠", "notequal"],
                     "inputs": [
-                        { "doc": "The other value to check.", "names": "value" }
+                        {
+                            "doc": "The other value to check.",
+                            "names": "value"
+                        }
                     ]
                 }
             },
@@ -1508,12 +1514,22 @@
                 "equals": {
                     "doc": "Is another value also nothing? It better be, otherwise, \\⊥\\.",
                     "names": ["=", "equals"],
-                    "inputs": [{ "doc": "The other value.", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The other value.",
+                            "names": "value"
+                        }
+                    ]
                 },
                 "notequals": {
                     "doc": "Is another value /not/ nothing?",
                     "names": ["≠", "notequal"],
-                    "inputs": [{ "doc": "The other value.", "names": "value" }]
+                    "inputs": [
+                        {
+                            "doc": "The other value.",
+                            "names": "value"
+                        }
+                    ]
                 }
             },
             "conversion": {
@@ -1550,14 +1566,20 @@
                     "doc": "\\⊤\\ if I am the same character sequence as the given @Text.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        { "doc": "The @Text to compare.", "names": "value" }
+                        {
+                            "doc": "The @Text to compare.",
+                            "names": "value"
+                        }
                     ]
                 },
                 "notequals": {
                     "doc": "\\⊤\\ if I am /not/ the same character sequence as the given @Text.",
                     "names": "≠",
                     "inputs": [
-                        { "doc": "The @Text to compare", "names": "value" }
+                        {
+                            "doc": "The @Text to compare",
+                            "names": "value"
+                        }
                     ]
                 },
                 "has": {
@@ -1641,7 +1663,10 @@
                     ],
                     "names": ["+", "combine"],
                     "inputs": [
-                        { "doc": "The @Text to append.", "names": "text" }
+                        {
+                            "doc": "The @Text to append.",
+                            "names": "text"
+                        }
                     ]
                 }
             },
@@ -1687,7 +1712,10 @@
                     ],
                     "names": ["+", "add"],
                     "inputs": [
-                        { "doc": "The @Number to add.", "names": "number" }
+                        {
+                            "doc": "The @Number to add.",
+                            "names": "number"
+                        }
                     ]
                 },
                 "subtract": {
@@ -1716,7 +1744,10 @@
                     ],
                     "names": ["·", "multiply"],
                     "inputs": [
-                        { "doc": "The number to multiply.", "names": "number" }
+                        {
+                            "doc": "The number to multiply.",
+                            "names": "number"
+                        }
                     ]
                 },
                 "divide": {
@@ -1810,7 +1841,10 @@
                     ],
                     "names": ["√", "root"],
                     "inputs": [
-                        { "doc": "The root to compute.", "names": "number" }
+                        {
+                            "doc": "The root to compute.",
+                            "names": "number"
+                        }
                     ]
                 },
                 "lessThan": {
@@ -2032,7 +2066,10 @@
                     ],
                     "names": ["withList", "append"],
                     "inputs": [
-                        { "doc": "The list of values to add.", "names": "list" }
+                        {
+                            "doc": "The list of values to add.",
+                            "names": "list"
+                        }
                     ]
                 },
                 "replace": {
@@ -2046,7 +2083,10 @@
                             "doc": "The index of the value to replace",
                             "names": "index"
                         },
-                        { "doc": "The replacement value", "names": "value" }
+                        {
+                            "doc": "The replacement value",
+                            "names": "value"
+                        }
                     ]
                 },
                 "length": {
@@ -2093,7 +2133,10 @@
                     ],
                     "names": "has",
                     "inputs": [
-                        { "doc": "The value to search for.", "names": "item" }
+                        {
+                            "doc": "The value to search for.",
+                            "names": "item"
+                        }
                     ]
                 },
                 "join": {
@@ -2222,7 +2265,6 @@
                             "names": "translator"
                         }
                     ],
-
                     "translator": [
                         {
                             "doc": "The item being translated.",
@@ -2448,7 +2490,10 @@
                     ],
                     "names": ["=", "equals"],
                     "inputs": [
-                        { "doc": "The @Set to compare.", "names": "set" }
+                        {
+                            "doc": "The @Set to compare.",
+                            "names": "set"
+                        }
                     ]
                 },
                 "notequals": {
@@ -2458,7 +2503,10 @@
                     ],
                     "names": ["≠", "notequal"],
                     "inputs": [
-                        { "doc": "The @Set to compare.", "names": "set" }
+                        {
+                            "doc": "The @Set to compare.",
+                            "names": "set"
+                        }
                     ]
                 },
                 "add": {
@@ -2467,7 +2515,12 @@
                         "\\{1 2 3} + 4\\"
                     ],
                     "names": ["with", "add", "+"],
-                    "inputs": [{ "doc": "The item to add", "names": "item" }]
+                    "inputs": [
+                        {
+                            "doc": "The item to add",
+                            "names": "item"
+                        }
+                    ]
                 },
                 "remove": {
                     "doc": [
@@ -2477,7 +2530,10 @@
                     ],
                     "names": ["remove", "-"],
                     "inputs": [
-                        { "doc": "The item to remove.", "names": "item" }
+                        {
+                            "doc": "The item to remove.",
+                            "names": "item"
+                        }
                     ]
                 },
                 "union": {
@@ -2500,7 +2556,10 @@
                     ],
                     "names": ["intersection", "∩"],
                     "inputs": [
-                        { "doc": "The set to compare with me.", "names": "set" }
+                        {
+                            "doc": "The set to compare with me.",
+                            "names": "set"
+                        }
                     ]
                 },
                 "difference": {
@@ -2631,7 +2690,10 @@
                     ],
                     "names": "pair",
                     "inputs": [
-                        { "doc": "Key to pair with a value.", "names": "key" },
+                        {
+                            "doc": "Key to pair with a value.",
+                            "names": "key"
+                        },
                         {
                             "doc": "The value to pair with the key",
                             "names": "value"
@@ -2644,7 +2706,12 @@
                         "\\{'amy': 6points 'tony':3points}.unpair('amy')\\"
                     ],
                     "names": "unpair",
-                    "inputs": [{ "doc": "The key to forget.", "names": "key" }]
+                    "inputs": [
+                        {
+                            "doc": "The key to forget.",
+                            "names": "key"
+                        }
+                    ]
                 },
                 "remove": {
                     "doc": [
@@ -2673,7 +2740,10 @@
                         }
                     ],
                     "checker": [
-                        { "doc": "The key being checked.", "names": "key" },
+                        {
+                            "doc": "The key being checked.",
+                            "names": "key"
+                        },
                         {
                             "doc": "The value being checked.",
                             "names": "value"
@@ -2742,14 +2812,20 @@
                     "doc": "I check if I have the exact same cells in the exact same order as another @Table.",
                     "names": ["=", "equals"],
                     "inputs": [
-                        { "doc": "The other table to check.", "names": "value" }
+                        {
+                            "doc": "The other table to check.",
+                            "names": "value"
+                        }
                     ]
                 },
                 "notequal": {
                     "doc": "I check if any of my cells are different or in a different order from another @Table.",
                     "names": ["≠", "notEquals"],
                     "inputs": [
-                        { "doc": "The other table to check.", "names": "value" }
+                        {
+                            "doc": "The other table to check.",
+                            "names": "value"
+                        }
                     ]
                 }
             },
@@ -3063,7 +3139,10 @@
                 "Lots of things can go wrong with this one. If you lose your internet connection, or the URL doesn't resolve to anything, or the URL isn't public, or the URL isn't an HTML page… All of these can lead to exception. If if you find a page that works, you'll get some @Number indicating a percent commplete and then a @List of the words on the page."
             ],
             "names": ["🔗", "Webpage"],
-            "url": { "doc": "The HTML webpage URL to get.", "names": "url" },
+            "url": {
+                "doc": "The HTML webpage URL to get.",
+                "names": "url"
+            },
             "query": {
                 "doc": "The CSS query to evaluate on the HTML",
                 "names": "query"
@@ -3661,9 +3740,18 @@
         "Place": {
             "doc": "I'm a location on @Stage. All my inputs are optional, because I'm at the center by default.",
             "names": ["📍", "Place"],
-            "x": { "doc": "A position on the x-axis.", "names": "x" },
-            "y": { "doc": "A position on the y-axis", "names": "y" },
-            "z": { "doc": "A position on the z-axis", "names": "z" },
+            "x": {
+                "doc": "A position on the x-axis.",
+                "names": "x"
+            },
+            "y": {
+                "doc": "A position on the y-axis",
+                "names": "y"
+            },
+            "z": {
+                "doc": "A position on the z-axis",
+                "names": "z"
+            },
             "rotation": {
                 "doc": "Rotation at this position",
                 "names": ["📐", "rotation"]
@@ -3688,7 +3776,10 @@
         "Matter": {
             "doc": "I'm physical properties of output, which influence how I interact with other output on stage.",
             "names": ["⚛️", "Matter"],
-            "mass": { "doc": "A weight, in kilograms", "names": "mass" },
+            "mass": {
+                "doc": "A weight, in kilograms",
+                "names": "mass"
+            },
             "bounciness": {
                 "doc": "How much of my energy to keep on collision, 0 means none, 1 means all of it.",
                 "names": "bounciness"
@@ -3851,7 +3942,10 @@
             "bounce": {
                 "doc": "I create a @Sequence that bounces @Output a given height.",
                 "names": ["bounce"],
-                "height": { "doc": "How high to bounce.", "names": ["height"] }
+                "height": {
+                    "doc": "How high to bounce.",
+                    "names": ["height"]
+                }
             },
             "spin": {
                 "doc": "I create a @Sequence that rotates @Output around its center.",

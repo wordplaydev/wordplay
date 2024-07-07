@@ -2,9 +2,21 @@ import chalk from 'chalk';
 import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
+import * as prettier from 'prettier';
 import { concretizeOrUndefined } from '../locale/concretize';
 import parseDoc from '../parser/parseDoc';
-import { parseLocaleDoc, type Locale, toDocString } from '../locale/Locale';
+import {
+    parseLocaleDoc,
+    type Locale,
+    toDocString,
+    withoutAnnotations,
+    isUnwritten,
+    Unwritten,
+    isOutdated,
+    Outdated,
+    isAutomated,
+    MachineTranslated,
+} from '../locale/Locale';
 import { toTokens } from '../parser/toTokens';
 import Token from '../nodes/Token';
 import Sym from '../nodes/Sym';
@@ -18,220 +30,563 @@ import { DOCS_SYMBOL } from '../parser/Symbols';
 import Project from '../models/Project';
 import { tokenize } from '../parser/Tokenizer';
 import { DefaultLocales } from '../locale/DefaultLocale';
+import Translate from '@google-cloud/translate';
 
-// Read in and compile the two schema
+// Read in and compile the two schema so we can check files.
 const localeSchema = JSON.parse(
-    fs.readFileSync('static/schemas/Locale.json', 'utf8')
+    fs.readFileSync('static/schemas/Locale.json', 'utf8'),
 );
 const tutorialSchema = JSON.parse(
-    fs.readFileSync('static/schemas/Tutorial.json', 'utf8')
+    fs.readFileSync('static/schemas/Tutorial.json', 'utf8'),
 );
 
+// Initialize the schema validator.
 const ajv = new Ajv({ strictTuples: false, allErrors: true });
 
+// Create a validator function.
+const LocaleValidator = ajv.compile(localeSchema);
+
+// Initialize chalk's 16 color support.
 chalk.level = 1;
-const log = console.log;
 
-function say(level: number, message: string) {
-    log('  '.repeat(level) + message);
-}
+// A helper class to gather messages for later printing, to overcome parallel validation of locales.
+class Log {
+    private readonly messages: string[] = [];
+    constructor() {}
 
-function good(level: number, message: string) {
-    say(level, '✓ ' + chalk.blue(message));
-}
-
-function bad(level: number, message: string) {
-    say(level, 'x ' + chalk.magenta(message));
-}
-
-say(0, 'Checking locale files for problems!');
-
-fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
-    (file) => {
-        if (file.isDirectory()) {
-            const language = file.name;
-            say(1, `Let's inspect ${chalk.blue(language)}`);
-            // Make sure there's a locale file.
-
-            const stringsPath =
-                language === 'en-US'
-                    ? path.join('src', 'locale', 'en-US.json')
-                    : path.join(
-                          'static',
-                          'locales',
-                          language,
-                          `${language}.json`
-                      );
-
-            let stringsData: string | undefined;
-            try {
-                stringsData = fs.readFileSync(stringsPath, 'utf8');
-                good(2, 'Found a locale file.');
-            } catch (err) {
-                bad(2, `No locale strings file at ${stringsPath}`);
-            }
-
-            if (stringsData) {
-                let locale: Locale | undefined = undefined;
-                try {
-                    locale = JSON.parse(stringsData);
-                } catch (_) {
-                    bad(
-                        2,
-                        "Couldn't parse the JSON file, it must have a syntax error."
-                    );
-                }
-
-                if (locale) {
-                    const validate = ajv.compile(localeSchema);
-                    const valid = validate(locale);
-                    if (!valid && validate.errors) {
-                        bad(2, "Locale isn't valid");
-                        for (const error of validate.errors) {
-                            if (error.message)
-                                bad(
-                                    3,
-                                    `${error.instancePath}: ${error.message}`
-                                );
-                        }
-                    } else verifyLocale(locale, file.name !== 'example');
-                }
-                else bad(2, "Couldn't find locale schema");
-
-                // Make sure there's a tutorial file.
-                const tutorialPath = path.join(
-                    'static',
-                    'locales',
-                    language,
-                    `${language}-tutorial.json`
-                );
-
-                let tutorialData: string | undefined = undefined;
-                try {
-                    tutorialData = fs.readFileSync(tutorialPath, 'utf8');
-                    good(2, 'Found a tutorial file.');
-                } catch (err) {
-                    if (file.name !== 'example')
-                        bad(
-                            2,
-                            `No tutorial file at ${tutorialPath}. Can you make one?`
-                        );
-                }
-
-                if (locale && tutorialData) {
-                    let tutorial: Tutorial | undefined = undefined;
-                    try {
-                        tutorial = JSON.parse(tutorialData);
-                    } catch (_) {
-                        bad(
-                            2,
-                            "Couldn't parse tutorial, there must be a syntax error"
-                        );
-                    }
-
-                    if (tutorial) {
-                        const validate = ajv.compile(tutorialSchema);
-                        const valid = validate(tutorial);
-                        if (!valid && validate.errors) {
-                            bad(2, "Tutorial isn't valid");
-                            for (const error of validate.errors) {
-                                if (error.message)
-                                    bad(
-                                        3,
-                                        `${error.instancePath}: ${error.message}`
-                                    );
-                            }
-                        }
-                        verifyTutorial(locale, tutorial);
-                    }
-                    else bad(2, "Couldn't find tutorial schema");
-                }
-            }
-        }
+    add(message: string) {
+        this.messages.push(message);
     }
-);
 
-type Strings = [string[], string, string][];
+    say(level: number, message: string) {
+        this.add('  '.repeat(level) + message);
+    }
+
+    good(level: number, message: string) {
+        this.say(level, '✓ ' + chalk.blue(message));
+    }
+
+    bad(level: number, message: string) {
+        this.say(level, 'x ' + chalk.magenta(message));
+    }
+
+    flush() {
+        for (const message of this.messages) console.log(message);
+        this.messages.splice(0, this.messages.length);
+    }
+}
+
+/** We use this for repair. Make sure it's valid before we do any repairs. */
+const DefaultLocale = getLocaleJSON(new Log(), 'en-US') as Locale;
+
+if (!LocaleValidator(DefaultLocale)) {
+    console.log(
+        'Default locale is invalid. It needs to be repaired before we can proceed.',
+    );
+    if (LocaleValidator.errors)
+        for (const error of LocaleValidator.errors) {
+            if (error.message)
+                console.log(
+                    'x ' +
+                        chalk.magenta(
+                            `${error.instancePath}: ${error.message}`,
+                        ),
+                );
+        }
+    process.exit(0);
+}
+
+/** Given a path, load a JSON file and ensure it's an object, not some other kind of value. */
+function getObjectFromJSONFile(log: Log, path: string): object | undefined {
+    try {
+        const localeText = fs.readFileSync(path, 'utf8');
+        try {
+            const localeObject = JSON.parse(localeText);
+            if (
+                typeof localeObject === 'object' &&
+                !Array.isArray(localeObject) &&
+                localeObject !== null
+            )
+                return localeObject;
+            else {
+                log.bad(2, "Locale isn't an object");
+                return undefined;
+            }
+        } catch (err) {
+            log.bad(2, `Locale file has a parsing error: ${err}`);
+        }
+    } catch (err) {
+        return undefined;
+    }
+}
+
+/** Get a locale file path from a locale name. */
+function getLocalePath(locale: string) {
+    return locale === 'en-US'
+        ? path.join('src', 'locale', 'en-US.json')
+        : path.join('static', 'locales', locale, `${locale}.json`);
+}
+
+/** Get a tutorial path from a locale name. */
+function getTutorialPath(locale: string) {
+    return path.join('static', 'locales', locale, `${locale}-tutorial.json`);
+}
+
+/** Get the locale JSON for the given locale. */
+function getLocaleJSON(log: Log, locale: string): unknown | undefined {
+    return getObjectFromJSONFile(log, getLocalePath(locale));
+}
+
+/** Get the tutorial JSON fro the given locale. */
+function getTutorialJSON(log: Log, locale: string): object | undefined {
+    return getObjectFromJSONFile(log, getTutorialPath(locale));
+}
+
+/** Load, validate, and check the locale. */
+async function validateLocale(
+    log: Log,
+    language: string,
+): Promise<Locale | undefined> {
+    let localeJSON = getLocaleJSON(log, language);
+    if (localeJSON === undefined) {
+        log.bad(
+            2,
+            "Couldn't find locale file. Can't validate it, or it's tutorial.",
+        );
+        return undefined;
+    }
+
+    const valid = LocaleValidator(localeJSON);
+    if (!valid && LocaleValidator.errors) {
+        log.bad(
+            2,
+            "Locale doesn't match the schema. Will attempt to repair it.",
+        );
+        for (const error of LocaleValidator.errors) {
+            if (error.message)
+                log.bad(3, `${error.instancePath}: ${error.message}`);
+        }
+
+        localeJSON = repairLocale(log, DefaultLocale, localeJSON as Locale);
+    } else log.good(2, 'Found valid locale');
+
+    return await checkLocale(log, localeJSON as Locale, language !== 'example');
+}
+
+/** Add missing keys and remove extra ones from a given locale, relative to a source locale. */
+function repairLocale(log: Log, source: Locale, target: Locale): Locale {
+    const revised = JSON.parse(JSON.stringify(target)) as Locale;
+
+    // Walk through the source and find any keys that are not defined on the target and remove them.
+    removeExtraKeys(log, source, revised);
+
+    // Walk through the target and find any keys that are not defined on the source and add them.
+    addMissingKeys(log, source, revised);
+
+    return revised;
+}
+
+/** Load, validate, and check the tutorial. */
+function validateTutorial(
+    log: Log,
+    language: string,
+    locale: Locale,
+): Tutorial | undefined {
+    const tutorialJSON = getTutorialJSON(log, language);
+    if (tutorialJSON === undefined) {
+        log.bad(2, "Couldn't find tutorial file.");
+        return undefined;
+    }
+
+    const validate = ajv.compile(tutorialSchema);
+    const valid = validate(tutorialJSON);
+    if (!valid && validate.errors) {
+        log.bad(
+            2,
+            "Tutorial doesn't match the schema. Will attempt to repair it.",
+        );
+        for (const error of validate.errors) {
+            if (error.message)
+                log.bad(3, `${error.instancePath}: ${error.message}`);
+        }
+    } else log.good(2, 'Found valid tutorial.');
+
+    return checkTutorial(log, locale, tutorialJSON as Tutorial);
+}
+
+class StringPath {
+    // The key or number indexing into the object literal.
+    readonly path: (string | number)[];
+    readonly key: string;
+    readonly value: string | string[];
+
+    constructor(
+        path: (string | number)[],
+        key: string,
+        value: string | string[],
+    ) {
+        this.path = path;
+        this.key = key;
+        this.value = value;
+    }
+
+    private retrieve(
+        locale: Record<string, unknown>,
+    ): Record<string, unknown> | undefined {
+        let record: Record<string, unknown> = locale;
+        for (const key of this.path) {
+            if (!(key in record)) return undefined;
+            const value = record[key];
+            if (typeof value !== 'object' || value === null) return undefined;
+            record = value as Record<string, unknown>;
+        }
+
+        return record;
+    }
+
+    resolve(locale: Record<string, unknown>): string | string[] | undefined {
+        const record = this.retrieve(locale);
+        if (record === undefined) return undefined;
+        const text = record[this.key];
+        if (
+            text === undefined ||
+            (typeof text !== 'string' &&
+                !(
+                    Array.isArray(text) &&
+                    text.every((t) => typeof t === 'string')
+                ))
+        )
+            return undefined;
+        return text;
+    }
+
+    repair(
+        locale: Record<string, unknown>,
+        value: string | string[] = Unwritten,
+    ) {
+        const record = this.retrieve(locale);
+        if (record) record[this.key] = value;
+    }
+
+    toString(): string {
+        return `${this.path.join(' -> ')}: ${this.key}`;
+    }
+}
 
 /** This converts the locale into a list of key/value pairs for verification.
  */
 function getKeyTemplatePairs(
-    path: string[],
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     record: Record<any, any>,
-    pairs: Strings
-) {
+    pairs: StringPath[] = [],
+    path: (string | number)[] = [],
+): StringPath[] {
     for (const key of Object.keys(record)) {
         const value = record[key];
-        if (typeof value === 'string') pairs.push([path, key, value]);
+        if (
+            typeof value === 'string' ||
+            (Array.isArray(value) && value.every((s) => typeof s === 'string'))
+        )
+            pairs.push(new StringPath(path, key, value));
         // Many docs are lists of strings that are intended to be joined together.
         // Account for these when finding strings for verification.
         else if (
             Array.isArray(value) &&
             value.every((v) => typeof v === 'string') &&
-            key !== "names"
+            key !== 'names'
         )
-            pairs.push([path, key, value.join('\n\n')]);
+            pairs.push(new StringPath(path, key, value));
         else if (
             typeof value === 'object' &&
             value !== null &&
             !Array.isArray(value)
         )
-            getKeyTemplatePairs([...path, key], value, pairs);
+            getKeyTemplatePairs(value, pairs, [...path, key]);
         else if (Array.isArray(value)) {
-            for (const record of value)
-                getKeyTemplatePairs([...path, key], record, pairs);
+            for (let index = 0; index < value.length; index++)
+                getKeyTemplatePairs(value[index], pairs, [...path, key, index]);
+        }
+    }
+    return pairs;
+}
+
+function removeExtraKeys(
+    log: Log,
+    source: Record<string, unknown>,
+    target: Record<string, unknown>,
+) {
+    for (const key of Object.keys(target)) {
+        const targetValue = target[key];
+        // Key not in the source? Delete it from the target.
+        if (typeof source === 'object' && !(key in source)) {
+            log.bad(2, `Removing extra key ${key}`);
+            delete target[key];
+        }
+        // Is the value an object? Remove it's extra keys.
+        else {
+            const sourceValue = source[key];
+            if (
+                typeof targetValue === 'object' &&
+                targetValue !== null &&
+                !Array.isArray(targetValue) &&
+                typeof sourceValue === 'object' &&
+                sourceValue !== null &&
+                !Array.isArray(sourceValue)
+            )
+                removeExtraKeys(
+                    log,
+                    sourceValue as Record<string, unknown>,
+                    targetValue as Record<string, unknown>,
+                );
+            else if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+                for (let index = 0; index < targetValue.length; index++) {
+                    const sourceValueElement = sourceValue[index];
+                    if (sourceValueElement === undefined)
+                        delete targetValue[index];
+                    else
+                        removeExtraKeys(
+                            log,
+                            sourceValueElement,
+                            targetValue[index],
+                        );
+                }
+            }
         }
     }
 }
 
-function pathToString(locale: Locale, path: string[]) {
-    return `${locale.language} -> ${path.join(' -> ')}`;
+/** Take an object and replace of all of it's string or string[] values with unwritten strings. */
+function placehold(value: unknown): unknown {
+    if (typeof value === 'string') return Unwritten;
+    else if (Array.isArray(value) && value.every((s) => typeof s === 'string'))
+        return [Unwritten];
+    else if (Array.isArray(value)) return value.map(placehold);
+    else if (typeof value === 'object' && value !== null) {
+        const copy = { ...value } as Record<string, unknown>;
+        for (const key of Object.keys(copy)) copy[key] = placehold(copy[key]);
+        return copy;
+    }
+    return value;
 }
 
-function verifyLocale(locale: Locale, warnUnwritten: boolean) {
+/** Add missing keys relative to a source locale. */
+function addMissingKeys(
+    log: Log,
+    source: Record<string, unknown>,
+    target: Record<string, unknown>,
+) {
+    for (const key of Object.keys(source)) {
+        const sourceValue = source[key];
+        // Key not in the the target? Add it.
+        if (typeof target === 'object' && !(key in target)) {
+            log.bad(2, `Adding missing key ${key}`);
+            target[key] = placehold(sourceValue);
+        }
+        // Otherwise, traverse.
+        else {
+            const targetValue = target[key];
+            if (
+                typeof sourceValue === 'object' &&
+                sourceValue !== null &&
+                !Array.isArray(sourceValue)
+            ) {
+                if (
+                    typeof targetValue === 'object' &&
+                    targetValue !== null &&
+                    !Array.isArray(targetValue)
+                )
+                    addMissingKeys(
+                        log,
+                        sourceValue as Record<string, unknown>,
+                        targetValue as Record<string, unknown>,
+                    );
+                else
+                    log.bad(
+                        2,
+                        `Target has the key ${key}, but it's not an object. Repair manually.`,
+                    );
+            } else if (
+                Array.isArray(sourceValue) &&
+                sourceValue.every((s) => typeof s === 'object')
+            ) {
+                if (
+                    Array.isArray(targetValue) &&
+                    targetValue.every((t) => typeof t === 'object')
+                ) {
+                    for (let index = 0; index < targetValue.length; index++) {
+                        const sourceValueElement = sourceValue[index];
+                        if (sourceValueElement === undefined)
+                            delete targetValue[index];
+                        else
+                            addMissingKeys(
+                                log,
+                                sourceValueElement,
+                                targetValue[index],
+                            );
+                    }
+                } else {
+                    log.bad(
+                        2,
+                        `Target has the key ${key}, but it's not an array. Repair manually.`,
+                    );
+                }
+            }
+        }
+    }
+}
+
+async function translate(
+    log: Log,
+    source: Locale,
+    target: Locale,
+    unwritten: StringPath[],
+) {
+    const revised = JSON.parse(JSON.stringify(target)) as Locale;
+
+    // Resolve all of the source strings
+    const sourceStrings = unwritten
+        .map((path) => {
+            const match = path.resolve(source);
+            return match === undefined
+                ? undefined
+                : Array.isArray(match)
+                  ? match
+                  : match;
+        })
+        .filter((s) => s !== undefined)
+        .flat();
+
+    // Split the strings into groups of 100, since Google Translate only allows 128 at a time.
+    const sourceStringsBatches: string[][] = [];
+    while (sourceStrings.length > 0)
+        sourceStringsBatches.push(sourceStrings.splice(0, 100));
+
+    // Pass them to Google Translate
+    let translations: string[] = [];
+    for (const batch of sourceStringsBatches) {
+        try {
+            // Create a Google Translate client
+            const translator = new Translate.v2.Translate();
+            // Translate the strings
+            const [translatedBatch] = await translator.translate(batch, {
+                from: source.language,
+                to: target.language,
+            });
+            translations = [...translations, ...translatedBatch];
+        } catch (error) {
+            log.bad(
+                2,
+                "Unable to translate. Make sure gcloud cli is installed, you are logged in, and your project is wordplay-prod. Here's the error Google gave" +
+                    error,
+            );
+            return revised;
+        }
+    }
+
+    // Set all of the target strings to the translated strings.
+    for (const path of unwritten) {
+        const match = path.resolve(source);
+        if (match !== undefined) {
+            if (
+                Array.isArray(match) &&
+                match.every((s) => typeof s === 'string')
+            ) {
+                const value = [];
+                for (let count = 0; count < match.length; count++) {
+                    let next = translations.shift();
+                    if (next) {
+                        if (path.key === 'name' || path.key === 'names')
+                            next = next.replaceAll(' ', '');
+                        value.push(`${MachineTranslated}${next.trim()}`);
+                    }
+                }
+                path.repair(revised, value);
+            } else {
+                let translation = translations.shift();
+                if (translation) {
+                    if (path.key === 'name' || path.key === 'names')
+                        translation = translation.replaceAll(' ', '');
+                    path.repair(
+                        revised,
+                        `${MachineTranslated}${translation.trim()}`,
+                    );
+                }
+            }
+        }
+    }
+
+    return revised;
+}
+
+/** Given a locale, check it's validity, and repair what we can. */
+async function checkLocale(
+    log: Log,
+    original: Locale,
+    warnUnwritten: boolean,
+): Promise<Locale> {
+    let revised = JSON.parse(JSON.stringify(original)) as Locale;
+
     // Get the key/value pairs
-    const pairs: Strings = [];
-    getKeyTemplatePairs([], locale, pairs);
+    let pairs: StringPath[] = getKeyTemplatePairs(revised);
+
+    const unwritten = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isUnwritten(value)
+            : value.some((s) => isUnwritten(s)),
+    );
+
+    if (unwritten.length > 0 && warnUnwritten) {
+        log.bad(
+            2,
+            `Locale has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
+        );
+
+        revised = await translate(
+            log,
+            DefaultLocale,
+            revised,
+            // Don't translate emotions; those have meaning.
+            unwritten.filter(({ key }) => key !== 'emotion'),
+        );
+    }
+
+    // Check the translated pairs for errors.
+    pairs = getKeyTemplatePairs(revised);
 
     // Check each one.
-    for (const [path, key, value] of pairs) {
+    for (const path of pairs) {
         // If the key suggests that it's documentation, try to parse it as a doc and
         // see if it has any tokens of unknown type or unparsable expressions or types.
-        if (key === 'doc') {
-            const doc = parseLocaleDoc(toDocString(value));
+        if (path.key === 'doc') {
+            const doc = parseLocaleDoc(toDocString(path.value));
             const unknownTokens = doc
                 .leaves()
                 .filter(
                     (node) =>
-                        node instanceof Token && node.isSymbol(Sym.Unknown)
+                        node instanceof Token && node.isSymbol(Sym.Unknown),
                 );
 
             if (unknownTokens.length > 0)
-                bad(
+                log.bad(
                     2,
-                    `Found invalid tokens in ${pathToString(
-                        locale,
-                        path
-                    )}: ${unknownTokens.join(', ')}`
+                    `Found invalid tokens in ${path.toString()}: ${unknownTokens.join(
+                        ', ',
+                    )}`,
                 );
 
             const missingConcepts = doc
                 .nodes()
                 .filter(
                     (node) =>
-                        node instanceof ConceptLink && !node.isValid(locale)
+                        node instanceof ConceptLink && !node.isValid(revised),
                 );
 
             if (missingConcepts.length > 0)
-                bad(
+                log.bad(
                     2,
-                    `Found unknown concept name ${pathToString(
-                        locale,
-                        path
-                    )}: ${missingConcepts
+                    `Found unknown concept name ${path.toString()}: ${missingConcepts
                         .map((u) => u.toWordplay())
-                        .join(', ')}`
+                        .join(', ')}`,
                 );
 
             // const unparsables = doc
@@ -251,47 +606,49 @@ function verifyLocale(locale: Locale, warnUnwritten: boolean) {
             // ).toBe(0);
         }
         // Is one or more names? Make sure they're valid names or operator symbols.
-        else if (key === 'names') {
-            const names = Array.isArray(value) ? value : [value];
+        else if (path.key === 'names') {
+            const names = Array.isArray(path.value) ? path.value : [path.value];
             for (const name of names) {
-
-                if(name.trim().length === 0) {
-                    bad(2, `Name is empty:: "${name}`)
-                }
-                else {
-                    const nameWithoutPlaceholder = name.replaceAll('$?', '').replaceAll("$!", "").trim();
+                if (name.trim().length === 0) {
+                    log.bad(2, `Name is empty:: "${name}`);
+                } else {
+                    const nameWithoutPlaceholder = withoutAnnotations(name);
 
                     // If it wasn't just a placeholder
-                    if(nameWithoutPlaceholder.length > 0) {
+                    if (nameWithoutPlaceholder.length > 0) {
                         const tokens = tokenize(
-                            nameWithoutPlaceholder
+                            nameWithoutPlaceholder,
                         ).getTokens();
 
-                        // One name and one end token.
-                        if(tokens.length > 2)
-                            bad(2, `Name has space: "${nameWithoutPlaceholder}`)
+                        // We expect oone name and one end token.
 
                         const token = tokens[0];
-                        if (
-                            token === undefined ||
-                            !(token.isName() || token.isSymbol(Sym.Operator))
-                        )
-                            bad(
+                        if (!(token.isName() || token.isSymbol(Sym.Operator)))
+                            log.bad(
                                 2,
                                 `Name ${name} is not a valid name, it's a ${token
                                     .getTypes()
-                                    .join(', ')}`
+                                    .join(', ')}`,
                             );
+                        else if (tokens.length > 2) {
+                            log.bad(
+                                2,
+                                `Name is valid, but is followed by additional text: "${tokens.slice(
+                                    1,
+                                    tokens.length - 1,
+                                )}": ${path.toString()}`,
+                            );
+                        }
                     }
                 }
             }
         }
         // If it's not a doc, assume it's a template string and try to parse it as a template.
         // If we can't, complain.
-        else {
+        else if (typeof path.value === 'string') {
             const description = concretizeOrUndefined(
                 DefaultLocales,
-                value,
+                path.value,
                 'test',
                 'test',
                 'test',
@@ -300,49 +657,60 @@ function verifyLocale(locale: Locale, warnUnwritten: boolean) {
                 'test',
                 'test',
                 'test',
-                'test'
+                'test',
             );
             if (description === undefined)
-                bad(
+                log.bad(
                     2,
-                    `String at ${pathToString(
-                        locale,
-                        path
-                    )} is has unparsable template string "${value}"`
+                    `String at ${path.toString()} is has unparsable template string "${
+                        path.value
+                    }"`,
                 );
         }
     }
 
-    const unwritten = pairs.filter(([, , value]) => value.startsWith('$?'));
-
-    if (unwritten.length > 0 && warnUnwritten)
-        bad(
-            2,
-            `Locale has ${unwritten.length} unwritten strings ("$?"). Keep writing!`
-        );
-
-    const outofdate = pairs.filter(([, , value]) => value.startsWith('$!'));
+    const outofdate = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isOutdated(value)
+            : value.some((s) => isOutdated(s)),
+    );
 
     if (outofdate.length > 0)
-        bad(
+        log.bad(
             2,
-            `Locale has ${outofdate.length} potentially out of date strings ("$!"). Compare them against the English translation.`
+            `Locale has ${outofdate.length} potentially out of date strings ("${Outdated}"). Compare them against the English translation and decide whether to keep or translate.`,
         );
+
+    const automated = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isAutomated(value)
+            : value.some((s) => isAutomated(s)),
+    );
+
+    if (automated.length > 0)
+        log.bad(
+            2,
+            `Locale has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
+        );
+
+    return revised;
 }
 
-function check(line: Line): boolean {
+function checkTutorialLineType(line: Line): boolean {
     return (
         line !== null &&
         ['fit', 'fix', 'edit', 'use'].includes((line as Performance)[0])
     );
 }
 
-function verifyTutorial(locale: Locale, tutorial: Tutorial) {
-    const programs = tutorial.acts
+function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
+    const revised = JSON.parse(JSON.stringify(original)) as Tutorial;
+
+    const programs = revised.acts
         .map((act) => {
             const programs = [
                 // Verify act programs
-                ...(check(act.performance)
+                ...(checkTutorialLineType(act.performance)
                     ? [
                           {
                               kind: act.performance[0],
@@ -352,7 +720,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                     : []),
                 // Verify scene programs
                 ...act.scenes
-                    .filter((scene) => check(scene.performance))
+                    .filter((scene) => checkTutorialLineType(scene.performance))
                     .map((scene) => {
                         return {
                             kind: scene.performance[0],
@@ -367,7 +735,9 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                     // Flatten them into a list of lines
                     .flat()
                     // Filter out anything that's not code, that has an intentional conflict, or is an performance import
-                    .filter((line): line is Performance => check(line))
+                    .filter((line): line is Performance =>
+                        checkTutorialLineType(line),
+                    )
                     // Map the code onto their start source code
                     .map((performance) => {
                         return {
@@ -396,9 +766,9 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 >
             )[name];
             if (fun === undefined)
-                bad(
+                log.bad(
                     2,
-                    `use ${name} doesn't exist in Performances. Is it misspelled or missing?`
+                    `use ${name} doesn't exist in Performances. Is it misspelled or missing?`,
                 );
             else {
                 code = fun(...inputs);
@@ -411,7 +781,7 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 'test',
                 new Source('start', code),
                 [],
-                locale
+                locale,
             );
             project.analyze();
             project.getAnalysis();
@@ -420,21 +790,21 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                 !conflictsIntentional &&
                 project.getPrimaryConflicts().size > 0
             ) {
-                bad(
+                log.bad(
                     2,
                     `Uh oh, there's a conflict in...\n\n${code}, ${Array.from(
-                        project.getPrimaryConflicts().values()
+                        project.getPrimaryConflicts().values(),
                     )
                         .flat()
                         .map((c) => c.toString())
-                        .join(',')}`
+                        .join(',')}`,
                 );
             }
         }
     }
 
     // Build a list of all concept links
-    const conceptLinks: ConceptLink[] = tutorial.acts
+    const conceptLinks: ConceptLink[] = revised.acts
         .map((act) => [
             // Across all scenes
             ...act.scenes
@@ -450,15 +820,15 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
                         toTokens(
                             DOCS_SYMBOL +
                                 line.slice(2).join('\n\n') +
-                                DOCS_SYMBOL
-                        )
+                                DOCS_SYMBOL,
+                        ),
                     )
                         .nodes()
                         .filter(
                             (node: Node): node is ConceptLink =>
-                                node instanceof ConceptLink
+                                node instanceof ConceptLink,
                         )
-                        .flat()
+                        .flat(),
                 )
                 .flat(2),
         ])
@@ -466,5 +836,57 @@ function verifyTutorial(locale: Locale, tutorial: Tutorial) {
 
     for (const link of conceptLinks)
         if (!link.isValid(locale))
-            bad(2, `Unknown tutorial concept: ${link.getName()}`);
+            log.bad(2, `Unknown tutorial concept: ${link.getName()}`);
+
+    return revised;
 }
+
+console.log('Checking locale files for problems!');
+
+fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
+    async (file) => {
+        if (file.isDirectory()) {
+            const log = new Log();
+
+            const language = file.name;
+            log.say(1, `Checking ${chalk.blue(language)}`);
+            log.flush();
+            log.say(1, `Results for ${chalk.blue(language)}`);
+
+            // Validate, repair, and translate the locale file.
+            const revisedLocale = await validateLocale(log, language);
+            if (revisedLocale) {
+                // Write a formatted version of the revised locale file.
+                const localePath = getLocalePath(language);
+                const prettierOptions =
+                    await prettier.resolveConfig(localePath);
+
+                const prettyLocale = await prettier.format(
+                    JSON.stringify(revisedLocale, null, 4),
+                    { ...prettierOptions, parser: 'json' },
+                );
+
+                fs.writeFileSync(getLocalePath(language), prettyLocale);
+
+                // Validate, repair, and translate the tutorial file.
+                const revisedTutorial = validateTutorial(
+                    log,
+                    language,
+                    revisedLocale,
+                );
+                if (revisedTutorial) {
+                    // Write a formatted version of the revised tutorial file.
+                    const prettyTutorial = await prettier.format(
+                        JSON.stringify(revisedTutorial, null, 4),
+                        { ...prettierOptions, parser: 'json' },
+                    );
+
+                    fs.writeFileSync(getTutorialPath(language), prettyTutorial);
+                }
+            }
+
+            // Print out the results.
+            log.flush();
+        }
+    },
+);

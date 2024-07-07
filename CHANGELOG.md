@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#397](https://github.com/wordplaydev/wordplay/issues/397) Redesigned home page for clarity and navigability.
 -   [#506](https://github.com/wordplaydev/wordplay/issues/506) Clarified behavior of localized setting.
 -   [#511](https://github.com/wordplaydev/wordplay/issues/511) Fixed granularity of reevaluation to preserve random values and animations.
+-   [#512](https://github.com/wordplaydev/wordplay/issues/512) Semi-automated batch translation of locales on command line.
 -   Added fade out sequence.
 -   Fixed select all button.
 

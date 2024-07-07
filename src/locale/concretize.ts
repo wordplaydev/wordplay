@@ -1,5 +1,6 @@
 import Markup from '../nodes/Markup';
 import { toMarkup } from '../parser/toMarkup';
+import { isUnwritten, withoutAnnotations } from './Locale';
 import type Locales from './Locales';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';
@@ -60,7 +61,7 @@ export default function concretize(
         concretizeOrUndefined(locales, template, ...inputs) ??
         // Create a representation of a template that couldn't be concretized.
         Markup.words(
-            `${locales.get((l) => l.ui.template.unparsable)}: ${template}`
+            `${locales.get((l) => l.ui.template.unparsable)}: ${template}`,
         )
     );
 }
@@ -71,8 +72,11 @@ export function concretizeOrUndefined(
     ...inputs: TemplateInput[]
 ): Markup | undefined {
     // Not written? Return the TBD string.
-    if (template === '' || template === '$?')
+    if (template === '' || isUnwritten(template))
         return Markup.words(locales.get((l) => l.ui.template.unwritten));
+
+    // Remove annotations.
+    template = withoutAnnotations(template);
 
     // See if we've cached this template.
     let markup = TemplateToMarkupCache.get(template);

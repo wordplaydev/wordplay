@@ -3,14 +3,14 @@ import type Doc from '@nodes/Doc';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
-import { toDocString, type NameAndDoc, nameWithoutMentions } from './Locale';
+import { toDocString, type NameAndDoc, withoutAnnotations } from './Locale';
 import type Locale from './Locale';
 import { parseLocaleDoc } from '@locale/Locale';
 import type Locales from './Locales';
 
 export function getInputLocales(
     locales: Locales,
-    select: (translation: Locale) => NameAndDoc[]
+    select: (translation: Locale) => NameAndDoc[],
 ): { docs: Docs; names: Names }[] {
     // Make a list of docs and names by bind index.
     const binds: { docs: Doc[]; names: Name[] }[] = [];
@@ -24,14 +24,14 @@ export function getInputLocales(
                 binds[index] = { docs: [], names: [] };
             binds[index].docs.push(
                 parseLocaleDoc(toDocString(input.doc)).withLanguage(
-                    localeToLanguage(translation)
-                )
+                    localeToLanguage(translation),
+                ),
             );
             for (const name of Array.isArray(input.names)
                 ? input.names
                 : [input.names])
                 binds[index].names.push(
-                    Name.make(name, localeToLanguage(translation))
+                    Name.make(name, localeToLanguage(translation)),
                 );
         });
     }
@@ -44,9 +44,9 @@ export function getInputLocales(
                 bind.names.filter(
                     (name) =>
                         !bind.names.some(
-                            (name2) => name !== name2 && name.isEqualTo(name2)
-                        )
-                )
+                            (name2) => name !== name2 && name.isEqualTo(name2),
+                        ),
+                ),
             ),
         };
     });
@@ -57,7 +57,7 @@ export function getLocaleNames(nameAndDoc: NameAndDoc, locale: Locale) {
         Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
     )
         .map((name) => {
-            const stripped = nameWithoutMentions(name);
+            const stripped = withoutAnnotations(name);
             if (stripped === '') return undefined;
             return Name.make(stripped, localeToLanguage(locale));
         })
