@@ -80,3 +80,48 @@ screen/en,cine/es,إظهار/ar:
 ``Crea un mundo con la pantalla en él``/es
 ``اصنع عالمًا مع الشاشة بداخله``/ar
 Stage([screen] place: Place(0m 0m -12m) face: "Poor Story" background: 🌈(0% 0 0°) color: 🌈(100% 0 0°))
+=== words
+``These are the secret words. Don't tell anyone!``/en
+``Estas son las palabras secretas. ¡No se lo digas a nadie!``/es
+``هذه هي الكلمات السرية. لا تخبر أحدا!``/ar
+[
+	"fox"
+	"monkey"
+	"beaver"
+	"cow"
+	"wolf"
+	"goat"
+	"deer"
+	"pig"
+	"chinchilla"
+	"squirrel"
+	"rat"
+	"shrew"
+	"mole"
+	"armadillo"
+	"opossum"
+	"elephant"
+	"bat"
+	"donkey"
+	"horse"
+	"hedgehog"
+	"cat"
+	"giraffe"
+	"gorilla"
+	"seal"
+	"human"
+	"kangaroo"
+	"marmot"
+	"hamster"
+	"mouse"
+	"rabbit"
+	"sheep"
+	"jaguar"
+	"chimpanzee"
+	"baboon"
+	"raccoon"
+	"mole"
+	"shrew"
+	"echidna"
+	"tapir
+].sorted(ƒ() Random())
