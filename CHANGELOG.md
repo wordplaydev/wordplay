@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Added expressions control dependent on streams to expressions to reevaluate on reaction.
+-   Fixed background of buttons to make them visible on stage.
 
 ## 0.10.3 2024-07-07
 
