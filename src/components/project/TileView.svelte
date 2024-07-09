@@ -204,7 +204,7 @@
         <div class="header" style:color={foreground} style:fill={foreground}>
             {#if !layout.isFullscreen()}
                 <Button
-                    background
+                    background={background !== null}
                     padding={false}
                     tip={$locales.get((l) => l.ui.tile.button.collapse)}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
@@ -214,7 +214,7 @@
             <Toggle
                 tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
                 on={fullscreen}
-                background
+                background={background !== null}
                 toggle={() =>
                     dispatch('fullscreen', {
                         fullscreen: !fullscreen,
