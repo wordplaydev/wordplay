@@ -37,12 +37,12 @@ export default class Color extends Valued {
         this.hue = h;
     }
 
-    complement() {
+    contrasting() {
         return new Color(
             this.value,
-            new Decimal(1).sub(this.lightness),
-            this.chroma,
-            new Decimal(180).add(this.hue),
+            new Decimal(this.lightness.greaterThan(0.5) ? 0 : 1),
+            new Decimal(100),
+            new Decimal(0),
         );
     }
 

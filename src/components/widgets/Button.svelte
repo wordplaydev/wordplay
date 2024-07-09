@@ -135,6 +135,7 @@
     }
 
     .background {
+        color: var(--wordplay-foreground);
         background: var(--wordplay-alternating-color);
     }
 

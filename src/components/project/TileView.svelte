@@ -48,7 +48,7 @@
     onMount(() => (mounted = true));
 
     $: foreground =
-        background instanceof Color ? background.complement().toCSS() : null;
+        background instanceof Color ? background.contrasting().toCSS() : null;
 
     const dispatch = createEventDispatcher();
 

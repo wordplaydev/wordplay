@@ -28,7 +28,7 @@
             : '';
         document.body.style.color = $fullscreen.on
             ? $fullscreen.background instanceof Color
-                ? $fullscreen.background.complement().toCSS()
+                ? $fullscreen.background.contrasting().toCSS()
                 : ''
             : '';
     }
