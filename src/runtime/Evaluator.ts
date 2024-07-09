@@ -1499,6 +1499,11 @@ export default class Evaluator {
         for (const stream of changed) {
             const streamNode = stream.creator;
             // Have we already computed the expressions affected by this stream? Don't do it again.
+            // If we haven't, find all expressions who's values are dependent on this stream.
+            // This includes any data dependencies (which are specified by Node.getDependencies())
+            // As well any expressions for which streams are a control dependency (e.g.,
+            // streams that appear in the condition of a Conditioal, the value of a Match, or the input
+            // of an Evaluate.
             if (!this.#streamDependencies.has(streamNode)) {
                 // Force an analysis if one isn't done.
                 this.project.analyze();
@@ -1533,6 +1538,31 @@ export default class Evaluator {
                                 unvisited.add(newExpr);
                             }
                         }
+                    }
+                }
+
+                // STEP 3: If this stream node has an ancestor that is a condition of a Conditional, value of a Match,
+                // or input of an Evaluate, then all of the subexpression of the branch are dependent on this
+                // stream.
+                const root = this.project.getRoot(streamNode);
+                if (root) {
+                    const branchingAncestors = root
+                        .getAncestors(streamNode)
+                        .filter((node, index, array) => {
+                            if (node instanceof Expression && index > 0) {
+                                const parent = array[index + 1];
+                                return parent instanceof Expression
+                                    ? parent.hasBranch(node)
+                                    : false;
+                            }
+                            return false;
+                        });
+                    console.log(branchingAncestors);
+                    for (const branch of branchingAncestors) {
+                        for (const affected of branch
+                            .nodes()
+                            .filter((n) => n instanceof Expression))
+                            affectedExpressions.add(affected);
                     }
                 }
 

@@ -35,10 +35,6 @@ export function finish(evaluator: Evaluator, expr: Expression) {
     // Otherwise, finish evaluating.
     const value = expr.evaluate(evaluator, undefined);
 
-    if (expr.toWordplay().startsWith('Phrase(')) {
-        console.log('Returning Phrase ' + value.toWordplay());
-    }
-
     // Ask the evaluator to remember the value we computed.
     evaluator.rememberExpressionValue(expr, value);
 

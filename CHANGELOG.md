@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.10.4 2024-7-08
+
+### Fixed
+
+-   Added expressions control dependent on streams to expressions to reevaluate on reaction.
+
 ## 0.10.3 2024-07-07
 
 ### Fixed

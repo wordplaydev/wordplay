@@ -132,6 +132,10 @@ export default class BinaryEvaluate extends Expression {
         ];
     }
 
+    hasBranch(expr: Expression) {
+        return this.left === expr || this.right === expr;
+    }
+
     getPurpose() {
         return Purpose.Evaluate;
     }

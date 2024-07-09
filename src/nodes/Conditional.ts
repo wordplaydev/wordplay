@@ -126,6 +126,10 @@ export default class Conditional extends Expression {
         ) as this;
     }
 
+    hasBranch(expr: Expression) {
+        return this.condition === expr;
+    }
+
     getPurpose() {
         return Purpose.Decide;
     }
