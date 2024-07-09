@@ -265,93 +265,45 @@
         vertical={false}
     />
     {#if expanded}
-        {#if source.isEmpty()}
-            <Speech glyph={Glyphs.Function} scroll={false} below>
-                <svelte:fragment slot="content">
-                    <MarkupHTMLView
-                        markup={docToMarkup(
-                            $locales.get((l) => l.ui.source.empty),
-                        ).concretize($locales, [toShortcut(ShowMenu)]) ?? ''}
-                    />
-                </svelte:fragment>
-            </Speech>
-        {:else}
-            <Speech glyph={Glyphs.Function} scroll={false} below>
-                <svelte:fragment slot="content">
-                    {#if stepping}
+        <div class="annotations">
+            {#if source.isEmpty()}
+                <Speech glyph={Glyphs.Function} scroll={false} below>
+                    <svelte:fragment slot="content">
                         <MarkupHTMLView
-                            inline
-                            markup={$locales.get(
-                                (l) => l.ui.annotations.evaluating,
-                            )}
+                            markup={docToMarkup(
+                                $locales.get((l) => l.ui.source.empty),
+                            ).concretize($locales, [toShortcut(ShowMenu)]) ??
+                                ''}
                         />
-                    {:else if caretNode}
-                        <div class="who">
-                            <div class="intro">
-                                <MarkupHTMLView
-                                    inline
-                                    markup={docToMarkup(
-                                        $locales.get(
-                                            (l) => l.ui.annotations.cursor,
-                                        ),
-                                    ).concretize($locales, [
-                                        caretNode.getLabel($locales),
-                                        caretNode instanceof Expression
-                                            ? new NodeRef(
-                                                  caretNode
-                                                      .getType(context)
-                                                      .generalize(context),
-                                                  $locales,
-                                                  context,
-                                              )
-                                            : undefined,
-                                    ]) ?? ''}
-                                />
-                            </div>
-                            {#if relevantConcept}
-                                <div class="concept">
-                                    <MarkupHTMLView
-                                        inline
-                                        markup={$locales.get(
-                                            (l) => l.ui.annotations.learn,
-                                        )}
-                                    />
-                                    <ConceptLinkUI
-                                        link={relevantConcept}
-                                        label={DOCUMENTATION_SYMBOL}
-                                    />
-                                </div>
-                            {/if}
-                            {#if adjustable}
-                                <div class="tools">
-                                    <CommandButton
-                                        command={IncrementLiteral}
-                                        {sourceID}
-                                        background
-                                    />
-                                    <CommandButton
-                                        command={DecrementLiteral}
-                                        {sourceID}
-                                        background
-                                    />
-                                </div>
-                            {/if}
-                            {#if caretNodeParent}
+                    </svelte:fragment>
+                </Speech>
+            {:else}
+                {#each Array.from(annotationsByNode.values()) as annotations, index}
+                    <Annotation id={index} {annotations} />
+                {/each}
+                <Speech glyph={Glyphs.Function} scroll={false} below>
+                    <svelte:fragment slot="content">
+                        {#if stepping}
+                            <MarkupHTMLView
+                                inline
+                                markup={$locales.get(
+                                    (l) => l.ui.annotations.evaluating,
+                                )}
+                            />
+                        {:else if caretNode}
+                            <div class="who">
                                 <div class="intro">
                                     <MarkupHTMLView
                                         inline
                                         markup={docToMarkup(
                                             $locales.get(
-                                                (l) =>
-                                                    l.ui.annotations
-                                                        .cursorParent,
+                                                (l) => l.ui.annotations.cursor,
                                             ),
                                         ).concretize($locales, [
-                                            caretNodeParent.getLabel($locales),
-                                            caretNodeParent instanceof
-                                            Expression
+                                            caretNode.getLabel($locales),
+                                            caretNode instanceof Expression
                                                 ? new NodeRef(
-                                                      caretNodeParent
+                                                      caretNode
                                                           .getType(context)
                                                           .generalize(context),
                                                       $locales,
@@ -361,7 +313,7 @@
                                         ]) ?? ''}
                                     />
                                 </div>
-                                {#if relevantParentConcept}
+                                {#if relevantConcept}
                                     <div class="concept">
                                         <MarkupHTMLView
                                             inline
@@ -370,25 +322,83 @@
                                             )}
                                         />
                                         <ConceptLinkUI
-                                            link={relevantParentConcept}
+                                            link={relevantConcept}
                                             label={DOCUMENTATION_SYMBOL}
                                         />
                                     </div>
                                 {/if}
-                            {/if}
-                        </div>
-                    {:else}
-                        <MarkupHTMLView
-                            inline
-                            markup={$locales.get((l) => l.ui.annotations.space)}
-                        />
-                    {/if}
-                </svelte:fragment>
-            </Speech>
-            {#each Array.from(annotationsByNode.values()) as annotations, index}
-                <Annotation id={index} {annotations} />
-            {/each}
-        {/if}
+                                {#if adjustable}
+                                    <div class="tools">
+                                        <CommandButton
+                                            command={IncrementLiteral}
+                                            {sourceID}
+                                            background
+                                        />
+                                        <CommandButton
+                                            command={DecrementLiteral}
+                                            {sourceID}
+                                            background
+                                        />
+                                    </div>
+                                {/if}
+                                {#if caretNodeParent}
+                                    <div class="intro">
+                                        <MarkupHTMLView
+                                            inline
+                                            markup={docToMarkup(
+                                                $locales.get(
+                                                    (l) =>
+                                                        l.ui.annotations
+                                                            .cursorParent,
+                                                ),
+                                            ).concretize($locales, [
+                                                caretNodeParent.getLabel(
+                                                    $locales,
+                                                ),
+                                                caretNodeParent instanceof
+                                                Expression
+                                                    ? new NodeRef(
+                                                          caretNodeParent
+                                                              .getType(context)
+                                                              .generalize(
+                                                                  context,
+                                                              ),
+                                                          $locales,
+                                                          context,
+                                                      )
+                                                    : undefined,
+                                            ]) ?? ''}
+                                        />
+                                    </div>
+                                    {#if relevantParentConcept}
+                                        <div class="concept">
+                                            <MarkupHTMLView
+                                                inline
+                                                markup={$locales.get(
+                                                    (l) =>
+                                                        l.ui.annotations.learn,
+                                                )}
+                                            />
+                                            <ConceptLinkUI
+                                                link={relevantParentConcept}
+                                                label={DOCUMENTATION_SYMBOL}
+                                            />
+                                        </div>
+                                    {/if}
+                                {/if}
+                            </div>
+                        {:else}
+                            <MarkupHTMLView
+                                inline
+                                markup={$locales.get(
+                                    (l) => l.ui.annotations.space,
+                                )}
+                            />
+                        {/if}
+                    </svelte:fragment>
+                </Speech>
+            {/if}
+        </div>
     {:else}
         {#each annotations as annotation}
             <div class="annotation {annotation.kind}"></div>
@@ -427,6 +437,12 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
+    }
+
+    .annotations {
+        display: flex;
+        flex-direction: column;
         gap: var(--wordplay-spacing);
     }
 
