@@ -1,5 +1,4 @@
 import StreamValue from '@values/StreamValue';
-import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
@@ -21,6 +20,7 @@ import NoneType from '../nodes/NoneType';
 import MessageException from '../values/MessageException';
 import type ExceptionValue from '../values/ExceptionValue';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 /**
  * Webpage stream values can be one of three things:
@@ -67,16 +67,16 @@ export default class Webpage extends StreamValue<
     timeout: NodeJS.Timeout | undefined = undefined;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         url: string,
         query: string,
         frequency: number,
     ) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Webpage,
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Webpage,
             // Percent loaded starts at 0
-            new NumberValue(evaluator.project.shares.input.Webpage, 0),
+            new NumberValue(evaluation.getCreator(), 0),
             { url, response: 0 },
         );
 
@@ -355,7 +355,7 @@ export function createWebpageDefinition(locales: Locales) {
             Webpage,
             (evaluation) =>
                 new Webpage(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation.get(url.names, TextValue)?.text ?? '',
                     evaluation.get(query.names, TextValue)?.text ?? '',
                     evaluation.get(frequency.names, NumberValue)?.toNumber() ??

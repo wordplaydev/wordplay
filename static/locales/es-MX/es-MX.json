@@ -74,7 +74,7 @@
         "Code": "codigo",
         "Mention": "mencionar",
         "Otherwise": "si no",
-        "Match": "$?",
+        "Match": "$~fósforo",
         "None": "nada",
         "Type": "escribir",
         "Literal": "literal",
@@ -390,7 +390,7 @@
                         "primary": "alguien tiene el nombre $1, así que no puedo tener este nombre.",
                         "secondary": "eh, $1 es mi nombre"
                     },
-                    "resolution": "$?"
+                    "resolution": "$~Hay nombres duplicados, ¿quieres eliminar uno?"
                 },
                 "DuplicateShare": {
                     "primary": "tengo el mismo nombre que $1, lo que hace que lo compartido sea ambiguo",
@@ -604,7 +604,7 @@
                     "secondary": "No creo que pertenezca aquí"
                 },
                 "InputListMustBeLast": "la lista de inputs debe ir al final",
-                "SeparatedEvaluate": "$?"
+                "SeparatedEvaluate": "$~¿Es $1 el nombre de una $2[$structure|$function] que estás intentando evaluar? Intente eliminar el espacio después de mí, para saber que es un @Evaluate y no un @Block separado."
             },
             "exception": {
                 "FunctionException": {
@@ -614,11 +614,16 @@
             }
         },
         "Input": {
-            "name": "$?",
-            "description": "$?",
-            "emotion": "$?",
-            "doc": "$?",
-            "start": "$?"
+            "name": "$~Aporte",
+            "description": "$~entrada nombrada",
+            "emotion": "serious",
+            "doc": [
+                "$~Soy una entrada dada a un @Evaluate. Mi nombre corresponde al nombre de la entrada en @FunctionDefinition o @StructureDefinition que se está evaluando.",
+                "$~Soy útil con funciones que tienen muchos valores predeterminados, donde solo deseas anular una entrada específica, sin dar todo lo demás.",
+                "$~Por ejemplo, @Phrase tiene muchísimos valores predeterminados para controlar su estilo. Digamos que deseas agregar algo de @Text y @Color, pero nada más en su lista de entrada. Puedes usarme para hacer eso:",
+                "$~\\Phrase('¡Soy morado!' color: Color(50% 52 300°))\\"
+            ],
+            "start": "$~Evaluemos mi valor."
         },
         "ExpressionPlaceholder": {
             "name": "marcador de posición",
@@ -781,14 +786,21 @@
             }
         },
         "Match": {
-            "name": "$?",
+            "name": "$~fósforo",
             "emotion": "curious",
-            "doc": ["$?"],
-            "start": "$?",
-            "case": "$?",
-            "finish": "$?",
-            "value": "$?",
-            "other": "$?"
+            "doc": [
+                "$~¡Soy el más glorioso de todos los controles condicionales! Tomo un valor y lo comparo con cualquier número de casos, y evalúo la expresión correspondiente que coincide.",
+                "$~Por ejemplo, si tuviera un @Number y quisiera convertirlo en un @Text, podría hacer algo como esto:",
+                "$~\\Número 2\nnúmero ??? 1: 'uno' 2: 'dos' 3: 'tres' '¡más grande!'\\",
+                "$~Si ninguno coincide, evalúo la expresión predeterminada que me das.",
+                "$~Soy realmente útil para convertir uno de los muchos posibles @Number, @Text o valores más complejos en otra cosa.",
+                "$~Puedes usarlo para @Boolean o @None, pero en realidad no pueden ser tantas cosas, por lo que no soy tan útil para esos valores simples."
+            ],
+            "start": "$~Veamos qué es 1 dólar...",
+            "case": "$~Comprobemos esta condición.",
+            "finish": "$~Bien, ¡tenemos un valor final!",
+            "value": "$~valor",
+            "other": "$~por defecto"
         },
         "NumberLiteral": {
             "name": "número específico",
@@ -890,8 +902,8 @@
             "finish": "Copié la estructura, pero con $1 como $2",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$?",
-                    "secondary": "$?"
+                    "primary": "$~No soy un insumo de $1, por lo que no puedo ser refinado.",
+                    "secondary": "$~No tengo una entrada llamada $1"
                 }
             }
         },
@@ -1031,10 +1043,12 @@
             }
         },
         "StructureDefinitionType": {
-            "name": "$?",
-            "emotion": "$?",
-            "description": "$?",
-            "doc": ["$?"]
+            "name": "$~definición de estructura",
+            "emotion": "kind",
+            "description": "$~definicion de $1",
+            "doc": [
+                "$~Me refiero a algún tipo de @StructureDefinition. La gente no suele referirse a mí directamente."
+            ]
         },
         "TableLiteral": {
             "name": "tabla específica",
@@ -1063,7 +1077,7 @@
                 "address": "¿Es *$1* la dirección de la casa de alguien? Si es así, no me pongas aquí, ¡no queremos que nadie sea acosado!\n\n$2",
                 "handle": "¿Es *$1* tu nombre de usuario en algún otro lugar de Internet? Si es así, no me lo compartas aquí a menos que realmente lo desees.\n\n$2",
                 "resolution": "Esto no es información sensible",
-                "reminder": "$?"
+                "reminder": "$~Nota: Puedes deshacer esta acción y ver otras cosas que hayas marcado como no confidenciales en el cuadro de diálogo para compartir."
             }
         },
         "FormattedLiteral": {
@@ -1141,7 +1155,7 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": "@FunctionDefinition aquí, @UnparsableExpression no sabe qué tipo de $1[ expresión | tipo ] es esto/",
-                    "resolution": "$?"
+                    "resolution": "$~¿Quiso decir $1, $2?"
                 },
                 "UnclosedDelimiter": "Esperaba $2 en algún momento después de $1"
             },
@@ -1465,7 +1479,7 @@
                 },
                 "equals": {
                     "doc": "\\T\\ si los dos son \\T\\ or los dos son \\⊥\\.",
-                    "names": ["=", "igual "],
+                    "names": ["=", "igual"],
                     "inputs": [
                         {
                             "doc": "El otro valor para evaluar",
@@ -1547,7 +1561,7 @@
                 },
                 "equals": {
                     "doc": "\\T\\ so yo soy la misma sequencia de caracteres en el @Text dado",
-                    "names": ["=", "es igual"],
+                    "names": ["=", "igual"],
                     "inputs": [
                         {
                             "doc": "El @Text para comparar",
@@ -2062,8 +2076,11 @@
                     "inputs": []
                 },
                 "shuffled": {
-                    "doc": ["$?"],
-                    "names": "$? shuffle",
+                    "doc": [
+                        "$~Haz una nueva lista con los elementos del último ordenados aleatoriamente.",
+                        "$~\\['manzana' 'plátano' 'mango'].shuffled()\\"
+                    ],
+                    "names": "$~barajado",
                     "inputs": []
                 },
                 "first": {
@@ -2983,9 +3000,26 @@
             }
         },
         "Scene": {
-            "doc": "$?",
-            "names": "$? Scene",
-            "outputs": { "names": "$?", "doc": "$?" }
+            "doc": [
+                "$~/boop boop boop/",
+                "$~/¡Hola, @FunctionDefinition aquí! Veo que encontraste @Scene.",
+                "$~Creo que @Scene es particularmente interesante. La idea básica es que le proporciones una lista de @Phrase o @Group y luego los mostrará en secuencia y se detendrá en el último.",
+                "$~Para controlar el tiempo, puede configurar @Phrase/duration en cada salida, y la mostrará durante ese tiempo antes de pasar a la siguiente, y usar cualquier transición @Phrase/entering o @Phrase/exiting que haya configurado. . Si los configura en @Sequence, usará su duración.",
+                "$~Todo eso te permite hacer cosas como esta pequeña @Scene, que muestra estas tres frases en secuencia:",
+                "$~\\Escena([\n\tFrase (duración de 'Hola': 1 s)\n\tFrase('¿Cómo estás?' duración: 2s rotación: 5° entrando: Pose(rotación: 0°))\n\tFrase('Estoy bien')\n])\\",
+                "$~¿Ves cómo la primera salida se muestra durante un segundo, luego la siguiente durante dos segundos, pero animada con una rotación de cinco grados, y luego muestra la última?",
+                "$~Puedes crear secuencias muy elaboradas de resultados y animaciones con @Scene, e incluso hacer que partes de ellas sean dinámicas o interactivas, como con cualquier otro @Phrase o @Group.",
+                "$~Si tiene una salida animada anidada (un @Group con una @Phrase animada dentro), @Scene esperará a que finalice todo el contenido animado del @Group.",
+                "$~¡Ah, y un último pequeño secreto! Incluso puedes poner @Boolean en la lista, y si son \\⊥\\, @Scene se detendrá y esperará a que se haga realidad.",
+                "$~Por ejemplo, si quisieras hacer una secuencia de @Phrase y solo avanzar cuando @Button cambie, podrías hacer esto:",
+                "$~\\hacer clic: Botón ∆()\nEscena([\n\tFrase('Hola')\n\thacer clic\n\tFrase('¿Cómo estás?' duración: 0.25s rotación: 5° entrando: Pose(rotación: 0°))\n\thacer clic\n\tFrase('Estoy bien')\n])\\",
+                "$~¿Ves cómo se detiene después de cada @Phrase y espera a que @Button cambie antes de avanzar?"
+            ],
+            "names": ["$~🎬", "$~Escena"],
+            "outputs": {
+                "names": "$~salidas",
+                "doc": "$~La lista de salidas que se mostrarán en secuencia."
+            }
         },
         "Motion": {
             "doc": [
@@ -3290,8 +3324,8 @@
                 "names": "materia"
             },
             "aura": {
-                "doc": "$?",
-                "names": "$? aura"
+                "doc": "$~El @Aura opcional para mostrar detrás de mí. ¡Hazme brillar!",
+                "names": "$~aura"
             },
             "name": {
                 "doc": [
@@ -3500,8 +3534,8 @@
             }
         },
         "Form": {
-            "doc": "$?",
-            "names": ["$?"]
+            "doc": "$~Soy una forma abstracta, como @Rectangle o @Circle.",
+            "names": ["$~Forma"]
         },
         "Rectangle": {
             "names": "Rectángulo",
@@ -3528,47 +3562,47 @@
             }
         },
         "Circle": {
-            "doc": "$?",
-            "names": ["$? Circle"],
+            "doc": "$~Soy un círculo, útil para hacer formas en @Stage.",
+            "names": ["$~Círculo"],
             "radius": {
-                "doc": "$?",
-                "names": "$? radius"
+                "doc": "$~El radio del circulo",
+                "names": "$~radio"
             },
             "x": {
-                "doc": "$?",
-                "names": "$? x"
+                "doc": "$~El centro horizontal del círculo.",
+                "names": "$~X"
             },
             "y": {
-                "doc": "$?",
-                "names": "$? y"
+                "doc": "$~El centro vertical del círculo.",
+                "names": "$~y"
             },
             "z": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~La posición de profundidad del círculo.",
+                "names": "$~z"
             }
         },
         "Polygon": {
-            "doc": "$?",
-            "names": ["$?"],
+            "doc": "$~Soy un polígono 'regular' con lados y ángulos de igual longitud, útil para crear formas en @Stage.",
+            "names": ["$~Polígono"],
             "radius": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~El radio del polígono.",
+                "names": "$~radio"
             },
             "sides": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~El número de lados del polígono.",
+                "names": "$~lados"
             },
             "x": {
-                "doc": "$?",
-                "names": "$? x"
+                "doc": "$~El centro horizontal del polígono.",
+                "names": "$~X"
             },
             "y": {
-                "doc": "$?",
-                "names": "$? y"
+                "doc": "$~El centro vertical del polígono.",
+                "names": "$~y"
             },
             "z": {
-                "doc": "$?",
-                "names": "$?"
+                "doc": "$~La posición de profundidad del polígono.",
+                "names": "$~z"
             }
         },
         "Pose": {
@@ -3734,23 +3768,26 @@
             }
         },
         "Aura": {
-            "doc": "$?",
-            "names": "$? Aura",
+            "doc": [
+                "$~Soy un AURA. ¡Hago que @Phrase BRILLAR! Como esto:",
+                "$~\\Frase(\n\t'¡Estoy BRILLANDO!' \n\taura: Aura(Color(50% 100 118°) 0.1m 0m 0.1m\n)\\"
+            ],
+            "names": ["$~🔮", "$~Aura"],
             "color": {
-                "doc": "$?",
-                "names": "$? color"
+                "doc": "$~El @Color que debería ser el @Aura.",
+                "names": "$~color"
             },
             "blur": {
-                "doc": "$?",
-                "names": "$? blur"
+                "doc": "$~Qué borrosa debería estar la @Aura. \\0m\\ significa que no está nada borroso.",
+                "names": "$~difuminar"
             },
             "offsetX": {
-                "doc": "$?",
-                "names": "$? offsetX"
+                "doc": "$~Qué tan lejos a la izquierda o a la derecha debería aparecer. \\0m\\ está directamente debajo.",
+                "names": "$~compensaciónX"
             },
             "offsetY": {
                 "doc": "How far down the @Aura should go",
-                "names": "$? offset"
+                "names": "$~compensaciónY"
             }
         },
         "Stage": {
@@ -3885,8 +3922,8 @@
                 "names": ["aparecer"]
             },
             "fadeout": {
-                "doc": "$?",
-                "names": ["$?"]
+                "doc": "$~Creo una @Sequence que desvanece @Output de visible a invisible. ¡Pruébame en una @Sequence emocionante!",
+                "names": ["$~desvanecimiento"]
             },
             "popup": {
                 "doc": "Creo una @Sequence que hace que un @Output se agrande rápidamente y luego vuelva a su tamaño normal.",
@@ -3898,31 +3935,36 @@
             }
         },
         "Source": {
-            "names": "$? Source",
-            "doc": "$?",
+            "names": "$~Fuente",
+            "doc": [
+                "$~¿Sabes que los proyectos pueden tener más de un archivo @Source? Te dejo crear un @Source basado en la lógica de tu proyecto. Esto es realmente útil si desea guardar algunos datos entre diferentes evaluaciones de su proyecto.",
+                "$~Por ejemplo, imagina que quieres hacer un contador simple que cuente de uno en uno cada vez que presionas un botón del mouse. Puedes usar esto para recordar cuántas veces hiciste algo.",
+                "$~\\↓ contar\n[\n\tFrase(`\\count\\ veces!`)\n\tFuente('cuenta' cuenta... ∆ Botón()... cuenta + 1)\n]\\",
+                "$~Intente copiarlo, cree un nuevo @Source llamado /count/ y escriba 0 en él para comenzar el conteo en 0. Este pequeño proyecto obtendrá el valor en el /count/ source y cada vez que se presione el botón del mouse, editará el /count/ @Source debe ser el valor actual de /count/ más /1/."
+            ],
             "name": {
-                "names": "$? name",
-                "doc": "$?"
+                "names": "$~nombre",
+                "doc": "$~El nombre del archivo fuente que se creará o actualizará."
             },
             "value": {
-                "names": "$? value",
-                "doc": "$?"
+                "names": "$~valor",
+                "doc": "$~El valor de datos con el que se debe crear o actualizar el archivo de origen."
             },
             "DynamicEditLimitException": {
-                "description": "$?",
-                "explanation": "$?"
+                "description": "$~límite de edición de fuente dinámica",
+                "explanation": "$~Este proyecto guardó datos en archivos @Source demasiadas veces y demasiado rápido. Asegúrese de que solo actualice @Source en respuesta a una entrada y no demasiado rápido."
             },
             "ReadOnlyEditException": {
-                "description": "$?",
-                "explanation": "$?"
+                "description": "$~edición de fuente de solo lectura",
+                "explanation": "$~Este proyecto recuerda datos, pero no tienes derechos para editarlos. Cópialo si quieres probarlo."
             },
             "EmptySourceNameException": {
-                "description": "$?",
-                "explanation": "$?"
+                "description": "$~nombre de fuente vacío",
+                "explanation": "$~El @Source proporcionado tenía un nombre vacío, por lo que no pudimos guardarlo."
             },
             "ProjectSizeLimitException": {
-                "description": "$?",
-                "explanation": "$?"
+                "description": "$~límite de tamaño del proyecto",
+                "explanation": "$~Este proyecto tiene demasiado texto, por lo que no podemos guardarlo."
             }
         }
     },
@@ -3970,7 +4012,7 @@
         "project": {
             "error": {
                 "unknown": "Esta actuación no existe o no es pública.",
-                "translate": "$?"
+                "translate": "$~Hubo un problema al traducir tu proyecto."
             },
             "button": {
                 "showCollaborators": "mostrar a los colaboradores el diálogo",
@@ -3985,8 +4027,8 @@
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
                 "unsaved": "mostrar error de guardado",
-                "translate": "$?",
-                "primary": "$?"
+                "translate": "$~editar los idiomas de este proyecto y traducirlo a otros idiomas.",
+                "primary": "$~establecido como la ubicación principal de este proyecto"
             },
             "field": {
                 "name": {
@@ -3995,7 +4037,7 @@
                 }
             },
             "help": "mostrar atajos de teclado",
-            "collapsed": "$?",
+            "collapsed": "$~¡Todas tus ventanas están colapsadas! Puedes encontrarlos en la barra de herramientas a continuación.",
             "save": {
                 "projectsNotSavedLocally": "Hubo un problema al guardar proyectos en tu navegador.",
                 "projectsCannotNotSaveLocally": "Tu navegador no admite guardar proyectos.",
@@ -4007,18 +4049,22 @@
             "dialog": {
                 "unsaved": "Trabajo no salvado...",
                 "translate": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "$~Idiomas",
+                    "explanation": [
+                        "$~Estos son los idiomas que utiliza su proyecto.",
+                        "$~Para intentar traducir su proyecto a otros idiomas, elija un idioma de origen principal y luego elija un nuevo idioma.",
+                        "$~/No todos los idiomas son compatibles y las traducciones serán imperfectas, ¡así que revise los resultados!/"
+                    ]
                 }
             },
             "subheader": {
-                "source": "$?",
-                "destination": "$?"
+                "source": "$~Fuente",
+                "destination": "$~Destino"
             }
         },
         "gallery": {
             "untitled": "Intitulada",
-            "undescribed": "$?",
+            "undescribed": "$~Sin descripción",
             "subheader": {
                 "curators": {
                     "header": "Curadoras",
@@ -4106,8 +4152,8 @@
                 "nextInline": "mover el cursor a la posición después",
                 "lineStart": "mover el cursor al inicio de la línea",
                 "lineEnd": "mover el cursor al final de la línea",
-                "sourceStart": "$?",
-                "sourceEnd": "$?",
+                "sourceStart": "$~mover el cursor al inicio de la fuente",
+                "sourceEnd": "$~mover el cursor al final de la fuente",
                 "priorNode": "seleccionar vecina antes",
                 "nextNode": "seleccionar vecina después",
                 "parent": "seleccionar contenedor",
@@ -4148,13 +4194,13 @@
                 "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar",
                 "tidy": "espaciado ordenado",
-                "elide": "$?"
+                "elide": "$~alternar elisión"
             }
         },
         "annotations": {
             "label": "conflictos y ayuda",
             "cursor": "Esto es *$1*$2[ y son de tipo $2|].",
-            "cursorParent": "$?",
+            "cursorParent": "$~Están dentro de un *$1*$2[ de tipo $2|].",
             "learn": "¿Quieres aprender más?",
             "evaluating": "¡Oh, qué divertido, evaluemos!",
             "space": "¡Esto es espacio! ¿Quién sabía que nada podría decir tanto?",
@@ -4244,8 +4290,8 @@
                         "explanation": "Proyectos y galerías públicas pueden ser vistos por cualquier persona en el mundo. Nuestra meta es que este contenido traiga afirmación y alegría, y compartir públicamente es una manera de lograrlo. Pero también implica seguir algunas reglas. Prometes que tu proyecto no:"
                     },
                     "pii": {
-                        "header": "$?",
-                        "explanation": "$?"
+                        "header": "$~Informacion personal",
+                        "explanation": "$~Compartir información de identificación personal (PII) públicamente puede poner en riesgo a los creadores, por lo que detectamos posibles PII y advertimos a los creadores que eliminen los datos confidenciales o los marquen como no confidenciales.\n\nA continuación se muestra una lista de posibles PII en este proyecto que ha marcado como no confidencial. Puedes hacer clic en el botón al lado para volver a marcarlo como confidencial, pero hacerlo significa que tu proyecto ya no se guardará en línea."
                     }
                 },
                 "field": {
@@ -4267,8 +4313,8 @@
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico",
                     "sensitive": {
-                        "tip": "$?",
-                        "label": "$?"
+                        "tip": "$~Marcar este texto como sensible nuevamente",
+                        "label": "$~sensible"
                     }
                 },
                 "options": {
@@ -4451,7 +4497,7 @@
                 "link": {
                     "about": "¿Por qué existe este lugar?",
                     "learn": "Un tutorial dramático de elenco de personajes ",
-                    "guide": "$?",
+                    "guide": "$~Buscar y explorar la referencia del idioma.",
                     "projects": "Crea y comparte actuaciones",
                     "galleries": "Experimenta actuaciones de otros",
                     "rights": "Responsabilidades, las nuestras y las tuyas",
@@ -4477,8 +4523,8 @@
                 }
             },
             "guide": {
-                "header": "$?",
-                "description": "$?"
+                "header": "$~Guía",
+                "description": "$~Esta es una referencia para cada parte del lenguaje de programación Wordplay. Busque un concepto o explore la lista para obtener más información."
             },
             "projects": {
                 "header": "Proyectos",
@@ -4488,13 +4534,13 @@
                 "galleriesheader": "Galerías",
                 "galleryprompt": "Crea y cura galerías para compartir una colección de proyectos con otros.",
                 "add": {
-                    "header": "$?",
-                    "explanation": "$?"
+                    "header": "$~Nuevo proyecto",
+                    "explanation": "$~Elija una plantilla para crear un nuevo proyecto."
                 },
                 "button": {
                     "newproject": "nuevo proyecto",
                     "editproject": "editar este proyecto",
-                    "viewcode": "$?",
+                    "viewcode": "$~ver el código de este proyecto",
                     "newgallery": "nueva galería",
                     "unarchive": "desarchivar este proyecto"
                 },
@@ -4566,7 +4612,7 @@
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
                     "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
                     "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
-                    "tooMany": "$?"
+                    "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo."
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",

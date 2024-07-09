@@ -365,7 +365,10 @@ export default class FunctionDefinition extends DefinitionExpression {
 
     /** Functions have no dependencies; once they are defined, they cannot change what they evaluate to. */
     getDependencies(): Expression[] {
-        return this.expression !== undefined ? [this.expression] : [];
+        return [
+            ...this.inputs,
+            ...(this.expression !== undefined ? [this.expression] : []),
+        ];
     }
 
     /** Functions are not constant because they encapsulate a closure each time they are evaluated. */

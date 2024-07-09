@@ -19,6 +19,7 @@
     export let token = false;
     export let focusAfter = false;
     export let background = false;
+    export let padding = false;
 
     const editors = getEditors();
     const context = getProjectCommandContext();
@@ -43,6 +44,7 @@
     bind:view
     uiid={command.uiid}
     {active}
+    {padding}
     action={async () => {
         const hadFocus = view !== undefined && document.activeElement === view;
 

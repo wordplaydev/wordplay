@@ -23,6 +23,7 @@
 
 <Background />
 <Writing home>
+    <Beta />
     <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
     <Lead></Lead>
     <div class="welcome">
@@ -83,7 +84,6 @@
         </Action>
     </div>
     <div class="details" slot="footer">
-        <Beta />
         <div class="links">
             <div class="column">
                 <BigLink

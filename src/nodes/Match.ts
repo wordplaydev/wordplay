@@ -131,6 +131,10 @@ export default class Match extends Expression {
         ) as this;
     }
 
+    hasBranch(expr: Expression) {
+        return this.value === expr;
+    }
+
     getPurpose() {
         return Purpose.Decide;
     }

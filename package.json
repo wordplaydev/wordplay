@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.10.3",
+    "version": "0.10.4",
     "scripts": {
         "postinstall": "run-script-os",
         "postinstall:default": "svelte-kit sync && cp .env.template .env",
@@ -47,6 +47,7 @@
         }
     },
     "devDependencies": {
+        "@google-cloud/translate": "^8.3.0",
         "@playwright/test": "^1.40.1",
         "@sveltejs/adapter-static": "^3.0.1",
         "@sveltejs/kit": "^2.5.5",

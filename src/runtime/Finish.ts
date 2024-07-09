@@ -3,6 +3,7 @@ import Step from './Step';
 import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
 import type Locales from '../locale/Locales';
+import { shouldSkip } from './Start';
 
 export default class Finish extends Step {
     constructor(node: Expression) {
@@ -17,14 +18,14 @@ export default class Finish extends Step {
         return this.node.getFinishExplanations(
             locales,
             evaluator.project.getNodeContext(this.node),
-            evaluator
+            evaluator,
         );
     }
 }
 
 export function finish(evaluator: Evaluator, expr: Expression) {
-    // If there's a prior value and we're either in the past or this is constant, reuse the value.
-    if (!evaluator.isInPast() && evaluator.project.isConstant(expr)) {
+    // Not in the past and the expression is either constant or not dependent on recenlty changed streams? Reuse the prior value.
+    if (shouldSkip(evaluator, expr)) {
         const priorValue = evaluator.getLatestExpressionValue(expr);
         if (priorValue !== undefined) {
             // Evaluate any side effects

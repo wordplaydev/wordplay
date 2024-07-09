@@ -32,6 +32,17 @@ export default abstract class Expression extends Node {
         return false;
     }
 
+    /** True if expression is internal and should never be memoized */
+    isInternal() {
+        return false;
+    }
+
+    /** True if the given node determines branching on this node */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    hasBranch(_: Expression) {
+        return false;
+    }
+
     /** True if binary operations can be applied to this without wrapping it in parentheses */
 
     abstract computeType(context: Context): Type;

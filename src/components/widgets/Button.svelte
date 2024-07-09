@@ -84,11 +84,13 @@
         padding: 0;
         border: none;
         background: none;
-        color: currentcolor;
+        border-radius: var(--wordplay-border-radius);
+        color: currentColor;
         cursor: pointer;
         min-width: 1em;
         width: fit-content;
         height: fit-content;
+        min-height: 1em;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
         /* This allows command hints to be visible */
@@ -99,7 +101,8 @@
     }
 
     .padding {
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding-left: calc(var(--wordplay-spacing) / 2);
+        padding-right: calc(var(--wordplay-spacing) / 2);
     }
 
     button.stretch {
@@ -115,18 +118,15 @@
 
     button:focus {
         background: var(--wordplay-focus-color);
-        border-radius: var(--wordplay-border-radius);
         color: var(--wordplay-background);
         fill: var(--wordplay-background);
     }
 
     button:hover:not(:focus)[aria-disabled='false'] {
         background: var(--wordplay-alternating-color);
-        border-radius: var(--wordplay-border-radius);
     }
 
     :global(button:focus .token-view) {
-        border-radius: var(--wordplay-border-radius);
         color: var(--wordplay-background);
     }
 
@@ -135,8 +135,11 @@
     }
 
     .background {
+        color: var(--wordplay-foreground);
         background: var(--wordplay-alternating-color);
-        border-radius: var(--wordplay-border-radius);
+    }
+
+    .background.padding {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }

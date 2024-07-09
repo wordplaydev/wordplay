@@ -48,7 +48,7 @@
     onMount(() => (mounted = true));
 
     $: foreground =
-        background instanceof Color ? background.complement().toCSS() : null;
+        background instanceof Color ? background.contrasting().toCSS() : null;
 
     const dispatch = createEventDispatcher();
 
@@ -204,6 +204,8 @@
         <div class="header" style:color={foreground} style:fill={foreground}>
             {#if !layout.isFullscreen()}
                 <Button
+                    background={background !== null}
+                    padding={false}
                     tip={$locales.get((l) => l.ui.tile.button.collapse)}
                     action={() => dispatch('mode', { mode: Mode.Collapsed })}
                     >–</Button
@@ -212,6 +214,7 @@
             <Toggle
                 tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
                 on={fullscreen}
+                background={background !== null}
                 toggle={() =>
                     dispatch('fullscreen', {
                         fullscreen: !fullscreen,

@@ -2,6 +2,7 @@ import type Names from '../nodes/Names';
 import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
 import type Locale from './Locale';
+import { isUnwritten } from './Locale';
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
@@ -57,18 +58,18 @@ export default class Locales {
             .map((l) => accessor(l))
             .find((text) => {
                 // Placeholder string? Don't choose this one.
-                if (typeof text === 'string') return !text.startsWith('$?');
+                if (typeof text === 'string') return !isUnwritten(text);
                 // Array of strings that starts with a placeholder string?
                 else if (
                     Array.isArray(text) &&
                     typeof text[0] === 'string' &&
-                    !text[0].startsWith('$?')
+                    !isUnwritten(text[0])
                 )
                     return true;
                 // Object of strings by key? See if any of the values have placeholders
                 else if (text !== null && typeof text === 'object')
                     return !Object.values(text).some(
-                        (t) => typeof t === 'string' && t.startsWith('$?'),
+                        (t) => typeof t === 'string' && isUnwritten(t),
                     );
                 // Otherwise, just choose it
                 else return true;

@@ -1,5 +1,4 @@
 import StreamValue from '@values/StreamValue';
-import type Evaluator from '@runtime/Evaluator';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
@@ -8,14 +7,15 @@ import TextValue from '../values/TextValue';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 export default class Chat extends StreamValue<TextValue, string> {
-    constructor(evaluator: Evaluator) {
+    constructor(evaluation: Evaluation) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Chat,
-            new TextValue(evaluator.getMain(), ''),
-            ''
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Chat,
+            new TextValue(evaluation.getCreator(), ''),
+            '',
         );
     }
 
@@ -48,9 +48,9 @@ export function createChatDefinition(locales: Locales) {
         createStreamEvaluator(
             TextType.make(),
             Chat,
-            (evaluation) => new Chat(evaluation.getEvaluator()),
-            (stream) => stream.configure()
+            (evaluation) => new Chat(evaluation),
+            (stream) => stream.configure(),
         ),
-        TextType.make()
+        TextType.make(),
     );
 }

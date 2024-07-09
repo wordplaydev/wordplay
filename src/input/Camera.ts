@@ -1,4 +1,3 @@
-import type Evaluator from '@runtime/Evaluator';
 import TemporalStreamValue from '../values/TemporalStreamValue';
 import StreamDefinition from '../nodes/StreamDefinition';
 import { getDocLocales } from '../locale/getDocLocales';
@@ -21,6 +20,7 @@ import type StructureDefinition from '../nodes/StructureDefinition';
 import type Names from '../nodes/Names';
 import type Value from '../values/Value';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 type CameraConfig = {
     stream: MediaStream;
@@ -47,16 +47,16 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
     stopped = false;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         width: number,
         height: number,
-        frequency: number
+        frequency: number,
     ) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Camera,
-            Camera.createFrame(evaluator.getMain(), []),
-            []
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Camera,
+            Camera.createFrame(evaluation.getCreator(), []),
+            [],
         );
 
         this.width = width;
@@ -77,21 +77,21 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
                 // Lightness
                 bindings.set(
                     ColorType.inputs[0].names,
-                    new NumberValue(this.creator, color.l)
+                    new NumberValue(this.creator, color.l),
                 );
                 // Chroma
                 bindings.set(
                     ColorType.inputs[1].names,
-                    new NumberValue(this.creator, color.c)
+                    new NumberValue(this.creator, color.c),
                 );
                 // Hue
                 bindings.set(
                     ColorType.inputs[2].names,
-                    new NumberValue(this.creator, color.h)
+                    new NumberValue(this.creator, color.h),
                 );
                 // Convert it to a Color value.
                 return createStructure(this.evaluator, ColorType, bindings);
-            })
+            }),
         );
 
         // Add the frame to the stream
@@ -125,7 +125,7 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
                     0,
                     0,
                     this.width,
-                    this.height
+                    this.height,
                 );
                 // Read the image
                 const image = context.getImageData(
@@ -133,7 +133,7 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
                     0,
                     this.width,
                     this.height,
-                    { colorSpace: 'srgb' }
+                    { colorSpace: 'srgb' },
                 );
 
                 // Translate the rows into a 2D array of colors
@@ -173,11 +173,11 @@ export default class Camera extends TemporalStreamValue<ListValue, RawFrame> {
 
     static createFrame(
         creator: Expression,
-        colors: StructureValue[][]
+        colors: StructureValue[][],
     ): ListValue {
         return new ListValue(
             creator,
-            colors.map((row) => new ListValue(creator, row))
+            colors.map((row) => new ListValue(creator, row)),
         );
     }
 
@@ -300,34 +300,34 @@ const DEFAULT_HEIGHT = 32;
 
 export function createCameraDefinition(
     locales: Locales,
-    ColorType: StructureDefinition
+    ColorType: StructureDefinition,
 ) {
     const frameType = ListType.make(
-        ListType.make(new StructureType(ColorType))
+        ListType.make(new StructureType(ColorType)),
     );
 
     const WidthBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Camera.width.doc),
         getNameLocales(locales, (locale) => locale.input.Camera.width.names),
         UnionType.make(NumberType.make(Unit.reuse(['px'])), NoneType.make()),
-        NumberLiteral.make(DEFAULT_WIDTH, Unit.reuse(['px']))
+        NumberLiteral.make(DEFAULT_WIDTH, Unit.reuse(['px'])),
     );
 
     const HeightBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Camera.height.doc),
         getNameLocales(locales, (locale) => locale.input.Camera.height.names),
         UnionType.make(NumberType.make(Unit.reuse(['px'])), NoneType.make()),
-        NumberLiteral.make(DEFAULT_HEIGHT, Unit.reuse(['px']))
+        NumberLiteral.make(DEFAULT_HEIGHT, Unit.reuse(['px'])),
     );
 
     const FrequencyBind = Bind.make(
         getDocLocales(locales, (locale) => locale.input.Camera.frequency.doc),
         getNameLocales(
             locales,
-            (locale) => locale.input.Camera.frequency.names
+            (locale) => locale.input.Camera.frequency.names,
         ),
         UnionType.make(NumberType.make(Unit.reuse(['ms'])), NoneType.make()),
-        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms']))
+        NumberLiteral.make(DEFAULT_FREQUENCY, Unit.reuse(['ms'])),
     );
 
     return StreamDefinition.make(
@@ -339,14 +339,14 @@ export function createCameraDefinition(
             Camera,
             (evaluation) =>
                 new Camera(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation.get(WidthBind.names, NumberValue)?.toNumber() ??
                         DEFAULT_FREQUENCY,
                     evaluation.get(HeightBind.names, NumberValue)?.toNumber() ??
                         DEFAULT_WIDTH,
                     evaluation
                         .get(FrequencyBind.names, NumberValue)
-                        ?.toNumber() ?? DEFAULT_HEIGHT
+                        ?.toNumber() ?? DEFAULT_HEIGHT,
                 ),
             (stream, evaluation) => {
                 stream.frequency =
@@ -359,8 +359,8 @@ export function createCameraDefinition(
                     evaluation
                         .get(FrequencyBind.names, NumberValue)
                         ?.toNumber() ?? DEFAULT_FREQUENCY;
-            }
+            },
         ),
-        frameType.clone()
+        frameType.clone(),
     );
 }

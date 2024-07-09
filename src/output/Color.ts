@@ -37,12 +37,12 @@ export default class Color extends Valued {
         this.hue = h;
     }
 
-    complement() {
+    contrasting() {
         return new Color(
             this.value,
-            new Decimal(1).sub(this.lightness),
-            this.chroma,
-            new Decimal(360).sub(this.hue)
+            new Decimal(this.lightness.greaterThan(0.5) ? 0 : 1),
+            new Decimal(100),
+            new Decimal(0),
         );
     }
 
@@ -58,7 +58,7 @@ export default class Color extends Valued {
                 this.chroma.toNumber(),
                 this.hue.toNumber(),
             ],
-            1
+            1,
         );
         return color.to('srgb').toString();
         // We should be able to return a direct LCH value, but Safari doesn't handle CSS opacity on LCH colors of symbols well.
@@ -79,7 +79,7 @@ export function createColorLiteral(
     locales: Locales,
     lightness: number,
     chroma: number,
-    hue: number
+    hue: number,
 ) {
     const ColorType = project.shares.output.Color;
     return Evaluate.make(
@@ -88,7 +88,7 @@ export function createColorLiteral(
             NumberLiteral.make(lightness),
             NumberLiteral.make(chroma),
             NumberLiteral.make(hue, Unit.reuse(['°'])),
-        ]
+        ],
     );
 }
 

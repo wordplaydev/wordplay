@@ -367,7 +367,10 @@ export default class Project {
                         }
                     }
                 }
+            }
 
+            // Now create the dependency graph using the call graph.
+            for (const node of source.nodes()) {
                 // Build the dependency graph by asking each expression node for its dependencies.
                 // Determine whether the node is constant.
                 if (node instanceof Expression) {

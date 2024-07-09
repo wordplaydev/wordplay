@@ -1,4 +1,3 @@
-import type Evaluator from '@runtime/Evaluator';
 import TemporalStreamValue from '../values/TemporalStreamValue';
 import type Expression from '../nodes/Expression';
 import Bind from '../nodes/Bind';
@@ -17,6 +16,7 @@ import type Locales from '../locale/Locales';
 import BooleanType from '@nodes/BooleanType';
 import BooleanLiteral from '@nodes/BooleanLiteral';
 import BoolValue from '@values/BoolValue';
+import type Evaluation from '@runtime/Evaluation';
 
 const DEFAULT_FREQUENCY = 33;
 
@@ -27,14 +27,14 @@ export default class Time extends TemporalStreamValue<NumberValue, number> {
     lastTime: DOMHighResTimeStamp | undefined = undefined;
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         frequency: number = DEFAULT_FREQUENCY,
         relative: boolean,
     ) {
         super(
-            evaluator,
-            evaluator.project.shares.input.Time,
-            new NumberValue(evaluator.getMain(), 0, Unit.reuse(['ms'])),
+            evaluation,
+            evaluation.getEvaluator().project.shares.input.Time,
+            new NumberValue(evaluation.getCreator(), 0, Unit.reuse(['ms'])),
             0,
         );
         this.frequency = frequency;
@@ -121,7 +121,7 @@ export function createTimeType(locale: Locales) {
             Time,
             (evaluation) =>
                 new Time(
-                    evaluation.getEvaluator(),
+                    evaluation,
                     evaluation
                         .get(FrequencyBind.names, NumberValue)
                         ?.toNumber(),

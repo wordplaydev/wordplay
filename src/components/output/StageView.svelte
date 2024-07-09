@@ -332,7 +332,7 @@
         style:background={background ? stage.back.toCSS() : null}
         style:color={getColorCSS(stage.getFirstRestPose(), stage.pose)}
         style:opacity={getOpacityCSS(stage.getFirstRestPose(), stage.pose)}
-        style:--grid-color={stage.back.complement().toCSS()}
+        style:--grid-color={stage.back.contrasting().toCSS()}
         bind:this={view}
     >
         <!-- Render the stage -->

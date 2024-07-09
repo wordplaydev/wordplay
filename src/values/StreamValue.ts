@@ -10,6 +10,7 @@ import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
 import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
+import type Evaluation from '@runtime/Evaluation';
 
 export const MAX_STREAM_LENGTH = 256;
 
@@ -35,14 +36,14 @@ export default abstract class StreamValue<
     ) => void)[] = [];
 
     constructor(
-        evaluator: Evaluator,
+        evaluation: Evaluation,
         definition: StreamDefinition,
         initalValue: ValueType,
         initialRaw: Raw,
     ) {
-        super(evaluator.getMain());
+        super(evaluation.getCreator());
 
-        this.evaluator = evaluator;
+        this.evaluator = evaluation.getEvaluator();
         this.definition = definition;
 
         this.add(initalValue, initialRaw);

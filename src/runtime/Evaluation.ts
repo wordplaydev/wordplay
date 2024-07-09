@@ -152,6 +152,13 @@ export default class Evaluation {
         return this.#definition;
     }
 
+    isFunction() {
+        return (
+            this.#definition instanceof FunctionDefinition ||
+            this.#definition instanceof StructureDefinition
+        );
+    }
+
     getClosure() {
         return this.#closure;
     }
