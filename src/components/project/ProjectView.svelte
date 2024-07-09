@@ -1360,6 +1360,8 @@
                                         ></CopyButton>{/if}
                                     {#if showOutput || requestedPlay}<Button
                                             uiid="editProject"
+                                            background
+                                            padding={false}
                                             tip={$locales.get(
                                                 (l) =>
                                                     l.ui.page.projects.button
@@ -1368,12 +1370,16 @@
                                             action={() => stopPlaying()}
                                             ><Emoji>👁️</Emoji></Button
                                         >{/if}
-                                    <CommandButton command={Restart} />
+                                    <CommandButton
+                                        background
+                                        command={Restart}
+                                    />
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting
                                             bind:painting
                                         />{/if} -->
                                     <Toggle
+                                        background
                                         tips={$locales.get(
                                             (l) => l.ui.output.toggle.grid,
                                         )}
@@ -1381,6 +1387,7 @@
                                         toggle={() => (grid = !grid)}
                                         ><Emoji>▦</Emoji></Toggle
                                     ><Toggle
+                                        background
                                         tips={$locales.get(
                                             (l) => l.ui.output.toggle.fit,
                                         )}

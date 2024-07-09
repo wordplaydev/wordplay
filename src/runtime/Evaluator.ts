@@ -1557,7 +1557,6 @@ export default class Evaluator {
                             }
                             return false;
                         });
-                    console.log(branchingAncestors);
                     for (const branch of branchingAncestors) {
                         for (const affected of branch
                             .nodes()

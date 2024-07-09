@@ -11,6 +11,7 @@
     export let active = true;
     export let uiid: string | undefined = undefined;
     export let command: Command | undefined = undefined;
+    export let background = false;
 
     async function doToggle(event: Event) {
         if (active) {
@@ -30,6 +31,7 @@
 -->
 <button
     type="button"
+    class:background
     data-uiid={uiid}
     class:on
     {title}
@@ -55,7 +57,6 @@
         user-select: none;
         border: none;
         border-radius: var(--wordplay-border-radius);
-        background: none;
         color: currentColor;
         stroke: currentColor;
         fill: var(--wordplay-background);
@@ -75,8 +76,12 @@
         position: relative;
     }
 
+    .background {
+        background: var(--wordplay-alternating-color);
+        color: var(--wordplay-foreground);
+    }
+
     button.on {
-        background-color: var(--wordplay-alternating-color);
         color: var(--wordplay-foreground);
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
@@ -86,7 +91,6 @@
 
     button:hover {
         transform: scale(1.1);
-        background: var(--wordplay-alternating-color);
     }
 
     [aria-disabled='true'] {

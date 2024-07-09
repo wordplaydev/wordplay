@@ -83,9 +83,9 @@
         user-select: none;
         padding: 0;
         border: none;
-        background: var(--wordplay-background);
+        background: none;
         border-radius: var(--wordplay-border-radius);
-        color: currentcolor;
+        color: currentColor;
         cursor: pointer;
         min-width: 1em;
         width: fit-content;
@@ -136,6 +136,9 @@
 
     .background {
         background: var(--wordplay-alternating-color);
+    }
+
+    .background.padding {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
