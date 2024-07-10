@@ -22,8 +22,7 @@ export default function parseProgram(tokens: Tokens, doc = false): Program {
 
     const block = parseBlock(tokens, BlockKind.Root, doc);
 
-    // If the next token is the end, we're done! Otherwise, read all of the remaining
-    // tokens and bundle them into an unparsable.
+    // If the next token is the end, we're done!
     const end = tokens.nextIsEnd() ? tokens.read(Sym.End) : undefined;
 
     return new Program(docs, borrows, block, end);

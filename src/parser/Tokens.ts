@@ -45,7 +45,7 @@ export default class Tokens {
     }
 
     peekUnread() {
-        return this.#unread;
+        return this.#unread.slice();
     }
 
     /** Returns true if the token list isn't empty. */
