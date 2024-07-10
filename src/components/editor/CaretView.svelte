@@ -457,10 +457,21 @@
             const editorVerticalStart = editorPadding + 4;
 
             // Find the right side of token just prior to the current one that has this space.
-            const priorToken = caret.source.getNextToken(token, -1);
-            const priorTokenView = priorToken
-                ? getNodeView(priorToken)
-                : undefined;
+            let priorToken: Token | undefined = token;
+            let priorTokenView: Element | null = null;
+            do {
+                priorToken = caret.source.getNextToken(priorToken, -1);
+                priorTokenView = priorToken ? getNodeView(priorToken) : null;
+                // We need to make sure the prior token is visible. If we found a visible one,
+                // then stop and compute based on that position.
+                if (
+                    priorToken === undefined ||
+                    (priorTokenView !== null &&
+                        !priorTokenView.classList.contains('hide'))
+                )
+                    break;
+            } while (true);
+
             const priorTokenViewRect = priorTokenView?.getBoundingClientRect();
             let priorTokenHorizontalEnd =
                 priorTokenViewRect === undefined
