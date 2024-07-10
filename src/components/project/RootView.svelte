@@ -67,7 +67,7 @@
     $: {
         const newHidden = new Set<Node>();
 
-        if ($localize) {
+        if ($localize !== 'actual') {
             // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
             // Also hide any name separators if the first visible name has one.
             for (const tagged of node
