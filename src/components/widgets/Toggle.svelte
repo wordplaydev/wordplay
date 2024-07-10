@@ -57,6 +57,7 @@
         user-select: none;
         border: none;
         border-radius: var(--wordplay-border-radius);
+        background: var(--wordplay-alternating-color);
         color: currentColor;
         stroke: currentColor;
         fill: var(--wordplay-background);
