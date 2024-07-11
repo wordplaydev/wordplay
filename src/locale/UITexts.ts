@@ -602,6 +602,8 @@ type UITexts = {
                 writing: ModeText<[string, string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
+                /** The line number on/off mode */
+                lines: ModeText<[string, string]>;
                 /** The localized none/localized/symbolic mode */
                 localized: ModeText<[string, string, string]>;
             };

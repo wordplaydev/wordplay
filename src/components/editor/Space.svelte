@@ -6,6 +6,7 @@
     import type { InsertionPoint } from '../../edit/Drag';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
     import { spaceIndicator } from '../../db/Database';
+    import { showLines } from '../../db/Database';
 
     export let token: Token;
     export let space: string;
@@ -40,7 +41,6 @@
         line !== undefined
             ? line - beforeSpacesByLine.length - afterSpacesByLine.length + 1
             : undefined;
-    $: showLines = true;
 </script>
 
 <!-- 
@@ -58,7 +58,7 @@
                 data-uiid="space"
             >
                 <span role="none" class="before"
-                    >{#if first && showLines}<div class="line-number">1</div
+                    >{#if first && $showLines}<div class="line-number">1</div
                         >{/if}{#each beforeSpacesByLine as s, index}{#if index > 0}<span
                                 ><br
                                     class="break"
@@ -75,7 +75,7 @@
                     >{#each afterSpacesByLine as s, index}{#if index > 0}<span
                                 ><br
                                     class="break"
-                                />{#if showLines && firstLine !== undefined}<div
+                                />{#if $showLines && firstLine !== undefined}<div
                                         class="line-number"
                                         >{firstLine +
                                             beforeSpacesByLine.length +

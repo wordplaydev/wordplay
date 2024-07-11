@@ -4391,6 +4391,13 @@
                             "do not show space and tab indicators"
                         ]
                     },
+                    "lines": {
+                        "label": "line numbers",
+                        "modes": [
+                            "show line numbers in text mode",
+                            "do not show line numbers in text mode"
+                        ]
+                    },
                     "writing": {
                         "label": "writing layout",
                         "modes": [

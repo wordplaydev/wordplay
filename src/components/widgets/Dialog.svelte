@@ -74,7 +74,7 @@
 
     dialog::backdrop {
         transition: backdrop-filter;
-        backdrop-filter: blur(10px);
+        backdrop-filter: blur(2px);
     }
 
     .close {

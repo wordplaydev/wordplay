@@ -4374,6 +4374,13 @@
                             "localizar el código cuando esté disponible",
                             "localizar el código pero preferir símbolos"
                         ]
+                    },
+                    "lines": {
+                        "label": "$~Línea de números",
+                        "modes": [
+                            "$~mostrar números de línea en modo texto",
+                            "$~no mostrar números de línea en modo texto"
+                        ]
                     }
                 },
                 "options": {

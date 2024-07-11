@@ -294,13 +294,17 @@ function getKeyTemplatePairs(
             pairs.push(new StringPath(path, key, value));
         else if (
             typeof value === 'object' &&
+            value !== undefined &&
             value !== null &&
             !Array.isArray(value)
         )
             getKeyTemplatePairs(value, pairs, [...path, key]);
         else if (Array.isArray(value)) {
-            for (let index = 0; index < value.length; index++)
-                getKeyTemplatePairs(value[index], pairs, [...path, key, index]);
+            for (let index = 0; index < value.length; index++) {
+                const element = value[index];
+                if (element)
+                    getKeyTemplatePairs(element, pairs, [...path, key, index]);
+            }
         }
     }
     return pairs;

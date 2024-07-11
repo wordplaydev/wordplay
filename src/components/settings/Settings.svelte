@@ -10,6 +10,7 @@
         Settings,
         dark,
         spaceIndicator,
+        showLines,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import Options from '../widgets/Options.svelte';
@@ -199,10 +200,21 @@
                 descriptions={$locales.get(
                     (l) => l.ui.dialog.settings.mode.space,
                 )}
-                choice={$spaceIndicator === false ? 1 : 0}
+                choice={$spaceIndicator ? 1 : 0}
                 select={(choice) =>
-                    Settings.setSpace(choice === 0 ? true : false)}
-                modes={['✓', '✗']}
+                    Settings.setSpace(choice === 1 ? true : false)}
+                modes={['✗', '✓']}
+            />
+        </p>
+        <p
+            ><Mode
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.lines,
+                )}
+                choice={$showLines ? 1 : 0}
+                select={(choice) =>
+                    Settings.setLines(choice === 1 ? true : false)}
+                modes={['✗', '✓']}
             />
         </p>
     </Dialog>
