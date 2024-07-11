@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   [#514](https://github.com/wordplaydev/wordplay/issues/514) Fixed cursor position on hidden language tags.
 -   Fixed parsing bug that prevented complete parsing of the program.
+-   Fixed reactivity dependency bug that included evaluates in branch dependencies.
 
 ## 0.10.4 2024-07-08
 

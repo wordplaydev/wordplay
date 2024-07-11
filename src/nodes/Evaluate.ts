@@ -739,10 +739,6 @@ export default class Evaluate extends Expression {
         return false;
     }
 
-    hasBranch(expr: Expression) {
-        return this.fun === expr || this.inputs.includes(expr);
-    }
-
     compile(evaluator: Evaluator, context: Context): Step[] {
         // To compile an evaluate, we need to compile all of the given and default values in
         // order of the function's declaration. This requires getting the function/structure definition
