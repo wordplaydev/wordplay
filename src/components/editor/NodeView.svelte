@@ -76,8 +76,8 @@
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
     {#if !hide && firstToken && spaceRoot === node}<Space
             token={firstToken}
-            first={$spaces.isFirst(firstToken)}
-            line={$spaces.getLineNumber(firstToken)}
+            first={$blocks ? undefined : $spaces.isFirst(firstToken)}
+            line={$blocks ? undefined : $spaces.getLineNumber(firstToken)}
             {space}
             insertion={$insertion?.token === firstToken
                 ? $insertion
