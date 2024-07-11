@@ -62,6 +62,7 @@ import Spread from '../nodes/Spread';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
 import Input from '@nodes/Input';
+import type Token from '@nodes/Token';
 
 export function toExpression(code: string): Expression {
     return parseExpression(toTokens(code));
@@ -128,12 +129,23 @@ export function parseBlock(
             ((root && !doc) ||
                 (!root && !doc && tokens.nextIsnt(Sym.EvalClose)) ||
                 (doc && tokens.nextIsnt(Sym.Code))),
-        () =>
-            statements.push(
-                nextIsBind(tokens, true)
-                    ? parseBind(tokens)
-                    : parseExpression(tokens),
-            ),
+        () => {
+            const next = nextIsBind(tokens, true)
+                ? parseBind(tokens)
+                : parseExpression(tokens);
+            statements.push(next);
+            // Did we get an unparsable expression with no tokens? Read until we get to the block close or the end of the
+            // program. If we don't do this, the we will stop reading statements and will not parse the remainder of the program.
+            if (
+                next instanceof UnparsableExpression &&
+                next.unparsables.length === 0
+            ) {
+                const unparsed: Token[] = [];
+                while (tokens.hasNext() && tokens.nextIsnt(Sym.EvalClose))
+                    unparsed.push(tokens.read());
+                statements.push(new UnparsableExpression(unparsed));
+            }
+        },
     );
 
     const close = root
