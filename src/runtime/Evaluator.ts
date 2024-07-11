@@ -1550,9 +1550,9 @@ export default class Evaluator {
                         .getAncestors(streamNode)
                         .filter((node, index, array) => {
                             if (node instanceof Expression && index > 0) {
-                                const parent = array[index + 1];
-                                return parent instanceof Expression
-                                    ? parent.hasBranch(node)
+                                const child = array[index - 1];
+                                return child instanceof Expression
+                                    ? node.hasBranch(child)
                                     : false;
                             }
                             return false;
