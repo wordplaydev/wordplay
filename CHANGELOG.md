@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.10.5 2024-07-13
 
+### Added
+
+-   Line numbers in editor.
+
 ### Fixed
 
 -   [#514](https://github.com/wordplaydev/wordplay/issues/514) Fixed cursor position on hidden language tags.

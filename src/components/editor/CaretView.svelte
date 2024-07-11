@@ -449,10 +449,16 @@
             const { beforeSpaceWidth, beforeSpaceHeight } =
                 computeSpaceDimensions(editorView, token, spaceIndex);
 
+            // Find the line number inline end.
+            const lineWidth =
+                element?.parentElement
+                    ?.querySelector('.line-number')
+                    ?.getBoundingClientRect().width ?? 0;
+
             // Find the start position of the editor, based on language direction.
             const editorHorizontalStart =
                 leftToRight && horizontal
-                    ? editorPadding
+                    ? editorPadding + lineWidth
                     : viewportWidth - editorPadding;
             const editorVerticalStart = editorPadding + 4;
 

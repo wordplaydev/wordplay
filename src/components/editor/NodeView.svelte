@@ -58,7 +58,7 @@
     // See if this node has any space to render.
     $: firstToken = node?.getFirstLeaf();
     $: spaceRoot = $root && node ? $root.getSpaceRoot(node) : undefined;
-    $: space = spaceRoot && $spaces ? $spaces.getSpace(spaceRoot) : '';
+    $: space = firstToken ? $spaces.getSpace(firstToken) : '';
 
     // Get the hidden context.
     let hidden = getHidden();
@@ -76,6 +76,8 @@
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
     {#if !hide && firstToken && spaceRoot === node}<Space
             token={firstToken}
+            first={$spaces.isFirst(firstToken)}
+            line={$spaces.getLineNumber(firstToken)}
             {space}
             insertion={$insertion?.token === firstToken
                 ? $insertion

@@ -145,12 +145,21 @@
         // Update hidden nodes.
         hidden.set(newHidden);
     }
+
+    $: lineDigits = spaces?.getLastLineNumber().toString().length ?? 3;
 </script>
 
 {#if inline}
-    <span class="root" class:inert class:elide><NodeView {node} /></span>
+    <span
+        class="root"
+        style="--line-count: {lineDigits}"
+        class:inert
+        class:elide><NodeView {node} /></span
+    >
 {:else}
-    <code class="root" class:inert><NodeView {node} /></code>
+    <code class="root" style="--line-count: {lineDigits}" class:inert
+        ><NodeView {node} /></code
+    >
 {/if}
 
 <style>
