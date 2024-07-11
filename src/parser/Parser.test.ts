@@ -11,7 +11,7 @@ import NumberLiteral from '@nodes/NumberLiteral';
 import NumberType from '@nodes/NumberType';
 import NameType from '@nodes/NameType';
 import NoneType from '@nodes/NoneType';
-import { toProgram } from './parseProgram';
+import parseProgram, { toProgram } from './parseProgram';
 import Program from '@nodes/Program';
 import StreamType from '@nodes/StreamType';
 import TableType from '@nodes/TableType';
@@ -383,4 +383,14 @@ test('unparsables in docs', () => {
     expect(doc.markup.paragraphs[0].segments[1]).toBeInstanceOf(Example);
     expect(doc.markup.paragraphs[0].segments[2]).toBeInstanceOf(Token);
     expect(doc.markup.paragraphs[0].segments.length).toBe(3);
+});
+
+test('unparsables in blocks', () => {
+    const program = parseProgram(toTokens('test: Phrase(\\\\)\ntest'));
+    expect(program).toBeInstanceOf(Program);
+    expect(program.expression).toBeInstanceOf(Block);
+    expect(program.expression.statements[0]).toBeInstanceOf(Bind);
+    expect(program.expression.statements[1]).toBeInstanceOf(
+        UnparsableExpression,
+    );
 });

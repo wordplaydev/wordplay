@@ -146,17 +146,10 @@ function getTutorialJSON(log: Log, locale: string): object | undefined {
 async function validateLocale(
     log: Log,
     language: string,
-): Promise<Locale | undefined> {
-    let localeJSON = getLocaleJSON(log, language);
-    if (localeJSON === undefined) {
-        log.bad(
-            2,
-            "Couldn't find locale file. Can't validate it, or it's tutorial.",
-        );
-        return undefined;
-    }
-
-    const valid = LocaleValidator(localeJSON);
+    originalJSON: Locale,
+): Promise<[Locale, boolean] | undefined> {
+    let revisedJSON: Locale = originalJSON as Locale;
+    const valid = LocaleValidator(originalJSON);
     if (!valid && LocaleValidator.errors) {
         log.bad(
             2,
@@ -167,10 +160,19 @@ async function validateLocale(
                 log.bad(3, `${error.instancePath}: ${error.message}`);
         }
 
-        localeJSON = repairLocale(log, DefaultLocale, localeJSON as Locale);
+        revisedJSON = repairLocale(log, DefaultLocale, originalJSON as Locale);
     } else log.good(2, 'Found valid locale');
 
-    return await checkLocale(log, localeJSON as Locale, language !== 'example');
+    revisedJSON = await checkLocale(
+        log,
+        revisedJSON as Locale,
+        language !== 'example',
+    );
+
+    return [
+        revisedJSON,
+        JSON.stringify(revisedJSON) !== JSON.stringify(originalJSON),
+    ];
 }
 
 /** Add missing keys and remove extra ones from a given locale, relative to a source locale. */
@@ -189,15 +191,9 @@ function repairLocale(log: Log, source: Locale, target: Locale): Locale {
 /** Load, validate, and check the tutorial. */
 function validateTutorial(
     log: Log,
-    language: string,
     locale: Locale,
+    tutorialJSON: Tutorial,
 ): Tutorial | undefined {
-    const tutorialJSON = getTutorialJSON(log, language);
-    if (tutorialJSON === undefined) {
-        log.bad(2, "Couldn't find tutorial file.");
-        return undefined;
-    }
-
     const validate = ajv.compile(tutorialSchema);
     const valid = validate(tutorialJSON);
     if (!valid && validate.errors) {
@@ -857,35 +853,69 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
             log.flush();
             log.say(1, `Results for ${chalk.blue(language)}`);
 
-            // Validate, repair, and translate the locale file.
-            const revisedLocale = await validateLocale(log, language);
-            if (revisedLocale) {
-                // Write a formatted version of the revised locale file.
-                const localePath = getLocalePath(language);
-                const prettierOptions =
-                    await prettier.resolveConfig(localePath);
+            // Find prettier options
+            const localePath = getLocalePath(language);
+            const prettierOptions = await prettier.resolveConfig(localePath);
 
-                const prettyLocale = await prettier.format(
-                    JSON.stringify(revisedLocale, null, 4),
-                    { ...prettierOptions, parser: 'json' },
+            const originalLocale = getLocaleJSON(log, language);
+            if (originalLocale === undefined) {
+                log.bad(
+                    2,
+                    "Couldn't find locale file. Can't validate it, or it's tutorial.",
                 );
+                return undefined;
+            }
 
-                fs.writeFileSync(getLocalePath(language), prettyLocale);
+            // Validate, repair, and translate the locale file.
+            const localeResults = await validateLocale(
+                log,
+                language,
+                originalLocale as Locale,
+            );
+            if (localeResults) {
+                const [revisedLocale, localeChanged] = localeResults;
+                if (localeChanged) {
+                    // Write a formatted version of the revised locale file.
+
+                    const prettyLocale = await prettier.format(
+                        JSON.stringify(revisedLocale, null, 4),
+                        { ...prettierOptions, parser: 'json' },
+                    );
+
+                    console.log('Writing ' + language);
+                    fs.writeFileSync(getLocalePath(language), prettyLocale);
+                }
+
+                const currentTutorial = getTutorialJSON(log, language);
+                if (currentTutorial === undefined) {
+                    log.bad(2, "Couldn't find tutorial file.");
+                    return undefined;
+                }
 
                 // Validate, repair, and translate the tutorial file.
                 const revisedTutorial = validateTutorial(
                     log,
-                    language,
                     revisedLocale,
+                    currentTutorial as Tutorial,
                 );
-                if (revisedTutorial) {
+                if (
+                    revisedTutorial &&
+                    JSON.stringify(currentTutorial) !==
+                        JSON.stringify(revisedTutorial)
+                ) {
                     // Write a formatted version of the revised tutorial file.
                     const prettyTutorial = await prettier.format(
                         JSON.stringify(revisedTutorial, null, 4),
                         { ...prettierOptions, parser: 'json' },
                     );
 
-                    fs.writeFileSync(getTutorialPath(language), prettyTutorial);
+                    if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
+                        console.log('Writing ' + language + ' tutorial');
+                        fs.writeFileSync(
+                            getTutorialPath(language),
+                            prettyTutorial,
+                        );
+                    }
                 }
             }
 
