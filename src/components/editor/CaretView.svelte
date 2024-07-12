@@ -231,7 +231,7 @@
         const originalHTML = spaceElement.innerHTML;
 
         // Get the lines in the HTML (which are separated by line breaks). This depends closely on the structure created in Space.svelte.
-        const lines = Array.from(spaceElement.querySelectorAll('.line'));
+        const lines = Array.from(spaceElement.querySelectorAll('.space-text'));
 
         // The line that contains the caret index
         let containingLine: UnicodeString | undefined = undefined;

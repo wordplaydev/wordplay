@@ -59,7 +59,7 @@
                                 class="line-number">{firstLine + index + 1}</div
                             >{/if}</span
                     >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
-                        class="line"
+                        class="space-text"
                         data-uiid="space-text">{s}</span
                     >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
                 />{/if}</span
@@ -71,7 +71,8 @@
                                     beforeSpacesByLine.length +
                                     index}</div
                             >{/if}</span
-                    >{/if}<span class="line" data-uiid="space-text">{s}</span
+                    >{/if}<span class="space-text" data-uiid="space-text"
+                    >{s}</span
                 >{/each}</span
         ></span
     >

@@ -91,7 +91,10 @@ function getPrecedingSpaceRects(nodeView: HTMLElement): Rect[] {
     // Find the space view preceding the node view.
     const spaceView = nodeView.previousElementSibling;
     if (spaceView instanceof HTMLElement) {
-        rects.push(getViewRect(getEditorOffset(nodeView), spaceView));
+        const spaces = spaceView.querySelectorAll('.space-text');
+        for (const space of spaces)
+            if (space instanceof HTMLElement)
+                rects.push(getViewRect(getEditorOffset(nodeView), space));
     }
 
     return rects;
