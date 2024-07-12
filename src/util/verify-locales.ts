@@ -804,7 +804,7 @@ function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
     }
 
     // Build a list of all concept links
-    const conceptLinks: ConceptLink[] = revised.acts
+    const conceptLinks: { dialog: Dialog; link: ConceptLink }[] = revised.acts
         .map((act) => [
             // Across all scenes
             ...act.scenes
@@ -815,8 +815,8 @@ function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
                 // Keep all dialog that aren't null
                 .filter((line): line is Dialog => line !== null)
                 // Map each line of dialog to a flat list of concepts in the dialog
-                .map((line) =>
-                    parseDoc(
+                .map((line) => {
+                    return parseDoc(
                         toTokens(
                             DOCS_SYMBOL +
                                 line.slice(2).join('\n\n') +
@@ -828,15 +828,19 @@ function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
                             (node: Node): node is ConceptLink =>
                                 node instanceof ConceptLink,
                         )
-                        .flat(),
-                )
+                        .map((link) => ({ dialog: line, link }))
+                        .flat();
+                })
                 .flat(2),
         ])
         .flat();
 
-    for (const link of conceptLinks)
+    for (const { dialog, link } of conceptLinks)
         if (!link.isValid(locale))
-            log.bad(2, `Unknown tutorial concept: ${link.getName()}`);
+            log.bad(
+                2,
+                `Unknown tutorial concept: ${link.getName()}, found in ${dialog}`,
+            );
 
     return revised;
 }
