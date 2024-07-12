@@ -50,49 +50,31 @@
     to work around a Svelte defect that doesn't correctly update changes in text nodes.
     Note that CaretView.computeSpaceDimensions() depends closely on this structure.
 -->
-{#key $spaceIndicator}
-    {#key space}
-        {#key line}
-            {#key $showLines}
-                <span
-                    class="space"
-                    role="none"
-                    data-id={token.id}
-                    data-uiid="space"
-                >
-                    <span role="none" class="before"
-                        >{#if first && $showLines}<div class="line-number"
-                                >1</div
-                            >{/if}{#each beforeSpacesByLine as s, index}{#if index > 0}<span
-                                    ><br
-                                        class="break"
-                                    />{#if firstLine !== undefined}<div
-                                            class="line-number"
-                                            >{firstLine + index}</div
-                                        >{/if}</span
-                                >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
-                                    class="line"
-                                    data-uiid="space-text">{s}</span
-                                >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
-                            />{/if}</span
-                    ><span role="none" class="after"
-                        >{#each afterSpacesByLine as s, index}{#if index > 0}<span
-                                    ><br
-                                        class="break"
-                                    />{#if firstLine !== undefined}<div
-                                            class="line-number"
-                                            >{firstLine +
-                                                beforeSpacesByLine.length +
-                                                index}</div
-                                        >{/if}</span
-                                >{/if}<span class="line" data-uiid="space-text"
-                                >{s}</span
-                            >{/each}</span
-                    ></span
-                >
-            {/key}
-        {/key}
-    {/key}
+{#key [$spaceIndicator, space, line, $showLines, insertionIndex]}
+    <span class="space" role="none" data-id={token.id} data-uiid="space">
+        <span role="none" class="before"
+            >{#if first && $showLines}<div class="line-number">1</div
+                >{/if}{#each beforeSpacesByLine as s, index}{#if index > 0}<span
+                        ><br class="break" />{#if firstLine !== undefined}<div
+                                class="line-number">{firstLine + index + 1}</div
+                            >{/if}</span
+                    >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
+                        class="line"
+                        data-uiid="space-text">{s}</span
+                    >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+                />{/if}</span
+        ><span role="none" class="after"
+            >{#each afterSpacesByLine as s, index}{#if index > 0}<span
+                        ><br class="break" />{#if firstLine !== undefined}<div
+                                class="line-number"
+                                >{firstLine +
+                                    beforeSpacesByLine.length +
+                                    index}</div
+                            >{/if}</span
+                    >{/if}<span class="line" data-uiid="space-text">{s}</span
+                >{/each}</span
+        ></span
+    >
 {/key}
 
 <style>
