@@ -78,6 +78,7 @@
         animationFactor,
         blocks,
         locales,
+        showLines,
     } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
@@ -1409,6 +1410,7 @@
         spaces={source.spaces}
         localized={$localized}
         caret={$caret}
+        lines={$showLines}
     />
     <!-- Render highlights above the code -->
     {#each outlines as outline}

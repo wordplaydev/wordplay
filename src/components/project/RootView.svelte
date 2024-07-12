@@ -15,6 +15,7 @@
         type SpaceContext,
         CaretSymbol,
         LocalizeSymbol,
+        ShowLinesSymbol,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -37,6 +38,8 @@
     /** If true, hides names and docs not in a selected locale */
     export let localized: LocalizedValue = 'symbolic';
     export let caret: Caret | undefined = undefined;
+    /** Whether to show line numbers */
+    export let lines: boolean = false;
 
     /** Get the root, or make one if it's not a source. */
     $: root = node instanceof Source ? node.root : new Root(node);
@@ -62,6 +65,10 @@
     let localize = writable<LocalizedValue>(localized ?? 'symbolic');
     setContext(LocalizeSymbol, localize);
     $: localize.set(localized ?? 'symbolic');
+
+    let showLines = writable<boolean>(lines);
+    setContext(ShowLinesSymbol, showLines);
+    $: showLines.set(lines);
 
     // Update what's hidden.
     $: {

@@ -214,6 +214,12 @@ export function getMenuNode() {
     return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
 }
 
+export const ShowLinesSymbol = Symbol('lines');
+export type ShowLinesContext = Writable<boolean>;
+export function getShowLines() {
+    return getContext<ShowLinesContext>(ShowLinesSymbol);
+}
+
 // Output related contexts
 
 export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');

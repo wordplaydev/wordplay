@@ -6,13 +6,15 @@
     import type { InsertionPoint } from '../../edit/Drag';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '../../parser/Spaces';
     import { spaceIndicator } from '../../db/Database';
-    import { showLines } from '../../db/Database';
+    import { getShowLines } from '@components/project/Contexts';
 
     export let token: Token;
     export let space: string;
     export let line: number | undefined;
     export let insertion: InsertionPoint | undefined = undefined;
     export let first = false;
+
+    const showLines = getShowLines();
 
     $: insertionIndex =
         insertion !== undefined
@@ -38,7 +40,7 @@
     }
 
     $: firstLine =
-        line !== undefined
+        line !== undefined && $showLines
             ? line - beforeSpacesByLine.length - afterSpacesByLine.length + 1
             : undefined;
 </script>
@@ -51,41 +53,44 @@
 {#key $spaceIndicator}
     {#key space}
         {#key line}
-            <span
-                class="space"
-                role="none"
-                data-id={token.id}
-                data-uiid="space"
-            >
-                <span role="none" class="before"
-                    >{#if first && $showLines}<div class="line-number">1</div
-                        >{/if}{#each beforeSpacesByLine as s, index}{#if index > 0}<span
-                                ><br
-                                    class="break"
-                                />{#if showLines && firstLine !== undefined}<div
-                                        class="line-number"
-                                        >{firstLine + index}</div
-                                    >{/if}</span
-                            >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
-                                class="line"
-                                data-uiid="space-text">{s}</span
-                            >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
-                        />{/if}</span
-                ><span role="none" class="after"
-                    >{#each afterSpacesByLine as s, index}{#if index > 0}<span
-                                ><br
-                                    class="break"
-                                />{#if $showLines && firstLine !== undefined}<div
-                                        class="line-number"
-                                        >{firstLine +
-                                            beforeSpacesByLine.length +
-                                            index}</div
-                                    >{/if}</span
-                            >{/if}<span class="line" data-uiid="space-text"
-                            >{s}</span
-                        >{/each}</span
-                ></span
-            >
+            {#key $showLines}
+                <span
+                    class="space"
+                    role="none"
+                    data-id={token.id}
+                    data-uiid="space"
+                >
+                    <span role="none" class="before"
+                        >{#if first && $showLines}<div class="line-number"
+                                >1</div
+                            >{/if}{#each beforeSpacesByLine as s, index}{#if index > 0}<span
+                                    ><br
+                                        class="break"
+                                    />{#if firstLine !== undefined}<div
+                                            class="line-number"
+                                            >{firstLine + index}</div
+                                        >{/if}</span
+                                >{/if}{#if s === ''}&ZeroWidthSpace;{:else}<span
+                                    class="line"
+                                    data-uiid="space-text">{s}</span
+                                >{/if}{:else}&ZeroWidthSpace;{/each}{#if insertion}<InsertionPointView
+                            />{/if}</span
+                    ><span role="none" class="after"
+                        >{#each afterSpacesByLine as s, index}{#if index > 0}<span
+                                    ><br
+                                        class="break"
+                                    />{#if firstLine !== undefined}<div
+                                            class="line-number"
+                                            >{firstLine +
+                                                beforeSpacesByLine.length +
+                                                index}</div
+                                        >{/if}</span
+                                >{/if}<span class="line" data-uiid="space-text"
+                                >{s}</span
+                            >{/each}</span
+                    ></span
+                >
+            {/key}
         {/key}
     {/key}
 {/key}
