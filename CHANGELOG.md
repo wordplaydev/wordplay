@@ -21,6 +21,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Stripped machine translation tags from locale text on render.
 -   Fixed name of locale text JSON schema.
 -   Hide login link on landing page if logged in.
+-   Fixed closing text delimiter localization.
 
 ## 0.10.4 2024-07-08
 

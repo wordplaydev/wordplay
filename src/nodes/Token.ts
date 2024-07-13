@@ -168,7 +168,9 @@ export default class Token extends Node {
             // Find the parent.
             const parent = root.getParent(this);
             if (parent) {
-                const leaves = parent.leaves();
+                const leaves = parent
+                    .leaves()
+                    .filter((t) => t.isSymbol(Sym.Text));
 
                 const open =
                     leaves[0] instanceof Token && leaves[0].isSymbol(Sym.Text)
