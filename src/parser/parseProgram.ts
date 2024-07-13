@@ -15,7 +15,7 @@ export default function parseProgram(tokens: Tokens, doc = false): Program {
     const docs = tokens.nextIs(Sym.Doc) ? parseDocs(tokens) : undefined;
 
     const borrows: Borrow[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () => tokens.hasNext() && tokens.nextIs(Sym.Borrow),
         () => borrows.push(parseBorrow(tokens)),
     );

@@ -10,4 +10,4 @@
 
 <NodeView node={node.open} /><NodeSequenceView nodes={node.segments} /><NodeView
     node={node.close}
-/><NodeView node={node.language} />
+/><NodeView node={node.language} /><NodeView node={node.separator} />

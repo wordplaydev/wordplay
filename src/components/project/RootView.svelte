@@ -19,7 +19,6 @@
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
-    import Name from '@nodes/Name';
     import Program from '@nodes/Program';
     import { locales } from '../../db/Database';
     import TextLiteral from '../../nodes/TextLiteral';
@@ -120,12 +119,8 @@
                             else {
                                 if (nameDocOrText.language)
                                     newHidden.add(nameDocOrText.language);
-                                // Hide the separator.
-                                if (
-                                    !priorVisible &&
-                                    nameDocOrText instanceof Name &&
-                                    nameDocOrText.separator
-                                )
+                                // Hide the separator, if there is one.
+                                if (!priorVisible && nameDocOrText.separator)
                                     newHidden.add(nameDocOrText.separator);
                                 priorVisible = true;
                             }

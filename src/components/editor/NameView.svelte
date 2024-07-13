@@ -7,5 +7,6 @@
     export let node: Alias;
 </script>
 
-<NodeView node={node.separator} /><strong><NodeView node={node.name} /></strong
-><NodeView node={node.language} />
+<strong><NodeView node={node.name} /></strong><NodeView
+    node={node.language}
+/><NodeView node={node.separator} />

@@ -21,18 +21,21 @@ export default class Translation extends LanguageTagged {
     readonly open: Token;
     readonly segments: TranslationSegment[];
     readonly close: Token | undefined;
+    readonly separator: Token | undefined;
 
     constructor(
         open: Token,
         segments: TranslationSegment[],
         close: Token | undefined,
-        language?: Language,
+        language: Language | undefined = undefined,
+        separator: Token | undefined = undefined,
     ) {
         super(language);
 
         this.open = open;
         this.segments = segments;
         this.close = close;
+        this.separator = separator;
 
         /** Unescape the text string */
 
@@ -45,6 +48,7 @@ export default class Translation extends LanguageTagged {
             [new Token(text ?? '', Sym.Words)],
             new Token("'", Sym.Text),
             language,
+            undefined,
         );
     }
 
@@ -61,6 +65,7 @@ export default class Translation extends LanguageTagged {
             },
             { name: 'close', kind: node(Sym.Text) },
             { name: 'language', kind: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
         ];
     }
 
@@ -70,6 +75,7 @@ export default class Translation extends LanguageTagged {
             this.replaceChild('segments', this.segments, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('language', this.language, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 

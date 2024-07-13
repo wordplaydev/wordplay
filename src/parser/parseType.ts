@@ -58,7 +58,7 @@ export default function parseType(tokens: Tokens, isExpression = false): Type {
     if (!isExpression && tokens.nextIs(Sym.Convert))
         left = parseConversionType(left, tokens);
 
-    tokens.untilDo(
+    tokens.whileDo(
         () => tokens.nextIs(Sym.Union) && tokens.nextLacksPrecedingSpace(),
         () => {
             const or = tokens.read(Sym.Union);
@@ -146,7 +146,7 @@ export function parseTableType(tokens: Tokens): TableType {
     const open = tokens.read(Sym.TableOpen);
 
     const columns: Bind[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.Code) &&
@@ -176,7 +176,7 @@ function parseFunctionType(tokens: Tokens): FunctionType {
     tokens.pushReactionAllowed(false);
 
     const inputs: Bind[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () => nextIsBind(tokens, false),
         () => inputs.push(parseBind(tokens)),
     );

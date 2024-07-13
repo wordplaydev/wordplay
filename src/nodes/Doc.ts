@@ -21,12 +21,14 @@ export default class Doc extends LanguageTagged {
     readonly markup: Markup;
     readonly close: Token | undefined;
     readonly language?: Language;
+    readonly separator: Token | undefined;
 
     constructor(
         open: Token,
         markup: Markup,
         close: Token | undefined,
-        lang: Language | undefined,
+        lang: Language | undefined = undefined,
+        separator: Token | undefined = undefined,
     ) {
         super();
 
@@ -34,6 +36,7 @@ export default class Doc extends LanguageTagged {
         this.markup = markup;
         this.close = close;
         this.language = lang;
+        this.separator = separator;
 
         this.computeChildren();
     }
@@ -44,6 +47,7 @@ export default class Doc extends LanguageTagged {
             new Markup(content ?? []),
             new Token(DOCS_SYMBOL, Sym.Doc),
             lang,
+            undefined,
         );
     }
 
@@ -61,6 +65,7 @@ export default class Doc extends LanguageTagged {
             { name: 'markup', kind: node(Markup) },
             { name: 'close', kind: node(Sym.Doc) },
             { name: 'language', kind: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
         ];
     }
 
@@ -70,6 +75,7 @@ export default class Doc extends LanguageTagged {
             this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('language', this.language, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 

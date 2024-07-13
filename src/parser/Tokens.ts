@@ -190,7 +190,7 @@ export default class Tokens {
 
         if (!this.hasNext()) return nodes;
         // If there are more tokens, and and it's not the end of a code block in markup, and we're either on the first token, or the next token has a line break, read another token.
-        this.untilDo(
+        this.whileDo(
             () =>
                 this.hasNext() &&
                 (onFirst === true ||
@@ -210,7 +210,7 @@ export default class Tokens {
      * If the action returns false, we stop.
      * If the action doesn't consume a token, we stop, to prevent infinite loops.
      **/
-    untilDo(condition: () => boolean, action: () => unknown) {
+    whileDo(condition: () => boolean, action: () => unknown) {
         while (condition()) {
             const currentToken = this.peek();
             if (action() === false) break;
@@ -223,7 +223,7 @@ export default class Tokens {
      * Completes an action, then checks a condition, and stops if false, otherwise repeats. If the action returns false, we stop.
      * If the action doesn't consume a token, we stop, to prevent infinite loops.
      **/
-    doUntil(action: () => unknown, condition: () => boolean) {
+    doWhile(action: () => unknown, condition: () => boolean) {
         do {
             const currentToken = this.peek();
             if (action() === false) break;

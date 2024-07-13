@@ -21,7 +21,7 @@ export default class Names extends Node {
 
         // Add name separators if lacking
         this.names = names.map((name, index) =>
-            index > 0 && name.separator === undefined
+            index < names.length - 1 && name.separator === undefined
                 ? name.withSeparator()
                 : name,
         );
@@ -31,15 +31,18 @@ export default class Names extends Node {
 
     static make(names: string[] = []) {
         const list: Name[] = [];
-        let first = true;
+        let count = 0;
         for (const name of names) {
+            count++;
             list.push(
                 new Name(
-                    first ? undefined : new Token(COMMA_SYMBOL, Sym.Separator),
                     new NameToken(name),
+                    undefined,
+                    count === names.length
+                        ? undefined
+                        : new Token(COMMA_SYMBOL, Sym.Separator),
                 ),
             );
-            first = false;
         }
         return new Names(list);
     }

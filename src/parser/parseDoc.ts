@@ -11,5 +11,8 @@ export default function parseDoc(tokens: Tokens): Doc {
     const lang = tokens.nextIs(Sym.Language)
         ? parseLanguage(tokens)
         : undefined;
-    return new Doc(open, content, close, lang);
+    const separator = tokens.nextIs(Sym.Separator)
+        ? tokens.read(Sym.Separator)
+        : undefined;
+    return new Doc(open, content, close, lang, separator);
 }

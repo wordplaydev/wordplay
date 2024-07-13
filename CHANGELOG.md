@@ -23,6 +23,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Hide login link on landing page if logged in.
 -   Fixed closing text delimiter localization.
 -   Hide comma separator when localizing names and docs.
+-   Permit comma separators between text literals, docs, and names, allowing line breaks for text.
 
 ## 0.10.4 2024-07-08
 
