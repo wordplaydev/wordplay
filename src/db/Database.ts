@@ -8,12 +8,12 @@ import {
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import {
     type SupportedLocale,
     getBestSupportedLocales,
     type Template,
-} from '../locale/Locale';
+} from '../locale/LocaleText';
 import ProjectsDatabase from './ProjectsDatabase';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
@@ -46,7 +46,7 @@ export class Database {
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
-        message: undefined | ((locale: Locale) => Template);
+        message: undefined | ((locale: LocaleText) => Template);
     }> = writable({
         status: SaveStatus.Saved,
         message: undefined,
@@ -59,7 +59,7 @@ export class Database {
     private authUnsubscribe: Unsubscribe | undefined = undefined;
     private authRefreshUnsubscribe: Unsubscribe | undefined = undefined;
 
-    constructor(locales: SupportedLocale[], defaultLocale: Locale) {
+    constructor(locales: SupportedLocale[], defaultLocale: LocaleText) {
         // Set up in-memory stores of configuration settings and locale caches.
         this.Settings = new SettingsDatabase(this, locales);
         this.Locales = new LocalesDatabase(
@@ -88,12 +88,12 @@ export class Database {
     /** Update the saving status and broadcast via the store. */
     setStatus(
         status: SaveStatus,
-        message: undefined | ((locale: Locale) => Template),
+        message: undefined | ((locale: LocaleText) => Template),
     ) {
         this.Status.set({ status, message });
     }
 
-    getLocales(): Locale[] {
+    getLocales(): LocaleText[] {
         return this.Locales.getLocales();
     }
 

@@ -12,7 +12,7 @@ import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
 import Reference from '../nodes/Reference';
 import type Project from '../models/Project';
-import type { NameAndDoc, NameText } from '../locale/Locale';
+import type { NameAndDoc, NameText } from '../locale/LocaleText';
 import getPoseProperties from './PoseProperties';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import type Locales from '../locale/Locales';

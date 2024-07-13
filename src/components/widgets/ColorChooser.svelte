@@ -10,8 +10,8 @@
             new ColorJS(
                 ColorJS.spaces.lch,
                 [lightness, chroma, hue],
-                1
-            ).display()
+                1,
+            ).display(),
         );
     }
 
@@ -37,7 +37,7 @@
     }
 
     const Bands = [1, 0.9, 0.8, 0.7, 0.6, 0.5, 0.4, 0.3, 0.2, 0.1, 0].map(
-        (val) => percentToChroma(val)
+        (val) => percentToChroma(val),
     );
 
     const Primary: [number, number, number][] = [
@@ -56,7 +56,7 @@
 <script lang="ts">
     import { locales } from '../../db/Database';
     import Button from './Button.svelte';
-    import { getFirstName } from '../../locale/Locale';
+    import { getFirstName } from '../../locale/LocaleText';
 
     /** a degree (any number remainder 360) */
     export let hue: number;
@@ -71,7 +71,7 @@
     $: color = new ColorJS(
         ColorJS.spaces.lch,
         [lightness * 100, chroma, hue],
-        1
+        1,
     );
 
     let hueWidth: number | undefined = undefined;
@@ -108,7 +108,7 @@
                 style:height="{100 / Bands.length}%"
                 style:background="linear-gradient(to right, {getColors(
                     lightness * 100,
-                    val
+                    val,
                 ).join(', ')})"
             />
         {/each}
@@ -132,7 +132,7 @@
                     class="color"
                     style:background={new ColorJS(
                         ColorJS.spaces.lch,
-                        primary
+                        primary,
                     ).display()}
                 /></Button
             >{/each}
@@ -144,7 +144,7 @@
             max={1}
             increment={0.01}
             tip={$locales.get((l) =>
-                getFirstName(l.output.Color.lightness.names)
+                getFirstName(l.output.Color.lightness.names),
             )}
             unit={'%'}
             precision={0}

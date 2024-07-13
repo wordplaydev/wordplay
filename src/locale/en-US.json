@@ -4266,6 +4266,9 @@
             },
             "button": {
                 "submit": "submit this chat message"
+            },
+            "options": {
+                "locale": "choose the language for output"
             }
         },
         "timeline": {

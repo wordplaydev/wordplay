@@ -5,7 +5,7 @@ import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
-import { docToMarkup } from '@locale/Locale';
+import { docToMarkup } from '@locale/LocaleText';
 import type { Character } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
 
@@ -16,7 +16,7 @@ export default class NodeConcept extends Concept {
         purpose: Purpose,
         type: StructureDefinition | undefined,
         template: Node,
-        context: Context
+        context: Context,
     ) {
         super(purpose, type, context);
 
@@ -41,8 +41,8 @@ export default class NodeConcept extends Concept {
             .getLocales()
             .map((locale) =>
                 Object.entries(locale.node).find(
-                    ([, value]) => value === nodeLocale
-                )
+                    ([, value]) => value === nodeLocale,
+                ),
             )
             .find((node) => node !== undefined);
         return match ? match[0] === name || match[1].name === name : false;
@@ -51,7 +51,7 @@ export default class NodeConcept extends Concept {
     getDocs(locales: Locales): Markup | undefined {
         return docToMarkup(this.template.getDoc(locales)).concretize(
             locales,
-            []
+            [],
         );
     }
 

@@ -21,7 +21,7 @@ import { Form, toForm } from './Form';
 import Shape from './Shape';
 import type Evaluator from '../runtime/Evaluator';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/Locale';
+import { getFirstName } from '../locale/LocaleText';
 import { STAGE_SYMBOL } from '@parser/Symbols';
 
 export const DefaultGravity = 9.8;

@@ -23,7 +23,10 @@ import type Expression from '../nodes/Expression';
 import NoneLiteral from '../nodes/NoneLiteral';
 import NoneValue from '@values/NoneValue';
 import { Iteration } from './Iteration';
-import { createFunction, createInputs as createInputs } from '../locale/Locale';
+import {
+    createFunction,
+    createInputs as createInputs,
+} from '../locale/LocaleText';
 import ValueException from '../values/ValueException';
 import FunctionDefinition from '../nodes/FunctionDefinition';
 import Names from '../nodes/Names';

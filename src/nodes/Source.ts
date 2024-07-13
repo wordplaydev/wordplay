@@ -23,7 +23,7 @@ import FunctionDefinition from './FunctionDefinition';
 import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
 import NoneValue from '@values/NoneValue';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import Glyphs from '../lore/Glyphs';
 import Root from './Root';
 import Markup from './Markup';
@@ -243,7 +243,7 @@ export default class Source extends Expression {
         return undefined;
     }
 
-    withName(name: string, locale: Locale) {
+    withName(name: string, locale: LocaleText) {
         return new Source(this.names.withName(name, locale.language), [
             this.expression,
             this.spaces,
@@ -882,7 +882,7 @@ export default class Source extends Expression {
         return super.toWordplay(spaces ?? this.spaces);
     }
 
-    getPreferredName(locales: Locale | Locale[]) {
+    getPreferredName(locales: LocaleText | LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 

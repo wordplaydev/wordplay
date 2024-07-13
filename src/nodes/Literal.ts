@@ -29,7 +29,7 @@ export default abstract class Literal extends SimpleExpression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        return this.getValue(evaluator.getLocales());
+        return this.getValue(evaluator.getLocaleIDs());
     }
 
     abstract getValue(locales: Locale[]): Value;

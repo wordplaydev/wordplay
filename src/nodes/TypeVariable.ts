@@ -1,6 +1,6 @@
 import type { Grammar, Replacement } from './Node';
 import Names from './Names';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import NameType from './NameType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -20,7 +20,7 @@ export default class TypeVariable extends Node {
     constructor(
         names: Names,
         dot?: Token | undefined,
-        type?: Type | undefined
+        type?: Type | undefined,
     ) {
         super();
 
@@ -35,7 +35,7 @@ export default class TypeVariable extends Node {
         return new TypeVariable(
             names instanceof Names ? names : Names.make(names),
             type ? new Token(TYPE_SYMBOL, Sym.Type) : undefined,
-            type
+            type,
         );
     }
 
@@ -55,7 +55,7 @@ export default class TypeVariable extends Node {
         return new TypeVariable(
             this.replaceChild('names', this.names, replace),
             this.replaceChild('dot', this.dot, replace),
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
@@ -79,7 +79,7 @@ export default class TypeVariable extends Node {
         return this.names.hasName(name);
     }
 
-    getPreferredName(locales: Locale | Locale[]) {
+    getPreferredName(locales: LocaleText | LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 

@@ -17,7 +17,7 @@ import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import { node, type Grammar, type Replacement, none, any } from './Node';
 import SimpleExpression from './SimpleExpression';
-import type { Template } from '@locale/Locale';
+import type { Template } from '@locale/LocaleText';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
 import concretize from '../locale/concretize';

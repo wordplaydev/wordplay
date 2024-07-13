@@ -1,6 +1,6 @@
 <script lang="ts">
     import { withVariationSelector } from '../../unicode/emoji';
-    import type { Template } from '../../locale/Locale';
+    import type { Template } from '../../locale/LocaleText';
     import type Locales from '../../locale/Locales';
     import concretize from '../../locale/concretize';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';

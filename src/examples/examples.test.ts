@@ -9,7 +9,7 @@ import type { SerializedProject } from '../models/ProjectSchemas';
 import Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import Docs from '@nodes/Docs';
-import { SupportedLocales, getLocaleLanguage } from '@locale/Locale';
+import { SupportedLocales, getLocaleLanguage } from '@locale/LocaleText';
 import type LanguageCode from '@locale/LanguageCode';
 import Names from '@nodes/Names';
 import Evaluate from '@nodes/Evaluate';

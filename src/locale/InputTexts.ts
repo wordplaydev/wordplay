@@ -1,4 +1,4 @@
-import type { NameAndDoc } from './Locale';
+import type { NameAndDoc } from './LocaleText';
 
 type InputTexts = {
     /** The Random function, which generates random numbers */

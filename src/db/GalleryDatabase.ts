@@ -20,7 +20,7 @@ import { firestore } from './firebase';
 import { FirebaseError } from 'firebase/app';
 import { get, writable, type Writable } from 'svelte/store';
 import type Project from '../models/Project';
-import { toLocaleString } from '../locale/Locale';
+import { localeToString } from '../locale/Locale';
 import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 
@@ -156,11 +156,11 @@ export default class GalleryDatabase {
 
         const id = uuidv4();
         const name: Record<string, string> = {};
-        name[toLocaleString(locales.getLocales()[0])] = locales.get(
+        name[localeToString(locales.getLocales()[0])] = locales.get(
             (l) => l.ui.gallery.untitled,
         );
         const description: Record<string, string> = {};
-        description[toLocaleString(locales.getLocales()[0])] = '';
+        description[localeToString(locales.getLocales()[0])] = '';
         const gallery: SerializedGallery = {
             v: 1,
             id,

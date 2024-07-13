@@ -28,7 +28,7 @@ import TypeVariables from './TypeVariables';
 import Reference from './Reference';
 import NotAnInterface from '@conflicts/NotAnInterface';
 import { optional, type Grammar, type Replacement, node, list } from './Node';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import NameType from './NameType';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
@@ -201,7 +201,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.share !== undefined;
     }
 
-    getPreferredName(locales: Locale[]): string {
+    getPreferredName(locales: LocaleText[]): string {
         return this.names.getPreferredNameString(locales);
     }
 

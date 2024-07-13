@@ -2,7 +2,7 @@ import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
 import { PersistenceType, ProjectHistory } from './ProjectHistory';
 import { writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
-import type { Locale } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import { Locales, SaveStatus, type Database } from './Database';
 import {
     collection,
@@ -311,7 +311,7 @@ export default class ProjectsDatabase {
     }
 
     /** Create a project and return it's ID */
-    create(locales: Locale[], code = '', galleryID?: string) {
+    create(locales: LocaleText[], code = '', galleryID?: string) {
         const userID = this.database.getUserID();
         // Make the new project
         const newProject = Project.make(
@@ -632,7 +632,7 @@ export default class ProjectsDatabase {
     }
 
     /** Revise all editable projects to use the specified locales */
-    localize(locales: Locale[]) {
+    localize(locales: LocaleText[]) {
         for (const [, history] of this.projectHistories)
             history.withLocales(locales);
     }

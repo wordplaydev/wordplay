@@ -7,7 +7,7 @@ import type Context from './Context';
 import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
-import type { Template, DocText } from '@locale/Locale';
+import type { Template, DocText } from '@locale/LocaleText';
 import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';

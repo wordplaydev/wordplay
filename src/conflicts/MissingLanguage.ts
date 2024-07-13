@@ -22,8 +22,8 @@ export default class MissingLanguage extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Language.conflict.MissingLanguage
-                        )
+                            (l) => l.node.Language.conflict.MissingLanguage,
+                        ),
                     ),
             },
         };

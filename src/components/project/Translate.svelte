@@ -8,7 +8,7 @@
     import { Projects, locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import { getLanguageName } from '@locale/LanguageCode';
-    import { SupportedLocales } from '@locale/Locale';
+    import { SupportedLocales } from '@locale/LocaleText';
     import type Project from '@models/Project';
     import translateProject from '@models/translate';
 

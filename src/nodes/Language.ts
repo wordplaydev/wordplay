@@ -7,14 +7,14 @@ import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
 import { Languages } from '@locale/LanguageCode';
 import UnknownLanguage from '@conflicts/UnknownLanguage';
-import type Locale from '@locale/Locale';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Sym from './Sym';
 import type Type from './Type';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locales from '../locale/Locales';
-
+import type { RegionCode } from '@locale/Regions';
+import type Locale from '@locale/Locale';
 export default class Language extends Node {
     readonly slash: Token;
     readonly language: Token | undefined;
@@ -35,7 +35,7 @@ export default class Language extends Node {
     static make(lang: string | undefined) {
         return new Language(
             new LanguageToken(),
-            lang ? new NameToken(lang) : undefined
+            lang ? new NameToken(lang) : undefined,
         );
     }
 
@@ -67,7 +67,7 @@ export default class Language extends Node {
             this.replaceChild('slash', this.slash, replace),
             this.replaceChild('language', this.language, replace),
             this.replaceChild('dash', this.dash, replace),
-            this.replaceChild('region', this.region, replace)
+            this.replaceChild('region', this.region, replace),
         ) as this;
     }
 
@@ -93,6 +93,10 @@ export default class Language extends Node {
         return this.language ? this.language.getText() : undefined;
     }
 
+    getRegionText(): string | undefined {
+        return this.language ? this.region?.getText() : undefined;
+    }
+
     getLanguageCode(): LanguageCode | undefined {
         const lang = this.getLanguageText();
         return lang && lang in Languages ? (lang as LanguageCode) : undefined;
@@ -113,6 +117,17 @@ export default class Language extends Node {
         return (
             this.region !== undefined && this.region.getText() === locale.region
         );
+    }
+
+    getLocaleID(): Locale | undefined {
+        const language = this.getLanguageText();
+        const region = this.getRegionText();
+        return language
+            ? {
+                  language: language as LanguageCode,
+                  region: region as RegionCode,
+              }
+            : undefined;
     }
 
     isEqualTo(lang: Node) {

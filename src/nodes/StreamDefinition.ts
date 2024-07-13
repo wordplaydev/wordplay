@@ -27,7 +27,7 @@ import {
     any,
     none,
 } from './Node';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
@@ -143,7 +143,7 @@ export default class StreamDefinition extends DefinitionExpression {
         ) as this;
     }
 
-    getEvaluateTemplate(nameOrLocales: string | Locale | Locale[]) {
+    getEvaluateTemplate(nameOrLocales: string | LocaleText | LocaleText[]) {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
@@ -185,7 +185,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return this.names.getNames();
     }
 
-    getPreferredName(locales: Locale[]) {
+    getPreferredName(locales: LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 

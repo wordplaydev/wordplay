@@ -10,7 +10,7 @@ import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
 import StructureValue from '../values/StructureValue';
 import NumberValue from '../values/NumberValue';
-import { createInputs, getFirstName } from '../locale/Locale';
+import { createInputs, getFirstName } from '../locale/LocaleText';
 import NameType from '../nodes/NameType';
 import NumberType from '../nodes/NumberType';
 import Unit from '../nodes/Unit';

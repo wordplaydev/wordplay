@@ -9,18 +9,18 @@
         getLocaleLanguage,
         type SupportedLocale,
         EventuallySupportedLocales,
-    } from '../../locale/Locale';
+    } from '../../locale/LocaleText';
     import Link from '../app/Link.svelte';
     import concretize from '../../locale/concretize';
     import Dialog from '../widgets/Dialog.svelte';
-    import { toLocaleString } from '../../locale/Locale';
+    import { localeToString } from '../../locale/Locale';
     import type LanguageCode from '@locale/LanguageCode';
     import LocaleName from './LocaleName.svelte';
     import { Settings } from '../../db/Database';
 
     $: selectedLocales = $locales
         .getPreferredLocales()
-        .map((locale) => toLocaleString(locale)) as SupportedLocale[];
+        .map((locale) => localeToString(locale)) as SupportedLocale[];
 
     function select(
         locale: SupportedLocale,

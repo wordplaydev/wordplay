@@ -22,8 +22,8 @@ export default class UnknownLanguage extends Conflict {
                     concretize(
                         locales,
                         locales.get(
-                            (l) => l.node.Language.conflict.UnknownLanguage
-                        )
+                            (l) => l.node.Language.conflict.UnknownLanguage,
+                        ),
                     ),
             },
         };

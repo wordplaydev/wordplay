@@ -9,7 +9,7 @@ import Transition from './Transition';
 import Stage from './Stage';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
 
 export enum AnimationState {
@@ -591,7 +591,7 @@ const StyleToCSSMapping = {
 };
 
 // A cache of values to keys for each locale.
-const styleValueToKeyByLocale: Map<Locale, Map<string, string>> = new Map();
+const styleValueToKeyByLocale: Map<LocaleText, Map<string, string>> = new Map();
 
 function styleToCSSEasing(locales: Locales, name: string | undefined) {
     // No name given? Default to ease out.
@@ -607,7 +607,7 @@ function styleToCSSEasing(locales: Locales, name: string | undefined) {
     return 'ease-out';
 }
 
-function getStyleValueToKey(locale: Locale) {
+function getStyleValueToKey(locale: LocaleText) {
     let mapping = styleValueToKeyByLocale.get(locale);
     if (mapping) return mapping;
 

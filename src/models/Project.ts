@@ -12,7 +12,6 @@ import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
-import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
 import { parseNames } from '../parser/parseBind';
 import Root from '../nodes/Root';
@@ -20,8 +19,10 @@ import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
-import type Locale from '../locale/Locale';
-import { getBestSupportedLocales, toLocaleString } from '../locale/Locale';
+import { getBestSupportedLocales } from '../locale/LocaleText';
+import { localeToString } from '@locale/Locale';
+import type Locale from '@locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import { toTokens } from '../parser/toTokens';
 import type LocalesDatabase from '../db/LocalesDatabase';
 import { moderatedFlags, type Moderation } from './Moderation';
@@ -59,7 +60,7 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
     /**
      * The locales on which this project relies.
      * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
-    locales: Locale[];
+    locales: LocaleText[];
     /** Serialized caret positions for each source file */
     carets: SerializedCarets;
 };
@@ -138,7 +139,7 @@ export default class Project {
         name: string,
         main: Source,
         supplements: Source[],
-        locales: Locale | Locale[],
+        locales: LocaleText | LocaleText[],
         owner: string | null = null,
         collaborators: string[] = [],
         pub = false,
@@ -523,7 +524,7 @@ export default class Project {
     }
 
     /** Copies this project, but with the new locale added if it's not already included. */
-    withLocales(locales: Locale[]) {
+    withLocales(locales: LocaleText[]) {
         return new Project({
             ...this.data,
             locales: Array.from(new Set([...this.data.locales, ...locales])),
@@ -720,24 +721,11 @@ export default class Project {
         });
     }
 
-    /** Get all the languages used in the project */
-    getLanguages() {
-        return Array.from(
-            new Set(
-                this.getSources().reduce(
-                    (list: LanguageCode[], source: Source) =>
-                        list.concat(source.expression.getLanguagesUsed()),
-                    [],
-                ),
-            ),
-        );
-    }
-
     getPrimaryLanguage() {
         return this.getLocales().getLocale().language;
     }
 
-    withPrimaryLocale(locale: Locale) {
+    withPrimaryLocale(locale: LocaleText) {
         return new Project({
             ...this.data,
             locales: [locale, ...this.data.locales.filter((l) => l !== locale)],
@@ -837,18 +825,15 @@ export default class Project {
         });
     }
 
-    getLanguagesUsed(): LanguageCode[] {
-        const used = this.getSources().reduce(
-            (languages: LanguageCode[], source) => [
-                ...languages,
-                ...source.expression.getLanguagesUsed(),
-            ],
-            [],
-        );
-
-        return Array.from(
-            new Set([...this.data.locales.map((l) => l.language), ...used]),
-        );
+    getLocalesUsed(): Locale[] {
+        const locales: Record<string, Locale> = {};
+        for (const source of this.getSources()) {
+            for (const [id, locale] of Object.entries(
+                source.expression.getLocalesUsed(this.getContext(source)),
+            ))
+                locales[id] = locale;
+        }
+        return Array.from(Object.values(locales));
     }
 
     isListed() {
@@ -1025,7 +1010,7 @@ export default class Project {
             }),
             locales: this.getLocales()
                 .getLocales()
-                .map((l) => toLocaleString(l)),
+                .map((l) => localeToString(l)),
             owner: this.data.owner,
             collaborators: this.data.collaborators,
             listed: this.isListed(),

@@ -26,7 +26,7 @@
     import Speech from '@components/lore/Speech.svelte';
     import Glyphs from '../../lore/Glyphs';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
-    import { docToMarkup } from '@locale/Locale';
+    import { docToMarkup } from '@locale/LocaleText';
     import {
         DecrementLiteral,
         IncrementLiteral,

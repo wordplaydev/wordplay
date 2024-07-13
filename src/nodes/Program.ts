@@ -18,7 +18,6 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
-import type LanguageCode from '@locale/LanguageCode';
 import Sym from './Sym';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '@values/BlankException';
@@ -26,6 +25,9 @@ import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import ValueRef from '../locale/ValueRef';
 import type Locales from '../locale/Locales';
+import { localeToString } from '@locale/Locale';
+import type Locale from '@locale/Locale';
+import Reference from './Reference';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -124,20 +126,30 @@ export default class Program extends Expression {
         return definitions;
     }
 
-    getLanguagesUsed(): LanguageCode[] {
-        return Array.from(
-            new Set(
-                (
-                    this.nodes(
-                        (n): n is Language =>
-                            n instanceof Language &&
-                            n.getLanguageText() !== undefined,
-                    ) as Language[]
-                )
-                    .map((n) => n.getLanguageCode())
-                    .filter((l): l is LanguageCode => l !== undefined),
-            ),
-        );
+    getLocalesUsed(context: Context): Locale[] {
+        // The locales used include any explicit langage tags and locale of binds referred to in the program.
+        const locales: Record<string, Locale> = {};
+
+        for (const lang of this.nodes(
+            (n): n is Language =>
+                n instanceof Language && n.getLanguageText() !== undefined,
+        )) {
+            const locale = lang.getLocaleID();
+            if (locale !== undefined) locales[localeToString(locale)] = locale;
+        }
+
+        for (const bind of this.nodes(
+            (n): n is Reference => n instanceof Reference,
+        )) {
+            const def = bind.resolve(context);
+            if (def !== undefined) {
+                const locale = def.names.getLocaleOf(bind.getName());
+                if (locale !== undefined)
+                    locales[localeToString(locale)] = locale;
+            }
+        }
+
+        return Array.from(Object.values(locales));
     }
 
     getUnitsUsed(): Unit[] {

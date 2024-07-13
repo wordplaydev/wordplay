@@ -6,7 +6,7 @@ import { COMMA_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import NameToken from './NameToken';
 import Language from './Language';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
@@ -84,6 +84,12 @@ export default class Names extends Node {
         return this.names.some((name) => name.hasLanguage());
     }
 
+    getLocaleOf(name: string) {
+        return this.names
+            .find((n) => n.getName() === name)
+            ?.language?.getLocaleID();
+    }
+
     containsLanguage(lang: LanguageCode) {
         return this.names.some((name) => name.getLanguage() === lang);
     }
@@ -107,7 +113,10 @@ export default class Names extends Node {
         return this.names.find((name) => !name.isSymbolic())?.getName();
     }
 
-    getPreferredNameString(preferred: Locale | Locale[], symbolic = true) {
+    getPreferredNameString(
+        preferred: LocaleText | LocaleText[],
+        symbolic = true,
+    ) {
         preferred = Array.isArray(preferred) ? preferred : [preferred];
         return (
             this.getPreferredName(preferred, symbolic)?.getName() ??
@@ -117,7 +126,7 @@ export default class Names extends Node {
     }
 
     getPreferredName(
-        preferred: Locale | Locale[],
+        preferred: LocaleText | LocaleText[],
         symbolic = true,
     ): Name | undefined {
         if (symbolic) {

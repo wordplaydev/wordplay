@@ -1,5 +1,5 @@
 import type Conflict from '@conflicts/Conflict';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import { node, type Field, type Replacement } from './Node';
 import Token from './Token';
 import Glyphs from '../lore/Glyphs';
@@ -20,7 +20,7 @@ export default class ConceptLink extends Content {
 
     static make(concept: string) {
         return new ConceptLink(
-            new Token(`${LINK_SYMBOL}${concept}`, Symbol.Concept)
+            new Token(`${LINK_SYMBOL}${concept}`, Symbol.Concept),
         );
     }
 
@@ -33,7 +33,7 @@ export default class ConceptLink extends Content {
     }
 
     /** Is valid if it refers to a concept key in the given Locale */
-    isValid(locale: Locale) {
+    isValid(locale: LocaleText) {
         const [name, prop] = this.getName().split('/');
 
         // See which section of the locale has the concept name, if any.
@@ -64,7 +64,7 @@ export default class ConceptLink extends Content {
 
     clone(replace?: Replacement | undefined): this {
         return new ConceptLink(
-            this.replaceChild('concept', this.concept, replace)
+            this.replaceChild('concept', this.concept, replace),
         ) as this;
     }
 

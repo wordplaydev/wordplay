@@ -1,18 +1,19 @@
 import type Names from '../nodes/Names';
 import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
-import type Locale from './Locale';
-import { isUnwritten } from './Locale';
+import { localeToString } from './Locale';
+import type LocaleText from './LocaleText';
+import { isUnwritten } from './LocaleText';
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
     /** The list of preferred locales */
-    private readonly locales: Locale[];
+    private readonly locales: LocaleText[];
 
     /** The fallback locale when none of the preferred locales have suitable strings. */
-    private readonly fallback: Locale;
+    private readonly fallback: LocaleText;
 
-    constructor(locales: Locale[], fallback: Locale) {
+    constructor(locales: LocaleText[], fallback: LocaleText) {
         this.locales = locales.slice();
         this.fallback = fallback;
     }
@@ -28,6 +29,12 @@ export default class Locales {
             ...this.locales,
             ...(this.locales.includes(this.fallback) ? [] : [this.fallback]),
         ];
+    }
+
+    getLocaleByString(localeString: string) {
+        return this.locales.find(
+            (locale) => localeToString(locale) === localeString,
+        );
     }
 
     /** Get preferred locales, in order of preference */
@@ -53,7 +60,7 @@ export default class Locales {
      * Get the most preferred non-placeholder string given the accessor.
      * If we resort the fallback, annotate the text with a signal that it's a placeholder.
      * */
-    get<Kind>(accessor: (locale: Locale) => Kind): Kind {
+    get<Kind>(accessor: (locale: LocaleText) => Kind): Kind {
         const preferredResult = this.locales
             .map((l) => accessor(l))
             .find((text) => {

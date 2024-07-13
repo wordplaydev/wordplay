@@ -9,7 +9,7 @@
     import concretize from '../../locale/concretize';
     import type TypeVariables from '../../nodes/TypeVariables';
     import RootView from '../project/RootView.svelte';
-    import type Locale from '../../locale/Locale';
+    import type LocaleText from '../../locale/LocaleText';
     import Progress from '../../tutorial/Progress';
     import Link from '../app/Link.svelte';
 
@@ -24,7 +24,7 @@
     let tutorialURL: string | undefined = undefined;
     $: getConceptURL($locales.getLocale()).then((url) => (tutorialURL = url));
 
-    async function getConceptURL(locale: Locale) {
+    async function getConceptURL(locale: LocaleText) {
         const character = concept.getCharacter($locales);
         if (character) {
             const tutorial = await Locales.getTutorial(

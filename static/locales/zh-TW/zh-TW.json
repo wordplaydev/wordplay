@@ -4221,6 +4221,9 @@
             },
             "button": {
                 "submit": "提交此聊天訊息"
+            },
+            "options": {
+                "locale": "$~选择输出语言"
             }
         },
         "timeline": {
@@ -4479,7 +4482,7 @@
                 ],
                 "beta": [
                     "Wordplay 處於測試階段。它的功能可能會更改或無法按預期工作，並且本地化可能不完整。",
-                    "但這也意味著我們需要您的回饋！請在<Discord@https://discord.gg/Jh2Qq9husy> 或<GitHub@https://github.com/wordplaydev/wordplay/issues> 上報告錯誤並分享想法。 contribute>。"
+                    null
                 ],
                 "link": {
                     "about": "這個地方為什麼存在？",

@@ -7,7 +7,7 @@ import TextType from '../nodes/TextType';
 import TextValue from '../values/TextValue';
 import StreamType from '../nodes/StreamType';
 import createStreamEvaluator from './createStreamEvaluator';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import ListValue from '../values/ListValue';
 import ListType from '../nodes/ListType';
 import TextLiteral from '../nodes/TextLiteral';
@@ -46,12 +46,13 @@ type FetchResponse = {
 type FetchResponseValue = string | number | { error: string };
 
 const FetchErrors = {
-    'invalid-url': (locale: Locale) => locale.input.Webpage.error.invalid,
-    'not-available': (locale: Locale) => locale.input.Webpage.error.unvailable,
-    'not-html': (locale: Locale) => locale.input.Webpage.error.notHTML,
-    'no-connection': (locale: Locale) =>
+    'invalid-url': (locale: LocaleText) => locale.input.Webpage.error.invalid,
+    'not-available': (locale: LocaleText) =>
+        locale.input.Webpage.error.unvailable,
+    'not-html': (locale: LocaleText) => locale.input.Webpage.error.notHTML,
+    'no-connection': (locale: LocaleText) =>
         locale.input.Webpage.error.noConnection,
-    'reached-limit': (locale: Locale) => locale.input.Webpage.error.limit,
+    'reached-limit': (locale: LocaleText) => locale.input.Webpage.error.limit,
 };
 
 export type FetchError = keyof typeof FetchErrors;

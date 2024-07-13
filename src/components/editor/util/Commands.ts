@@ -32,7 +32,7 @@ import FunctionDefinition from '@nodes/FunctionDefinition';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Names from '@nodes/Names';
 import { Settings, type Database } from '@db/Database';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import Sym from '../../../nodes/Sym';
 import type Project from '../../../models/Project';
 import interpret from './interpret';
@@ -44,7 +44,7 @@ export type Command = {
     /** The iconographic text symbol to use */
     symbol: string;
     /** Gets the locale string from a locale for use in title and aria-label of UI  */
-    description: (locale: Locale) => string;
+    description: (locale: LocaleText) => string;
     /** True if it should be a control in the toolbar */
     visible: Visibility;
     /** The category of command, used to decide where to display controls if visible */

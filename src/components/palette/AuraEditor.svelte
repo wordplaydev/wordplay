@@ -3,7 +3,7 @@
     import { Projects, locales } from '../../db/Database';
     import Slider from '@components/widgets/Slider.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
-    import { getFirstName } from '@locale/Locale';
+    import { getFirstName } from '@locale/LocaleText';
     import Evaluate from '@nodes/Evaluate';
     import Reference from '@nodes/Reference';
     import { createColorLiteral } from '@output/Color';

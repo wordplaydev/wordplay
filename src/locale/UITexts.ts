@@ -1,7 +1,7 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
 import type EditTexts from './EditTexts';
-import type { DocText, Template } from './Locale';
+import type { DocText, Template } from './LocaleText';
 
 export type ButtonText = {
     /** The buttons label */
@@ -370,6 +370,10 @@ type UITexts = {
         button: {
             /** The chat submit button */
             submit: string;
+        };
+        options: {
+            /** The label for the locale chooser in output */
+            locale: string;
         };
     };
     /** The documentation browser */

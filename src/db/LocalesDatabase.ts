@@ -1,11 +1,8 @@
 import { get, writable, type Writable } from 'svelte/store';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import type { Database } from './Database';
-import {
-    SupportedLocales,
-    type SupportedLocale,
-    toLocaleString,
-} from '../locale/Locale';
+import { SupportedLocales, type SupportedLocale } from '../locale/LocaleText';
+import { localeToString } from '@locale/Locale';
 import Fonts from '../basis/Fonts';
 import { Basis } from '../basis/Basis';
 import type Setting from './Setting';
@@ -21,7 +18,7 @@ export default class LocalesDatabase {
     private readonly database: Database;
 
     /** The default locale */
-    private readonly defaultLocale: Locale;
+    private readonly defaultLocale: LocaleText;
 
     /** A reactive store of preferred locales based on the selected languages. */
     readonly locales: Writable<Locales> = writable(DefaultLocales);
@@ -29,10 +26,10 @@ export default class LocalesDatabase {
     /** The locales loaded, loading, or failed to load. */
     private localesLoaded: Record<
         SupportedLocale,
-        Locale | Promise<Locale | undefined> | undefined
+        LocaleText | Promise<LocaleText | undefined> | undefined
     > = {} as Record<
         SupportedLocale,
-        Locale | Promise<Locale | undefined> | undefined
+        LocaleText | Promise<LocaleText | undefined> | undefined
     >;
 
     /** The setting for the locales */
@@ -43,14 +40,14 @@ export default class LocalesDatabase {
     constructor(
         database: Database,
         locales: SupportedLocale[],
-        defaultLocale: Locale,
+        defaultLocale: LocaleText,
         setting: Setting<SupportedLocale[]>,
     ) {
         this.database = database;
         this.defaultLocale = defaultLocale;
 
         // Store the default locale
-        this.localesLoaded[toLocaleString(defaultLocale) as SupportedLocale] =
+        this.localesLoaded[localeToString(defaultLocale) as SupportedLocale] =
             defaultLocale;
 
         this.setting = setting;
@@ -68,7 +65,7 @@ export default class LocalesDatabase {
     async loadLocales(
         preferredLocales: SupportedLocale[],
         refresh = false,
-    ): Promise<Locale[]> {
+    ): Promise<LocaleText[]> {
         // Asynchronously load all unloaded locales.
         const locales = (
             await Promise.all(
@@ -76,7 +73,7 @@ export default class LocalesDatabase {
                     this.loadLocale(locale, refresh),
                 ),
             )
-        ).filter((locale): locale is Locale => locale !== undefined);
+        ).filter((locale): locale is LocaleText => locale !== undefined);
 
         // Ask fonts to load the locale's preferred fonts.
         Fonts.loadLocales(locales);
@@ -97,7 +94,7 @@ export default class LocalesDatabase {
     async loadLocale(
         lang: SupportedLocale,
         refresh: boolean,
-    ): Promise<Locale | undefined> {
+    ): Promise<LocaleText | undefined> {
         // Already checked and it doesn't exist? Just return undefined.
         if (
             !refresh &&
@@ -142,20 +139,20 @@ export default class LocalesDatabase {
         return get(this.locales);
     }
 
-    getLocales(): Locale[] {
+    getLocales(): LocaleText[] {
         return get(this.locales).getLocales();
     }
 
-    getLocale(): Locale {
+    getLocale(): LocaleText {
         return this.getLocales()[0];
     }
 
-    private computeLocales(): Locale[] {
+    private computeLocales(): LocaleText[] {
         const selected = this.setting
             .get()
             .map((locale) => this.localesLoaded[locale])
             .filter(
-                (locale): locale is Locale =>
+                (locale): locale is LocaleText =>
                     locale !== undefined && !(locale instanceof Promise),
             );
 
@@ -176,7 +173,9 @@ export default class LocalesDatabase {
     }
 
     /** Set the languages, load all locales if they aren't loaded, revise all projects to include any new locales, and save the new configuration. */
-    async setLocales(preferredLocales: SupportedLocale[]): Promise<Locale[]> {
+    async setLocales(
+        preferredLocales: SupportedLocale[],
+    ): Promise<LocaleText[]> {
         // Update the configuration with the new languages, regardless of whether we successfully loaded them.
         this.setting.set(this.database, preferredLocales);
 

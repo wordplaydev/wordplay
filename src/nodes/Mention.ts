@@ -1,5 +1,5 @@
 import Purpose from '../concepts/Purpose';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
 import type { TemplateInput } from '../locale/concretize';
@@ -50,7 +50,7 @@ export default class Mention extends Content {
 
     clone(replace?: Replacement | undefined): this {
         return new Mention(
-            this.replaceChild('name', this.name, replace)
+            this.replaceChild('name', this.name, replace),
         ) as this;
     }
 
@@ -68,7 +68,7 @@ export default class Mention extends Content {
     concretize(
         locales: Locales,
         inputs: TemplateInput[],
-        replacements: [Node, Node][]
+        replacements: [Node, Node][],
     ): Token | ValueRef | NodeRef | undefined {
         const name = this.name.getText().slice(1);
 
@@ -78,7 +78,7 @@ export default class Mention extends Content {
         if (name === '?') {
             const replacement = new Token(
                 locales.get((l) => l.ui.template.unwritten),
-                Sym.Words
+                Sym.Words,
             );
             replacements.push([this, replacement]);
             return replacement;
@@ -97,10 +97,10 @@ export default class Mention extends Content {
                 input instanceof ValueRef
                     ? input
                     : input instanceof NodeRef
-                    ? input
-                    : input === undefined
-                    ? undefined
-                    : new Token(input.toString(), Sym.Words);
+                      ? input
+                      : input === undefined
+                        ? undefined
+                        : new Token(input.toString(), Sym.Words);
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);
@@ -109,7 +109,7 @@ export default class Mention extends Content {
         }
         // Try to resolve terminology.
         else {
-            const id = name as keyof Locale['term'];
+            const id = name as keyof LocaleText['term'];
             const locale = locales.getLocale();
             const phrase = Object.hasOwn(locale.term, id)
                 ? locale.term[id]

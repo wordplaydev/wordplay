@@ -1,6 +1,6 @@
 import Markup from '../nodes/Markup';
 import { toMarkup } from '../parser/toMarkup';
-import { isUnwritten, withoutAnnotations } from './Locale';
+import { isUnwritten, withoutAnnotations } from './LocaleText';
 import type Locales from './Locales';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';

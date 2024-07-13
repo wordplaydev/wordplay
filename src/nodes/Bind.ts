@@ -33,7 +33,7 @@ import Sym from './Sym';
 import type Name from './Name';
 import DuplicateName from '@conflicts/DuplicateName';
 import { node, none, type Grammar, type Replacement, any } from './Node';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
@@ -281,11 +281,12 @@ export default class Bind extends Expression {
     sharesName(bind: Bind) {
         return this.names.sharesName(bind.names);
     }
+
     getNames(): string[] {
         return this.names.getNames();
     }
 
-    getPreferredName(locales: Locale[]) {
+    getPreferredName(locales: LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 

@@ -25,7 +25,7 @@ import NoExpression from '@conflicts/NoExpression';
 import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import { any, node, none, type Grammar, type Replacement, list } from './Node';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -254,7 +254,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         return this.share !== undefined;
     }
 
-    getPreferredName(locales: Locale[]) {
+    getPreferredName(locales: LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 

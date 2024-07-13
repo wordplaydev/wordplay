@@ -1,12 +1,12 @@
 import Evaluate from '../nodes/Evaluate';
 import { createColorLiteral } from '../output/Color';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import OutputProperty from './OutputProperty';
 import type Project from '../models/Project';
 
 export default function getAuraProperties(
     project: Project,
-    locale: Locale,
+    locale: LocaleText,
 ): OutputProperty[] {
     return [
         new OutputProperty(

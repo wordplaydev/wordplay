@@ -125,9 +125,10 @@
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
-    import { toLocaleString, type Locale } from '@locale/Locale';
+    import { localeToString } from '@locale/Locale';
+    import type Locale from '@locale/Locale';
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
-    import DefaultLocale from '@locale/DefaultLocale';
+    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -229,7 +230,14 @@
     setContext(KeyModfifierSymbol, keyModifiers);
 
     /** Keep a currently selected output locale to send to the Evaluator for evaluation and rendering */
-    let evaluationLocale: Locale | undefined;
+    let evaluationLocale: Locale | undefined = undefined;
+
+    /** When the evaluation locale changes, update the evaluator. */
+    $: if (evaluationLocale === undefined || evaluationLocale !== undefined)
+        updateEvaluator(project);
+
+    /** Keep track of locales used */
+    $: localesUsed = project.getLocalesUsed();
 
     // When keyboard edit idle changes to true, set a timeout
     // to reset it to false after a delay.
@@ -329,9 +337,7 @@
             newProject,
             DB,
             // Choose the selected evaluation locale or if not selected, currently selected IDE locale
-            evaluationLocale
-                ? [evaluationLocale, DefaultLocale]
-                : $locales.getLocales(),
+            evaluationLocale ? [evaluationLocale] : localesUsed,
             true,
             replayInputs ? $evaluator : undefined,
         );
@@ -1381,6 +1387,12 @@
                                         background
                                         command={Restart}
                                     />
+                                    {#if localesUsed.length > 1}<OutputLocaleChooser
+                                            {localesUsed}
+                                            locale={evaluationLocale}
+                                            change={(locale) =>
+                                                (evaluationLocale = locale)}
+                                        />{/if}
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting
                                             bind:painting
@@ -1442,7 +1454,7 @@
                                             )}
                                         modes={[
                                             '...',
-                                            toLocaleString(
+                                            localeToString(
                                                 $locales.getLocale(),
                                             ),
                                             '😀',

@@ -29,10 +29,10 @@ import TypeException from '../values/TypeException';
 import TemporalStreamValue from '../values/TemporalStreamValue';
 import StartFinish from './StartFinish';
 import type { Basis } from '../basis/Basis';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import type { Path } from '../nodes/Root';
 import Evaluate from '../nodes/Evaluate';
-
+import type Locale from '@locale/Locale';
 import NumberGenerator from 'recoverable-random';
 import type { Database } from '../db/Database';
 import ReactionStream from '../values/ReactionStream';
@@ -82,7 +82,7 @@ export default class Evaluator {
     readonly project: Project;
 
     /** The preferred locales for evaluation. */
-    readonly locales: Locale[];
+    readonly locales: (Locale | LocaleText)[];
 
     /** The database that contains settings for evaluation */
     readonly database: Database;
@@ -258,7 +258,7 @@ export default class Evaluator {
     constructor(
         project: Project,
         database: Database,
-        locales: Locale[],
+        locales: (Locale | Locale)[],
         reactive = true,
         prior: Evaluator | undefined = undefined,
     ) {
@@ -298,7 +298,7 @@ export default class Evaluator {
      */
     static evaluateCode(
         database: Database,
-        locale: Locale,
+        locale: LocaleText,
         main: string,
         supplements?: string[],
     ): Value | undefined {
@@ -312,10 +312,7 @@ export default class Evaluator {
             ),
             locale,
         );
-        return new Evaluator(project, database, [
-            locale,
-            DefaultLocale,
-        ]).getInitialValue();
+        return new Evaluator(project, database, [locale]).getInitialValue();
     }
 
     /** Mirror the given evaluator's stream history and state, but with the new source. */
@@ -432,6 +429,11 @@ export default class Evaluator {
 
     /** Get the currently selected locales from the database */
     getLocales() {
+        return [...this.locales.filter((l) => 'wordplay' in l), DefaultLocale];
+    }
+
+    /** Get the locales used in this evaluator for determining text values at runtime. */
+    getLocaleIDs(): Locale[] {
         return this.locales;
     }
 

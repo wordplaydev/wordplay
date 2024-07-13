@@ -29,7 +29,7 @@ import NeverType from './NeverType';
 import type Definition from './Definition';
 import NumberType from './NumberType';
 import { node, type Grammar, type Replacement } from './Node';
-import type { Template } from '@locale/Locale';
+import type { Template } from '@locale/LocaleText';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeRef from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';

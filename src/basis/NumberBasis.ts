@@ -25,8 +25,8 @@ import ListValue from '@values/ListValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
-import type { FunctionText, NameAndDoc } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
 import ListType from '../nodes/ListType';
 import type Locales from '../locale/Locales';
 
@@ -37,7 +37,7 @@ export default function bootstrapNumber(locales: Locales) {
     );
 
     function createBinaryOp(
-        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         inputType: Type,
         outputType: Type,
         expression: (
@@ -92,7 +92,7 @@ export default function bootstrapNumber(locales: Locales) {
     }
 
     function createUnaryOp(
-        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         outputType: Type,
         expression: (
             requestor: Expression,
@@ -128,8 +128,8 @@ export default function bootstrapNumber(locales: Locales) {
     }
 
     function createVariableOp(
-        nameAndDoc: (locale: Locale) => NameAndDoc,
-        input: (locale: Locale) => NameAndDoc,
+        nameAndDoc: (locale: LocaleText) => NameAndDoc,
+        input: (locale: LocaleText) => NameAndDoc,
         evaluator: (
             creator: Expression,
             values: NumberValue[],

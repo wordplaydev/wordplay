@@ -20,7 +20,7 @@ import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import Matter, { toMatter } from './Matter';
 import type Evaluator from '../runtime/Evaluator';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/Locale';
+import { getFirstName } from '../locale/LocaleText';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`

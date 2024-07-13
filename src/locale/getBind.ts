@@ -1,10 +1,10 @@
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
-import { toDocString, type NameAndDoc } from './Locale';
-import type Locale from './Locale';
+import { toDocString, type NameAndDoc } from './LocaleText';
+import type LocaleText from './LocaleText';
 import { getLocaleNames } from './getInputLocales';
-import { parseLocaleDoc } from '@locale/Locale';
+import { parseLocaleDoc } from '@locale/LocaleText';
 import type Doc from '../nodes/Doc';
 import Name from '../nodes/Name';
 import Language from '../nodes/Language';
@@ -14,7 +14,7 @@ import { getFormattedWordplay } from '@parser/getPreferredSpaces';
 
 export function getBind(
     locales: Locales,
-    select: (locale: Locale) => NameAndDoc,
+    select: (locale: LocaleText) => NameAndDoc,
     separator = ' ',
 ): string {
     // Get the symbolic names from English (US), which we always include.

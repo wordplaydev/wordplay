@@ -1,4 +1,4 @@
-import type { DocText, Template } from './Locale';
+import type { DocText, Template } from './LocaleText';
 import type Emotion from '../lore/Emotion';
 
 export type NodeText = {
