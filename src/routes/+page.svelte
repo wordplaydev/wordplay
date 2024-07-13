@@ -18,6 +18,9 @@
     import Glyphs from '../lore/Glyphs';
     import Emotion from '../lore/Emotion';
     import Iconified from './Iconified.svelte';
+    import { getUser } from '@components/project/Contexts';
+
+    const user = getUser();
 </script>
 
 <svelte:head>
@@ -45,12 +48,14 @@
     <MarkupHtmlView
         markup={$locales.get((l) => l.ui.page.landing.description)}
     />
-    <br />
-    <BigLink
-        to="/login"
-        subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
-        >{$locales.get((l) => l.ui.page.login.header)}</BigLink
-    >
+    {#if $user === null}
+        <br />
+        <BigLink
+            to="/login"
+            subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
+            >{$locales.get((l) => l.ui.page.login.header)}</BigLink
+        >
+    {/if}
     <br />
     <div class="actions">
         <Action>
