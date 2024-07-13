@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "zh",
     "region": "TW",
     "wordplay": "雙關語",
@@ -4481,8 +4481,7 @@
                     "• 永遠擺脫華盛頓大學↗的束縛。"
                 ],
                 "beta": [
-                    "Wordplay 處於測試階段。它的功能可能會更改或無法按預期工作，並且本地化可能不完整。",
-                    null
+                    "Wordplay 處於測試階段。它的功能可能會更改或無法按預期工作，並且本地化可能不完整。"
                 ],
                 "link": {
                     "about": "這個地方為什麼存在？",

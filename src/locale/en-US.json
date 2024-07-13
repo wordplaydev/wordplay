@@ -1,5 +1,5 @@
 {
-    "$schema": "../../static/schemas/Locale.json",
+    "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
     "region": "US",
     "wordplay": "Wordplay",

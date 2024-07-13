@@ -18,6 +18,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#485](https://github.com/wordplaydev/wordplay/issues/485) Allow selection of language for output.
 -   Reset owner and collaborators of copied project.
 -   Added variation selectors to emojis for Safari.
+-   Stripped machine translation tags from locale text on render.
+-   Fixed name of locale text JSON schema.
 
 ## 0.10.4 2024-07-08
 

@@ -34,7 +34,7 @@ import Translate from '@google-cloud/translate';
 
 // Read in and compile the two schema so we can check files.
 const localeSchema = JSON.parse(
-    fs.readFileSync('static/schemas/Locale.json', 'utf8'),
+    fs.readFileSync('static/schemas/LocaleText.json', 'utf8'),
 );
 const tutorialSchema = JSON.parse(
     fs.readFileSync('static/schemas/Tutorial.json', 'utf8'),

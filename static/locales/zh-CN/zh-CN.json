@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "zh",
     "region": "CN",
     "wordplay": "双关语",
@@ -4485,8 +4485,7 @@
                     "华盛顿大学永久免费↗。"
                 ],
                 "beta": [
-                    "Wordplay 处于*测试阶段*。这意味着功能可能会更改或无法按预期工作，并且本地化可能不完整。",
-                    null
+                    "Wordplay 处于*测试阶段*。这意味着功能可能会更改或无法按预期工作，并且本地化可能不完整。"
                 ],
                 "link": {
                     "about": "这个地方为什么存在？",

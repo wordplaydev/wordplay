@@ -23,7 +23,6 @@ import type { FlagDescriptions } from '../models/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
-import type { Locale } from './Locale';
 
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
 export const EventuallySupportedLocales = ['zh-TW'];
@@ -51,7 +50,7 @@ export const MachineTranslated = '$~';
  * including every user interface label, every description, etc.
  * All of these fields must be included in order for a translation to be complete.
  **/
-export type LocaleText = Locale & {
+export type LocaleText = {
     /** A path to the generated JSON schema that mirrors this type, for validation and auto-complete */
     $schema: string;
     /** An ISO 639-1 language code */
