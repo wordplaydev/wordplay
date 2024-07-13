@@ -20,6 +20,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Added variation selectors to emojis for Safari.
 -   Stripped machine translation tags from locale text on render.
 -   Fixed name of locale text JSON schema.
+-   Hide login link on landing page if logged in.
 
 ## 0.10.4 2024-07-08
 
