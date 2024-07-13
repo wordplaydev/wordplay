@@ -185,6 +185,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: CONVERT_SYMBOL3, types: [Sym.Convert] },
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
     { pattern: TYPE_SYMBOL, types: [Sym.Type, Sym.TypeOperator] },
+    { pattern: /^!#/, types: [Sym.Number] },
     { pattern: LITERAL_SYMBOL, types: [Sym.Literal] },
     {
         pattern: OR_SYMBOL,
