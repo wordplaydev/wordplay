@@ -25,6 +25,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Hide comma separator when localizing names and docs.
 -   Permit comma separators between text literals, docs, and names, allowing line breaks for text.
 -   Define `Input`s corresponding definition to enable code localization.
+-   Improved `MissingInput` conflict.
 
 ## 0.10.4 2024-07-08
 
