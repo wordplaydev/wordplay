@@ -70,7 +70,7 @@ export default class Names extends Node {
         return [];
     }
 
-    getTags(): Name[] {
+    getTagged(): Name[] {
         return this.names;
     }
 

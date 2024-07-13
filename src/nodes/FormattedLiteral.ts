@@ -127,7 +127,7 @@ export default class FormattedLiteral extends Literal {
         return new MarkupValue(this, concrete.markup);
     }
 
-    getTags(): FormattedTranslation[] {
+    getTagged(): FormattedTranslation[] {
         return this.texts;
     }
 

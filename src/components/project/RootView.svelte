@@ -70,8 +70,9 @@
     setContext(ShowLinesSymbol, showLines);
     $: showLines.set(lines);
 
-    // Update what's hidden.
+    // Update what's hidden when locales or localized changes.
     $: {
+        $locales;
         const newHidden = new Set<Node>();
 
         if ($localize !== 'actual') {
@@ -87,7 +88,7 @@
                         n instanceof FormattedLiteral,
                 )) {
                 // Get the language tags on the nodes.
-                const tags = tagged.getTags();
+                const tags = tagged.getTagged();
 
                 // Is this caret inside this node?
                 const inside =
@@ -103,25 +104,30 @@
                                 tags.some((l) => l.getLanguage() === lang),
                             )
                     ) {
-                        let first = false;
-                        for (const nameOrDoc of tags) {
-                            const selectedLocale = $locales
-                                .getLanguages()
-                                .some((t) => t === nameOrDoc.getLanguage());
-                            // Not a selected language and not in the node and has a language? Hide it.
-                            if (!selectedLocale && nameOrDoc.language)
-                                newHidden.add(nameOrDoc);
-                            // Is the selected language and inert? Hide the language tag.
-                            else if (selectedLocale && nameOrDoc.language)
-                                newHidden.add(nameOrDoc.language);
-                            // Not first? Hide the separator.
-                            if (!first) {
-                                first = true;
+                        // Keep track of if there's a node that's visible so we know when to hide separators.
+                        let priorVisible = false;
+                        // Go through each language tagged node to see if we should hide it.
+                        for (const nameDocOrText of tags) {
+                            const language = nameDocOrText.getLanguage();
+                            const selectedLocale =
+                                language !== undefined &&
+                                $locales.hasLanguage(language);
+                            // Not a selected locale? Hide the whole name or doc.
+                            if (!selectedLocale) {
+                                newHidden.add(nameDocOrText);
+                            }
+                            // Is the selected language? Hide just the locale tag and any preceding separator.
+                            else {
+                                if (nameDocOrText.language)
+                                    newHidden.add(nameDocOrText.language);
+                                // Hide the separator.
                                 if (
-                                    nameOrDoc instanceof Name &&
-                                    nameOrDoc.separator
+                                    !priorVisible &&
+                                    nameDocOrText instanceof Name &&
+                                    nameDocOrText.separator
                                 )
-                                    newHidden.add(nameOrDoc.separator);
+                                    newHidden.add(nameDocOrText.separator);
+                                priorVisible = true;
                             }
                         }
                     }

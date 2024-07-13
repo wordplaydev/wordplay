@@ -194,7 +194,7 @@ export default class TextLiteral extends Literal {
         return current;
     }
 
-    getTags(): Translation[] {
+    getTagged(): Translation[] {
         return this.texts;
     }
 
