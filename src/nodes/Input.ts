@@ -22,6 +22,7 @@ import SimpleExpression from './SimpleExpression';
 import Evaluate from './Evaluate';
 import Refer from '@edit/Refer';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Definition from './Definition';
 
 export default class Input extends SimpleExpression {
     readonly name: Token;
@@ -120,6 +121,20 @@ export default class Input extends SimpleExpression {
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext): TypeSet {
         return this.value.evaluateTypeGuards(current, guard);
+    }
+
+    /** Get the bind to which this input corresponds. */
+    getCorrespondingDefinition(context: Context): Definition | undefined {
+        const parent = context.getRoot(this)?.getParent(this);
+        if (parent instanceof Evaluate) {
+            const fun = parent.getFunction(context);
+            if (fun)
+                return fun.inputs.find((input) =>
+                    input.hasName(this.getName()),
+                );
+        }
+
+        return undefined;
     }
 
     getName() {

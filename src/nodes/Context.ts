@@ -50,9 +50,11 @@ export default class Context {
     visit(node: Node) {
         this.stack.push(node);
     }
+
     unvisit() {
         this.stack.pop();
     }
+
     visited(node: Node) {
         return this.stack.includes(node);
     }
