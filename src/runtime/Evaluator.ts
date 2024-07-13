@@ -37,7 +37,6 @@ import NumberGenerator from 'recoverable-random';
 import type { Database } from '../db/Database';
 import ReactionStream from '../values/ReactionStream';
 import type Animator from '../output/Animator';
-import Locales from '../locale/Locales';
 import DefaultLocale from '../locale/DefaultLocale';
 import StructureValue from '@values/StructureValue';
 import ListValue from '@values/ListValue';
@@ -83,7 +82,7 @@ export default class Evaluator {
     readonly project: Project;
 
     /** The preferred locales for evaluation. */
-    readonly locales: Locales;
+    readonly locales: Locale[];
 
     /** The database that contains settings for evaluation */
     readonly database: Database;
@@ -259,7 +258,7 @@ export default class Evaluator {
     constructor(
         project: Project,
         database: Database,
-        locales: Locales,
+        locales: Locale[],
         reactive = true,
         prior: Evaluator | undefined = undefined,
     ) {
@@ -313,11 +312,10 @@ export default class Evaluator {
             ),
             locale,
         );
-        return new Evaluator(
-            project,
-            database,
-            new Locales([locale], DefaultLocale),
-        ).getInitialValue();
+        return new Evaluator(project, database, [
+            locale,
+            DefaultLocale,
+        ]).getInitialValue();
     }
 
     /** Mirror the given evaluator's stream history and state, but with the new source. */
@@ -434,7 +432,7 @@ export default class Evaluator {
 
     /** Get the currently selected locales from the database */
     getLocales() {
-        return this.locales.getLocales();
+        return this.locales;
     }
 
     getCurrentEvaluation() {

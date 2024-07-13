@@ -170,7 +170,12 @@ test.each([...projects])(
     `Ensure $name doesn't evaluate to exception`,
     async (example: SerializedProject) => {
         const project = await Project.deserialize(Locales, example);
-        const evaluator = new Evaluator(project, DB, DefaultLocales, false);
+        const evaluator = new Evaluator(
+            project,
+            DB,
+            DefaultLocales.getLocales(),
+            false,
+        );
         const value = evaluator.getInitialValue();
         evaluator.stop();
         expect(value).not.toBeInstanceOf(ExceptionValue);

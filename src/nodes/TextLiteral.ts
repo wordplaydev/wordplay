@@ -178,9 +178,9 @@ export default class TextLiteral extends Literal {
             : getPreferred(locales, this.texts);
     }
 
-    getValue(locales: Locales): TextValue {
+    getValue(locales: Locale[]): TextValue {
         // Get the alternatives
-        const best = this.getLocaleText(locales.getLocales());
+        const best = this.getLocaleText(locales);
         return new TextValue(
             this,
             best.getText(),

@@ -146,8 +146,8 @@ export default class FormattedLiteral extends Literal {
         return Glyphs.Formatted;
     }
 
-    getValue(locales: Locales): Value {
-        const preferred = this.getPreferredText(locales.getLocales());
+    getValue(locales: Locale[]): Value {
+        const preferred = this.getPreferredText(locales);
         return new MarkupValue(this, preferred.markup);
     }
 

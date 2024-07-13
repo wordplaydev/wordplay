@@ -13,7 +13,7 @@ import Evaluator from './Evaluator';
 export default function evaluateCode(
     main: string,
     supplements?: string[],
-    locales?: Locales
+    locales?: Locales,
 ): Value | undefined {
     const source = new Source('test', main);
     const project = Project.make(
@@ -21,16 +21,13 @@ export default function evaluateCode(
         'test',
         source,
         (supplements ?? []).map(
-            (code, index) => new Source(`sup${index + 1}`, code)
+            (code, index) => new Source(`sup${index + 1}`, code),
         ),
-        locales?.getLocales() ?? DefaultLocale
+        locales?.getLocales() ?? DefaultLocale,
     );
     return new Evaluator(
         project,
         DB,
-        new Locales(
-            locales === undefined ? [DefaultLocale] : locales.getLocales(),
-            DefaultLocale
-        )
+        locales === undefined ? [DefaultLocale] : locales.getLocales(),
     ).getInitialValue();
 }

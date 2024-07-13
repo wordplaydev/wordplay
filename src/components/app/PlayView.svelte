@@ -16,7 +16,7 @@
     let evaluator: Evaluator;
     let latest: Value | undefined = undefined;
     $: {
-        evaluator = new Evaluator(project, DB, $locales);
+        evaluator = new Evaluator(project, DB, $locales.getLocales());
         if (evaluator) {
             evaluator.stop();
             evaluator.ignore(update);

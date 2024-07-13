@@ -15,7 +15,7 @@ test.each([0, 1, 10, 15])('Step back %i', (steps: number) => {
 
     const source = new Source('test', fib);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const evaluator = new Evaluator(project, DB, DefaultLocales);
+    const evaluator = new Evaluator(project, DB, DefaultLocales.getLocales());
     evaluator.start();
     const stepIndex = evaluator.getStepIndex();
 
@@ -38,7 +38,7 @@ test('Too many steps', () => {
 
     const source = new Source('test', fib);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const evaluator = new Evaluator(project, DB, DefaultLocales);
+    const evaluator = new Evaluator(project, DB, DefaultLocales.getLocales());
     const value = evaluator.getInitialValue();
     expect(value).toBeInstanceOf(StepLimitException);
 });
@@ -51,7 +51,7 @@ test('Too many evaluations', () => {
 
     const source = new Source('test', fib);
     const project = Project.make(null, 'test', source, [], DefaultLocale);
-    const evaluator = new Evaluator(project, DB, DefaultLocales);
+    const evaluator = new Evaluator(project, DB, DefaultLocales.getLocales());
     const value = evaluator.getInitialValue();
     expect(value).toBeInstanceOf(EvaluationLimitException);
 });

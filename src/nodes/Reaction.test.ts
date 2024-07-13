@@ -11,7 +11,6 @@ import Reaction from './Reaction';
 import ExpectedStream from '../conflicts/ExpectedStream';
 import { DB } from '../db/Database';
 import DefaultLocale from '../locale/DefaultLocale';
-import Locales from '../locale/Locales';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 
@@ -46,16 +45,12 @@ test.each([
         code: string,
         value: (expression: Expression) => Value,
         expectedInitial: string,
-        expectedNext: string
+        expectedNext: string,
     ) => {
         // Make the project
         const source = new Source('test', code);
         const project = Project.make(null, 'test', source, [], DefaultLocale);
-        const evaluator = new Evaluator(
-            project,
-            DB,
-            new Locales([DefaultLocale], DefaultLocale)
-        );
+        const evaluator = new Evaluator(project, DB, [DefaultLocale]);
 
         evaluator.start();
 
@@ -75,7 +70,7 @@ test.each([
         const actualNext = evaluator.getLatestSourceValue(source);
         expect(actualNext?.toString()).toBe(expectedNext);
         evaluator.stop();
-    }
+    },
 );
 
 testConflict('1 … ∆ Time() … 1 + .', '1 … ⊤ … 1 + .', Reaction, ExpectedStream);

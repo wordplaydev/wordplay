@@ -125,8 +125,9 @@
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
-    import { toLocaleString } from '@locale/Locale';
+    import { toLocaleString, type Locale } from '@locale/Locale';
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
+    import DefaultLocale from '@locale/DefaultLocale';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -227,6 +228,9 @@
     });
     setContext(KeyModfifierSymbol, keyModifiers);
 
+    /** Keep a currently selected output locale to send to the Evaluator for evaluation and rendering */
+    let evaluationLocale: Locale | undefined;
+
     // When keyboard edit idle changes to true, set a timeout
     // to reset it to false after a delay.
     $: {
@@ -324,7 +328,10 @@
         const newEvaluator = new Evaluator(
             newProject,
             DB,
-            newProject.getLocales(),
+            // Choose the selected evaluation locale or if not selected, currently selected IDE locale
+            evaluationLocale
+                ? [evaluationLocale, DefaultLocale]
+                : $locales.getLocales(),
             true,
             replayInputs ? $evaluator : undefined,
         );

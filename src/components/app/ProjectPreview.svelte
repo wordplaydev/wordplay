@@ -34,7 +34,12 @@
     $: path = link ?? project.getLink(true);
 
     function updatePreview() {
-        const evaluator = new Evaluator(project, DB, $locales, false);
+        const evaluator = new Evaluator(
+            project,
+            DB,
+            $locales.getLocales(),
+            false,
+        );
         const value = evaluator.getInitialValue();
         evaluator.stop();
         const stage = value ? toStage(evaluator, value) : undefined;

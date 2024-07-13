@@ -6,7 +6,6 @@ import Project from '../models/Project';
 import type Value from '../values/Value';
 import { DB } from '../db/Database';
 import DefaultLocale from '../locale/DefaultLocale';
-import Locales from '../locale/Locales';
 
 test.each([
     // A single source with 1 should evaluate to 1
@@ -23,14 +22,12 @@ test.each([
             code
                 .slice(1)
                 .map((code, index) => new Source(`sup${index + 1}`, code)),
-            DefaultLocale
+            DefaultLocale,
         );
-        const value = new Evaluator(
-            project,
-            DB,
-            new Locales([DefaultLocale], DefaultLocale)
-        ).getInitialValue();
+        const value = new Evaluator(project, DB, [
+            DefaultLocale,
+        ]).getInitialValue();
         expect(value).toBeDefined();
         expect((value as Value).constructor).toBe(valueType);
-    }
+    },
 );
