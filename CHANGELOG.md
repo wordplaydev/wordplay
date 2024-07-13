@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed reactivity dependency bug that included evaluates in branch dependencies.
 -   Fixed selection of locale in evaluation.
 -   [#485](https://github.com/wordplaydev/wordplay/issues/485) Allow selection of language for output.
+-   Reset owner and collaborators of copied project.
 
 ## 0.10.4 2024-07-08
 

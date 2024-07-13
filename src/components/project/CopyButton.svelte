@@ -5,12 +5,15 @@
     import { PersistenceType } from '@db/ProjectHistory';
     import type Project from '@models/Project';
     import { COPY_SYMBOL } from '@parser/Symbols';
+    import { getUser } from './Contexts';
 
     export let project: Project;
 
+    const user = getUser();
+
     /** Copy the project, make it private, track it, then gotoProject(). */
     function copy() {
-        const copy = project.copy().asPublic(false);
+        const copy = project.copy($user?.uid ?? null);
         Projects.track(copy, true, PersistenceType.Online, false);
         goto(copy.getLink(false));
     }

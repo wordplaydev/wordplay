@@ -142,7 +142,10 @@
                     <AddProject
                         add={(template) => {
                             if (gallery) {
-                                const newProjectID = Projects.copy(template);
+                                const newProjectID = Projects.copy(
+                                    template,
+                                    $user?.uid ?? null,
+                                );
                                 Galleries.edit(
                                     gallery.withProject(newProjectID),
                                 );

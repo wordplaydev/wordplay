@@ -177,8 +177,15 @@ export default class Project {
         });
     }
 
-    copy() {
-        return new Project({ ...this.data, id: uuidv4() });
+    copy(newOwner: string | null) {
+        return Project.make(
+            uuidv4(),
+            this.getName(),
+            this.getMain(),
+            this.getSupplements(),
+            this.getLocales().getLocales(),
+            newOwner,
+        );
     }
 
     equals(project: Project) {

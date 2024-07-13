@@ -348,8 +348,8 @@ export default class ProjectsDatabase {
         return newProject.getID();
     }
 
-    copy(project: Project) {
-        const clone = project.copy();
+    copy(project: Project, newOwner: string | null) {
+        const clone = project.copy(newOwner);
         this.track(clone, true, PersistenceType.Online, false);
         return clone.getID();
     }
