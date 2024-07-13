@@ -3,7 +3,7 @@ import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
 import { localeToString } from './Locale';
 import type LocaleText from './LocaleText';
-import { isUnwritten } from './LocaleText';
+import { isUnwritten, MachineTranslated } from './LocaleText';
 
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
@@ -81,8 +81,18 @@ export default class Locales {
                 // Otherwise, just choose it
                 else return true;
             });
-        // If we found a preferred result, return it.
-        if (preferredResult !== undefined) return preferredResult;
+        // If we found a preferred result, return it. Strip the automation marker if present.
+        if (preferredResult !== undefined)
+            return (
+                typeof preferredResult === 'string'
+                    ? preferredResult.replace(MachineTranslated, '')
+                    : Array.isArray(preferredResult) &&
+                        preferredResult.every((s) => typeof s === 'string')
+                      ? preferredResult.map((s) =>
+                            s.replace(MachineTranslated, ''),
+                        )
+                      : preferredResult
+            ) as Kind;
 
         const fallbackResult = accessor(this.fallback);
 
