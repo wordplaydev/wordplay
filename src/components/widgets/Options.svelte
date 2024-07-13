@@ -61,6 +61,7 @@
         appearance: none;
         border: none;
         background: var(--wordplay-background);
+        color: var(--wordplay-foreground);
         padding-left: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);
         font-family: var(--wordplay-app-font);

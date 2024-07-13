@@ -27,6 +27,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Define `Input`s corresponding definition to enable code localization.
 -   Improved `MissingInput` conflict.
 -   Changed value of divide by zero to non-a-number; defined not-a-number literal.
+-   [#524](https://github.com/wordplaydev/wordplay/issues/524) Fixed color of drop downs in dark mode.
 
 ## 0.10.4 2024-07-08
 
