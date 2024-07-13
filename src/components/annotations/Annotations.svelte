@@ -148,33 +148,24 @@
                     // 2) zero or more secondary nodes
                     // From these, we generate one or two speech bubbles to illustrate the conflict.
                     return [
-                        ...(source.contains(primary.node)
-                            ? [
-                                  {
-                                      node: primary.node,
-                                      element: getNodeView(primary.node),
-                                      messages: [
-                                          primary.explanation(
-                                              $locales,
-                                              project.getNodeContext(
-                                                  primary.node,
-                                              ) ??
-                                                  project.getContext(
-                                                      project.getMain(),
-                                                  ),
-                                          ),
-                                      ],
-                                      kind: conflict.isMinor()
-                                          ? ('minor' as const)
-                                          : ('primary' as const),
-                                      context,
-                                      // Place the resolutions in the primary node.
-                                      resolutions: nodes.resolutions,
-                                  },
-                              ]
-                            : []),
-                        ...(secondary !== undefined &&
-                        source.contains(secondary.node)
+                        {
+                            node: primary.node,
+                            element: getNodeView(primary.node),
+                            messages: [
+                                primary.explanation(
+                                    $locales,
+                                    project.getNodeContext(primary.node) ??
+                                        project.getContext(project.getMain()),
+                                ),
+                            ],
+                            kind: conflict.isMinor()
+                                ? ('minor' as const)
+                                : ('primary' as const),
+                            context,
+                            // Place the resolutions in the primary node.
+                            resolutions: nodes.resolutions,
+                        },
+                        ...(secondary !== undefined
                             ? [
                                   {
                                       node: secondary.node,

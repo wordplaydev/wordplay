@@ -167,7 +167,7 @@ export default class Input extends SimpleExpression {
     }
 
     getGlyphs(): Glyph {
-        return Glyphs.Bind;
+        return { symbols: this.name.getText() + Glyphs.Bind };
     }
 
     getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {

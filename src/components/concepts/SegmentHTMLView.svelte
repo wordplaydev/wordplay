@@ -42,7 +42,7 @@
             {spaces}
             outline={false}
             describe={false}
-        />{/if}{:else if segment instanceof ConceptLink}<ConceptLinkUI
+        />{/if}{:else if segment instanceof ConceptLink || segment instanceof ConceptRef}<ConceptLinkUI
         link={segment}
     />{:else if segment instanceof Words}<WordsHTMLView
         words={segment}

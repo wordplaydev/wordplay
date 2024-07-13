@@ -878,7 +878,7 @@
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
                         glyph={$index?.getNodeConcept(exception.creator) ??
-                            exception.creator.getGlyphs()}
+                            exception.creator.getGlyphs($locales)}
                         invert
                     >
                         <svelte:fragment slot="content">

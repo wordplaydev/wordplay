@@ -11,6 +11,7 @@ import Token from './Token';
 import Sym from './Sym';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
+import ConceptRef from '@locale/ConceptRef';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -69,7 +70,7 @@ export default class Mention extends Content {
         locales: Locales,
         inputs: TemplateInput[],
         replacements: [Node, Node][],
-    ): Token | ValueRef | NodeRef | undefined {
+    ): Token | ValueRef | NodeRef | ConceptRef | undefined {
         const name = this.name.getText().slice(1);
 
         // Terminology reference
@@ -94,13 +95,13 @@ export default class Mention extends Content {
 
             // Return the matching input, or a placeholder if there wasn't one.
             const replacement =
-                input instanceof ValueRef
+                input instanceof ValueRef ||
+                input instanceof NodeRef ||
+                input instanceof ConceptRef
                     ? input
-                    : input instanceof NodeRef
-                      ? input
-                      : input === undefined
-                        ? undefined
-                        : new Token(input.toString(), Sym.Words);
+                    : input === undefined
+                      ? undefined
+                      : new Token(input.toString(), Sym.Words);
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);

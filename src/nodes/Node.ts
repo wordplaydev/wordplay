@@ -604,7 +604,7 @@ export default abstract class Node {
     // DESCRIPTIONS
 
     /** Returns a sequence of symbols that represents the personified form of the node */
-    abstract getGlyphs(): Glyph;
+    abstract getGlyphs(locales: Locales): Glyph;
 
     /**
      * Given a locale, get the node's static label

@@ -4,6 +4,7 @@ import { isUnwritten, withoutAnnotations } from './LocaleText';
 import type Locales from './Locales';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';
+import type ConceptRef from './ConceptRef';
 
 export type TemplateInput =
     | number
@@ -11,7 +12,8 @@ export type TemplateInput =
     | string
     | undefined
     | NodeRef
-    | ValueRef;
+    | ValueRef
+    | ConceptRef;
 
 /** We maintain cache a mapping from template strings to compiled markup, since they are fixed structures.
  * We just reuse them with different inputs.*/

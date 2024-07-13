@@ -611,8 +611,8 @@
                     "secondary": "哦，我這裡不應該出現嗎？"
                 },
                 "MissingInput": {
-                    "primary": "我缺少 $1，你能加嗎？",
-                    "secondary": "這個輸入是必要的，但 $2 沒有提供它"
+                    "primary": "$~如果没有名为 $1 的输入，我无法进行评估:(",
+                    "secondary": "$~哦，哎呀。你能帮我们把它添加到我的输入列表中吗？"
                 },
                 "NotInstantiable": "我不能建立這個 @StructureDefinition，它有未實現的函數。",
                 "UnexpectedInput": {

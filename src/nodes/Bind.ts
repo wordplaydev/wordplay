@@ -675,8 +675,15 @@ export default class Bind extends Expression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getGlyphs(locales: Locales) {
+        const preferredName =
+            this.names.getPreferredName(locales.getLocales())?.getName() ??
+            this.names.getNames()[0];
+        return preferredName
+            ? {
+                  symbols: preferredName,
+              }
+            : Glyphs.Bind;
     }
 
     getKind() {
