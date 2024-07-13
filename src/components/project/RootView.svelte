@@ -131,11 +131,6 @@
                             }
                         }
                     }
-                    // Otherwise, hide all but the first name
-                    else {
-                        for (const nameOrDoc of tags.slice(1))
-                            newHidden.add(nameOrDoc);
-                    }
                 }
 
                 // If this is a doc and we're not in a program, hide it unconditionally.
