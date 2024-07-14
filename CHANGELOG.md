@@ -32,6 +32,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Changed value of divide by zero to non-a-number; defined not-a-number literal.
 -   Improved dark grey contrast.
 -   Ensure templated strings are localized in tooltips.
+-   Allow addition to be used as a unary operation.
 
 ### Maintenance
 
