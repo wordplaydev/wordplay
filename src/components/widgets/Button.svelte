@@ -20,6 +20,7 @@
     export let large = false;
     export let background = false;
     export let padding = true;
+    export let testid: string | undefined = undefined;
 
     let loading = false;
 
@@ -45,6 +46,7 @@
     class:padding
     class:scale
     class:large
+    data-testid={testid}
     data-uiid={uiid}
     class={classes}
     type={submit ? 'submit' : 'button'}

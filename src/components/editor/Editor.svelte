@@ -1343,6 +1343,7 @@
 -->
 <!-- svelte-ignore missing-declaration -->
 <div
+    data-testid="editor"
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"

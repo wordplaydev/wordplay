@@ -79,6 +79,7 @@
 <div class="project" class:named={name}>
     <a
         class="preview"
+        data-testid="preview"
         data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
         style:height={`${size}rem`}

@@ -87,7 +87,11 @@
     }
 </script>
 
-<section class="palette" aria-label={$locales.get((l) => l.ui.palette.label)}>
+<section
+    class="palette"
+    data-testid="palette"
+    aria-label={$locales.get((l) => l.ui.palette.label)}
+>
     {#if propertyValues.size > 0}
         <Speech
             glyph={(outputs.length > 1 || definition === undefined

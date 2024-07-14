@@ -35,6 +35,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Mainteance
 
 -   Added additional reactivity tests to cover granular re-evaulation of random.
+-   A basic project test to ensure all windows are visible.
 
 ## 0.10.4 2024-07-08
 
