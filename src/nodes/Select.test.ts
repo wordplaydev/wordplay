@@ -5,7 +5,7 @@ import ExpectedSelectName from '@conflicts/ExpectedSelectName';
 import Select from './Select';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 
 test.each([
     [
@@ -36,7 +36,7 @@ test.each([
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {
         testConflict(good, bad, node, conflict);
-    }
+    },
 );
 
 test.each([

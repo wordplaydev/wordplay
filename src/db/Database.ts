@@ -1,4 +1,5 @@
 import { writable, type Writable } from 'svelte/store';
+import concretize from '@locale/concretize';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { firestore, auth } from '@db/firebase';
 import {
@@ -66,6 +67,7 @@ export class Database {
             this,
             locales,
             defaultLocale,
+            concretize,
             this.Settings.settings.locales,
         );
         this.Projects = new ProjectsDatabase(this);

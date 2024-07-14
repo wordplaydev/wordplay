@@ -44,6 +44,7 @@ import Name from '@nodes/Name';
 import Doc from '@nodes/Doc';
 import type Definition from '@nodes/Definition';
 import Templates from '@concepts/Templates';
+import concretize from '@locale/concretize';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -120,7 +121,7 @@ export default class Project {
 
         // Get a Basis for the requested locales.
         this.basis = Basis.getLocalizedBasis(
-            new Locales(this.data.locales, DefaultLocale),
+            new Locales(concretize, this.data.locales, DefaultLocale),
         );
 
         // Initialize default shares

@@ -6,7 +6,7 @@ import MissingCell from '@conflicts/MissingCell';
 import InvalidRow from '@conflicts/InvalidRow';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 
 test.each([
     [
@@ -37,7 +37,7 @@ test.each([
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict) => {
         testConflict(good, bad, node, conflict);
-    }
+    },
 );
 
 test.each([

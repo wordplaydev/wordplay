@@ -1,5 +1,6 @@
 import { test, expect } from 'vitest';
-import DefaultLocale, { DefaultLocales } from './DefaultLocale';
+import DefaultLocale from './DefaultLocale';
+import DefaultLocales from './DefaultLocales';
 import type { TemplateInput } from './Locales';
 
 test.each([

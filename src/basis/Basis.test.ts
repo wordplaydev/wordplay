@@ -8,7 +8,8 @@ import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
 import { Basis } from './Basis';
-import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocale from '../locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
 import Templates from '@concepts/Templates';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);

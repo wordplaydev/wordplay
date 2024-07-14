@@ -28,8 +28,9 @@ import type Node from '../nodes/Node';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import Project from '../models/Project';
 import { tokenize } from '../parser/Tokenizer';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 import Translate from '@google-cloud/translate';
+import { concretizeOrUndefined } from '@locale/concretize';
 
 // Read in and compile the two schema so we can check files.
 const localeSchema = JSON.parse(
@@ -653,7 +654,8 @@ async function checkLocale(
         // If it's not a doc, assume it's a template string and try to parse it as a template.
         // If we can't, complain.
         else if (typeof path.value === 'string') {
-            const description = DefaultLocales.concretizeOrUndefined(
+            const description = concretizeOrUndefined(
+                DefaultLocales,
                 path.value,
                 'test',
                 'test',

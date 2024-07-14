@@ -4,7 +4,7 @@ import { DB, Locales } from '../db/Database';
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { getExampleGalleries, parseSerializedProject } from './examples';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 import type { SerializedProject } from '../models/ProjectSchemas';
 import Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';

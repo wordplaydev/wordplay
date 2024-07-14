@@ -9,11 +9,16 @@ import type Setting from './Setting';
 import type LanguageCode from '../locale/LanguageCode';
 import type { RegionCode } from '../locale/Regions';
 import type Tutorial from '../tutorial/Tutorial';
-import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
+import { type Concretizer } from '@locale/concretize';
+import DefaultLocales from '@locale/DefaultLocales';
 
 /** A cache of locales loaded */
 export default class LocalesDatabase {
+    /** The concretizer */
+    private readonly concretize: Concretizer;
+
     /** The database these locales are stored in */
     private readonly database: Database;
 
@@ -41,9 +46,11 @@ export default class LocalesDatabase {
         database: Database,
         locales: SupportedLocale[],
         defaultLocale: LocaleText,
+        concretize: Concretizer,
         setting: Setting<SupportedLocale[]>,
     ) {
         this.database = database;
+        this.concretize = concretize;
         this.defaultLocale = defaultLocale;
 
         // Store the default locale
@@ -86,7 +93,11 @@ export default class LocalesDatabase {
 
     syncLocales() {
         // Update the locales stores if it's changed.
-        const newLocales = new Locales(this.computeLocales(), DefaultLocale);
+        const newLocales = new Locales(
+            this.concretize,
+            this.computeLocales(),
+            DefaultLocale,
+        );
         if (!newLocales.isEqualTo(get(this.locales)))
             this.locales.set(newLocales);
     }

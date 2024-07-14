@@ -2,8 +2,10 @@ import { test, expect } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
 import type LocaleText from '../locale/LocaleText';
 import { readFileSync } from 'fs';
-import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
+import DefaultLocales from '@locale/DefaultLocales';
+import concretize from '@locale/concretize';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;
@@ -24,6 +26,7 @@ test.each([
     ['`hola`/es`hello`/en', 'hello', [en]],
 ])('%s -> %s', async (code, value, locales: LocaleText[]) => {
     const loc = new Locales(
+        concretize,
         locales.length === 0 ? [en] : locales,
         DefaultLocale,
     );

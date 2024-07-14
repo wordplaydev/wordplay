@@ -1,19 +1,14 @@
-import Markup from '@nodes/Markup';
 import type Names from '../nodes/Names';
 import type LanguageCode from './LanguageCode';
-import { getLanguageDirection } from './LanguageCode';
-import { localeToString } from './Locale';
 import type LocaleText from './LocaleText';
-import {
-    withoutAnnotations,
-    isUnwritten,
-    MachineTranslated,
-} from './LocaleText';
-import { toMarkup } from '../parser/toMarkup';
-import {} from './LocaleText';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';
 import type ConceptRef from './ConceptRef';
+import { isUnwritten, MachineTranslated } from './LocaleText';
+import { getLanguageDirection } from './LanguageCode';
+import { localeToString } from './Locale';
+import type { Concretizer } from './concretize';
+import type Markup from '@nodes/Markup';
 
 export type TemplateInput =
     | number
@@ -24,19 +19,23 @@ export type TemplateInput =
     | ValueRef
     | ConceptRef;
 
-/** We maintain cache a mapping from template strings to compiled markup, since they are fixed structures.
- * We just reuse them with different inputs.*/
-const TemplateToMarkupCache: Map<string, Markup> = new Map();
-
 /** Represents a sequence of preferred locales, and a set of utility functions for extracting information from them. */
 export default class Locales {
+    /** The function that concretizes. We take this to avoid circular imports, since this class is deeply nested in the Node hierarchy. */
+    private readonly concretizer: Concretizer;
+
     /** The list of preferred locales */
     private readonly locales: LocaleText[];
 
     /** The fallback locale when none of the preferred locales have suitable strings. */
     private readonly fallback: LocaleText;
 
-    constructor(locales: LocaleText[], fallback: LocaleText) {
+    constructor(
+        concretizer: Concretizer,
+        locales: LocaleText[],
+        fallback: LocaleText,
+    ) {
+        this.concretizer = concretizer;
         this.locales = locales.slice();
         this.fallback = fallback;
     }
@@ -169,35 +168,7 @@ export default class Locales {
             typeof textOrQuery === 'string'
                 ? textOrQuery
                 : this.get(textOrQuery);
-        return (
-            this.concretizeOrUndefined(template, ...inputs) ??
-            // Create a representation of a template that couldn't be concretized.
-            Markup.words(
-                `${this.get((l) => l.ui.template.unparsable)}: ${template}`,
-            )
-        );
-    }
-
-    concretizeOrUndefined(
-        template: string,
-        ...inputs: TemplateInput[]
-    ): Markup | undefined {
-        // Not written? Return the TBD string.
-        if (template === '' || isUnwritten(template))
-            return Markup.words(this.get((l) => l.ui.template.unwritten));
-
-        // Remove annotations.
-        template = withoutAnnotations(template);
-
-        // See if we've cached this template.
-        let markup = TemplateToMarkupCache.get(template);
-        if (markup === undefined) {
-            [markup] = toMarkup(template);
-            TemplateToMarkupCache.set(template, markup);
-        }
-
-        // Now concretize the markup with the given inputs.
-        return markup.concretize(this, inputs);
+        return this.concretizer(this, template, ...inputs);
     }
 
     getTermByID(id: string) {

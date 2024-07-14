@@ -21,7 +21,10 @@
             }
         }
     ],
-    "plugins": ["@typescript-eslint", "compat"],
+    "rules": {
+        "import/no-cycle": [2, { "maxDepth": "∞" }]
+    },
+    "plugins": ["@typescript-eslint", "compat", "import"],
     "root": true,
     "env": {
         "browser": true,
