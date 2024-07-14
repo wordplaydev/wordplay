@@ -58,7 +58,7 @@
     // See if this node has any space to render.
     $: firstToken = node?.getFirstLeaf();
     $: spaceRoot = $root && node ? $root.getSpaceRoot(node) : undefined;
-    $: space = firstToken ? $spaces.getSpace(firstToken) : '';
+    $: space = firstToken ? $spaces?.getSpace(firstToken) ?? '' : '';
 
     // Get the hidden context.
     let hidden = getHidden();
