@@ -661,7 +661,7 @@ export default class Project {
         return this.data.owner;
     }
 
-    withOwner(owner: string) {
+    withOwner(owner: string | null) {
         return new Project({ ...this.data, owner });
     }
 

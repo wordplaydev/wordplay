@@ -59,6 +59,10 @@ export class ProjectsDexie extends Dexie {
         return project[0];
     }
 
+    async deleteAllProjects(): Promise<void> {
+        return await this.projects.clear();
+    }
+
     async deleteProject(id: string): Promise<void> {
         return await this.projects.delete(id);
     }
@@ -266,6 +270,12 @@ export default class ProjectsDatabase {
             // If we're not tracking this yet, create a history and store the version given.
             let history = this.projectHistories.get(project.getID());
             if (history === undefined) {
+                // If the project has no owner, and there's a user, make this user the owner.
+                const userID = this.database.getUserID();
+                if (project.getOwner() === null && userID !== null)
+                    project = project.withOwner(userID);
+
+                // Make a new history and remember it, then save soon.
                 history = new ProjectHistory(project, persist, saved, Locales);
                 this.projectHistories.set(project.getID(), history);
 
@@ -535,6 +545,16 @@ export default class ProjectsDatabase {
     async persist() {
         const userID = this.database.getUserID();
 
+        // Before doing anything, ensure all editable projects that don't have an owner have one.
+        for (const [, history] of this.projectHistories)
+            if (history.getCurrent().getOwner() === null)
+                history.edit(
+                    history.getCurrent().withOwner(userID),
+                    true,
+                    false,
+                );
+
+        // Get all the editable projects, and separate them into local saves and online.
         const editable = Array.from(this.projectHistories.values());
         // Only save unsaved local projects.
         const local = editable.filter(
@@ -548,7 +568,7 @@ export default class ProjectsDatabase {
         );
 
         // First, save all projects to the local DB, including the user ID if they don't have it already.
-        if ('indexedDB' in window) {
+        if (this.IndexedDBSupported) {
             this.database.setStatus(SaveStatus.Saving, undefined);
             try {
                 this.localDB.saveProjects(
@@ -591,17 +611,8 @@ export default class ProjectsDatabase {
                     )
                         return undefined;
 
-                    // If the project has no owner, make this user owner, since it was stored locally.
-                    return (
-                        (
-                            current.getOwner() === null
-                                ? current.withOwner(userID)
-                                : current
-                        )
-                            // Mark it as persisted, since we're about to save it that way.
-                            .asPersisted()
-                            .serialize()
-                    );
+                    // Mark it as persisted, since we're about to save it that way.
+                    return current.asPersisted().serialize();
                 })) {
                     if (project)
                         batch.set(
@@ -700,7 +711,7 @@ export default class ProjectsDatabase {
 
     /** Deletes the local database (usually on logout, for privacy), and removes any projects from memory. */
     async deleteLocal() {
-        this.localDB.delete();
+        this.localDB.deleteAllProjects();
         this.projectHistories.clear();
         this.refreshEditableProjects();
     }

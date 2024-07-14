@@ -29,6 +29,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Changed value of divide by zero to non-a-number; defined not-a-number literal.
 -   [#524](https://github.com/wordplaydev/wordplay/issues/524) Fixed color of drop downs in dark mode.
 -   [#525](https://github.com/wordplaydev/wordplay/issues/525) Ensure projects are removed from galleries, even if they somehow didn't have a gallery ID in them.
+-   [#515](https://github.com/wordplaydev/wordplay/issues/515) Ensure local projects get an owner after logging in.
 
 ## 0.10.4 2024-07-08
 
