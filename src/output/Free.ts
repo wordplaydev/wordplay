@@ -7,7 +7,6 @@ import Place from './Place';
 import { getBind } from '@locale/getBind';
 import Arrangement from './Arrangement';
 import Phrase from './Phrase';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export function createFreeType(locales: Locales) {
@@ -63,11 +62,9 @@ export class Free extends Arrangement {
     }
 
     getDescription(output: Output[], locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.output.Free.description),
-            output.length
-        ).toText();
+        return locales
+            .concretize((l) => l.output.Free.description, output.length)
+            .toText();
     }
 }
 

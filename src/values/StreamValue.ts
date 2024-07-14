@@ -8,7 +8,6 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 import type Evaluation from '@runtime/Evaluation';
 
@@ -49,9 +48,8 @@ export default abstract class StreamValue<
         this.add(initalValue, initialRaw);
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
+    getDescription(locales: Locales) {
+        return locales.concretize(
             this.definition.docs
                 ?.getPreferredLocale(locales)
                 ?.getFirstParagraph() ?? locales.get((l) => l.term.stream),

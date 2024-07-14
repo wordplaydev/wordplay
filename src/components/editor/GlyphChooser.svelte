@@ -8,13 +8,12 @@
     import { locales } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import concretize from '../../locale/concretize';
     import Toggle from '../widgets/Toggle.svelte';
 
     export let sourceID: string;
 
     const Defaults = Commands.filter(
-        (command) => command.category === Category.Insert
+        (command) => command.category === Category.Insert,
     );
     // [
     //     CHANGE_SYMBOL,
@@ -31,7 +30,7 @@
         query.length < 3
             ? []
             : getUnicodeWithNameText(query).map((entry) =>
-                  String.fromCodePoint(entry.hex)
+                  String.fromCodePoint(entry.hex),
               );
 
     function insert(glyph: string) {
@@ -58,11 +57,12 @@
                 />{/each}
         {:else}
             {#each results as glyph}<Button
-                    tip={concretize(
-                        $locales,
-                        $locales.get((l) => l.ui.source.cursor.insertSymbol),
-                        glyph
-                    ).toText()}
+                    tip={$locales
+                        .concretize(
+                            (l) => l.ui.source.cursor.insertSymbol,
+                            glyph,
+                        )
+                        .toText()}
                     action={() => insert(glyph)}
                     ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
                 >{:else}&mdash;{/each}

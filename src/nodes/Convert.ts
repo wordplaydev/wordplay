@@ -25,7 +25,6 @@ import Glyphs from '../lore/Glyphs';
 import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
-import concretize from '../locale/concretize';
 import ConversionException from '@values/ConversionException';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
@@ -269,9 +268,8 @@ export default class Convert extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Convert.start),
+        return locales.concretize(
+            (l) => l.node.Convert.start,
             new NodeRef(this.expression, locales, context),
         );
     }
@@ -281,9 +279,8 @@ export default class Convert extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Convert.finish),
+        return locales.concretize(
+            (l) => l.node.Convert.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

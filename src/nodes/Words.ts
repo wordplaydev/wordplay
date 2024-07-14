@@ -9,7 +9,6 @@ import Example from './Example';
 import WebLink from './WebLink';
 import ConceptLink from './ConceptLink';
 import Content from './Content';
-import type { TemplateInput } from '../locale/concretize';
 import type { NodeSegment, Segment } from './Paragraph';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
@@ -20,6 +19,7 @@ import Mention from './Mention';
 import Branch from './Branch';
 import type Locales from '../locale/Locales';
 import { withVariationSelector } from '../unicode/emoji';
+import type { TemplateInput } from '../locale/Locales';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 

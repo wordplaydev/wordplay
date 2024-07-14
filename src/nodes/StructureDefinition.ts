@@ -35,7 +35,6 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
-import concretize from '../locale/concretize';
 import Evaluate from './Evaluate';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
@@ -500,10 +499,7 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.StructureDefinition.start),
-        );
+        return locales.concretize((l) => l.node.StructureDefinition.start);
     }
 
     getDescriptionInputs(locales: Locales) {

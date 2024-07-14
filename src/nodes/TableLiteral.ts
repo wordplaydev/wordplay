@@ -15,7 +15,6 @@ import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, list } from './Node';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import StructureValue from '../values/StructureValue';
 import MissingCell from '../conflicts/MissingCell';
 import IncompatibleCellType from '../conflicts/IncompatibleCellType';
@@ -313,10 +312,7 @@ export default class TableLiteral extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.TableLiteral.start),
-        );
+        return locales.concretize((l) => l.node.TableLiteral.start);
     }
 
     getFinishExplanations(
@@ -324,9 +320,8 @@ export default class TableLiteral extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.TableLiteral.finish),
+        return locales.concretize(
+            (l) => l.node.TableLiteral.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

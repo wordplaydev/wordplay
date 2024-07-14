@@ -20,7 +20,6 @@ import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
@@ -369,9 +368,8 @@ export default class Update extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Update.start),
+        return locales.concretize(
+            (l) => l.node.Update.start,
             new NodeRef(this.table, locales, context),
         );
     }
@@ -381,9 +379,8 @@ export default class Update extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Update.finish),
+        return locales.concretize(
+            (l) => l.node.Update.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

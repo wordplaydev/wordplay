@@ -7,7 +7,6 @@ import Words, { type Format } from './Words';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
-import type { TemplateInput } from '../locale/concretize';
 import Token from './Token';
 import Mention from './Mention';
 import NodeRef from '../locale/NodeRef';
@@ -17,6 +16,7 @@ import { unescapeMarkupSymbols } from '../parser/Tokenizer';
 import Node, { list, node } from '@nodes/Node';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 
 export type NodeSegment =
     | Token

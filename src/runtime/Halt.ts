@@ -3,7 +3,6 @@ import type ExceptionValue from '@values/ExceptionValue';
 import Step from './Step';
 import type Value from '../values/Value';
 import type Expression from '@nodes/Expression';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class Halt extends Step {
@@ -11,7 +10,7 @@ export default class Halt extends Step {
 
     constructor(
         exception: (evaluator: Evaluator) => ExceptionValue,
-        node: Expression
+        node: Expression,
     ) {
         super(node);
 
@@ -23,9 +22,6 @@ export default class Halt extends Step {
     }
 
     getExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Program.halt)
-        );
+        return locales.concretize((l) => l.node.Program.halt);
     }
 }

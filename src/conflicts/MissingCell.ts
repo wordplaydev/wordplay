@@ -4,7 +4,6 @@ import type Row from '@nodes/Row';
 import type TableType from '@nodes/TableType';
 import NodeRef from '@locale/NodeRef';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class MissingCell extends Conflict {
@@ -25,11 +24,8 @@ export default class MissingCell extends Conflict {
             primary: {
                 node: this.row,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Row.conflict.MissingCell.primary,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Row.conflict.MissingCell.primary,
                         new NodeRef(
                             this.column,
                             locales,
@@ -41,11 +37,8 @@ export default class MissingCell extends Conflict {
             secondary: {
                 node: this.column,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Row.conflict.MissingCell.secondary,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Row.conflict.MissingCell.secondary,
                         new NodeRef(this.row, locales, context),
                     ),
             },

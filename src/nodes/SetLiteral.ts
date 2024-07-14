@@ -20,7 +20,6 @@ import Purpose from '../concepts/Purpose';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
 import SetCloseToken from './SetCloseToken';
 import type Conflict from '../conflicts/Conflict';
-import concretize from '../locale/concretize';
 import AnyType from './AnyType';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
@@ -181,10 +180,7 @@ export default class SetLiteral extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.SetLiteral.start),
-        );
+        return locales.concretize((l) => l.node.SetLiteral.start);
     }
 
     getFinishExplanations(
@@ -192,9 +188,8 @@ export default class SetLiteral extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.SetLiteral.finish),
+        return locales.concretize(
+            (l) => l.node.SetLiteral.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

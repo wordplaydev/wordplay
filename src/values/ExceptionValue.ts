@@ -7,7 +7,6 @@ import type Node from '@nodes/Node';
 import type Expression from '../nodes/Expression';
 import type { ExceptionText } from '../locale/NodeTexts';
 import type Markup from '../nodes/Markup';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default abstract class ExceptionValue extends SimpleValue {
@@ -35,8 +34,8 @@ export default abstract class ExceptionValue extends SimpleValue {
 
     abstract getExceptionText(locales: Locales): ExceptionText;
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(locales, this.getExceptionText(locales).description);
+    getDescription(locales: Locales) {
+        return locales.concretize(this.getExceptionText(locales).description);
     }
 
     abstract getExplanation(locales: Locales): Markup;

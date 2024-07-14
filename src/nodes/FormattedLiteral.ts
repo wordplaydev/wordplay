@@ -7,7 +7,6 @@ import Literal from './Literal';
 import type Value from '../values/Value';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import concretize from '../locale/concretize';
 import MarkupValue from '@values/MarkupValue';
 import FormattedType from './FormattedType';
 import { getPreferred } from './LanguageTagged';
@@ -168,9 +167,6 @@ export default class FormattedLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.FormattedLiteral.start),
-        );
+        return locales.concretize((l) => l.node.FormattedLiteral.start);
     }
 }

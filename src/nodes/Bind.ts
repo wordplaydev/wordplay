@@ -40,7 +40,6 @@ import Purpose from '../concepts/Purpose';
 import Reaction from './Reaction';
 import Evaluate from './Evaluate';
 import FunctionType from './FunctionType';
-import concretize from '../locale/concretize';
 import getConcreteExpectedType from './Generics';
 import type Node from './Node';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -644,9 +643,8 @@ export default class Bind extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Bind.start),
+        return locales.concretize(
+            (l) => l.node.Bind.start,
             this.value === undefined
                 ? undefined
                 : new NodeRef(this.value, locales, context),
@@ -658,9 +656,8 @@ export default class Bind extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Bind.finish),
+        return locales.concretize(
+            (l) => l.node.Bind.finish,
             this.getValueIfDefined(locales, context, evaluator),
             new NodeRef(
                 this.names,

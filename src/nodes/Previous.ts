@@ -23,7 +23,6 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Purpose from '../concepts/Purpose';
 import ListType from './ListType';
@@ -213,9 +212,8 @@ export default class Previous extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Previous.start),
+        return locales.concretize(
+            (l) => l.node.Previous.start,
             new NodeRef(this.stream, locales, context),
         );
     }
@@ -225,9 +223,8 @@ export default class Previous extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Previous.finish),
+        return locales.concretize(
+            (l) => l.node.Previous.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

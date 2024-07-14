@@ -4,7 +4,6 @@ import type Program from '@nodes/Program';
 import Conflict from './Conflict';
 import type Context from '@nodes/Context';
 import NodeRef from '@locale/NodeRef';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export class BorrowCycle extends Conflict {
@@ -24,15 +23,14 @@ export class BorrowCycle extends Conflict {
             primary: {
                 node: this.borrow,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get((l) => l.node.Borrow.conflict.BorrowCycle),
+                    locales.concretize(
+                        (l) => l.node.Borrow.conflict.BorrowCycle,
                         new NodeRef(
                             this.borrow,
                             locales,
                             context,
-                            locales.getName(this.cycle[0].names)
-                        )
+                            locales.getName(this.cycle[0].names),
+                        ),
                     ),
             },
         };

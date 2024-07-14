@@ -1,5 +1,4 @@
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 import type PropertyBind from '@nodes/PropertyBind';
 import type StructureDefinition from '@nodes/StructureDefinition';
@@ -22,26 +21,20 @@ export default class InvalidProperty extends Conflict {
             primary: {
                 node: this.refine.reference,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.PropertyBind.conflict.InvalidProperty
-                                    .primary,
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.PropertyBind.conflict.InvalidProperty
+                                .primary,
                         new NodeRef(this.definition.names, locales, context),
                     ),
             },
             secondary: {
                 node: this.definition.names,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.PropertyBind.conflict.InvalidProperty
-                                    .secondary,
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.PropertyBind.conflict.InvalidProperty
+                                .secondary,
                         new NodeRef(
                             this.refine.reference.name ?? this.refine.reference,
                             locales,

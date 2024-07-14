@@ -3,7 +3,6 @@ import Conflict from './Conflict';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import concretize from '../locale/concretize';
 import type BinaryEvaluate from '../nodes/BinaryEvaluate';
 import type Locales from '../locale/Locales';
 import type Input from '@nodes/Input';
@@ -32,24 +31,16 @@ export default class UnknownInput extends Conflict {
             primary: {
                 node: this.given.name,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.UnknownInput.primary,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.UnknownInput.primary,
                         new NodeRef(this.func, locales, context),
                     ),
             },
             secondary: {
                 node: this.func.names,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.UnknownInput.secondary,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.UnknownInput.secondary,
                         this.given.name.getText(),
                     ),
             },

@@ -8,7 +8,6 @@ import { node, type Grammar, type Replacement, list } from './Node';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
 import type Node from './Node';
 import Translation from './Translation';
 import UnionType from './UnionType';
@@ -211,10 +210,7 @@ export default class TextLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.TextLiteral.start),
-        );
+        return locales.concretize((l) => l.node.TextLiteral.start);
     }
 
     getGlyphs() {

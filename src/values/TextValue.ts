@@ -8,7 +8,6 @@ import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
 import BoolValue from '@values/BoolValue';
 import UnicodeString from '../models/UnicodeString';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class TextValue extends SimpleValue {
@@ -100,11 +99,8 @@ export default class TextValue extends SimpleValue {
         return new NumberValue(requestor, sum);
     }
 
-    getDescription(concretizer: Concretizer, locales: Locales) {
-        return concretizer(
-            locales,
-            locales.get((l) => l.term.text),
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.text);
     }
 
     getRepresentativeText() {

@@ -1,6 +1,5 @@
 import type Row from '@nodes/Row';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class InvalidRow extends Conflict {
@@ -16,10 +15,7 @@ export default class InvalidRow extends Conflict {
             primary: {
                 node: this.row,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get((l) => l.node.Row.conflict.InvalidRow),
-                    ),
+                    locales.concretize((l) => l.node.Row.conflict.InvalidRow),
             },
         };
     }

@@ -27,7 +27,6 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
-import concretize from '../locale/concretize';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 import NoneType from './NoneType';
@@ -274,9 +273,8 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.SetOrMapAccess.start),
+        return locales.concretize(
+            (l) => l.node.SetOrMapAccess.start,
             new NodeRef(this.setOrMap, locales, context),
         );
     }
@@ -286,9 +284,8 @@ export default class SetOrMapAccess extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.SetOrMapAccess.finish),
+        return locales.concretize(
+            (l) => l.node.SetOrMapAccess.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

@@ -2,7 +2,6 @@
 
 <!-- A fallback view of types that don't have a more specialized view, generally for type errors. -->
 <script lang="ts">
-    import concretize from '../../locale/concretize';
     import { getProject, getRoot } from '../project/Contexts';
     import { locales } from '@db/Database';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
@@ -21,7 +20,7 @@
 
 <span class="TypeView"
     >{#if context}<MarkupHtmlView
-            markup={node.getDescription(concretize, $locales, context)}
+            markup={node.getDescription($locales, context)}
         />{:else}{node.toWordplay()}{/if}</span
 >
 

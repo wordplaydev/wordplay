@@ -9,7 +9,6 @@ import type Token from '@nodes/Token';
 import type Context from '@nodes/Context';
 import NodeRef from '@locale/NodeRef';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 import ConceptRef from '@locale/ConceptRef';
 
@@ -37,12 +36,8 @@ export default class MissingInput extends Conflict {
             primary: {
                 node: this.input,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.MissingInput.primary,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.MissingInput.primary,
                         context.project.contains(this.input)
                             ? new NodeRef(this.input, locales, context)
                             : new ConceptRef(
@@ -57,12 +52,9 @@ export default class MissingInput extends Conflict {
             secondary: {
                 node: this.evaluate.fun,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.MissingInput.secondary,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.MissingInput.secondary,
+
                         new NodeRef(this.evaluate.fun, locales, context),
                     ),
             },

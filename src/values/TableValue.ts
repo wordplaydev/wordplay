@@ -6,7 +6,6 @@ import type Value from '@values/Value';
 import SimpleValue from './SimpleValue';
 import type StructureValue from '@values/StructureValue';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class TableValue extends SimpleValue {
@@ -22,7 +21,7 @@ export default class TableValue extends SimpleValue {
 
     insert(
         requestor: Expression,
-        row: StructureValue
+        row: StructureValue,
     ): TableValue | ExceptionValue {
         return new TableValue(requestor, this.type, [...this.rows, row]);
     }
@@ -40,7 +39,7 @@ export default class TableValue extends SimpleValue {
             table instanceof TableValue &&
             this.rows.length === table.rows.length &&
             this.rows.every((row, rowIndex) =>
-                row.isEqualTo(table.rows[rowIndex])
+                row.isEqualTo(table.rows[rowIndex]),
             )
         );
     }
@@ -57,11 +56,8 @@ export default class TableValue extends SimpleValue {
         return text.trim();
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.table)
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.table);
     }
 
     getRepresentativeText() {

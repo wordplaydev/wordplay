@@ -3,7 +3,6 @@ import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type Node from '../nodes/Node';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class IncompatibleInput extends Conflict {
@@ -23,13 +22,9 @@ export default class IncompatibleInput extends Conflict {
             primary: {
                 node: this.givenNode,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.IncompatibleInput
-                                    .primary,
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.Evaluate.conflict.IncompatibleInput.primary,
                         new NodeRef(
                             this.expectedType.simplify(context),
                             locales,
@@ -45,13 +40,10 @@ export default class IncompatibleInput extends Conflict {
             secondary: {
                 node: this.expectedType,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.IncompatibleInput
-                                    .secondary,
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.Evaluate.conflict.IncompatibleInput
+                                .secondary,
                         new NodeRef(
                             this.expectedType.simplify(context),
                             locales,

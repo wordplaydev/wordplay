@@ -34,7 +34,6 @@
     import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
     import Placement from '../../input/Placement';
     import { toExpression } from '../../parser/parseExpression';
-    import concretize from '../../locale/concretize';
     import Chat from '../../input/Chat';
     import { default as ButtonUI } from '../widgets/Button.svelte';
     import Button from '../../input/Button';
@@ -119,7 +118,7 @@
             $locales.getLanguages()[0],
             exception
                 ? exception.getExplanation($locales).toText()
-                : value.getDescription(concretize, $locales).toText(),
+                : value.getDescription($locales).toText(),
         );
 
     /** When creator's preferred animation factor changes, update evaluator */
@@ -900,7 +899,7 @@
                     <ValueView {value} interactive={false} />
                 {:else}
                     {@const description = value
-                        .getDescription(concretize, $locales)
+                        .getDescription($locales)
                         .toText()}
                     <h2>{description}</h2>
                     <ValueView {value} inline={false} />

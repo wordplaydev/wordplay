@@ -28,7 +28,6 @@ import Glyphs from '../lore/Glyphs';
 import UnimplementedException from '../values/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
-import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Refer from '../edit/Refer';
 import FunctionDefinition from './FunctionDefinition';
@@ -370,10 +369,7 @@ export default class PropertyReference extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.PropertyReference.start),
-        );
+        return locales.concretize((l) => l.node.PropertyReference.start);
     }
 
     getFinishExplanations(
@@ -381,9 +377,8 @@ export default class PropertyReference extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.PropertyReference.finish),
+        return locales.concretize(
+            (l) => l.node.PropertyReference.finish,
             this.name
                 ? new NodeRef(this.name, locales, context, this.name?.getName())
                 : undefined,

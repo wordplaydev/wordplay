@@ -1,8 +1,6 @@
 import Purpose from '../concepts/Purpose';
-import type LocaleText from '../locale/LocaleText';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import type { TemplateInput } from '../locale/concretize';
 import type Glyph from '../lore/Glyph';
 import Glyphs from '../lore/Glyphs';
 import Content from './Content';
@@ -12,6 +10,7 @@ import Sym from './Sym';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
 import ConceptRef from '@locale/ConceptRef';
+import type { TemplateInput } from '../locale/Locales';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -110,15 +109,8 @@ export default class Mention extends Content {
         }
         // Try to resolve terminology.
         else {
-            const id = name as keyof LocaleText['term'];
-            const locale = locales.getLocale();
-            const phrase = Object.hasOwn(locale.term, id)
-                ? locale.term[id]
-                : undefined;
-
-            const replacement = phrase
-                ? new Token(phrase, Sym.Words)
-                : undefined;
+            const term = locales.getTermByID(name);
+            const replacement = term ? new Token(term, Sym.Words) : undefined;
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);

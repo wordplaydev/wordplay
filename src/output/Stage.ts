@@ -14,7 +14,6 @@ import { getTypeStyle, toOutput, toOutputList } from './toOutput';
 import TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
-import concretize from '../locale/concretize';
 import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { Form, toForm } from './Form';
@@ -212,14 +211,15 @@ export default class Stage extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Stage.description),
-                this.content.length,
-                this.name instanceof TextLang ? this.name.text : undefined,
-                this.frame?.getDescription(locales),
-                this.pose.getDescription(locales),
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Stage.description,
+                    this.content.length,
+                    this.name instanceof TextLang ? this.name.text : undefined,
+                    this.frame?.getDescription(locales),
+                    this.pose.getDescription(locales),
+                )
+                .toText();
         }
         return this._description;
     }

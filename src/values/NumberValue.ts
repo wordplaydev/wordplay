@@ -9,7 +9,6 @@ import NumberType from '@nodes/NumberType';
 import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export type NumberAndPrecision = [Decimal, number | undefined];
@@ -255,11 +254,8 @@ export default class NumberValue extends SimpleValue {
         }${this.unit.toString()}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.number),
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.number);
     }
 
     getRepresentativeText() {

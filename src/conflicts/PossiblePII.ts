@@ -1,5 +1,4 @@
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 import type { PII } from '../pii/getPII';
 import type { LanguageTagged } from '@nodes/LanguageTagged';
@@ -40,25 +39,19 @@ export class PossiblePII extends Conflict {
             primary: {
                 node: this.text,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Translation.conflict[this.pii.kind],
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Translation.conflict[this.pii.kind],
                         this.pii.text,
                         locales.get(
                             (l) => l.node.Translation.conflict.reminder,
-                        )
+                        ),
                     ),
             },
             resolutions: [
                 {
                     description: (locales: Locales) =>
-                        concretize(
-                            locales,
-                            locales.get(
-                                (l) => l.node.Translation.conflict.resolution,
-                            ),
+                        locales.concretize(
+                            (l) => l.node.Translation.conflict.resolution,
                         ),
                     mediator: (context: Context) => {
                         return context.project.withNonPII(this.pii.text);

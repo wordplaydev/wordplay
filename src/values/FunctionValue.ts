@@ -4,7 +4,6 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
 import type Evaluation from '@runtime/Evaluation';
 import Value from '@values/Value';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 // We could have just called this Function, but Javascript claims that globally.
@@ -17,7 +16,7 @@ export default class FunctionValue extends Value {
 
     constructor(
         definition: FunctionDefinition,
-        context: Evaluation | Value | undefined
+        context: Evaluation | Value | undefined,
     ) {
         super(definition);
 
@@ -54,11 +53,8 @@ export default class FunctionValue extends Value {
         );
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.function)
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.function);
     }
 
     getRepresentativeText() {

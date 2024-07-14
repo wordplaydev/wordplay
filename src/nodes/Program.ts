@@ -21,7 +21,6 @@ import { node, type Grammar, type Replacement, optional, list } from './Node';
 import Sym from './Sym';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '@values/BlankException';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import ValueRef from '../locale/ValueRef';
 import type Locales from '../locale/Locales';
@@ -210,9 +209,8 @@ export default class Program extends Expression {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
         const change = reaction && reaction.changes.length > 0;
 
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Program.start),
+        return locales.concretize(
+            (l) => l.node.Program.start,
             change
                 ? new ValueRef(reaction.changes[0].stream, locales, context)
                 : undefined,
@@ -227,9 +225,8 @@ export default class Program extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Program.finish),
+        return locales.concretize(
+            (l) => l.node.Program.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

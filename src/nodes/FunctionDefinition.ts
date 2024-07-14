@@ -29,7 +29,6 @@ import type LocaleText from '@locale/LocaleText';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import concretize from '../locale/concretize';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import NameType from './NameType';
 import FunctionType from './FunctionType';
@@ -442,10 +441,7 @@ export default class FunctionDefinition extends DefinitionExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.FunctionDefinition.start),
-        );
+        return locales.concretize((l) => l.node.FunctionDefinition.start);
     }
 
     getDescriptionInputs(locales: Locales) {

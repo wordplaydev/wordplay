@@ -20,7 +20,6 @@
     import type Project from '../../models/Project';
     import { getConceptIndex, getEvaluation } from '../project/Contexts';
     import type Markup from '../../nodes/Markup';
-    import concretize from '../../locale/concretize';
     import type Source from '../../nodes/Source';
     import { locales } from '../../db/Database';
     import Speech from '@components/lore/Speech.svelte';
@@ -118,17 +117,11 @@
                                   )
                                 : evaluator.steppedToNode() &&
                                     evaluator.isDone()
-                                  ? concretize(
-                                        $locales,
-                                        $locales.get(
-                                            (l) => l.node.Program.unevaluated,
-                                        ),
+                                  ? $locales.concretize(
+                                        (l) => l.node.Program.unevaluated,
                                     )
-                                  : concretize(
-                                        $locales,
-                                        $locales.get(
-                                            (l) => l.node.Program.done,
-                                        ),
+                                  : $locales.concretize(
+                                        (l) => l.node.Program.done,
                                     ),
                         ],
                         kind: 'step',

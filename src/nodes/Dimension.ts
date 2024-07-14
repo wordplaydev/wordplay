@@ -1,5 +1,4 @@
 import Node, { none, type Replacement, node, any, type Grammar } from './Node';
-import type Concretizer from './Concretizer';
 import Token from './Token';
 import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
@@ -21,7 +20,7 @@ export default class Dimension extends Node {
         product: Token | undefined,
         name: Token | undefined,
         caret: Token | undefined,
-        exponent: Token | undefined
+        exponent: Token | undefined,
     ) {
         super();
 
@@ -41,14 +40,14 @@ export default class Dimension extends Node {
             subsequent ? new Token(PRODUCT_SYMBOL, Sym.Operator) : undefined,
             new NameToken(unit),
             exponent > 1 ? new Token(EXPONENT_SYMBOL, Sym.Operator) : undefined,
-            exponent > 1 ? new Token('' + exponent, Sym.Number) : undefined
+            exponent > 1 ? new Token('' + exponent, Sym.Number) : undefined,
         );
     }
 
     static getPossibleNodes(
         type: Type | undefined,
         anchor: Node,
-        selected: boolean
+        selected: boolean,
     ): Dimension[] {
         // If we've selected this anchor for replacement, offer to replace it with...
         if (anchor && selected && anchor instanceof Dimension) {
@@ -87,7 +86,7 @@ export default class Dimension extends Node {
             this.replaceChild('product', this.product, replace),
             this.replaceChild('name', this.name, replace),
             this.replaceChild('caret', this.caret, replace),
-            this.replaceChild('exponent', this.exponent, replace)
+            this.replaceChild('exponent', this.exponent, replace),
         ) as this;
     }
 
@@ -98,7 +97,7 @@ export default class Dimension extends Node {
                   new Token(PRODUCT_SYMBOL, Sym.Operator),
                   this.name?.clone(),
                   this.caret,
-                  this.exponent
+                  this.exponent,
               );
     }
 
@@ -109,7 +108,7 @@ export default class Dimension extends Node {
                   this.product,
                   this.name,
                   new Token(EXPONENT_SYMBOL, Sym.Operator),
-                  this.exponent
+                  this.exponent,
               );
     }
 
@@ -120,7 +119,7 @@ export default class Dimension extends Node {
                   this.product,
                   this.name,
                   new Token(EXPONENT_SYMBOL, Sym.Operator),
-                  new Token(power.toString(), [Sym.Number, Sym.Decimal])
+                  new Token(power.toString(), [Sym.Number, Sym.Decimal]),
               );
     }
 
@@ -144,7 +143,7 @@ export default class Dimension extends Node {
         return locales.get((l) => l.node.Dimension);
     }
 
-    getDescription(_: Concretizer, locales: Locales) {
+    getDescription(locales: Locales) {
         const dim = this.getName();
 
         return Markup.words(
@@ -178,7 +177,7 @@ export default class Dimension extends Node {
                       oz: 'ounces',
                       lb: 'pounds',
                       pt: 'font size',
-                  }[dim] ?? locales.get((l) => l.node.Dimension.description)
+                  }[dim] ?? locales.get((l) => l.node.Dimension.description),
         );
     }
 

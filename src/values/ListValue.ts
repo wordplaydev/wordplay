@@ -10,7 +10,6 @@ import type Context from '@nodes/Context';
 import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class ListValue extends SimpleValue {
@@ -167,11 +166,8 @@ export default class ListValue extends SimpleValue {
             .join(' ')}${LIST_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.list),
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.list);
     }
 
     getRepresentativeText() {

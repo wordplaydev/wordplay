@@ -6,14 +6,13 @@ import { UNKNOWN_SYMBOL } from '../parser/Symbols';
 import Glyphs from '../lore/Glyphs';
 import Markup from './Markup';
 import type { Grammar } from './Node';
-import type Concretizer from './Concretizer';
 import Paragraph, { type Segment } from './Paragraph';
 import Token from './Token';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 
 export default abstract class UnknownType<
-    ExpressionType extends Node
+    ExpressionType extends Node,
 > extends Type {
     readonly expression: ExpressionType;
     readonly why: Type | undefined;
@@ -62,19 +61,14 @@ export default abstract class UnknownType<
         ];
     }
 
-    getDescription(
-        concretizer: Concretizer,
-        locales: Locales,
-        context: Context
-    ): Markup {
+    getDescription(locales: Locales, context: Context): Markup {
         const reasons = this.getReasons().map((reason) =>
-            reason.getReason(concretizer, locales, context)
+            reason.getReason(locales, context),
         );
         let spaces = undefined;
         let segments: Segment[] = [
             // Get the unknown type description
-            ...super.getDescription(concretizer, locales, context).paragraphs[0]
-                .segments,
+            ...super.getDescription(locales, context).paragraphs[0].segments,
         ];
         // Get all the reasons for the unknown types.
         for (const reason of reasons) {
@@ -82,7 +76,7 @@ export default abstract class UnknownType<
                 ...segments,
                 new Token(
                     locales.get((l) => l.node.UnknownType.connector),
-                    Sym.Words
+                    Sym.Words,
                 ),
                 ...reason.paragraphs[0].segments,
             ];
@@ -90,8 +84,8 @@ export default abstract class UnknownType<
                 spaces === undefined
                     ? reason.spaces
                     : reason.spaces
-                    ? spaces.withSpaces(reason.spaces)
-                    : spaces;
+                      ? spaces.withSpaces(reason.spaces)
+                      : spaces;
         }
 
         // Make a bunch of markup for each reason.
@@ -102,11 +96,7 @@ export default abstract class UnknownType<
         return locales.get((l) => l.node.UnknownType);
     }
 
-    abstract getReason(
-        concretizer: Concretizer,
-        locales: Locales,
-        context: Context
-    ): Markup;
+    abstract getReason(locales: Locales, context: Context): Markup;
 
     getGlyphs() {
         return Glyphs.Unknown;

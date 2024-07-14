@@ -8,7 +8,6 @@ import Arrangement from './Arrangement';
 import NumberValue from '@values/NumberValue';
 import Place from './Place';
 import NoneValue from '@values/NoneValue';
-import concretize from '../locale/concretize';
 import { getOutputInputs } from './Valued';
 import StructureValue from '../values/StructureValue';
 import type Locales from '../locale/Locales';
@@ -38,7 +37,7 @@ export class Grid extends Arrangement {
         columns: NumberValue | NoneValue,
         padding: NumberValue,
         cellWidth: NumberValue | NoneValue,
-        cellHeight: NumberValue | NoneValue
+        cellHeight: NumberValue | NoneValue,
     ) {
         super(value);
         this.rows =
@@ -60,7 +59,7 @@ export class Grid extends Arrangement {
 
     getLayout(outputs: (Output | null)[], context: RenderContext) {
         const layouts = outputs.map((output) =>
-            output ? output.getLayout(context) : null
+            output ? output.getLayout(context) : null,
         );
 
         // Figure out the number of rows and columns to have.
@@ -110,7 +109,7 @@ export class Grid extends Arrangement {
                               cell.output && cell.output.height > max
                                   ? cell.output.height
                                   : max,
-                          0
+                          0,
                       );
         }
 
@@ -126,7 +125,7 @@ export class Grid extends Arrangement {
                                   cell.output && cell.output.width > max
                                       ? cell.output.width
                                       : max,
-                              0
+                              0,
                           );
         }
 
@@ -162,7 +161,7 @@ export class Grid extends Arrangement {
                         this.value,
                         cellLeft + (columnWidth - cell.output.width) / 2,
                         cellTop + (rowHeight - cell.output.height) / 2,
-                        0
+                        0,
                     );
                     places.push([cell.output.output, place]);
                 }
@@ -185,12 +184,13 @@ export class Grid extends Arrangement {
     }
 
     getDescription(_: Output[], locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.output.Grid.description),
-            this.rows,
-            this.columns
-        ).toText();
+        return locales
+            .concretize(
+                (l) => l.output.Grid.description,
+                this.rows,
+                this.columns,
+            )
+            .toText();
     }
 }
 

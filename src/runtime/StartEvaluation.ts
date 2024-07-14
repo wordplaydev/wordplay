@@ -1,7 +1,6 @@
 import Step from './Step';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
-import concretize from '../locale/concretize';
 import type Evaluate from '../nodes/Evaluate';
 import type UnaryEvaluate from '../nodes/UnaryEvaluate';
 import type BinaryEvaluate from '../nodes/BinaryEvaluate';
@@ -23,9 +22,6 @@ export default class StartEvaluation extends Step {
     }
 
     getExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Evaluate.evaluate),
-        );
+        return locales.concretize((l) => l.node.Evaluate.evaluate);
     }
 }

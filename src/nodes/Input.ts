@@ -17,7 +17,6 @@ import Token from './Token';
 import Sym from './Sym';
 import BindToken from './BindToken';
 import Glyphs from '../lore/Glyphs';
-import concretize from '@locale/concretize';
 import SimpleExpression from './SimpleExpression';
 import Evaluate from './Evaluate';
 import Refer from '@edit/Refer';
@@ -160,10 +159,7 @@ export default class Input extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Input.start),
-        );
+        return locales.concretize((l) => l.node.Input.start);
     }
 
     getGlyphs(): Glyph {

@@ -18,7 +18,6 @@ import Glyphs from '../lore/Glyphs';
 import Sym from './Sym';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
@@ -151,9 +150,8 @@ export default class Is extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Is.start),
+        return locales.concretize(
+            (l) => l.node.Is.start,
             new NodeRef(this.expression, locales, context),
         );
     }
@@ -164,9 +162,8 @@ export default class Is extends Expression {
         evaluator: Evaluator,
     ) {
         const result = evaluator.peekValue();
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Is.finish),
+        return locales.concretize(
+            (l) => l.node.Is.finish,
             result instanceof BoolValue && result.bool,
             new NodeRef(this.type, locales, context),
         );

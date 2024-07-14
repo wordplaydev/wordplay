@@ -6,7 +6,6 @@
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import type ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
-    import concretize from '../../locale/concretize';
     import { withVariationSelector } from '../../unicode/emoji';
     import { goto } from '$app/navigation';
 
@@ -99,11 +98,7 @@
 {#if concept}<Button
         padding={false}
         action={navigate}
-        tip={concretize(
-            $locales,
-            $locales.get((l) => l.ui.docs.link),
-            longName,
-        ).toText()}
+        tip={$locales.concretize((l) => l.ui.docs.link, longName).toText()}
         ><span class="conceptlink interactive"
             >{#if label}{withVariationSelector(label)}{:else}<span class="long"
                     >{longName}</span

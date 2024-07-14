@@ -32,7 +32,6 @@ import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import Evaluate from './Evaluate';
 import Reference from './Reference';
@@ -267,10 +266,7 @@ export default class StreamDefinition extends DefinitionExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.StreamDefinition.start),
-        );
+        return locales.concretize((l) => l.node.StreamDefinition.start);
     }
 
     getGlyphs() {

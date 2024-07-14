@@ -7,6 +7,7 @@
 
 <script lang="ts">
     import Spinning from '../app/Spinning.svelte';
+    import { locales } from '@db/Database';
 
     export let tip: string;
     export let action: Action;
@@ -50,7 +51,7 @@
     data-uiid={uiid}
     class={classes}
     type={submit ? 'submit' : 'button'}
-    title={tip}
+    title={$locales.concretize(tip).toText()}
     aria-label={tip}
     aria-disabled={!active}
     bind:this={view}

@@ -14,8 +14,8 @@ import {
 } from '../locale/LanguageCode';
 import type Definition from './Definition';
 import type Context from './Context';
-import type { TemplateInput } from '../locale/concretize';
 import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/

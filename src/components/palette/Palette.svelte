@@ -11,7 +11,6 @@
         getSelectedOutput,
     } from '../project/Contexts';
     import { DB, locales } from '../../db/Database';
-    import concretize from '../../locale/concretize';
     import {
         addGroup,
         addSoloPhrase,
@@ -107,9 +106,8 @@
         >
             <svelte:fragment slot="content">
                 <MarkupHtmlView
-                    markup={concretize(
-                        $locales,
-                        $locales.get((l) => l.ui.palette.prompt.editing),
+                    markup={$locales.concretize(
+                        (l) => l.ui.palette.prompt.editing,
                     )}
                 />
             </svelte:fragment>

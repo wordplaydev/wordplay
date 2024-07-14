@@ -6,7 +6,6 @@
     import Speech from '../lore/Speech.svelte';
     import { Locales, animationDuration, locales } from '../../db/Database';
     import type Type from '../../nodes/Type';
-    import concretize from '../../locale/concretize';
     import type TypeVariables from '../../nodes/TypeVariables';
     import RootView from '../project/RootView.svelte';
     import type LocaleText from '../../locale/LocaleText';
@@ -67,10 +66,7 @@
             {#if markup}
                 <MarkupHTMLView {markup} />
             {:else}
-                {concretize(
-                    $locales,
-                    $locales.get((l) => l.ui.docs.nodoc),
-                )}
+                {$locales.concretize((l) => l.ui.docs.nodoc)}
             {/if}
         </svelte:fragment>
         <svelte:fragment slot="aside"

@@ -14,7 +14,7 @@ import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Decimal from 'decimal.js';
-import concretize, { type TemplateInput } from '../locale/concretize';
+import { type TemplateInput } from '../locale/Locales';
 import type Locales from '../locale/Locales';
 
 export default class NumberLiteral extends Literal {
@@ -152,9 +152,8 @@ export default class NumberLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.NumberLiteral.start),
+        return locales.concretize(
+            (l) => l.node.NumberLiteral.start,
             new NodeRef(this.number, locales, context),
         );
     }

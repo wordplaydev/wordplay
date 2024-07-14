@@ -15,7 +15,6 @@
     import type Value from '@values/Value';
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
-    import concretize from '../../locale/concretize';
     import { blocks, locales } from '../../db/Database';
 
     export let node: Node | undefined;
@@ -28,7 +27,6 @@
         node && $evaluation
             ? node
                   .getDescription(
-                      concretize,
                       $locales,
                       $evaluation.evaluator.project.getNodeContext(node),
                   )

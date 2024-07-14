@@ -13,10 +13,9 @@ import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
-import type { TemplateInput } from '../locale/concretize';
+import type { TemplateInput } from '../locale/Locales';
 import type Markup from './Markup';
 import type Sym from './Sym';
-import type Concretizer from './Concretizer';
 import type Locales from '../locale/Locales';
 
 /* A global ID for nodes, for helping index them */
@@ -616,14 +615,9 @@ export default abstract class Node {
     /**
      * Given a locale and a context, generate a description of the node.
      * */
-    getDescription(
-        concretizer: Concretizer,
-        locales: Locales,
-        context: Context,
-    ): Markup {
+    getDescription(locales: Locales, context: Context): Markup {
         const text = this.getNodeLocale(locales);
-        return concretizer(
-            locales,
+        return locales.concretize(
             // Is there a description? Use that. Otherwise just use the name.
             'description' in text
                 ? (text as DescriptiveNodeText).description

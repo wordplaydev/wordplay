@@ -5,7 +5,6 @@ import Caret from './Caret';
 import Refer from './Refer';
 import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
-import concretize from '../locale/concretize';
 import Markup from '../nodes/Markup';
 import Reference from '../nodes/Reference';
 import type Locales from '../locale/Locales';
@@ -131,9 +130,8 @@ export default class Replace<NodeType extends Node> extends Revision {
             this.replacement instanceof Refer
                 ? this.replacement.getNode(locales)
                 : this.getNewNode(locales);
-        return concretize(
-            locales,
-            locales.get((l) => l.ui.edit.replace),
+        return locales.concretize(
+            (l) => l.ui.edit.replace,
             node?.getLabel(locales),
         );
     }

@@ -4,7 +4,6 @@ import Node from '@nodes/Node';
 import Refer from './Refer';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 
@@ -115,9 +114,8 @@ export default class Assign<NodeType extends Node> extends Revision {
             this.child instanceof Refer
                 ? this.child.getNode(locales)
                 : this.getNewNode(locales);
-        return concretize(
-            locales,
-            locales.get((l) => l.ui.edit.assign),
+        return locales.concretize(
+            (l) => l.ui.edit.assign,
             this.field,
             node?.getLabel(locales),
         );

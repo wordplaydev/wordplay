@@ -22,7 +22,6 @@ import FunctionValue from '../values/FunctionValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import AnyType from './AnyType';
 import FunctionType from './FunctionType';
-import concretize from '../locale/concretize';
 import Reference from './Reference';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
@@ -197,9 +196,8 @@ export default class UnaryEvaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.UnaryEvaluate.start),
+        return locales.concretize(
+            (l) => l.node.UnaryEvaluate.start,
             new NodeRef(this.input, locales, context),
         );
     }
@@ -209,9 +207,8 @@ export default class UnaryEvaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.UnaryEvaluate.finish),
+        return locales.concretize(
+            (l) => l.node.UnaryEvaluate.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

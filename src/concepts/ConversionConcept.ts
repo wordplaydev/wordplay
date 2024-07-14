@@ -8,7 +8,6 @@ import Glyphs from '../lore/Glyphs';
 import Concept from './Concept';
 import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';
-import concretize from '../locale/concretize';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
@@ -26,7 +25,7 @@ export default class ConversionConcept extends Concept {
     constructor(
         definition: ConversionDefinition,
         context: Context,
-        structure?: StructureConcept
+        structure?: StructureConcept,
     ) {
         super(Purpose.Convert, structure?.definition, context);
 
@@ -35,7 +34,7 @@ export default class ConversionConcept extends Concept {
 
         this.example = Convert.make(
             ExpressionPlaceholder.make(this.definition.input),
-            definition.output
+            definition.output,
         );
     }
 
@@ -57,9 +56,7 @@ export default class ConversionConcept extends Concept {
     }
 
     getName(locales: Locales) {
-        return this.definition
-            .getDescription(concretize, locales, this.context)
-            .toText();
+        return this.definition.getDescription(locales, this.context).toText();
     }
 
     getRepresentation() {

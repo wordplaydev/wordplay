@@ -38,7 +38,6 @@ import NodeRef from '@locale/NodeRef';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import Reference from './Reference';
 import type Locales from '../locale/Locales';
@@ -277,9 +276,8 @@ export default class Borrow extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Borrow.start),
+        return locales.concretize(
+            (l) => l.node.Borrow.start,
             this.source
                 ? new NodeRef(
                       this.source,

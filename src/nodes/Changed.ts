@@ -23,7 +23,6 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 
@@ -146,9 +145,8 @@ export default class Changed extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Changed.start),
+        return locales.concretize(
+            (l) => l.node.Changed.start,
             new NodeRef(this.stream, locales, context),
         );
     }

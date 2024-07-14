@@ -11,7 +11,6 @@
         EventuallySupportedLocales,
     } from '../../locale/LocaleText';
     import Link from '../app/Link.svelte';
-    import concretize from '../../locale/concretize';
     import Dialog from '../widgets/Dialog.svelte';
     import { localeToString } from '../../locale/Locale';
     import type LanguageCode from '@locale/LanguageCode';
@@ -59,10 +58,9 @@
     }}
 >
     <h2
-        >{concretize(
-            $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.selected),
-        ).toText()}</h2
+        >{$locales
+            .concretize((l) => l.ui.dialog.locale.subheader.selected)
+            .toText()}</h2
     >
     <div class="languages">
         {#each selectedLocales as selected}
@@ -77,10 +75,9 @@
         {/each}
     </div>
     <h2
-        >{concretize(
-            $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.supported),
-        ).toText()}</h2
+        >{$locales
+            .concretize((l) => l.ui.dialog.locale.subheader.supported)
+            .toText()}</h2
     >
     <div class="supported">
         {#each SupportedLocales.filter((supported) => !selectedLocales.some((locale) => locale === supported)) as supported}
@@ -100,10 +97,9 @@
         {/each}
     </div>
     <h2
-        >{concretize(
-            $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.coming),
-        ).toText()}</h2
+        >{$locales
+            .concretize((l) => l.ui.dialog.locale.subheader.coming)
+            .toText()}</h2
     >
 
     {#if EventuallySupportedLocales.length > 0}
@@ -118,10 +114,9 @@
         ><Link
             external
             to="https://github.com/wordplaydev/wordplay/wiki/localize"
-            >{concretize(
-                $locales,
-                $locales.get((l) => l.ui.dialog.locale.subheader.help),
-            ).toText()}</Link
+            >{$locales
+                .concretize((l) => l.ui.dialog.locale.subheader.help)
+                .toText()}</Link
         ></h2
     >
     <div class="languages">

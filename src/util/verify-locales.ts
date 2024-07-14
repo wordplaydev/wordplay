@@ -3,7 +3,6 @@ import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
 import * as prettier from 'prettier';
-import { concretizeOrUndefined } from '../locale/concretize';
 import parseDoc from '../parser/parseDoc';
 import {
     parseLocaleDoc,
@@ -654,8 +653,7 @@ async function checkLocale(
         // If it's not a doc, assume it's a template string and try to parse it as a template.
         // If we can't, complain.
         else if (typeof path.value === 'string') {
-            const description = concretizeOrUndefined(
-                DefaultLocales,
+            const description = DefaultLocales.concretizeOrUndefined(
                 path.value,
                 'test',
                 'test',

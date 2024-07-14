@@ -4,7 +4,6 @@ import type { DefinitionNode } from '@runtime/Evaluation';
 import NodeRef from '@locale/NodeRef';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import StructureDefinition from '@nodes/StructureDefinition';
-import concretize from '../locale/concretize';
 import type Program from '../nodes/Program';
 import StreamDefinition from '../nodes/StreamDefinition';
 import type Locales from '../locale/Locales';
@@ -15,7 +14,7 @@ export default class EvaluationLimitException extends ExceptionValue {
     constructor(
         evaluator: Evaluator,
         node: Program,
-        functions: DefinitionNode[]
+        functions: DefinitionNode[],
     ) {
         super(node, evaluator);
         this.program = node;
@@ -24,7 +23,7 @@ export default class EvaluationLimitException extends ExceptionValue {
 
     getExceptionText(locales: Locales) {
         return locales.get(
-            (l) => l.node.Program.exception.EvaluationLimitException
+            (l) => l.node.Program.exception.EvaluationLimitException,
         );
     }
 
@@ -36,20 +35,19 @@ export default class EvaluationLimitException extends ExceptionValue {
         const sorted = [...counts].sort((a, b) => b[1] - a[1]);
         const mostFrequent = sorted[0][0];
 
-        return concretize(
-            locales,
+        return locales.concretize(
             this.getExceptionText(locales).explanation,
             new NodeRef(
                 mostFrequent instanceof FunctionDefinition ||
                 mostFrequent instanceof StructureDefinition ||
                 mostFrequent instanceof StreamDefinition
                     ? mostFrequent.names.getPreferredName(
-                          locales.getLocales()
+                          locales.getLocales(),
                       ) ?? mostFrequent
                     : mostFrequent,
                 locales,
-                this.getNodeContext(mostFrequent)
-            )
+                this.getNodeContext(mostFrequent),
+            ),
         );
     }
 }

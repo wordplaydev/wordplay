@@ -2,7 +2,6 @@ import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Expression from '@nodes/Expression';
 import NodeRef from '@locale/NodeRef';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class UnparsableException extends ExceptionValue {
@@ -16,19 +15,18 @@ export default class UnparsableException extends ExceptionValue {
 
     getExceptionText(locales: Locales) {
         return locales.get(
-            (l) => l.node.UnparsableExpression.exception.UnparsableException
+            (l) => l.node.UnparsableExpression.exception.UnparsableException,
         );
     }
 
     getExplanation(locales: Locales) {
-        return concretize(
-            locales,
+        return locales.concretize(
             this.getExceptionText(locales).explanation,
             new NodeRef(
                 this.unparsable,
                 locales,
-                this.getNodeContext(this.unparsable)
-            )
+                this.getNodeContext(this.unparsable),
+            ),
         );
     }
 }

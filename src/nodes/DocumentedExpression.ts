@@ -9,7 +9,6 @@ import Docs from './Docs';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 
@@ -85,10 +84,7 @@ export default class DocumentedExpression extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.DocumentedExpression.start),
-        );
+        return locales.concretize((l) => l.node.DocumentedExpression.start);
     }
 
     getGlyphs() {

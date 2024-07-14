@@ -47,7 +47,6 @@ import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
-import concretize from '../locale/concretize';
 import Sym from './Sym';
 import Refer from '../edit/Refer';
 import BasisType from './BasisType';
@@ -972,9 +971,8 @@ export default class Evaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Evaluate.start),
+        return locales.concretize(
+            (l) => l.node.Evaluate.start,
             this.inputs.length > 0,
         );
     }
@@ -984,9 +982,8 @@ export default class Evaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Evaluate.finish),
+        return locales.concretize(
+            (l) => l.node.Evaluate.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

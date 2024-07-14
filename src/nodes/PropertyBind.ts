@@ -17,7 +17,6 @@ import PropertyReference from './PropertyReference';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -218,10 +217,7 @@ export default class PropertyBind extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.PropertyBind.start),
-        );
+        return locales.concretize((l) => l.node.PropertyBind.start);
     }
 
     getFinishExplanations(
@@ -229,9 +225,8 @@ export default class PropertyBind extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.PropertyBind.finish),
+        return locales.concretize(
+            (l) => l.node.PropertyBind.finish,
             this.reference.name
                 ? new NodeRef(this.reference.name, locales, context)
                 : undefined,

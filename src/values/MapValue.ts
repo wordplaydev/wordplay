@@ -12,7 +12,6 @@ import {
 } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class MapValue extends SimpleValue {
@@ -128,11 +127,8 @@ export default class MapValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.map),
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.map);
     }
 
     getRepresentativeText() {

@@ -4,7 +4,6 @@ import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import type Reaction from '../nodes/Reaction';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class ExpectedBooleanCondition extends Conflict {
@@ -26,27 +25,21 @@ export default class ExpectedBooleanCondition extends Conflict {
                         ? this.conditional.question
                         : this.conditional.dots,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Conditional.conflict
-                                    .ExpectedBooleanCondition.primary
-                        ),
-                        new NodeRef(this.type, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.Conditional.conflict.ExpectedBooleanCondition
+                                .primary,
+                        new NodeRef(this.type, locales, context),
                     ),
             },
             secondary: {
                 node: this.conditional.condition,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Conditional.conflict
-                                    .ExpectedBooleanCondition.secondary
-                        ),
-                        new NodeRef(this.type, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.Conditional.conflict.ExpectedBooleanCondition
+                                .secondary,
+                        new NodeRef(this.type, locales, context),
                     ),
             },
         };

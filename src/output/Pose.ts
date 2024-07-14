@@ -11,7 +11,6 @@ import { getBind } from '@locale/getBind';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import type Project from '../models/Project';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export function createPoseType(locales: Locales) {
@@ -58,7 +57,7 @@ export default class Pose extends Valued {
         this.rotation = rotation;
         this.scale = scale;
         this.flipx = flipx;
-        this.flipy = flipy
+        this.flipy = flipy;
     }
 
     /** Override non-empty values with the values in the given pose */
@@ -77,21 +76,22 @@ export default class Pose extends Valued {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Pose.description),
-                this.opacity !== undefined && this.opacity !== 1
-                    ? Math.round(this.opacity)
-                    : undefined,
-                this.rotation !== undefined && this.rotation % 360
-                    ? Math.round(this.rotation)
-                    : undefined,
-                this.scale !== undefined && this.scale !== 1
-                    ? Math.round(this.scale)
-                    : undefined,
-                this.flipx,
-                this.flipy,
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Pose.description,
+                    this.opacity !== undefined && this.opacity !== 1
+                        ? Math.round(this.opacity)
+                        : undefined,
+                    this.rotation !== undefined && this.rotation % 360
+                        ? Math.round(this.rotation)
+                        : undefined,
+                    this.scale !== undefined && this.scale !== 1
+                        ? Math.round(this.scale)
+                        : undefined,
+                    this.flipx,
+                    this.flipy,
+                )
+                .toText();
         }
         return this._description;
     }
