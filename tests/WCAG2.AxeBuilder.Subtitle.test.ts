@@ -34,7 +34,7 @@ test('Test Wordplay homepage subtitles for WCAG violations', async ({
         accessibilityScanResults = await new AxeBuilder({ page })
             // Use CSS selector to include only subtitle class for WCAG tests.
             // e.g., the "Why does this place exist?" <span> element.
-            .include('.link>.subtitle')
+            .include('.link + .subtitle')
             // Limit analysis to WCAGs.
             .withTags(['wcag2a', 'wcag2aa', 'wcag2aaa'])
             .analyze();
