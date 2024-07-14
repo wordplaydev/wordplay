@@ -31,6 +31,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#525](https://github.com/wordplaydev/wordplay/issues/525) Ensure projects are removed from galleries, even if they somehow didn't have a gallery ID in them.
 -   [#515](https://github.com/wordplaydev/wordplay/issues/515) Ensure local projects get an owner after logging in.
 
+### Mainteance
+
+-   Added additional reactivity tests to cover granular re-evaulation of random.
+
 ## 0.10.4 2024-07-08
 
 ### Fixed

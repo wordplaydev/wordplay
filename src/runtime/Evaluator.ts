@@ -261,6 +261,8 @@ export default class Evaluator {
         locales: (Locale | Locale)[],
         reactive = true,
         prior: Evaluator | undefined = undefined,
+        // Allow creators to specify a seed
+        seed: number | undefined = undefined,
     ) {
         this.project = project;
         this.database = database;
@@ -285,7 +287,7 @@ export default class Evaluator {
         this.broadcast();
 
         // Initialize a default random number generator.
-        this.seed = Math.random();
+        this.seed = seed ?? Math.random();
         this.random = new NumberGenerator(this.seed);
 
         // Mirror the given prior, if there is one, and if we haven't persisted a source too many times.
