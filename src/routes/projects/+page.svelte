@@ -53,7 +53,11 @@
     />
     <AddProject
         add={(template) => {
-            const newProjectID = Projects.copy(template, $user?.uid ?? null);
+            const newProjectID = Projects.copy(
+                template,
+                $user?.uid ?? null,
+                null,
+            );
             goto(`/project/${newProjectID}`);
         }}
     />

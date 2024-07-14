@@ -145,6 +145,7 @@
                                 const newProjectID = Projects.copy(
                                     template,
                                     $user?.uid ?? null,
+                                    gallery.getID(),
                                 );
                                 Galleries.edit(
                                     gallery.withProject(newProjectID),
@@ -184,8 +185,11 @@
                                       ),
                                       action: () =>
                                           gallery
-                                              ? Galleries.removeProject(project)
-                                              : undefined,
+                                              ? Galleries.removeProject(
+                                                    project,
+                                                    gallery.getID(),
+                                                )
+                                              : false,
                                       label: '⨉',
                                   }
                                 : false;

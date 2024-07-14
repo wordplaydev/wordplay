@@ -276,8 +276,14 @@ export default class GalleryDatabase {
     }
 
     // Remove the project from the gallery that it's in.
-    async removeProject(project: Project) {
-        const galleryID = project.getGallery();
+    async removeProject(project: Project, galleryID: string | null) {
+        // Revise the project with a gallery ID.
+        await this.removeProjectFromGallery(project);
+
+        // Find the gallery from the given or the project, if provided.
+        galleryID = galleryID ?? project.getGallery();
+
+        // No gallery? No edit.
         if (galleryID === null) return;
 
         // Find the gallery.
@@ -286,11 +292,13 @@ export default class GalleryDatabase {
         // No matching gallery? Bail.
         if (gallery === undefined) return;
 
-        // Revise the project with a gallery ID.
-        this.database.Projects.edit(project.withGallery(null), false, true);
-
         // Revise the gallery with a project ID.
         this.edit(gallery.withoutProject(project.getID()));
+    }
+
+    async removeProjectFromGallery(project: Project) {
+        // Revise the project with a gallery ID.
+        this.database.Projects.edit(project.withGallery(null), false, true);
     }
 
     // Remove the given creator from the gallery, and all of their projects.

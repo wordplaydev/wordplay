@@ -348,8 +348,9 @@ export default class ProjectsDatabase {
         return newProject.getID();
     }
 
-    copy(project: Project, newOwner: string | null) {
-        const clone = project.copy(newOwner);
+    copy(project: Project, newOwner: string | null, gallery: string | null) {
+        const clone = project.copy(newOwner).withGallery(gallery);
+
         this.track(clone, true, PersistenceType.Online, false);
         return clone.getID();
     }
@@ -479,8 +480,9 @@ export default class ProjectsDatabase {
             const current = history.getCurrent();
 
             // If the project is in a gallery, remove it.
-            if (current.getGallery())
-                await this.database.Galleries.removeProject(current);
+            const gallery = current.getGallery();
+            if (gallery)
+                await this.database.Galleries.removeProject(current, gallery);
 
             // Mark the project archived after its removed from the gallery.
             this.edit(current.asArchived(archive), false, true);
@@ -506,7 +508,9 @@ export default class ProjectsDatabase {
         if (project === undefined) return;
 
         // Remove the project from it's gallery.
-        await this.database.Galleries.removeProject(project);
+        const gallery = project.getGallery();
+        if (gallery)
+            await this.database.Galleries.removeProject(project, gallery);
 
         // Delete the project doc
         await deleteDoc(doc(firestore, ProjectsCollection, id));
