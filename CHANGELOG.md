@@ -12,10 +12,13 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   [#514](https://github.com/wordplaydev/wordplay/issues/514) Fixed cursor position on hidden language tags.
+-   [#485](https://github.com/wordplaydev/wordplay/issues/485) Allow selection of language for output.
+-   [#524](https://github.com/wordplaydev/wordplay/issues/524) Fixed color of drop downs in dark mode.
+-   [#525](https://github.com/wordplaydev/wordplay/issues/525) Ensure projects are removed from galleries, even if they somehow didn't have a gallery ID in them.
+-   [#515](https://github.com/wordplaydev/wordplay/issues/515) Ensure local projects get an owner after logging in.
 -   Fixed parsing bug that prevented complete parsing of the program.
 -   Fixed reactivity dependency bug that included evaluates in branch dependencies.
 -   Fixed selection of locale in evaluation.
--   [#485](https://github.com/wordplaydev/wordplay/issues/485) Allow selection of language for output.
 -   Reset owner and collaborators of copied project.
 -   Added variation selectors to emojis for Safari.
 -   Stripped machine translation tags from locale text on render.
@@ -27,9 +30,6 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Define `Input`s corresponding definition to enable code localization.
 -   Improved `MissingInput` conflict.
 -   Changed value of divide by zero to non-a-number; defined not-a-number literal.
--   [#524](https://github.com/wordplaydev/wordplay/issues/524) Fixed color of drop downs in dark mode.
--   [#525](https://github.com/wordplaydev/wordplay/issues/525) Ensure projects are removed from galleries, even if they somehow didn't have a gallery ID in them.
--   [#515](https://github.com/wordplaydev/wordplay/issues/515) Ensure local projects get an owner after logging in.
 -   Improved dark grey contrast.
 -   Ensure templated strings are localized in tooltips.
 
