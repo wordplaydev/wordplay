@@ -18,7 +18,7 @@ async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
     await page.goto('/');
 
     // Click the first matching link.
-    await page.getByRole('link', { name: linkAndHeader }).nth(0).click();
+    await page.getByText(linkAndHeader).nth(0).click();
 
     // Expects page to have a heading with the name Wordplay.
     await expect(
@@ -34,18 +34,16 @@ async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
 //     await clickLinkAndCheckHeader(page, 'Learn');
 // });
 
-test('project link works', async ({ page }) => {
-    await clickLinkAndCheckHeader(page, 'Projects');
-});
-
-test('galleries link works', async ({ page }) => {
-    await clickLinkAndCheckHeader(page, 'Galleries');
-});
-
-test('about link works', async ({ page }) => {
-    await clickLinkAndCheckHeader(page, 'About');
-});
-
-test('rights link works', async ({ page }) => {
-    await clickLinkAndCheckHeader(page, 'Rights');
+[
+    'Projects',
+    'Galleries',
+    'Learn',
+    'Guide',
+    'About',
+    'Login',
+    'Rights',
+    'Donate',
+].forEach((link) => {
+    test(`${link} link loads`, async ({ page }) =>
+        await clickLinkAndCheckHeader(page, link));
 });

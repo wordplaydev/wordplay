@@ -5,7 +5,7 @@ export default mergeConfig(
     viteConfig,
     defineConfig({
         test: {
-            exclude: [...configDefaults.exclude, 'tests/*'],
+            exclude: [...configDefaults.exclude, 'tests/end2end/*'],
         },
-    })
+    }),
 );
