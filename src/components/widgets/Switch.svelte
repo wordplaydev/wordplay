@@ -56,7 +56,6 @@
         position: relative;
         transform-origin: center;
         cursor: pointer;
-        height: var(--wordplay-widget-height);
         border-radius: var(--wordplay-border-radius);
         padding: calc(var(--wordplay-spacing) / 2);
         border: 1px solid var(--wordplay-chrome);

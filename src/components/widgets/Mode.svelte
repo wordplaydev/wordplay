@@ -68,7 +68,6 @@
         font-weight: var(--wordplay-font-weight);
         cursor: pointer;
         width: fit-content;
-        height: var(--wordplay-widget-height);
         white-space: nowrap;
         border: 1px solid var(--wordplay-chrome);
         color: var(--wordplay-foreground);
