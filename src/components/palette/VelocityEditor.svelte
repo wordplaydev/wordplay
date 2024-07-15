@@ -19,7 +19,7 @@
     let views: HTMLInputElement[] = [];
 
     function valid(val: string) {
-        const [num] = NumberValue.fromUnknown(val, false);
+        const [num] = NumberValue.fromUnknown(val);
         return !num.isNaN();
     }
 
@@ -28,7 +28,7 @@
         if (value.length > 0 && !valid(value)) return;
 
         const focusIndex = views.findIndex(
-            (view) => document.activeElement === view
+            (view) => document.activeElement === view,
         );
 
         Projects.revise(project, [
@@ -38,9 +38,9 @@
                     dimension,
                     NumberLiteral.make(
                         value.length === 0 ? 0 : value,
-                        Unit.create([index < 2 ? 'm' : '°'], ['s'])
+                        Unit.create([index < 2 ? 'm' : '°'], ['s']),
                     ),
-                    project.getNodeContext(velocity)
+                    project.getNodeContext(velocity),
                 ),
             ],
         ]);
@@ -57,7 +57,7 @@
     {project.shares.output.Velocity.names.getSymbolicName()}{#each project.shares.output.Velocity.inputs as dimension, index}
         {@const given = velocity?.getInput(
             dimension,
-            project.getNodeContext(velocity)
+            project.getNodeContext(velocity),
         )}
         <!-- Get the measurement literal, if there is one -->
         {@const value =
@@ -70,7 +70,7 @@
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
                     description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate
+                        (l) => l.ui.palette.field.coordinate,
                     )}
                     changed={(value) => handleChange(dimension, index, value)}
                     bind:view={views[index]}
@@ -81,7 +81,7 @@
             {:else}
                 <Note
                     >{$locales.get(
-                        (locale) => locale.ui.palette.labels.computed
+                        (locale) => locale.ui.palette.labels.computed,
                     )}</Note
                 >
             {/if}

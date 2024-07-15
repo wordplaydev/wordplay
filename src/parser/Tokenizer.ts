@@ -224,17 +224,17 @@ const CodeTokenPatterns: TokenPattern[] = [
         pattern: /^-?([2-9]|1[0-6]);[0-9A-F]+([.,][0-9A-F]+)?%?/,
         types: [Sym.Number, Sym.Base],
     },
-    // Tokenize numbers before - gets slurped up, to allow for negative numbers.
+    // Tokenize Arabic numbers
     {
-        pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
+        pattern: /^[0-9]+([.,][0-9]+)?%?/,
         types: [Sym.Number, Sym.Decimal],
     },
     {
-        pattern: /^-?[.,][0-9]+%?/,
+        pattern: /^[.,][0-9]+%?/,
         types: [Sym.Number, Sym.Decimal],
     },
-    { pattern: /^-?π/, types: [Sym.Number, Sym.Pi] },
-    { pattern: /^-?∞/, types: [Sym.Number, Sym.Infinity] },
+    { pattern: /^π/, types: [Sym.Number, Sym.Pi] },
+    { pattern: /^∞/, types: [Sym.Number, Sym.Infinity] },
     // Must be after numbers, which can have a leading period.
     { pattern: PROPERTY_SYMBOL, types: [Sym.Access, Sym.This] },
     { pattern: TRUE_SYMBOL, types: [Sym.Boolean] },
