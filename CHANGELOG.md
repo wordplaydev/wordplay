@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   [#525](https://github.com/wordplaydev/wordplay/issues/525) Ensure projects are removed from galleries, even if they somehow didn't have a gallery ID in them.
 -   [#515](https://github.com/wordplaydev/wordplay/issues/515) Ensure local projects get an owner after logging in.
 -   [#520](https://github.com/wordplaydev/wordplay/issues/520) More generous parsing and conflicts around binary and unary evaluates.
+-   [#523](https://github.com/wordplaydev/wordplay/issues/523) More general handling of hidden tokens in cursor positioning.
 -   Fixed parsing bug that prevented complete parsing of the program.
 -   Fixed reactivity dependency bug that included evaluates in branch dependencies.
 -   Fixed selection of locale in evaluation.

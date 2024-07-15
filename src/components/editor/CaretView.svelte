@@ -473,7 +473,7 @@
                 if (
                     priorToken === undefined ||
                     (priorTokenView !== null &&
-                        !priorTokenView.classList.contains('hide'))
+                        priorTokenView.closest('.hide') === null)
                 )
                     break;
             } while (true);
