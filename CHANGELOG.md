@@ -35,6 +35,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Ensure templated strings are localized in tooltips.
 -   Allow addition to be used as a unary operation.
 -   Don't tokenize negative numbers; treat them as a unary evaluation.
+-   More consistent button styling.
 
 ### Maintenance
 

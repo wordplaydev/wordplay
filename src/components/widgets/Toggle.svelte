@@ -44,7 +44,9 @@
         event.button === 0 && active ? doToggle(event) : undefined}
 >
     {#if command}<CommandHint {command} />{/if}
-    <slot />
+    <div class="icon">
+        <slot />
+    </div>
 </button>
 
 <style>
@@ -65,6 +67,7 @@
         cursor: pointer;
         width: fit-content;
         max-width: 10em;
+        height: var(--wordplay-widget-height);
         overflow: hidden;
         text-overflow: ellipsis;
         white-space: nowrap;
@@ -87,10 +90,13 @@
         stroke: var(--wordplay-background);
         fill: var(--wordplay-background);
         box-shadow: inset 1px 2px var(--wordplay-chrome);
+    }
+
+    button.on .icon {
         transform: scale(0.9);
     }
 
-    button:hover {
+    button:not(.on):hover .icon {
         transform: scale(1.1);
     }
 
