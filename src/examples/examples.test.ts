@@ -50,7 +50,10 @@ test.each([...projects, ...templates])(
         ).flat();
         const messages: string[] = [];
         for (const conflict of conflicts) {
-            const conflictingNodes = conflict.getConflictingNodes(Templates);
+            const conflictingNodes = conflict.getConflictingNodes(
+                context,
+                Templates,
+            );
             messages.push(
                 conflictingNodes.primary
                     .explanation(DefaultLocales, context)

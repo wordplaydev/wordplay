@@ -2742,8 +2742,27 @@
                       "description": "When there's no ending expression"
                     },
                     "IgnoredExpression": {
-                      "$ref": "#/definitions/ConflictText",
-                      "description": "When a statement is ignored because it's not last and not a bind"
+                      "additionalProperties": false,
+                      "description": "When a statement is ignored because it's not last and not a bind",
+                      "properties": {
+                        "primary": {
+                          "$ref": "#/definitions/Template",
+                          "description": "The text that describes this conflict on the node which generated it."
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        },
+                        "secondary": {
+                          "$ref": "#/definitions/Template",
+                          "description": "The text that describes this conflict on a related note, but not the one that generated it."
+                        }
+                      },
+                      "required": [
+                        "primary",
+                        "resolution",
+                        "secondary"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [

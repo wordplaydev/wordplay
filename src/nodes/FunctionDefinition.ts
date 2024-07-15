@@ -288,9 +288,11 @@ export default class FunctionDefinition extends DefinitionExpression {
     isEvaluationInvolved() {
         return true;
     }
+
     isEvaluationRoot() {
         return true;
     }
+
     getScopeOfChild(child: Node, context: Context): Node | undefined {
         // A function definition is the scope for its expression (since it defines inputs the expression might use),
         // but also for its output type and inputs, since they may refer to type variables declared on the function.
@@ -428,6 +430,10 @@ export default class FunctionDefinition extends DefinitionExpression {
                     input.isEqualTo(definition.inputs[index]),
                 ))
         );
+    }
+
+    getRequiredInputs() {
+        return this.inputs.filter((input) => !input.hasDefault());
     }
 
     evaluateTypeGuards(current: TypeSet, guard: GuardContext) {

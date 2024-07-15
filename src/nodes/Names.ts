@@ -148,6 +148,10 @@ export default class Names extends Node {
         );
     }
 
+    getFirst() {
+        return this.names[0].getName();
+    }
+
     getNameInLanguage(lang: LanguageCode, symbolic: boolean | undefined) {
         return this.names.find(
             (name) =>

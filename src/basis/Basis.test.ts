@@ -46,7 +46,8 @@ function checkBasisNodes(node: Node) {
             !context
                 .getRoot(node)
                 ?.getAncestors(
-                    conflict.getConflictingNodes(Templates).primary.node,
+                    conflict.getConflictingNodes(context, Templates).primary
+                        .node,
                 )
                 .some((n) => n instanceof Example),
     );
@@ -56,7 +57,7 @@ function checkBasisNodes(node: Node) {
         conflicts
             .map((c) =>
                 c
-                    .getConflictingNodes(Templates)
+                    .getConflictingNodes(context, Templates)
                     .primary.explanation(DefaultLocales, context)
                     .toText(),
             )

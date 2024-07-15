@@ -452,8 +452,9 @@
             "conflict": {
                 "ExpectedEndingExpression": "我需要一個表述。",
                 "IgnoredExpression": {
-                    "primary": "我會忽略以上所有的東西。",
-                    "secondary": "@Block，不要忽略我呀!"
+                    "primary": "$~我将忽略 $1，因为它没有定义任何东西并且不是我的最后一个表达式。",
+                    "secondary": "$~@Block，不要忽略我！",
+                    "resolution": "$~您的意思是将其改为 @BinaryEvaluate 而不是 @UnaryEvaluate 吗？我可以添加一个空格，这样我就知道这就是您的意思。"
                 }
             }
         },

@@ -26,6 +26,7 @@ import Reference from './Reference';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import MissingInput from '@conflicts/MissingInput';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -101,7 +102,7 @@ export default class UnaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // Did we find nothing?
+        // No match? Give a conflict.
         if (fun === undefined)
             conflicts.push(
                 new IncompatibleInput(
@@ -110,7 +111,11 @@ export default class UnaryEvaluate extends Expression {
                     FunctionType.make(undefined, [], new AnyType()),
                 ),
             );
-
+        else if (fun.getRequiredInputs().length > 0) {
+            conflicts.push(
+                new MissingInput(fun, this, this.input, fun.inputs[0]),
+            );
+        }
         return conflicts;
     }
 

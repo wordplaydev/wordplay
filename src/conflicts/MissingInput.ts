@@ -11,16 +11,17 @@ import NodeRef from '@locale/NodeRef';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Locales from '../locale/Locales';
 import ConceptRef from '@locale/ConceptRef';
+import type UnaryEvaluate from '@nodes/UnaryEvaluate';
 
 export default class MissingInput extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
-    readonly evaluate: Evaluate | BinaryEvaluate;
+    readonly evaluate: Evaluate | BinaryEvaluate | UnaryEvaluate;
     readonly last: Token | Expression;
     readonly input: Bind;
 
     constructor(
         func: FunctionDefinition | StructureDefinition | StreamDefinition,
-        evaluate: Evaluate | BinaryEvaluate,
+        evaluate: Evaluate | BinaryEvaluate | UnaryEvaluate,
         last: Token | Expression,
         expected: Bind,
     ) {
@@ -38,6 +39,9 @@ export default class MissingInput extends Conflict {
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
                         (l) => l.node.Evaluate.conflict.MissingInput.primary,
+                        this.func.names.getPreferredNameString(
+                            locales.getLocales(),
+                        ) ?? this.func.names.getFirst(),
                         context.project.contains(this.input)
                             ? new NodeRef(this.input, locales, context)
                             : new ConceptRef(

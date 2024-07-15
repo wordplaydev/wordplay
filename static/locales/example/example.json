@@ -306,7 +306,8 @@
                 "ExpectedEndingExpression": "$?",
                 "IgnoredExpression": {
                     "primary": "$?",
-                    "secondary": "$?"
+                    "secondary": "$?",
+                    "resolution": "$?"
                 }
             }
         },

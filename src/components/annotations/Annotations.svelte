@@ -132,7 +132,10 @@
             // Conflict all of the active conflicts to a list of annotations.
             annotations = conflicts
                 .map((conflict: Conflict) => {
-                    const nodes = conflict.getConflictingNodes(Templates);
+                    const nodes = conflict.getConflictingNodes(
+                        context,
+                        Templates,
+                    );
                     const primary = nodes.primary;
                     const secondary = nodes.secondary;
                     // Based on the primary and secondary nodes given, decide what to show.

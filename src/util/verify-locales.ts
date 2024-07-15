@@ -888,7 +888,6 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                 const [revisedLocale, localeChanged] = localeResults;
                 if (localeChanged) {
                     // Write a formatted version of the revised locale file.
-
                     const prettyLocale = await prettier.format(
                         JSON.stringify(revisedLocale, null, 4),
                         { ...prettierOptions, parser: 'json' },

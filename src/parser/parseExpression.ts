@@ -204,7 +204,8 @@ export function parseBinaryEvaluate(tokens: Tokens): Expression {
     tokens.whileDo(
         () =>
             tokens.hasNext() &&
-            !tokens.nextIsUnary() &&
+            // If the next is a unary operator, then it has to have no preceding space to be parsed as a binary evaluate.
+            (!tokens.nextIsUnary() || tokens.nextLacksPrecedingSpace()) &&
             (tokens.nextIs(Sym.Operator) ||
                 (tokens.nextIs(Sym.TypeOperator) &&
                     !tokens.nextHasPrecedingLineBreak())),

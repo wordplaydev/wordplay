@@ -7,7 +7,10 @@
     import { locales } from '../../db/Database';
     import Emoji from '@components/app/Emoji.svelte';
     import Templates from '@concepts/Templates';
+    import type Project from '@models/Project';
+    import Context from '@nodes/Context';
 
+    export let project: Project;
     export let source: Source;
     export let expanded: boolean;
 
@@ -23,7 +26,10 @@
         secondaryCount = 0;
         if ($conflicts) {
             for (const conflict of $conflicts) {
-                const nodes = conflict.getConflictingNodes(Templates);
+                const nodes = conflict.getConflictingNodes(
+                    new Context(project, source),
+                    Templates,
+                );
                 if (source.has(nodes.primary.node)) {
                     if (!conflict.isMinor()) primaryCount++;
                     else secondaryCount++;

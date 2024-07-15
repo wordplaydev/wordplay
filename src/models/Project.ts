@@ -321,7 +321,10 @@ export default class Project {
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
             for (const conflict of this.analysis.conflicts) {
-                const complicitNodes = conflict.getConflictingNodes(Templates);
+                const complicitNodes = conflict.getConflictingNodes(
+                    context,
+                    Templates,
+                );
                 this.analysis.primary.set(complicitNodes.primary.node, [
                     ...(this.analysis.primary.get(
                         complicitNodes.primary.node,

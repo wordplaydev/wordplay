@@ -24,7 +24,7 @@ export class UnparsableConflict extends Conflict {
         this.context = context;
     }
 
-    getConflictingNodes(nodes: Node[]) {
+    getConflictingNodes(_: Context, nodes: Node[]) {
         return {
             primary: {
                 node: this.unparsable,

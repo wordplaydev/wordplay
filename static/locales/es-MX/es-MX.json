@@ -432,8 +432,9 @@
             "conflict": {
                 "ExpectedEndingExpression": "Necesito una expresión.",
                 "IgnoredExpression": {
-                    "primary": "Voy a ignorar lo anterior.",
-                    "secondary": "@Block, ¡no me ignores a mí!"
+                    "primary": "$~Voy a ignorar $1, ya que no define nada y no es mi última expresión.",
+                    "secondary": "$~@Block, ¡no me ignores!",
+                    "resolution": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir."
                 }
             }
         },

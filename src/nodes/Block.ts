@@ -209,7 +209,6 @@ export default class Block extends Expression {
             .slice(0, this.statements.length - 1)
             .filter(
                 (s) =>
-                    s instanceof Expression &&
                     !(s instanceof DefinitionExpression || s instanceof Bind),
             )
             .forEach((s) => conflicts.push(new IgnoredExpression(this, s)));

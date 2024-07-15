@@ -1618,6 +1618,7 @@
                 {#if tile && tile.isCollapsed()}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
+                        {project}
                         {source}
                         expanded={tile.mode === Mode.Expanded}
                         on:toggle={() => toggleTile(tile)}
