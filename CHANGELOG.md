@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Fixed color of example code in docs.
+-   Changed unused bind conflict to only highlight name, not value.
 
 ## 0.10.5 2024-07-13
 
