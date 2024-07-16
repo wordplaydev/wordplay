@@ -4,10 +4,18 @@
     import type Block from '@nodes/Block';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView from './NodeView.svelte';
+    import { blocks } from '@db/Database';
 
     export let node: Block;
 </script>
 
-<NodeView node={node.docs} /><NodeView node={node.open} /><NodeSequenceView
-    nodes={node.statements}
-/><NodeView node={node.close} />
+{#if $blocks}
+    <NodeView node={node.docs} /><NodeView node={node.open} /><NodeSequenceView
+        nodes={node.statements}
+        direction="column"
+    /><NodeView node={node.close} />
+{:else}
+    <NodeView node={node.docs} /><NodeView node={node.open} /><NodeSequenceView
+        nodes={node.statements}
+    /><NodeView node={node.close} />
+{/if}

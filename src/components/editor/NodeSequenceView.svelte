@@ -10,9 +10,11 @@
     import NodeView from './NodeView.svelte';
     import Button from '../widgets/Button.svelte';
     import { locales } from '../../db/Database';
+    import { blocks } from '../../db/Database';
 
     export let nodes: Node[];
     export let elide = false;
+    export let direction: 'row' | 'column' = 'row';
 
     let caret = getCaret();
 
@@ -75,22 +77,43 @@
     }
 </script>
 
-{#if hiddenBefore > 0}
-    <Button
-        tip={$locales.get((l) => l.ui.source.button.expandSequence)}
-        action={() => (elide = false)}
-        ><span class="count">… {hiddenBefore}</span></Button
-    >{/if}{#each visible as node}<NodeView
-        {node}
-    />{/each}{#if hiddenAfter > 0}<Button
-        tip={$locales.get((l) => l.ui.source.button.expandSequence)}
-        action={() => (elide = false)}
-        ><span class="count">… {hiddenAfter}</span></Button
-    >{/if}
+{#if $blocks}
+    <div class="node-list {direction}">
+        {#each visible as node}
+            <NodeView {node} />{/each}
+    </div>
+{:else}
+    {#if hiddenBefore > 0}
+        <Button
+            tip={$locales.get((l) => l.ui.source.button.expandSequence)}
+            action={() => (elide = false)}
+            ><span class="count">… {hiddenBefore}</span></Button
+        >{/if}{#each visible as node}<NodeView
+            {node}
+        />{/each}{#if hiddenAfter > 0}<Button
+            tip={$locales.get((l) => l.ui.source.button.expandSequence)}
+            action={() => (elide = false)}
+            ><span class="count">… {hiddenAfter}</span></Button
+        >{/if}
+{/if}
 
 <style>
     .count {
         font-size: x-small;
         color: var(--wordplay-inactive-color);
+    }
+
+    .node-list {
+        display: flex;
+    }
+
+    .row {
+        flex-direction: row;
+        gap: var(--wordplay-border-width);
+    }
+
+    .node-list.column {
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 </style>
