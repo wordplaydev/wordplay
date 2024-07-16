@@ -19,6 +19,7 @@
 
     export let node: Node | undefined;
     export let small = false;
+    export let direction: 'row' | 'column' = 'row';
 
     const evaluation = getEvaluation();
     const root = getRoot();
@@ -71,39 +72,64 @@
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
-    <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !hide && firstToken && spaceRoot === node}<Space
-            token={firstToken}
-            first={$blocks ? undefined : $spaces.isFirst(firstToken)}
-            line={$blocks ? undefined : $spaces.getLineNumber(firstToken)}
-            {space}
-            insertion={$insertion?.token === firstToken
-                ? $insertion
-                : undefined}
-        />{/if}<div
-        class="{node.getDescriptor()} {node instanceof Token
-            ? 'Token'
-            : ''} node-view"
-        data-uiid={node.getDescriptor()}
-        class:hide
-        class:small
-        class:block={kind === ExpressionKind.Evaluate ||
-            kind === ExpressionKind.Definition}
-        class:evaluate={kind === ExpressionKind.Evaluate}
-        class:definition={kind === ExpressionKind.Definition}
-        data-id={node.id}
-        id={`node-${node.id}`}
-        aria-hidden={hide ? 'true' : null}
-        aria-label={description}
-        >{#if value}<ValueView
-                {value}
-                {node}
-                interactive
-            />{:else}<svelte:component
-                this={getNodeView(node)}
-                {node}
-            />{/if}</div
-    >
+    {#if $blocks}
+        <div
+            class:back={kind === ExpressionKind.Evaluate ||
+                kind === ExpressionKind.Definition}
+            class="block {direction} {node.getDescriptor()} {node instanceof
+            Token
+                ? 'Token'
+                : ''} node-view"
+            data-uiid={node.getDescriptor()}
+            class:evaluate={kind === ExpressionKind.Evaluate}
+            class:definition={kind === ExpressionKind.Definition}
+            data-id={node.id}
+            id={`node-${node.id}`}
+            aria-hidden={hide ? 'true' : null}
+            aria-label={description}
+        >
+            {#if value}<ValueView
+                    {value}
+                    {node}
+                    interactive
+                />{:else}<svelte:component
+                    this={getNodeView(node)}
+                    {node}
+                />{/if}
+        </div>
+    {:else}
+        <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
+        {#if !hide && firstToken && spaceRoot === node && !$blocks}<Space
+                token={firstToken}
+                first={$blocks ? undefined : $spaces.isFirst(firstToken)}
+                line={$blocks ? undefined : $spaces.getLineNumber(firstToken)}
+                {space}
+                insertion={$insertion?.token === firstToken
+                    ? $insertion
+                    : undefined}
+            />{/if}<div
+            class="{node.getDescriptor()} {node instanceof Token
+                ? 'Token'
+                : ''} node-view"
+            data-uiid={node.getDescriptor()}
+            class:hide
+            class:small
+            class:evaluate={kind === ExpressionKind.Evaluate}
+            class:definition={kind === ExpressionKind.Definition}
+            data-id={node.id}
+            id={`node-${node.id}`}
+            aria-hidden={hide ? 'true' : null}
+            aria-label={description}
+            >{#if value}<ValueView
+                    {value}
+                    {node}
+                    interactive
+                />{:else}<svelte:component
+                    this={getNodeView(node)}
+                    {node}
+                />{/if}</div
+        >
+    {/if}
 {/if}
 
 <style>
@@ -123,9 +149,7 @@
         cursor: grab;
     }
 
-    .block {
-        display: inline-block;
-        vertical-align: baseline;
+    .back {
         background: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 3);
         border-start-start-radius: 0;
@@ -177,5 +201,21 @@
 
     .small {
         font-size: 80%;
+    }
+
+    .block {
+        display: flex;
+        gap: var(--wordplay-border-width);
+        width: fit-content;
+    }
+
+    .row {
+        flex-direction: row;
+        align-items: center;
+    }
+
+    .column {
+        flex-direction: column;
+        align-items: inline-start;
     }
 </style>

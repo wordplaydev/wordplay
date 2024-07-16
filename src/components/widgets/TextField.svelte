@@ -99,7 +99,7 @@
         color: inherit;
         border: none;
         outline: none;
-        min-width: 4em;
+        min-width: 1em;
         cursor: text;
     }
 

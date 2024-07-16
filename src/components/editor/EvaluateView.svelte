@@ -8,6 +8,8 @@
     import RootView from '../project/RootView.svelte';
     import PlaceholderView from './PlaceholderView.svelte';
     import Token from '../../nodes/Token';
+    import { blocks } from '@db/Database';
+    import NodeSequenceView from './NodeSequenceView.svelte';
 
     export let node: Evaluate;
 
@@ -54,20 +56,30 @@
     }
 </script>
 
-<NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
-    node={node.open}
-/>{#each node.inputs as input}<NodeView node={input} />{/each}{#if nextBind}<div
-        class="hint"
-        >&nbsp;<RootView
-            node={nextBind.withoutValue()}
-            inline
-            elide
-            localized="symbolic"
-            inert
-        />{#if menuPosition}<PlaceholderView
-                position={menuPosition}
-            />{/if}</div
-    >{/if}<NodeView node={node.close} />
+{#if $blocks}
+    <div class="evaluate">
+        <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
+            node={node.open}
+        /><NodeSequenceView nodes={node.inputs} />
+        <NodeView node={node.close} />
+    </div>
+{:else}
+    <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
+        node={node.open}
+    />{#each node.inputs as input}<NodeView
+            node={input}
+        />{/each}{#if nextBind}<div class="hint"
+            >&nbsp;<RootView
+                node={nextBind.withoutValue()}
+                inline
+                elide
+                localized="symbolic"
+                inert
+            />{#if menuPosition}<PlaceholderView
+                    position={menuPosition}
+                />{/if}</div
+        >{/if}<NodeView node={node.close} />
+{/if}
 
 <style>
     .hint {
@@ -79,5 +91,11 @@
         color: var(--wordplay-inactive-color);
         font-style: italic;
         font-size: small;
+    }
+
+    .evaluate {
+        display: flex;
+        flex-direction: row;
+        gap: var(--spacing);
     }
 </style>

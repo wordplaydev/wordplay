@@ -684,6 +684,6 @@ export default class Bind extends Expression {
     }
 
     getKind() {
-        return ExpressionKind.Simple;
+        return ExpressionKind.Definition;
     }
 }

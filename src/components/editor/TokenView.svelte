@@ -10,9 +10,10 @@
         getLocalize,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { locales } from '../../db/Database';
+    import { blocks, locales } from '../../db/Database';
     import { withVariationSelector } from '../../unicode/emoji';
     import Sym from '@nodes/Sym';
+    import TextField from '@components/widgets/TextField.svelte';
 
     export let node: Token;
 
@@ -23,6 +24,7 @@
     let hidden = getHidden();
 
     $: hide = node ? $hidden?.has(node) : false;
+    $: editable = $caret !== undefined;
 
     $: context =
         $root === undefined || $project === undefined
@@ -86,15 +88,26 @@
     )}"
     class:hide
     class:active
-    class:editable={$caret !== undefined}
+    class:editable
     class:placeholder={placeholder !== undefined}
     class:added
     data-id={node.id}
     role="presentation"
-    >{#if placeholder !== undefined}<span class="placeholder"
-            >{placeholder}</span
-        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{renderedText}{/if}</span
 >
+    {#if $blocks}
+        {#if editable && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
+            <TextField
+                text={renderedText}
+                placeholder={placeholder ?? ''}
+                description={placeholder ?? ''}
+            ></TextField>
+        {:else}
+            {renderedText}
+        {/if}
+    {:else if placeholder !== undefined}<span class="placeholder"
+            >{placeholder}</span
+        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{renderedText}{/if}
+</span>
 
 <style>
     .token-view {
