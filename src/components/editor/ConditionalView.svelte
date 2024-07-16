@@ -3,10 +3,18 @@
 <script lang="ts">
     import type Conditional from '@nodes/Conditional';
     import NodeView from './NodeView.svelte';
+    import { blocks } from '@db/Database';
 
     export let node: Conditional;
 </script>
 
-<span class="condition"
-    ><NodeView node={node.condition} /><NodeView node={node.question} /></span
-><NodeView node={node.yes} /><NodeView node={node.no} />
+{#if $blocks}
+    <NodeView node={node.condition} /><NodeView node={node.question} />
+    <NodeView node={node.yes} /><NodeView node={node.no} />
+{:else}
+    <span class="condition"
+        ><NodeView node={node.condition} /><NodeView
+            node={node.question}
+        /></span
+    ><NodeView node={node.yes} /><NodeView node={node.no} />
+{/if}
