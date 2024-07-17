@@ -26,7 +26,6 @@
 
         if (next) {
             current = { announcement: next, time: Date.now() };
-            console.log('dequeue ' + current.announcement.text);
 
             // Decide when to dequeue the next message proportional to length of text,
             // assuming a lower 300 words/minute (5 words/second), and about 5 characters per word

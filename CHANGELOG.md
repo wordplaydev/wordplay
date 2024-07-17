@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.10.5 2024-07-20
 
+### Added
+
+-   Persist annotations window collapse/expand state.
+
 ### Fixed
 
 -   Fixed color of example code in docs.

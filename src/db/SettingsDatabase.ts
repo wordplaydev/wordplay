@@ -25,6 +25,7 @@ import { firestore } from './firebase';
 import { CreatorCollection } from './CreatorDatabase';
 import { SpaceSetting } from './SpaceSetting';
 import { LineSetting } from './LinesSetting';
+import { AnnotationsSetting } from './AnnotationsSetting';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {
@@ -67,6 +68,7 @@ export default class SettingsDatabase {
         dark: DarkSetting,
         space: SpaceSetting,
         lines: LineSetting,
+        annotations: AnnotationsSetting,
     };
 
     /** A derived store based on animation factor */
@@ -174,6 +176,10 @@ export default class SettingsDatabase {
 
     setLines(on: boolean) {
         this.settings.lines.set(this.database, on);
+    }
+
+    setShowAnnotations(on: boolean) {
+        this.settings.annotations.set(this.database, on);
     }
 
     getDark() {

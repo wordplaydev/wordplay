@@ -21,7 +21,7 @@
     import { getConceptIndex, getEvaluation } from '../project/Contexts';
     import type Markup from '../../nodes/Markup';
     import type Source from '../../nodes/Source';
-    import { locales } from '../../db/Database';
+    import { locales, Settings, showAnnotations } from '../../db/Database';
     import Speech from '@components/lore/Speech.svelte';
     import Glyphs from '../../lore/Glyphs';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
@@ -56,9 +56,6 @@
     export let conflicts: Conflict[];
     /** The caret of the editor this is annotating */
     export let caret: Caret | undefined;
-
-    /** Whether the annotations view is expanded */
-    let expanded = true;
 
     let evaluation = getEvaluation();
     let concepts = getConceptIndex();
@@ -241,17 +238,17 @@
 <!-- Render annotations by node -->
 <section
     aria-label={$locales.get((l) => l.ui.annotations.label)}
-    class:expanded
+    class:expanded={$showAnnotations}
     on:pointerdown={() => {
-        if (!expanded) expanded = true;
+        if (!$showAnnotations) Settings.setShowAnnotations(true);
     }}
 >
     <Expander
-        {expanded}
-        toggle={() => (expanded = !expanded)}
+        expanded={$showAnnotations}
+        toggle={() => Settings.setShowAnnotations(!$showAnnotations)}
         vertical={false}
     />
-    {#if expanded}
+    {#if $showAnnotations}
         <div class="annotations">
             {#if source.isEmpty()}
                 <Speech glyph={Glyphs.Function} scroll={false} below>

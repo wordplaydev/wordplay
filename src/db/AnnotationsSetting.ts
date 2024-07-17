@@ -1,7 +1,7 @@
 import Setting from './Setting';
 
-export const LineSetting = new Setting<boolean>(
-    'lines',
+export const AnnotationsSetting = new Setting<boolean>(
+    'annotations',
     false,
     true,
     (value) => (typeof value === 'boolean' ? value : undefined),
