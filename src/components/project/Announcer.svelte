@@ -6,7 +6,7 @@
     export const announce: Announce = (
         id: string,
         language: LanguageCode | undefined,
-        message: string
+        message: string,
     ) => {
         // Enqueue the announcement
         announcements.push(new Announcement(id, language, message));
@@ -26,16 +26,17 @@
 
         if (next) {
             current = { announcement: next, time: Date.now() };
+            console.log('dequeue ' + current.announcement.text);
 
             // Decide when to dequeue the next message proportional to length of text,
             // assuming a lower 300 words/minute (5 words/second), and about 5 characters per word
             const wordCount = current.announcement.text.length / 5;
-            const wordsPerSecond = 5;
+            const wordsPerSecond = 3;
             const secondsToRead = wordCount * (1 / wordsPerSecond);
 
             // Dequeue
             timeout = setTimeout(() => {
-                // It's been a second. Clear the announcement and the timeout (so the dequeue does something above), then dequeue to update the announncement.
+                // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
                 current = undefined;
                 timeout = undefined;
                 dequeue();
@@ -49,18 +50,22 @@
     let timeout: NodeJS.Timeout | undefined = undefined;
 </script>
 
-{#if current}
-    <div
-        class="announcements"
-        aria-live="assertive"
-        aria-atomic="true"
-        aria-relevant="all"
-        data-kind={current.announcement.kind}
-        lang={current.announcement.language}
-    >
-        {current.announcement.text}
-    </div>
-{/if}
+<!-- Create a new DOM element for each new announcement to increase the chances that it's read. -->
+<div
+    class="announcements"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    aria-relevant="all"
+    data-kind={current?.announcement.kind}
+    lang={current?.announcement.language}
+>
+    {#key current}
+        {#if current}
+            {current.announcement.text}
+        {/if}
+    {/key}
+</div>
 
 <style>
     .announcements {

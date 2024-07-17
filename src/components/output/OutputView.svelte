@@ -112,7 +112,7 @@
     let keyboardInputText = '';
 
     // Announce changes in values.
-    $: if ($announce && value && (exception || stageValue === undefined))
+    $: if ($announce && value !== undefined && stageValue === undefined) {
         $announce(
             'value',
             $locales.getLanguages()[0],
@@ -120,6 +120,7 @@
                 ? exception.getExplanation($locales).toText()
                 : value.getDescription($locales).toText(),
         );
+    }
 
     /** When creator's preferred animation factor changes, update evaluator */
     $: evaluator.updateTimeMultiplier($animationFactor);
