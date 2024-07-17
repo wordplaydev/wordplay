@@ -91,7 +91,7 @@
         color: currentColor;
         cursor: pointer;
         min-width: 1em;
-        height: var(--wordplay-widget-height);
+        min-height: var(--wordplay-widget-height);
         width: fit-content;
         white-space: nowrap;
         transition: transform calc(var(--animation-factor) * 200ms);
