@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed color of example code in docs.
 -   Changed unused bind conflict to only highlight name, not value.
 -   More reliable stage value announcements.
+-   Fixed case where stream expression is the condition, as opposed to in a condition.
 
 ## 0.10.5 2024-07-13
 

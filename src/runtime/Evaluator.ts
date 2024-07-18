@@ -1548,17 +1548,18 @@ export default class Evaluator {
                 // stream.
                 const root = this.project.getRoot(streamNode);
                 if (root) {
-                    const branchingAncestors = root
-                        .getAncestors(streamNode)
-                        .filter((node, index, array) => {
-                            if (node instanceof Expression && index > 0) {
-                                const child = array[index - 1];
-                                return child instanceof Expression
-                                    ? node.hasBranch(child)
-                                    : false;
-                            }
-                            return false;
-                        });
+                    const branchingAncestors = [
+                        streamNode,
+                        ...root.getAncestors(streamNode),
+                    ].filter((node, index, array) => {
+                        if (node instanceof Expression && index > 0) {
+                            const child = array[index - 1];
+                            return child instanceof Expression
+                                ? node.hasBranch(child)
+                                : false;
+                        }
+                        return false;
+                    });
                     for (const branch of branchingAncestors) {
                         for (const affected of branch
                             .nodes()
