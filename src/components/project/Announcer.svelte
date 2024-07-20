@@ -3,6 +3,8 @@
     import Announcement from './Announcement';
     import type { Announce } from './Contexts';
 
+    const delay = 200;
+
     export const announce: Announce = (
         id: string,
         language: LanguageCode | undefined,
@@ -10,10 +12,11 @@
     ) => {
         // Enqueue the announcement
         announcements.push(new Announcement(id, language, message));
+
         // Has the current announcement been around long enough? Dequeue the next most recent.
         const delta = Date.now() - (current ? current.time : 0);
         // No current message or it's been more than a second? Dequeue.
-        if (current === undefined || delta > 1000) dequeue();
+        if (current === undefined || delta > delay) dequeue();
     };
 
     function dequeue() {
@@ -30,6 +33,7 @@
                 next.text !== current.announcement.text
             ) {
                 current = { announcement: next, time: Date.now() };
+                console.log('Set: ' + current.announcement.text);
 
                 // Decide when to dequeue the next message proportional to length of text,
                 // assuming a lower 300 words/minute (5 words/second), and about 5 characters per word
@@ -40,10 +44,9 @@
                 // Dequeue
                 timeout = setTimeout(() => {
                     // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
-                    current = undefined;
                     timeout = undefined;
                     dequeue();
-                }, secondsToRead * 1000);
+                }, secondsToRead * delay);
             }
         }
     }
@@ -63,7 +66,7 @@
     aria-relevant="all"
     data-kind={current?.announcement.kind}
 >
-    {#if current}<span lang={current?.announcement.language}>
+    {#if current}<span lang={current.announcement.language}>
             {current.announcement.text}
         </span>
     {/if}
@@ -71,6 +74,12 @@
 
 <style>
     .announcements {
-        font-size: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
     }
 </style>

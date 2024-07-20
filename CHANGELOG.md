@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed case where stream expression is the condition, as opposed to in a condition.
 -   Fixed order of `MissingInput` conflict dialog.
 -   Change to no localization after translation.
+-   Polished live region announcements to prevent redundant reading.
 
 ## 0.10.5 2024-07-13
 

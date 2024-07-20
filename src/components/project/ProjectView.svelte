@@ -1248,7 +1248,9 @@
 {#if warn}
     <Moderation {project} />
 {/if}
-<!-- Render the app header and the current project, if there is one. -->
+<!-- Render a live region with announcements as soon as possible -->
+<Announcer bind:announce />
+<!-- Render the current project. -->
 <main class="project" class:dragging={$dragged !== undefined} bind:this={view}>
     <div
         class="canvas"
@@ -1695,9 +1697,6 @@
             </div>
         {/if}
     {/if}
-
-    <!-- Render a live region with announcements -->
-    <Announcer bind:announce />
 </main>
 
 <style>
