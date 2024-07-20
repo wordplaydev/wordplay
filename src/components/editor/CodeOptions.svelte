@@ -83,11 +83,11 @@
 
 <div class="select">
     <div
+        class="selection"
         role="combobox"
         aria-expanded={showing ? 'true' : 'false'}
         aria-controls="options-{current.id}"
         aria-activedescendant="option-{current.id}-{selection?.id}"
-        class="selection"
         id="selection-{current.id}"
         on:keydown={handleKey}
         on:pointerdown|stopPropagation={() => (showing = true)}
@@ -135,6 +135,7 @@
 
     .selection {
         cursor: pointer;
+        position: relative;
     }
 
     .selection:focus {
@@ -143,12 +144,15 @@
 
     .arrow {
         color: var(--wordplay-chrome);
-        display: none;
+        position: absolute;
+        left: 0;
+        top: 0.5em;
     }
 
     .selection:focus .arrow,
     .selection:hover .arrow {
         display: inline-block;
+        color: var(--wordplay-foreground);
     }
 
     .option {

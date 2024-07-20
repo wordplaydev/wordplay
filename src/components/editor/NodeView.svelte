@@ -73,7 +73,7 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if $blocks && !hide && firstToken && spaceRoot === node && !$blocks}<Space
+    {#if !$blocks && !hide && firstToken && spaceRoot === node && !$blocks}<Space
             token={firstToken}
             first={$spaces.isFirst(firstToken)}
             line={$spaces.getLineNumber(firstToken)}
@@ -124,18 +124,7 @@
         cursor: grab;
     }
 
-    .back {
-        background: var(--wordplay-background);
-        padding: calc(var(--wordplay-spacing) / 3);
-        border-start-start-radius: 0;
-        border-start-end-radius: var(--wordplay-border-radius);
-        border-end-end-radius: var(--wordplay-border-radius);
-        border-end-start-radius: 0;
-        padding: calc(var(--wordplay-spacing) / 2);
-        box-shadow: var(--color-shadow) 1px 1px 4px;
-    }
-
-    :global(.editor:not(.dragging))
+    /* :global(.editor:not(.dragging))
         .evaluate:hover:not(:has(.node-view:hover)) {
         background: var(--color-blue-transparent);
         outline: var(--wordplay-focus-width) solid var(--color-blue);
@@ -145,7 +134,7 @@
         .definition:hover:not(:has(.node-view:hover)) {
         background: var(--color-purple-transparent);
         outline: var(--wordplay-focus-width) solid var(--color-purple);
-    }
+    } */
 
     .blockselected {
         outline: var(--wordplay-focus-width) solid
@@ -182,6 +171,26 @@
         display: flex;
         gap: var(--wordplay-border-width);
         width: fit-content;
+    }
+
+    .evaluate,
+    .definition {
+        background: var(--wordplay-background);
+        padding: calc(var(--wordplay-spacing) / 3);
+        border-start-start-radius: 0;
+        border-start-end-radius: var(--wordplay-border-radius);
+        border-end-end-radius: var(--wordplay-border-radius);
+        border-end-start-radius: 0;
+        padding: calc(var(--wordplay-spacing) / 2);
+        box-shadow: var(--color-shadow) 1px 1px 4px;
+    }
+
+    .block.definition {
+        border: var(--wordplay-border-width) solid var(--color-blue);
+    }
+
+    .block.evaluate {
+        border: var(--wordplay-border-width) solid var(--color-orange);
     }
 
     .row {
