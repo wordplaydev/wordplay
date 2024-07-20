@@ -10,17 +10,16 @@
         getLocalize,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { blocks, locales, Projects } from '../../db/Database';
+    import { blocks, locales } from '../../db/Database';
     import { withVariationSelector } from '../../unicode/emoji';
     import Sym from '@nodes/Sym';
     import TextField from '@components/widgets/TextField.svelte';
     import Name from '@nodes/Name';
-    import { toTokens } from '@parser/toTokens';
-    import NameToken from '@nodes/NameToken';
     import Reference from '@nodes/Reference';
     import UnaryEvaluate from '@nodes/UnaryEvaluate';
     import BinaryEvaluate from '@nodes/BinaryEvaluate';
     import OperatorEditor from './OperatorEditor.svelte';
+    import NameEditor from './NameEditor.svelte';
 
     export let node: Token;
 
@@ -90,20 +89,12 @@
         {@const parent = $root.getParent(node)}
         <!-- Names can be any text that parses as a name -->
         {#if parent instanceof Name}
-            <TextField
+            <NameEditor
                 {text}
+                project={$project}
+                name={parent}
                 placeholder={placeholder ?? ''}
-                description={placeholder ?? ''}
-                validator={(name) => {
-                    const tokens = toTokens(name);
-                    return (
-                        tokens.remaining() === 2 &&
-                        tokens.nextIsOneOf(Sym.Name, Sym.Placeholder)
-                    );
-                }}
-                changed={(name) =>
-                    Projects.revise($project, [[node, new NameToken(name)]])}
-            ></TextField>
+            />
         {:else if parent instanceof Reference}
             {@const grandparent = $root.getParent(parent)}
             <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
