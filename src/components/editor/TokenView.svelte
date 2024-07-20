@@ -86,7 +86,7 @@
 
 {#if $blocks && $root}
     <div
-        class="token-view token-category-{TokenCategories.get(
+        class="token-view blocks token-category-{TokenCategories.get(
             Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
         )}"
         class:hide
@@ -111,10 +111,9 @@
                 <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
                 {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
                     <OperatorEditor
-                        operator={text}
                         placeholder={placeholder ?? ''}
                         project={$project}
-                        binary={grandparent}
+                        evaluate={grandparent}
                         {context}
                     />
                 {:else}
@@ -132,7 +131,7 @@
     </div>
 {:else}
     <span
-        class="token-view token-category-{TokenCategories.get(
+        class="token-view text token-category-{TokenCategories.get(
             Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
         )}"
         class:hide
@@ -237,7 +236,7 @@
         display: block;
     }
 
-    .editable:hover,
+    .text.editable:hover,
     .active {
         outline: 1px solid var(--wordplay-border-color);
     }
