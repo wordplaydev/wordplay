@@ -92,7 +92,6 @@
         class:hide
         class:active
         class:editable
-        class:placeholder={placeholder !== undefined}
         class:added
         data-id={node.id}
     >

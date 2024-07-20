@@ -104,6 +104,7 @@
         >
             {#each getOptions() as option}
                 <div
+                    role="option"
                     class="option"
                     id="option-{current.id}-{selection?.id}"
                     aria-selected={selection !== undefined &&
