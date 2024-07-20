@@ -72,64 +72,39 @@
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
-    {#if $blocks}
-        <div
-            class:back={kind === ExpressionKind.Evaluate ||
-                kind === ExpressionKind.Definition}
-            class="block {direction} {node.getDescriptor()} {node instanceof
-            Token
-                ? 'Token'
-                : ''} node-view"
-            data-uiid={node.getDescriptor()}
-            class:evaluate={kind === ExpressionKind.Evaluate}
-            class:definition={kind === ExpressionKind.Definition}
-            data-id={node.id}
-            id={`node-${node.id}`}
-            aria-hidden={hide ? 'true' : null}
-            aria-label={description}
-        >
-            {#if value}<ValueView
-                    {value}
-                    {node}
-                    interactive
-                />{:else}<svelte:component
-                    this={getNodeView(node)}
-                    {node}
-                />{/if}
-        </div>
-    {:else}
-        <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-        {#if !hide && firstToken && spaceRoot === node && !$blocks}<Space
-                token={firstToken}
-                first={$blocks ? undefined : $spaces.isFirst(firstToken)}
-                line={$blocks ? undefined : $spaces.getLineNumber(firstToken)}
-                {space}
-                insertion={$insertion?.token === firstToken
-                    ? $insertion
-                    : undefined}
-            />{/if}<div
-            class="{node.getDescriptor()} {node instanceof Token
-                ? 'Token'
-                : ''} node-view"
-            data-uiid={node.getDescriptor()}
-            class:hide
-            class:small
-            class:evaluate={kind === ExpressionKind.Evaluate}
-            class:definition={kind === ExpressionKind.Definition}
-            data-id={node.id}
-            id={`node-${node.id}`}
-            aria-hidden={hide ? 'true' : null}
-            aria-label={description}
-            >{#if value}<ValueView
-                    {value}
-                    {node}
-                    interactive
-                />{:else}<svelte:component
-                    this={getNodeView(node)}
-                    {node}
-                />{/if}</div
-        >
-    {/if}
+    <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
+    {#if $blocks && !hide && firstToken && spaceRoot === node && !$blocks}<Space
+            token={firstToken}
+            first={$spaces.isFirst(firstToken)}
+            line={$spaces.getLineNumber(firstToken)}
+            {space}
+            insertion={$insertion?.token === firstToken
+                ? $insertion
+                : undefined}
+        />{/if}<div
+        class="node-view {$blocks
+            ? 'block'
+            : ''} {direction} {node.getDescriptor()} {node instanceof Token
+            ? 'Token'
+            : ''}"
+        data-uiid={node.getDescriptor()}
+        class:hide
+        class:small
+        class:evaluate={kind === ExpressionKind.Evaluate}
+        class:definition={kind === ExpressionKind.Definition}
+        data-id={node.id}
+        id={`node-${node.id}`}
+        aria-hidden={hide ? 'true' : null}
+        aria-label={description}
+        >{#if value}<ValueView
+                {value}
+                {node}
+                interactive
+            />{:else}<svelte:component
+                this={getNodeView(node)}
+                {node}
+            />{/if}</div
+    >
 {/if}
 
 <style>
