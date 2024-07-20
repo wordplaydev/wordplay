@@ -3,7 +3,7 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 0.10.5 2024-07-20
+## 0.10.6 2024-07-20
 
 ### Added
 
