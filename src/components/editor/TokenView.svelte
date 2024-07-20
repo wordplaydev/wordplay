@@ -1,7 +1,7 @@
 <svelte:options immutable={true} />
 
 <script lang="ts">
-    import type Token from '@nodes/Token';
+    import Token from '@nodes/Token';
     import {
         getProject,
         getCaret,
@@ -10,10 +10,17 @@
         getLocalize,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { blocks, locales } from '../../db/Database';
+    import { blocks, locales, Projects } from '../../db/Database';
     import { withVariationSelector } from '../../unicode/emoji';
     import Sym from '@nodes/Sym';
     import TextField from '@components/widgets/TextField.svelte';
+    import Name from '@nodes/Name';
+    import { toTokens } from '@parser/toTokens';
+    import NameToken from '@nodes/NameToken';
+    import Reference from '@nodes/Reference';
+    import UnaryEvaluate from '@nodes/UnaryEvaluate';
+    import BinaryEvaluate from '@nodes/BinaryEvaluate';
+    import OperatorEditor from './OperatorEditor.svelte';
 
     export let node: Token;
 
@@ -59,11 +66,7 @@
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     $: text =
-        !isInCaret &&
-        context &&
-        $root &&
-        localize &&
-        ($localize === 'localized' || $localize === 'symbolic')
+        !isInCaret && context && $root && localize && $localize !== 'actual'
             ? node.localized(
                   $localize === 'symbolic',
                   $locales.getLocales(),
@@ -82,32 +85,67 @@
             : text.replaceAll(' ', '\xa0');
 </script>
 
-<span
-    class="token-view token-category-{TokenCategories.get(
-        Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
-    )}"
-    class:hide
-    class:active
-    class:editable
-    class:placeholder={placeholder !== undefined}
-    class:added
-    data-id={node.id}
-    role="presentation"
->
-    {#if $blocks}
-        {#if editable && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
+{#if $blocks && $root}
+    {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
+        {@const parent = $root.getParent(node)}
+        <!-- Names can be any text that parses as a name -->
+        {#if parent instanceof Name}
+            <TextField
+                {text}
+                placeholder={placeholder ?? ''}
+                description={placeholder ?? ''}
+                validator={(name) => {
+                    const tokens = toTokens(name);
+                    return (
+                        tokens.remaining() === 2 &&
+                        tokens.nextIsOneOf(Sym.Name, Sym.Placeholder)
+                    );
+                }}
+                changed={(name) =>
+                    Projects.revise($project, [[node, new NameToken(name)]])}
+            ></TextField>
+        {:else if parent instanceof Reference}
+            {@const grandparent = $root.getParent(parent)}
+            <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
+            {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
+                <OperatorEditor
+                    operator={text}
+                    placeholder={placeholder ?? ''}
+                    project={$project}
+                    binary={grandparent}
+                    {context}
+                />
+            {:else}
+                ref
+            {/if}
+        {:else}
             <TextField
                 text={renderedText}
                 placeholder={placeholder ?? ''}
                 description={placeholder ?? ''}
             ></TextField>
-        {:else}
-            {renderedText}
         {/if}
-    {:else if placeholder !== undefined}<span class="placeholder"
-            >{placeholder}</span
-        >{:else if text.length === 0}&ZeroWidthSpace;{:else}{renderedText}{/if}
-</span>
+    {:else}
+        {renderedText}
+    {/if}
+{:else}
+    <span
+        class="token-view token-category-{TokenCategories.get(
+            Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
+        )}"
+        class:hide
+        class:active
+        class:editable
+        class:placeholder={placeholder !== undefined}
+        class:added
+        data-id={node.id}
+        role="presentation"
+    >
+        {#if placeholder !== undefined}<span class="placeholder"
+                >{placeholder}</span
+            >{:else if text.length === 0}&ZeroWidthSpace;{:else}{renderedText}{/if}
+    </span>
+{/if}
 
 <style>
     .token-view {

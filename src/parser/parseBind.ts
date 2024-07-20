@@ -45,19 +45,22 @@ export function parseNames(tokens: Tokens): Names {
             tokens.nextIsOneOf(Sym.Name, Sym.Placeholder, Sym.Operator) &&
             (names.length === 0 || names.at(-1)?.separator !== undefined),
         () => {
-            const name = tokens.read();
-            const lang = tokens.nextIs(Sym.Language)
-                ? parseLanguage(tokens)
-                : undefined;
-            const comma = tokens.nextIs(Sym.Separator)
-                ? tokens.read(Sym.Separator)
-                : undefined;
-            if (name) names.push(new Name(name, lang, comma));
-            else return false;
+            names.push(parseName(tokens));
         },
     );
 
     return new Names(names);
+}
+
+export function parseName(tokens: Tokens): Name {
+    const name = tokens.read();
+    const lang = tokens.nextIs(Sym.Language)
+        ? parseLanguage(tokens)
+        : undefined;
+    const comma = tokens.nextIs(Sym.Separator)
+        ? tokens.read(Sym.Separator)
+        : undefined;
+    return new Name(name, lang, comma);
 }
 
 export function nextIsBind(tokens: Tokens, expectValue: boolean): boolean {

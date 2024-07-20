@@ -432,6 +432,17 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
+    isBinary() {
+        return this.inputs.length === 1 && this.names.hasSymbolicName();
+    }
+
+    isUnary() {
+        return (
+            this.getRequiredInputs().length === 0 &&
+            this.names.hasSymbolicName()
+        );
+    }
+
     getRequiredInputs() {
         return this.inputs.filter((input) => !input.hasDefault());
     }
