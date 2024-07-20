@@ -613,7 +613,7 @@
                 },
                 "MissingInput": {
                     "primary": "I can't evaluate $1 without the input named $2 :(",
-                    "secondary": "Oh, oops. Can you help us out and add it to my list of inputs?"
+                    "secondary": "Can you help us out and add it the list of inputs?"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {

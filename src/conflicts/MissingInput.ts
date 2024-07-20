@@ -35,7 +35,7 @@ export default class MissingInput extends Conflict {
     getConflictingNodes() {
         return {
             primary: {
-                node: this.input,
+                node: this.evaluate.fun,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
                         (l) => l.node.Evaluate.conflict.MissingInput.primary,
@@ -54,11 +54,10 @@ export default class MissingInput extends Conflict {
                     ),
             },
             secondary: {
-                node: this.evaluate.fun,
+                node: this.input,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
                         (l) => l.node.Evaluate.conflict.MissingInput.secondary,
-
                         new NodeRef(this.evaluate.fun, locales, context),
                     ),
             },
