@@ -13,13 +13,13 @@
     import { blocks, locales } from '../../db/Database';
     import { withVariationSelector } from '../../unicode/emoji';
     import Sym from '@nodes/Sym';
-    import TextField from '@components/widgets/TextField.svelte';
     import Name from '@nodes/Name';
     import Reference from '@nodes/Reference';
     import UnaryEvaluate from '@nodes/UnaryEvaluate';
     import BinaryEvaluate from '@nodes/BinaryEvaluate';
     import OperatorEditor from './OperatorEditor.svelte';
     import NameEditor from './NameEditor.svelte';
+    import ReferenceEditor from './ReferenceEditor.svelte';
 
     export let node: Token;
 
@@ -85,40 +85,51 @@
 </script>
 
 {#if $blocks && $root}
-    {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
-        {@const parent = $root.getParent(node)}
-        <!-- Names can be any text that parses as a name -->
-        {#if parent instanceof Name}
-            <NameEditor
-                {text}
-                project={$project}
-                name={parent}
-                placeholder={placeholder ?? ''}
-            />
-        {:else if parent instanceof Reference}
-            {@const grandparent = $root.getParent(parent)}
-            <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
-            {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
-                <OperatorEditor
-                    operator={text}
-                    placeholder={placeholder ?? ''}
+    <div
+        class="token-view token-category-{TokenCategories.get(
+            Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
+        )}"
+        class:hide
+        class:active
+        class:editable
+        class:placeholder={placeholder !== undefined}
+        class:added
+        data-id={node.id}
+    >
+        {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
+            {@const parent = $root.getParent(node)}
+            <!-- Names can be any text that parses as a name -->
+            {#if parent instanceof Name}
+                <NameEditor
+                    {text}
                     project={$project}
-                    binary={grandparent}
-                    {context}
+                    name={parent}
+                    placeholder={placeholder ?? ''}
                 />
-            {:else}
-                ref
-            {/if}
+            {:else if parent instanceof Reference}
+                {@const grandparent = $root.getParent(parent)}
+                <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
+                {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
+                    <OperatorEditor
+                        operator={text}
+                        placeholder={placeholder ?? ''}
+                        project={$project}
+                        binary={grandparent}
+                        {context}
+                    />
+                {:else}
+                    <ReferenceEditor
+                        reference={parent}
+                        placeholder={placeholder ?? ''}
+                        project={$project}
+                        {context}
+                    ></ReferenceEditor>
+                {/if}
+            {:else}{renderedText}{/if}
         {:else}
-            <TextField
-                text={renderedText}
-                placeholder={placeholder ?? ''}
-                description={placeholder ?? ''}
-            ></TextField>
+            {renderedText}
         {/if}
-    {:else}
-        {renderedText}
-    {/if}
+    </div>
 {:else}
     <span
         class="token-view token-category-{TokenCategories.get(
