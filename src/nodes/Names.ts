@@ -116,6 +116,10 @@ export default class Names extends Node {
         return this.names.find((name) => !name.isSymbolic())?.getName();
     }
 
+    hasSymbolicName() {
+        return this.getSymbolicName() !== undefined;
+    }
+
     getPreferredNameString(
         preferred: LocaleText | LocaleText[],
         symbolic = true,

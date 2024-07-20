@@ -33,7 +33,6 @@
                 next.text !== current.announcement.text
             ) {
                 current = { announcement: next, time: Date.now() };
-                console.log('Set: ' + current.announcement.text);
 
                 // Decide when to dequeue the next message proportional to length of text,
                 // assuming a lower 300 words/minute (5 words/second), and about 5 characters per word
