@@ -1411,6 +1411,7 @@
         spaces={source.spaces}
         localized={$localized}
         caret={$caret}
+        blocks={$blocks}
         lines={$showLines}
     />
     <!-- Render highlights above the code -->

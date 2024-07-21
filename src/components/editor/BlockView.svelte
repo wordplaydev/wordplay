@@ -4,9 +4,11 @@
     import type Block from '@nodes/Block';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView from './NodeView.svelte';
-    import { blocks } from '@db/Database';
+    import { isBlocks } from '@components/project/Contexts';
 
     export let node: Block;
+
+    const blocks = isBlocks();
 </script>
 
 {#if $blocks}

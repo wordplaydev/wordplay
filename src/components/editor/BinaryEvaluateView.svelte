@@ -3,9 +3,11 @@
 <script lang="ts">
     import type BinaryEvaluate from '@nodes/BinaryEvaluate';
     import NodeView from './NodeView.svelte';
-    import { blocks } from '@db/Database';
+    import { isBlocks } from '@components/project/Contexts';
 
     export let node: BinaryEvaluate;
+
+    const blocks = isBlocks();
 </script>
 
 {#if $blocks}
