@@ -124,18 +124,6 @@
         cursor: grab;
     }
 
-    /* :global(.editor:not(.dragging))
-        .evaluate:hover:not(:has(.node-view:hover)) {
-        background: var(--color-blue-transparent);
-        outline: var(--wordplay-focus-width) solid var(--color-blue);
-    }
-
-    :global(.editor:not(.dragging))
-        .definition:hover:not(:has(.node-view:hover)) {
-        background: var(--color-purple-transparent);
-        outline: var(--wordplay-focus-width) solid var(--color-purple);
-    } */
-
     .blockselected {
         outline: var(--wordplay-focus-width) solid
             var(--wordplay-highlight-color);

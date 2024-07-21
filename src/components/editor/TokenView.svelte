@@ -20,6 +20,7 @@
     import OperatorEditor from './OperatorEditor.svelte';
     import NameEditor from './NameEditor.svelte';
     import ReferenceEditor from './ReferenceEditor.svelte';
+    import WordsEditor from './WordsEditor.svelte';
 
     export let node: Token;
 
@@ -96,34 +97,41 @@
         data-id={node.id}
     >
         {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
-            {@const parent = $root.getParent(node)}
-            <!-- Names can be any text that parses as a name -->
-            {#if parent instanceof Name}
-                <NameEditor
+            {#if node.isSymbol(Sym.Words)}<WordsEditor
+                    words={node}
                     {text}
                     project={$project}
-                    name={parent}
                     placeholder={placeholder ?? ''}
-                />
-            {:else if parent instanceof Reference}
-                {@const grandparent = $root.getParent(parent)}
-                <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
-                {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
-                    <OperatorEditor
-                        placeholder={placeholder ?? ''}
+                />{:else}
+                {@const parent = $root.getParent(node)}
+                <!-- Names can be any text that parses as a name -->
+                {#if parent instanceof Name}
+                    <NameEditor
+                        {text}
                         project={$project}
-                        evaluate={grandparent}
-                        {context}
+                        name={parent}
+                        placeholder={placeholder ?? ''}
                     />
-                {:else}
-                    <ReferenceEditor
-                        reference={parent}
-                        placeholder={placeholder ?? ''}
-                        project={$project}
-                        {context}
-                    ></ReferenceEditor>
-                {/if}
-            {:else}{renderedText}{/if}
+                {:else if parent instanceof Reference}
+                    {@const grandparent = $root.getParent(parent)}
+                    <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
+                    {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
+                        <OperatorEditor
+                            placeholder={placeholder ?? ''}
+                            project={$project}
+                            evaluate={grandparent}
+                            {context}
+                        />
+                    {:else}
+                        <ReferenceEditor
+                            reference={parent}
+                            placeholder={placeholder ?? ''}
+                            project={$project}
+                            {context}
+                        ></ReferenceEditor>
+                    {/if}
+                {:else}{renderedText}{/if}
+            {/if}
         {:else}
             {renderedText}
         {/if}
