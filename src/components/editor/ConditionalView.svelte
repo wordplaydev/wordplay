@@ -3,9 +3,11 @@
 <script lang="ts">
     import type Conditional from '@nodes/Conditional';
     import NodeView from './NodeView.svelte';
-    import { blocks } from '@db/Database';
+    import { isBlocks } from '@components/project/Contexts';
 
     export let node: Conditional;
+
+    const blocks = isBlocks();
 </script>
 
 {#if $blocks}

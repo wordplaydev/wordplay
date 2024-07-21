@@ -15,12 +15,11 @@
     import Node from '@nodes/Node';
     import {
         animationDuration,
-        blocks,
         locales,
         spaceIndicator,
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
-    import { getEditor, getEvaluation } from '../project/Contexts';
+    import { getEditor, getEvaluation, isBlocks } from '../project/Contexts';
     import type Token from '@nodes/Token';
     import UnicodeString from '@models/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
@@ -48,6 +47,7 @@
 
     const evaluation = getEvaluation();
     const editor = getEditor();
+    const blocks = isBlocks();
 
     // Whenever blocks, evaluation, or caret changes, compute position after animation delay.
     $: {

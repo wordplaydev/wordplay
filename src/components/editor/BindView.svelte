@@ -3,9 +3,11 @@
 <script lang="ts">
     import type Bind from '@nodes/Bind';
     import NodeView from './NodeView.svelte';
-    import { blocks } from '@db/Database';
+    import { isBlocks } from '@components/project/Contexts';
 
     export let node: Bind;
+
+    const blocks = isBlocks();
 </script>
 
 {#if $blocks}

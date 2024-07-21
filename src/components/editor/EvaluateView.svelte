@@ -4,17 +4,17 @@
     import Evaluate from '@nodes/Evaluate';
     import NodeView from './NodeView.svelte';
     import type Bind from '../../nodes/Bind';
-    import { getCaret, getProject } from '../project/Contexts';
+    import { getCaret, getProject, isBlocks } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import PlaceholderView from './PlaceholderView.svelte';
     import Token from '../../nodes/Token';
-    import { blocks } from '@db/Database';
     import NodeSequenceView from './NodeSequenceView.svelte';
 
     export let node: Evaluate;
 
     const project = getProject();
     const caret = getCaret();
+    const blocks = isBlocks();
 
     // The next possible bind, or undefined if there are no more binds.
     let nextBind: Bind | undefined;

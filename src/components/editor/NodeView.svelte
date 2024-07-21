@@ -8,6 +8,7 @@
         getInsertionPoint,
         getRoot,
         getSpace,
+        isBlocks,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression, { ExpressionKind } from '@nodes/Expression';
@@ -15,7 +16,7 @@
     import type Value from '@values/Value';
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
-    import { blocks, locales } from '../../db/Database';
+    import { locales } from '../../db/Database';
 
     export let node: Node | undefined;
     export let small = false;
@@ -51,6 +52,8 @@
                     node,
                 );
     }
+
+    const blocks = isBlocks();
 
     // Get the root's computed spaces store
     let spaces = getSpace();

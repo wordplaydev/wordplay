@@ -220,6 +220,12 @@ export function getShowLines() {
     return getContext<ShowLinesContext>(ShowLinesSymbol);
 }
 
+export const BlocksSymbol = Symbol('blocks');
+export type BlocksContext = Writable<boolean>;
+export function isBlocks() {
+    return getContext<BlocksContext>(BlocksSymbol);
+}
+
 // Output related contexts
 
 export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');

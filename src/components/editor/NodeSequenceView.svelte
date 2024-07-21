@@ -6,17 +6,17 @@
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import { getCaret } from '../project/Contexts';
+    import { getCaret, isBlocks } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
     import Button from '../widgets/Button.svelte';
     import { locales } from '../../db/Database';
-    import { blocks } from '../../db/Database';
 
     export let nodes: Node[];
     export let elide = false;
     export let direction: 'row' | 'column' = 'row';
 
     let caret = getCaret();
+    const blocks = isBlocks();
 
     /**
      * To help scalability of the editor, only show the first few values.

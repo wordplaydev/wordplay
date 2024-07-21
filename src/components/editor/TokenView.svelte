@@ -8,9 +8,10 @@
         getRoot,
         getHidden,
         getLocalize,
+        isBlocks,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
-    import { blocks, locales } from '../../db/Database';
+    import { locales } from '../../db/Database';
     import { withVariationSelector } from '../../unicode/emoji';
     import Sym from '@nodes/Sym';
     import Name from '@nodes/Name';
@@ -30,6 +31,7 @@
     let root = getRoot();
     let localize = getLocalize();
     let hidden = getHidden();
+    let blocks = isBlocks();
 
     $: hide = node ? $hidden?.has(node) : false;
     $: editable = $caret !== undefined;
