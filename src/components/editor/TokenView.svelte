@@ -21,6 +21,7 @@
     import NameEditor from './NameEditor.svelte';
     import ReferenceEditor from './ReferenceEditor.svelte';
     import WordsEditor from './WordsEditor.svelte';
+    import NumberEditor from './NumberEditor.svelte';
 
     export let node: Token;
 
@@ -98,6 +99,12 @@
     >
         {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
             {#if node.isSymbol(Sym.Words)}<WordsEditor
+                    words={node}
+                    {text}
+                    project={$project}
+                    placeholder={placeholder ?? ''}
+                />
+            {:else if node.isSymbol(Sym.Number)}<NumberEditor
                     words={node}
                     {text}
                     project={$project}
