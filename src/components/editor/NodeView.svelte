@@ -174,6 +174,8 @@
         border-end-start-radius: 0;
         padding: calc(var(--wordplay-spacing) / 2);
         box-shadow: var(--color-shadow) 1px 1px 4px;
+        border-radius: 1px calc(3 * var(--wordplay-border-radius))
+            calc(3 * var(--wordplay-border-radius)) 1px;
     }
 
     .block.definition {
