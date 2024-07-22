@@ -13,6 +13,7 @@ import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
+import { COMMA_SYMBOL } from '@parser/Symbols';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */
@@ -106,7 +107,9 @@ export default class StructureConcept extends Concept {
 
     getGlyphs(locales: Locales) {
         return {
-            symbols: locales.getName(this.definition.names),
+            symbols: this.definition.names
+                .getLocaleNames(locales)
+                .join(COMMA_SYMBOL),
         };
     }
 

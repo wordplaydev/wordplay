@@ -8,6 +8,7 @@ import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
+import { COMMA_SYMBOL } from '@parser/Symbols';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */
@@ -20,20 +21,20 @@ export default class BindConcept extends Concept {
         purpose: Purpose,
         bind: Bind,
         locales: Locales,
-        context: Context
+        context: Context,
     ) {
         super(purpose, undefined, context);
 
         this.bind = bind;
         this.reference = Reference.make(
             locales.getName(this.bind.names),
-            this.bind
+            this.bind,
         );
     }
 
     getGlyphs(locales: Locales) {
         return {
-            symbols: locales.getName(this.bind.names),
+            symbols: this.bind.names.getLocaleNames(locales).join(COMMA_SYMBOL),
         };
     }
 

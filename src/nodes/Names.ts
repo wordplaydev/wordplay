@@ -160,6 +160,23 @@ export default class Names extends Node {
         );
     }
 
+    getLocaleNames(locales: Locales) {
+        return this.names
+            .filter(
+                (name) =>
+                    name.isSymbolic() ||
+                    name.language === undefined ||
+                    locales
+                        .getLocales()
+                        .some(
+                            (l) =>
+                                name.language !== undefined &&
+                                name.language.isLocaleLanguage(l),
+                        ),
+            )
+            .map((n) => n.getName());
+    }
+
     getNames() {
         return this.names
             .map((a) => a.getName())

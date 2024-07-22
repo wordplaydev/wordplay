@@ -15,6 +15,7 @@ import Node, { node, optional } from './Node';
 import { LanguageTagged } from './LanguageTagged';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
 
 export default class Name extends LanguageTagged {
     readonly name: Token;
@@ -89,6 +90,10 @@ export default class Name extends LanguageTagged {
 
     isLanguage(lang: LanguageCode) {
         return this.language?.getLanguageCode() === lang;
+    }
+
+    isLocale(locale: Locale) {
+        return this.language !== undefined && this.language.isLocale(locale);
     }
 
     withSeparator(): Name {
