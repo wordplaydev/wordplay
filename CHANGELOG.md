@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed text sorting.
 -   Preserve concept on guide page refresh.
 -   Show multiple names when present in guide.
+-   [#533](https://github.com/wordplaydev/wordplay/issues/533) Fixed URLs to tutorial.
 
 ## 0.10.6 2024-07-20
 
