@@ -2053,7 +2053,7 @@
                     "names": ["with", "add"],
                     "inputs": [
                         {
-                            "doc": "I the value you want to add.",
+                            "doc": "I am the value you want to add.",
                             "names": "item"
                         }
                     ]
