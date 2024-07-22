@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Fixed text sorting.
+-   Preserve concept on guide page refresh.
 
 ## 0.10.6 2024-07-20
 
