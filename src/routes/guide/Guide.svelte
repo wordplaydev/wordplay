@@ -49,8 +49,8 @@
     }
 
     // Initialize locale and concept with URL.
-    let locale: string | null = getLocaleInURL();
-    let concept: string | null = getConceptFromURL();
+    let locale: string | null = null;
+    let concept: string | null = null;
 
     // Create a concept path for children, initialized
     let path = writable<Concept[]>([]);
@@ -58,7 +58,9 @@
 
     let mounted = false;
     onMount(() => {
+        locale = getLocaleInURL();
         concept = getConceptFromURL();
+
         path.set([getConcept(concept)].filter((c) => c !== undefined));
         mounted = true;
     });
