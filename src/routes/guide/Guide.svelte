@@ -70,6 +70,7 @@
     afterNavigate(() => {
         // Set the current locale.
         locale = getLocaleInURL();
+        concept = getConceptFromURL();
         const currentConcept = getConcept(concept);
         // Only update the path if the concept exists and is not already in the path.
         if (
@@ -81,7 +82,7 @@
             path.set([currentConcept]);
         }
         // Only update if the path isn't already empty.
-        else if (currentConcept === null && $path.length !== 0) {
+        else if (currentConcept === undefined) {
             path.set([]);
         }
     });
