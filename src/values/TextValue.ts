@@ -94,7 +94,7 @@ export default class TextValue extends SimpleValue {
         let sum = 0;
         for (let i = 0; i < this.text.length; i++) {
             const codepoint = this.text.codePointAt(i) ?? 0;
-            sum += codepoint * Math.pow(10, 3 - this.text.length - 1);
+            sum += codepoint * Math.pow(10, -i);
         }
         return new NumberValue(requestor, sum);
     }

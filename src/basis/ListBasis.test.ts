@@ -32,6 +32,8 @@ test.each([
     ['[5 2 3 4 1].sorted()', '[1 2 3 4 5]'],
     ['["e" "d" "c" "b" "a"].sorted()', '["a" "b" "c" "d" "e"]'],
     ['["e" "b" "a" "c" "d"].sorted()', '["a" "b" "c" "d" "e"]'],
+    ['["zzz" "yy" "x"].sorted()', '["x" "yy" "zzz"]'],
+    ['["zzz" "π" "yy" "x"].sorted()', '["x" "yy" "zzz" "π"]'],
     ['[ø ø ø].sorted()', '[ø ø ø]'],
     ['[ø "hi" ø].sorted()', '[ø ø "hi"]'],
     ['[{3 2 1} {} {1 2}].sorted()', '!ConversionException'],
