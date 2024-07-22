@@ -11,6 +11,7 @@
     import type LocaleText from '../../locale/LocaleText';
     import Progress from '../../tutorial/Progress';
     import Link from '../app/Link.svelte';
+    import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
 
     export let concept: Concept;
     export let type: Type | undefined = undefined;
@@ -70,13 +71,16 @@
             {/if}
         </svelte:fragment>
         <svelte:fragment slot="aside"
-            >{#if variables}{#each variables.variables as variable, index}{#if index > 0},
-                    {/if}{@const name = variable.names.getPreferredName(
-                        $locales.getLocales(),
-                    )}{#if name}<RootView
-                            localized="symbolic"
-                            node={name.withoutLanguage()}
-                        />{/if}{/each}{/if}</svelte:fragment
+            >{#if variables}
+                <small
+                    >{TYPE_OPEN_SYMBOL}{#each variables.variables as variable, index}{#if index > 0},
+                        {/if}{@const name = variable.names.getPreferredName(
+                            $locales.getLocales(),
+                        )}{#if name}<RootView
+                                localized="symbolic"
+                                node={name.withoutLanguage()}
+                            />{/if}{/each}{TYPE_CLOSE_SYMBOL}</small
+                >{/if}</svelte:fragment
         >
     </Speech>
 

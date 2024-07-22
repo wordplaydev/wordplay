@@ -54,7 +54,7 @@
     class:big
     class:scroll
 >
-    <div>
+    <div class="speaker">
         <div
             class="glyphs {symbols.length >= 3
                 ? 'small'
@@ -758,5 +758,11 @@
         100% {
             transform: scale(0.75);
         }
+    }
+
+    .speaker {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
     }
 </style>
