@@ -2048,7 +2048,7 @@
                 "add": {
                     "doc": [
                         "I create a new @List with the given item at the end.",
-                        "\\['apple' 'banana' 'mango'].add('watermelon')\\"
+                        "\\['apple' 'banana' 'mango'].with('watermelon')\\"
                     ],
                     "names": ["with", "add"],
                     "inputs": [
