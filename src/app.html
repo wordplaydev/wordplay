@@ -368,6 +368,19 @@
                 color: var(--wordplay-error) !important;
                 background: var(--wordplay-error) !important;
             }
+
+            noscript {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            noscript p {
+                margin-block-start: 20%;
+                margin-block-end: auto;
+                width: 50%;
+                text-align: center;
+            }
         </style>
 
         %sveltekit.head%
@@ -380,20 +393,30 @@
             >
         </noscript>
         <div>%sveltekit.body%</div>
+        <div id="unsupported" style="display: none; margin: 1em">
+            <h1>Unsupported Browser</h1>
+            <p>
+                Your browser doesn't support critical functionality. To use
+                Wordplay, you'll need to upgrade to a more recent version.</p
+            >
+        </div>
+        <script nonce="%sveltekit.nonce%">
+            function supportsRegexNegativeLookBehind() {
+                try {
+                    return 'hi'.replace(new RegExp('(?<!hi)hi', 'g'), 'ho');
+                } catch (error) {
+                    return false;
+                }
+            }
+
+            function supportsAt() {
+                return [].at !== undefined;
+            }
+
+            const unsupported = document.getElementById('unsupported');
+            if (!supportsRegexNegativeLookBehind() || !supportsAt())
+                unsupported.style.display = 'block';
+            else unsupported.remove();
+        </script>
     </body>
 </html>
-
-<style>
-    noscript {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    noscript p {
-        margin-block-start: 20%;
-        margin-block-end: auto;
-        width: 50%;
-        text-align: center;
-    }
-</style>

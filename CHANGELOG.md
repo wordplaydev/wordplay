@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Preserve concept on guide page refresh.
 -   Show multiple names when present in guide.
 -   [#533](https://github.com/wordplaydev/wordplay/issues/533) Fixed URLs to tutorial.
+-   [#542](https://github.com/wordplaydev/wordplay/issues/542) Provide error message for < Safari 16.4.
 
 ## 0.10.6 2024-07-20
 
