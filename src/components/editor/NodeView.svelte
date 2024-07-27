@@ -178,9 +178,9 @@
         padding: calc(var(--wordplay-spacing) / 3)
             calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 3)
             calc(var(--wordplay-spacing) / 2);
-        box-shadow: var(--color-shadow) 0px -1px 5px;
-        border-radius: 1px calc(3 * var(--wordplay-border-radius))
-            calc(3 * var(--wordplay-border-radius)) 1px;
+        box-shadow: var(--color-shadow) 0px 0px 4px;
+        border-radius: 1px calc(2 * var(--wordplay-border-radius))
+            calc(2 * var(--wordplay-border-radius)) 1px;
     }
 
     .block.definition {
