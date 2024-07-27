@@ -583,10 +583,10 @@ export const ToggleBlocks: Command = {
     description: (l) => l.ui.source.toggle.blocks.on,
     visible: Visibility.Invisible,
     category: Category.Modify,
-    shift: true,
-    alt: true,
+    shift: false,
+    alt: false,
     control: true,
-    key: 'Enter',
+    key: 'Backslash',
     execute: ({ toggleBlocks }) => {
         if (toggleBlocks) {
             toggleBlocks(!Settings.getBlocks());
