@@ -169,7 +169,6 @@
 
     .evaluate,
     .definition {
-        background: var(--wordplay-background);
         padding: calc(var(--wordplay-spacing) / 3);
         border-start-start-radius: 0;
         border-start-end-radius: var(--wordplay-border-radius);
