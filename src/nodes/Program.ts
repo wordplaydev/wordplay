@@ -236,6 +236,6 @@ export default class Program extends Expression {
     }
 
     getKind() {
-        return ExpressionKind.Simple;
+        return ExpressionKind.Evaluate;
     }
 }
