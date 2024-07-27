@@ -146,7 +146,7 @@
         color: var(--wordplay-chrome);
         position: absolute;
         left: 0;
-        top: 0.5em;
+        top: 0.75em;
     }
 
     .selection:focus .arrow,

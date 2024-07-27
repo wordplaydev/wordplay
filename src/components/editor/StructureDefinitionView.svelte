@@ -14,4 +14,7 @@
     nodes={node.interfaces}
 /><NodeView node={node.types} /><NodeView node={node.open} /><NodeSequenceView
     nodes={node.inputs}
-/><NodeView node={node.close} /><NodeView node={node.expression} />
+/><NodeView node={node.close} /><NodeView
+    node={node.expression}
+    direction="column"
+/>

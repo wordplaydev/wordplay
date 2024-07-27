@@ -76,15 +76,18 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !$blocks && !hide && firstToken && spaceRoot === node && !$blocks}<Space
-            token={firstToken}
-            first={$spaces.isFirst(firstToken)}
-            line={$spaces.getLineNumber(firstToken)}
-            {space}
-            insertion={$insertion?.token === firstToken
-                ? $insertion
-                : undefined}
-        />{/if}<div
+    {#if !hide && firstToken && spaceRoot === node}{#if $blocks}{#if space
+                .replaceAll('\n', '')
+                .replaceAll('\t', '').length > 0}<div>&nbsp;</div>{/if}{:else}
+            <Space
+                token={firstToken}
+                first={$spaces.isFirst(firstToken)}
+                line={$spaces.getLineNumber(firstToken)}
+                {space}
+                insertion={$insertion?.token === firstToken
+                    ? $insertion
+                    : undefined}
+            />{/if}{/if}<div
         class="node-view {$blocks
             ? 'block'
             : ''} {direction} {node.getDescriptor()} {node instanceof Token
@@ -175,7 +178,7 @@
         padding: calc(var(--wordplay-spacing) / 3)
             calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 3)
             calc(var(--wordplay-spacing) / 2);
-        box-shadow: var(--color-shadow) 1px 1px 4px;
+        box-shadow: var(--color-shadow) 0px -1px 5px;
         border-radius: 1px calc(3 * var(--wordplay-border-radius))
             calc(3 * var(--wordplay-border-radius)) 1px;
     }

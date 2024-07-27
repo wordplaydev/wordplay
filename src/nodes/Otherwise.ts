@@ -8,7 +8,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type TypeSet from './TypeSet';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
@@ -63,7 +63,7 @@ export default class Otherwise extends SimpleExpression {
     }
 
     getDescriptor() {
-        return 'NoneOr';
+        return 'Otherwise';
     }
 
     getGrammar(): Grammar {
@@ -177,5 +177,9 @@ export default class Otherwise extends SimpleExpression {
 
     getGlyphs() {
         return Glyphs.NoneOr;
+    }
+
+    getKind(): ExpressionKind {
+        return ExpressionKind.Evaluate;
     }
 }
