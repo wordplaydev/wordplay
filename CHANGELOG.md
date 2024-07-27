@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.10.7 2024-07-27
 
+### Added
+
+-   Ability to copy one's own projects.
+
 ### Fixed
 
 -   Fixed text sorting.

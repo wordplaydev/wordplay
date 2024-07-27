@@ -20,7 +20,7 @@
     import type Project from '../../../models/Project';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import AddProject from '@components/app/AddProject.svelte';
-    import { EDIT_SYMBOL } from '../../../parser/Symbols';
+    import { COPY_SYMBOL, EDIT_SYMBOL } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
 
     const user = getUser();
@@ -170,6 +170,16 @@
                                   label: EDIT_SYMBOL,
                               }
                             : false}
+                        copy={{
+                            description: $locales.get(
+                                (l) => l.ui.project.button.duplicate,
+                            ),
+                            action: (project) =>
+                                goto(
+                                    Projects.duplicate(project).getLink(false),
+                                ),
+                            label: COPY_SYMBOL,
+                        }}
                         remove={(project) => {
                             return editable
                                 ? {

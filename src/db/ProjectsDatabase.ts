@@ -1,6 +1,6 @@
 import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
 import { PersistenceType, ProjectHistory } from './ProjectHistory';
-import { writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type LocaleText from '../locale/LocaleText';
 import { Locales, SaveStatus, type Database } from './Database';
@@ -32,6 +32,7 @@ import {
 } from '../models/ProjectSchemas';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import { EditFailure } from './EditFailure';
+import { COPY_SYMBOL } from '@parser/Symbols';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -251,6 +252,24 @@ export default class ProjectsDatabase {
         // If we have a user, save the current database to the cloud, in case there
         // were any local edits.
         this.saveSoon();
+    }
+
+    /**
+     * Duplicate a project and give it to the current user, returning it's ID.
+     */
+    duplicate(project: Project): Project {
+        const nameExists = get(this.allEditableProjects).some(
+            (p) => p.getName() === project.getName(),
+        );
+        const copy = project
+            .copy(this.database.getUserID())
+            .withName(
+                nameExists
+                    ? `${project.getName()} ${COPY_SYMBOL}`
+                    : project.getName(),
+            );
+        this.track(copy, true, PersistenceType.Online, false);
+        return copy;
     }
 
     /**
