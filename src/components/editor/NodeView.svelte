@@ -78,7 +78,8 @@
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
     {#if !hide && firstToken && spaceRoot === node}{#if $blocks}{#if space
                 .replaceAll('\n', '')
-                .replaceAll('\t', '').length > 0}<div>&nbsp;</div>{/if}{:else}
+                .replaceAll('\t', '').length > 0}<div class="space">&nbsp;</div
+                >{/if}{:else}
             <Space
                 token={firstToken}
                 first={$spaces.isFirst(firstToken)}
