@@ -13,7 +13,7 @@
 {#if $blocks}
     <NodeView node={node.docs} /><NodeView node={node.share} /><NodeView
         node={node.names}
-    /><NodeView node={node.etc} /><span class="type"
+    /><NodeView node={node.etc} /><span class="type blocks"
         >{#if node.type}<NodeView node={node.dot} /><NodeView
                 node={node.type}
             />{/if}</span
@@ -36,5 +36,10 @@
     .type {
         font-style: italic;
         font-size: smaller;
+    }
+
+    .blocks {
+        display: flex;
+        flex-direction: row;
     }
 </style>

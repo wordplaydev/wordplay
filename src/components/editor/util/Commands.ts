@@ -89,9 +89,12 @@ export type CommandContext = {
     editor: boolean;
     /** The project we're editing */
     project: Project;
+    /** The evalutor currently evaluating the project */
     evaluator: Evaluator;
     database: Database;
     dragging: boolean;
+    /** Whether blocks mode is one */
+    blocks: boolean;
     toggleMenu?: () => void;
     toggleBlocks?: (on: boolean) => void;
     setFullscreen?: (on: boolean) => void;
@@ -171,6 +174,12 @@ export function handleKeyCommand(
     // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
     // If we did match something, return undefined, so we consume the shortcut and don't default to a browser shortcut.
     return [undefined, false, matchedShortcut];
+}
+
+function handleInsert(context: CommandContext, symbol: string) {
+    if (context.caret && !context.blocks)
+        return context.caret.insert(symbol) ?? false;
+    else return false;
 }
 
 export const ShowKeyboardHelp: Command = {
@@ -587,7 +596,7 @@ export const ToggleBlocks: Command = {
     },
 };
 
-/** The command to rule them all... inserts things */
+/** The command to rule them all... inserts things during text editing mode. */
 export const InsertSymbol: Command = {
     symbol: 'a',
     description: (l) => l.ui.source.cursor.type,
@@ -597,8 +606,8 @@ export const InsertSymbol: Command = {
     shift: undefined,
     alt: false,
     typing: true,
-    execute: ({ caret, project, editor }, key) => {
-        if (editor && caret && key.length === 1)
+    execute: ({ caret, project, editor, blocks }, key) => {
+        if (editor && caret && key.length === 1 && !blocks)
             return caret.insert(key, project) ?? false;
         else return false;
     },
@@ -812,7 +821,7 @@ const Commands: Command[] = [
         control: true,
         key: 'Tab',
         keySymbol: TAB_SYMBOL,
-        execute: ({ caret }) => caret?.insert('\t') ?? false,
+        execute: (context) => handleInsert(context, '\t'),
     },
     {
         symbol: TRUE_SYMBOL,
@@ -824,7 +833,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit1',
         keySymbol: '1',
-        execute: ({ caret }) => caret?.insert(TRUE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, TRUE_SYMBOL),
     },
     {
         symbol: FALSE_SYMBOL,
@@ -836,7 +845,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit0',
         keySymbol: '0',
-        execute: ({ caret }) => caret?.insert(FALSE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, FALSE_SYMBOL),
     },
     {
         symbol: NONE_SYMBOL,
@@ -848,7 +857,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyO',
         keySymbol: 'O',
-        execute: ({ caret }) => caret?.insert(NONE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, NONE_SYMBOL),
     },
     {
         symbol: FUNCTION_SYMBOL,
@@ -882,7 +891,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: ({ caret }) => caret?.insert(TYPE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, TYPE_SYMBOL),
     },
     {
         symbol: '≠',
@@ -894,7 +903,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Equal',
         keySymbol: '=',
-        execute: ({ caret }) => caret?.insert('≠') ?? false,
+        execute: (context) => handleInsert(context, '≠'),
     },
     {
         symbol: PRODUCT_SYMBOL,
@@ -906,7 +915,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyX',
         keySymbol: 'X',
-        execute: ({ caret }) => caret?.insert(PRODUCT_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, PRODUCT_SYMBOL),
     },
     {
         symbol: QUOTIENT_SYMBOL,
@@ -918,7 +927,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Slash',
         keySymbol: '/',
-        execute: ({ caret }) => caret?.insert(QUOTIENT_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, QUOTIENT_SYMBOL),
     },
     {
         symbol: DEGREE_SYMBOL,
@@ -930,7 +939,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: ({ caret }) => caret?.insert(DEGREE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, DEGREE_SYMBOL),
     },
     {
         symbol: '≤',
@@ -942,7 +951,7 @@ const Commands: Command[] = [
         alt: true,
         key: 'Comma',
         keySymbol: ',',
-        execute: ({ caret }) => caret?.insert('≤') ?? false,
+        execute: (context) => handleInsert(context, '≤'),
     },
     {
         symbol: '≥',
@@ -954,7 +963,7 @@ const Commands: Command[] = [
         control: false,
         alt: true,
         key: 'Period',
-        execute: ({ caret }) => caret?.insert('≥') ?? false,
+        execute: (context) => handleInsert(context, '≥'),
     },
     {
         symbol: STREAM_SYMBOL,
@@ -966,7 +975,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Semicolon',
         keySymbol: ';',
-        execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, STREAM_SYMBOL),
     },
     {
         symbol: CHANGE_SYMBOL,
@@ -978,7 +987,7 @@ const Commands: Command[] = [
         control: false,
         key: 'J',
         keySymbol: '∆',
-        execute: ({ caret }) => caret?.insert(CHANGE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, CHANGE_SYMBOL),
     },
     {
         symbol: PREVIOUS_SYMBOL,
@@ -990,7 +999,7 @@ const Commands: Command[] = [
         control: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret }) => caret?.insert(PREVIOUS_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, PREVIOUS_SYMBOL),
     },
     {
         symbol: CONVERT_SYMBOL,
@@ -1002,7 +1011,7 @@ const Commands: Command[] = [
         control: false,
         key: 'ArrowRight',
         keySymbol: CONVERT_SYMBOL,
-        execute: ({ caret }) => caret?.insert(CONVERT_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, CONVERT_SYMBOL),
     },
     {
         symbol: TABLE_OPEN_SYMBOL,
@@ -1014,8 +1023,9 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyT',
         keySymbol: 't',
-        execute: ({ caret }) => {
+        execute: ({ caret, blocks }) => {
             if (caret === undefined) return false;
+            if (blocks) return false;
 
             // Before inserting (and potentially autocompleting)
             // see if there's an unclosed table open prior to the cursor, and if so, insert a close symbol.
@@ -1040,10 +1050,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyT',
         keySymbol: 't',
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
-            return caret.insert(TABLE_CLOSE_SYMBOL) ?? false;
-        },
+        execute: (context) => handleInsert(context, TABLE_CLOSE_SYMBOL),
     },
     {
         symbol: BORROW_SYMBOL,
@@ -1055,10 +1062,7 @@ const Commands: Command[] = [
         control: true,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
-            return caret.insert(BORROW_SYMBOL) ?? false;
-        },
+        execute: (context) => handleInsert(context, BORROW_SYMBOL),
     },
     {
         symbol: SHARE_SYMBOL,
@@ -1070,10 +1074,7 @@ const Commands: Command[] = [
         control: true,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
-            return caret.insert(SHARE_SYMBOL) ?? false;
-        },
+        execute: (context) => handleInsert(context, SHARE_SYMBOL),
     },
     {
         symbol: ELISION_SYMBOL + ELISION_SYMBOL,
@@ -1085,8 +1086,8 @@ const Commands: Command[] = [
         control: true,
         key: '8',
         keySymbol: ELISION_SYMBOL,
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
+        execute: ({ caret, blocks }) => {
+            if (caret === undefined || blocks) return false;
             else return caret.elide() ?? false;
         },
     },
@@ -1139,8 +1140,8 @@ const Commands: Command[] = [
         control: false,
         key: 'Enter',
         typing: true,
-        execute: ({ caret }) =>
-            caret === undefined
+        execute: ({ caret, blocks }) =>
+            caret === undefined || blocks
                 ? false
                 : caret.isNode()
                   ? caret.enter()
@@ -1157,8 +1158,10 @@ const Commands: Command[] = [
         control: false,
         alt: false,
         typing: true,
-        execute: ({ caret, project, editor }) =>
-            editor && caret ? caret.delete(project, false) ?? true : false,
+        execute: ({ caret, project, editor, blocks }) =>
+            editor && caret
+                ? caret.delete(project, false, blocks) ?? true
+                : false,
     },
     {
         symbol: '⌦',
@@ -1171,8 +1174,10 @@ const Commands: Command[] = [
         control: false,
         alt: false,
         typing: true,
-        execute: ({ caret, project, editor }) =>
-            editor && caret ? caret.delete(project, true) ?? true : false,
+        execute: ({ caret, project, editor, blocks }) =>
+            editor && caret
+                ? caret.delete(project, true, blocks) ?? true
+                : false,
     },
     {
         symbol: '✄',
@@ -1191,7 +1196,10 @@ const Commands: Command[] = [
                 context.caret.position,
                 getPreferredSpaces(context.caret.source),
             );
-            return context.caret.delete(context.project, false) ?? true;
+            return (
+                context.caret.delete(context.project, false, context.blocks) ??
+                true
+            );
         },
     },
     {

@@ -96,6 +96,7 @@
     .evaluate {
         display: flex;
         flex-direction: row;
+        align-items: baseline;
         gap: var(--wordplay-border-width);
     }
 </style>

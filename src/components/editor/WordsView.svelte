@@ -4,17 +4,25 @@
     import type Words from '@nodes/Words';
     import NodeView from './NodeView.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
+    import { isBlocks } from '@components/project/Contexts';
 
     export let node: Words;
+
+    const blocks = isBlocks();
 </script>
 
-<span class={node.getFormat()}
+<span class="words {$blocks ? 'blocks' : ''} {node.getFormat()}"
     ><NodeView node={node.open} /><NodeSequenceView
         nodes={node.getNodeSegments()}
     /><NodeView node={node.close} />
 </span>
 
 <style>
+    .words.blocks {
+        display: flex;
+        flex-direction: row;
+    }
+
     .italic {
         font-style: italic;
     }

@@ -170,7 +170,7 @@
     >
 {:else}
     <code class="root" style="--line-count: {lineDigits}" class:inert
-        ><NodeView {node} /></code
+        ><NodeView {node} direction="column" /></code
     >
 {/if}
 

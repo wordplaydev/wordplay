@@ -1110,6 +1110,7 @@
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
+        blocks: $blocks,
         help: () => (showHelpDialog = !showHelpDialog),
     };
 

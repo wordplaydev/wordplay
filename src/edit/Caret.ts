@@ -1095,11 +1095,14 @@ export default class Caret {
     delete(
         project: Project,
         forward: boolean,
+        nodesOnly: boolean,
     ): Edit | ProjectRevision | undefined {
         const offset = forward ? 0 : -1;
 
         // If the position is a number, see if this is a rename
         if (typeof this.position === 'number') {
+            // Nodes only? Do nothing.
+            if (nodesOnly) return;
             // Are we in the middle of a name or at it's end?
             const rename = forward
                 ? this.tokenExcludingSpace?.isSymbol(Sym.Name) &&
@@ -1175,9 +1178,7 @@ export default class Caret {
                     if (edit) return edit;
                 }
             }
-        }
 
-        if (typeof this.position === 'number') {
             const before = this.source
                 .getCode()
                 .at(forward ? this.position : this.position - 1);

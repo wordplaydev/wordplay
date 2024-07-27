@@ -26,6 +26,7 @@
     .evaluate {
         display: flex;
         flex-direction: row;
+        align-items: baseline;
         gap: var(--wordplay-spacing);
     }
 </style>

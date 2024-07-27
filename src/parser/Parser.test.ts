@@ -73,6 +73,22 @@ import getPreferredSpaces from './getPreferredSpaces';
 import Input from '@nodes/Input';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 
+export const everything = `
+\`\`Testing *the /way/*\`\`
+•Cat() (
+	ƒ num() [1 2 3][1]
+)
+
+d/en: ⎡a•# b•# c•#⎦
+	⎡1 2 3⎦
+	⎡4 5 6⎦ ⎡+1 2 3⎦
+a,o: (
+		b•#: Cat().num()
+		c: {1: b}{1}
+		c ?? 1s^2
+	)
+(a + (d ⎡?a⎦ ⊤) → [][1].a) → "" + 'hi' + (1 … ∆ Time(1000ms) & 🌏/en … ⊤ ? 1 2) → ""`;
+
 test('Parse programs', () => {
     expect(toProgram('')).toBeInstanceOf(Program);
     expect(toProgram('hi')).toBeInstanceOf(Program);

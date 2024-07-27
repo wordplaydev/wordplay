@@ -1160,6 +1160,9 @@
     let pasted = true;
 
     function handleTextInput(event: Event) {
+        // Blocks mode? No text input support. It's all handled by text fields.
+        if ($blocks) return;
+
         setIgnored(false);
 
         let edit: Edit | ProjectRevision | undefined = undefined;
@@ -1280,6 +1283,7 @@
             dragging: $dragged !== undefined,
             database: DB,
             toggleMenu,
+            blocks: $blocks,
         });
 
         // Don't insert symbols if composing.

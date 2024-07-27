@@ -14,7 +14,7 @@
 {#if $blocks}
     <NodeView node={node.docs} /><NodeView node={node.open} /><NodeSequenceView
         nodes={node.statements}
-        direction="column"
+        direction={node.statements.length > 1 ? 'column' : 'row'}
     /><NodeView node={node.close} />
 {:else}
     <NodeView node={node.docs} /><NodeView node={node.open} /><NodeSequenceView

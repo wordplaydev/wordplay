@@ -172,24 +172,27 @@
         border-start-end-radius: var(--wordplay-border-radius);
         border-end-end-radius: var(--wordplay-border-radius);
         border-end-start-radius: 0;
-        padding: calc(var(--wordplay-spacing) / 2);
+        padding: calc(var(--wordplay-spacing) / 3)
+            calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 3)
+            calc(var(--wordplay-spacing) / 2);
         box-shadow: var(--color-shadow) 1px 1px 4px;
         border-radius: 1px calc(3 * var(--wordplay-border-radius))
             calc(3 * var(--wordplay-border-radius)) 1px;
     }
 
     .block.definition {
-        border: var(--wordplay-border-width) solid var(--color-blue);
+        border-inline-start: calc(2 * var(--wordplay-border-width)) solid
+            var(--color-blue);
     }
 
     .block.evaluate {
-        border: var(--wordplay-border-width) solid var(--color-orange);
+        border-bottom: calc(2 * var(--wordplay-border-width)) solid
+            var(--color-orange);
     }
 
     .row {
         flex-direction: row;
-        align-items: center;
-        gap: var(--wordplay-spacing);
+        align-items: baseline;
     }
 
     .column {
