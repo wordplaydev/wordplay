@@ -134,6 +134,7 @@
     .blockselected {
         outline: var(--wordplay-focus-width) solid
             var(--wordplay-highlight-color);
+        background: var(--wordplay-hover);
     }
 
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
@@ -168,8 +169,8 @@
         width: fit-content;
     }
 
-    .evaluate,
-    .definition {
+    .evaluate:not(.Program),
+    .definition:not(.Program) {
         padding: calc(var(--wordplay-spacing) / 3);
         border-start-start-radius: 0;
         border-start-end-radius: var(--wordplay-border-radius);
