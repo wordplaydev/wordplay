@@ -400,23 +400,6 @@
                 Wordplay, you'll need to upgrade to a more recent version.</p
             >
         </div>
-        <script nonce="%sveltekit.nonce%">
-            function supportsRegexNegativeLookBehind() {
-                try {
-                    return 'hi'.replace(new RegExp('(?<!hi)hi', 'g'), 'ho');
-                } catch (error) {
-                    return false;
-                }
-            }
-
-            function supportsAt() {
-                return [].at !== undefined;
-            }
-
-            const unsupported = document.getElementById('unsupported');
-            if (!supportsRegexNegativeLookBehind() || !supportsAt())
-                unsupported.style.display = 'block';
-            else unsupported.remove();
-        </script>
+        <script src="/scripts/unsupported.js"></script>
     </body>
 </html>
