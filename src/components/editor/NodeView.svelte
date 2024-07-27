@@ -189,6 +189,7 @@
     .row {
         flex-direction: row;
         align-items: center;
+        gap: var(--wordplay-spacing);
     }
 
     .column {

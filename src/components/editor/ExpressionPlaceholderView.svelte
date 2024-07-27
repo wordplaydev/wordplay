@@ -3,7 +3,12 @@
 <script lang="ts">
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import NodeView from './NodeView.svelte';
-    import { getCaret, getProject, getRoot } from '../project/Contexts';
+    import {
+        getCaret,
+        getProject,
+        getRoot,
+        isBlocks,
+    } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import UnknownType from '../../nodes/UnknownType';
     import PlaceholderView from './PlaceholderView.svelte';
@@ -14,6 +19,7 @@
     const project = getProject();
     const root = getRoot();
     const caret = getCaret();
+    const blocks = isBlocks();
 
     $: inferredType = $project
         ? node.getType($project.getNodeContext(node))
@@ -45,16 +51,17 @@
     ><span class="type"
         >{#if node.type}<NodeView
                 node={node.type}
-            />{:else if inferredType && !(inferredType instanceof UnknownType)}<span
-                >•</span
-            ><div class:inferred={node.type === undefined && inferredType}
+            />{:else if inferredType && !(inferredType instanceof UnknownType)}•<div
+                class:inferred={node.type === undefined && inferredType}
                 ><RootView
                     elide
                     inert
                     localized="symbolic"
                     node={inferredType}
                 /></div
-            >{/if}{#if caret}<PlaceholderView position={node} />{/if}</span
+            >{/if}{#if caret && !$blocks}<PlaceholderView
+                position={node}
+            />{/if}</span
     ></span
 >
 
@@ -74,6 +81,14 @@
 
     .inferred :global(.token-view) {
         color: var(--wordplay-inactive-color);
+    }
+
+    :global(.block) .placeholder,
+    :global(.block) .hidden,
+    :global(.block) .type,
+    :global(.block) .inferred {
+        display: flex;
+        flex-direction: row;
     }
 
     @keyframes bob {
