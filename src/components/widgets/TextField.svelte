@@ -75,7 +75,7 @@
             ? placeholder
             : kind === 'password'
               ? '•'.repeat(text.length)
-              : text}</span
+              : text.replaceAll(' ', '\xa0')}</span
     >
 </div>
 
