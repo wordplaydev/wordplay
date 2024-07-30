@@ -117,11 +117,14 @@ export default class Program extends Expression {
             const [source, definition] = borrow.getShare(context) ?? [];
             if (source === undefined) {
                 if (definition !== undefined) definitions.push(definition);
-            } else
+            } else {
                 definitions.push(
                     definition === undefined ? source : definition,
                 );
+                definitions.push(source);
+            }
         }
+        // Return all of the imported definitions and any sources that are part of a named import
         return definitions;
     }
 

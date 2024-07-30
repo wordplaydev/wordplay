@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.10.8 2024-08-03
+
+### Fixed
+
+-   Repaired borrowed bindings from other sources.
+
 ## 0.10.7 2024-07-27
 
 ### Added
