@@ -680,7 +680,7 @@
     }
 
     .blocks {
-        background-color: var(--wordplay-focus-color);
+        background-color: var(--wordplay-highlight-color);
     }
 
     @keyframes blink-animation {
