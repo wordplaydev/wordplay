@@ -1111,6 +1111,7 @@
         resetInputs,
         toggleBlocks,
         blocks: $blocks,
+        view: undefined,
         help: () => (showHelpDialog = !showHelpDialog),
     };
 

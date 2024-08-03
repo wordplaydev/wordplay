@@ -39,6 +39,7 @@ import interpret from './interpret';
 import { TileKind } from '../../project/Tile';
 import { TAB_SYMBOL } from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { moveVisualVertical } from '../CaretView.svelte';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -95,6 +96,8 @@ export type CommandContext = {
     dragging: boolean;
     /** Whether blocks mode is one */
     blocks: boolean;
+    /** The HTMLElement rendering the editor */
+    view: HTMLElement | undefined;
     toggleMenu?: () => void;
     toggleBlocks?: (on: boolean) => void;
     setFullscreen?: (on: boolean) => void;
@@ -642,7 +645,14 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: ({ caret }) => caret?.moveVertical(-1) ?? false,
+        execute: ({ caret, blocks, view }) =>
+            caret
+                ? blocks
+                    ? view
+                        ? moveVisualVertical(-1, view, caret) ?? false
+                        : false
+                    : caret.moveVertical(-1) ?? false
+                : false,
     },
     {
         symbol: '↓',
@@ -654,7 +664,14 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret }) => caret?.moveVertical(1) ?? false,
+        execute: ({ caret, blocks, view }) =>
+            caret
+                ? blocks
+                    ? view
+                        ? moveVisualVertical(1, view, caret) ?? false
+                        : false
+                    : caret.moveVertical(1) ?? false
+                : false,
     },
     {
         symbol: '←',

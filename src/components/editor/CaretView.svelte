@@ -7,6 +7,84 @@
         height: number;
         bottom: number;
     };
+
+    export function getVerticalCenterOfBounds(rect: DOMRect) {
+        return rect.top + rect.height / 2;
+    }
+
+    export function getHorizontalCenterOfBounds(rect: DOMRect) {
+        return rect.left + rect.width / 2;
+    }
+
+    /** Move the caret to the nearest vertical token in the given direction and editor. */
+    export function moveVisualVertical(
+        direction: -1 | 1,
+        editor: HTMLElement,
+        caret: Caret,
+    ): Caret | undefined {
+        // Find the token view that the caret is in.
+        const currentToken =
+            caret.position instanceof Node ? caret.position : caret.getToken();
+        if (currentToken === undefined) return undefined;
+        const currentTokenView = getNodeView(editor, currentToken);
+        if (currentTokenView === null) return undefined;
+        const bounds = currentTokenView.getBoundingClientRect();
+        const vertical = getVerticalCenterOfBounds(bounds);
+        const horizontal = getHorizontalCenterOfBounds(bounds);
+        const verticalThreshold = bounds.height;
+
+        // Find all the token views
+        const nearest = Array.from(editor.querySelectorAll('.token-view'))
+            .map((el) => {
+                const elBounds = el.getBoundingClientRect();
+                return {
+                    node:
+                        el instanceof HTMLElement && el.dataset.id
+                            ? caret.source.getNodeByID(
+                                  parseInt(el.dataset.id),
+                              ) ?? null
+                            : null,
+                    horizontal:
+                        getHorizontalCenterOfBounds(elBounds) - horizontal,
+                    vertical: getVerticalCenterOfBounds(elBounds) - vertical,
+                };
+            })
+            .filter(
+                (node) =>
+                    node.node instanceof Token &&
+                    Caret.isBlockEditable(node.node) &&
+                    // Filter out nodes in the wrong direction
+                    (direction < 0 ? node.vertical < 0 : node.vertical > 0) &&
+                    // Filter out nodes that are too close vertically
+                    Math.abs(node.vertical) > verticalThreshold,
+            )
+            // Sort by closest distance of remaining
+            .sort(
+                (a, b) =>
+                    Math.pow(a.horizontal, 2) +
+                    Math.pow(a.vertical, 2) -
+                    (Math.pow(b.horizontal, 2) + Math.pow(b.vertical, 2)),
+            );
+
+        const closest = nearest[0];
+
+        if (closest && closest.node) return caret.withPosition(closest.node);
+        else return undefined;
+    }
+
+    export function getTokenView(
+        editor: HTMLElement,
+        token: Token,
+    ): HTMLElement | null {
+        return editor.querySelector(`.token-view[data-id="${token.id}"]`);
+    }
+
+    export function getNodeView(
+        editor: HTMLElement,
+        token: Node,
+    ): HTMLElement | null {
+        return editor.querySelector(`.node-view[data-id="${token.id}"]`);
+    }
 </script>
 
 <script lang="ts">
@@ -18,9 +96,9 @@
         locales,
         spaceIndicator,
     } from '../../db/Database';
-    import type Caret from '../../edit/Caret';
+    import Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
-    import type Token from '@nodes/Token';
+    import Token from '@nodes/Token';
     import UnicodeString from '@models/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
 
@@ -123,8 +201,9 @@
         if (editorView === null) return null;
 
         const tokenView =
-            editorView.querySelector(`.token-view[data-id="${node.id}"]`) ??
-            null;
+            node instanceof Token
+                ? getTokenView(editorView, node) ?? null
+                : null;
 
         // No token view? (This can happen when stepping, since values are rendered instead of nodes.)
         // Try to find the nearest ancestor that is rendered and return that instead.

@@ -1284,6 +1284,7 @@
             database: DB,
             toggleMenu,
             blocks: $blocks,
+            view: editor,
         });
 
         // Don't insert symbols if composing.
