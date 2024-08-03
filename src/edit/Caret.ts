@@ -685,7 +685,7 @@ export default class Caret {
     }
 
     /** Move to the next node or position in blocks mode. */
-    moveBlockInline(direction: -1 | 1): Caret {
+    moveInlineSemantic(direction: -1 | 1): Caret {
         // Find the current position.
         const currentPosition =
             typeof this.position === 'number'
@@ -702,17 +702,22 @@ export default class Caret {
             direction < 0
                 ? this.getSourceBlockPositions().reverse()
                 : this.getSourceBlockPositions();
+        const onNode = this.isNode();
         for (const position of positions) {
-            const thisPosition =
-                typeof position === 'number'
-                    ? position
-                    : this.source.getTokenTextPosition(position);
+            const isPosition = typeof position === 'number';
+            const thisPosition = isPosition
+                ? position
+                : this.source.getTokenTextPosition(position);
             // Is this position after the current position, or at the same position, but moving from a node? This is the next position.
             if (
                 thisPosition !== undefined &&
                 (direction > 0
                     ? thisPosition > currentPosition ||
-                      (this.position instanceof Node &&
+                      (thisPosition === currentPosition &&
+                          onNode &&
+                          isPosition) ||
+                      (!onNode &&
+                          !isPosition &&
                           thisPosition === currentPosition)
                     : thisPosition < currentPosition ||
                       (this.position instanceof Node &&
