@@ -996,7 +996,7 @@
             filter,
             ease-in,
             height ease-in;
-        transition-duration: calc(var(--animation-factor) * 200ms);
+        transition-duration: calc(var(--animation-factor) * 500ms);
 
         /** Query the container size */
         container-type: inline-size;

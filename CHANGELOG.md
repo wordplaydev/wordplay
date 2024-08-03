@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Repaired borrowed bindings from other sources.
+-   Prevent project reevaluation during typing.
 
 ## 0.10.7 2024-07-27
 
