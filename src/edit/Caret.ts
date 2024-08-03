@@ -685,7 +685,7 @@ export default class Caret {
     }
 
     /** Move to the next node or position in blocks mode. */
-    moveInlineSemantic(direction: -1 | 1): Caret {
+    moveInlineSemantic(direction: -1 | 1): Caret | undefined {
         // Find the current position.
         const currentPosition =
             typeof this.position === 'number'
@@ -695,7 +695,7 @@ export default class Caret {
                   : this.source.getNodeLastPosition(this.position);
 
         // No current position for some reason? No change;
-        if (currentPosition === undefined) return this;
+        if (currentPosition === undefined) return undefined;
 
         // Get all eligible caret positions in blocks mode, in the order in which we'll search for the next position.
         const positions =
@@ -727,7 +727,7 @@ export default class Caret {
                 return this.withPosition(position);
             }
         }
-        return this;
+        return undefined;
     }
 
     atLineBoundary(start: boolean): Caret {
