@@ -19,6 +19,8 @@ import NameType from '../../../nodes/NameType';
 import Name from '../../../nodes/Name';
 import DefinitionExpression from '../../../nodes/DefinitionExpression';
 import Bind from '../../../nodes/Bind';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
 
 /** Highlight types and whether they are rendered above or below the code. True for above. */
 export const HighlightTypes = {
@@ -271,7 +273,16 @@ export function getHighlights(
     if (definition) {
         if (reference) {
             if (definition !== undefined)
-                addHighlight(source, newHighlights, definition, 'hovered');
+                addHighlight(
+                    source,
+                    newHighlights,
+                    definition instanceof FunctionDefinition ||
+                        definition instanceof StructureDefinition ||
+                        definition instanceof Bind
+                        ? definition.names
+                        : definition,
+                    'hovered',
+                );
         } else {
             if ('names' in definition)
                 addHighlight(

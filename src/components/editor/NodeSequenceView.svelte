@@ -110,6 +110,7 @@
     .row {
         flex-direction: row;
         gap: var(--wordplay-border-width);
+        align-items: baseline;
     }
 
     .node-list.column {

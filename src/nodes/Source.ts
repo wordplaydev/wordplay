@@ -786,12 +786,8 @@ export default class Source extends Expression {
     }
 
     getTokenBeforeNode(node: Node): Token | undefined {
-        let lastToken = undefined;
-        for (const next of this.nodes()) {
-            if (next instanceof Token) lastToken = next;
-            if (next === node) return lastToken;
-        }
-        return undefined;
+        const firstLeaf = node.leaves()[0];
+        return firstLeaf ? this.getTokenBefore(firstLeaf) : undefined;
     }
 
     getTokenAfterNode(node: Node): Token | undefined {

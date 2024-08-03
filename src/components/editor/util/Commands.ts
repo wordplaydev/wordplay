@@ -666,11 +666,17 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret, database }) =>
-            caret?.moveInline(
-                false,
-                database.Locales.getWritingDirection() === 'ltr' ? -1 : 1,
-            ) ?? false,
+        execute: ({ caret, database, blocks }) =>
+            caret
+                ? blocks
+                    ? caret.moveBlockInline(-1)
+                    : caret.moveInline(
+                          false,
+                          database.Locales.getWritingDirection() === 'ltr'
+                              ? -1
+                              : 1,
+                      )
+                : false,
     },
     {
         symbol: '→',
@@ -682,11 +688,17 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: ({ caret, database }) =>
-            caret?.moveInline(
-                false,
-                database.Locales.getWritingDirection() === 'ltr' ? 1 : -1,
-            ) ?? false,
+        execute: ({ caret, database, blocks }) =>
+            caret
+                ? blocks
+                    ? caret.moveBlockInline(1)
+                    : caret.moveInline(
+                          false,
+                          database.Locales.getWritingDirection() === 'ltr'
+                              ? 1
+                              : -1,
+                      )
+                : false,
     },
     {
         symbol: '⇤',

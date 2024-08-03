@@ -4,7 +4,7 @@ import type {
     Revision,
 } from '../components/editor/util/Commands';
 import Block from '@nodes/Block';
-import Node, { ListOf } from '@nodes/Node';
+import Node, { ListOf, type Field } from '@nodes/Node';
 import Token from '@nodes/Token';
 import Sym from '@nodes/Sym';
 import {
@@ -552,6 +552,169 @@ export default class Caret {
                 entry,
             );
         }
+    }
+
+    static isBlockEditable(token: Token): boolean {
+        return (
+            token.isSymbol(Sym.Name) ||
+            token.isSymbol(Sym.Operator) ||
+            token.isSymbol(Sym.Text) ||
+            token.isSymbol(Sym.Words) ||
+            token.isSymbol(Sym.Number) ||
+            token.isSymbol(Sym.Boolean) ||
+            token.isSymbol(Sym.Placeholder)
+        );
+    }
+
+    getSourceBlockPositions(): (Token | number)[] {
+        // Find all the tokens in a series of fields, for identifying positions before and after lists.
+        function getFieldTokens(node: Node, fields: Field[]) {
+            return fields
+                .map((field) => node.getField(field.name))
+                .filter((v) => v !== undefined)
+                .map((v) =>
+                    Array.isArray(v)
+                        ? v.map((el) => el.leaves()).flat()
+                        : v.leaves(),
+                )
+                .flat();
+        }
+
+        const points: (Token | number)[] = [];
+        for (const node of this.source.expression.nodes()) {
+            if (node instanceof Token && Caret.isBlockEditable(node))
+                points.push(node);
+            else {
+                const grammar = node.getGrammar();
+                for (let index = 0; index < grammar.length; index++) {
+                    const field = grammar[index];
+                    if (field.kind instanceof ListOf) {
+                        // Get the list values.
+                        const values = node.getField(field.name);
+                        if (Array.isArray(values)) {
+                            // Add an insertion point for the beginning of the list.
+                            const tokensBeforeField = getFieldTokens(
+                                node,
+                                grammar.slice(0, index - 1),
+                            );
+                            const lastTokenBefore = tokensBeforeField.at(-1);
+                            if (lastTokenBefore) {
+                                const lastPosition =
+                                    this.source.getTokenLastPosition(
+                                        lastTokenBefore,
+                                    );
+                                if (lastPosition !== undefined)
+                                    points.push(lastPosition);
+                            }
+                            // No tokens before the list? See if there's a token in the list.
+                            else if (values.length > 0) {
+                                const firstToken = values[0].leaves().at(0);
+                                if (firstToken) {
+                                    const firstPosition =
+                                        this.source.getTokenTextPosition(
+                                            firstToken,
+                                        );
+                                    if (firstPosition !== undefined)
+                                        points.push(firstPosition);
+                                }
+                            }
+                            // No tokens before the list? See if there are tokens after.
+                            else {
+                                console.log(
+                                    'No last token before ' + field.name,
+                                );
+                                const tokensAfterField = getFieldTokens(
+                                    node,
+                                    grammar.slice(index + 1),
+                                );
+                                const firstTokenAfter = tokensAfterField.at(0);
+                                if (firstTokenAfter) {
+                                    const firstPosition =
+                                        this.source.getTokenTextPosition(
+                                            firstTokenAfter,
+                                        );
+                                    if (firstPosition !== undefined)
+                                        points.push(firstPosition);
+                                } else
+                                    console.log(
+                                        'No first token after ' + field.name,
+                                    );
+                            }
+
+                            // Then, go through each value of the list and add an insertion point after the last token of each element.
+                            for (const value of values) {
+                                const tokens = value.leaves();
+                                const lastToken = tokens.at(-1);
+                                if (lastToken) {
+                                    const lastPosition =
+                                        this.source.getTokenLastPosition(
+                                            lastToken,
+                                        );
+                                    if (lastPosition !== undefined)
+                                        points.push(lastPosition);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        // Remove duplicates and sort.
+        return Array.from(new Set(points)).sort((a, b) => {
+            const aPosition =
+                a instanceof Token
+                    ? this.source.getTokenTextPosition(a) ?? 0
+                    : a;
+            const bPosition =
+                b instanceof Token
+                    ? this.source.getTokenTextPosition(b) ?? 0
+                    : b;
+            return aPosition === bPosition && typeof a === 'number'
+                ? -1
+                : aPosition - bPosition;
+        });
+    }
+
+    /** Move to the next node or position in blocks mode. */
+    moveBlockInline(direction: -1 | 1): Caret {
+        // Find the current position.
+        const currentPosition =
+            typeof this.position === 'number'
+                ? this.position
+                : direction < 0
+                  ? this.source.getNodeFirstPosition(this.position)
+                  : this.source.getNodeLastPosition(this.position);
+
+        // No current position for some reason? No change;
+        if (currentPosition === undefined) return this;
+
+        // Get all eligible caret positions in blocks mode, in the order in which we'll search for the next position.
+        const positions =
+            direction < 0
+                ? this.getSourceBlockPositions().reverse()
+                : this.getSourceBlockPositions();
+        for (const position of positions) {
+            const thisPosition =
+                typeof position === 'number'
+                    ? position
+                    : this.source.getTokenTextPosition(position);
+            // Is this position after the current position, or at the same position, but moving from a node? This is the next position.
+            if (
+                thisPosition !== undefined &&
+                (direction > 0
+                    ? thisPosition > currentPosition ||
+                      (this.position instanceof Node &&
+                          thisPosition === currentPosition)
+                    : thisPosition < currentPosition ||
+                      (this.position instanceof Node &&
+                          typeof position === 'number' &&
+                          thisPosition === currentPosition))
+            ) {
+                return this.withPosition(position);
+            }
+        }
+        return this;
     }
 
     atLineBoundary(start: boolean): Caret {
