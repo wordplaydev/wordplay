@@ -679,7 +679,7 @@
         animation-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .blocks {
+    .blocks.focused {
         background-color: var(--wordplay-highlight-color);
     }
 
