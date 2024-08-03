@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Repaired borrowed bindings from other sources.
 -   Prevent project reevaluation during typing.
+-   Permit evaluation of functions with operator names without inputs.
 
 ## 0.10.7 2024-07-27
 

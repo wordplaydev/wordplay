@@ -239,8 +239,14 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                   : // Nones
                     tokens.nextIs(Sym.None)
                     ? parseNone(tokens)
-                    : // Unary expressions before names and binary operators, since some unary can be multiple.
-                      tokens.nextIsUnary()
+                    : // Unary expressions are a unary operator and then any expression.
+                      // The only exception is if it's immediately followed except for an eval open and close. This allows functions with operator names to be evaluated.
+                      tokens.nextIsUnary() &&
+                        !tokens.nextAre(
+                            Sym.Operator,
+                            Sym.EvalOpen,
+                            Sym.EvalClose,
+                        )
                       ? new UnaryEvaluate(
                             parseReference(tokens),
                             parseAtomicExpression(tokens),
