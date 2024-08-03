@@ -620,9 +620,6 @@ export default class Caret {
                             }
                             // No tokens before the list? See if there are tokens after.
                             else {
-                                console.log(
-                                    'No last token before ' + field.name,
-                                );
                                 const tokensAfterField = getFieldTokens(
                                     node,
                                     grammar.slice(index + 1),
@@ -635,10 +632,7 @@ export default class Caret {
                                         );
                                     if (firstPosition !== undefined)
                                         points.push(firstPosition);
-                                } else
-                                    console.log(
-                                        'No first token after ' + field.name,
-                                    );
+                                }
                             }
 
                             // Then, go through each value of the list and add an insertion point after the last token of each element.

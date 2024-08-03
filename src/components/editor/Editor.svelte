@@ -1427,6 +1427,7 @@
     <CaretView
         caret={$caret}
         {source}
+        blocks={$blocks}
         blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
         ignored={$evaluation !== undefined &&
             $evaluation.playing === true &&

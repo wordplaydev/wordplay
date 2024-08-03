@@ -19,7 +19,7 @@
         spaceIndicator,
     } from '../../db/Database';
     import type Caret from '../../edit/Caret';
-    import { getEditor, getEvaluation, isBlocks } from '../project/Contexts';
+    import { getEditor, getEvaluation } from '../project/Contexts';
     import type Token from '@nodes/Token';
     import UnicodeString from '@models/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
@@ -28,6 +28,7 @@
     export let source: Source;
     export let blink: boolean;
     export let ignored: boolean;
+    export let blocks: boolean;
 
     // The current location of the caret.
     export let location: CaretBounds | undefined = undefined;
@@ -47,11 +48,10 @@
 
     const evaluation = getEvaluation();
     const editor = getEditor();
-    const blocks = isBlocks();
 
     // Whenever blocks, evaluation, or caret changes, compute position after animation delay.
     $: {
-        $blocks;
+        blocks;
         $evaluation;
         caret;
         $editor;
@@ -576,7 +576,7 @@
                 // Figure out where to start. In text mode, it's the editor left.
                 // In blocks mode, it's the left of the closest parent that is in block layout.
                 let horizontalStart: number;
-                if ($blocks) {
+                if (blocks) {
                     // We have to be careful about what "in" means in blocks mode.
                     // If the token whose space we're in is a first leaf, we want to find the
                     // highest block for which it is, and find the horizontal start of it's view.
@@ -638,13 +638,19 @@
 </script>
 
 <span
-    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
+    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''} {blocks
+        ? 'blocks'
+        : ''}"
     class:focused={$editor?.focused}
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
     style:display={location === undefined ? 'none' : null}
     style:left={location ? `${location.left}px` : null}
     style:top={location ? `${location.top}px` : null}
-    style:width={location ? `2px` : null}
+    style:width={location
+        ? blocks
+            ? 'var(--wordplay-focus-width)'
+            : `2px`
+        : null}
     style:height={location ? `${location.height}px` : null}
     bind:this={element}
 />
@@ -671,6 +677,11 @@
     .caret.ignored {
         animation: shake 1;
         animation-duration: calc(var(--animation-factor) * 200ms);
+    }
+
+    .blocks {
+        background-color: var(--wordplay-focus-color);
+        width: var(--wordplay-focus-width);
     }
 
     @keyframes blink-animation {
