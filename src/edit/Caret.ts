@@ -636,6 +636,7 @@ export default class Caret {
                             }
 
                             // Then, go through each value of the list and add an insertion point after the last token of each element.
+                            // But find the position of the whitespace after it.
                             for (const value of values) {
                                 const tokens = value.leaves();
                                 const lastToken = tokens.at(-1);
@@ -644,8 +645,21 @@ export default class Caret {
                                         this.source.getTokenLastPosition(
                                             lastToken,
                                         );
-                                    if (lastPosition !== undefined)
-                                        points.push(lastPosition);
+
+                                    if (lastPosition !== undefined) {
+                                        const nextToken =
+                                            this.source.getTokenAfterNode(
+                                                lastToken,
+                                            );
+                                        const nextPosition = nextToken
+                                            ? this.source.getTokenTextPosition(
+                                                  nextToken,
+                                              )
+                                            : undefined;
+                                        points.push(
+                                            nextPosition ?? lastPosition,
+                                        );
+                                    }
                                 }
                             }
                         }

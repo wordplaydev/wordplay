@@ -681,7 +681,6 @@
 
     .blocks {
         background-color: var(--wordplay-focus-color);
-        width: var(--wordplay-focus-width);
     }
 
     @keyframes blink-animation {
