@@ -185,13 +185,13 @@
     }
 
     .block.definition {
-        border-inline-start: calc(2 * var(--wordplay-border-width)) solid
+        border-inline-start: calc(2 * var(--wordplay-focus-width)) solid
             var(--color-blue);
     }
 
     .block.evaluate {
         border-bottom: calc(2 * var(--wordplay-border-width)) solid
-            var(--color-orange);
+            var(--wordplay-inactive-color);
     }
 
     .row {
