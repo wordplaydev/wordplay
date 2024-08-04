@@ -1384,7 +1384,7 @@
     on:pointerup={handleRelease}
     on:pointermove={handlePointerMove}
     on:pointerleave={handlePointerLeave}
-    on:keydown={$blocks ? handleKeyDown : undefined}
+    on:keydown={handleKeyDown}
     on:dblclick|stopPropagation={(event) => {
         let node = getNodeAt(event, false);
         if (node) caret.set($caret.withPosition(node));
@@ -1393,6 +1393,7 @@
         // If the active element is a widget for a token in this editor's source,
         // set the caret to that token.
         if (
+            $blocks &&
             document.activeElement &&
             document.activeElement instanceof HTMLElement &&
             document.activeElement.classList.contains('token-editor')
