@@ -5,11 +5,14 @@
     import type Project from '@models/Project';
     import Token from '@nodes/Token';
     import { WordsRegEx } from '@parser/Tokenizer';
+    import { getCaret } from '@components/project/Contexts';
 
     export let words: Token;
     export let project: Project;
     export let text: string;
     export let placeholder: string;
+
+    const caret = getCaret();
 </script>
 
 <TextField
@@ -19,8 +22,12 @@
     placeholder={placeholder ?? ''}
     description={placeholder ?? ''}
     validator={(newWords) => WordsRegEx.test(newWords)}
-    changed={(newName) =>
-        newName !== words.getText()
-            ? Projects.revise(project, [[words, new Token(newName, Sym.Words)]])
-            : undefined}
+    changed={(newName) => {
+        if (newName !== words.getText()) {
+            const token = new Token(newName, Sym.Words);
+            Projects.revise(project, [[words, token]]);
+            if (caret && $caret)
+                caret.set($caret.withPosition(token).withAddition(token));
+        }
+    }}
 ></TextField>

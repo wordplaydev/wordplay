@@ -5,11 +5,14 @@
     import type Project from '@models/Project';
     import Token from '@nodes/Token';
     import { toTokens } from '@parser/toTokens';
+    import { getCaret } from '@components/project/Contexts';
 
     export let number: Token;
     export let project: Project;
     export let text: string;
     export let placeholder: string;
+
+    const caret = getCaret();
 </script>
 
 <TextField
@@ -22,10 +25,11 @@
         const tokens = toTokens(newNumber);
         return tokens.remaining() === 2 && tokens.nextIs(Sym.Number);
     }}
-    changed={(newNumber) =>
-        newNumber !== number.getText()
-            ? Projects.revise(project, [
-                  [number, new Token(newNumber, Sym.Number)],
-              ])
-            : undefined}
+    changed={(newNumber) => {
+        if (newNumber !== number.getText()) {
+            const newToken = new Token(newNumber, Sym.Number);
+            Projects.revise(project, [[number, newToken]]);
+            if (caret && $caret) caret.set($caret.withPosition(newToken));
+        }
+    }}
 ></TextField>

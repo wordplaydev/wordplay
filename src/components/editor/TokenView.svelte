@@ -19,10 +19,10 @@
     import UnaryEvaluate from '@nodes/UnaryEvaluate';
     import BinaryEvaluate from '@nodes/BinaryEvaluate';
     import OperatorEditor from './OperatorEditor.svelte';
-    import NameEditor from './NameEditor.svelte';
+    import NameEditor from './NameTokenEditor.svelte';
     import ReferenceEditor from './ReferenceEditor.svelte';
-    import WordsEditor from './WordsEditor.svelte';
-    import NumberEditor from './NumberEditor.svelte';
+    import WordsEditor from './WordsTokenEditor.svelte';
+    import NumberEditor from './NumberTokenEditor.svelte';
 
     export let node: Token;
 
@@ -118,7 +118,7 @@
                     <NameEditor
                         {text}
                         project={$project}
-                        name={parent}
+                        name={parent.name}
                         placeholder={placeholder ?? ''}
                     />
                 {:else if parent instanceof Reference}

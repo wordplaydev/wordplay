@@ -1265,7 +1265,6 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
-        console.log('Handling');
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
@@ -1395,7 +1394,8 @@
         // set the caret to that token.
         if (
             document.activeElement &&
-            document.activeElement instanceof HTMLElement
+            document.activeElement instanceof HTMLElement &&
+            document.activeElement.classList.contains('token-editor')
         ) {
             const widget = document.activeElement;
             const id = widget.dataset.id;
