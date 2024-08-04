@@ -4157,8 +4157,8 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "hide block backgrounds",
-                    "off": "show block backgrounds"
+                    "on": "edit as text",
+                    "off": "edit as blocks"
                 },
                 "glyphs": {
                     "on": "collapse the matching glyphs",
