@@ -448,6 +448,19 @@
         getNodeView,
     );
 
+    // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
+    $: if ($blocks && $caret && focused) {
+        if ($caret.isNode() && $caret.position instanceof Token) {
+            const token = $caret.position;
+            const widget = editor?.querySelector(
+                `.token-editor[data-id="${token.id}"]`,
+            );
+            if (widget instanceof HTMLElement) {
+                widget.focus();
+            }
+        }
+    }
+
     // After updates, manage highlight classes on nodes
     afterUpdate(() => {
         updateOutlines(
@@ -1252,6 +1265,7 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        console.log('Handling');
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
@@ -1348,6 +1362,7 @@
     We use the live region above 
 -->
 <!-- svelte-ignore missing-declaration -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div
     data-testid="editor"
     class="editor {$evaluation !== undefined && $evaluation.playing
@@ -1370,6 +1385,7 @@
     on:pointerup={handleRelease}
     on:pointermove={handlePointerMove}
     on:pointerleave={handlePointerLeave}
+    on:keydown={$blocks ? handleKeyDown : undefined}
     on:dblclick|stopPropagation={(event) => {
         let node = getNodeAt(event, false);
         if (node) caret.set($caret.withPosition(node));
@@ -1404,7 +1420,6 @@
         style:top={caretLocation ? `${caretLocation.top}px` : null}
         bind:this={input}
         on:input={handleTextInput}
-        on:keydown={handleKeyDown}
         on:compositionstart={handleCompositionStart}
         on:compositionend={handleCompositionEnd}
         on:paste={handlePaste}

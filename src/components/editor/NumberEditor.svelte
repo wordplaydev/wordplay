@@ -6,7 +6,7 @@
     import Token from '@nodes/Token';
     import { toTokens } from '@parser/toTokens';
 
-    export let words: Token;
+    export let number: Token;
     export let project: Project;
     export let text: string;
     export let placeholder: string;
@@ -14,12 +14,18 @@
 
 <TextField
     {text}
+    id={number.id}
+    classes={['token-editor']}
     placeholder={placeholder ?? ''}
     description={placeholder ?? ''}
     validator={(newNumber) => {
         const tokens = toTokens(newNumber);
         return tokens.remaining() === 2 && tokens.nextIs(Sym.Number);
     }}
-    done={(newNumber) =>
-        Projects.revise(project, [[words, new Token(newNumber, Sym.Number)]])}
+    changed={(newNumber) =>
+        newNumber !== number.getText()
+            ? Projects.revise(project, [
+                  [number, new Token(newNumber, Sym.Number)],
+              ])
+            : undefined}
 ></TextField>

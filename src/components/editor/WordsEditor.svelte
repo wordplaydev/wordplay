@@ -14,9 +14,13 @@
 
 <TextField
     {text}
+    id={words.id}
+    classes={['token-editor']}
     placeholder={placeholder ?? ''}
     description={placeholder ?? ''}
     validator={(newWords) => WordsRegEx.test(newWords)}
-    done={(newName) =>
-        Projects.revise(project, [[words, new Token(newName, Sym.Words)]])}
+    changed={(newName) =>
+        newName !== words.getText()
+            ? Projects.revise(project, [[words, new Token(newName, Sym.Words)]])
+            : undefined}
 ></TextField>

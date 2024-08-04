@@ -107,7 +107,7 @@
                     placeholder={placeholder ?? ''}
                 />
             {:else if node.isSymbol(Sym.Number)}<NumberEditor
-                    words={node}
+                    number={node}
                     {text}
                     project={$project}
                     placeholder={placeholder ?? ''}

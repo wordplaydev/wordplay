@@ -558,7 +558,6 @@ export default class Caret {
         return (
             token.isSymbol(Sym.Name) ||
             token.isSymbol(Sym.Operator) ||
-            token.isSymbol(Sym.Text) ||
             token.isSymbol(Sym.Words) ||
             token.isSymbol(Sym.Number) ||
             token.isSymbol(Sym.Boolean) ||

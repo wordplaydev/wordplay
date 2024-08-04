@@ -14,6 +14,8 @@
 
 <TextField
     {text}
+    id={name.name.id}
+    classes={['token-editor']}
     placeholder={placeholder ?? ''}
     description={placeholder ?? ''}
     validator={(newName) => {
@@ -24,5 +26,7 @@
         );
     }}
     changed={(newName) =>
-        Projects.revise(project, [[name, Name.make(newName)]])}
+        newName !== name.getName()
+            ? Projects.revise(project, [[name, Name.make(newName)]])
+            : undefined}
 ></TextField>

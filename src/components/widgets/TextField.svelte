@@ -14,6 +14,9 @@
     export let right = false;
     export let defaultFocus = false;
     export let editable = true;
+    export let classes: string[] | undefined = undefined;
+    /** An optional ID applied to the data-id attribute*/
+    export let id: number | undefined = undefined;
     export let kind: 'email' | 'password' | undefined = undefined;
     /** CSS length or nothing, setting the max-width of the field*/
     export let max: string | undefined = undefined;
@@ -35,10 +38,25 @@
     function handleKeyDown(event: KeyboardEvent) {
         const number = parseFloat(text);
 
+        // Not moving past a boundary? Don't let anything handle the event. Otherwise bubble it.
+        const movingPastStart =
+            event.key === 'ArrowLeft' &&
+            view &&
+            view.selectionStart !== null &&
+            view.selectionStart === 0;
+        const movingPastEnd =
+            event.key === 'ArrowRight' &&
+            view &&
+            view.selectionStart !== null &&
+            view.selectionStart === text.length;
+
+        // Don't bubble unless we're moving past a boundary.
+        if (!movingPastStart && !movingPastEnd) event.stopPropagation();
+
         // Not a number or not an up/down arrow key? Return.
         if (isNaN(number)) return;
         if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
-
+        event.stopPropagation();
         text = (number + (event.key === 'ArrowUp' ? 1 : -1)).toString();
         handleInput();
     }
@@ -53,9 +71,11 @@
 <div class="field">
     <input
         type="text"
+        class={classes?.join(' ')}
         class:fill
         class:border
         class:right
+        data-id={id}
         data-defaultfocus={defaultFocus ? '' : null}
         class:error={validator ? validator(text) === false : null}
         aria-label={description}
@@ -67,7 +87,8 @@
         bind:value={text}
         bind:this={view}
         on:input={handleInput}
-        on:keydown|stopPropagation={handleKeyDown}
+        on:keydown={handleKeyDown}
+        on:pointerdown|stopPropagation
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
