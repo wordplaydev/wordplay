@@ -185,8 +185,7 @@
     }
 
     .block.definition {
-        border-inline-start: calc(2 * var(--wordplay-focus-width)) solid
-            var(--color-blue);
+        border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
     }
 
     .block.evaluate {
