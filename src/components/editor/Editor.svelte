@@ -1390,6 +1390,23 @@
         let node = getNodeAt(event, false);
         if (node) caret.set($caret.withPosition(node));
     }}
+    on:focusin={() => {
+        // If the active element is a widget for a token in this editor's source,
+        // set the caret to that token.
+        if (
+            document.activeElement &&
+            document.activeElement instanceof HTMLElement
+        ) {
+            const widget = document.activeElement;
+            const id = widget.dataset.id;
+            if (id !== undefined) {
+                const node = source.getNodeByID(parseInt(id));
+                if (node !== undefined) {
+                    caret.set($caret.withPosition(node));
+                }
+            }
+        }
+    }}
 >
     <!-- Render highlights below the code -->
     {#each outlines as outline}
@@ -1424,7 +1441,9 @@
         on:compositionend={handleCompositionEnd}
         on:paste={handlePaste}
         on:focusin={() => (focused = true)}
-        on:focusout={() => (focused = false)}
+        on:focusout={() => {
+            focused = false;
+        }}
     />
     <!-- Render the program -->
     <RootView
