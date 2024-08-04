@@ -26,12 +26,13 @@
         if (newName !== token.getText()) {
             const revisedToken = creator(newName);
             Projects.revise(project, [[token, revisedToken]]);
-            if (caret && $caret)
+            if (caret && $caret) {
                 caret.set(
                     $caret
                         .withPosition(revisedToken)
                         .withAddition(revisedToken),
                 );
+            }
         }
     }}
 ></TextField>

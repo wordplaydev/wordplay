@@ -19,10 +19,11 @@
     import UnaryEvaluate from '@nodes/UnaryEvaluate';
     import BinaryEvaluate from '@nodes/BinaryEvaluate';
     import OperatorEditor from './OperatorEditor.svelte';
-    import NameEditor from './NameTokenEditor.svelte';
-    import ReferenceEditor from './ReferenceEditor.svelte';
-    import WordsEditor from './WordsTokenEditor.svelte';
-    import NumberEditor from './NumberTokenEditor.svelte';
+    import NameTokenEditor from './NameTokenEditor.svelte';
+    import ReferenceTokenEditor from './ReferenceTokenEditor.svelte';
+    import WordsTokenEditor from './WordsTokenEditor.svelte';
+    import NumberTokenEditor from './NumberTokenEditor.svelte';
+    import BooleanTokenEditor from './BooleanTokenEditor.svelte';
 
     export let node: Token;
 
@@ -99,14 +100,18 @@
         class:added
         data-id={node.id}
     >
-        {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number))}
-            {#if node.isSymbol(Sym.Words)}<WordsEditor
+        {#if editable && $project && context && (node.isSymbol(Sym.Name) || node.isSymbol(Sym.Operator) || node.isSymbol(Sym.Words) || node.isSymbol(Sym.Number) || node.isSymbol(Sym.Boolean))}
+            {#if node.isSymbol(Sym.Words)}<WordsTokenEditor
                     words={node}
                     {text}
                     project={$project}
                     placeholder={placeholder ?? ''}
                 />
-            {:else if node.isSymbol(Sym.Number)}<NumberEditor
+            {:else if node.isSymbol(Sym.Boolean)}<BooleanTokenEditor
+                    {node}
+                    project={$project}
+                />
+            {:else if node.isSymbol(Sym.Number)}<NumberTokenEditor
                     number={node}
                     {text}
                     project={$project}
@@ -115,7 +120,7 @@
                 {@const parent = $root.getParent(node)}
                 <!-- Names can be any text that parses as a name -->
                 {#if parent instanceof Name}
-                    <NameEditor
+                    <NameTokenEditor
                         {text}
                         project={$project}
                         name={parent.name}
@@ -132,12 +137,12 @@
                             {context}
                         />
                     {:else}
-                        <ReferenceEditor
+                        <ReferenceTokenEditor
                             reference={parent}
                             placeholder={placeholder ?? ''}
                             project={$project}
                             {context}
-                        ></ReferenceEditor>
+                        ></ReferenceTokenEditor>
                     {/if}
                 {:else}{renderedText}{/if}
             {/if}
