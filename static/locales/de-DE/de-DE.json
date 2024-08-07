@@ -4500,10 +4500,10 @@
             }
         },
         "save": {
-            "saving": "$~Sparen",
-            "saved": "$~online gespeichert",
-            "local": "$~im Browser gespeichert",
-            "unsaved": "$~nicht gespeichert"
+            "saving": "Speichern",
+            "saved": "Online gespeichert",
+            "local": "Im Browser gespeichert",
+            "unsaved": "Ungespeichert"
         },
         "page": {
             "unknown": {
@@ -4530,9 +4530,9 @@
                     "about": "Warum existiert diese Website?",
                     "learn": "Ein dramatisches Tutorial mit einer schillernden Besetzung von Charakturen",
                     "projects": "Wo du deine Aufführungen machen und teilen kannst",
-                    "galleries": "$~Erleben Sie die Leistungen anderer",
+                    "galleries": "Erleben Sie die Leistungen anderer",
                     "rights": "Unsere und deine Verantwortungen",
-                    "guide": "$~Suchen und stöbern Sie in der Sprachreferenz",
+                    "guide": "Suchen und stöbern Sie in der Sprachreferenz",
                     "community": {
                         "label": "Gemeinschaft",
                         "subtitle": "Chatten Sie mit uns auf Discord."
@@ -4593,7 +4593,7 @@
             "galleries": {
                 "header": "Galerien",
                 "prompt": "$~Dies sind Leistungen, die andere erbracht haben. Erleben Sie sie, studieren Sie sie oder adaptieren Sie sie für Ihre eigene Aussage.",
-                "examples": "ejemplos"
+                "examples": "Beispiele"
             },
             "about": {
                 "header": "Über uns",
@@ -4609,9 +4609,9 @@
                 ]
             },
             "login": {
-                "header": "Einloggen",
+                "header": "Anmeldung",
                 "subtitle": "$~Erstellen Sie ein Konto oder melden Sie sich an, um Ihre Arbeit online zu speichern",
-                "anonymous": "$~Anmeldung",
+                "anonymous": "Anmeldung",
                 "prompt": {
                     "login": "$~Ihre Performances werden in diesem Browser gespeichert, aber nicht online. Wenn dies Ihr Gerät ist, ist das in Ordnung! Wenn nicht, haben andere Zugriff auf Ihre Projekte und Sie könnten sie verlieren. Um sie online zu speichern und privat zu halten, melden Sie sich an oder <erstellen Sie ein Konto@://join>:",
                     "forgot": "$~*Passwort vergessen?* Leider können wir Ihr Konto nicht wiederherstellen, da wir keine Kontaktinformationen erfassen.",
