@@ -25,7 +25,7 @@ import type Locale from '@locale/Locale';
 import type LocaleText from '../locale/LocaleText';
 import { toTokens } from '../parser/toTokens';
 import type LocalesDatabase from '../db/LocalesDatabase';
-import { moderatedFlags, type Moderation } from './Moderation';
+import { unknownFlags, type Moderation } from './Moderation';
 import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
 import {
@@ -149,7 +149,8 @@ export default class Project {
         archived = false,
         persisted = false,
         gallery: string | null = null,
-        flags: Moderation = moderatedFlags(),
+        // By default, unmoderated.
+        flags: Moderation = unknownFlags(),
         // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined,
     ) {
@@ -186,6 +187,14 @@ export default class Project {
             this.getSupplements(),
             this.getLocales().getLocales(),
             newOwner,
+            [],
+            false,
+            undefined,
+            false,
+            false,
+            false,
+            null,
+            unknownFlags(),
         );
     }
 
@@ -881,6 +890,10 @@ export default class Project {
 
     withFlags(flags: Moderation) {
         return new Project({ ...this.data, flags: { ...flags } });
+    }
+
+    asUnmoderated() {
+        return new Project({ ...this.data, flags: unknownFlags() });
     }
 
     withNewTime() {

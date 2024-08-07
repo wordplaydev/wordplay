@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Added missing variation selector.
+-   Ensure projects are unmoderated by default.
 
 ## 0.10.8 2024-08-03
 
