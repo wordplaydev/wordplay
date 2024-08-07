@@ -9,6 +9,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Formatted different types of references
 
+### Fixed
+
+-   Added missing variation selector.
+
 ## 0.10.8 2024-08-03
 
 ### Fixed
