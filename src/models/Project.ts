@@ -187,15 +187,7 @@ export default class Project {
             this.getSupplements(),
             this.getLocales().getLocales(),
             newOwner,
-            [],
-            false,
-            undefined,
-            false,
-            false,
-            false,
-            null,
-            unknownFlags(),
-        );
+        ).asUnmoderated();
     }
 
     equals(project: Project) {
