@@ -7,6 +7,6 @@
     export let node: Input;
 </script>
 
-<NodeView node={node.name} /><NodeView node={node.bind} /><NodeView
-    node={node.value}
-/>
+<small><NodeView node={node.name} /></small><NodeView
+    node={node.bind}
+/><NodeView node={node.value} />
