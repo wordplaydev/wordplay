@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Added missing variation selector.
 -   Ensure projects are unmoderated by default.
+-   Cleaned up animation logs in `Animator` to ensure that new outputs with the same name can animate again.
 
 ## 0.10.8 2024-08-03
 
