@@ -7,11 +7,11 @@ import { TextCloseByTextOpen, TextDelimiters } from '../parser/Tokenizer';
 import Purpose from '../concepts/Purpose';
 import { LanguageTagged } from './LanguageTagged';
 import Example from './Example';
-import type Program from './Program';
 import type Locales from '../locale/Locales';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type Conflict from '@conflicts/Conflict';
 import type Context from './Context';
+import type Expression from './Expression';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -99,10 +99,10 @@ export default class Translation extends LanguageTagged {
         return locales.get((l) => l.node.Translation);
     }
 
-    getExpressions(): Program[] {
+    getExpressions(): Expression[] {
         return this.segments
             .filter((segment): segment is Example => segment instanceof Example)
-            .map((example) => example.program);
+            .map((example) => example.program.expression);
     }
 
     getGlyphs() {

@@ -103,7 +103,7 @@ export default class TextLiteral extends Literal {
                 .reduce(
                     (parts: Step[], part) => [
                         ...parts,
-                        ...part.expression.compile(evaluator, context),
+                        ...part.compile(evaluator, context),
                     ],
                     [],
                 ),
@@ -134,6 +134,7 @@ export default class TextLiteral extends Literal {
             // Assemble in reverse order
             text = next + text;
         }
+
         // Construct the text value.
         return new TextValue(
             this,
