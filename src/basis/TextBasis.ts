@@ -16,8 +16,8 @@ import Block, { BlockKind } from '@nodes/Block';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '@nodes/Expression';
-import type Locale from '../locale/Locale';
-import type { FunctionText, NameAndDoc } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
 import ListType from '../nodes/ListType';
 import type Locales from '../locale/Locales';
 
@@ -25,7 +25,7 @@ const MAX_TEXT_LENGTH = 65536;
 
 export default function bootstrapText(locales: Locales) {
     function createBinaryTextFunction<OutputType extends Value>(
-        functionText: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        functionText: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         fun: (
             requestor: Expression,
             text: TextValue,

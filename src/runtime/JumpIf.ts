@@ -3,7 +3,6 @@ import BoolValue from '@values/BoolValue';
 import type Evaluator from '@runtime/Evaluator';
 import Step from './Step';
 import type Value from '../values/Value';
-import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
 
@@ -36,9 +35,8 @@ export default class JumpIf extends Step {
 
     getExplanations(locales: Locales, evaluator: Evaluator) {
         const val = evaluator.peekValue();
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Conditional.else),
+        return locales.concretize(
+            (l) => l.node.Conditional.else,
             val instanceof BoolValue && val.bool === this.yes,
         );
     }

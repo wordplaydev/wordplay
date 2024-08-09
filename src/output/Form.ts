@@ -1,5 +1,5 @@
 import type Project from '@models/Project';
-import { getFirstName } from '../locale/Locale';
+import { getFirstName } from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';
 import type Value from '../values/Value';

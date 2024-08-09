@@ -1,7 +1,6 @@
 import type Evaluator from '@runtime/Evaluator';
 import Step from './Step';
 import type Value from '../values/Value';
-import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
 
@@ -28,9 +27,6 @@ export default class JumpIfUnequal extends Step {
     }
 
     getExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Match.case),
-        );
+        return locales.concretize((l) => l.node.Match.case);
     }
 }

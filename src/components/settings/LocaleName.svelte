@@ -2,7 +2,7 @@
     import {
         getLocaleLanguageName,
         getLocaleRegionName,
-    } from '../../locale/Locale';
+    } from '../../locale/LocaleText';
 
     export let locale: string;
     export let supported: boolean;

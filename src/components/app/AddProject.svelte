@@ -27,6 +27,7 @@
     <Button
         tip={$locales.get((l) => l.ui.page.projects.button.newproject)}
         action={newProject}
+        testid="addproject"
         ><span style:font-size="xxx-large">+</span>
     </Button></p
 >

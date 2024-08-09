@@ -22,7 +22,7 @@
     let views: HTMLInputElement[] = [];
 
     function valid(val: string) {
-        const [num] = NumberValue.fromUnknown(val, false);
+        const [num] = NumberValue.fromUnknown(val);
         return !num.isNaN();
     }
 
@@ -31,7 +31,7 @@
         if (value.length > 0 && !valid(value)) return;
 
         const focusIndex = views.findIndex(
-            (view) => document.activeElement === view
+            (view) => document.activeElement === view,
         );
 
         Projects.revise(project, [
@@ -41,9 +41,9 @@
                     dimension,
                     NumberLiteral.make(
                         value.length === 0 ? 0 : value,
-                        getUnit(dimension)
+                        getUnit(dimension),
                     ),
-                    project.getNodeContext(place)
+                    project.getNodeContext(place),
                 ),
             ],
         ]);
@@ -61,7 +61,7 @@
                 ? []
                 : bind.type.getPossibleTypes(project.getNodeContext(place));
         const unit = types.find(
-            (type): type is NumberType => type instanceof NumberType
+            (type): type is NumberType => type instanceof NumberType,
         )?.unit;
         return unit instanceof Unit ? unit.clone() : undefined;
     }
@@ -72,7 +72,7 @@
     {#each project.shares.output.Place.inputs as dimension, index}
         {@const given = place?.getInput(
             dimension,
-            project.getNodeContext(place)
+            project.getNodeContext(place),
         )}
         <!-- Get the measurement literal, if there is one -->
         {@const value =
@@ -85,7 +85,7 @@
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
                     description={$locales.get(
-                        (l) => l.ui.palette.field.coordinate
+                        (l) => l.ui.palette.field.coordinate,
                     )}
                     changed={(value) => handleChange(dimension, value)}
                     bind:view={views[index]}
@@ -94,7 +94,7 @@
             {:else}
                 <Note
                     >{$locales.get(
-                        (locale) => locale.ui.palette.labels.computed
+                        (locale) => locale.ui.palette.labels.computed,
                     )}</Note
                 >
             {/if}
@@ -115,24 +115,24 @@
                             place,
                             Evaluate.make(
                                 project.shares.output.Velocity.getReference(
-                                    $locales
+                                    $locales,
                                 ),
                                 [
                                     NumberLiteral.make(
                                         0,
-                                        Unit.create(['m'], ['s'])
+                                        Unit.create(['m'], ['s']),
                                     ),
                                     NumberLiteral.make(
                                         0,
-                                        Unit.create(['m'], ['s'])
+                                        Unit.create(['m'], ['s']),
                                     ),
                                     NumberLiteral.make(
                                         0,
-                                        Unit.create(['°'], ['s'])
+                                        Unit.create(['°'], ['s']),
                                     ),
-                                ]
+                                ],
                             ),
-                        ]
+                        ],
                     ),
                 ],
             ])}>→{project.shares.input.Motion.getNames()[0]}</Button
@@ -146,7 +146,7 @@
                     place,
                     Evaluate.make(
                         project.shares.input.Placement.getReference($locales),
-                        [place]
+                        [place],
                     ),
                 ],
             ])}>→{project.shares.input.Placement.getNames()[0]}</Button

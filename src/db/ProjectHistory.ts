@@ -1,6 +1,6 @@
 import { get, writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import type { SerializedProject } from '@models/ProjectSchemas';
 import type LocalesDatabase from './LocalesDatabase';
 
@@ -82,7 +82,7 @@ export class ProjectHistory {
     }
 
     /** Revise this project history to have all of the specified locales. */
-    withLocales(locales: Locale[]) {
+    withLocales(locales: LocaleText[]) {
         this.current.set(get(this.current).withLocales(locales));
     }
 

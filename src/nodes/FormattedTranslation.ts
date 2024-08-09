@@ -20,13 +20,15 @@ export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
     readonly markup: Markup;
     readonly close: Token | undefined;
-    readonly language?: Language;
+    readonly language: Language | undefined;
+    readonly separator: Token | undefined;
 
     constructor(
         open: Token,
         markup: Markup,
         close: Token | undefined,
         lang: Language | undefined,
+        separator: Token | undefined,
     ) {
         super();
 
@@ -34,6 +36,7 @@ export default class FormattedTranslation extends LanguageTagged {
         this.markup = markup;
         this.close = close;
         this.language = lang;
+        this.separator = separator;
 
         this.computeChildren();
     }
@@ -44,6 +47,7 @@ export default class FormattedTranslation extends LanguageTagged {
             new Markup(content ?? []),
             new Token(FORMATTED_SYMBOL, Sym.Formatted),
             language,
+            undefined,
         );
     }
 
@@ -69,6 +73,7 @@ export default class FormattedTranslation extends LanguageTagged {
             { name: 'markup', kind: node(Markup) },
             { name: 'close', kind: node(Sym.Formatted) },
             { name: 'language', kind: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
         ];
     }
 
@@ -78,6 +83,7 @@ export default class FormattedTranslation extends LanguageTagged {
             this.replaceChild('markup', this.markup, replace),
             this.replaceChild('close', this.close, replace),
             this.replaceChild('language', this.language, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 
@@ -91,6 +97,7 @@ export default class FormattedTranslation extends LanguageTagged {
             this.markup,
             this.close,
             language,
+            this.separator,
         );
     }
 

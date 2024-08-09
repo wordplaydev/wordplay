@@ -70,7 +70,7 @@ export function toExpression(code: string): Expression {
 
 export function parseDocs(tokens: Tokens): Docs {
     const docs: Doc[] = [];
-    tokens.doUntil(
+    tokens.doWhile(
         () => docs.push(parseDoc(tokens)),
         () =>
             tokens.nextIs(Sym.Doc) &&
@@ -123,7 +123,7 @@ export function parseBlock(
     //  a) It's a root and not a doc
     //  b) It's not a root or a doc and the next is an eval close
     //  c) It's a doc and the next is an example close
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             ((root && !doc) ||
@@ -181,7 +181,7 @@ export function parseMatch(value: Expression, tokens: Tokens): Match {
     const pairs: KeyValue[] = [];
     let condition: Expression | undefined = undefined;
     let result: Expression | undefined = undefined;
-    tokens.doUntil(
+    tokens.doWhile(
         () => {
             condition = undefined;
             result = undefined;
@@ -201,10 +201,11 @@ export function parseMatch(value: Expression, tokens: Tokens): Match {
 export function parseBinaryEvaluate(tokens: Tokens): Expression {
     let left = parseAtomicExpression(tokens);
 
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
-            !tokens.nextIsUnary() &&
+            // If the next is a unary operator, then it has to have no preceding space to be parsed as a binary evaluate.
+            (!tokens.nextIsUnary() || tokens.nextLacksPrecedingSpace()) &&
             (tokens.nextIs(Sym.Operator) ||
                 (tokens.nextIs(Sym.TypeOperator) &&
                     !tokens.nextHasPrecedingLineBreak())),
@@ -238,8 +239,14 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                   : // Nones
                     tokens.nextIs(Sym.None)
                     ? parseNone(tokens)
-                    : // Unary expressions before names and binary operators, since some unary can be multiple.
-                      tokens.nextIsUnary()
+                    : // Unary expressions are a unary operator and then any expression.
+                      // The only exception is if it's immediately followed except for an eval open and close. This allows functions with operator names to be evaluated.
+                      tokens.nextIsUnary() &&
+                        !tokens.nextAre(
+                            Sym.Operator,
+                            Sym.EvalOpen,
+                            Sym.EvalClose,
+                        )
                       ? new UnaryEvaluate(
                             parseReference(tokens),
                             parseAtomicExpression(tokens),
@@ -309,7 +316,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
 
     // But wait! Is it one or more infix expressions? Slurp them up.
     let match = false;
-    tokens.doUntil(
+    tokens.doWhile(
         () => {
             match = true;
             if (tokens.nextIs(Sym.Access))
@@ -408,7 +415,7 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
     // A unit is just a series of names, carets, numbers, and product symbols not separated by spaces.
     const numerator: Dimension[] = [];
 
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             (tokens.nextIs(Sym.Name) ||
                 tokens.nextIs(Sym.Operator, PRODUCT_SYMBOL)) &&
@@ -420,7 +427,7 @@ export function parseUnit(tokens: Tokens): Unit | undefined {
     const denominator: Dimension[] = [];
     if (tokens.nextIs(Sym.Language)) {
         slash = tokens.read(Sym.Language);
-        tokens.untilDo(
+        tokens.whileDo(
             () =>
                 (tokens.nextIs(Sym.Name) ||
                     tokens.nextIs(Sym.Operator, PRODUCT_SYMBOL)) &&
@@ -461,9 +468,11 @@ function parseText(tokens: Tokens): TextLiteral {
     const texts: Translation[] = [];
 
     // Read a series of Translations lacking separating space.
-    tokens.doUntil(
+    tokens.doWhile(
         () => texts.push(parseTranslation(tokens)),
-        () => tokens.nextIs(Sym.Text) && tokens.nextLacksPrecedingSpace(),
+        () =>
+            texts.at(-1)?.separator !== undefined ||
+            (tokens.nextIs(Sym.Text) && tokens.nextLacksPrecedingSpace()),
     );
 
     return new TextLiteral(texts);
@@ -472,7 +481,7 @@ function parseText(tokens: Tokens): TextLiteral {
 function parseTranslation(tokens: Tokens): Translation {
     const text = tokens.read(Sym.Text);
     const segments: TranslationSegment[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () => tokens.nextIs(Sym.Words) || tokens.nextIs(Sym.Code),
         () => {
             if (tokens.nextIs(Sym.Words)) segments.push(tokens.read(Sym.Words));
@@ -484,14 +493,17 @@ function parseTranslation(tokens: Tokens): Translation {
     const language = tokens.nextIs(Sym.Language)
         ? parseLanguage(tokens)
         : undefined;
-    return new Translation(text, segments, close, language);
+    const separator = tokens.nextIs(Sym.Separator)
+        ? tokens.read(Sym.Separator)
+        : undefined;
+    return new Translation(text, segments, close, language, separator);
 }
 
 function parseList(tokens: Tokens): ListLiteral {
     const open = tokens.read(Sym.ListOpen);
     const values: (Spread | Expression)[] = [];
 
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.ListClose) &&
@@ -519,7 +531,7 @@ function parseList(tokens: Tokens): ListLiteral {
 }
 
 function parseListAccess(left: Expression, tokens: Tokens): Expression {
-    tokens.doUntil(
+    tokens.doWhile(
         () => {
             const open = tokens.read(Sym.ListOpen);
             const index = parseExpression(tokens);
@@ -547,7 +559,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
         return new MapLiteral(open, [], bind, tokens.read(Sym.SetClose));
     }
 
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.SetClose) &&
@@ -573,7 +585,7 @@ function parseSetOrMap(tokens: Tokens): MapLiteral | SetLiteral {
 }
 
 function parseSetOrMapAccess(left: Expression, tokens: Tokens): Expression {
-    tokens.doUntil(
+    tokens.doWhile(
         () => {
             const open = tokens.read(Sym.SetOpen);
             const key = parseExpression(tokens);
@@ -610,7 +622,7 @@ function parseTable(tokens: Tokens): TableLiteral {
 
     // Read the rows.
     const rows: Row[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () => tokens.nextIs(Sym.TableOpen),
         () => rows.push(parseRow(tokens)),
     );
@@ -626,7 +638,7 @@ function parseRow(tokens: Tokens, expected: Sym = Sym.TableOpen): Row {
 
     const cells: (Input | Expression)[] = [];
     // Read the cells.
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.Code) &&
@@ -710,7 +722,7 @@ export function parseFunction(tokens: Tokens): FunctionDefinition {
     tokens.pushReactionAllowed(false);
 
     const inputs: Bind[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.Code) &&
@@ -763,7 +775,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     const names = parseNames(tokens);
 
     const interfaces: Reference[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () => tokens.nextIs(Sym.Name),
         () => interfaces.push(parseReference(tokens)),
     );
@@ -779,7 +791,7 @@ export function parseStructure(tokens: Tokens): StructureDefinition {
     tokens.pushReactionAllowed(false);
 
     const inputs: Bind[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () => tokens.nextIsnt(Sym.EvalClose) && nextIsBind(tokens, false),
         () => inputs.push(parseBind(tokens)),
     );
@@ -833,7 +845,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     const inputs: Expression[] = [];
 
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.Code) &&
@@ -879,7 +891,7 @@ function parseConvert(expression: Expression, tokens: Tokens): Convert {
 export function parseTypeVariables(tokens: Tokens): TypeVariables {
     const open = tokens.read(Sym.TypeOpen);
     const variables: TypeVariable[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () => tokens.hasNext() && tokens.nextIs(Sym.Name),
         () => {
             const names = parseNames(tokens);
@@ -900,7 +912,7 @@ export function parseTypeVariables(tokens: Tokens): TypeVariables {
 export function parseTypeInputs(tokens: Tokens): TypeInputs {
     const open = tokens.read(Sym.TypeOpen);
     const inputs: Type[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.TypeClose) &&
@@ -913,7 +925,7 @@ export function parseTypeInputs(tokens: Tokens): TypeInputs {
 
 function parsePropertyReference(left: Expression, tokens: Tokens): Expression {
     if (!tokens.nextIs(Sym.Access)) return left;
-    tokens.doUntil(
+    tokens.doWhile(
         () => {
             const access = tokens.read(Sym.Access);
             // See if there's a name, operator, or placeholder next, all of which are valid property names.
@@ -959,11 +971,13 @@ function parseUnparsable(tokens: Tokens): Expression {
 
 export function parseFormattedLiteral(tokens: Tokens): FormattedLiteral {
     const translations: FormattedTranslation[] = [];
-    tokens.doUntil(
+    tokens.doWhile(
         () => {
             translations.push(parseFormattedTranslation(tokens));
         },
-        () => tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace(),
+        () =>
+            translations.at(-1)?.separator !== undefined ||
+            (tokens.nextIs(Sym.Formatted) && tokens.nextLacksPrecedingSpace()),
     );
     return new FormattedLiteral(translations);
 }
@@ -977,7 +991,10 @@ export function parseFormattedTranslation(
     const lang = tokens.nextIs(Sym.Language)
         ? parseLanguage(tokens)
         : undefined;
-    return new FormattedTranslation(open, content, close, lang);
+    const separator = tokens.nextIs(Sym.Separator)
+        ? tokens.read(Sym.Separator)
+        : undefined;
+    return new FormattedTranslation(open, content, close, lang, separator);
 }
 
 export function nextAreOptionalDocsThen(tokens: Tokens, types: Sym[]): boolean {
@@ -989,7 +1006,7 @@ export function nextAreOptionalDocsThen(tokens: Tokens, types: Sym[]): boolean {
 
     // Is the next the type?
     let matches = true;
-    tokens.untilDo(
+    tokens.whileDo(
         () => types.length > 0,
         () => {
             const next = types.shift();

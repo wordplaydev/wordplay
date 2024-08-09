@@ -3,7 +3,6 @@ import Revision from './Revision';
 import type Node from '@nodes/Node';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 
@@ -110,9 +109,8 @@ export default class Remove extends Revision {
     }
 
     getDescription(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.ui.edit.remove),
+        return locales.concretize(
+            (l) => l.ui.edit.remove,
             this.getNewNode().getLabel(locales),
         );
     }

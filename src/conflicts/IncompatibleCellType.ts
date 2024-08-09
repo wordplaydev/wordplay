@@ -4,7 +4,6 @@ import type TableType from '@nodes/TableType';
 import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class IncompatibleCellType extends Conflict {
@@ -17,7 +16,7 @@ export default class IncompatibleCellType extends Conflict {
         type: TableType,
         cell: Expression,
         expected: Type,
-        received: Type
+        received: Type,
     ) {
         super(false);
 
@@ -32,27 +31,20 @@ export default class IncompatibleCellType extends Conflict {
             primary: {
                 node: this.cell,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Update.conflict.IncompatibleCellType
-                                    .primary
-                        ),
-                        new NodeRef(this.expected, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.Update.conflict.IncompatibleCellType.primary,
+                        new NodeRef(this.expected, locales, context),
                     ),
             },
             secondary: {
                 node: this.type,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Update.conflict.IncompatibleCellType
-                                    .secondary
-                        ),
-                        new NodeRef(this.received, locales, context)
+                    locales.concretize(
+                        (l) =>
+                            l.node.Update.conflict.IncompatibleCellType
+                                .secondary,
+                        new NodeRef(this.received, locales, context),
                     ),
             },
         };

@@ -14,14 +14,13 @@ import { getTypeStyle, toOutput, toOutputList } from './toOutput';
 import TextLang from './TextLang';
 import Pose, { DefinitePose } from './Pose';
 import type Sequence from './Sequence';
-import concretize from '../locale/concretize';
 import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import { Form, toForm } from './Form';
 import Shape from './Shape';
 import type Evaluator from '../runtime/Evaluator';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/Locale';
+import { getFirstName } from '../locale/LocaleText';
 import { STAGE_SYMBOL } from '@parser/Symbols';
 
 export const DefaultGravity = 9.8;
@@ -212,14 +211,15 @@ export default class Stage extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Stage.description),
-                this.content.length,
-                this.name instanceof TextLang ? this.name.text : undefined,
-                this.frame?.getDescription(locales),
-                this.pose.getDescription(locales),
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Stage.description,
+                    this.content.length,
+                    this.name instanceof TextLang ? this.name.text : undefined,
+                    this.frame?.getDescription(locales),
+                    this.pose.getDescription(locales),
+                )
+                .toText();
         }
         return this._description;
     }

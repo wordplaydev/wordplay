@@ -4,7 +4,6 @@ import ValueRef from '@locale/ValueRef';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import type Value from '@values/Value';
-import concretize from '../locale/concretize';
 import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
 
@@ -16,7 +15,7 @@ export default class TypeException extends ExceptionValue {
         expression: Expression,
         evaluator: Evaluator,
         expected: Type,
-        received: Value
+        received: Value,
     ) {
         super(expression, evaluator);
 
@@ -29,19 +28,18 @@ export default class TypeException extends ExceptionValue {
     }
 
     getExplanation(locales: Locales) {
-        return concretize(
-            locales,
+        return locales.concretize(
             this.getExceptionText(locales).explanation,
             new NodeRef(
                 this.expected,
                 locales,
-                this.getNodeContext(this.expected)
+                this.getNodeContext(this.expected),
             ),
             new ValueRef(
                 this.received,
                 locales,
-                this.getNodeContext(this.received.creator)
-            )
+                this.getNodeContext(this.received.creator),
+            ),
         );
     }
 }

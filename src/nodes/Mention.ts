@@ -1,8 +1,6 @@
 import Purpose from '../concepts/Purpose';
-import type Locale from '../locale/Locale';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import type { TemplateInput } from '../locale/concretize';
 import type Glyph from '../lore/Glyph';
 import Glyphs from '../lore/Glyphs';
 import Content from './Content';
@@ -11,6 +9,8 @@ import Token from './Token';
 import Sym from './Sym';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
+import ConceptRef from '@locale/ConceptRef';
+import type { TemplateInput } from '../locale/Locales';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -50,7 +50,7 @@ export default class Mention extends Content {
 
     clone(replace?: Replacement | undefined): this {
         return new Mention(
-            this.replaceChild('name', this.name, replace)
+            this.replaceChild('name', this.name, replace),
         ) as this;
     }
 
@@ -68,8 +68,8 @@ export default class Mention extends Content {
     concretize(
         locales: Locales,
         inputs: TemplateInput[],
-        replacements: [Node, Node][]
-    ): Token | ValueRef | NodeRef | undefined {
+        replacements: [Node, Node][],
+    ): Token | ValueRef | NodeRef | ConceptRef | undefined {
         const name = this.name.getText().slice(1);
 
         // Terminology reference
@@ -78,7 +78,7 @@ export default class Mention extends Content {
         if (name === '?') {
             const replacement = new Token(
                 locales.get((l) => l.ui.template.unwritten),
-                Sym.Words
+                Sym.Words,
             );
             replacements.push([this, replacement]);
             return replacement;
@@ -94,13 +94,13 @@ export default class Mention extends Content {
 
             // Return the matching input, or a placeholder if there wasn't one.
             const replacement =
-                input instanceof ValueRef
-                    ? input
-                    : input instanceof NodeRef
+                input instanceof ValueRef ||
+                input instanceof NodeRef ||
+                input instanceof ConceptRef
                     ? input
                     : input === undefined
-                    ? undefined
-                    : new Token(input.toString(), Sym.Words);
+                      ? undefined
+                      : new Token(input.toString(), Sym.Words);
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);
@@ -109,15 +109,8 @@ export default class Mention extends Content {
         }
         // Try to resolve terminology.
         else {
-            const id = name as keyof Locale['term'];
-            const locale = locales.getLocale();
-            const phrase = Object.hasOwn(locale.term, id)
-                ? locale.term[id]
-                : undefined;
-
-            const replacement = phrase
-                ? new Token(phrase, Sym.Words)
-                : undefined;
+            const term = locales.getTermByID(name);
+            const replacement = term ? new Token(term, Sym.Words) : undefined;
 
             if (replacement instanceof Token)
                 replacements.push([this, replacement]);

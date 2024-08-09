@@ -21,6 +21,13 @@
               action: () => void;
           }
         | false;
+    export let copy:
+        | {
+              description: string;
+              label: string;
+              action: (project: Project) => void;
+          }
+        | false;
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
@@ -40,6 +47,9 @@
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
                         >{edit.label}</Button
+                    >{/if}{#if copy}<Button
+                        tip={copy.description}
+                        action={() => copy.action(project)}>{copy.label}</Button
                     >{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}

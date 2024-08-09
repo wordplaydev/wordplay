@@ -39,12 +39,14 @@
     }
 
     // Set progress if URL indicates one.
+    let initial: Progress | undefined = undefined;
     $: if (tutorial) {
-        const progress = Progress.fromURL(tutorial, $page.url.searchParams);
-        if (progress) Settings.setTutorialProgress(progress);
+        initial = Progress.fromURL(tutorial, $page.url.searchParams);
+        if (initial) Settings.setTutorialProgress(initial);
     }
 
     function navigate(newProgress: Progress) {
+        initial = undefined;
         Settings.setTutorialProgress(newProgress);
         // Set the URL to mirror the progress, if not at it.
         goto(newProgress.getURL());
@@ -68,12 +70,13 @@
 {:else}
     <Page>
         <TutorialView
-            progress={new Progress(
-                tutorial,
-                $tutorialProgress.act,
-                $tutorialProgress.scene,
-                $tutorialProgress.line,
-            )}
+            progress={initial ??
+                new Progress(
+                    tutorial,
+                    $tutorialProgress.act,
+                    $tutorialProgress.scene,
+                    $tutorialProgress.line,
+                )}
             {navigate}
             fallback={$locales
                 .getLanguages()

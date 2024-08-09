@@ -19,7 +19,7 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import TypeVariable from '@nodes/TypeVariable';
 import type Expression from '../nodes/Expression';
-import { createBind, createFunction, createInputs } from '../locale/Locale';
+import { createBind, createFunction, createInputs } from '../locale/LocaleText';
 import { Iteration } from './Iteration';
 import NumberType from '../nodes/NumberType';
 import NumberValue from '@values/NumberValue';
@@ -30,12 +30,12 @@ import type Locales from '../locale/Locales';
 export default function bootstrapSet(locales: Locales) {
     const SetTypeVariableNames = getNameLocales(
         locales,
-        (locale) => locale.basis.Set.kind
+        (locale) => locale.basis.Set.kind,
     );
     const SetTypeVariable = new TypeVariable(SetTypeVariableNames);
 
     const SetTranslateTypeVariable = new TypeVariable(
-        getNameLocales(locales, (locale) => locale.basis.Set.out)
+        getNameLocales(locales, (locale) => locale.basis.Set.out),
     );
 
     return StructureDefinition.make(
@@ -62,23 +62,23 @@ export default function bootstrapSet(locales: Locales) {
                             ? evaluation.getValueOrTypeException(
                                   requestor,
                                   SetType.make(),
-                                  set
+                                  set,
                               )
                             : new NumberValue(
                                   requestor,
-                                  set.size(requestor).num
+                                  set.size(requestor).num,
                               );
-                    }
+                    },
                 ),
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Set.function.equals,
-                    true
+                    true,
                 ),
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Set.function.notequals,
-                    false
+                    false,
                 ),
                 createBasisFunction(
                     locales,
@@ -95,9 +95,9 @@ export default function bootstrapSet(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 SetType.make(),
-                                set
+                                set,
                             );
-                    }
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -115,9 +115,9 @@ export default function bootstrapSet(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 SetType.make(),
-                                set
+                                set,
                             );
-                    }
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -138,9 +138,9 @@ export default function bootstrapSet(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 SetType.make(),
-                                set
+                                set,
                             );
-                    }
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -160,9 +160,9 @@ export default function bootstrapSet(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 SetType.make(),
-                                set
+                                set,
                             );
-                    }
+                    },
                 ),
                 createBasisFunction(
                     locales,
@@ -182,9 +182,9 @@ export default function bootstrapSet(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 SetType.make(),
-                                set
+                                set,
                             );
-                    }
+                    },
                 ),
                 createFunction(
                     locales,
@@ -204,12 +204,12 @@ export default function bootstrapSet(locales: Locales) {
                                     [
                                         SetTypeVariable.getReference(),
                                         SetType.make(
-                                            SetTypeVariable.getReference()
+                                            SetTypeVariable.getReference(),
                                         ),
-                                    ]
+                                    ],
                                 ),
-                                BooleanType.make()
-                            )
+                                BooleanType.make(),
+                            ),
                         ),
                     ],
                     SetType.make(SetTypeVariable.getReference()),
@@ -242,7 +242,7 @@ export default function bootstrapSet(locales: Locales) {
                                 return evaluator.getValueOrTypeException(
                                     expression,
                                     BooleanType.make(),
-                                    include
+                                    include,
                                 );
                             if (include.bool)
                                 info.filtered.push(info.set.values[info.index]);
@@ -251,8 +251,8 @@ export default function bootstrapSet(locales: Locales) {
                         },
                         // Create the filtered set.
                         (evaluator, info, expression) =>
-                            new SetValue(expression, info.filtered)
-                    )
+                            new SetValue(expression, info.filtered),
+                    ),
                 ),
                 createFunction(
                     locales,
@@ -273,12 +273,12 @@ export default function bootstrapSet(locales: Locales) {
                                         // The type is a type variable, so we refer to it.
                                         SetTypeVariable.getReference(),
                                         SetType.make(
-                                            SetTypeVariable.getReference()
+                                            SetTypeVariable.getReference(),
                                         ),
-                                    ]
+                                    ],
                                 ),
-                                SetTranslateTypeVariable.getReference()
-                            )
+                                SetTranslateTypeVariable.getReference(),
+                            ),
                         ),
                     ],
                     SetType.make(SetTranslateTypeVariable.getReference()),
@@ -312,38 +312,38 @@ export default function bootstrapSet(locales: Locales) {
                         (evaluator, info, expression) => {
                             // Get the translated value.
                             info.translated.push(
-                                evaluator.popValue(expression)
+                                evaluator.popValue(expression),
                             );
                             info.index = info.index + 1;
                             return undefined;
                         },
                         // Create the translated list.
                         (evaluator, info, expression) =>
-                            new SetValue(expression, info.translated)
-                    )
+                            new SetValue(expression, info.translated),
+                    ),
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.Set.conversion.text
+                        (locale) => locale.basis.Set.conversion.text,
                     ),
                     SetType.make(SetTypeVariable.getReference()),
                     TextType.make(),
                     (requestor: Expression, val: SetValue) =>
-                        new TextValue(requestor, val.toString())
+                        new TextValue(requestor, val.toString()),
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.Set.conversion.list
+                        (locale) => locale.basis.Set.conversion.list,
                     ),
                     SetType.make(SetTypeVariable.getReference()),
                     ListType.make(SetTypeVariable.getReference()),
                     (requestor: Expression, val: SetValue) =>
-                        new ListValue(requestor, val.values)
+                        new ListValue(requestor, val.values),
                 ),
             ],
-            BlockKind.Structure
-        )
+            BlockKind.Structure,
+        ),
     );
 }

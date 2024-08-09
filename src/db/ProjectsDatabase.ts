@@ -1,8 +1,8 @@
 import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
 import { PersistenceType, ProjectHistory } from './ProjectHistory';
-import { writable, type Writable } from 'svelte/store';
+import { get, writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
-import type { Locale } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import { Locales, SaveStatus, type Database } from './Database';
 import {
     collection,
@@ -32,6 +32,7 @@ import {
 } from '../models/ProjectSchemas';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import { EditFailure } from './EditFailure';
+import { COPY_SYMBOL } from '@parser/Symbols';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -57,6 +58,10 @@ export class ProjectsDexie extends Dexie {
     ): Promise<SerializedProjectUnknownVersion | undefined> {
         const project = await this.projects.where('id').equals(id).toArray();
         return project[0];
+    }
+
+    async deleteAllProjects(): Promise<void> {
+        return await this.projects.clear();
     }
 
     async deleteProject(id: string): Promise<void> {
@@ -250,6 +255,24 @@ export default class ProjectsDatabase {
     }
 
     /**
+     * Duplicate a project and give it to the current user, returning it's ID.
+     */
+    duplicate(project: Project): Project {
+        const nameExists = get(this.allEditableProjects).some(
+            (p) => p.getName() === project.getName(),
+        );
+        const copy = project
+            .copy(this.database.getUserID())
+            .withName(
+                nameExists
+                    ? `${project.getName()} ${COPY_SYMBOL}`
+                    : project.getName(),
+            );
+        this.track(copy, true, PersistenceType.Online, false);
+        return copy;
+    }
+
+    /**
      * Given a project, track it in memory. If we already track it, update it if it's more recently edited than this project.
      *
      * @param project The project to cache and track
@@ -266,6 +289,12 @@ export default class ProjectsDatabase {
             // If we're not tracking this yet, create a history and store the version given.
             let history = this.projectHistories.get(project.getID());
             if (history === undefined) {
+                // If the project has no owner, and there's a user, make this user the owner.
+                const userID = this.database.getUserID();
+                if (project.getOwner() === null && userID !== null)
+                    project = project.withOwner(userID);
+
+                // Make a new history and remember it, then save soon.
                 history = new ProjectHistory(project, persist, saved, Locales);
                 this.projectHistories.set(project.getID(), history);
 
@@ -311,7 +340,7 @@ export default class ProjectsDatabase {
     }
 
     /** Create a project and return it's ID */
-    create(locales: Locale[], code = '', galleryID?: string) {
+    create(locales: LocaleText[], code = '', galleryID?: string) {
         const userID = this.database.getUserID();
         // Make the new project
         const newProject = Project.make(
@@ -348,8 +377,9 @@ export default class ProjectsDatabase {
         return newProject.getID();
     }
 
-    copy(project: Project) {
-        const clone = project.copy();
+    copy(project: Project, newOwner: string | null, gallery: string | null) {
+        const clone = project.copy(newOwner).withGallery(gallery);
+
         this.track(clone, true, PersistenceType.Online, false);
         return clone.getID();
     }
@@ -479,8 +509,9 @@ export default class ProjectsDatabase {
             const current = history.getCurrent();
 
             // If the project is in a gallery, remove it.
-            if (current.getGallery())
-                await this.database.Galleries.removeProject(current);
+            const gallery = current.getGallery();
+            if (gallery)
+                await this.database.Galleries.removeProject(current, gallery);
 
             // Mark the project archived after its removed from the gallery.
             this.edit(current.asArchived(archive), false, true);
@@ -506,7 +537,9 @@ export default class ProjectsDatabase {
         if (project === undefined) return;
 
         // Remove the project from it's gallery.
-        await this.database.Galleries.removeProject(project);
+        const gallery = project.getGallery();
+        if (gallery)
+            await this.database.Galleries.removeProject(project, gallery);
 
         // Delete the project doc
         await deleteDoc(doc(firestore, ProjectsCollection, id));
@@ -531,6 +564,16 @@ export default class ProjectsDatabase {
     async persist() {
         const userID = this.database.getUserID();
 
+        // Before doing anything, ensure all editable projects that don't have an owner have one.
+        for (const [, history] of this.projectHistories)
+            if (history.getCurrent().getOwner() === null)
+                history.edit(
+                    history.getCurrent().withOwner(userID),
+                    true,
+                    false,
+                );
+
+        // Get all the editable projects, and separate them into local saves and online.
         const editable = Array.from(this.projectHistories.values());
         // Only save unsaved local projects.
         const local = editable.filter(
@@ -544,7 +587,7 @@ export default class ProjectsDatabase {
         );
 
         // First, save all projects to the local DB, including the user ID if they don't have it already.
-        if ('indexedDB' in window) {
+        if (this.IndexedDBSupported) {
             this.database.setStatus(SaveStatus.Saving, undefined);
             try {
                 this.localDB.saveProjects(
@@ -587,17 +630,8 @@ export default class ProjectsDatabase {
                     )
                         return undefined;
 
-                    // If the project has no owner, make this user owner, since it was stored locally.
-                    return (
-                        (
-                            current.getOwner() === null
-                                ? current.withOwner(userID)
-                                : current
-                        )
-                            // Mark it as persisted, since we're about to save it that way.
-                            .asPersisted()
-                            .serialize()
-                    );
+                    // Mark it as persisted, since we're about to save it that way.
+                    return current.asPersisted().serialize();
                 })) {
                     if (project)
                         batch.set(
@@ -632,7 +666,7 @@ export default class ProjectsDatabase {
     }
 
     /** Revise all editable projects to use the specified locales */
-    localize(locales: Locale[]) {
+    localize(locales: LocaleText[]) {
         for (const [, history] of this.projectHistories)
             history.withLocales(locales);
     }
@@ -696,7 +730,7 @@ export default class ProjectsDatabase {
 
     /** Deletes the local database (usually on logout, for privacy), and removes any projects from memory. */
     async deleteLocal() {
-        this.localDB.delete();
+        this.localDB.deleteAllProjects();
         this.projectHistories.clear();
         this.refreshEditableProjects();
     }

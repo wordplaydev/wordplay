@@ -1,5 +1,5 @@
 {
-    "$schema": "../../static/schemas/Locale.json",
+    "$schema": "../../static/schemas/LocaleText.json",
     "language": "en",
     "region": "US",
     "wordplay": "Wordplay",
@@ -424,7 +424,7 @@
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
                 "RequiredAfterOptional": "I can't be here, there's an optional @Bind before me",
                 "UnexpectedEtc": "I can only be variable length in a @FunctionDefinition",
-                "UnusedBind": "I named $1, but no one is using it. Maybe it's not needed?"
+                "UnusedBind": "I'm named $1, but no one is using me. Maybe I'm not needed?"
             }
         },
         "Block": {
@@ -452,8 +452,9 @@
             "conflict": {
                 "ExpectedEndingExpression": "I need an expression.",
                 "IgnoredExpression": {
-                    "primary": "I'm going to ignore the above.",
-                    "secondary": "@Block, don't ignore me!"
+                    "primary": "I'm going to ignore $1, since it doesn't define anything and isn't my last expression.",
+                    "secondary": "@Block, don't ignore me!",
+                    "resolution": "Did you mean for this to be a @BinaryEvaluate instead of a @UnaryEvaluate? I can add a space, so I know that's what you meant."
                 }
             }
         },
@@ -611,8 +612,8 @@
                     "secondary": "oh, am I not supposed to be here?"
                 },
                 "MissingInput": {
-                    "primary": "I'm missing $1, can you add it?",
-                    "secondary": "this input is required, but $1 didn't provide it"
+                    "primary": "I can't evaluate $1 without the input named $2 :(",
+                    "secondary": "Can you help us out and add it the list of inputs?"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
@@ -2047,12 +2048,12 @@
                 "add": {
                     "doc": [
                         "I create a new @List with the given item at the end.",
-                        "\\['apple' 'banana' 'mango'].add('watermelon')\\"
+                        "\\['apple' 'banana' 'mango'].with('watermelon')\\"
                     ],
                     "names": ["with", "add"],
                     "inputs": [
                         {
-                            "doc": "I the value you want to add.",
+                            "doc": "I am the value you want to add.",
                             "names": "item"
                         }
                     ]
@@ -4266,6 +4267,9 @@
             },
             "button": {
                 "submit": "submit this chat message"
+            },
+            "options": {
+                "locale": "choose the language for output"
             }
         },
         "timeline": {
@@ -4389,6 +4393,13 @@
                         "modes": [
                             "show space and tab indicators explicitly",
                             "do not show space and tab indicators"
+                        ]
+                    },
+                    "lines": {
+                        "label": "line numbers",
+                        "modes": [
+                            "show line numbers in text mode",
+                            "do not show line numbers in text mode"
                         ]
                     },
                     "writing": {

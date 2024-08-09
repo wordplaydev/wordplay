@@ -8,7 +8,6 @@ import FunctionException from './FunctionException';
 import SimpleValue from './SimpleValue';
 import type Value from '../values/Value';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class BoolValue extends SimpleValue {
@@ -45,7 +44,7 @@ export default class BoolValue extends SimpleValue {
     evaluatePrefix(
         requestor: Expression,
         evaluator: Evaluator,
-        op: UnaryEvaluate
+        op: UnaryEvaluate,
     ): Value {
         switch (op.getOperator()) {
             case '~':
@@ -60,11 +59,8 @@ export default class BoolValue extends SimpleValue {
         return val instanceof BoolValue && this.bool === val.bool;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.boolean)
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.boolean);
     }
 
     getRepresentativeText() {

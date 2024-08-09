@@ -13,6 +13,7 @@ import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
+import { COMMA_SYMBOL } from '@parser/Symbols';
 
 export default class StreamConcept extends Concept {
     /** The type this concept represents. */
@@ -32,17 +33,19 @@ export default class StreamConcept extends Concept {
             Reference.make(locales.getName(stream.names), this.definition),
             this.definition.inputs
                 // .filter((input) => !input.hasDefault())
-                .map((input) => ExpressionPlaceholder.make(input.type))
+                .map((input) => ExpressionPlaceholder.make(input.type)),
         );
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(Purpose.Input, bind, locales, context)
+            (bind) => new BindConcept(Purpose.Input, bind, locales, context),
         );
     }
 
     getGlyphs(locales: Locales) {
         return {
-            symbols: locales.getName(this.definition.names),
+            symbols: this.definition.names
+                .getLocaleNames(locales)
+                .join(COMMA_SYMBOL),
         };
     }
 

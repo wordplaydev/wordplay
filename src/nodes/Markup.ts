@@ -1,18 +1,18 @@
+import { list, node, type Grammar, type Replacement } from './Node';
+import type Spaces from '../parser/Spaces';
+import type Node from './Node';
+import type { FormattedText } from '../output/Phrase';
+import type { FontWeight } from '../basis/Fonts';
+import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 import Paragraph from './Paragraph';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
-import type { TemplateInput } from '../locale/concretize';
-import { list, node, type Grammar, type Replacement } from './Node';
-import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/toMarkup';
 import Token from './Token';
 import Sym from './Sym';
-import type Node from './Node';
 import Words from './Words';
-import type { FormattedText } from '../output/Phrase';
-import type { FontWeight } from '../basis/Fonts';
-import type Locales from '../locale/Locales';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,

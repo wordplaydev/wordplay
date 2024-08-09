@@ -1,7 +1,6 @@
 import Conflict, { type Resolution } from './Conflict';
 import type UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 import type Context from '@nodes/Context';
 import Expression from '@nodes/Expression';
@@ -25,18 +24,15 @@ export class UnparsableConflict extends Conflict {
         this.context = context;
     }
 
-    getConflictingNodes(nodes: Node[]) {
+    getConflictingNodes(_: Context, nodes: Node[]) {
         return {
             primary: {
                 node: this.unparsable,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.UnparsableExpression.conflict
-                                    .UnparsableConflict.conflict,
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.UnparsableExpression.conflict
+                                .UnparsableConflict.conflict,
                         this.unparsable instanceof UnparsableExpression,
                     ),
             },
@@ -165,13 +161,10 @@ export class UnparsableConflict extends Conflict {
                 .map((expr) => {
                     return {
                         description: (locales: Locales, context: Context) =>
-                            concretize(
-                                locales,
-                                locales.get(
-                                    (l) =>
-                                        l.node.UnparsableExpression.conflict
-                                            .UnparsableConflict.resolution,
-                                ),
+                            locales.concretize(
+                                (l) =>
+                                    l.node.UnparsableExpression.conflict
+                                        .UnparsableConflict.resolution,
                                 expr.getLabel(locales),
                                 new NodeRef(expr, locales, context),
                             ),

@@ -15,12 +15,11 @@ import type { NameGenerator } from './Stage';
 import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
 import { getOutputInput } from './Valued';
-import concretize from '../locale/concretize';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
 import Matter, { toMatter } from './Matter';
 import type Evaluator from '../runtime/Evaluator';
 import type Locales from '../locale/Locales';
-import { getFirstName } from '../locale/Locale';
+import { getFirstName } from '../locale/LocaleText';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`
@@ -154,13 +153,14 @@ export default class Group extends Output {
 
     getDescription(locales: Locales) {
         if (this._description === undefined) {
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Group.description),
-                this.name instanceof TextLang ? this.name.text : undefined,
-                this.layout.getDescription(this.content, locales),
-                this.pose.getDescription(locales),
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Group.description,
+                    this.name instanceof TextLang ? this.name.text : undefined,
+                    this.layout.getDescription(this.content, locales),
+                    this.pose.getDescription(locales),
+                )
+                .toText();
         }
         return this._description;
     }

@@ -1,4 +1,4 @@
-import type { DocText, NameText, FunctionText, NameAndDoc } from './Locale';
+import type { DocText, NameText, FunctionText, NameAndDoc } from './LocaleText';
 
 export type BasisNameAndDoc = {
     /** Documentation to explain what the type is for and how it's used. */

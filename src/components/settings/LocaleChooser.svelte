@@ -9,18 +9,17 @@
         getLocaleLanguage,
         type SupportedLocale,
         EventuallySupportedLocales,
-    } from '../../locale/Locale';
+    } from '../../locale/LocaleText';
     import Link from '../app/Link.svelte';
-    import concretize from '../../locale/concretize';
     import Dialog from '../widgets/Dialog.svelte';
-    import { toLocaleString } from '../../locale/Locale';
+    import { localeToString } from '../../locale/Locale';
     import type LanguageCode from '@locale/LanguageCode';
     import LocaleName from './LocaleName.svelte';
     import { Settings } from '../../db/Database';
 
     $: selectedLocales = $locales
         .getPreferredLocales()
-        .map((locale) => toLocaleString(locale)) as SupportedLocale[];
+        .map((locale) => localeToString(locale)) as SupportedLocale[];
 
     function select(
         locale: SupportedLocale,
@@ -59,10 +58,9 @@
     }}
 >
     <h2
-        >{concretize(
-            $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.selected),
-        ).toText()}</h2
+        >{$locales
+            .concretize((l) => l.ui.dialog.locale.subheader.selected)
+            .toText()}</h2
     >
     <div class="languages">
         {#each selectedLocales as selected}
@@ -77,10 +75,9 @@
         {/each}
     </div>
     <h2
-        >{concretize(
-            $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.supported),
-        ).toText()}</h2
+        >{$locales
+            .concretize((l) => l.ui.dialog.locale.subheader.supported)
+            .toText()}</h2
     >
     <div class="supported">
         {#each SupportedLocales.filter((supported) => !selectedLocales.some((locale) => locale === supported)) as supported}
@@ -100,10 +97,9 @@
         {/each}
     </div>
     <h2
-        >{concretize(
-            $locales,
-            $locales.get((l) => l.ui.dialog.locale.subheader.coming),
-        ).toText()}</h2
+        >{$locales
+            .concretize((l) => l.ui.dialog.locale.subheader.coming)
+            .toText()}</h2
     >
 
     {#if EventuallySupportedLocales.length > 0}
@@ -118,10 +114,9 @@
         ><Link
             external
             to="https://github.com/wordplaydev/wordplay/wiki/localize"
-            >{concretize(
-                $locales,
-                $locales.get((l) => l.ui.dialog.locale.subheader.help),
-            ).toText()}</Link
+            >{$locales
+                .concretize((l) => l.ui.dialog.locale.subheader.help)
+                .toText()}</Link
         ></h2
     >
     <div class="languages">

@@ -1,7 +1,7 @@
 import { writable } from 'svelte/store';
 import { OR_SYMBOL } from '@parser/Symbols';
 import { Latin, LatinCyrillicGreek, type Script } from '../locale/Scripts';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 
 export type FontWeight = 100 | 200 | 300 | 400 | 500 | 600 | 700 | 800 | 900;
 export type FontWeightRange = { min: FontWeight; max: FontWeight };
@@ -410,7 +410,7 @@ export class FontManager {
         );
     }
 
-    loadLocales(locales: Locale[]) {
+    loadLocales(locales: LocaleText[]) {
         for (const locale of locales) {
             this.loadFace(locale.ui.font.app);
             this.loadFace(locale.ui.font.code);

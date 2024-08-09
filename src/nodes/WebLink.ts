@@ -9,9 +9,9 @@ import {
 import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Sym from './Sym';
-import type { TemplateInput } from '../locale/concretize';
 import Content from './Content';
 import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -25,7 +25,7 @@ export default class WebLink extends Content {
         description: Token | undefined,
         at: Token | undefined,
         url: Token | undefined,
-        close: Token | undefined
+        close: Token | undefined,
     ) {
         super();
 
@@ -42,7 +42,7 @@ export default class WebLink extends Content {
             new Token(description, Sym.Words),
             new Token(LINK_SYMBOL, Sym.Link),
             new Token(url, Sym.URL),
-            new Token(TAG_CLOSE_SYMBOL, Sym.TagClose)
+            new Token(TAG_CLOSE_SYMBOL, Sym.TagClose),
         );
     }
 
@@ -74,7 +74,7 @@ export default class WebLink extends Content {
             this.replaceChild('description', this.description, replace),
             this.replaceChild('at', this.at, replace),
             this.replaceChild('url', this.url, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 

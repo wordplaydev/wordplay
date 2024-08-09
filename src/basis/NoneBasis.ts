@@ -10,20 +10,20 @@ import { createBasisConversion, createBasisFunction } from './Basis';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
-import type { FunctionText, NameAndDoc } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
 import TextType from '../nodes/TextType';
 import type Locales from '../locale/Locales';
 
 export default function bootstrapNone(locales: Locales) {
     function createNoneFunction(
         locales: Locales,
-        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         expression: (
             requestor: Expression,
             left: NoneValue,
-            right: Value
-        ) => Value
+            right: Value,
+        ) => Value,
     ) {
         return createBasisFunction(
             locales,
@@ -39,17 +39,17 @@ export default function bootstrapNone(locales: Locales) {
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NoneType.None,
-                        left
+                        left,
                     );
 
                 if (right === undefined)
                     return evaluation.getValueOrTypeException(
                         requestor,
                         NoneType.None,
-                        right
+                        right,
                     );
                 return expression(requestor, left, right);
-            }
+            },
         );
     }
 
@@ -64,27 +64,27 @@ export default function bootstrapNone(locales: Locales) {
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.None.conversion.text
+                        (locale) => locale.basis.None.conversion.text,
                     ),
                     NoneType.make(),
                     TextType.make(),
                     (requestor, val: NoneValue) =>
-                        new TextValue(requestor, val.toString())
+                        new TextValue(requestor, val.toString()),
                 ),
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.equals,
                     (requestor: Expression, left: NoneValue, right: Value) =>
-                        new BoolValue(requestor, left.isEqualTo(right))
+                        new BoolValue(requestor, left.isEqualTo(right)),
                 ),
                 createNoneFunction(
                     locales,
                     (locale) => locale.basis.None.function.notequals,
                     (requestor: Expression, left: NoneValue, right: Value) =>
-                        new BoolValue(requestor, !left.isEqualTo(right))
+                        new BoolValue(requestor, !left.isEqualTo(right)),
                 ),
             ],
-            BlockKind.Structure
-        )
+            BlockKind.Structure,
+        ),
     );
 }

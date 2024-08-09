@@ -1,5 +1,5 @@
-import type Locale from '../locale/Locale';
-import { toLocaleString } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
+import { localeToString } from '../locale/Locale';
 import type Locales from '../locale/Locales';
 
 export const GallerySchemaLatestVersion = 1;
@@ -36,7 +36,7 @@ type SerializedGalleryV1 = {
 type SerializedGalleryUnknownVersion = SerializedGalleryV1;
 
 export function upgradeGallery(
-    gallery: SerializedGalleryUnknownVersion
+    gallery: SerializedGalleryUnknownVersion,
 ): SerializedGallery {
     switch (gallery.v) {
         case GallerySchemaLatestVersion:
@@ -50,7 +50,7 @@ export type SerializedGallery = SerializedGalleryV1;
 
 export function deserializeGallery(gallery: unknown): Gallery {
     return new Gallery(
-        upgradeGallery(gallery as SerializedGalleryUnknownVersion)
+        upgradeGallery(gallery as SerializedGalleryUnknownVersion),
     );
 }
 
@@ -72,26 +72,26 @@ export default class Gallery {
 
     /** Get the best name given a locale */
     getName(locales: Locales) {
-        return locales.get((l) => this.data.name[toLocaleString(l)]);
+        return locales.get((l) => this.data.name[localeToString(l)]);
     }
 
-    withName(name: string, locale: Locale) {
+    withName(name: string, locale: LocaleText) {
         const newData = { ...this.data };
         newData.name = { ...newData.name };
-        newData.name[toLocaleString(locale)] = name;
+        newData.name[localeToString(locale)] = name;
         return new Gallery(newData);
     }
 
     /** Get the best description given a locale */
     getDescription(locales: Locales) {
         // Is there a name for this specific locale and region? If not, choose the first one.
-        return locales.get((l) => this.data.description[toLocaleString(l)]);
+        return locales.get((l) => this.data.description[localeToString(l)]);
     }
 
-    withDescription(name: string, locale: Locale) {
+    withDescription(name: string, locale: LocaleText) {
         const newData = { ...this.data };
         newData.description = { ...newData.description };
-        newData.description[toLocaleString(locale)] = name;
+        newData.description[localeToString(locale)] = name;
         return new Gallery(newData);
     }
 

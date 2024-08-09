@@ -9,7 +9,6 @@
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Glyphs from '../../lore/Glyphs';
     import { RevisionSet } from './util/Menu';
-    import concretize from '../../locale/concretize';
     import Token from '../../nodes/Token';
     import Bind from '../../nodes/Bind';
     import Evaluate from '../../nodes/Evaluate';
@@ -162,7 +161,7 @@
                 aria-label={entry instanceof Revision
                     ? entry
                           .getEditedNode($locales)[0]
-                          .getDescription(concretize, $locales, entry.context)
+                          .getDescription($locales, entry.context)
                           .toText()
                     : $locales.getLocale().term[entry.purpose]}
                 class={`revision ${
@@ -193,8 +192,7 @@
                     {/if}
                 {:else if entry instanceof RevisionSet}
                     <MarkupHTMLView
-                        markup={concretize(
-                            $locales,
+                        markup={$locales.concretize(
                             `/${$locales.get((l) =>
                                 entry instanceof RevisionSet
                                     ? l.term[entry.purpose]

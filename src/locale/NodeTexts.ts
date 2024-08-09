@@ -1,4 +1,4 @@
-import type { DocText, Template } from './Locale';
+import type { DocText, Template } from './LocaleText';
 import type Emotion from '../lore/Emotion';
 
 export type NodeText = {
@@ -205,7 +205,7 @@ type NodeTexts = {
             /** When there's no ending expression */
             ExpectedEndingExpression: InternalConflictText;
             /** When a statement is ignored because it's not last and not a bind */
-            IgnoredExpression: ConflictText;
+            IgnoredExpression: ConflictText & { resolution: Template };
         }>;
     /**
      * A single boolean literal, e.g., `⊤` or `⊥`

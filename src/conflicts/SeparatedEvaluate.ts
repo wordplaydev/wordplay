@@ -1,7 +1,6 @@
 import type Context from '@nodes/Context';
 import NodeRef from '@locale/NodeRef';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 import type Block from '@nodes/Block';
 import type Reference from '@nodes/Reference';
@@ -24,11 +23,8 @@ export default class SeparatedEvaluate extends Conflict {
             primary: {
                 node: this.name,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Evaluate.conflict.SeparatedEvaluate,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.SeparatedEvaluate,
                         new NodeRef(this.name, locales, context),
                         this.structure,
                     ),

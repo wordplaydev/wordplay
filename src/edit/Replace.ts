@@ -4,8 +4,7 @@ import Node from '@nodes/Node';
 import Caret from './Caret';
 import Refer from './Refer';
 import type Context from '@nodes/Context';
-import type Locale from '@locale/Locale';
-import concretize from '../locale/concretize';
+import type LocaleText from '@locale/LocaleText';
 import Markup from '../nodes/Markup';
 import Reference from '../nodes/Reference';
 import type Locales from '../locale/Locales';
@@ -15,7 +14,7 @@ export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly node: Node;
     readonly replacement: NodeType | Refer | undefined;
-    readonly description: ((translation: Locale) => string) | undefined;
+    readonly description: ((translation: LocaleText) => string) | undefined;
 
     constructor(
         context: Context,
@@ -23,7 +22,9 @@ export default class Replace<NodeType extends Node> extends Revision {
         node: Node,
         replacement: NodeType | Refer | undefined,
         /** True if this replacement completes an existing node */
-        description: ((translation: Locale) => string) | undefined = undefined,
+        description:
+            | ((translation: LocaleText) => string)
+            | undefined = undefined,
     ) {
         super(context);
 
@@ -129,9 +130,8 @@ export default class Replace<NodeType extends Node> extends Revision {
             this.replacement instanceof Refer
                 ? this.replacement.getNode(locales)
                 : this.getNewNode(locales);
-        return concretize(
-            locales,
-            locales.get((l) => l.ui.edit.replace),
+        return locales.concretize(
+            (l) => l.ui.edit.replace,
             node?.getLabel(locales),
         );
     }

@@ -4,12 +4,12 @@ import { DB, Locales } from '../db/Database';
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { getExampleGalleries, parseSerializedProject } from './examples';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 import type { SerializedProject } from '../models/ProjectSchemas';
 import Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import Docs from '@nodes/Docs';
-import { SupportedLocales, getLocaleLanguage } from '@locale/Locale';
+import { SupportedLocales, getLocaleLanguage } from '@locale/LocaleText';
 import type LanguageCode from '@locale/LanguageCode';
 import Names from '@nodes/Names';
 import Evaluate from '@nodes/Evaluate';
@@ -50,7 +50,10 @@ test.each([...projects, ...templates])(
         ).flat();
         const messages: string[] = [];
         for (const conflict of conflicts) {
-            const conflictingNodes = conflict.getConflictingNodes(Templates);
+            const conflictingNodes = conflict.getConflictingNodes(
+                context,
+                Templates,
+            );
             messages.push(
                 conflictingNodes.primary
                     .explanation(DefaultLocales, context)
@@ -170,7 +173,12 @@ test.each([...projects])(
     `Ensure $name doesn't evaluate to exception`,
     async (example: SerializedProject) => {
         const project = await Project.deserialize(Locales, example);
-        const evaluator = new Evaluator(project, DB, DefaultLocales, false);
+        const evaluator = new Evaluator(
+            project,
+            DB,
+            DefaultLocales.getLocales(),
+            false,
+        );
         const value = evaluator.getInitialValue();
         evaluator.stop();
         expect(value).not.toBeInstanceOf(ExceptionValue);

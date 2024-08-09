@@ -26,7 +26,6 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import NoneValue from '@values/NoneValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
@@ -278,9 +277,8 @@ export default class ListAccess extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ListAccess.start),
+        return locales.concretize(
+            (l) => l.node.ListAccess.start,
             new NodeRef(this.list, locales, context),
         );
     }
@@ -290,9 +288,8 @@ export default class ListAccess extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ListAccess.finish),
+        return locales.concretize(
+            (l) => l.node.ListAccess.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

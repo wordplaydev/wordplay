@@ -7,16 +7,15 @@ import type Context from './Context';
 import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
-import type { Template, DocText } from '@locale/Locale';
+import type { Template, DocText } from '@locale/LocaleText';
 import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
-import type { TemplateInput } from '../locale/concretize';
+import type { TemplateInput } from '../locale/Locales';
 import type Markup from './Markup';
 import type Sym from './Sym';
-import type Concretizer from './Concretizer';
 import type Locales from '../locale/Locales';
 
 /* A global ID for nodes, for helping index them */
@@ -604,7 +603,7 @@ export default abstract class Node {
     // DESCRIPTIONS
 
     /** Returns a sequence of symbols that represents the personified form of the node */
-    abstract getGlyphs(): Glyph;
+    abstract getGlyphs(locales: Locales): Glyph;
 
     /**
      * Given a locale, get the node's static label
@@ -616,14 +615,9 @@ export default abstract class Node {
     /**
      * Given a locale and a context, generate a description of the node.
      * */
-    getDescription(
-        concretizer: Concretizer,
-        locales: Locales,
-        context: Context,
-    ): Markup {
+    getDescription(locales: Locales, context: Context): Markup {
         const text = this.getNodeLocale(locales);
-        return concretizer(
-            locales,
+        return locales.concretize(
             // Is there a description? Use that. Otherwise just use the name.
             'description' in text
                 ? (text as DescriptiveNodeText).description

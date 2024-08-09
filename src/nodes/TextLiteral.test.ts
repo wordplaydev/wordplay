@@ -1,9 +1,10 @@
 import { test, expect } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import { readFileSync } from 'fs';
 import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
+import concretize from '@locale/concretize';
 
 /** Load a few locales for testing. */
 const en = DefaultLocale;
@@ -22,7 +23,7 @@ test.each([
     ['"hello"/en"hola"/es', '"hola"/es', [es, en]],
     ['"hola"/es"hello"/en', '"hola"/es', [es, en]],
     ['"hola"/es"hello"/en', '"hello"/en', [en]],
-])('%s -> %s', async (code, value, locales: Locale[]) => {
-    const loc = new Locales(locales, DefaultLocale);
+])('%s -> %s', async (code, value, locales: LocaleText[]) => {
+    const loc = new Locales(concretize, locales, DefaultLocale);
     expect(evaluateCode(code, [], loc)?.toWordplay(loc)).toBe(value);
 });

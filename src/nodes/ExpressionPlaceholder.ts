@@ -17,10 +17,9 @@ import UnimplementedType from './UnimplementedType';
 import TypeToken from './TypeToken';
 import { node, type Grammar, type Replacement, none, any } from './Node';
 import SimpleExpression from './SimpleExpression';
-import type { Template } from '@locale/Locale';
+import type { Template } from '@locale/LocaleText';
 import Glyphs from '../lore/Glyphs';
 import type Root from './Root';
-import concretize from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
 import Evaluate from './Evaluate';
 import getConcreteExpectedType from './Generics';
@@ -210,10 +209,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ExpressionPlaceholder.start),
-        );
+        return locales.concretize((l) => l.node.ExpressionPlaceholder.start);
     }
 
     getGlyphs() {

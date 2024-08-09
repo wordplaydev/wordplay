@@ -8,7 +8,6 @@ import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import Expression from './Expression';
 import type TypeSet from './TypeSet';
 import type Node from './Node';
@@ -162,10 +161,7 @@ export default class Otherwise extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Otherwise.start),
-        );
+        return locales.concretize((l) => l.node.Otherwise.start);
     }
 
     getFinishExplanations(
@@ -173,9 +169,8 @@ export default class Otherwise extends SimpleExpression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Otherwise.finish),
+        return locales.concretize(
+            (l) => l.node.Otherwise.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

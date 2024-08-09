@@ -25,7 +25,7 @@
                 class:selected={index === choice}
                 aria-label={descriptions.modes[index]}
                 title={descriptions.modes[index]}
-                aria-disabled={!active}
+                aria-disabled={!active || index === choice}
                 on:dblclick|stopPropagation
                 on:mousedown|preventDefault
                 on:pointerdown={(event) =>
@@ -63,21 +63,23 @@
     }
 
     button {
+        display: inline-block;
         font-family: var(--wordplay-app-font);
         font-weight: var(--wordplay-font-weight);
         cursor: pointer;
         width: fit-content;
         white-space: nowrap;
-        border: none;
+        border: 1px solid var(--wordplay-chrome);
         color: var(--wordplay-foreground);
-        background: none;
+        background: var(--wordplay-background);
         padding: var(--wordplay-spacing);
         transition: transform calc(var(--animation-factor) * 200ms);
         cursor: pointer;
     }
 
     button:focus {
-        outline-offset: calc(-1 * var(--wordplay-focus-width));
+        outline: none;
+        color: var(--wordplay-focus-color);
     }
 
     button.selected {
@@ -88,22 +90,30 @@
     button:first-child {
         border-top-left-radius: var(--wordplay-border-radius);
         border-bottom-left-radius: var(--wordplay-border-radius);
+        border-left: 1px solid var(--wordplay-chrome);
     }
 
     button:last-child {
         border-top-right-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
+        border-right: 1px solid var(--wordplay-chrome);
     }
 
-    button:not(.selected):hover {
+    button:not(.selected) {
         transform: scale(1.1);
     }
 
+    button:not(.selected):hover {
+        background: var(--wordplay-alternating-color);
+    }
+
     .group {
+        display: flex;
+        flex-direction: row;
         border: none;
         padding: 0;
         white-space: nowrap;
-        border: 1px solid var(--wordplay-chrome);
+        /* border: 1px solid var(--wordplay-chrome); */
         border-radius: var(--wordplay-border-radius);
         user-select: none;
     }

@@ -35,7 +35,7 @@
         if (evaluator) evaluator.ignore(update);
 
         if (evaluated) {
-            evaluator = new Evaluator(project, DB, $locales);
+            evaluator = new Evaluator(project, DB, $locales.getLocales());
             evaluator.observe(update);
             evaluator.start();
         } else {

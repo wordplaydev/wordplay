@@ -10,6 +10,7 @@ import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { Character } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
+import { COMMA_SYMBOL } from '@parser/Symbols';
 
 export default class FunctionConcept extends Concept {
     /** The function this concept represents. */
@@ -30,7 +31,7 @@ export default class FunctionConcept extends Concept {
         definition: FunctionDefinition,
         structure: StructureConcept | undefined,
         locales: Locales,
-        context: Context
+        context: Context,
     ) {
         super(purpose, affiliation, context);
 
@@ -40,17 +41,19 @@ export default class FunctionConcept extends Concept {
         this.example = this.definition.getEvaluateTemplate(
             locales,
             context,
-            this.structure?.type
+            this.structure?.type,
         );
 
         this.inputs = this.definition.inputs.map(
-            (bind) => new BindConcept(purpose, bind, locales, context)
+            (bind) => new BindConcept(purpose, bind, locales, context),
         );
     }
 
     getGlyphs(locales: Locales) {
         return {
-            symbols: locales.getName(this.definition.names),
+            symbols: this.definition.names
+                .getLocaleNames(locales)
+                .join(COMMA_SYMBOL),
         };
     }
 

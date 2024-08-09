@@ -2,7 +2,7 @@ import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
 import Gallery, { GallerySchemaLatestVersion } from '../models/Gallery';
 import { moderatedFlags } from '../models/Moderation';
-import { toLocaleString } from '../locale/Locale';
+import { localeToString } from '../locale/Locale';
 import type { GalleryText } from '../locale/GalleryTexts';
 import {
     ProjectSchemaLatestVersion,
@@ -142,7 +142,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
         createGallery(
             'Games',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.games]),
+                locale.map((l) => [localeToString(l), l.gallery.games]),
             ),
             [
                 'Adventure',
@@ -158,7 +158,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
             'Visualizations',
             Object.fromEntries(
                 locale.map((l) => [
-                    toLocaleString(l),
+                    localeToString(l),
                     l.gallery.visualizations,
                 ]),
             ),
@@ -179,7 +179,7 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
         createGallery(
             'Motion',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.motion]),
+                locale.map((l) => [localeToString(l), l.gallery.motion]),
             ),
             [
                 'Hira',
@@ -194,14 +194,14 @@ export function getExampleGalleries(locales: Locales): Gallery[] {
         createGallery(
             'AV',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.av]),
+                locale.map((l) => [localeToString(l), l.gallery.av]),
             ),
             ['Listen', 'Talk', 'RainingLetters', 'Video', 'ASCII'],
         ),
         createGallery(
             'Tools',
             Object.fromEntries(
-                locale.map((l) => [toLocaleString(l), l.gallery.tools]),
+                locale.map((l) => [localeToString(l), l.gallery.tools]),
             ),
             ['Calculator', 'Literacy', 'Timer', 'Headlines', 'SentenceLength'],
         ),

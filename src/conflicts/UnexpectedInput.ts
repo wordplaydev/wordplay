@@ -7,7 +7,6 @@ import type FunctionDefinition from '@nodes/FunctionDefinition';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type StreamDefinition from '../nodes/StreamDefinition';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class UnexpectedInputs extends Conflict {
@@ -31,26 +30,17 @@ export default class UnexpectedInputs extends Conflict {
             primary: {
                 node: this.input,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.UnexpectedInput
-                                    .primary,
-                        ),
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.UnexpectedInput.primary,
                         new NodeRef(this.input, locales, context),
                     ),
             },
             secondary: {
                 node: this.func.names,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.Evaluate.conflict.UnexpectedInput
-                                    .secondary,
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.Evaluate.conflict.UnexpectedInput.secondary,
                         new NodeRef(this.input, locales, context),
                     ),
             },

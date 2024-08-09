@@ -208,6 +208,7 @@
 </div>
 <section
     class="documentation"
+    data-testid="documentation"
     aria-label={$locales.get((l) => l.ui.docs.label)}
     on:pointerup={handleDrop}
     bind:this={view}

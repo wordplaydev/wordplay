@@ -10,7 +10,8 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import Append from './Append';
 import Reference from '../nodes/Reference';
 import type Revision from './Revision';
-import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocale from '../locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 test.each([

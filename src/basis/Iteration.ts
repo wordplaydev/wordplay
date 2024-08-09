@@ -1,5 +1,4 @@
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import Glyphs from '../lore/Glyphs';
 import AnyType from '../nodes/AnyType';
 import type Context from '../nodes/Context';
@@ -222,10 +221,7 @@ export class Iteration<State = any> extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Iteration.start),
-        );
+        return locales.concretize((l) => l.node.Iteration.start);
     }
 
     getFinishExplanations(
@@ -233,9 +229,8 @@ export class Iteration<State = any> extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Iteration.finish),
+        return locales.concretize(
+            (l) => l.node.Iteration.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

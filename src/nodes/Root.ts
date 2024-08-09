@@ -1,6 +1,6 @@
 import Expression from './Expression';
 import type Node from './Node';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 
 export type Path = { type: string; index: number }[];
 
@@ -85,7 +85,7 @@ export default class Root {
     getEvaluationRoot(node: Node) {
         return this.getAncestors(node).find(
             (ancestor) =>
-                ancestor instanceof Expression && ancestor.isEvaluationRoot()
+                ancestor instanceof Expression && ancestor.isEvaluationRoot(),
         ) as Expression | undefined;
     }
 

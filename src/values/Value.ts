@@ -4,7 +4,6 @@ import type Evaluator from '@runtime/Evaluator';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
 import type Markup from '../nodes/Markup';
-import type Concretizer from '@nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 /** Used to uniquely distinguish values. */
@@ -35,7 +34,7 @@ export default abstract class Value {
 
     abstract isEqualTo(value: Value): boolean;
 
-    abstract getDescription(concretizer: Concretizer, locales: Locales): Markup;
+    abstract getDescription(locales: Locales): Markup;
 
     /** Used to get a shorthand textual representation of the value, for previews and other summaries. */
     abstract getRepresentativeText(locales: Locales): string;

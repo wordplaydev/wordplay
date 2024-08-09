@@ -1,4 +1,5 @@
 import { writable, type Writable } from 'svelte/store';
+import concretize from '@locale/concretize';
 import { deleteDoc, doc, setDoc } from 'firebase/firestore';
 import { firestore, auth } from '@db/firebase';
 import {
@@ -8,12 +9,12 @@ import {
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import {
     type SupportedLocale,
     getBestSupportedLocales,
     type Template,
-} from '../locale/Locale';
+} from '../locale/LocaleText';
 import ProjectsDatabase from './ProjectsDatabase';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
@@ -46,7 +47,7 @@ export class Database {
     /** The status of persisting the projects. */
     readonly Status: Writable<{
         status: SaveStatus;
-        message: undefined | ((locale: Locale) => Template);
+        message: undefined | ((locale: LocaleText) => Template);
     }> = writable({
         status: SaveStatus.Saved,
         message: undefined,
@@ -59,13 +60,14 @@ export class Database {
     private authUnsubscribe: Unsubscribe | undefined = undefined;
     private authRefreshUnsubscribe: Unsubscribe | undefined = undefined;
 
-    constructor(locales: SupportedLocale[], defaultLocale: Locale) {
+    constructor(locales: SupportedLocale[], defaultLocale: LocaleText) {
         // Set up in-memory stores of configuration settings and locale caches.
         this.Settings = new SettingsDatabase(this, locales);
         this.Locales = new LocalesDatabase(
             this,
             locales,
             defaultLocale,
+            concretize,
             this.Settings.settings.locales,
         );
         this.Projects = new ProjectsDatabase(this);
@@ -88,12 +90,12 @@ export class Database {
     /** Update the saving status and broadcast via the store. */
     setStatus(
         status: SaveStatus,
-        message: undefined | ((locale: Locale) => Template),
+        message: undefined | ((locale: LocaleText) => Template),
     ) {
         this.Status.set({ status, message });
     }
 
-    getLocales(): Locale[] {
+    getLocales(): LocaleText[] {
         return this.Locales.getLocales();
     }
 
@@ -234,6 +236,8 @@ export const writingLayout = Settings.settings.writingLayout.value;
 export const camera = Settings.settings.camera.value;
 export const dark = Settings.settings.dark.value;
 export const spaceIndicator = Settings.settings.space.value;
+export const showLines = Settings.settings.lines.value;
+export const showAnnotations = Settings.settings.annotations.value;
 export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
 export const localized = Settings.settings.localized.value;

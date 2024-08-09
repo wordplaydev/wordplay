@@ -8,11 +8,19 @@
     import Lead from '@components/app/Lead.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import Action from '@components/app/Action.svelte';
-    import { DOCUMENTATION_SYMBOL, EDIT_SYMBOL } from '@parser/Symbols';
+    import {
+        DOCUMENTATION_SYMBOL,
+        EDIT_SYMBOL,
+        STAGE_SYMBOL,
+    } from '@parser/Symbols';
     import Beta from './Beta.svelte';
     import Speech from '@components/lore/Speech.svelte';
     import Glyphs from '../lore/Glyphs';
     import Emotion from '../lore/Emotion';
+    import Iconified from './Iconified.svelte';
+    import { getUser } from '@components/project/Contexts';
+
+    const user = getUser();
 </script>
 
 <svelte:head>
@@ -40,12 +48,14 @@
     <MarkupHtmlView
         markup={$locales.get((l) => l.ui.page.landing.description)}
     />
-    <br />
-    <BigLink
-        to="/login"
-        subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
-        >{$locales.get((l) => l.ui.page.login.header)}</BigLink
-    >
+    {#if $user === null}
+        <br />
+        <BigLink
+            to="/login"
+            subtitle={$locales.get((l) => l.ui.page.login.subtitle)}
+            >{$locales.get((l) => l.ui.page.login.header)}</BigLink
+        >
+    {/if}
     <br />
     <div class="actions">
         <Action>
@@ -53,8 +63,10 @@
                 to="/projects"
                 smaller
                 subtitle={$locales.get((l) => l.ui.page.landing.link.projects)}
-                >{EDIT_SYMBOL}
-                {$locales.get((l) => l.ui.page.projects.header)}</BigLink
+                ><Iconified
+                    icon={EDIT_SYMBOL}
+                    text={(l) => l.ui.page.projects.header}
+                /></BigLink
             >
         </Action>
         <Action>
@@ -62,7 +74,10 @@
                 smaller
                 to="/galleries"
                 subtitle={$locales.get((l) => l.ui.page.landing.link.galleries)}
-                >🎭 {$locales.get((l) => l.ui.page.galleries.header)}</BigLink
+                ><Iconified
+                    icon={STAGE_SYMBOL}
+                    text={(l) => l.ui.page.galleries.header}
+                /></BigLink
             >
         </Action>
         <Action>
@@ -70,7 +85,10 @@
                 smaller
                 to="/learn"
                 subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
-                >🙋‍♀️ {$locales.get((l) => l.ui.page.learn.header)}</BigLink
+                ><Iconified
+                    icon="🙋‍♀️"
+                    text={(l) => l.ui.page.learn.header}
+                /></BigLink
             >
         </Action>
         <Action>
@@ -78,8 +96,10 @@
                 to="/guide"
                 smaller
                 subtitle={$locales.get((l) => l.ui.page.landing.link.guide)}
-                >{DOCUMENTATION_SYMBOL}
-                {$locales.get((l) => l.ui.page.guide.header)}</BigLink
+                ><Iconified
+                    icon={DOCUMENTATION_SYMBOL}
+                    text={(l) => l.ui.page.guide.header}
+                /></BigLink
             >
         </Action>
     </div>
@@ -90,7 +110,10 @@
                     smaller
                     to="/about"
                     subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
-                    >💭 {$locales.get((l) => l.ui.page.about.header)}</BigLink
+                    ><Iconified
+                        icon="💭"
+                        text={(l) => l.ui.page.about.header}
+                    /></BigLink
                 >
                 <BigLink
                     smaller
@@ -98,7 +121,10 @@
                     subtitle={$locales.get(
                         (l) => l.ui.page.landing.link.rights,
                     )}
-                    >🧑‍⚖️ {$locales.get((l) => l.ui.page.rights.header)}</BigLink
+                    ><Iconified
+                        icon="⚖️"
+                        text={(l) => l.ui.page.rights.header}
+                    /></BigLink
                 >
             </div>
             <div class="column">
@@ -109,9 +135,10 @@
                     subtitle={$locales.get(
                         (l) => l.ui.page.landing.link.community.subtitle,
                     )}
-                    >🗣️ {$locales.get(
-                        (l) => l.ui.page.landing.link.community.label,
-                    )}</BigLink
+                    ><Iconified
+                        icon="🗣️"
+                        text={(l) => l.ui.page.landing.link.community.label}
+                    /></BigLink
                 >
                 <BigLink
                     smaller
@@ -120,18 +147,23 @@
                     subtitle={$locales.get(
                         (l) => l.ui.page.landing.link.contribute.subtitle,
                     )}
-                    >🛠️ {$locales.get(
-                        (l) => l.ui.page.landing.link.contribute.label,
-                    )}</BigLink
-                >
+                    ><Iconified
+                        icon="🛠️"
+                        text={(l) => l.ui.page.landing.link.contribute.label}
+                    />
+                </BigLink>
             </div>
             <div class="column">
                 <BigLink
                     smaller
                     to="/donate"
                     subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-                    >🤑 {$locales.get((l) => l.ui.page.donate.header)}</BigLink
                 >
+                    <Iconified
+                        icon="🤑"
+                        text={(l) => l.ui.page.donate.header}
+                    />
+                </BigLink>
             </div>
         </div>
     </div>

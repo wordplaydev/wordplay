@@ -23,7 +23,6 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import type StructureValue from '../values/StructureValue';
 import { getIteration, getIterationResult } from '../basis/Iteration';
@@ -331,9 +330,8 @@ export default class Select extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Select.start),
+        return locales.concretize(
+            (l) => l.node.Select.start,
             new NodeRef(this.table, locales, context),
         );
     }
@@ -343,9 +341,8 @@ export default class Select extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Select.finish),
+        return locales.concretize(
+            (l) => l.node.Select.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

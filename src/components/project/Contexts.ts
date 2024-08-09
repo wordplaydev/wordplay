@@ -15,7 +15,7 @@ import type { Path } from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import type Root from '@nodes/Root';
 import type {
     CommandContext,
@@ -36,7 +36,7 @@ export function getUser(): UserContext {
 }
 
 export const LocalesSymbol = Symbol('locales');
-export function getLocales(): Locale[] {
+export function getLocales(): LocaleText[] {
     return getContext(LocalesSymbol);
 }
 
@@ -212,6 +212,12 @@ export const MenuNodeSymbol = Symbol('menu');
 export type MenuNodeContext = Writable<CaretPosition | undefined>;
 export function getMenuNode() {
     return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
+}
+
+export const ShowLinesSymbol = Symbol('lines');
+export type ShowLinesContext = Writable<boolean>;
+export function getShowLines() {
+    return getContext<ShowLinesContext>(ShowLinesSymbol);
 }
 
 // Output related contexts

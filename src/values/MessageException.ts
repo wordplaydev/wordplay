@@ -1,7 +1,6 @@
 import ExceptionValue from '@values/ExceptionValue';
 import type Evaluator from '@runtime/Evaluator';
 import type Expression from '@nodes/Expression';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class MessageException extends ExceptionValue {
@@ -16,6 +15,6 @@ export default class MessageException extends ExceptionValue {
     }
 
     getExplanation(locales: Locales) {
-        return concretize(locales, this.getExceptionText().explanation);
+        return locales.concretize(this.getExceptionText().explanation);
     }
 }

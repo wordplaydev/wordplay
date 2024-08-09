@@ -1,4 +1,4 @@
-import { SupportedLocales, type SupportedLocale } from '../locale/Locale';
+import { SupportedLocales, type SupportedLocale } from '../locale/LocaleText';
 import Setting from './Setting';
 
 export const LocalesSetting = new Setting<SupportedLocale[]>(
@@ -10,11 +10,11 @@ export const LocalesSetting = new Setting<SupportedLocale[]>(
         value.every(
             (locale) =>
                 typeof locale === 'string' &&
-                SupportedLocales.includes(locale as SupportedLocale)
+                SupportedLocales.includes(locale as SupportedLocale),
         )
             ? (value as SupportedLocale[])
             : undefined,
     (current, value) =>
         current.length === value.length &&
-        current.every((locale, index) => value[index] === locale)
+        current.every((locale, index) => value[index] === locale),
 );

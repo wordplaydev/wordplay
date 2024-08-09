@@ -1,7 +1,7 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
 import type EditTexts from './EditTexts';
-import type { DocText, Template } from './Locale';
+import type { DocText, Template } from './LocaleText';
 
 export type ButtonText = {
     /** The buttons label */
@@ -371,6 +371,10 @@ type UITexts = {
             /** The chat submit button */
             submit: string;
         };
+        options: {
+            /** The label for the locale chooser in output */
+            locale: string;
+        };
     };
     /** The documentation browser */
     docs: {
@@ -602,6 +606,8 @@ type UITexts = {
                 writing: ModeText<[string, string, string]>;
                 /** The space_indicator on/off mode */
                 space: ModeText<[string, string]>;
+                /** The line number on/off mode */
+                lines: ModeText<[string, string]>;
                 /** The localized none/localized/symbolic mode */
                 localized: ModeText<[string, string, string]>;
             };

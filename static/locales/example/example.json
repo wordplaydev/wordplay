@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "en",
     "region": "US",
     "wordplay": "$?",
@@ -306,7 +306,8 @@
                 "ExpectedEndingExpression": "$?",
                 "IgnoredExpression": {
                     "primary": "$?",
-                    "secondary": "$?"
+                    "secondary": "$?",
+                    "resolution": "$?"
                 }
             }
         },
@@ -3266,6 +3267,9 @@
             },
             "button": {
                 "submit": "$?"
+            },
+            "options": {
+                "locale": "$?"
             }
         },
         "timeline": {
@@ -3385,6 +3389,10 @@
                     "localized": {
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
+                    },
+                    "lines": {
+                        "label": "$?",
+                        "modes": ["$?", "$?"]
                     }
                 },
                 "options": {

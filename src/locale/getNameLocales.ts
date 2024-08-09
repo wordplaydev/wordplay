@@ -1,14 +1,14 @@
 import Name from '@nodes/Name';
 import Names from '@nodes/Names';
-import { Unwritten, type NameText } from './Locale';
-import type Locale from './Locale';
+import { Unwritten, type NameText } from './LocaleText';
+import type LocaleText from './LocaleText';
 import { localeToLanguage } from './localeToLanguage';
 import DefaultLocale from './DefaultLocale';
 import type Locales from './Locales';
 
 export function getNameLocales(
     locales: Locales,
-    nameText: NameText | ((locale: Locale) => NameText),
+    nameText: NameText | ((locale: LocaleText) => NameText),
 ): Names {
     // Construct names from the given locales, filtering any placeholders.
     let names = locales

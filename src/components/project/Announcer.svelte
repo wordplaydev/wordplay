@@ -3,17 +3,20 @@
     import Announcement from './Announcement';
     import type { Announce } from './Contexts';
 
+    const delay = 200;
+
     export const announce: Announce = (
         id: string,
         language: LanguageCode | undefined,
-        message: string
+        message: string,
     ) => {
         // Enqueue the announcement
         announcements.push(new Announcement(id, language, message));
+
         // Has the current announcement been around long enough? Dequeue the next most recent.
         const delta = Date.now() - (current ? current.time : 0);
         // No current message or it's been more than a second? Dequeue.
-        if (current === undefined || delta > 1000) dequeue();
+        if (current === undefined || delta > delay) dequeue();
     };
 
     function dequeue() {
@@ -25,21 +28,25 @@
         announcements = [];
 
         if (next) {
-            current = { announcement: next, time: Date.now() };
+            if (
+                current === undefined ||
+                next.text !== current.announcement.text
+            ) {
+                current = { announcement: next, time: Date.now() };
 
-            // Decide when to dequeue the next message proportional to length of text,
-            // assuming a lower 300 words/minute (5 words/second), and about 5 characters per word
-            const wordCount = current.announcement.text.length / 5;
-            const wordsPerSecond = 5;
-            const secondsToRead = wordCount * (1 / wordsPerSecond);
+                // Decide when to dequeue the next message proportional to length of text,
+                // assuming a lower 300 words/minute (5 words/second), and about 5 characters per word
+                const wordCount = current.announcement.text.length / 5;
+                const wordsPerSecond = 3;
+                const secondsToRead = wordCount * (1 / wordsPerSecond);
 
-            // Dequeue
-            timeout = setTimeout(() => {
-                // It's been a second. Clear the announcement and the timeout (so the dequeue does something above), then dequeue to update the announncement.
-                current = undefined;
-                timeout = undefined;
-                dequeue();
-            }, secondsToRead * 1000);
+                // Dequeue
+                timeout = setTimeout(() => {
+                    // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
+                    timeout = undefined;
+                    dequeue();
+                }, secondsToRead * delay);
+            }
         }
     }
 
@@ -49,21 +56,29 @@
     let timeout: NodeJS.Timeout | undefined = undefined;
 </script>
 
-{#if current}
-    <div
-        class="announcements"
-        aria-live="assertive"
-        aria-atomic="true"
-        aria-relevant="all"
-        data-kind={current.announcement.kind}
-        lang={current.announcement.language}
-    >
-        {current.announcement.text}
-    </div>
-{/if}
+<!-- Create a new DOM element for each new announcement to increase the chances that it's read. -->
+<div
+    class="announcements"
+    role="alert"
+    aria-live="assertive"
+    aria-atomic="true"
+    aria-relevant="all"
+    data-kind={current?.announcement.kind}
+>
+    {#if current}<span lang={current.announcement.language}>
+            {current.announcement.text}
+        </span>
+    {/if}
+</div>
 
 <style>
     .announcements {
-        font-size: 0;
+        clip: rect(0 0 0 0);
+        clip-path: inset(50%);
+        height: 1px;
+        overflow: hidden;
+        position: absolute;
+        white-space: nowrap;
+        width: 1px;
     }
 </style>

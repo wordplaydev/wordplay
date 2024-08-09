@@ -1,5 +1,5 @@
 import type LanguageCode from '@locale/LanguageCode';
-import type Locale from '../locale/Locale';
+import type Locale from '@locale/Locale';
 import type Language from './Language';
 import Node from './Node';
 
@@ -21,7 +21,7 @@ export abstract class LanguageTagged extends Node {
 }
 
 export function getPreferred<Kind extends LanguageTagged>(
-    locales: Locale[],
+    locales: (Locale | Locale)[],
     texts: Kind[],
 ): Kind {
     // Find the first locale for which there's a matching locale or language.

@@ -17,7 +17,6 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '@concepts/Purpose';
 import UnionType from './UnionType';
 import NodeRef from '@locale/NodeRef';
-import concretize from '@locale/concretize';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
 import JumpIfUnequal from '@runtime/JumpIfEqual';
@@ -262,18 +261,14 @@ export default class Match extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Match.start),
+        return locales.concretize(
+            (l) => l.node.Match.start,
             new NodeRef(this.value, locales, context),
         );
     }
 
     getFinishExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Match.finish),
-        );
+        return locales.concretize((l) => l.node.Match.finish);
     }
 
     getGlyphs() {

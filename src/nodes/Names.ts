@@ -6,7 +6,7 @@ import { COMMA_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import NameToken from './NameToken';
 import Language from './Language';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import Purpose from '../concepts/Purpose';
 import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
@@ -21,7 +21,7 @@ export default class Names extends Node {
 
         // Add name separators if lacking
         this.names = names.map((name, index) =>
-            index > 0 && name.separator === undefined
+            index < names.length - 1 && name.separator === undefined
                 ? name.withSeparator()
                 : name,
         );
@@ -31,15 +31,18 @@ export default class Names extends Node {
 
     static make(names: string[] = []) {
         const list: Name[] = [];
-        let first = true;
+        let count = 0;
         for (const name of names) {
+            count++;
             list.push(
                 new Name(
-                    first ? undefined : new Token(COMMA_SYMBOL, Sym.Separator),
                     new NameToken(name),
+                    undefined,
+                    count === names.length
+                        ? undefined
+                        : new Token(COMMA_SYMBOL, Sym.Separator),
                 ),
             );
-            first = false;
         }
         return new Names(list);
     }
@@ -70,7 +73,7 @@ export default class Names extends Node {
         return [];
     }
 
-    getTags(): Name[] {
+    getTagged(): Name[] {
         return this.names;
     }
 
@@ -82,6 +85,12 @@ export default class Names extends Node {
 
     hasALanguageTag() {
         return this.names.some((name) => name.hasLanguage());
+    }
+
+    getLocaleOf(name: string) {
+        return this.names
+            .find((n) => n.getName() === name)
+            ?.language?.getLocaleID();
     }
 
     containsLanguage(lang: LanguageCode) {
@@ -107,7 +116,10 @@ export default class Names extends Node {
         return this.names.find((name) => !name.isSymbolic())?.getName();
     }
 
-    getPreferredNameString(preferred: Locale | Locale[], symbolic = true) {
+    getPreferredNameString(
+        preferred: LocaleText | LocaleText[],
+        symbolic = true,
+    ) {
         preferred = Array.isArray(preferred) ? preferred : [preferred];
         return (
             this.getPreferredName(preferred, symbolic)?.getName() ??
@@ -117,7 +129,7 @@ export default class Names extends Node {
     }
 
     getPreferredName(
-        preferred: Locale | Locale[],
+        preferred: LocaleText | LocaleText[],
         symbolic = true,
     ): Name | undefined {
         if (symbolic) {
@@ -136,12 +148,33 @@ export default class Names extends Node {
         );
     }
 
+    getFirst() {
+        return this.names[0].getName();
+    }
+
     getNameInLanguage(lang: LanguageCode, symbolic: boolean | undefined) {
         return this.names.find(
             (name) =>
                 name.getLanguage() === lang &&
                 (symbolic === undefined || name.isSymbolic() === symbolic),
         );
+    }
+
+    getLocaleNames(locales: Locales) {
+        return this.names
+            .filter(
+                (name) =>
+                    name.isSymbolic() ||
+                    name.language === undefined ||
+                    locales
+                        .getLocales()
+                        .some(
+                            (l) =>
+                                name.language !== undefined &&
+                                name.language.isLocaleLanguage(l),
+                        ),
+            )
+            .map((n) => n.getName());
     }
 
     getNames() {

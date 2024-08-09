@@ -23,7 +23,6 @@ import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
-import concretize from '../locale/concretize';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
@@ -172,9 +171,8 @@ export default class This extends SimpleExpression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.This.start),
+        return locales.concretize(
+            (l) => l.node.This.start,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

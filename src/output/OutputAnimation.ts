@@ -9,7 +9,7 @@ import Transition from './Transition';
 import Stage from './Stage';
 import type RenderContext from './RenderContext';
 import Phrase from './Phrase';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
 
 export enum AnimationState {
@@ -69,8 +69,8 @@ export default class OutputAnimation {
         else this.rest();
     }
 
-    log(message: string) {
-        if (Log)
+    log(message: string, doit: boolean = false) {
+        if (Log || doit)
             console.log(
                 `${Math.round(Date.now() / 1000)}s (${this.output.getName()} ${
                     this.state
@@ -80,6 +80,10 @@ export default class OutputAnimation {
                         : this.output.value.creator.toWordplay()
                 }: ${message}`,
             );
+    }
+
+    error(message: string) {
+        this.log(message, true);
     }
 
     /** Update the current animation with a new phrase by the same name. */
@@ -357,9 +361,13 @@ export default class OutputAnimation {
     start(
         state: AnimationState,
         transitions: [Transition, Transition, ...Transition[]],
+        // If this is a second attempt.
+        retries: number = 0,
     ) {
         // Don't start any new animations if we're done or already in the state.
-        if (this.state === AnimationState.Done) return;
+        if (this.state === AnimationState.Done) {
+            return;
+        }
 
         // Don't start any animations if there's no verse.
         if (this.animator.stage === undefined) return;
@@ -407,8 +415,18 @@ export default class OutputAnimation {
         // If there's DOM element and this isn't exiting, start an animation.
         // (We have to defer for exits because the output needs to render the new exiting output first.)
         if (!(element instanceof HTMLElement)) {
-            this.log(`No HTML element, ending animation`);
-            this.done();
+            // Try again in a hundred milliseconds, up to three times.
+            if (retries < 3) {
+                setTimeout(
+                    () => this.start(state, transitions, retries + 1),
+                    100,
+                );
+            }
+            // If we already retried
+            else {
+                this.log(`No HTML element, ending animation`);
+                this.done();
+            }
             return;
         }
 
@@ -418,7 +436,9 @@ export default class OutputAnimation {
             this.animator.exitedInfo.get(this.output.getName());
 
         if (info === undefined) {
-            this.log(`No output info, ending animation.`);
+            this.error(
+                `No output info, ending animation permanently, as something is broken.`,
+            );
             this.done();
             return;
         }
@@ -591,7 +611,7 @@ const StyleToCSSMapping = {
 };
 
 // A cache of values to keys for each locale.
-const styleValueToKeyByLocale: Map<Locale, Map<string, string>> = new Map();
+const styleValueToKeyByLocale: Map<LocaleText, Map<string, string>> = new Map();
 
 function styleToCSSEasing(locales: Locales, name: string | undefined) {
     // No name given? Default to ease out.
@@ -607,7 +627,7 @@ function styleToCSSEasing(locales: Locales, name: string | undefined) {
     return 'ease-out';
 }
 
-function getStyleValueToKey(locale: Locale) {
+function getStyleValueToKey(locale: LocaleText) {
     let mapping = styleValueToKeyByLocale.get(locale);
     if (mapping) return mapping;
 

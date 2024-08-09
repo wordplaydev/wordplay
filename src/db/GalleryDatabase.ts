@@ -20,7 +20,7 @@ import { firestore } from './firebase';
 import { FirebaseError } from 'firebase/app';
 import { get, writable, type Writable } from 'svelte/store';
 import type Project from '../models/Project';
-import { toLocaleString } from '../locale/Locale';
+import { localeToString } from '../locale/Locale';
 import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 
@@ -156,11 +156,11 @@ export default class GalleryDatabase {
 
         const id = uuidv4();
         const name: Record<string, string> = {};
-        name[toLocaleString(locales.getLocales()[0])] = locales.get(
+        name[localeToString(locales.getLocales()[0])] = locales.get(
             (l) => l.ui.gallery.untitled,
         );
         const description: Record<string, string> = {};
-        description[toLocaleString(locales.getLocales()[0])] = '';
+        description[localeToString(locales.getLocales()[0])] = '';
         const gallery: SerializedGallery = {
             v: 1,
             id,
@@ -276,8 +276,14 @@ export default class GalleryDatabase {
     }
 
     // Remove the project from the gallery that it's in.
-    async removeProject(project: Project) {
-        const galleryID = project.getGallery();
+    async removeProject(project: Project, galleryID: string | null) {
+        // Revise the project with a gallery ID.
+        await this.removeProjectFromGallery(project);
+
+        // Find the gallery from the given or the project, if provided.
+        galleryID = galleryID ?? project.getGallery();
+
+        // No gallery? No edit.
         if (galleryID === null) return;
 
         // Find the gallery.
@@ -286,11 +292,13 @@ export default class GalleryDatabase {
         // No matching gallery? Bail.
         if (gallery === undefined) return;
 
-        // Revise the project with a gallery ID.
-        this.database.Projects.edit(project.withGallery(null), false, true);
-
         // Revise the gallery with a project ID.
         this.edit(gallery.withoutProject(project.getID()));
+    }
+
+    async removeProjectFromGallery(project: Project) {
+        // Revise the project with a gallery ID.
+        this.database.Projects.edit(project.withGallery(null), false, true);
     }
 
     // Remove the given creator from the gallery, and all of their projects.

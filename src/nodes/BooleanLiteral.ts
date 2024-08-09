@@ -11,7 +11,6 @@ import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class BooleanLiteral extends Literal {
@@ -91,9 +90,8 @@ export default class BooleanLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.BooleanLiteral.start),
+        return locales.concretize(
+            (l) => l.node.BooleanLiteral.start,
             new NodeRef(this.value, locales, context, this.value.getText()),
         );
     }

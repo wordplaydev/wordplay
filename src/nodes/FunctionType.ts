@@ -22,9 +22,9 @@ import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
-import type { TemplateInput } from '../locale/concretize';
 import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 
 export default class FunctionType extends Type {
     readonly fun: Token;

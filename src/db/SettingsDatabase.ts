@@ -10,7 +10,7 @@ import {
 import { CameraSetting } from './CameraSetting';
 import { MicSetting } from './MicSetting';
 import { derived } from 'svelte/store';
-import type { SupportedLocale } from '../locale/Locale';
+import type { SupportedLocale } from '../locale/LocaleText';
 import type { Database } from './Database';
 import type { SerializedLayout } from '../components/project/Layout';
 import type Arrangement from './Arrangement';
@@ -24,6 +24,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from './firebase';
 import { CreatorCollection } from './CreatorDatabase';
 import { SpaceSetting } from './SpaceSetting';
+import { LineSetting } from './LinesSetting';
+import { AnnotationsSetting } from './AnnotationsSetting';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {
@@ -65,6 +67,8 @@ export default class SettingsDatabase {
         localized: LocalizedSetting,
         dark: DarkSetting,
         space: SpaceSetting,
+        lines: LineSetting,
+        annotations: AnnotationsSetting,
     };
 
     /** A derived store based on animation factor */
@@ -168,6 +172,14 @@ export default class SettingsDatabase {
 
     setSpace(space: boolean) {
         this.settings.space.set(this.database, space);
+    }
+
+    setLines(on: boolean) {
+        this.settings.lines.set(this.database, on);
+    }
+
+    setShowAnnotations(on: boolean) {
+        this.settings.annotations.set(this.database, on);
     }
 
     getDark() {

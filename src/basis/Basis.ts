@@ -19,7 +19,7 @@ import type TypeVariables from '@nodes/TypeVariables';
 import type Docs from '@nodes/Docs';
 import type Expression from '@nodes/Expression';
 import Root from '../nodes/Root';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import createDefaultShares from '@runtime/createDefaultShares';
 import type LanguageCode from '../locale/LanguageCode';
 import bootstrapTable from './TableBasis';
@@ -27,7 +27,7 @@ import {
     createInputs,
     type FunctionText,
     type NameAndDoc,
-} from '../locale/Locale';
+} from '../locale/LocaleText';
 import { getDocLocales } from '../locale/getDocLocales';
 import { getNameLocales } from '../locale/getNameLocales';
 import bootstrapStructure from './StructureBasis';
@@ -165,7 +165,7 @@ export class Basis {
 
 export function createBasisFunction(
     locales: Locales,
-    text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+    text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
     typeVars: TypeVariables | undefined,
     types: (Type | [Type, Expression])[],
     output: Type,
@@ -183,7 +183,7 @@ export function createBasisFunction(
 
 export function createEqualsFunction(
     locales: Locales,
-    text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+    text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
     equal: boolean,
 ) {
     return createBasisFunction(

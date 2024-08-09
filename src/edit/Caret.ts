@@ -31,7 +31,6 @@ import MapLiteral from '../nodes/MapLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import type Literal from '../nodes/Literal';
-import concretize from '../locale/concretize';
 import type Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
@@ -1444,11 +1443,9 @@ export default class Caret {
         /** Get description of conflicts */
         const conflictDescription =
             conflicts.length > 0
-                ? concretize(
-                      locales,
-                      locales.get((l) => l.ui.edit.conflicts),
-                      conflicts.length,
-                  ).toText()
+                ? locales
+                      .concretize((l) => l.ui.edit.conflicts, conflicts.length)
+                      .toText()
                 : undefined;
 
         return `${this.getPositionDescription(type, context)}${
@@ -1461,12 +1458,13 @@ export default class Caret {
 
         /** If the caret is a node, describe the node. */
         if (this.position instanceof Node) {
-            return concretize(
-                locales,
-                locales.get((l) => l.ui.edit.node),
-                new NodeRef(this.position, locales, context),
-                type ? new NodeRef(type, locales, context) : undefined,
-            ).toText();
+            return locales
+                .concretize(
+                    (l) => l.ui.edit.node,
+                    new NodeRef(this.position, locales, context),
+                    type ? new NodeRef(type, locales, context) : undefined,
+                )
+                .toText();
         }
 
         const { before, after } = this.getNodesBetween();
@@ -1483,54 +1481,58 @@ export default class Caret {
                 tokenPosition === undefined
                     ? undefined
                     : this.position - tokenPosition;
-            return concretize(
-                locales,
-                locales.get((l) => l.ui.edit.inside),
-                new NodeRef(this.tokenExcludingSpace, locales, context),
-                // Character before cursor, if there is one
-                relativeIndex
-                    ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
-                    : undefined,
-                // Character after cursor, if there is one
-                relativeIndex
-                    ? this.tokenExcludingSpace.text.at(relativeIndex)
-                    : undefined,
-            ).toText();
+            return locales
+                .concretize(
+                    (l) => l.ui.edit.inside,
+                    new NodeRef(this.tokenExcludingSpace, locales, context),
+                    // Character before cursor, if there is one
+                    relativeIndex
+                        ? this.tokenExcludingSpace.text.at(relativeIndex - 1)
+                        : undefined,
+                    // Character after cursor, if there is one
+                    relativeIndex
+                        ? this.tokenExcludingSpace.text.at(relativeIndex)
+                        : undefined,
+                )
+                .toText();
         }
         // Describe the empty line
         else if (this.isEmptyLine()) {
-            return concretize(
-                locales,
-                locales.get((l) => l.ui.edit.line),
-                beforeNode
-                    ? new NodeRef(beforeNode, locales, context)
-                    : undefined,
-                afterNode
-                    ? new NodeRef(afterNode, locales, context)
-                    : undefined,
-            ).toText();
-        }
-        // Describe the tokens we're between or before.
-        else if (this.tokenIncludingSpace) {
-            if (this.tokenPrior && this.tokenPrior !== this.tokenIncludingSpace)
-                return concretize(
-                    locales,
-                    locales.get((l) => l.ui.edit.between),
+            return locales
+                .concretize(
+                    (l) => l.ui.edit.line,
                     beforeNode
                         ? new NodeRef(beforeNode, locales, context)
                         : undefined,
                     afterNode
                         ? new NodeRef(afterNode, locales, context)
                         : undefined,
-                ).toText();
+                )
+                .toText();
+        }
+        // Describe the tokens we're between or before.
+        else if (this.tokenIncludingSpace) {
+            if (this.tokenPrior && this.tokenPrior !== this.tokenIncludingSpace)
+                return locales
+                    .concretize(
+                        (l) => l.ui.edit.between,
+                        beforeNode
+                            ? new NodeRef(beforeNode, locales, context)
+                            : undefined,
+                        afterNode
+                            ? new NodeRef(afterNode, locales, context)
+                            : undefined,
+                    )
+                    .toText();
             else
-                return concretize(
-                    locales,
-                    locales.get((l) => l.ui.edit.before),
-                    afterNode
-                        ? new NodeRef(afterNode, locales, context)
-                        : undefined,
-                ).toText();
+                return locales
+                    .concretize(
+                        (l) => l.ui.edit.before,
+                        afterNode
+                            ? new NodeRef(afterNode, locales, context)
+                            : undefined,
+                    )
+                    .toText();
         }
     }
 

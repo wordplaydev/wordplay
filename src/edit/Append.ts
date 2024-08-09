@@ -4,7 +4,6 @@ import type { Edit } from '../components/editor/util/Commands';
 import Refer from './Refer';
 import Caret from './Caret';
 import type Context from '@nodes/Context';
-import concretize from '../locale/concretize';
 import Bind from '../nodes/Bind';
 import type Locales from '../locale/Locales';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
@@ -119,9 +118,8 @@ export default class Append<NodeType extends Node> extends Revision {
             this.insertion instanceof Refer
                 ? this.insertion.getNode(locales)
                 : this.getNewNode(locales);
-        return concretize(
-            locales,
-            locales.get((l) => l.ui.edit.append),
+        return locales.concretize(
+            (l) => l.ui.edit.append,
             node.getLabel(locales),
         );
     }

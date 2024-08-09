@@ -131,38 +131,53 @@
         cursor: grabbing;
     }
 
-    .token-category-delimiter {
-        color: var(--color-dark-grey);
-    }
-    .token-category-relation {
-        color: var(--wordplay-relation-color);
-    }
-    .token-category-share {
-        color: var(--color-orange);
-    }
-    .token-category-eval {
-        color: var(--color-blue);
-    }
-    .token-category-docs {
+    /* Give all tokens in side a .Doc the doc color except those inside an .Example */
+    :global(.Doc) .token-view {
         color: var(--wordplay-doc-color);
     }
-    .token-category-literal {
+
+    .token-category-delimiter,
+    :global(.Example) .token-category-delimiter {
+        color: var(--color-dark-grey);
+    }
+    .token-category-relation,
+    :global(.Example) .token-category-relation {
+        color: var(--wordplay-relation-color);
+    }
+    .token-category-share,
+    :global(.Example) .token-category-share {
+        color: var(--color-orange);
+    }
+    .token-category-eval,
+    :global(.Example) .token-category-eval {
         color: var(--color-blue);
     }
-    .token-category-name {
+
+    .token-category-name,
+    :global(.Example) .token-category-name {
         color: var(--wordplay-foreground);
     }
-    .token-category-type {
+
+    .token-category-type,
+    :global(.Example) .token-category-type {
         color: var(--wordplay-type-color);
     }
-    .token-category-operator {
+    .token-category-operator,
+    :global(.Example) .token-category-operator {
         color: var(--wordplay-operator-color);
     }
-    .token-category-unknown {
+    .token-category-unknown,
+    :global(.Example) .token-category-unknown {
         color: var(--color-pink);
     }
-    .token-category-placeholder {
+    .token-category-placeholder,
+    :global(.Example) .token-category-placeholder {
         color: var(--wordplay-inactive-color);
+    }
+
+    .token-category-literal,
+    :global(.Example) .token-category-literal {
+        color: var(--color-blue);
     }
 
     .token-view.newline {

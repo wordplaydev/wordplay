@@ -1,4 +1,4 @@
-import type { Template } from './Locale';
+import type { Template } from './LocaleText';
 
 type EditTexts = {
     /** A way to say "on node of type [type]" */

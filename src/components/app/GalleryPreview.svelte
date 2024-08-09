@@ -42,7 +42,9 @@
     <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
     {#if browser && project !== undefined}
         <div class="previews">
-            {#if project === null}
+            {#if gallery.getProjects().length === 0}
+                &mdash;
+            {:else if project === null}
                 <Spinning
                     large
                     label={$locales.get((l) => l.ui.widget.loading.message)}

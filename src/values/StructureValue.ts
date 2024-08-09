@@ -18,7 +18,6 @@ import {
 } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class StructureValue extends Value {
@@ -170,11 +169,8 @@ export default class StructureValue extends Value {
         }${EVAL_OPEN_SYMBOL}${bindings.join(' ')}${EVAL_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.structure),
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.structure);
     }
 
     /**

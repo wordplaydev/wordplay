@@ -10,7 +10,7 @@ import { defineConfig, devices } from '@playwright/test';
  * See https://playwright.dev/docs/test-configuration.
  */
 export default defineConfig({
-    testDir: './tests',
+    testDir: './tests/end2end',
     /* Run tests in files in parallel */
     fullyParallel: true,
     /* Fail the build on CI if you accidentally left test.only in the source code. */
@@ -54,7 +54,7 @@ export default defineConfig({
         },
 
         // Disable Mobile Safari due to slowness in Github Test bot.
-        // See: https://github.com/wordplaydev/wordplay/issues/408 
+        // See: https://github.com/wordplaydev/wordplay/issues/408
         /*
         {
             name: 'Mobile Safari',

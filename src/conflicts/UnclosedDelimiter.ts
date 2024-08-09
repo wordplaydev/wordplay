@@ -3,7 +3,6 @@ import type Node from '@nodes/Node';
 import type Token from '@nodes/Token';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class UnclosedDelimiter extends Conflict {
@@ -24,25 +23,22 @@ export default class UnclosedDelimiter extends Conflict {
             primary: {
                 node: this.open,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) =>
-                                l.node.UnparsableExpression.conflict
-                                    .UnclosedDelimiter
-                        ),
+                    locales.concretize(
+                        (l) =>
+                            l.node.UnparsableExpression.conflict
+                                .UnclosedDelimiter,
                         new NodeRef(
                             this.open,
                             locales,
                             context,
-                            this.open.getText()
+                            this.open.getText(),
                         ),
                         new NodeRef(
                             this.expected,
                             locales,
                             context,
-                            this.expected.getText()
-                        )
+                            this.expected.getText(),
+                        ),
                     ),
             },
         };

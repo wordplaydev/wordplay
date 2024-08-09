@@ -23,8 +23,7 @@ import SimpleExpression from './SimpleExpression';
 import NameException from '@values/NameException';
 import NodeRef from '@locale/NodeRef';
 import Sym from './Sym';
-import concretize, { type TemplateInput } from '../locale/concretize';
-import Glyphs from '../lore/Glyphs';
+import { type TemplateInput } from '../locale/Locales';
 import type Node from './Node';
 import Refer from '../edit/Refer';
 import Purpose from '../concepts/Purpose';
@@ -374,9 +373,8 @@ export default class Reference extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Reference.start),
+        return locales.concretize(
+            (l) => l.node.Reference.start,
             new NodeRef(this.name, locales, context),
         );
     }
@@ -386,6 +384,6 @@ export default class Reference extends SimpleExpression {
     }
 
     getGlyphs() {
-        return Glyphs.Reference;
+        return { symbols: this.name.getText() };
     }
 }

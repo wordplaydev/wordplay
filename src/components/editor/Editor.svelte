@@ -78,6 +78,7 @@
         animationFactor,
         blocks,
         locales,
+        showLines,
     } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import OutputView from '../output/OutputView.svelte';
@@ -1342,6 +1343,7 @@
 -->
 <!-- svelte-ignore missing-declaration -->
 <div
+    data-testid="editor"
     class="editor {$evaluation !== undefined && $evaluation.playing
         ? 'playing'
         : 'stepping'}"
@@ -1409,6 +1411,7 @@
         spaces={source.spaces}
         localized={$localized}
         caret={$caret}
+        lines={$showLines}
     />
     <!-- Render highlights above the code -->
     {#each outlines as outline}

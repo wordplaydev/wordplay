@@ -44,14 +44,17 @@
 </script>
 
 <div
-    class="dialog {below ? 'column' : flip ? 'row reverse' : 'row'} {!below &&
-    baseline
-        ? 'baseline'
-        : ''}"
+    class="dialog {below
+        ? flip
+            ? 'column reverse'
+            : 'column'
+        : flip
+          ? 'row reverse'
+          : 'row'} {!below && baseline ? 'baseline' : ''}"
     class:big
     class:scroll
 >
-    <div>
+    <div class="speaker">
         <div
             class="glyphs {symbols.length >= 3
                 ? 'small'
@@ -69,7 +72,9 @@
     </div>
     <div
         class="message {below
-            ? 'below'
+            ? flip
+                ? 'below flip'
+                : 'below'
             : flip
               ? 'flip'
               : 'reading'} {typeof document !== 'undefined'
@@ -114,6 +119,11 @@
         flex-direction: row;
         align-items: center;
         max-width: 100%;
+    }
+
+    .dialog.column.reverse {
+        align-items: flex-end;
+        padding-inline-start: calc(2 * var(--wordplay-spacing));
     }
 
     .dialog.row.reverse {
@@ -226,23 +236,6 @@
         top: calc(2 * var(--wordplay-spacing));
     }
 
-    .message.flip:after {
-        content: '';
-        position: absolute;
-        border-style: solid;
-        border-width: var(--tail-width) 0 var(--tail-width) var(--tail-width);
-        border-color: transparent var(--wordplay-background);
-        display: block;
-        width: 0;
-        margin-top: calc(-1 * var(--tail-width));
-        inset-inline-end: calc(-1 * var(--direction) * var(--tail-width));
-        top: 50%;
-    }
-
-    .baseline .message.flip:after {
-        top: calc(2 * var(--wordplay-spacing));
-    }
-
     .message.flip:before {
         content: '';
         position: absolute;
@@ -263,20 +256,25 @@
         top: 50%;
     }
 
-    .baseline .message.flip:before {
-        top: calc(2 * var(--wordplay-spacing));
-    }
-
-    .message.below:after {
+    .message.flip:after {
         content: '';
         position: absolute;
         border-style: solid;
-        border-width: 0 var(--tail-width) var(--tail-width);
-        border-color: var(--wordplay-background) transparent;
+        border-width: var(--tail-width) 0 var(--tail-width) var(--tail-width);
+        border-color: transparent var(--wordplay-background);
         display: block;
         width: 0;
-        top: calc(-1 * var(--tail-width));
-        inset-inline-start: calc(2 * var(--tail-width));
+        margin-top: calc(-1 * var(--tail-width));
+        inset-inline-end: calc(-1 * var(--direction) * var(--tail-width));
+        top: 50%;
+    }
+
+    .baseline .message.flip:after {
+        top: calc(2 * var(--wordplay-spacing));
+    }
+
+    .baseline .message.flip:before {
+        top: calc(2 * var(--wordplay-spacing));
     }
 
     .message.below:before {
@@ -292,6 +290,45 @@
         inset-inline-start: calc(
             2 * var(--tail-width) - 1 * var(--wordplay-border-width)
         );
+    }
+
+    .message.below:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 var(--tail-width) var(--tail-width);
+        border-color: var(--wordplay-background) transparent;
+        display: block;
+        width: 0;
+        top: calc(-1 * var(--tail-width));
+        inset-inline-start: calc(2 * var(--tail-width));
+    }
+
+    .message.below.flip:before {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 calc(var(--tail-width) + var(--wordplay-border-width))
+            calc(var(--tail-width) + var(--wordplay-border-width));
+        border-color: var(--wordplay-border-color) transparent;
+        display: block;
+        width: 0;
+        top: 0;
+        inset-inline-start: calc(
+            100% - 5 * var(--tail-width) - 1 * var(--wordplay-border-width)
+        );
+    }
+
+    .message.below.flip:after {
+        content: '';
+        position: absolute;
+        border-style: solid;
+        border-width: 0 var(--tail-width) var(--tail-width);
+        border-color: var(--wordplay-background) transparent;
+        display: block;
+        width: 0;
+        top: 0;
+        inset-inline-start: calc(100% - 5 * var(--tail-width));
     }
 
     .emotion-kind {
@@ -721,5 +758,11 @@
         100% {
             transform: scale(0.75);
         }
+    }
+
+    .speaker {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
     }
 </style>

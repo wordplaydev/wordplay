@@ -11,7 +11,6 @@ import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
 import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type Context from './Context';
@@ -87,10 +86,7 @@ export default class UnparsableExpression extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.UnparsableExpression.start),
-        );
+        return locales.concretize((l) => l.node.UnparsableExpression.start);
     }
 
     getGlyphs() {

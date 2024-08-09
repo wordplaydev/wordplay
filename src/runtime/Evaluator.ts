@@ -29,15 +29,14 @@ import TypeException from '../values/TypeException';
 import TemporalStreamValue from '../values/TemporalStreamValue';
 import StartFinish from './StartFinish';
 import type { Basis } from '../basis/Basis';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import type { Path } from '../nodes/Root';
 import Evaluate from '../nodes/Evaluate';
-
+import type Locale from '@locale/Locale';
 import NumberGenerator from 'recoverable-random';
 import type { Database } from '../db/Database';
 import ReactionStream from '../values/ReactionStream';
 import type Animator from '../output/Animator';
-import Locales from '../locale/Locales';
 import DefaultLocale from '../locale/DefaultLocale';
 import StructureValue from '@values/StructureValue';
 import ListValue from '@values/ListValue';
@@ -83,7 +82,7 @@ export default class Evaluator {
     readonly project: Project;
 
     /** The preferred locales for evaluation. */
-    readonly locales: Locales;
+    readonly locales: (Locale | LocaleText)[];
 
     /** The database that contains settings for evaluation */
     readonly database: Database;
@@ -94,8 +93,8 @@ export default class Evaluator {
     /** This represents a stack of node evaluations. The first element of the stack is the currently evaluating node. */
     readonly evaluations: Evaluation[] = [];
 
-    /** The last evaluation to be removed from the stack */
-    #lastEvaluation: Evaluation | undefined;
+    /** The last evaluation to be removed from the stack not triggered by source, used to get shared bindings from a source's block. */
+    #lastSourceEvaluation: Evaluation | undefined;
 
     /** The callback to notify if the evaluation's value changes. */
     readonly observers: EvaluationObserver[] = [];
@@ -259,9 +258,11 @@ export default class Evaluator {
     constructor(
         project: Project,
         database: Database,
-        locales: Locales,
+        locales: (Locale | Locale)[],
         reactive = true,
         prior: Evaluator | undefined = undefined,
+        // Allow creators to specify a seed
+        seed: number | undefined = undefined,
     ) {
         this.project = project;
         this.database = database;
@@ -286,7 +287,7 @@ export default class Evaluator {
         this.broadcast();
 
         // Initialize a default random number generator.
-        this.seed = Math.random();
+        this.seed = seed ?? Math.random();
         this.random = new NumberGenerator(this.seed);
 
         // Mirror the given prior, if there is one, and if we haven't persisted a source too many times.
@@ -299,7 +300,7 @@ export default class Evaluator {
      */
     static evaluateCode(
         database: Database,
-        locale: Locale,
+        locale: LocaleText,
         main: string,
         supplements?: string[],
     ): Value | undefined {
@@ -313,11 +314,7 @@ export default class Evaluator {
             ),
             locale,
         );
-        return new Evaluator(
-            project,
-            database,
-            new Locales([locale], DefaultLocale),
-        ).getInitialValue();
+        return new Evaluator(project, database, [locale]).getInitialValue();
     }
 
     /** Mirror the given evaluator's stream history and state, but with the new source. */
@@ -434,7 +431,12 @@ export default class Evaluator {
 
     /** Get the currently selected locales from the database */
     getLocales() {
-        return this.locales.getLocales();
+        return [...this.locales.filter((l) => 'wordplay' in l), DefaultLocale];
+    }
+
+    /** Get the locales used in this evaluator for determining text values at runtime. */
+    getLocaleIDs(): Locale[] {
+        return this.locales;
     }
 
     getCurrentEvaluation() {
@@ -442,7 +444,7 @@ export default class Evaluator {
     }
 
     getLastEvaluation() {
-        return this.#lastEvaluation;
+        return this.#lastSourceEvaluation;
     }
 
     getCurrentClosure() {
@@ -686,7 +688,7 @@ export default class Evaluator {
 
         // Reset the evluation stack.
         this.evaluations.length = 0;
-        this.#lastEvaluation = undefined;
+        this.#lastSourceEvaluation = undefined;
 
         // Didn't recently step to node.
         this.#steppedToNode = false;
@@ -1546,17 +1548,18 @@ export default class Evaluator {
                 // stream.
                 const root = this.project.getRoot(streamNode);
                 if (root) {
-                    const branchingAncestors = root
-                        .getAncestors(streamNode)
-                        .filter((node, index, array) => {
-                            if (node instanceof Expression && index > 0) {
-                                const parent = array[index + 1];
-                                return parent instanceof Expression
-                                    ? parent.hasBranch(node)
-                                    : false;
-                            }
-                            return false;
-                        });
+                    const branchingAncestors = [
+                        streamNode,
+                        ...root.getAncestors(streamNode),
+                    ].filter((node, index, array) => {
+                        if (node instanceof Expression && index > 0) {
+                            const child = array[index - 1];
+                            return child instanceof Expression
+                                ? node.hasBranch(child)
+                                : false;
+                        }
+                        return false;
+                    });
                     for (const branch of branchingAncestors) {
                         for (const affected of branch
                             .nodes()
@@ -1635,7 +1638,9 @@ export default class Evaluator {
             throw Error(
                 "Shouldn't be possible to end an evaluation on an empty evaluation stack.",
             );
-        this.#lastEvaluation = evaluation;
+        // We want to remember the block and it's bindings for borrowing, since the source's evaluation doesn't have any bindings.
+        if (!(evaluation.getDefinition() instanceof Source))
+            this.#lastSourceEvaluation = evaluation;
         const def = evaluation.getDefinition();
         if (def instanceof Source) {
             // If not in the past, save the source value.

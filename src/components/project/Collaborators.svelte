@@ -67,10 +67,12 @@
                 };
             }),
         ]}
-        change={(value) => {
+        change={(galleryID) => {
             // Ask the gallery database to put this project in the gallery.
-            if (value) Galleries.addProject(project, value);
-            else Galleries.removeProject(project);
+            if (galleryID) Galleries.addProject(project, galleryID);
+            else {
+                Galleries.removeProject(project, null);
+            }
         }}
     />
 

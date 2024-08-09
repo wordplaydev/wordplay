@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-    export const TYPING_DELAY = 300;
+    export const TYPING_DELAY = 500;
 </script>
 
 <script lang="ts">
@@ -125,8 +125,10 @@
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
-    import { toLocaleString } from '@locale/Locale';
+    import { localeToString } from '@locale/Locale';
+    import type Locale from '@locale/Locale';
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
+    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -227,14 +229,20 @@
     });
     setContext(KeyModfifierSymbol, keyModifiers);
 
-    // When keyboard edit idle changes to true, set a timeout
+    /** Keep a currently selected output locale to send to the Evaluator for evaluation and rendering */
+    let evaluationLocale: Locale | undefined = undefined;
+
+    /** Keep track of locales used */
+    $: localesUsed = project.getLocalesUsed();
+
+    // When keyboard isn't idle, set a timeout to set it to idle later.
     // to reset it to false after a delay.
     $: {
         if ($keyboardEditIdle !== IdleKind.Idle) {
             if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
             keyboardIdleTimeout = setTimeout(
                 () => keyboardEditIdle.set(IdleKind.Idle),
-                500,
+                TYPING_DELAY,
             );
         }
     }
@@ -310,7 +318,9 @@
                 () => updateEvaluator(newProject),
                 TYPING_DELAY,
             );
-        } else updateEvaluator(newProject);
+        } else {
+            updateEvaluator(newProject);
+        }
     });
 
     // When the locales change, reset the evaluator to use the new locales.
@@ -324,7 +334,8 @@
         const newEvaluator = new Evaluator(
             newProject,
             DB,
-            newProject.getLocales(),
+            // Choose the selected evaluation locale or if not selected, currently selected IDE locale
+            evaluationLocale ? [evaluationLocale] : localesUsed,
             true,
             replayInputs ? $evaluator : undefined,
         );
@@ -1235,7 +1246,9 @@
 {#if warn}
     <Moderation {project} />
 {/if}
-<!-- Render the app header and the current project, if there is one. -->
+<!-- Render a live region with announcements as soon as possible -->
+<Announcer bind:announce />
+<!-- Render the current project. -->
 <main class="project" class:dragging={$dragged !== undefined} bind:this={view}>
     <div
         class="canvas"
@@ -1374,6 +1387,14 @@
                                         background
                                         command={Restart}
                                     />
+                                    {#if localesUsed.length > 1}<OutputLocaleChooser
+                                            {localesUsed}
+                                            locale={evaluationLocale}
+                                            change={(locale) => {
+                                                evaluationLocale = locale;
+                                                updateEvaluator(project);
+                                            }}
+                                        />{/if}
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting
                                             bind:painting
@@ -1435,7 +1456,7 @@
                                             )}
                                         modes={[
                                             '...',
-                                            toLocaleString(
+                                            localeToString(
                                                 $locales.getLocale(),
                                             ),
                                             '😀',
@@ -1599,6 +1620,7 @@
                 {#if tile && tile.isCollapsed()}
                     <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                     <SourceTileToggle
+                        {project}
                         {source}
                         expanded={tile.mode === Mode.Expanded}
                         on:toggle={() => toggleTile(tile)}
@@ -1675,9 +1697,6 @@
             </div>
         {/if}
     {/if}
-
-    <!-- Render a live region with announcements -->
-    <Announcer bind:announce />
 </main>
 
 <style>

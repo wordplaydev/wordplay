@@ -8,7 +8,6 @@ import type Value from '@values/Value';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class SetValue extends SimpleValue {
@@ -107,11 +106,8 @@ export default class SetValue extends SimpleValue {
             .join(' ')}${SET_CLOSE_SYMBOL}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.set),
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.set);
     }
 
     getRepresentativeText() {

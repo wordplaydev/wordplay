@@ -14,7 +14,7 @@
         role="button"
         aria-disabled={!on}
         aria-label={offTip}
-        tabindex={on ? 0 : null}
+        tabindex="0"
         title={offTip}
         on:click|stopPropagation={() => toggle(false)}
         on:keydown={(event) =>
@@ -26,7 +26,7 @@
         role="button"
         aria-disabled={on}
         aria-label={onTip}
-        tabindex={on ? null : 0}
+        tabindex="0"
         title={onTip}
         on:click|stopPropagation={(event) =>
             event.button === 0 ? toggle(true) : undefined}
@@ -83,22 +83,16 @@
         transform: translateX(1px);
     }
 
+    .button.inactive {
+        transform: scale(1);
+    }
+
     .button.inactive:hover {
         outline: none;
-        border-color: var(--wordplay-highlight-color);
-        transform: scale(1);
+        transform: scale(1.1);
         transform-origin: center;
         z-index: 1;
         background: var(--wordplay-alternating-color);
-    }
-
-    .button:focus {
-        outline: none;
-        color: var(--wordplay-focus-color);
-    }
-
-    .button.inactive {
-        transform: scale(1);
     }
 
     .button.active {
@@ -106,5 +100,10 @@
         color: var(--wordplay-inactive-color);
         background-color: var(--wordplay-alternating-color);
         box-shadow: inset 1px 2px var(--wordplay-chrome);
+    }
+
+    .button:focus {
+        outline: none;
+        color: var(--wordplay-focus-color);
     }
 </style>

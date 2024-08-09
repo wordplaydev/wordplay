@@ -50,7 +50,7 @@ test.each([
         type: string | (new (...params: never[]) => Node),
         number,
         replacement,
-        result
+        result,
     ) => {
         const expr = parseExpression(toTokens(code));
         const newNode =
@@ -65,5 +65,5 @@ test.each([
                 : expr.nodes((s): s is Node => s instanceof type)[number];
         const newExpr = expr.replace(oldNode, newNode);
         expect(newExpr.isEqualTo(expected)).toBeTruthy();
-    }
+    },
 );

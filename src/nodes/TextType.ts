@@ -24,7 +24,7 @@ export default class TextType extends BasisType {
         open: Token,
         text: Token | undefined,
         close: Token | undefined,
-        language?: Language
+        language?: Language,
     ) {
         super();
 
@@ -41,7 +41,7 @@ export default class TextType extends BasisType {
             new Token(TEXT_SYMBOL, Sym.Text),
             text ? new Token(text, Sym.Words) : undefined,
             new Token(TEXT_SYMBOL, Sym.Text),
-            format
+            format,
         );
     }
 
@@ -67,7 +67,7 @@ export default class TextType extends BasisType {
             this.replaceChild('open', this.open, replace),
             this.replaceChild('text', this.text, replace),
             this.replaceChild('close', this.close, replace),
-            this.replaceChild('language', this.language, replace)
+            this.replaceChild('language', this.language, replace),
         ) as this;
     }
 

@@ -33,7 +33,7 @@
         >
             <Speech
                 glyph={$index?.getNodeConcept(annotation.node) ??
-                    annotation.node.getGlyphs()}
+                    annotation.node.getGlyphs($locales)}
                 flip={annotation.kind === 'secondary'}
                 below
             >
@@ -93,6 +93,11 @@
 
     .annotation.flip {
         align-self: flex-end;
+        padding-inline-start: none;
+        border-inline-start: none;
+        padding-inline-end: var(--wordplay-spacing);
+        border-inline-end: var(--wordplay-focus-width) solid
+            var(--wordplay-error);
     }
 
     .annotation.step {

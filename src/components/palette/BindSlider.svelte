@@ -6,7 +6,7 @@
     import type OutputProperty from '@edit/OutputProperty';
     import { getProject } from '../project/Contexts';
     import { Projects } from '../../db/Database';
-    import { getFirstName } from '../../locale/Locale';
+    import { getFirstName } from '../../locale/LocaleText';
     import { toTokens } from '../../parser/toTokens';
     import type Decimal from 'decimal.js';
 
@@ -30,10 +30,10 @@
                     toTokens(
                         newValue
                             .times(range.unit === '%' ? 100 : 1)
-                            .toString() + range.unit
-                    )
-                )
-            )
+                            .toString() + range.unit,
+                    ),
+                ),
+            ),
         );
     }
 </script>

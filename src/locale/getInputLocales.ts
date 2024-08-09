@@ -3,14 +3,14 @@ import type Doc from '@nodes/Doc';
 import Names from '@nodes/Names';
 import Docs from '@nodes/Docs';
 import { localeToLanguage } from './localeToLanguage';
-import { toDocString, type NameAndDoc, withoutAnnotations } from './Locale';
-import type Locale from './Locale';
-import { parseLocaleDoc } from '@locale/Locale';
+import { toDocString, type NameAndDoc, withoutAnnotations } from './LocaleText';
+import type LocaleText from './LocaleText';
+import { parseLocaleDoc } from '@locale/LocaleText';
 import type Locales from './Locales';
 
 export function getInputLocales(
     locales: Locales,
-    select: (translation: Locale) => NameAndDoc[],
+    select: (translation: LocaleText) => NameAndDoc[],
 ): { docs: Docs; names: Names }[] {
     // Make a list of docs and names by bind index.
     const binds: { docs: Doc[]; names: Name[] }[] = [];
@@ -52,7 +52,7 @@ export function getInputLocales(
     });
 }
 
-export function getLocaleNames(nameAndDoc: NameAndDoc, locale: Locale) {
+export function getLocaleNames(nameAndDoc: NameAndDoc, locale: LocaleText) {
     return (
         Array.isArray(nameAndDoc.names) ? nameAndDoc.names : [nameAndDoc.names]
     )

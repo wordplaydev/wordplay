@@ -12,7 +12,6 @@ import Context from '@nodes/Context';
 import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
-import type LanguageCode from '@locale/LanguageCode';
 import type StreamDefinition from '@nodes/StreamDefinition';
 import { parseNames } from '../parser/parseBind';
 import Root from '../nodes/Root';
@@ -20,11 +19,13 @@ import type { Path } from '../nodes/Root';
 import type { CaretPosition } from '../edit/Caret';
 import type createDefaultShares from '@runtime/createDefaultShares';
 import FunctionType from '../nodes/FunctionType';
-import type Locale from '../locale/Locale';
-import { getBestSupportedLocales, toLocaleString } from '../locale/Locale';
+import { getBestSupportedLocales } from '../locale/LocaleText';
+import { localeToString } from '@locale/Locale';
+import type Locale from '@locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import { toTokens } from '../parser/toTokens';
 import type LocalesDatabase from '../db/LocalesDatabase';
-import { moderatedFlags, type Moderation } from './Moderation';
+import { unknownFlags, type Moderation } from './Moderation';
 import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
 import {
@@ -43,6 +44,7 @@ import Name from '@nodes/Name';
 import Doc from '@nodes/Doc';
 import type Definition from '@nodes/Definition';
 import Templates from '@concepts/Templates';
+import concretize from '@locale/concretize';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -59,7 +61,7 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
     /**
      * The locales on which this project relies.
      * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
-    locales: Locale[];
+    locales: LocaleText[];
     /** Serialized caret positions for each source file */
     carets: SerializedCarets;
 };
@@ -119,7 +121,7 @@ export default class Project {
 
         // Get a Basis for the requested locales.
         this.basis = Basis.getLocalizedBasis(
-            new Locales(this.data.locales, DefaultLocale),
+            new Locales(concretize, this.data.locales, DefaultLocale),
         );
 
         // Initialize default shares
@@ -138,7 +140,7 @@ export default class Project {
         name: string,
         main: Source,
         supplements: Source[],
-        locales: Locale | Locale[],
+        locales: LocaleText | LocaleText[],
         owner: string | null = null,
         collaborators: string[] = [],
         pub = false,
@@ -147,7 +149,8 @@ export default class Project {
         archived = false,
         persisted = false,
         gallery: string | null = null,
-        flags: Moderation = moderatedFlags(),
+        // By default, unmoderated.
+        flags: Moderation = unknownFlags(),
         // This is last; omitting it updates the time.
         timestamp: number | undefined = undefined,
     ) {
@@ -176,8 +179,15 @@ export default class Project {
         });
     }
 
-    copy() {
-        return new Project({ ...this.data, id: uuidv4() });
+    copy(newOwner: string | null) {
+        return Project.make(
+            uuidv4(),
+            this.getName(),
+            this.getMain(),
+            this.getSupplements(),
+            this.getLocales().getLocales(),
+            newOwner,
+        ).asUnmoderated();
     }
 
     equals(project: Project) {
@@ -312,7 +322,10 @@ export default class Project {
             // Build conflict indices by going through each conflict, asking for the conflicting nodes
             // and adding to the conflict to each node's list of conflicts.
             for (const conflict of this.analysis.conflicts) {
-                const complicitNodes = conflict.getConflictingNodes(Templates);
+                const complicitNodes = conflict.getConflictingNodes(
+                    context,
+                    Templates,
+                );
                 this.analysis.primary.set(complicitNodes.primary.node, [
                     ...(this.analysis.primary.get(
                         complicitNodes.primary.node,
@@ -523,7 +536,7 @@ export default class Project {
     }
 
     /** Copies this project, but with the new locale added if it's not already included. */
-    withLocales(locales: Locale[]) {
+    withLocales(locales: LocaleText[]) {
         return new Project({
             ...this.data,
             locales: Array.from(new Set([...this.data.locales, ...locales])),
@@ -653,7 +666,7 @@ export default class Project {
         return this.data.owner;
     }
 
-    withOwner(owner: string) {
+    withOwner(owner: string | null) {
         return new Project({ ...this.data, owner });
     }
 
@@ -720,24 +733,11 @@ export default class Project {
         });
     }
 
-    /** Get all the languages used in the project */
-    getLanguages() {
-        return Array.from(
-            new Set(
-                this.getSources().reduce(
-                    (list: LanguageCode[], source: Source) =>
-                        list.concat(source.expression.getLanguagesUsed()),
-                    [],
-                ),
-            ),
-        );
-    }
-
     getPrimaryLanguage() {
         return this.getLocales().getLocale().language;
     }
 
-    withPrimaryLocale(locale: Locale) {
+    withPrimaryLocale(locale: LocaleText) {
         return new Project({
             ...this.data,
             locales: [locale, ...this.data.locales.filter((l) => l !== locale)],
@@ -837,18 +837,15 @@ export default class Project {
         });
     }
 
-    getLanguagesUsed(): LanguageCode[] {
-        const used = this.getSources().reduce(
-            (languages: LanguageCode[], source) => [
-                ...languages,
-                ...source.expression.getLanguagesUsed(),
-            ],
-            [],
-        );
-
-        return Array.from(
-            new Set([...this.data.locales.map((l) => l.language), ...used]),
-        );
+    getLocalesUsed(): Locale[] {
+        const locales: Record<string, Locale> = {};
+        for (const source of this.getSources()) {
+            for (const [id, locale] of Object.entries(
+                source.expression.getLocalesUsed(this.getContext(source)),
+            ))
+                locales[id] = locale;
+        }
+        return Array.from(Object.values(locales));
     }
 
     isListed() {
@@ -885,6 +882,10 @@ export default class Project {
 
     withFlags(flags: Moderation) {
         return new Project({ ...this.data, flags: { ...flags } });
+    }
+
+    asUnmoderated() {
+        return new Project({ ...this.data, flags: unknownFlags() });
     }
 
     withNewTime() {
@@ -1025,7 +1026,7 @@ export default class Project {
             }),
             locales: this.getLocales()
                 .getLocales()
-                .map((l) => toLocaleString(l)),
+                .map((l) => localeToString(l)),
             owner: this.data.owner,
             collaborators: this.data.collaborators,
             listed: this.isListed(),

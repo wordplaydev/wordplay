@@ -8,7 +8,8 @@ import UnparsableExpression from '@nodes/UnparsableExpression';
 import Project from '../models/Project';
 import Example from '../nodes/Example';
 import { Basis } from './Basis';
-import DefaultLocale, { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocale from '../locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
 import Templates from '@concepts/Templates';
 
 const basis = Basis.getLocalizedBasis(DefaultLocales);
@@ -45,7 +46,8 @@ function checkBasisNodes(node: Node) {
             !context
                 .getRoot(node)
                 ?.getAncestors(
-                    conflict.getConflictingNodes(Templates).primary.node,
+                    conflict.getConflictingNodes(context, Templates).primary
+                        .node,
                 )
                 .some((n) => n instanceof Example),
     );
@@ -55,7 +57,7 @@ function checkBasisNodes(node: Node) {
         conflicts
             .map((c) =>
                 c
-                    .getConflictingNodes(Templates)
+                    .getConflictingNodes(context, Templates)
                     .primary.explanation(DefaultLocales, context)
                     .toText(),
             )

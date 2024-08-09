@@ -18,14 +18,15 @@ import type Type from './Type';
 import type TypeSet from './TypeSet';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
-import type LanguageCode from '@locale/LanguageCode';
 import Sym from './Sym';
 import Glyphs from '../lore/Glyphs';
 import BlankException from '@values/BlankException';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import ValueRef from '../locale/ValueRef';
 import type Locales from '../locale/Locales';
+import { localeToString } from '@locale/Locale';
+import type Locale from '@locale/Locale';
+import Reference from './Reference';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -116,28 +117,41 @@ export default class Program extends Expression {
             const [source, definition] = borrow.getShare(context) ?? [];
             if (source === undefined) {
                 if (definition !== undefined) definitions.push(definition);
-            } else
+            } else {
                 definitions.push(
                     definition === undefined ? source : definition,
                 );
+                definitions.push(source);
+            }
         }
+        // Return all of the imported definitions and any sources that are part of a named import
         return definitions;
     }
 
-    getLanguagesUsed(): LanguageCode[] {
-        return Array.from(
-            new Set(
-                (
-                    this.nodes(
-                        (n): n is Language =>
-                            n instanceof Language &&
-                            n.getLanguageText() !== undefined,
-                    ) as Language[]
-                )
-                    .map((n) => n.getLanguageCode())
-                    .filter((l): l is LanguageCode => l !== undefined),
-            ),
-        );
+    getLocalesUsed(context: Context): Locale[] {
+        // The locales used include any explicit langage tags and locale of binds referred to in the program.
+        const locales: Record<string, Locale> = {};
+
+        for (const lang of this.nodes(
+            (n): n is Language =>
+                n instanceof Language && n.getLanguageText() !== undefined,
+        )) {
+            const locale = lang.getLocaleID();
+            if (locale !== undefined) locales[localeToString(locale)] = locale;
+        }
+
+        for (const bind of this.nodes(
+            (n): n is Reference => n instanceof Reference,
+        )) {
+            const def = bind.resolve(context);
+            if (def !== undefined) {
+                const locale = def.names.getLocaleOf(bind.getName());
+                if (locale !== undefined)
+                    locales[localeToString(locale)] = locale;
+            }
+        }
+
+        return Array.from(Object.values(locales));
     }
 
     getUnitsUsed(): Unit[] {
@@ -198,9 +212,8 @@ export default class Program extends Expression {
         const reaction = evaluator.getReactionPriorTo(evaluator.getStepIndex());
         const change = reaction && reaction.changes.length > 0;
 
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Program.start),
+        return locales.concretize(
+            (l) => l.node.Program.start,
             change
                 ? new ValueRef(reaction.changes[0].stream, locales, context)
                 : undefined,
@@ -215,9 +228,8 @@ export default class Program extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Program.finish),
+        return locales.concretize(
+            (l) => l.node.Program.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

@@ -24,7 +24,6 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import { none, type Grammar, type Replacement, node, list, any } from './Node';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
@@ -210,7 +209,6 @@ export default class Block extends Expression {
             .slice(0, this.statements.length - 1)
             .filter(
                 (s) =>
-                    s instanceof Expression &&
                     !(s instanceof DefinitionExpression || s instanceof Bind),
             )
             .forEach((s) => conflicts.push(new IgnoredExpression(this, s)));
@@ -342,10 +340,7 @@ export default class Block extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Block.start),
-        );
+        return locales.concretize((l) => l.node.Block.start);
     }
 
     getFinishExplanations(
@@ -353,9 +348,8 @@ export default class Block extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Block.finish),
+        return locales.concretize(
+            (l) => l.node.Block.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

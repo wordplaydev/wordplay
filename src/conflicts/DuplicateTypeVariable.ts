@@ -2,7 +2,6 @@ import Conflict from './Conflict';
 import type TypeVariable from '@nodes/TypeVariable';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class DuplicateTypeVariable extends Conflict {
@@ -21,37 +20,35 @@ export default class DuplicateTypeVariable extends Conflict {
             primary: {
                 node: this.typeVar,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
+                    locales.concretize(
                         locales.get(
                             (l) =>
                                 l.node.TypeVariable.conflict
-                                    .DuplicateTypeVariable
+                                    .DuplicateTypeVariable,
                         ).primary,
                         new NodeRef(
                             this.duplicate,
                             locales,
                             context,
-                            locales.getName(this.duplicate.names)
-                        )
+                            locales.getName(this.duplicate.names),
+                        ),
                     ),
             },
             secondary: {
                 node: this.duplicate,
                 explanation: (locales: Locales, context: Context) =>
-                    concretize(
-                        locales,
+                    locales.concretize(
                         locales.get(
                             (l) =>
                                 l.node.TypeVariable.conflict
-                                    .DuplicateTypeVariable
+                                    .DuplicateTypeVariable,
                         ).secondary,
                         new NodeRef(
                             this.typeVar,
                             locales,
                             context,
-                            locales.getName(this.typeVar.names)
-                        )
+                            locales.getName(this.typeVar.names),
+                        ),
                     ),
             },
         };

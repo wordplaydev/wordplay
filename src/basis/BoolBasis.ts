@@ -13,20 +13,20 @@ import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import Evaluation from '@runtime/Evaluation';
 import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
-import type { FunctionText, NameAndDoc } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
 import type Type from '../nodes/Type';
 import type Locales from '../locale/Locales';
 
 export default function bootstrapBool(locales: Locales) {
     function createBooleanFunction(
-        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         inputs: Type[],
         expression: (
             requestor: Expression,
             left: BoolValue,
-            right: BoolValue
-        ) => BoolValue
+            right: BoolValue,
+        ) => BoolValue,
     ) {
         return createBasisFunction(
             locales,
@@ -42,16 +42,16 @@ export default function bootstrapBool(locales: Locales) {
                     return evaluation.getValueOrTypeException(
                         requestor,
                         BooleanType.make(),
-                        left instanceof Evaluation ? undefined : left
+                        left instanceof Evaluation ? undefined : left,
                     );
                 if (!(right instanceof BoolValue))
                     return evaluation.getValueOrTypeException(
                         requestor,
                         BooleanType.make(),
-                        right
+                        right,
                     );
                 return expression(requestor, left, right);
-            }
+            },
         );
     }
 
@@ -66,12 +66,12 @@ export default function bootstrapBool(locales: Locales) {
                 createBooleanFunction(
                     (locale) => locale.basis.Boolean.function.and,
                     [BooleanType.make()],
-                    (requestor, left, right) => left.and(requestor, right)
+                    (requestor, left, right) => left.and(requestor, right),
                 ),
                 createBooleanFunction(
                     (locale) => locale.basis.Boolean.function.or,
                     [BooleanType.make()],
-                    (requestor, left, right) => left.or(requestor, right)
+                    (requestor, left, right) => left.or(requestor, right),
                 ),
                 createBasisFunction(
                     locales,
@@ -86,33 +86,33 @@ export default function bootstrapBool(locales: Locales) {
                             return evaluation.getValueOrTypeException(
                                 requestor,
                                 BooleanType.make(),
-                                left
+                                left,
                             );
                         return left.not(requestor);
-                    }
+                    },
                 ),
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Boolean.function.equals,
-                    true
+                    true,
                 ),
                 createEqualsFunction(
                     locales,
                     (locale) => locale.basis.Boolean.function.notequal,
-                    false
+                    false,
                 ),
                 createBasisConversion(
                     getDocLocales(
                         locales,
-                        (locale) => locale.basis.Boolean.conversion.text
+                        (locale) => locale.basis.Boolean.conversion.text,
                     ),
                     '?',
                     "''",
                     (requestor, val: Value) =>
-                        new TextValue(requestor, val.toString())
+                        new TextValue(requestor, val.toString()),
                 ),
             ],
-            BlockKind.Structure
-        )
+            BlockKind.Structure,
+        ),
     );
 }

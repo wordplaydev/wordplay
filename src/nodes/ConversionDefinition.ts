@@ -19,7 +19,6 @@ import { node, none, type Grammar, type Replacement, any } from './Node';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import type Value from '../values/Value';
 import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
@@ -198,10 +197,7 @@ export default class ConversionDefinition extends DefinitionExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.ConversionDefinition.start),
-        );
+        return locales.concretize((l) => l.node.ConversionDefinition.start);
     }
 
     getGlyphs() {

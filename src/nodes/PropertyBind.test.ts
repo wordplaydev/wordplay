@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 
 test.each([
     ['•Test(n•#)\nb: Test(1).n: 2\nb.n', '2'],

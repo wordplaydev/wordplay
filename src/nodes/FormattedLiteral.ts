@@ -7,7 +7,6 @@ import Literal from './Literal';
 import type Value from '../values/Value';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
-import concretize from '../locale/concretize';
 import MarkupValue from '@values/MarkupValue';
 import FormattedType from './FormattedType';
 import { getPreferred } from './LanguageTagged';
@@ -90,7 +89,7 @@ export default class FormattedLiteral extends Literal {
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
-        const text = this.getPreferredText(evaluator.getLocales());
+        const text = this.getPreferredText(evaluator.getLocaleIDs());
         // Choose a locale, compile its expressions, and then construct a string from the results.
         return [
             new Start(this),
@@ -110,7 +109,7 @@ export default class FormattedLiteral extends Literal {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const translation = this.getPreferredText(evaluator.getLocales());
+        const translation = this.getPreferredText(evaluator.getLocaleIDs());
         const expressions = translation.getExamples();
 
         let concrete = translation;
@@ -127,7 +126,7 @@ export default class FormattedLiteral extends Literal {
         return new MarkupValue(this, concrete.markup);
     }
 
-    getTags(): FormattedTranslation[] {
+    getTagged(): FormattedTranslation[] {
         return this.texts;
     }
 
@@ -146,8 +145,8 @@ export default class FormattedLiteral extends Literal {
         return Glyphs.Formatted;
     }
 
-    getValue(locales: Locales): Value {
-        const preferred = this.getPreferredText(locales.getLocales());
+    getValue(locales: Locale[]): Value {
+        const preferred = this.getPreferredText(locales);
         return new MarkupValue(this, preferred.markup);
     }
 
@@ -168,9 +167,6 @@ export default class FormattedLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.FormattedLiteral.start),
-        );
+        return locales.concretize((l) => l.node.FormattedLiteral.start);
     }
 }

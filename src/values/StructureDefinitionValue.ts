@@ -5,7 +5,6 @@ import SimpleValue from './SimpleValue';
 import type Value from '@values/Value';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class StructureDefinitionValue extends SimpleValue {
@@ -46,11 +45,8 @@ export default class StructureDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.function)
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.function);
     }
 
     getRepresentativeText(locales: Locales) {

@@ -5,11 +5,9 @@ import type Language from './Language';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, list } from './Node';
-import type Locale from '@locale/Locale';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
 import type Node from './Node';
 import Translation from './Translation';
 import UnionType from './UnionType';
@@ -24,6 +22,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Value from '../values/Value';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */
@@ -95,7 +94,7 @@ export default class TextLiteral extends Literal {
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
-        const text = this.getLocaleText(evaluator.getLocales());
+        const text = this.getLocaleText(evaluator.getLocaleIDs());
         // Choose a locale, compile its expressions, and then construct a string from the results.
         return [
             new Start(this),
@@ -104,7 +103,7 @@ export default class TextLiteral extends Literal {
                 .reduce(
                     (parts: Step[], part) => [
                         ...parts,
-                        ...part.expression.compile(evaluator, context),
+                        ...part.compile(evaluator, context),
                     ],
                     [],
                 ),
@@ -115,7 +114,7 @@ export default class TextLiteral extends Literal {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        const translation = this.getLocaleText(evaluator.getLocales());
+        const translation = this.getLocaleText(evaluator.getLocaleIDs());
         const expressions = translation.segments;
 
         // Build the string in reverse, accounting for the reversed stack of values.
@@ -135,6 +134,7 @@ export default class TextLiteral extends Literal {
             // Assemble in reverse order
             text = next + text;
         }
+
         // Construct the text value.
         return new TextValue(
             this,
@@ -178,9 +178,9 @@ export default class TextLiteral extends Literal {
             : getPreferred(locales, this.texts);
     }
 
-    getValue(locales: Locales): TextValue {
+    getValue(locales: Locale[]): TextValue {
         // Get the alternatives
-        const best = this.getLocaleText(locales.getLocales());
+        const best = this.getLocaleText(locales);
         return new TextValue(
             this,
             best.getText(),
@@ -194,7 +194,7 @@ export default class TextLiteral extends Literal {
         return current;
     }
 
-    getTags(): Translation[] {
+    getTagged(): Translation[] {
         return this.texts;
     }
 
@@ -211,10 +211,7 @@ export default class TextLiteral extends Literal {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.TextLiteral.start),
-        );
+        return locales.concretize((l) => l.node.TextLiteral.start);
     }
 
     getGlyphs() {

@@ -13,7 +13,7 @@ import ListLiteral from '../nodes/ListLiteral';
 import type Bind from '../nodes/Bind';
 import type { Database } from '../db/Database';
 import MarkupValue from '@values/MarkupValue';
-import type Locale from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
 import type StructureDefinition from '../nodes/StructureDefinition';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Locales from '../locale/Locales';
@@ -42,7 +42,7 @@ export default class OutputPropertyValueSet {
         return this.values[0]?.bind;
     }
 
-    getPreferredName(locales: Locale[]): string | undefined {
+    getPreferredName(locales: LocaleText[]): string | undefined {
         return this.getBind()?.getPreferredName(locales);
     }
 
@@ -89,19 +89,19 @@ export default class OutputPropertyValueSet {
 
     getOutputExpressions(
         project: Project,
-        locales: Locales
+        locales: Locales,
     ): OutputExpression[] {
         return this.values
             .filter(
-                (value) => value.given && value.expression instanceof Evaluate
+                (value) => value.given && value.expression instanceof Evaluate,
             )
             .map(
                 (value) =>
                     new OutputExpression(
                         project,
                         value.expression as Evaluate,
-                        locales
-                    )
+                        locales,
+                    ),
             );
     }
 
@@ -115,8 +115,8 @@ export default class OutputPropertyValueSet {
         return value instanceof TextValue
             ? value.text
             : value instanceof MarkupValue
-            ? value.toWordplay()
-            : undefined;
+              ? value.toWordplay()
+              : undefined;
     }
 
     getBool() {
@@ -136,7 +136,7 @@ export default class OutputPropertyValueSet {
 
     getEvaluationOf(
         project: Project,
-        definition: StructureDefinition | StreamDefinition
+        definition: StructureDefinition | StreamDefinition,
     ) {
         const expr = this.getExpression();
         return expr instanceof Evaluate &&
@@ -179,8 +179,8 @@ export default class OutputPropertyValueSet {
                 this.property.getName(),
                 this.property.required
                     ? this.property.create(locales)
-                    : undefined
-            )
+                    : undefined,
+            ),
         );
     }
 
@@ -193,8 +193,8 @@ export default class OutputPropertyValueSet {
                     .filter((value) => !value.given)
                     .map((value) => value.evaluate),
                 this.property.getName(),
-                this.property.create(locales)
-            )
+                this.property.create(locales),
+            ),
         );
     }
 }

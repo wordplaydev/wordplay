@@ -7,15 +7,6 @@
     export let node: Doc;
 </script>
 
-<span class="doc"
-    ><NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
-        node={node.close}
-    /><NodeView node={node.language} /></span
->
-
-<style>
-    .doc,
-    .doc :global(.token-view) {
-        color: var(--wordplay-doc-color) !important;
-    }
-</style>
+<NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
+    node={node.close}
+/><NodeView node={node.language} /><NodeView node={node.separator} />

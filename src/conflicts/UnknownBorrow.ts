@@ -1,6 +1,5 @@
 import type Borrow from '@nodes/Borrow';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export class UnknownBorrow extends Conflict {
@@ -20,9 +19,8 @@ export class UnknownBorrow extends Conflict {
                         ? this.borrow.borrow
                         : this.borrow.source,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get((l) => l.node.Borrow.conflict.UnknownBorrow)
+                    locales.concretize(
+                        (l) => l.node.Borrow.conflict.UnknownBorrow,
                     ),
             },
         };

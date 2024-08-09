@@ -34,7 +34,12 @@
     $: path = link ?? project.getLink(true);
 
     function updatePreview() {
-        const evaluator = new Evaluator(project, DB, $locales, false);
+        const evaluator = new Evaluator(
+            project,
+            DB,
+            $locales.getLocales(),
+            false,
+        );
         const value = evaluator.getInitialValue();
         evaluator.stop();
         const stage = value ? toStage(evaluator, value) : undefined;
@@ -74,6 +79,7 @@
 <div class="project" class:named={name}>
     <a
         class="preview"
+        data-testid="preview"
         data-sveltekit-preload-data="tap"
         style:width={`${size}rem`}
         style:height={`${size}rem`}

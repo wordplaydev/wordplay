@@ -24,7 +24,6 @@ import StructureValue from '../values/StructureValue';
 import { getOutputInput } from './Valued';
 import { getTypeStyle } from './toOutput';
 import MarkupValue from '@values/MarkupValue';
-import concretize from '../locale/concretize';
 import Markup from '../nodes/Markup';
 import segmentWraps from './segmentWraps';
 import type Matter from './Matter';
@@ -354,17 +353,18 @@ export default class Phrase extends Output {
         if (this._description === undefined) {
             const text = this.getShortDescription(locales);
 
-            this._description = concretize(
-                locales,
-                locales.get((l) => l.output.Phrase.description),
-                text,
-                this.name instanceof TextLang ? this.name.text : undefined,
-                this.size,
-                this.face,
-                this.resting instanceof Pose
-                    ? this.resting.getDescription(locales)
-                    : this.pose.getDescription(locales),
-            ).toText();
+            this._description = locales
+                .concretize(
+                    (l) => l.output.Phrase.description,
+                    text,
+                    this.name instanceof TextLang ? this.name.text : undefined,
+                    this.size,
+                    this.face,
+                    this.resting instanceof Pose
+                        ? this.resting.getDescription(locales)
+                        : this.pose.getDescription(locales),
+                )
+                .toText();
         }
         return this._description;
     }

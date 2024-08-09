@@ -13,7 +13,7 @@ import type Tokens from './Tokens';
 
 export default function parseMarkup(tokens: Tokens): Markup {
     const content: Paragraph[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.Doc) &&
@@ -28,7 +28,7 @@ export function parseParagraph(tokens: Tokens): Paragraph {
 
     // Read until hitting two newlines or a closing doc symbol.
     // Stop the paragraph if the content we just parsed has a Words with two or more line breaks.
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.Doc) &&
@@ -87,7 +87,7 @@ function parseWords(tokens: Tokens): Words {
 
     // Read segments until reaching the matching closing format or the end of the paragraph or the end of the doc or there are no more tokens.
     const segments: Segment[] = [];
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
             tokens.hasNext() &&
             tokens.nextIsnt(Sym.Doc) &&

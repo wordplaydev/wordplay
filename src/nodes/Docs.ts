@@ -48,7 +48,7 @@ export default class Docs extends Node {
         return [];
     }
 
-    getTags(): Doc[] {
+    getTagged(): Doc[] {
         return this.docs;
     }
 

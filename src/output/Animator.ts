@@ -362,6 +362,7 @@ export default class Animator {
                 if (animation.isDone()) this.cleanupAnimation(animation);
             }
         }
+
         return done;
     }
 
@@ -374,10 +375,11 @@ export default class Animator {
 
     /** The exit animation is complete, so we remove it from animations, scenes, and notify listeners the exit callback */
     cleanupAnimation(animation: OutputAnimation) {
+        const name = animation.output.getName();
+        this.animations.delete(name);
+
         // Don't clean up if the animation hasn't exited yet. (Scene can force an exit animation);
         if (this.exitedInfo.has(animation.name)) {
-            const name = animation.output.getName();
-            this.animations.delete(name);
             this.exit(name);
         }
     }

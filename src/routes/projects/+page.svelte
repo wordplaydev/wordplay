@@ -18,7 +18,7 @@
     import Feedback from '@components/app/Feedback.svelte';
     import { get } from 'svelte/store';
     import Subheader from '@components/app/Subheader.svelte';
-    import { EDIT_SYMBOL } from '../../parser/Symbols';
+    import { COPY_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
     import AddProject from '@components/app/AddProject.svelte';
 
     const user = getUser();
@@ -53,7 +53,11 @@
     />
     <AddProject
         add={(template) => {
-            const newProjectID = Projects.copy(template);
+            const newProjectID = Projects.copy(
+                template,
+                $user?.uid ?? null,
+                null,
+            );
             goto(`/project/${newProjectID}`);
         }}
     />
@@ -66,6 +70,12 @@
             ),
             action: (project) => goto(project.getLink(false)),
             label: EDIT_SYMBOL,
+        }}
+        copy={{
+            description: $locales.get((l) => l.ui.project.button.duplicate),
+            action: (project) =>
+                goto(Projects.duplicate(project).getLink(false)),
+            label: COPY_SYMBOL,
         }}
         remove={(project) => {
             return {
@@ -110,6 +120,7 @@
                     Projects.archiveProject(project.getID(), false),
                 label: '↑🗑️',
             }}
+            copy={false}
             remove={(project) =>
                 $user && project.getOwner() === $user.uid
                     ? {

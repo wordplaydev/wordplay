@@ -6,7 +6,7 @@ import ExpectedColumnBind from '@conflicts/ExpectedColumnBind';
 import Update from './Update';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import evaluateCode from '../runtime/evaluate';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 
 test.each([
     [

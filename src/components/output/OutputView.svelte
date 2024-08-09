@@ -34,7 +34,6 @@
     import { SvelteComponent, afterUpdate, beforeUpdate } from 'svelte';
     import Placement from '../../input/Placement';
     import { toExpression } from '../../parser/parseExpression';
-    import concretize from '../../locale/concretize';
     import Chat from '../../input/Chat';
     import { default as ButtonUI } from '../widgets/Button.svelte';
     import Button from '../../input/Button';
@@ -113,14 +112,15 @@
     let keyboardInputText = '';
 
     // Announce changes in values.
-    $: if ($announce && value && (exception || stageValue === undefined))
+    $: if ($announce && value !== undefined && stageValue === undefined) {
         $announce(
             'value',
             $locales.getLanguages()[0],
             exception
                 ? exception.getExplanation($locales).toText()
-                : value.getDescription(concretize, $locales).toText(),
+                : value.getDescription($locales).toText(),
         );
+    }
 
     /** When creator's preferred animation factor changes, update evaluator */
     $: evaluator.updateTimeMultiplier($animationFactor);
@@ -848,6 +848,7 @@
 
 <section
     class="output"
+    data-testid="output"
     data-uuid="stage"
     aria-label={$locales.get((l) => l.ui.output.label)}
     class:mini
@@ -878,7 +879,7 @@
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
                         glyph={$index?.getNodeConcept(exception.creator) ??
-                            exception.creator.getGlyphs()}
+                            exception.creator.getGlyphs($locales)}
                         invert
                     >
                         <svelte:fragment slot="content">
@@ -899,7 +900,7 @@
                     <ValueView {value} interactive={false} />
                 {:else}
                     {@const description = value
-                        .getDescription(concretize, $locales)
+                        .getDescription($locales)
                         .toText()}
                     <h2>{description}</h2>
                     <ValueView {value} inline={false} />
@@ -995,7 +996,7 @@
             filter,
             ease-in,
             height ease-in;
-        transition-duration: calc(var(--animation-factor) * 200ms);
+        transition-duration: calc(var(--animation-factor) * 500ms);
 
         /** Query the container size */
         container-type: inline-size;

@@ -1,6 +1,6 @@
 {
     "name": "wordplay",
-    "version": "0.10.4",
+    "version": "0.10.8",
     "scripts": {
         "postinstall": "run-script-os",
         "postinstall:default": "svelte-kit sync && cp .env.template .env",
@@ -20,7 +20,7 @@
         "stage": "firebase use dev && firebase deploy",
         "release": "firebase use prod && firebase deploy && firebase use dev",
         "tutorial-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/tutorial/Tutorial.ts' --type 'Tutorial' --out static/schemas/Tutorial.json",
-        "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/Locale.ts' --type 'Locale' --out static/schemas/Locale.json",
+        "locale-schema": "npx ts-json-schema-generator --no-type-check --tsconfig tsconfig.json --path 'src/locale/LocaleText.ts' --type 'LocaleText' --out static/schemas/LocaleText.json",
         "create-schemas": "npm run tutorial-schema && npm run locale-schema",
         "verify-locales": "npx tsx src/util/verify-locales.ts",
         "locales": "npm-watch verify-locales",
@@ -61,6 +61,7 @@
         "chalk": "^5.3.0",
         "eslint": "^8",
         "eslint-plugin-compat": "^4",
+        "eslint-plugin-import": "^2.29.1",
         "eslint-plugin-svelte": "^2",
         "npm-watch": "^0.11",
         "prettier": "3",

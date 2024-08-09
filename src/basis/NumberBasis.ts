@@ -25,19 +25,14 @@ import ListValue from '@values/ListValue';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
 import type Expression from '../nodes/Expression';
-import type Locale from '../locale/Locale';
-import type { FunctionText, NameAndDoc } from '../locale/Locale';
+import type LocaleText from '../locale/LocaleText';
+import type { FunctionText, NameAndDoc } from '../locale/LocaleText';
 import ListType from '../nodes/ListType';
 import type Locales from '../locale/Locales';
 
 export default function bootstrapNumber(locales: Locales) {
-    const subtractNames = getNameLocales(
-        locales,
-        (locale) => locale.basis.Number.function.subtract.inputs[0].names,
-    );
-
     function createBinaryOp(
-        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         inputType: Type,
         outputType: Type,
         expression: (
@@ -92,7 +87,7 @@ export default function bootstrapNumber(locales: Locales) {
     }
 
     function createUnaryOp(
-        text: (locale: Locale) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
         outputType: Type,
         expression: (
             requestor: Expression,
@@ -127,9 +122,69 @@ export default function bootstrapNumber(locales: Locales) {
         );
     }
 
+    function createBinaryOrUnaryOp(
+        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
+        expression: (
+            requestor: Expression,
+            left: NumberValue,
+            right?: NumberValue,
+        ) => Value,
+    ) {
+        const names = getNameLocales(
+            locales,
+            (locale) => text(locale).inputs[0].names,
+        );
+
+        return FunctionDefinition.make(
+            getDocLocales(locales, (l) => text(l).doc),
+            getNameLocales(locales, (l) => text(l).names),
+            undefined,
+            [
+                // Optional operand, since add can have a single operand.
+                Bind.make(
+                    getDocLocales(locales, (l) => text(l).inputs[0].doc),
+                    names,
+                    UnionType.make(
+                        NoneType.None,
+                        NumberType.make((left) => left),
+                    ),
+                    NoneLiteral.make(),
+                ),
+            ],
+            new InternalExpression(
+                NumberType.make(),
+                [],
+                (requestor, evaluation) => {
+                    const left = evaluation.getClosure();
+                    const right = evaluation.resolve(names);
+                    // It should be impossible for the left to be a Number, but the type system doesn't know it.
+                    if (!(left instanceof NumberValue))
+                        return evaluation.getValueOrTypeException(
+                            requestor,
+                            NumberType.make(),
+                            left,
+                        );
+                    if (
+                        right !== undefined &&
+                        (!(right instanceof NumberValue) ||
+                            !left.unit.accepts(right.unit))
+                    )
+                        return new TypeException(
+                            evaluation.getDefinition(),
+                            evaluation.getEvaluator(),
+                            left.getType(),
+                            right,
+                        );
+                    return expression(requestor, left, right);
+                },
+            ),
+            NumberType.make((left) => left),
+        );
+    }
+
     function createVariableOp(
-        nameAndDoc: (locale: Locale) => NameAndDoc,
-        input: (locale: Locale) => NameAndDoc,
+        nameAndDoc: (locale: LocaleText) => NameAndDoc,
+        input: (locale: LocaleText) => NameAndDoc,
         evaluator: (
             creator: Expression,
             values: NumberValue[],
@@ -200,70 +255,17 @@ export default function bootstrapNumber(locales: Locales) {
         [],
         new Block(
             [
-                createBinaryOp(
-                    (locale) => locale.basis.Number.function.add,
-                    NumberType.make((left) => left),
-                    // The output's type should be the left's type
-                    NumberType.make((left) => left),
-                    (requestor, left, right) => left.add(requestor, right),
+                createBinaryOrUnaryOp(
+                    (l) => l.basis.Number.function.add,
+                    (requestor, left, right) =>
+                        right === undefined ? left : left.add(requestor, right),
                 ),
-                FunctionDefinition.make(
-                    getDocLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.subtract.doc,
-                    ),
-                    getNameLocales(
-                        locales,
-                        (locale) => locale.basis.Number.function.subtract.names,
-                    ),
-                    undefined,
-                    [
-                        // Optional operand, since negation and subtraction are overloaded.
-                        Bind.make(
-                            getDocLocales(
-                                locales,
-                                (t) =>
-                                    t.basis.Number.function.subtract.inputs[0]
-                                        .doc,
-                            ),
-                            subtractNames,
-                            UnionType.make(
-                                NoneType.None,
-                                NumberType.make((left) => left),
-                            ),
-                            NoneLiteral.make(),
-                        ),
-                    ],
-                    new InternalExpression(
-                        NumberType.make(),
-                        [],
-                        (requestor, evaluation) => {
-                            const left = evaluation.getClosure();
-                            const right = evaluation.resolve(subtractNames);
-                            // It should be impossible for the left to be a Number, but the type system doesn't know it.
-                            if (!(left instanceof NumberValue))
-                                return evaluation.getValueOrTypeException(
-                                    requestor,
-                                    NumberType.make(),
-                                    left,
-                                );
-                            if (
-                                right !== undefined &&
-                                (!(right instanceof NumberValue) ||
-                                    !left.unit.accepts(right.unit))
-                            )
-                                return new TypeException(
-                                    evaluation.getDefinition(),
-                                    evaluation.getEvaluator(),
-                                    left.getType(),
-                                    right,
-                                );
-                            return right === undefined
-                                ? left.negate(requestor)
-                                : left.subtract(requestor, right);
-                        },
-                    ),
-                    NumberType.make((left) => left),
+                createBinaryOrUnaryOp(
+                    (l) => l.basis.Number.function.subtract,
+                    (requestor, left, right) =>
+                        right === undefined
+                            ? left.negate(requestor)
+                            : left.subtract(requestor, right),
                 ),
                 createBinaryOp(
                     (locale) => locale.basis.Number.function.multiply,

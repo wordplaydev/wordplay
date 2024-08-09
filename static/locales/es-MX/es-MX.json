@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "es",
     "region": "MX",
     "wordplay": "Wordplay",
@@ -432,8 +432,9 @@
             "conflict": {
                 "ExpectedEndingExpression": "Necesito una expresión.",
                 "IgnoredExpression": {
-                    "primary": "Voy a ignorar lo anterior.",
-                    "secondary": "@Block, ¡no me ignores a mí!"
+                    "primary": "$~Voy a ignorar $1, ya que no define nada y no es mi última expresión.",
+                    "secondary": "$~@Block, ¡no me ignores!",
+                    "resolution": "$~¿Querías decir que esto fuera @BinaryEvaluate en lugar de @UnaryEvaluate? Puedo agregar un espacio, así sé que eso es lo que quisiste decir."
                 }
             }
         },
@@ -591,8 +592,8 @@
                     "secondary": "oh, ¿no debería estar aquí?"
                 },
                 "MissingInput": {
-                    "primary": "Me falta $1, ¿puedes agregarlo?",
-                    "secondary": "este input es necesario, pero $1 no lo proporcionó"
+                    "primary": "$~No puedo evaluar sin la entrada llamada $1 :(",
+                    "secondary": "$~Ah, vaya. ¿Puedes ayudarnos y agregarlo a mi lista de entradas?"
                 },
                 "NotInstantiable": "No puedo hacer esta @StructureDefinition, tiene funciones no implementadas.",
                 "UnexpectedInput": {
@@ -4232,6 +4233,9 @@
             },
             "button": {
                 "submit": "enviar este mensaje de chat"
+            },
+            "options": {
+                "locale": "$~elegir el idioma de salida"
             }
         },
         "timeline": {
@@ -4373,6 +4377,13 @@
                             "no localizar el código",
                             "localizar el código cuando esté disponible",
                             "localizar el código pero preferir símbolos"
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~Línea de números",
+                        "modes": [
+                            "$~mostrar números de línea en modo texto",
+                            "$~no mostrar números de línea en modo texto"
                         ]
                     }
                 },

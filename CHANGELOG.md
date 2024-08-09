@@ -3,12 +3,96 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.10.9 2024-08-10
+
+### Added
+
+-   Formatted different types of references
+
+### Fixed
+
+-   Added missing variation selector.
+-   Ensure projects are unmoderated by default.
+-   Cleaned up animation logs in `Animator` to ensure that new outputs with the same name can animate again.
+
+## 0.10.8 2024-08-03
+
+### Fixed
+
+-   Repaired borrowed bindings from other sources.
+-   Prevent project reevaluation during typing.
+-   Permit evaluation of functions with operator names without inputs.
+
+## 0.10.7 2024-07-27
+
+### Added
+
+-   Ability to copy one's own projects.
+
+### Fixed
+
+-   Fixed text sorting.
+-   Preserve concept on guide page refresh.
+-   Show multiple names when present in guide.
+-   [#533](https://github.com/wordplaydev/wordplay/issues/533) Fixed URLs to tutorial.
+-   [#542](https://github.com/wordplaydev/wordplay/issues/542) Provide error message for < Safari 16.4.
+
+## 0.10.6 2024-07-20
+
+### Added
+
+-   Persist annotations window collapse/expand state.
+
+### Fixed
+
+-   Fixed color of example code in docs.
+-   Changed unused bind conflict to only highlight name, not value.
+-   More reliable stage value announcements.
+-   Fixed case where stream expression is the condition, as opposed to in a condition.
+-   Fixed order of `MissingInput` conflict dialog.
+-   Change to no localization after translation.
+-   Polished live region announcements to prevent redundant reading.
+
 ## 0.10.5 2024-07-13
+
+### Added
+
+-   Line numbers in editor.
 
 ### Fixed
 
 -   [#514](https://github.com/wordplaydev/wordplay/issues/514) Fixed cursor position on hidden language tags.
+-   [#485](https://github.com/wordplaydev/wordplay/issues/485) Allow selection of language for output.
+-   [#524](https://github.com/wordplaydev/wordplay/issues/524) Fixed color of drop downs in dark mode.
+-   [#525](https://github.com/wordplaydev/wordplay/issues/525) Ensure projects are removed from galleries, even if they somehow didn't have a gallery ID in them.
+-   [#515](https://github.com/wordplaydev/wordplay/issues/515) Ensure local projects get an owner after logging in.
+-   [#520](https://github.com/wordplaydev/wordplay/issues/520) More generous parsing and conflicts around binary and unary evaluates.
+-   [#523](https://github.com/wordplaydev/wordplay/issues/523) More general handling of hidden tokens in cursor positioning.
 -   Fixed parsing bug that prevented complete parsing of the program.
+-   Fixed reactivity dependency bug that included evaluates in branch dependencies.
+-   Fixed selection of locale in evaluation.
+-   Reset owner and collaborators of copied project.
+-   Added variation selectors to emojis for Safari.
+-   Stripped machine translation tags from locale text on render.
+-   Fixed name of locale text JSON schema.
+-   Hide login link on landing page if logged in.
+-   Fixed closing text delimiter localization.
+-   Hide comma separator when localizing names and docs.
+-   Permit comma separators between text literals, docs, and names, allowing line breaks for text.
+-   Define `Input`s corresponding definition to enable code localization.
+-   Improved `MissingInput` conflict.
+-   Changed value of divide by zero to non-a-number; defined not-a-number literal.
+-   Improved dark grey contrast.
+-   Ensure templated strings are localized in tooltips.
+-   Allow addition to be used as a unary operation.
+-   Don't tokenize negative numbers; treat them as a unary evaluation.
+-   More consistent button styling.
+
+### Maintenance
+
+-   Added additional reactivity tests to cover granular re-evaulation of random.
+-   A basic project test to ensure all windows are visible.
+-   Simplified concretization of locale strings.
 
 ## 0.10.4 2024-07-08
 

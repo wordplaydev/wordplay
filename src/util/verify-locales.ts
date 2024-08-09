@@ -3,11 +3,9 @@ import fs from 'fs';
 import path from 'path';
 import Ajv from 'ajv';
 import * as prettier from 'prettier';
-import { concretizeOrUndefined } from '../locale/concretize';
 import parseDoc from '../parser/parseDoc';
 import {
     parseLocaleDoc,
-    type Locale,
     toDocString,
     withoutAnnotations,
     isUnwritten,
@@ -16,7 +14,8 @@ import {
     Outdated,
     isAutomated,
     MachineTranslated,
-} from '../locale/Locale';
+} from '../locale/LocaleText';
+import type LocaleText from '../locale/LocaleText';
 import { toTokens } from '../parser/toTokens';
 import Token from '../nodes/Token';
 import Sym from '../nodes/Sym';
@@ -29,12 +28,13 @@ import type Node from '../nodes/Node';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import Project from '../models/Project';
 import { tokenize } from '../parser/Tokenizer';
-import { DefaultLocales } from '../locale/DefaultLocale';
+import DefaultLocales from '../locale/DefaultLocales';
 import Translate from '@google-cloud/translate';
+import { concretizeOrUndefined } from '@locale/concretize';
 
 // Read in and compile the two schema so we can check files.
 const localeSchema = JSON.parse(
-    fs.readFileSync('static/schemas/Locale.json', 'utf8'),
+    fs.readFileSync('static/schemas/LocaleText.json', 'utf8'),
 );
 const tutorialSchema = JSON.parse(
     fs.readFileSync('static/schemas/Tutorial.json', 'utf8'),
@@ -77,7 +77,7 @@ class Log {
 }
 
 /** We use this for repair. Make sure it's valid before we do any repairs. */
-const DefaultLocale = getLocaleJSON(new Log(), 'en-US') as Locale;
+const DefaultLocale = getLocaleJSON(new Log(), 'en-US') as LocaleText;
 
 if (!LocaleValidator(DefaultLocale)) {
     console.log(
@@ -146,9 +146,9 @@ function getTutorialJSON(log: Log, locale: string): object | undefined {
 async function validateLocale(
     log: Log,
     language: string,
-    originalJSON: Locale,
-): Promise<[Locale, boolean] | undefined> {
-    let revisedJSON: Locale = originalJSON as Locale;
+    originalJSON: LocaleText,
+): Promise<[LocaleText, boolean] | undefined> {
+    let revisedJSON: LocaleText = originalJSON as LocaleText;
     const valid = LocaleValidator(originalJSON);
     if (!valid && LocaleValidator.errors) {
         log.bad(
@@ -160,12 +160,16 @@ async function validateLocale(
                 log.bad(3, `${error.instancePath}: ${error.message}`);
         }
 
-        revisedJSON = repairLocale(log, DefaultLocale, originalJSON as Locale);
+        revisedJSON = repairLocale(
+            log,
+            DefaultLocale,
+            originalJSON as LocaleText,
+        );
     } else log.good(2, 'Found valid locale');
 
     revisedJSON = await checkLocale(
         log,
-        revisedJSON as Locale,
+        revisedJSON as LocaleText,
         language !== 'example',
     );
 
@@ -176,8 +180,12 @@ async function validateLocale(
 }
 
 /** Add missing keys and remove extra ones from a given locale, relative to a source locale. */
-function repairLocale(log: Log, source: Locale, target: Locale): Locale {
-    const revised = JSON.parse(JSON.stringify(target)) as Locale;
+function repairLocale(
+    log: Log,
+    source: LocaleText,
+    target: LocaleText,
+): LocaleText {
+    const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
     // Walk through the source and find any keys that are not defined on the target and remove them.
     removeExtraKeys(log, source, revised);
@@ -191,7 +199,7 @@ function repairLocale(log: Log, source: Locale, target: Locale): Locale {
 /** Load, validate, and check the tutorial. */
 function validateTutorial(
     log: Log,
-    locale: Locale,
+    locale: LocaleText,
     tutorialJSON: Tutorial,
 ): Tutorial | undefined {
     const validate = ajv.compile(tutorialSchema);
@@ -294,13 +302,17 @@ function getKeyTemplatePairs(
             pairs.push(new StringPath(path, key, value));
         else if (
             typeof value === 'object' &&
+            value !== undefined &&
             value !== null &&
             !Array.isArray(value)
         )
             getKeyTemplatePairs(value, pairs, [...path, key]);
         else if (Array.isArray(value)) {
-            for (let index = 0; index < value.length; index++)
-                getKeyTemplatePairs(value[index], pairs, [...path, key, index]);
+            for (let index = 0; index < value.length; index++) {
+                const element = value[index];
+                if (element)
+                    getKeyTemplatePairs(element, pairs, [...path, key, index]);
+            }
         }
     }
     return pairs;
@@ -433,11 +445,11 @@ function addMissingKeys(
 
 async function translate(
     log: Log,
-    source: Locale,
-    target: Locale,
+    source: LocaleText,
+    target: LocaleText,
     unwritten: StringPath[],
 ) {
-    const revised = JSON.parse(JSON.stringify(target)) as Locale;
+    const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 
     // Resolve all of the source strings
     const sourceStrings = unwritten
@@ -517,10 +529,10 @@ async function translate(
 /** Given a locale, check it's validity, and repair what we can. */
 async function checkLocale(
     log: Log,
-    original: Locale,
+    original: LocaleText,
     warnUnwritten: boolean,
-): Promise<Locale> {
-    let revised = JSON.parse(JSON.stringify(original)) as Locale;
+): Promise<LocaleText> {
+    let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
     // Get the key/value pairs
     let pairs: StringPath[] = getKeyTemplatePairs(revised);
@@ -699,7 +711,7 @@ function checkTutorialLineType(line: Line): boolean {
     );
 }
 
-function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
+function checkTutorial(log: Log, locale: LocaleText, original: Tutorial) {
     const revised = JSON.parse(JSON.stringify(original)) as Tutorial;
 
     const programs = revised.acts
@@ -800,7 +812,7 @@ function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
     }
 
     // Build a list of all concept links
-    const conceptLinks: ConceptLink[] = revised.acts
+    const conceptLinks: { dialog: Dialog; link: ConceptLink }[] = revised.acts
         .map((act) => [
             // Across all scenes
             ...act.scenes
@@ -811,8 +823,8 @@ function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
                 // Keep all dialog that aren't null
                 .filter((line): line is Dialog => line !== null)
                 // Map each line of dialog to a flat list of concepts in the dialog
-                .map((line) =>
-                    parseDoc(
+                .map((line) => {
+                    return parseDoc(
                         toTokens(
                             DOCS_SYMBOL +
                                 line.slice(2).join('\n\n') +
@@ -824,15 +836,19 @@ function checkTutorial(log: Log, locale: Locale, original: Tutorial) {
                             (node: Node): node is ConceptLink =>
                                 node instanceof ConceptLink,
                         )
-                        .flat(),
-                )
+                        .map((link) => ({ dialog: line, link }))
+                        .flat();
+                })
                 .flat(2),
         ])
         .flat();
 
-    for (const link of conceptLinks)
+    for (const { dialog, link } of conceptLinks)
         if (!link.isValid(locale))
-            log.bad(2, `Unknown tutorial concept: ${link.getName()}`);
+            log.bad(
+                2,
+                `Unknown tutorial concept: ${link.getName()}, found in ${dialog}`,
+            );
 
     return revised;
 }
@@ -866,13 +882,12 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
             const localeResults = await validateLocale(
                 log,
                 language,
-                originalLocale as Locale,
+                originalLocale as LocaleText,
             );
             if (localeResults) {
                 const [revisedLocale, localeChanged] = localeResults;
                 if (localeChanged) {
                     // Write a formatted version of the revised locale file.
-
                     const prettyLocale = await prettier.format(
                         JSON.stringify(revisedLocale, null, 4),
                         { ...prettierOptions, parser: 'json' },

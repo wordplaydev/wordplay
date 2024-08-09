@@ -40,30 +40,19 @@ export default function parseBind(tokens: Tokens): Bind {
 export function parseNames(tokens: Tokens): Names {
     const names: Name[] = [];
 
-    tokens.untilDo(
+    tokens.whileDo(
         () =>
-            (tokens.hasNext() &&
-                names.length > 0 &&
-                tokens.nextIs(Sym.Separator)) ||
-            (names.length === 0 &&
-                tokens.nextIsOneOf(Sym.Name, Sym.Placeholder, Sym.Operator)),
+            tokens.nextIsOneOf(Sym.Name, Sym.Placeholder, Sym.Operator) &&
+            (names.length === 0 || names.at(-1)?.separator !== undefined),
         () => {
-            const comma = tokens.nextIs(Sym.Separator)
-                ? tokens.read(Sym.Separator)
-                : undefined;
-            if (names.length > 0 && comma === undefined) return false;
-            const name = tokens.nextIs(Sym.Name)
-                ? tokens.read(Sym.Name)
-                : tokens.nextIs(Sym.Placeholder)
-                  ? tokens.read(Sym.Placeholder)
-                  : tokens.nextIs(Sym.Operator)
-                    ? tokens.read(Sym.Operator)
-                    : undefined;
+            const name = tokens.read();
             const lang = tokens.nextIs(Sym.Language)
                 ? parseLanguage(tokens)
                 : undefined;
-            if (comma !== undefined || name !== undefined)
-                names.push(new Name(comma, name, lang));
+            const comma = tokens.nextIs(Sym.Separator)
+                ? tokens.read(Sym.Separator)
+                : undefined;
+            if (name) names.push(new Name(name, lang, comma));
             else return false;
         },
     );

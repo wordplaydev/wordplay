@@ -9,7 +9,6 @@ import NumberType from '@nodes/NumberType';
 import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export type NumberAndPrecision = [Decimal, number | undefined];
@@ -25,7 +24,7 @@ export default class NumberValue extends SimpleValue {
         creator: Expression,
         number: number | Token | Decimal | string,
         unit?: Unit,
-        precision?: number
+        precision?: number,
     ) {
         super(creator);
 
@@ -49,9 +48,7 @@ export default class NumberValue extends SimpleValue {
         }
         // If it's a string, try to convert it from one of our known formats to decimal.
         else if (typeof number === 'string') {
-            const negated = number.charAt(0) === '-';
-            if (negated) number = number.substring(1);
-            const [num, precision] = NumberValue.fromUnknown(number, negated);
+            const [num, precision] = NumberValue.fromUnknown(number);
             this.num = num;
             this.precision = precision;
         }
@@ -68,8 +65,10 @@ export default class NumberValue extends SimpleValue {
         const negated = text.charAt(0) === '-';
         if (negated) text = text.substring(1);
 
+        // Not a number
+        if (text === '!#') return [new Decimal(NaN), undefined];
         // Infinity
-        if (number.isSymbol(Sym.Infinity) || text === '∞') {
+        else if (number.isSymbol(Sym.Infinity) || text === '∞') {
             return [new Decimal(Infinity * (negated ? -1 : 1)), undefined];
         }
         // Pi
@@ -81,21 +80,21 @@ export default class NumberValue extends SimpleValue {
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
         else if (number.isSymbol(Sym.Decimal)) {
-            return convertDecimal(text, negated);
+            return convertDecimal(text);
         }
         // If it matches a number with a different base, convert it to a Decimal.
         else if (number.isSymbol(Sym.Base)) {
-            return convertBase(text, negated);
+            return convertBase(text);
         } else if (number.isSymbol(Sym.RomanNumeral)) {
-            return convertRoman(text, negated);
+            return convertRoman(text);
         } else if (number.isSymbol(Sym.JapaneseNumeral)) {
-            return convertJapanese(text, negated);
+            return convertJapanese(text);
         } else if (number.isSymbol(Sym.Number)) {
-            return NumberValue.fromUnknown(text, negated);
+            return NumberValue.fromUnknown(text);
         } else return [new Decimal(NaN), undefined];
     }
 
-    static fromUnknown(text: string, negated: boolean): NumberAndPrecision {
+    static fromUnknown(text: string): NumberAndPrecision {
         const conversions = [
             convertDecimal,
             convertBase,
@@ -104,7 +103,7 @@ export default class NumberValue extends SimpleValue {
         ];
 
         for (const conversion of conversions) {
-            const [num, precision] = conversion(text, negated);
+            const [num, precision] = conversion(text);
             if (!num.isNaN()) return [num, precision];
         }
         return [new Decimal(NaN), undefined];
@@ -126,7 +125,7 @@ export default class NumberValue extends SimpleValue {
         return new NumberValue(
             requestor,
             this.num.pow(new Decimal(1).div(operand.num)),
-            this.unit.root(operand.num.toNumber())
+            this.unit.root(operand.num.toNumber()),
         );
     }
 
@@ -154,33 +153,33 @@ export default class NumberValue extends SimpleValue {
         return new NumberValue(
             requestor,
             this.num.times(operand.num),
-            this.unit.product(operand.unit)
+            this.unit.product(operand.unit),
         );
     }
 
     divide(
         requestor: Expression,
-        divisor: NumberValue
+        divisor: NumberValue,
     ): NumberValue | NoneValue {
         return divisor.num.isZero()
-            ? new NoneValue(requestor)
+            ? new NumberValue(requestor, new Decimal(NaN))
             : new NumberValue(
                   requestor,
                   this.num.dividedBy(divisor.num),
-                  this.unit.quotient(divisor.unit)
+                  this.unit.quotient(divisor.unit),
               );
     }
 
     remainder(
         requestor: Expression,
-        divisor: NumberValue
+        divisor: NumberValue,
     ): NumberValue | NoneValue {
         return divisor.num.isZero()
             ? new NoneValue(requestor)
             : new NumberValue(
                   requestor,
                   this.num.modulo(divisor.num),
-                  this.unit
+                  this.unit,
               );
     }
 
@@ -204,14 +203,14 @@ export default class NumberValue extends SimpleValue {
         return new BoolValue(
             requestor,
             this.num.greaterThan(operand.num) &&
-                this.unit.isEqualTo(operand.unit)
+                this.unit.isEqualTo(operand.unit),
         );
     }
 
     lessThan(requestor: Expression, operand: NumberValue): BoolValue {
         return new BoolValue(
             requestor,
-            this.num.lessThan(operand.num) && this.unit.isEqualTo(operand.unit)
+            this.num.lessThan(operand.num) && this.unit.isEqualTo(operand.unit),
         );
     }
 
@@ -219,7 +218,7 @@ export default class NumberValue extends SimpleValue {
         return new NumberValue(
             requestor,
             this.num.pow(operand.num),
-            this.unit.power(operand.num.toNumber())
+            this.unit.power(operand.num.toNumber()),
         );
     }
 
@@ -248,16 +247,13 @@ export default class NumberValue extends SimpleValue {
             this.num.isNaN()
                 ? '!#'
                 : !this.num.isFinite()
-                ? `${this.num.isPositive() ? '' : '-'}∞`
-                : this.num.toString()
+                  ? `${this.num.isPositive() ? '' : '-'}∞`
+                  : this.num.toString()
         }${this.unit.toString()}`;
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.number)
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.number);
     }
 
     getRepresentativeText() {
@@ -312,7 +308,7 @@ const romanNumerals: Record<string, number> = {
     Ⅿ: 1000,
 };
 
-function convertBase(text: string, negated: boolean): NumberAndPrecision {
+function convertBase(text: string): NumberAndPrecision {
     const [baseString, numString] = text.toString().split(';');
     const base = parseInt(baseString);
     if (isNaN(base) || numString === undefined)
@@ -322,7 +318,7 @@ function convertBase(text: string, negated: boolean): NumberAndPrecision {
         while (text.indexOf('_') >= 0)
             text = text.replace(
                 '_',
-                Decimal.random().times(base).floor().toString()
+                Decimal.random().times(base).floor().toString(),
             );
 
         const [integral, fractional] = text.split('.');
@@ -332,16 +328,16 @@ function convertBase(text: string, negated: boolean): NumberAndPrecision {
                 d === 'A'
                     ? 10
                     : d === 'B'
-                    ? 11
-                    : d === 'C'
-                    ? 12
-                    : d === 'D'
-                    ? 13
-                    : d === 'E'
-                    ? 14
-                    : d === 'F'
-                    ? 15
-                    : parseInt(d)
+                      ? 11
+                      : d === 'C'
+                        ? 12
+                        : d === 'D'
+                          ? 13
+                          : d === 'E'
+                            ? 14
+                            : d === 'F'
+                              ? 15
+                              : parseInt(d),
             );
         if (integralDigits.find((d) => d >= base) !== undefined) {
             return [new Decimal(NaN), undefined];
@@ -352,8 +348,8 @@ function convertBase(text: string, negated: boolean): NumberAndPrecision {
                 const digit = integralDigits.pop() as number;
                 num = num.plus(
                     new Decimal(digit).times(
-                        new Decimal(base).pow(new Decimal(position))
-                    )
+                        new Decimal(base).pow(new Decimal(position)),
+                    ),
                 );
                 position++;
             }
@@ -366,34 +362,34 @@ function convertBase(text: string, negated: boolean): NumberAndPrecision {
                         d === 'A'
                             ? 10
                             : d === 'B'
-                            ? 11
-                            : d === 'C'
-                            ? 12
-                            : d === 'D'
-                            ? 13
-                            : d === 'E'
-                            ? 14
-                            : d === 'F'
-                            ? 15
-                            : parseInt(d)
+                              ? 11
+                              : d === 'C'
+                                ? 12
+                                : d === 'D'
+                                  ? 13
+                                  : d === 'E'
+                                    ? 14
+                                    : d === 'F'
+                                      ? 15
+                                      : parseInt(d),
                     );
                 while (fractionalDigits.length > 0) {
                     const digit = fractionalDigits.shift() as number;
                     num = num.plus(
                         new Decimal(digit).times(
-                            new Decimal(base).pow(new Decimal(position).neg())
-                        )
+                            new Decimal(base).pow(new Decimal(position).neg()),
+                        ),
                     );
                     position++;
                 }
             }
 
-            return [num.times(negated ? -1 : 1), undefined];
+            return [num, undefined];
         }
     }
 }
 
-function convertRoman(text: string, negated: boolean): NumberAndPrecision {
+function convertRoman(text: string): NumberAndPrecision {
     // Sum these! Ⅰ Ⅱ Ⅲ Ⅳ Ⅴ Ⅵ Ⅶ Ⅷ Ⅸ Ⅹ Ⅺ Ⅻ Ⅼ Ⅽ Ⅾ Ⅿ
     let numerals = text;
     let sum = new Decimal(0);
@@ -412,10 +408,10 @@ function convertRoman(text: string, negated: boolean): NumberAndPrecision {
         numerals = numerals.substring(1);
         previous = numeral;
     }
-    return [sum.times(negated ? -1 : 1), undefined];
+    return [sum, undefined];
 }
 
-function convertJapanese(text: string, negated: boolean): NumberAndPrecision {
+function convertJapanese(text: string): NumberAndPrecision {
     // Japanese numbers are  sum of products, read left to right.
     // For example, 千二百八十九 is
     // one 千 (1000's) + 二 (two) 百 (100's) + 八 (eight) 十 (10's) + 九 (nine) = 1289.
@@ -468,10 +464,10 @@ function convertJapanese(text: string, negated: boolean): NumberAndPrecision {
         } else sum = sum.plus(new Decimal(value));
     }
 
-    return [sum.times(negated ? -1 : 1), undefined];
+    return [sum, undefined];
 }
 
-function convertDecimal(text: string, negated: boolean): NumberAndPrecision {
+function convertDecimal(text: string): NumberAndPrecision {
     // Is there a trailing %? Note it and strip it.
     const isPercent = text.endsWith('%');
     if (isPercent) text = text.substring(0, text.length - 1);
@@ -482,9 +478,7 @@ function convertDecimal(text: string, negated: boolean): NumberAndPrecision {
     try {
         // Set the number, accounting for percent.
         return [
-            isPercent
-                ? new Decimal(text).times(0.01).times(negated ? -1 : 1)
-                : new Decimal(text).times(negated ? -1 : 1),
+            isPercent ? new Decimal(text).times(0.01) : new Decimal(text),
             precision,
         ];
     } catch (_) {

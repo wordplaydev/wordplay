@@ -36,18 +36,35 @@ export default class Spaces {
      * In that sense, this is a sparse representation of non-empty space in a program.
      * */
     readonly #spaces: Map<Token, string>;
+    readonly #lineNumbers: Map<Token, number> = new Map();
+    readonly lastLine: number;
 
     constructor(root: Spacer, mapping: Map<Token, string>) {
         this.root = root;
         this.#spaces = new Map(mapping);
+
+        // Compute line numbers.
+        let line = 1;
+        for (const token of this.root.getTokens()) {
+            const space = this.getSpace(token);
+            line += space.split('\n').length - 1;
+            this.#lineNumbers.set(token, line);
+        }
+        this.lastLine = line;
     }
 
     count() {
         return this.#spaces.size;
     }
-    getTokens() {
-        return this.#spaces.keys();
+
+    isFirst(token: Token) {
+        return this.root.getTokens()[0] === token;
     }
+
+    getTokens() {
+        return this.root.getTokens();
+    }
+
     hasSpace(token: Token) {
         return this.#spaces.has(token);
     }
@@ -60,21 +77,31 @@ export default class Spaces {
     getSpaces() {
         return new Map(this.#spaces);
     }
+
+    getLineNumber(token: Token): number | undefined {
+        return this.#lineNumbers.get(token);
+    }
+
+    getLastLineNumber() {
+        return this.lastLine;
+    }
+
     getLines(token: Token): string[] {
         return this.getSpace(token).split('\n');
     }
-    getLineCount(token: Token): number {
-        return this.getLines(token).length;
-    }
+
     getLineBreakCount(token: Token): number {
         return this.getLines(token).length - 1;
     }
+
     getLastLine(token: Token): string {
         return this.getLines(token).at(-1) ?? '';
     }
+
     hasLineBreak(token: Token): boolean {
         return this.getLineBreakCount(token) > 0;
     }
+
     hasLineBreaks(node?: Node): boolean {
         // No node given? See if any preceding spaces include a newline.
         if (node === undefined) {
@@ -98,6 +125,7 @@ export default class Spaces {
         return this.getLastLine(token).replaceAll('\t', ' '.repeat(TAB_WIDTH))
             .length;
     }
+
     /** Given some preferred space prior to a token, compute additional space to append to ensure preferred space. */
     getAdditionalSpace(token: Token, preferredSpace: string): string {
         if (preferredSpace.length === 0) return '';

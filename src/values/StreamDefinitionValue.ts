@@ -4,7 +4,6 @@ import { STREAM_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import StreamType from '../nodes/StreamType';
-import type Concretizer from '../nodes/Concretizer';
 import type Locales from '../locale/Locales';
 
 export default class StreamDefinitionValue extends SimpleValue {
@@ -40,11 +39,8 @@ export default class StreamDefinitionValue extends SimpleValue {
         );
     }
 
-    getDescription(concretize: Concretizer, locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.term.function)
-        );
+    getDescription(locales: Locales) {
+        return locales.concretize((l) => l.term.function);
     }
 
     getRepresentativeText(locales: Locales) {

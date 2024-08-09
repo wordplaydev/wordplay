@@ -14,11 +14,8 @@
     import { locales } from '@db/Database';
     import Project from '@models/Project';
     import Source from '@nodes/Source';
-    import { setContext } from 'svelte';
+    import { onMount, setContext } from 'svelte';
     import { writable } from 'svelte/store';
-
-    let locale: string | null = null;
-    let concept: string | null = null;
 
     // There's no actual project; the documentation component just relies on one to have contexts.
     $: project = Project.make(
@@ -30,44 +27,68 @@
     );
 
     $: index = ConceptIndex.make(project, $locales);
+    $: indexStore.set(index);
     let indexStore = writable<ConceptIndex | undefined>(index);
     setContext(ConceptIndexSymbol, indexStore);
-    $: indexStore.set(index);
 
-    // Create a concept path for children
-    let path = writable<Concept[]>([]);
-    setContext(ConceptPathSymbol, path);
-
-    // After any navigation, extract the locale and concept from the URL and
-    // ensure the concepts are set to match it.
-    afterNavigate(async () => {
-        locale =
+    function getLocaleInURL() {
+        return (
             $page.url.searchParams.get('locale') ??
             `${$locales.getLocales()[0].language}-${
                 $locales.getLocales()[0].region
-            }`;
-        concept = $page.url.searchParams.get('concept');
+            }`
+        );
+    }
 
-        if (concept) {
-            const match = index.getConceptByName(concept);
-            // Only update the path if the concept exists and is not already in the path.
-            if (
-                match &&
-                ($path.length === 0 ||
-                    match.getName($locales, false) !==
-                        $path[0].getName($locales, false))
-            ) {
-                path.set([match]);
-            }
+    function getConceptFromURL() {
+        return $page.url.searchParams.get('concept');
+    }
+
+    function getConcept(concept: string | null) {
+        return concept ? index.getConceptByName(concept) : undefined;
+    }
+
+    // Initialize locale and concept with URL.
+    let locale: string | null = null;
+    let concept: string | null = null;
+
+    // Create a concept path for children, initialized
+    let path = writable<Concept[]>([]);
+    setContext(ConceptPathSymbol, path);
+
+    let mounted = false;
+    onMount(() => {
+        locale = getLocaleInURL();
+        concept = getConceptFromURL();
+
+        path.set([getConcept(concept)].filter((c) => c !== undefined));
+        mounted = true;
+    });
+
+    // After any navigation, extract the locale and concept from the URL and
+    // ensure the concepts are set to match it.
+    afterNavigate(() => {
+        // Set the current locale.
+        locale = getLocaleInURL();
+        concept = getConceptFromURL();
+        const currentConcept = getConcept(concept);
+        // Only update the path if the concept exists and is not already in the path.
+        if (
+            currentConcept &&
+            ($path.length === 0 ||
+                currentConcept.getName($locales, false) !==
+                    $path[0].getName($locales, false))
+        ) {
+            path.set([currentConcept]);
         }
         // Only update if the path isn't already empty.
-        else if ($path.length !== 0) {
+        else if (currentConcept === undefined) {
             path.set([]);
         }
     });
 
     // When the concept path changes, navigate to the corresponding URL.
-    $: if (browser && $path) {
+    $: if (browser && $path && mounted) {
         const current = $path.at(-1);
         if (current) {
             concept = current.getName($locales, false);

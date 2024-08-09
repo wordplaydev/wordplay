@@ -22,11 +22,11 @@ import FunctionValue from '../values/FunctionValue';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import AnyType from './AnyType';
 import FunctionType from './FunctionType';
-import concretize from '../locale/concretize';
 import Reference from './Reference';
 import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import MissingInput from '@conflicts/MissingInput';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -102,7 +102,7 @@ export default class UnaryEvaluate extends Expression {
         // Find the function on the left's type.
         const fun = this.getFunction(context);
 
-        // Did we find nothing?
+        // No match? Give a conflict.
         if (fun === undefined)
             conflicts.push(
                 new IncompatibleInput(
@@ -111,7 +111,11 @@ export default class UnaryEvaluate extends Expression {
                     FunctionType.make(undefined, [], new AnyType()),
                 ),
             );
-
+        else if (fun.getRequiredInputs().length > 0) {
+            conflicts.push(
+                new MissingInput(fun, this, this.input, fun.inputs[0]),
+            );
+        }
         return conflicts;
     }
 
@@ -197,9 +201,8 @@ export default class UnaryEvaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.UnaryEvaluate.start),
+        return locales.concretize(
+            (l) => l.node.UnaryEvaluate.start,
             new NodeRef(this.input, locales, context),
         );
     }
@@ -209,9 +212,8 @@ export default class UnaryEvaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.UnaryEvaluate.finish),
+        return locales.concretize(
+            (l) => l.node.UnaryEvaluate.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

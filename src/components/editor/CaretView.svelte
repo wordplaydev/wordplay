@@ -231,7 +231,7 @@
         const originalHTML = spaceElement.innerHTML;
 
         // Get the lines in the HTML (which are separated by line breaks). This depends closely on the structure created in Space.svelte.
-        const lines = Array.from(spaceElement.querySelectorAll('.line'));
+        const lines = Array.from(spaceElement.querySelectorAll('.space-text'));
 
         // The line that contains the caret index
         let containingLine: UnicodeString | undefined = undefined;
@@ -449,10 +449,16 @@
             const { beforeSpaceWidth, beforeSpaceHeight } =
                 computeSpaceDimensions(editorView, token, spaceIndex);
 
+            // Find the line number inline end.
+            const lineWidth =
+                element?.parentElement
+                    ?.querySelector('.line-number')
+                    ?.getBoundingClientRect().width ?? 0;
+
             // Find the start position of the editor, based on language direction.
             const editorHorizontalStart =
                 leftToRight && horizontal
-                    ? editorPadding
+                    ? editorPadding + lineWidth
                     : viewportWidth - editorPadding;
             const editorVerticalStart = editorPadding + 4;
 
@@ -467,7 +473,7 @@
                 if (
                     priorToken === undefined ||
                     (priorTokenView !== null &&
-                        !priorTokenView.classList.contains('hide'))
+                        priorTokenView.closest('.hide') === null)
                 )
                     break;
             } while (true);

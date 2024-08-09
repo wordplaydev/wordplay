@@ -27,12 +27,11 @@ import {
     any,
     none,
 } from './Node';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
 import Glyphs from '../lore/Glyphs';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import Evaluate from './Evaluate';
 import Reference from './Reference';
@@ -143,7 +142,7 @@ export default class StreamDefinition extends DefinitionExpression {
         ) as this;
     }
 
-    getEvaluateTemplate(nameOrLocales: string | Locale | Locale[]) {
+    getEvaluateTemplate(nameOrLocales: string | LocaleText | LocaleText[]) {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
@@ -185,7 +184,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return this.names.getNames();
     }
 
-    getPreferredName(locales: Locale[]) {
+    getPreferredName(locales: LocaleText[]) {
         return this.names.getPreferredNameString(locales);
     }
 
@@ -267,10 +266,7 @@ export default class StreamDefinition extends DefinitionExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.StreamDefinition.start),
-        );
+        return locales.concretize((l) => l.node.StreamDefinition.start);
     }
 
     getGlyphs() {

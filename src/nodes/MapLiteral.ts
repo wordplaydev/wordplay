@@ -23,7 +23,6 @@ import { node, type Grammar, type Replacement, optional, list } from './Node';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import concretize from '../locale/concretize';
 import ValueException from '../values/ValueException';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
@@ -230,10 +229,7 @@ export default class MapLiteral extends Expression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.MapLiteral.start),
-        );
+        return locales.concretize((l) => l.node.MapLiteral.start);
     }
 
     getFinishExplanations(
@@ -241,9 +237,8 @@ export default class MapLiteral extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.MapLiteral.finish),
+        return locales.concretize(
+            (l) => l.node.MapLiteral.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

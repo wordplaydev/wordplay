@@ -28,14 +28,13 @@ import TypeVariables from './TypeVariables';
 import Reference from './Reference';
 import NotAnInterface from '@conflicts/NotAnInterface';
 import { optional, type Grammar, type Replacement, node, list } from './Node';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import NameType from './NameType';
 import InternalException from '@values/InternalException';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
-import concretize from '../locale/concretize';
 import Evaluate from './Evaluate';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
@@ -201,7 +200,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.share !== undefined;
     }
 
-    getPreferredName(locales: Locale[]): string {
+    getPreferredName(locales: LocaleText[]): string {
         return this.names.getPreferredNameString(locales);
     }
 
@@ -500,10 +499,7 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.StructureDefinition.start),
-        );
+        return locales.concretize((l) => l.node.StructureDefinition.start);
     }
 
     getDescriptionInputs(locales: Locales) {

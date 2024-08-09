@@ -11,7 +11,6 @@ import SimpleExpression from './SimpleExpression';
 import BooleanType from './BooleanType';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import Language from './Language';
 import StartFinish from '@runtime/StartFinish';
 import type Expression from './Expression';
@@ -93,10 +92,10 @@ export default class IsLocale extends SimpleExpression {
                 ? false
                 : this.locale.region === undefined
                   ? evaluator
-                        .getLocales()
+                        .getLocaleIDs()
                         .some((locale) => this.locale?.isLocaleLanguage(locale))
                   : evaluator
-                        .getLocales()
+                        .getLocaleIDs()
                         .some((locale) => this.locale?.isLocale(locale)),
         );
     }
@@ -121,9 +120,8 @@ export default class IsLocale extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.IsLocale.start),
+        return locales.concretize(
+            (l) => l.node.IsLocale.start,
             this.locale?.toWordplay() ?? '-',
         );
     }

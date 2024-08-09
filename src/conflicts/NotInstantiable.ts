@@ -2,7 +2,6 @@ import type Evaluate from '@nodes/Evaluate';
 import type FunctionDefinition from '@nodes/FunctionDefinition';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export default class NotInstantiable extends Conflict {
@@ -13,7 +12,7 @@ export default class NotInstantiable extends Conflict {
     constructor(
         evaluate: Evaluate,
         definition: StructureDefinition,
-        abstractFunctions: FunctionDefinition[]
+        abstractFunctions: FunctionDefinition[],
     ) {
         super(false);
 
@@ -27,11 +26,8 @@ export default class NotInstantiable extends Conflict {
             primary: {
                 node: this.evaluate,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get(
-                            (l) => l.node.Evaluate.conflict.NotInstantiable
-                        )
+                    locales.concretize(
+                        (l) => l.node.Evaluate.conflict.NotInstantiable,
                     ),
             },
         };

@@ -22,7 +22,6 @@ import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import concretize from '../locale/concretize';
 import Purpose from '../concepts/Purpose';
 import StructureValue from '../values/StructureValue';
 import MissingCell from '../conflicts/MissingCell';
@@ -313,9 +312,8 @@ export default class Insert extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Insert.start),
+        return locales.concretize(
+            (l) => l.node.Insert.start,
             new NodeRef(this.table, locales, context),
         );
     }
@@ -325,9 +323,8 @@ export default class Insert extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Insert.finish),
+        return locales.concretize(
+            (l) => l.node.Insert.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

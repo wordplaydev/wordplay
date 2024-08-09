@@ -15,26 +15,27 @@ import Node, { node, optional } from './Node';
 import { LanguageTagged } from './LanguageTagged';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
+import type Locale from '@locale/Locale';
 
 export default class Name extends LanguageTagged {
+    readonly name: Token;
     readonly separator: Token | undefined;
-    readonly name: Token | undefined;
 
     constructor(
-        separator: Token | undefined,
-        name: Token | undefined,
-        language?: Language,
+        name: Token,
+        language: Language | undefined = undefined,
+        separator: Token | undefined = undefined,
     ) {
         super(language);
 
-        this.separator = separator;
         this.name = name;
+        this.separator = separator;
 
         this.computeChildren();
     }
 
     static make(name?: string, lang?: Language) {
-        return new Name(undefined, new NameToken(name ?? '_'), lang);
+        return new Name(new NameToken(name ?? '_'), lang, undefined);
     }
 
     getDescriptor() {
@@ -43,22 +44,22 @@ export default class Name extends LanguageTagged {
 
     getGrammar(): Grammar {
         return [
-            { name: 'separator', kind: optional(node(Sym.Separator)) },
-            { name: 'name', kind: optional(node(Sym.Name)) },
+            { name: 'name', kind: node(Sym.Name) },
             { name: 'language', kind: optional(node(Language)) },
+            { name: 'separator', kind: optional(node(Sym.Separator)) },
         ];
     }
 
     clone(replace?: Replacement) {
         return new Name(
-            this.replaceChild('separator', this.separator, replace),
             this.replaceChild('name', this.name, replace),
             this.replaceChild('language', this.language, replace),
+            this.replaceChild('separator', this.separator, replace),
         ) as this;
     }
 
     simplify() {
-        return new Name(this.separator, this.name, undefined);
+        return new Name(this.name, undefined, this.separator);
     }
 
     getCorrespondingDefinition(context: Context): Definition | undefined {
@@ -91,36 +92,37 @@ export default class Name extends LanguageTagged {
         return this.language?.getLanguageCode() === lang;
     }
 
+    isLocale(locale: Locale) {
+        return this.language !== undefined && this.language.isLocale(locale);
+    }
+
     withSeparator(): Name {
         return this.separator !== undefined
             ? this
             : new Name(
-                  new Token(COMMA_SYMBOL, Sym.Separator),
                   this.name,
                   this.language,
+                  new Token(COMMA_SYMBOL, Sym.Separator),
               );
     }
 
     /** Symbolic if it matches the binary op regex  */
     isSymbolic() {
         return (
-            this.name !== undefined &&
-            (this.name.text.getLength() === 1 ||
-                this.name.text
-                    .getText()
-                    .split('')
-                    .every((c) => ReservedSymbols.includes(c)))
+            this.name.text.getLength() === 1 ||
+            this.name.text
+                .getText()
+                .split('')
+                .every((c) => ReservedSymbols.includes(c))
         );
     }
 
-    getName(): string | undefined {
-        return this.name instanceof Token
-            ? this.name.text.toString()
-            : this.name;
+    getName(): string {
+        return this.name.getText();
     }
 
     withName(name: string) {
-        return new Name(this.separator, new NameToken(name), this.language);
+        return new Name(new NameToken(name), this.language, this.separator);
     }
 
     startsWith(prefix: string) {
@@ -128,7 +130,7 @@ export default class Name extends LanguageTagged {
     }
 
     withoutLanguage() {
-        return new Name(this.separator, this.name, undefined);
+        return new Name(this.name, undefined, this.separator);
     }
 
     getLowerCaseName(): string | undefined {
@@ -158,12 +160,12 @@ export default class Name extends LanguageTagged {
     }
 
     getDescriptionInputs() {
-        return [this.name?.getText()];
+        return [this.name.getText()];
     }
 
     getGlyphs() {
         return {
-            symbols: this.name?.getText() ?? '',
+            symbols: this.name.getText(),
             emotion: Emotion.kind,
         };
     }

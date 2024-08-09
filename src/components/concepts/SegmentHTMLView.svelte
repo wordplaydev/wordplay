@@ -17,7 +17,6 @@
     import RootView from '../project/RootView.svelte';
     import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
     import UnknownType from '../../nodes/UnknownType';
-    import concretize from '../../locale/concretize';
     import MarkupHtmlView from './MarkupHTMLView.svelte';
     import { withVariationSelector } from '../../unicode/emoji';
     import CodeView from './CodeView.svelte';
@@ -42,7 +41,7 @@
             {spaces}
             outline={false}
             describe={false}
-        />{/if}{:else if segment instanceof ConceptLink}<ConceptLinkUI
+        />{/if}{:else if segment instanceof ConceptLink || segment instanceof ConceptRef}<ConceptLinkUI
         link={segment}
     />{:else if segment instanceof Words}<WordsHTMLView
         words={segment}
@@ -50,8 +49,7 @@
     />{:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
         <MarkupHtmlView
             markup={segment.node.getDescription(
-                concretize,
-                segment.locale,
+                segment.locales,
                 segment.context,
             )}
             inline

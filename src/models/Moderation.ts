@@ -1,5 +1,6 @@
 import type { User } from 'firebase/auth';
-import type { Locale, Template } from '../locale/Locale';
+import type { Template } from '../locale/LocaleText';
+import type LocaleText from '../locale/LocaleText';
 import type Project from './Project';
 import type Locales from '../locale/Locales';
 
@@ -45,7 +46,7 @@ export type Moderation = {
 export function withFlag(
     flags: Moderation,
     flag: string,
-    state: FlagState
+    state: FlagState,
 ): Moderation {
     if (!(flag in Flags)) return flags;
     const newFlags = { ...flags };
@@ -68,27 +69,27 @@ export function unknownFlags(): Moderation {
 }
 
 /** Get descriptions of all true warning flags */
-export function getWarnings(flags: Moderation, locale: Locale) {
+export function getWarnings(flags: Moderation, locale: LocaleText) {
     return Object.entries(flags)
         .filter(
             ([flag, state]) =>
-                state === true && Flags[flag as Flag] === Remedy.Warn
+                state === true && Flags[flag as Flag] === Remedy.Warn,
         )
         .map(([flag]) => locale.moderation.flags[flag as Flag]);
 }
 
 /** Get descriptions of all true block flags */
-export function getBlocks(flags: Moderation, locale: Locale) {
+export function getBlocks(flags: Moderation, locale: LocaleText) {
     return Object.entries(flags)
         .filter(
             ([flag, state]) =>
-                state === true && Flags[flag as Flag] === Remedy.Block
+                state === true && Flags[flag as Flag] === Remedy.Block,
         )
         .map(([flag]) => locale.moderation.flags[flag as Flag]);
 }
 
 /** True if one of the flags is true and is a flagged that's warned  */
-export function getUnmoderated(flags: Moderation, locale: Locale) {
+export function getUnmoderated(flags: Moderation, locale: LocaleText) {
     return Object.entries(flags)
         .filter(([, state]) => state === null)
         .map(([flag]) => locale.moderation.flags[flag as Flag]);
@@ -109,7 +110,7 @@ export function isAudience(user: User | null, project: Project): boolean {
 
 export function getFlagDescription(
     flag: string,
-    locales: Locales
+    locales: Locales,
 ): string | undefined {
     return locales.get((l) => l.moderation.flags)[flag as Flag];
 }

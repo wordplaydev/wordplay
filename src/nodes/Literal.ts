@@ -6,7 +6,7 @@ import SimpleExpression from './SimpleExpression';
 import type Expression from './Expression';
 import Purpose from '../concepts/Purpose';
 import type Context from './Context';
-import type Locales from '../locale/Locales';
+import type Locale from '@locale/Locale';
 
 export default abstract class Literal extends SimpleExpression {
     constructor() {
@@ -29,8 +29,8 @@ export default abstract class Literal extends SimpleExpression {
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
         if (prior) return prior;
 
-        return this.getValue(evaluator.locales);
+        return this.getValue(evaluator.getLocaleIDs());
     }
 
-    abstract getValue(locales: Locales): Value;
+    abstract getValue(locales: Locale[]): Value;
 }

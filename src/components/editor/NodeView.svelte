@@ -15,7 +15,6 @@
     import type Value from '@values/Value';
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
-    import concretize from '../../locale/concretize';
     import { blocks, locales } from '../../db/Database';
 
     export let node: Node | undefined;
@@ -28,7 +27,6 @@
         node && $evaluation
             ? node
                   .getDescription(
-                      concretize,
                       $locales,
                       $evaluation.evaluator.project.getNodeContext(node),
                   )
@@ -58,7 +56,7 @@
     // See if this node has any space to render.
     $: firstToken = node?.getFirstLeaf();
     $: spaceRoot = $root && node ? $root.getSpaceRoot(node) : undefined;
-    $: space = spaceRoot && $spaces ? $spaces.getSpace(spaceRoot) : '';
+    $: space = firstToken ? $spaces?.getSpace(firstToken) ?? '' : '';
 
     // Get the hidden context.
     let hidden = getHidden();
@@ -76,6 +74,8 @@
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
     {#if !hide && firstToken && spaceRoot === node}<Space
             token={firstToken}
+            first={$blocks ? undefined : $spaces.isFirst(firstToken)}
+            line={$blocks ? undefined : $spaces.getLineNumber(firstToken)}
             {space}
             insertion={$insertion?.token === firstToken
                 ? $insertion

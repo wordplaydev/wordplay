@@ -3,7 +3,7 @@ import type Markup from '../nodes/Markup';
 import { DOCS_SYMBOL } from './Symbols';
 import { toTokens } from './toTokens';
 import parseDoc from './parseDoc';
-import { withoutAnnotations } from '@locale/Locale';
+import { withoutAnnotations } from '@locale/LocaleText';
 
 export function toMarkup(template: string): [Markup, Spaces] {
     // Replace out of date markers before parsing

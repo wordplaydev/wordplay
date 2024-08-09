@@ -5,10 +5,10 @@
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { Projects, locales } from '@db/Database';
+    import { Projects, Settings, locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import { getLanguageName } from '@locale/LanguageCode';
-    import { SupportedLocales } from '@locale/Locale';
+    import { SupportedLocales } from '@locale/LocaleText';
     import type Project from '@models/Project';
     import translateProject from '@models/translate';
 
@@ -36,8 +36,13 @@
             );
             translating = false;
 
+            // If we were successful,
             if (revisedProject) {
+                // Revise the project
                 Projects.reviseProject(revisedProject);
+                // Show the new translations.
+                Settings.setLocalized('actual');
+                // Hide the dialog.
                 show = false;
             } else {
                 error = true;

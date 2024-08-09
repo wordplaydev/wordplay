@@ -1,6 +1,5 @@
 import type This from '@nodes/This';
 import Conflict from './Conflict';
-import concretize from '../locale/concretize';
 import type Locales from '../locale/Locales';
 
 export class MisplacedThis extends Conflict {
@@ -15,9 +14,8 @@ export class MisplacedThis extends Conflict {
             primary: {
                 node: this.dis,
                 explanation: (locales: Locales) =>
-                    concretize(
-                        locales,
-                        locales.get((l) => l.node.This.conflict.MisplacedThis)
+                    locales.concretize(
+                        (l) => l.node.This.conflict.MisplacedThis,
                     ),
             },
         };

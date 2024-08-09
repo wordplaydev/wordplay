@@ -29,7 +29,7 @@ import NeverType from './NeverType';
 import type Definition from './Definition';
 import NumberType from './NumberType';
 import { node, type Grammar, type Replacement } from './Node';
-import type { Template } from '@locale/Locale';
+import type { Template } from '@locale/LocaleText';
 import StartEvaluation from '@runtime/StartEvaluation';
 import NodeRef from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';
@@ -37,7 +37,6 @@ import FunctionValue from '../values/FunctionValue';
 import Glyphs from '../lore/Glyphs';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
-import concretize from '../locale/concretize';
 import Reference from './Reference';
 import ValueException from '../values/ValueException';
 import Purpose from '../concepts/Purpose';
@@ -448,9 +447,8 @@ export default class BinaryEvaluate extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.BinaryEvaluate.start),
+        return locales.concretize(
+            (l) => l.node.BinaryEvaluate.start,
             new NodeRef(this.left, locales, context),
         );
     }
@@ -460,9 +458,8 @@ export default class BinaryEvaluate extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.BinaryEvaluate.finish),
+        return locales.concretize(
+            (l) => l.node.BinaryEvaluate.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

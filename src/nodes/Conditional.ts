@@ -20,7 +20,6 @@ import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import concretize from '../locale/concretize';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
@@ -220,9 +219,8 @@ export default class Conditional extends Expression {
     }
 
     getStartExplanations(locales: Locales, context: Context) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Conditional.start),
+        return locales.concretize(
+            (l) => l.node.Conditional.start,
             new NodeRef(this.condition, locales, context),
         );
     }
@@ -232,9 +230,8 @@ export default class Conditional extends Expression {
         context: Context,
         evaluator: Evaluator,
     ) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Conditional.finish),
+        return locales.concretize(
+            (l) => l.node.Conditional.finish,
             this.getValueIfDefined(locales, context, evaluator),
         );
     }

@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "ko",
     "region": "KR",
     "wordplay": "워드플레이",
@@ -452,8 +452,9 @@
             "conflict": {
                 "ExpectedEndingExpression": "표현식이 필요합니다.",
                 "IgnoredExpression": {
-                    "primary": "위의 것은 무시할 거예요.",
-                    "secondary": "@Block, 저를 무시하지 마세요!"
+                    "primary": "$~$1은 아무것도 정의하지 않고 마지막 표현도 아니기 때문에 무시하겠습니다.",
+                    "secondary": "$~@Block, 나를 무시하지 마세요!",
+                    "resolution": "$~@UnaryEvaluate 대신 @BinaryEvaluate를 사용한다는 뜻인가요? 공백을 추가하면 그 뜻을 알 수 있습니다."
                 }
             }
         },
@@ -611,8 +612,8 @@
                     "secondary": "이런, 내가 여기 있어야 하는것이 아니니?"
                 },
                 "MissingInput": {
-                    "primary": "$1가 필요한데, 넣어 줄 수 있어?",
-                    "secondary": "이 입력이 필요한데, $2는 그걸 제공하지 않았어"
+                    "primary": "$~$1이라는 입력 없이는 평가할 수 없습니다.",
+                    "secondary": "$~아, 이런. 우리를 도와서 내 입력 목록에 추가해 주실 수 있나요?"
                 },
                 "NotInstantiable": "나는 @StructureDefinition로 만들 수 없어, 구현되지 못한 함수들이 있기 때문이야.",
                 "UnexpectedInput": {
@@ -2047,7 +2048,7 @@
                 "add": {
                     "doc": [
                         "$~마지막에 주어진 항목을 사용하여 새 @List를 만듭니다.",
-                        "$~\\['사과' '바나나' '망고'].add('수박')\\"
+                        "$~\\['사과' '바나나' '망고'].와함께('수박')\\"
                     ],
                     "names": ["$~와함께", "$~추가하다"],
                     "inputs": [
@@ -4265,6 +4266,9 @@
             },
             "button": {
                 "submit": "$~이 채팅 메시지를 제출하세요"
+            },
+            "options": {
+                "locale": "$~출력할 언어를 선택하세요"
             }
         },
         "timeline": {
@@ -4409,6 +4413,13 @@
                             "코드를 현지화하지 마세요",
                             "가능한 경우 코드 현지화",
                             "코드를 현지화하지만 기호를 선호합니다."
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~줄 번호",
+                        "modes": [
+                            "$~텍스트 모드에서 줄 번호 표시",
+                            "$~텍스트 모드에서 줄 번호를 표시하지 않음"
                         ]
                     }
                 },

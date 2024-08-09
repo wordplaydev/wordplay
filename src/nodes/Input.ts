@@ -17,11 +17,11 @@ import Token from './Token';
 import Sym from './Sym';
 import BindToken from './BindToken';
 import Glyphs from '../lore/Glyphs';
-import concretize from '@locale/concretize';
 import SimpleExpression from './SimpleExpression';
 import Evaluate from './Evaluate';
 import Refer from '@edit/Refer';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type Definition from './Definition';
 
 export default class Input extends SimpleExpression {
     readonly name: Token;
@@ -122,6 +122,20 @@ export default class Input extends SimpleExpression {
         return this.value.evaluateTypeGuards(current, guard);
     }
 
+    /** Get the bind to which this input corresponds. */
+    getCorrespondingDefinition(context: Context): Definition | undefined {
+        const parent = context.getRoot(this)?.getParent(this);
+        if (parent instanceof Evaluate) {
+            const fun = parent.getFunction(context);
+            if (fun)
+                return fun.inputs.find((input) =>
+                    input.hasName(this.getName()),
+                );
+        }
+
+        return undefined;
+    }
+
     getName() {
         return this.name.getText();
     }
@@ -145,14 +159,11 @@ export default class Input extends SimpleExpression {
     }
 
     getStartExplanations(locales: Locales) {
-        return concretize(
-            locales,
-            locales.get((l) => l.node.Input.start),
-        );
+        return locales.concretize((l) => l.node.Input.start);
     }
 
     getGlyphs(): Glyph {
-        return Glyphs.Bind;
+        return { symbols: this.name.getText() + Glyphs.Bind };
     }
 
     getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {

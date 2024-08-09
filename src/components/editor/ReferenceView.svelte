@@ -8,22 +8,27 @@
     import type StreamValue from '@values/StreamValue';
     import type Value from '../../values/Value';
     import { animationFactor } from '../../db/Database';
+    import Source from '@nodes/Source';
 
     export let node: Reference;
 
     let evaluation = getEvaluation();
 
+    $: project = $evaluation?.evaluator.project;
+    $: root = project?.getRoot(node);
+    $: context =
+        root?.root instanceof Source
+            ? project?.getContext(root.root)
+            : undefined;
+    $: definition = node.resolve(context);
+
     let stream: StreamValue<Value, unknown> | undefined;
-    $: {
-        if ($evaluation) {
-            const parent = $evaluation.evaluator.project
-                .getRoot(node)
-                ?.getParent(node);
-            stream =
-                parent instanceof Evaluate
-                    ? $evaluation.evaluator.getStreamFor(parent)
-                    : undefined;
-        }
+    $: if ($evaluation) {
+        const parent = root?.getParent(node);
+        stream =
+            parent instanceof Evaluate
+                ? $evaluation.evaluator.getStreamFor(parent)
+                : undefined;
     }
 
     // If this evaluated to the stream that recently changed, style it.
@@ -49,13 +54,12 @@
     }
 </script>
 
-{#if animating}
-    <span class="changed">
-        <NodeView node={node.name} />
-    </span>
-{:else}
+<span
+    class:changed={animating}
+    class={definition ? definition.getDescriptor() : ''}
+>
     <NodeView node={node.name} />
-{/if}
+</span>
 
 <style>
     .changed {
@@ -80,5 +84,14 @@
         100% {
             transform: scale(1);
         }
+    }
+
+    .StructureDefinition,
+    .StreamDefinition {
+        font-style: italic;
+    }
+
+    .StreamDefinition {
+        text-shadow: 3px 3px 2px var(--wordplay-chrome);
     }
 </style>

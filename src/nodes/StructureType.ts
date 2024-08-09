@@ -7,7 +7,7 @@ import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Definition from './Definition';
 import type Node from './Node';
-import type Locale from '@locale/Locale';
+import type LocaleText from '@locale/LocaleText';
 import Glyphs from '../lore/Glyphs';
 import type { Grammar } from './Node';
 import BasisType from './BasisType';
@@ -149,7 +149,7 @@ export default class StructureType extends BasisType {
         return this;
     }
 
-    toWordplay(_?: Spaces, locale?: Locale) {
+    toWordplay(_?: Spaces, locale?: LocaleText) {
         return this.definition.getPreferredName(locale ? [locale] : []);
     }
 
