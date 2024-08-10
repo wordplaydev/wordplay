@@ -1276,8 +1276,16 @@ export default class Caret {
 
         // If the position is a number, see if this is a rename
         if (typeof this.position === 'number') {
-            // Nodes only? Do nothing.
-            if (nodesOnly) return;
+            // Nodes only? Just select the node that would be deleted, as a form
+            // of confirmation.
+            if (nodesOnly) {
+                // Find the largest node before/after.
+                const { before, after } = this.getNodesBetween();
+                const candidate = (forward ? after : before).at(-1);
+                if (candidate) return this.withPosition(candidate);
+            }
+
+            // Otherwise, figure out what to delete.
             // Are we in the middle of a name or at it's end?
             const rename = forward
                 ? this.tokenExcludingSpace?.isSymbol(Sym.Name) &&
