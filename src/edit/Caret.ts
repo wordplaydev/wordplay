@@ -4,7 +4,7 @@ import type {
     Revision,
 } from '../components/editor/util/Commands';
 import Block from '@nodes/Block';
-import Node, { ListOf, type Field } from '@nodes/Node';
+import Node, { Empty, ListOf, type Field } from '@nodes/Node';
 import Token from '@nodes/Token';
 import Sym from '@nodes/Sym';
 import {
@@ -977,7 +977,7 @@ export default class Caret {
             if (wrap !== undefined) return wrap;
 
             // If that didn't do anything, try deleting the node.
-            const edit = this.deleteNode(this.position);
+            const edit = this.deleteNode(this.position, false);
             if (edit === undefined) return;
             const [source, caret] = edit;
             if (caret.position instanceof Node) return;
@@ -1270,7 +1270,7 @@ export default class Caret {
     delete(
         project: Project,
         forward: boolean,
-        nodesOnly: boolean,
+        validOnly: boolean,
     ): Edit | ProjectRevision | undefined {
         const offset = forward ? 0 : -1;
 
@@ -1278,10 +1278,12 @@ export default class Caret {
         if (typeof this.position === 'number') {
             // Nodes only? Just select the node that would be deleted, as a form
             // of confirmation.
-            if (nodesOnly) {
-                // Find the largest node before/after.
+            if (validOnly) {
+                // Find the first non-token in the before/after.
                 const { before, after } = this.getNodesBetween();
-                const candidate = (forward ? after : before).at(-1);
+                const candidate = (forward ? after : before).find(
+                    (n) => !(n instanceof Token),
+                );
                 if (candidate) return this.withPosition(candidate);
             }
 
@@ -1373,7 +1375,7 @@ export default class Caret {
             const placeholder = this.getPlaceholderAtPosition(
                 this.position + offset,
             );
-            if (placeholder) return this.deleteNode(placeholder);
+            if (placeholder) return this.deleteNode(placeholder, validOnly);
 
             if (before && after && DelimiterCloseByOpen[before] === after) {
                 // If there's an adjacent pair of delimiters, delete them both.
@@ -1499,24 +1501,9 @@ export default class Caret {
                             ),
                         ];
                     }
-                    // Otherwise, delete the sequence of characters.
+                    // Otherwise, delete the sequence of characters if allowed.
                     else if (last !== undefined) {
-                        const newSource = this.source.withoutGraphemesBetween(
-                            index,
-                            last,
-                        );
-                        return newSource === undefined
-                            ? undefined
-                            : [
-                                  newSource,
-                                  new Caret(
-                                      newSource,
-                                      index,
-                                      undefined,
-                                      undefined,
-                                      undefined,
-                                  ),
-                              ];
+                        return this.deleteNode(node, validOnly);
                     }
                 }
             }
@@ -1524,7 +1511,27 @@ export default class Caret {
         }
     }
 
-    deleteNode(node: Node): Revision | undefined {
+    deleteNode(node: Node, validOnly: boolean): Revision | undefined {
+        // If valid only, check to see if the node is in a list or represents an optional field.
+        if (validOnly) {
+            const parent = this.source.root.getParent(node);
+            if (parent) {
+                const field = parent.getFieldOfChild(node);
+                if (field !== undefined) {
+                    const value = parent.getField(field.name);
+                    if (
+                        !(
+                            (field.kind instanceof ListOf &&
+                                ((Array.isArray(value) && value.length > 1) ||
+                                    field.kind.allowsEmpty)) ||
+                            field.kind instanceof Empty
+                        )
+                    )
+                        return undefined;
+                }
+            } else return undefined;
+        }
+
         const range = this.getRange(node);
         if (range === undefined) return;
         const newSource = this.source.withoutGraphemesBetween(
