@@ -279,6 +279,12 @@
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = undefined;
 
+    // True when the last key was ignored and we're not debugging.
+    $: shakeCaret =
+        $evaluation !== undefined &&
+        $evaluation.playing === true &&
+        lastKeyDownIgnored;
+
     $: context = project.getContext(source);
 
     // Hide the menu when the caret changes.
@@ -1457,7 +1463,12 @@
     />
     <!-- Render highlights above the code -->
     {#each outlines as outline}
-        <Highlight {...outline} types={outline.types} above={true} />
+        <Highlight
+            {...outline}
+            types={outline.types}
+            above={true}
+            ignored={shakeCaret}
+        />
     {/each}
 
     <!-- Render the caret on top of the program -->
@@ -1466,9 +1477,7 @@
         {source}
         blocks={$blocks}
         blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
-        ignored={$evaluation !== undefined &&
-            $evaluation.playing === true &&
-            lastKeyDownIgnored}
+        ignored={shakeCaret}
         bind:location={caretLocation}
     />
     <!-- 

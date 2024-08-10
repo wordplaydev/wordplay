@@ -1189,7 +1189,7 @@ const Commands: Command[] = [
         typing: true,
         execute: ({ caret, project, editor, blocks }) =>
             editor && caret
-                ? caret.delete(project, false, blocks) ?? true
+                ? caret.delete(project, false, blocks) ?? false
                 : false,
     },
     {
@@ -1205,7 +1205,7 @@ const Commands: Command[] = [
         typing: true,
         execute: ({ caret, project, editor, blocks }) =>
             editor && caret
-                ? caret.delete(project, true, blocks) ?? true
+                ? caret.delete(project, true, blocks) ?? false
                 : false,
     },
     {
