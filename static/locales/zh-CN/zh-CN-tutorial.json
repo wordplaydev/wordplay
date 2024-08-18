@@ -2627,7 +2627,7 @@
             ],
             "scenes": [
                 {
-                    "title": "Detour",
+                    "title": "绕路",
                     "subtitle": null,
                     "performance": [
                         "use",
@@ -2657,8 +2657,8 @@
                     ]
                 },
                 {
-                    "title": "We can be anything",
-                    "subtitle": "Convert",
+                    "title": "千变万化",
+                    "subtitle": "转换",
                     "concept": "Convert",
                     "performance": [
                         "use",
@@ -3056,7 +3056,7 @@
             ],
             "scenes": [
                 {
-                    "title": "Input",
+                    "title": "输入",
                     "subtitle": null,
                     "performance": [
                         "use",
@@ -3436,7 +3436,7 @@
                 },
                 {
                     "title": "You never know…",
-                    "subtitle": "Random",
+                    "subtitle": "随机",
                     "concept": "Random",
                     "performance": [
                         "fit",
@@ -3686,8 +3686,8 @@
                     ]
                 },
                 {
-                    "title": "Let's talk",
-                    "subtitle": "Chat",
+                    "title": "来聊聊吧",
+                    "subtitle": "聊天",
                     "concept": "Chat",
                     "performance": [
                         "fit",
@@ -6369,7 +6369,7 @@
             ],
             "scenes": [
                 {
-                    "title": "Codependency",
+                    "title": "相互依赖",
                     "subtitle": null,
                     "performance": [
                         "fit",
