@@ -182,7 +182,7 @@ export default class ProjectsDatabase {
             this.projectsQueryUnsubscribe = undefined;
         }
 
-        // If there's no more user, stop le, do nothing.
+        // If there's no more user, do nothing.
         if (user === null) return;
 
         // Set up the realtime projects query for the user, tracking any projects from the cloud,
@@ -430,11 +430,13 @@ export default class ProjectsDatabase {
                     doc(firestore, ProjectsCollection, id),
                 );
                 if (projectDoc.exists()) {
+                    const user = this.database.getUser();
+
                     const project = await this.parseProject(projectDoc.data());
                     if (project !== undefined)
                         this.track(
                             project,
-                            false,
+                            user !== null && project.getOwner() === user.uid,
                             PersistenceType.Online,
                             false,
                         );
