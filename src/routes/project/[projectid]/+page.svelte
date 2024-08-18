@@ -50,11 +50,12 @@
                     // See if the project is editable, and if so, get it's store, so we can track it's changes.
                     const projectStore = Projects.getStore(projectID);
                     if (projectStore) {
+                        // Mark the project editable, since there's a store for it.
                         editable = true;
+                        // If there's a different store, stop listening to the current store and listen to the new one.
                         if (store !== projectStore) {
                             // Unsubscribe from the previous store
                             if (unsub) unsub();
-                            // Mark the project editable.
                             // Remember the new store
                             store = projectStore;
                             // Update the project we're showing whenever it changes.
@@ -62,7 +63,7 @@
                                 project = proj;
                                 overwritten =
                                     Projects.getHistory(
-                                        proj.getID()
+                                        proj.getID(),
                                     )?.wasOverwritten() ?? false;
                             });
                         }
