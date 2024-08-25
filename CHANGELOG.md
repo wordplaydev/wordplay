@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.11.1 2024-08-25
+
+### Fixed
+
+-   Included past tense verbs in higher order functions.
+
 ## 0.10.10 2024-08-12
 
 ### Fixed

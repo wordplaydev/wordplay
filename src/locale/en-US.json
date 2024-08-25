@@ -1634,7 +1634,7 @@
                         "\\'hi ' · -5\\",
                         "The longest text I can make is 65,535 characters. If you try to make a longer text, I'll repeat the text as many times as I can."
                     ],
-                    "names": ["·", "🔁", "repeat"],
+                    "names": ["·", "🔁", "repeated", "repeat"],
                     "inputs": [
                         {
                             "doc": "The number of times to repeat myself in the new text.",
@@ -1649,7 +1649,7 @@
                         "If the separator is an empty @Text, I divide myself into characters:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["÷", "segment"],
+                    "names": ["÷", "segmented", "segment"],
                     "inputs": [
                         {
                             "doc": "The @Text to use as a separator.",
@@ -1662,7 +1662,7 @@
                         "Sometimes it's helpful to combine to @Text into one. Give me another @Text and I'll make a new text that joins us together:",
                         "\\'hello ' + 'verse'\\"
                     ],
-                    "names": ["+", "combine"],
+                    "names": ["+", "combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The @Text to append.",
@@ -2399,7 +2399,7 @@
                         "This is really helpful for combining all of the items in me into a single value. For example, imagine you wanted to add a list of numbers:",
                         "\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
-                    "names": "combine",
+                    "names": ["combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The starting combination.",
