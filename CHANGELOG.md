@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 -   Included past tense verbs in higher order functions.
 -   Fixed aria-label updates.
+-   Drop old announcements if the queue exceeds three, preferering most recent.
 
 ## 0.10.10 2024-08-12
 

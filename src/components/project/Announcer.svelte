@@ -23,6 +23,12 @@
         // Is there a timeout? Wait for it to dequue.
         if (timeout) return;
 
+        // Have we fallen behind? Trim everything by the most recent.
+        if (announcements.length > 3) {
+            const mostRecent = announcements.shift();
+            if (mostRecent) announcements = [mostRecent];
+        }
+
         // Grab the message of a different kind from the current message, or the next one if there aren't any.
         let next = announcements.pop();
         announcements = [];
