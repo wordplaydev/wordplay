@@ -2380,7 +2380,8 @@
             "gravity": {
                 "doc": "$?",
                 "names": "$?"
-            }
+            },
+            "defaultDescription": "$?"
         },
         "Group": {
             "names": "$?",
@@ -2473,7 +2474,8 @@
             "style": {
                 "doc": "$?",
                 "names": "$?"
-            }
+            },
+            "defaultDescription": "$?"
         },
         "Phrase": {
             "names": "$?",
@@ -2578,7 +2580,8 @@
             "style": {
                 "doc": "$?",
                 "names": "$?"
-            }
+            },
+            "defaultDescription": "$?"
         },
         "Arrangement": {
             "names": ["Arrangement"],
@@ -2710,6 +2713,10 @@
             "style": {
                 "doc": "$?",
                 "names": "$? style"
+            },
+            "description": {
+                "doc": ["$?"],
+                "names": "$?"
             }
         },
         "Form": {

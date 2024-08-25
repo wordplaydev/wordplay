@@ -40,12 +40,15 @@
                 const wordsPerSecond = 3;
                 const secondsToRead = wordCount * (1 / wordsPerSecond);
 
-                // Dequeue
-                timeout = setTimeout(() => {
-                    // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
-                    timeout = undefined;
-                    dequeue();
-                }, secondsToRead * delay);
+                // Dequeue after the amount of reading time it takes, or 2 seconds, whatever is shorter.
+                timeout = setTimeout(
+                    () => {
+                        // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
+                        timeout = undefined;
+                        dequeue();
+                    },
+                    Math.min(2000, secondsToRead * delay),
+                );
             }
         }
     }

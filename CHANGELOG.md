@@ -5,9 +5,14 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.11.1 2024-08-25
 
+### Added
+
+-   Custom descriptions of Stage, Group, Phrase, and Shape output, overriding default descriptions.
+
 ### Fixed
 
 -   Included past tense verbs in higher order functions.
+-   Fixed aria-label updates.
 
 ## 0.10.10 2024-08-12
 

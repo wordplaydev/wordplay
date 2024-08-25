@@ -6904,9 +6904,13 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The list of content in the group"
                 },
-                "description": {
+                "defaultDescription": {
                   "$ref": "#/definitions/Template",
                   "description": "$1 = Layout description, $2 = pose description"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6997,6 +7001,7 @@
                 "background",
                 "color",
                 "content",
+                "defaultDescription",
                 "description",
                 "doc",
                 "duration",
@@ -7095,9 +7100,13 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
                 },
-                "description": {
+                "defaultDescription": {
                   "$ref": "#/definitions/Template",
                   "description": "A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
                 },
                 "direction": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7197,6 +7206,7 @@
                 "aura",
                 "background",
                 "color",
+                "defaultDescription",
                 "description",
                 "direction",
                 "doc",
@@ -7492,6 +7502,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
                 },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The custom description of the shape"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
@@ -7564,6 +7578,7 @@
               "required": [
                 "background",
                 "color",
+                "description",
                 "doc",
                 "duration",
                 "entering",
@@ -7683,9 +7698,13 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "A list of content to show on stage"
                 },
-                "description": {
+                "defaultDescription": {
                   "$ref": "#/definitions/Template",
                   "description": "A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7776,6 +7795,7 @@
                 "background",
                 "color",
                 "content",
+                "defaultDescription",
                 "description",
                 "doc",
                 "duration",

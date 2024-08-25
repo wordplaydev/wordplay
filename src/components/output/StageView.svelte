@@ -99,24 +99,22 @@
      */
     let stillTimeout: NodeJS.Timeout | undefined = undefined;
     let lastAnnouncement = 0;
-    let announce = false;
+    // The last
+    let frame = 0;
+    const StillDuration = 1000;
     $: if (interactive && stage) {
-        // Start by assuming we're not going to announce.
-        announce = false;
         // Have we not announced in a while? Let's announce now.
         const now = Date.now();
-        if (now - lastAnnouncement > 1000) {
-            announce = true;
+        if (now - lastAnnouncement > StillDuration) {
+            frame++;
             lastAnnouncement = now;
         }
         // Clear any timeout we had set up recently, then make a new one, announcing in a bit.
         if (stillTimeout) clearTimeout(stillTimeout);
         stillTimeout = setTimeout(() => {
-            if (!announce) {
-                announce = true;
-            }
+            frame++;
             lastAnnouncement = Date.now();
-        }, 1000);
+        }, StillDuration);
     }
 
     /** A set of all currently exiting outputs that need to be rendered in their last location. */
@@ -132,20 +130,21 @@
     // Announce changes on stage.
     $: if ($announcer) {
         const language = $locales.getLocale().language;
-        if (entered.size > 0)
-            $announcer(
-                'entered',
-                language,
-                describeEnteredOutput($locales, entered),
-            );
-        for (const change of describedChangedOutput(
+        const changeDescription = describedChangedOutput(
             $locales,
             entered,
             present,
             previouslyPresent,
-        ))
-            $announcer('changed', language, change);
-        if (moved.size > 0)
+        );
+        if (entered.size > 0)
+            $announcer(
+                'entered',
+                language,
+                describeEnteredOutput($locales, entered) ?? '',
+            );
+        else if (changeDescription) {
+            $announcer('changed', language, changeDescription);
+        } else if (moved.size > 0)
             $announcer('moved', language, describeMovedOutput($locales, moved));
     }
 
@@ -317,13 +316,11 @@
 
 {#if mounted}
     <section
-        class="output stage {interactive && !editing
-            ? 'live'
-            : 'inert'} {project.getMain().names.getNames()[0]}"
+        class="output stage {interactive && !editing ? 'live' : 'inert'}"
         class:interactive
         class:changed
         class:editing={$evaluation?.playing === false && !painting}
-        aria-label={stage.getDescription($locales)}
+        aria-label={stage.description?.text ?? stage.getDescription($locales)}
         data-id={stage.getHTMLID()}
         data-node-id={stage.value.creator.id}
         data-selectable={stage.selectable}
@@ -346,7 +343,7 @@
             {context}
             {interactive}
             {editing}
-            still={announce}
+            {frame}
         >
             {#if grid}
                 {@const left = Math.min(
@@ -404,7 +401,7 @@
                         parentAscent={0}
                         {context}
                         {editing}
-                        still={announce}
+                        {frame}
                     />
                 {:else if info.output instanceof Group}
                     <GroupView
@@ -415,7 +412,7 @@
                         {interactive}
                         {context}
                         {editing}
-                        still={announce}
+                        {frame}
                     />
                 {/if}
             {/each}
@@ -457,14 +454,6 @@
         transition: none;
     }
 
-    .grid {
-        position: relative;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-
     .gridline {
         position: absolute;
         border-style: solid;
@@ -486,11 +475,5 @@
     .axis {
         background-color: var(--grid-color);
         opacity: 0.4;
-    }
-
-    .rectangle-barrier {
-        position: absolute;
-        background: var(--wordplay-inactive-color);
-        border-radius: calc(var(--wordplay-border-radius) * 2);
     }
 </style>

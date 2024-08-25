@@ -36,6 +36,7 @@ export function createGroupType(locales: Locales) {
     )}•${SupportedFontsFamiliesType}${'|ø: ø'}
     ${getBind(locales, (locale) => locale.output.Group.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Group.name)}•""|ø: ø
+    ${getBind(locales, (locale) => locale.output.Group.description)}•""|ø: ø
     ${getBind(locales, (locale) => locale.output.Group.selectable)}•?: ⊥
     ${getBind(locales, (locale) => locale.output.Group.color)}•🌈${'|ø: ø'}
     ${getBind(
@@ -80,6 +81,7 @@ export default class Group extends Output {
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -96,6 +98,7 @@ export default class Group extends Output {
             face,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -155,12 +158,13 @@ export default class Group extends Output {
         if (this._description === undefined) {
             this._description = locales
                 .concretize(
-                    (l) => l.output.Group.description,
+                    (l) => l.output.Group.defaultDescription,
                     this.name instanceof TextLang ? this.name.text : undefined,
                     this.layout.getDescription(this.content, locales),
                     this.pose.getDescription(locales),
                 )
-                .toText();
+                .toText()
+                .trim();
         }
         return this._description;
     }
@@ -200,13 +204,15 @@ export function toGroup(
     const project = evaluator.project;
     const layout = toArrangement(project, getOutputInput(value, 0));
     const content = toOutputList(evaluator, getOutputInput(value, 1), namer);
-    const matter = toMatter(getOutputInput(value, 21));
+    const AfterStyleIndex = 22;
+    const matter = toMatter(getOutputInput(value, AfterStyleIndex));
 
     const {
         size,
         face: font,
         place,
         name,
+        description,
         selectable,
         background,
         pose,
@@ -233,6 +239,7 @@ export function toGroup(
               font,
               place,
               namer?.getName(name?.text, value) ?? `${value.creator.id}`,
+              description,
               selectable,
               background,
               pose,

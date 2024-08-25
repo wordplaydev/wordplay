@@ -22,6 +22,7 @@ export function createShapeType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Shape, TYPE_SYMBOL)} Output(
         ${getBind(locales, (locale) => locale.output.Shape.form)}•Form
         ${getBind(locales, (locale) => locale.output.Shape.name)}•""|ø: ø
+        ${getBind(locales, (locale) => locale.output.Shape.description)}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Shape.selectable)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Shape.color)}•🌈${'|ø: ø'}
         ${getBind(
@@ -60,6 +61,7 @@ export default class Shape extends Output {
         value: StructureValue,
         form: Form,
         name: TextLang | string,
+        description: TextLang | undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -82,6 +84,7 @@ export default class Shape extends Output {
                 form.getZ(),
             ),
             name,
+            description,
             selectable,
             background,
             pose,
@@ -160,6 +163,7 @@ export function toShape(
 
     const {
         name,
+        description,
         selectable,
         background,
         pose,
@@ -180,6 +184,7 @@ export function toShape(
               value,
               form,
               namer.getName(name?.text, value),
+              description,
               selectable,
               background,
               pose,
