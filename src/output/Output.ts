@@ -27,6 +27,7 @@ export default abstract class Output extends Valued {
     readonly face: SupportedFace | undefined;
     readonly place: Place | undefined;
     readonly name: TextLang | string;
+    readonly description: TextLang | undefined;
     readonly selectable: boolean;
     readonly background: Color | undefined;
     readonly pose: DefinitePose;
@@ -43,6 +44,7 @@ export default abstract class Output extends Valued {
         font: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined = undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -59,6 +61,7 @@ export default abstract class Output extends Valued {
         this.face = font;
         this.place = place;
         this.name = name;
+        this.description = description;
         this.selectable = selectable;
         this.background = background;
         this.pose = pose;

@@ -93,8 +93,8 @@ export default class Evaluator {
     /** This represents a stack of node evaluations. The first element of the stack is the currently evaluating node. */
     readonly evaluations: Evaluation[] = [];
 
-    /** The last evaluation to be removed from the stack */
-    #lastEvaluation: Evaluation | undefined;
+    /** The last evaluation to be removed from the stack not triggered by source, used to get shared bindings from a source's block. */
+    #lastSourceEvaluation: Evaluation | undefined;
 
     /** The callback to notify if the evaluation's value changes. */
     readonly observers: EvaluationObserver[] = [];
@@ -444,7 +444,7 @@ export default class Evaluator {
     }
 
     getLastEvaluation() {
-        return this.#lastEvaluation;
+        return this.#lastSourceEvaluation;
     }
 
     getCurrentClosure() {
@@ -688,7 +688,7 @@ export default class Evaluator {
 
         // Reset the evluation stack.
         this.evaluations.length = 0;
-        this.#lastEvaluation = undefined;
+        this.#lastSourceEvaluation = undefined;
 
         // Didn't recently step to node.
         this.#steppedToNode = false;
@@ -1638,7 +1638,9 @@ export default class Evaluator {
             throw Error(
                 "Shouldn't be possible to end an evaluation on an empty evaluation stack.",
             );
-        this.#lastEvaluation = evaluation;
+        // We want to remember the block and it's bindings for borrowing, since the source's evaluation doesn't have any bindings.
+        if (!(evaluation.getDefinition() instanceof Source))
+            this.#lastSourceEvaluation = evaluation;
         const def = evaluation.getDefinition();
         if (def instanceof Source) {
             // If not in the past, save the source value.

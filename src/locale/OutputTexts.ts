@@ -10,6 +10,8 @@ export type TypeTexts = {
     place: NameAndDoc;
     /** The name of a phrase, group, or stage, used in Choice, Collision, and animations */
     name: NameAndDoc;
+    /** An optional description of the phrase for screen readers */
+    description: NameAndDoc;
     /** Whether a phrase, group, or stage is selectable by Choice */
     selectable: NameAndDoc;
     /** The color of glyphs in a phrase, group, or stage */
@@ -54,7 +56,7 @@ type OutputTexts = {
         /** The matter to use for the group if it's involved in collisions */
         matter: NameAndDoc;
         /** $1 = Layout description, $2 = pose description */
-        description: Template;
+        defaultDescription: Template;
     } & TypeTexts;
     /** A shadow */
     Aura: NameAndDoc & {
@@ -82,12 +84,12 @@ type OutputTexts = {
         /** The shadow properties for the phrase */
         aura: NameAndDoc;
         /** A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose */
-        description: Template;
+        defaultDescription: Template;
     } & TypeTexts;
     /** The whole stage view and settings to control its appearance */
     Stage: NameAndDoc & {
         /** A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose */
-        description: Template;
+        defaultDescription: Template;
         /** A list of content to show on stage */
         content: NameAndDoc;
         /** The shape of the frame to clip stage content */
@@ -102,6 +104,8 @@ type OutputTexts = {
         form: NameAndDoc;
         /** The name of a phrase, group, or stage, used in Choice, Collision, and animations */
         name: NameAndDoc;
+        /** The custom description of the shape */
+        description: NameAndDoc;
         /** Whether a phrase, group, or stage is selectable by Choice */
         selectable: NameAndDoc;
         /** The color of glyphs in a phrase, group, or stage */

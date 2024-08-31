@@ -41,7 +41,7 @@
     export let parentAscent: number;
     export let context: RenderContext;
     export let editing: boolean;
-    export let still: boolean;
+    export let frame: number;
 
     const selectedOutput = getSelectedOutput();
     const selectedPhrase = getSelectedPhrase();
@@ -74,6 +74,15 @@
         $selectedPhrase.index !== null;
 
     $: metrics = phrase.getMetrics(context);
+
+    let description: string | null = null;
+    let lastFrame = 0;
+    $: {
+        if (phrase.description) description = phrase.description.text;
+        else if (frame > lastFrame)
+            description = phrase.getDescription($locales);
+        lastFrame = frame;
+    }
 
     onMount(restore);
 
@@ -195,7 +204,7 @@
         role={selectable ? 'button' : null}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-label={still ? phrase.getDescription($locales) : null}
+        aria-label={description}
         aria-roledescription={!selectable
             ? $locales.get((l) => l.term.phrase)
             : null}

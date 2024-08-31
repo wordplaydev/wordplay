@@ -1,5 +1,5 @@
 <script context="module" lang="ts">
-    export const TYPING_DELAY = 300;
+    export const TYPING_DELAY = 500;
 </script>
 
 <script lang="ts">
@@ -232,21 +232,17 @@
     /** Keep a currently selected output locale to send to the Evaluator for evaluation and rendering */
     let evaluationLocale: Locale | undefined = undefined;
 
-    /** When the evaluation locale changes, update the evaluator. */
-    $: if (evaluationLocale === undefined || evaluationLocale !== undefined)
-        updateEvaluator(project);
-
     /** Keep track of locales used */
     $: localesUsed = project.getLocalesUsed();
 
-    // When keyboard edit idle changes to true, set a timeout
+    // When keyboard isn't idle, set a timeout to set it to idle later.
     // to reset it to false after a delay.
     $: {
         if ($keyboardEditIdle !== IdleKind.Idle) {
             if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
             keyboardIdleTimeout = setTimeout(
                 () => keyboardEditIdle.set(IdleKind.Idle),
-                500,
+                TYPING_DELAY,
             );
         }
     }
@@ -322,7 +318,9 @@
                 () => updateEvaluator(newProject),
                 TYPING_DELAY,
             );
-        } else updateEvaluator(newProject);
+        } else {
+            updateEvaluator(newProject);
+        }
     });
 
     // When the locales change, reset the evaluator to use the new locales.
@@ -1394,8 +1392,10 @@
                                     {#if localesUsed.length > 1}<OutputLocaleChooser
                                             {localesUsed}
                                             locale={evaluationLocale}
-                                            change={(locale) =>
-                                                (evaluationLocale = locale)}
+                                            change={(locale) => {
+                                                evaluationLocale = locale;
+                                                updateEvaluator(project);
+                                            }}
                                         />{/if}
                                     <!-- {#if !$evaluation.evaluator.isPlaying()}
                                     <Painting

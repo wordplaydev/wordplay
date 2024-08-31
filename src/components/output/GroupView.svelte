@@ -31,7 +31,8 @@
     export let parentAscent: number;
     export let context: RenderContext;
     export let editing: boolean;
-    export let still: boolean;
+    // A frame counter, used to update aria-labels at a slower rate then visual updates.
+    export let frame: number;
 
     $: root = viewport !== undefined;
 
@@ -55,11 +56,20 @@
     $: selected =
         group.value.creator instanceof Evaluate &&
         $selectedOutput?.includes(group.value.creator);
+
+    let description: string | null = null;
+    let lastFrame = 0;
+    $: {
+        if (group.description) description = group.description.text;
+        else if (frame > lastFrame)
+            description = group.getDescription($locales);
+        lastFrame = frame;
+    }
 </script>
 
 <div
     role={!group.selectable ? null : 'group'}
-    aria-label={still ? group.getDescription($locales) : null}
+    aria-label={description}
     aria-roledescription={group instanceof Group
         ? $locales.get((l) => l.term.group)
         : $locales.get((l) => l.term.stage)}
@@ -108,7 +118,7 @@
                 parentAscent={root ? 0 : layout.height}
                 {context}
                 {editing}
-                {still}
+                {frame}
             />
         {:else if child instanceof Shape}
             <ShapeView
@@ -119,7 +129,7 @@
                 parentAscent={root ? 0 : layout.height}
                 {context}
                 {editing}
-                {still}
+                {frame}
             />
         {:else}
             <svelte:self
@@ -130,7 +140,7 @@
                 {interactive}
                 {context}
                 {editing}
-                {still}
+                {frame}
             />
         {/if}
     {/each}

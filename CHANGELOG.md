@@ -3,6 +3,44 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.11.1 2024-08-25
+
+### Added
+
+-   Custom descriptions of Stage, Group, Phrase, and Shape output, overriding default descriptions.
+
+### Fixed
+
+-   Included past tense verbs in higher order functions.
+-   Fixed aria-label updates.
+-   Drop old announcements if the queue exceeds three, preferering most recent.
+
+## 0.10.10 2024-08-12
+
+### Fixed
+
+-   [#550](https://github.com/wordplaydev/wordplay/issues/550) Ensure owned projects are marked as owned when loaded directly from Firestore.
+
+## 0.10.9 2024-08-10
+
+### Added
+
+-   Formatted different types of references
+
+### Fixed
+
+-   Added missing variation selector.
+-   Ensure projects are unmoderated by default.
+-   Cleaned up animation logs in `Animator` to ensure that new outputs with the same name can animate again.
+
+## 0.10.8 2024-08-03
+
+### Fixed
+
+-   Repaired borrowed bindings from other sources.
+-   Prevent project reevaluation during typing.
+-   Permit evaluation of functions with operator names without inputs.
+
 ## 0.10.7 2024-07-27
 
 ### Added

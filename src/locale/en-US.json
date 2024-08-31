@@ -1634,7 +1634,7 @@
                         "\\'hi ' · -5\\",
                         "The longest text I can make is 65,535 characters. If you try to make a longer text, I'll repeat the text as many times as I can."
                     ],
-                    "names": ["·", "🔁", "repeat"],
+                    "names": ["·", "🔁", "repeated", "repeat"],
                     "inputs": [
                         {
                             "doc": "The number of times to repeat myself in the new text.",
@@ -1649,7 +1649,7 @@
                         "If the separator is an empty @Text, I divide myself into characters:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["÷", "segment"],
+                    "names": ["÷", "segmented", "segment"],
                     "inputs": [
                         {
                             "doc": "The @Text to use as a separator.",
@@ -1662,7 +1662,7 @@
                         "Sometimes it's helpful to combine to @Text into one. Give me another @Text and I'll make a new text that joins us together:",
                         "\\'hello ' + 'verse'\\"
                     ],
-                    "names": ["+", "combine"],
+                    "names": ["+", "combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The @Text to append.",
@@ -2399,7 +2399,7 @@
                         "This is really helpful for combining all of the items in me into a single value. For example, imagine you wanted to add a list of numbers:",
                         "\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
-                    "names": "combine",
+                    "names": ["combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The starting combination.",
@@ -3254,6 +3254,12 @@
                 "doc": ["The same as @Phrase/name!"],
                 "names": "name"
             },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
             "selectable": {
                 "doc": "The same as @Phrase/selectable!",
                 "names": "selectable"
@@ -3314,7 +3320,7 @@
                 "doc": "Same as @Phrase/style!",
                 "names": "style"
             },
-            "description": "$1[$1|] $2 $3"
+            "defaultDescription": "$1[$1|] $2 $3"
         },
         "Phrase": {
             "doc": [
@@ -3370,6 +3376,12 @@
                     "You can give me many different names, each in a different language, if it's helpful. I'll always use the name in the first selected locale."
                 ],
                 "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A custom description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
             },
             "selectable": {
                 "doc": "If \\⊤\\, indicates that I can be selected via a pointer or keyboard.",
@@ -3431,7 +3443,7 @@
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
             },
-            "description": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
+            "defaultDescription": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangment in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -3506,6 +3518,12 @@
             "name": {
                 "doc": "I'm the name you can use, for animations and @Collision. For example, if a represent the ground, you might want to call me 'ground'.",
                 "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
             },
             "selectable": {
                 "doc": "Whether I can be selected as part of @Choice.",
@@ -3859,6 +3877,12 @@
                 "doc": ["SAME AS @Phrase/name!"],
                 "names": "name"
             },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
             "selectable": {
                 "doc": "SAME AS @Phrase/selectable!",
                 "names": "selectable"
@@ -3923,7 +3947,7 @@
                 "doc": "The gravity to apply to output whose's place is in @Motion.",
                 "names": "gravity"
             },
-            "description": "stage $1[$1|] of $2[$2|] phrases $3[$3 frame|] $4"
+            "defaultDescription": "stage $2[$2 |]of $1 outputs$3[with frame $3|] $4"
         },
         "Easing": {
             "straight": "straight",

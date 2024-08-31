@@ -23,6 +23,12 @@
         // Is there a timeout? Wait for it to dequue.
         if (timeout) return;
 
+        // Have we fallen behind? Trim everything by the most recent.
+        if (announcements.length > 3) {
+            const mostRecent = announcements.shift();
+            if (mostRecent) announcements = [mostRecent];
+        }
+
         // Grab the message of a different kind from the current message, or the next one if there aren't any.
         let next = announcements.pop();
         announcements = [];
@@ -40,12 +46,15 @@
                 const wordsPerSecond = 3;
                 const secondsToRead = wordCount * (1 / wordsPerSecond);
 
-                // Dequeue
-                timeout = setTimeout(() => {
-                    // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
-                    timeout = undefined;
-                    dequeue();
-                }, secondsToRead * delay);
+                // Dequeue after the amount of reading time it takes, or 2 seconds, whatever is shorter.
+                timeout = setTimeout(
+                    () => {
+                        // It's been a second. Clear the timeout (so the dequeue does something above), then dequeue to update the announncement.
+                        timeout = undefined;
+                        dequeue();
+                    },
+                    Math.min(2000, secondsToRead * delay),
+                );
             }
         }
     }
