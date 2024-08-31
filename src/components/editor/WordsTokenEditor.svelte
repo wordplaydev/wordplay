@@ -3,7 +3,7 @@
     import type Project from '@models/Project';
     import Token from '@nodes/Token';
     import { WordsRegEx } from '@parser/Tokenizer';
-    import TokenTextEditor from './TokenTextEditor.svelte';
+    import TokenTextEditor from './TokenEditor.svelte';
 
     export let words: Token;
     export let project: Project;

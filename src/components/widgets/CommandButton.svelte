@@ -12,6 +12,7 @@
     import { tick } from 'svelte';
     import CommandHint from './CommandHint.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     /** If source ID isn't provided, then the one with focus is used. */
     export let sourceID: string | undefined = undefined;
@@ -71,7 +72,11 @@
         // If we didn't ask the editor to focus, restore focus on button after update.
         if (!focusAfter && hadFocus) {
             await tick();
-            view?.focus();
+            if (view)
+                setKeyboardFocus(
+                    view,
+                    'Focusing on button after command if it previously had focus.',
+                );
         }
     }}
     ><CommandHint {command} />{#if token}<TokenView

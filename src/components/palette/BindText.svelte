@@ -15,6 +15,7 @@
         getLanguageQuoteClose,
         getLanguageQuoteOpen,
     } from '@locale/LanguageCode';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let property: OutputProperty;
     export let values: OutputPropertyValues;
@@ -48,7 +49,11 @@
         );
 
         await tick();
-        view?.focus();
+        if (view)
+            setKeyboardFocus(
+                view,
+                'Restoring bind text editor focus after edit.',
+            );
     }
 </script>
 

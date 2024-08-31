@@ -28,6 +28,7 @@
     import PlacementEditor from './PlacementEditor.svelte';
     import NamedControl from './NamedControl.svelte';
     import AuraEditor from './AuraEditor.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let project: Project;
     export let property: OutputProperty;
@@ -46,7 +47,8 @@
         else values.unset(DB, project, $locales);
         // Preserve focus on toggle button after setting.
         await tick();
-        toggleView?.focus();
+        if (toggleView)
+            setKeyboardFocus(toggleView, 'Restoring focus after toggle');
     }
 </script>
 

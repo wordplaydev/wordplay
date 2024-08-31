@@ -11,6 +11,7 @@
     import { Projects, locales } from '../../db/Database';
     import { tick } from 'svelte';
     import type Bind from '../../nodes/Bind';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let project: Project;
     export let velocity: Evaluate;
@@ -48,7 +49,11 @@
         if (focusIndex >= 0) {
             await tick();
             const view = views[focusIndex];
-            view?.focus();
+            if (view)
+                setKeyboardFocus(
+                    view,
+                    'Restoring focus after velocity editor edit.',
+                );
         }
     }
 </script>

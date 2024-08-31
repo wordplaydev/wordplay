@@ -37,6 +37,7 @@
     import Chat from '../../input/Chat';
     import { default as ButtonUI } from '../widgets/Button.svelte';
     import Button from '../../input/Button';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let project: Project;
     export let evaluator: Evaluator;
@@ -220,7 +221,10 @@
 
                 const nearest = focusable[0];
                 if (nearest && nearest.view instanceof HTMLElement) {
-                    nearest.view.focus();
+                    setKeyboardFocus(
+                        nearest.view,
+                        'Focusing nearest view in output.',
+                    );
                     event.stopPropagation();
                     return;
                 }
@@ -337,7 +341,10 @@
 
         // Focus the keyboard input if it exists.
         if (keyboardInputView) {
-            keyboardInputView.focus();
+            setKeyboardFocus(
+                keyboardInputView,
+                'Focusing output text field on pointer down.',
+            );
             event.stopPropagation();
             event.preventDefault();
         }
@@ -715,7 +722,11 @@
                 `[data-node-id="${evaluate.id}"`,
             );
 
-            if (outputView instanceof HTMLElement) outputView.focus();
+            if (outputView instanceof HTMLElement)
+                setKeyboardFocus(
+                    outputView,
+                    'Focusing output on output selection',
+                );
         }
 
         return true;
@@ -840,8 +851,16 @@
                 )[0].view;
                 if (candidate instanceof HTMLElement) output = candidate;
             }
-            if (output) output.focus();
-            else valueView?.focus();
+            if (output)
+                setKeyboardFocus(
+                    output,
+                    'Output lost focus, focusing on the closest focusbale output on stage',
+                );
+            else if (valueView)
+                setKeyboardFocus(
+                    valueView,
+                    'Output lost focus, focusing on value output',
+                );
         }
     });
 </script>

@@ -33,6 +33,7 @@
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
     import { withVariationSelector } from '../../unicode/emoji';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -98,7 +99,10 @@
                         $selectedPhrase.index,
                         $selectedPhrase.index,
                     );
-                    input.focus();
+                    setKeyboardFocus(
+                        input,
+                        'Restoring phrase text editor focus.',
+                    );
                 }
             }
         }
@@ -109,7 +113,7 @@
         event.stopPropagation();
         // Wait for the render and then focus the input.
         await tick();
-        input?.focus();
+        if (input) setKeyboardFocus(input, 'Entering phrase text editor.');
     }
 
     function select(index: number | null) {

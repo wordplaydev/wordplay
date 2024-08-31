@@ -1,4 +1,5 @@
 <script lang="ts">
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
 
@@ -23,7 +24,7 @@
                     .toDecimalPlaces(precision + (unit === '%' ? 2 : 0)),
             );
         await tick();
-        view?.focus();
+        if (view) setKeyboardFocus(view, 'Restoring focus after slider edit.');
     }
 </script>
 

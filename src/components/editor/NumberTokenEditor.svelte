@@ -3,7 +3,7 @@
     import type Project from '@models/Project';
     import Token from '@nodes/Token';
     import { toTokens } from '@parser/toTokens';
-    import TokenTextEditor from './TokenTextEditor.svelte';
+    import TokenTextEditor from './TokenEditor.svelte';
 
     export let number: Token;
     export let project: Project;

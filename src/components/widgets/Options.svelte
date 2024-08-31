@@ -10,6 +10,8 @@
 </script>
 
 <script lang="ts">
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+
     import { tick } from 'svelte';
 
     export let value: string | undefined;
@@ -26,7 +28,8 @@
     async function commitChange(newValue: string | undefined) {
         change(newValue);
         await tick();
-        view?.focus();
+        if (view)
+            setKeyboardFocus(view, 'Restoring focus after options selection.');
     }
 </script>
 

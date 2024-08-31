@@ -1,5 +1,6 @@
 <script lang="ts">
     import { getCaret } from '@components/project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { Projects } from '@db/Database';
     import type Project from '@models/Project';
     import Sym from '@nodes/Sym';
@@ -15,7 +16,7 @@
     $: on = node.getText() === TRUE_SYMBOL;
 
     function toggle() {
-        if (view) view.focus();
+        if (view) setKeyboardFocus(view, 'Boolean toggle after toggle');
 
         const newToken = new Token(
             on ? FALSE_SYMBOL : TRUE_SYMBOL,

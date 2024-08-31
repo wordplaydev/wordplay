@@ -86,6 +86,7 @@
     import Emoji from '@components/app/Emoji.svelte';
     import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -146,7 +147,8 @@
     export let menu: Menu | undefined = undefined;
 
     // When the menu changes to undefined, focus back on this source.
-    $: if (menu === undefined) grabFocus();
+    $: if (menu === undefined)
+        grabFocus('Grabbing focus after menu is hidden.');
 
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
@@ -196,7 +198,9 @@
     onDestroy(unsubscribe);
 
     // Focus the editor on mount, if autofocus is on.
-    onMount(() => (autofocus ? grabFocus() : undefined));
+    onMount(() =>
+        autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
+    );
 
     // A shorthand for the current program.
     $: program = source.expression;
@@ -463,8 +467,12 @@
             const widget = editor?.querySelector(
                 `.token-editor[data-id="${token.id}"]`,
             );
+            console.log('Caret changed and focused to new token ' + token);
             if (widget instanceof HTMLElement) {
-                widget.focus();
+                setKeyboardFocus(
+                    widget,
+                    'Focusing token editor after caret or focus change',
+                );
             }
         }
     }
@@ -574,14 +582,14 @@
         );
 
         // Focus the node caret selected.
-        grabFocus();
+        grabFocus('Focusing editor on node drop.');
     }
 
     function handlePointerDown(event: PointerEvent) {
         placeCaretAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
-        grabFocus();
+        grabFocus('Focusing editor on pointer down.');
     }
 
     function placeCaretAt(event: PointerEvent) {
@@ -1164,11 +1172,11 @@
 
         // After everything is updated, if we were asked to focus the editor, focus it.
         await tick();
-        if (focusAfter) grabFocus();
+        if (focusAfter) grabFocus('Focusing editor after edit');
     }
 
-    function grabFocus() {
-        input?.focus();
+    function grabFocus(message: string) {
+        if (input) setKeyboardFocus(input, message);
     }
 
     /** True if the last symbol was a dead key*/

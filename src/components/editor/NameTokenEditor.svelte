@@ -4,7 +4,7 @@
     import type Project from '@models/Project';
     import NameToken from '@nodes/NameToken';
     import type Token from '@nodes/Token';
-    import TokenTextEditor from './TokenTextEditor.svelte';
+    import TokenTextEditor from './TokenEditor.svelte';
     import { getCaret } from '@components/project/Contexts';
     import Name from '@nodes/Name';
 

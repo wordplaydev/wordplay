@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onMount, tick } from 'svelte';
     import { withVariationSelector } from '../../unicode/emoji';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let text = '';
     export let placeholder: string;
@@ -26,6 +27,13 @@
     function handleInput() {
         if (changed && (validator === undefined || validator(text) === true))
             changed(text);
+
+        // Restore input
+        tick().then(() => {
+            if (view) {
+                setKeyboardFocus(view, 'Restoring focus after text edit.');
+            }
+        });
     }
 
     function setKind(kind: 'email' | 'password' | undefined) {
@@ -62,6 +70,8 @@
 
         // Not a number or not an up/down arrow key? Return.
         if (isNaN(number)) return;
+
+        // Handle increment/decrement.
         if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
         event.stopPropagation();
         text = (number + (event.key === 'ArrowUp' ? 1 : -1)).toString();

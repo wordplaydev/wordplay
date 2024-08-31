@@ -13,6 +13,7 @@
     import Bind from '../../nodes/Bind';
     import Evaluate from '../../nodes/Evaluate';
     import Input from '@nodes/Input';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let menu: Menu;
     /* What to run when hiding the menu */
@@ -67,7 +68,8 @@
     let revisionViews: HTMLElement[] = [];
     $: {
         const view = revisionViews[menu.getSelectionID()];
-        if (view && view !== document.activeElement) view.focus();
+        if (view && view !== document.activeElement)
+            setKeyboardFocus(view, 'Focusing menu on menu change');
     }
 
     function handleKey(event: KeyboardEvent) {

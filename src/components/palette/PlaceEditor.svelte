@@ -13,6 +13,7 @@
     import Button from '../widgets/Button.svelte';
     import type Bind from '../../nodes/Bind';
     import NumberType from '../../nodes/NumberType';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let project: Project;
     export let place: Evaluate;
@@ -51,7 +52,11 @@
         if (focusIndex >= 0) {
             await tick();
             const view = views[focusIndex];
-            view?.focus();
+            if (view)
+                setKeyboardFocus(
+                    view,
+                    'Restoring focus after place editor edit.',
+                );
         }
     }
 

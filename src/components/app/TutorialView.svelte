@@ -37,6 +37,7 @@
     import { PersistenceType } from '../../db/ProjectHistory';
     import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let progress: Progress;
     export let navigate: (progress: Progress) => void;
@@ -60,7 +61,8 @@
 
     // Focus next button on load.
     onMount(() => {
-        nextButton?.focus();
+        if (nextButton)
+            setKeyboardFocus(nextButton, 'Tutorial focusing next button');
     });
 
     /** The current place in the tutorial. Defaults to persisted progress, but overwritten by search parameters. */
@@ -260,14 +262,25 @@
         }
 
         await tick();
-        focusView?.focus();
+        if (focusView)
+            setKeyboardFocus(
+                focusView,
+                'Tutorial focusing previously focused navigation button',
+            );
     }
 </script>
 
 <!-- If the body gets focus, focus the instructions. -->
 <svelte:body
     on:focus|preventDefault|stopPropagation={() =>
-        tick().then(() => (focusView ?? nextButton)?.focus())}
+        tick().then(() => {
+            const newFocus = focusView ?? nextButton;
+            if (newFocus)
+                setKeyboardFocus(
+                    newFocus,
+                    'Body received focus, focusing tutorial.',
+                );
+        })}
 />
 
 <!-- svelte-ignore a11y-no-static-element-interactions -->
@@ -305,7 +318,13 @@
             <div
                 class="turns"
                 aria-live="assertive"
-                on:click|stopPropagation={() => nextButton?.focus()}
+                on:click|stopPropagation={() =>
+                    nextButton
+                        ? setKeyboardFocus(
+                              nextButton,
+                              'Focusing next button after chat click',
+                          )
+                        : undefined}
             >
                 <div class="controls">
                     <Button
