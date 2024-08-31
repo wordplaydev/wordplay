@@ -50,8 +50,9 @@
             view.selectionStart !== null &&
             view.selectionStart === text.length;
 
-        // Don't bubble unless we're moving past a boundary.
-        if (!movingPastStart && !movingPastEnd) event.stopPropagation();
+        // Stop propation on arrows unless moving past a boundary.
+        if (event.key.startsWith('Arrow') && !movingPastStart && !movingPastEnd)
+            event.stopPropagation();
 
         // Not a number or not an up/down arrow key? Return.
         if (isNaN(number)) return;
