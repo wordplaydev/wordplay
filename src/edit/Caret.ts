@@ -984,24 +984,33 @@ export default class Caret {
         // Finally, if we're in blocks mode, verify that the insertion was valid.
         if (blocks) {
             if (project === undefined) return undefined;
-            const context = new Context(
-                project.withSource(this.source, newSource),
-                newSource,
-            );
-            for (const node of newSource.nodes())
-                if (
-                    node
-                        .computeConflicts(context)
-                        .some((conflict) => !conflict.isMinor())
-                ) {
-                    return undefined;
-                }
+            if (
+                !this.editIsValid(
+                    new Context(
+                        project.withSource(this.source, newSource),
+                        newSource,
+                    ),
+                )
+            )
+                return undefined;
         }
 
         return [
             newSource,
             new Caret(newSource, newPosition, undefined, undefined, newToken),
         ];
+    }
+
+    editIsValid(context: Context) {
+        for (const node of context.source.nodes())
+            if (
+                node
+                    .computeConflicts(context)
+                    .some((conflict) => !conflict.isMinor())
+            ) {
+                return false;
+            }
+        return true;
     }
 
     insertRename(text: string, project: Project) {
@@ -1310,17 +1319,6 @@ export default class Caret {
 
         // If the position is a number, see if this is a rename
         if (typeof this.position === 'number') {
-            // Nodes only? Just select the node that would be deleted, as a form
-            // of confirmation.
-            if (validOnly) {
-                // Find the first non-token in the before/after.
-                const { before, after } = this.getNodesBetween();
-                const candidate = (forward ? after : before).find(
-                    (n) => !(n instanceof Token),
-                );
-                if (candidate) return this.withPosition(candidate);
-            }
-
             // Otherwise, figure out what to delete.
             // Are we in the middle of a name or at it's end?
             const rename = forward
@@ -1434,6 +1432,27 @@ export default class Caret {
                 const newSource = this.source.withoutGraphemeAt(
                     this.position + offset,
                 );
+
+                // Only allow valid edits? First, see if the edit is valid.
+                // If it's not, select the node that would be deleted, as a form of confirmation.
+                if (
+                    validOnly &&
+                    newSource !== undefined &&
+                    !this.editIsValid(
+                        new Context(
+                            project.withSource(this.source, newSource),
+                            newSource,
+                        ),
+                    )
+                ) {
+                    // Find the first non-token in the before/after.
+                    const { before, after } = this.getNodesBetween();
+                    const candidate = (forward ? after : before).find(
+                        (n) => !(n instanceof Token),
+                    );
+                    if (candidate) return this.withPosition(candidate);
+                }
+
                 return newSource === undefined
                     ? undefined
                     : [
