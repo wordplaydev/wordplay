@@ -15,6 +15,8 @@
 
 <style>
     .doc {
+        display: flex;
+        flex-direction: row;
         color: var(--wordplay-doc-color);
     }
 </style>
