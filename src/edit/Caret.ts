@@ -918,7 +918,7 @@ export default class Caret {
         text: string,
         // Whether in blocks mode, meaning no syntax errors allowed.
         blocks: boolean,
-        project?: Project,
+        project: Project,
         complete = true,
     ): Edit | ProjectRevision | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.

@@ -252,6 +252,7 @@
             caret: $caret,
             edit: handleEdit,
             blocks: $blocks,
+            project,
             focused,
             toggleMenu,
         };
@@ -265,6 +266,7 @@
         edit: handleEdit,
         caret: $caret,
         blocks: $blocks,
+        project,
         focused: false,
         toggleMenu,
     });

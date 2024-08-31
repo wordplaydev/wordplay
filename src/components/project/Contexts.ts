@@ -126,6 +126,7 @@ export type EditHandler = (
 export const EditorsSymbol = Symbol('editors');
 export type EditorState = {
     caret: Caret;
+    project: Project;
     edit: EditHandler;
     focused: boolean;
     blocks: boolean;

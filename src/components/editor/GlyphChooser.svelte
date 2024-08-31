@@ -37,7 +37,11 @@
         const editorState = $editors?.get(sourceID);
         if (editorState) {
             editorState.edit(
-                editorState.caret.insert(glyph, editorState.blocks),
+                editorState.caret.insert(
+                    glyph,
+                    editorState.blocks,
+                    editorState.project,
+                ),
                 IdleKind.Typed,
                 true,
             );

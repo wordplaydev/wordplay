@@ -181,7 +181,10 @@ export function handleKeyCommand(
 
 function handleInsert(context: CommandContext, symbol: string) {
     if (context.caret)
-        return context.caret.insert(symbol, context.blocks) ?? false;
+        return (
+            context.caret.insert(symbol, context.blocks, context.project) ??
+            false
+        );
     else return false;
 }
 
@@ -1052,7 +1055,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyT',
         keySymbol: 't',
-        execute: ({ caret, blocks }) => {
+        execute: ({ caret, blocks, project }) => {
             if (caret === undefined) return false;
 
             // Before inserting (and potentially autocompleting)
@@ -1062,10 +1065,13 @@ const Commands: Command[] = [
                 for (let i = tokensPrior.length - 1; i >= 0; i--) {
                     if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
                     else if (tokensPrior[i].isSymbol(Sym.TableOpen))
-                        return caret.insert(TABLE_CLOSE_SYMBOL, blocks) ?? true;
+                        return (
+                            caret.insert(TABLE_CLOSE_SYMBOL, blocks, project) ??
+                            true
+                        );
                 }
 
-            return caret.insert(TABLE_OPEN_SYMBOL, blocks) ?? false;
+            return caret.insert(TABLE_OPEN_SYMBOL, blocks, project) ?? false;
         },
     },
     {
