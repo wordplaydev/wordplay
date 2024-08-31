@@ -1168,12 +1168,12 @@ const Commands: Command[] = [
         control: false,
         key: 'Enter',
         typing: true,
-        execute: ({ caret, blocks }) =>
-            caret === undefined || blocks
+        execute: ({ caret, blocks, project }) =>
+            caret === undefined
                 ? false
                 : caret.isNode()
                   ? caret.enter()
-                  : caret.insert('\n', blocks) ?? true,
+                  : caret.insert('\n', blocks, project) ?? false,
     },
     {
         symbol: '⌫',

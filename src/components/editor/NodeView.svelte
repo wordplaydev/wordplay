@@ -71,15 +71,28 @@
 
     $: kind =
         $blocks && node instanceof Expression ? node.getKind() : undefined;
+
+    function symbolOccurs(text: string, symbol: string) {
+        for (let i = 0; i < text.length; i++)
+            if (text.charAt(i) === symbol) return true;
+    }
+
+    function countSymbolOccurences(text: string, symbol: string) {
+        let count = 0;
+        for (let i = 0; i < text.length; i++)
+            if (text.charAt(i) === symbol) count++;
+        return count;
+    }
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !hide && firstToken && spaceRoot === node}{#if $blocks}{#if space
-                .replaceAll('\n', '')
-                .replaceAll('\t', '').length > 0}<div class="space">&nbsp;</div
-                >{/if}{:else}
+    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->{#if $blocks}{#if symbolOccurs(space, ' ')}<div
+                    class="space">&nbsp;</div
+                >{:else}{#each Array(Math.max(0, countSymbolOccurences(space, '\n') - 1)) as _}<div
+                        class="break"
+                    ></div>{/each}{/if}{:else}
             <Space
                 token={firstToken}
                 first={$spaces.isFirst(firstToken)}
@@ -201,5 +214,11 @@
     .column {
         flex-direction: column;
         align-items: inline-start;
+    }
+
+    .break {
+        display: block;
+        width: 1em;
+        height: 1em;
     }
 </style>
