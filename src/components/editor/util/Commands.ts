@@ -180,8 +180,8 @@ export function handleKeyCommand(
 }
 
 function handleInsert(context: CommandContext, symbol: string) {
-    if (context.caret && !context.blocks)
-        return context.caret.insert(symbol) ?? false;
+    if (context.caret)
+        return context.caret.insert(symbol, context.blocks) ?? false;
     else return false;
 }
 
@@ -610,8 +610,8 @@ export const InsertSymbol: Command = {
     alt: false,
     typing: true,
     execute: ({ caret, project, editor, blocks }, key) => {
-        if (editor && caret && key.length === 1 && !blocks)
-            return caret.insert(key, project) ?? false;
+        if (editor && caret && key.length === 1)
+            return caret.insert(key, blocks, project) ?? false;
         else return false;
     },
 };
@@ -1054,7 +1054,6 @@ const Commands: Command[] = [
         keySymbol: 't',
         execute: ({ caret, blocks }) => {
             if (caret === undefined) return false;
-            if (blocks) return false;
 
             // Before inserting (and potentially autocompleting)
             // see if there's an unclosed table open prior to the cursor, and if so, insert a close symbol.
@@ -1063,10 +1062,10 @@ const Commands: Command[] = [
                 for (let i = tokensPrior.length - 1; i >= 0; i--) {
                     if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
                     else if (tokensPrior[i].isSymbol(Sym.TableOpen))
-                        return caret.insert(TABLE_CLOSE_SYMBOL) ?? true;
+                        return caret.insert(TABLE_CLOSE_SYMBOL, blocks) ?? true;
                 }
 
-            return caret.insert(TABLE_OPEN_SYMBOL) ?? false;
+            return caret.insert(TABLE_OPEN_SYMBOL, blocks) ?? false;
         },
     },
     {
@@ -1174,7 +1173,7 @@ const Commands: Command[] = [
                 ? false
                 : caret.isNode()
                   ? caret.enter()
-                  : caret.insert('\n') ?? true,
+                  : caret.insert('\n', blocks) ?? true,
     },
     {
         symbol: '⌫',
@@ -1265,7 +1264,7 @@ const Commands: Command[] = [
             editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ editor, caret }) => {
+        execute: async ({ editor, caret, blocks }) => {
             if (!editor) return undefined;
             // Make sure clipboard is supported.
             if (
@@ -1281,7 +1280,7 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return caret.insert(interpret(text));
+                        return caret.insert(interpret(text), blocks);
                     }
                 }
             }

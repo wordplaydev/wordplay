@@ -72,7 +72,7 @@ export default class TextType extends BasisType {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {

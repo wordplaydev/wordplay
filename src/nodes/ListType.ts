@@ -76,7 +76,7 @@ export default class ListType extends BasisType {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {

@@ -144,7 +144,7 @@ export default class TextLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(context: Context): Type {

@@ -77,7 +77,7 @@ export default class KeyValue extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

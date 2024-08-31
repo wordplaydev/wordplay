@@ -37,12 +37,12 @@ export default class BooleanType extends BasisType {
 
     clone(replace?: Replacement) {
         return new BooleanType(
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet) {

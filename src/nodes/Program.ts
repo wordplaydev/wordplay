@@ -99,6 +99,7 @@ export default class Program extends Expression {
     computeConflicts(context: Context) {
         const [borrow, cycle] = context.source.getCycle(context) ?? [];
         if (borrow && cycle) return [new BorrowCycle(this, borrow, cycle)];
+        return [];
     }
 
     /** A program's type is it's block's type. */

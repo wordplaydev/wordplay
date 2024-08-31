@@ -247,6 +247,7 @@
         const state = {
             caret: $caret,
             edit: handleEdit,
+            blocks: $blocks,
             focused,
             toggleMenu,
         };
@@ -259,6 +260,7 @@
     const editContext = writable<EditorState>({
         edit: handleEdit,
         caret: $caret,
+        blocks: $blocks,
         focused: false,
         toggleMenu,
     });
@@ -1243,7 +1245,7 @@
                 const char = lastChar.toString();
 
                 // Insert the character that was added last.
-                edit = newCaret.insert(char, project, !keyWasDead);
+                edit = newCaret.insert(char, $blocks, project, !keyWasDead);
                 if (edit) {
                     // Reset the value to the last character.
                     if (value.getLength() > 1)
@@ -1343,7 +1345,12 @@
 
         if (input) {
             // Insert the symbols that were composed.
-            const edit = $caret.insert(input.value, project, !keyWasDead);
+            const edit = $caret.insert(
+                input.value,
+                $blocks,
+                project,
+                !keyWasDead,
+            );
             if (edit) handleEdit(edit, IdleKind.Typing, true);
             input.value = '';
         }

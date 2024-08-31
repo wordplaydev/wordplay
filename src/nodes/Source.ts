@@ -1,7 +1,6 @@
 import Node, { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Program from './Program';
-import type Conflict from '@conflicts/Conflict';
 import parseProgram from '@parser/parseProgram';
 import {
     DelimiterCloseByOpen,
@@ -892,7 +891,7 @@ export default class Source extends Expression {
         return current;
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts() {
         return [];
     }
 

@@ -71,7 +71,7 @@ export default class IsLocale extends SimpleExpression {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {

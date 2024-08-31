@@ -24,7 +24,7 @@ export default class NeverType extends Type {
         return 'never';
     }
     computeConflicts() {
-        return;
+        return [];
     }
 
     toWordplay() {

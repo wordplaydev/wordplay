@@ -1,4 +1,3 @@
-import type Conflict from '@conflicts/Conflict';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import {
@@ -64,7 +63,7 @@ export default class WebLink extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts() {
         return [];
     }
 

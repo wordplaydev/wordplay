@@ -57,7 +57,7 @@ export default class Token extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

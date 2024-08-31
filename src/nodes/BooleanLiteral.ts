@@ -59,7 +59,7 @@ export default class BooleanLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {

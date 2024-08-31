@@ -84,7 +84,7 @@ export default class TypeVariable extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     /** No type variables are ever  */

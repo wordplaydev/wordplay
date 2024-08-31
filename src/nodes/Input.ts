@@ -140,7 +140,9 @@ export default class Input extends SimpleExpression {
         return this.name.getText();
     }
 
-    computeConflicts(): void | Conflict[] {}
+    computeConflicts(): Conflict[] {
+        return [];
+    }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
         return this.value.compile(evaluator, context);

@@ -38,12 +38,12 @@ export default class NoneType extends BasisType {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     clone(replace?: Replacement) {
         return new NoneType(
-            this.replaceChild('none', this.none, replace)
+            this.replaceChild('none', this.none, replace),
         ) as this;
     }
 

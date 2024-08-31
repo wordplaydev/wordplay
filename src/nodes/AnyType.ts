@@ -26,7 +26,7 @@ export default class AnyType extends Type {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

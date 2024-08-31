@@ -260,7 +260,7 @@ export default abstract class Node {
     // CONFLICTS
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    abstract computeConflicts(context: Context): Conflict[] | void;
+    abstract computeConflicts(context: Context): Conflict[];
 
     /** Compute and store the conflicts. */
     getConflicts(context: Context): Conflict[] {

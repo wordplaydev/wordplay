@@ -31,7 +31,7 @@ import MapLiteral from '../nodes/MapLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import type Literal from '../nodes/Literal';
-import type Context from '../nodes/Context';
+import Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
 import NodeRef from '../locale/NodeRef';
@@ -905,72 +905,29 @@ export default class Caret {
     /** Insert text at the current position. If complete is true, will automatically close a delimited symbol. */
     insert(
         text: string,
+        // Whether in blocks mode, meaning no syntax errors allowed.
+        blocks: boolean,
         project?: Project,
         complete = true,
     ): Edit | ProjectRevision | undefined {
         // Normalize the mystery string, ensuring it follows Unicode normalization form.
         text = text.normalize();
 
-        // In a name or just after name that's part of a reference or a bind? Try to do a rename instead of an edit.
-        if (project && typeof this.position === 'number') {
-            // Are we in the middle of a name or at it's end?
-            const rename = this.tokenExcludingSpace?.isSymbol(Sym.Name)
-                ? this.tokenExcludingSpace
-                : this.tokenPrior?.isSymbol(Sym.Name) && this.atTokenEnd()
-                  ? this.tokenPrior
-                  : undefined;
-            const renameParent = rename
-                ? this.source.root.getParent(rename)
-                : undefined;
-            if (
-                renameParent instanceof Name
-                // Disabled reference renaming, it's annoying.
-                // || renameParent instanceof Reference
-            ) {
-                let start: number | undefined;
-                let newName: string | undefined;
-
-                if (
-                    rename === this.tokenExcludingSpace &&
-                    this.tokenExcludingSpace
-                ) {
-                    start = this.source.getTokenTextPosition(
-                        this.tokenExcludingSpace,
-                    );
-                    newName =
-                        start === undefined
-                            ? undefined
-                            : this.tokenExcludingSpace
-                                  .getText()
-                                  .substring(0, this.position - start) +
-                              text +
-                              this.tokenExcludingSpace
-                                  .getText()
-                                  .substring(this.position - start);
-                } else if (rename === this.tokenPrior && this.tokenPrior) {
-                    start = this.source.getTokenTextPosition(this.tokenPrior);
-                    newName = this.tokenPrior.getText() + text;
-                }
-
-                if (start !== undefined && newName && isName(newName)) {
-                    const edit = this.rename(
-                        renameParent,
-                        newName,
-                        project,
-                        this.position -
-                            start +
-                            new UnicodeString(text).getLength(),
-                    );
-                    if (edit) return edit;
-                }
-            }
-        }
+        // See if it's a rename.
+        const renameEdit = project
+            ? this.insertRename(text, project)
+            : undefined;
+        if (renameEdit) return renameEdit;
 
         let newSource: Source | undefined;
         let newPosition: number;
         let originalPosition: number;
 
-        // Before doing insertion, see if a node is selected, and if so, remove it.
+        // Does this insertion complete a delimiter? Just advance the caret.
+        if (this.insertionCompletesDelimiter(text))
+            return [this.source, this.withPosition(this.position + 1)];
+
+        // Before doing insertion, see if a node is selected, and if wrap or remove it.
         if (this.position instanceof Node) {
             // Try wrapping the node
             const wrap = this.wrap(text);
@@ -978,11 +935,12 @@ export default class Caret {
 
             // If that didn't do anything, try deleting the node.
             const edit = this.deleteNode(this.position, false);
+            // If that didn't do anything, do nothing; it's not removeable.
             if (edit === undefined) return;
             const [source, caret] = edit;
             if (caret.position instanceof Node) return;
 
-            // Great, we have a new position.
+            // Otherwise, we deleted it! Update the source and position.
             newSource = source;
             newPosition = caret.position;
             originalPosition = caret.position;
@@ -992,24 +950,116 @@ export default class Caret {
             originalPosition = this.position;
         }
 
-        // Now, let's insert some text at the new position.
+        // Let's see if we should do any delimiter completion before we insert.
+        const delimiterEdit = this.completeInsertion(
+            text,
+            complete,
+            newSource,
+            newPosition,
+        );
 
-        // If the inserted string matches a single matched delimiter, complete it, unless:
-        // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
-        // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
-        // const closed = text in DELIMITERS;
-        // if(closed) {
-
+        // Keep track of whether we closed a delimiter.
         let closed = false;
 
-        // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
-        // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
-        if (
-            this.tokenIncludingSpace &&
+        // Update the source, position, and text of delimiter completion.
+        if (delimiterEdit)
+            [text, newSource, newPosition, closed] = delimiterEdit;
+
+        // Did we somehow get no source?
+        if (newSource === undefined) return undefined;
+
+        // Insert the possibly revised text.
+        newSource = newSource.withGraphemesAt(text, newPosition);
+
+        // Did we somehow get no source? Bail.
+        if (newSource === undefined) return undefined;
+
+        // What's the new token we added?
+        const newToken = newSource.getTokenAt(originalPosition, false);
+
+        // Find the position.
+        newPosition =
+            newPosition + (closed ? 1 : new UnicodeString(text).getLength());
+
+        // Finally, if we're in blocks mode, verify that the insertion was valid.
+        if (blocks) {
+            if (project === undefined) return undefined;
+            const context = new Context(
+                project.withSource(this.source, newSource),
+                newSource,
+            );
+            for (const node of newSource.nodes())
+                if (
+                    node
+                        .computeConflicts(context)
+                        .some((conflict) => !conflict.isMinor())
+                ) {
+                    return undefined;
+                }
+        }
+
+        return [
+            newSource,
+            new Caret(newSource, newPosition, undefined, undefined, newToken),
+        ];
+    }
+
+    insertRename(text: string, project: Project) {
+        // In a name or just after name that's part of a reference or a bind? Try to do a rename instead of an edit.
+        if (typeof this.position !== 'number') return undefined;
+
+        // Are we in the middle of a name or at it's end?
+        const rename = this.tokenExcludingSpace?.isSymbol(Sym.Name)
+            ? this.tokenExcludingSpace
+            : this.tokenPrior?.isSymbol(Sym.Name) && this.atTokenEnd()
+              ? this.tokenPrior
+              : undefined;
+        const renameParent = rename
+            ? this.source.root.getParent(rename)
+            : undefined;
+        if (!(renameParent instanceof Name)) return undefined;
+
+        let start: number | undefined;
+        let newName: string | undefined;
+
+        if (rename === this.tokenExcludingSpace && this.tokenExcludingSpace) {
+            start = this.source.getTokenTextPosition(this.tokenExcludingSpace);
+            newName =
+                start === undefined
+                    ? undefined
+                    : this.tokenExcludingSpace
+                          .getText()
+                          .substring(0, this.position - start) +
+                      text +
+                      this.tokenExcludingSpace
+                          .getText()
+                          .substring(this.position - start);
+        } else if (rename === this.tokenPrior && this.tokenPrior) {
+            start = this.source.getTokenTextPosition(this.tokenPrior);
+            newName = this.tokenPrior.getText() + text;
+        }
+
+        if (start !== undefined && newName && isName(newName)) {
+            const edit = this.rename(
+                renameParent,
+                newName,
+                project,
+                this.position - start + new UnicodeString(text).getLength(),
+            );
+            if (edit) return edit;
+        }
+    }
+
+    // If the character we're inserting is already immediately after the caret and is a matched closing deimiter, don't insert, just move the caret forward.
+    // We handle two cases: discrete matched tokens ([], {}, ()) text tokens that have internal matched delimiters.
+    insertionCompletesDelimiter(text: string): this is { position: number } {
+        return (
+            this.isPosition() &&
+            this.tokenIncludingSpace !== undefined &&
             // Is what's being typed a closing delimiter?
             text in DelimiterOpenByClose &&
             // Is the text being typed what's already there?
-            text === this.source.code.at(newPosition) &&
+            text === this.source.code.at(this.position) &&
             // Is what's being typed a closing delimiter of a text literal?
             ((this.tokenIncludingSpace.isSymbol(Sym.Text) &&
                 TextOpenByTextClose[
@@ -1020,19 +1070,23 @@ export default class Caret {
                     this.source.getMatchedDelimiter(
                         this.tokenIncludingSpace,
                     ) !== undefined))
-        )
-            return [
-                this.source,
-                new Caret(
-                    this.source,
-                    newPosition + 1,
-                    undefined,
-                    undefined,
-                    undefined,
-                ),
-            ];
-        // Otherwise, if the text to insert is an opening delimiter and this isn't an unclosed text delimiter, automatically insert its closing counterpart.
-        else if (
+        );
+    }
+
+    completeInsertion(
+        text: string,
+        complete: boolean,
+        source: Source,
+        position: number,
+    ): [string, Source, number, boolean] | undefined {
+        let newSource: Source | undefined = source;
+        let newPosition: number = position;
+        let closed = false;
+
+        // If the inserted string matches a single matched delimiter, complete it, unless:
+        // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
+        // 2) the character being inserted closes an unmatched delimiter, in which case we just insert the character.
+        if (
             complete &&
             text in DelimiterCloseByOpen &&
             ((!this.isInsideText() && !FormattingSymbols.includes(text)) ||
@@ -1049,49 +1103,29 @@ export default class Caret {
                         )
                     )))
         ) {
-            closed = true;
             text += DelimiterCloseByOpen[text];
+            closed = true;
         }
         // If the two preceding characters are dots and this is a dot, delete the last two dots then insert the stream symbol.
         else if (
             text === '.' &&
-            newSource.getGraphemeAt(newPosition - 1) === '.' &&
-            newSource.getGraphemeAt(newPosition - 2) === '.'
+            source.getGraphemeAt(position - 1) === '.' &&
+            source.getGraphemeAt(position - 2) === '.'
         ) {
             text = STREAM_SYMBOL;
-            newSource = newSource
-                .withoutGraphemeAt(newPosition - 2)
-                ?.withoutGraphemeAt(newPosition - 2);
-            newPosition = newPosition - 2;
+            newSource = source
+                .withoutGraphemeAt(position - 2)
+                ?.withoutGraphemeAt(position - 2);
+            newPosition = position - 2;
         }
         // If the preceding character is an arrow dash, delete the dash and insert the arrow
-        else if (
-            text === '>' &&
-            newSource.getGraphemeAt(newPosition - 1) === '-'
-        ) {
+        else if (text === '>' && source.getGraphemeAt(position - 1) === '-') {
             text = CONVERT_SYMBOL;
-            newSource = newSource.withoutGraphemeAt(newPosition - 1);
-            newPosition = newPosition - 1;
+            newSource = source.withoutGraphemeAt(position - 1);
+            newPosition = position - 1;
         }
 
-        // Did we somehow get no source?
-        if (newSource === undefined) return undefined;
-
-        newSource = newSource.withGraphemesAt(text, newPosition);
-
-        // Did we somehow get no source?
-        if (newSource === undefined) return undefined;
-
-        // What's the new token we added?
-        const newToken = newSource.getTokenAt(originalPosition, false);
-
-        newPosition =
-            newPosition + (closed ? 1 : new UnicodeString(text).getLength());
-
-        return [
-            newSource,
-            new Caret(newSource, newPosition, undefined, undefined, newToken),
-        ];
+        return newSource ? [text, newSource, newPosition, closed] : undefined;
     }
 
     isInsideText() {

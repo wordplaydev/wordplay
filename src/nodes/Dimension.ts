@@ -136,7 +136,7 @@ export default class Dimension extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

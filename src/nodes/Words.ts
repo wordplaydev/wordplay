@@ -88,7 +88,7 @@ export default class Words extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 

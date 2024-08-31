@@ -24,7 +24,7 @@ export default class ExceptionType extends Type {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet): boolean {
@@ -33,7 +33,7 @@ export default class ExceptionType extends Type {
             .every(
                 (type) =>
                     type instanceof ExceptionType &&
-                    this.exception.constructor === type.exception.constructor
+                    this.exception.constructor === type.exception.constructor,
             );
     }
 

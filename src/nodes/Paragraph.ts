@@ -65,7 +65,7 @@ export default class Paragraph extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 

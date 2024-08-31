@@ -26,7 +26,7 @@ export default class Example extends Content {
         return new Example(
             new Token(CODE_SYMBOL, Sym.Code),
             program,
-            new Token(CODE_SYMBOL, Sym.Code)
+            new Token(CODE_SYMBOL, Sym.Code),
         );
     }
 
@@ -46,7 +46,7 @@ export default class Example extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 
@@ -54,7 +54,7 @@ export default class Example extends Content {
         return new Example(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('program', this.program, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 

@@ -27,7 +27,7 @@ export default class TypeInputs extends Node {
         return new TypeInputs(
             new Token(TYPE_OPEN_SYMBOL, Sym.TypeOpen),
             types ?? [],
-            new Token(TYPE_CLOSE_SYMBOL, Sym.TypeClose)
+            new Token(TYPE_CLOSE_SYMBOL, Sym.TypeClose),
         );
     }
 
@@ -55,12 +55,12 @@ export default class TypeInputs extends Node {
         return new TypeInputs(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('types', this.types, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

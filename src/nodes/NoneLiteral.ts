@@ -64,7 +64,7 @@ export default class NoneLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {
