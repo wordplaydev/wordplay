@@ -581,9 +581,20 @@ export default class Caret {
 
         const points: (Token | number)[] = [];
         for (const node of this.source.expression.nodes()) {
-            if (node instanceof Token && Caret.isBlockEditable(node))
-                points.push(node);
-            else {
+            if (node instanceof Token) {
+                // Find the preceding space and include all line breaks.
+                const space = this.source.spaces.getSpace(node);
+                const position = this.source.getTokenTextPosition(node);
+                if (position !== undefined) {
+                    for (let index = 0; index < space.length; index++) {
+                        if (space.charAt(index) === '\n') {
+                            points.push(position - space.length + index);
+                        }
+                    }
+                }
+                // If the token itself is editable, add it to the list.
+                if (Caret.isBlockEditable(node)) points.push(node);
+            } else {
                 const grammar = node.getGrammar();
                 for (let index = 0; index < grammar.length; index++) {
                     const field = grammar[index];
