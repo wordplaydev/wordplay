@@ -10,7 +10,7 @@
     export let text: string;
     export let placeholder: string;
     export let validator: ((text: string) => boolean) | undefined;
-    export let creator: (text: string) => Token;
+    export let creator: (text: string) => Token | [Token, Project];
 
     const caret = getCaret();
 </script>
@@ -24,14 +24,19 @@
     {validator}
     changed={(newName) => {
         if (newName !== token.getText()) {
-            const revisedToken = creator(newName);
-            Projects.revise(project, [[token, revisedToken]]);
+            let newToken;
+            let newProject;
+            const revision = creator(newName);
+            if (Array.isArray(revision)) {
+                [newToken, newProject] = revision;
+                Projects.reviseProject(newProject);
+            } else {
+                newToken = revision;
+                Projects.revise(project, [[token, revision]]);
+            }
+
             if (caret && $caret) {
-                caret.set(
-                    $caret
-                        .withPosition(revisedToken)
-                        .withAddition(revisedToken),
-                );
+                caret.set($caret.withPosition(newToken).withAddition(newToken));
             }
         }
     }}

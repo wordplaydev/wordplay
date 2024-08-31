@@ -928,7 +928,7 @@ export default class Caret {
         const renameEdit = project
             ? this.insertRename(text, project)
             : undefined;
-        if (renameEdit) return renameEdit;
+        if (renameEdit) return [renameEdit[0], renameEdit[1]];
 
         let newSource: Source | undefined;
         let newPosition: number;
@@ -1239,7 +1239,7 @@ export default class Caret {
         newName: string,
         project: Project,
         offset: number,
-    ): ProjectRevision | undefined {
+    ): [Project, Caret, Name] | undefined {
         let name: Name | undefined;
         let definition: Definition | undefined;
         // If the edited thing is a reference, find it's definition and the corresponding name that was edited.
@@ -1284,9 +1284,12 @@ export default class Caret {
             // Remember which source we're editing.
             const sourceIndex = project.getSources().indexOf(this.source);
 
+            // Make a new name
+            const revisedName = name.withName(newName);
+
             // Rename the name and all the references
             const revisions = [
-                [name, name.withName(newName)],
+                [name, revisedName],
                 ...references.map((ref) => [ref, ref.withName(newName)]),
             ] as [Node, Node][];
 
@@ -1312,6 +1315,7 @@ export default class Caret {
             return [
                 revisedProject,
                 this.withSource(revisedSource).withPosition(start + offset),
+                revisedName,
             ];
         }
     }
@@ -1403,7 +1407,7 @@ export default class Caret {
                         this.position - start + offset,
                     );
                     // If we succeeded, return the edit.
-                    if (edit) return edit;
+                    if (edit) return [edit[0], edit[1]];
                 }
             }
 

@@ -5,11 +5,15 @@
     import NameToken from '@nodes/NameToken';
     import type Token from '@nodes/Token';
     import TokenTextEditor from './TokenTextEditor.svelte';
+    import { getCaret } from '@components/project/Contexts';
+    import Name from '@nodes/Name';
 
     export let name: Token;
     export let project: Project;
     export let text: string;
     export let placeholder: string;
+
+    const caret = getCaret();
 </script>
 
 <TokenTextEditor
@@ -24,5 +28,15 @@
             tokens.nextIsOneOf(Sym.Name, Sym.Placeholder)
         );
     }}
-    creator={(text) => new NameToken(text)}
+    creator={(text) => {
+        if (caret && $caret) {
+            const parent = project.getRoot(name)?.getParent(name);
+            if (parent instanceof Name) {
+                const edit = $caret.rename(parent, text, project, 0);
+                if (edit) return [edit[2].name, edit[0]];
+            }
+        }
+
+        return new NameToken(text);
+    }}
 />

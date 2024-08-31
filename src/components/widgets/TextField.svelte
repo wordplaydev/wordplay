@@ -51,7 +51,13 @@
             view.selectionStart === text.length;
 
         // Stop propation on arrows unless moving past a boundary.
-        if (event.key.startsWith('Arrow') && !movingPastStart && !movingPastEnd)
+        if (
+            event.key.length === 1 ||
+            event.key === 'Backspace' ||
+            (event.key.startsWith('Arrow') &&
+                !movingPastStart &&
+                !movingPastEnd)
+        )
             event.stopPropagation();
 
         // Not a number or not an up/down arrow key? Return.
