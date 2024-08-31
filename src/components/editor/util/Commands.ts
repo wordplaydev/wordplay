@@ -1264,7 +1264,7 @@ const Commands: Command[] = [
             editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ editor, caret, blocks }) => {
+        execute: async ({ editor, caret, blocks, project }) => {
             if (!editor) return undefined;
             // Make sure clipboard is supported.
             if (
@@ -1280,7 +1280,7 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return caret.insert(interpret(text), blocks);
+                        return caret.insert(interpret(text), blocks, project);
                     }
                 }
             }
