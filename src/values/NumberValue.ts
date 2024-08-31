@@ -65,36 +65,48 @@ export default class NumberValue extends SimpleValue {
         const negated = text.charAt(0) === '-';
         if (negated) text = text.substring(1);
 
+        let num;
+        let precision;
+
         // Not a number
         if (text === '!#') return [new Decimal(NaN), undefined];
         // Infinity
         else if (number.isSymbol(Sym.Infinity) || text === '∞') {
-            return [new Decimal(Infinity * (negated ? -1 : 1)), undefined];
+            [num, precision] = [
+                new Decimal(Infinity * (negated ? -1 : 1)),
+                undefined,
+            ];
         }
         // Pi
         else if (number.isSymbol(Sym.Pi) || text === 'π') {
-            return [
+            [num, precision] = [
                 new Decimal(Math.PI * (negated ? -1 : 1)),
                 Decimal.precision,
             ];
         }
         // If it matches the decimal pattern, randomize requested digits, then convert to a Decimal.
         else if (number.isSymbol(Sym.Decimal)) {
-            return convertDecimal(text);
+            [num, precision] = convertDecimal(text);
         }
         // If it matches a number with a different base, convert it to a Decimal.
         else if (number.isSymbol(Sym.Base)) {
-            return convertBase(text);
+            [num, precision] = convertBase(text);
         } else if (number.isSymbol(Sym.RomanNumeral)) {
-            return convertRoman(text);
+            [num, precision] = convertRoman(text);
         } else if (number.isSymbol(Sym.JapaneseNumeral)) {
-            return convertJapanese(text);
+            [num, precision] = convertJapanese(text);
         } else if (number.isSymbol(Sym.Number)) {
-            return NumberValue.fromUnknown(text);
-        } else return [new Decimal(NaN), undefined];
+            [num, precision] = NumberValue.fromUnknown(text);
+        } else [num, precision] = [new Decimal(NaN), undefined];
+
+        return [num.times(negated ? -1 : 1), precision];
     }
 
     static fromUnknown(text: string): NumberAndPrecision {
+        // All number formats can be negated. Check for it, then remove it.
+        const negated = text.charAt(0) === '-';
+        if (negated) text = text.substring(1);
+
         const conversions = [
             convertDecimal,
             convertBase,
@@ -104,7 +116,7 @@ export default class NumberValue extends SimpleValue {
 
         for (const conversion of conversions) {
             const [num, precision] = conversion(text);
-            if (!num.isNaN()) return [num, precision];
+            if (!num.isNaN()) return [num.times(negated ? -1 : 1), precision];
         }
         return [new Decimal(NaN), undefined];
     }

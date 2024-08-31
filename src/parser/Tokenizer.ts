@@ -226,11 +226,11 @@ const CodeTokenPatterns: TokenPattern[] = [
     },
     // Tokenize Arabic numbers
     {
-        pattern: /^[0-9]+([.,][0-9]+)?%?/,
+        pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
         types: [Sym.Number, Sym.Decimal],
     },
     {
-        pattern: /^[.,][0-9]+%?/,
+        pattern: /^-?[.,][0-9]+%?/,
         types: [Sym.Number, Sym.Decimal],
     },
     { pattern: /^π/, types: [Sym.Number, Sym.Pi] },
