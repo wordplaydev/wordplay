@@ -16,17 +16,8 @@
 
     let view: HTMLInputElement | undefined = undefined;
     const caret = getCaret();
-</script>
 
-<TextField
-    {text}
-    id={token.id}
-    bind:view
-    classes={['token-editor']}
-    placeholder={placeholder ?? ''}
-    description={placeholder ?? ''}
-    {validator}
-    changed={(newName) => {
+    function handleChange(newName: string) {
         if (newName !== token.getText()) {
             let newToken;
             let newProject;
@@ -75,5 +66,22 @@
                 }
             });
         }
+    }
+</script>
+
+<TextField
+    bind:text
+    id={token.id}
+    bind:view
+    classes={['token-editor']}
+    placeholder={placeholder ?? ''}
+    description={placeholder ?? ''}
+    {validator}
+    done={(newText) => {
+        // Not valid but losing focus? Restore the old text.
+        if (validator !== undefined && validator(newText) === false) {
+            text = token.getText();
+        }
     }}
+    changed={handleChange}
 ></TextField>

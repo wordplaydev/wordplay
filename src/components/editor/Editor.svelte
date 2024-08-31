@@ -469,7 +469,6 @@
             const widget = editor?.querySelector(
                 `.token-editor[data-id="${token.id}"]`,
             );
-            console.log('Caret changed and focused to new token ' + token);
             if (widget instanceof HTMLElement) {
                 setKeyboardFocus(
                     widget,
