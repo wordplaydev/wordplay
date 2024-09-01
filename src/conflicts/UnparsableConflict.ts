@@ -168,10 +168,14 @@ export class UnparsableConflict extends Conflict {
                                 expr.getLabel(locales),
                                 new NodeRef(expr, locales, context),
                             ),
-                        mediator: (context: Context) =>
-                            context.project.withRevisedNodes([
-                                [this.unparsable, expr],
-                            ]),
+                        mediator: (context: Context) => {
+                            return {
+                                newProject: context.project.withRevisedNodes([
+                                    [this.unparsable, expr],
+                                ]),
+                                newNode: expr,
+                            };
+                        },
                     };
                 })
         );

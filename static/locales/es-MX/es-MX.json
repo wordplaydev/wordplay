@@ -952,7 +952,10 @@
             ],
             "start": "¿qué valor tiene $1?",
             "conflict": {
-                "UnknownName": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                "UnknownName": {
+                    "conflict": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                    "resolution": "$~¿Quisiste decir *$1*?"
+                },
                 "ReferenceCycle": "um, el valor de $1 depende de sí mismo, ¿cómo sé qué valor darle?",
                 "UnexpectedTypeVariable": "No sé qué hacer con estos inputs de tipo"
             },

@@ -5293,8 +5293,21 @@
                       "description": "When a reference refers to a type variable"
                     },
                     "UnknownName": {
-                      "$ref": "#/definitions/InternalConflictText",
-                      "description": "When the name does not correspond to a bind in scope Description inputs: $1 = Scope"
+                      "additionalProperties": false,
+                      "description": "When the name does not correspond to a bind in scope Description inputs: $1 = Scope",
+                      "properties": {
+                        "conflict": {
+                          "$ref": "#/definitions/InternalConflictText"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "conflict",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [

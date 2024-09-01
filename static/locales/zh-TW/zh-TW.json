@@ -972,7 +972,10 @@
             ],
             "start": "1$有什麼價值?",
             "conflict": {
-                "UnknownName": "我不知道有誰叫$1在$2裡$2這個 @Block 你能給我一個名字嗎?］",
+                "UnknownName": {
+                    "conflict": "我不知道有誰叫$1在$2裡$2這個 @Block 你能給我一個名字嗎?］",
+                    "resolution": "$~您的意思是 *$1 吗？*"
+                },
                 "ReferenceCycle": "1$的值取決於它本身，所以我怎麼知道該給它什麼值呢?",
                 "UnexpectedTypeVariable": "我不知道該怎麼處理這些輸入"
             },

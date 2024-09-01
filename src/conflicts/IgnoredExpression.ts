@@ -44,25 +44,34 @@ export class IgnoredExpression extends Conflict {
                             const operatorLeaf = next.fun.leaves()[0];
                             const firstLeaf = next.input.leaves()[0];
                             if (firstLeaf) {
-                                return context.project.withSource(
-                                    source,
-                                    source.withCode(
-                                        source
-                                            .withSpaces(
-                                                source
-                                                    .getSpaces()
-                                                    .withSpace(firstLeaf, ' ')
-                                                    .withSpace(
-                                                        operatorLeaf,
-                                                        ' ',
-                                                    ),
-                                            )
-                                            .toWordplay(),
+                                return {
+                                    newProject: context.project.withSource(
+                                        source,
+                                        source.withCode(
+                                            source
+                                                .withSpaces(
+                                                    source
+                                                        .getSpaces()
+                                                        .withSpace(
+                                                            firstLeaf,
+                                                            ' ',
+                                                        )
+                                                        .withSpace(
+                                                            operatorLeaf,
+                                                            ' ',
+                                                        ),
+                                                )
+                                                .toWordplay(),
+                                        ),
                                     ),
-                                );
+                                    newNode: undefined,
+                                };
                             }
                         }
-                        return context.project;
+                        return {
+                            newProject: context.project,
+                            newNode: undefined,
+                        };
                     },
                 };
         }

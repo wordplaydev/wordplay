@@ -675,7 +675,7 @@
             "doc": "$?",
             "start": "$?",
             "conflict": {
-                "UnknownName": "$?",
+                "UnknownName": { "conflict": "$?", "resolution": "$?" },
                 "ReferenceCycle": "$?",
                 "UnexpectedTypeVariable": "$?"
             },
@@ -2292,7 +2292,7 @@
         "Stage": {
             "names": "$?",
             "doc": "$?",
-            "description": "$?",
+            "description": { "doc": ["$?"], "names": "$?" },
             "content": {
                 "doc": "$?",
                 "names": "$?"
@@ -2386,7 +2386,7 @@
         "Group": {
             "names": "$?",
             "doc": "$?",
-            "description": "$?",
+            "description": { "doc": ["$?"], "names": "$?" },
             "content": {
                 "doc": "$?",
                 "names": "$?"
@@ -2480,7 +2480,7 @@
         "Phrase": {
             "names": "$?",
             "doc": "$?",
-            "description": "$?",
+            "description": { "doc": ["$?"], "names": "$?" },
             "text": {
                 "doc": "$?",
                 "names": "$?"

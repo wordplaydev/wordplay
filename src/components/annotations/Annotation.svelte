@@ -16,7 +16,8 @@
     let index = getConceptIndex();
 
     function resolveAnnotation(resolution: Resolution, context: Context) {
-        Projects.reviseProject(resolution.mediator(context));
+        const {newProject} = resolution.mediator(context, $locales);
+        Projects.reviseProject(newProject);
     }
 </script>
 

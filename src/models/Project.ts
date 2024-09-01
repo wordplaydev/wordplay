@@ -248,6 +248,10 @@ export default class Project {
         return this.getSources().indexOf(source);
     }
 
+    getSourceWithIndex(index: number): Source | undefined {
+        return this.getSources()[index];
+    }
+
     getDefaultShares() {
         return this.shares;
     }

@@ -568,7 +568,10 @@ type NodeTexts = {
              * When the name does not correspond to a bind in scope
              * Description inputs: $1 = Scope
              * */
-            UnknownName: InternalConflictText;
+            UnknownName: {
+                conflict: InternalConflictText;
+                resolution: Template;
+            };
             /** When a name refers to itself outside a reaction */
             ReferenceCycle: InternalConflictText;
             /** When a reference refers to a type variable */

@@ -972,7 +972,10 @@
             ],
             "start": "$1은 어떤 값을 가지고 있나요?",
             "conflict": {
-                "UnknownName": "$1[이름이 $1인 사람을 $2[$2|이 @Block] 모릅니다|이름을 알려줄 수 있나요?]",
+                "UnknownName": {
+                    "conflict": "$1[이름이 $1인 사람을 $2[$2|이 @Block] 모릅니다|이름을 알려줄 수 있나요?]",
+                    "resolution": "$~*$1*을 말씀하셨나요?"
+                },
                 "ReferenceCycle": "음, $1의 값이 자기 자신에 의존하는데, 어떤 값을 제공해야 할지 어떻게 알 수 있죠?",
                 "UnexpectedTypeVariable": "이 타입 입력들로 무엇을 해야 할지 모르겠어요"
             },

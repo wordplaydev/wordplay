@@ -54,7 +54,11 @@ export class PossiblePII extends Conflict {
                             (l) => l.node.Translation.conflict.resolution,
                         ),
                     mediator: (context: Context) => {
-                        return context.project.withNonPII(this.pii.text);
+                        return {
+                            newProject: context.project.withNonPII(
+                                this.pii.text,
+                            ),
+                        };
                     },
                 },
             ],
