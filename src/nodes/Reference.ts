@@ -147,6 +147,7 @@ export default class Reference extends SimpleExpression {
                                 (name) =>
                                     definition.getEvaluateTemplate(
                                         match(definition, prefix, name),
+                                        context,
                                     ),
                                 definition,
                             );

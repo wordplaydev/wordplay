@@ -270,4 +270,8 @@ export default class UnionType extends Type {
         if (remaining.size === 0) return Array.from(remaining)[0];
         else return UnionType.getPossibleUnion(context, Array.from(remaining));
     }
+
+    getDefaultExpression(context: Context) {
+        return this.left.getDefaultExpression(context);
+    }
 }

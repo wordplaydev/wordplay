@@ -7,6 +7,7 @@ import Sym from './Sym';
 import type TypeSet from './TypeSet';
 import Glyphs from '../lore/Glyphs';
 import type Locales from '../locale/Locales';
+import NoneLiteral from './NoneLiteral';
 
 export default class NoneType extends BasisType {
     readonly none: Token;
@@ -61,5 +62,9 @@ export default class NoneType extends BasisType {
 
     getGlyphs() {
         return Glyphs.None;
+    }
+
+    getDefaultExpression() {
+        return NoneLiteral.make();
     }
 }

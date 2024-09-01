@@ -127,4 +127,8 @@ export default class TextType extends BasisType {
     getDescriptionInputs() {
         return [this.isLiteral() ? this.open.getText() : undefined];
     }
+
+    getDefaultExpression() {
+        return TextLiteral.make(this.text ? this.text.getText() : '');
+    }
 }

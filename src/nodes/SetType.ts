@@ -14,6 +14,7 @@ import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
+import SetLiteral from './SetLiteral';
 
 export default class SetType extends BasisType {
     readonly open: Token;
@@ -118,5 +119,9 @@ export default class SetType extends BasisType {
 
     getDescriptionInputs(locales: Locales, context: Context) {
         return [this.key ? new NodeRef(this.key, locales, context) : undefined];
+    }
+
+    getDefaultExpression() {
+        return SetLiteral.make();
     }
 }

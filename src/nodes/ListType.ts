@@ -11,6 +11,7 @@ import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
+import ListLiteral from './ListLiteral';
 
 export default class ListType extends BasisType {
     readonly open: Token;
@@ -123,5 +124,9 @@ export default class ListType extends BasisType {
         return [
             this.type ? new NodeRef(this.type, locales, context) : undefined,
         ];
+    }
+
+    getDefaultExpression() {
+        return ListLiteral.make([]);
     }
 }

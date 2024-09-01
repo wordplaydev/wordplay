@@ -226,4 +226,11 @@ export default class NumberType extends BasisType {
                 : undefined,
         ];
     }
+
+    getDefaultExpression() {
+        return NumberLiteral.make(
+            1,
+            this.unit instanceof Unit ? this.unit : undefined,
+        );
+    }
 }

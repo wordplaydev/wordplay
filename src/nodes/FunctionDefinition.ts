@@ -172,11 +172,12 @@ export default class FunctionDefinition extends DefinitionExpression {
                         : reference,
                     this.inputs
                         .filter((input) => !input.hasDefault())
-                        .map((input) => {
-                            if (input.type instanceof FunctionType)
-                                return input.type.getTemplate(context);
-                            else return ExpressionPlaceholder.make();
-                        }),
+                        .map((input) =>
+                            input.type
+                                ? input.type.getDefaultExpression(context) ??
+                                  ExpressionPlaceholder.make(input.type)
+                                : ExpressionPlaceholder.make(),
+                        ),
                 );
     }
 

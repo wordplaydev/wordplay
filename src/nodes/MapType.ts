@@ -16,6 +16,7 @@ import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
+import MapLiteral from './MapLiteral';
 
 export default class MapType extends BasisType {
     readonly open: Token;
@@ -159,5 +160,9 @@ export default class MapType extends BasisType {
             this.key ? new NodeRef(this.key, locales, context) : undefined,
             this.value ? new NodeRef(this.value, locales, context) : undefined,
         ];
+    }
+
+    getDefaultExpression() {
+        return MapLiteral.make();
     }
 }

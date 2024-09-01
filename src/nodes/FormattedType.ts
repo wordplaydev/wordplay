@@ -9,6 +9,8 @@ import Token from './Token';
 import Glyphs from '../lore/Glyphs';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import type Locales from '../locale/Locales';
+import FormattedLiteral from './FormattedLiteral';
+import FormattedTranslation from './FormattedTranslation';
 
 export default class FormattedType extends BasisType {
     readonly tick: Token;
@@ -45,7 +47,7 @@ export default class FormattedType extends BasisType {
 
     clone(replace?: Replacement | undefined): this {
         return new FormattedType(
-            this.replaceChild('tick', this.tick, replace)
+            this.replaceChild('tick', this.tick, replace),
         ) as this;
     }
 
@@ -55,5 +57,9 @@ export default class FormattedType extends BasisType {
 
     getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {
         return locales.get((l) => l.node.FormattedType);
+    }
+
+    getDefaultExpression() {
+        return new FormattedLiteral([FormattedTranslation.make()]);
     }
 }

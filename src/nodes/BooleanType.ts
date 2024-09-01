@@ -7,6 +7,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
 import Glyphs from '../lore/Glyphs';
 import type Locales from '../locale/Locales';
+import BooleanLiteral from './BooleanLiteral';
 
 export default class BooleanType extends BasisType {
     readonly type: Token;
@@ -59,5 +60,9 @@ export default class BooleanType extends BasisType {
 
     getGlyphs() {
         return Glyphs.BooleanType;
+    }
+
+    getDefaultExpression() {
+        return BooleanLiteral.make(true);
     }
 }

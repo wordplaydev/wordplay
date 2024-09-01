@@ -60,7 +60,7 @@ export default class StructureConcept extends Concept {
             );
         this.examples =
             examples === undefined || examples.length === 0
-                ? [this.definition.getEvaluateTemplate(locales)]
+                ? [this.definition.getEvaluateTemplate(locales, context)]
                 : examples;
 
         this.functions = this.definition
