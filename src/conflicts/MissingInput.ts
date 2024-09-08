@@ -54,7 +54,7 @@ export default class MissingInput extends Conflict {
                     ),
             },
             secondary: {
-                node: this.input,
+                node: this.input.names,
                 explanation: (locales: Locales, context: Context) =>
                     locales.concretize(
                         (l) => l.node.Evaluate.conflict.MissingInput.secondary,
