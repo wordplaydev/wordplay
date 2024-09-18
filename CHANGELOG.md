@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.11.2 2024-09-17
 
+### Added
+
+-   Show conflicts even when paused.
+
 ### Maintenance
 
 -   Several dependendabot pull request updates.
