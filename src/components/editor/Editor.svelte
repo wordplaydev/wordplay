@@ -722,6 +722,8 @@
         }
 
         // If the element at the cursor is inside space, choose the space.
+        // This depends tightly on the spaces rendered in Space.svelte and
+        // NodeView.svelte, when in blocks mode.
         const spaceView = elementAtCursor.closest('.space');
         if (spaceView instanceof HTMLElement) {
             const tokenID = spaceView.dataset.id
@@ -756,7 +758,8 @@
             }
         }
 
-        // If its the editor, find the closest token and choose either it's right or left side.
+        // Otherwise, the pointer is over the editor.
+        // Find the closest token and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
         const closestToken = Array.from(editor.querySelectorAll('.token-view'))
             .map((tokenView) => {
@@ -823,29 +826,36 @@
         }
 
         // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
-        type BreakInfo = { token: Token; offset: number; index: number };
+        type BreakInfo = {
+            token: Token;
+            offset: number;
+            index: number;
+            view: HTMLElement;
+        };
 
         // Find all tokens with empty lines and choose the nearest.
         const closestLine =
             // Find all of the token line breaks, which are wrapped in spans to enable consistent measurement.
             // This is because line breaks and getBoundingClientRect() are jumpy depending on what's around them.
-            Array.from(editor.querySelectorAll('.space br'))
+            Array.from(editor.querySelectorAll('.space .break'))
                 // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
                 .map((br) => {
                     const [token, tokenView] = getTokenFromLineBreak(br) ?? [];
                     // Check the br container, which gives us a more accurate bounding client rect.
-                    const rect = (br as HTMLElement).getBoundingClientRect();
-                    return tokenView === undefined || token === undefined
-                        ? undefined
-                        : {
-                              token,
-                              offset: Math.abs(
-                                  rect.top + rect.height / 2 - event.clientY,
-                              ),
-                              index: Array.from(
-                                  tokenView.querySelectorAll('br'),
-                              ).indexOf(br as HTMLBRElement),
-                          };
+                    const rect = br.getBoundingClientRect();
+                    if (tokenView === undefined || token === undefined)
+                        return undefined;
+                    return {
+                        token,
+                        offset: Math.abs(
+                            rect.top + rect.height / 2 - event.clientY,
+                        ),
+                        // Find the index of the break in the space view.
+                        index: Array.from(
+                            tokenView.querySelectorAll('.break'),
+                        ).indexOf(br),
+                        view: br as HTMLElement,
+                    };
                 })
                 // Filter out any empty breaks that we couldn't find
                 .filter<BreakInfo>(
@@ -857,12 +867,15 @@
 
         // If we have a closest line, find the line number
         if (closestLine) {
+            // Find the space view of the closest line.
+
             // Compute the horizontal position at which to place the caret.
             // Find the width of a single space by finding the longest line,
             // which determines its width.
+            const spaceView = closestLine.view.closest('.space');
             const spaceBounds = spaceView?.getBoundingClientRect();
             const tokenSpace = source.spaces.getSpace(closestLine.token);
-            const spaceWidth =
+            let spaceWidth =
                 (spaceBounds?.width ?? 0) /
                 Math.max.apply(
                     null,
@@ -871,9 +884,10 @@
                         .split('\n')
                         .map((s) => s.length),
                 );
+            if (isNaN(spaceWidth) || spaceWidth === Infinity) spaceWidth = 0;
 
             // Offset the caret position by the number of spaces from the edge that was clicked.
-            const positionOffset = spaceBounds
+            let positionOffset = spaceBounds
                 ? Math.round(
                       Math.abs(
                           event.clientX -
@@ -883,15 +897,17 @@
                       ) / spaceWidth,
                   )
                 : 0;
+            if (isNaN(positionOffset) || positionOffset === Infinity)
+                positionOffset = 0;
 
             const index = $caret.source.getTokenSpacePosition(
                 closestLine.token,
             );
+
+            // Figure out where on the line to place the insertion point based on the line index
             return index !== undefined
                 ? index +
-                      tokenSpace.split('\n', closestLine.index).join('\n')
-                          .length +
-                      1 +
+                      tokenSpace.split('\n', closestLine.index).length +
                       positionOffset
                 : undefined;
         }
@@ -901,10 +917,13 @@
     }
 
     function getInsertionPointsAt(event: PointerEvent) {
-        // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
+        // Is the caret position between tokens?
+        // If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
 
+        // If we found a position, find what's between.
         if (position !== undefined) {
+            // Create a caret for the position and get the token it's at.
             const caret = new Caret(
                 source,
                 position,

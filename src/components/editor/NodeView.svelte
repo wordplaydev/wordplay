@@ -17,6 +17,7 @@
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
     import { locales } from '../../db/Database';
+    import InsertionPointView from './InsertionPointView.svelte';
 
     export let node: Node | undefined;
     export let small = false;
@@ -88,11 +89,21 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->{#if $blocks}{#if symbolOccurs(space, ' ')}<div
-                    class="space">&nbsp;</div
-                >{:else}{#each Array(Math.max(0, countSymbolOccurences(space, '\n') - 1)) as _}<div
-                        class="break"
-                    ></div>{/each}{/if}{:else}
+    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->{#if $blocks}{#key $insertion}<span
+                    class="space"
+                    role="none"
+                    data-id={firstToken.id}
+                    data-uiid="space"
+                >
+                    {#if symbolOccurs(space, ' ')}<div data-id={firstToken.id}
+                            >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
+                                ></InsertionPointView>{/if}&nbsp;</div
+                        >{:else}{#each Array.from(Array(Math.max(0, countSymbolOccurences(space, '\n') - 1)).keys()) as line}<div
+                                class="break"
+                                >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
+                                    />{/if}</div
+                            >{/each}{/if}</span
+                >{/key}{:else}
             <Space
                 token={firstToken}
                 first={$spaces.isFirst(firstToken)}
@@ -223,6 +234,12 @@
     .break {
         display: block;
         width: 1em;
-        height: 1em;
+        height: 3ex;
+    }
+
+    .space {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-padding);
     }
 </style>

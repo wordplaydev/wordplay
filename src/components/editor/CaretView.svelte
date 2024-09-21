@@ -613,13 +613,29 @@
                 spaceBefore.indexOfCharacter('\n') >= 0 &&
                 spaceAfter.indexOfCharacter('\n') >= 0
             ) {
-                // Place the caret's left the number of spaces on this line
+                // Find the space container for the token.
+                const spaceView = viewport.querySelector(
+                    `.space[data-id='${token.id}']`,
+                );
+                const spaceViewTop =
+                    (spaceView?.getBoundingClientRect().top ?? 0) -
+                    viewportRect.top;
+
+                // Figure out the height of a line break.
+                const breakHeight =
+                    viewport.querySelector('.break')?.getBoundingClientRect()
+                        .height ?? lineHeight;
+
+                // Place the caret's left the number of spaces on this line.
+                // If in blocks mode, account for the fact that we render one fewer spaces due to block layout.
                 const offset =
-                    (spaceBefore.split('\n').length - 1) * lineHeight;
+                    (spaceBefore.split('\n').length - 1 - (blocks ? 1 : 0)) *
+                    (blocks ? breakHeight : lineHeight);
 
                 if (horizontal) {
                     // Place the caret's top at {tokenHeight} * {number of new lines prior}
-                    const spaceTop = priorTokenTop + offset;
+                    const spaceTop =
+                        (blocks ? spaceViewTop : priorTokenTop) + offset;
                     return {
                         left:
                             editorHorizontalStart +
