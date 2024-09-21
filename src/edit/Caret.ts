@@ -606,7 +606,7 @@ export default class Caret {
                             // Add an insertion point for the beginning of the list.
                             const tokensBeforeField = getFieldTokens(
                                 node,
-                                grammar.slice(0, index - 1),
+                                grammar.slice(0, index),
                             );
                             const lastTokenBefore = tokensBeforeField.at(-1);
                             if (lastTokenBefore) {
@@ -618,7 +618,7 @@ export default class Caret {
                                     points.push(lastPosition);
                             }
                             // No tokens before the list? See if there's a token in the list.
-                            else if (values.length > 0) {
+                            if (values.length > 0) {
                                 const firstToken = values[0].leaves().at(0);
                                 if (firstToken) {
                                     const firstPosition =
@@ -630,20 +630,19 @@ export default class Caret {
                                 }
                             }
                             // No tokens before the list? See if there are tokens after.
-                            else {
-                                const tokensAfterField = getFieldTokens(
-                                    node,
-                                    grammar.slice(index + 1),
-                                );
-                                const firstTokenAfter = tokensAfterField.at(0);
-                                if (firstTokenAfter) {
-                                    const firstPosition =
-                                        this.source.getTokenTextPosition(
-                                            firstTokenAfter,
-                                        );
-                                    if (firstPosition !== undefined)
-                                        points.push(firstPosition);
-                                }
+
+                            const tokensAfterField = getFieldTokens(
+                                node,
+                                grammar.slice(index + 1),
+                            );
+                            const firstTokenAfter = tokensAfterField.at(0);
+                            if (firstTokenAfter) {
+                                const firstPosition =
+                                    this.source.getTokenTextPosition(
+                                        firstTokenAfter,
+                                    );
+                                if (firstPosition !== undefined)
+                                    points.push(firstPosition);
                             }
 
                             // Then, go through each value of the list and add an insertion point after the last token of each element.
