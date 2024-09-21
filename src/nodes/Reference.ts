@@ -64,7 +64,9 @@ export default class Reference extends SimpleExpression {
         context: Context,
     ): Refer[] {
         const match = (def: Definition, prefix: string, name: string) =>
-            def.getNames().find((n) => n.startsWith(prefix)) ?? name;
+            def
+                .getNames()
+                .find((n) => isBeingReplaced || n.startsWith(prefix)) ?? name;
 
         // If the node prior is a reference, find potential matching definitions in scope.
         const prefix = anchor instanceof Reference ? anchor.getName() : '';
@@ -77,13 +79,15 @@ export default class Reference extends SimpleExpression {
                 .getDefinitionsInScope(context)
                 // Only accept ones that have names starting with the prefix
                 // and that have a matching type, if provided.
-                .filter((def) =>
-                    def.getNames().some((name) =>
-                        // Hello
-                        name.startsWith(prefix),
-                    ),
+                .filter(
+                    (def) =>
+                        isBeingReplaced ||
+                        def.getNames().some((name) =>
+                            // Hello
+                            name.startsWith(prefix),
+                        ),
                 )
-                // Translate the definitions into References, or  to the definitions.
+                // Translate the definitions into References, or to the definitions.
                 .map((definition) => {
                     // Bind of acceptible type? Make a reference.
                     if (

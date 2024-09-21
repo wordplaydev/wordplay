@@ -130,18 +130,9 @@
                     {@const grandparent = $root.getParent(parent)}
                     <!-- Is this token an operator of a binary or unary evaluate? Show valid operators. -->
                     {#if grandparent && (grandparent instanceof BinaryEvaluate || grandparent instanceof UnaryEvaluate) && grandparent.fun === parent}
-                        <OperatorEditor
-                            placeholder={placeholder ?? ''}
-                            project={$project}
-                            evaluate={grandparent}
-                            {context}
-                        />
+                        <OperatorEditor evaluate={grandparent} />
                     {:else}
-                        <ReferenceTokenEditor
-                            reference={parent}
-                            placeholder={placeholder ?? ''}
-                            project={$project}
-                            {context}
+                        <ReferenceTokenEditor reference={parent}
                         ></ReferenceTokenEditor>
                     {/if}
                 {:else}{renderedText}{/if}
