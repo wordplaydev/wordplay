@@ -1493,6 +1493,7 @@
         caret={$caret}
         blocks={$blocks}
         lines={$showLines}
+        inline={false}
     />
     <!-- Render highlights above the code -->
     {#each outlines as outline}

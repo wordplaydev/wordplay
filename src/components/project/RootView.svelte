@@ -161,7 +161,7 @@
     $: lineDigits = spaces?.getLastLineNumber().toString().length ?? 3;
 </script>
 
-{#if inline || blocks}
+{#if inline}
     <span
         class="root"
         style="--line-count: {lineDigits}"
@@ -169,8 +169,11 @@
         class:elide><NodeView {node} /></span
     >
 {:else}
-    <code class="root" style="--line-count: {lineDigits}" class:inert
-        ><NodeView {node} direction="column" /></code
+    <code
+        class="root"
+        style="--line-count: {lineDigits}"
+        class:inert
+        class:elide><NodeView {node} direction="column" /></code
     >
 {/if}
 
