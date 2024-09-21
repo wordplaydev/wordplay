@@ -55,7 +55,13 @@
             on:keydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
-                    : undefined}><RootView {node} {inline} {spaces} /></div
+                    : undefined}
+            ><RootView
+                {node}
+                inline={inline || $blocks}
+                {spaces}
+                blocks={$blocks}
+            /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
@@ -115,13 +121,5 @@
     .link {
         margin-left: var(--wordplay-spacing);
         margin-top: calc(var(--wordplay-spacing) / 2);
-    }
-
-    .blocks.outline.definition {
-        border: var(--wordplay-border-width) solid var(--color-blue);
-    }
-
-    .blocks.outline.evaluate {
-        border: var(--wordplay-border-width) solid var(--color-orange);
     }
 </style>
