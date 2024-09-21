@@ -58,6 +58,7 @@
                     inert
                     localized="symbolic"
                     node={inferredType}
+                    blocks={$blocks}
                 /></div
             >{/if}{#if caret && !$blocks}<PlaceholderView
                 position={node}

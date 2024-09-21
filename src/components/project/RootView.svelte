@@ -32,7 +32,7 @@
     /** Optional space. To enable preferred space, set flag below. */
     export let spaces: Spaces | undefined = undefined;
     /** Whether to render as blocks */
-    export let blocks = false;
+    export let blocks;
     /** Whether to be read only */
     export let inert = false;
     /** Whether to render inline */

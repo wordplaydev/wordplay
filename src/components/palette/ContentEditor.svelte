@@ -10,7 +10,7 @@
     } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
-    import { DB, locales } from '@db/Database';
+    import { blocks, DB, locales } from '@db/Database';
     import { EDIT_SYMBOL } from '../../parser/Symbols';
 
     export let project: Project;
@@ -82,7 +82,11 @@
                     active={editable}
                     action={() => editContent(index)}>{EDIT_SYMBOL}</Button
                 >
-                <RootView node={content} localized="symbolic" />
+                <RootView
+                    node={content}
+                    localized="symbolic"
+                    blocks={$blocks}
+                />
             </div>
         {/each}
         <div class="add">

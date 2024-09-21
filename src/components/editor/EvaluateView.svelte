@@ -75,6 +75,7 @@
                 elide
                 localized="symbolic"
                 inert
+                blocks={$blocks}
             />{#if menuPosition}<PlaceholderView
                     position={menuPosition}
                 />{/if}</div

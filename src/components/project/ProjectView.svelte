@@ -1700,6 +1700,7 @@
                     node={$dragged}
                     spaces={project.getSourceOf($dragged)?.spaces}
                     localized={$localized}
+                    blocks={$blocks}
                 />
                 <div class="cursor">🐲</div>
             </div>

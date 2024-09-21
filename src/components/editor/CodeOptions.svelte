@@ -6,6 +6,7 @@
 
 <script lang="ts">
     import RootView from '@components/project/RootView.svelte';
+    import { blocks } from '@db/Database';
 
     import Node from '@nodes/Node';
     import type Token from '@nodes/Token';
@@ -111,7 +112,12 @@
                         option.toWordplay() === selection.toWordplay()}
                     on:pointerdown={() => choose(option)}
                 >
-                    <RootView node={option} inert localized="localized" />
+                    <RootView
+                        node={option}
+                        inert
+                        localized="localized"
+                        blocks={$blocks}
+                    />
                 </div>
             {/each}
         </div>

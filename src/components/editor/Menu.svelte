@@ -14,6 +14,7 @@
     import Evaluate from '../../nodes/Evaluate';
     import Input from '@nodes/Input';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { blocks } from '../../db/Database';
 
     export let menu: Menu;
     /* What to run when hiding the menu */
@@ -182,10 +183,15 @@
                                 ><RootView
                                     node={newNode}
                                     localized="symbolic"
+                                    blocks={$blocks}
                                 /></strike
                             >
                         {:else}
-                            <RootView node={newNode} localized="symbolic" />
+                            <RootView
+                                node={newNode}
+                                localized="symbolic"
+                                blocks={$blocks}
+                            />
                         {/if}
                     {:else}
                         <MarkupHTMLView
@@ -236,6 +242,7 @@
                                 ? newNode
                                 : newNode}
                             localized="symbolic"
+                            blocks={$blocks}
                         />
                     </div>
                 {/if}

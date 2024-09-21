@@ -1,7 +1,7 @@
 <script lang="ts">
     import type BindConcept from '@concepts/BindConcept';
     import Speech from '../lore/Speech.svelte';
-    import { locales } from '@db/Database';
+    import { blocks, locales } from '@db/Database';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import RootView from '../project/RootView.svelte';
 
@@ -21,10 +21,12 @@
                 node={concept.bind.type}
                 inline
                 localized="symbolic"
+                blocks={$blocks}
             />{#if concept.bind.value}: <RootView
                     node={concept.bind.value}
                     inline
                     localized="symbolic"
+                    blocks={$blocks}
                 />{/if}{/if}
     </svelte:fragment>
 </Speech>
