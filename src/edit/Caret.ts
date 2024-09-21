@@ -1608,6 +1608,7 @@ export default class Caret {
                 const field = parent.getFieldOfChild(node);
                 if (field !== undefined) {
                     const value = parent.getField(field.name);
+                    // If the deletion isn't valid, then return the parent, in case it can be deleted.
                     if (
                         !(
                             (field.kind instanceof ListOf &&
@@ -1616,7 +1617,7 @@ export default class Caret {
                             field.kind instanceof Empty
                         )
                     )
-                        return undefined;
+                        return [this.source, this.withPosition(parent)];
                 }
             } else return undefined;
         }
