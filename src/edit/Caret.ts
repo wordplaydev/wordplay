@@ -917,7 +917,7 @@ export default class Caret {
     insert(
         text: string,
         // Whether in blocks mode, meaning no syntax errors allowed.
-        blocks: boolean,
+        validOnly: boolean,
         project: Project,
         complete = true,
     ): Edit | ProjectRevision | undefined {
@@ -945,7 +945,7 @@ export default class Caret {
             if (wrap !== undefined) return wrap;
 
             // If that didn't do anything, try deleting the node.
-            const edit = this.deleteNode(this.position, false);
+            const edit = this.deleteNode(this.position, validOnly, project);
             // If that didn't do anything, do nothing; it's not removeable.
             if (edit === undefined) return;
             const [source, caret] = edit;
@@ -993,7 +993,7 @@ export default class Caret {
             newPosition + (closed ? 1 : new UnicodeString(text).getLength());
 
         // Finally, if we're in blocks mode, verify that the insertion was valid.
-        if (blocks) {
+        if (validOnly) {
             if (project === undefined) return undefined;
             const context = new Context(
                 project.withSource(this.source, newSource),
@@ -1442,7 +1442,8 @@ export default class Caret {
             const placeholder = this.getPlaceholderAtPosition(
                 this.position + offset,
             );
-            if (placeholder) return this.deleteNode(placeholder, validOnly);
+            if (placeholder)
+                return this.deleteNode(placeholder, validOnly, project);
 
             if (before && after && DelimiterCloseByOpen[before] === after) {
                 // If there's an adjacent pair of delimiters, delete them both.
@@ -1591,7 +1592,7 @@ export default class Caret {
                     }
                     // Otherwise, delete the sequence of characters if allowed.
                     else if (last !== undefined) {
-                        return this.deleteNode(node, validOnly);
+                        return this.deleteNode(node, validOnly, project);
                     }
                 }
             }
@@ -1599,10 +1600,14 @@ export default class Caret {
         }
     }
 
-    deleteNode(node: Node, validOnly: boolean): Revision | undefined {
+    deleteNode(
+        node: Node,
+        validOnly: boolean,
+        project: Project,
+    ): Revision | undefined {
         // If valid only, check to see if the node is in a list or represents an optional field.
+        const parent = this.source.root.getParent(node);
         if (validOnly) {
-            const parent = this.source.root.getParent(node);
             if (parent) {
                 const field = parent.getFieldOfChild(node);
                 if (field !== undefined) {
@@ -1627,18 +1632,26 @@ export default class Caret {
             range[0],
             range[1],
         );
-        return newSource === undefined
-            ? undefined
-            : [
-                  newSource,
-                  new Caret(
-                      newSource,
-                      range[0],
-                      undefined,
-                      undefined,
-                      undefined,
-                  ),
-              ];
+        if (newSource === undefined) return undefined;
+
+        // If only valid, ensure the edit is valid.
+        if (
+            validOnly &&
+            this.editIsValid(
+                new Context(
+                    project.withSource(this.source, newSource),
+                    newSource,
+                ),
+            ) !== undefined
+        )
+            return parent
+                ? [this.source, this.withPosition(parent)]
+                : undefined;
+
+        return [
+            newSource,
+            new Caret(newSource, range[0], undefined, undefined, undefined),
+        ];
     }
 
     moveVertical(direction: 1 | -1): Edit | undefined {

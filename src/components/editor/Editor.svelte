@@ -1229,7 +1229,11 @@
 
         // First, delete any selected node.
         if (newCaret.position instanceof Node) {
-            const edit = newCaret.deleteNode(newCaret.position, $blocks);
+            const edit = newCaret.deleteNode(
+                newCaret.position,
+                $blocks,
+                project,
+            );
             if (edit) {
                 newSource = edit[0];
                 newCaret = edit[1];
