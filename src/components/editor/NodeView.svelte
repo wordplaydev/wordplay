@@ -193,10 +193,6 @@
         width: fit-content;
     }
 
-    .block:not(.Token) {
-        min-height: calc(var(--wordplay-min-line-height) - 1ex);
-    }
-
     .Block {
         min-height: var(--wordplay-min-line-height) !important;
     }
