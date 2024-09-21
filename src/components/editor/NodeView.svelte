@@ -197,6 +197,10 @@
         min-height: calc(var(--wordplay-min-line-height) - 1ex);
     }
 
+    .Block {
+        min-height: var(--wordplay-min-line-height) !important;
+    }
+
     .evaluate:not(.Program),
     .definition:not(.Program) {
         padding: calc(var(--wordplay-spacing) / 3);
