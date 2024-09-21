@@ -272,6 +272,9 @@ export default class UnionType extends Type {
     }
 
     getDefaultExpression(context: Context) {
-        return this.left.getDefaultExpression(context);
+        return (
+            this.left.getDefaultExpression(context) ??
+            this.right.getDefaultExpression(context)
+        );
     }
 }

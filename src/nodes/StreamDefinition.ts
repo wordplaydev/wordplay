@@ -142,12 +142,14 @@ export default class StreamDefinition extends DefinitionExpression {
         ) as this;
     }
 
-    getEvaluateTemplate(nameOrLocales: string | LocaleText | LocaleText[]) {
+    getEvaluateTemplate(nameOrLocales: string | Locales) {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
-                    : this.names.getPreferredNameString(nameOrLocales),
+                    : this.names.getPreferredNameString(
+                          nameOrLocales.getLocales(),
+                      ),
                 this,
             ),
             this.inputs

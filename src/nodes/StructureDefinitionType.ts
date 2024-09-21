@@ -5,6 +5,7 @@ import Glyphs from '../lore/Glyphs';
 import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
 import type StructureType from './StructureType';
+import type Context from './Context';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;
@@ -64,5 +65,9 @@ export default class StructureDefinitionType extends Type {
 
     getGlyphs() {
         return Glyphs.Type;
+    }
+
+    getDefaultExpression(context: Context) {
+        return this.type.getDefaultExpression(context);
     }
 }
