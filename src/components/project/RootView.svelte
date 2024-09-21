@@ -161,7 +161,7 @@
     $: lineDigits = spaces?.getLastLineNumber().toString().length ?? 3;
 </script>
 
-{#if inline}
+{#if inline || blocks}
     <span
         class="root"
         style="--line-count: {lineDigits}"
