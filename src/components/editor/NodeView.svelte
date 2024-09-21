@@ -194,7 +194,7 @@
     }
 
     .block:not(.Token) {
-        min-height: 1rlh;
+        min-height: 3ex;
     }
 
     .evaluate:not(.Program),
