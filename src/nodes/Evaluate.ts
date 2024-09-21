@@ -408,6 +408,12 @@ export default class Evaluate extends Expression {
         );
     }
 
+    getInputDefinition(input: Expression, context: Context): Bind | undefined {
+        return this.getInputMapping(context)?.inputs.find(
+            (map) => map.given === input,
+        )?.expected;
+    }
+
     getMappingFor(bind: Bind, context: Context) {
         // Figure out what the current mapping is.
         const mappings = this.getInputMapping(context);

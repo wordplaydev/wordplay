@@ -78,8 +78,8 @@
         <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
             node={node.open}
         />
-        {#each node.inputs as input}<NodeView
-                node={input}
+        {#each node.inputs as input}<NodeView node={input} /><PlaceholderView
+                position={input}
             />{/each}{#if nextBind}<div class="hint"
                 >&nbsp;<RootView
                     node={nextBind.withoutValue()}

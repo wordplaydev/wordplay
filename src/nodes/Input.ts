@@ -21,7 +21,7 @@ import SimpleExpression from './SimpleExpression';
 import Evaluate from './Evaluate';
 import Refer from '@edit/Refer';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Definition from './Definition';
+import type Bind from './Bind';
 
 export default class Input extends SimpleExpression {
     readonly name: Token;
@@ -128,7 +128,7 @@ export default class Input extends SimpleExpression {
     }
 
     /** Get the bind to which this input corresponds. */
-    getCorrespondingDefinition(context: Context): Definition | undefined {
+    getCorrespondingDefinition(context: Context): Bind | undefined {
         const parent = context.getRoot(this)?.getParent(this);
         if (parent instanceof Evaluate) {
             const fun = parent.getFunction(context);
