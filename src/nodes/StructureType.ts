@@ -170,8 +170,11 @@ export default class StructureType extends BasisType {
     getDefaultExpression(context: Context): Expression | undefined {
         const def = context
             .getBasis()
-            .shares.all.find((share) =>
-                this.accepts(share.getType(context), context),
+            .shares.all.find(
+                (share) =>
+                    share instanceof StructureDefinition &&
+                    !share.isInterface() &&
+                    this.accepts(share.getType(context), context),
             );
 
         if (def === undefined) return undefined;
