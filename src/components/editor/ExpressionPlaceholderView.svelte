@@ -11,7 +11,7 @@
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import UnknownType from '../../nodes/UnknownType';
-    import PlaceholderView from './PlaceholderView.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
     import { locales } from '../../db/Database';
     import AnyType from '@nodes/AnyType';
 
@@ -57,6 +57,7 @@
                 ><RootView
                     elide
                     inert
+                    inline
                     localized="symbolic"
                     node={inferredType}
                     blocks={$blocks}

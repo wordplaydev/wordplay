@@ -6,7 +6,7 @@
     import type Bind from '../../nodes/Bind';
     import { getCaret, getProject, isBlocks } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
-    import PlaceholderView from './PlaceholderView.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
     import Token from '../../nodes/Token';
 
     export let node: Evaluate;

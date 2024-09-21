@@ -64,7 +64,7 @@
     import Evaluate from '@nodes/Evaluate';
     import type Evaluator from '@runtime/Evaluator';
     import { TAB_WIDTH } from '../../parser/Spaces';
-    import PlaceholderView from './PlaceholderView.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import {
@@ -180,7 +180,10 @@
     setContext(InsertionPointsSymbol, insertion);
 
     function setMenuNode(position: CaretPosition | undefined) {
-        if (position && (menu === undefined || $caret.position !== position)) {
+        if (
+            position !== undefined &&
+            (menu === undefined || $caret.position !== position)
+        ) {
             caret.set($caret.withPosition(position));
             showMenu();
         } else hideMenu();

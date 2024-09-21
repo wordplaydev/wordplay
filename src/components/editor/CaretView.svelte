@@ -101,6 +101,7 @@
     import Token from '@nodes/Token';
     import UnicodeString from '@models/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import MenuTrigger from './MenuTrigger.svelte';
 
     export let caret: Caret;
     export let source: Source;
@@ -743,21 +744,22 @@
     style:display={location === undefined ? 'none' : null}
     style:left={location ? `${location.left}px` : null}
     style:top={location ? `${location.top}px` : null}
-    style:width={location
-        ? blocks
-            ? 'var(--wordplay-focus-width)'
-            : `2px`
-        : null}
-    style:height={location ? `${location.height}px` : null}
     bind:this={element}
-/>
+    ><span
+        class="bar"
+        style:width={location
+            ? blocks
+                ? 'var(--wordplay-focus-width)'
+                : `2px`
+            : null}
+        style:height={location ? `${location.height}px` : null}
+    ></span>{#if blocks}<MenuTrigger position={caret.position} />{/if}</span
+>
 
 <style>
     .caret {
         position: absolute;
-        background-color: var(--wordplay-foreground);
         opacity: 0.25;
-        min-height: var(--wordplay-min-line-height);
     }
 
     .focused {
@@ -768,8 +770,14 @@
         visibility: hidden;
     }
 
-    .caret.blink {
-        animation: blink-animation 0.5s steps(2, start) infinite;
+    .bar {
+        display: inline-block;
+        min-height: var(--wordplay-min-line-height);
+        background-color: var(--wordplay-foreground);
+    }
+
+    .caret.blink .bar {
+        animation: blink-animation 1s steps(2, start) infinite;
     }
 
     .caret.ignored {
@@ -777,7 +785,7 @@
         animation-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .blocks.focused {
+    .blocks.focused .bar {
         background-color: var(--wordplay-highlight-color);
     }
 
