@@ -3,12 +3,7 @@
 <script lang="ts">
     import Node from '@nodes/Node';
     import Caret, { type CaretPosition } from '../../edit/Caret';
-    import {
-        createEventDispatcher,
-        onDestroy,
-        onMount,
-        setContext,
-    } from 'svelte';
+    import { createEventDispatcher, onMount, setContext } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
     import {
         handleKeyCommand,
@@ -184,18 +179,17 @@
     const insertion = writable<InsertionPoint | undefined>(undefined);
     setContext(InsertionPointsSymbol, insertion);
 
-    // A store of the currently requested node for which to show a menu.
-    const menuNode = writable<CaretPosition | undefined>(undefined);
-    setContext(MenuNodeSymbol, menuNode);
-
-    // When the menu node changes, show the menu.
-    const unsubscribe = menuNode.subscribe((position) => {
-        if (position !== undefined) {
-            showMenu(position);
+    function setMenuNode(position: CaretPosition | undefined) {
+        if (position && (menu === undefined || $caret.position !== position)) {
             caret.set($caret.withPosition(position));
+            showMenu();
         } else hideMenu();
-    });
-    onDestroy(unsubscribe);
+    }
+
+    // A store of the currently requested node for which to show a menu.
+    const menuNode =
+        writable<(position: CaretPosition | undefined) => void>(setMenuNode);
+    setContext(MenuNodeSymbol, menuNode);
 
     // Focus the editor on mount, if autofocus is on.
     onMount(() =>

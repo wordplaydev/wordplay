@@ -13,6 +13,7 @@
     import UnknownType from '../../nodes/UnknownType';
     import PlaceholderView from './PlaceholderView.svelte';
     import { locales } from '../../db/Database';
+    import AnyType from '@nodes/AnyType';
 
     export let node: ExpressionPlaceholder;
 
@@ -49,9 +50,9 @@
             />{:else if placeholder}<span class="label">{placeholder}</span
             >{/if}<NodeView node={node.dot} /></span
     ><span class="type"
-        >{#if node.type}<NodeView
+        >{#if node.type}•<NodeView
                 node={node.type}
-            />{:else if inferredType && !(inferredType instanceof UnknownType)}•<div
+            />{:else if inferredType && !(inferredType instanceof UnknownType || inferredType instanceof AnyType)}•<div
                 class:inferred={node.type === undefined && inferredType}
                 ><RootView
                     elide
@@ -60,14 +61,11 @@
                     node={inferredType}
                     blocks={$blocks}
                 /></div
-            >{/if}{#if caret && !$blocks}<PlaceholderView
-                position={node}
-            />{/if}</span
+            >{/if}</span
     ></span
->
+>{#if caret}<PlaceholderView position={node} />{/if}
 
 <style>
-    .placeholder,
     .placeholder {
         color: var(--wordplay-inactive-color);
         font-style: italic;

@@ -211,9 +211,11 @@ export function getRoot() {
 }
 
 export const MenuNodeSymbol = Symbol('menu');
-export type MenuNodeContext = Writable<CaretPosition | undefined>;
-export function getMenuNode() {
-    return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
+export type MenuNodeContext = Writable<
+    (position: CaretPosition | undefined) => void
+>;
+export function getSetMenuNode() {
+    return getContext<MenuNodeContext>(MenuNodeSymbol);
 }
 
 export const ShowLinesSymbol = Symbol('lines');
