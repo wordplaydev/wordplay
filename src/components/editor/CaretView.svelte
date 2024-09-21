@@ -757,7 +757,7 @@
         position: absolute;
         background-color: var(--wordplay-foreground);
         opacity: 0.25;
-        min-height: 3ex;
+        min-height: var(--wordplay-min-line-height);
     }
 
     .focused {

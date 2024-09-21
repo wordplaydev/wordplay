@@ -194,7 +194,7 @@
     }
 
     .block:not(.Token) {
-        min-height: 3ex;
+        min-height: calc(var(--wordplay-min-line-height) - 1ex);
     }
 
     .evaluate:not(.Program),
@@ -234,7 +234,7 @@
     .break {
         display: block;
         width: 1em;
-        height: 3ex;
+        height: var(--wordplay-min-line-height);
     }
 
     .space {
