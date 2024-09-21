@@ -96,13 +96,65 @@
         // Wait for DOM updates so that everything is in position before we layout annotations.
         await tick();
 
-        annotations = [];
+        // Reset the annotation list to active annotations.
+        annotations = conflicts
+            .map((conflict: Conflict) => {
+                const nodes = conflict.getConflictingNodes(context, Templates);
+                const primary = nodes.primary;
+                const secondary = nodes.secondary;
+                // Based on the primary and secondary nodes given, decide what to show.
+                // We expect
+                // 1) a single primary node
+                // 2) zero or more secondary nodes
+                // From these, we generate one or two speech bubbles to illustrate the conflict.
+                return [
+                    {
+                        node: primary.node,
+                        element: getNodeView(primary.node),
+                        messages: [
+                            primary.explanation(
+                                $locales,
+                                project.getNodeContext(primary.node) ??
+                                    project.getContext(project.getMain()),
+                            ),
+                        ],
+                        kind: conflict.isMinor()
+                            ? ('minor' as const)
+                            : ('primary' as const),
+                        context,
+                        // Place the resolutions in the primary node.
+                        resolutions: nodes.resolutions,
+                    },
+                    ...(secondary !== undefined
+                        ? [
+                              {
+                                  node: secondary.node,
+                                  element: getNodeView(secondary.node),
+                                  messages: [
+                                      secondary.explanation(
+                                          $locales,
+                                          project.getNodeContext(
+                                              secondary.node,
+                                          ),
+                                      ),
+                                  ],
+                                  context,
+                                  kind: 'secondary' as const,
+                              },
+                          ]
+                        : []),
+                ];
+            })
+            .flat();
+
+        // If stepping, add the current evaluation.
         if (stepping) {
             const [node, view] = getStepView();
 
             // Return a single annotation for the step.
             if (node && source.contains(node))
                 annotations = [
+                    ...annotations,
                     {
                         node: node,
                         element: view,
@@ -125,60 +177,6 @@
                         context,
                     },
                 ];
-        } else {
-            // Conflict all of the active conflicts to a list of annotations.
-            annotations = conflicts
-                .map((conflict: Conflict) => {
-                    const nodes = conflict.getConflictingNodes(
-                        context,
-                        Templates,
-                    );
-                    const primary = nodes.primary;
-                    const secondary = nodes.secondary;
-                    // Based on the primary and secondary nodes given, decide what to show.
-                    // We expect
-                    // 1) a single primary node
-                    // 2) zero or more secondary nodes
-                    // From these, we generate one or two speech bubbles to illustrate the conflict.
-                    return [
-                        {
-                            node: primary.node,
-                            element: getNodeView(primary.node),
-                            messages: [
-                                primary.explanation(
-                                    $locales,
-                                    project.getNodeContext(primary.node) ??
-                                        project.getContext(project.getMain()),
-                                ),
-                            ],
-                            kind: conflict.isMinor()
-                                ? ('minor' as const)
-                                : ('primary' as const),
-                            context,
-                            // Place the resolutions in the primary node.
-                            resolutions: nodes.resolutions,
-                        },
-                        ...(secondary !== undefined
-                            ? [
-                                  {
-                                      node: secondary.node,
-                                      element: getNodeView(secondary.node),
-                                      messages: [
-                                          secondary.explanation(
-                                              $locales,
-                                              project.getNodeContext(
-                                                  secondary.node,
-                                              ),
-                                          ),
-                                      ],
-                                      context,
-                                      kind: 'secondary' as const,
-                                  },
-                              ]
-                            : []),
-                    ];
-                })
-                .flat();
         }
 
         // Now organize by node.

@@ -612,8 +612,8 @@
                     "secondary": "oh, am I not supposed to be here?"
                 },
                 "MissingInput": {
-                    "primary": "I can't evaluate $1 without the input named $2 :(",
-                    "secondary": "Can you help us out and add it the list of inputs?"
+                    "primary": "I can't evaluate without the input named $2 :(",
+                    "secondary": "I need a value, can you give me one?"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
