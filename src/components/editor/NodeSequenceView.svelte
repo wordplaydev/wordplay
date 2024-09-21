@@ -109,12 +109,12 @@
 
     .row {
         flex-direction: row;
-        gap: var(--wordplay-border-width);
+        gap: var(--wordplay-focus-width);
         align-items: baseline;
     }
 
     .node-list.column {
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: var(--wordplay-focus-width);
     }
 </style>
