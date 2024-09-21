@@ -250,6 +250,8 @@
             ? currentTokenRect.height
             : currentTokenRect.width;
 
+        // If the caret height is invisible, try to find a token before and get its height.
+        // And if that's not visible, then set a minimum.
         if (caretHeight === 0) {
             const before = source.getTokenBefore(currentToken);
             const beforeView = before ? getNodeView(before) : undefined;
@@ -739,6 +741,7 @@
         position: absolute;
         background-color: var(--wordplay-foreground);
         opacity: 0.25;
+        min-height: 1lh;
     }
 
     .focused {

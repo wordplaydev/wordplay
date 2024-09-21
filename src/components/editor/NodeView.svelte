@@ -182,6 +182,10 @@
         width: fit-content;
     }
 
+    .block:not(.Token) {
+        min-height: 1lh;
+    }
+
     .evaluate:not(.Program),
     .definition:not(.Program) {
         padding: calc(var(--wordplay-spacing) / 3);
@@ -201,7 +205,7 @@
         border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
     }
 
-    .block.evaluate {
+    .block.evaluate:not(.Program) {
         border-bottom: calc(2 * var(--wordplay-border-width)) solid
             var(--wordplay-inactive-color);
     }
