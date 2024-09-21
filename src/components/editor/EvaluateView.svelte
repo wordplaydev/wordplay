@@ -8,7 +8,6 @@
     import RootView from '../project/RootView.svelte';
     import PlaceholderView from './PlaceholderView.svelte';
     import Token from '../../nodes/Token';
-    import NodeSequenceView from './NodeSequenceView.svelte';
 
     export let node: Evaluate;
 
@@ -22,15 +21,21 @@
     $: {
         nextBind = undefined;
         menuPosition = undefined;
-        // We only show if the caret is in this evaluate, but not in one of it's child evaluates.
+        // We only show when
+        // 1) the caret is in this evaluate but not in one of it's child evaluates
+        // 2) in blocks mode.
         if (
             $caret &&
             $project &&
-            $caret.isIn(node, node.close === undefined) &&
-            !node
-                .nodes()
-                .filter((child) => child instanceof Evaluate && child !== node)
-                .some((evaluate) => $caret?.isIn(evaluate, false))
+            ($blocks ||
+                ($caret.isIn(node, node.close === undefined) &&
+                    !node
+                        .nodes()
+                        .filter(
+                            (child) =>
+                                child instanceof Evaluate && child !== node,
+                        )
+                        .some((evaluate) => $caret?.isIn(evaluate, false))))
         ) {
             const mapping = node.getInputMapping($project.getNodeContext(node));
             if (mapping) {
@@ -41,13 +46,25 @@
                     // If it's required but not given, conflict
                     if (given === undefined) {
                         nextBind = expected;
-                        const lastLeaf = (
-                            node.getLastInput() ?? node.open
-                        ).getLastLeaf();
-                        menuPosition =
-                            lastLeaf instanceof Token
-                                ? $caret.source.getTokenLastPosition(lastLeaf)
-                                : undefined;
+                        if ($blocks) {
+                            const lastLeaf = node.getLastLeaf() ?? node.close;
+                            menuPosition =
+                                lastLeaf instanceof Token
+                                    ? $caret.source.getTokenTextPosition(
+                                          lastLeaf,
+                                      )
+                                    : undefined;
+                        } else {
+                            const lastLeaf = (
+                                node.getLastInput() ?? node.open
+                            ).getLastLeaf();
+                            menuPosition =
+                                lastLeaf instanceof Token
+                                    ? $caret.source.getTokenLastPosition(
+                                          lastLeaf,
+                                      )
+                                    : undefined;
+                        }
                         break;
                     }
                 }
@@ -60,7 +77,20 @@
     <div class="evaluate">
         <NodeView node={node.fun} /><NodeView node={node.types} /><NodeView
             node={node.open}
-        /><NodeSequenceView nodes={node.inputs} />
+        />
+        {#each node.inputs as input}<NodeView
+                node={input}
+            />{/each}{#if nextBind}<div class="hint"
+                >&nbsp;<RootView
+                    node={nextBind.withoutValue()}
+                    inline
+                    elide
+                    localized="symbolic"
+                    inert
+                    blocks={false}
+                />{#if menuPosition}
+                    &nbsp;<PlaceholderView position={menuPosition} />{/if}</div
+            >{/if}
         <NodeView node={node.close} />
     </div>
 {:else}
@@ -76,9 +106,8 @@
                 localized="symbolic"
                 inert
                 blocks={$blocks}
-            />{#if menuPosition}<PlaceholderView
-                    position={menuPosition}
-                />{/if}</div
+            />{#if menuPosition}
+                &nbsp;<PlaceholderView position={menuPosition} />{/if}</div
         >{/if}<NodeView node={node.close} />
 {/if}
 

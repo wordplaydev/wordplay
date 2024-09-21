@@ -68,7 +68,12 @@ export default class Input extends SimpleExpression {
                     (input) =>
                         new Refer(
                             (name) =>
-                                Input.make(name, ExpressionPlaceholder.make()),
+                                Input.make(
+                                    name,
+                                    input.expected.type?.getDefaultExpression(
+                                        context,
+                                    ) ?? ExpressionPlaceholder.make(),
+                                ),
                             input.expected,
                         ),
                 );

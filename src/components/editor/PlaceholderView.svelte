@@ -7,7 +7,6 @@
     const menuNode = getSetMenuNode();
 
     function show() {
-        console.log('show)');
         if (menuNode) {
             $menuNode(position);
         }
