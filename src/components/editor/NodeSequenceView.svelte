@@ -109,7 +109,7 @@
 
     .row {
         flex-direction: row;
-        gap: var(--wordplay-focus-width);
+        gap: var(--wordplay-border-width);
         align-items: baseline;
     }
 

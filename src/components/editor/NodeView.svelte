@@ -76,6 +76,7 @@
     function symbolOccurs(text: string, symbol: string) {
         for (let i = 0; i < text.length; i++)
             if (text.charAt(i) === symbol) return true;
+        return false;
     }
 
     function countSymbolOccurences(text: string, symbol: string) {
@@ -89,21 +90,25 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->{#if $blocks}{#key $insertion}<span
-                    class="space"
-                    role="none"
-                    data-id={firstToken.id}
-                    data-uiid="space"
-                >
-                    {#if symbolOccurs(space, ' ')}<div data-id={firstToken.id}
-                            >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
-                                ></InsertionPointView>{/if}&nbsp;</div
-                        >{:else}{#each Array.from(Array(Math.max(0, countSymbolOccurences(space, '\n') - 1)).keys()) as line}<div
-                                class="break"
-                                >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
-                                    />{/if}</div
-                            >{/each}{/if}</span
-                >{/key}{:else}
+    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->{#if $blocks}{@const hasSpace =
+                symbolOccurs(space, ' ')}{@const lines = Array.from(
+                Array(
+                    Math.max(0, countSymbolOccurences(space, '\n') - 1),
+                ).keys(),
+            )}{#if hasSpace || lines.length > 0}{#key $insertion}<span
+                        class="space"
+                        role="none"
+                        data-id={firstToken.id}
+                        data-uiid="space"
+                    >
+                        {#if hasSpace}<div data-id={firstToken.id}
+                                >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
+                                    ></InsertionPointView>{/if}&nbsp;</div
+                            >{:else}{#each lines as line}<div class="break"
+                                    >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
+                                        />{/if}</div
+                                >{/each}{/if}</span
+                    >{/key}{/if}{:else}
             <Space
                 token={firstToken}
                 first={$spaces.isFirst(firstToken)}

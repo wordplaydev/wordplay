@@ -16,6 +16,6 @@
     {project}
     {text}
     {placeholder}
-    validator={(newWords) => WordsRegEx.test(newWords)}
+    validator={(newWords) => newWords === '' || WordsRegEx.test(newWords)}
     creator={(text) => new Token(text, Sym.Words)}
 />

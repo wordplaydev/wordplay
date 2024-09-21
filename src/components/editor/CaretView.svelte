@@ -753,7 +753,9 @@
                 : `2px`
             : null}
         style:height={location ? `${location.height}px` : null}
-    ></span>{#if blocks}<MenuTrigger position={caret.position} />{/if}</span
+    ></span>{#if blocks}<div class="trigger"
+            ><MenuTrigger position={caret.position} /></div
+        >{/if}</span
 >
 
 <style>
@@ -787,6 +789,12 @@
 
     .blocks.focused .bar {
         background-color: var(--wordplay-highlight-color);
+    }
+
+    .trigger {
+        position: absolute;
+        top: 50%;
+        margin-left: -0.25em;
     }
 
     @keyframes blink-animation {
