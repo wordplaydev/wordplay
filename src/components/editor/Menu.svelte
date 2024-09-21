@@ -184,6 +184,7 @@
                                     node={newNode}
                                     localized="symbolic"
                                     blocks={$blocks}
+                                    inline={true}
                                 /></strike
                             >
                         {:else}
@@ -191,6 +192,7 @@
                                 node={newNode}
                                 localized="symbolic"
                                 blocks={$blocks}
+                                inline={true}
                             />
                         {/if}
                     {:else}
@@ -243,6 +245,7 @@
                                 : newNode}
                             localized="symbolic"
                             blocks={$blocks}
+                            inline={true}
                         />
                     </div>
                 {/if}
