@@ -37,21 +37,6 @@ export default class UnionType extends Type {
         return new UnionType(left, new Token(OR_SYMBOL, Sym.Union), right);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
-        return [
-            node instanceof Type && selected
-                ? UnionType.make(node, TypePlaceholder.make())
-                : UnionType.make(
-                      TypePlaceholder.make(),
-                      TypePlaceholder.make(),
-                  ),
-        ];
-    }
-
     static getPossibleReplacements({ node }: EditContext) {
         return node instanceof Type
             ? [UnionType.make(node, TypePlaceholder.make())]

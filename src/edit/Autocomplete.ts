@@ -552,6 +552,8 @@ function completes(original: Node, replacement: Node): boolean {
 
 /** A list of node types from which we can generate replacements. Order affects where they appear in autocomplete menus. */
 const PossibleNodes = [
+    // Put references first.
+    Reference,
     // Literals
     NumberLiteral,
     BooleanLiteral,
@@ -573,7 +575,6 @@ const PossibleNodes = [
     // Binds and blocks
     Bind,
     Block,
-    Reference,
     PropertyReference,
     PropertyBind,
     Language,

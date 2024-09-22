@@ -8,6 +8,6 @@
     export let node: Match;
 </script>
 
-<span class="condition"
-    ><NodeView node={node.value} /><NodeView node={node.question} /></span
-><NodeSequenceView nodes={node.cases} /><NodeView node={node.other} />
+<NodeView node={node.value} /><NodeView node={node.question} /><NodeSequenceView
+    nodes={node.cases}
+/><NodeView node={node.other} />

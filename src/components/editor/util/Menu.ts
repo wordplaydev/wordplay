@@ -3,7 +3,6 @@ import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
 import type Purpose from '@concepts/Purpose';
 import type ConceptIndex from '@concepts/ConceptIndex';
-import Literal from '@nodes/Literal';
 import type Locales from '@locale/Locales';
 
 export type MenuSelection = [number, number | undefined];
@@ -75,11 +74,8 @@ export default class Menu {
             // 2. RevisionSets organized by node kind, or the single Revision if there's only one, sorted by Purpose.
             // 3. Any removals, which are likely the least relevant.
             // RevisionSets are organized alphabetically by locale.
-            const priority = this.revisions.filter(
-                (revision) =>
-                    revision.isCompletion(this.concepts.locales) ||
-                    revision.getNewNode(this.concepts.locales) instanceof
-                        Literal,
+            const priority = this.revisions.filter((revision) =>
+                revision.isCompletion(this.concepts.locales),
             );
             const removals = this.revisions.filter((revision) =>
                 revision.isRemoval(),
