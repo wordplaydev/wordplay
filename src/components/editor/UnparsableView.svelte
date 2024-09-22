@@ -15,9 +15,9 @@
 <style>
     .empty {
         display: inline-block;
-        position: relative;
-        width: 1em;
+        width: 1px;
         height: 1lh;
-        border-bottom: var(--wordplay-focus-width) solid var(--wordplay-error);
+        outline: var(--wordplay-focus-width) solid var(--wordplay-error);
+        border-radius: var(--wordplay-border-radius);
     }
 </style>
