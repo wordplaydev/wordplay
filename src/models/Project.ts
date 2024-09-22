@@ -414,6 +414,32 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
+    getMajorConflictsNow() {
+        let conflicts: Conflict[] = [];
+        for (const source of this.getSources()) {
+            const context = new Context(this, source);
+            for (const node of source.nodes()) {
+                conflicts = [...conflicts, ...node.computeConflicts(context)];
+            }
+        }
+        return conflicts.filter((conflict) => !conflict.isMinor());
+    }
+
+    hasMajorConflictsNow() {
+        for (const source of this.getSources()) {
+            const context = new Context(this, source);
+            for (const node of source.nodes()) {
+                if (
+                    node
+                        .computeConflicts(context)
+                        .filter((conflict) => !conflict.isMinor()).length > 0
+                )
+                    return true;
+            }
+        }
+        return false;
+    }
+
     getPrimaryConflicts() {
         return this.getAnalysis().primary;
     }

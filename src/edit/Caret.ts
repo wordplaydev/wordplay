@@ -994,54 +994,17 @@ export default class Caret {
 
         // Finally, if we're in blocks mode, verify that the insertion was valid.
         if (validOnly) {
-            if (project === undefined) return undefined;
-            const context = new Context(
-                project.withSource(this.source, newSource),
-                newSource,
-            );
-            const sourceIndex = project.getIndexOfSource(this.source);
-            const conflict = this.editIsValid(context);
-            if (conflict) {
-                // Is the conflict an unknown name? Try to replace it with a reference to a known name in scope.
-                if (conflict instanceof UnknownName) {
-                    const resolution =
-                        conflict.getConflictingNodes(context).resolutions[0];
-                    if (resolution) {
-                        const { newProject, newNode } = resolution.mediator(
-                            context,
-                            project.getLocales(),
-                        );
-                        const newSource =
-                            newProject.getSourceWithIndex(sourceIndex);
-                        if (newSource !== undefined && newNode !== undefined)
-                            return [
-                                newProject,
-                                this.withSource(newSource).withPosition(
-                                    newNode,
-                                ),
-                            ];
-                    }
-                }
-
-                // If there's not one, declare a bind.
-                return undefined;
-            }
+            const conflicts = project
+                .withSource(this.source, newSource)
+                .getMajorConflictsNow()
+                .filter((conflict) => !(conflict instanceof UnknownName));
+            if (conflicts.length > 0) return undefined;
         }
 
         return [
             newSource,
             new Caret(newSource, newPosition, undefined, undefined, newToken),
         ];
-    }
-
-    editIsValid(context: Context): Conflict | undefined {
-        for (const node of context.source.nodes()) {
-            const conflict = node
-                .computeConflicts(context)
-                .find((conflict) => !conflict.isMinor());
-            if (conflict) return conflict;
-        }
-        return undefined;
     }
 
     insertRename(text: string, project: Project) {
@@ -1474,12 +1437,9 @@ export default class Caret {
                 if (
                     validOnly &&
                     newSource !== undefined &&
-                    this.editIsValid(
-                        new Context(
-                            project.withSource(this.source, newSource),
-                            newSource,
-                        ),
-                    ) !== undefined
+                    project
+                        .withSource(this.source, newSource)
+                        .hasMajorConflictsNow()
                 ) {
                     // Find the first non-token in the before/after.
                     const { before, after } = this.getNodesBetween();
@@ -1637,12 +1597,7 @@ export default class Caret {
         // If only valid, ensure the edit is valid.
         if (
             validOnly &&
-            this.editIsValid(
-                new Context(
-                    project.withSource(this.source, newSource),
-                    newSource,
-                ),
-            ) !== undefined
+            project.withSource(this.source, newSource).hasMajorConflictsNow()
         )
             return parent
                 ? [this.source, this.withPosition(parent)]

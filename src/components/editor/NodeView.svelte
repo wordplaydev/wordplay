@@ -103,7 +103,7 @@
                     >
                         {#if hasSpace}<div data-id={firstToken.id}
                                 >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
-                                    ></InsertionPointView>{/if}&nbsp;</div
+                                    ></InsertionPointView>{/if}</div
                             >{:else}{#each lines as line}<div class="break"
                                     >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
                                         />{/if}</div
@@ -245,6 +245,6 @@
     .space {
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-padding);
+        gap: var(--wordplay-border-width);
     }
 </style>
