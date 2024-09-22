@@ -1021,11 +1021,12 @@ export default class Caret {
 
         // Finally, if we're in blocks mode, verify that the insertion was valid.
         if (validOnly) {
+            const currentConflicts = project.getMajorConflictsNow().length;
             const conflicts = project
                 .withSource(this.source, newSource)
                 .getMajorConflictsNow()
                 .filter((conflict) => !(conflict instanceof UnknownName));
-            if (conflicts.length > 0) return undefined;
+            if (conflicts.length > currentConflicts) return undefined;
         }
 
         return [
@@ -1537,7 +1538,8 @@ export default class Caret {
                     newSource !== undefined &&
                     project
                         .withSource(this.source, newSource)
-                        .hasMajorConflictsNow()
+                        .getMajorConflictsNow().length >
+                        project.getMajorConflictsNow().length
                 ) {
                     // Find the first non-token in the before/after.
                     const { before, after } = this.getNodesBetween();
@@ -1695,7 +1697,8 @@ export default class Caret {
         // If only valid, ensure the edit is valid.
         if (
             validOnly &&
-            project.withSource(this.source, newSource).hasMajorConflictsNow()
+            project.withSource(this.source, newSource).getMajorConflictsNow()
+                .length > project.getMajorConflictsNow().length
         )
             return parent
                 ? [this.source, this.withPosition(parent)]
