@@ -79,7 +79,7 @@
 
 {#if $blocks}
     <div class="node-list {direction}">
-        {#each visible as node}
+        {#each nodes as node}
             <NodeView {node} />{/each}
     </div>
 {:else}
@@ -105,6 +105,8 @@
 
     .node-list {
         display: flex;
+        max-width: 40em;
+        flex-wrap: wrap;
     }
 
     .row {
