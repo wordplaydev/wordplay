@@ -1698,6 +1698,7 @@
             >
                 <RootView
                     node={$dragged}
+                    inline
                     spaces={project.getSourceOf($dragged)?.spaces}
                     localized={$localized}
                     blocks={$blocks}
