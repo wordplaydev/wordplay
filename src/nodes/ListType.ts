@@ -9,9 +9,9 @@ import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
 import ListLiteral from './ListLiteral';
+import type EditContext from '@edit/EditContext';
 
 export default class ListType extends BasisType {
     readonly open: Token;
@@ -45,15 +45,15 @@ export default class ListType extends BasisType {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
         return [
             ListType.make(),
-            ...(node instanceof Type && selected ? [ListType.make(node)] : []),
+            ...(node instanceof Type ? [ListType.make(node)] : []),
         ];
+    }
+
+    static getPossibleAppends() {
+        return [ListType.make()];
     }
 
     getDescriptor() {

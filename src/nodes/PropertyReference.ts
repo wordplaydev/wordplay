@@ -131,6 +131,14 @@ export default class PropertyReference extends Expression {
         return [];
     }
 
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
+        return [];
+    }
+
     getDescriptor() {
         return 'PropertyReference';
     }

@@ -26,7 +26,11 @@ export default class NoneType extends BasisType {
         return new NoneType(new Token(NONE_SYMBOL, Sym.None));
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [NoneType.make()];
+    }
+
+    static getPossibleAppends() {
         return [NoneType.make()];
     }
 

@@ -30,11 +30,15 @@ export default class TypeVariables extends Node {
         return new TypeVariables(
             new Token(TYPE_OPEN_SYMBOL, Sym.TypeOpen),
             variables ?? [],
-            new Token(TYPE_CLOSE_SYMBOL, Sym.TypeClose)
+            new Token(TYPE_CLOSE_SYMBOL, Sym.TypeClose),
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [TypeVariables.make()];
+    }
+
+    static getPossibleAppends() {
         return [TypeVariables.make()];
     }
 
@@ -54,7 +58,7 @@ export default class TypeVariables extends Node {
         return new TypeVariables(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('variables', this.variables, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 
@@ -62,7 +66,7 @@ export default class TypeVariables extends Node {
         return new TypeVariables(
             this.open,
             this.variables.map((v) => v.simplify()),
-            this.close
+            this.close,
         );
     }
 
@@ -76,7 +80,7 @@ export default class TypeVariables extends Node {
         // Type variables must have unique names.
         for (const typeVar of this.variables) {
             const dupe = this.variables.find(
-                (v) => v !== typeVar && v.names.sharesName(typeVar.names)
+                (v) => v !== typeVar && v.names.sharesName(typeVar.names),
             );
             if (dupe) conflicts.push(new DuplicateTypeVariable(typeVar, dupe));
         }

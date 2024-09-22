@@ -418,7 +418,7 @@
                 },
                 "IncompatibleType": {
                     "primary": "I'm supposed to be a $2, but I'm a $1",
-                    "secondary": "Oh… sorry, a $1, really?"
+                    "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be a $1 ?"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",

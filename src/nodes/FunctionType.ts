@@ -77,8 +77,12 @@ export default class FunctionType extends Type {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [FunctionType.make(undefined, [], TypePlaceholder.make())];
+    }
+
+    static getPossibleAppends() {
+        return this.getPossibleReplacements();
     }
 
     getDescriptor() {

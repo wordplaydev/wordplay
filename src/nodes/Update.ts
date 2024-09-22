@@ -39,6 +39,7 @@ import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import Input from './Input';
+import type EditContext from '@edit/EditContext';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
 
@@ -95,24 +96,28 @@ export default class Update extends Expression {
         ];
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ node, context }: EditContext) {
         const anchorType =
-            anchor instanceof Expression ? anchor.getType(context) : undefined;
+            node instanceof Expression ? node.getType(context) : undefined;
         const tableType =
             anchorType instanceof TableType ? anchorType : undefined;
-        return anchor instanceof Expression && tableType && selected
+        return node instanceof Expression && tableType
             ? [
                   Update.make(
-                      anchor,
+                      node,
                       ExpressionPlaceholder.make(BooleanType.make()),
                   ),
               ]
             : [];
+    }
+
+    static getPossibleAppends() {
+        return [
+            Update.make(
+                ExpressionPlaceholder.make(TableType.make()),
+                ExpressionPlaceholder.make(BooleanType.make()),
+            ),
+        ];
     }
 
     clone(replace?: Replacement) {
@@ -124,7 +129,7 @@ export default class Update extends Expression {
     }
 
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     getScopeOfChild(child: Node, context: Context): Node | undefined {
@@ -205,7 +210,13 @@ export default class Update extends Expression {
     }
 
     getDependencies(): Expression[] {
-        return [this.table, ...this.row.cells.map((cell) => cell), this.query];
+        return [
+            this.table,
+            ...this.row.cells.map((cell) =>
+                cell instanceof Input ? cell.value : cell,
+            ),
+            this.query,
+        ];
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {

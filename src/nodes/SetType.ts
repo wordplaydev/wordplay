@@ -12,9 +12,9 @@ import { node, type Grammar, type Replacement, optional } from './Node';
 import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
 import SetLiteral from './SetLiteral';
+import type EditContext from '@edit/EditContext';
 
 export default class SetType extends BasisType {
     readonly open: Token;
@@ -35,15 +35,15 @@ export default class SetType extends BasisType {
         return new SetType(new SetOpenToken(), key, new SetCloseToken());
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
         return [
             SetType.make(),
-            ...(node instanceof Type && selected ? [SetType.make(node)] : []),
+            ...(node instanceof Type ? [SetType.make(node)] : []),
         ];
+    }
+
+    static getPossibleAppends() {
+        return SetType.make();
     }
 
     getDescriptor() {

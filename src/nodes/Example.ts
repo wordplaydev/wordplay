@@ -8,6 +8,7 @@ import Sym from './Sym';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class Example extends Content {
     readonly open: Token;
@@ -30,7 +31,11 @@ export default class Example extends Content {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Content ? [Example.make(Program.make())] : [];
+    }
+
+    static getPossibleAppends() {
         return [Example.make(Program.make())];
     }
 

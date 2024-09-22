@@ -76,6 +76,10 @@ import type Locales from '../locale/Locales';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
 import Input from '@nodes/Input';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import TableType from '@nodes/TableType';
+import Spread from '@nodes/Spread';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -546,20 +550,26 @@ function completes(original: Node, replacement: Node): boolean {
     );
 }
 
-/** A list of node types from which we can generate replacements. */
+/** A list of node types from which we can generate replacements. Order affects where they appear in autocomplete menus. */
 const PossibleNodes = [
     // Literals
     NumberLiteral,
     BooleanLiteral,
     TextLiteral,
+    FormattedLiteral,
     NoneLiteral,
     ListLiteral,
     ListAccess,
+    Spread,
     KeyValue,
     SetLiteral,
     MapLiteral,
-    TableLiteral,
+    SetOrMapAccess,
     ExpressionPlaceholder,
+    // Define
+    FunctionDefinition,
+    StructureDefinition,
+    ConversionDefinition,
     // Binds and blocks
     Bind,
     Block,
@@ -573,26 +583,18 @@ const PossibleNodes = [
     Evaluate,
     Input,
     Convert,
-    Insert,
-    Select,
-    Delete,
-    Update,
     // Conditions
     Conditional,
     Is,
     IsLocale,
     Otherwise,
     Match,
-    // Define
-    FunctionDefinition,
-    StructureDefinition,
-    ConversionDefinition,
     This,
     // Streams
+    Reaction,
     Initial,
     Previous,
     Changed,
-    Reaction,
     // Docs,
     Doc,
     Docs,
@@ -601,6 +603,12 @@ const PossibleNodes = [
     Mention,
     Paragraph,
     WebLink,
+    // Tables
+    TableLiteral,
+    Insert,
+    Select,
+    Delete,
+    Update,
     // Types
     TypeInputs,
     TypeVariables,
@@ -616,12 +624,13 @@ const PossibleNodes = [
     NumberType,
     SetType,
     TextType,
+    TableType,
 ];
 
 function getPossibleNodes(
     field: Field,
     kind: NodeKind,
-    type: Type | undefined,
+    expectedType: Type | undefined,
     anchor: Node,
     selected: boolean,
     context: Context,
@@ -638,6 +647,13 @@ function getPossibleNodes(
             ? []
             : [newToken];
     }
+
+    const menuContext = {
+        node: anchor,
+        context,
+        type: expectedType,
+    };
+
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
     return (
@@ -649,16 +665,18 @@ function getPossibleNodes(
             // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
             // from the context given.
             .map((possibleKind) =>
-                possibleKind.getPossibleNodes(type, anchor, selected, context),
+                selected
+                    ? possibleKind.getPossibleReplacements(menuContext)
+                    : possibleKind.getPossibleAppends(menuContext),
             )
             // Flatten the list of possible nodes.
             .flat()
             .filter(
                 (node) =>
                     // Filter out nodes that don't match the given type, if provided.
-                    (type === undefined ||
+                    (expectedType === undefined ||
                         !(node instanceof Expression) ||
-                        type.accepts(node.getType(context), context)) &&
+                        expectedType.accepts(node.getType(context), context)) &&
                     // Filter out nodes that are equivalent to the selection node
                     (anchor === undefined ||
                         (node instanceof Refer &&

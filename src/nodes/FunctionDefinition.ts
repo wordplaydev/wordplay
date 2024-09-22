@@ -41,6 +41,7 @@ import Reference from './Reference';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -109,7 +110,13 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ type, context }: EditContext) {
+        return type instanceof FunctionType
+            ? [type.getDefaultExpression(context)]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [
             FunctionDefinition.make(
                 undefined,

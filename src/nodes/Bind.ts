@@ -47,6 +47,7 @@ import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
 import DocumentedExpression from './DocumentedExpression';
 import NameType from './NameType';
+import type EditContext from '@edit/EditContext';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -109,36 +110,24 @@ export default class Bind extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        expectedType: Type | undefined,
-        anchor: Node,
-        isBeingReplaced: boolean,
-        context: Context,
-    ) {
-        if (anchor instanceof Expression && isBeingReplaced) {
-            if (
-                expectedType === undefined ||
-                anchor.getParent(context) instanceof Block
-            )
+    static getPossibleReplacements({ node, context, type }: EditContext) {
+        if (node instanceof Expression) {
+            if (type === undefined || node.getParent(context) instanceof Block)
                 return [
-                    Bind.make(undefined, Names.make(['_']), undefined, anchor),
+                    Bind.make(undefined, Names.make(['_']), undefined, node),
                 ];
         }
-        // If offer insertions under various conditions
-        else {
-            const parent = anchor.getParent(context);
-            // Block? Offer to insert a blank one.
-            if (parent instanceof Block) {
-                return [
-                    Bind.make(
-                        undefined,
-                        Names.make(['_']),
-                        undefined,
-                        ExpressionPlaceholder.make(),
-                    ),
-                ];
-            } else return [];
-        }
+    }
+
+    static getPossibleAppends() {
+        return [
+            Bind.make(
+                undefined,
+                Names.make(['_']),
+                undefined,
+                ExpressionPlaceholder.make(),
+            ),
+        ];
     }
 
     getGrammar(): Grammar {

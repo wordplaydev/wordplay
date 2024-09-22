@@ -38,7 +38,11 @@ export default class Markup extends Content {
         return markup;
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [new Markup([new Paragraph([])])];
+    }
+
+    static getPossibleAppends() {
         return [new Markup([new Paragraph([])])];
     }
 

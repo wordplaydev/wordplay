@@ -16,6 +16,7 @@ import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import type Definition from './Definition';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -49,6 +50,16 @@ export default class UnionType extends Type {
                       TypePlaceholder.make(),
                   ),
         ];
+    }
+
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Type
+            ? [UnionType.make(node, TypePlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends() {
+        return [UnionType.make(TypePlaceholder.make(), TypePlaceholder.make())];
     }
 
     static orNone(left: Type) {

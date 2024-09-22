@@ -45,7 +45,11 @@ export default class WebLink extends Content {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [WebLink.make('...', 'https://')];
+    }
+
+    static getPossibleAppends() {
         return [WebLink.make('...', 'https://')];
     }
 

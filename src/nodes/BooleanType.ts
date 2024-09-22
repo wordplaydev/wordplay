@@ -24,7 +24,11 @@ export default class BooleanType extends BasisType {
         return new BooleanType(new Token(QUESTION_SYMBOL, Sym.BooleanType));
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [BooleanType.make()];
+    }
+
+    static getPossibleAppends() {
         return [BooleanType.make()];
     }
 

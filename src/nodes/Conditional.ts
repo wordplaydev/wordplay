@@ -21,8 +21,9 @@ import NodeRef from '@locale/NodeRef';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
+import BooleanLiteral from './BooleanLiteral';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -55,27 +56,25 @@ export default class Conditional extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-        context: Context,
-    ) {
-        return [
-            node instanceof Expression &&
-            selected &&
-            BooleanType.make().accepts(node.getType(context), context)
-                ? Conditional.make(
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Expression &&
+            (type === undefined || type instanceof BooleanType)
+            ? [
+                  Conditional.make(
                       node,
                       ExpressionPlaceholder.make(),
                       ExpressionPlaceholder.make(),
-                  )
-                : Conditional.make(
-                      ExpressionPlaceholder.make(BooleanType.make()),
-                      ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make(),
                   ),
-        ];
+              ]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
+        return Conditional.make(
+            BooleanLiteral.make(true),
+            ExpressionPlaceholder.make(type),
+            ExpressionPlaceholder.make(type),
+        );
     }
 
     getDescriptor() {

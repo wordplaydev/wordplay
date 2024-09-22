@@ -30,6 +30,7 @@ import { getIteration, getIterationResult } from '../basis/Iteration';
 import { DELETE_SYMBOL } from '../parser/Symbols';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 type DeleteState = { index: number; list: StructureValue[]; table: TableValue };
 
@@ -75,28 +76,28 @@ export default class Delete extends Expression {
         ];
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
-        const anchorType =
-            anchor instanceof Expression ? anchor.getType(context) : undefined;
-        const tableType =
-            anchorType instanceof TableType ? anchorType : undefined;
-        return anchor instanceof Expression && tableType && selected
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Expression && type instanceof TableType
             ? [
                   Delete.make(
-                      anchor,
+                      node,
                       ExpressionPlaceholder.make(BooleanType.make()),
                   ),
               ]
             : [];
     }
 
+    static getPossibleAppends() {
+        return [
+            Delete.make(
+                ExpressionPlaceholder.make(TableType.make()),
+                ExpressionPlaceholder.make(BooleanType.make()),
+            ),
+        ];
+    }
+
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {

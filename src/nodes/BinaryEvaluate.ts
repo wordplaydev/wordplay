@@ -66,7 +66,11 @@ export default class BinaryEvaluate extends Expression {
     }
 
     /** Note: we don't generate any possibilities here because Evaluate generates them. */
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [];
     }
 

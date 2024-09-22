@@ -7,16 +7,6 @@
     export let node: FormattedTranslation;
 </script>
 
-<span class="doc"
-    ><NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
-        node={node.close}
-    /><NodeView node={node.language} /><NodeView node={node.separator} /></span
->
-
-<style>
-    .doc {
-        display: flex;
-        flex-direction: row;
-        color: var(--wordplay-doc-color);
-    }
-</style>
+<NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
+    node={node.close}
+/><NodeView node={node.language} /><NodeView node={node.separator} />

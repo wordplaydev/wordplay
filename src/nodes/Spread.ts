@@ -13,6 +13,8 @@ import type Locales from '../locale/Locales';
 import type Context from './Context';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import type Conflict from '../conflicts/Conflict';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type EditContext from '@edit/EditContext';
 
 /** Inside a list literal, flattens values of a list value into a new list */
 export default class Spread extends Node {
@@ -32,8 +34,15 @@ export default class Spread extends Node {
         return new Spread(new Token(BIND_SYMBOL, Sym.Bind), list);
     }
 
-    static getPossibleNodes() {
-        return [];
+    static getPossibleReplacements({ node, context }: EditContext) {
+        return node instanceof Expression &&
+            node.getType(context).accepts(ListType.make(), context)
+            ? [Spread.make(node)]
+            : [];
+    }
+
+    static getPossibleAppends() {
+        return [Spread.make(ExpressionPlaceholder.make())];
     }
 
     getDescriptor() {
@@ -58,7 +67,7 @@ export default class Spread extends Node {
     clone(replace?: Replacement) {
         return new Spread(
             this.replaceChild('dots', this.dots, replace),
-            this.replaceChild('list', this.list, replace)
+            this.replaceChild('list', this.list, replace),
         ) as this;
     }
 
@@ -79,7 +88,7 @@ export default class Spread extends Node {
                         this.list,
                         ListType.make(),
                         this.list,
-                        type
+                        type,
                     ),
                 ];
         }

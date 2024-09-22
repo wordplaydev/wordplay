@@ -25,6 +25,7 @@ import Spread from './Spread';
 import TypeException from '../values/TypeException';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
+import type EditContext from '@edit/EditContext';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -56,7 +57,13 @@ export default class ListLiteral extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [ListLiteral.make(), ListLiteral.make([node])]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [ListLiteral.make()];
     }
 

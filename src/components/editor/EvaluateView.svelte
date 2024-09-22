@@ -8,6 +8,7 @@
     import RootView from '../project/RootView.svelte';
     import PlaceholderView from './MenuTrigger.svelte';
     import Token from '../../nodes/Token';
+    import Input from '@nodes/Input';
 
     export let node: Evaluate;
 
@@ -79,7 +80,7 @@
             node={node.open}
         />
         {#each node.inputs as input}<NodeView node={input} /><PlaceholderView
-                position={input}
+                position={input instanceof Input ? input.value : input}
             />{/each}{#if nextBind}<div class="hint"
                 >&nbsp;<RootView
                     node={nextBind.withoutValue()}

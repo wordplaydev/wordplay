@@ -31,7 +31,11 @@ export default class TypeInputs extends Node {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [TypeInputs.make()];
+    }
+
+    static getPossibleAppends() {
         return [TypeInputs.make()];
     }
 

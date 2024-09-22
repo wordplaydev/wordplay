@@ -84,6 +84,14 @@ export default class Match extends Expression {
         ];
     }
 
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
+        return [];
+    }
+
     getDescriptor() {
         return 'Match';
     }

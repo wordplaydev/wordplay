@@ -68,6 +68,14 @@ export default class PropertyBind extends Expression {
         ];
     }
 
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
+        return [];
+    }
+
     getDescriptor() {
         return 'PropertyBind';
     }

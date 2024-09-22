@@ -54,7 +54,11 @@ export default class NumberType extends BasisType {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [NumberType.make()];
+    }
+
+    static getPossibleAppends() {
         return [NumberType.make()];
     }
 

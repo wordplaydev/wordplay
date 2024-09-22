@@ -51,8 +51,12 @@ export default class FormattedTranslation extends LanguageTagged {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [FormattedTranslation.make()];
+    }
+
+    static getPossibleAppends() {
+        return this.getPossibleReplacements();
     }
 
     getDescriptor() {

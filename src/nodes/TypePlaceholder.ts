@@ -24,7 +24,11 @@ export default class TypePlaceholder extends Type {
         return new TypePlaceholder(new PlaceholderToken());
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [TypePlaceholder.make()];
+    }
+
+    static getPossibleAppends() {
         return [TypePlaceholder.make()];
     }
 
@@ -44,7 +48,7 @@ export default class TypePlaceholder extends Type {
 
     clone(replace?: Replacement) {
         return new TypePlaceholder(
-            this.replaceChild('placeholder', this.placeholder, replace)
+            this.replaceChild('placeholder', this.placeholder, replace),
         ) as this;
     }
 

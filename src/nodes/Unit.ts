@@ -10,13 +10,9 @@ import LanguageToken from './LanguageToken';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
 import Emotion from '../lore/Emotion';
-import type Context from './Context';
-import {
-    getPossibleDimensions,
-    getPossibleUnits,
-} from '../edit/getPossibleUnits';
-import type Node from './Node';
+import { getPossibleDimensions } from '../edit/getPossibleUnits';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -122,30 +118,28 @@ export default class Unit extends Type {
         this.computeChildren();
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
-        // If the anchor is a unit and the unit is selected, offer revisions to the unit for replacement.
-        if (anchor && selected && anchor instanceof Unit) {
-            // What dimensions are possible?
-            const dimensions = getPossibleDimensions(context);
+    static getPossibleReplacements({ node, context }: EditContext) {
+        // What dimensions are possible?
+        const dimensions = getPossibleDimensions(context);
 
-            return [
-                // Suggest adding a dimension to the numerator, except any existing numerators
-                ...dimensions
-                    .filter((dim) => !anchor.hasDimension(dim))
-                    .map((dim) => anchor.withNumerator(dim)),
-                // Suggest adding a dimension to the denominator, except any existing numerators
-                ...dimensions
-                    .filter((dim) => !anchor.hasDimension(dim))
-                    .map((dim) => anchor.withDenominator(dim)),
-            ];
-        }
+        return node instanceof Unit
+            ? [
+                  // Suggest replacing this dimension
+                  ...dimensions.map((dim) => Unit.create([dim])),
+                  // Suggest adding a dimension to the numerator, except any existing numerators
+                  ...dimensions
+                      .filter((dim) => !node.hasDimension(dim))
+                      .map((dim) => node.withNumerator(dim)),
+                  // Suggest adding a dimension to the denominator, except any existing numerators
+                  ...dimensions
+                      .filter((dim) => !node.hasDimension(dim))
+                      .map((dim) => node.withDenominator(dim)),
+              ]
+            : [];
+    }
 
-        return getPossibleUnits(context);
+    static getPossibleAppends({ context }: EditContext) {
+        return getPossibleDimensions(context).map((dim) => Unit.create([dim]));
     }
 
     static Empty = new Unit();

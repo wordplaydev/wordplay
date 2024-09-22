@@ -163,6 +163,14 @@ export default class Reference extends SimpleExpression {
         );
     }
 
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
+        return [];
+    }
+
     getDescriptor() {
         return 'Reference';
     }

@@ -48,6 +48,14 @@ export default class TableType extends BasisType {
         );
     }
 
+    static getPossibleReplacements() {
+        return [TableType.make()];
+    }
+
+    static getPossibleAppends() {
+        return [TableType.make()];
+    }
+
     getDescriptor() {
         return 'TableType';
     }

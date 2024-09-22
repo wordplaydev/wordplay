@@ -34,7 +34,11 @@ export default class Initial extends SimpleExpression {
         return new Initial(new Token(INITIAL_SYMBOL, Sym.Initial));
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [Initial.make()];
+    }
+
+    static getPossibleAppends() {
         return [Initial.make()];
     }
 

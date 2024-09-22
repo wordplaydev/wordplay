@@ -22,6 +22,7 @@ import Sym from './Sym';
 import TextValue from '../values/TextValue';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
+import type EditContext from '@edit/EditContext';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -34,8 +35,14 @@ export default class FormattedLiteral extends Literal {
         this.computeChildren();
     }
 
-    static getPossibleNodes() {
-        return [new FormattedLiteral([FormattedTranslation.make()])];
+    static getPossibleReplacements({ type, context }: EditContext) {
+        return type !== undefined && type.accepts(FormattedType.make(), context)
+            ? [new FormattedLiteral([FormattedTranslation.make()])]
+            : [];
+    }
+
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
     }
 
     getDescriptor() {

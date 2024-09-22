@@ -20,9 +20,9 @@ import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
+import type EditContext from '@edit/EditContext';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -43,16 +43,15 @@ export default class Is extends Expression {
         return new Is(left, new Token(TYPE_SYMBOL, Sym.TypeOperator), right);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [Is.make(node, TypePlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
         return [
-            Is.make(ExpressionPlaceholder.make(), TypePlaceholder.make()),
-            ...(node instanceof Expression && selected
-                ? [Is.make(node, TypePlaceholder.make())]
-                : []),
+            Is.make(ExpressionPlaceholder.make(type), TypePlaceholder.make()),
         ];
     }
 

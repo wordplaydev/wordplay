@@ -34,6 +34,8 @@ import getGuards from './getGuards';
 import Reference from './Reference';
 import PropertyReference from './PropertyReference';
 import Bind from './Bind';
+import type EditContext from '@edit/EditContext';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -64,6 +66,25 @@ export default class SetOrMapAccess extends Expression {
             key,
             new SetCloseToken(),
         );
+    }
+
+    static getPossibleReplacements({ node, context }: EditContext) {
+        if (!(node instanceof Expression)) return [];
+        return node.getType(context).accepts(SetType.make(), context) ||
+            node.getType(context).accepts(MapType.make(), context)
+            ? [SetOrMapAccess.make(node, ExpressionPlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends() {
+        return [
+            SetOrMapAccess.make(
+                ExpressionPlaceholder.make(
+                    UnionType.make(SetType.make(), MapType.make()),
+                ),
+                ExpressionPlaceholder.make(),
+            ),
+        ];
     }
 
     getDescriptor() {
@@ -99,7 +120,7 @@ export default class SetOrMapAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

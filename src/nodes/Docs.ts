@@ -18,7 +18,11 @@ export default class Docs extends Node {
         this.computeChildren();
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [new Docs([Doc.make()])];
     }
 

@@ -5,16 +5,17 @@ import type Type from '@nodes/Type';
 import NodeRef from '@locale/NodeRef';
 import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import type Input from '@nodes/Input';
 
 export default class IncompatibleCellType extends Conflict {
     readonly type: TableType;
-    readonly cell: Expression;
+    readonly cell: Expression | Input;
     readonly expected: Type;
     readonly received: Type;
 
     constructor(
         type: TableType,
-        cell: Expression,
+        cell: Expression | Input,
         expected: Type,
         received: Type,
     ) {

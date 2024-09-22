@@ -14,9 +14,9 @@ import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
 import MapLiteral from './MapLiteral';
+import type EditContext from '@edit/EditContext';
 
 export default class MapType extends BasisType {
     readonly open: Token;
@@ -53,17 +53,20 @@ export default class MapType extends BasisType {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
         return [
             MapType.make(),
-            ...(node instanceof Type && selected
-                ? [MapType.make(node, TypePlaceholder.make())]
+            ...(node instanceof Type && node
+                ? [
+                      MapType.make(node, TypePlaceholder.make()),
+                      MapType.make(TypePlaceholder.make(), node),
+                  ]
                 : []),
         ];
+    }
+
+    static getPossibleAppends() {
+        return [MapType.make()];
     }
 
     getDescriptor() {

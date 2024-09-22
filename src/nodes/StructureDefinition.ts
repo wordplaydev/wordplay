@@ -107,7 +107,12 @@ export default class StructureDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleNodes() {
+    /** Never makes sense to replace something with a structure definition. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [
             StructureDefinition.make(
                 undefined,

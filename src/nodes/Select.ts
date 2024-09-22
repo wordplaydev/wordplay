@@ -36,6 +36,7 @@ import Sym from './Sym';
 import Token from './Token';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 type SelectState = {
     table: TableValue;
@@ -96,28 +97,32 @@ export default class Select extends Expression {
         ];
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ node, context }: EditContext) {
         const anchorType =
-            anchor instanceof Expression ? anchor.getType(context) : undefined;
+            node instanceof Expression ? node.getType(context) : undefined;
         const tableType =
             anchorType instanceof TableType ? anchorType : undefined;
-        return anchor instanceof Expression && tableType && selected
+        return node instanceof Expression && tableType
             ? [
                   Select.make(
-                      anchor,
+                      node,
                       ExpressionPlaceholder.make(BooleanType.make()),
                   ),
               ]
             : [];
     }
 
+    static getPossibleAppends() {
+        return [
+            Select.make(
+                ExpressionPlaceholder.make(TableType.make()),
+                ExpressionPlaceholder.make(BooleanType.make()),
+            ),
+        ];
+    }
+
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {

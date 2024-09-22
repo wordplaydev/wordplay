@@ -66,26 +66,26 @@ import Input from './Input';
 
 type Mapping = {
     expected: Bind;
-    given: undefined | Expression | Expression[];
+    given: undefined | Expression | Expression[] | Input;
 };
 
 type InputMapping = {
     inputs: Mapping[];
-    extra: Expression[];
+    extra: (Expression | Input)[];
 };
 
 export default class Evaluate extends Expression {
     readonly fun: Expression;
     readonly types: TypeInputs | undefined;
     readonly open: Token;
-    readonly inputs: Expression[];
+    readonly inputs: (Expression | Input)[];
     readonly close?: Token;
 
     constructor(
         func: Expression,
         types: TypeInputs | undefined,
         open: Token,
-        inputs: Expression[],
+        inputs: (Expression | Input)[],
         close?: Token,
     ) {
         super();
@@ -192,6 +192,14 @@ export default class Evaluate extends Expression {
             );
     }
 
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
+        return [];
+    }
+
     getDescriptor() {
         return 'Evaluate';
     }
@@ -220,7 +228,7 @@ export default class Evaluate extends Expression {
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
-                kind: list(true, node(Expression)),
+                kind: list(true, node(Input), node(Expression)),
                 label: (locales: Locales, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
@@ -312,7 +320,10 @@ export default class Evaluate extends Expression {
                     mapping.given = [];
                     while (givenInputs.length > 0) {
                         const given = givenInputs.shift();
-                        if (given) mapping.given.push(given);
+                        if (given)
+                            mapping.given.push(
+                                given instanceof Input ? given.value : given,
+                            );
                     }
                 }
                 // If it's just an optional input, see if any of the given inputs provide it by name.
@@ -360,7 +371,7 @@ export default class Evaluate extends Expression {
         return given instanceof Input ? given.value : given;
     }
 
-    getLastInput(): Expression | undefined {
+    getLastInput(): Expression | Input | undefined {
         return this.inputs[this.inputs.length - 1];
     }
 
@@ -496,7 +507,13 @@ export default class Evaluate extends Expression {
                     given instanceof Input &&
                     !expected.hasName(given.getName())
                 )
-                    return [new UnexpectedInput(fun, this, given)];
+                    return [
+                        new UnexpectedInput(
+                            fun,
+                            this,
+                            given instanceof Input ? given.value : given,
+                        ),
+                    ];
 
                 // Concretize the expected type.
                 const expectedType = getConcreteExpectedType(
@@ -735,7 +752,9 @@ export default class Evaluate extends Expression {
         // Evaluates depend on their function, their inputs, and the function's expression.
         return [
             this.fun,
-            ...this.inputs,
+            ...this.inputs.map((input) =>
+                input instanceof Input ? input.value : input,
+            ),
             ...(expression === undefined ? [] : [expression]),
         ];
     }
@@ -824,7 +843,10 @@ export default class Evaluate extends Expression {
                         expectedType.accepts(given.getType(context), context);
 
                     return [
-                        ...given.compile(evaluator, context),
+                        ...(given instanceof Input
+                            ? given.value
+                            : given
+                        ).compile(evaluator, context),
                         // Evaluate, but if the type was not acceptable, halt
                         ...(acceptable
                             ? []

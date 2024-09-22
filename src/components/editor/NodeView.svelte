@@ -18,6 +18,7 @@
     import Token from '../../nodes/Token';
     import { locales } from '../../db/Database';
     import InsertionPointView from './InsertionPointView.svelte';
+    import Block from '@nodes/Block';
 
     export let node: Node | undefined;
     export let small = false;
@@ -122,6 +123,8 @@
             ? 'block'
             : ''} {direction} {node.getDescriptor()} {node instanceof Token
             ? 'Token'
+            : ''} {node instanceof Block && node.isRoot()
+            ? 'ProgramBlock'
             : ''}"
         data-uiid={node.getDescriptor()}
         class:hide
@@ -202,8 +205,8 @@
         min-height: var(--wordplay-min-line-height) !important;
     }
 
-    .evaluate:not(.Program),
-    .definition:not(.Program) {
+    .evaluate:not(.Program, .ProgramBlock),
+    .definition:not(.Program, .ProgramBlock) {
         padding: calc(var(--wordplay-spacing) / 3);
         border-start-start-radius: 0;
         border-start-end-radius: var(--wordplay-border-radius);
@@ -221,7 +224,7 @@
         border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
     }
 
-    .block.evaluate:not(.Program) {
+    .block.evaluate:not(.Program, .ProgramBlock) {
         border-bottom: calc(2 * var(--wordplay-border-width)) solid
             var(--wordplay-inactive-color);
     }

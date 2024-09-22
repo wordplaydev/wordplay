@@ -50,7 +50,7 @@
             />{:else if placeholder}<span class="label">{placeholder}</span
             >{/if}<NodeView node={node.dot} /></span
     ><span class="type"
-        >{#if node.type}•<NodeView
+        >{#if node.type}<NodeView
                 node={node.type}
             />{:else if inferredType && !(inferredType instanceof UnknownType || inferredType instanceof AnyType)}•<div
                 class:inferred={node.type === undefined && inferredType}
@@ -71,6 +71,14 @@
         color: var(--wordplay-inactive-color);
         font-style: italic;
         font-size: small;
+    }
+
+    .type {
+        font-size: xx-small;
+    }
+
+    .type :global(.token-view) {
+        color: var(--wordplay-inactive-color);
     }
 
     .inferred {

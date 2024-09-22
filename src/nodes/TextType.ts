@@ -45,7 +45,11 @@ export default class TextType extends BasisType {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [TextType.make()];
+    }
+
+    static getPossibleAppends() {
         return [TextType.make()];
     }
 

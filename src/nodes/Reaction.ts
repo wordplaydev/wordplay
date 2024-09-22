@@ -26,9 +26,11 @@ import StreamToken from './StreamToken';
 import ExpectedStream from '../conflicts/ExpectedStream';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Node from './Node';
 import UnknownType from './UnknownType';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
+import StreamType from './StreamType';
+import Changed from './Changed';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -65,24 +67,26 @@ export default class Reaction extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node | undefined,
-        selected: boolean,
-    ) {
-        return [
-            node instanceof Expression && selected
-                ? Reaction.make(
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [
+                  Reaction.make(
                       node,
-                      ExpressionPlaceholder.make(BooleanType.make()),
-                      ExpressionPlaceholder.make(),
-                  )
-                : Reaction.make(
-                      ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make(BooleanType.make()),
+                      Changed.make(
+                          ExpressionPlaceholder.make(StreamType.make()),
+                      ),
                       ExpressionPlaceholder.make(),
                   ),
-        ];
+              ]
+            : [];
+    }
+
+    static getPossibleAppends() {
+        return Reaction.make(
+            ExpressionPlaceholder.make(),
+            Changed.make(ExpressionPlaceholder.make(StreamType.make())),
+            ExpressionPlaceholder.make(),
+        );
     }
 
     getDescriptor() {
