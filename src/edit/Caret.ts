@@ -947,7 +947,7 @@ export default class Caret {
             if (wrap !== undefined) return wrap;
 
             // If that didn't do anything, try deleting the node.
-            const edit = this.deleteNode(this.position, validOnly, project);
+            const edit = this.deleteNode(this.position, false, project);
             // If that didn't do anything, do nothing; it's not removeable.
             if (edit === undefined) return;
             const [source, caret] = edit;
