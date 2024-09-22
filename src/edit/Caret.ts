@@ -18,6 +18,7 @@ import {
 import {
     CONVERT_SYMBOL,
     ELISION_SYMBOL,
+    EVAL_OPEN_SYMBOL,
     PROPERTY_SYMBOL,
     STREAM_SYMBOL,
 } from '@parser/Symbols';
@@ -51,6 +52,9 @@ import Spaces from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { UnknownName } from '@conflicts/UnknownName';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
+import Evaluate from '@nodes/Evaluate';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import StructureDefinition from '@nodes/StructureDefinition';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -969,6 +973,7 @@ export default class Caret {
             complete,
             newSource,
             newPosition,
+            project,
         );
 
         // Keep track of whether we closed a delimiter.
@@ -1090,10 +1095,50 @@ export default class Caret {
         complete: boolean,
         source: Source,
         position: number,
+        project: Project,
     ): [string, Source, number | Node, boolean] | undefined {
         let newSource: Source | undefined = source;
         let newPosition: number | Node = position;
         let closed = false;
+
+        // If the inserted character is an open parenthesis, see if we can construct an evaluate with the preceding expression.
+        if (text === EVAL_OPEN_SYMBOL) {
+            // Find the top most expression that ends where the caret is.
+            const precedingExpression = this.source
+                .nodes()
+                .filter(
+                    (node): node is Reference =>
+                        node instanceof Reference &&
+                        source.getNodeLastPosition(node) === position,
+                )[0];
+
+            if (precedingExpression) {
+                const context = project.getNodeContext(precedingExpression);
+                const fun = precedingExpression.resolve(context);
+                if (
+                    fun instanceof FunctionDefinition ||
+                    fun instanceof StructureDefinition
+                ) {
+                    const evaluate = fun.getEvaluateTemplate(
+                        project.basis.locales,
+                        context,
+                        undefined,
+                    );
+                    // Make a new source
+                    newSource = source.replace(precedingExpression, evaluate);
+                    // Place the caret on the placeholder
+                    newPosition =
+                        (evaluate instanceof Evaluate
+                            ? evaluate.close
+                                ? newSource.getNodeFirstPosition(evaluate.close)
+                                : newSource.getNodeLastPosition(evaluate)
+                            : position) ?? position;
+                    // Don't insert anything.
+                    text = '';
+                    return [text, newSource, newPosition, closed];
+                }
+            }
+        }
 
         // If the inserted string matches a single matched delimiter, complete it, unless:
         // 1) we’re immediately before an matched closing delimiter, in which case we insert nothing, but move the caret forward
@@ -1143,7 +1188,7 @@ export default class Caret {
             const precedingExpression = this.source
                 .nodes()
                 .filter(
-                    (node) =>
+                    (node): node is Expression =>
                         node instanceof Expression &&
                         !(node instanceof Program) &&
                         !(node instanceof Source) &&
@@ -1151,7 +1196,7 @@ export default class Caret {
                         source.getNodeLastPosition(node) === position,
                 )[0];
 
-            if (precedingExpression instanceof Expression) {
+            if (precedingExpression) {
                 const binary = new BinaryEvaluate(
                     precedingExpression instanceof Literal
                         ? precedingExpression
