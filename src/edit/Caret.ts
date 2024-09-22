@@ -34,7 +34,7 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
 import Literal from '../nodes/Literal';
 import Context from '../nodes/Context';
-import type Type from '../nodes/Type';
+import Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
 import NodeRef from '../locale/NodeRef';
 import type Conflict from '../conflicts/Conflict';
@@ -572,7 +572,7 @@ export default class Caret {
         );
     }
 
-    getSourceBlockPositions(): (Token | number)[] {
+    getSourceBlockPositions(): (Node | number)[] {
         // Find all the tokens in a series of fields, for identifying positions before and after lists.
         function getFieldTokens(node: Node, fields: Field[]) {
             return fields
@@ -586,7 +586,7 @@ export default class Caret {
                 .flat();
         }
 
-        const points: (Token | number)[] = [];
+        const points: (Node | number)[] = [];
         for (const node of this.source.expression.nodes()) {
             if (node instanceof Token) {
                 // Find the preceding space and include all line breaks.
@@ -601,7 +601,16 @@ export default class Caret {
                 }
                 // If the token itself is editable, add it to the list.
                 if (Caret.isBlockEditable(node)) points.push(node);
-            } else {
+            }
+            // If it's not a token, check it's grammar for insertion points.
+            else {
+                // Expression or type with a single token? Include it.
+                if (
+                    (node instanceof Expression || node instanceof Type) &&
+                    node.leaves().length === 1
+                )
+                    points.push(node);
+
                 const grammar = node.getGrammar();
                 for (let index = 0; index < grammar.length; index++) {
                     const field = grammar[index];
@@ -687,12 +696,16 @@ export default class Caret {
         // Remove duplicates and sort.
         return Array.from(new Set(points)).sort((a, b) => {
             const aPosition =
-                a instanceof Token
-                    ? this.source.getTokenTextPosition(a) ?? 0
+                a instanceof Node
+                    ? a instanceof Token
+                        ? this.source.getTokenTextPosition(a) ?? 0
+                        : this.source.getNodeFirstPosition(a) ?? 0
                     : a;
             const bPosition =
-                b instanceof Token
-                    ? this.source.getTokenTextPosition(b) ?? 0
+                b instanceof Node
+                    ? b instanceof Token
+                        ? this.source.getTokenTextPosition(b) ?? 0
+                        : this.source.getNodeFirstPosition(b) ?? 0
                     : b;
             return aPosition === bPosition && typeof a === 'number'
                 ? -1
@@ -723,7 +736,7 @@ export default class Caret {
             const isPosition = typeof position === 'number';
             const thisPosition = isPosition
                 ? position
-                : this.source.getTokenTextPosition(position);
+                : this.source.getNodeFirstPosition(position);
             // Is this position after the current position, or at the same position, but moving from a node? This is the next position.
             if (
                 thisPosition !== undefined &&
