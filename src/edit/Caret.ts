@@ -13,6 +13,7 @@ import {
     DelimiterOpenByClose,
     TextOpenByTextClose,
     isName,
+    OperatorRegEx,
 } from '@parser/Tokenizer';
 import {
     CONVERT_SYMBOL,
@@ -20,7 +21,7 @@ import {
     PROPERTY_SYMBOL,
     STREAM_SYMBOL,
 } from '@parser/Symbols';
-import type Source from '@nodes/Source';
+import Source from '@nodes/Source';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
@@ -30,7 +31,7 @@ import SetLiteral from '../nodes/SetLiteral';
 import MapLiteral from '../nodes/MapLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import BooleanLiteral from '../nodes/BooleanLiteral';
-import type Literal from '../nodes/Literal';
+import Literal from '../nodes/Literal';
 import Context from '../nodes/Context';
 import type Type from '../nodes/Type';
 import type LanguageCode from '../locale/LanguageCode';
@@ -49,6 +50,7 @@ import Bind from '../nodes/Bind';
 import Spaces from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { UnknownName } from '@conflicts/UnknownName';
+import BinaryEvaluate from '@nodes/BinaryEvaluate';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -931,7 +933,7 @@ export default class Caret {
         if (renameEdit) return [renameEdit[0], renameEdit[1]];
 
         let newSource: Source | undefined;
-        let newPosition: number;
+        let newPosition: number | Node;
         let originalPosition: number;
 
         // Does this insertion complete a delimiter? Just advance the caret.
@@ -978,6 +980,13 @@ export default class Caret {
 
         // Did we somehow get no source?
         if (newSource === undefined) return undefined;
+
+        // Are we no longer inserting text? Return what we got.
+        if (typeof newPosition !== 'number')
+            return [
+                newSource,
+                this.withSource(newSource).withPosition(newPosition),
+            ];
 
         // Insert the possibly revised text.
         newSource = newSource.withGraphemesAt(text, newPosition);
@@ -1081,9 +1090,9 @@ export default class Caret {
         complete: boolean,
         source: Source,
         position: number,
-    ): [string, Source, number, boolean] | undefined {
+    ): [string, Source, number | Node, boolean] | undefined {
         let newSource: Source | undefined = source;
-        let newPosition: number = position;
+        let newPosition: number | Node = position;
         let closed = false;
 
         // If the inserted string matches a single matched delimiter, complete it, unless:
@@ -1126,6 +1135,37 @@ export default class Caret {
             text = CONVERT_SYMBOL;
             newSource = source.withoutGraphemeAt(position - 1);
             newPosition = position - 1;
+        }
+        // If the inserted character is an operator, see if we can construct a binary evaluation with the
+        // the preceding expression and a placeholder on the right.
+        else if (OperatorRegEx.test(text)) {
+            // Find the top most expression that ends where the caret is.
+            const precedingExpression = this.source
+                .nodes()
+                .filter(
+                    (node) =>
+                        node instanceof Expression &&
+                        !(node instanceof Program) &&
+                        !(node instanceof Source) &&
+                        !(node instanceof Block && node.isRoot()) &&
+                        source.getNodeLastPosition(node) === position,
+                )[0];
+
+            if (precedingExpression instanceof Expression) {
+                const binary = new BinaryEvaluate(
+                    precedingExpression instanceof Literal
+                        ? precedingExpression
+                        : Block.make([precedingExpression]),
+                    Reference.make(text),
+                    ExpressionPlaceholder.make(),
+                );
+                // Make a new source
+                newSource = source.replace(precedingExpression, binary);
+                // Place the caret on the placeholder
+                newPosition = binary.right;
+                // Don't insert anything.
+                text = '';
+            }
         }
 
         return newSource ? [text, newSource, newPosition, closed] : undefined;
