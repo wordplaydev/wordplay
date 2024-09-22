@@ -659,15 +659,15 @@
                 "\\_(1 2 3)\\",
                 "I don't like being on @Stage!"
             ],
-            "start": "eek, I don't know what to do!",
+            "start": "I don't know what to do here. Can you fill me in?",
             "placeholder": "expression",
             "conflict": {
-                "Placeholder": "can someone take my place?"
+                "Placeholder": "Can you fill me? I'm just a placeholder."
             },
             "exception": {
                 "UnimplementedException": {
                     "description": "unimplemented",
-                    "explanation": "I don't know what to do!"
+                    "explanation": "I don't know what to do here. Can you fill me in?"
                 }
             }
         },
