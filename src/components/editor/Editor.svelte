@@ -367,8 +367,18 @@
                 // If not, what is the "nearest" conflicted node at the caret position?
                 if (conflictSelection === undefined) {
                     if (typeof $caret.position === 'number') {
-                        // Try the token we're at and the one prior if we're at it's beginning.
+                        // Try:
+                        // 1) the token just before
+                        // 2) the token before if we're at it's end.
+                        // 3) any nodes whose first position is at the caret.
                         let conflictsAtPosition = [
+                            ...source
+                                .nodes()
+                                .filter(
+                                    (node) =>
+                                        source.getNodeFirstPosition(node) ===
+                                        $caret.position,
+                                ),
                             source.getTokenAt($caret.position, false),
                             $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
                         ].reduce(

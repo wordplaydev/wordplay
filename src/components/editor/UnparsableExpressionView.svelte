@@ -2,9 +2,9 @@
 
 <script lang="ts">
     import type UnparsableExpression from '@nodes/UnparsableExpression';
-    import NodeSequenceView from './NodeSequenceView.svelte';
+    import UnparsableView from './UnparsableView.svelte';
 
     export let node: UnparsableExpression;
 </script>
 
-<NodeSequenceView nodes={node.unparsables} />
+<UnparsableView {node} />

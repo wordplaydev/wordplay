@@ -20,7 +20,6 @@
     import MarkupHtmlView from './MarkupHTMLView.svelte';
     import { withVariationSelector } from '../../unicode/emoji';
     import CodeView from './CodeView.svelte';
-    import { blocks } from '@db/Database';
 
     export let segment: Segment;
     export let spaces: Spaces;
@@ -59,7 +58,7 @@
             node={segment.node}
             inline
             localized="symbolic"
-            blocks={$blocks}
+            blocks={false}
         />{/if}{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI link={segment} />
