@@ -11,13 +11,17 @@
 </script>
 
 {#if $blocks}
-    <NodeView node={node.docs} /><NodeView node={node.share} /><NodeView
-        node={node.names}
-    /><NodeView node={node.etc} /><span class="type blocks"
-        ><NodeView node={node.dot} /><NodeView node={node.type} /></span
-    ><strong><NodeView node={node.colon} /></strong>{#if node.value}<NodeView
-            node={node.value}
-        />{/if}
+    <div class="layout">
+        <NodeView node={node.docs} />
+        <div class="row"
+            ><NodeView node={node.share} /><NodeView
+                node={node.names}
+            /><NodeView node={node.etc} /><span class="type row"
+                ><NodeView node={node.dot} /><NodeView node={node.type} /></span
+            ><strong><NodeView node={node.colon} /></strong
+            >{#if node.value}<NodeView node={node.value} />{/if}
+        </div>
+    </div>
 {:else}
     <NodeView node={node.docs} /><NodeView node={node.share} /><NodeView
         node={node.names}
@@ -34,8 +38,13 @@
         font-size: smaller;
     }
 
-    .blocks {
+    .row {
         display: flex;
         flex-direction: row;
+    }
+
+    .layout {
+        display: flex;
+        flex-direction: column;
     }
 </style>

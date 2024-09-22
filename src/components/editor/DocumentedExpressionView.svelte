@@ -7,4 +7,13 @@
     export let node: DocumentedExpression;
 </script>
 
-<NodeView node={node.docs} /><NodeView node={node.expression} />
+<div class="column">
+    <NodeView node={node.docs} /><NodeView node={node.expression} />
+</div>
+
+<style>
+    .column {
+        display: flex;
+        flex-direction: column;
+    }
+</style>
