@@ -29,14 +29,8 @@ export default class StructureDefinitionType extends Type {
     }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
-    acceptsAll(types: TypeSet): boolean {
-        return types.list().every((type) => {
-            if (
-                type instanceof StructureDefinitionType &&
-                this.type.definition === type.type.definition
-            )
-                return true;
-        });
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every((type) => this.type.accepts(type, context));
     }
 
     simplify() {

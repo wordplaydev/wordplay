@@ -120,7 +120,7 @@ export default class Reference extends SimpleExpression {
                         );
                     // If the anchor is in list field, and the anchor is not being replaced, offer (Binary/Unary)Evaluate in scope.
                     else if (
-                        !complete &&
+                        complete &&
                         reference.getParent(context)?.getFieldOfChild(reference)
                             ?.kind instanceof ListOf
                     ) {
@@ -175,7 +175,7 @@ export default class Reference extends SimpleExpression {
     }
 
     static getPossibleReplacements({ type, node, context }: EditContext) {
-        return this.getPossibleReferences(type, node, false, context);
+        return this.getPossibleReferences(type, node, true, context);
     }
 
     static getPossibleAppends({ type, node, context }: EditContext) {

@@ -63,6 +63,7 @@ import Block from './Block';
 import Reference from './Reference';
 import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
 import Input from './Input';
+import type EditContext from '@edit/EditContext';
 
 type Mapping = {
     expected: Bind;
@@ -109,13 +110,13 @@ export default class Evaluate extends Expression {
         );
     }
 
-    static getPossibleNodes(
+    static getPossibleEvaluations(
         expectedType: Type | undefined,
-        anchor: Node,
-        isBeingReplaced: boolean,
+        node: Node,
+        replace: boolean,
         context: Context,
     ) {
-        const nodeBeingReplaced = isBeingReplaced ? anchor : undefined;
+        const nodeBeingReplaced = replace ? node : undefined;
 
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
@@ -138,9 +139,9 @@ export default class Evaluate extends Expression {
                       scopingType instanceof StructureType
                       ? scopingType.definition.getDefinitions(nodeBeingReplaced)
                       : // Otherwise, get definitions in scope of the anchor
-                        anchor.getDefinitionsInScope(context)
+                        node.getDefinitionsInScope(context)
                 : // If the node is not selected, get definitions in the anchor's scope
-                  anchor.getDefinitionsInScope(context);
+                  node.getDefinitionsInScope(context);
 
         // This probably doesn't belong here. The expected type is the expected type, and it should be correct.
         // if (!isBeingReplaced && structure) expectedType = undefined;
@@ -181,7 +182,7 @@ export default class Evaluate extends Expression {
                             def.getEvaluateTemplate(
                                 name,
                                 context,
-                                isBeingReplaced &&
+                                replace &&
                                     structure &&
                                     nodeBeingReplaced instanceof Expression
                                     ? nodeBeingReplaced
@@ -192,12 +193,12 @@ export default class Evaluate extends Expression {
             );
     }
 
-    static getPossibleReplacements() {
-        return [];
+    static getPossibleReplacements({ node, type, context }: EditContext) {
+        return this.getPossibleEvaluations(type, node, true, context);
     }
 
-    static getPossibleAppends() {
-        return [];
+    static getPossibleAppends({ node, type, context }: EditContext) {
+        return this.getPossibleEvaluations(type, node, false, context);
     }
 
     getDescriptor() {

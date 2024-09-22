@@ -21,10 +21,10 @@ export class UnknownName extends Conflict {
     getConflictingNodes(context: Context) {
         let names: Refer[] = [];
         if (this.name instanceof Reference) {
-            names = Reference.getPossibleNodes(
+            names = Reference.getPossibleReferences(
                 undefined,
                 this.name,
-                true,
+                false,
                 context,
             );
         }
