@@ -30,6 +30,7 @@ import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -97,10 +98,16 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     );
                 },
             },
-            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['type', () => TypePlaceholder.make()]),
+                ),
+            },
             {
                 name: 'type',
-                kind: any(node(Type), none('dot')),
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
             },
         ];
     }

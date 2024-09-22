@@ -42,6 +42,7 @@ import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -207,8 +208,17 @@ export default class FunctionDefinition extends DefinitionExpression {
                 indent: true,
             },
             { name: 'close', kind: node(Sym.EvalClose) },
-            { name: 'dot', kind: any(node(Sym.Type), none('output')) },
-            { name: 'output', kind: any(node(Type), none('dot')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['output', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'output',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
             {
                 name: 'expression',
                 kind: any(node(Expression), node(Sym.Etc), none()),

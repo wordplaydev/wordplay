@@ -58,7 +58,7 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none('close'),
+                    none(['close', () => new Token(Sym.Italic, Sym.Italic)]),
                 ),
             },
             {
@@ -82,7 +82,7 @@ export default class Words extends Content {
                     node(Sym.Light),
                     node(Sym.Bold),
                     node(Sym.Extra),
-                    none('open'),
+                    none(['open', () => new Token(Sym.Italic, Sym.Italic)]),
                 ),
             },
         ];

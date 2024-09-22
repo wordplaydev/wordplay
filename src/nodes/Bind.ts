@@ -48,6 +48,7 @@ import type Locales from '../locale/Locales';
 import DocumentedExpression from './DocumentedExpression';
 import NameType from './NameType';
 import type EditContext from '@edit/EditContext';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -150,12 +151,30 @@ export default class Bind extends Expression {
                 kind: any(node(Sym.Etc), none()),
                 getToken: () => new Token(ETC_SYMBOL, Sym.Etc),
             },
-            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
-            { name: 'type', kind: any(node(Type), none('dot')) },
-            { name: 'colon', kind: any(node(Sym.Bind), none('value')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['type', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'type',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
+            {
+                name: 'colon',
+                kind: any(
+                    node(Sym.Bind),
+                    none(['value', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             {
                 name: 'value',
-                kind: any(node(Expression), none('colon')),
+                kind: any(
+                    node(Expression),
+                    none(['colon', () => new BindToken()]),
+                ),
                 space: true,
                 indent: true,
                 // The bind field should be whatever type is expected.

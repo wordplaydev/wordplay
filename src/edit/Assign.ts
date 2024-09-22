@@ -11,54 +11,61 @@ import getPreferredSpaces from '@parser/getPreferredSpaces';
 export default class Assign<NodeType extends Node> extends Revision {
     readonly parent: Node;
     readonly position: number;
-    readonly child: NodeType | Refer | undefined;
-    readonly field: string;
-
+    // A list of field name and value pairs to assign.
+    readonly additions: { field: string; node: NodeType | Refer | undefined }[];
     constructor(
         context: Context,
         position: number,
         parent: Node,
-        field: string,
-        child: NodeType | Refer | undefined,
+        additions: { field: string; node: NodeType | Refer | undefined }[],
     ) {
         super(context);
 
         this.parent = parent;
         this.position = position;
-        this.field = field;
-        this.child = child;
+        this.additions = additions;
     }
 
     isReference(): boolean {
-        return this.child instanceof Refer;
+        return this.additions.some(({ node }) => node instanceof Refer);
     }
 
     isRemoval(): boolean {
-        return this.child === undefined;
+        return this.additions.some(({ node }) => node === undefined);
     }
 
     isCompletion(): boolean {
         return false;
     }
 
+    // Return the first new node.
     getNewNode(locales: Locales) {
-        return this.child === undefined
+        return this.realize(this.additions[0].node, locales);
+    }
+
+    realize(node: NodeType | Refer | undefined, locales: Locales) {
+        return node === undefined
             ? undefined
-            : this.child instanceof Node
-              ? this.child
-              : this.child.getNode(locales);
+            : node instanceof Node
+              ? node
+              : node.getNode(locales);
     }
 
     getEditedNode(locales: Locales): [Node, Node] {
-        const newNode = this.getNewNode(locales);
-        const newParent = this.parent.replace(this.field, newNode);
-        return [newNode ?? newParent, newParent];
+        let newParent = this.parent;
+        let firstNewNode: Node | undefined;
+        for (const { field, node } of this.additions) {
+            const newNode = this.realize(node, locales);
+            if (firstNewNode === undefined) firstNewNode = newNode;
+            newParent = newParent.replace(field, this.realize(node, locales));
+        }
+        return [firstNewNode ?? newParent, newParent];
     }
 
     getEdit(locale: Locales): Edit | undefined {
         const [newNode, newParent] = this.getEditedNode(locale);
 
-        const existingChild = this.parent.getField(this.field);
+        const existingChild = this.parent.getField(this.additions[0].field);
         const originalPosition = existingChild
             ? this.context.source.getNodeFirstPosition(
                   Array.isArray(existingChild)
@@ -82,16 +89,16 @@ export default class Assign<NodeType extends Node> extends Revision {
             .withSpaces(newSpaces);
 
         // Ensure new child has preferred space.
-        if (newNode)
+        if (newParent)
             newSource = newSource.withSpaces(
-                getPreferredSpaces(newNode, newSource.spaces),
+                getPreferredSpaces(newParent, newSource.spaces),
             );
 
         // Place the caret at first placeholder or the end of the node in the source.
         const newCaretPosition =
             newNode === undefined
                 ? originalPosition ?? this.position
-                : newNode.getFirstPlaceholder() ??
+                : newParent.getFirstPlaceholder() ??
                   newSource.getNodeLastPosition(newNode);
 
         // If we didn't find a caret position, bail. Otherwise, return the edit.
@@ -110,13 +117,14 @@ export default class Assign<NodeType extends Node> extends Revision {
     }
 
     getDescription(locales: Locales) {
+        const first = this.additions[0];
         const node =
-            this.child instanceof Refer
-                ? this.child.getNode(locales)
+            first.node instanceof Refer
+                ? first.node.getNode(locales)
                 : this.getNewNode(locales);
         return locales.concretize(
             (l) => l.ui.edit.assign,
-            this.field,
+            first.field,
             node?.getLabel(locales),
         );
     }
@@ -125,16 +133,24 @@ export default class Assign<NodeType extends Node> extends Revision {
         return (
             transform instanceof Assign &&
             this.parent === transform.parent &&
-            ((this.child instanceof Node &&
-                transform.child instanceof Node &&
-                this.child.isEqualTo(transform.child)) ||
-                (this.child instanceof Refer &&
-                    transform.child instanceof Refer &&
-                    this.child.equals(transform.child)))
+            this.additions.length === transform.additions.length &&
+            this.additions.every(({ field, node }, index) => {
+                const otherNode = transform.additions[index].node;
+                return (
+                    field === transform.additions[index].field &&
+                    (node === undefined
+                        ? otherNode === undefined
+                        : node instanceof Node
+                          ? otherNode instanceof Node &&
+                            node.isEqualTo(otherNode)
+                          : otherNode instanceof Refer &&
+                            node.equals(otherNode))
+                );
+            })
         );
     }
 
     toString() {
-        return `add ${this.child?.toString()}`;
+        return `add ${this.additions[0].node?.toString()}`;
     }
 }

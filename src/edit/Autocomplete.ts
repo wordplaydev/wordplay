@@ -277,6 +277,8 @@ function getNodeEdits(anchor: Node, context: Context) {
                     context,
                     parent,
                     selection,
+                    // When removing this field, we also have to remove any dependencies it has,
+                    // as specified by any empty fields.
                     ...(field.kind
                         .enumerateFieldKinds()
                         .find((kind): kind is Empty => kind instanceof Empty)
@@ -501,16 +503,45 @@ function getRelativeFieldEdits(
                             )
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)
-                                .map(
-                                    (addition) =>
-                                        new Assign(
-                                            context,
-                                            position,
-                                            parent,
-                                            relativeField.name,
-                                            addition,
-                                        ),
-                                ),
+                                .map((addition) => {
+                                    // Are there any other fields required to be set when this one is set?
+                                    // Include it in the proposed assignment.
+                                    const otherNodes = relativeField.kind
+                                        .enumerateFieldKinds()
+                                        .filter(
+                                            (kind): kind is Empty =>
+                                                kind instanceof Empty &&
+                                                kind.dependency !== undefined &&
+                                                parent.getField(
+                                                    kind.dependency.name,
+                                                ) === undefined,
+                                        )
+                                        .map((kind) => {
+                                            if (kind.dependency) {
+                                                return {
+                                                    field: kind.dependency.name,
+                                                    node: kind.dependency.createDefault(),
+                                                };
+                                            } else return undefined;
+                                        })
+                                        .filter(
+                                            (addition) =>
+                                                addition !== undefined,
+                                        );
+
+                                    return new Assign(
+                                        context,
+                                        position,
+                                        parent,
+                                        [
+                                            {
+                                                field: relativeField.name,
+                                                node: addition,
+                                            },
+                                            ...otherNodes,
+                                        ],
+                                    );
+                                }),
                         )
                         .flat(),
                 ];

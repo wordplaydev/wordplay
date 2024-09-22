@@ -67,11 +67,20 @@ export default class Dimension extends Node {
             { name: 'name', kind: node(Sym.Name), uncompletable: true },
             {
                 name: 'caret',
-                kind: any(node(Sym.Operator), none('exponent')),
+                kind: any(
+                    node(Sym.Operator),
+                    none(['exponent', () => new Token('1', Sym.Number)]),
+                ),
             },
             {
                 name: 'exponent',
-                kind: any(node(Sym.Number), none('caret')),
+                kind: any(
+                    node(Sym.Number),
+                    none([
+                        'caret',
+                        () => new Token(EXPONENT_SYMBOL, Sym.Operator),
+                    ]),
+                ),
             },
         ];
     }

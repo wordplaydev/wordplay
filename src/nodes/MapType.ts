@@ -17,6 +17,7 @@ import TypePlaceholder from './TypePlaceholder';
 import type Locales from '../locale/Locales';
 import MapLiteral from './MapLiteral';
 import type EditContext from '@edit/EditContext';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class MapType extends BasisType {
     readonly open: Token;
@@ -76,9 +77,21 @@ export default class MapType extends BasisType {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },
-            { name: 'key', kind: any(node(Type), none('value')) },
+            {
+                name: 'key',
+                kind: any(
+                    node(Type),
+                    none(['value', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             { name: 'bind', kind: node(Sym.Bind) },
-            { name: 'value', kind: any(node(Type), none('key')) },
+            {
+                name: 'value',
+                kind: any(
+                    node(Type),
+                    none(['key', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
