@@ -128,8 +128,6 @@
         display: flex;
         flex-direction: row;
         align-items: baseline;
-        flex-wrap: wrap;
         gap: var(--wordplay-border-width);
-        /* max-width: 40em; */
     }
 </style>

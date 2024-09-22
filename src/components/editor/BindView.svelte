@@ -41,6 +41,7 @@
     .row {
         display: flex;
         flex-direction: row;
+        align-items: baseline;
     }
 
     .layout {

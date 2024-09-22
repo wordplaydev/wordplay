@@ -150,8 +150,7 @@
     .node-view {
         display: inline;
         position: relative;
-        border-top-left-radius: var(--wordplay-editor-radius);
-        border-bottom-right-radius: var(--wordplay-editor-radius);
+        border-radius: var(--wordplay-editor-radius);
         padding: 0;
         transition-property: background-color, padding, border-color;
         transition-duration: calc(var(--animation-factor) * 200ms);
@@ -208,16 +207,11 @@
     .evaluate:not(.Program, .ProgramBlock),
     .definition:not(.Program, .ProgramBlock) {
         padding: calc(var(--wordplay-spacing) / 3);
-        border-start-start-radius: 0;
-        border-start-end-radius: var(--wordplay-border-radius);
-        border-end-end-radius: var(--wordplay-border-radius);
-        border-end-start-radius: 0;
         padding: calc(var(--wordplay-spacing) / 3)
             calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 3)
             calc(var(--wordplay-spacing) / 2);
         box-shadow: var(--color-shadow) 0px 0px 4px;
-        border-radius: 1px calc(2 * var(--wordplay-border-radius))
-            calc(2 * var(--wordplay-border-radius)) 1px;
+        border-radius: var(--wordplay-border-radius);
     }
 
     .block.definition {
