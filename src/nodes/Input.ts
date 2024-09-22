@@ -57,17 +57,19 @@ export default class Input extends Node {
             return mapping?.inputs
                 .filter((input) => input.given === undefined)
                 .map(
-                    (input) =>
-                        new Refer(
-                            (name) =>
-                                Input.make(
-                                    name,
-                                    input.expected.type?.getDefaultExpression(
-                                        context,
-                                    ) ?? ExpressionPlaceholder.make(),
-                                ),
-                            input.expected,
-                        ),
+                    (input, index, inputs) =>
+                        new Refer((name) => {
+                            const value =
+                                input.expected.type?.getDefaultExpression(
+                                    context,
+                                ) ?? ExpressionPlaceholder.make();
+                            // If all prior inputs were given, then we don't need a name on this next one.
+                            return inputs
+                                .slice(0, index)
+                                .every((i) => i.given !== undefined)
+                                ? value
+                                : Input.make(name, value);
+                        }, input.expected),
                 );
         } else return [];
     }

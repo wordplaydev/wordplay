@@ -313,7 +313,9 @@ export default class Evaluate extends Expression {
                 given: undefined,
             };
 
-            if (expectedInput.isRequired()) mapping.given = givenInputs.shift();
+            if (expectedInput.isRequired()) {
+                mapping.given = givenInputs.shift();
+            }
             // If it's optional, go through each input to see if it's provided in the remaining inputs.
             else {
                 // If it's variable length, check all of the remaining given inputs to see if they match this type.
@@ -340,7 +342,7 @@ export default class Evaluate extends Expression {
                         givenInputs.splice(givenInputs.indexOf(bind), 1);
                         mapping.given = bind;
                     }
-                    // If there wasn't a named input matching, see if the next non-bind expression matches the type.
+                    // If there wasn't a named input matching, see if the next non-input expression matches the type.
                     else if (
                         givenInputs.length > 0 &&
                         !(givenInputs[0] instanceof Input)
