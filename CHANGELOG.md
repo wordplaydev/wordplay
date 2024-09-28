@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Corrected spacing on home page of header.
+-   Properly render placeholders in blocks mode.
 
 ## 0.12.0 2024-09-22
 

@@ -24,6 +24,7 @@
     import WordsTokenEditor from './WordsTokenEditor.svelte';
     import NumberTokenEditor from './NumberTokenEditor.svelte';
     import BooleanTokenEditor from './BooleanTokenEditor.svelte';
+    import TextOrPlaceholder from './TextOrPlaceholder.svelte';
 
     export let node: Token;
 
@@ -97,6 +98,7 @@
         class:hide
         class:active
         class:editable
+        class:placeholder={placeholder !== undefined}
         class:added
         data-id={node.id}
     >
@@ -135,11 +137,17 @@
                         <ReferenceTokenEditor reference={parent}
                         ></ReferenceTokenEditor>
                     {/if}
-                {:else}{renderedText}{/if}
+                {:else}<TextOrPlaceholder
+                        {placeholder}
+                        {text}
+                        rendered={renderedText}
+                    />{/if}
             {/if}
-        {:else}
-            {renderedText}
-        {/if}
+        {:else}<TextOrPlaceholder
+                {placeholder}
+                {text}
+                rendered={renderedText}
+            />{/if}
     </div>
 {:else}
     <span
@@ -154,9 +162,7 @@
         data-id={node.id}
         role="presentation"
     >
-        {#if placeholder !== undefined}<span class="placeholder"
-                >{placeholder}</span
-            >{:else if text.length === 0}&ZeroWidthSpace;{:else}{renderedText}{/if}
+        <TextOrPlaceholder {placeholder} {text} rendered={renderedText} />
     </span>
 {/if}
 
@@ -251,12 +257,5 @@
     .text.editable:hover,
     .active {
         outline: 1px solid var(--wordplay-border-color);
-    }
-
-    .placeholder {
-        font-family: var(--wordplay-app-font);
-        font-style: italic;
-        font-size: var(--wordplay-font-size);
-        text-decoration: underline;
     }
 </style>
