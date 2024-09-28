@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Consistent rendering of inferred and explicit placeholder types.
 -   Better type checking on operator wrapping
 -   Don't show full names of operators.
+-   Fixed evaluate autocomplete.
 
 ## 0.12.0 2024-09-22
 

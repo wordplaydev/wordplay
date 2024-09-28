@@ -55,8 +55,9 @@ import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { UnknownName } from '@conflicts/UnknownName';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Evaluate from '@nodes/Evaluate';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import StructureDefinition from '@nodes/StructureDefinition';
+import StructureType from '@nodes/StructureType';
+import FunctionType from '@nodes/FunctionType';
+import PropertyReference from '@nodes/PropertyReference';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -1002,9 +1003,9 @@ export default class Caret {
         // Did we somehow get no source?
         if (newSource === undefined) return undefined;
 
-        // After the autcomplete, are we no longer inserting text, as indicated by a node position?
+        // After the autcomplete, are we no longer inserting text, as indicated by empty text insertion?
         // Return what autocomplete returned.
-        if (typeof newPosition !== 'number')
+        if (text === '' || typeof newPosition !== 'number')
             return [
                 newSource,
                 this.withSource(newSource).withPosition(newPosition),
@@ -1126,23 +1127,23 @@ export default class Caret {
             const precedingExpression = this.source
                 .nodes()
                 .filter(
-                    (node): node is Reference =>
-                        node instanceof Reference &&
+                    (node): node is Expression =>
+                        (node instanceof Reference ||
+                            node instanceof PropertyReference ||
+                            (node instanceof Block && !node.isRoot())) &&
                         source.getNodeLastPosition(node) === position,
-                )[0];
+                )
+                .at(-1);
 
             if (precedingExpression) {
                 const context = project.getNodeContext(precedingExpression);
-                const fun = precedingExpression.resolve(context);
+                const fun = precedingExpression.getType(context);
                 if (
-                    fun instanceof FunctionDefinition ||
-                    fun instanceof StructureDefinition
+                    (fun instanceof FunctionType ||
+                        fun instanceof StructureType) &&
+                    fun.definition !== undefined
                 ) {
-                    const evaluate = fun.getEvaluateTemplate(
-                        project.basis.locales,
-                        context,
-                        undefined,
-                    );
+                    const evaluate = Evaluate.make(precedingExpression, []);
                     // Make a new source
                     newSource = source.replace(precedingExpression, evaluate);
                     // Place the caret on the placeholder
