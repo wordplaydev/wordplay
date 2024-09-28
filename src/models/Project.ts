@@ -816,8 +816,12 @@ export default class Project {
     static deserializeSource(source: SerializedSource): Source {
         return new Source(
             parseNames(toTokens(source.names)),
-            // We changed the documentation symbol. Automatically convert it when deserializing.
-            source.code.replaceAll('``', DOCS_SYMBOL),
+            // We changed the documentation symbol. Automatically convert it when deserializing. by seeing if there are 2 or more `` in the code,
+            // and no ¶ and if so, replace them with the new symbol.
+            (source.code.match(/``/g) || []).length >= 2 &&
+            (source.code.match(/¶/g) || []).length === 0
+                ? source.code.replaceAll('``', DOCS_SYMBOL)
+                : source.code,
         );
     }
 
