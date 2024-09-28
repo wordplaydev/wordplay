@@ -15,6 +15,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed evaluate autocomplete.
 -   Removed column layout of documented expressions.
 -   Changed explanation delimiter to ¶ for clarity, disambiguation in parsing.
+-   Allow entry into emtpy field lists with no tokens.
 
 ## 0.12.0 2024-09-22
 

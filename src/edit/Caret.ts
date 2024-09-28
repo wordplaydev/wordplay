@@ -635,7 +635,12 @@ export default class Caret {
                                     );
                                 if (lastPosition !== undefined)
                                     points.push(lastPosition);
+                            } else {
+                                const emptyPosition =
+                                    this.source.getNodeFirstPosition(node);
+                                if (emptyPosition) points.push(emptyPosition);
                             }
+
                             // No tokens before the list? See if there's a token in the list.
                             if (values.length > 0) {
                                 const firstToken = values[0].leaves().at(0);
