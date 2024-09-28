@@ -69,7 +69,6 @@
 <style>
     .placeholder {
         color: var(--wordplay-inactive-color);
-        font-style: italic;
         font-size: small;
     }
 
@@ -83,8 +82,7 @@
 
     .inferred {
         display: inline-block;
-        animation: bob infinite linear 1s;
-        transform-origin: left;
+        font-style: italic;
     }
 
     .inferred :global(.token-view) {
@@ -97,18 +95,6 @@
     :global(.block) .inferred {
         display: flex;
         flex-direction: row;
-    }
-
-    @keyframes bob {
-        0% {
-            transform: rotate(-10deg);
-        }
-        50% {
-            transform: rotate(10deg);
-        }
-        100% {
-            transform: rotate(-10deg);
-        }
     }
 
     .label {
