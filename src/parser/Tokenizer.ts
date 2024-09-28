@@ -207,7 +207,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
     {
         pattern: PLACEHOLDER_SYMBOL,
-        types: [Sym.Placeholder, Sym.Underline, Sym.Operator],
+        types: [Sym.Placeholder, Sym.Underline],
     },
     // Roman numerals
     {

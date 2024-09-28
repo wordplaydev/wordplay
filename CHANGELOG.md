@@ -18,6 +18,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Allow entry into emtpy field lists with no tokens.
 -   Better handling of empty words tokens in blocks mode.
 -   Fixed caret position for newlines in interior blocks.
+-   Removed invalid symbol type from placeholder token.
 
 ## 0.12.0 2024-09-22
 
