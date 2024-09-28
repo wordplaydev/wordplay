@@ -252,6 +252,7 @@
             project,
             focused,
             toggleMenu,
+            grabFocus,
         };
         $editors.set(sourceID, state);
         editors.set($editors);
@@ -266,6 +267,7 @@
         project,
         focused: false,
         toggleMenu,
+        grabFocus,
     });
     setContext(EditorSymbol, editContext);
 

@@ -675,7 +675,9 @@ export default class ProjectsDatabase {
 
     /** Shorthand for revising nodes in a project */
     revise(project: Project, revisions: [Node, Node | undefined][]) {
-        this.reviseProject(project.withRevisedNodes(revisions));
+        const newProject = project.withRevisedNodes(revisions);
+        this.reviseProject(newProject);
+        return newProject;
     }
 
     /** Replaces the project with the given project, adding the current version to the history, and erasing the future, if there is any. */

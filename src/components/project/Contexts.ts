@@ -131,6 +131,7 @@ export type EditorState = {
     focused: boolean;
     blocks: boolean;
     toggleMenu: () => void;
+    grabFocus: (message: string) => void;
 };
 export type EditorsContext = Writable<Map<string, EditorState>>;
 export function getEditors() {

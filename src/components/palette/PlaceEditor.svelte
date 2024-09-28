@@ -110,7 +110,7 @@
     <Button
         tip={$locales.get((l) => l.ui.palette.button.addMotion)}
         active={editable}
-        action={() =>
+        action={() => {
             Projects.revise(project, [
                 [
                     place,
@@ -140,12 +140,13 @@
                         ],
                     ),
                 ],
-            ])}>→{project.shares.input.Motion.getNames()[0]}</Button
+            ]);
+        }}>→{project.shares.input.Motion.getNames()[0]}</Button
     >
     <Button
         tip={$locales.get((l) => l.ui.palette.button.addPlacement)}
         active={editable}
-        action={() =>
+        action={() => {
             Projects.revise(project, [
                 [
                     place,
@@ -154,7 +155,8 @@
                         [place],
                     ),
                 ],
-            ])}>→{project.shares.input.Placement.getNames()[0]}</Button
+            ]);
+        }}>→{project.shares.input.Placement.getNames()[0]}</Button
     >
 {/if}
 

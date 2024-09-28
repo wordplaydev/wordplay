@@ -17,5 +17,5 @@
     {text}
     {placeholder}
     validator={(newWords) => newWords === '' || WordsRegEx.test(newWords)}
-    creator={(text) => new Token(text, Sym.Words)}
+    creator={(text) => (text === '' ? undefined : new Token(text, Sym.Words))}
 />
