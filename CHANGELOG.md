@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Changed explanation delimiter to ¶ for clarity, disambiguation in parsing.
 -   Allow entry into emtpy field lists with no tokens.
 -   Better handling of empty words tokens in blocks mode.
+-   Fixed caret position for newlines in interior blocks.
 
 ## 0.12.0 2024-09-22
 

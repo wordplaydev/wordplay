@@ -713,9 +713,10 @@
 
                 if (horizontal) {
                     return {
-                        left:
-                            horizontalStart +
-                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
+                        left: blocks
+                            ? tokenStart
+                            : horizontalStart +
+                              (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: spaceTop,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,

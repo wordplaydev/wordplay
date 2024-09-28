@@ -107,7 +107,10 @@
                     >
                         {#if hasSpace}<div data-id={firstToken.id}
                                 >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
-                                    ></InsertionPointView>{/if}&nbsp;</div
+                                    ></InsertionPointView>{/if}<span
+                                    class="space-text"
+                                    data-uiid="space-text">&nbsp;</span
+                                ></div
                             >{:else}{#each lines as line}<div class="break"
                                     >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
                                         />{/if}</div

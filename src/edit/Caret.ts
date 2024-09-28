@@ -593,13 +593,22 @@ export default class Caret {
         const points: (Node | number)[] = [];
         for (const node of this.source.expression.nodes()) {
             if (node instanceof Token) {
-                // Find the preceding space and include all line breaks.
-                const space = this.source.spaces.getSpace(node);
-                const position = this.source.getTokenTextPosition(node);
-                if (position !== undefined) {
-                    for (let index = 0; index < space.length; index++) {
-                        if (space.charAt(index) === '\n') {
-                            points.push(position - space.length + index);
+                // Find the preceding space and include all line breaks, but only if the space root is for a block.
+                const spaceRoot = this.source.root.getSpaceRoot(node);
+                const spaceRootParent = spaceRoot
+                    ? this.source.root.getParent(spaceRoot)
+                    : undefined;
+                if (
+                    spaceRootParent instanceof Block &&
+                    spaceRootParent.isRoot()
+                ) {
+                    const space = this.source.spaces.getSpace(node);
+                    const position = this.source.getTokenTextPosition(node);
+                    if (position !== undefined) {
+                        for (let index = 0; index < space.length; index++) {
+                            if (space.charAt(index) === '\n') {
+                                points.push(position - space.length + index);
+                            }
                         }
                     }
                 }
