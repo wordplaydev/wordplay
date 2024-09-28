@@ -91,8 +91,11 @@
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->{#if $blocks}{@const hasSpace =
-                symbolOccurs(space, ' ')}{@const lines = Array.from(
+    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->
+        {#if $blocks}
+            {@const hasSpace =
+                symbolOccurs(space, ' ') || symbolOccurs(space, '\t')}
+            {@const lines = Array.from(
                 Array(
                     Math.max(0, countSymbolOccurences(space, '\n') - 1),
                 ).keys(),
@@ -104,7 +107,7 @@
                     >
                         {#if hasSpace}<div data-id={firstToken.id}
                                 >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
-                                    ></InsertionPointView>{/if}{space}</div
+                                    ></InsertionPointView>{/if}&nbsp;</div
                             >{:else}{#each lines as line}<div class="break"
                                     >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
                                         />{/if}</div
