@@ -204,7 +204,7 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.isSymbol(Sym.Name)) {
+        if (this.isSymbol(Sym.Name) && this.isSymbol(Sym.Operator)) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {
