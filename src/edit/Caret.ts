@@ -19,7 +19,9 @@ import {
     CONVERT_SYMBOL,
     ELISION_SYMBOL,
     EVAL_OPEN_SYMBOL,
+    LIST_OPEN_SYMBOL,
     PROPERTY_SYMBOL,
+    SET_OPEN_SYMBOL,
     STREAM_SYMBOL,
 } from '@parser/Symbols';
 import Source from '@nodes/Source';
@@ -981,25 +983,27 @@ export default class Caret {
         }
 
         // Let's see if we should do any delimiter completion before we insert.
-        const delimiterEdit = this.completeInsertion(
+        const autocompletion = this.completeInsertion(
             text,
             complete,
             newSource,
             newPosition,
             project,
+            validOnly,
         );
 
         // Keep track of whether we closed a delimiter.
         let closed = false;
 
         // Update the source, position, and text of delimiter completion.
-        if (delimiterEdit)
-            [text, newSource, newPosition, closed] = delimiterEdit;
+        if (autocompletion)
+            [text, newSource, newPosition, closed] = autocompletion;
 
         // Did we somehow get no source?
         if (newSource === undefined) return undefined;
 
-        // Are we no longer inserting text? Return what we got.
+        // After the autcomplete, are we no longer inserting text, as indicated by a node position?
+        // Return what autocomplete returned.
         if (typeof newPosition !== 'number')
             return [
                 newSource,
@@ -1110,6 +1114,7 @@ export default class Caret {
         source: Source,
         position: number,
         project: Project,
+        validOnly: boolean,
     ): [string, Source, number | Node, boolean] | undefined {
         let newSource: Source | undefined = source;
         let newPosition: number | Node = position;
@@ -1197,7 +1202,7 @@ export default class Caret {
         }
         // If the inserted character is an operator, see if we can construct a binary evaluation with the
         // the preceding expression and a placeholder on the right.
-        else if (OperatorRegEx.test(text)) {
+        else if (validOnly && OperatorRegEx.test(text)) {
             // Find the top most expression that ends where the caret is.
             const precedingExpression = this.source
                 .nodes()
@@ -1210,7 +1215,15 @@ export default class Caret {
                         source.getNodeLastPosition(node) === position,
                 )[0];
 
-            if (precedingExpression) {
+            if (
+                precedingExpression &&
+                precedingExpression
+                    .getType(project.getNodeContext(precedingExpression))
+                    .getDefinitionOfNameInScope(
+                        text,
+                        project.getNodeContext(precedingExpression),
+                    ) !== undefined
+            ) {
                 const binary = new BinaryEvaluate(
                     precedingExpression instanceof Literal
                         ? precedingExpression
@@ -1743,18 +1756,24 @@ export default class Caret {
             node = this.source.root.getParent(node);
         if (node === undefined || !(node instanceof Expression))
             return undefined;
-        const wrapper =
-            node === undefined
-                ? undefined
-                : key === '('
-                  ? Block.make([node])
-                  : key === '['
-                    ? ListLiteral.make([node])
-                    : undefined;
-        if (wrapper === undefined) return undefined;
+        let wrapper: Expression | undefined = undefined;
+        let position: Expression | undefined;
+        if (key === EVAL_OPEN_SYMBOL) wrapper = Block.make([node]);
+        else if (key === LIST_OPEN_SYMBOL) wrapper = ListLiteral.make([node]);
+        else if (key === SET_OPEN_SYMBOL) wrapper = SetLiteral.make([node]);
+        else if (OperatorRegEx.test(key)) {
+            position = ExpressionPlaceholder.make();
+            wrapper = new BinaryEvaluate(node, Reference.make(key), position);
+        }
+        if (wrapper === undefined) return;
 
         const newSource = this.source.replace(node, wrapper);
-        return [newSource, this.withSource(newSource).withAddition(wrapper)];
+        return [
+            newSource,
+            this.withSource(newSource)
+                .withAddition(wrapper)
+                .withPosition(position ?? wrapper),
+        ];
     }
 
     adjustLiteral(node: Node | undefined, direction: -1 | 1): Edit | undefined {
