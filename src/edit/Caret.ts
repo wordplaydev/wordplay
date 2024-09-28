@@ -58,6 +58,7 @@ import Evaluate from '@nodes/Evaluate';
 import StructureType from '@nodes/StructureType';
 import FunctionType from '@nodes/FunctionType';
 import PropertyReference from '@nodes/PropertyReference';
+import StructureDefinitionType from '@nodes/StructureDefinitionType';
 
 export type InsertionContext = { before: Node[]; after: Node[] };
 export type CaretPosition = number | Node;
@@ -1139,9 +1140,9 @@ export default class Caret {
                 const context = project.getNodeContext(precedingExpression);
                 const fun = precedingExpression.getType(context);
                 if (
-                    (fun instanceof FunctionType ||
-                        fun instanceof StructureType) &&
-                    fun.definition !== undefined
+                    fun instanceof FunctionType ||
+                    fun instanceof StructureType ||
+                    fun instanceof StructureDefinitionType
                 ) {
                     const evaluate = Evaluate.make(precedingExpression, []);
                     // Make a new source
