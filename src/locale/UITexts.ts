@@ -287,6 +287,8 @@ type UITexts = {
             insertGreaterOrEqual: string;
             /** Insert • symbol */
             insertType: string;
+            /** Insert ¶ symbol */
+            insertDocs: string;
             /** Insert … symbol */
             insertStream: string;
             /** Insert ∆ symbol */

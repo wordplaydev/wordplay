@@ -206,6 +206,11 @@
         color: var(--wordplay-doc-color);
     }
 
+    .token-category-docs {
+        font-size: small;
+        color: var(--wordplay-doc-color);
+    }
+
     .token-category-delimiter,
     :global(.Example) .token-category-delimiter {
         color: var(--color-dark-grey);

@@ -306,7 +306,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                                                 ? parseFormattedLiteral(tokens)
                                                 : tokens.nextIs(Sym.Locale)
                                                   ? parseIsLocale(tokens)
-                                                  : // A documented expression
+                                                  : // A documented expression is a doc followed by an expression
                                                     tokens.nextIs(Sym.Doc)
                                                     ? parseDocumentedExpression(
                                                           tokens,

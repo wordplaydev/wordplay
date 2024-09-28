@@ -74,7 +74,7 @@ import Input from '@nodes/Input';
 import UnparsableExpression from '@nodes/UnparsableExpression';
 
 export const everything = `
-\`\`Testing *the /way/*\`\`
+¶Testing *the /way/*¶
 •Cat() (
 	ƒ num() [1 2 3][1]
 )
@@ -127,11 +127,11 @@ test('Unparsable runaways', () => {
 
 test.each([
     ['(\nhi\n)', Block],
-    ['``Nothing``\n(hi)', Block],
+    ['¶Nothing¶\n(hi)', Block],
     ['a: 1', Bind, 'value', NumberLiteral, '1'],
     ['a•#: 1', Bind, 'type', NumberType, '#'],
     ['a/en, b/es•#: 1', Bind, 'names', Names],
-    ['``program``\n\n``Some letters``/en a/en, b/es: 1', Bind, 'docs', Docs],
+    ['¶program¶\n\n¶Some letters¶/en a/en, b/es: 1', Bind, 'docs', Docs],
     [PLACEHOLDER_SYMBOL, ExpressionPlaceholder],
     ['boomy', Reference],
     [NONE_SYMBOL, NoneLiteral],
@@ -192,13 +192,13 @@ test.each([
         'a + b',
     ],
     [
-        '``program``\n\n``Add things``/en\nƒ(a b) a = b',
+        '¶program¶\n\n¶Add things¶/en\nƒ(a b) a = b',
         FunctionDefinition,
         'docs',
         Docs,
     ],
     [
-        '``Program``\n\n``Number one``/en ``Numero uno``/es ƒ(a b) a = b',
+        '¶Program¶\n\n¶Number one¶/en ¶Numero uno¶/es ƒ(a b) a = b',
         FunctionDefinition,
         'docs',
         Docs,
@@ -211,7 +211,7 @@ test.each([
     ['a⸨Cat #⸩(b c)', Evaluate, 'types', TypeInputs],
     ["→ # '' meow()", ConversionDefinition, 'output', TextType],
     [
-        "``Program``\n\n``numtotext``/en → # '' meow()",
+        "¶Program¶\n\n¶numtotext¶/en → # '' meow()",
         ConversionDefinition,
         'docs',
         Docs,
@@ -247,7 +247,7 @@ test.each([
     ['a.b', PropertyReference, 'name', Reference, 'b'],
     ['a.b.c()[d]{f}', SetOrMapAccess, 'setOrMap', ListAccess],
     [
-        "``Program``\n\n``let's see it``/en\na",
+        "¶Program¶\n\n¶let's see it¶/en\na",
         DocumentedExpression,
         'expression',
         Reference,
@@ -346,7 +346,7 @@ test('Blocks and binds', () => {
 });
 
 test('plain docs', () => {
-    const doc = parseDoc(toTokens('``this is what I am.``'));
+    const doc = parseDoc(toTokens('¶this is what I am.¶'));
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
     expect(doc.markup.paragraphs[0].segments[0]).toBeInstanceOf(Token);
@@ -355,7 +355,7 @@ test('plain docs', () => {
 
 test('multi-paragraph docs', () => {
     const doc = parseDoc(
-        toTokens('``this is what I am.\n\nthis is another point.``'),
+        toTokens('¶this is what I am.\n\nthis is another point.¶'),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -365,7 +365,7 @@ test('multi-paragraph docs', () => {
 
 test('linked docs', () => {
     const doc = parseDoc(
-        toTokens('``go see more at <wikipedia@https://wikipedia.org>.``'),
+        toTokens('¶go see more at <wikipedia@https://wikipedia.org>.¶'),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -377,7 +377,7 @@ test('linked docs', () => {
 
 test('docs in docs', () => {
     const doc = parseDoc(
-        toTokens("``This is a doc: \\``my doc``\\. Don't you see it?``"),
+        toTokens("¶This is a doc: \\¶my doc¶\\. Don't you see it?¶"),
     );
     expect(doc).toBeInstanceOf(Doc);
     expect(doc.markup.paragraphs[0]).toBeInstanceOf(Paragraph);
@@ -390,7 +390,7 @@ test('docs in docs', () => {
 test('unparsables in docs', () => {
     const doc = parseDoc(
         toTokens(
-            "``This is a broken example ina doc: \\∆\\. Don't you see it?``",
+            "¶This is a broken example ina doc: \\∆\\. Don't you see it?¶",
         ),
     );
     expect(doc).toBeInstanceOf(Doc);

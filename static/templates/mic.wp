@@ -1,7 +1,7 @@
 Sound transformation
 === start
-``Transform sound into phrases.``/en
-``Transforma el sonido en frases.``/es
-``将声音转换为短语。``/zh
+¶Transform sound into phrases.¶/en
+¶Transforma el sonido en frases.¶/es
+¶将声音转换为短语。¶/zh
 volume/en,volumen/es,音量/zh: Volume()
 Phrase(volume < 0.4 ? "😴" volume < 0.8 ? "😐" "😮" 5m)

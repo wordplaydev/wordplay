@@ -33,6 +33,7 @@ import {
     TYPE_CLOSE_SYMBOL,
     TYPE_OPEN_SYMBOL,
     TYPE_SYMBOL,
+    FORMATTED_SYMBOL,
 } from './Symbols';
 
 const ReservedSymbols = [
@@ -57,6 +58,7 @@ const ReservedSymbols = [
     BORROW_SYMBOL,
     SHARE_SYMBOL,
     DOCS_SYMBOL,
+    FORMATTED_SYMBOL,
     NONE_SYMBOL,
     TYPE_SYMBOL,
     STREAM_SYMBOL,

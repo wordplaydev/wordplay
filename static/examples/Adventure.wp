@@ -11,7 +11,7 @@ start: State("start" ["You awaken in a dark, cold room that smells of mold."] [ 
 
 key: Key()
 
-``start at the state state, and if the key changes, either go to start if there are no options, stay if the key isn't valid, or choose the option.`` 
+¶start at the state state, and if the key changes, either go to start if there are no options, stay if the key isn't valid, or choose the option.¶ 
 state•State: 
   start … ∆ key …
     state.won ? start

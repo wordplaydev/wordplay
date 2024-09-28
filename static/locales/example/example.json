@@ -675,7 +675,10 @@
             "doc": "$?",
             "start": "$?",
             "conflict": {
-                "UnknownName": { "conflict": "$?", "resolution": "$?" },
+                "UnknownName": {
+                    "conflict": "$?",
+                    "resolution": "$?"
+                },
                 "ReferenceCycle": "$?",
                 "UnexpectedTypeVariable": "$?"
             },
@@ -2292,7 +2295,10 @@
         "Stage": {
             "names": "$?",
             "doc": "$?",
-            "description": { "doc": ["$?"], "names": "$?" },
+            "description": {
+                "doc": ["$?"],
+                "names": "$?"
+            },
             "content": {
                 "doc": "$?",
                 "names": "$?"
@@ -2386,7 +2392,10 @@
         "Group": {
             "names": "$?",
             "doc": "$?",
-            "description": { "doc": ["$?"], "names": "$?" },
+            "description": {
+                "doc": ["$?"],
+                "names": "$?"
+            },
             "content": {
                 "doc": "$?",
                 "names": "$?"
@@ -2480,7 +2489,10 @@
         "Phrase": {
             "names": "$?",
             "doc": "$?",
-            "description": { "doc": ["$?"], "names": "$?" },
+            "description": {
+                "doc": ["$?"],
+                "names": "$?"
+            },
             "text": {
                 "doc": "$?",
                 "names": "$?"
@@ -3236,7 +3248,8 @@
                 "redo": "$?",
                 "search": "$?",
                 "tidy": "$?",
-                "elide": "$?"
+                "elide": "$?",
+                "insertDocs": "$?"
             }
         },
         "annotations": {

@@ -15,7 +15,7 @@ enum Sym {
     Convert = '→',
     Placeholder = '_',
 
-    Doc = '``',
+    Doc = '¶',
     Formatted = '`',
     FormattedType = '`…`',
     Words = 'words',

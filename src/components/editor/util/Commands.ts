@@ -23,6 +23,7 @@ import {
     SHARE_SYMBOL,
     CHANGE_SYMBOL,
     ELISION_SYMBOL,
+    DOCS_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -924,6 +925,18 @@ const Commands: Command[] = [
         key: 'Digit8',
         keySymbol: '8',
         execute: (context) => handleInsert(context, TYPE_SYMBOL),
+    },
+    {
+        symbol: DOCS_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertDocs,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Digit7',
+        keySymbol: '7',
+        execute: (context) => handleInsert(context, DOCS_SYMBOL),
     },
     {
         symbol: '≠',

@@ -79,7 +79,7 @@ Text literals can be opened and closed with numerous delimiters:
 > markup → `\`  
 > text → _any sequence of characters between open/close delimiters_
 
-Wordplay has a secondary notation for markup, delimited by backticks, as in `` `I am \*bold\*\` ``. Between backticks, these tokens are valid:
+Wordplay has a secondary notation for markup, delimited by backticks, as in ¶ `I am \*bold\*\` ¶. Between backticks, these tokens are valid:
 
 > linkopen → `<`  
 > linkclose → `>`  
@@ -747,8 +747,8 @@ sum/en
 sum/en-US
 sum/en-US,suma/es
 sum/en-US,suma/es-MX
-``Sum of values``/en sum/en-US,suma/es-MX
-``Sum of values``/en sum/en-US,suma/es-MX: 1
+¶Sum of values¶/en sum/en-US,suma/es-MX
+¶Sum of values¶/en sum/en-US,suma/es-MX: 1
 ```
 
 All of those examples define a name `sum`; some of them specify its type, some provide a value, some provide documentation, some have multiple language tagged aliases to enable localization of the program. Context determines whether these are semantically valid; for example, table columns require binds to specify a type; bindings in blocks (described below) have to have values.
@@ -816,7 +816,7 @@ Here are some example function definitions:
 ƒ sum(a•# b•#) a + b
 ƒ sum(a•#:0 b•#:0) a + b
 ƒ sum(a•#:0 b•#:0)•# a + b
-``Add some numbers`` ƒ sum(a•# b•#) a + b
+¶Add some numbers¶ ƒ sum(a•# b•#) a + b
 ƒ kind(num•#) (
     odd: (num % 2) = 1
     odd ? 'odd' 'even'
@@ -1040,11 +1040,11 @@ Programs create an evaluation scope, evaluate their binds and expressions in rea
 There are three places that comments can appear in code: just before programs, just before definitions of functions, structures, and conversions, and before expressions:
 
 ```
-``hi bind``a: 1
-``hi function`` ƒ hello() 'hi'
-``hi structure`` •food(calories•#cal)
-``hi conversion`` → #cal #kcal . · 0.001kcal/cal
-``hi expression``1 + 1
+¶hi bind¶a: 1
+¶hi function¶ ƒ hello() 'hi'
+¶hi structure¶ •food(calories•#cal)
+¶hi conversion¶ → #cal #kcal . · 0.001kcal/cal
+¶hi expression¶1 + 1
 ```
 
 Documentation is part of the grammar, not just discarded text in parsing. This allows for unambiguous association between text and documentation.

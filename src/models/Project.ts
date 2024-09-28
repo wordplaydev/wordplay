@@ -45,6 +45,7 @@ import Doc from '@nodes/Doc';
 import type Definition from '@nodes/Definition';
 import Templates from '@concepts/Templates';
 import concretize from '@locale/concretize';
+import { DOCS_SYMBOL } from '@parser/Symbols';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -813,7 +814,11 @@ export default class Project {
     }
 
     static deserializeSource(source: SerializedSource): Source {
-        return new Source(parseNames(toTokens(source.names)), source.code);
+        return new Source(
+            parseNames(toTokens(source.names)),
+            // We changed the documentation symbol. Automatically convert it when deserializing.
+            source.code.replaceAll('``', DOCS_SYMBOL),
+        );
     }
 
     /**

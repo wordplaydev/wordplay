@@ -1,8 +1,8 @@
 Animation Sequence
 ===
-``An phrase that repeatedly animates with a sequence.``/en
-``Una frase que se anima repetidamente con una secuencia.``/es
-``一个用序列重复动画的短语。``/zh
+¶An phrase that repeatedly animates with a sequence.¶/en
+¶Una frase que se anima repetidamente con una secuencia.¶/es
+¶一个用序列重复动画的短语。¶/zh
 Phrase(
     '🐈' 
     resting: Sequence({
