@@ -710,7 +710,7 @@ export default class Evaluator {
         return this.getLatestSourceValue(this.project.getMain());
     }
 
-    /** Evaluate until we're done */
+    /** Prepare for evaluation, and finish if playing. */
     start(changedStreams?: StreamValue[], limit = true): void {
         // If we're not done, finish first, if we were interrupted before.
         if (!this.isDone()) this.finish();
@@ -718,7 +718,7 @@ export default class Evaluator {
         // First, initialize any stream dependencies
         // If there are changed streams, construct a set of affected expressions that need to be reevaluated.
         // We'll reuse previous values for anything not affected.
-        if (changedStreams && !this.isInPast()) {
+        if (changedStreams && changedStreams.length > 0) {
             this.#currentStreamDependencies = new Set();
             for (const stream of changedStreams) {
                 const dependencies = this.#streamDependencies.get(
@@ -1131,8 +1131,10 @@ export default class Evaluator {
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
         this.resetForEvaluation(true, broadcast);
 
-        // Start the evaluation fresh.
-        this.start();
+        console.log('Step back to', change);
+
+        // Start the evaluation fresh, using the changed streams if we found any.
+        this.start(change ? change.changes.map((c) => c.stream) : undefined);
 
         // Step until reaching the target step index.
         while (this.#stepIndex < destinationStep) {

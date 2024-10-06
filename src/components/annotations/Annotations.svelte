@@ -212,9 +212,7 @@
                               );
                 if (firstExpression) {
                     const value =
-                        evaluator.getLatestExpressionValueInEvaluation(
-                            firstExpression,
-                        );
+                        evaluator.getLatestExpressionValue(firstExpression);
                     if (value)
                         nodeView = document.querySelector(
                             `.value[data-id="${value.id}"]`,

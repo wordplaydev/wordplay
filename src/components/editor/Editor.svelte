@@ -1163,7 +1163,7 @@
                 .map((expr) => {
                     return {
                         expression: expr,
-                        value: $evaluation.evaluator.getLatestExpressionValueInEvaluation(
+                        value: $evaluation.evaluator.getLatestExpressionValue(
                             expr,
                         ),
                     };

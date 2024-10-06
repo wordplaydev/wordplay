@@ -478,13 +478,14 @@ export default class Project {
     /** Return true if the given expression is in this project and depends only on contants. */
     isConstant(expression: Expression): boolean {
         let constant = this.constants.get(expression);
-        const context = this.getNodeContext(expression);
         // If we haven't visited this expression yet, compute it.
         if (constant === undefined) {
             // Mark this as not constant, assuming (and preventing) cycles.
             this.constants.set(expression, false);
+            // Compute whether the expression is constant.
+            const context = this.getNodeContext(expression);
             constant = expression.isConstant(context);
-            // Now actually compute whether it's constant.
+            // Cache the determination for later.
             this.constants.set(expression, constant);
         }
         return constant;
