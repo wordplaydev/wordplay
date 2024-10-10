@@ -142,7 +142,7 @@ export const Languages = {
     km: { name: 'ខ្មែរ', en: 'Khmer', scripts: ['Khmr'] },
     kn: { name: 'ಕನ್ನಡ', en: 'Kannada', scripts: ['Knda'] },
     ko: {
-        name: '한국어/韓國語',
+        name: '한국어',
         en: 'Korean',
         scripts: ['Kore'],
     },
