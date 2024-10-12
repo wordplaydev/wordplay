@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed rendering of recent values in debugger.
 -   Fixed debugger highlights on literal values.
 -   Fixed UI ID for stage to correct highlight.
+-   Don't wrap node sequences in blocks mode.
 
 ## 0.12.2 2024-10-5
 

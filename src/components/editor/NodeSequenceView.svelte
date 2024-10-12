@@ -106,7 +106,7 @@
     .node-list {
         display: flex;
         /* max-width: 40em; */
-        flex-wrap: wrap;
+        /* flex-wrap: wrap; */
     }
 
     .row {
