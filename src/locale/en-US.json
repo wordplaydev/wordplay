@@ -773,7 +773,7 @@
                 "\\list: ['bird' 'duck' 'fish' 'snake']\nlist[2]\\"
             ],
             "start": "Let's get the list $1 first",
-            "finish": "The item is $2!"
+            "finish": "The item at the index is $1!"
         },
         "ListLiteral": {
             "name": "list literal",

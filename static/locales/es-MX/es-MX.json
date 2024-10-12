@@ -753,7 +753,7 @@
                 "\\lista: ['pájaro' 'pato' 'pez' 'serpiente']\nlista[2]\\"
             ],
             "start": "vamos a obtener la lista $1 primero",
-            "finish": "¡el elemento es $2!"
+            "finish": "¡el elemento es $1!"
         },
         "ListLiteral": {
             "name": "lista específica",

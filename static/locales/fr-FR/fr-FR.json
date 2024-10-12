@@ -773,7 +773,7 @@
                 "$~\\liste : ['oiseau' 'canard' 'poisson' 'serpent']\nliste[2]\\"
             ],
             "start": "$~Commençons par obtenir la liste à 1 $",
-            "finish": "$~L'article coûte 2$!"
+            "finish": "$~L'article coûte 1$!"
         },
         "ListLiteral": {
             "name": "$~listelittérale",
