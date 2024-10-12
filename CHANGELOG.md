@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Corrected debugger behavior in the presence of reused values.
+-   Fixed debugger highlights on literal values.
 
 ## 0.12.1 2024-09-28
 

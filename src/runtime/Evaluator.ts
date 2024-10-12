@@ -425,6 +425,29 @@ export default class Evaluator {
         return this.evaluations[0]?.currentStep();
     }
 
+    /** Get the expression corresponding to the current step.
+     * This is usually the node of the step itself, but some steps are not an expression
+     * and so we need to find an ancestor that is.
+     */
+    getCurrentExpression(): Expression | undefined {
+        const currentStep = this.getCurrentStep();
+        if (currentStep === undefined) return undefined;
+        return currentStep.node instanceof Expression
+            ? currentStep.node
+            : this.project
+                  .getRoot(currentStep.node)
+                  ?.getAncestors(currentStep.node)
+                  .find((a): a is Expression => a instanceof Expression);
+    }
+
+    /** Get the current value of the current expression */
+    getCurrentValue() {
+        const currentExpression = this.getCurrentExpression();
+        if (currentExpression)
+            return this.getLatestExpressionValue(currentExpression);
+        return undefined;
+    }
+
     getNextStep() {
         return this.evaluations[0]?.nextStep();
     }
@@ -570,12 +593,15 @@ export default class Evaluator {
         beforeStepNumber?: number,
         afterStepNumber?: number,
     ): Value | undefined {
+        // Find the computed values for this expression.
         const values = this.values.get(expression);
         // No values? Return nothing.
         if (values === undefined || values.length === 0) return undefined;
-        // No step number? Return the latest.
+        // No step number? Return the latest before the current step.
         if (beforeStepNumber === undefined)
-            return values[values.length - 1].value;
+            return values.filter((val) => val.stepNumber <= this.#stepIndex)[
+                values.length - 1
+            ]?.value;
         // Was a step index given that the value should be computed after? Find the first value with a step index after.
         for (let index = values.length - 1; index >= 0; index--) {
             const step = values[index].stepNumber;
@@ -1130,8 +1156,6 @@ export default class Evaluator {
 
         // Reset the project to the beginning of time (but preserve stream history, since that's stored in project).
         this.resetForEvaluation(true, broadcast);
-
-        console.log('Step back to', change);
 
         // Start the evaluation fresh, using the changed streams if we found any.
         this.start(change ? change.changes.map((c) => c.stream) : undefined);

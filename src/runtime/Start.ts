@@ -36,7 +36,6 @@ export function start(evaluator: Evaluator, expr: Expression) {
         shouldSkip(evaluator, expr) &&
         evaluator.getLatestExpressionValue(expr)
     ) {
-        console.log('Skipping ' + expr.toWordplay());
         // Ask the evaluator to jump past this start's corresponding finish.
         evaluator.jumpPast(expr);
     }

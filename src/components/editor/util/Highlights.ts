@@ -80,7 +80,9 @@ export function getHighlights(
 
     // Is there a step we're actively evaluating? Highlight it!
     const stepNode = evaluator.getStepNode();
-    if (stepNode) addHighlight(source, newHighlights, stepNode, 'evaluating');
+    if (stepNode) {
+        addHighlight(source, newHighlights, stepNode, 'evaluating');
+    }
 
     // Is there an exception on the last step? Highlight the node that created it!
     if (
