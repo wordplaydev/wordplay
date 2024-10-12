@@ -3,12 +3,18 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.12.3 2024-10-12
+
+### Fixed
+
+-   Fixed rendering of recent values in debugger.
+-   Fixed debugger highlights on literal values.
+
 ## 0.12.2 2024-10-5
 
 ### Fixed
 
 -   Corrected debugger behavior in the presence of reused values.
--   Fixed debugger highlights on literal values.
 
 ## 0.12.1 2024-09-28
 
