@@ -1840,6 +1840,17 @@ export default class Caret {
     getPositionDescription(type: Type | undefined, context: Context) {
         const locales = context.getBasis().locales;
 
+        /** If a node was added, describe the addition. */
+        if (this.addition) {
+            return locales
+                .concretize(
+                    (l) => l.ui.edit.node,
+                    new NodeRef(this.addition, locales, context),
+                    type ? new NodeRef(type, locales, context) : undefined,
+                )
+                .toText();
+        }
+
         /** If the caret is a node, describe the node. */
         if (this.position instanceof Node) {
             return locales

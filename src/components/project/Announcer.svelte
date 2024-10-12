@@ -69,7 +69,7 @@
 <div
     class="announcements"
     role="alert"
-    aria-live="assertive"
+    aria-live="polite"
     aria-atomic="true"
     aria-relevant="all"
     data-kind={current?.announcement.kind}
