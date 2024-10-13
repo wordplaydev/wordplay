@@ -1083,7 +1083,7 @@
     }
 
     function repositionFloaters() {
-        menu = menu;
+        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
     }
 
     function getSourceIndexByID(id: string) {
