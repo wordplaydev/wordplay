@@ -69,8 +69,8 @@
         }}
         description={$locales.get((l) => l.ui.dialog.settings)}
     >
-        <p
-            ><Mode
+        <p>
+            <Mode
                 descriptions={$locales.get(
                     (l) => l.ui.dialog.settings.mode.layout,
                 )}
@@ -92,18 +92,18 @@
                                 : Arrangement.Free,
                     )}
                 modes={['📐', '↔️', '↕', '⏹️']}
-            /></p
-        >
-        <p
-            ><Mode
+            />
+            </p>
+        <p>
+            <Mode
                 descriptions={$locales.get(
                     (l) => l.ui.dialog.settings.mode.animate,
                 )}
                 choice={$animationFactor}
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={AnimationFactorIcons}
-            /></p
-        >
+            />
+            </p>
         <!-- <p
             ><Mode
                 descriptions={$locales.get(
