@@ -131,8 +131,8 @@
                     ]
                 },
                 {
-                    "title": "Would you like a program?",
-                    "subtitle": "Program",
+                    "title": "想要來一份程序嗎？",
+                    "subtitle": "程序",
                     "concept": "Program",
                     "performance": ["use", "fit", "Symbol", "📄"],
                     "lines": [
@@ -140,58 +140,58 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Hey @Program! I found a person. Well, I guess they found us. They want to be our new director!"
+                            "嘿 @Program！我找到了一個人！好吧，我想是他找到我們。他想成為我們的新導演！"
                         ],
                         [
                             "Program",
                             "curious",
-                            "Really!? Are you sure you're really a person? Say something a person would say."
+                            "真的嗎！？你真的是人嗎？說些人會說的話。"
                         ],
                         null,
                         ["fit", "Phrase('📄' entering: Sequence(spin() 1s))"],
                         [
                             "Program",
                             "serious",
-                            "Hm… you really are a person. And you want to direct?"
+                            "哇喔...你真的是一個人，你說你想當我們的導演？"
                         ],
                         null,
                         ["fit", "Phrase('📄' resting: Pose(rotation: 010°))"],
                         [
                             "Program",
                             "excited",
-                            "I see. Did @FunctionDefinition tell you anything about us? Lots of people try to direct us, but some people get confused, bored, even irritated with us. We are pretty dense at times. But I'm proud of what we do, so I don't want to work with just anyone."
+                            "恩，我知道了。 @FunctionDefinition 有跟你說過我們的事嗎？很多人嘗試當過我們導演，但有些人會感到困惑、無聊，甚至煩躁。我們有時真的很笨。不過我為我們的表演感到驕傲，所以我不想和隨便的人合作。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "I told them a bit. I said we were weird, and sometimes directors leave because of that. But they're in. Right, you're in?"
+                            "我有告訴他一些，我說我們有時候會很奇怪，有時導演還會因此離開，但他還是想參加。你想參加，對吧？"
                         ],
                         [
                             "Program",
                             "serious",
-                            "Okay. Well nice to meet you. Sorry, I've just had a lot of people come here and say '/this isn't for me/' and I've gotten a bit skeptical of people who try for a bit and then just give up. I shouldn't have to change who I am to fit people's expectations. But if you're willing to learn about me, and us, let's try!"
+                            "好吧。很高興見到你，抱歉，我只是遇到很多人來這裡說「這不適合我」，所以我對嘗試一下就放棄的人有點懷疑。我不想改變自己去迎合別人的期待。但如果你願意了解我和我們，那就一起試試吧！"
                         ],
                         null,
                         ["edit", ""],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Do you want to say what you do?"
+                            "你想聊聊你的工作嗎？"
                         ],
                         [
                             "Program",
                             "neutral",
-                            "Sure. I'm basically the organizer of the program for a performance.",
-                            "You can see me over there, with an *editor* @UI/editor showing me the *stage* @UI/stage showing the what I evaluate to (currently nothing). The *director* — that's you — helps everyone figure out what they're doing, writing a program for what will happen in the show. And then I evaluate the program and put the result on on stage for the audience to see."
+                            "當然，基本上，我是表演的組織者",
+                            "你可以在那邊看到我，和 *編輯器* @UI/editor 一起，顯示我正在評估的 *舞台* @UI/stage （目前還沒有）。 *導演* — 就是你 — 幫助每個人弄清楚他們要做什麼，寫出要表演的東西和計畫，然後我評估計劃，並把結果放在舞台上讓觀眾看到。"
                         ],
                         null,
                         [
                             "Program",
                             "neutral",
-                            "For example, try typing my \\'hello'\\ in the editor over there.",
-                            "(Don't worry about making mistakes, you can always revert to the original with *revert* @UI/revertProject).",
-                            "Did you type something? That's my friend @Text. Have you met them yet? They evaluate to \\'hello'\\, or whatever text you type, and then that text is placed on stage. Try changing your text to something else. I'll show that instead. So I'll immediately evaluate whatever you type and show the result."
+                            "比如說， 試著在那邊的編輯器裡面輸入 \\'你好'\\ 。",
+                            "（別擔心，你隨時可以用 *返回* @UI/revertProject 回到原來的樣子）",
+                            "你有輸入什麼了嗎？那是我的朋友 @Text 你認識他們嗎？他們會評估你輸入的 \\'你好'\\ 或你輸入的任何其他文本，然後將該文本放在舞台上。試著把你的文本改成其他的，我會馬上評估你輸入的任何內容並顯示結果。"
                         ],
                         null,
                         [
