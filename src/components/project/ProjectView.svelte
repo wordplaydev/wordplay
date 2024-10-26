@@ -1361,19 +1361,17 @@
                                                 l.ui.dialog.settings.mode
                                                     .animate,
                                         ).modes[$animationFactor]}
-                                        ><Emoji
-                                            >{AnimationFactorIcons[
-                                                $animationFactor
-                                            ]}</Emoji
-                                        >
+                                    >
+                                        <!-- <Emoji>{AnimationFactorIcons[$animationFactor]}</Emoji> -->
                                         {#if $animationFactor === 0}{$locales.get(
                                                 (l) =>
                                                     l.ui.dialog.settings.mode
                                                         .animate,
-                                            ).modes[0]}{/if}</span
-                                    >
+                                            ).modes[0]}{/if}
+                                    </span>
                                 {/if}
                             </svelte:fragment>
+
                             <svelte:fragment slot="extra">
                                 <!-- Put some extra buttons in the output toolbar -->
                                 {#if tile.kind === TileKind.Output}
@@ -1426,6 +1424,18 @@
                                             >{#if fit}🔒{:else}🔓{/if}</Emoji
                                         ></Toggle
                                     >
+                                    <ModeChooser
+                                        descriptions={$locales.get(
+                                            (l) =>
+                                                l.ui.dialog.settings.mode
+                                                    .animate,
+                                        )}
+                                        choice={$animationFactor}
+                                        select={(choice) =>
+                                            Settings.setAnimationFactor(choice)}
+                                        modes={AnimationFactorIcons}
+                                        labeled={false}
+                                    />
                                 {:else if tile.isSource()}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
