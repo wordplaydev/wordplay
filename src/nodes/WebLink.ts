@@ -1,4 +1,3 @@
-import type Conflict from '@conflicts/Conflict';
 import Purpose from '../concepts/Purpose';
 import Glyphs from '../lore/Glyphs';
 import {
@@ -46,7 +45,11 @@ export default class WebLink extends Content {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [WebLink.make('...', 'https://')];
+    }
+
+    static getPossibleAppends() {
         return [WebLink.make('...', 'https://')];
     }
 
@@ -64,7 +67,7 @@ export default class WebLink extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts() {
         return [];
     }
 

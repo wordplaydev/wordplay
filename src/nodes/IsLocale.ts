@@ -15,7 +15,6 @@ import Language from './Language';
 import StartFinish from '@runtime/StartFinish';
 import type Expression from './Expression';
 import type TypeSet from './TypeSet';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
 
 export default class IsLocale extends SimpleExpression {
@@ -35,14 +34,12 @@ export default class IsLocale extends SimpleExpression {
         return new IsLocale(new Token(GLOBE1_SYMBOL, Sym.Change), language);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
-        return selected === false
-            ? [IsLocale.make(Language.make(undefined))]
-            : [];
+    static getPossibleReplacements() {
+        return [IsLocale.make(Language.make('en'))];
+    }
+
+    static getPossibleAppends() {
+        return [IsLocale.make(Language.make('en'))];
     }
 
     getDescriptor() {
@@ -71,7 +68,7 @@ export default class IsLocale extends SimpleExpression {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {

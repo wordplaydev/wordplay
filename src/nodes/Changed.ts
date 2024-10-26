@@ -23,8 +23,9 @@ import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class Changed extends SimpleExpression {
     readonly change: Token;
@@ -60,8 +61,22 @@ export default class Changed extends SimpleExpression {
         ];
     }
 
-    static getPossibleNodes() {
-        return [Changed.make(ExpressionPlaceholder.make())];
+    static getPossibleReplacements({ node, type, context }: EditContext) {
+        return node instanceof Expression && type instanceof BooleanType
+            ? [
+                  Changed.make(
+                      node.getType(context) instanceof StreamType
+                          ? node
+                          : ExpressionPlaceholder.make(StreamType.make()),
+                  ),
+              ]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
+        return type === undefined || type instanceof BooleanType
+            ? [Changed.make(ExpressionPlaceholder.make(StreamType.make()))]
+            : [];
     }
 
     clone(replace?: Replacement) {

@@ -43,6 +43,7 @@ export function createStageType(locales: Locales) {
     )}•${SupportedFontsFamiliesType}: "${locales.getLocales()[0].ui.font.app}"
     ${getBind(locales, (locale) => locale.output.Stage.place)}•📍|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.name)}•""|ø: ø
+    ${getBind(locales, (locale) => locale.output.Stage.description)}•""|ø: ø
     ${getBind(locales, (locale) => locale.output.Stage.selectable)}•?: ⊥
     ${getBind(
         locales,
@@ -98,6 +99,7 @@ export default class Stage extends Output {
         face: SupportedFace,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined,
         selectable: boolean,
         pose: DefinitePose,
         entering: Pose | Sequence | undefined = undefined,
@@ -114,6 +116,7 @@ export default class Stage extends Output {
             face,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -213,13 +216,14 @@ export default class Stage extends Output {
         if (this._description === undefined) {
             this._description = locales
                 .concretize(
-                    (l) => l.output.Stage.description,
+                    (l) => l.output.Stage.defaultDescription,
                     this.content.length,
                     this.name instanceof TextLang ? this.name.text : undefined,
                     this.frame?.getDescription(locales),
-                    this.pose.getDescription(locales),
+                    this.pose.getDescription(locales).trim(),
                 )
-                .toText();
+                .toText()
+                .trim();
         }
         return this._description;
     }
@@ -304,13 +308,14 @@ export function toStage(
                 : toOutput(evaluator, possibleGroups, namer);
         const frame = toForm(project, getOutputInput(value, 1));
 
-        const gravity = toNumber(getOutputInput(value, 21)) ?? DefaultGravity;
+        const gravity = toNumber(getOutputInput(value, 22)) ?? DefaultGravity;
 
         const {
             size,
             face: font,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -338,6 +343,7 @@ export function toStage(
                   font ?? evaluator.getLocales()[0].ui.font.app,
                   place,
                   namer.getName(name?.text, value),
+                  description,
                   selectable,
                   pose,
                   enter,
@@ -371,6 +377,7 @@ export function toStage(
                   evaluator.getLocales()[0].ui.font.app,
                   undefined,
                   namer.getName(undefined, value),
+                  undefined,
                   type.selectable,
                   new DefinitePose(
                       value,

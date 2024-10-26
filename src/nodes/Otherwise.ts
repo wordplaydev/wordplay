@@ -8,9 +8,8 @@ import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
-import Expression from './Expression';
+import Expression, { ExpressionKind } from './Expression';
 import type TypeSet from './TypeSet';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
 import { COALESCE_SYMBOL } from '@parser/Symbols';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -23,6 +22,7 @@ import Check from '@runtime/Check';
 import NoneValue from '@values/NoneValue';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import type Conflict from '@conflicts/Conflict';
+import type EditContext from '@edit/EditContext';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;
@@ -39,19 +39,22 @@ export default class Otherwise extends SimpleExpression {
         this.computeChildren();
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
-        return selected === false || !(node instanceof Expression)
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
             ? [
-                  Otherwise.make(
-                      ExpressionPlaceholder.make(),
-                      ExpressionPlaceholder.make(),
-                  ),
+                  Otherwise.make(node, ExpressionPlaceholder.make()),
+                  Otherwise.make(ExpressionPlaceholder.make(), node),
               ]
-            : [Otherwise.make(node, ExpressionPlaceholder.make())];
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
+        return [
+            Otherwise.make(
+                ExpressionPlaceholder.make(type),
+                ExpressionPlaceholder.make(type),
+            ),
+        ];
     }
 
     static make(left: Expression, right: Expression) {
@@ -63,7 +66,7 @@ export default class Otherwise extends SimpleExpression {
     }
 
     getDescriptor() {
-        return 'NoneOr';
+        return 'Otherwise';
     }
 
     getGrammar(): Grammar {
@@ -177,5 +180,9 @@ export default class Otherwise extends SimpleExpression {
 
     getGlyphs() {
         return Glyphs.NoneOr;
+    }
+
+    getKind(): ExpressionKind {
+        return ExpressionKind.Evaluate;
     }
 }

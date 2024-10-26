@@ -186,7 +186,7 @@ export class Iteration<State = any> extends Expression {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     // We don't clone these, we just erase their parent, since there's only one of them.

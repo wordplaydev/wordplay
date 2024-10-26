@@ -29,6 +29,8 @@ import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import Input from './Input';
+import type EditContext from '@edit/EditContext';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -58,9 +60,12 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         );
     }
 
-    static getPossibleNodes() {
-        // Don't pass the type, since we don't want it to be actual text in the program.
-        return [ExpressionPlaceholder.make(undefined)];
+    static getPossibleReplacements({ type }: EditContext) {
+        return [ExpressionPlaceholder.make(type)];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
+        return [ExpressionPlaceholder.make(type)];
     }
 
     getDescriptor() {
@@ -93,10 +98,16 @@ export default class ExpressionPlaceholder extends SimpleExpression {
                     );
                 },
             },
-            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['type', () => TypePlaceholder.make()]),
+                ),
+            },
             {
                 name: 'type',
-                kind: any(node(Type), none('dot')),
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
             },
         ];
     }

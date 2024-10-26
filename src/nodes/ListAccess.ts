@@ -34,6 +34,7 @@ import getGuards from './getGuards';
 import Reference from './Reference';
 import PropertyReference from './PropertyReference';
 import UnionType from './UnionType';
+import type EditContext from '@edit/EditContext';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -66,7 +67,26 @@ export default class ListAccess extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node, context }: EditContext) {
+        if (!(node instanceof Expression)) return [];
+        return node.getType(context).accepts(ListType.make(), context)
+            ? [
+                  ListAccess.make(
+                      node,
+                      ExpressionPlaceholder.make(NumberType.make()),
+                  ),
+              ]
+            : node.getType(context).accepts(NumberType.make(), context)
+              ? [
+                    ListAccess.make(
+                        ExpressionPlaceholder.make(ListType.make()),
+                        node,
+                    ),
+                ]
+              : [];
+    }
+
+    static getPossibleAppends() {
         return [
             ListAccess.make(
                 ExpressionPlaceholder.make(ListType.make()),
@@ -110,7 +130,7 @@ export default class ListAccess extends Expression {
     }
 
     getPurpose(): Purpose {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     getAffiliatedType(): BasisTypeName | undefined {

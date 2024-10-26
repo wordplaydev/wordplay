@@ -34,6 +34,9 @@ import TextType from './TextType';
 import BooleanType from './BooleanType';
 import NoneLiteral from './NoneLiteral';
 import NoneType from './NoneType';
+import type EditContext from '@edit/EditContext';
+import Input from './Input';
+import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -48,8 +51,8 @@ export default class TableLiteral extends Expression {
         this.computeChildren();
     }
 
-    static make() {
-        return new TableLiteral(TableType.make(), [Row.make()]);
+    static make(type?: TableType, rows?: Row[]) {
+        return new TableLiteral(type ?? TableType.make(), rows ?? [Row.make()]);
     }
 
     static from(data: string[][]): TableLiteral | undefined {
@@ -146,13 +149,42 @@ export default class TableLiteral extends Expression {
                     undefined,
                     // Try to make a valid name
                     Names.make([name]),
-                    inferType(rows.map((row) => row.cells[index])),
+                    inferType(
+                        rows.map((row) => {
+                            const cell = row.cells[index];
+                            return cell instanceof Input ? cell.value : cell;
+                        }),
+                    ),
                     undefined,
                 );
             }),
         );
 
         return new TableLiteral(type, rows);
+    }
+
+    static getPossibleReplacements({ node }: EditContext) {
+        return [
+            TableLiteral.make(
+                TableType.make(),
+                node instanceof Expression ? [Row.make([node])] : undefined,
+            ),
+        ];
+    }
+
+    static getPossibleAppends() {
+        return [
+            TableLiteral.make(
+                TableType.make([
+                    Bind.make(
+                        undefined,
+                        Names.make([PLACEHOLDER_SYMBOL]),
+                        NumberType.make(),
+                    ),
+                ]),
+                [Row.make([NumberLiteral.make(1)])],
+            ),
+        ];
     }
 
     getDescriptor() {
@@ -168,14 +200,6 @@ export default class TableLiteral extends Expression {
             },
             { name: 'rows', kind: list(true, node(Row)), newline: true },
         ];
-    }
-
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-    ) {
-        return type === undefined && !selected ? [TableLiteral.make()] : [];
     }
 
     getPurpose() {
@@ -231,7 +255,8 @@ export default class TableLiteral extends Expression {
     getDependencies(): Expression[] {
         const dependencies = [];
         for (const row of this.rows)
-            for (const cell of row.cells) dependencies.push(cell);
+            for (const cell of row.cells)
+                dependencies.push(cell instanceof Input ? cell.value : cell);
         return dependencies;
     }
 
@@ -245,7 +270,10 @@ export default class TableLiteral extends Expression {
                     ...row.cells.reduce(
                         (cells: Step[], cell) => [
                             ...cells,
-                            ...cell.compile(evaluator, context),
+                            ...(cell instanceof Input
+                                ? cell.value
+                                : cell
+                            ).compile(evaluator, context),
                         ],
                         [],
                     ),

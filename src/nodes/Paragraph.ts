@@ -38,8 +38,12 @@ export default class Paragraph extends Content {
         this.segments = segments;
     }
 
-    static getPossibleNodes() {
-        return [];
+    static getPossibleReplacements() {
+        return [new Paragraph([])];
+    }
+
+    static getPossibleAppends() {
+        return [new Paragraph([])];
     }
 
     getDescriptor() {
@@ -65,7 +69,7 @@ export default class Paragraph extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 

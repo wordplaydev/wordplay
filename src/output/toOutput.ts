@@ -95,6 +95,7 @@ export function getTypeStyle(
     size: number | undefined;
     face: SupportedFace | undefined;
     name: TextLang | undefined;
+    description: TextLang | undefined;
     selectable: boolean | undefined;
     place: Place | undefined;
     background: Color | undefined;
@@ -120,6 +121,7 @@ export function getTypeStyle(
         face,
         place,
         name: style.name,
+        description: style.description,
         selectable: style.selectable,
         background: style.background,
         pose: style.pose,
@@ -141,6 +143,7 @@ export function getStyle(
 ) {
     const [
         nameVal,
+        descriptionVal,
         selectableVal,
         colorVal,
         backgroundVal,
@@ -160,6 +163,7 @@ export function getStyle(
     ] = getOutputInputs(value, index);
 
     const name = toText(nameVal);
+    const description = toText(descriptionVal);
     const selectable = toBoolean(selectableVal);
     const background = toColor(backgroundVal);
     const color = toColor(colorVal);
@@ -191,6 +195,7 @@ export function getStyle(
 
     return {
         name,
+        description,
         selectable,
         background,
         pose,

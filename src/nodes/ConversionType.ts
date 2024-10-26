@@ -53,7 +53,7 @@ export default class ConversionType extends Type {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {

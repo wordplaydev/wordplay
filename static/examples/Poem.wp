@@ -2,7 +2,7 @@ Poem
 === start
 •Line(text•"" pose•Pose|Sequence back: Color(100 100 100°) front: Color(0 0 0°) )
 
-``A list of lines of the poem, each with a pose.``
+¶A list of lines of the poem, each with a pose.¶
 poem: [
     Line("The computer file" Pose(opacity: 0% offset: Place(y: -5m)))
     Line("of which" Pose(opacity: 0% offset: Place(y: -5m)))

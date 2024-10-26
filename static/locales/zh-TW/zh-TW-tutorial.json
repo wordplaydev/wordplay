@@ -4,11 +4,11 @@
     "region": "US",
     "acts": [
         {
-            "title": "The Verse",
+            "title": "詩篇",
             "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
-                    "title": "Silence",
+                    "title": "寂靜",
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
@@ -19,42 +19,42 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Oh, is this your first time visiting?",
-                            "Nice to meet you. My name is @FunctionDefinition.",
+                            "噢，你好，這是你第一次來這裡嗎？",
+                            "很高興認識你，我的名字是 @FunctionDefinition.",
                             "…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Did you need some help? Oh, you're visiting. Welcome to the *Verse*. …"
+                            "你需要幫忙嗎？哦，你是來參觀的。歡迎來到詩篇>"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "bored",
-                            "What is this place?",
-                            "Yeah, what is this place…",
-                            "It used to be a place of dancing, stories, games, and play…",
-                            "We used to put on the most beautiful performances. Sometimes for visitors like you, sometimes just for fun. It was a place full of life and surprise…"
+                            "這裡是什麼地方？",
+                            "是啊，這裡是什麼地方...",
+                            "這裡曾經是一個跳舞、講故事和玩遊戲的地方...",
+                            "我們以前曾經在這邊舉行過盛大的演出，有時候是給像你一樣的客人，有時候只是因為好玩。這曾經是一個充滿活力和驚喜的地方..."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "Stop?",
-                            "We didn't want to stop. We just lost our inspiration.",
-                            "I can mean so many things, for example. I'm the Dutch florin symbol sometimes, an old currency of the Netherlands. I used to be known and used around the world by people, to help them trade. Long ago, I was also the lowercase /f/of the Latin alphabet.",
-                            "Today, though, I'm pretty obscure."
+                            "停止？",
+                            "我們從來沒想過要停！我們只是失去了靈感...",
+                            "我可以是很多東西，比如說，我以前是一種荷蘭的古老貨幣（Florin）的象徵，那時候我被幾乎全世界的人所熟知並用來交易；更久以前，我也曾經是小寫的拉丁文字。",
+                            "但今天，已經沒有多少人知道我了..."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "bored",
-                            "But all of that meaning?",
-                            "It's given to us. We don't mean anything without people to remember that history and culture. And we can't mean anything new if there aren't people to give us new history and culture.",
-                            "People have always been the ones that organized us, that gave us purpose, that gave us something to represent. The Verse is nothing without *people*.",
-                            "And I haven't seen a person in ages."
+                            "但是那些意義呢？",
+                            "我們是被賦予意義的。除非大家記得我們的歷史和文化，不然我們就沒有意義，而我們也沒辦法有新的意義除非大家賦予我們新的歷史和價值",
+                            "是人們一直在排列我們、給予我們目的，這個詩篇不能沒有 *人*.",
+                            "而我已經很久沒見過人了..."
                         ],
                         null,
                         [
@@ -64,7 +64,7 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Wait... are you a person?"
+                            "等等...你就是一個人嗎？"
                         ],
                         null,
                         [
@@ -74,13 +74,13 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Like a real person, with thoughts and ideas and values to share? Not one of those robots, that just mindlessly parrots what people say? If you're a person, then maybe you could give us meaning?"
+                            "一個真正的人，會思考、有想法的人？而不是那種只會模仿人類的機器人？如果你是一個人，或許你可以給我們意義？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "scared",
-                            "I know that's a lot to ask. I don't even know you. And I'd really have to talk to the others…"
+                            "我知道這感覺好像要求很多，我也還沒有那麼認識你，而且我也需要和其他人聊聊..."
                         ],
                         null,
                         [
@@ -90,13 +90,13 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "Oh yes, there are many others. Some of us are like me: we help choreograph the shows, keeping everyone in their place and making sure we express the vision of our director, exactly as they intended. And some of us are the ones on stage, in front of the audience, dancing and speaking. We all have a role to play!"
+                            "噢，對，這裡還有很多其他字符。有些就像我一樣，可以在幕後幫助編排整場表演、讓字符待在對的地方、確保字符們完整並準確地表達導演想要表達的事情。而有些字符會直接站在舞台上，對著觀眾跳舞或者說話。我們都有自己的角色和工作！"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Oh, the director, yes, I didn't even explain. So the *director*, this is the person that gives us meaning. They are the person who arranges the choreography, who sets the message, who puts all of us in order just so. This is the inspiration I was talking about. We can do a lot in this world, but we can't direct ourselves. That's why the director is so important. So when I asked earlier if you could give us meaning, that's what I meant. Could you be our director?"
+                            "哦，導演，對，我還沒解釋。所以 *導演* 是給我們意義的人。他們安排舞蹈，設定信息，把我們排成一列。這就是我所說的靈感。我們可以做很多事情，但是不能自己排列、安排自己。這就是為什麼導演很重要。所以當我問你是否可以給我們意義時，這就是我的意思。你能成為我們的導演嗎？"
                         ],
                         null,
                         [
@@ -106,7 +106,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "Really? That's wonderful! This is going to be so much fun. I mean, it's not going to be easy. We have /a lot/ to learn."
+                            "真的嗎？太好了！這一定會很有趣！恩...不過也不會太容易，我們有 /很多/ 要學。"
                         ],
                         null,
                         [
@@ -116,7 +116,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "But I promise it won't be boring. I think we're a pretty fun bunch. And we need everyone in the Verse to come together to do that. I think that's what makes this place so special, actually: there are more than a hundred thousand of us here, each different, and yet somehow, when we manage to find a shared vision, we can seem like one."
+                            "但我保證這不會無聊。我覺得我們是一群很有趣的人！我們需要詩篇中的每個人一起合作。這正是這個地方特別的地方：這裡有超過十萬人，每個人都不同，但當我們有找到共同的目標時，我們可以像一個團隊一樣！"
                         ],
                         null,
                         [
@@ -126,7 +126,7 @@
                         [
                             "FunctionDefinition",
                             "bored",
-                            "Directing? Oh, right, directing! Yeah, let's talk about that. Let's go meet some of the others and talk about it. They're going to be so excited!"
+                            "至於怎麼當導演...我會再告訴你的，在那之前我們先去跟其他字符聊聊再來解釋吧，他們一定都很期待！"
                         ]
                     ]
                 },
@@ -4863,14 +4863,14 @@
                     "title": "Director's notes",
                     "subtitle": "Explain",
                     "concept": "Doc",
-                    "performance": ["use", "fit", "Symbol", "``"],
+                    "performance": ["use", "fit", "Symbol", "¶"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
                             "Wow, we've come a long way, haven't we? We have one more character to go. They're an interesting one, because in essence, they're all about explaining things, which feels like what I've been doing with you for a while now. Their name is @Doc. What's up @Doc?"
                         ],
-                        ["use", "fit", "Symbol", "``"],
+                        ["use", "fit", "Symbol", "¶"],
                         [
                             "Doc",
                             "surprised",
@@ -4887,14 +4887,14 @@
                             "kind",
                             "It's so nice to meet you! I hope @FunctionDefinition has been a good teacher?"
                         ],
-                        ["use", "fit", "Symbol", "``/"],
+                        ["use", "fit", "Symbol", "¶/"],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
                             "I've tried… you know, you're our last stop? You're so essential, but also, there's so much to explain before we even get to explaining our performances. So I wanted you to get the last word. Do you want to share what you do?"
                         ],
-                        ["use", "fit", "Symbol", "``/en"],
+                        ["use", "fit", "Symbol", "¶/en"],
                         null,
                         [
                             "Doc",
@@ -4907,7 +4907,7 @@
                             "happy",
                             "I'm a way you can remind yourself what everyone is doing, but also a way to explain to others, if you're directing with a friend, or want to share your performance with someone. So you don't /have/ to work with me, but I find that every performance is a bit easier to do and change if you've spent some time explaining how it works."
                         ],
-                        ["use", "fit", "Symbol", "``About me...``/en"],
+                        ["use", "fit", "Symbol", "¶About me...¶/en"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4921,8 +4921,8 @@
                         ],
                         [
                             "conflict",
-                            "``The price at the beginning of the game, ",
-                            "used to initialize the game.``",
+                            "¶The price at the beginning of the game, ",
+                            "used to initialize the game.¶",
                             "startingPrice: 5dollar"
                         ],
                         null,
@@ -4933,8 +4933,8 @@
                         ],
                         [
                             "edit",
-                            "``Gets the tax for a given price, ",
-                            "which is 1% if less than 100, and 5% otherwise``",
+                            "¶Gets the tax for a given price, ",
+                            "which is 1% if less than 100, and 5% otherwise¶",
                             "ƒ tax(price•#dollar) ",
                             "    price · (price < 100dollar ? 0.01 0.05)"
                         ],
@@ -4946,8 +4946,8 @@
                         ],
                         [
                             "edit",
-                            "``Represents a product and its price. ",
-                            "Eventually will support functions to get other details about the product.``",
+                            "¶Represents a product and its price. ",
+                            "Eventually will support functions to get other details about the product.¶",
                             "•Product(name•'' price•#dollar)"
                         ],
                         null,
@@ -4959,7 +4959,7 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "``The quadratic equation``",
+                            "¶The quadratic equation¶",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4971,8 +4971,8 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "``The quadratic equation``/en",
-                            "``La ecuación cuadrática``/es",
+                            "¶The quadratic equation¶/en",
+                            "¶La ecuación cuadrática¶/es",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4983,13 +4983,13 @@
                         ],
                         [
                             "conflict",
-                            "``Have you ever wanted to know what it's like ",
+                            "¶Have you ever wanted to know what it's like ",
                             "to fly a ✈️ with your mouth?",
-                            "Maybe this stores the plane's height?``",
+                            "Maybe this stores the plane's height?¶",
                             "•Plane()",
-                            "``We need some kind of reaction to listen to the microphone…``",
+                            "¶We need some kind of reaction to listen to the microphone…¶",
                             "sound: 1m",
-                            "``We know there's a plane, but what else?``",
+                            "¶We know there's a plane, but what else?¶",
                             "Phrase(“✈️” sound)"
                         ],
                         null,
@@ -5018,11 +5018,11 @@
                         ],
                         [
                             "edit",
-                            "``Docs can be ",
+                            "¶Docs can be ",
                             "/italic/, ",
                             "_underlined_, ",
                             "*bold*, or ",
-                            "^extra bold^.``",
+                            "^extra bold^.¶",
                             "'fancy!'"
                         ],
                         null,
@@ -5033,12 +5033,12 @@
                         ],
                         [
                             "edit",
-                            "``",
+                            "¶",
                             "Docs can be ",
                             "  /italic/ (//), ",
                             "  _underlined_ (__), ",
                             "  *bold* (**), or ",
-                            "  ^extra bold^ (^^).``",
+                            "  ^extra bold^ (^^).¶",
                             "'fancy'"
                         ],
                         null,
@@ -5049,7 +5049,7 @@
                         ],
                         [
                             "edit",
-                            "``I'm an example inside a doc: \\1 + 1\\.``",
+                            "¶I'm an example inside a doc: \\1 + 1\\.¶",
                             "1 + 1"
                         ],
                         null,
@@ -5060,7 +5060,7 @@
                         ],
                         [
                             "edit",
-                            "``Learn more at <Wordplay@https://wordplay.dev>.`` 'a link!'"
+                            "¶Learn more at <Wordplay@https://wordplay.dev>.¶ 'a link!'"
                         ],
                         null,
                         [

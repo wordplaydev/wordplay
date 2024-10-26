@@ -100,4 +100,9 @@ export default abstract class Type extends Node {
     resolveTypeVariable(_: string, __: Context): Type | undefined {
         return undefined;
     }
+
+    /** Return a reasonable default expression for the type, if one exists. Subclasses can override. */
+    getDefaultExpression(_: Context): Expression | undefined {
+        return undefined;
+    }
 }

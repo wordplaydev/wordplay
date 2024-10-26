@@ -8,7 +8,7 @@ import { NotANumber } from '@conflicts/NotANumber';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import Sym from './Sym';
-import Node, { node, type Grammar, type Replacement, optional } from './Node';
+import { node, type Grammar, type Replacement, optional } from './Node';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
@@ -16,6 +16,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Decimal from 'decimal.js';
 import { type TemplateInput } from '../locale/Locales';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class NumberLiteral extends Literal {
     readonly number: Token;
@@ -47,12 +48,7 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        _: Node,
-        __: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ type, context }: EditContext) {
         const possibleNumberTypes = type
             ?.getPossibleTypes(context)
             .filter(
@@ -79,6 +75,10 @@ export default class NumberLiteral extends Literal {
                 NumberLiteral.make('∞', undefined, Sym.Infinity),
             ];
         }
+    }
+
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
     }
 
     getDescriptor() {

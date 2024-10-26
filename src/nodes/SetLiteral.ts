@@ -23,6 +23,7 @@ import type Conflict from '../conflicts/Conflict';
 import AnyType from './AnyType';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
+import type EditContext from '@edit/EditContext';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -54,7 +55,13 @@ export default class SetLiteral extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [SetLiteral.make(), SetLiteral.make([node])]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [SetLiteral.make()];
     }
 

@@ -20,7 +20,7 @@
     export let parentAscent: number;
     export let context: RenderContext;
     export let editing: boolean;
-    export let still: boolean;
+    export let frame: number;
 
     // Visible if z is ahead of focus and font size is greater than 0.
     $: visible = place.z > focus.z;
@@ -29,13 +29,20 @@
 
     $: width = shape.form.getWidth() * PX_PER_METER;
     $: height = shape.form.getHeight() * PX_PER_METER;
+
+    let description: string | null = null;
+    let lastFrame = 0;
+    $: {
+        if (frame > lastFrame) description = shape.getDescription($locales);
+        lastFrame = frame;
+    }
 </script>
 
 {#if visible}
     <div
         role={selectable ? 'button' : null}
         aria-disabled={!selectable}
-        aria-label={still ? shape.getDescription($locales) : null}
+        aria-label={description}
         aria-roledescription={!selectable
             ? $locales.get((l) => l.term.phrase)
             : null}

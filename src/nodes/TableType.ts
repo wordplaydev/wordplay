@@ -18,6 +18,7 @@ import type Definition from './Definition';
 import type Type from './Type';
 import StructureType from './StructureType';
 import type Locales from '../locale/Locales';
+import TableLiteral from './TableLiteral';
 
 export default class TableType extends BasisType {
     readonly open: Token;
@@ -45,6 +46,14 @@ export default class TableType extends BasisType {
             columns,
             new Token(TABLE_CLOSE_SYMBOL, [Sym.TableClose]),
         );
+    }
+
+    static getPossibleReplacements() {
+        return [TableType.make()];
+    }
+
+    static getPossibleAppends() {
+        return [TableType.make()];
     }
 
     getDescriptor() {
@@ -142,5 +151,9 @@ export default class TableType extends BasisType {
 
     getGlyphs() {
         return Glyphs.Table;
+    }
+
+    getDefaultExpression() {
+        return TableLiteral.make();
     }
 }

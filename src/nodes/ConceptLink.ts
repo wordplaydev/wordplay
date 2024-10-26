@@ -72,7 +72,7 @@ export default class ConceptLink extends Content {
         return Purpose.Document;
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 

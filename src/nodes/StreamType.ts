@@ -44,7 +44,7 @@ export default class StreamType extends Type {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {

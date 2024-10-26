@@ -5,6 +5,7 @@ import Glyphs from '../lore/Glyphs';
 import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
 import type StructureType from './StructureType';
+import type Context from './Context';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;
@@ -28,14 +29,8 @@ export default class StructureDefinitionType extends Type {
     }
 
     /** Compatible if it's the same structure definition, or the given type is a refinement of the given structure.*/
-    acceptsAll(types: TypeSet): boolean {
-        return types.list().every((type) => {
-            if (
-                type instanceof StructureDefinitionType &&
-                this.type.definition === type.type.definition
-            )
-                return true;
-        });
+    acceptsAll(types: TypeSet, context: Context): boolean {
+        return types.list().every((type) => this.type.accepts(type, context));
     }
 
     simplify() {
@@ -64,5 +59,9 @@ export default class StructureDefinitionType extends Type {
 
     getGlyphs() {
         return Glyphs.Type;
+    }
+
+    getDefaultExpression(context: Context) {
+        return this.type.getDefaultExpression(context);
     }
 }

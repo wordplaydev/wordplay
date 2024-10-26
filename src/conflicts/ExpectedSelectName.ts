@@ -4,12 +4,13 @@ import NodeRef from '@locale/NodeRef';
 import Conflict from './Conflict';
 import type Select from '../nodes/Select';
 import type Locales from '../locale/Locales';
+import type Input from '@nodes/Input';
 
 export default class ExpectedSelectName extends Conflict {
     readonly select: Select;
-    readonly cell: Expression;
+    readonly cell: Expression | Input;
 
-    constructor(select: Select, cell: Expression) {
+    constructor(select: Select, cell: Expression | Input) {
         super(false);
 
         this.select = select;

@@ -60,7 +60,9 @@ if (typeof process === 'undefined') {
         // Initialize emulator if environment is local.
         if (emulating) {
             connectFirestoreEmulator(firestore, 'localhost', 8080);
-            connectAuthEmulator(auth, 'http://localhost:9099');
+            connectAuthEmulator(auth, 'http://localhost:9099', {
+                disableWarnings: true,
+            });
             connectFunctionsEmulator(functions, 'localhost', 5001);
         }
     } catch (err) {

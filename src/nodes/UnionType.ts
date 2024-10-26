@@ -16,6 +16,7 @@ import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import type Definition from './Definition';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -36,19 +37,14 @@ export default class UnionType extends Type {
         return new UnionType(left, new Token(OR_SYMBOL, Sym.Union), right);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
-        return [
-            node instanceof Type && selected
-                ? UnionType.make(node, TypePlaceholder.make())
-                : UnionType.make(
-                      TypePlaceholder.make(),
-                      TypePlaceholder.make(),
-                  ),
-        ];
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Type
+            ? [UnionType.make(node, TypePlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends() {
+        return [UnionType.make(TypePlaceholder.make(), TypePlaceholder.make())];
     }
 
     static orNone(left: Type) {
@@ -269,5 +265,12 @@ export default class UnionType extends Type {
 
         if (remaining.size === 0) return Array.from(remaining)[0];
         else return UnionType.getPossibleUnion(context, Array.from(remaining));
+    }
+
+    getDefaultExpression(context: Context) {
+        return (
+            this.left.getDefaultExpression(context) ??
+            this.right.getDefaultExpression(context)
+        );
     }
 }

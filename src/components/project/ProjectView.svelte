@@ -129,6 +129,7 @@
     import type Locale from '@locale/Locale';
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let project: Project;
     export let original: Project | undefined = undefined;
@@ -848,7 +849,12 @@
         }
 
         // No tiles visible? Just focus on the project view.
-        (viewToFocus ?? view).focus();
+        const newFocus = viewToFocus ?? view;
+        if (newFocus)
+            setKeyboardFocus(
+                newFocus,
+                'Focusing on project as no tiles are visible',
+            );
     }
 
     async function focusOrCycleTile(content?: TileKind) {
@@ -1077,7 +1083,7 @@
     }
 
     function repositionFloaters() {
-        menu = menu;
+        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
     }
 
     function getSourceIndexByID(id: string) {
@@ -1108,6 +1114,8 @@
         focusOrCycleTile,
         resetInputs,
         toggleBlocks,
+        blocks: $blocks,
+        view: undefined,
         help: () => (showHelpDialog = !showHelpDialog),
     };
 
@@ -1690,8 +1698,10 @@
             >
                 <RootView
                     node={$dragged}
+                    inline
                     spaces={project.getSourceOf($dragged)?.spaces}
                     localized={$localized}
+                    blocks={$blocks}
                 />
                 <div class="cursor">🐲</div>
             </div>

@@ -1,6 +1,7 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { onMount, tick } from 'svelte';
     import { withVariationSelector } from '../../unicode/emoji';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let text = '';
     export let placeholder: string;
@@ -14,6 +15,9 @@
     export let right = false;
     export let defaultFocus = false;
     export let editable = true;
+    export let classes: string[] | undefined = undefined;
+    /** An optional ID applied to the data-id attribute*/
+    export let id: number | undefined = undefined;
     export let kind: 'email' | 'password' | undefined = undefined;
     /** CSS length or nothing, setting the max-width of the field*/
     export let max: string | undefined = undefined;
@@ -23,6 +27,13 @@
     function handleInput() {
         if (changed && (validator === undefined || validator(text) === true))
             changed(text);
+
+        // Restore input
+        tick().then(() => {
+            if (view) {
+                setKeyboardFocus(view, 'Restoring focus after text edit.');
+            }
+        });
     }
 
     function setKind(kind: 'email' | 'password' | undefined) {
@@ -35,10 +46,34 @@
     function handleKeyDown(event: KeyboardEvent) {
         const number = parseFloat(text);
 
+        // Not moving past a boundary? Don't let anything handle the event. Otherwise bubble it.
+        const movingPastStart =
+            event.key === 'ArrowLeft' &&
+            view &&
+            view.selectionStart !== null &&
+            view.selectionStart === 0;
+        const movingPastEnd =
+            event.key === 'ArrowRight' &&
+            view &&
+            view.selectionStart !== null &&
+            view.selectionStart === text.length;
+
+        // Stop propation on arrows unless moving past a boundary.
+        if (
+            event.key.length === 1 ||
+            event.key === 'Backspace' ||
+            (event.key.startsWith('Arrow') &&
+                !movingPastStart &&
+                !movingPastEnd)
+        )
+            event.stopPropagation();
+
         // Not a number or not an up/down arrow key? Return.
         if (isNaN(number)) return;
-        if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
 
+        // Handle increment/decrement.
+        if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+        event.stopPropagation();
         text = (number + (event.key === 'ArrowUp' ? 1 : -1)).toString();
         handleInput();
     }
@@ -53,9 +88,11 @@
 <div class="field">
     <input
         type="text"
+        class={classes?.join(' ')}
         class:fill
         class:border
         class:right
+        data-id={id}
         data-defaultfocus={defaultFocus ? '' : null}
         class:error={validator ? validator(text) === false : null}
         aria-label={description}
@@ -67,7 +104,8 @@
         bind:value={text}
         bind:this={view}
         on:input={handleInput}
-        on:keydown|stopPropagation={handleKeyDown}
+        on:keydown={handleKeyDown}
+        on:pointerdown|stopPropagation
         on:blur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
@@ -75,7 +113,7 @@
             ? placeholder
             : kind === 'password'
               ? '•'.repeat(text.length)
-              : text}</span
+              : text.replaceAll(' ', '\xa0')}</span
     >
 </div>
 
@@ -99,7 +137,7 @@
         color: inherit;
         border: none;
         outline: none;
-        min-width: 4em;
+        min-width: 1em;
         cursor: text;
     }
 

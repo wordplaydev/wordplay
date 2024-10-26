@@ -45,7 +45,11 @@ export default class TextType extends BasisType {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [TextType.make()];
+    }
+
+    static getPossibleAppends() {
         return [TextType.make()];
     }
 
@@ -72,7 +76,7 @@ export default class TextType extends BasisType {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet, context: Context): boolean {
@@ -126,5 +130,9 @@ export default class TextType extends BasisType {
     }
     getDescriptionInputs() {
         return [this.isLiteral() ? this.open.getText() : undefined];
+    }
+
+    getDefaultExpression() {
+        return TextLiteral.make(this.text ? this.text.getText() : '');
     }
 }

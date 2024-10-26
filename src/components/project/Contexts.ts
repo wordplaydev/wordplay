@@ -126,9 +126,12 @@ export type EditHandler = (
 export const EditorsSymbol = Symbol('editors');
 export type EditorState = {
     caret: Caret;
+    project: Project;
     edit: EditHandler;
     focused: boolean;
+    blocks: boolean;
     toggleMenu: () => void;
+    grabFocus: (message: string) => void;
 };
 export type EditorsContext = Writable<Map<string, EditorState>>;
 export function getEditors() {
@@ -209,15 +212,23 @@ export function getRoot() {
 }
 
 export const MenuNodeSymbol = Symbol('menu');
-export type MenuNodeContext = Writable<CaretPosition | undefined>;
-export function getMenuNode() {
-    return getContext<MenuNodeContext | undefined>(MenuNodeSymbol);
+export type MenuNodeContext = Writable<
+    (position: CaretPosition | undefined) => void
+>;
+export function getSetMenuNode() {
+    return getContext<MenuNodeContext>(MenuNodeSymbol);
 }
 
 export const ShowLinesSymbol = Symbol('lines');
 export type ShowLinesContext = Writable<boolean>;
 export function getShowLines() {
     return getContext<ShowLinesContext>(ShowLinesSymbol);
+}
+
+export const BlocksSymbol = Symbol('blocks');
+export type BlocksContext = Writable<boolean>;
+export function isBlocks() {
+    return getContext<BlocksContext>(BlocksSymbol);
 }
 
 // Output related contexts

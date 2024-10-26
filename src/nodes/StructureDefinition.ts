@@ -107,7 +107,12 @@ export default class StructureDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleNodes() {
+    /** Never makes sense to replace something with a structure definition. */
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [
             StructureDefinition.make(
                 undefined,
@@ -208,7 +213,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return true;
     }
 
-    getEvaluateTemplate(nameOrLocales: Locales | string) {
+    getEvaluateTemplate(nameOrLocales: Locales | string, context: Context) {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
@@ -218,7 +223,12 @@ export default class StructureDefinition extends DefinitionExpression {
             ),
             this.inputs
                 .filter((input) => !input.hasDefault())
-                .map(() => ExpressionPlaceholder.make()),
+                .map((input) =>
+                    input.type
+                        ? input.type.getDefaultExpression(context) ??
+                          ExpressionPlaceholder.make(input.type)
+                        : ExpressionPlaceholder.make(),
+                ),
         );
     }
 

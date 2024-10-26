@@ -59,7 +59,11 @@ export default class Row extends Node {
                     node(Sym.Update),
                 ),
             },
-            { name: 'cells', kind: list(true, node(Expression)), space: true },
+            {
+                name: 'cells',
+                kind: list(true, node(Input), node(Expression)),
+                space: true,
+            },
             { name: 'close', kind: node(Sym.TableClose) },
         ];
     }
@@ -85,7 +89,7 @@ export default class Row extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

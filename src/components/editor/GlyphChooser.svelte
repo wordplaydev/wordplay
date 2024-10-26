@@ -34,9 +34,17 @@
               );
 
     function insert(glyph: string) {
-        const editor = $editors?.get(sourceID);
-        if (editor) {
-            editor.edit(editor.caret.insert(glyph), IdleKind.Typed, true);
+        const editorState = $editors?.get(sourceID);
+        if (editorState) {
+            editorState.edit(
+                editorState.caret.insert(
+                    glyph,
+                    editorState.blocks,
+                    editorState.project,
+                ),
+                IdleKind.Typed,
+                true,
+            );
         }
     }
 </script>

@@ -9,6 +9,8 @@
     import Spaces from '../../parser/Spaces';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import Expression, { ExpressionKind } from '@nodes/Expression';
+    import { blocks } from '@db/Database';
 
     export let node: Node;
     export let concept: Concept | undefined = undefined;
@@ -40,15 +42,26 @@
         <div
             role="textbox"
             aria-readonly="true"
+            class:blocks={$blocks}
             class:node
             class:draggable={dragged !== undefined}
             class:outline
+            class:evaluate={node instanceof Expression &&
+                node.getKind() === ExpressionKind.Evaluate}
+            class:definition={node instanceof Expression &&
+                node.getKind() === ExpressionKind.Definition}
             tabindex="0"
             on:pointerdown|stopPropagation={handlePointerDown}
             on:keydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
-                    : undefined}><RootView {node} {inline} {spaces} /></div
+                    : undefined}
+            ><RootView
+                {node}
+                inline={inline || $blocks}
+                {spaces}
+                blocks={$blocks}
+            /></div
         >{#if type && concept}&nbsp;<TypeView
                 {type}
                 context={concept.context}
@@ -85,10 +98,8 @@
     .node.outline {
         padding: var(--wordplay-spacing);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius)
-            calc(3 * var(--wordplay-border-radius))
-            calc(3 * var(--wordplay-border-radius))
-            var(--wordplay-border-radius);
+        border-radius: 1px calc(3 * var(--wordplay-border-radius))
+            calc(3 * var(--wordplay-border-radius)) 1px;
     }
 
     .code {

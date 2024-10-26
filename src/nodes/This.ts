@@ -23,9 +23,9 @@ import { UnenclosedType } from './UnenclosedType';
 import Glyphs from '../lore/Glyphs';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
-import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -43,12 +43,7 @@ export default class This extends SimpleExpression {
         return new This(new Token(PROPERTY_SYMBOL, Sym.Access));
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ node, context }: EditContext) {
         return context
             .getRoot(node)
             ?.getAncestors(node)
@@ -60,6 +55,10 @@ export default class This extends SimpleExpression {
             )
             ? [This.make()]
             : [];
+    }
+
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
     }
 
     getDescriptor() {

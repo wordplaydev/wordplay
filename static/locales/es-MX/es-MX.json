@@ -137,17 +137,17 @@
             "doc": [
                 "Formateo ricamente las cosas con @Markup, como explicaciones de algunos de tus @Program, o incluso las palabras que pones en el escenario con @Phrase.",
                 "Por ejemplo, puedo ir antes de cualquier expresión:",
-                "\\``¿Se supone que esto realmente es 7?``\n7\\",
+                "\\¶¿Se supone que esto realmente es 7?¶\n7\\",
                 "Por ejemplo, puedes ponerme antes de @Bind:",
-                "\\``Mido la altura de alguien``\naltura: 5m\\",
+                "\\¶Mido la altura de alguien¶\naltura: 5m\\",
                 "O antes de una @FunctionDefinition:",
-                "\\``Sumo dos números``\nƒ suma(a•# b•#) a + b\\",
+                "\\¶Sumo dos números¶\nƒ suma(a•# b•#) a + b\\",
                 "O antes de una @StructureDefinition:",
-                "\\``Recuerdo el nombre y la fruta favorita de las personas``\n•Persona(nombre•'' fruta•'')\\",
+                "\\¶Recuerdo el nombre y la fruta favorita de las personas¶\n•Persona(nombre•'' fruta•'')\\",
                 "También puedes ponerme al principio de @Program para decir de qué trata toda la actuación",
-                "\\``Este programa saluda``\n\n'¡hola!'\\",
+                "\\¶Este programa saluda¶\n\n'¡hola!'\\",
                 "Puedes darme un @Language para ayudar a otros a saber en qué idioma estoy escrito:",
-                "\\``Soy un documento en inglés``/en\nduración: 5s\\",
+                "\\¶Soy un documento en inglés¶/en\nduración: 5s\\",
                 "¿Sabías que puedes hacer una lista de mí? Ve a hablar con @Docs."
             ]
         },
@@ -157,7 +157,7 @@
             "doc": [
                 "Soy una lista de @Doc, útil cuando tienes múltiples traducciones de @Doc en diferentes idiomas.",
                 "No tienes que hacer nada especial para hacer una lista. Solo pon un montón de @Doc uno al lado del otro, así:",
-                "\\``Hola``/es\n``Hello``/en\nsaludo: '…'\\"
+                "\\¶Hola¶/es\n¶Hello¶/en\nsaludo: '…'\\"
             ],
             "start": "¡Creando el valor de los documentos!"
         },
@@ -185,7 +185,7 @@
                 "O supongamos que quieres hacer esto para un @Name.",
                 "\\sonido/en: 'miau'\\",
                 "¡O incluso para @Doc!",
-                "\\``Onomatopeya``/en\nsonido/en: \"miau\"\\",
+                "\\¶Onomatopeya¶/en\nsonido/en: \"miau\"\\",
                 "Hay muchos <códigos de idioma de 2 letras@https://es.wikipedia.org/wiki/ISO_639-1> que entiendo. Si no usas uno de esos, te lo haré saber."
             ],
             "conflict": {
@@ -264,9 +264,9 @@
             "doc": [
                 "Soy una serie de @Words, @ConceptLink, @WebLink y @Example, separados por una línea en blanco, y dentro de @Doc.",
                 "Todo lo que necesitas hacer para escribirme es escribir un montón de palabras en un @Doc:",
-                "\\``Soy un párrafo en un documento.``'un párrafo'\\",
+                "\\¶Soy un párrafo en un documento.¶'un párrafo'\\",
                 "Si quieres varios párrafos, solo pon líneas en blanco.",
-                "\\``Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.``'tres párrafos'\\"
+                "\\¶Párrafo 1.\n\nPárrafo 2.\n\nPárrafo 3.¶'tres párrafos'\\"
             ]
         },
         "WebLink": {
@@ -275,7 +275,7 @@
             "emotion": "serious",
             "doc": [
                 "Soy un enlace a algo en el internet. Solo necesito una descripción y una URL:",
-                "\\``Soy un <enlace@https://wordplay.dev> en un documento.``\n'enlace de ejemplo'\\",
+                "\\¶Soy un <enlace@https://wordplay.dev> en un documento.¶\n'enlace de ejemplo'\\",
                 "Si alguien me selecciona, se abrirá una nueva ventana con la URL."
             ]
         },
@@ -286,7 +286,7 @@
             "doc": [
                 "Soy un enlace a un personaje del Verso. Soy útil cuando quieres escribir un @Doc y referirte a alguno de nosotros.",
                 "Por ejemplo, digamos que quieres hablar sobre @Evaluate y lo increíble que es. Podrías escribir:",
-                "\\``Sabes, @Evaluate es bastante increíble.``\n'mira, ¡un enlace de concepto!'\\",
+                "\\¶Sabes, @Evaluate es bastante increíble.¶\n'mira, ¡un enlace de concepto!'\\",
                 "Cuando aparezca el @Doc que escribiste aquí, mostrará un enlace al concepto."
             ]
         },
@@ -295,9 +295,9 @@
             "emotion": "serious",
             "doc": [
                 "Soy cualquier palabra que desees en un @Doc. Por ejemplo:",
-                "\\``Que la Fuerza te acompañe.``\n'solo algunas palabras'\\",
+                "\\¶Que la Fuerza te acompañe.¶\n'solo algunas palabras'\\",
                 "Sin embargo, a veces puedes querer usar los caracteres especiales que @Doc usa /como/ palabras. Por ejemplo:",
-                "\\``Mis amigas usan @@, //, **, || y otros símbolos.``\n'usando caracteres especiales'\\",
+                "\\¶Mis amigas usan @@, //, **, || y otros símbolos.¶\n'usando caracteres especiales'\\",
                 "Si simplemente repites esos caracteres especiales, obtendrás el carácter en lugar de su significado especial."
             ]
         },
@@ -306,9 +306,9 @@
             "emotion": "serious",
             "doc": [
                 "Soy un rendimiento de ejemplo, ¡útil para escribir @Doc que explique cómo usar algo!",
-                "\\``Aquí tienes un ejemplo de suma: \\1 + 1\\``'código de ejemplo'\\",
+                "\\¶Aquí tienes un ejemplo de suma: \\1 + 1\\¶'código de ejemplo'\\",
                 "Si me pones en un párrafo completamente solo, apareceré en una caja elegante y mostraré el resultado de evaluarme.",
-                "\\``Aquí tienes un ejemplo de suma:\n\n\\1 + 1\\``\\"
+                "\\¶Aquí tienes un ejemplo de suma:\n\n\\1 + 1\\¶\\"
             ]
         },
         "Mention": {
@@ -557,7 +557,7 @@
             "doc": [
                 "Soy cualquier expresión, ¡pero con un @Doc!",
                 "Para hacerme, simplemente coloca un @Doc antes de una expresión, y obtendrás esto:",
-                "\\dobleplus: 1\n(2 · dobleplus) + \n``Hagámoslo un poco más grande``\n1\\",
+                "\\dobleplus: 1\n(2 · dobleplus) + \n¶Hagámoslo un poco más grande¶\n1\\",
                 "Soy útil para hacer un comentario sobre alguna parte de un programa."
             ],
             "start": "evaluemos la expresión"
@@ -753,7 +753,7 @@
                 "\\lista: ['pájaro' 'pato' 'pez' 'serpiente']\nlista[2]\\"
             ],
             "start": "vamos a obtener la lista $1 primero",
-            "finish": "¡el elemento es $2!"
+            "finish": "¡el elemento es $1!"
         },
         "ListLiteral": {
             "name": "lista específica",
@@ -952,7 +952,10 @@
             ],
             "start": "¿qué valor tiene $1?",
             "conflict": {
-                "UnknownName": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                "UnknownName": {
+                    "conflict": "$1[No conozco a nadie llamado $1 en $2[$2|este @Block]|¿Puedes darme un nombre?]",
+                    "resolution": "$~¿Quisiste decir *$1*?"
+                },
                 "ReferenceCycle": "um, el valor de $1 depende de sí mismo, ¿cómo sé qué valor darle?",
                 "UnexpectedTypeVariable": "No sé qué hacer con estos inputs de tipo"
             },
@@ -3220,6 +3223,12 @@
                 "doc": ["Lo mismo que @Phrase/name"],
                 "names": "nombre"
             },
+            "description": {
+                "doc": [
+                    "$~Una descripción para utilizar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
+            },
             "selectable": {
                 "doc": "Lo mismo que @Phrase/selectable",
                 "names": "seleccionable"
@@ -3280,7 +3289,7 @@
                 "doc": "¡Igual queE @Phrase/style!",
                 "names": "estilo"
             },
-            "description": "$1[$1|] $2 $3"
+            "defaultDescription": "$1[$1|] $2 $3"
         },
         "Phrase": {
             "names": ["💬", "Frase"],
@@ -3291,7 +3300,7 @@
                 "Necesito @Text obviamente, pero de otro modo, yo puedo aser todo que un @Output puedo hacer, incluyendo cambiando mi tamaño, fuente, rotacion, y todo los bailes con @Pose y @Sequence.",
                 "Tambien puedes seleccionarme en el @Stage y editarme con la paleta cerca de la puerta."
             ],
-            "description": "$3[$3 metro |]frase $1 $2[llamdo $2|] $4[$4|] $5",
+            "defaultDescription": "$3[$3 metro |]frase $1 $2[llamdo $2|] $4[$4|] $5",
             "text": {
                 "doc": "Los personajes a mostrar en el @Stage",
                 "names": "texto"
@@ -3337,6 +3346,12 @@
                     "Puedes darme mucho nombres diferentes, cada uno en una idioma diferente, si es útil. Yo siempre usara el nombre en la idioma seleccionada primero."
                 ],
                 "names": "nombre"
+            },
+            "description": {
+                "doc": [
+                    "$~Una descripción personalizada para usar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
             },
             "selectable": {
                 "doc": "Si \\T\\, indica que yo puedo hacer seleccionabo usando un puntero o tecla",
@@ -3472,6 +3487,12 @@
             "name": {
                 "doc": "Soy el nombre que puedes usar, para animaciones y @Collision . Por ejemplo, si represento el suelo, es posible que desees llamarme 'suelo'.",
                 "names": "nombre"
+            },
+            "description": {
+                "doc": [
+                    "$~Una descripción para utilizar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
             },
             "selectable": {
                 "doc": "Si puedo ser seleccionado como parte de @Choice.",
@@ -3825,6 +3846,12 @@
                 "doc": ["IGUAL QUE @Phrase/name!"],
                 "names": "nombre"
             },
+            "description": {
+                "doc": [
+                    "$~Una descripción para utilizar por parte de los miembros de la audiencia que no pueden ver la salida visual."
+                ],
+                "names": "$~descripción"
+            },
             "selectable": {
                 "doc": "IGUAL QUE @Phrase/selectable!",
                 "names": "seleccionable"
@@ -3889,7 +3916,7 @@
                 "doc": "La gravedad a aplicar a la salida cuyo lugar está en @Motion.",
                 "names": "gravedad"
             },
-            "description": "escenario $1[$1|] de $2[$2|] frases $3[$3 marco|] $4"
+            "defaultDescription": "escenario $1[$1|] de $2[$2|] frases $3[$3 marco|] $4"
         },
         "Easing": {
             "straight": "recto",
@@ -4195,7 +4222,8 @@
                 "redo": "rehacer edición deshecha",
                 "search": "buscar caracteres especiales para insertar",
                 "tidy": "espaciado ordenado",
-                "elide": "$~alternar elisión"
+                "elide": "$~alternar elisión",
+                "insertDocs": "$~Insertar símbolo de explicación"
             }
         },
         "annotations": {

@@ -22,7 +22,7 @@ import Finish from '@runtime/Finish';
 import JumpIfUnequal from '@runtime/JumpIfEqual';
 import Jump from '@runtime/Jump';
 import IncompatibleType from '@conflicts/IncompatibleType';
-import Node from './Node';
+import type EditContext from '@edit/EditContext';
 
 /**
  * A condition for any value, like a switch statement in other languages. For example:
@@ -57,31 +57,26 @@ export default class Match extends Expression {
         this.computeChildren();
     }
 
-    static make(value: Expression, cases: KeyValue[], other: Expression) {
+    static make(value?: Expression, cases?: KeyValue[], other?: Expression) {
         return new Match(
-            value,
+            value ?? ExpressionPlaceholder.make(),
             new Token(MATCH_SYMBOL, Sym.BooleanType),
-            cases,
-            other,
+            cases ?? [
+                KeyValue.make(
+                    ExpressionPlaceholder.make(),
+                    ExpressionPlaceholder.make(),
+                ),
+            ],
+            other ?? ExpressionPlaceholder.make(),
         );
     }
 
-    /** Just return a template for a match. Future versions could generate common values based on the type. */
-    static getPossibleNodes(_: Type | undefined, node: Node) {
-        return [
-            Match.make(
-                node instanceof Expression
-                    ? node
-                    : ExpressionPlaceholder.make(),
-                [
-                    KeyValue.make(
-                        ExpressionPlaceholder.make(),
-                        ExpressionPlaceholder.make(),
-                    ),
-                ],
-                ExpressionPlaceholder.make(),
-            ),
-        ];
+    static getPossibleReplacements({ node }: EditContext) {
+        return [Match.make(node instanceof Expression ? node : undefined)];
+    }
+
+    static getPossibleAppends() {
+        return [Match.make()];
     }
 
     getDescriptor() {

@@ -28,11 +28,11 @@ import NeverType from './NeverType';
 import ConversionException from '@values/ConversionException';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import TypePlaceholder from './TypePlaceholder';
-import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import NameType from './NameType';
 import { getConcreteConversionTypeVariable } from './Generics';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -57,18 +57,18 @@ export default class Convert extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Expression
+            ? [Convert.make(node, type ?? TypePlaceholder.make())]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
         return [
-            node instanceof Expression && selected
-                ? Convert.make(node, TypePlaceholder.make())
-                : Convert.make(
-                      ExpressionPlaceholder.make(),
-                      TypePlaceholder.make(),
-                  ),
+            Convert.make(
+                ExpressionPlaceholder.make(),
+                type ?? TypePlaceholder.make(),
+            ),
         ];
     }
 

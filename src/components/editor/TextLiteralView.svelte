@@ -7,4 +7,4 @@
     export let node: TextLiteral;
 </script>
 
-<NodeSequenceView nodes={node.texts} />
+<NodeSequenceView nodes={node.texts} direction="row" />

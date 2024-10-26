@@ -10,13 +10,9 @@ import LanguageToken from './LanguageToken';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement, list, optional } from './Node';
 import Emotion from '../lore/Emotion';
-import type Context from './Context';
-import {
-    getPossibleDimensions,
-    getPossibleUnits,
-} from '../edit/getPossibleUnits';
-import type Node from './Node';
+import { getPossibleDimensions } from '../edit/getPossibleUnits';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -31,7 +27,7 @@ export default class Unit extends Type {
         exponents: undefined | Map<string, number> = undefined,
         numerator?: Dimension[] | undefined,
         slash?: Token,
-        denominator?: Dimension[]
+        denominator?: Dimension[],
     ) {
         super();
 
@@ -66,7 +62,7 @@ export default class Unit extends Type {
                         dim.exponent === undefined
                             ? -1
                             : -NumberValue.fromToken(
-                                  dim.exponent
+                                  dim.exponent,
                               )[0].toNumber();
                     const current = this.exponents.get(name);
                     this.exponents.set(name, (current ?? 0) + exp);
@@ -94,21 +90,21 @@ export default class Unit extends Type {
                                 Dimension.make(
                                     this.numerator.length > 0,
                                     unit,
-                                    exp
-                                )
+                                    exp,
+                                ),
                             );
                         else {
                             this.denominator.push(
                                 Dimension.make(
                                     this.denominator.length > 0,
                                     unit,
-                                    Math.abs(exp)
-                                )
+                                    Math.abs(exp),
+                                ),
                             );
                             if (this.slash === undefined)
                                 this.slash = new Token(
                                     LANGUAGE_SYMBOL,
-                                    Sym.Language
+                                    Sym.Language,
                                 );
                         }
                     }
@@ -122,30 +118,28 @@ export default class Unit extends Type {
         this.computeChildren();
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context
-    ) {
-        // If the anchor is a unit and the unit is selected, offer revisions to the unit for replacement.
-        if (anchor && selected && anchor instanceof Unit) {
-            // What dimensions are possible?
-            const dimensions = getPossibleDimensions(context);
+    static getPossibleReplacements({ node, context }: EditContext) {
+        // What dimensions are possible?
+        const dimensions = getPossibleDimensions(context);
 
-            return [
-                // Suggest adding a dimension to the numerator, except any existing numerators
-                ...dimensions
-                    .filter((dim) => !anchor.hasDimension(dim))
-                    .map((dim) => anchor.withNumerator(dim)),
-                // Suggest adding a dimension to the denominator, except any existing numerators
-                ...dimensions
-                    .filter((dim) => !anchor.hasDimension(dim))
-                    .map((dim) => anchor.withDenominator(dim)),
-            ];
-        }
+        return node instanceof Unit
+            ? [
+                  // Suggest replacing this dimension
+                  ...dimensions.map((dim) => Unit.create([dim])),
+                  // Suggest adding a dimension to the numerator, except any existing numerators
+                  ...dimensions
+                      .filter((dim) => !node.hasDimension(dim))
+                      .map((dim) => node.withNumerator(dim)),
+                  // Suggest adding a dimension to the denominator, except any existing numerators
+                  ...dimensions
+                      .filter((dim) => !node.hasDimension(dim))
+                      .map((dim) => node.withDenominator(dim)),
+              ]
+            : [];
+    }
 
-        return getPossibleUnits(context);
+    static getPossibleAppends({ context }: EditContext) {
+        return getPossibleDimensions(context).map((dim) => Unit.create([dim]));
     }
 
     static Empty = new Unit();
@@ -167,7 +161,7 @@ export default class Unit extends Type {
             undefined,
             this.replaceChild('numerator', this.numerator, replace),
             this.replaceChild('slash', this.slash, replace),
-            this.replaceChild('denominator', this.denominator, replace)
+            this.replaceChild('denominator', this.denominator, replace),
         ) as this;
     }
 
@@ -176,12 +170,12 @@ export default class Unit extends Type {
         for (const unit of numerator)
             exponents.set(
                 unit,
-                exponents.has(unit) ? (exponents.get(unit) ?? 0) + 1 : 1
+                exponents.has(unit) ? (exponents.get(unit) ?? 0) + 1 : 1,
             );
         for (const unit of denominator)
             exponents.set(
                 unit,
-                exponents.has(unit) ? (exponents.get(unit) ?? 0) - 1 : -1
+                exponents.has(unit) ? (exponents.get(unit) ?? 0) - 1 : -1,
             );
         return exponents;
     }
@@ -222,13 +216,13 @@ export default class Unit extends Type {
             unit instanceof Unit &&
             this.exponents.size === unit.exponents.size &&
             Array.from(this.exponents.keys()).every(
-                (key) => this.exponents.get(key) === unit.exponents.get(key)
+                (key) => this.exponents.get(key) === unit.exponents.get(key),
             )
         );
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     hasNumerator(dimension: string) {
@@ -251,7 +245,7 @@ export default class Unit extends Type {
                 Dimension.make(this.numerator.length > 0, dimension, 1),
             ],
             this.slash,
-            this.denominator
+            this.denominator,
         );
     }
 
@@ -277,7 +271,7 @@ export default class Unit extends Type {
 
     acceptsAll(types: TypeSet): boolean {
         return Array.from(types.set).every(
-            (type) => type instanceof Unit && this.accepts(type)
+            (type) => type instanceof Unit && this.accepts(type),
         );
     }
 
@@ -288,10 +282,10 @@ export default class Unit extends Type {
     toString(depth?: number) {
         const units = Array.from(this.exponents.keys()).sort();
         const numerator = units.filter(
-            (unit) => (this.exponents.get(unit) ?? 0) > 0
+            (unit) => (this.exponents.get(unit) ?? 0) > 0,
         );
         const denominator = units.filter(
-            (unit) => (this.exponents.get(unit) ?? 0) < 0
+            (unit) => (this.exponents.get(unit) ?? 0) < 0,
         );
 
         return (
@@ -302,10 +296,10 @@ export default class Unit extends Type {
                         `${unit}${
                             (this.exponents.get(unit) ?? 0) > 1
                                 ? `${EXPONENT_SYMBOL}${this.exponents.get(
-                                      unit
+                                      unit,
                                   )}`
                                 : ''
-                        }`
+                        }`,
                 )
                 .join(PRODUCT_SYMBOL) +
             (denominator.length > 0 ? LANGUAGE_SYMBOL : '') +
@@ -315,10 +309,10 @@ export default class Unit extends Type {
                         `${unit}${
                             (this.exponents.get(unit) ?? 0) < -1
                                 ? `${EXPONENT_SYMBOL}${Math.abs(
-                                      this.exponents.get(unit) ?? 0
+                                      this.exponents.get(unit) ?? 0,
                                   )}`
                                 : ''
-                        }`
+                        }`,
                 )
                 .join(PRODUCT_SYMBOL)
         );
@@ -331,7 +325,7 @@ export default class Unit extends Type {
         for (const [unit, exponent] of this.exponents)
             newExponents.set(
                 unit,
-                exponent === 1 ? -(root - 1) : exponent - (root - 1)
+                exponent === 1 ? -(root - 1) : exponent - (root - 1),
             );
 
         return Unit.get(newExponents);

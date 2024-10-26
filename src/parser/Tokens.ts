@@ -44,6 +44,10 @@ export default class Tokens {
         return this.#spaces;
     }
 
+    remaining() {
+        return this.#unread.length;
+    }
+
     peekUnread() {
         return this.#unread.slice();
     }

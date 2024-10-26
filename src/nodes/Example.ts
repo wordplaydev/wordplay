@@ -8,6 +8,7 @@ import Sym from './Sym';
 import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class Example extends Content {
     readonly open: Token;
@@ -26,11 +27,15 @@ export default class Example extends Content {
         return new Example(
             new Token(CODE_SYMBOL, Sym.Code),
             program,
-            new Token(CODE_SYMBOL, Sym.Code)
+            new Token(CODE_SYMBOL, Sym.Code),
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Content ? [Example.make(Program.make())] : [];
+    }
+
+    static getPossibleAppends() {
         return [Example.make(Program.make())];
     }
 
@@ -46,7 +51,7 @@ export default class Example extends Content {
         ];
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts(): Conflict[] {
         return [];
     }
 
@@ -54,7 +59,7 @@ export default class Example extends Content {
         return new Example(
             this.replaceChild('open', this.open, replace),
             this.replaceChild('program', this.program, replace),
-            this.replaceChild('close', this.close, replace)
+            this.replaceChild('close', this.close, replace),
         ) as this;
     }
 

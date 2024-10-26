@@ -7,4 +7,4 @@
     export let node: Docs;
 </script>
 
-<NodeSequenceView nodes={node.docs} />
+<NodeSequenceView nodes={node.docs} direction="column" />

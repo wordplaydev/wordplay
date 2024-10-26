@@ -27,6 +27,8 @@ import ValueException from '../values/ValueException';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
+import type EditContext from '@edit/EditContext';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class MapLiteral extends Expression {
     readonly open: Token;
@@ -62,7 +64,21 @@ export default class MapLiteral extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node }: EditContext) {
+        return node instanceof Expression
+            ? [
+                  MapLiteral.make(),
+                  MapLiteral.make([
+                      KeyValue.make(node, ExpressionPlaceholder.make()),
+                  ]),
+                  MapLiteral.make([
+                      KeyValue.make(ExpressionPlaceholder.make(), node),
+                  ]),
+              ]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [MapLiteral.make()];
     }
 

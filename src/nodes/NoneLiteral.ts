@@ -2,15 +2,15 @@ import Token from './Token';
 import NoneType from './NoneType';
 import type Type from './Type';
 import NoneValue from '@values/NoneValue';
-import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { NONE_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
-import Node, { node, type Grammar, type Replacement } from './Node';
+import { node, type Grammar, type Replacement } from './Node';
 import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -41,16 +41,14 @@ export default class NoneLiteral extends Literal {
         return new NoneLiteral(new Token(NONE_SYMBOL, Sym.None));
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        _: Node,
-        __: boolean,
-        context: Context,
-    ) {
-        return type === undefined ||
-            type.getPossibleTypes(context).some((t) => t instanceof NoneType)
+    static getPossibleReplacements({ type, context }: EditContext) {
+        return type === undefined || type.accepts(NoneType.make(), context)
             ? [NoneLiteral.make()]
             : [];
+    }
+
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
     }
 
     clone(replace?: Replacement) {
@@ -64,7 +62,7 @@ export default class NoneLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {

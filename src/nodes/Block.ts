@@ -29,6 +29,8 @@ import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import Evaluation from '@runtime/Evaluation';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type EditContext from '@edit/EditContext';
 
 export enum BlockKind {
     Root = 'root',
@@ -77,17 +79,13 @@ export default class Block extends Expression {
         );
     }
 
-    static getPossibleNodes(
-        _: Type | undefined,
-        selection: Node | undefined,
-        selected: boolean,
-    ) {
-        return [
-            Block.make(),
-            ...(selection instanceof Expression && selected
-                ? [Block.make([selection])]
-                : []),
-        ];
+    static getPossibleReplacements({ node }: EditContext) {
+        // Offer to replace the node parenthesized.
+        return node instanceof Expression ? [Block.make([node])] : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
+        return [Block.make([ExpressionPlaceholder.make(type)])];
     }
 
     getEvaluationExpression(): Expression {
@@ -371,8 +369,6 @@ export default class Block extends Expression {
     }
 
     getKind() {
-        return this.kind === BlockKind.Block
-            ? ExpressionKind.Evaluate
-            : ExpressionKind.Simple;
+        return ExpressionKind.Evaluate;
     }
 }

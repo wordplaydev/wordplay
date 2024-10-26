@@ -1,8 +1,8 @@
 Animated Scene
 === start/en
-``Scenes can be used to show a sequence of animated phrases over time.``/en
-``Se pueden utilizar escenas para mostrar una secuencia de frases animadas a lo largo del tiempo.``/es
-``场景可用于显示随时间变化的一系列动画短语。``/zh
+¶Scenes can be used to show a sequence of animated phrases over time.¶/en
+¶Se pueden utilizar escenas para mostrar una secuencia de frases animadas a lo largo del tiempo.¶/es
+¶场景可用于显示随时间变化的一系列动画短语。¶/zh
 Stage(
     [
         Scene([

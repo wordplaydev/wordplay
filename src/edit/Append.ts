@@ -71,7 +71,7 @@ export default class Append<NodeType extends Node> extends Revision {
 
         // Ensure insertion has preferred space.
         newSource = newSource.withSpaces(
-            getPreferredSpaces(newChild, newSource.spaces),
+            getPreferredSpaces(newParent, newSource.spaces),
         );
 
         // Find it's last token index.

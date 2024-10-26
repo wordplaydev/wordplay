@@ -32,7 +32,7 @@ export default class StreamConcept extends Concept {
         this.reference = Evaluate.make(
             Reference.make(locales.getName(stream.names), this.definition),
             this.definition.inputs
-                // .filter((input) => !input.hasDefault())
+                .filter((input) => !input.hasDefault())
                 .map((input) => ExpressionPlaceholder.make(input.type)),
         );
 

@@ -7,6 +7,84 @@
         height: number;
         bottom: number;
     };
+
+    export function getVerticalCenterOfBounds(rect: DOMRect) {
+        return rect.top + rect.height / 2;
+    }
+
+    export function getHorizontalCenterOfBounds(rect: DOMRect) {
+        return rect.left + rect.width / 2;
+    }
+
+    /** Move the caret to the nearest vertical token in the given direction and editor. */
+    export function moveVisualVertical(
+        direction: -1 | 1,
+        editor: HTMLElement,
+        caret: Caret,
+    ): Caret | undefined {
+        // Find the token view that the caret is in.
+        const currentToken =
+            caret.position instanceof Node ? caret.position : caret.getToken();
+        if (currentToken === undefined) return undefined;
+        const currentTokenView = getNodeView(editor, currentToken);
+        if (currentTokenView === null) return undefined;
+        const bounds = currentTokenView.getBoundingClientRect();
+        const vertical = getVerticalCenterOfBounds(bounds);
+        const horizontal = getHorizontalCenterOfBounds(bounds);
+        const verticalThreshold = bounds.height;
+
+        // Find all the token views
+        const nearest = Array.from(editor.querySelectorAll('.token-view'))
+            .map((el) => {
+                const elBounds = el.getBoundingClientRect();
+                return {
+                    node:
+                        el instanceof HTMLElement && el.dataset.id
+                            ? caret.source.getNodeByID(
+                                  parseInt(el.dataset.id),
+                              ) ?? null
+                            : null,
+                    horizontal:
+                        getHorizontalCenterOfBounds(elBounds) - horizontal,
+                    vertical: getVerticalCenterOfBounds(elBounds) - vertical,
+                };
+            })
+            .filter(
+                (node) =>
+                    node.node instanceof Token &&
+                    Caret.isBlockEditable(node.node) &&
+                    // Filter out nodes in the wrong direction
+                    (direction < 0 ? node.vertical < 0 : node.vertical > 0) &&
+                    // Filter out nodes that are too close vertically
+                    Math.abs(node.vertical) > verticalThreshold,
+            )
+            // Sort by closest distance of remaining
+            .sort(
+                (a, b) =>
+                    Math.pow(a.horizontal, 2) +
+                    Math.pow(a.vertical, 2) -
+                    (Math.pow(b.horizontal, 2) + Math.pow(b.vertical, 2)),
+            );
+
+        const closest = nearest[0];
+
+        if (closest && closest.node) return caret.withPosition(closest.node);
+        else return undefined;
+    }
+
+    export function getTokenView(
+        editor: HTMLElement,
+        token: Token,
+    ): HTMLElement | null {
+        return editor.querySelector(`.token-view[data-id="${token.id}"]`);
+    }
+
+    export function getNodeView(
+        editor: HTMLElement,
+        token: Node,
+    ): HTMLElement | null {
+        return editor.querySelector(`.node-view[data-id="${token.id}"]`);
+    }
 </script>
 
 <script lang="ts">
@@ -15,20 +93,21 @@
     import Node from '@nodes/Node';
     import {
         animationDuration,
-        blocks,
         locales,
         spaceIndicator,
     } from '../../db/Database';
-    import type Caret from '../../edit/Caret';
+    import Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
-    import type Token from '@nodes/Token';
+    import Token from '@nodes/Token';
     import UnicodeString from '@models/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
+    import MenuTrigger from './MenuTrigger.svelte';
 
     export let caret: Caret;
     export let source: Source;
     export let blink: boolean;
     export let ignored: boolean;
+    export let blocks: boolean;
 
     // The current location of the caret.
     export let location: CaretBounds | undefined = undefined;
@@ -51,7 +130,7 @@
 
     // Whenever blocks, evaluation, or caret changes, compute position after animation delay.
     $: {
-        $blocks;
+        blocks;
         $evaluation;
         caret;
         $editor;
@@ -123,8 +202,9 @@
         if (editorView === null) return null;
 
         const tokenView =
-            editorView.querySelector(`.token-view[data-id="${node.id}"]`) ??
-            null;
+            node instanceof Token
+                ? getTokenView(editorView, node) ?? null
+                : null;
 
         // No token view? (This can happen when stepping, since values are rendered instead of nodes.)
         // Try to find the nearest ancestor that is rendered and return that instead.
@@ -171,6 +251,8 @@
             ? currentTokenRect.height
             : currentTokenRect.width;
 
+        // If the caret height is invisible, try to find a token before and get its height.
+        // And if that's not visible, then set a minimum.
         if (caretHeight === 0) {
             const before = source.getTokenBefore(currentToken);
             const beforeView = before ? getNodeView(before) : undefined;
@@ -330,7 +412,7 @@
             // ... and it's a placeholder, then position a caret in it's center
             if (caret.isPlaceholderNode()) {
                 const placeholderView = nodeView.querySelector(
-                    '.token-view > .placeholder',
+                    '.placeholder .token-category-placeholder',
                 );
                 const placeholderViewRect =
                     placeholderView?.getBoundingClientRect();
@@ -532,13 +614,29 @@
                 spaceBefore.indexOfCharacter('\n') >= 0 &&
                 spaceAfter.indexOfCharacter('\n') >= 0
             ) {
-                // Place the caret's left the number of spaces on this line
+                // Find the space container for the token.
+                const spaceView = viewport.querySelector(
+                    `.space[data-id='${token.id}']`,
+                );
+                const spaceViewTop =
+                    (spaceView?.getBoundingClientRect().top ?? 0) -
+                    viewportRect.top;
+
+                // Figure out the height of a line break.
+                const breakHeight =
+                    viewport.querySelector('.break')?.getBoundingClientRect()
+                        .height ?? lineHeight;
+
+                // Place the caret's left the number of spaces on this line.
+                // If in blocks mode, account for the fact that we render one fewer spaces due to block layout.
                 const offset =
-                    (spaceBefore.split('\n').length - 1) * lineHeight;
+                    (spaceBefore.split('\n').length - 1 - (blocks ? 1 : 0)) *
+                    (blocks ? breakHeight : lineHeight);
 
                 if (horizontal) {
                     // Place the caret's top at {tokenHeight} * {number of new lines prior}
-                    const spaceTop = priorTokenTop + offset;
+                    const spaceTop =
+                        (blocks ? spaceViewTop : priorTokenTop) + offset;
                     return {
                         left:
                             editorHorizontalStart +
@@ -576,7 +674,7 @@
                 // Figure out where to start. In text mode, it's the editor left.
                 // In blocks mode, it's the left of the closest parent that is in block layout.
                 let horizontalStart: number;
-                if ($blocks) {
+                if (blocks) {
                     // We have to be careful about what "in" means in blocks mode.
                     // If the token whose space we're in is a first leaf, we want to find the
                     // highest block for which it is, and find the horizontal start of it's view.
@@ -615,9 +713,10 @@
 
                 if (horizontal) {
                     return {
-                        left:
-                            horizontalStart +
-                            (leftToRight ? 1 : -1) * beforeSpaceWidth,
+                        left: blocks
+                            ? tokenStart
+                            : horizontalStart +
+                              (leftToRight ? 1 : -1) * beforeSpaceWidth,
                         top: spaceTop,
                         height: caretHeight,
                         bottom: spaceTop + caretHeight,
@@ -638,21 +737,31 @@
 </script>
 
 <span
-    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''}"
+    class="caret {blink ? 'blink' : ''} {ignored ? 'ignored' : ''} {blocks
+        ? 'blocks'
+        : ''}"
     class:focused={$editor?.focused}
     class:node={caret && caret.isNode() && !caret.isPlaceholderNode()}
     style:display={location === undefined ? 'none' : null}
     style:left={location ? `${location.left}px` : null}
     style:top={location ? `${location.top}px` : null}
-    style:width={location ? `2px` : null}
-    style:height={location ? `${location.height}px` : null}
     bind:this={element}
-/>
+    ><span
+        class="bar"
+        style:width={location
+            ? blocks
+                ? 'var(--wordplay-focus-width)'
+                : `2px`
+            : null}
+        style:height={location ? `${location.height}px` : null}
+    ></span>{#if blocks}<div class="trigger"
+            ><MenuTrigger position={caret.position} /></div
+        >{/if}</span
+>
 
 <style>
     .caret {
         position: absolute;
-        background-color: var(--wordplay-foreground);
         opacity: 0.25;
     }
 
@@ -664,13 +773,29 @@
         visibility: hidden;
     }
 
-    .caret.blink {
-        animation: blink-animation 0.5s steps(2, start) infinite;
+    .bar {
+        display: inline-block;
+        min-height: var(--wordplay-min-line-height);
+        background-color: var(--wordplay-foreground);
+    }
+
+    .caret.blink .bar {
+        animation: blink-animation 1s steps(2, start) infinite;
     }
 
     .caret.ignored {
         animation: shake 1;
         animation-duration: calc(var(--animation-factor) * 200ms);
+    }
+
+    .blocks.focused .bar {
+        background-color: var(--wordplay-highlight-color);
+    }
+
+    .trigger {
+        position: absolute;
+        top: 50%;
+        margin-left: -0.25em;
     }
 
     @keyframes blink-animation {

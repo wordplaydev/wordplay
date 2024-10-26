@@ -42,7 +42,7 @@ export default class InternalExpression extends SimpleExpression {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getGrammar() {

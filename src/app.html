@@ -45,9 +45,7 @@
             }
             :root {
                 --color-blue: #648fff;
-                --color-blue-transparent: #648fff10;
                 --color-purple: #785ef0;
-                --color-purple-transparent: #785ef010;
                 --color-pink: #dc267f;
                 --color-light-pink: #f7d3e4;
                 --color-orange: #fe6100;
@@ -67,7 +65,7 @@
                 --wordplay-border-color: var(--color-light-grey);
                 --wordplay-evaluation-color: var(--color-pink);
                 --wordplay-highlight-color: var(--color-yellow);
-                --wordplay-focus-color: var(--color-orange);
+                --wordplay-focus-color: var(--color-blue);
                 --wordplay-hover: #feebc3;
                 --wordplay-error: var(--color-orange);
                 --wordplay-warning: var(--color-yellow);
@@ -99,6 +97,7 @@
                 --wordplay-palette-min-width: 5em;
                 --wordplay-palette-max-width: 15em;
                 --wordplay-widget-height: 1.5em;
+                --wordplay-min-line-height: 3ex;
 
                 --bounce-height: 0.5em;
                 --wobble-rotation: 2deg;
@@ -106,9 +105,9 @@
 
             :root .dark {
                 --color-blue: #3a72fe;
-                --color-blue-transparent: #0f1e4560;
+                --color-blue-transparent: #0f1e45;
                 --color-purple: #5b3ce6;
-                --color-purple-transparent: #26186260;
+                --color-purple-transparent: #261862;
                 --color-pink: #921a54;
                 --color-light-pink: rgb(77, 15, 45);
                 --color-orange: #722c00;
@@ -297,9 +296,9 @@
                 margin-top: 0;
             }
 
-            h1:not(:first-child),
-            h2:not(:first-child),
-            h3:not(:first-child) {
+            h1:not(:first-of-type),
+            h2:not(:first-of-type),
+            h3:not(:first-of-type) {
                 margin-top: calc(2 * var(--wordplay-spacing));
             }
 
@@ -356,17 +355,6 @@
 
             tr:nth-child(odd) {
                 background: var(--wordplay-alternating-color);
-            }
-
-            .firebase-emulator-warning {
-                top: 0 !important;
-                right: 1% !important;
-                bottom: auto !important;
-                left: 99% !important;
-                font-family: var(--wordplay-app-font) !important;
-                font-size: 4pt;
-                color: var(--wordplay-error) !important;
-                background: var(--wordplay-error) !important;
             }
 
             noscript {

@@ -195,4 +195,11 @@ export default class NameType extends Type {
     getDescriptionInputs() {
         return [this.name.getText()];
     }
+
+    getDefaultExpression(context: Context) {
+        const type = this.resolve(context);
+        if (type instanceof StructureDefinition)
+            return type.getType(context).getDefaultExpression(context);
+        return undefined;
+    }
 }

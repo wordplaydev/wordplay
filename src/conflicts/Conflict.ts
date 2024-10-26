@@ -12,8 +12,11 @@ type ConflictingNode = {
 export type Resolution = {
     /** Should return a description fo the resolution. */
     description: (locales: Locales, context: Context) => Markup;
-    /** Given a project, should create a new project that resolves the conflict */
-    mediator: (context: Context) => Project;
+    /** Given a project, should create a new project that resolves the conflict and offer an optional node that was added or revised. */
+    mediator: (
+        context: Context,
+        locales: Locales,
+    ) => { newProject: Project; newNode?: Node };
 };
 
 export default abstract class Conflict {

@@ -37,7 +37,7 @@ export default class UnparsableExpression extends SimpleExpression {
         return Purpose.Source;
     }
 
-    computeConflicts(context: Context): void | Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
         return [new UnparsableConflict(this, context)];
     }
 

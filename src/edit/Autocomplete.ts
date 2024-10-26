@@ -76,6 +76,10 @@ import type Locales from '../locale/Locales';
 import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
 import Input from '@nodes/Input';
+import FormattedLiteral from '@nodes/FormattedLiteral';
+import TableType from '@nodes/TableType';
+import Spread from '@nodes/Spread';
+import SetOrMapAccess from '@nodes/SetOrMapAccess';
 
 /** A logging flag, helpful for analyzing the control flow of autocomplete when debugging. */
 const LOG = false;
@@ -273,6 +277,8 @@ function getNodeEdits(anchor: Node, context: Context) {
                     context,
                     parent,
                     selection,
+                    // When removing this field, we also have to remove any dependencies it has,
+                    // as specified by any empty fields.
                     ...(field.kind
                         .enumerateFieldKinds()
                         .find((kind): kind is Empty => kind instanceof Empty)
@@ -497,16 +503,45 @@ function getRelativeFieldEdits(
                             )
                                 // Filter out any undefined values, since the field is already undefined.
                                 .filter((node) => node !== undefined)
-                                .map(
-                                    (addition) =>
-                                        new Assign(
-                                            context,
-                                            position,
-                                            parent,
-                                            relativeField.name,
-                                            addition,
-                                        ),
-                                ),
+                                .map((addition) => {
+                                    // Are there any other fields required to be set when this one is set?
+                                    // Include it in the proposed assignment.
+                                    const otherNodes = relativeField.kind
+                                        .enumerateFieldKinds()
+                                        .filter(
+                                            (kind): kind is Empty =>
+                                                kind instanceof Empty &&
+                                                kind.dependency !== undefined &&
+                                                parent.getField(
+                                                    kind.dependency.name,
+                                                ) === undefined,
+                                        )
+                                        .map((kind) => {
+                                            if (kind.dependency) {
+                                                return {
+                                                    field: kind.dependency.name,
+                                                    node: kind.dependency.createDefault(),
+                                                };
+                                            } else return undefined;
+                                        })
+                                        .filter(
+                                            (addition) =>
+                                                addition !== undefined,
+                                        );
+
+                                    return new Assign(
+                                        context,
+                                        position,
+                                        parent,
+                                        [
+                                            {
+                                                field: relativeField.name,
+                                                node: addition,
+                                            },
+                                            ...otherNodes,
+                                        ],
+                                    );
+                                }),
                         )
                         .flat(),
                 ];
@@ -546,24 +581,31 @@ function completes(original: Node, replacement: Node): boolean {
     );
 }
 
-/** A list of node types from which we can generate replacements. */
+/** A list of node types from which we can generate replacements. Order affects where they appear in autocomplete menus. */
 const PossibleNodes = [
+    // Put references first.
+    Reference,
     // Literals
     NumberLiteral,
     BooleanLiteral,
     TextLiteral,
+    FormattedLiteral,
     NoneLiteral,
     ListLiteral,
     ListAccess,
+    Spread,
     KeyValue,
     SetLiteral,
     MapLiteral,
-    TableLiteral,
+    SetOrMapAccess,
     ExpressionPlaceholder,
+    // Define
+    FunctionDefinition,
+    StructureDefinition,
+    ConversionDefinition,
     // Binds and blocks
     Bind,
     Block,
-    Reference,
     PropertyReference,
     PropertyBind,
     Language,
@@ -573,26 +615,18 @@ const PossibleNodes = [
     Evaluate,
     Input,
     Convert,
-    Insert,
-    Select,
-    Delete,
-    Update,
     // Conditions
     Conditional,
     Is,
     IsLocale,
     Otherwise,
     Match,
-    // Define
-    FunctionDefinition,
-    StructureDefinition,
-    ConversionDefinition,
     This,
     // Streams
+    Reaction,
     Initial,
     Previous,
     Changed,
-    Reaction,
     // Docs,
     Doc,
     Docs,
@@ -601,6 +635,12 @@ const PossibleNodes = [
     Mention,
     Paragraph,
     WebLink,
+    // Tables
+    TableLiteral,
+    Insert,
+    Select,
+    Delete,
+    Update,
     // Types
     TypeInputs,
     TypeVariables,
@@ -616,12 +656,13 @@ const PossibleNodes = [
     NumberType,
     SetType,
     TextType,
+    TableType,
 ];
 
 function getPossibleNodes(
     field: Field,
     kind: NodeKind,
-    type: Type | undefined,
+    expectedType: Type | undefined,
     anchor: Node,
     selected: boolean,
     context: Context,
@@ -638,6 +679,13 @@ function getPossibleNodes(
             ? []
             : [newToken];
     }
+
+    const menuContext = {
+        node: anchor,
+        context,
+        type: expectedType,
+    };
+
     // Otherwise, it's a non-terminal. Let's find all the nodes that we can make that satisify the node kind,
     // creating nodes or node references that are compatible with the requested kind.
     return (
@@ -649,16 +697,18 @@ function getPossibleNodes(
             // Convert each node type to possible nodes. Each node implements a static function that generates possibilities
             // from the context given.
             .map((possibleKind) =>
-                possibleKind.getPossibleNodes(type, anchor, selected, context),
+                selected
+                    ? possibleKind.getPossibleReplacements(menuContext)
+                    : possibleKind.getPossibleAppends(menuContext),
             )
             // Flatten the list of possible nodes.
             .flat()
             .filter(
                 (node) =>
                     // Filter out nodes that don't match the given type, if provided.
-                    (type === undefined ||
+                    (expectedType === undefined ||
                         !(node instanceof Expression) ||
-                        type.accepts(node.getType(context), context)) &&
+                        expectedType.accepts(node.getType(context), context)) &&
                     // Filter out nodes that are equivalent to the selection node
                     (anchor === undefined ||
                         (node instanceof Refer &&

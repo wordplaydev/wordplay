@@ -33,7 +33,7 @@ export default class UnparsableType extends Type {
         return [{ name: 'unparsables', kind: list(true, node(Node)) }];
     }
 
-    computeConflicts(context: Context): void | Conflict[] {
+    computeConflicts(context: Context): Conflict[] {
         return [new UnparsableConflict(this, context)];
     }
 

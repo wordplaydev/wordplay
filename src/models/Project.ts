@@ -45,6 +45,7 @@ import Doc from '@nodes/Doc';
 import type Definition from '@nodes/Definition';
 import Templates from '@concepts/Templates';
 import concretize from '@locale/concretize';
+import { DOCS_SYMBOL } from '@parser/Symbols';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -248,6 +249,10 @@ export default class Project {
         return this.getSources().indexOf(source);
     }
 
+    getSourceWithIndex(index: number): Source | undefined {
+        return this.getSources()[index];
+    }
+
     getDefaultShares() {
         return this.shares;
     }
@@ -410,6 +415,32 @@ export default class Project {
         return this.getAnalysis().conflicts;
     }
 
+    getMajorConflictsNow() {
+        let conflicts: Conflict[] = [];
+        for (const source of this.getSources()) {
+            const context = new Context(this, source);
+            for (const node of source.nodes()) {
+                conflicts = [...conflicts, ...node.computeConflicts(context)];
+            }
+        }
+        return conflicts.filter((conflict) => !conflict.isMinor());
+    }
+
+    hasMajorConflictsNow() {
+        for (const source of this.getSources()) {
+            const context = new Context(this, source);
+            for (const node of source.nodes()) {
+                if (
+                    node
+                        .computeConflicts(context)
+                        .filter((conflict) => !conflict.isMinor()).length > 0
+                )
+                    return true;
+            }
+        }
+        return false;
+    }
+
     getPrimaryConflicts() {
         return this.getAnalysis().primary;
     }
@@ -447,13 +478,14 @@ export default class Project {
     /** Return true if the given expression is in this project and depends only on contants. */
     isConstant(expression: Expression): boolean {
         let constant = this.constants.get(expression);
-        const context = this.getNodeContext(expression);
         // If we haven't visited this expression yet, compute it.
         if (constant === undefined) {
             // Mark this as not constant, assuming (and preventing) cycles.
             this.constants.set(expression, false);
+            // Compute whether the expression is constant.
+            const context = this.getNodeContext(expression);
             constant = expression.isConstant(context);
-            // Now actually compute whether it's constant.
+            // Cache the determination for later.
             this.constants.set(expression, constant);
         }
         return constant;
@@ -783,7 +815,15 @@ export default class Project {
     }
 
     static deserializeSource(source: SerializedSource): Source {
-        return new Source(parseNames(toTokens(source.names)), source.code);
+        return new Source(
+            parseNames(toTokens(source.names)),
+            // We changed the documentation symbol. Automatically convert it when deserializing. by seeing if there are 2 or more `` in the code,
+            // and no ¶ and if so, replace them with the new symbol.
+            (source.code.match(/``/g) || []).length >= 2 &&
+            (source.code.match(/¶/g) || []).length === 0
+                ? source.code.replaceAll('``', DOCS_SYMBOL)
+                : source.code,
+        );
     }
 
     /**

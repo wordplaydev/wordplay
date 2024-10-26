@@ -2,14 +2,11 @@ import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import type Locales from '@locale/Locales';
 import type { NodeText, DescriptiveNodeText } from '@locale/NodeTexts';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import type Value from '@values/Value';
 import type Glyph from '../lore/Glyph';
 import type Context from './Context';
 import Expression from './Expression';
 import type { GuardContext } from './Expression';
-import type Node from './Node';
+import Node from './Node';
 import { node, type Grammar, type Replacement } from './Node';
 import type Type from './Type';
 import type TypeSet from './TypeSet';
@@ -17,13 +14,14 @@ import Token from './Token';
 import Sym from './Sym';
 import BindToken from './BindToken';
 import Glyphs from '../lore/Glyphs';
-import SimpleExpression from './SimpleExpression';
 import Evaluate from './Evaluate';
 import Refer from '@edit/Refer';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Definition from './Definition';
+import type Bind from './Bind';
+import NoExpressionType from './NoExpressionType';
+import type EditContext from '@edit/EditContext';
 
-export default class Input extends SimpleExpression {
+export default class Input extends Node {
     readonly name: Token;
     readonly bind: Token;
     readonly value: Expression;
@@ -47,32 +45,37 @@ export default class Input extends SimpleExpression {
         );
     }
 
-    static getPossibleNodes(
-        expectedType: Type | undefined,
-        anchor: Node,
-        isBeingReplaced: boolean,
-        context: Context,
-    ) {
-        const parent = anchor.getParent(context);
+    static getPossibleReplacements({ node, context }: EditContext) {
+        const parent = node.getParent(context);
         // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
         if (
             parent instanceof Evaluate &&
-            (anchor === parent.open ||
-                (anchor instanceof Expression &&
-                    parent.inputs.includes(anchor)))
+            (node === parent.open ||
+                (node instanceof Expression && parent.inputs.includes(node)))
         ) {
             const mapping = parent.getInputMapping(context);
             return mapping?.inputs
                 .filter((input) => input.given === undefined)
                 .map(
-                    (input) =>
-                        new Refer(
-                            (name) =>
-                                Input.make(name, ExpressionPlaceholder.make()),
-                            input.expected,
-                        ),
+                    (input, index, inputs) =>
+                        new Refer((name) => {
+                            const value =
+                                input.expected.type?.getDefaultExpression(
+                                    context,
+                                ) ?? ExpressionPlaceholder.make();
+                            // If all prior inputs were given, then we don't need a name on this next one.
+                            return inputs
+                                .slice(0, index)
+                                .every((i) => i.given !== undefined)
+                                ? value
+                                : Input.make(name, value);
+                        }, input.expected),
                 );
         } else return [];
+    }
+
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
     }
 
     getGrammar(): Grammar {
@@ -89,6 +92,18 @@ export default class Input extends SimpleExpression {
                 name: 'value',
                 kind: node(Expression),
                 space: true,
+                getType: (context: Context) => {
+                    const parent = this.getParent(context);
+                    // Evaluate, and the anchor is the open or an input? Offer binds to unset properties.
+                    if (parent instanceof Evaluate) {
+                        const mapping = parent.getInputMapping(context);
+                        const bind = mapping?.inputs.find(
+                            (i) => i.given === this,
+                        )?.expected;
+                        if (bind && bind.type) return bind.type;
+                    }
+                    return new NoExpressionType(this.value);
+                },
             },
         ];
     }
@@ -105,7 +120,7 @@ export default class Input extends SimpleExpression {
         return Purpose.Evaluate;
     }
 
-    computeType(context: Context): Type {
+    getType(context: Context): Type {
         return this.value.getType(context);
     }
 
@@ -123,7 +138,7 @@ export default class Input extends SimpleExpression {
     }
 
     /** Get the bind to which this input corresponds. */
-    getCorrespondingDefinition(context: Context): Definition | undefined {
+    getCorrespondingDefinition(context: Context): Bind | undefined {
         const parent = context.getRoot(this)?.getParent(this);
         if (parent instanceof Evaluate) {
             const fun = parent.getFunction(context);
@@ -140,14 +155,8 @@ export default class Input extends SimpleExpression {
         return this.name.getText();
     }
 
-    computeConflicts(): void | Conflict[] {}
-
-    compile(evaluator: Evaluator, context: Context): Step[] {
-        return this.value.compile(evaluator, context);
-    }
-
-    evaluate(evaluator: Evaluator, prior: Value | undefined): Value {
-        return prior ?? evaluator.popValue(this);
+    computeConflicts(): Conflict[] {
+        return [];
     }
 
     getStart(): Node {

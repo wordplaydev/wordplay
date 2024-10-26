@@ -33,6 +33,7 @@
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
     import { withVariationSelector } from '../../unicode/emoji';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let phrase: Phrase;
     export let place: Place;
@@ -41,7 +42,7 @@
     export let parentAscent: number;
     export let context: RenderContext;
     export let editing: boolean;
-    export let still: boolean;
+    export let frame: number;
 
     const selectedOutput = getSelectedOutput();
     const selectedPhrase = getSelectedPhrase();
@@ -75,6 +76,15 @@
 
     $: metrics = phrase.getMetrics(context);
 
+    let description: string | null = null;
+    let lastFrame = 0;
+    $: {
+        if (phrase.description) description = phrase.description.text;
+        else if (frame > lastFrame)
+            description = phrase.getDescription($locales);
+        lastFrame = frame;
+    }
+
     onMount(restore);
 
     function restore() {
@@ -89,7 +99,10 @@
                         $selectedPhrase.index,
                         $selectedPhrase.index,
                     );
-                    input.focus();
+                    setKeyboardFocus(
+                        input,
+                        'Restoring phrase text editor focus.',
+                    );
                 }
             }
         }
@@ -100,7 +113,7 @@
         event.stopPropagation();
         // Wait for the render and then focus the input.
         await tick();
-        input?.focus();
+        if (input) setKeyboardFocus(input, 'Entering phrase text editor.');
     }
 
     function select(index: number | null) {
@@ -195,7 +208,7 @@
         role={selectable ? 'button' : null}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
-        aria-label={still ? phrase.getDescription($locales) : null}
+        aria-label={description}
         aria-roledescription={!selectable
             ? $locales.get((l) => l.term.phrase)
             : null}

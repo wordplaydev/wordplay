@@ -10,22 +10,26 @@
 </script>
 
 <script lang="ts">
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+
     import { tick } from 'svelte';
 
     export let value: string | undefined;
     export let label: string;
     export let options: Group[] | Option[];
     export let change: (value: string | undefined) => void;
-    export let width = '10em';
-    export let id: string;
+    export let width: string = '10em';
+    export let id: string | undefined = undefined;
     export let editable = true;
+    export let code = false;
 
     let view: HTMLSelectElement | undefined = undefined;
 
     async function commitChange(newValue: string | undefined) {
         change(newValue);
         await tick();
-        view?.focus();
+        if (view)
+            setKeyboardFocus(view, 'Restoring focus after options selection.');
     }
 </script>
 
@@ -38,6 +42,7 @@
     bind:this={view}
     style:width
     disabled={!editable}
+    class:code
 >
     {#each options as option}
         {#if 'options' in option}
@@ -67,5 +72,9 @@
         font-family: var(--wordplay-app-font);
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
+    }
+
+    .code {
+        font-family: var;
     }
 </style>

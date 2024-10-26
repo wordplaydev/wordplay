@@ -3,12 +3,7 @@
 <script lang="ts">
     import Node from '@nodes/Node';
     import Caret, { type CaretPosition } from '../../edit/Caret';
-    import {
-        createEventDispatcher,
-        onDestroy,
-        onMount,
-        setContext,
-    } from 'svelte';
+    import { createEventDispatcher, onMount, setContext } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
     import {
         handleKeyCommand,
@@ -69,7 +64,7 @@
     import Evaluate from '@nodes/Evaluate';
     import type Evaluator from '@runtime/Evaluator';
     import { TAB_WIDTH } from '../../parser/Spaces';
-    import PlaceholderView from './PlaceholderView.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
     import Expression from '../../nodes/Expression';
     import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
     import {
@@ -86,6 +81,7 @@
     import Emoji from '@components/app/Emoji.svelte';
     import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     const SHOW_OUTPUT_IN_PALETTE = false;
 
@@ -146,7 +142,8 @@
     export let menu: Menu | undefined = undefined;
 
     // When the menu changes to undefined, focus back on this source.
-    $: if (menu === undefined) grabFocus();
+    $: if (menu === undefined)
+        grabFocus('Grabbing focus after menu is hidden.');
 
     const selectedOutput = getSelectedOutput();
     const selectedOutputPaths = getSelectedOutputPaths();
@@ -182,21 +179,25 @@
     const insertion = writable<InsertionPoint | undefined>(undefined);
     setContext(InsertionPointsSymbol, insertion);
 
+    function setMenuNode(position: CaretPosition | undefined) {
+        if (
+            position !== undefined &&
+            (menu === undefined || $caret.position !== position)
+        ) {
+            caret.set($caret.withPosition(position));
+            showMenu();
+        } else hideMenu();
+    }
+
     // A store of the currently requested node for which to show a menu.
-    const menuNode = writable<CaretPosition | undefined>(undefined);
+    const menuNode =
+        writable<(position: CaretPosition | undefined) => void>(setMenuNode);
     setContext(MenuNodeSymbol, menuNode);
 
-    // When the menu node changes, show the menu.
-    const unsubscribe = menuNode.subscribe((position) => {
-        if (position !== undefined) {
-            showMenu(position);
-            caret.set($caret.withPosition(position));
-        } else hideMenu();
-    });
-    onDestroy(unsubscribe);
-
     // Focus the editor on mount, if autofocus is on.
-    onMount(() => (autofocus ? grabFocus() : undefined));
+    onMount(() =>
+        autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
+    );
 
     // A shorthand for the current program.
     $: program = source.expression;
@@ -247,8 +248,11 @@
         const state = {
             caret: $caret,
             edit: handleEdit,
+            blocks: $blocks,
+            project,
             focused,
             toggleMenu,
+            grabFocus,
         };
         $editors.set(sourceID, state);
         editors.set($editors);
@@ -259,8 +263,11 @@
     const editContext = writable<EditorState>({
         edit: handleEdit,
         caret: $caret,
+        blocks: $blocks,
+        project,
         focused: false,
         toggleMenu,
+        grabFocus,
     });
     setContext(EditorSymbol, editContext);
 
@@ -278,6 +285,12 @@
 
     // The possible candidate for dragging
     let dragCandidate: Node | undefined = undefined;
+
+    // True when the last key was ignored and we're not debugging.
+    $: shakeCaret =
+        $evaluation !== undefined &&
+        $evaluation.playing === true &&
+        lastKeyDownIgnored;
 
     $: context = project.getContext(source);
 
@@ -356,8 +369,18 @@
                 // If not, what is the "nearest" conflicted node at the caret position?
                 if (conflictSelection === undefined) {
                     if (typeof $caret.position === 'number') {
-                        // Try the token we're at and the one prior if we're at it's beginning.
+                        // Try:
+                        // 1) the token just before
+                        // 2) the token before if we're at it's end.
+                        // 3) any nodes whose first position is at the caret.
                         let conflictsAtPosition = [
+                            ...source
+                                .nodes()
+                                .filter(
+                                    (node) =>
+                                        source.getNodeFirstPosition(node) ===
+                                        $caret.position,
+                                ),
                             source.getTokenAt($caret.position, false),
                             $caret.atTokenEnd() ? $caret.tokenPrior : undefined,
                         ].reduce(
@@ -448,6 +471,22 @@
         getNodeView,
     );
 
+    // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
+    $: if ($blocks && $caret && focused) {
+        if ($caret.isNode() && $caret.position instanceof Token) {
+            const token = $caret.position;
+            const widget = editor?.querySelector(
+                `.token-editor[data-id="${token.id}"]`,
+            );
+            if (widget instanceof HTMLElement) {
+                setKeyboardFocus(
+                    widget,
+                    'Focusing token editor after caret or focus change',
+                );
+            }
+        }
+    }
+
     // After updates, manage highlight classes on nodes
     afterUpdate(() => {
         updateOutlines(
@@ -488,10 +527,13 @@
     }
 
     function getNodeView(node: Node): HTMLElement | undefined {
+        if (editor === null) return undefined;
         // See if there's a node or value view that corresponds to this node.
         const view =
-            editor?.querySelector(`.node-view[data-id="${node.id}"]`) ??
-            editor?.querySelector(`.value[data-node-id="${node.id}"]`);
+            editor.querySelector(`.node-view[data-id="${node.id}"]`) ??
+            document.querySelector(
+                `.value[data-id="${evaluator.getCurrentValue()?.id}"]`,
+            );
         return view instanceof HTMLElement ? view : undefined;
     }
 
@@ -553,22 +595,23 @@
         );
 
         // Focus the node caret selected.
-        grabFocus();
+        grabFocus('Focusing editor on node drop.');
     }
 
     function handlePointerDown(event: PointerEvent) {
         placeCaretAt(event);
 
         // After we handle the click, focus on keyboard input, in case it's not focused.
-        grabFocus();
+        grabFocus('Focusing editor on pointer down.');
     }
 
     function placeCaretAt(event: PointerEvent) {
         const tokenUnderPointer = getNodeAt(event, true);
         const nonTokenNodeUnderPointer = getNodeAt(event, false);
         const newPosition =
-            // If shift is down, select the non-token node at the position.
-            event.shiftKey && nonTokenNodeUnderPointer !== undefined
+            // If shift is down or in blocks mode, select the non-token node at the position.
+            (event.shiftKey || $blocks) &&
+            nonTokenNodeUnderPointer !== undefined
                 ? nonTokenNodeUnderPointer
                 : // If the node is a placeholder token, select it's placeholder ancestor
                   tokenUnderPointer instanceof Token &&
@@ -691,6 +734,8 @@
         }
 
         // If the element at the cursor is inside space, choose the space.
+        // This depends tightly on the spaces rendered in Space.svelte and
+        // NodeView.svelte, when in blocks mode.
         const spaceView = elementAtCursor.closest('.space');
         if (spaceView instanceof HTMLElement) {
             const tokenID = spaceView.dataset.id
@@ -725,7 +770,8 @@
             }
         }
 
-        // If its the editor, find the closest token and choose either it's right or left side.
+        // Otherwise, the pointer is over the editor.
+        // Find the closest token and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
         const closestToken = Array.from(editor.querySelectorAll('.token-view'))
             .map((tokenView) => {
@@ -792,29 +838,36 @@
         }
 
         // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
-        type BreakInfo = { token: Token; offset: number; index: number };
+        type BreakInfo = {
+            token: Token;
+            offset: number;
+            index: number;
+            view: HTMLElement;
+        };
 
         // Find all tokens with empty lines and choose the nearest.
         const closestLine =
             // Find all of the token line breaks, which are wrapped in spans to enable consistent measurement.
             // This is because line breaks and getBoundingClientRect() are jumpy depending on what's around them.
-            Array.from(editor.querySelectorAll('.space br'))
+            Array.from(editor.querySelectorAll('.space .break'))
                 // Map each one to 1) the token, 2) token view, 3) line break top, 4) index within each token's space
                 .map((br) => {
                     const [token, tokenView] = getTokenFromLineBreak(br) ?? [];
                     // Check the br container, which gives us a more accurate bounding client rect.
-                    const rect = (br as HTMLElement).getBoundingClientRect();
-                    return tokenView === undefined || token === undefined
-                        ? undefined
-                        : {
-                              token,
-                              offset: Math.abs(
-                                  rect.top + rect.height / 2 - event.clientY,
-                              ),
-                              index: Array.from(
-                                  tokenView.querySelectorAll('br'),
-                              ).indexOf(br as HTMLBRElement),
-                          };
+                    const rect = br.getBoundingClientRect();
+                    if (tokenView === undefined || token === undefined)
+                        return undefined;
+                    return {
+                        token,
+                        offset: Math.abs(
+                            rect.top + rect.height / 2 - event.clientY,
+                        ),
+                        // Find the index of the break in the space view.
+                        index: Array.from(
+                            tokenView.querySelectorAll('.break'),
+                        ).indexOf(br),
+                        view: br as HTMLElement,
+                    };
                 })
                 // Filter out any empty breaks that we couldn't find
                 .filter<BreakInfo>(
@@ -826,12 +879,15 @@
 
         // If we have a closest line, find the line number
         if (closestLine) {
+            // Find the space view of the closest line.
+
             // Compute the horizontal position at which to place the caret.
             // Find the width of a single space by finding the longest line,
             // which determines its width.
+            const spaceView = closestLine.view.closest('.space');
             const spaceBounds = spaceView?.getBoundingClientRect();
             const tokenSpace = source.spaces.getSpace(closestLine.token);
-            const spaceWidth =
+            let spaceWidth =
                 (spaceBounds?.width ?? 0) /
                 Math.max.apply(
                     null,
@@ -840,9 +896,10 @@
                         .split('\n')
                         .map((s) => s.length),
                 );
+            if (isNaN(spaceWidth) || spaceWidth === Infinity) spaceWidth = 0;
 
             // Offset the caret position by the number of spaces from the edge that was clicked.
-            const positionOffset = spaceBounds
+            let positionOffset = spaceBounds
                 ? Math.round(
                       Math.abs(
                           event.clientX -
@@ -852,15 +909,17 @@
                       ) / spaceWidth,
                   )
                 : 0;
+            if (isNaN(positionOffset) || positionOffset === Infinity)
+                positionOffset = 0;
 
             const index = $caret.source.getTokenSpacePosition(
                 closestLine.token,
             );
+
+            // Figure out where on the line to place the insertion point based on the line index
             return index !== undefined
                 ? index +
-                      tokenSpace.split('\n', closestLine.index).join('\n')
-                          .length +
-                      1 +
+                      tokenSpace.split('\n', closestLine.index).length +
                       positionOffset
                 : undefined;
         }
@@ -870,10 +929,13 @@
     }
 
     function getInsertionPointsAt(event: PointerEvent) {
-        // Is the caret position between tokens? If so, are any of the token's parents inside a list in which we could insert something?
+        // Is the caret position between tokens?
+        // If so, are any of the token's parents inside a list in which we could insert something?
         const position = getCaretPositionAt(event);
 
+        // If we found a position, find what's between.
         if (position !== undefined) {
+            // Create a caret for the position and get the token it's at.
             const caret = new Caret(
                 source,
                 position,
@@ -1104,7 +1166,7 @@
                 .map((expr) => {
                     return {
                         expression: expr,
-                        value: $evaluation.evaluator.getLatestExpressionValueInEvaluation(
+                        value: $evaluation.evaluator.getLatestExpressionValue(
                             expr,
                         ),
                     };
@@ -1142,11 +1204,11 @@
 
         // After everything is updated, if we were asked to focus the editor, focus it.
         await tick();
-        if (focusAfter) grabFocus();
+        if (focusAfter) grabFocus('Focusing editor after edit');
     }
 
-    function grabFocus() {
-        input?.focus();
+    function grabFocus(message: string) {
+        if (input) setKeyboardFocus(input, message);
     }
 
     /** True if the last symbol was a dead key*/
@@ -1160,6 +1222,9 @@
     let pasted = true;
 
     function handleTextInput(event: Event) {
+        // Blocks mode? No text input support. It's all handled by text fields.
+        if ($blocks) return;
+
         setIgnored(false);
 
         let edit: Edit | ProjectRevision | undefined = undefined;
@@ -1182,7 +1247,11 @@
 
         // First, delete any selected node.
         if (newCaret.position instanceof Node) {
-            const edit = newCaret.deleteNode(newCaret.position);
+            const edit = newCaret.deleteNode(
+                newCaret.position,
+                $blocks,
+                project,
+            );
             if (edit) {
                 newSource = edit[0];
                 newCaret = edit[1];
@@ -1220,7 +1289,7 @@
                 const char = lastChar.toString();
 
                 // Insert the character that was added last.
-                edit = newCaret.insert(char, project, !keyWasDead);
+                edit = newCaret.insert(char, $blocks, project, !keyWasDead);
                 if (edit) {
                     // Reset the value to the last character.
                     if (value.getLength() > 1)
@@ -1280,6 +1349,8 @@
             dragging: $dragged !== undefined,
             database: DB,
             toggleMenu,
+            blocks: $blocks,
+            view: editor,
         });
 
         // Don't insert symbols if composing.
@@ -1318,7 +1389,12 @@
 
         if (input) {
             // Insert the symbols that were composed.
-            const edit = $caret.insert(input.value, project, !keyWasDead);
+            const edit = $caret.insert(
+                input.value,
+                $blocks,
+                project,
+                !keyWasDead,
+            );
             if (edit) handleEdit(edit, IdleKind.Typing, true);
             input.value = '';
         }
@@ -1342,6 +1418,7 @@
     We use the live region above 
 -->
 <!-- svelte-ignore missing-declaration -->
+<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
 <div
     data-testid="editor"
     class="editor {$evaluation !== undefined && $evaluation.playing
@@ -1364,9 +1441,29 @@
     on:pointerup={handleRelease}
     on:pointermove={handlePointerMove}
     on:pointerleave={handlePointerLeave}
+    on:keydown={handleKeyDown}
     on:dblclick|stopPropagation={(event) => {
         let node = getNodeAt(event, false);
         if (node) caret.set($caret.withPosition(node));
+    }}
+    on:focusin={() => {
+        // If the active element is a widget for a token in this editor's source,
+        // set the caret to that token.
+        if (
+            $blocks &&
+            document.activeElement &&
+            document.activeElement instanceof HTMLElement &&
+            document.activeElement.classList.contains('token-editor')
+        ) {
+            const widget = document.activeElement;
+            const id = widget.dataset.id;
+            if (id !== undefined) {
+                const node = source.getNodeByID(parseInt(id));
+                if (node !== undefined) {
+                    caret.set($caret.withPosition(node));
+                }
+            }
+        }
     }}
 >
     <!-- Render highlights below the code -->
@@ -1398,12 +1495,13 @@
         style:top={caretLocation ? `${caretLocation.top}px` : null}
         bind:this={input}
         on:input={handleTextInput}
-        on:keydown={handleKeyDown}
         on:compositionstart={handleCompositionStart}
         on:compositionend={handleCompositionEnd}
         on:paste={handlePaste}
         on:focusin={() => (focused = true)}
-        on:focusout={() => (focused = false)}
+        on:focusout={() => {
+            focused = false;
+        }}
     />
     <!-- Render the program -->
     <RootView
@@ -1411,21 +1509,27 @@
         spaces={source.spaces}
         localized={$localized}
         caret={$caret}
+        blocks={$blocks}
         lines={$showLines}
+        inline={false}
     />
     <!-- Render highlights above the code -->
     {#each outlines as outline}
-        <Highlight {...outline} types={outline.types} above={true} />
+        <Highlight
+            {...outline}
+            types={outline.types}
+            above={true}
+            ignored={shakeCaret}
+        />
     {/each}
 
     <!-- Render the caret on top of the program -->
     <CaretView
         caret={$caret}
         {source}
+        blocks={$blocks}
         blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
-        ignored={$evaluation !== undefined &&
-            $evaluation.playing === true &&
-            lastKeyDownIgnored}
+        ignored={shakeCaret}
         bind:location={caretLocation}
     />
     <!-- 

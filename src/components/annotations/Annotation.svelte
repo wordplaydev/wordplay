@@ -3,7 +3,6 @@
     import type { AnnotationInfo } from './Annotations.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
-    import { getConceptIndex } from '../project/Contexts';
     import { Projects, animationDuration, locales } from '../../db/Database';
     import Button from '@components/widgets/Button.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
@@ -13,10 +12,9 @@
     export let id: number;
     export let annotations: AnnotationInfo[];
 
-    let index = getConceptIndex();
-
     function resolveAnnotation(resolution: Resolution, context: Context) {
-        Projects.reviseProject(resolution.mediator(context));
+        const {newProject} = resolution.mediator(context, $locales);
+        Projects.reviseProject(newProject);
     }
 </script>
 
@@ -32,8 +30,7 @@
             }}
         >
             <Speech
-                glyph={$index?.getNodeConcept(annotation.node) ??
-                    annotation.node.getGlyphs($locales)}
+                glyph={annotation.node.getGlyphs($locales)}
                 flip={annotation.kind === 'secondary'}
                 below
             >

@@ -8,16 +8,17 @@ import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
 import type StreamDefinition from '../nodes/StreamDefinition';
 import type Locales from '../locale/Locales';
+import type Input from '@nodes/Input';
 
 export default class UnexpectedInputs extends Conflict {
     readonly func: FunctionDefinition | StructureDefinition | StreamDefinition;
     readonly evaluate: Evaluate | BinaryEvaluate;
-    readonly input: Expression;
+    readonly input: Expression | Input;
 
     constructor(
         func: FunctionDefinition | StructureDefinition | StreamDefinition,
         evaluate: Evaluate | BinaryEvaluate,
-        input: Expression,
+        input: Expression | Input,
     ) {
         super(false);
         this.func = func;

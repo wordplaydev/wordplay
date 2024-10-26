@@ -136,17 +136,17 @@
             "doc": [
                 "I richly format things with @Markup, like explanations of some of of your @Program, or even the words you put on stage with @Phrase.",
                 "For example, I can go before any expression:",
-                "\\``Is this really supposed to be 7?``\n7\\",
+                "\\¶Is this really supposed to be 7?¶\n7\\",
                 "For example, you can place me before @Bind:",
-                "\\``I measure how tall someone is``\nheight: 5m\\",
+                "\\¶I measure how tall someone is¶\nheight: 5m\\",
                 "Or before a @FunctionDefinition:",
-                "\\``I add two numbers``\nƒ sum(a•# b•#) a + b\\",
+                "\\¶I add two numbers¶\nƒ sum(a•# b•#) a + b\\",
                 "Or before a @StructureDefinition:",
-                "\\``I remember people's name and favorite fruit``\n•Person(name•'' fruit•'')\\",
+                "\\¶I remember people's name and favorite fruit¶\n•Person(name•'' fruit•'')\\",
                 "You can also place me at the very beginning of @Program to say what the whole performance is about",
-                "\\``This program says hello``\n\n'hello!'\\",
+                "\\¶This program says hello¶\n\n'hello!'\\",
                 "You can give me a @Language to help others know what language I'm written in:",
-                "\\``I'm an English doc``/en\nduration: 5s\\",
+                "\\¶I'm an English doc¶/en\nduration: 5s\\",
                 "Did you know you can make a list of me? Go talk to @Docs."
             ]
         },
@@ -156,7 +156,7 @@
             "doc": [
                 "I'm a list of @Doc, useful when you have multiple translations of @Doc in different languages.",
                 "You don't have to do anything special to make a list. Just put a bunch of @Doc next to each other, like this:",
-                "\\``Hello``/en\n``Hola``/es\ngreeting: '…'\\"
+                "\\¶Hello¶/en\n¶Hola¶/es\ngreeting: '…'\\"
             ],
             "start": "Making the docs value!"
         },
@@ -184,7 +184,7 @@
                 "Or, suppose you wanted to do this for a @Name.",
                 "\\sound/en: 'meow'\\",
                 "Or even @Doc!",
-                "\\``Onomatopoeia``/en\nsound/en: \"meow\"\\",
+                "\\¶Onomatopoeia¶/en\nsound/en: \"meow\"\\",
                 "There are many <2-letter language codes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes> that I understand. If you don't use one of those, I'll let you know."
             ],
             "conflict": {
@@ -284,9 +284,9 @@
             "doc": [
                 "I'm a series of @Words, @ConceptLink, @WebLink, and @Example, separated by a blank line, and inside @Doc.",
                 "All you need to do to write me is write a bunch of words in a @Doc:",
-                "\\``I am a paragraph in a doc.``'one paragraph'\\",
+                "\\¶I am a paragraph in a doc.¶'one paragraph'\\",
                 "If you want multiple paragraphs, just put in blank lines.",
-                "\\``Paragraph 1.\n\nParagraph 2.\n\nParagraph 3.``'three paragraphs'\\"
+                "\\¶Paragraph 1.\n\nParagraph 2.\n\nParagraph 3.¶'three paragraphs'\\"
             ]
         },
         "WebLink": {
@@ -295,7 +295,7 @@
             "emotion": "serious",
             "doc": [
                 "I am a link to something on the internet. I just need a description and a URL:",
-                "\\``I am a <link@https://wordplay.dev> in a doc``\n'link example'\\",
+                "\\¶I am a <link@https://wordplay.dev> in a doc¶\n'link example'\\",
                 "If anyone selects me, I'll open a new window to the URL."
             ]
         },
@@ -306,7 +306,7 @@
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
-                "\\``You know, @Evaluate is pretty awesome.``\n'look, a concept link!'\\",
+                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a concept link!'\\",
                 "When the @Doc you wrote appears here, it'll show a link to the concept."
             ]
         },
@@ -315,9 +315,9 @@
             "emotion": "serious",
             "doc": [
                 "I'm any words you like in a @Doc. For example:",
-                "\\``May the Force be with you.``\n'just some words!'\\",
+                "\\¶May the Force be with you.¶\n'just some words!'\\",
                 "Sometimes though, you might want to use the special characters that @Doc uses /as/ words. For example:",
-                "\\``My friends use @@, //, **, ||, and other symbols.``\n'using special characters!'\\",
+                "\\¶My friends use @@, //, **, ||, and other symbols.¶\n'using special characters!'\\",
                 "If you just repeat those special characters, you'll get the character instead of their special meaning."
             ]
         },
@@ -326,9 +326,9 @@
             "emotion": "serious",
             "doc": [
                 "I'm an example performance, helpful for writing @Doc that explains how to use something!",
-                "\\``Here's an example of adding: \\1 + 1\\``'example code'\\",
+                "\\¶Here's an example of adding: \\1 + 1\\¶'example code'\\",
                 "If you put me in a paragraph all alone, I'll show up in a fancy box and show the result of evaluating me.",
-                "\\``Here's an example of adding:\n\n\\1 + 1\\``\\"
+                "\\¶Here's an example of adding:\n\n\\1 + 1\\¶\\"
             ]
         },
         "Mention": {
@@ -366,8 +366,8 @@
                 "In math, multiplication would come first, and then addition, and so the result would be \\11\\. But since I evaluate in reading order, the result is \\13\\."
             ],
             "right": "input",
-            "start": "let's evaluate $1 first",
-            "finish": "look, I made $1!",
+            "start": "Let's evaluate $1 first",
+            "finish": "Look, I made $1!",
             "conflict": {
                 "OrderOfOperations": "I evalute in reading order, not in math order of operations. Do you want to use @Block to specify the order I should evaluate in?"
             }
@@ -402,8 +402,8 @@
                 "But we can change this to add the @Is, and now @FunctionDefinition knows that they're numbers:",
                 "\\ƒ sum(a•# b•#) a + b\\"
             ],
-            "start": "let's see what value we get from $1!",
-            "finish": "oh nice, I got $1! Let's name it $2",
+            "start": "Let's see what value we get from $1!",
+            "finish": "Oh nice, I got $1! Let's name it $2",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
@@ -418,7 +418,7 @@
                 },
                 "IncompatibleType": {
                     "primary": "I'm supposed to be a $2, but I'm a $1",
-                    "secondary": "Oh… sorry, a $1, really?"
+                    "secondary": "Oh, I'm sorry. Should I change, or maybe you're supposed to be a $1 ?"
                 },
                 "MisplacedShare": "I can only share things at the @Program level, not inside anything!",
                 "MissingShareLanguages": "if you want to share this, you have to say what language this is in, so others know if they can read it!",
@@ -447,8 +447,8 @@
                 "\\(\n  a: 1\n  b: 2\n  c: 3\n  d: 4\n  a + b + c + d\n)\\"
             ],
             "statement": "statement",
-            "start": "first expression",
-            "finish": "done, I got $1",
+            "start": "First expression",
+            "finish": "Done, I got $1",
             "conflict": {
                 "ExpectedEndingExpression": "I need an expression.",
                 "IgnoredExpression": {
@@ -470,7 +470,7 @@
             "description": "borrow $1[$1|missing name]",
             "emotion": "excited",
             "doc": "If you create a performance with multiple @Source, you can use me to borrow @Bind that are shared in those other @Source. Just use their name and I'll bring in their name and value.",
-            "start": "borrowing $2 from $1",
+            "start": "Borrowing $2 from $1",
             "source": "$source",
             "bind": "name",
             "version": "version",
@@ -494,7 +494,7 @@
                 "I'm really helpful when you want something to change only if a stream changed.",
                 "That's it."
             ],
-            "start": "let's see if $1 changed…"
+            "start": "Let's see if $1 changed…"
         },
         "Conditional": {
             "name": "conditional",
@@ -506,7 +506,7 @@
                 "Doesn't it seem like decisions should be more nuanced than just yes or no? Is deciding between \\⊤\\ and \\⊥\\ all there is?",
                 "Aren't you worried that if these are the only kind of decisions we can make, we'll be missing some important context about the world?"
             ],
-            "start": "let's see if $1 is true",
+            "start": "Let's see if $1 is true",
             "else": "$1[jumping over code | not jumping over code]",
             "afterthen": "done with yes, let's skip no?",
             "finish": "I guess it's $1?",
@@ -530,7 +530,7 @@
                 "See how I turned kitties into cats? Wicked!",
                 "You might be wondering what that \\.\\ is doing there. That represents the value being converted. I use that because the value has no name otherwise."
             ],
-            "start": "awesome, a new conversion!",
+            "start": "Awesome, a new conversion!",
             "conflict": {
                 "MisplacedConversion": "whoa, I can't be here, just in @Block."
             }
@@ -547,7 +547,7 @@
                 "\\\"hello\" → [] → {}\\",
                 "Values have a set of @ConversionDefinition that are predefined, but if you make a @StructureDefinition for a new type of value, you can define your own with @ConversionDefinition."
             ],
-            "start": "get that value from $1!",
+            "start": "Get that value from $1!",
             "finish": "Awesome, I made $1",
             "conflict": {
                 "UnknownConversion": "Bummer, no way make $1 into $2"
@@ -568,7 +568,7 @@
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡- name = 'jeff'\\",
                 "Phew, Jeff is gone. BYE JEFF. Just remember that I don't change the original table, I make a new one, without JEFF. You decide where it goes."
             ],
-            "start": "let's get the table first",
+            "start": "Let's get the table first",
             "finish": "I made a new table without the matching rows!"
         },
         "DocumentedExpression": {
@@ -577,10 +577,10 @@
             "doc": [
                 "I'm any expression, but with a @Doc!",
                 "To make me, just put a @Doc before an expression, and you'll get me:",
-                "\\doubleplus: 1\n(2 · doubleplus) + \n``Let's make it just a little bit bigger``\n1\\",
+                "\\doubleplus: 1\n(2 · doubleplus) + \n¶Let's make it just a little bit bigger¶\n1\\",
                 "I'm useful for making a comment on some part of a program."
             ],
-            "start": "let's evaluate the expression"
+            "start": "Let's evaluate the expression"
         },
         "Evaluate": {
             "name": "evaluate",
@@ -597,7 +597,7 @@
                 "\\'kitty'.⊆('itty')\\",
                 "Of course, I'm nothing without @FunctionDefinition. All I do is give inputs to them and then follow their steps."
             ],
-            "start": "let's evaluate the inputs first",
+            "start": "Let's evaluate the inputs first",
             "evaluate": "let's evaluate the function now",
             "finish": "I evaluated to $1",
             "function": "function",
@@ -612,8 +612,8 @@
                     "secondary": "oh, am I not supposed to be here?"
                 },
                 "MissingInput": {
-                    "primary": "I can't evaluate $1 without the input named $2 :(",
-                    "secondary": "Can you help us out and add it the list of inputs?"
+                    "primary": "I can't evaluate without the input named $2 :(",
+                    "secondary": "I need a value, can you give me one?"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
                 "UnexpectedInput": {
@@ -659,15 +659,15 @@
                 "\\_(1 2 3)\\",
                 "I don't like being on @Stage!"
             ],
-            "start": "eek, I don't know what to do!",
+            "start": "I don't know what to do here. Can you fill me in?",
             "placeholder": "expression",
             "conflict": {
-                "Placeholder": "can someone take my place?"
+                "Placeholder": "Can you fill me? I'm just a placeholder."
             },
             "exception": {
                 "UnimplementedException": {
                     "description": "unimplemented",
-                    "explanation": "I don't know what to do!"
+                    "explanation": "I don't know what to do here. Can you fill me in?"
                 }
             }
         },
@@ -691,7 +691,7 @@
                 "You might notice a problem with this one: it says it evaluates to @Text, but it takes two @Number. I can tell you when things are inconsistent!",
                 "Of course, I'm not really useful at all without @Evaluate; they bring me to life."
             ],
-            "start": "let's make this function!",
+            "start": "Let's make this function!",
             "conflict": {
                 "NoExpression": "I need an expression to evaluate, can you add one?"
             }
@@ -700,14 +700,14 @@
             "name": "higher order function",
             "emotion": "kind",
             "doc": "I'm a very special kind of @FunctionDefinition that operates on lists of things. You don't need to know anything about me, other than I make functions like @List/translate possible. ",
-            "start": "evaluating the function given",
+            "start": "Evaluating the function given",
             "initialize": "preparing to step through items",
             "next": "moving to the next item",
             "check": "deciding whether to continue",
             "finish": "I evaluated to $1"
         },
         "Initial": {
-            "name": "start",
+            "name": "Start",
             "emotion": "curious",
             "doc": [
                 "I tell you whether the current evaluation of @Program is the first one, evaluating to a @Boolean. For example:",
@@ -725,7 +725,7 @@
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡+ 'jason' 'red' 0⎦\\",
                 "Just remember, like everything in the Verse, I don't change a table, I revise it. So you need to figure out where you want to put the revised table you make. Most likely you'll want to revise a table in a @Reaction to some input, and store it in a @Bind."
             ],
-            "start": "let's find the table to update",
+            "start": "Let's find the table to update",
             "finish": "I made a new table with revised rows!"
         },
         "Is": {
@@ -741,7 +741,7 @@
                 "We get \\⊤\\!",
                 "I'm really helpful when you need to know whether some @Name has a value of a particular kind."
             ],
-            "start": "let's get the value of $1 first",
+            "start": "Let's get the value of $1 first",
             "finish": "$1[value is $2|value is not $2]",
             "conflict": {
                 "ImpossibleType": "this can't ever be $1"
@@ -763,7 +763,7 @@
                 "\\🌍/es-MX\\",
                 "This is helpful if you want to change your performance based on the language chosen."
             ],
-            "start": "is the language $1?"
+            "start": "Is the language $1?"
         },
         "ListAccess": {
             "name": "list access",
@@ -772,15 +772,15 @@
                 "I work closely with @List to help them get values at a particular position. So like, if you had a list, and you wanted its second item, you'd write:",
                 "\\list: ['bird' 'duck' 'fish' 'snake']\nlist[2]\\"
             ],
-            "start": "let's get the list $1 first",
-            "finish": "the item is $2!"
+            "start": "Let's get the list $1 first",
+            "finish": "The item at the index is $1!"
         },
         "ListLiteral": {
             "name": "list literal",
             "description": "$1 item list",
             "emotion": "eager",
             "doc": "I'm a specific @List of values! See @List to learn more about what you can do with me.",
-            "start": "let's evaluate the items first",
+            "start": "Let's evaluate the items first",
             "finish": "I made a me! $1",
             "item": "item"
         },
@@ -797,7 +797,7 @@
             "description": "$1 pairing map",
             "emotion": "kind",
             "doc": "I'm a specific @Map between keys and values. See @Map to learn more about how I'm helpful.",
-            "start": "let's evaluate the keys and values first",
+            "start": "Let's evaluate the keys and values first",
             "finish": "I connected everyone, $1",
             "conflict": {
                 "NotAKeyValue": {
@@ -837,7 +837,7 @@
             "name": "internal expression",
             "emotion": "neutral",
             "doc": "How did you find me? I'm an expression that only the original creators use. To learn more about me, you'll need to talk to them.",
-            "start": "secret expression"
+            "start": "Secret expression"
         },
         "NoneLiteral": {
             "name": "none literal",
@@ -870,8 +870,8 @@
                 "See how it's the five previous times, instead of just one time?",
                 "I'm helpful when you want to create performances that depend on the past."
             ],
-            "start": "first get $1",
-            "finish": "evaluated to stream value $1"
+            "start": "First get $1",
+            "finish": "Evaluated to stream value $1"
         },
         "Program": {
             "name": "program",
@@ -886,9 +886,9 @@
                 "And if your performance depends on a *stream*, I'll reevaluate every time that stream changes."
             ],
             "unevaluated": "the node you chose didn't evaluate",
-            "start": "$1[$1 stream changed to $2!|it's my first evaluation]",
+            "start": "$1[$1 stream changed to $2!|It's my first evaluation]",
             "halt": "encountered exception, stopping",
-            "finish": "all done, I evaluated to $1",
+            "finish": "All done, I evaluated to $1",
             "done": "there's nothing evaluating",
             "exception": {
                 "BlankException": {
@@ -919,7 +919,7 @@
                 "\\•Cat(name•'' color•'' hobby•'')\n\nkitty: Cat('sprinkles' 'orange' 'licking')\nkitty.hobby:'purring'\\",
                 "That's so much easier than making a whole new \\Cat\\ with the same values except for the hobby, isn't it?"
             ],
-            "start": "first let's get the value",
+            "start": "First let's get the value",
             "finish": "I copied the structure, but with $1 as $2",
             "conflict": {
                 "InvalidProperty": {
@@ -937,8 +937,8 @@
                 "Like if you had a structure about cities, you could get its values with me like this:",
                 "\\•City(name•'' population•#people)\n\nportland: City('Portland' 800000people)\n\nportland.population\\"
             ],
-            "start": "first let's get the value",
-            "finish": "found property $1, it is $2",
+            "start": "First let's get the value",
+            "finish": "Found property $1, it is $2",
             "property": "property"
         },
         "Reaction": {
@@ -951,8 +951,8 @@
                 "That's like saying \"/begin with the word 'start' and then if time changes, change to either even or odd, based on the time./\"",
                 "So I'm like a stream to, but one based on other streams. Wicked, huh?"
             ],
-            "start": "let's see if we should update the stream",
-            "finish": "the new stream value is $1",
+            "start": "Let's see if we should update the stream",
+            "finish": "The new stream value is $1",
             "initial": "initial",
             "condition": "condition",
             "next": "next",
@@ -970,9 +970,12 @@
                 "If I don't find the name, then I don't know what to do.",
                 "\\parrot: 'polly'\nperry\\"
             ],
-            "start": "what value does $1 have?",
+            "start": "What value does $1 have?",
             "conflict": {
-                "UnknownName": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]",
+                "UnknownName": {
+                    "conflict": "$1[I don't know anyone named $1 in $2[$2|this @Block]|Can you give me a name?]",
+                    "resolution": "Did you mean *$1?*"
+                },
                 "ReferenceCycle": "um, $1's value depends on itself, so how do I know what value to give it?",
                 "UnexpectedTypeVariable": "I don't now what to do with these type inputs"
             },
@@ -992,7 +995,7 @@
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 8⎦\n⎡'joan' 'blue' 11⎦\n⎡'jeff' 'red' 9⎦\n⎡'janet' 'blue' 7⎦\nplayers ⎡? name ⎦ points ≥ 10\\",
                 "Just like that, I got a list of rows of winners! Just remember that I don't change the table, I make a new one. You'll have to decide where to keep it."
             ],
-            "start": "let's get the table first",
+            "start": "Let's get the table first",
             "finish": "I made a new table with just the selected rows and columns!",
             "conflict": {
                 "ExpectedSelectName": "I need at least one column name."
@@ -1003,7 +1006,7 @@
             "description": "$1 items",
             "emotion": "eager",
             "doc": "I'm a specifc @Set of specific values. See @Set to learn more about how to work with me.",
-            "start": "let's evaluate the values first!",
+            "start": "Let's evaluate the values first!",
             "finish": "I made a set $1!"
         },
         "SetOrMapAccess": {
@@ -1016,8 +1019,8 @@
                 "Or this, with a @Map:",
                 "\\faves: {'mac and cheese': 5stars 'cereal': 2stars 'gruel': 1stars}\nfaves{'gruel'}\\"
             ],
-            "start": "what's the set or map?",
-            "finish": "the value is $1",
+            "start": "What's the set or map?",
+            "finish": "The value is $1",
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "I expected a $1 key",
@@ -1038,7 +1041,7 @@
             "name": "stream",
             "emotion": "curious",
             "doc": "I /think/ I'm supposed make new streams. But I really don't know ho to do that. For now, I guess just use the streams that exist?",
-            "start": "create this new kind of stream"
+            "start": "Create this new kind of stream"
         },
         "StructureDefinition": {
             "name": "structure",
@@ -1055,7 +1058,7 @@
                 "I can also have @Bind inside, so we could evaluate the cost in advance.",
                 "\\•Pizza(\ningredients•['']\nsize•#in\n) (\n\tcost: size · 10dollars/in\n)\n\nPizza(['pepperoni' 'peppers'] 12in).cost\\"
             ],
-            "start": "let's define this lovely structure",
+            "start": "Let's define this lovely structure",
             "conflict": {
                 "DisallowedInputs": "I can't have inputs because one of or more of my interface functions isn't implemented",
                 "IncompleteImplementation": "my functions either need to all be implemented, or none be implemented. No messy mixtures!",
@@ -1076,15 +1079,15 @@
             "description": "$1 row table",
             "emotion": "angry",
             "doc": "I am a specific table with specific rows. See @Table about how I can help.",
-            "start": "first evaluate the rows",
-            "finish": "evaluated to new table $1"
+            "start": "First evaluate the rows",
+            "finish": "Evaluated to new table $1"
         },
         "TextLiteral": {
             "name": "text literal",
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent one or more specific @Translation of text. See @Text to learn more about what I can do!",
-            "start": "let's make text in the current locale"
+            "start": "Let's make text in the current locale"
         },
         "Translation": {
             "name": "translation",
@@ -1106,7 +1109,7 @@
             "description": "text $1",
             "emotion": "serious",
             "doc": "I represent many different @FormattedTranslation of formatted text. When I evaluate, I'll pick the best match based on the audience's selected languages.",
-            "start": "let's make text in the current locale"
+            "start": "Let's make text in the current locale"
         },
         "FormattedTranslation": {
             "name": "formatted translation",
@@ -1137,7 +1140,7 @@
                 "Check me out, representing the previous reaction value.",
                 "I don't show up often, but when I do, I can really help a value get out of a @Bind!"
             ],
-            "start": "evaluated to $1",
+            "start": "Evaluated to $1",
             "conflict": {
                 "MisplacedThis": "I'm only allowed in a structure, conversion, or reaction."
             }
@@ -1156,7 +1159,7 @@
                 "You don't have to write me that way, but it might be easier overall.",
                 "There's only one rule: you can't put any space between the name and the value. Otherwise you might be making a @Reference or @BinaryEvaluate."
             ],
-            "start": "what's the value?",
+            "start": "What's the value?",
             "finish": "I made it $1"
         },
         "UnparsableExpression": {
@@ -1196,8 +1199,8 @@
                 "\\players: ⎡name•'' team•'' points•#⎦\n⎡'jen' 'red' 1⎦\n⎡'joan' 'blue' 0⎦\n⎡'jeff' 'red' 3⎦\n⎡'janet' 'blue' 2⎦\nplayers ⎡: points: points + 1 ⎦ team = 'blue'\\",
                 "You can use a @Bind to say which columns to change, and you can use any of the column names or other names in scope in the condition."
             ],
-            "start": "let's get the table first",
-            "finish": "evaluated to a new table with revised rows!",
+            "start": "Let's get the table first",
+            "finish": "Evaluated to a new table with revised rows!",
             "conflict": {
                 "ExpectedColumnBind": "I need a value for every column",
                 "IncompatibleCellType": {
@@ -1634,7 +1637,7 @@
                         "\\'hi ' · -5\\",
                         "The longest text I can make is 65,535 characters. If you try to make a longer text, I'll repeat the text as many times as I can."
                     ],
-                    "names": ["·", "🔁", "repeat"],
+                    "names": ["·", "🔁", "repeated", "repeat"],
                     "inputs": [
                         {
                             "doc": "The number of times to repeat myself in the new text.",
@@ -1649,7 +1652,7 @@
                         "If the separator is an empty @Text, I divide myself into characters:",
                         "\\'🖌️🏠🥸' ÷ ''\\"
                     ],
-                    "names": ["÷", "segment"],
+                    "names": ["÷", "segmented", "segment"],
                     "inputs": [
                         {
                             "doc": "The @Text to use as a separator.",
@@ -1662,7 +1665,7 @@
                         "Sometimes it's helpful to combine to @Text into one. Give me another @Text and I'll make a new text that joins us together:",
                         "\\'hello ' + 'verse'\\"
                     ],
-                    "names": ["+", "combine"],
+                    "names": ["+", "combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The @Text to append.",
@@ -2399,7 +2402,7 @@
                         "This is really helpful for combining all of the items in me into a single value. For example, imagine you wanted to add a list of numbers:",
                         "\\[3 9 2 8 1 4].combine(0 ƒ(sum•# number•#) sum + number)\\"
                     ],
-                    "names": "combine",
+                    "names": ["combined", "combine"],
                     "inputs": [
                         {
                             "doc": "The starting combination.",
@@ -3254,6 +3257,12 @@
                 "doc": ["The same as @Phrase/name!"],
                 "names": "name"
             },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
             "selectable": {
                 "doc": "The same as @Phrase/selectable!",
                 "names": "selectable"
@@ -3314,7 +3323,7 @@
                 "doc": "Same as @Phrase/style!",
                 "names": "style"
             },
-            "description": "$1[$1|] $2 $3"
+            "defaultDescription": "$1[$1|] $2 $3"
         },
         "Phrase": {
             "doc": [
@@ -3370,6 +3379,12 @@
                     "You can give me many different names, each in a different language, if it's helpful. I'll always use the name in the first selected locale."
                 ],
                 "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A custom description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
             },
             "selectable": {
                 "doc": "If \\⊤\\, indicates that I can be selected via a pointer or keyboard.",
@@ -3431,7 +3446,7 @@
                 "doc": "The animation style to use when moving to a different place on stage.",
                 "names": "style"
             },
-            "description": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
+            "defaultDescription": "$3[$3 meter |]phrase $1 $2[named $2|] $4[$4|] $5"
         },
         "Arrangement": {
             "doc": "I am an inspiration to the many other kinds of arrangment in the Verse, including @Row, @Stack, @Grid, and @Free. I work closely with @Group to ",
@@ -3506,6 +3521,12 @@
             "name": {
                 "doc": "I'm the name you can use, for animations and @Collision. For example, if a represent the ground, you might want to call me 'ground'.",
                 "names": "name"
+            },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
             },
             "selectable": {
                 "doc": "Whether I can be selected as part of @Choice.",
@@ -3859,6 +3880,12 @@
                 "doc": ["SAME AS @Phrase/name!"],
                 "names": "name"
             },
+            "description": {
+                "doc": [
+                    "A description to use for audience members who can't see visual output."
+                ],
+                "names": "description"
+            },
             "selectable": {
                 "doc": "SAME AS @Phrase/selectable!",
                 "names": "selectable"
@@ -3923,7 +3950,7 @@
                 "doc": "The gravity to apply to output whose's place is in @Motion.",
                 "names": "gravity"
             },
-            "description": "stage $1[$1|] of $2[$2|] phrases $3[$3 frame|] $4"
+            "defaultDescription": "stage $2[$2 |]of $1 outputs$3[with frame $3|] $4"
         },
         "Easing": {
             "straight": "straight",
@@ -4157,8 +4184,8 @@
             },
             "toggle": {
                 "blocks": {
-                    "on": "hide block backgrounds",
-                    "off": "show block backgrounds"
+                    "on": "edit as text",
+                    "off": "edit as blocks"
                 },
                 "glyphs": {
                     "on": "collapse the matching glyphs",
@@ -4208,6 +4235,7 @@
                 "insertLessOrEqual": "insert less than or equal to",
                 "insertGreaterOrEqual": "insert greater than or equal to",
                 "insertType": "insert type symbol",
+                "insertDocs": "insert explanation symbol",
                 "insertStream": "insert stream symbol",
                 "insertChange": "insert change symbol",
                 "insertConvert": "insert convert symbol",
@@ -4286,7 +4314,7 @@
                 "forwardNode": "step to next evaluation of cursor",
                 "forwardInput": "step forward to next stream input",
                 "present": "to the end",
-                "start": "to the beginning",
+                "start": "To the beginning",
                 "reset": "restart performance"
             }
         },

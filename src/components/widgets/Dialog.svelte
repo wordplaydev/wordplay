@@ -6,6 +6,7 @@
     import Header from '../app/Header.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     export let show = false;
     export let description: DialogText;
@@ -20,7 +21,11 @@
         if (view) {
             if (show) {
                 view.showModal();
-                tick().then(() => view?.focus());
+                tick().then(() =>
+                    view
+                        ? setKeyboardFocus(view, 'Focusing dialog')
+                        : undefined,
+                );
             } else {
                 view.close();
             }

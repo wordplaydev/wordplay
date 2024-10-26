@@ -7,6 +7,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
 import Glyphs from '../lore/Glyphs';
 import type Locales from '../locale/Locales';
+import BooleanLiteral from './BooleanLiteral';
 
 export default class BooleanType extends BasisType {
     readonly type: Token;
@@ -23,7 +24,11 @@ export default class BooleanType extends BasisType {
         return new BooleanType(new Token(QUESTION_SYMBOL, Sym.BooleanType));
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [BooleanType.make()];
+    }
+
+    static getPossibleAppends() {
         return [BooleanType.make()];
     }
 
@@ -37,12 +42,12 @@ export default class BooleanType extends BasisType {
 
     clone(replace?: Replacement) {
         return new BooleanType(
-            this.replaceChild('type', this.type, replace)
+            this.replaceChild('type', this.type, replace),
         ) as this;
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     acceptsAll(types: TypeSet) {
@@ -59,5 +64,9 @@ export default class BooleanType extends BasisType {
 
     getGlyphs() {
         return Glyphs.BooleanType;
+    }
+
+    getDefaultExpression() {
+        return BooleanLiteral.make(true);
     }
 }

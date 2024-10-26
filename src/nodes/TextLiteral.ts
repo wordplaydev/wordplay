@@ -8,7 +8,6 @@ import { node, type Grammar, type Replacement, list } from './Node';
 import Literal from './Literal';
 import Emotion from '../lore/Emotion';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Node from './Node';
 import Translation from './Translation';
 import UnionType from './UnionType';
 import { getPreferred } from './LanguageTagged';
@@ -23,6 +22,7 @@ import type Value from '../values/Value';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
+import type EditContext from '@edit/EditContext';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */
@@ -40,12 +40,7 @@ export default class TextLiteral extends Literal {
         return new TextLiteral([Translation.make(text ?? '', language)]);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        before: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ type, context }: EditContext) {
         // Is the type one or more literal text types? Suggest those. Otherwise just suggest an empty text literal.
         const types = type
             ? type
@@ -55,6 +50,10 @@ export default class TextLiteral extends Literal {
         return types
             ? types.map((type) => type.getLiteral())
             : [TextLiteral.make()];
+    }
+
+    static getPossibleAppends(context: EditContext) {
+        return this.getPossibleReplacements(context);
     }
 
     getDescriptor() {
@@ -144,7 +143,7 @@ export default class TextLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(context: Context): Type {

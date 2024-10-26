@@ -14,8 +14,10 @@ import Glyphs from '../lore/Glyphs';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
+import MapLiteral from './MapLiteral';
+import type EditContext from '@edit/EditContext';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
 
 export default class MapType extends BasisType {
     readonly open: Token;
@@ -52,17 +54,20 @@ export default class MapType extends BasisType {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node }: EditContext) {
         return [
             MapType.make(),
-            ...(node instanceof Type && selected
-                ? [MapType.make(node, TypePlaceholder.make())]
+            ...(node instanceof Type && node
+                ? [
+                      MapType.make(node, TypePlaceholder.make()),
+                      MapType.make(TypePlaceholder.make(), node),
+                  ]
                 : []),
         ];
+    }
+
+    static getPossibleAppends() {
+        return [MapType.make()];
     }
 
     getDescriptor() {
@@ -72,9 +77,21 @@ export default class MapType extends BasisType {
     getGrammar(): Grammar {
         return [
             { name: 'open', kind: node(Sym.SetOpen) },
-            { name: 'key', kind: any(node(Type), none('value')) },
+            {
+                name: 'key',
+                kind: any(
+                    node(Type),
+                    none(['value', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             { name: 'bind', kind: node(Sym.Bind) },
-            { name: 'value', kind: any(node(Type), none('key')) },
+            {
+                name: 'value',
+                kind: any(
+                    node(Type),
+                    none(['key', () => ExpressionPlaceholder.make()]),
+                ),
+            },
             { name: 'close', kind: node(Sym.SetClose) },
         ];
     }
@@ -159,5 +176,9 @@ export default class MapType extends BasisType {
             this.key ? new NodeRef(this.key, locales, context) : undefined,
             this.value ? new NodeRef(this.value, locales, context) : undefined,
         ];
+    }
+
+    getDefaultExpression() {
+        return MapLiteral.make();
     }
 }

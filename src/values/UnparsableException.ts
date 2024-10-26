@@ -1,13 +1,13 @@
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Expression from '@nodes/Expression';
 import NodeRef from '@locale/NodeRef';
 import type Locales from '../locale/Locales';
+import type UnparsableExpression from '@nodes/UnparsableExpression';
 
 export default class UnparsableException extends ExceptionValue {
-    readonly unparsable: Expression;
+    readonly unparsable: UnparsableExpression;
 
-    constructor(evaluator: Evaluator, unparsable: Expression) {
+    constructor(evaluator: Evaluator, unparsable: UnparsableExpression) {
         super(unparsable, evaluator);
 
         this.unparsable = unparsable;

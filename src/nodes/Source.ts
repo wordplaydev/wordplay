@@ -1,7 +1,6 @@
 import Node, { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Program from './Program';
-import type Conflict from '@conflicts/Conflict';
 import parseProgram from '@parser/parseProgram';
 import {
     DelimiterCloseByOpen,
@@ -786,10 +785,10 @@ export default class Source extends Expression {
     }
 
     getTokenBeforeNode(node: Node): Token | undefined {
-        let lastToken = undefined;
-        for (const next of this.nodes()) {
-            if (next instanceof Token) lastToken = next;
-            if (next === node) return lastToken;
+        let found = false;
+        for (const next of this.nodes().reverse()) {
+            if (found && next instanceof Token) return next;
+            if (next === node) found = true;
         }
         return undefined;
     }
@@ -896,7 +895,7 @@ export default class Source extends Expression {
         return current;
     }
 
-    computeConflicts(): void | Conflict[] {
+    computeConflicts() {
         return [];
     }
 

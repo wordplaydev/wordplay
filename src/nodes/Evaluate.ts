@@ -63,29 +63,30 @@ import Block from './Block';
 import Reference from './Reference';
 import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
 import Input from './Input';
+import type EditContext from '@edit/EditContext';
 
 type Mapping = {
     expected: Bind;
-    given: undefined | Expression | Expression[];
+    given: undefined | Expression | Expression[] | Input;
 };
 
 type InputMapping = {
     inputs: Mapping[];
-    extra: Expression[];
+    extra: (Expression | Input)[];
 };
 
 export default class Evaluate extends Expression {
     readonly fun: Expression;
     readonly types: TypeInputs | undefined;
     readonly open: Token;
-    readonly inputs: Expression[];
+    readonly inputs: (Expression | Input)[];
     readonly close?: Token;
 
     constructor(
         func: Expression,
         types: TypeInputs | undefined,
         open: Token,
-        inputs: Expression[],
+        inputs: (Expression | Input)[],
         close?: Token,
     ) {
         super();
@@ -109,13 +110,13 @@ export default class Evaluate extends Expression {
         );
     }
 
-    static getPossibleNodes(
+    static getPossibleEvaluations(
         expectedType: Type | undefined,
-        anchor: Node,
-        isBeingReplaced: boolean,
+        node: Node,
+        replace: boolean,
         context: Context,
     ) {
-        const nodeBeingReplaced = isBeingReplaced ? anchor : undefined;
+        const nodeBeingReplaced = replace ? node : undefined;
 
         // Given the node the caret has selected or is after, find out
         // if there's an evaluate on it that we should complete.
@@ -138,9 +139,9 @@ export default class Evaluate extends Expression {
                       scopingType instanceof StructureType
                       ? scopingType.definition.getDefinitions(nodeBeingReplaced)
                       : // Otherwise, get definitions in scope of the anchor
-                        anchor.getDefinitionsInScope(context)
+                        node.getDefinitionsInScope(context)
                 : // If the node is not selected, get definitions in the anchor's scope
-                  anchor.getDefinitionsInScope(context);
+                  node.getDefinitionsInScope(context);
 
         // This probably doesn't belong here. The expected type is the expected type, and it should be correct.
         // if (!isBeingReplaced && structure) expectedType = undefined;
@@ -181,7 +182,7 @@ export default class Evaluate extends Expression {
                             def.getEvaluateTemplate(
                                 name,
                                 context,
-                                isBeingReplaced &&
+                                replace &&
                                     structure &&
                                     nodeBeingReplaced instanceof Expression
                                     ? nodeBeingReplaced
@@ -190,6 +191,14 @@ export default class Evaluate extends Expression {
                         def,
                     ),
             );
+    }
+
+    static getPossibleReplacements({ node, type, context }: EditContext) {
+        return this.getPossibleEvaluations(type, node, true, context);
+    }
+
+    static getPossibleAppends({ node, type, context }: EditContext) {
+        return this.getPossibleEvaluations(type, node, false, context);
     }
 
     getDescriptor() {
@@ -220,7 +229,7 @@ export default class Evaluate extends Expression {
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',
-                kind: list(true, node(Expression)),
+                kind: list(true, node(Input), node(Expression)),
                 label: (locales: Locales, child: Node, context: Context) => {
                     // Get the function called
                     const fun = this.getFunction(context);
@@ -304,7 +313,9 @@ export default class Evaluate extends Expression {
                 given: undefined,
             };
 
-            if (expectedInput.isRequired()) mapping.given = givenInputs.shift();
+            if (expectedInput.isRequired()) {
+                mapping.given = givenInputs.shift();
+            }
             // If it's optional, go through each input to see if it's provided in the remaining inputs.
             else {
                 // If it's variable length, check all of the remaining given inputs to see if they match this type.
@@ -312,7 +323,10 @@ export default class Evaluate extends Expression {
                     mapping.given = [];
                     while (givenInputs.length > 0) {
                         const given = givenInputs.shift();
-                        if (given) mapping.given.push(given);
+                        if (given)
+                            mapping.given.push(
+                                given instanceof Input ? given.value : given,
+                            );
                     }
                 }
                 // If it's just an optional input, see if any of the given inputs provide it by name.
@@ -328,7 +342,7 @@ export default class Evaluate extends Expression {
                         givenInputs.splice(givenInputs.indexOf(bind), 1);
                         mapping.given = bind;
                     }
-                    // If there wasn't a named input matching, see if the next non-bind expression matches the type.
+                    // If there wasn't a named input matching, see if the next non-input expression matches the type.
                     else if (
                         givenInputs.length > 0 &&
                         !(givenInputs[0] instanceof Input)
@@ -360,7 +374,7 @@ export default class Evaluate extends Expression {
         return given instanceof Input ? given.value : given;
     }
 
-    getLastInput(): Expression | undefined {
+    getLastInput(): Expression | Input | undefined {
         return this.inputs[this.inputs.length - 1];
     }
 
@@ -406,6 +420,12 @@ export default class Evaluate extends Expression {
             [...this.inputs, expression],
             this.close,
         );
+    }
+
+    getInputDefinition(input: Expression, context: Context): Bind | undefined {
+        return this.getInputMapping(context)?.inputs.find(
+            (map) => map.given === input,
+        )?.expected;
     }
 
     getMappingFor(bind: Bind, context: Context) {
@@ -490,7 +510,13 @@ export default class Evaluate extends Expression {
                     given instanceof Input &&
                     !expected.hasName(given.getName())
                 )
-                    return [new UnexpectedInput(fun, this, given)];
+                    return [
+                        new UnexpectedInput(
+                            fun,
+                            this,
+                            given instanceof Input ? given.value : given,
+                        ),
+                    ];
 
                 // Concretize the expected type.
                 const expectedType = getConcreteExpectedType(
@@ -729,7 +755,9 @@ export default class Evaluate extends Expression {
         // Evaluates depend on their function, their inputs, and the function's expression.
         return [
             this.fun,
-            ...this.inputs,
+            ...this.inputs.map((input) =>
+                input instanceof Input ? input.value : input,
+            ),
             ...(expression === undefined ? [] : [expression]),
         ];
     }
@@ -818,7 +846,10 @@ export default class Evaluate extends Expression {
                         expectedType.accepts(given.getType(context), context);
 
                     return [
-                        ...given.compile(evaluator, context),
+                        ...(given instanceof Input
+                            ? given.value
+                            : given
+                        ).compile(evaluator, context),
                         // Evaluate, but if the type was not acceptable, halt
                         ...(acceptable
                             ? []

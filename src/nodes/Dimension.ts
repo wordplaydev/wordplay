@@ -7,8 +7,8 @@ import NameToken from './NameToken';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
-import type Type from './Type';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -44,21 +44,16 @@ export default class Dimension extends Node {
         );
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-    ): Dimension[] {
-        // If we've selected this anchor for replacement, offer to replace it with...
-        if (anchor && selected && anchor instanceof Dimension) {
-            return [
-                // An empty exponent, if it doesn't have one
-                ...(anchor.caret === undefined ? [anchor.asPower()] : []),
-                // A power of two
-                ...(anchor.exponent === undefined ? [anchor.withPower(2)] : []),
-            ];
-        }
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof Dimension && type === undefined
+            ? [
+                  // A power of two
+                  ...(node.exponent === undefined ? [node.withPower(2)] : []),
+              ]
+            : [];
+    }
 
+    static getPossibleAppends() {
         return [];
     }
 
@@ -72,11 +67,20 @@ export default class Dimension extends Node {
             { name: 'name', kind: node(Sym.Name), uncompletable: true },
             {
                 name: 'caret',
-                kind: any(node(Sym.Operator), none('exponent')),
+                kind: any(
+                    node(Sym.Operator),
+                    none(['exponent', () => new Token('1', Sym.Number)]),
+                ),
             },
             {
                 name: 'exponent',
-                kind: any(node(Sym.Number), none('caret')),
+                kind: any(
+                    node(Sym.Number),
+                    none([
+                        'caret',
+                        () => new Token(EXPONENT_SYMBOL, Sym.Operator),
+                    ]),
+                ),
             },
         ];
     }
@@ -136,7 +140,7 @@ export default class Dimension extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

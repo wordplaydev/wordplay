@@ -41,7 +41,7 @@ export default class DocumentedExpression extends SimpleExpression {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(context: Context): Type {

@@ -7,6 +7,7 @@ import Sym from './Sym';
 import type TypeSet from './TypeSet';
 import Glyphs from '../lore/Glyphs';
 import type Locales from '../locale/Locales';
+import NoneLiteral from './NoneLiteral';
 
 export default class NoneType extends BasisType {
     readonly none: Token;
@@ -25,7 +26,11 @@ export default class NoneType extends BasisType {
         return new NoneType(new Token(NONE_SYMBOL, Sym.None));
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [NoneType.make()];
+    }
+
+    static getPossibleAppends() {
         return [NoneType.make()];
     }
 
@@ -38,12 +43,12 @@ export default class NoneType extends BasisType {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     clone(replace?: Replacement) {
         return new NoneType(
-            this.replaceChild('none', this.none, replace)
+            this.replaceChild('none', this.none, replace),
         ) as this;
     }
 
@@ -61,5 +66,9 @@ export default class NoneType extends BasisType {
 
     getGlyphs() {
         return Glyphs.None;
+    }
+
+    getDefaultExpression() {
+        return NoneLiteral.make();
     }
 }

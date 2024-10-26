@@ -1,14 +1,15 @@
 <script lang="ts">
-    import { getMenuNode } from '../project/Contexts';
+    import { getSetMenuNode } from '../project/Contexts';
     import type { CaretPosition } from '../../edit/Caret';
 
     export let position: CaretPosition;
 
-    const menuNode = getMenuNode();
+    const menuNode = getSetMenuNode();
 
     function show() {
-        if (menuNode)
-            menuNode.set($menuNode !== position ? position : undefined);
+        if (menuNode) {
+            $menuNode(position);
+        }
     }
 </script>
 
@@ -18,13 +19,14 @@
     tabindex="0"
     on:pointerdown|stopPropagation={show}
     on:keydown|stopPropagation={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? show() : undefined}>▼</span
+        event.key === 'Enter' || event.key === ' ' ? show() : undefined}>▾</span
 >
 
 <style>
     .trigger {
-        color: var(--wordplay-inactive-color);
+        color: var(--wordplay-chrome);
         font-size: var(--wordplay-font-size);
+        font-style: normal;
     }
 
     .trigger:hover,

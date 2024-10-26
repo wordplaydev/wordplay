@@ -16,6 +16,7 @@
         CaretSymbol,
         LocalizeSymbol,
         ShowLinesSymbol,
+        BlocksSymbol,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -30,7 +31,11 @@
     export let node: Node;
     /** Optional space. To enable preferred space, set flag below. */
     export let spaces: Spaces | undefined = undefined;
+    /** Whether to render as blocks */
+    export let blocks: boolean;
+    /** Whether to be read only */
     export let inert = false;
+    /** Whether to render inline */
     export let inline = false;
     /** If inline, and true, this will be a maximum width */
     export let elide = false;
@@ -68,6 +73,10 @@
     let showLines = writable<boolean>(lines);
     setContext(ShowLinesSymbol, showLines);
     $: showLines.set(lines);
+
+    let isBlocks = writable<boolean>(blocks);
+    setContext(BlocksSymbol, isBlocks);
+    $: isBlocks.set(blocks);
 
     // Update what's hidden when locales or localized changes.
     $: {
@@ -160,8 +169,11 @@
         class:elide><NodeView {node} /></span
     >
 {:else}
-    <code class="root" style="--line-count: {lineDigits}" class:inert
-        ><NodeView {node} /></code
+    <code
+        class="root"
+        style="--line-count: {lineDigits}"
+        class:inert
+        class:elide><NodeView {node} direction="column" /></code
     >
 {/if}
 

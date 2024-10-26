@@ -34,6 +34,7 @@ import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import Input from './Input';
+import type EditContext from '@edit/EditContext';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -79,20 +80,15 @@ export default class Insert extends Expression {
         ];
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        anchor: Node,
-        selected: boolean,
-        context: Context,
-    ) {
+    static getPossibleReplacements({ node, context }: EditContext) {
         const anchorType =
-            anchor instanceof Expression ? anchor.getType(context) : undefined;
+            node instanceof Expression ? node.getType(context) : undefined;
         const tableType =
             anchorType instanceof TableType ? anchorType : undefined;
-        return anchor instanceof Expression && tableType && selected
+        return node instanceof Expression && tableType
             ? [
                   Insert.make(
-                      anchor,
+                      node,
                       tableType.columns.map((c) =>
                           ExpressionPlaceholder.make(c.getType(context)),
                       ),
@@ -101,8 +97,12 @@ export default class Insert extends Expression {
             : [];
     }
 
+    static getPossibleAppends() {
+        return [Insert.make(ExpressionPlaceholder.make(TableType.make()))];
+    }
+
     getPurpose() {
-        return Purpose.Evaluate;
+        return Purpose.Value;
     }
 
     clone(replace?: Replacement) {
@@ -208,7 +208,12 @@ export default class Insert extends Expression {
     }
 
     getDependencies(): Expression[] {
-        return [this.table, ...this.row.cells.map((cell) => cell)];
+        return [
+            this.table,
+            ...this.row.cells.map((cell) =>
+                cell instanceof Input ? cell.value : cell,
+            ),
+        ];
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
@@ -235,7 +240,10 @@ export default class Insert extends Expression {
                     this.row.cells.reduce(
                         (steps: Step[], cell) => [
                             ...steps,
-                            ...cell.compile(evaluator, context),
+                            ...(cell instanceof Input
+                                ? cell.value
+                                : cell
+                            ).compile(evaluator, context),
                         ],
                         [],
                     )

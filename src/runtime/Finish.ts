@@ -28,6 +28,8 @@ export function finish(evaluator: Evaluator, expr: Expression) {
     if (shouldSkip(evaluator, expr)) {
         const priorValue = evaluator.getLatestExpressionValue(expr);
         if (priorValue !== undefined) {
+            // Ask the evaluator to remember the value we computed.
+            // evaluator.rememberExpressionValue(expr, priorValue);
             // Evaluate any side effects
             return expr.evaluate(evaluator, priorValue);
         }

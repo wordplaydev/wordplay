@@ -4,7 +4,12 @@
     import CodeView from './CodeView.svelte';
     import MarkupHTMLView from './MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
-    import { Locales, animationDuration, locales } from '../../db/Database';
+    import {
+        Locales,
+        animationDuration,
+        blocks,
+        locales,
+    } from '../../db/Database';
     import type Type from '../../nodes/Type';
     import type TypeVariables from '../../nodes/TypeVariables';
     import RootView from '../project/RootView.svelte';
@@ -79,6 +84,7 @@
                         )}{#if name}<RootView
                                 localized="symbolic"
                                 node={name.withoutLanguage()}
+                                blocks={$blocks}
                             />{/if}{/each}{TYPE_CLOSE_SYMBOL}</small
                 >{/if}</svelte:fragment
         >

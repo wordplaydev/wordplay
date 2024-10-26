@@ -66,7 +66,11 @@ export default class BinaryEvaluate extends Expression {
     }
 
     /** Note: we don't generate any possibilities here because Evaluate generates them. */
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [];
     }
 
@@ -93,11 +97,7 @@ export default class BinaryEvaluate extends Expression {
                 space: true,
                 indent: true,
                 getDefinitions: (context: Context): Definition[] => {
-                    const leftType =
-                        this.left instanceof Expression
-                            ? this.left.getType(context)
-                            : undefined;
-                    return leftType?.getDefinitions(this, context) ?? [];
+                    return this.getFunctions(context);
                 },
             },
             {
@@ -153,6 +153,14 @@ export default class BinaryEvaluate extends Expression {
 
     getLeftType(context: Context) {
         return this.left.getType(context);
+    }
+
+    getFunctions(context: Context) {
+        return this.getType(context)
+            .getDefinitions(this, context)
+            .filter(
+                (def) => def instanceof FunctionDefinition && def.isBinary(),
+            );
     }
 
     getFunction(context: Context): FunctionDefinition | undefined {

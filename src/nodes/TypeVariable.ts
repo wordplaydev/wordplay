@@ -11,6 +11,8 @@ import Token from './Token';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import type Definition from './Definition';
 import type Locales from '../locale/Locales';
+import TypePlaceholder from './TypePlaceholder';
+import TypeToken from './TypeToken';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -46,8 +48,17 @@ export default class TypeVariable extends Node {
     getGrammar(): Grammar {
         return [
             { name: 'names', kind: node(Names) },
-            { name: 'dot', kind: any(node(Sym.Type), none('type')) },
-            { name: 'type', kind: any(node(Type), none('dot')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['type', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'type',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
         ];
     }
 
@@ -84,7 +95,7 @@ export default class TypeVariable extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     /** No type variables are ever  */

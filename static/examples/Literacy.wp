@@ -2,7 +2,7 @@ Patriarchy Data
 === start
 ↓ literacy
 
-``What countries had a rate below 50% in 2022, and what was their rate a decade ago?``
+¶What countries had a rate below 50% in 2022, and what was their rate a decade ago?¶
 top: (literacy ⎡? country n2022⎦ n2022•# ? n2022 < 75 ⊥) → []
 
 
@@ -17,7 +17,7 @@ Stage([
 )
 === literacy/en
 
-``From the world bank: https://data.worldbank.org/indicator/SE.ADT.LITR.FE.ZS?view=chart``
+¶From the world bank: https://data.worldbank.org/indicator/SE.ADT.LITR.FE.ZS?view=chart¶
 ⎡country•'' n2012•#|ø n2013•#|ø n2014•#|ø n2015•#|ø n2016•#|ø n2017•#|ø n2018•#|ø n2019•#|ø n2020•#|ø n2021•#|ø n2022•#|ø⎦⎡'Aruba' ø ø ø ø ø ø ø ø 98 ø ø⎦
 ⎡'Africa Eastern and Southern' 61.50931168 62.60718155 63.26713181 64.01438904 65.07192993 65.32602692 65.77863312 67.28977966 67.5369873 67.45401001 67.54541016⎦
 ⎡'Afghanistan' ø ø ø ø ø ø ø ø ø 22.60078049 ø⎦

@@ -46,7 +46,7 @@ export function start(evaluator: Evaluator, expr: Expression) {
 export function shouldSkip(evaluator: Evaluator, expr: Expression) {
     return (
         !expr.isInternal() &&
-        !evaluator.isInPast() &&
+        // !evaluator.isInPast() &&
         (evaluator.project.isConstant(expr) ||
             (evaluator.isReacting() &&
                 !evaluator.isEvaluatingReaction() &&

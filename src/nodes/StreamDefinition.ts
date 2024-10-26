@@ -38,6 +38,7 @@ import Reference from './Reference';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class StreamDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -119,8 +120,17 @@ export default class StreamDefinition extends DefinitionExpression {
                 indent: true,
             },
             { name: 'close', kind: node(Sym.EvalClose) },
-            { name: 'dot', kind: any(node(Sym.Type), none('output')) },
-            { name: 'output', kind: any(node(Type), none('dot')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['output', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'output',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
         ];
     }
 
@@ -142,12 +152,14 @@ export default class StreamDefinition extends DefinitionExpression {
         ) as this;
     }
 
-    getEvaluateTemplate(nameOrLocales: string | LocaleText | LocaleText[]) {
+    getEvaluateTemplate(nameOrLocales: string | Locales) {
         return Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
-                    : this.names.getPreferredNameString(nameOrLocales),
+                    : this.names.getPreferredNameString(
+                          nameOrLocales.getLocales(),
+                      ),
                 this,
             ),
             this.inputs

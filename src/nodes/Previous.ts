@@ -28,6 +28,7 @@ import Purpose from '../concepts/Purpose';
 import ListType from './ListType';
 import Unit from './Unit';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class Previous extends Expression {
     readonly previous: Token;
@@ -60,16 +61,23 @@ export default class Previous extends Expression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ node, context }: EditContext) {
+        return node instanceof Expression &&
+            node.getType(context).accepts(StreamType.make(), context)
+            ? [
+                  Previous.make(
+                      node,
+                      ExpressionPlaceholder.make(NumberType.make()),
+                  ),
+              ]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [
             Previous.make(
                 ExpressionPlaceholder.make(StreamType.make()),
                 ExpressionPlaceholder.make(NumberType.make()),
-            ),
-            Previous.make(
-                ExpressionPlaceholder.make(StreamType.make()),
-                ExpressionPlaceholder.make(NumberType.make()),
-                true,
             ),
         ];
     }

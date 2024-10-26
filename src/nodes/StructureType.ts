@@ -1,7 +1,7 @@
 import type Type from './Type';
 import type ConversionDefinition from './ConversionDefinition';
 import type Context from './Context';
-import type StructureDefinition from './StructureDefinition';
+import StructureDefinition from './StructureDefinition';
 import NameType from './NameType';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -15,6 +15,7 @@ import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
 import type Bind from './Bind';
 import StructureDefinitionType from './StructureDefinitionType';
+import type Expression from './Expression';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -91,6 +92,7 @@ export default class StructureType extends BasisType {
             // If the given type is a name type, is does it refer to this type's structure definition?
             if (type instanceof NameType) type = type.getType(context);
 
+            if (type instanceof StructureDefinitionType) type = type.type;
             if (!(type instanceof StructureType)) return false;
             if (type.definition === this.definition) return true;
             // Are any of the given type's interfaces compatible with this?
@@ -163,5 +165,24 @@ export default class StructureType extends BasisType {
 
     getDescriptionInputs(locales: Locales) {
         return [locales.getName(this.definition.names)];
+    }
+
+    getDefaultExpression(context: Context): Expression | undefined {
+        const def = context
+            .getBasis()
+            .shares.all.find(
+                (share) =>
+                    share instanceof StructureDefinition &&
+                    !share.isInterface() &&
+                    this.accepts(share.getType(context), context),
+            );
+
+        if (def === undefined) return undefined;
+        else
+            return def.getEvaluateTemplate(
+                context.getBasis().locales,
+                context,
+                this,
+            );
     }
 }

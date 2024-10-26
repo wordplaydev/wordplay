@@ -25,6 +25,7 @@ import TypePlaceholder from './TypePlaceholder';
 import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type Expression from './Expression';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -76,8 +77,12 @@ export default class FunctionType extends Type {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [FunctionType.make(undefined, [], TypePlaceholder.make())];
+    }
+
+    static getPossibleAppends() {
+        return this.getPossibleReplacements();
     }
 
     getDescriptor() {
@@ -209,5 +214,9 @@ export default class FunctionType extends Type {
 
     getGlyphs() {
         return Glyphs.Function;
+    }
+
+    getDefaultExpression(context: Context): Expression {
+        return this.getTemplate(context);
     }
 }

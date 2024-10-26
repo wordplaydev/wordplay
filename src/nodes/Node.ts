@@ -260,7 +260,7 @@ export default abstract class Node {
     // CONFLICTS
 
     /** Given the program in which the node is situated, returns any conflicts on this node that would prevent execution. */
-    abstract computeConflicts(context: Context): Conflict[] | void;
+    abstract computeConflicts(context: Context): Conflict[];
 
     /** Compute and store the conflicts. */
     getConflicts(context: Context): Conflict[] {
@@ -818,10 +818,12 @@ export class ListOf extends FieldKind {
     }
 }
 
+type EmptyDefault = { name: string; createDefault: () => Node };
+
 // A field can be undefined, and if a dependency field name is specified, only if that field is also undefined.
 export class Empty extends FieldKind {
-    readonly dependency: string | undefined;
-    constructor(dependency?: string) {
+    readonly dependency: EmptyDefault | undefined;
+    constructor(dependency?: EmptyDefault) {
         super();
         this.dependency = dependency;
     }
@@ -850,7 +852,9 @@ export class Empty extends FieldKind {
     getDependencies(parent: Node, context: Context): Node[] {
         if (this.dependency === undefined) return [];
         const grammar = parent.getGrammar();
-        const field = grammar.find((field) => field.name === this.dependency);
+        const field = grammar.find(
+            (field) => field.name === this.dependency?.name,
+        );
         if (field === undefined) return [];
         const dependencies = parent.getField(field.name);
         return dependencies === undefined
@@ -904,8 +908,12 @@ export class Any extends FieldKind {
 export function node(kind: Function | Sym) {
     return new IsA(kind);
 }
-export function none(dependency?: string) {
-    return new Empty(dependency);
+export function none(dependency?: [string, () => Node]) {
+    return new Empty(
+        dependency
+            ? { name: dependency[0], createDefault: dependency[1] }
+            : undefined,
+    );
 }
 export function list(allowsEmpty: boolean, ...kinds: IsA[]) {
     return new ListOf(allowsEmpty, ...kinds);

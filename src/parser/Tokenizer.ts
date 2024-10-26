@@ -86,6 +86,7 @@ export const MarkupSymbols = [
     BOLD_SYMBOL,
     EXTRA_SYMBOL,
     DOCS_SYMBOL,
+    FORMATTED_SYMBOL,
     LIGHT_SYMBOL,
     MENTION_SYMBOL,
     LIST_OPEN_SYMBOL,
@@ -206,7 +207,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
     {
         pattern: PLACEHOLDER_SYMBOL,
-        types: [Sym.Placeholder, Sym.Underline, Sym.Operator],
+        types: [Sym.Placeholder, Sym.Underline],
     },
     // Roman numerals
     {
@@ -226,11 +227,11 @@ const CodeTokenPatterns: TokenPattern[] = [
     },
     // Tokenize Arabic numbers
     {
-        pattern: /^[0-9]+([.,][0-9]+)?%?/,
+        pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
         types: [Sym.Number, Sym.Decimal],
     },
     {
-        pattern: /^[.,][0-9]+%?/,
+        pattern: /^-?[.,][0-9]+%?/,
         types: [Sym.Number, Sym.Decimal],
     },
     { pattern: /^π/, types: [Sym.Number, Sym.Pi] },
@@ -288,9 +289,8 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: OperatorRegEx, types: [Sym.Operator] },
     { pattern: FORMATTED_TYPE_SYMBOL, types: [Sym.FormattedType] },
     { pattern: '`...`', types: [Sym.FormattedType] },
-    DocPattern,
-    // Must be after docs
     FormattedPattern,
+    DocPattern,
 
     // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
     {
@@ -356,6 +356,7 @@ export const TextCloseByTextOpen: Record<string, string> = {
     '«': '»',
     '「': '」',
     '『': '』',
+    '`': '`',
 };
 
 export const TextOpenByTextClose: Record<string, string> = {};

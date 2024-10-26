@@ -23,6 +23,7 @@ import {
     SHARE_SYMBOL,
     CHANGE_SYMBOL,
     ELISION_SYMBOL,
+    DOCS_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -39,6 +40,7 @@ import interpret from './interpret';
 import { TileKind } from '../../project/Tile';
 import { TAB_SYMBOL } from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { moveVisualVertical } from '../CaretView.svelte';
 
 export type Command = {
     /** The iconographic text symbol to use */
@@ -89,9 +91,14 @@ export type CommandContext = {
     editor: boolean;
     /** The project we're editing */
     project: Project;
+    /** The evalutor currently evaluating the project */
     evaluator: Evaluator;
     database: Database;
     dragging: boolean;
+    /** Whether blocks mode is one */
+    blocks: boolean;
+    /** The HTMLElement rendering the editor */
+    view: HTMLElement | undefined;
     toggleMenu?: () => void;
     toggleBlocks?: (on: boolean) => void;
     setFullscreen?: (on: boolean) => void;
@@ -171,6 +178,15 @@ export function handleKeyCommand(
     // Didn't execute? Return false if we didn't match anything and let the shortcut travel to the browser.
     // If we did match something, return undefined, so we consume the shortcut and don't default to a browser shortcut.
     return [undefined, false, matchedShortcut];
+}
+
+function handleInsert(context: CommandContext, symbol: string) {
+    if (context.caret)
+        return (
+            context.caret.insert(symbol, context.blocks, context.project) ??
+            false
+        );
+    else return false;
 }
 
 export const ShowKeyboardHelp: Command = {
@@ -574,10 +590,10 @@ export const ToggleBlocks: Command = {
     description: (l) => l.ui.source.toggle.blocks.on,
     visible: Visibility.Invisible,
     category: Category.Modify,
-    shift: true,
-    alt: true,
+    shift: false,
+    alt: false,
     control: true,
-    key: 'Enter',
+    key: 'Backslash',
     execute: ({ toggleBlocks }) => {
         if (toggleBlocks) {
             toggleBlocks(!Settings.getBlocks());
@@ -587,7 +603,7 @@ export const ToggleBlocks: Command = {
     },
 };
 
-/** The command to rule them all... inserts things */
+/** The command to rule them all... inserts things during text editing mode. */
 export const InsertSymbol: Command = {
     symbol: 'a',
     description: (l) => l.ui.source.cursor.type,
@@ -597,9 +613,9 @@ export const InsertSymbol: Command = {
     shift: undefined,
     alt: false,
     typing: true,
-    execute: ({ caret, project, editor }, key) => {
+    execute: ({ caret, project, editor, blocks }, key) => {
         if (editor && caret && key.length === 1)
-            return caret.insert(key, project) ?? false;
+            return caret.insert(key, blocks, project) ?? false;
         else return false;
     },
 };
@@ -633,7 +649,14 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: ({ caret }) => caret?.moveVertical(-1) ?? false,
+        execute: ({ caret, blocks, view }) =>
+            caret
+                ? blocks
+                    ? view
+                        ? moveVisualVertical(-1, view, caret) ?? false
+                        : false
+                    : caret.moveVertical(-1) ?? false
+                : false,
     },
     {
         symbol: '↓',
@@ -645,7 +668,14 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret }) => caret?.moveVertical(1) ?? false,
+        execute: ({ caret, blocks, view }) =>
+            caret
+                ? blocks
+                    ? view
+                        ? moveVisualVertical(1, view, caret) ?? false
+                        : false
+                    : caret.moveVertical(1) ?? false
+                : false,
     },
     {
         symbol: '←',
@@ -657,11 +687,17 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret, database }) =>
-            caret?.moveInline(
-                false,
-                database.Locales.getWritingDirection() === 'ltr' ? -1 : 1,
-            ) ?? false,
+        execute: ({ caret, database, blocks }) =>
+            caret
+                ? blocks
+                    ? caret.moveInlineSemantic(-1) ?? false
+                    : caret.moveInline(
+                          false,
+                          database.Locales.getWritingDirection() === 'ltr'
+                              ? -1
+                              : 1,
+                      )
+                : false,
     },
     {
         symbol: '→',
@@ -673,11 +709,17 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowRight',
         keySymbol: '→',
-        execute: ({ caret, database }) =>
-            caret?.moveInline(
-                false,
-                database.Locales.getWritingDirection() === 'ltr' ? 1 : -1,
-            ) ?? false,
+        execute: ({ caret, database, blocks }) =>
+            caret
+                ? blocks
+                    ? caret.moveInlineSemantic(1) ?? false
+                    : caret.moveInline(
+                          false,
+                          database.Locales.getWritingDirection() === 'ltr'
+                              ? 1
+                              : -1,
+                      )
+                : false,
     },
     {
         symbol: '⇤',
@@ -812,7 +854,7 @@ const Commands: Command[] = [
         control: true,
         key: 'Tab',
         keySymbol: TAB_SYMBOL,
-        execute: ({ caret }) => caret?.insert('\t') ?? false,
+        execute: (context) => handleInsert(context, '\t'),
     },
     {
         symbol: TRUE_SYMBOL,
@@ -824,7 +866,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit1',
         keySymbol: '1',
-        execute: ({ caret }) => caret?.insert(TRUE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, TRUE_SYMBOL),
     },
     {
         symbol: FALSE_SYMBOL,
@@ -836,7 +878,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit0',
         keySymbol: '0',
-        execute: ({ caret }) => caret?.insert(FALSE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, FALSE_SYMBOL),
     },
     {
         symbol: NONE_SYMBOL,
@@ -848,7 +890,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyO',
         keySymbol: 'O',
-        execute: ({ caret }) => caret?.insert(NONE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, NONE_SYMBOL),
     },
     {
         symbol: FUNCTION_SYMBOL,
@@ -882,7 +924,19 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: ({ caret }) => caret?.insert(TYPE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, TYPE_SYMBOL),
+    },
+    {
+        symbol: DOCS_SYMBOL,
+        description: (l) => l.ui.source.cursor.insertDocs,
+        visible: Visibility.Visible,
+        category: Category.Insert,
+        alt: true,
+        shift: false,
+        control: false,
+        key: 'Digit7',
+        keySymbol: '7',
+        execute: (context) => handleInsert(context, DOCS_SYMBOL),
     },
     {
         symbol: '≠',
@@ -894,7 +948,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Equal',
         keySymbol: '=',
-        execute: ({ caret }) => caret?.insert('≠') ?? false,
+        execute: (context) => handleInsert(context, '≠'),
     },
     {
         symbol: PRODUCT_SYMBOL,
@@ -906,7 +960,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyX',
         keySymbol: 'X',
-        execute: ({ caret }) => caret?.insert(PRODUCT_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, PRODUCT_SYMBOL),
     },
     {
         symbol: QUOTIENT_SYMBOL,
@@ -918,7 +972,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Slash',
         keySymbol: '/',
-        execute: ({ caret }) => caret?.insert(QUOTIENT_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, QUOTIENT_SYMBOL),
     },
     {
         symbol: DEGREE_SYMBOL,
@@ -930,7 +984,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Digit8',
         keySymbol: '8',
-        execute: ({ caret }) => caret?.insert(DEGREE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, DEGREE_SYMBOL),
     },
     {
         symbol: '≤',
@@ -942,7 +996,7 @@ const Commands: Command[] = [
         alt: true,
         key: 'Comma',
         keySymbol: ',',
-        execute: ({ caret }) => caret?.insert('≤') ?? false,
+        execute: (context) => handleInsert(context, '≤'),
     },
     {
         symbol: '≥',
@@ -954,7 +1008,7 @@ const Commands: Command[] = [
         control: false,
         alt: true,
         key: 'Period',
-        execute: ({ caret }) => caret?.insert('≥') ?? false,
+        execute: (context) => handleInsert(context, '≥'),
     },
     {
         symbol: STREAM_SYMBOL,
@@ -966,7 +1020,7 @@ const Commands: Command[] = [
         control: false,
         key: 'Semicolon',
         keySymbol: ';',
-        execute: ({ caret }) => caret?.insert(STREAM_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, STREAM_SYMBOL),
     },
     {
         symbol: CHANGE_SYMBOL,
@@ -978,7 +1032,7 @@ const Commands: Command[] = [
         control: false,
         key: 'J',
         keySymbol: '∆',
-        execute: ({ caret }) => caret?.insert(CHANGE_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, CHANGE_SYMBOL),
     },
     {
         symbol: PREVIOUS_SYMBOL,
@@ -990,7 +1044,7 @@ const Commands: Command[] = [
         control: false,
         key: 'ArrowLeft',
         keySymbol: '←',
-        execute: ({ caret }) => caret?.insert(PREVIOUS_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, PREVIOUS_SYMBOL),
     },
     {
         symbol: CONVERT_SYMBOL,
@@ -1002,7 +1056,7 @@ const Commands: Command[] = [
         control: false,
         key: 'ArrowRight',
         keySymbol: CONVERT_SYMBOL,
-        execute: ({ caret }) => caret?.insert(CONVERT_SYMBOL) ?? false,
+        execute: (context) => handleInsert(context, CONVERT_SYMBOL),
     },
     {
         symbol: TABLE_OPEN_SYMBOL,
@@ -1014,7 +1068,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyT',
         keySymbol: 't',
-        execute: ({ caret }) => {
+        execute: ({ caret, blocks, project }) => {
             if (caret === undefined) return false;
 
             // Before inserting (and potentially autocompleting)
@@ -1024,10 +1078,13 @@ const Commands: Command[] = [
                 for (let i = tokensPrior.length - 1; i >= 0; i--) {
                     if (tokensPrior[i].isSymbol(Sym.TableClose)) break;
                     else if (tokensPrior[i].isSymbol(Sym.TableOpen))
-                        return caret.insert(TABLE_CLOSE_SYMBOL) ?? true;
+                        return (
+                            caret.insert(TABLE_CLOSE_SYMBOL, blocks, project) ??
+                            true
+                        );
                 }
 
-            return caret.insert(TABLE_OPEN_SYMBOL) ?? false;
+            return caret.insert(TABLE_OPEN_SYMBOL, blocks, project) ?? false;
         },
     },
     {
@@ -1040,10 +1097,7 @@ const Commands: Command[] = [
         control: false,
         key: 'KeyT',
         keySymbol: 't',
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
-            return caret.insert(TABLE_CLOSE_SYMBOL) ?? false;
-        },
+        execute: (context) => handleInsert(context, TABLE_CLOSE_SYMBOL),
     },
     {
         symbol: BORROW_SYMBOL,
@@ -1055,10 +1109,7 @@ const Commands: Command[] = [
         control: true,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
-            return caret.insert(BORROW_SYMBOL) ?? false;
-        },
+        execute: (context) => handleInsert(context, BORROW_SYMBOL),
     },
     {
         symbol: SHARE_SYMBOL,
@@ -1070,10 +1121,7 @@ const Commands: Command[] = [
         control: true,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
-            return caret.insert(SHARE_SYMBOL) ?? false;
-        },
+        execute: (context) => handleInsert(context, SHARE_SYMBOL),
     },
     {
         symbol: ELISION_SYMBOL + ELISION_SYMBOL,
@@ -1085,8 +1133,8 @@ const Commands: Command[] = [
         control: true,
         key: '8',
         keySymbol: ELISION_SYMBOL,
-        execute: ({ caret }) => {
-            if (caret === undefined) return false;
+        execute: ({ caret, blocks }) => {
+            if (caret === undefined || blocks) return false;
             else return caret.elide() ?? false;
         },
     },
@@ -1139,12 +1187,12 @@ const Commands: Command[] = [
         control: false,
         key: 'Enter',
         typing: true,
-        execute: ({ caret }) =>
+        execute: ({ caret, blocks, project }) =>
             caret === undefined
                 ? false
                 : caret.isNode()
                   ? caret.enter()
-                  : caret.insert('\n') ?? true,
+                  : caret.insert('\n', blocks, project) ?? false,
     },
     {
         symbol: '⌫',
@@ -1157,8 +1205,10 @@ const Commands: Command[] = [
         control: false,
         alt: false,
         typing: true,
-        execute: ({ caret, project, editor }) =>
-            editor && caret ? caret.delete(project, false) ?? true : false,
+        execute: ({ caret, project, editor, blocks }) =>
+            editor && caret
+                ? caret.delete(project, false, blocks) ?? false
+                : false,
     },
     {
         symbol: '⌦',
@@ -1171,8 +1221,10 @@ const Commands: Command[] = [
         control: false,
         alt: false,
         typing: true,
-        execute: ({ caret, project, editor }) =>
-            editor && caret ? caret.delete(project, true) ?? true : false,
+        execute: ({ caret, project, editor, blocks }) =>
+            editor && caret
+                ? caret.delete(project, true, blocks) ?? false
+                : false,
     },
     {
         symbol: '✄',
@@ -1191,7 +1243,10 @@ const Commands: Command[] = [
                 context.caret.position,
                 getPreferredSpaces(context.caret.source),
             );
-            return context.caret.delete(context.project, false) ?? true;
+            return (
+                context.caret.delete(context.project, false, context.blocks) ??
+                true
+            );
         },
     },
     {
@@ -1228,7 +1283,7 @@ const Commands: Command[] = [
             editor &&
             typeof navigator.clipboard !== 'undefined' &&
             navigator.clipboard.read !== undefined,
-        execute: async ({ editor, caret }) => {
+        execute: async ({ editor, caret, blocks, project }) => {
             if (!editor) return undefined;
             // Make sure clipboard is supported.
             if (
@@ -1244,7 +1299,7 @@ const Commands: Command[] = [
                     if (type === 'text/plain') {
                         const blob = await item.getType(type);
                         const text = await blob.text();
-                        return caret.insert(interpret(text));
+                        return caret.insert(interpret(text), blocks, project);
                     }
                 }
             }

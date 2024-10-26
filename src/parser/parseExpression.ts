@@ -306,7 +306,7 @@ function parseAtomicExpression(tokens: Tokens): Expression {
                                                 ? parseFormattedLiteral(tokens)
                                                 : tokens.nextIs(Sym.Locale)
                                                   ? parseIsLocale(tokens)
-                                                  : // A documented expression
+                                                  : // A documented expression is a doc followed by an expression
                                                     tokens.nextIs(Sym.Doc)
                                                     ? parseDocumentedExpression(
                                                           tokens,
@@ -842,7 +842,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
         : undefined;
 
     const open = tokens.read(Sym.EvalOpen);
-    const inputs: Expression[] = [];
+    const inputs: (Expression | Input)[] = [];
 
     // This little peek at space just prevents runaway parsing. It uses space to make an assumption that everything below isn't part of the evaluate.
     tokens.whileDo(
@@ -863,7 +863,7 @@ function parseEvaluate(left: Expression, tokens: Tokens): Evaluate {
     return new Evaluate(left, types, open, inputs, close);
 }
 
-function parseInput(tokens: Tokens): Expression {
+function parseInput(tokens: Tokens): Input {
     const name = tokens.read();
     const bind = tokens.read(Sym.Bind);
     const value = parseExpression(tokens);

@@ -12,6 +12,7 @@ import Literal from './Literal';
 import Glyphs from '../lore/Glyphs';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -30,8 +31,15 @@ export default class BooleanLiteral extends Literal {
         );
     }
 
-    static getPossibleNodes() {
-        return [BooleanLiteral.make(true), BooleanLiteral.make(false)];
+    static getPossibleReplacements({ type }: EditContext) {
+        // Any type or a boolean? Offer the literals
+        return type === undefined || type instanceof BooleanType
+            ? [BooleanLiteral.make(true), BooleanLiteral.make(false)]
+            : [];
+    }
+
+    static getPossibleAppends() {
+        return BooleanLiteral.make(true);
     }
 
     getDescriptor() {
@@ -59,7 +67,7 @@ export default class BooleanLiteral extends Literal {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     computeType(): Type {

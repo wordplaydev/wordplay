@@ -8,6 +8,7 @@
         getInsertionPoint,
         getRoot,
         getSpace,
+        isBlocks,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression, { ExpressionKind } from '@nodes/Expression';
@@ -15,10 +16,13 @@
     import type Value from '@values/Value';
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
-    import { blocks, locales } from '../../db/Database';
+    import { locales } from '../../db/Database';
+    import InsertionPointView from './InsertionPointView.svelte';
+    import Block from '@nodes/Block';
 
     export let node: Node | undefined;
     export let small = false;
+    export let direction: 'row' | 'column' = 'row';
 
     const evaluation = getEvaluation();
     const root = getRoot();
@@ -45,11 +49,10 @@
             node instanceof Expression &&
             !node.isEvaluationInvolved()
         )
-            value =
-                $evaluation.evaluator.getLatestExpressionValueInEvaluation(
-                    node,
-                );
+            value = $evaluation.evaluator.getLatestExpressionValue(node);
     }
+
+    const blocks = isBlocks();
 
     // Get the root's computed spaces store
     let spaces = getSpace();
@@ -67,28 +70,68 @@
 
     $: kind =
         $blocks && node instanceof Expression ? node.getKind() : undefined;
+
+    function symbolOccurs(text: string, symbol: string) {
+        for (let i = 0; i < text.length; i++)
+            if (text.charAt(i) === symbol) return true;
+        return false;
+    }
+
+    function countSymbolOccurences(text: string, symbol: string) {
+        let count = 0;
+        for (let i = 0; i < text.length; i++)
+            if (text.charAt(i) === symbol) count++;
+        return count;
+    }
 </script>
 
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
     <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !hide && firstToken && spaceRoot === node}<Space
-            token={firstToken}
-            first={$blocks ? undefined : $spaces.isFirst(firstToken)}
-            line={$blocks ? undefined : $spaces.getLineNumber(firstToken)}
-            {space}
-            insertion={$insertion?.token === firstToken
-                ? $insertion
-                : undefined}
-        />{/if}<div
-        class="{node.getDescriptor()} {node instanceof Token
+    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->
+        {#if $blocks}
+            {@const hasSpace =
+                symbolOccurs(space, ' ') || symbolOccurs(space, '\t')}
+            {@const lines = Array.from(
+                Array(
+                    Math.max(0, countSymbolOccurences(space, '\n') - 1),
+                ).keys(),
+            )}{#if hasSpace || lines.length > 0}{#key $insertion}<span
+                        class="space"
+                        role="none"
+                        data-id={firstToken.id}
+                        data-uiid="space"
+                    >
+                        {#if hasSpace}<div data-id={firstToken.id}
+                                >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
+                                    ></InsertionPointView>{/if}<span
+                                    class="space-text"
+                                    data-uiid="space-text">&nbsp;</span
+                                ></div
+                            >{:else}{#each lines as line}<div class="break"
+                                    >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
+                                        />{/if}</div
+                                >{/each}{/if}</span
+                    >{/key}{/if}{:else}
+            <Space
+                token={firstToken}
+                first={$spaces.isFirst(firstToken)}
+                line={$spaces.getLineNumber(firstToken)}
+                {space}
+                insertion={$insertion?.token === firstToken
+                    ? $insertion
+                    : undefined}
+            />{/if}{/if}<div
+        class="node-view {$blocks
+            ? 'block'
+            : ''} {direction} {node.getDescriptor()} {node instanceof Token
             ? 'Token'
-            : ''} node-view"
+            : ''} {node instanceof Block && node.isRoot()
+            ? 'ProgramBlock'
+            : ''}"
         data-uiid={node.getDescriptor()}
         class:hide
         class:small
-        class:block={kind === ExpressionKind.Evaluate ||
-            kind === ExpressionKind.Definition}
         class:evaluate={kind === ExpressionKind.Evaluate}
         class:definition={kind === ExpressionKind.Definition}
         data-id={node.id}
@@ -110,8 +153,7 @@
     .node-view {
         display: inline;
         position: relative;
-        border-top-left-radius: var(--wordplay-editor-radius);
-        border-bottom-right-radius: var(--wordplay-editor-radius);
+        border-radius: var(--wordplay-editor-radius);
         padding: 0;
         transition-property: background-color, padding, border-color;
         transition-duration: calc(var(--animation-factor) * 200ms);
@@ -123,34 +165,10 @@
         cursor: grab;
     }
 
-    .block {
-        display: inline-block;
-        vertical-align: baseline;
-        background: var(--wordplay-background);
-        padding: calc(var(--wordplay-spacing) / 3);
-        border-start-start-radius: 0;
-        border-start-end-radius: var(--wordplay-border-radius);
-        border-end-end-radius: var(--wordplay-border-radius);
-        border-end-start-radius: 0;
-        padding: calc(var(--wordplay-spacing) / 2);
-        box-shadow: var(--color-shadow) 1px 1px 4px;
-    }
-
-    :global(.editor:not(.dragging))
-        .evaluate:hover:not(:has(.node-view:hover)) {
-        background: var(--color-blue-transparent);
-        outline: var(--wordplay-focus-width) solid var(--color-blue);
-    }
-
-    :global(.editor:not(.dragging))
-        .definition:hover:not(:has(.node-view:hover)) {
-        background: var(--color-purple-transparent);
-        outline: var(--wordplay-focus-width) solid var(--color-purple);
-    }
-
     .blockselected {
         outline: var(--wordplay-focus-width) solid
             var(--wordplay-highlight-color);
+        background: var(--wordplay-hover);
     }
 
     /* When beginning dragged in an editor, hide the node view contents to create a sense of spatial integrity. */
@@ -177,5 +195,58 @@
 
     .small {
         font-size: 80%;
+    }
+
+    .block {
+        display: flex;
+        gap: var(--wordplay-border-width);
+        width: fit-content;
+    }
+
+    .Block {
+        min-height: var(--wordplay-min-line-height) !important;
+    }
+
+    .evaluate:not(.Program, .ProgramBlock),
+    .definition:not(.Program, .ProgramBlock) {
+        padding: calc(var(--wordplay-spacing) / 3);
+        padding: calc(var(--wordplay-spacing) / 3)
+            calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 3)
+            calc(var(--wordplay-spacing) / 2);
+        box-shadow: var(--color-shadow) 0px 0px 4px;
+        border-radius: var(--wordplay-border-radius);
+    }
+
+    .block.definition {
+        border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
+    }
+
+    .block.evaluate:not(.Program, .ProgramBlock) {
+        border-bottom: calc(2 * var(--wordplay-border-width)) solid
+            var(--wordplay-inactive-color);
+    }
+
+    .row {
+        flex-direction: row;
+        align-items: baseline;
+    }
+
+    .column {
+        flex-direction: column;
+        align-items: inline-start;
+    }
+
+    .break {
+        display: block;
+        width: 1em;
+        height: var(--wordplay-min-line-height);
+    }
+
+    .space {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-border-width);
+        position: relative;
+        color: var(--wordplay-inactive-color);
     }
 </style>

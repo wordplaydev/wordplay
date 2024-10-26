@@ -51,7 +51,11 @@ export default class Doc extends LanguageTagged {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [Doc.make()];
     }
 

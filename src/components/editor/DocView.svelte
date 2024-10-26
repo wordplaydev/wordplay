@@ -7,6 +7,23 @@
     export let node: Doc;
 </script>
 
-<NodeView node={node.open} /><NodeView node={node.markup} /><NodeView
-    node={node.close}
-/><NodeView node={node.language} /><NodeView node={node.separator} />
+<span class="pilcrow start"><NodeView node={node.open} /></span><NodeView
+    node={node.markup}
+/><span class="pilcrow end"><NodeView node={node.close} /></span><NodeView
+    node={node.language}
+/><NodeView node={node.separator} />
+
+<style>
+    .pilcrow {
+        display: inline-block;
+    }
+
+    .start {
+        margin-inline-end: var(--wordplay-spacing);
+    }
+
+    .end {
+        transform: scale(-1, 1);
+        margin-inline-start: var(--wordplay-spacing);
+    }
+</style>

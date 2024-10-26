@@ -10,11 +10,11 @@ import UnknownLanguage from '@conflicts/UnknownLanguage';
 import Glyphs from '../lore/Glyphs';
 import Purpose from '../concepts/Purpose';
 import Sym from './Sym';
-import type Type from './Type';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locales from '../locale/Locales';
 import type { RegionCode } from '@locale/Regions';
 import type Locale from '@locale/Locale';
+
 export default class Language extends Node {
     readonly slash: Token;
     readonly language: Token | undefined;
@@ -39,14 +39,20 @@ export default class Language extends Node {
         );
     }
 
-    static getPossibleNodes(type: Type | undefined, node: Node | undefined) {
-        const prefix =
-            node instanceof Language && node.language
-                ? node.language.getText()
-                : '';
-        return Object.keys(Languages)
-            .filter((lang) => lang.startsWith(prefix))
-            .map((language) => Language.make(language));
+    static getPossibleReplacements() {
+        // const prefix =
+        //     node instanceof Language && node.language
+        //         ? node.language.getText()
+        //         : '';
+        return Object.keys(Languages).map((language) =>
+            Language.make(language),
+        );
+    }
+
+    static getPossibleAppends() {
+        return Object.keys(Languages).map((language) =>
+            Language.make(language),
+        );
     }
 
     getDescriptor() {

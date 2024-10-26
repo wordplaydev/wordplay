@@ -4,7 +4,7 @@
     .insertion-point {
         display: inline-block;
         vertical-align: middle;
-        height: 3ex;
+        height: var(--wordplay-min-line-height);
         width: 0;
         outline: 3px solid var(--wordplay-highlight-color);
     }

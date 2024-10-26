@@ -6,6 +6,7 @@
     import type Type from '@nodes/Type';
     import type Context from '@nodes/Context';
     import type FunctionConcept from '../../concepts/FunctionConcept';
+    import { blocks } from '@db/Database';
 
     export let type: Type;
     export let context: Context;
@@ -35,7 +36,13 @@
                 concept && (event.key === 'Enter' || event.key === ' ')
                     ? navigate(concept)
                     : undefined}
-            ><RootView node={type} inert inline localized="symbolic" /></span
+            ><RootView
+                node={type}
+                inert
+                inline
+                localized="symbolic"
+                blocks={$blocks}
+            /></span
         >{/each}
 </span>
 

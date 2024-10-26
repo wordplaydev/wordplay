@@ -27,6 +27,7 @@ import type Node from './Node';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import MissingInput from '@conflicts/MissingInput';
+import type Definition from './Definition';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -42,7 +43,11 @@ export default class UnaryEvaluate extends Expression {
     }
 
     /** Note: we don't generate any possibilities here because Evaluate generates them. */
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [];
     }
 
@@ -52,7 +57,13 @@ export default class UnaryEvaluate extends Expression {
 
     getGrammar(): Grammar {
         return [
-            { name: 'fun', kind: node(Reference) },
+            {
+                name: 'fun',
+                kind: node(Reference),
+                getDefinitions: (context: Context): Definition[] => {
+                    return this.getFunctions(context);
+                },
+            },
             { name: 'input', kind: node(Expression) },
         ];
     }
@@ -79,6 +90,15 @@ export default class UnaryEvaluate extends Expression {
     getInputType(context: Context) {
         // Find the function on the left's type.
         return this.input.getType(context);
+    }
+
+    getFunctions(context: Context) {
+        return this.input
+            .getType(context)
+            .getDefinitions(this, context)
+            .filter(
+                (def) => def instanceof FunctionDefinition && def.isUnary(),
+            );
     }
 
     getFunction(context: Context) {

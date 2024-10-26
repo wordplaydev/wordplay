@@ -3,9 +3,9 @@ import type Caret from '../../../edit/Caret';
 import type { Edit } from './Commands';
 import type Purpose from '@concepts/Purpose';
 import type ConceptIndex from '@concepts/ConceptIndex';
-import Literal from '@nodes/Literal';
 import type Locales from '@locale/Locales';
 
+/** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
 
@@ -14,12 +14,12 @@ export type MenuOrganization = (Revision | RevisionSet)[];
 const PurposeRelevance: Record<Purpose, number> = {
     project: 0,
     value: 1,
-    evaluate: 2,
-    input: 3,
-    output: 4,
-    decide: 5,
-    convert: 6,
-    bind: 7,
+    input: 2,
+    bind: 3,
+    evaluate: 4,
+    output: 5,
+    decide: 6,
+    convert: 7,
     type: 8,
     document: 9,
     source: 10,
@@ -46,7 +46,7 @@ export default class Menu {
      * Should return true if it should hide the menu after the edit.
      * */
     private readonly action: (
-        selection: Edit | RevisionSet | undefined
+        selection: Edit | RevisionSet | undefined,
     ) => boolean;
 
     /**
@@ -61,7 +61,7 @@ export default class Menu {
         organization: MenuOrganization | undefined,
         concepts: ConceptIndex,
         selection: [number, number | undefined],
-        action: (selection: Edit | RevisionSet | undefined) => boolean
+        action: (selection: Edit | RevisionSet | undefined) => boolean,
     ) {
         this.caret = caret;
         this.revisions = revisions;
@@ -75,18 +75,15 @@ export default class Menu {
             // 2. RevisionSets organized by node kind, or the single Revision if there's only one, sorted by Purpose.
             // 3. Any removals, which are likely the least relevant.
             // RevisionSets are organized alphabetically by locale.
-            const priority = this.revisions.filter(
-                (revision) =>
-                    revision.isCompletion(this.concepts.locales) ||
-                    revision.getNewNode(this.concepts.locales) instanceof
-                        Literal
+            const priority = this.revisions.filter((revision) =>
+                revision.isCompletion(this.concepts.locales),
             );
             const removals = this.revisions.filter((revision) =>
-                revision.isRemoval()
+                revision.isRemoval(),
             );
             const others = this.revisions.filter(
                 (revision) =>
-                    !priority.includes(revision) && !revision.isRemoval()
+                    !priority.includes(revision) && !revision.isRemoval(),
             );
             const kinds: Map<Purpose, Revision[]> = new Map();
             for (const other of others) {
@@ -104,11 +101,11 @@ export default class Menu {
                 ...Array.from(kinds.entries())
                     .sort(
                         (a, b) =>
-                            PurposeRelevance[a[0]] - PurposeRelevance[b[0]]
+                            PurposeRelevance[a[0]] - PurposeRelevance[b[0]],
                     )
                     .map(
                         ([purpose, revisions]) =>
-                            new RevisionSet(purpose, revisions)
+                            new RevisionSet(purpose, revisions),
                     ),
                 ...removals,
             ];
@@ -132,7 +129,7 @@ export default class Menu {
                     ? Math.max(0, Math.min(subindex, submenu.size()))
                     : undefined,
             ],
-            this.action
+            this.action,
         );
     }
 
@@ -175,8 +172,8 @@ export default class Menu {
             (submenu instanceof RevisionSet && subindex === undefined)
             ? submenu
             : subindex !== undefined
-            ? submenu.revisions[subindex]
-            : undefined;
+              ? submenu.revisions[subindex]
+              : undefined;
     }
 
     getSelectionIndex() {
@@ -186,7 +183,21 @@ export default class Menu {
     /** Get a unique identifier for the selection, for use by a UI */
     getSelectionID() {
         const [index, subindex] = this.selection;
-        return subindex ?? index;
+        return index + (subindex === undefined ? '' : `-${subindex}`);
+    }
+
+    getSelectionFor(revision: Revision): MenuSelection | undefined {
+        const org = this.organization;
+        const index = org.indexOf(revision);
+        if (index >= 0) return [index, undefined];
+
+        const set = org.find(
+            (item): item is RevisionSet =>
+                item instanceof RevisionSet &&
+                item.revisions.includes(revision),
+        );
+        if (set === undefined) return undefined;
+        return [org.indexOf(set), set.revisions.indexOf(revision)];
     }
 
     /** The number of revisions in the menu. */
@@ -215,7 +226,7 @@ export default class Menu {
                       this.organization,
                       this.concepts,
                       [newIndex, undefined],
-                      this.action
+                      this.action,
                   )
                 : this;
         } else if (submenu instanceof RevisionSet) {
@@ -227,7 +238,7 @@ export default class Menu {
                       this.organization,
                       this.concepts,
                       [index, newSubindex],
-                      this.action
+                      this.action,
                   )
                 : this;
         } else return this;
@@ -242,7 +253,7 @@ export default class Menu {
                   this.organization,
                   this.concepts,
                   [this.selection[0], undefined],
-                  this.action
+                  this.action,
               )
             : this;
     }
@@ -257,7 +268,7 @@ export default class Menu {
                   this.organization,
                   this.concepts,
                   [this.selection[0], 0],
-                  this.action
+                  this.action,
               )
             : this;
     }
@@ -270,7 +281,7 @@ export default class Menu {
                   this.organization,
                   this.concepts,
                   [this.selection[0], undefined],
-                  this.action
+                  this.action,
               )
             : this;
     }
@@ -281,7 +292,7 @@ export default class Menu {
             ? this.action(
                   revision instanceof Revision
                       ? revision.getEdit(locales)
-                      : revision
+                      : revision,
               )
             : false;
     }

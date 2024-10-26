@@ -29,13 +29,17 @@ export default class KeyValue extends Node {
         return new KeyValue(key, value, new BindToken());
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
         return [
             KeyValue.make(
                 ExpressionPlaceholder.make(),
                 ExpressionPlaceholder.make(),
             ),
         ];
+    }
+
+    static getPossibleAppends() {
+        return this.getPossibleReplacements();
     }
 
     getDescriptor() {
@@ -77,7 +81,7 @@ export default class KeyValue extends Node {
     }
 
     computeConflicts() {
-        return;
+        return [];
     }
 
     getNodeLocale(locales: Locales) {

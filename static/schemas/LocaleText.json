@@ -3002,7 +3002,7 @@
             },
             "Branch": {
               "$ref": "#/definitions/NodeText",
-              "description": "A branch in `Markup` that renders different text depending on an input, e.g., ` ``$1[I am $1|I am nothing]`` `"
+              "description": "A branch in `Markup` that renders different text depending on an input, e.g., ` ¶$1[I am $1|I am nothing]¶ `"
             },
             "Changed": {
               "additionalProperties": false,
@@ -3057,7 +3057,7 @@
             },
             "ConceptLink": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "A link to a Wordplay concept in `Markup`, e.g., ` ``Check out"
+              "description": "A link to a Wordplay concept in `Markup`, e.g., ` ¶Check out"
             },
             "Conditional": {
               "additionalProperties": false,
@@ -3382,11 +3382,11 @@
             },
             "Doc": {
               "$ref": "#/definitions/NodeText",
-              "description": "A single language tagged documentation text, ` ``I am documentation``/en`"
+              "description": "A single language tagged documentation text, ` ¶I am documentation¶/en`"
             },
             "Docs": {
               "additionalProperties": false,
-              "description": "Multiple language tagged documentation texts, ` ``Hi docs``/en``Hola docs``/es`",
+              "description": "Multiple language tagged documentation texts, ` ¶Hi docs¶/en¶Hola docs¶/es`",
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -3437,7 +3437,7 @@
             },
             "DocumentedExpression": {
               "additionalProperties": false,
-              "description": "A expression with a doc, e.g., ` ``my doc``1 + 1 ``",
+              "description": "A expression with a doc, e.g., ` ¶my doc¶1 + 1 ¶",
               "properties": {
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -3629,7 +3629,7 @@
             },
             "Example": {
               "$ref": "#/definitions/NodeText",
-              "description": "Code inside `Markup`, e.g., ` ``This is how you add: \\1 + 1\\`` `"
+              "description": "Code inside `Markup`, e.g., ` ¶This is how you add: \\1 + 1\\¶ `"
             },
             "ExceptionType": {
               "$ref": "#/definitions/NodeText",
@@ -3786,7 +3786,7 @@
             },
             "FormattedType": {
               "$ref": "#/definitions/NodeText",
-              "description": "A formatted type, e.g., ` `` `"
+              "description": "A formatted type, e.g., ` ¶ `"
             },
             "FunctionDefinition": {
               "additionalProperties": false,
@@ -4253,7 +4253,7 @@
             },
             "Language": {
               "additionalProperties": false,
-              "description": "A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ``My doc``/en`",
+              "description": "A language tag appearing in a doc or name, such as `/en` in `name/en: 1` or ` ¶My doc¶/en`",
               "properties": {
                 "conflict": {
                   "additionalProperties": false,
@@ -4528,7 +4528,7 @@
             },
             "Markup": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "Markup text used in documentation or phrase text, e.g., ` ``Hello, I am *bold*`` ` Description inputs: $1 = paragraph count"
+              "description": "Markup text used in documentation or phrase text, e.g., ` ¶Hello, I am *bold*¶ ` Description inputs: $1 = paragraph count"
             },
             "Match": {
               "additionalProperties": false,
@@ -4603,7 +4603,7 @@
             },
             "Mention": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ``My value is $1`` or `$bind` in ` ``I am a $bind`` ` Description inputs: $1 = the name or number mentioned"
+              "description": "A placeholder for some template input or terminology name in a localization string, e.g., the `$1` in  ` ¶My value is $1¶ or `$bind` in ` ¶I am a $bind¶ ` Description inputs: $1 = the name or number mentioned"
             },
             "Name": {
               "$ref": "#/definitions/DescriptiveNodeText",
@@ -4891,7 +4891,7 @@
             },
             "Paragraph": {
               "$ref": "#/definitions/NodeText",
-              "description": "A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ``Paragraph 1\\n\\nParagraph 2`` ` Description inputs: $1 = number, $2 = unit"
+              "description": "A paragraph of text in `Markup`, e.g.,  `Paragraph 1` in ` ¶Paragraph 1\\n\\nParagraph 2¶ ` Description inputs: $1 = number, $2 = unit"
             },
             "Previous": {
               "additionalProperties": false,
@@ -5293,8 +5293,21 @@
                       "description": "When a reference refers to a type variable"
                     },
                     "UnknownName": {
-                      "$ref": "#/definitions/InternalConflictText",
-                      "description": "When the name does not correspond to a bind in scope Description inputs: $1 = Scope"
+                      "additionalProperties": false,
+                      "description": "When the name does not correspond to a bind in scope Description inputs: $1 = Scope",
+                      "properties": {
+                        "conflict": {
+                          "$ref": "#/definitions/InternalConflictText"
+                        },
+                        "resolution": {
+                          "$ref": "#/definitions/Template"
+                        }
+                      },
+                      "required": [
+                        "conflict",
+                        "resolution"
+                      ],
+                      "type": "object"
                     }
                   },
                   "required": [
@@ -6548,11 +6561,11 @@
             },
             "WebLink": {
               "$ref": "#/definitions/DescriptiveNodeText",
-              "description": "A link in `Markup`, e.g., ` ``<wordplay@https://wordplay.div>`` ` Description inputs: $1 = the url"
+              "description": "A link in `Markup`, e.g., ` ¶<wordplay@https://wordplay.div>¶ ` Description inputs: $1 = the url"
             },
             "Words": {
               "$ref": "#/definitions/NodeText",
-              "description": "A sequence of glyphs in `Markup` that aren't other markup content, e.g., ` ``These are just words.`` `"
+              "description": "A sequence of glyphs in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ `"
             }
           },
           "required": [
@@ -6904,9 +6917,13 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The list of content in the group"
                 },
-                "description": {
+                "defaultDescription": {
                   "$ref": "#/definitions/Template",
                   "description": "$1 = Layout description, $2 = pose description"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -6997,6 +7014,7 @@
                 "background",
                 "color",
                 "content",
+                "defaultDescription",
                 "description",
                 "doc",
                 "duration",
@@ -7095,9 +7113,13 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
                 },
-                "description": {
+                "defaultDescription": {
                   "$ref": "#/definitions/Template",
                   "description": "A description of the phrase for screen readers. 1$: non-optional text, $2: optional name, $3: optional size, $4: optional font, $5: then non-optional pose"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
                 },
                 "direction": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7197,6 +7219,7 @@
                 "aura",
                 "background",
                 "color",
+                "defaultDescription",
                 "description",
                 "direction",
                 "doc",
@@ -7492,6 +7515,10 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "The color of glyphs in a phrase, group, or stage"
                 },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "The custom description of the shape"
+                },
                 "doc": {
                   "$ref": "#/definitions/DocText",
                   "description": "Documentation for this definition, to appear in the documentation browser."
@@ -7564,6 +7591,7 @@
               "required": [
                 "background",
                 "color",
+                "description",
                 "doc",
                 "duration",
                 "entering",
@@ -7683,9 +7711,13 @@
                   "$ref": "#/definitions/NameAndDoc",
                   "description": "A list of content to show on stage"
                 },
-                "description": {
+                "defaultDescription": {
                   "$ref": "#/definitions/Template",
                   "description": "A description of the stage for screen readers. $1: total outputs, $2: total phrases, $3: total groups, $4: pose"
+                },
+                "description": {
+                  "$ref": "#/definitions/NameAndDoc",
+                  "description": "An optional description of the phrase for screen readers"
                 },
                 "doc": {
                   "$ref": "#/definitions/DocText",
@@ -7776,6 +7808,7 @@
                 "background",
                 "color",
                 "content",
+                "defaultDescription",
                 "description",
                 "doc",
                 "duration",
@@ -10660,6 +10693,10 @@
                       "description": "Insert ° symbol",
                       "type": "string"
                     },
+                    "insertDocs": {
+                      "description": "Insert ¶ symbol",
+                      "type": "string"
+                    },
                     "insertFalse": {
                       "description": "Insert false symbol",
                       "type": "string"
@@ -10837,6 +10874,7 @@
                     "insertLessOrEqual",
                     "insertGreaterOrEqual",
                     "insertType",
+                    "insertDocs",
                     "insertStream",
                     "insertChange",
                     "insertPrevious",

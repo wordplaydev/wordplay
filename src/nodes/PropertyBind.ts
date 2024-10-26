@@ -21,7 +21,6 @@ import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Reference from './Reference';
-import type Node from './Node';
 import type Locales from '../locale/Locales';
 import { buildBindings } from './Evaluate';
 import ExceptionValue from '@values/ExceptionValue';
@@ -30,6 +29,7 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import Bind from './Bind';
 import InvalidProperty from '@conflicts/InvalidProperty';
 import StructureDefinitionType from './StructureDefinitionType';
+import type EditContext from '@edit/EditContext';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -50,21 +50,21 @@ export default class PropertyBind extends Expression {
         return new PropertyBind(reference, new BindToken(), value);
     }
 
-    static getPossibleNodes(
-        type: Type | undefined,
-        node: Node,
-        selected: boolean,
-    ) {
+    static getPossibleReplacements({ node, type }: EditContext) {
+        return node instanceof PropertyReference
+            ? [PropertyBind.make(node, ExpressionPlaceholder.make(type))]
+            : [];
+    }
+
+    static getPossibleAppends({ type }: EditContext) {
         return [
-            node instanceof PropertyReference && selected
-                ? PropertyBind.make(node, ExpressionPlaceholder.make(type))
-                : PropertyBind.make(
-                      PropertyReference.make(
-                          ExpressionPlaceholder.make(),
-                          Reference.make('_'),
-                      ),
-                      ExpressionPlaceholder.make(type),
-                  ),
+            PropertyBind.make(
+                PropertyReference.make(
+                    ExpressionPlaceholder.make(),
+                    Reference.make('_'),
+                ),
+                ExpressionPlaceholder.make(type),
+            ),
         ];
     }
 

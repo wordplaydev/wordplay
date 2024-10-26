@@ -34,6 +34,7 @@ import FunctionDefinition from './FunctionDefinition';
 import BasisType from './BasisType';
 import type Locales from '../locale/Locales';
 import getGuards from './getGuards';
+import type EditContext from '@edit/EditContext';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -58,13 +59,13 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    static getPossibleNodes(
+    static getPossibleReferences(
         type: Type | undefined,
         node: Node,
-        selected: boolean,
+        replace: boolean,
         context: Context,
     ) {
-        if (!selected)
+        if (!replace)
             return [
                 PropertyReference.make(ExpressionPlaceholder.make(), undefined),
             ];
@@ -129,6 +130,14 @@ export default class PropertyReference extends Expression {
         }
 
         return [];
+    }
+
+    static getPossibleReplacements({ type, node, context }: EditContext) {
+        return this.getPossibleReferences(type, node, true, context);
+    }
+
+    static getPossibleAppends({ type, node, context }: EditContext) {
+        return this.getPossibleReferences(type, node, false, context);
     }
 
     getDescriptor() {

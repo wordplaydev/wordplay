@@ -4826,14 +4826,14 @@
                     "title": "Notas del Director",
                     "subtitle": "Explicar",
                     "concept": "Doc",
-                    "performance": ["use", "fit", "Symbol", "``"],
+                    "performance": ["use", "fit", "Symbol", "¶"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
                             "¡Vaya, hemos recorrido un largo camino, ¿verdad?! Nos queda un personaje más. Son interesantes, porque en esencia, se trata de explicar cosas, algo así como lo que he estado haciendo contigo durante un tiempo. Su nombre es @Doc. ¿Qué tal, @Doc?"
                         ],
-                        ["use", "fit", "Symbol", "``"],
+                        ["use", "fit", "Symbol", "¶"],
                         [
                             "Doc",
                             "surprised",
@@ -4850,14 +4850,14 @@
                             "kind",
                             "¡Es un placer conocerte! ¿Espero que @FunctionDefinition haya sido un buen maestro?"
                         ],
-                        ["use", "fit", "Symbol", "``/"],
+                        ["use", "fit", "Symbol", "¶/"],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
                             "He intentado... ya sabes, ¿eres nuestra última parada? Eres tan esencial, pero también hay mucho que explicar antes de llegar siquiera a explicar nuestras actuaciones. Así que quería que tú tuvieras la última palabra. ¿Quieres compartir lo que haces?"
                         ],
-                        ["use", "fit", "Symbol", "``/en"],
+                        ["use", "fit", "Symbol", "¶/en"],
                         null,
                         [
                             "Doc",
@@ -4870,7 +4870,7 @@
                             "happy",
                             "Soy una forma de recordarte lo que todos están haciendo, pero también una forma de explicar a los demás, si estás dirigiendo con un amigo o quieres compartir tu actuación con alguien. Así que no /tienes/ que trabajar conmigo, pero encuentro que cada actuación es un poco más fácil de hacer y cambiar si has dedicado algo de tiempo a explicar cómo funciona."
                         ],
-                        ["use", "fit", "Symbol", "``Acerca de mí...``/en"],
+                        ["use", "fit", "Symbol", "¶Acerca de mí...¶/en"],
                         null,
                         [
                             "FunctionDefinition",
@@ -4884,8 +4884,8 @@
                         ],
                         [
                             "conflict",
-                            "``El precio al comienzo del juego, ",
-                            "usado para inicializar el juego.``",
+                            "¶El precio al comienzo del juego, ",
+                            "usado para inicializar el juego.¶",
                             "startingPrice: 5dollar"
                         ],
                         null,
@@ -4896,8 +4896,8 @@
                         ],
                         [
                             "edit",
-                            "``Obtiene los impuestos para un precio dado, ",
-                            "que es del 1% si es menor de 100, y del 5% en caso contrario.``",
+                            "¶Obtiene los impuestos para un precio dado, ",
+                            "que es del 1% si es menor de 100, y del 5% en caso contrario.¶",
                             "ƒ tax(price•#dollar) ",
                             "    price · (price < 100dollar ? 0.01 0.05)"
                         ],
@@ -4909,8 +4909,8 @@
                         ],
                         [
                             "edit",
-                            "``Representa un producto y su precio. ",
-                            "Eventualmente admitirá funciones para obtener otros detalles sobre el producto.``",
+                            "¶Representa un producto y su precio. ",
+                            "Eventualmente admitirá funciones para obtener otros detalles sobre el producto.¶",
                             "•Product(name•'' price•#dollar)"
                         ],
                         null,
@@ -4922,7 +4922,7 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "``La ecuación cuadrática``",
+                            "¶La ecuación cuadrática¶",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4934,8 +4934,8 @@
                         [
                             "edit",
                             "ƒ quadratic(a•# b•# c•# x•#)",
-                            "``La ecuación cuadrática``/en",
-                            "``The quadratic equation``/es",
+                            "¶La ecuación cuadrática¶/en",
+                            "¶The quadratic equation¶/es",
                             "(a · (x ^ 2)) + (b · x) + c"
                         ],
                         null,
@@ -4946,13 +4946,13 @@
                         ],
                         [
                             "conflict",
-                            "``¿Alguna vez has querido saber cómo es ",
+                            "¶¿Alguna vez has querido saber cómo es ",
                             "volar un ✈️ con la boca?",
-                            "¿Quizás esto almacena la altura del avión?``",
+                            "¿Quizás esto almacena la altura del avión?¶",
                             "•Plane()",
-                            "``Necesitamos algún tipo de reacción para escuchar el micrófono…``",
+                            "¶Necesitamos algún tipo de reacción para escuchar el micrófono…¶",
                             "sound: 1m",
-                            "``Sabemos que hay un avión, pero ¿qué más?``",
+                            "¶Sabemos que hay un avión, pero ¿qué más?¶",
                             "Phrase(“✈️” sound)"
                         ],
                         null,
@@ -4981,11 +4981,11 @@
                         ],
                         [
                             "edit",
-                            "``Las Docs pueden ser ",
+                            "¶Las Docs pueden ser ",
                             "/itálicas/, ",
                             "_subrayadas_, ",
                             "*negritas*, o ",
-                            "^extra negritas^.``",
+                            "^extra negritas^.¶",
                             "'¡sofisticadas!'"
                         ],
                         null,
@@ -4996,11 +4996,11 @@
                         ],
                         [
                             "edit",
-                            "``Las Docs pueden ser ",
+                            "¶Las Docs pueden ser ",
                             "  /itálicas/ (//), ",
                             "  _subrayadas_ (__), ",
                             "  *negritas* (**), o ",
-                            "  ^extra negritas^ (^^).``",
+                            "  ^extra negritas^ (^^).¶",
                             "'sofisticadas'"
                         ],
                         null,
@@ -5011,7 +5011,7 @@
                         ],
                         [
                             "edit",
-                            "``Soy un ejemplo dentro de una doc: \\1 + 1\\.``",
+                            "¶Soy un ejemplo dentro de una doc: \\1 + 1\\.¶",
                             "1 + 1"
                         ],
                         null,
@@ -5022,7 +5022,7 @@
                         ],
                         [
                             "edit",
-                            "``Aprende más en <Wordplay@https://wordplay.dev>.`` '¡un enlace!'"
+                            "¶Aprende más en <Wordplay@https://wordplay.dev>.¶ '¡un enlace!'"
                         ],
                         null,
                         ["Doc", "serious", "$?"],

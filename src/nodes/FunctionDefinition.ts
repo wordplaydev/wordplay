@@ -41,6 +41,8 @@ import Reference from './Reference';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
+import type EditContext from '@edit/EditContext';
+import TypePlaceholder from './TypePlaceholder';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -109,7 +111,13 @@ export default class FunctionDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements({ type, context }: EditContext) {
+        return type instanceof FunctionType
+            ? [type.getDefaultExpression(context)]
+            : [];
+    }
+
+    static getPossibleAppends() {
         return [
             FunctionDefinition.make(
                 undefined,
@@ -172,11 +180,12 @@ export default class FunctionDefinition extends DefinitionExpression {
                         : reference,
                     this.inputs
                         .filter((input) => !input.hasDefault())
-                        .map((input) => {
-                            if (input.type instanceof FunctionType)
-                                return input.type.getTemplate(context);
-                            else return ExpressionPlaceholder.make();
-                        }),
+                        .map((input) =>
+                            input.type
+                                ? input.type.getDefaultExpression(context) ??
+                                  ExpressionPlaceholder.make(input.type)
+                                : ExpressionPlaceholder.make(),
+                        ),
                 );
     }
 
@@ -199,8 +208,17 @@ export default class FunctionDefinition extends DefinitionExpression {
                 indent: true,
             },
             { name: 'close', kind: node(Sym.EvalClose) },
-            { name: 'dot', kind: any(node(Sym.Type), none('output')) },
-            { name: 'output', kind: any(node(Type), none('dot')) },
+            {
+                name: 'dot',
+                kind: any(
+                    node(Sym.Type),
+                    none(['output', () => TypePlaceholder.make()]),
+                ),
+            },
+            {
+                name: 'output',
+                kind: any(node(Type), none(['dot', () => new TypeToken()])),
+            },
             {
                 name: 'expression',
                 kind: any(node(Expression), node(Sym.Etc), none()),
@@ -429,6 +447,17 @@ export default class FunctionDefinition extends DefinitionExpression {
                 this.inputs.every((input, index) =>
                     input.isEqualTo(definition.inputs[index]),
                 ))
+        );
+    }
+
+    isBinary() {
+        return this.inputs.length === 1 && this.names.hasSymbolicName();
+    }
+
+    isUnary() {
+        return (
+            this.getRequiredInputs().length === 0 &&
+            this.names.hasSymbolicName()
         );
     }
 

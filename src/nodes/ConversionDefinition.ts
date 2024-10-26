@@ -68,7 +68,11 @@ export default class ConversionDefinition extends DefinitionExpression {
         );
     }
 
-    static getPossibleNodes() {
+    static getPossibleReplacements() {
+        return [];
+    }
+
+    static getPossibleAppends() {
         return [
             ConversionDefinition.make(
                 undefined,

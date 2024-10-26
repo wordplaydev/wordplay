@@ -3,6 +3,72 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.12.3 2024-10-12
+
+### Fixed
+
+-   Fixed rendering of recent values in debugger.
+-   Fixed debugger highlights on literal values.
+-   Fixed UI ID for stage to correct highlight.
+-   Don't wrap node sequences in blocks mode.
+-   Describe added nodes during editing.
+-   Fixed ARIA bugs on autocomplete menu.
+
+## 0.12.2 2024-10-5
+
+### Fixed
+
+-   Corrected debugger behavior in the presence of reused values.
+
+## 0.12.1 2024-09-28
+
+### Fixed
+
+-   Corrected spacing on home page of header.
+-   Properly render placeholders in blocks mode.
+-   Consistent rendering of inferred and explicit placeholder types.
+-   Better type checking on operator wrapping
+-   Don't show full names of operators.
+-   Fixed evaluate autocomplete.
+-   Removed column layout of documented expressions.
+-   Changed explanation delimiter to ¶ for clarity, disambiguation in parsing.
+-   Allow entry into emtpy field lists with no tokens.
+-   Better handling of empty words tokens in blocks mode.
+-   Fixed caret position for newlines in interior blocks.
+-   Removed invalid symbol type from placeholder token.
+
+## 0.12.0 2024-09-22
+
+### Add
+
+-   [#529](https://github.com/wordplaydev/wordplay/issues/529) Redesign of blocks mode for accessibility and error-prevention. Much to do to make it super polished, but it's better than the previous version.
+
+## 0.11.2 2024-09-17
+
+-   Show conflicts even when paused.
+
+### Maintenance
+
+-   Several dependendabot pull request updates.
+
+## 0.11.1 2024-08-25
+
+### Added
+
+-   Custom descriptions of Stage, Group, Phrase, and Shape output, overriding default descriptions.
+
+### Fixed
+
+-   Included past tense verbs in higher order functions.
+-   Fixed aria-label updates.
+-   Drop old announcements if the queue exceeds three, preferering most recent.
+
+## 0.10.10 2024-08-12
+
+### Fixed
+
+-   [#550](https://github.com/wordplaydev/wordplay/issues/550) Ensure owned projects are marked as owned when loaded directly from Firestore.
+
 ## 0.10.9 2024-08-10
 
 ### Added

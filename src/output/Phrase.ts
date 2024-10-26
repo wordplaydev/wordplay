@@ -51,6 +51,10 @@ export function createPhraseType(locales: Locales) {
         )}•${SupportedFontsFamiliesType}${'|ø: ø'}
         ${getBind(locales, (locale) => locale.output.Phrase.place)}•📍|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.name)}•""|ø: ø
+        ${getBind(
+            locales,
+            (locale) => locale.output.Phrase.description,
+        )}•""|ø: ø
         ${getBind(locales, (locale) => locale.output.Phrase.selectable)}•?: ⊥
         ${getBind(locales, (locale) => locale.output.Phrase.color)}•🌈${'|ø: ø'}
         ${getBind(
@@ -128,6 +132,7 @@ export default class Phrase extends Output {
         face: SupportedFace | undefined = undefined,
         place: Place | undefined = undefined,
         name: TextLang | string,
+        description: TextLang | undefined = undefined,
         selectable: boolean,
         background: Color | undefined,
         pose: DefinitePose,
@@ -149,6 +154,7 @@ export default class Phrase extends Output {
             face,
             place,
             name,
+            description,
             selectable,
             background,
             pose,
@@ -355,7 +361,7 @@ export default class Phrase extends Output {
 
             this._description = locales
                 .concretize(
-                    (l) => l.output.Phrase.description,
+                    (l) => l.output.Phrase.defaultDescription,
                     text,
                     this.name instanceof TextLang ? this.name.text : undefined,
                     this.size,
@@ -364,7 +370,8 @@ export default class Phrase extends Output {
                         ? this.resting.getDescription(locales)
                         : this.pose.getDescription(locales),
                 )
-                .toText();
+                .toText()
+                .trim();
         }
         return this._description;
     }
@@ -409,6 +416,7 @@ export function toPhrase(
         face: font,
         place,
         name,
+        description,
         selectable,
         background,
         pose,
@@ -420,11 +428,13 @@ export function toPhrase(
         style,
     } = getTypeStyle(project, value, 1);
 
-    const wrap = toNumber(getOutputInput(value, 20));
-    const alignment = toText(getOutputInput(value, 21));
-    const direction = toText(getOutputInput(value, 22));
-    const matter = toMatter(getOutputInput(value, 23));
-    const shadow = toAura(project, getOutputInput(value, 24));
+    const AfterStyleOffset = 21;
+
+    const wrap = toNumber(getOutputInput(value, AfterStyleOffset));
+    const alignment = toText(getOutputInput(value, AfterStyleOffset + 1));
+    const direction = toText(getOutputInput(value, AfterStyleOffset + 2));
+    const matter = toMatter(getOutputInput(value, AfterStyleOffset + 3));
+    const shadow = toAura(project, getOutputInput(value, AfterStyleOffset + 4));
 
     return texts !== undefined &&
         (!Array.isArray(texts) || texts.length > 0) &&
@@ -440,6 +450,7 @@ export function toPhrase(
               font,
               place,
               namer.getName(name?.text, value),
+              description,
               selectable,
               background,
               pose,

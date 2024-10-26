@@ -33,8 +33,12 @@ export default class Mention extends Content {
         this.name = name;
     }
 
-    static getPossibleNodes() {
-        return [];
+    static getPossibleReplacements() {
+        return [new Mention(new Token('_', Sym.Mention))];
+    }
+
+    static getPossibleAppends() {
+        return [new Mention(new Token('_', Sym.Mention))];
     }
 
     getDescriptor() {

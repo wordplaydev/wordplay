@@ -29,4 +29,8 @@
 
         word-break: break-all;
     }
+
+    :global(.value.evaluating) {
+        color: var(--wordplay-background);
+    }
 </style>
