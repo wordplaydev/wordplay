@@ -197,45 +197,45 @@
                         [
                             "Program",
                             "serious",
-                            "The instructions can get as sophisticated as you want, but there are a few rules.",
-                            "For example, I can only evaluate to one *value*, and show that one value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
-                            "But if you give me two things, I'll only show the last thing you give me.",
-                            "For example, try adding another instruction after the text you typed, whatever word you want, in quotes."
+                            "只要你想要，多複雜的指令我們都能做到！但是有幾條規則",
+                            "比如說，我只能評估一個 *值* ，然後把他們呈現在舞台上。那個值可以很複雜，只要我知道怎麼顯示它，我就一定會把它呈現出來。",
+                            "但如果你給我兩個東西，我只會顯示你給我的最後一個。",
+                            "例如，試著在你輸入的文本後加上隨便一個你想要的東西，放在引號裡。"
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "See? I just showed your second phrase, not your first. You know you broke my rule because I underlined your first phrase and we told you that we'd be ignoring it."
+                            "看到了嗎？我只顯示了你的第二個文本，而不是第一個。而且你會知道你打破了我的規則，因為我已經劃線了你的第一句，告訴你，我會忽略它。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "🎭"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "But you can do so much more!"
+                            "但是你還可以做更多！"
                         ],
                         [
                             "Program",
                             "serious",
-                            "Yes and no. I can do a lot, but that's only because I work with everyone else in the *Verse*. They're the ones that bring all of the exciting possibilities to the *stage*. All I really do is let them do their thing, and then take the last thing they created and show it on stage. I'm more like an escort that brings the final *value* to stage, like numbers, texts, phrases, or other values."
+                            "是，也不是。我可以做很多事情，是因為我和 *詩篇* 裡面的其他人一起合作。他們才是把所有令人興奮的可能性帶來 *舞台* 的傢伙，而我做的只是讓他們隨意發揮，然後把他們最後創造的東西展示在舞台上。我更像是一個引導者，把最後的 *值* 展示在舞台上，像是數字、文本、片語和很多其他的東西。"
                         ],
                         null,
                         [
                             "Program",
                             "serious",
-                            "In fact, if you ever want to see the progam for something on stage, you can press the pencil on stage @UI/editProject. That'll show you how everyone is coming together to create what's on stage. This program is just a simple phrase."
+                            "事實上，如果你想要看某樣在舞台上的東西中間的過程，你可以點一下舞台上的鉛筆 @UI/editProject ，它會告訴你大家是怎麼創造出舞台上的東西的，像是我們剛剛寫的就是一個簡單的片語"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Thank you @Program, we're so excited to meet everyone, and spread the news!"
+                            "謝謝你！ @Program 我們很期待接下來去見見其他人並告訴他們我們有導演了！"
                         ],
                         [
                             "Program",
                             "happy",
-                            "It was great to meet you new director! Good luck with everyone else. I'll always be here."
+                            "新導演，很高興認識你！祝你和其他人一切順利，我會一直在這裡，歡迎你隨時回來。"
                         ]
                     ]
                 },
