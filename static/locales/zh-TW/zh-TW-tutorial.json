@@ -240,68 +240,68 @@
                     ]
                 },
                 {
-                    "title": "Holding space",
-                    "subtitle": "Placeholder",
+                    "title": "佔位符",
+                    "subtitle": "佔位符",
                     "concept": "ExpressionPlaceholder",
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "You're really going to like @ExpressionPlaceholder. They're incredibly kind, and so flexible. But they are a bit shy. Just be gentle with them?"
+                            "你會喜歡 @ExpressionPlaceholder 的！他們很善良，也很靈活，但他們有點害羞，請對他們有耐心一點。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "confused",
-                            "Hellooooo, @ExpressionPlaceholder?",
-                            "Hm, they're usually everywhere. Now they seem to be nowhere..."
+                            "嗨囉？ @ExpressionPlaceholder ？ 你在哪裡？",
+                            "恩...他們通常到處都是，現在卻好像不在了..."
                         ],
                         [
                             "ExpressionPlaceholder",
                             "scared",
-                            "@FunctionDefinition … is that you?"
+                            "@FunctionDefinition ...是你嗎？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Yeah. It's been so long. How are you?"
+                            "恩，是我，好久不見了，你還好嗎？"
                         ],
                         ["ExpressionPlaceholder", "scared", "Lonely."],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "I know that feeling. I have been too. We haven't had a lot of reasons to hang out, have we?"
+                            "我懂你的感受...我也有一樣的感覺。我們已經有好一陣子沒有見面了，對嗎？"
                         ],
                         [
                             "ExpressionPlaceholder",
                             "scared",
-                            "No. I've missed you. I've missed everyone…"
+                            "恩...我很想念你，我也很想念大家..."
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "I know. I have too. I'm so sorry.",
-                            "That's actually why I'm here. I wanted to introduce you to our new director-in-training."
+                            "對，我也是...",
+                            "這也是為什麼我現在來找你，我要向你介紹我們的新的、還在實習中的導演！"
                         ],
                         ["ExpressionPlaceholder", "scared", "Hi."],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "They just met @Program, so they're really at the beginning, but I was thinking that it might be best for them to meet you next, since you're such a wonderful representative of so many of us here."
+                            "他剛剛認識 @Program 現在正開始學習，我覺得最好接下來讓他認識你，因為你是我們這裡很多人的一個很好的代表。"
                         ],
                         ["ExpressionPlaceholder", "curious", "…"],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Do you want to say what you do?"
+                            "你想說說你都做些什麼嗎？"
                         ],
-                        ["ExpressionPlaceholder", "scared", "Can you?"],
+                        ["ExpressionPlaceholder", "scared", "...你來"],
                         null,
                         [
                             "FunctionDefinition",
