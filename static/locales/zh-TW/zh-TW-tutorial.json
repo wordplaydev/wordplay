@@ -306,21 +306,21 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Sure! My friend @ExpressionPlaceholder is a placeholder. They represent any kind of expression in a program. They don't evaluate to any value in particular — in fact, if they show up in @Program, @Program will just halt the performance, since it's not really clear what to do next."
+                            "好啊！我的朋友 @ExpressionPlaceholder 是一個佔位符（Placeholder），他們在程序中代表任何的表達方式。他們不會評估任何值，其實，當 @Program 看到他們出現的時候， @Program 就會因為不清楚要做什麼而停下來。"
                         ],
                         null,
                         ["conflict", "_"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "But they are powerful, because they can represent anyone else, like a stand-in until you decide what you want a part of your performance to be. @ExpressionPlaceholder, want to take a place in this @Program, just to illustrate? See how there's a little placeholder in @Program @UI/ExpressionPlaceholder? That's a signal of what you might put there."
+                            "但他們是強大的，直到你決定好這一部分的表演想要表達的是什麼之前，他們可以代表其他人，就像一個未知數。 @ExpressionPlaceholder ，想要在這裡 @Program 示範一下嗎？看到在 @Program @UI/ExpressionPlaceholder 那裡的佔位符了嗎？這表示你可以在那裡輸入訊息。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "@Program didn't know what to do with @ExpressionPlaceholder, so it showed an *exception* @UI/exception on *stage* and a *conflict* in @Program @UI/conflict.",
-                            "But if you click on @ExpressionPlaceholder, or move the text caret over it, you'll see a world of possibilities of other characters. You can also just type over @ExpressionPlaceholder and write your own. For example, try typing your name in quotes."
+                            "因為 @Program 要怎麼處理 @ExpressionPlaceholder ，所以它在 *舞台* 上表示 *例外* @UI/exception ，並在 @Program @UI/conflict 顯示 *衝突* 。",
+                            "但是如果你點擊 @ExpressionPlaceholder ，或者將文字光標移到上面，你會看到很多其他可能性。你也可以直接在 @ExpressionPlaceholder 上輸入內容。例如，試著在引號中輸入你的名字。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "-"],
