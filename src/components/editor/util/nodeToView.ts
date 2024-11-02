@@ -1,4 +1,4 @@
-import type { ComponentType, SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
 /* eslint-disable @typescript-eslint/ban-types */
 import BlockView from '../BlockView.svelte';
@@ -175,7 +175,7 @@ import Otherwise from '@nodes/Otherwise';
 import Match from '@nodes/Match';
 import Input from '@nodes/Input';
 
-const nodeToView = new Map<Function, ComponentType<SvelteComponent>>();
+const nodeToView = new Map<Function, unknown>();
 
 nodeToView.set(Token, TokenView);
 nodeToView.set(Source, SourceView);
@@ -285,13 +285,13 @@ nodeToView.set(Type, TypeView);
 
 nodeToView.set(StructureType, StructureTypeView);
 
-export default function getNodeView(node: Node) {
-    // Climp the class hierarchy until finding a satisfactory view of the node.
+export default function getNodeView(node: Node): Component<{ node: Node }> {
+    // Climb the class hierarchy until finding a satisfactory view of the node.
     let constructor = node.constructor;
     do {
         const view = nodeToView.get(constructor);
-        if (view !== undefined) return view;
+        if (view !== undefined) return view as Component<{ node: Node }>;
         constructor = Object.getPrototypeOf(constructor);
     } while (constructor);
-    return UnknownNodeView;
+    return UnknownNodeView as Component<{ node: Node }>;
 }

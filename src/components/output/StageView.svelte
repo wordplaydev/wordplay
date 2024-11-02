@@ -1,8 +1,10 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     const HalfGridlineThickness = 0.1;
 </script>
 
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { onDestroy, onMount } from 'svelte';
     import type Project from '@models/Project';
     import type Stage from '@output/Stage';
@@ -42,26 +44,44 @@
         describedChangedOutput,
     } from './OutputDescriptions';
 
-    export let project: Project;
-    export let evaluator: Evaluator;
-    export let stage: Stage;
-    export let interactive: boolean;
-    export let editable: boolean;
-    export let fit: boolean;
-    export let grid: boolean;
-    export let painting: boolean;
-    export let background: boolean;
+    interface Props {
+        project: Project;
+        evaluator: Evaluator;
+        stage: Stage;
+        interactive: boolean;
+        editable: boolean;
+        fit: boolean;
+        grid: boolean;
+        painting: boolean;
+        background: boolean;
+        /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
+     * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
+        renderedFocus: Place;
+    }
+
+    let {
+        project,
+        evaluator,
+        stage = $bindable(),
+        interactive,
+        editable,
+        fit = $bindable(),
+        grid = $bindable(),
+        painting = $bindable(),
+        background,
+        renderedFocus = $bindable()
+    }: Props = $props();
+
 
     const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
 
-    $: editing = $evaluation?.playing === false;
 
-    let view: HTMLElement | null = null;
+    let view: HTMLElement | null = $state(null);
 
-    let mounted = false;
+    let mounted = $state(false);
     onMount(() => {
         mounted = true;
 
@@ -97,66 +117,85 @@
      * since reading takes time.
      * We only do this if the stage is interactive. Otherwise, no descriptions.
      */
-    let stillTimeout: NodeJS.Timeout | undefined = undefined;
-    let lastAnnouncement = 0;
+    let stillTimeout: NodeJS.Timeout | undefined = $state(undefined);
+    let lastAnnouncement = $state(0);
     // The last
-    let frame = 0;
+    let frame = $state(0);
     const StillDuration = 1000;
-    $: if (interactive && stage) {
-        // Have we not announced in a while? Let's announce now.
-        const now = Date.now();
-        if (now - lastAnnouncement > StillDuration) {
-            frame++;
-            lastAnnouncement = now;
-        }
-        // Clear any timeout we had set up recently, then make a new one, announcing in a bit.
-        if (stillTimeout) clearTimeout(stillTimeout);
-        stillTimeout = setTimeout(() => {
-            frame++;
-            lastAnnouncement = Date.now();
-        }, StillDuration);
-    }
 
     /** A set of all currently exiting outputs that need to be rendered in their last location. */
-    let exiting: OutputInfoSet = new Map();
+    let exiting: OutputInfoSet = $state(new Map());
 
-    let entered: Map<string, Output> = new Map();
-    let present: Map<string, Output> = new Map();
-    let moved: Moved = new Map();
-    let previouslyPresent: Map<string, Output> | undefined = undefined;
+    let entered: Map<string, Output> = $state(new Map());
+    let present: Map<string, Output> = $state(new Map());
+    let moved: Moved = $state(new Map());
+    let previouslyPresent: Map<string, Output> | undefined = $state(undefined);
 
     const announcer = getAnnounce();
 
-    // Announce changes on stage.
-    $: if ($announcer) {
-        const language = $locales.getLocale().language;
-        const changeDescription = describedChangedOutput(
-            $locales,
-            entered,
-            present,
-            previouslyPresent,
-        );
-        if (entered.size > 0)
-            $announcer(
-                'entered',
-                language,
-                describeEnteredOutput($locales, entered) ?? '',
-            );
-        else if (changeDescription) {
-            $announcer('changed', language, changeDescription);
-        } else if (moved.size > 0)
-            $announcer('moved', language, describeMovedOutput($locales, moved));
-    }
 
     /** The verse focus that fits the content to the view*/
-    let fitFocus: Place | undefined = undefined;
+    let fitFocus: Place | undefined = $state(undefined);
 
     /** The creator or audience adjusted focus. */
-    let adjustedFocus: Place = createPlace(evaluator, 0, 0, -12);
+    let adjustedFocus: Place = $state(createPlace(evaluator, 0, 0, -12));
 
     /** A stage to manage entries, exits, animations. A new one each time the for each project. */
-    let animator: Animator;
-    $: {
+    let animator = $state<Animator | undefined>();
+
+    /** When this is unmounted, stop all animations.*/
+    onDestroy(() => {
+        if(animator)
+            animator.stop();
+        if (observer) observer.disconnect();
+    });
+
+    /** Expose the editable context to all children */
+    let editableStore = writable<boolean>(editable);
+    setContext('editable', editableStore);
+    setContext('project', project);
+
+    /** Keep track of the tile view's content window size for use in fitting content to the window */
+    let parent: Element | null = $state(null);
+    let observer: ResizeObserver | null = $state(null);
+    let viewportWidth = $state(0);
+    let viewportHeight = $state(0);
+    let changed = $state(false);
+
+
+
+    export const adjustFocus = (dx: number, dy: number, dz: number) => {
+        setFocus(
+            renderedFocus.x + dx,
+            renderedFocus.y + dy,
+            renderedFocus.z + dz,
+        );
+    };
+
+    export const setFocus = (x: number, y: number, z: number) => {
+        // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
+        adjustedFocus = createPlace(evaluator, x, y, z);
+        // Stop fitting
+        fit = false;
+    };
+    let editing = $derived($evaluation?.playing === false);
+    run(() => {
+        if (interactive && stage) {
+            // Have we not announced in a while? Let's announce now.
+            const now = Date.now();
+            if (now - lastAnnouncement > StillDuration) {
+                frame++;
+                lastAnnouncement = now;
+            }
+            // Clear any timeout we had set up recently, then make a new one, announcing in a bit.
+            if (stillTimeout) clearTimeout(stillTimeout);
+            stillTimeout = setTimeout(() => {
+                frame++;
+                lastAnnouncement = Date.now();
+            }, StillDuration);
+        }
+    });
+    run(() => {
         // Previous scene? Stop it.
         if (animator !== undefined) animator.stop();
         // Make a new one.
@@ -177,141 +216,131 @@
                     animatingNodes.set(new Set(nodes));
             },
         );
-    }
-
-    /** When this is unmounted, stop all animations.*/
-    onDestroy(() => {
-        animator.stop();
-        if (observer) observer.disconnect();
     });
-
-    /** Expose the editable context to all children */
-    let editableStore = writable<boolean>(editable);
-    setContext('editable', editableStore);
-    $: editableStore.set(editable);
-    setContext('project', project);
-
-    /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
-    $: if (interactive) {
-        const results = animator.update(
-            stage,
-            interactive,
-            renderedFocus,
-            viewportWidth,
-            viewportHeight,
-            context,
-        );
-
-        previouslyPresent = present;
-        let animate: (() => void) | undefined = undefined;
-        if (results !== undefined) {
-            ({ entered, present, moved, animate } = results);
-
-            // Get the list of newly exited phrases and add them to our set.
-            for (const [key, val] of results.exiting) {
-                exiting.set(key, val);
-            }
-            // Update the map of exiting outputs to render them to the view
-            exiting = new Map(exiting);
-        }
-
-        // Defer animation initialization until we have a view so that animations can be bound to DOM elements.
-        // Otherwise, animations will not have a DOM element to animate and will stop.
-        tick().then(() => {
-            if (animate) animate();
-        });
-    }
-
-    /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
-     * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
-    export let renderedFocus: Place;
-    $: renderedFocus = stage.place
-        ? stage.place
-        : fit && fitFocus && $evaluation?.playing === true
-          ? fitFocus
-          : adjustedFocus;
-
-    $: center = new Place(stage.value, 0, 0, 0);
-
-    $: offsetFocus = renderedFocus.offset(center);
-
-    /** Keep track of the tile view's content window size for use in fitting content to the window */
-    let parent: Element | null;
-    let observer: ResizeObserver | null = null;
-    let viewportWidth = 0;
-    let viewportHeight = 0;
-    let changed = false;
-    $: if (view && view.parentElement && observer) {
-        if (parent !== view.parentElement) {
-            if (parent) observer.unobserve(parent);
-            parent = view.parentElement;
-            observer.observe(parent);
-        }
-    }
-
-    $: context = new RenderContext(
+    let context = $derived(new RenderContext(
         stage.face ?? $locales.getLocale().ui.font.app,
         stage.size ?? DefaultSize,
         project.getLocales(),
         $loadedFonts,
         $animationFactor,
-    );
-    $: contentBounds = stage.getLayout(context);
-
+    ));
+    let contentBounds = $derived(stage.getLayout(context));
     /** When verse or viewport changes, update the autofit focus. */
-    $: if (view && fit) {
-        // Get the bounds of the verse in verse units.
-        const contentWidth = contentBounds.width;
-        const contentHeight = contentBounds.height;
+    run(() => {
+        if (view && fit) {
+            // Get the bounds of the verse in verse units.
+            const contentWidth = contentBounds.width;
+            const contentHeight = contentBounds.height;
 
-        // Convert them to screen units.
-        const contentRenderedWidth = contentWidth * PX_PER_METER;
-        const contentRenderedHeight = contentHeight * PX_PER_METER;
+            // Convert them to screen units.
+            const contentRenderedWidth = contentWidth * PX_PER_METER;
+            const contentRenderedHeight = contentHeight * PX_PER_METER;
 
-        // Leave some padding on the edges.
-        const availableWidth = viewportWidth * (3 / 4);
-        const availableHeight = viewportHeight * (3 / 4);
+            // Leave some padding on the edges.
+            const availableWidth = viewportWidth * (3 / 4);
+            const availableHeight = viewportHeight * (3 / 4);
 
-        // Figure out the fit dimension based on which scale would be smaller.
-        // This ensures that we don't clip anything.
-        const horizontal =
-            availableWidth / contentRenderedWidth <
-            availableHeight / contentRenderedHeight;
+            // Figure out the fit dimension based on which scale would be smaller.
+            // This ensures that we don't clip anything.
+            const horizontal =
+                availableWidth / contentRenderedWidth <
+                availableHeight / contentRenderedHeight;
 
-        // A bit of constraint solving to calculate the z necessary for achieving the scale computed above.
-        const z =
-            -(
-                (horizontal ? contentWidth : contentHeight) *
-                PX_PER_METER *
-                FOCAL_LENGTH
-            ) / (horizontal ? availableWidth : availableHeight);
+            // A bit of constraint solving to calculate the z necessary for achieving the scale computed above.
+            const z =
+                -(
+                    (horizontal ? contentWidth : contentHeight) *
+                    PX_PER_METER *
+                    FOCAL_LENGTH
+                ) / (horizontal ? availableWidth : availableHeight);
 
-        // Now focus the content on the center of the content.
-        fitFocus = createPlace(
-            evaluator,
-            -(contentBounds.left + contentBounds.width / 2),
-            contentBounds.top - contentBounds.height / 2,
-            z,
-        );
-        // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
-        // This ensures we start from where we left off.
-        adjustedFocus = fitFocus;
-    }
+            // Now focus the content on the center of the content.
+            fitFocus = createPlace(
+                evaluator,
+                -(contentBounds.left + contentBounds.width / 2),
+                contentBounds.top - contentBounds.height / 2,
+                z,
+            );
+            // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
+            // This ensures we start from where we left off.
+            adjustedFocus = fitFocus;
+        }
+    });
+    run(() => {
+        renderedFocus = stage.place
+            ? stage.place
+            : fit && fitFocus && $evaluation?.playing === true
+              ? fitFocus
+              : adjustedFocus;
+    });
+    /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
+    run(() => {
+        if (interactive && animator) {
+            const results = animator.update(
+                stage,
+                interactive,
+                renderedFocus,
+                viewportWidth,
+                viewportHeight,
+                context,
+            );
 
-    export const adjustFocus = (dx: number, dy: number, dz: number) => {
-        setFocus(
-            renderedFocus.x + dx,
-            renderedFocus.y + dy,
-            renderedFocus.z + dz,
-        );
-    };
+            previouslyPresent = present;
+            let animate: (() => void) | undefined = undefined;
+            if (results !== undefined) {
+                ({ entered, present, moved, animate } = results);
 
-    export const setFocus = (x: number, y: number, z: number) => {
-        // Set the new adjusted focus (updating the rendered focus, and thus the animator focus)
-        adjustedFocus = createPlace(evaluator, x, y, z);
-        // Stop fitting
-        fit = false;
-    };
+                // Get the list of newly exited phrases and add them to our set.
+                for (const [key, val] of results.exiting) {
+                    exiting.set(key, val);
+                }
+                // Update the map of exiting outputs to render them to the view
+                exiting = new Map(exiting);
+            }
+
+            // Defer animation initialization until we have a view so that animations can be bound to DOM elements.
+            // Otherwise, animations will not have a DOM element to animate and will stop.
+            tick().then(() => {
+                if (animate) animate();
+            });
+        }
+    });
+    // Announce changes on stage.
+    run(() => {
+        if ($announcer) {
+            const language = $locales.getLocale().language;
+            const changeDescription = describedChangedOutput(
+                $locales,
+                entered,
+                present,
+                previouslyPresent,
+            );
+            if (entered.size > 0)
+                $announcer(
+                    'entered',
+                    language,
+                    describeEnteredOutput($locales, entered) ?? '',
+                );
+            else if (changeDescription) {
+                $announcer('changed', language, changeDescription);
+            } else if (moved.size > 0)
+                $announcer('moved', language, describeMovedOutput($locales, moved));
+        }
+    });
+    run(() => {
+        editableStore.set(editable);
+    });
+    let center = $derived(new Place(stage.value, 0, 0, 0));
+    let offsetFocus = $derived(renderedFocus.offset(center));
+    run(() => {
+        if (view && view.parentElement && observer) {
+            if (parent !== view.parentElement) {
+                if (parent) observer.unobserve(parent);
+                parent = view.parentElement;
+                observer.observe(parent);
+            }
+        }
+    });
 </script>
 
 {#if mounted}
@@ -365,7 +394,7 @@
                         style:top="{-top * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-                    />
+></div>
                 {/each}
                 {#each range(bottom, top) as number}
                     <div
@@ -375,20 +404,20 @@
                         style:left="{left * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
-                    />
+></div>
                 {/each}
                 <div
                     class="gridline horizontal axis"
                     style:top="0px"
                     style:left="{left * PX_PER_METER - HalfGridlineThickness}px"
                     style:width="{Math.abs(left - right) * PX_PER_METER}px"
-                />
+></div>
                 <div
                     class="gridline vertical axis"
                     style:left="0px"
                     style:top="{-top * PX_PER_METER - HalfGridlineThickness}px"
                     style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-                />
+></div>
             {/if}
             <!-- Render exiting nodes -->
             {#each Array.from(exiting.entries()) as [name, info] (name)}

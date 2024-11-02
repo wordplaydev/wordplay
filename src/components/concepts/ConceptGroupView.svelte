@@ -6,10 +6,14 @@
     import Expander from '@components/widgets/Expander.svelte';
     import { animationDuration } from '../../db/Database';
 
-    export let concepts: Concept[];
-    export let collapse: boolean = true;
+    interface Props {
+        concepts: Concept[];
+        collapse?: boolean;
+    }
 
-    let expanded = false;
+    let { concepts, collapse = true }: Props = $props();
+
+    let expanded = $state(false);
 
     function toggle() {
         expanded = !expanded;

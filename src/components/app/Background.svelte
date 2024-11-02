@@ -20,16 +20,17 @@
         va: number;
     };
 
-    let state: Glyph[] = [];
+    let scene: Glyph[] = $state([]);
 
-    let windowWidth: number, windowHeight: number;
+    let windowWidth: number = $state(0),
+        windowHeight: number = $state(0);
 
     const bounds = 0.2;
     const glyphs = new UnicodeString(
         '😀മAあ韓नेئبअขማঅবাংབོދިεفગુע中رšՀꆈᓄქ',
     ).getGraphemes();
 
-    let mounted = false;
+    let mounted = $state(false);
     let previousTime: DOMHighResTimeStamp | undefined = undefined;
 
     function step(time: DOMHighResTimeStamp) {
@@ -38,7 +39,7 @@
         const elapsed =
             $animationFactor > 0 ? (time - previousTime) / $animationFactor : 0;
         if (previousTime) {
-            for (const glyph of state) {
+            for (const glyph of scene) {
                 glyph.x += glyph.vx * (elapsed / 1000);
                 glyph.y += glyph.vy * (elapsed / 1000);
                 glyph.angle += (glyph.va * (elapsed / 1000)) % 360;
@@ -78,7 +79,7 @@
         for (let i = 0; i < count; i++)
             random.push(glyphs[Math.floor(Math.random() * glyphs.length)]);
 
-        state = random.map((glyph, index) => {
+        scene = random.map((glyph, index) => {
             return {
                 glyph,
                 index,
@@ -106,7 +107,7 @@
 
 {#if mounted}
     <div class="background" aria-hidden="true">
-        {#each state as glyph}
+        {#each scene as glyph}
             <div
                 class="glyph"
                 data-id={glyph.index}

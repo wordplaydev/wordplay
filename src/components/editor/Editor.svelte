@@ -1,5 +1,4 @@
-<svelte:options immutable={true} />
-
+<!-- @migration-task Error while migrating Svelte code: Can't migrate code with afterUpdate. Please migrate by hand. -->
 <script lang="ts">
     import Node from '@nodes/Node';
     import Caret, { type CaretPosition } from '../../edit/Caret';
@@ -25,8 +24,6 @@
         getSelectedOutput,
         getAnimatingNodes,
         getConflicts,
-        setSelectedOutput,
-        getSelectedOutputPaths,
         getEvaluation,
         MenuNodeSymbol,
         getKeyboardEditIdle,
@@ -145,8 +142,8 @@
     $: if (menu === undefined)
         grabFocus('Grabbing focus after menu is hidden.');
 
-    const selectedOutput = getSelectedOutput();
-    const selectedOutputPaths = getSelectedOutputPaths();
+    const { selectedOutput, selectedPaths, setSelectedOutput } =
+        getSelectedOutput();
     const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
     const nodeConflicts = getConflicts();
@@ -210,8 +207,8 @@
 
     // Whenever the selected output changes, ensure the first selected node is scrolled to.
     $: {
-        if ($selectedOutput !== undefined) {
-            const node = $selectedOutput[0];
+        if (selectedOutput !== undefined) {
+            const node = selectedOutput[0];
             if (node) {
                 tick().then(() => {
                     const view = getNodeView(node);
@@ -318,7 +315,7 @@
     $: {
         if (
             SHOW_OUTPUT_IN_PALETTE &&
-            selectedOutputPaths &&
+            selectedPaths &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
@@ -327,7 +324,7 @@
                 project.shares.output.Stage,
             )
         )
-            setSelectedOutput(selectedOutputPaths, project, [$caret.position]);
+            setSelectedOutput(project, [$caret.position]);
     }
 
     // Determine the conflicts of interest based on caret and mouse position.
@@ -456,7 +453,7 @@
                     $hovered,
                     $insertion,
                     $animatingNodes,
-                    $selectedOutput,
+                    selectedOutput,
                     $blocks,
                 ),
             ),
@@ -1092,12 +1089,12 @@
         );
 
         // Set the menu.
-        if ($concepts)
+        if (concepts)
             menu = new Menu(
                 $caret,
                 revisions,
                 undefined,
-                $concepts,
+                concepts,
                 [0, undefined],
                 handleMenuItem,
             );
@@ -1487,8 +1484,8 @@
         data-defaultfocus
         aria-autocomplete="none"
         autocomplete="off"
-        autocorrect="off"
         autocapitalize="none"
+        spellcheck="false"
         class="keyboard-input"
         class:composing
         style:left={caretLocation ? `${caretLocation.left}px` : null}
@@ -1502,7 +1499,7 @@
         on:focusout={() => {
             focused = false;
         }}
-    />
+    ></textarea>
     <!-- Render the program -->
     <RootView
         node={program}
@@ -1546,7 +1543,7 @@
                 : undefined}
             style:top={caretLocation ? `${caretLocation.bottom}px` : undefined}
             >{#if $caret.position instanceof Node}
-                {@const relevantConcept = $concepts?.getRelevantConcept(
+                {@const relevantConcept = concepts?.getRelevantConcept(
                     $caret.position,
                 )}
                 <!-- Make a link to the node's documentation -->

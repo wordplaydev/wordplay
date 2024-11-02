@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export const CSSAlignments: Record<string, string> = {
         '<': 'left',
         '|': 'center',
@@ -7,6 +7,9 @@
 </script>
 
 <script lang="ts">
+    import { run, createBubbler, stopPropagation } from 'svelte/legacy';
+
+    const bubble = createBubbler();
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
     import {
@@ -25,7 +28,6 @@
     import {
         getProject,
         getSelectedOutput,
-        getSelectedPhrase,
     } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
@@ -35,55 +37,69 @@
     import { withVariationSelector } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    export let phrase: Phrase;
-    export let place: Place;
-    export let focus: Place;
-    export let interactive: boolean;
-    export let parentAscent: number;
-    export let context: RenderContext;
-    export let editing: boolean;
-    export let frame: number;
+    interface Props {
+        phrase: Phrase;
+        place: Place;
+        focus: Place;
+        interactive: boolean;
+        parentAscent: number;
+        context: RenderContext;
+        editing: boolean;
+        frame: number;
+    }
 
-    const selectedOutput = getSelectedOutput();
-    const selectedPhrase = getSelectedPhrase();
+    let {
+        phrase,
+        place,
+        focus,
+        interactive,
+        parentAscent,
+        context = $bindable(),
+        editing,
+        frame
+    }: Props = $props();
+
+    const {selectedOutput, selectedPhrase, setSelectedPhrase} = getSelectedOutput();
     const project = getProject();
 
     // Compute a local context based on size and font.
-    $: context = phrase.getRenderContext(context);
+    run(() => {
+        context = phrase.getRenderContext(context);
+    });
 
     // Visible if z is ahead of focus and font size is greater than 0.
-    $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
+    let visible = $derived(place.z > focus.z && (phrase.size ?? context.size > 0));
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getLocalizedTextOrDoc($locales);
-    $: empty = phrase.isEmpty();
-    $: selectable = phrase.selectable && !empty;
+    let text = $derived(phrase.getLocalizedTextOrDoc($locales));
+    let empty = $derived(phrase.isEmpty());
+    let selectable = $derived(phrase.selectable && !empty);
 
     // The text field, if being edited.
-    let input: HTMLInputElement | undefined;
+    let input: HTMLInputElement | undefined = $state();
 
     // Selected if this phrase's value creator is selected
-    $: selected =
-        phrase.value.creator instanceof Evaluate &&
-        $selectedOutput?.includes(phrase.value.creator);
+    let selected =
+        $derived(phrase.value.creator instanceof Evaluate &&
+        selectedOutput.includes(phrase.value.creator));
 
     let editable = getContext<Writable<boolean>>('editable');
-    $: entered =
-        selected &&
+    let entered =
+        $derived(selected &&
         $editable &&
-        $selectedPhrase &&
-        $selectedPhrase.index !== null;
+        selectedPhrase &&
+        selectedPhrase.index !== null);
 
-    $: metrics = phrase.getMetrics(context);
+    let metrics = $derived(phrase.getMetrics(context));
 
-    let description: string | null = null;
-    let lastFrame = 0;
-    $: {
+    let description: string | null = $state(null);
+    let lastFrame = $state(0);
+    run(() => {
         if (phrase.description) description = phrase.description.text;
         else if (frame > lastFrame)
             description = phrase.getDescription($locales);
         lastFrame = frame;
-    }
+    });
 
     onMount(restore);
 
@@ -92,12 +108,12 @@
             if (entered) {
                 if (
                     input &&
-                    $selectedPhrase &&
-                    $selectedPhrase.index !== null
+                    selectedPhrase &&
+                    selectedPhrase.index !== null
                 ) {
                     input.setSelectionRange(
-                        $selectedPhrase.index,
-                        $selectedPhrase.index,
+                        selectedPhrase.index,
+                        selectedPhrase.index,
                     );
                     setKeyboardFocus(
                         input,
@@ -118,7 +134,7 @@
 
     function select(index: number | null) {
         if (selectedPhrase === undefined) return;
-        selectedPhrase.set({
+        setSelectedPhrase({
             name: phrase.getName(),
             index,
         });
@@ -219,8 +235,8 @@
         data-node-id={phrase.value.creator.id}
         data-name={phrase.getName()}
         data-selectable={selectable}
-        on:dblclick={$editable && interactive ? enter : null}
-        on:keydown={$editable && interactive && !entered ? move : null}
+        ondblclick={$editable && interactive ? enter : null}
+        onkeydown={$editable && interactive && !entered ? move : null}
         style:font-family={getFaceCSS(context.face)}
         style:font-size={getSizeCSS(context.size)}
         style:background={phrase.background?.toCSS() ?? null}
@@ -261,9 +277,9 @@
                 type="text"
                 value={text}
                 bind:this={input}
-                on:input={handleInput}
-                on:keydown|stopPropagation
-                on:pointerdown|stopPropagation
+                oninput={handleInput}
+                onkeydown={stopPropagation(bubble('keydown'))}
+                onpointerdown={stopPropagation(bubble('pointerdown'))}
                 style:width="{Math.max(
                     10,
                     phrase.getMetrics(context, false).width,
@@ -317,7 +333,7 @@
             var(--wordplay-highlight-color);
     }
 
-    :global(.stage.editing.interactive) :not(.selected) {
+    :global(.stage.editing.interactive) :not(:global(.selected)) {
         outline: var(--wordplay-focus-width) dotted
             var(--wordplay-inactive-color);
     }

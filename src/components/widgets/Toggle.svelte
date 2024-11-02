@@ -1,17 +1,32 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { createBubbler, stopPropagation, preventDefault } from 'svelte/legacy';
+
+    const bubble = createBubbler();
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
     import CommandHint from './CommandHint.svelte';
 
-    export let tips: ToggleText;
-    export let on: boolean;
-    export let toggle: () => void;
-    export let active = true;
-    export let uiid: string | undefined = undefined;
-    export let command: Command | undefined = undefined;
-    export let background = false;
+    interface Props {
+        tips: ToggleText;
+        on: boolean;
+        toggle: () => void;
+        active?: boolean;
+        uiid?: string | undefined;
+        command?: Command | undefined;
+        background?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        tips,
+        on,
+        toggle,
+        active = true,
+        uiid = undefined,
+        command = undefined,
+        background = false,
+        children
+    }: Props = $props();
 
     async function doToggle(event: Event) {
         if (active) {
@@ -20,9 +35,9 @@
         }
     }
 
-    $: title = `${on ? tips.on : tips.off}${
+    let title = $derived(`${on ? tips.on : tips.off}${
         command ? ' (' + toShortcut(command) + ')' : ''
-    }`;
+    }`);
 </script>
 
 <!-- 
@@ -38,14 +53,14 @@
     aria-label={title}
     aria-disabled={!active}
     aria-pressed={on}
-    on:dblclick|stopPropagation
-    on:mousedown|preventDefault
-    on:click={(event) =>
+    ondblclick={stopPropagation(bubble('dblclick'))}
+    onmousedown={preventDefault(bubble('mousedown'))}
+    onclick={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >
     {#if command}<CommandHint {command} />{/if}
     <div class="icon">
-        <slot />
+        {@render children?.()}
     </div>
 </button>
 
@@ -96,7 +111,7 @@
         transform: scale(0.9);
     }
 
-    button:not(.on):hover .icon {
+    button:not(:global(.on)):hover .icon {
         transform: scale(1.1);
     }
 

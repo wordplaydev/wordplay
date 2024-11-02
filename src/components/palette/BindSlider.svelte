@@ -10,10 +10,19 @@
     import { toTokens } from '../../parser/toTokens';
     import type Decimal from 'decimal.js';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let range: OutputPropertyRange;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        range: OutputPropertyRange;
+        editable: boolean;
+    }
+
+    let {
+        property,
+        values,
+        range,
+        editable
+    }: Props = $props();
 
     const project = getProject();
 

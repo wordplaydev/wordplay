@@ -1,25 +1,30 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Value from '@values/Value';
     import valueToView from './valueToView';
     import { setContext } from 'svelte';
     import type Node from '../../nodes/Node';
 
-    export let value: Value;
-    export let node: Node | undefined = undefined;
-    export let interactive = true;
-    export let inline = true;
+    interface Props {
+        value: Value;
+        node?: Node | undefined;
+        interactive?: boolean;
+        inline?: boolean;
+    }
+
+    let {
+        value,
+        node = undefined,
+        interactive = true,
+        inline = true,
+    }: Props = $props();
 
     if (interactive) setContext('interactive', true);
+
+    const SvelteComponent = $derived(valueToView(value.constructor));
 </script>
 
 <span class="value" data-id={value.id} data-node-id={node?.id ?? null}
-    ><svelte:component
-        this={valueToView(value.constructor)}
-        {value}
-        {inline}
-    /></span
+    ><SvelteComponent {value} {inline} /></span
 >
 
 <style>

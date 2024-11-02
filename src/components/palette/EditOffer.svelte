@@ -6,19 +6,32 @@
     import Speech from '../lore/Speech.svelte';
     import Button from '../widgets/Button.svelte';
 
-    export let symbols: string;
-    export let locales: Locales;
-    export let message: Template;
-    export let tip: string;
-    export let action: () => void;
-    export let command: string;
+    interface Props {
+        symbols: string;
+        locales: Locales;
+        message: Template;
+        tip: string;
+        action: () => void;
+        command: string;
+    }
+
+    let {
+        symbols,
+        locales,
+        message,
+        tip,
+        action,
+        command
+    }: Props = $props();
 </script>
 
 <div class="offer">
     <Speech glyph={{ symbols }}>
-        <svelte:fragment slot="content">
-            <MarkupHtmlView markup={locales.concretize(message)} />
-        </svelte:fragment>
+        {#snippet content()}
+            
+                <MarkupHtmlView markup={locales.concretize(message)} />
+            
+            {/snippet}
     </Speech>
     <Button large {tip} {action}>{withVariationSelector(command)}</Button>
 </div>

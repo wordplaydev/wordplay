@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
@@ -9,22 +11,26 @@
     import { withVariationSelector } from '../../unicode/emoji';
     import { goto } from '$app/navigation';
 
-    export let link: ConceptRef | ConceptLink | Concept;
-    export let label: string | undefined = undefined;
-    export let symbolic = true;
+    interface Props {
+        link: ConceptRef | ConceptLink | Concept;
+        label?: string | undefined;
+        symbolic?: boolean;
+    }
+
+    let { link, label = undefined, symbolic = true }: Props = $props();
 
     // Resolve the concept
     let index = getConceptIndex();
     let path = getConceptPath();
 
-    let concept: Concept | undefined;
-    let container: Concept | undefined;
-    let ui: string | undefined;
-    $: {
+    let concept: Concept | undefined = $state();
+    let container: Concept | undefined = $state();
+    let ui: string | undefined = $state();
+    run(() => {
         if (link instanceof Concept) {
             concept = link;
-            container = $index?.getConceptOwner(concept);
-        } else if ($index === undefined) concept = undefined;
+            container = index?.getConceptOwner(concept);
+        } else if (index === undefined) concept = undefined;
         // Try to resolve the concept in the index
         else {
             // Remove the link symbol
@@ -38,14 +44,14 @@
             }
             // Otherwise, try to resolve a concept or subconcept.
             else {
-                concept = $index.getConceptByName(names[0]);
+                concept = index.getConceptByName(names[0]);
                 if (concept && names.length > 1) {
                     const subConcept = Array.from(
                         concept.getSubConcepts(),
                     ).find((sub) => sub.hasName(names[1], $locales));
                     if (subConcept !== undefined) concept = subConcept;
                     else if (concept.affiliation !== undefined) {
-                        const structure = $index.getStructureConcept(
+                        const structure = index.getStructureConcept(
                             concept.affiliation,
                         );
                         if (structure) {
@@ -61,16 +67,14 @@
                 }
             }
         }
-    }
+    });
 
-    let longName: string;
-    let symbolicName: string;
-    $: {
-        if (concept) {
-            symbolicName = concept.getName($locales, true);
-            longName = concept.getName($locales, false);
-        }
-    }
+    let longName: string = $derived(
+        concept ? concept.getName($locales, false) : '',
+    );
+    let symbolicName: string = $derived(
+        concept ? concept.getName($locales, true) : '',
+    );
 
     function navigate() {
         // If we have a concept and the last concept isn't it, navigate

@@ -3,10 +3,15 @@
     import type Token from '@nodes/Token';
     import MenuTrigger from './MenuTrigger.svelte';
 
-    export let current: Token;
     /** We don't get these until the menu is shown, for performance reasons.*/
-    /** How to handle a selection */
-    export let selection: Node;
+    
+    interface Props {
+        current: Token;
+        /** How to handle a selection */
+        selection: Node;
+    }
+
+    let { current, selection }: Props = $props();
 </script>
 
 <div class="select">

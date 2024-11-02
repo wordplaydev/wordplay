@@ -1,29 +1,50 @@
-<svelte:options immutable={true} />
-
-<script context="module" lang="ts">
+<script module lang="ts">
     export type ActionReturn = void | boolean | undefined;
     export type Action = () => Promise<ActionReturn> | ActionReturn;
 </script>
 
 <script lang="ts">
+    import { createBubbler, preventDefault, stopPropagation } from 'svelte/legacy';
+
+    const bubble = createBubbler();
     import Spinning from '../app/Spinning.svelte';
     import { locales } from '@db/Database';
 
-    export let tip: string;
-    export let action: Action;
-    export let active = true;
-    export let stretch = false;
-    export let submit = false;
-    export let uiid: string | undefined = undefined;
-    export let classes: string | undefined = undefined;
-    export let scale = true;
-    export let view: HTMLButtonElement | undefined = undefined;
-    export let large = false;
-    export let background = false;
-    export let padding = true;
-    export let testid: string | undefined = undefined;
+    interface Props {
+        tip: string;
+        action: Action;
+        active?: boolean;
+        stretch?: boolean;
+        submit?: boolean;
+        uiid?: string | undefined;
+        classes?: string | undefined;
+        scale?: boolean;
+        view?: HTMLButtonElement | undefined;
+        large?: boolean;
+        background?: boolean;
+        padding?: boolean;
+        testid?: string | undefined;
+        children?: import('svelte').Snippet;
+    }
 
-    let loading = false;
+    let {
+        tip,
+        action,
+        active = true,
+        stretch = false,
+        submit = false,
+        uiid = undefined,
+        classes = undefined,
+        scale = true,
+        view = $bindable(undefined),
+        large = false,
+        background = false,
+        padding = true,
+        testid = undefined,
+        children
+    }: Props = $props();
+
+    let loading = $state(false);
 
     async function doAction(event: Event) {
         if (active) {
@@ -55,13 +76,11 @@
     aria-label={tip}
     aria-disabled={!active}
     bind:this={view}
-    on:mousedown|preventDefault
-    on:dblclick|stopPropagation
-    on:click|stopPropagation={loading
-        ? null
-        : (event) =>
-              event.button === 0 && active ? doAction(event) : undefined}
-    on:keydown={loading
+    onmousedown={preventDefault(bubble('mousedown'))}
+    ondblclick={stopPropagation(bubble('dblclick'))}
+    onclick={loading ? null : (event) => { event.stopPropagation();
+              event.button === 0 && active ? doAction(event) : undefined}}
+    onkeydown={loading
         ? null
         : (event) =>
               (event.key === 'Enter' || event.key === ' ') &&
@@ -72,7 +91,7 @@
               !event.metaKey
                   ? doAction(event)
                   : undefined}
-    >{#if loading}<Spinning />{:else}<slot />{/if}
+    >{#if loading}<Spinning />{:else}{@render children?.()}{/if}
 </button>
 
 <style>
@@ -124,7 +143,7 @@
         fill: var(--wordplay-background);
     }
 
-    button:hover:not(:focus)[aria-disabled='false'] {
+    button:hover:not(:global(:focus))[aria-disabled='false'] {
         background: var(--wordplay-alternating-color);
     }
 

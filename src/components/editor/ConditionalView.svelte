@@ -1,11 +1,13 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Conditional from '@nodes/Conditional';
     import NodeView from './NodeView.svelte';
     import { isBlocks } from '@components/project/Contexts';
 
-    export let node: Conditional;
+    interface Props {
+        node: Conditional;
+    }
+
+    let { node }: Props = $props();
 
     const blocks = isBlocks();
 </script>

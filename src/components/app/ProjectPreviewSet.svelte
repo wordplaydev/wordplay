@@ -5,15 +5,16 @@
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
 
-    export let set: Project[];
-    export let edit:
+    interface Props {
+        set: Project[];
+        edit: 
         | {
               description: string;
               label: string;
               action: (project: Project) => void;
           }
         | false;
-    export let remove: (project: Project) =>
+        remove: (project: Project) =>
         | {
               description: string;
               prompt: string;
@@ -21,13 +22,23 @@
               action: () => void;
           }
         | false;
-    export let copy:
+        copy: 
         | {
               description: string;
               label: string;
               action: (project: Project) => void;
           }
         | false;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        set,
+        edit,
+        remove,
+        copy,
+        children
+    }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.sort((a, b) =>
@@ -35,7 +46,7 @@
         );
     }
 
-    $: listed = sortProjects(set).filter((p) => p.isListed());
+    let listed = $derived(sortProjects(set).filter((p) => p.isListed()));
 </script>
 
 <div class="projects">
@@ -57,7 +68,7 @@
                             removeMeta ? removeMeta.action() : undefined}
                         >{removeMeta.label}</ConfirmButton
                     >{/if}</div
-            ><slot /></ProjectPreview
+            >{@render children?.()}</ProjectPreview
         >
     {/each}
 </div>

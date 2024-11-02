@@ -19,7 +19,11 @@
         StepToStart,
     } from '../editor/util/Commands';
 
-    export let evaluator: Evaluator;
+    interface Props {
+        evaluator: Evaluator;
+    }
+
+    let { evaluator }: Props = $props();
 
     const evaluation = getEvaluation();
 </script>

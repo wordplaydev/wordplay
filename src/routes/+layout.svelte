@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type { User } from 'firebase/auth';
@@ -8,26 +10,35 @@
     import { locales, DB, animationFactor, dark } from '../db/Database';
     import { browser } from '$app/environment';
     import { getLanguageDirection } from '../locale/LanguageCode';
+    interface Props {
+        children?: import('svelte').Snippet;
+    }
+
+    let { children }: Props = $props();
 
     /** Expose the translations as context, updating them as necessary */
-    $: setContext(LocalesSymbol, $locales);
+    run(() => {
+        setContext(LocalesSymbol, $locales);
+    });
 
-    let loaded = false;
-    let lag = false;
+    let loaded = $state(false);
+    let lag = $state(false);
 
     /** Create a user store to share globally. */
     const user = writable<User | null>(null);
     setContext(UserSymbol, user);
 
     // Keep the page's language and direction up to date.
-    $: if (typeof document !== 'undefined') {
-        const language = $locales.getLocale().language;
-        document.documentElement.setAttribute('lang', language);
-        document.documentElement.setAttribute(
-            'dir',
-            getLanguageDirection(language)
-        );
-    }
+    run(() => {
+        if (typeof document !== 'undefined') {
+            const language = $locales.getLocale().language;
+            document.documentElement.setAttribute('lang', language);
+            document.documentElement.setAttribute(
+                'dir',
+                getLanguageDirection(language)
+            );
+        }
+    });
 
     onMount(() => {
         // Force default font to load
@@ -57,11 +68,13 @@
     }
 
     /** When dark mode changes, update the body's dark class */
-    $: if (browser) {
-        if ($dark === true || ($dark === null && prefersDark()))
-            document.body.classList.add('dark');
-        else document.body.classList.remove('dark');
-    }
+    run(() => {
+        if (browser) {
+            if ($dark === true || ($dark === null && prefersDark()))
+                document.body.classList.add('dark');
+            else document.body.classList.remove('dark');
+        }
+    });
 </script>
 
 <div
@@ -89,7 +102,7 @@
         .join(', ')}
     lang={$locales.getLocale().language}
 >
-    <slot />
+    {@render children?.()}
     {#if !loaded && lag}
         <Loading />
     {/if}

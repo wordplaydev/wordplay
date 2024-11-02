@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
     import NumberLiteral from '@nodes/NumberLiteral';
@@ -11,22 +13,16 @@
     import { Projects } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValueSet;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValueSet;
+        editable: boolean;
+    }
+
+    let { property, values, editable }: Props = $props();
 
     let project = getProject();
     let selectedOutput = getSelectedOutput();
-
-    $: lightness = $project
-        ? getColorValue($project.shares.output.Color.inputs[0], values) ?? 0
-        : 0;
-    $: chroma = $project
-        ? getColorValue($project.shares.output.Color.inputs[1], values) ?? 0
-        : 0;
-    $: hue = $project
-        ? getColorValue($project.shares.output.Color.inputs[2], values) ?? 0
-        : 0;
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(l: number, c: number, h: number) {
@@ -36,16 +32,16 @@
         const replacement = Evaluate.make(
             Reference.make(
                 $project.shares.output.Color.names.getNames()[0],
-                $project.shares.output.Color
+                $project.shares.output.Color,
             ),
             [
                 NumberLiteral.make(Math.round(l * 100) + '%'),
                 NumberLiteral.make(c),
                 NumberLiteral.make(
                     h,
-                    new Unit(undefined, [Dimension.make(false, '°', 1)])
+                    new Unit(undefined, [Dimension.make(false, '°', 1)]),
                 ),
-            ]
+            ],
         );
 
         lightness = l;
@@ -57,8 +53,8 @@
             $project.getBindReplacements(
                 values.getExpressions(),
                 property.getName(),
-                replacement
-            )
+                replacement,
+            ),
         );
     }
 
@@ -69,7 +65,7 @@
             if ($project && val.expression instanceof Evaluate) {
                 const mapping = val.expression.getMappingFor(
                     bind,
-                    $project.getNodeContext(val.expression)
+                    $project.getNodeContext(val.expression),
                 );
                 const number =
                     mapping && mapping.given instanceof NumberLiteral
@@ -81,6 +77,24 @@
         // If they're all equal, return the value.
         return new Set(facets).size === 1 ? facets[0] : undefined;
     }
+    let lightness = $state(0);
+    run(() => {
+        lightness = $project
+            ? getColorValue($project.shares.output.Color.inputs[0], values) ?? 0
+            : 0;
+    });
+    let chroma = $state(0);
+    run(() => {
+        chroma = $project
+            ? getColorValue($project.shares.output.Color.inputs[1], values) ?? 0
+            : 0;
+    });
+    let hue = $state(0);
+    run(() => {
+        hue = $project
+            ? getColorValue($project.shares.output.Color.inputs[2], values) ?? 0
+            : 0;
+    });
 </script>
 
 <ColorChooser {lightness} {chroma} {hue} change={handleChange} {editable} />

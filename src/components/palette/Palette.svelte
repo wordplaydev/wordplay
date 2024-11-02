@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import type Project from '@models/Project';
     import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
@@ -30,38 +32,42 @@
     import EditOffer from './EditOffer.svelte';
     import TextStyleEditor from './TextStyleEditor.svelte';
 
-    export let project: Project;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        editable: boolean;
+    }
+
+    let { project, editable }: Props = $props();
 
     let evaluation = getEvaluation();
     let index = getConceptIndex();
-    let selectedOutput = getSelectedOutput();
+    let {selectedOutput} = getSelectedOutput();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
-    $: outputs = $selectedOutput
-        ? $selectedOutput
+    let outputs = $derived(selectedOutput
+        ? selectedOutput
               .map(
                   (evaluate) =>
                       new OutputExpression(project, evaluate, $locales),
               )
               .filter((out) => out.isOutput())
-        : [];
-    $: definition = outputs[0]?.node.getFunction(
+        : []);
+    let definition = $derived(outputs[0]?.node.getFunction(
         project.getNodeContext(outputs[0].node),
-    );
+    ));
 
-    $: phrase = getSoloPhrase(project);
-    $: group = getSoloGroup(project);
-    $: stage = getStage(project);
+    let phrase = $derived(getSoloPhrase(project));
+    let group = $derived(getSoloGroup(project));
+    let stage = $derived(getStage(project));
 
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(new Map());
     // Keep a reference to the text, since we need to pass that to the text style.
-    let phraseTextValues: OutputPropertyValueSet | undefined = undefined;
+    let phraseTextValues: OutputPropertyValueSet | undefined = $state(undefined);
 
-    $: {
+    run(() => {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
             outputs.reduce(
@@ -83,7 +89,7 @@
             if (property.name === $locales.get((l) => l.output.Phrase.text))
                 phraseTextValues = values;
         }
-    }
+    });
 </script>
 
 <section
@@ -95,7 +101,7 @@
         <Speech
             glyph={(outputs.length > 1 || definition === undefined
                 ? undefined
-                : $index?.getStructureConcept(definition)) ?? {
+                : index?.getStructureConcept(definition)) ?? {
                 symbols:
                     outputs.length === 0
                         ? '🎨'
@@ -104,13 +110,15 @@
                               .join(', '),
             }}
         >
-            <svelte:fragment slot="content">
-                <MarkupHtmlView
-                    markup={$locales.concretize(
-                        (l) => l.ui.palette.prompt.editing,
-                    )}
-                />
-            </svelte:fragment>
+            {#snippet content()}
+                    
+                    <MarkupHtmlView
+                        markup={$locales.concretize(
+                            (l) => l.ui.palette.prompt.editing,
+                        )}
+                    />
+                
+                    {/snippet}
         </Speech>
 
         <!-- Something selected? Show the property values. -->

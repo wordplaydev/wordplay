@@ -1,6 +1,6 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import type Reference from '@nodes/Reference';
     import NodeView from './NodeView.svelte';
     import { getEvaluation } from '../project/Contexts';
@@ -10,30 +10,37 @@
     import { animationFactor } from '../../db/Database';
     import Source from '@nodes/Source';
 
-    export let node: Reference;
+    interface Props {
+        node: Reference;
+    }
+
+    let { node }: Props = $props();
 
     let evaluation = getEvaluation();
 
-    $: project = $evaluation?.evaluator.project;
-    $: root = project?.getRoot(node);
-    $: context =
+    let project = $derived($evaluation?.evaluator.project);
+    let root = $derived(project?.getRoot(node));
+    let context = $derived(
         root?.root instanceof Source
             ? project?.getContext(root.root)
-            : undefined;
-    $: definition = node.resolve(context);
+            : undefined,
+    );
+    let definition = $derived(node.resolve(context));
 
-    let stream: StreamValue<Value, unknown> | undefined;
-    $: if ($evaluation) {
-        const parent = root?.getParent(node);
-        stream =
-            parent instanceof Evaluate
-                ? $evaluation.evaluator.getStreamFor(parent)
-                : undefined;
-    }
+    let stream: StreamValue<Value, unknown> | undefined = $state();
+    run(() => {
+        if ($evaluation) {
+            const parent = root?.getParent(node);
+            stream =
+                parent instanceof Evaluate
+                    ? $evaluation.evaluator.getStreamFor(parent)
+                    : undefined;
+        }
+    });
 
     // If this evaluated to the stream that recently changed, style it.
-    let animating = false;
-    $: {
+    let animating = $state(false);
+    run(() => {
         // Evaluated if...
         if (
             // There's evluation in this context
@@ -51,7 +58,7 @@
             // Reset after the animation is done.
             setTimeout(() => (animating = false), $animationFactor * 200);
         }
-    }
+    });
 </script>
 
 <span

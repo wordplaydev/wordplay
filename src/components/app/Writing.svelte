@@ -1,15 +1,21 @@
 <script lang="ts">
     import Page from './Page.svelte';
 
-    export let home = false;
+    interface Props {
+        home?: boolean;
+        children?: import('svelte').Snippet;
+        footer?: import('svelte').Snippet;
+    }
+
+    let { home = false, children, footer }: Props = $props();
 </script>
 
 <Page {home}>
     <div class="writing">
-        <slot />
+        {@render children?.()}
     </div>
     <div class="footer">
-        <slot name="footer" />
+        {@render footer?.()}
     </div>
 </Page>
 
@@ -24,7 +30,7 @@
         margin-block-end: 4em;
     }
 
-    :global(p:not(:last-of-type)) {
+    :global(p:not(:global(:last-of-type))) {
         margin-block-end: 1em;
     }
 

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     const Squint: `${Emotion}`[] = [
         'angry',
         'confused',
@@ -26,16 +26,22 @@
 </script>
 
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { onDestroy } from 'svelte';
 
     import { animationFactor } from '../../db/Database';
     import type Emotion from '../../lore/Emotion';
 
-    export let invert: boolean;
-    export let emotion: Emotion;
+    interface Props {
+        invert: boolean;
+        emotion: Emotion;
+    }
 
-    let left: HTMLElement | null;
-    let right: HTMLElement | null;
+    let { invert, emotion }: Props = $props();
+
+    let left: HTMLElement | null = $state(null);
+    let right: HTMLElement | null = $state(null);
 
     let animationLeft: Animation | undefined = undefined;
     let animationRight: Animation | undefined = undefined;
@@ -86,9 +92,11 @@
         if (animationRight) animationRight.cancel();
     }
 
-    let offset = 0;
-    let gaze = 25;
-    $: if (left && right && $animationFactor > 0) animateEyes();
+    let offset = $state(0);
+    let gaze = $state(25);
+    run(() => {
+        if (left && right && $animationFactor > 0) animateEyes();
+    });
 
     let eyes = Squint.includes(emotion)
         ? 'squint'
@@ -105,8 +113,8 @@
     class:invert
     style:--offset="{offset}px"
     style:--gaze="{gaze}%"
-    ><div bind:this={left} class="eye left {eyes}"><div class="pupil" /></div
-    ><div bind:this={right} class="eye right {eyes}"><div class="pupil" /></div
+    ><div bind:this={left} class="eye left {eyes}"><div class="pupil"></div></div
+    ><div bind:this={right} class="eye right {eyes}"><div class="pupil"></div></div
     ></div
 >
 

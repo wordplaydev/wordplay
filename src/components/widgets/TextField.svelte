@@ -1,28 +1,54 @@
 <script lang="ts">
+    import { run, createBubbler, stopPropagation } from 'svelte/legacy';
+
+    const bubble = createBubbler();
     import { onMount, tick } from 'svelte';
     import { withVariationSelector } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    export let text = '';
-    export let placeholder: string;
-    export let description: string;
-    export let validator: undefined | ((text: string) => boolean) = undefined;
-    export let changed: undefined | ((text: string) => void) = undefined;
-    export let done: undefined | ((text: string) => void) = undefined;
-    export let fill = false;
-    export let view: HTMLInputElement | undefined = undefined;
-    export let border = true;
-    export let right = false;
-    export let defaultFocus = false;
-    export let editable = true;
-    export let classes: string[] | undefined = undefined;
-    /** An optional ID applied to the data-id attribute*/
-    export let id: number | undefined = undefined;
-    export let kind: 'email' | 'password' | undefined = undefined;
-    /** CSS length or nothing, setting the max-width of the field*/
-    export let max: string | undefined = undefined;
+    
+    
+    interface Props {
+        text?: string;
+        placeholder: string;
+        description: string;
+        validator?: undefined | ((text: string) => boolean);
+        changed?: undefined | ((text: string) => void);
+        done?: undefined | ((text: string) => void);
+        fill?: boolean;
+        view?: HTMLInputElement | undefined;
+        border?: boolean;
+        right?: boolean;
+        defaultFocus?: boolean;
+        editable?: boolean;
+        classes?: string[] | undefined;
+        /** An optional ID applied to the data-id attribute*/
+        id?: number | undefined;
+        kind?: 'email' | 'password' | undefined;
+        /** CSS length or nothing, setting the max-width of the field*/
+        max?: string | undefined;
+    }
 
-    let width = 0;
+    let {
+        text = $bindable(''),
+        placeholder,
+        description,
+        validator = undefined,
+        changed = undefined,
+        done = undefined,
+        fill = false,
+        view = $bindable(undefined),
+        border = true,
+        right = false,
+        defaultFocus = false,
+        editable = true,
+        classes = undefined,
+        id = undefined,
+        kind = undefined,
+        max = undefined
+    }: Props = $props();
+
+    let width = $state(0);
 
     function handleInput() {
         if (changed && (validator === undefined || validator(text) === true))
@@ -82,7 +108,9 @@
         setKind(kind);
     });
 
-    $: setKind(kind);
+    run(() => {
+        setKind(kind);
+    });
 </script>
 
 <div class="field">
@@ -103,10 +131,10 @@
         disabled={!editable}
         bind:value={text}
         bind:this={view}
-        on:input={handleInput}
-        on:keydown={handleKeyDown}
-        on:pointerdown|stopPropagation
-        on:blur={() => (done ? done(text) : undefined)}
+        oninput={handleInput}
+        onkeydown={handleKeyDown}
+        onpointerdown={stopPropagation(bubble('pointerdown'))}
+        onblur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0

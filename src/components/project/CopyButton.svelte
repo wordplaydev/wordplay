@@ -8,7 +8,11 @@
     import { getUser } from './Contexts';
     import { withVariationSelector } from '../../unicode/emoji';
 
-    export let project: Project;
+    interface Props {
+        project: Project;
+    }
+
+    let { project }: Props = $props();
 
     const user = getUser();
 

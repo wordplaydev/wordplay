@@ -7,13 +7,17 @@
     import type Project from '@models/Project';
     import Spinning from './Spinning.svelte';
 
-    export let add: (newProject: Project) => void;
+    interface Props {
+        add: (newProject: Project) => void;
+    }
+
+    let { add }: Props = $props();
 
     // Whether to show the add dialog
-    let adding = false;
+    let adding = $state(false);
 
     // The templates that can be created. Loaded on demand.
-    let templates: Project[] = [];
+    let templates: Project[] = $state([]);
 
     async function newProject() {
         adding = true;

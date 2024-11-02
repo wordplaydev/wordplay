@@ -3,9 +3,13 @@
     import ConceptGroupView from './ConceptGroupView.svelte';
     import TiltedHeader from '../app/Tilted.svelte';
 
-    export let category: string;
-    export let concepts: Concept[];
-    export let collapse: boolean;
+    interface Props {
+        category: string;
+        concepts: Concept[];
+        collapse: boolean;
+    }
+
+    let { category, concepts, collapse }: Props = $props();
 </script>
 
 <h1><TiltedHeader>{category}</TiltedHeader></h1>

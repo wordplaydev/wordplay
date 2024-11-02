@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
     import { getConflicts } from './Contexts';
@@ -10,18 +12,22 @@
     import type Project from '@models/Project';
     import Context from '@nodes/Context';
 
-    export let project: Project;
-    export let source: Source;
-    export let expanded: boolean;
+    interface Props {
+        project: Project;
+        source: Source;
+        expanded: boolean;
+    }
+
+    let { project, source, expanded }: Props = $props();
 
     let conflicts = getConflicts();
 
     const dispatch = createEventDispatcher();
 
     // The number of conflicts is the number of nodes in the source involved in conflicts
-    let primaryCount = 0;
-    let secondaryCount = 0;
-    $: {
+    let primaryCount = $state(0);
+    let secondaryCount = $state(0);
+    run(() => {
         primaryCount = 0;
         secondaryCount = 0;
         if ($conflicts) {
@@ -40,7 +46,7 @@
                     secondaryCount++;
             }
         }
-    }
+    });
 </script>
 
 <Toggle

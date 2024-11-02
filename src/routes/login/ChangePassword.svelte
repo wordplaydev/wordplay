@@ -14,14 +14,18 @@
     import Toggle from '@components/widgets/Toggle.svelte';
     import { auth } from '@db/firebase';
 
-    export let user: User;
+    interface Props {
+        user: User;
+    }
 
-    let currentpassword = '';
-    let password1 = '';
-    let password2 = '';
-    let submitted = false;
-    let feedback: string | undefined = undefined;
-    let reveal = false;
+    let { user }: Props = $props();
+
+    let currentpassword = $state('');
+    let password1 = $state('');
+    let password2 = $state('');
+    let submitted = $state(false);
+    let feedback: string | undefined = $state(undefined);
+    let reveal = $state(false);
 
     async function update() {
         if (auth === undefined || user === null || user.email === null) return;
@@ -57,7 +61,7 @@
 
 <p>{$locales.get((l) => l.ui.page.login.prompt.changePassword)}</p>
 
-<form on:submit={update}>
+<form onsubmit={update}>
     <TextField
         kind={reveal ? undefined : 'password'}
         description={$locales.get(

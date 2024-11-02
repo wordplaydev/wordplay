@@ -1,10 +1,19 @@
 <script lang="ts">
+    import { type Snippet } from 'svelte';
+
     import { getContext } from 'svelte';
 
-    let expanded = false;
+    interface Props {
+        expanded: Snippet;
+        collapsed: Snippet;
+    }
+
+    let { expanded, collapsed }: Props = $props();
+
+    let all = $state(false);
 
     function toggle(event: Event) {
-        expanded = !expanded;
+        all = !all;
         event.stopPropagation();
     }
 
@@ -15,12 +24,10 @@
     role="button"
     class="expandable"
     tabindex={interactive ? 0 : null}
-    on:pointerdown={(event) => toggle(event)}
-    on:keydown={(event) =>
+    onpointerdown={toggle}
+    onkeydown={(event) =>
         event.key === 'Enter' || event.key === ' ' ? toggle(event) : undefined}
-    >{#if expanded}<slot name="expanded" />{:else}<slot
-            name="collapsed"
-        />{/if}</div
+    >{#if all}{@render expanded()}{:else}{@render collapsed()}{/if}</div
 >
 
 <style>

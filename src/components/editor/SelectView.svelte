@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Select from '@nodes/Select';
     import NodeView from './NodeView.svelte';
 
-    export let node: Select;
+    interface Props {
+        node: Select;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.table} /><NodeView node={node.row} /><NodeView

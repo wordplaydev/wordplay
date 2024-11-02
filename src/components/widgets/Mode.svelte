@@ -1,14 +1,30 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import {
+        createBubbler,
+        stopPropagation,
+        preventDefault,
+    } from 'svelte/legacy';
+
+    const bubble = createBubbler();
     import type { ModeText } from '../../locale/UITexts';
 
-    export let descriptions: ModeText<string[]>;
-    export let modes: string[];
-    export let choice: number;
-    export let select: (choice: number) => void;
-    export let active = true;
-    export let labeled = true;
+    interface Props {
+        descriptions: ModeText<string[]>;
+        modes: string[];
+        choice: number;
+        select: (choice: number) => void;
+        active?: boolean;
+        labeled?: boolean;
+    }
+
+    let {
+        descriptions,
+        modes,
+        choice,
+        select,
+        active = true,
+        labeled = true,
+    }: Props = $props();
 </script>
 
 <div class="mode">
@@ -26,13 +42,13 @@
                 aria-label={descriptions.modes[index]}
                 title={descriptions.modes[index]}
                 aria-disabled={!active || index === choice}
-                on:dblclick|stopPropagation
-                on:mousedown|preventDefault
-                on:pointerdown={(event) =>
+                ondblclick={stopPropagation(bubble('dblclick'))}
+                onmousedown={preventDefault(bubble('mousedown'))}
+                onpointerdown={(event) =>
                     index !== choice && event.button === 0 && active
                         ? select(index)
                         : undefined}
-                on:keydown={(event) =>
+                onkeydown={(event) =>
                     (event.key === 'Enter' || event.key === ' ') &&
                     // Only activate with no modifiers down. Enter is used for other shortcuts.
                     !event.shiftKey &&
@@ -99,11 +115,11 @@
         border-right: 1px solid var(--wordplay-chrome);
     }
 
-    button:not(.selected) {
+    button:not(:global(.selected)) {
         transform: scale(1.1);
     }
 
-    button:not(.selected):hover {
+    button:not(:global(.selected)):hover {
         background: var(--wordplay-alternating-color);
     }
 

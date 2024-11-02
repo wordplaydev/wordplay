@@ -1,4 +1,6 @@
 <script>
+    import { run } from 'svelte/legacy';
+
     import Writing from '@components/app/Writing.svelte';
     import Join from './Join.svelte';
     import Feedback from '@components/app/Feedback.svelte';
@@ -10,7 +12,9 @@
 
     const user = getUser();
 
-    $: if (browser && $user !== null) goto('/profile');
+    run(() => {
+        if (browser && $user !== null) goto('/profile');
+    });
 </script>
 
 <Writing>

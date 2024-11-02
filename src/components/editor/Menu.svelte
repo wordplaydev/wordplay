@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run, preventDefault, stopPropagation } from 'svelte/legacy';
+
     import Revision from '@edit/Revision';
     import type Menu from './util/Menu';
     import { locales } from '../../db/Database';
@@ -9,33 +11,41 @@
     import MenuItem from './MenuItem.svelte';
     import { tick } from 'svelte';
 
-    export let menu: Menu;
-    /* What to run when hiding the menu */
-    export let hide: () => void;
-    /* The ideal position for the menu, adjusted based on viewport below. */
-    export let position: { left: number; top: number };
+    interface Props {
+        menu: Menu;
+        /* What to run when hiding the menu */
+        hide: () => void;
+        /* The ideal position for the menu, adjusted based on viewport below. */
+        position: { left: number; top: number };
+    }
+
+    let { menu = $bindable(), hide, position }: Props = $props();
 
     // We pull out the organization here to avoid rerendering with the menu changes but the organization doesn't.
     // This not only helps with efficiency, but also prevent screen readers from resetting the menu item focus.
-    $: revisions = menu.getOrganization();
+    let revisions = $derived(menu.getOrganization());
 
     /**
      * Constrain the menu position to the viewport.
      * left + width < window.innerWidth
      * top + height < window.innerHeight
      */
-    let menuWidth: number;
-    let menuHeight: number;
-    $: menuLeft = Math.min(position.left, window.innerWidth - menuWidth);
-    $: menuTop = Math.min(position.top, window.innerHeight - menuHeight);
+    let menuWidth: number = $state(0);
+    let menuHeight: number = $state(0);
+    let menuLeft = $derived(
+        Math.min(position.left, window.innerWidth - menuWidth),
+    );
+    let menuTop = $derived(
+        Math.min(position.top, window.innerHeight - menuHeight),
+    );
 
     function handleItemClick(item: Revision | RevisionSet | undefined) {
         menu.doEdit($locales, item);
     }
 
     /* When the selection changes, scroll it's corresponding view and focus it. */
-    let revisionViews: HTMLElement[] = [];
-    $: {
+    let revisionViews: HTMLElement[] = $state([]);
+    run(() => {
         const id = `menuitem-${menu.getSelectionID()}`;
         const itemView = document.getElementById(`${id}`);
         if (itemView) {
@@ -48,7 +58,7 @@
                     setKeyboardFocus(itemView, 'Focusing menu on menu change');
             });
         }
-    }
+    });
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -120,7 +130,7 @@
         aria-activedescendant="menuitem-{menu.inSubmenu()
             ? `${menu.getSelectionIndex()[0]}-${menu.getSelectionIndex()[1]}`
             : menu.getSelectionIndex()[0]}"
-        on:keydown={handleKey}
+        onkeydown={handleKey}
     >
         {#each revisions as entry, itemIndex}
             {#if entry instanceof Revision}
@@ -143,9 +153,10 @@
                     }`}
                     class:show={menu.getSelectionIndex()[0] === itemIndex}
                     bind:this={revisionViews[itemIndex]}
-                    on:pointerdown|stopPropagation|preventDefault={() =>
-                        handleItemClick(entry)}
-                    on:focusin={() => {
+                    onpointerdown={stopPropagation(
+                        preventDefault(() => handleItemClick(entry)),
+                    )}
+                    onfocusin={() => {
                         const selection = menu.getSelectionIndex();
                         menu = menu.withSelection(
                             entry instanceof RevisionSet ||

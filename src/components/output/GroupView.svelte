@@ -1,4 +1,7 @@
 <script lang="ts">
+    import GroupView from './GroupView.svelte';
+    import { run } from 'svelte/legacy';
+
     import type Place from '@output/Place';
     import {
         PX_PER_METER,
@@ -15,56 +18,75 @@
     import Group from '@output/Group';
     import Evaluate from '@nodes/Evaluate';
     import { getSelectedOutput } from '../project/Contexts';
-    import type Stage from '../../output/Stage';
+    import Stage from '../../output/Stage';
     import { locales } from '../../db/Database';
     import type { Form } from '../../output/Form';
     import Shape from '../../output/Shape';
     import ShapeView from './ShapeView.svelte';
 
-    export let group: Group | Stage;
-    export let place: Place;
-    export let focus: Place;
-    export let viewport: { width: number; height: number } | undefined =
-        undefined;
-    export let clip: Form | undefined = undefined;
-    export let interactive: boolean;
-    export let parentAscent: number;
-    export let context: RenderContext;
-    export let editing: boolean;
-    // A frame counter, used to update aria-labels at a slower rate then visual updates.
-    export let frame: number;
+    
+    interface Props {
+        group: Group | Stage;
+        place: Place;
+        focus: Place;
+        viewport?: { width: number; height: number } | undefined;
+        clip?: Form | undefined;
+        interactive: boolean;
+        parentAscent: number;
+        context: RenderContext;
+        editing: boolean;
+        // A frame counter, used to update aria-labels at a slower rate then visual updates.
+        frame: number;
+        children?: import('svelte').Snippet;
+    }
 
-    $: root = viewport !== undefined;
+    let {
+        group,
+        place,
+        focus,
+        viewport = undefined,
+        clip = undefined,
+        interactive,
+        parentAscent,
+        context = $bindable(),
+        editing,
+        frame,
+        children
+    }: Props = $props();
 
-    let selectedOutput = getSelectedOutput();
+    let root = $derived(viewport !== undefined);
+
+    let {selectedOutput} = getSelectedOutput();
 
     // Compute a local context based on size and font.
-    $: context = group.getRenderContext(context);
+    run(() => {
+        context = group.getRenderContext(context);
+    });
 
-    $: empty = group.isEmpty();
+    let empty = $derived(group.isEmpty());
 
-    $: layout = group.getLayout(context);
+    let layout = $derived(group.getLayout(context));
 
     // Filter out groups that are behind the focus
     // Sort by z to preserve rendering order
-    $: ordered = layout.places.sort(([, a], [, b]) => b.z - a.z);
+    let ordered = $derived(layout.places.sort(([, a], [, b]) => b.z - a.z));
 
     // When rendering the children, we need to convert the focus coordinate we were given
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
-    $: offsetFocus = focus.offset(place);
+    let offsetFocus = $derived(focus.offset(place));
 
-    $: selected =
-        group.value.creator instanceof Evaluate &&
-        $selectedOutput?.includes(group.value.creator);
+    let selected =
+        $derived(group.value.creator instanceof Evaluate &&
+        selectedOutput.includes(group.value.creator));
 
-    let description: string | null = null;
-    let lastFrame = 0;
-    $: {
+    let description: string | null = $state(null);
+    let lastFrame = $state(0);
+    run(() => {
         if (group.description) description = group.description.text;
         else if (frame > lastFrame)
             description = group.getDescription($locales);
         lastFrame = frame;
-    }
+    });
 </script>
 
 <div
@@ -107,7 +129,7 @@
     )}
     style:clip-path={clip ? clip.toCSSClip() : null}
 >
-    <slot />
+    {@render children?.()}
     {#each ordered as [child, childPlace] (child.getName())}
         {#if child instanceof Phrase}
             <PhraseView
@@ -131,8 +153,8 @@
                 {editing}
                 {frame}
             />
-        {:else}
-            <svelte:self
+        {:else if child instanceof Group || child instanceof Stage}
+            <GroupView
                 group={child}
                 place={childPlace}
                 focus={offsetFocus}
@@ -184,7 +206,7 @@
         cursor: pointer;
     }
 
-    :global(.stage.editing.interactive) .group:not(.selected):not(.root) {
+    :global(.stage.editing.interactive) .group:not(:global(.selected)):not(:global(.root)) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-inactive-color);
     }
@@ -194,7 +216,7 @@
             var(--wordplay-highlight-color);
     }
 
-    .group:not(.selected):focus {
+    .group:not(:global(.selected)):focus {
         outline: none;
         background-color: var(--wordplay-focus-color);
     }

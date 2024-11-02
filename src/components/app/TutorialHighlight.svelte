@@ -1,10 +1,15 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    // A class name to highlight.
-    export let id: string | undefined = undefined;
+    
+    interface Props {
+        // A class name to highlight.
+        id?: string | undefined;
+    }
 
-    let bounds: DOMRect | undefined = undefined;
+    let { id = undefined }: Props = $props();
+
+    let bounds: DOMRect | undefined = $state(undefined);
 
     function size(again: boolean) {
         if (id) {
@@ -27,7 +32,7 @@
     class:hovering={id !== undefined}
     style:left={bounds ? `${bounds.left}px` : undefined}
     style:top={bounds ? `${bounds.top}px` : undefined}
-/>
+></span>
 
 <style>
     .highlight {

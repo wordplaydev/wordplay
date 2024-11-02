@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { tick } from 'svelte';
     import { locales } from '../../db/Database';
     import Button from './Button.svelte';
@@ -8,16 +10,27 @@
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    export let show = false;
-    export let description: DialogText;
-    export let closeable = true;
-    export let button:
+    interface Props {
+        show?: boolean;
+        description: DialogText;
+        closeable?: boolean;
+        button?: 
         | { tip: string; icon?: string; label: string }
-        | undefined = undefined;
+        | undefined;
+        children?: import('svelte').Snippet;
+    }
 
-    let view: HTMLDialogElement | undefined = undefined;
+    let {
+        show = $bindable(false),
+        description,
+        closeable = true,
+        button = undefined,
+        children
+    }: Props = $props();
 
-    $: {
+    let view: HTMLDialogElement | undefined = $state(undefined);
+
+    run(() => {
         if (view) {
             if (show) {
                 view.showModal();
@@ -30,7 +43,7 @@
                 view.close();
             }
         }
-    }
+    });
 </script>
 
 {#if button}
@@ -39,11 +52,11 @@
         {/if}{button.label}</Button
     >
 {/if}
-<!-- svelte-ignore a11y-no-noninteractive-element-interactions -->
+<!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     bind:this={view}
     tabindex="-1"
-    on:keydown={closeable
+    onkeydown={closeable
         ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
         : undefined}
 >
@@ -59,7 +72,7 @@
     <div class="content">
         <Header>{description.header}</Header>
         <MarkupHtmlView markup={description.explanation} />
-        <slot />
+        {@render children?.()}
     </div>
 </dialog>
 

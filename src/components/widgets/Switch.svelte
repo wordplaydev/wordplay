@@ -1,11 +1,23 @@
 <script lang="ts">
-    export let on: boolean;
-    export let toggle: (on: boolean) => void;
-    export let offLabel: string;
-    export let onLabel: string;
-    export let offTip: string;
-    export let onTip: string;
-    export let uiid: string | undefined = undefined;
+    interface Props {
+        on: boolean;
+        toggle: (on: boolean) => void;
+        offLabel: string;
+        onLabel: string;
+        offTip: string;
+        onTip: string;
+        uiid?: string | undefined;
+    }
+
+    let {
+        on,
+        toggle,
+        offLabel,
+        onLabel,
+        offTip,
+        onTip,
+        uiid = undefined,
+    }: Props = $props();
 </script>
 
 <span class="switch" data-uiid={uiid} class:on>
@@ -16,8 +28,11 @@
         aria-label={offTip}
         tabindex="0"
         title={offTip}
-        on:click|stopPropagation={() => toggle(false)}
-        on:keydown={(event) =>
+        onclick={(event) => {
+            event.stopPropagation();
+            toggle(false);
+        }}
+        onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
                 : undefined}>{offLabel}</span
@@ -28,9 +43,11 @@
         aria-label={onTip}
         tabindex="0"
         title={onTip}
-        on:click|stopPropagation={(event) =>
-            event.button === 0 ? toggle(true) : undefined}
-        on:keydown={(event) =>
+        onclick={(event) => {
+            event.stopPropagation();
+            event.button === 0 ? toggle(true) : undefined;
+        }}
+        onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(true)
                 : undefined}

@@ -1,6 +1,6 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import NodeView from './NodeView.svelte';
     import {
@@ -15,32 +15,36 @@
     import { locales } from '../../db/Database';
     import AnyType from '@nodes/AnyType';
 
-    export let node: ExpressionPlaceholder;
+    interface Props {
+        node: ExpressionPlaceholder;
+    }
+
+    let { node }: Props = $props();
 
     const project = getProject();
-    const root = getRoot();
+    const { root } = getRoot();
     const caret = getCaret();
     const blocks = isBlocks();
 
-    $: inferredType = $project
-        ? node.getType($project.getNodeContext(node))
-        : undefined;
+    let inferredType = $derived(
+        $project ? node.getType($project.getNodeContext(node)) : undefined,
+    );
 
     /** If this has no placeholder token, then get the label for field it represents */
-    let placeholder: string | undefined;
-    $: {
-        if (node.placeholder === undefined && $root && $project) {
-            const context = $project.getNodeContext($root.root);
-            const parent = $root.getParent(node);
+    let placeholder: string | undefined = $state();
+    run(() => {
+        if (node.placeholder === undefined && root && $project) {
+            const context = $project.getNodeContext(root.root);
+            const parent = root.getParent(node);
             if (parent)
                 placeholder = parent.getChildPlaceholderLabel(
                     node,
                     $locales,
                     context,
-                    $root,
+                    root,
                 );
         } else placeholder = undefined;
-    }
+    });
 </script>
 
 <span class="placeholder"

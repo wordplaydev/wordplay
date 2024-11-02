@@ -59,9 +59,9 @@
         }
     }
 
-    let announcements: Announcement[] = [];
+    let announcements = $state<Announcement[]>([]);
     let current: { announcement: Announcement; time: number } | undefined =
-        undefined;
+        $state(undefined);
     let timeout: NodeJS.Timeout | undefined = undefined;
 </script>
 

@@ -4,8 +4,12 @@
     import Button from '@components/widgets/Button.svelte';
     import { locales } from '@db/Database';
 
-    export let nonPII: string[];
-    export let unmark: (piiText: string) => void;
+    interface Props {
+        nonPII: string[];
+        unmark: (piiText: string) => void;
+    }
+
+    let { nonPII, unmark }: Props = $props();
 </script>
 
 <Subheader>

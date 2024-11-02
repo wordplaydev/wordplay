@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { getUser } from '@components/project/Contexts';
     import Profile from '../login/Profile.svelte';
     import { goto } from '$app/navigation';
@@ -7,7 +9,9 @@
 
     const user = getUser();
 
-    $: if (browser && $user === null) goto('/login');
+    run(() => {
+        if (browser && $user === null) goto('/login');
+    });
 </script>
 
 <!-- Is the user logged in?  -->

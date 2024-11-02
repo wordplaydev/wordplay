@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.13.0 2024-11-02
+
+### Maintenance
+
+-   Migrated to Svelte 5.
+
 ## 0.12.4 2024-10-26
 
 ### Added

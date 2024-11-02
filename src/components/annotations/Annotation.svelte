@@ -9,8 +9,12 @@
     import type { Resolution } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
 
-    export let id: number;
-    export let annotations: AnnotationInfo[];
+    interface Props {
+        id: number;
+        annotations: AnnotationInfo[];
+    }
+
+    let { id, annotations }: Props = $props();
 
     function resolveAnnotation(resolution: Resolution, context: Context) {
         const {newProject} = resolution.mediator(context, $locales);
@@ -34,40 +38,42 @@
                 flip={annotation.kind === 'secondary'}
                 below
             >
-                <svelte:fragment slot="content">
-                    {#each annotation.messages as markup}
-                        <aside aria-label={markup.toText()}>
-                            <MarkupHTMLView {markup} />
-                            {#if annotation.resolutions}
-                                {#each annotation.resolutions as resolution}
-                                    <div class="resolution">
-                                        <Button
-                                            background
-                                            tip={$locales.get(
-                                                (l) =>
-                                                    l.ui.annotations.button
-                                                        .resolution,
-                                            )}
-                                            action={() =>
-                                                resolveAnnotation(
-                                                    resolution,
-                                                    annotation.context,
-                                                )}>✓</Button
-                                        ><div class="description"
-                                            ><MarkupHtmlView
-                                                inline
-                                                markup={resolution.description(
-                                                    $locales,
-                                                    annotation.context,
+                {#snippet content()}
+                            
+                        {#each annotation.messages as markup}
+                            <aside aria-label={markup.toText()}>
+                                <MarkupHTMLView {markup} />
+                                {#if annotation.resolutions}
+                                    {#each annotation.resolutions as resolution}
+                                        <div class="resolution">
+                                            <Button
+                                                background
+                                                tip={$locales.get(
+                                                    (l) =>
+                                                        l.ui.annotations.button
+                                                            .resolution,
                                                 )}
-                                            /></div
-                                        >
-                                    </div>
-                                {/each}
-                            {/if}
-                        </aside>
-                    {/each}
-                </svelte:fragment>
+                                                action={() =>
+                                                    resolveAnnotation(
+                                                        resolution,
+                                                        annotation.context,
+                                                    )}>✓</Button
+                                            ><div class="description"
+                                                ><MarkupHtmlView
+                                                    inline
+                                                    markup={resolution.description(
+                                                        $locales,
+                                                        annotation.context,
+                                                    )}
+                                                /></div
+                                            >
+                                        </div>
+                                    {/each}
+                                {/if}
+                            </aside>
+                        {/each}
+                    
+                            {/snippet}
             </Speech>
         </div>
     {/each}

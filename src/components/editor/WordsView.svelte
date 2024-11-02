@@ -1,12 +1,14 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Words from '@nodes/Words';
     import NodeView from './NodeView.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import { isBlocks } from '@components/project/Contexts';
 
-    export let node: Words;
+    interface Props {
+        node: Words;
+    }
+
+    let { node }: Props = $props();
 
     const blocks = isBlocks();
 </script>

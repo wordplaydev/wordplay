@@ -1,4 +1,4 @@
-import { getContext } from 'svelte';
+import { getContext, setContext } from 'svelte';
 import type { Readable, Writable } from 'svelte/store';
 import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
@@ -75,7 +75,7 @@ export function getKeyboardModifiers() {
     );
 }
 
-export type ProjectCommandContext = Writable<CommandContext>;
+export type ProjectCommandContext = { context: CommandContext };
 export const ProjectCommandContextSymbol = Symbol('projectcommand');
 export function getProjectCommandContext() {
     return getContext<ProjectCommandContext>(ProjectCommandContextSymbol);
@@ -199,14 +199,17 @@ export function getConceptPath() {
     return getContext<ConceptPathContext>(ConceptPathSymbol);
 }
 
-export const ConceptIndexSymbol = Symbol('palette-index');
-export type ConceptIndexContext = Writable<ConceptIndex | undefined>;
+const ConceptIndexSymbol = Symbol('palette-index');
+export type ConceptIndexContext = { index: ConceptIndex | undefined };
+export function setConceptIndex(context: { index: ConceptIndex | undefined }) {
+    return setContext(ConceptIndexSymbol, context);
+}
 export function getConceptIndex() {
-    return getContext<ConceptIndexContext>(ConceptIndexSymbol);
+    return getContext<ConceptIndexContext>(ConceptIndexSymbol).index;
 }
 
 export const RootSymbol = Symbol('root');
-export type RootContext = Writable<Root | undefined>;
+export type RootContext = { root: Root | undefined };
 export function getRoot() {
     return getContext<RootContext>(RootSymbol);
 }
@@ -232,46 +235,28 @@ export function isBlocks() {
 }
 
 // Output related contexts
+export type SelectedOutputPaths = {
+    source: Source | undefined;
+    path: Path | undefined;
+}[];
 
-export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');
-export type SelectedOutputPathsContext = Writable<
-    { source: Source | undefined; path: Path | undefined }[]
->;
-export function getSelectedOutputPaths():
-    | SelectedOutputPathsContext
-    | undefined {
-    return getContext(SelectedOutputPathsSymbol);
-}
-
-export function setSelectedOutput(
-    paths: SelectedOutputPathsContext,
-    project: Project,
-    evaluates: Evaluate[],
-) {
-    // Map each selected output to its replacement, then set the selected output to the replacements.
-    paths.set(
-        evaluates.map((output) => {
-            return {
-                source: project.getSourceOf(output),
-                path: project.getRoot(output)?.getPath(output),
-            };
-        }),
-    );
-}
-
-export const SelectedOutputSymbol = Symbol('selected-output');
-export type SelectedOutputContext = Readable<Evaluate[]>;
-export function getSelectedOutput(): SelectedOutputContext | undefined {
-    return getContext(SelectedOutputSymbol);
-}
-
-export const SelectedPhraseSymbol = Symbol('selected-phrase');
-export type SelectedPhraseContext = Writable<{
+export type SelectedPhrase = {
     name: string;
     index: number | null;
-} | null>;
-export function getSelectedPhrase(): SelectedPhraseContext | undefined {
-    return getContext(SelectedPhraseSymbol);
+} | null;
+
+export type SelectedOutputContext = {
+    selectedPaths: SelectedOutputPaths;
+    selectedOutput: Evaluate[];
+    selectedPhrase: SelectedPhrase;
+    setSelectedOutput: (project: Project, evaluates: Evaluate[]) => void;
+    setSelectedPhrase: (phrase: SelectedPhrase) => void;
+};
+
+export const SelectedOutputSymbol = Symbol('selected-output');
+
+export function getSelectedOutput(): SelectedOutputContext {
+    return getContext(SelectedOutputSymbol);
 }
 
 // Accessibility contexts

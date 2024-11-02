@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Token from '@nodes/Token';
     import InsertionPointView from './InsertionPointView.svelte';
@@ -8,28 +6,23 @@
     import { spaceIndicator } from '../../db/Database';
     import { getShowLines } from '@components/project/Contexts';
 
-    export let token: Token;
-    export let space: string;
-    export let line: number | undefined;
-    export let insertion: InsertionPoint | undefined = undefined;
-    export let first = false;
+    interface Props {
+        token: Token;
+        space: string;
+        line: number | undefined;
+        insertion?: InsertionPoint | undefined;
+        first?: boolean;
+    }
+
+    let {
+        token,
+        space,
+        line,
+        insertion = undefined,
+        first = false,
+    }: Props = $props();
 
     const showLines = getShowLines();
-
-    $: insertionIndex =
-        insertion !== undefined
-            ? space.split('\n', insertion.line).join('\n').length + 1
-            : undefined;
-    // If there's an insertion, figure out what space to render before the insertion.
-    $: beforeSpacesByLine =
-        insertionIndex === undefined
-            ? []
-            : render(space.substring(0, insertionIndex), $spaceIndicator);
-    // If there's no insertion, just render the space, otherwise render the right side of the insertion.
-    $: afterSpacesByLine = render(
-        insertionIndex === undefined ? space : space.substring(insertionIndex),
-        $spaceIndicator,
-    );
 
     function render(text: string, indicator: boolean): string[] {
         return (
@@ -39,10 +32,31 @@
         ).split('\n');
     }
 
-    $: firstLine =
+    let insertionIndex = $derived(
+        insertion !== undefined
+            ? space.split('\n', insertion.line).join('\n').length + 1
+            : undefined,
+    );
+    // If there's an insertion, figure out what space to render before the insertion.
+    let beforeSpacesByLine = $derived(
+        insertionIndex === undefined
+            ? []
+            : render(space.substring(0, insertionIndex), $spaceIndicator),
+    );
+    // If there's no insertion, just render the space, otherwise render the right side of the insertion.
+    let afterSpacesByLine = $derived(
+        render(
+            insertionIndex === undefined
+                ? space
+                : space.substring(insertionIndex),
+            $spaceIndicator,
+        ),
+    );
+    let firstLine = $derived(
         line !== undefined && $showLines
             ? line - beforeSpacesByLine.length - afterSpacesByLine.length + 1
-            : undefined;
+            : undefined,
+    );
 </script>
 
 <!-- 

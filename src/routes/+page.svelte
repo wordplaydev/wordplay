@@ -5,7 +5,6 @@
     import { locales } from '../db/Database';
     import Writing from '../components/app/Writing.svelte';
     import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
-    import Lead from '@components/app/Lead.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import Action from '@components/app/Action.svelte';
     import {
@@ -33,15 +32,14 @@
 <Writing home>
     <Beta />
     <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
-    <Lead></Lead>
     <div class="welcome">
         <div style:margin-inline-start="-2.5em">
             <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
-                ><svelte:fragment slot="content"
-                    ><MarkupHtmlView
-                        markup={$locales.get((l) => l.ui.page.landing.value)}
-                    /></svelte:fragment
-                ></Speech
+                >{#snippet content()}
+                                <MarkupHtmlView
+                            markup={$locales.get((l) => l.ui.page.landing.value)}
+                        />
+                            {/snippet}</Speech
             >
         </div>
     </div>
@@ -103,70 +101,72 @@
             >
         </Action>
     </div>
-    <div class="details" slot="footer">
-        <div class="links">
-            <div class="column">
-                <BigLink
-                    smaller
-                    to="/about"
-                    subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
-                    ><Iconified
-                        icon="💭"
-                        text={(l) => l.ui.page.about.header}
-                    /></BigLink
-                >
-                <BigLink
-                    smaller
-                    to="/rights"
-                    subtitle={$locales.get(
-                        (l) => l.ui.page.landing.link.rights,
-                    )}
-                    ><Iconified
-                        icon="⚖️"
-                        text={(l) => l.ui.page.rights.header}
-                    /></BigLink
-                >
-            </div>
-            <div class="column">
-                <BigLink
-                    smaller
-                    external
-                    to="https://discord.gg/Jh2Qq9husy"
-                    subtitle={$locales.get(
-                        (l) => l.ui.page.landing.link.community.subtitle,
-                    )}
-                    ><Iconified
-                        icon="🗣️"
-                        text={(l) => l.ui.page.landing.link.community.label}
-                    /></BigLink
-                >
-                <BigLink
-                    smaller
-                    external
-                    to="https://github.com/wordplaydev/wordplay/wiki/contribute"
-                    subtitle={$locales.get(
-                        (l) => l.ui.page.landing.link.contribute.subtitle,
-                    )}
-                    ><Iconified
-                        icon="🛠️"
-                        text={(l) => l.ui.page.landing.link.contribute.label}
-                    />
-                </BigLink>
-            </div>
-            <div class="column">
-                <BigLink
-                    smaller
-                    to="/donate"
-                    subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-                >
-                    <Iconified
-                        icon="🤑"
-                        text={(l) => l.ui.page.donate.header}
-                    />
-                </BigLink>
+    {#snippet footer()}
+        <div class="details" >
+            <div class="links">
+                <div class="column">
+                    <BigLink
+                        smaller
+                        to="/about"
+                        subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
+                        ><Iconified
+                            icon="💭"
+                            text={(l) => l.ui.page.about.header}
+                        /></BigLink
+                    >
+                    <BigLink
+                        smaller
+                        to="/rights"
+                        subtitle={$locales.get(
+                            (l) => l.ui.page.landing.link.rights,
+                        )}
+                        ><Iconified
+                            icon="⚖️"
+                            text={(l) => l.ui.page.rights.header}
+                        /></BigLink
+                    >
+                </div>
+                <div class="column">
+                    <BigLink
+                        smaller
+                        external
+                        to="https://discord.gg/Jh2Qq9husy"
+                        subtitle={$locales.get(
+                            (l) => l.ui.page.landing.link.community.subtitle,
+                        )}
+                        ><Iconified
+                            icon="🗣️"
+                            text={(l) => l.ui.page.landing.link.community.label}
+                        /></BigLink
+                    >
+                    <BigLink
+                        smaller
+                        external
+                        to="https://github.com/wordplaydev/wordplay/wiki/contribute"
+                        subtitle={$locales.get(
+                            (l) => l.ui.page.landing.link.contribute.subtitle,
+                        )}
+                        ><Iconified
+                            icon="🛠️"
+                            text={(l) => l.ui.page.landing.link.contribute.label}
+                        />
+                    </BigLink>
+                </div>
+                <div class="column">
+                    <BigLink
+                        smaller
+                        to="/donate"
+                        subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
+                    >
+                        <Iconified
+                            icon="🤑"
+                            text={(l) => l.ui.page.donate.header}
+                        />
+                    </BigLink>
+                </div>
             </div>
         </div>
-    </div>
+    {/snippet}
 </Writing>
 
 <style>

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import Page from '@components/app/Page.svelte';
     import Header from '@components/app/Header.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
@@ -26,6 +28,7 @@
         Flags,
         getFlagDescription,
         isModerator,
+        unknownFlags,
         withFlag,
     } from '../../models/Moderation';
     import type Project from '../../models/Project';
@@ -43,24 +46,26 @@
     const user = getUser();
 
     /** Moderator if the user's "mod" custom claim is true */
-    let moderator: boolean | undefined = undefined;
-    $: if ($user) {
-        isModerator($user).then((mod) => {
-            moderator = mod;
-        });
-    } else {
-        moderator = false;
-    }
+    let moderator: boolean | undefined = $state(undefined);
+    run(() => {
+        if ($user) {
+            isModerator($user).then((mod) => {
+                moderator = mod;
+            });
+        } else {
+            moderator = false;
+        }
+    });
 
     /** Null means haven't started, undefined means reached the end. */
     let lastBatch: QueryDocumentSnapshot<DocumentData> | null | undefined =
-        null;
-    let project: Project | undefined = undefined;
+        $state(null);
+    let project: Project | undefined = $state(undefined);
 
-    let newFlags: Moderation;
+    let newFlags: Moderation | undefined = $state();
 
-    let moderatedCount = 0;
-    let unmoderatedCount = 0;
+    let moderatedCount = $state(0);
+    let unmoderatedCount = $state(0);
     onMount(async () => {
         try {
             await nextBatch();
@@ -112,6 +117,7 @@
     }
 
     function save() {
+        if (newFlags === undefined) return;
         for (const [flag, state] of Object.entries(newFlags))
             if (state === null) newFlags[flag as Flag] = false;
 
@@ -167,7 +173,7 @@
                             id={flag}
                             changed={(value) =>
                                 (newFlags = withFlag(
-                                    newFlags,
+                                    newFlags ?? unknownFlags(),
                                     flag,
                                     value === true,
                                 ))}

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { preventDefault, stopPropagation, handlers } from 'svelte/legacy';
+
     import { blocks, locales } from '@db/Database';
     import Menu from './util/Menu';
     import Revision from '@edit/Revision';
@@ -10,18 +12,28 @@
     // import Bind from '../../nodes/Bind';
     // import Evaluate from '../../nodes/Evaluate';
     // import Input from '@nodes/Input';
-    // import Glyphs from '../../lore/Glyphs';
+    
 
-    export let entry: Revision;
-    export let menu: Menu;
-    export let id: string;
-    export let handleItemClick: (
+    interface Props {
+        // import Glyphs from '../../lore/Glyphs';
+        entry: Revision;
+        menu: Menu;
+        id: string;
+        handleItemClick: (
         item: Revision | RevisionSet | undefined,
     ) => void;
+    }
+
+    let {
+        entry,
+        menu = $bindable(),
+        id,
+        handleItemClick
+    }: Props = $props();
 
     // let index = getConceptIndex();
 
-    $: [newNode] = entry.getEditedNode($locales);
+    let [newNode] = $derived(entry.getEditedNode($locales));
 
     // function getEvaluateBind(selectedRevision: Revision) {
     //     let evaluateBind: Bind | undefined;
@@ -49,10 +61,9 @@
         .getEditedNode($locales)[0]
         .getDescription($locales, entry.context)
         .toText()}
-    on:pointerdown|stopPropagation|preventDefault={() => handleItemClick(entry)}
+    onpointerdown={handlers(stopPropagation(preventDefault(() => handleItemClick(entry))), stopPropagation(preventDefault(() => handleItemClick(entry))))}
     class={`revision ${menu.getSelection() === entry ? 'selected' : ''}`}
-    on:pointerdown|stopPropagation|preventDefault={() => handleItemClick(entry)}
-    on:focusin={() => {
+    onfocusin={() => {
         const index = menu.getSelectionFor(entry);
         if (index) menu = menu.withSelection(index);
     }}
@@ -111,7 +122,7 @@
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
 
-    .revision.selected :not(.block) :global(.token-view) {
+    .revision.selected :not(:global(.block)) :global(.token-view) {
         color: var(--wordplay-background);
     }
 

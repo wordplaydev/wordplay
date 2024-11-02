@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import NodeView from './NodeView.svelte';
     import type ConversionType from '../../nodes/ConversionType';
 
-    export let node: ConversionType;
+    interface Props {
+        node: ConversionType;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.input} /><NodeView node={node.convert} /><NodeView

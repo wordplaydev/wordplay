@@ -17,15 +17,24 @@
     } from '@locale/LanguageCode';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let validator: (text: string) => boolean;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        validator: (text: string) => boolean;
+        editable: boolean;
+    }
+
+    let {
+        property,
+        values,
+        validator,
+        editable
+    }: Props = $props();
 
     let project = getProject();
-    let view: HTMLInputElement | undefined = undefined;
+    let view: HTMLInputElement | undefined = $state(undefined);
 
-    $: isMarkup = values.getValue() instanceof MarkupValue;
+    let isMarkup = $derived(values.getValue() instanceof MarkupValue);
 
     // Whenever the text changes, update in the project.
     async function handleChange(newValue: string) {

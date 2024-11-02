@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import type Project from '@models/Project';
     import Evaluator from '@runtime/Evaluator';
     import { DB, locales } from '../../db/Database';
@@ -14,24 +16,35 @@
     import UnicodeString from '@models/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
 
-    export let project: Project;
-    export let action: (() => void) | undefined = undefined;
-    /** Whether to show the project's name. */
-    export let name = true;
-    /** How many rems the preview square should be. */
-    export let size = 6;
-    /** The link to go to when clicked. If none is provided, goes to the project. */
-    export let link: string | undefined = undefined;
+    
+    
+    
+    interface Props {
+        project: Project;
+        action?: (() => void) | undefined;
+        /** Whether to show the project's name. */
+        name?: boolean;
+        /** How many rems the preview square should be. */
+        size?: number;
+        /** The link to go to when clicked. If none is provided, goes to the project. */
+        link?: string | undefined;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        project,
+        action = undefined,
+        name = true,
+        size = 6,
+        link = undefined,
+        children
+    }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let representativeForeground: string | null;
-    let representativeBackground: string | null;
-    let representativeFace: string | null;
-    let representativeText: string;
-
-    $: if (project) updatePreview();
-
-    $: path = link ?? project.getLink(true);
+    let representativeForeground: string | null = $state(null);
+    let representativeBackground: string | null = $state(null);
+    let representativeFace: string | null = $state(null);
+    let representativeText: string = $state("...");
 
     function updatePreview() {
         const evaluator = new Evaluator(
@@ -72,8 +85,12 @@
 
     const user = getUser();
 
+    run(() => {
+        if (project) updatePreview();
+    });
+    let path = $derived(link ?? project.getLink(true));
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
-    $: audience = isAudience($user, project);
+    let audience = $derived(isAudience($user, project));
 </script>
 
 <div class="project" class:named={name}>
@@ -84,9 +101,9 @@
         style:width={`${size}rem`}
         style:height={`${size}rem`}
         href={action ? undefined : path}
-        on:click={(event) =>
+        onclick={(event) =>
             action && event.button === 0 ? action() : undefined}
-        on:keydown={(event) =>
+        onkeydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')
                 ? action()
                 : undefined}
@@ -111,7 +128,7 @@
                         >{:else}
                         {project.getName()}{/if}</Link
                 >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
-                    <Spinning />{:else}<slot />{/if}{/if}</div
+                    <Spinning />{:else}{@render children?.()}{/if}{/if}</div
         >{/if}
 </div>
 

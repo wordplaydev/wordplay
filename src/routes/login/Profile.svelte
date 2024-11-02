@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
     import { locales, SaveStatus } from '../../db/Database';
@@ -16,12 +18,18 @@
     import { goto } from '$app/navigation';
     import Action from '@components/app/Action.svelte';
 
-    export let user: User;
+    interface Props {
+        user: User;
+    }
 
-    $: creator = Creator.from(user);
+    let { user }: Props = $props();
 
-    let moderator = false;
-    $: isModerator(user).then((mod) => (moderator = mod));
+    let creator = $derived(Creator.from(user));
+
+    let moderator = $state(false);
+    run(() => {
+        isModerator(user).then((mod) => (moderator = mod));
+    });
 
     function rename(name: string) {
         // This should trigger an update to the user store, and therefore this view.

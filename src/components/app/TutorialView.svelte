@@ -1,19 +1,20 @@
 <script lang="ts">
+    import { run, preventDefault, stopPropagation } from 'svelte/legacy';
+
     import ProjectView from '@components/project/ProjectView.svelte';
     import Project from '@models/Project';
     import Speech from '@components/lore/Speech.svelte';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
     import {
-        ConceptIndexSymbol,
         getUser,
-        type ConceptIndexContext,
         ConceptPathSymbol,
         getConceptPath,
         type ProjectContext,
         ProjectSymbol,
         DraggedSymbol,
-        type DraggedContext,
+        type ConceptIndexContext,
+        setConceptIndex
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -24,7 +25,7 @@
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import { onMount, setContext } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable } from 'svelte/store';
+    import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
@@ -38,26 +39,33 @@
     import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type Node from '@nodes/Node';
 
-    export let progress: Progress;
-    export let navigate: (progress: Progress) => void;
-    export let fallback: boolean;
+    interface Props {
+        progress: Progress;
+        navigate: (progress: Progress) => void;
+        fallback: boolean;
+    }
+
+    let { progress, navigate, fallback }: Props = $props();
 
     // Get the concept index and path from the project view and put it in
     // a store, and the store in a context so that ContextViewUI can access the index.
-    let concepts: ConceptIndexContext | undefined = undefined;
-    let conceptsStore = writable<ConceptIndex | undefined>(undefined);
-    $: conceptsStore.set($concepts);
-    setContext(ConceptIndexSymbol, conceptsStore);
+    let concepts: ConceptIndex | undefined = $state(undefined);
+    let conceptsStore = $state<ConceptIndexContext>({index: undefined});
+    $effect(() => {
+        conceptsStore.index = concepts;
+    });
+    setConceptIndex(conceptsStore);
 
     // Create a concept path for children
     setContext(ConceptPathSymbol, writable([]));
 
     const user = getUser();
 
-    let nextButton: HTMLButtonElement | undefined;
-    let previousButton: HTMLButtonElement | undefined;
-    let focusView: HTMLButtonElement | undefined = undefined;
+    let nextButton: HTMLButtonElement | undefined = $state();
+    let previousButton: HTMLButtonElement | undefined = $state();
+    let focusView: HTMLButtonElement | undefined = $state(undefined);
 
     // Focus next button on load.
     onMount(() => {
@@ -66,34 +74,38 @@
     });
 
     /** The current place in the tutorial. Defaults to persisted progress, but overwritten by search parameters. */
-    $: act = progress.getAct();
-    $: scene = progress.getScene();
-    $: dialog = progress.getDialog();
+    let act = $derived(progress.getAct());
+    let scene = $derived(progress.getScene());
+    let dialog = $derived(progress.getDialog());
 
     /** This is bound to the project view's context */
-    let dragged: DraggedContext;
+    let dragged = $state<Node | undefined>();
     /** This is the tutorial's own dragged store, which we keep in a context */
-    let localDragged: DraggedContext = writable(undefined);
+    let localDragged = $state<Node | undefined>();
     setContext(DraggedSymbol, localDragged);
     /** Whenever the local tutorial dragged context changes, push it to the project's store */
-    $: if (dragged) dragged.set($localDragged);
+    run(() => {
+        if (dragged) dragged = localDragged;
+    });
 
     /** Convert the instructions into a sequence of docs/space pairs */
-    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = [];
-    $: turns = dialog
-        ? dialog.map((line) => {
-              const [, , ...text] = line;
-              // Convert the list of paragraphs into a single doc.
-              const [markup, spaces] = toMarkup(text.join('\n\n'));
-              return {
-                  speech: markup,
-                  spaces: spaces,
-                  dialog: line,
-              };
-          })
-        : [];
+    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = $state([]);
+    run(() => {
+        turns = dialog
+            ? dialog.map((line) => {
+                  const [, , ...text] = line;
+                  // Convert the list of paragraphs into a single doc.
+                  const [markup, spaces] = toMarkup(text.join('\n\n'));
+                  return {
+                      speech: markup,
+                      spaces: spaces,
+                      dialog: line,
+                  };
+              })
+            : [];
+    });
 
-    $: highlights = turns
+    let highlights = $derived(turns
         .map((turn) =>
             turn.speech
                 .nodes()
@@ -103,7 +115,7 @@
         )
         .flat()
         .filter((concept) => concept.concept.getText().startsWith('@UI/'))
-        .map((concept) => concept.concept.getText().substring('@UI/'.length));
+        .map((concept) => concept.concept.getText().substring('@UI/'.length)));
 
     const conceptPath = getConceptPath();
 
@@ -112,8 +124,8 @@
         The keyed each below should only update when it's different code,
         not just when it's assigned.
     */
-    let performance: Performance;
-    $: {
+    let performance = $state<Performance | undefined>();
+    run(() => {
         let newPerformance = progress.getPerformance();
         if (
             newPerformance !== undefined &&
@@ -127,59 +139,61 @@
         if (performance === undefined) {
             performance = ['fit', 'Stage()'];
         }
-    }
+    });
 
-    $: isUse = performance[0] === 'use';
-    $: performanceType = isUse ? performance[1] : performance[0];
-    $: editable = performanceType === 'edit' || performanceType === 'conflict';
-    $: fit = performanceType === 'fit' || performanceType === 'use';
+    let isUse = $derived(performance !== undefined && performance[0] === 'use');
+    let performanceType = $derived(performance === undefined ? "" : isUse ? performance[1] : performance[0]);
+    let editable = $derived(performanceType === 'edit' || performanceType === 'conflict');
+    let fit = $derived(performanceType === 'fit' || performanceType === 'use');
     // A "use" performance? Find it in Performances.
     // Anything else? Take all the lines of source and join them together.
-    $: source = isUse
+    let source = $derived(performance === undefined ? '' : isUse
         ? Performances[performance[2] as keyof typeof Performances].apply(
               undefined,
               performance.slice(3) as [string],
           )
-        : performance.slice(1).join('\n');
+        : performance.slice(1).join('\n'));
 
     // Every time the progress changes, create an initial project for the step.
-    let initialProject: Project;
-    $: if (
-        initialProject === undefined ||
-        progress.getProjectID() !== initialProject.getID()
-    )
-        initialProject = Project.make(
-            progress.getProjectID(),
-            scene
-                ? scene.title
-                : act
-                  ? act.title
-                  : $locales.getLocale().wordplay,
-            // Don't give the souce a name, otherwise it won't be localized on language change.
-            new Source('', source),
-            [],
-            $locales.getLocales(),
-            $user?.uid ?? null,
-            [],
-            false,
-            undefined,
-            false,
-            false,
-            false,
-            null,
-            moderatedFlags(),
-        );
+    let initialProject = $state<Project|undefined>();
+    run(() => {
+        if (
+            initialProject === undefined ||
+            progress.getProjectID() !== initialProject.getID()
+        )
+            initialProject = Project.make(
+                progress.getProjectID(),
+                scene
+                    ? scene.title
+                    : act
+                      ? act.title
+                      : $locales.getLocale().wordplay,
+                // Don't give the souce a name, otherwise it won't be localized on language change.
+                new Source('', source),
+                [],
+                $locales.getLocales(),
+                $user?.uid ?? null,
+                [],
+                false,
+                undefined,
+                false,
+                false,
+                false,
+                null,
+                moderatedFlags(),
+            );
+    });
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
     // and use that instead.
-    $: {
+    run(() => {
         // Check asynchronously if there's a project for this tutorial project ID already.
         Projects.get(progress.getProjectID()).then((existingProject) => {
             // If there is, get it's store.
             if (existingProject)
                 projectStore = Projects.getStore(progress.getProjectID());
             // If there's not, add this project to the database and get its store, so it can be editable.
-            else
+            else if (initialProject)
                 projectStore = Projects.track(
                     initialProject,
                     true,
@@ -187,26 +201,33 @@
                     false,
                 )?.getStore();
         });
-    }
+    });
 
     // Every time the progress changes, get the store for the corresponding project, if there is one.
-    $: projectStore = Projects.getStore(progress.getProjectID());
+    let projectStore: Writable<Project> | undefined;
+    run(() => {
+        projectStore = Projects.getStore(progress.getProjectID());
+    });
 
     // Create a reactive context of the current project.
     const project = writable<Project | undefined>(undefined);
     setContext<ProjectContext>(ProjectSymbol, project);
 
     // Every time the project store changes, update the project context.
-    $: project.set($projectStore);
+    run(() => {
+        project.set($projectStore);
+    });
 
     // When the project changes to something other than the initial project, start persisting it.
-    $: if ($projectStore !== undefined && !$projectStore.equals(initialProject))
-        Projects.getHistory($projectStore.getID())?.setPersist(
-            PersistenceType.Local,
-        );
+    run(() => {
+        if (initialProject && $projectStore !== undefined && !$projectStore.equals(initialProject))
+            Projects.getHistory($projectStore.getID())?.setPersist(
+                PersistenceType.Local,
+            );
+    });
 
     // Compute the options for the select based on the tutorial
-    $: lessons = progress.tutorial.acts.map((act, actIndex) => {
+    let lessons = $derived(progress.tutorial.acts.map((act, actIndex) => {
         return {
             label: act.title,
             options: act.scenes.map((scene, sceneIndex) => {
@@ -223,7 +244,7 @@
                 };
             }),
         };
-    });
+    }));
 
     function handleSelect(lesson: string | undefined) {
         if (lesson === undefined) return;
@@ -272,7 +293,7 @@
 
 <!-- If the body gets focus, focus the instructions. -->
 <svelte:body
-    on:focus|preventDefault|stopPropagation={() =>
+    onfocus={stopPropagation(preventDefault(() =>
         tick().then(() => {
             const newFocus = focusView ?? nextButton;
             if (newFocus)
@@ -280,11 +301,11 @@
                     newFocus,
                     'Body received focus, focusing tutorial.',
                 );
-        })}
+        })))}
 />
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
-<section class="tutorial" on:keydown={handleKey}>
+<!-- svelte-ignore a11y_no_static_element_interactions -->
+<section class="tutorial" onkeydown={handleKey}>
     <div class="header">
         <Header block={false}
             >{#if fallback}🚧{/if}
@@ -314,17 +335,17 @@
     </div>
     <div class="content">
         <div role="article" class="dialog">
-            <!-- svelte-ignore a11y-click-events-have-key-events -->
+            <!-- svelte-ignore a11y_click_events_have_key_events -->
             <div
                 class="turns"
                 aria-live="assertive"
-                on:click|stopPropagation={() =>
+                onclick={stopPropagation(() =>
                     nextButton
                         ? setKeyboardFocus(
                               nextButton,
                               'Focusing next button after chat click',
                           )
-                        : undefined}
+                        : undefined)}
             >
                 <div class="controls">
                     <Button
@@ -377,7 +398,7 @@
                         {#each turns as turn}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
-                                glyph={$conceptsStore
+                                glyph={concepts
                                     ?.getConceptByName(turn.dialog[0])
                                     ?.getGlyphs($locales) ?? {
                                     symbols: turn.dialog[0],
@@ -387,9 +408,11 @@
                                 scroll={false}
                                 emotion={Emotion[turn.dialog[1]]}
                             >
-                                <svelte:fragment slot="content">
-                                    <MarkupHTMLView markup={turn.speech} />
-                                </svelte:fragment>
+                                {#snippet content()}
+                                                                            
+                                        <MarkupHTMLView markup={turn.speech} />
+                                    
+                                                                            {/snippet}
                             </Speech>
                         {/each}
                     {/key}
@@ -400,22 +423,31 @@
         <!-- Autofocus the main editor if it's currently focused -->
         {#key initialProject}
             {#if scene}
-                <div class="project"
-                    ><ProjectView
-                        project={$projectStore ?? initialProject}
-                        original={initialProject}
-                        bind:index={concepts}
-                        bind:dragged
-                        showOutput={!editable}
+                {@const project = $projectStore ?? initialProject}
+                {#if project}
+                    <div class="project"
+                        ><ProjectView
+                            project={project}
+                            original={initialProject}
+                            bind:index={concepts}
+                            bind:dragged
+                            showOutput={!editable}
+                            {fit}
+                            autofocus={false}
+                            warn={false}
+                            shareable={false}
+                        /></div
+                    >
+                {/if}
+            {:else}
+                {@const project = $projectStore ?? initialProject}
+                {#if project}
+                    <PlayView
+                        project={project}
                         {fit}
-                        autofocus={false}
-                        warn={false}
-                        shareable={false}
-                    /></div
-                >{:else}<PlayView
-                    project={$projectStore ?? initialProject}
-                    {fit}
-                />{/if}
+                    />
+                {/if}
+            {/if}
         {/key}
     </div>
 </section>

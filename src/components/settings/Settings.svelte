@@ -41,15 +41,15 @@
         devicesRetrieved = true;
     });
 
-    let devicesRetrieved: boolean | undefined = false;
-    let cameras: MediaDeviceInfo[] = [];
-    let mics: MediaDeviceInfo[] = [];
+    let devicesRetrieved: boolean | undefined = $state(false);
+    let cameras: MediaDeviceInfo[] = $state([]);
+    let mics: MediaDeviceInfo[] = $state([]);
 
-    $: cameraDevice = $camera
+    let cameraDevice = $derived($camera
         ? cameras.find((cam) => cam.deviceId === $camera)
-        : undefined;
+        : undefined);
 
-    $: micDevice = $mic ? mics.find((m) => m.deviceId === $mic) : undefined;
+    let micDevice = $derived($mic ? mics.find((m) => m.deviceId === $mic) : undefined);
 </script>
 
 <div class="settings">

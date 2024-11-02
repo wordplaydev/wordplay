@@ -32,9 +32,9 @@ import ExceptionView from './ExceptionView.svelte';
 import ExceptionValue from '@values/ExceptionValue';
 import MarkupView from './MarkupView.svelte';
 import MarkupValue from '@values/MarkupValue';
-import type { ComponentType, SvelteComponent } from 'svelte';
+import type { Component } from 'svelte';
 
-const mapping = new Map<Function, ComponentType<SvelteComponent>>();
+const mapping = new Map<Function, unknown>();
 
 mapping.set(FunctionValue, FunctionView);
 mapping.set(NoneValue, NoneView);
@@ -53,12 +53,12 @@ mapping.set(TextValue, TextView);
 mapping.set(ExceptionValue, ExceptionView);
 mapping.set(MarkupValue, MarkupView);
 
-export default function valueToView(type: Function) {
+export default function valueToView(type: Function): Component {
     let prototype = type;
     do {
         const view = mapping.get(prototype);
-        if (view !== undefined) return view;
+        if (view !== undefined) return view as Component;
         prototype = Object.getPrototypeOf(prototype);
     } while (prototype);
-    return UnknownView;
+    return UnknownView as Component;
 }

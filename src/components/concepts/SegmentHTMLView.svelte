@@ -21,10 +21,15 @@
     import { withVariationSelector } from '../../unicode/emoji';
     import CodeView from './CodeView.svelte';
 
-    export let segment: Segment;
-    export let spaces: Spaces;
-    /** True if this is the only segment in a paragraph*/
-    export let alone: boolean;
+    
+    interface Props {
+        segment: Segment;
+        spaces: Spaces;
+        /** True if this is the only segment in a paragraph*/
+        alone: boolean;
+    }
+
+    let { segment, spaces, alone }: Props = $props();
 </script>
 
 {#if segment instanceof WebLink}<WebLinkHTMLView

@@ -2,7 +2,11 @@
     import ConceptView from './ConceptView.svelte';
     import type NodeConcept from '@concepts/NodeConcept';
 
-    export let concept: NodeConcept;
+    interface Props {
+        concept: NodeConcept;
+    }
+
+    let { concept }: Props = $props();
 </script>
 
 <ConceptView {concept} />

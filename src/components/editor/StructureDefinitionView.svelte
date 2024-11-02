@@ -1,12 +1,14 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type StructureDefinition from '@nodes/StructureDefinition';
     import NodeSequenceView from './NodeSequenceView.svelte';
     import NodeView from './NodeView.svelte';
     import { isBlocks } from '@components/project/Contexts';
 
-    export let node: StructureDefinition;
+    interface Props {
+        node: StructureDefinition;
+    }
+
+    let { node }: Props = $props();
 
     const blocks = isBlocks();
 </script>

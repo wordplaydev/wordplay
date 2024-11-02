@@ -1,11 +1,13 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type DocumentedExpression from '@nodes/DocumentedExpression';
     import NodeView from './NodeView.svelte';
     import { isBlocks } from '@components/project/Contexts';
 
-    export let node: DocumentedExpression;
+    interface Props {
+        node: DocumentedExpression;
+    }
+
+    let { node }: Props = $props();
 
     const blocks = isBlocks();
 </script>

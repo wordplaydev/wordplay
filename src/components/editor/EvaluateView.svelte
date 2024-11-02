@@ -1,6 +1,6 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import Evaluate from '@nodes/Evaluate';
     import NodeView from './NodeView.svelte';
     import type Bind from '../../nodes/Bind';
@@ -10,16 +10,20 @@
     import Token from '../../nodes/Token';
     import Input from '@nodes/Input';
 
-    export let node: Evaluate;
+    interface Props {
+        node: Evaluate;
+    }
+
+    let { node }: Props = $props();
 
     const project = getProject();
     const caret = getCaret();
     const blocks = isBlocks();
 
     // The next possible bind, or undefined if there are no more binds.
-    let nextBind: Bind | undefined;
-    let menuPosition: number | undefined;
-    $: {
+    let nextBind: Bind | undefined = $state();
+    let menuPosition: number | undefined = $state();
+    run(() => {
         nextBind = undefined;
         menuPosition = undefined;
         // We only show when
@@ -71,7 +75,7 @@
                 }
             }
         }
-    }
+    });
 </script>
 
 {#if $blocks}

@@ -4,10 +4,14 @@
         getLocaleRegionName,
     } from '../../locale/LocaleText';
 
-    export let locale: string;
-    export let supported: boolean;
+    interface Props {
+        locale: string;
+        supported: boolean;
+    }
 
-    $: region = getLocaleRegionName(locale);
+    let { locale, supported }: Props = $props();
+
+    let region = $derived(getLocaleRegionName(locale));
 </script>
 
 <span class="language" class:supported
@@ -22,7 +26,7 @@
         transition-duration: calc(var(--animation-factor) * 200ms);
     }
 
-    .language:not(.supported) {
+    .language:not(:global(.supported)) {
         opacity: 0.6;
         cursor: default;
     }

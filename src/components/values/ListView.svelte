@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type ListValue from '@values/ListValue';
     import { LIST_CLOSE_SYMBOL, LIST_OPEN_SYMBOL } from '@parser/Symbols';
@@ -8,8 +6,12 @@
     import Sym from '@nodes/Sym';
     import Expandable from './Expandable.svelte';
 
-    export let value: ListValue;
-    export let inline = true;
+    interface Props {
+        value: ListValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 
     const CollapseLimit = 3;
     const MaxItems = 100;
@@ -24,17 +26,18 @@
         symbol={LIST_OPEN_SYMBOL}
         type={Sym.ListOpen}
     />{#if value.values.length > CollapseLimit}<Expandable
-            ><svelte:fragment slot="expanded"
-                >{#each value.values as item, index}<ValueView
-                        value={item}
-                        {inline}
-                    />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
-            ><svelte:fragment slot="collapsed"
-                >{#each value.values.slice(0, CollapseLimit) as item, index}<ValueView
-                        value={item}
-                        {inline}
-                    />{#if index < value.values.length - 1}{' '}{/if}{/each}…</svelte:fragment
-            ></Expandable
+            >{#snippet expanded()}
+                        {#each value.values as item, index}<ValueView
+                            value={item}
+                            {inline}
+                        />{#if index < value.values.length - 1}{' '}{/if}{/each}
+            {/snippet}
+            {#snippet collapsed()}
+                {#each value.values.slice(0, CollapseLimit) as item, index}<ValueView
+                            value={item}
+                            {inline}
+                        />{#if index < value.values.length - 1}{' '}{/if}{/each}…
+                    {/snippet}</Expandable
         >{:else}{#each value.values as item, index}<ValueView
                 value={item}
                 {inline}

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { page } from '$app/stores';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
@@ -26,7 +28,7 @@
     const user = getUser();
 
     // The current gallery being viewed. Starts at null, to represent loading state.
-    let gallery: Gallery | null | undefined = null;
+    let gallery = $state<Gallery | null | undefined>(null);
 
     // When the page changes, get the gallery store corresponding to the requested ID.
     let galleryUnsubscribe: Unsubscriber | undefined = undefined;
@@ -52,18 +54,7 @@
 
     onDestroy(() => pageUnsubscribe());
 
-    $: name = gallery?.getName($locales);
-    $: description = gallery?.getDescription($locales);
-    $: editable = gallery
-        ? $user !== null && gallery.getCurators().includes($user.uid)
-        : false;
-    $: addable =
-        gallery && $user ? gallery.getCreators().includes($user.uid) : false;
-
-    // Anytime the gallery changes, refresh the project list.
-    $: if (gallery) loadProjects();
-
-    let projects: Project[] | undefined = undefined;
+    let projects: Project[] | undefined = $state(undefined);
 
     async function loadProjects() {
         if (gallery === undefined || gallery === null) return;
@@ -75,6 +66,20 @@
             )
         ).filter((proj): proj is Project => proj !== undefined);
     }
+    let name = $derived(gallery?.getName($locales));
+    let description = $derived(gallery?.getDescription($locales));
+    let editable = $derived(
+        gallery
+            ? $user !== null && gallery.getCurators().includes($user.uid)
+            : false,
+    );
+    let addable = $derived(
+        gallery && $user ? gallery.getCreators().includes($user.uid) : false,
+    );
+    // Anytime the gallery changes, refresh the project list.
+    run(() => {
+        if (gallery) loadProjects();
+    });
 </script>
 
 {#if gallery === null}

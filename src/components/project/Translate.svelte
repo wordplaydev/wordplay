@@ -12,18 +12,24 @@
     import type Project from '@models/Project';
     import translateProject from '@models/translate';
 
-    export let project: Project;
+    interface Props {
+        project: Project;
+    }
 
-    let translating: boolean = false;
-    let error: boolean = false;
-    let show: boolean;
+    let { project }: Props = $props();
 
-    $: projectLocales = project.getLocales().getLocales();
-    $: localeCount = projectLocales.length - 1;
-    $: primaryLocale = `${projectLocales[0].language}-${projectLocales[0].region}`;
-    $: allLocales = projectLocales
-        .map((l) => `${l.language}-${l.region}`)
-        .sort();
+    let translating: boolean = $state(false);
+    let error: boolean = $state(false);
+    let show: boolean = $state(false);
+
+    let projectLocales = $derived(project.getLocales().getLocales());
+    let localeCount = $derived(projectLocales.length - 1);
+    let primaryLocale = $derived(
+        `${projectLocales[0].language}-${projectLocales[0].region}`,
+    );
+    let allLocales = $derived(
+        projectLocales.map((l) => `${l.language}-${l.region}`).sort(),
+    );
 
     /** Translate the project into another language */
     async function translate(targetLocaleCode: string) {

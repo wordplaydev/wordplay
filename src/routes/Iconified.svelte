@@ -3,8 +3,12 @@
     import { withVariationSelector } from '../unicode/emoji';
     import type LocaleText from '@locale/LocaleText';
 
-    export let icon: string;
-    export let text: (locale: LocaleText) => string;
+    interface Props {
+        icon: string;
+        text: (locale: LocaleText) => string;
+    }
+
+    let { icon, text }: Props = $props();
 </script>
 
 {withVariationSelector(icon)}

@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { run } from 'svelte/legacy';
+
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import Settings from '../settings/Settings.svelte';
@@ -9,7 +11,12 @@
     import Color from '../../output/Color';
     import Emoji from './Emoji.svelte';
 
-    export let home = false;
+    interface Props {
+        home?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let { home = false, children }: Props = $props();
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
@@ -20,18 +27,20 @@
     }>({ on: false, background: null });
     setContext('fullscreen', fullscreen);
 
-    $: if (typeof document !== 'undefined' && $fullscreen) {
-        document.body.style.background = $fullscreen.on
-            ? $fullscreen.background instanceof Color
-                ? $fullscreen.background.toCSS()
-                : $fullscreen.background ?? ''
-            : '';
-        document.body.style.color = $fullscreen.on
-            ? $fullscreen.background instanceof Color
-                ? $fullscreen.background.contrasting().toCSS()
-                : ''
-            : '';
-    }
+    run(() => {
+        if (typeof document !== 'undefined' && $fullscreen) {
+            document.body.style.background = $fullscreen.on
+                ? $fullscreen.background instanceof Color
+                    ? $fullscreen.background.toCSS()
+                    : $fullscreen.background ?? ''
+                : '';
+            document.body.style.color = $fullscreen.on
+                ? $fullscreen.background instanceof Color
+                    ? $fullscreen.background.contrasting().toCSS()
+                    : ''
+                : '';
+        }
+    });
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -44,11 +53,11 @@
     }
 </script>
 
-<svelte:window on:keydown={handleKey} />
+<svelte:window onkeydown={handleKey} />
 
 <div class="page">
     <main>
-        <slot />
+        {@render children?.()}
     </main>
     <footer class:fullscreen={$fullscreen.on}>
         <nav>

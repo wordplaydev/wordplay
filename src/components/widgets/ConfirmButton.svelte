@@ -2,13 +2,25 @@
     import { locales } from '@db/Database';
     import Button, { type Action } from './Button.svelte';
 
-    export let tip: string;
-    export let action: Action;
-    export let enabled = true;
-    export let prompt: string;
-    export let background = false;
+    interface Props {
+        tip: string;
+        action: Action;
+        enabled?: boolean;
+        prompt: string;
+        background?: boolean;
+        children?: import('svelte').Snippet;
+    }
 
-    let confirming = false;
+    let {
+        tip,
+        action,
+        enabled = true,
+        prompt,
+        background = false,
+        children
+    }: Props = $props();
+
+    let confirming = $state(false);
 </script>
 
 <div class="prompt" class:confirming class:background>
@@ -17,7 +29,7 @@
         tip={confirming ? $locales.get((l) => l.ui.widget.confirm.cancel) : tip}
         action={() => (confirming = !confirming)}
         active={enabled}
-        >{#if confirming}⨉{:else}<slot />{/if}</Button
+        >{#if confirming}⨉{:else}{@render children?.()}{/if}</Button
     >
     {#if confirming}
         <Button {background} stretch {tip} action={() => action()}

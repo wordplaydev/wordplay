@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export type ResizeDirection =
         | 'top'
         | 'top-left'
@@ -30,25 +30,49 @@
     import TileSymbols from './TileSymbols';
     import FullscreenIcon from './FullscreenIcon.svelte';
 
-    export let project: Project;
-    export let tile: Tile;
-    export let layout: Layout;
-    export let arrangement: Arrangement;
-    export let dragging: boolean;
-    export let fullscreenID: string | undefined;
-    export let background: Color | string | null = null;
-    export let focuscontent = false;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        tile: Tile;
+        layout: Layout;
+        arrangement: Arrangement;
+        dragging: boolean;
+        fullscreenID: string | undefined;
+        background?: Color | string | null;
+        focuscontent?: boolean;
+        editable: boolean;
+        title: import('svelte').Snippet;
+        content: import('svelte').Snippet;
+        extra?: import('svelte').Snippet;
+        margin?: import('svelte').Snippet;
+        footer?: import('svelte').Snippet;
+    }
 
-    $: fullscreen = tile.id === fullscreenID;
+    let {
+        project,
+        tile,
+        layout,
+        arrangement,
+        dragging,
+        fullscreenID,
+        background = null,
+        focuscontent = false,
+        editable,
+        title,
+        extra,
+        content,
+        margin,
+        footer
+    }: Props = $props();
 
-    let view: HTMLElement | undefined;
-    let resizeDirection: ResizeDirection | null = null;
-    let mounted = false;
+    let fullscreen = $derived(tile.id === fullscreenID);
+
+    let view: HTMLElement | undefined = $state();
+    let resizeDirection: ResizeDirection | null = $state(null);
+    let mounted = $state(false);
     onMount(() => (mounted = true));
 
-    $: foreground =
-        background instanceof Color ? background.contrasting().toCSS() : null;
+    let foreground =
+        $derived(background instanceof Color ? background.contrasting().toCSS() : null);
 
     const dispatch = createEventDispatcher();
 
@@ -173,12 +197,12 @@
     }
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-    on:pointermove={handlePointerMove}
-    on:pointerleave={() => (resizeDirection = null)}
-    on:pointerdown={handlePointerDown}
-    on:keydown={handleKeyDown}
+    onpointermove={handlePointerMove}
+    onpointerleave={() => (resizeDirection = null)}
+    onpointerdown={handlePointerDown}
+    onkeydown={handleKeyDown}
 >
     <section
         class="tile {resizeDirection
@@ -244,25 +268,25 @@
                         $locales,
                     )}
                 {/if}
-                <slot name="name" />
+                {@render title()}
             </div>
             <div class="toolbar">
-                <slot name="extra" />
+                {@render extra?.()}
             </div>
         </div>
         <!-- Render the content -->
         <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-            <div class="content" on:scroll={() => dispatch('scroll')}>
-                <slot name="content" />
+            <div class="content" onscroll={() => dispatch('scroll')}>
+                {@render content()}
             </div>
-            <div class="margin"><slot name="margin" /></div>
+            <div class="margin">{@render margin?.()}</div>
         </div>
         <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
         {#if focuscontent}
-            <div class="focus-indicator" />
+            <div class="focus-indicator"></div>
         {/if}
         <!-- Render the footer -->
-        <div class="footer"><slot name="footer" /></div>
+        <div class="footer">{@render footer?.()}</div>
     </section>
 </div>
 
@@ -342,8 +366,8 @@
             var(--wordplay-border-color);
     }
 
-    .tile:not(.output).responsive,
-    .tile:not(.output).horizontal {
+    .tile:not(:global(.output)).responsive,
+    .tile:not(:global(.output)).horizontal {
         border-right: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }

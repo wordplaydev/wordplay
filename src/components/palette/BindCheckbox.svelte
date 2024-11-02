@@ -6,9 +6,13 @@
     import { getProject } from '../project/Contexts';
     import { Projects } from '../../db/Database';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        editable: boolean;
+    }
+
+    let { property, values, editable }: Props = $props();
 
     const project = getProject();
 

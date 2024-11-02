@@ -1,11 +1,13 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type BinaryEvaluate from '@nodes/BinaryEvaluate';
     import NodeView from './NodeView.svelte';
     import { isBlocks } from '@components/project/Contexts';
 
-    export let node: BinaryEvaluate;
+    interface Props {
+        node: BinaryEvaluate;
+    }
+
+    let { node }: Props = $props();
 
     const blocks = isBlocks();
 </script>
