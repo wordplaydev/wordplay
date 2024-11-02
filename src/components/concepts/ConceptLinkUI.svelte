@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
@@ -26,7 +24,9 @@
     let concept: Concept | undefined = $state();
     let container: Concept | undefined = $state();
     let ui: string | undefined = $state();
-    run(() => {
+
+    // Derive the concept, container, and UI based on the link.
+    $effect(() => {
         if (link instanceof Concept) {
             concept = link;
             container = index?.getConceptOwner(concept);
