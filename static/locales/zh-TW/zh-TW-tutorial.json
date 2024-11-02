@@ -12,9 +12,9 @@
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
-                        ["FunctionDefinition", "bored", "… Oh, hi."],
+                        ["FunctionDefinition", "bored", "...喔，你好"],
                         null,
-                        ["FunctionDefinition", "neutral", "Do I know you?"],
+                        ["FunctionDefinition", "neutral", "我認識你嗎？"],
                         null,
                         [
                             "FunctionDefinition",
