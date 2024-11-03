@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import Page from '@components/app/Page.svelte';
     import Header from '@components/app/Header.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
@@ -47,7 +45,7 @@
 
     /** Moderator if the user's "mod" custom claim is true */
     let moderator: boolean | undefined = $state(undefined);
-    run(() => {
+    $effect(() => {
         if ($user) {
             isModerator($user).then((mod) => {
                 moderator = mod;

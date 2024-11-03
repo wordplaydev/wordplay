@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import {
         type ProjectContext,
         ProjectSymbol,
@@ -28,7 +26,7 @@
     let editable = $state(false);
     let overwritten = $state(false);
     let unsub: Unsubscriber | undefined = $state(undefined);
-    run(() => {
+    $effect(() => {
         if (store) setContext<ProjectContext>(ProjectSymbol, store);
     });
 
@@ -36,7 +34,7 @@
     setContext(ConceptPathSymbol, writable([]));
 
     // Whenever the page or projects change, update the project store.
-    run(() => {
+    $effect(() => {
         if ($page) {
             const projectID = decodeURI($page.params.projectid);
             // No matching project, but we have a project ID and we're in the browser?
