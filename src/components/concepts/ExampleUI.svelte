@@ -1,7 +1,7 @@
 <script lang="ts">
     import { run } from 'svelte/legacy';
 
-    import { onDestroy, onMount } from 'svelte';
+    import { onDestroy, onMount, untrack } from 'svelte';
     import { getConceptIndex } from '../project/Contexts';
     import Project from '@models/Project';
     import type Example from '@nodes/Example';
@@ -58,18 +58,23 @@
     onDestroy(() => {
         index?.removeExample(example.program.expression);
     });
-    let project = $state<Project | undefined>();
-    run(() => {
-        project = Project.make(
+
+    // Derive a project from the example.
+    let project = $derived<Project | undefined>(
+        Project.make(
             null,
             'example',
             new Source('example', [example.program, spaces]),
             [],
             $locales.getLocales(),
-        );
-    });
-    run(() => {
-        if (evaluator) evaluator.ignore(update);
+        ),
+    );
+
+    function reset(hard: boolean) {
+        // Don't create a new evaluator if the project is the same.
+        if (!hard && evaluator && evaluator.project === project) return;
+
+        evaluator?.ignore(update);
 
         if (evaluated && project) {
             evaluator = new Evaluator(project, DB, $locales.getLocales());
@@ -78,9 +83,16 @@
         } else {
             evaluator = undefined;
         }
+    }
+
+    /** Reset when the project changes */
+    $effect(() => {
+        if (project) reset(false);
     });
-    run(() => {
-        if (index) {
+
+    /** Add the example to the index when it changes so it can be dragged */
+    $effect(() => {
+        if (index && lastExample !== example) {
             if (lastExample) {
                 index.removeExample(lastExample.program.expression);
             }
@@ -117,9 +129,7 @@
     </div>
     <Button
         tip={$locales.get((l) => l.ui.timeline.button.reset)}
-        action={() => {
-            project = project;
-        }}>↻</Button
+        action={() => reset(true)}>↻</Button
     >
 </div>
 

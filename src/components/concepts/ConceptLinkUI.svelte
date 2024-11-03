@@ -21,16 +21,21 @@
     let index = getConceptIndex();
     let path = getConceptPath();
 
-    let concept: Concept | undefined = $state();
-    let container: Concept | undefined = $state();
-    let ui: string | undefined = $state();
+    type Match = {
+        concept: Concept | undefined;
+        container?: Concept | undefined;
+        ui?: string | undefined;
+    };
 
     // Derive the concept, container, and UI based on the link.
-    $effect(() => {
+    let { concept, container, ui }: Match = $derived.by((): Match => {
         if (link instanceof Concept) {
-            concept = link;
-            container = index?.getConceptOwner(concept);
-        } else if (index === undefined) concept = undefined;
+            return {
+                concept: link,
+                container: index?.getConceptOwner(link),
+            };
+        } else if (index === undefined)
+            return { concept: undefined, container: undefined };
         // Try to resolve the concept in the index
         else {
             // Remove the link symbol
@@ -40,11 +45,15 @@
             const names = id.split('/');
             // See if it's a UI reference
             if (names[0] === 'UI' && names.length > 1) {
-                ui = names[1];
+                return {
+                    concept: undefined,
+                    container: undefined,
+                    ui: names[1],
+                };
             }
             // Otherwise, try to resolve a concept or subconcept.
             else {
-                concept = index.getConceptByName(names[0]);
+                let concept = index.getConceptByName(names[0]);
                 if (concept && names.length > 1) {
                     const subConcept = Array.from(
                         concept.getSubConcepts(),
@@ -59,13 +68,16 @@
                                 structure.getSubConcepts(),
                             ).find((sub) => sub.hasName(names[1], $locales));
                             if (subConcept) {
-                                container = concept;
-                                concept = subConcept;
+                                return {
+                                    container: concept,
+                                    concept: subConcept,
+                                };
                             }
                         }
                     }
                 }
             }
+            return { concept: undefined, container: undefined };
         }
     });
 
