@@ -5,6 +5,7 @@
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
     import CommandHint from './CommandHint.svelte';
+    import { type Snippet } from 'svelte';
 
     interface Props {
         tips: ToggleText;
@@ -14,7 +15,7 @@
         uiid?: string | undefined;
         command?: Command | undefined;
         background?: boolean;
-        children?: import('svelte').Snippet;
+        children: Snippet;
     }
 
     let {
@@ -60,7 +61,7 @@
 >
     {#if command}<CommandHint {command} />{/if}
     <div class="icon">
-        {@render children?.()}
+        {@render children()}
     </div>
 </button>
 
