@@ -1,7 +1,4 @@
 <script lang="ts">
-    import { createBubbler, stopPropagation, preventDefault } from 'svelte/legacy';
-
-    const bubble = createBubbler();
     import type { ToggleText } from '../../locale/UITexts';
     import { toShortcut, type Command } from '../editor/util/Commands';
     import CommandHint from './CommandHint.svelte';
@@ -54,8 +51,8 @@
     aria-label={title}
     aria-disabled={!active}
     aria-pressed={on}
-    ondblclick={stopPropagation(bubble('dblclick'))}
-    onmousedown={preventDefault(bubble('mousedown'))}
+    ondblclick={(event) => event.stopPropagation()}
+    onmousedown={(event) => event.preventDefault()}
     onclick={(event) =>
         event.button === 0 && active ? doToggle(event) : undefined}
 >
