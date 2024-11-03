@@ -1,13 +1,8 @@
 <script lang="ts">
-    import { run, createBubbler, stopPropagation } from 'svelte/legacy';
-
-    const bubble = createBubbler();
     import { onMount, tick } from 'svelte';
     import { withVariationSelector } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    
-    
     interface Props {
         text?: string;
         placeholder: string;
@@ -45,7 +40,7 @@
         classes = undefined,
         id = undefined,
         kind = undefined,
-        max = undefined
+        max = undefined,
     }: Props = $props();
 
     let width = $state(0);
@@ -108,7 +103,8 @@
         setKind(kind);
     });
 
-    run(() => {
+    /** Dynamically set the field's type, since it can't be adjusted with Svelte. */
+    $effect(() => {
         setKind(kind);
     });
 </script>
@@ -133,7 +129,7 @@
         bind:this={view}
         oninput={handleInput}
         onkeydown={handleKeyDown}
-        onpointerdown={stopPropagation(bubble('pointerdown'))}
+        onpointerdown={(event) => event.stopPropagation()}
         onblur={() => (done ? done(text) : undefined)}
     />
     <span class="measurer" bind:clientWidth={width}
