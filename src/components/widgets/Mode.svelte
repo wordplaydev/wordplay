@@ -1,11 +1,4 @@
 <script lang="ts">
-    import {
-        createBubbler,
-        stopPropagation,
-        preventDefault,
-    } from 'svelte/legacy';
-
-    const bubble = createBubbler();
     import type { ModeText } from '../../locale/UITexts';
 
     interface Props {
@@ -42,8 +35,8 @@
                 aria-label={descriptions.modes[index]}
                 title={descriptions.modes[index]}
                 aria-disabled={!active || index === choice}
-                ondblclick={stopPropagation(bubble('dblclick'))}
-                onmousedown={preventDefault(bubble('mousedown'))}
+                ondblclick={(event) => event.stopPropagation()}
+                onmousedown={(event) => event.preventDefault()}
                 onpointerdown={(event) =>
                     index !== choice && event.button === 0 && active
                         ? select(index)
