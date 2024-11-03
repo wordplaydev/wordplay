@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
     import Settings from '../settings/Settings.svelte';
@@ -27,7 +25,7 @@
     }>({ on: false, background: null });
     setContext('fullscreen', fullscreen);
 
-    run(() => {
+    $effect(() => {
         if (typeof document !== 'undefined' && $fullscreen) {
             document.body.style.background = $fullscreen.on
                 ? $fullscreen.background instanceof Color
