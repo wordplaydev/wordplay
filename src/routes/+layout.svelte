@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { onMount, setContext } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type { User } from 'firebase/auth';
@@ -17,7 +15,7 @@
     let { children }: Props = $props();
 
     /** Expose the translations as context, updating them as necessary */
-    run(() => {
+    $effect(() => {
         setContext(LocalesSymbol, $locales);
     });
 
@@ -28,8 +26,8 @@
     const user = writable<User | null>(null);
     setContext(UserSymbol, user);
 
-    // Keep the page's language and direction up to date.
-    run(() => {
+    /** Keep the page's language and direction up to date. */
+    $effect(() => {
         if (typeof document !== 'undefined') {
             const language = $locales.getLocale().language;
             document.documentElement.setAttribute('lang', language);
@@ -68,7 +66,7 @@
     }
 
     /** When dark mode changes, update the body's dark class */
-    run(() => {
+    $effect(() => {
         if (browser) {
             if ($dark === true || ($dark === null && prefersDark()))
                 document.body.classList.add('dark');
