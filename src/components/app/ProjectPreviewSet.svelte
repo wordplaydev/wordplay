@@ -4,6 +4,7 @@
     import { locales } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import { type Snippet } from 'svelte';
 
     interface Props {
         set: Project[];
@@ -29,7 +30,7 @@
               action: (project: Project) => void;
           }
         | false;
-        children?: import('svelte').Snippet;
+        children?: Snippet;
     }
 
     let {
@@ -41,7 +42,7 @@
     }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
-        return projects.sort((a, b) =>
+        return projects.toSorted((a, b) =>
             a.getName().localeCompare(b.getName(), $locales.getLanguages()),
         );
     }

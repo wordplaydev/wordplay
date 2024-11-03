@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { page } from '$app/stores';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
@@ -77,7 +75,7 @@
         gallery && $user ? gallery.getCreators().includes($user.uid) : false,
     );
     // Anytime the gallery changes, refresh the project list.
-    run(() => {
+    $effect(() => {
         if (gallery) loadProjects();
     });
 </script>
