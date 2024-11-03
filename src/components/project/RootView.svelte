@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import Docs from '@nodes/Docs';
@@ -74,11 +72,11 @@
         spaces ?? getPreferredSpaces(node),
     );
     setContext(SpaceSymbol, renderedSpace);
-    run(() => {
+    $effect(() => {
         renderedSpace.set(spaces ?? getPreferredSpaces(node));
     });
 
-    run(() => {
+    $effect(() => {
         if (inert) setContext(CaretSymbol, undefined);
     });
 
@@ -88,25 +86,24 @@
 
     let localize = writable<LocalizedValue>(localized ?? 'symbolic');
     setContext(LocalizeSymbol, localize);
-    run(() => {
+    $effect(() => {
         localize.set(localized ?? 'symbolic');
     });
 
     let showLines = writable<boolean>(lines);
     setContext(ShowLinesSymbol, showLines);
-    run(() => {
+    $effect(() => {
         showLines.set(lines);
     });
 
     let isBlocks = writable<boolean>(blocks);
     setContext(BlocksSymbol, isBlocks);
-    run(() => {
+    $effect(() => {
         isBlocks.set(blocks);
     });
 
     // Update what's hidden when locales or localized changes.
-    run(() => {
-        $locales;
+    $effect(() => {
         const newHidden = new Set<Node>();
 
         if ($localize !== 'actual') {
