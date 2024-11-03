@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
     import { locales, SaveStatus } from '../../db/Database';
@@ -27,7 +25,9 @@
     let creator = $derived(Creator.from(user));
 
     let moderator = $state(false);
-    run(() => {
+
+    // When the user changes, check if they're a moderator.
+    $effect(() => {
         isModerator(user).then((mod) => (moderator = mod));
     });
 
