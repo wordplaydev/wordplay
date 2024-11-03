@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { getUser } from '@components/project/Contexts';
     import { auth } from '@db/firebase';
     import { locales } from '../../db/Database';
@@ -12,7 +10,8 @@
 
     let user = getUser();
 
-    run(() => {
+    /** Go to profile if logged in. */
+    $effect(() => {
         if (browser && $user !== null) goto('/profile');
     });
 </script>
