@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { getUser } from '@components/project/Contexts';
     import Profile from '../login/Profile.svelte';
     import { goto } from '$app/navigation';
@@ -9,7 +7,8 @@
 
     const user = getUser();
 
-    run(() => {
+    // Go to the login page if on the profile and not logged in.
+    $effect(() => {
         if (browser && $user === null) goto('/login');
     });
 </script>
