@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { stopPropagation } from 'svelte/legacy';
-
     interface Props {
         expanded: boolean;
         toggle: () => void;
@@ -15,7 +13,10 @@
     class="expander {vertical ? 'vertical' : 'horizontal'}"
     class:expanded
     tabindex="0"
-    onpointerdown={stopPropagation(toggle)}
+    onpointerdown={(event) => {
+        event.stopPropagation();
+        toggle();
+    }}
     onkeydown={(event) =>
         event.key === ' ' || event.key === 'Enter' ? toggle() : undefined}
     >{#if expanded}▲{:else}▼{/if}</div
