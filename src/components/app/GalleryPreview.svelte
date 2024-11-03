@@ -20,7 +20,7 @@
     let { gallery, delay }: Props = $props();
 
     let index = $state(0);
-    let projectID = $state<ProjectID | undefined>(gallery.getProjects()[0]);
+    let projectID = $state<string | undefined>(gallery.getProjects()[0]);
 
     /** Null means loading */
     let project: Project | null | undefined = $state(null);
