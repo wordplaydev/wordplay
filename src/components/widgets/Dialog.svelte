@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { tick } from 'svelte';
     import { locales } from '../../db/Database';
     import Button from './Button.svelte';
@@ -30,7 +28,8 @@
 
     let view: HTMLDialogElement | undefined = $state(undefined);
 
-    run(() => {
+    /** Show and focus dialog when shown, hide when not. */
+    $effect(() => {
         if (view) {
             if (show) {
                 view.showModal();
