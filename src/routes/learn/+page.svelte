@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import TutorialView from '@components/app/TutorialView.svelte';
     import Progress from '../../tutorial/Progress';
     import { goto } from '$app/navigation';
@@ -23,7 +21,8 @@
 
     let tutorial: Tutorial | undefined | null = $state(undefined);
 
-    run(() => {
+    /** Load the tutorial when locales change. */
+    $effect(() => {
         if (browser && $locales) {
             Locales.getTutorial(
                 $locales.get((l) => l.language),
@@ -44,7 +43,9 @@
 
     // Set progress if URL indicates one.
     let initial: Progress | undefined = $state(undefined);
-    run(() => {
+
+    // Save tutorial projects with projects changes.
+    $effect(() => {
         if (tutorial) {
             initial = Progress.fromURL(tutorial, $page.url.searchParams);
             if (initial) Settings.setTutorialProgress(initial);
