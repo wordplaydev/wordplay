@@ -327,39 +327,39 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Just like that, @ExpressionPlaceholder was replaced with other characters Did I get everything, @ExpressionPlaceholder?"
+                            "就像這樣， @ExpressionPlaceholder 被其他字符取代了，我說的都對嗎？ @ExpressionPlaceholder ？"
                         ],
-                        ["ExpressionPlaceholder", "eager", "Yeah. I think so."],
+                        ["ExpressionPlaceholder", "eager", "恩，沒錯。"],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "What do you think, shall we move on?"
+                            "那你覺得呢，導演？我們繼續去和其他字符聊聊吧？"
                         ],
                         [
                             "ExpressionPlaceholder",
                             "excited",
-                            "It was nice to meet you!"
+                            "很高興認識你！"
                         ],
                         null,
                         ["use", "fit", "DarkVoid"],
                         [
                             "FunctionDefinition",
                             "cheerful",
-                            "They don't like being on stage, or even in a program for very long. They'd never admit it, but they're kind of a big deal, and most directors can't work without them. Think of the like a little helpful stagehand, reminding you of things you haven't figured out yet."
+                            "他們其實不喜歡在舞台上待太久，甚至不喜歡在程序中待太久，但他們不會承認。他們其實很重要，但他們也不會承認。而且大多數導演沒有他們是無法工作的，他們像是一個小幫手，會提醒你還沒有想出來的事情。"
                         ]
                     ]
                 },
                 {
-                    "title": "Say again?",
-                    "subtitle": "Unparsable",
+                    "title": "再說一遍？",
+                    "subtitle": "無法解析（Unparsable）",
                     "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
-                            "@UnparsableExpression? Is that you?"
+                            "嘿！ @UnparsableExpression ？是你嗎？"
                         ],
                         [
                             "UnparsableExpression",
@@ -371,7 +371,7 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "It's good to see you too! It's been so long. What have you been up to in all this silence?"
+                            "很高興見到你！我們好久不見了，你最近在做什麼呢？"
                         ],
                         [
                             "UnparsableExpression",
@@ -381,14 +381,14 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(It sounds like they spent a lot of time on the beach. They made some new friends, and practiced doing nothing.)"
+                            "（聽起來他們在海灘上玩了很久，交了新朋友，還練習了什麼都不做。）"
                         ],
                         null,
                         ["use", "fit", "Symbol", "ivioas we wjjdks"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "I wanted to introduce you to our potential new director. They just arrived and are learning the basics. I just introduced them to @Program and @ExpressionPlaceholder."
+                            "我想介紹你認識我們的新導演！他才剛到，還在學習基本的東西，我剛剛才把他們介紹給 @Program 和 @ExpressionPlaceholder 。"
                         ],
                         [
                             "UnparsableExpression",
@@ -398,14 +398,14 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "(They just said how awesome it is to meet you, and they think you'll be a great director.)"
+                            "（他們說能見到你很棒，還說你會是一位很好的導演。）"
                         ],
                         null,
                         ["use", "fit", "Symbol", "v s d we iweiwei"],
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "I was wondering if you wanted to explain what you do? I can translate."
+                            "你想解釋一下你在做什麼嗎？我可以幫你翻譯。"
                         ],
                         [
                             "UnparsableExpression",
@@ -415,7 +415,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(I represent everything that means nothing. And I mean nothing.)"
+                            "（我代表所有沒意義的東西。也就是說，無。）"
                         ],
                         null,
                         ["edit", ""],
@@ -427,7 +427,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(For example, try typing \\][\\. See how we're completely confused? That doesn't mean anything, and I'm here to say it.)"
+                            "（比如說，試著打打看 \\][\\ 。你會發現我們完全不懂，這並沒有任何意義，我就是來告訴你這完全沒有意義的。）"
                         ],
                         null,
                         ["conflict", "]["],
@@ -439,15 +439,15 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "(When I show up, that means we don't know what you mean.)"
+                            "（當我出現的時候，表示我們不明白你說的話。）"
                         ],
                         null,
                         ["conflict", "]["],
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Thanks @UnparsableExpression!",
-                            "Just like they said, when you've said something we don't understand, unparsable is there to say “We don't understand.” When then happens, I wish we could be more helpful, but we're often pretty dense here, so we're not very good at guessing what you mean."
+                            "謝拉！ @UnparsableExpression ！",
+                            "就像他們說的，當你說了我們聽不懂的話時， @UnparsableExpression 就是來這裡說「等一下！我們聽不懂！」，我很希望我們能幫助你，但我們有時真的猜不出來你想表達什麼。"
                         ],
                         null,
                         [
