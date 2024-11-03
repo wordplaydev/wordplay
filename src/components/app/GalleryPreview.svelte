@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { goto } from '$app/navigation';
     import { Projects, locales } from '@db/Database';
     import type Gallery from '../../models/Gallery';
@@ -13,7 +11,6 @@
     import { onMount } from 'svelte';
     import type Project from '@models/Project';
 
-    
     interface Props {
         gallery: Gallery;
         /** How many milliseconds to wait to start updating */
@@ -22,16 +19,16 @@
 
     let { gallery, delay }: Props = $props();
 
-    let index = 0;
-    let projectID;
-    run(() => {
-        projectID = gallery.getProjects()[0];
-    });
+    let index = $state(0);
+    let projectID = $state<ProjectID | undefined>(gallery.getProjects()[0]);
+
     /** Null means loading */
     let project: Project | null | undefined = $state(null);
     let timeoutID: NodeJS.Timeout;
 
-    let description = $derived(gallery.getDescription($locales).split('\n').join('\n\n'));
+    let description = $derived(
+        gallery.getDescription($locales).split('\n').join('\n\n'),
+    );
 
     async function loadNext() {
         index = (index + 1) % gallery.getProjects().length;
