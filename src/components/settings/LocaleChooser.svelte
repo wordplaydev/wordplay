@@ -1,8 +1,6 @@
 <svelte:options />
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import Button from '../widgets/Button.svelte';
     import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import { DB, locales } from '@db/Database';
@@ -20,7 +18,7 @@
     import { Settings } from '../../db/Database';
 
     let selectedLocales = $state<string[]>([]);
-    run(() => {
+    $effect(() => {
         selectedLocales = $locales
             .getPreferredLocales()
             .map((locale) => localeToString(locale)) as SupportedLocale[];
@@ -75,7 +73,8 @@
                 active={selectedLocales.length > 1}
                 >{#if selectedLocales.length > 1}
                     ⨉
-                {/if}<LocaleName locale={selected} supported /></Button
+                {/if}
+                <LocaleName locale={selected} supported /></Button
             >
         {/each}
     </div>
