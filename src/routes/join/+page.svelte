@@ -1,6 +1,4 @@
 <script>
-    import { run } from 'svelte/legacy';
-
     import Writing from '@components/app/Writing.svelte';
     import Join from './Join.svelte';
     import Feedback from '@components/app/Feedback.svelte';
@@ -12,7 +10,7 @@
 
     const user = getUser();
 
-    run(() => {
+    $effect(() => {
         if (browser && $user !== null) goto('/profile');
     });
 </script>
