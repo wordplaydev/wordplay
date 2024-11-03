@@ -11,7 +11,7 @@
 
     interface Props {
         home?: boolean;
-        children?: import('svelte').Snippet;
+        children: import('svelte').Snippet;
     }
 
     let { home = false, children }: Props = $props();
@@ -55,7 +55,7 @@
 
 <div class="page">
     <main>
-        {@render children?.()}
+        {@render children()}
     </main>
     <footer class:fullscreen={$fullscreen.on}>
         <nav>

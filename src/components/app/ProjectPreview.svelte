@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type Project from '@models/Project';
     import Evaluator from '@runtime/Evaluator';
     import { DB, locales } from '../../db/Database';
@@ -15,9 +13,6 @@
     import { getFaceCSS } from '@output/outputToCSS';
     import UnicodeString from '@models/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
-
-    
-    
     
     interface Props {
         project: Project;
@@ -41,12 +36,15 @@
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let representativeForeground: string | null = $state(null);
-    let representativeBackground: string | null = $state(null);
-    let representativeFace: string | null = $state(null);
-    let representativeText: string = $state("...");
+    type Preview = {
+        representativeForeground: string | null;
+        representativeBackground: string | null;
+        representativeFace: string | null;
+        representativeText: string;
+    };
 
-    function updatePreview() {
+    /** Derive the preview contents from the project by getting it's first value */
+    let { representativeForeground, representativeBackground, representativeFace, representativeText } = $derived.by(() => {
         const evaluator = new Evaluator(
             project,
             DB,
@@ -58,36 +56,28 @@
         const stage = value ? toStage(evaluator, value) : undefined;
         if (stage && stage.face) Fonts.loadFace(stage.face);
 
-        [
-            representativeFace,
-            representativeForeground,
-            representativeBackground,
-            representativeText,
-        ] = [
-            stage ? getFaceCSS(stage.face) : null,
-            stage
+        return {
+            representativeFace: stage ? getFaceCSS(stage.face) : null,
+            representativeForeground: stage
                 ? stage.pose.color?.toCSS() ?? null
                 : 'var(--wordplay-evaluation-color)',
-            stage
+            representativeBackground: stage
                 ? stage.back.toCSS()
                 : value instanceof ExceptionValue || value === undefined
                   ? 'var(--wordplay-error)'
                   : null,
-            stage
+            representativeText: stage
                 ? new UnicodeString(stage.getRepresentativeText($locales))
                       .substring(0, 1)
                       .toString()
                 : value
                   ? value.getRepresentativeText($locales)
                   : EXCEPTION_SYMBOL,
-        ];
-    }
+        };
+    });
 
     const user = getUser();
 
-    run(() => {
-        if (project) updatePreview();
-    });
     let path = $derived(link ?? project.getLink(true));
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
