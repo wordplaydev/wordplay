@@ -4,9 +4,6 @@
 </script>
 
 <script lang="ts">
-    import { createBubbler, preventDefault, stopPropagation } from 'svelte/legacy';
-
-    const bubble = createBubbler();
     import Spinning from '../app/Spinning.svelte';
     import { locales } from '@db/Database';
 
@@ -76,8 +73,8 @@
     aria-label={tip}
     aria-disabled={!active}
     bind:this={view}
-    onmousedown={preventDefault(bubble('mousedown'))}
-    ondblclick={stopPropagation(bubble('dblclick'))}
+    onmousedown={(event) => event.preventDefault()}
+    ondblclick={(event) => event.stopPropagation()}
     onclick={loading ? null : (event) => { event.stopPropagation();
               event.button === 0 && active ? doAction(event) : undefined}}
     onkeydown={loading
