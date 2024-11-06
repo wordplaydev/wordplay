@@ -458,7 +458,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "Soooo, @UnparsableExpression wants you to try making as many of them as possible. (You can just key mash a bunch of random characters and you'll probably get many of them)."
+                            "所以～ @UnparsableExpression 希望你你可以試著打很多亂七八糟的字，試著讓他們出現很多次。（你可以試著在鍵盤上面隨便亂按，這樣他們大概會出現很多次。）"
                         ],
                         ["edit", ""],
                         null,
@@ -470,7 +470,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "They really enjoyed that, thanks! It's pretty hard to write something we truly can't make sense of. But it doesn't mean everything you write has meaning. I'm pretty sure you just typed a bunch of random words, for example. But what does it mean?"
+                            "他們很喜歡這樣，謝謝你！其實寫一些完全沒意義的東西是很難的。但這不代表你寫的每一個字我們都能理解，像是你剛剛打的那些我就不太懂， @UnparsableExpression ，你知道嗎？"
                         ],
                         ["UnparsableExpression", "confused", "… /DDook/"],
                         null,
@@ -478,13 +478,13 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "They're wondering if you have any ideas for performances to put on yet."
+                            "他好奇你有沒有什麼想要表演的主題呢？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "kind",
-                            "No? That's okay. We've only begun to show you what's possible. Let's go meet @Evaluate. Bye unparsable, it was good to see you! Let's play soon."
+                            "還在想？沒關係，我也才剛開始展示我們能做到的事情。接下來，我們去見見 @Evaluate 吧！再見， @UnparsableExpression 我們下次再一起玩吧～"
                         ],
                         [
                             "UnparsableExpression",
@@ -494,8 +494,8 @@
                     ]
                 },
                 {
-                    "title": "Love is in the err",
-                    "subtitle": "Evaluate",
+                    "title": "愛就在錯誤裡",
+                    "subtitle": "評估",
                     "concept": "Evaluate",
                     "performance": [
                         "fit",
@@ -505,41 +505,41 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "I'm so excited for you to meet @Evaluate. They're really my best friend. We kind of do everything together, in a way. I make the rules, they play them, we're like peanut butter and jelly. But they're so much more… powerful than me. @Evaluate?"
+                            "我好期待讓你見到 @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
                         ],
-                        ["Evaluate", "shy", "@FunctionDefinition?"],
+                        ["Evaluate", "shy", "@FunctionDefinition ？"],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Yeah, it's me. Where are you?"
+                            "是我！你在哪裡？"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "Nowhere. I'm nowhere. I'm nothing. Where have you been?"
+                            "我...哪裡都不在，我什麼也不是。你去哪裡了？"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "I've been… nowhere too. I've missed you. I couldn't find you."
+                            "我去...我哪裡也去不了，我好想你，我到處都找不到你。"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "It was so empty. I … tried to do things, but I felt so… aimless."
+                            "那裡好空虛啊。我…有試著做些事情，但感覺好迷茫。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "sad",
-                            "I'm so sorry. I know that empty feeling. It hurts so much sometimes, to have no purpose. I tried so hard to make a purpose, but I felt so… detached."
+                            "對不起，我知道那種空虛的感覺。有時候沒有任何目標真的很痛苦，我也很努力想要找到目標，但還是感覺很...迷茫。"
                         ],
                         [
                             "Evaluate",
                             "sad",
-                            "Don't ever leave me again like that. I can't do that again."
+                            "別再像那次那樣離開我了，我真的不想再經歷一次了。 "
                         ],
                         null,
                         [
