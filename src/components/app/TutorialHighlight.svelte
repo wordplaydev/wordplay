@@ -3,6 +3,7 @@
 
     // A class name to highlight.
     export let id: string | undefined = undefined;
+    export let highlightIndex: number | undefined = undefined;
 
     let bounds: DOMRect | undefined = undefined;
 
@@ -23,11 +24,15 @@
 </script>
 
 <span
-    class="highlight"
+    class="highlight" 
     class:hovering={id !== undefined}
     style:left={bounds ? `${bounds.left}px` : undefined}
     style:top={bounds ? `${bounds.top}px` : undefined}
-/>
+>
+    {#if highlightIndex}
+        <p class="number">{highlightIndex}</p>
+    {/if}
+</span>
 
 <style>
     .highlight {
@@ -42,6 +47,7 @@
         animation-name: glow;
         animation-duration: 1s;
         animation-iteration-count: infinite;
+        align-items: center;
     }
 
     .hovering {
@@ -53,13 +59,24 @@
         pointer-events: none;
     }
 
+    .number {
+        color: #000;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+        height: 100%;
+        margin: 0;
+        font-size: 0.6em;
+        line-height: 1.2em;
+        font-weight: bold;
+    }
+
     @keyframes glow {
         from {
             transform: scale(1);
         }
         to {
             transform: scale(2);
-            opacity: 0.5;
         }
     }
 </style>

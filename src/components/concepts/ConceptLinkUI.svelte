@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
+    import { getConceptIndex, getConceptPath, HighlightCountSymbol, highlightIndex } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
@@ -8,6 +8,8 @@
     import Button from '../widgets/Button.svelte';
     import { withVariationSelector } from '../../unicode/emoji';
     import { goto } from '$app/navigation';
+    import { getContext } from 'svelte';
+    import type { Readable } from 'svelte/store';
 
     export let link: ConceptRef | ConceptLink | Concept;
     export let label: string | undefined = undefined;
@@ -20,6 +22,21 @@
     let concept: Concept | undefined;
     let container: Concept | undefined;
     let ui: string | undefined;
+
+    // Highlight ounts
+    let highlightCount = 0;
+    const countContext = getContext(HighlightCountSymbol) as Readable<number>;
+    highlightCount = $countContext;
+
+    // Global index for highlight
+    let hlIndex = $highlightIndex;
+
+    $: {
+        if (ui) {
+            highlightIndex.update(n => n + 1);
+        }
+    }
+
     $: {
         if (link instanceof Concept) {
             concept = link;
@@ -106,7 +123,8 @@
                         >{withVariationSelector(symbolicName)}</sub
                     >{/if}{/if}</span
         ></Button
-    >{:else if ui}<TutorialHighlight
+    >{:else if ui}
+        <TutorialHighlight highlightIndex={highlightCount > 1 ? hlIndex : undefined}
     />{:else if link instanceof ConceptLink}<span
         >{#if container}{container.getName(
                 $locales,
