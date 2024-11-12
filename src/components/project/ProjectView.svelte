@@ -1431,32 +1431,20 @@
                             fullscreenID={layout.fullscreenID}
                             focuscontent={tile.kind === TileKind.Source ||
                                 tile.kind === TileKind.Output}
-                            on:mode={(event) =>
-                                setMode(tile, event.detail.mode)}
-                            on:position={(event) =>
-                                positionTile(tile, event.detail.position)}
-                            on:resize={(event) =>
-                                resizeTile(
-                                    event.detail.id,
-                                    event.detail.direction,
-                                    event.detail.left,
-                                    event.detail.top,
-                                )}
-                            on:scroll={repositionFloaters}
-                            on:rename={(event) =>
-                                renameSource(
-                                    event.detail.id,
-                                    event.detail.name,
-                                )}
-                            on:fullscreen={(event) => {
+                            setMode={(mode) => setMode(tile, mode)}
+                            position={(position: Bounds) =>
+                                positionTile(tile, position)}
+                            resize={(id, direction, left, top) =>
+                                resizeTile(id, direction, left, top)}
+                            scroll={repositionFloaters}
+                            rename={(id, name) => renameSource(id, name)}
+                            setFullscreen={(fullscreen) => {
                                 if (
                                     layout.isFullscreen() &&
                                     tile.kind === TileKind.Output
                                 )
                                     stopPlaying();
-                                setFullscreen(
-                                    event.detail.fullscreen ? tile : undefined,
-                                );
+                                setFullscreen(fullscreen ? tile : undefined);
                             }}
                         >
                             {#snippet title()}
