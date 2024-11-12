@@ -822,12 +822,11 @@
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {
-        if (canvasWidth && canvasHeight)
-            layout = untrack(() => layout).resized(
-                $arrangement,
-                canvasWidth,
-                canvasHeight,
-            );
+        layout = untrack(() => layout).resized(
+            $arrangement,
+            canvasWidth,
+            canvasHeight,
+        );
     });
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
