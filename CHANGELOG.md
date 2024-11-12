@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.13.0 2024-11-02
 
+### Fixed
+
+-   Don't show expand/collapse toggle on guide.
+
 ### Maintenance
 
 -   Migrated to Svelte 5.

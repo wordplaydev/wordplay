@@ -35,8 +35,10 @@
         <Note>&mdash;</Note>
     {/each}
 </div>
-{#if expanded || concepts.length > 3}
-    <Expander {expanded} {toggle}></Expander>
+{#if collapse}
+    {#if expanded || concepts.length > 3}
+        <Expander {expanded} {toggle}></Expander>
+    {/if}
 {/if}
 
 <style>
