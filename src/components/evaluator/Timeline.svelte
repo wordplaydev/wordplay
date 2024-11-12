@@ -1,6 +1,4 @@
-<!-- @migration-task Error while migrating Svelte code: Can't migrate code with afterUpdate. Please migrate by hand. -->
 <script lang="ts">
-    import { afterUpdate } from 'svelte';
     import type Evaluator from '@runtime/Evaluator';
     import Key from '../../input/Key';
     import BoolValue from '@values/BoolValue';
@@ -13,40 +11,54 @@
     import { animationDuration, locales } from '../../db/Database';
     import StructureValue from '@values/StructureValue';
 
-    export let evaluator: Evaluator;
+    interface Props {
+        /** The evaluator running the program */
+        evaluator: Evaluator;
+    }
+
+    let { evaluator }: Props = $props();
 
     let evaluation = getEvaluation();
 
-    let timeline: HTMLElement | null;
+    /** The view of the timeline, for dragging calculations. */
+    let timeline = $state<HTMLElement | undefined>();
 
     // Find the latest stream change before the current step index.
-    $: currentReaction =
+    let currentReaction = $derived(
         $evaluation?.stepIndex !== undefined
             ? evaluator.getReactionPriorTo($evaluation.stepIndex)
-            : undefined;
-    $: historyTrimmed =
+            : undefined,
+    );
+    const historyTrimmed = $derived(
         $evaluation?.stepIndex !== undefined &&
-        evaluator.getEarliestStepIndexAvailable() > 0;
-    let dragging = false;
+            evaluator.getEarliestStepIndexAvailable() > 0,
+    );
+
+    /** Whether the timeline is being dragged*/
+    let dragging = $state(false);
 
     /**
      * The time position is the current left position within the timeline of the current step index of the evaluator.
      * We update it after we update.
      */
-    let timePosition = 0;
+    let timePosition = $state(0);
 
     /** After each update, ensure the current change is in view */
-    afterUpdate(updateScrollPosition);
+    $effect(() => {
+        tick().then(() => updateScrollPosition());
+    });
 
     /** When the current step index changes, update the scroll position to make sure it's in view. */
-    $: {
+    $effect(() => {
         $evaluation;
         if (currentReaction !== undefined) updateScrollPosition();
-    }
+    });
 
     /** When the step index changes, update the time slider position */
-    $: if ($evaluation.stepIndex !== undefined)
-        updateTimePosition($evaluation.stepIndex);
+    $effect(() => {
+        if ($evaluation.stepIndex !== undefined)
+            updateTimePosition($evaluation.stepIndex);
+    });
 
     function updateScrollPosition() {
         if (currentReaction === undefined || dragging) return;
@@ -114,7 +126,7 @@
 
     function stepToMouse(event: PointerEvent) {
         if ($evaluation.streams === undefined) return;
-        if (timeline === null) return;
+        if (timeline === undefined) return;
 
         // Map the pointer's x position to the closest event.
         const view = document
@@ -196,20 +208,20 @@
             : $evaluation.stepIndex + ''}
         aria-orientation="horizontal"
         class:stepping={$evaluation.playing === false}
-        on:pointerdown={(event) => {
+        onpointerdown={(event) => {
             stepToMouse(event);
             timeline?.setPointerCapture(event.pointerId);
         }}
-        on:pointermove={(event) =>
+        onpointermove={(event) =>
             dragging && (event.buttons & 1) === 1
                 ? stepToMouse(event)
                 : undefined}
-        on:pointerleave={() => (dragging = false)}
-        on:pointerup={(event) => {
+        onpointerleave={() => (dragging = false)}
+        onpointerup={(event) => {
             dragging = false;
             timeline?.releasePointerCapture(event.pointerId);
         }}
-        on:keydown={handleKey}
+        onkeydown={handleKey}
         bind:this={timeline}
     >
         {#if historyTrimmed}<span class="stream-input">…</span>{/if}
