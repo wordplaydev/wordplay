@@ -164,8 +164,11 @@ export function getInsertionPoint() {
     return getContext<InsertionPointContext>(InsertionPointsSymbol);
 }
 
-export type DraggedContext = Writable<Node | undefined>;
-export const DraggedSymbol = Symbol('dragged');
+type DraggedContext = Writable<Node | undefined>;
+const DraggedSymbol = Symbol('dragged');
+export function setDraggedContext(context: DraggedContext) {
+    return setContext(DraggedSymbol, context);
+}
 export function getDragged() {
     return getContext<DraggedContext | undefined>(DraggedSymbol);
 }

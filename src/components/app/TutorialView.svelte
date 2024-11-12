@@ -12,9 +12,9 @@
         getConceptPath,
         type ProjectContext,
         ProjectSymbol,
-        DraggedSymbol,
         type ConceptIndexContext,
         setConceptIndex,
+        setDraggedContext,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -81,11 +81,11 @@
     /** This is bound to the project view's context */
     let dragged = $state<Node | undefined>();
     /** This is the tutorial's own dragged store, which we keep in a context */
-    let localDragged = $state<Node | undefined>();
-    setContext(DraggedSymbol, localDragged);
+    let localDragged = writable<Node | undefined>();
+    setDraggedContext(localDragged);
     /** Whenever the local tutorial dragged context changes, push it to the project's store */
     run(() => {
-        if (dragged) dragged = localDragged;
+        if (dragged) dragged = $localDragged;
     });
 
     /** Convert the instructions into a sequence of docs/space pairs */

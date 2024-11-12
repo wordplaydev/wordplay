@@ -14,8 +14,6 @@
     } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import {
-        type DraggedContext,
-        DraggedSymbol,
         type AnimatingNodesContext,
         type ConflictsContext,
         type EvaluatorContext,
@@ -40,6 +38,7 @@
         type SelectedOutputPaths,
         type SelectedPhrase,
         setConceptIndex,
+        setDraggedContext,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -659,8 +658,10 @@
 
     /* A global context for a node being dragged */
     let draggedStore = writable<Node | undefined>(dragged);
-    $effect(() => draggedStore.set(dragged));
-    setContext<DraggedContext>(DraggedSymbol, draggedStore);
+    $effect(() => {
+        dragged = $draggedStore;
+    });
+    setDraggedContext(draggedStore);
 
     /** True if the output should show a grid */
     let grid = $state(false);
@@ -779,7 +780,7 @@
     );
 
     /**
-     * Reanalyze on a delay any time the project changes.
+     * Re-analyze on a delay any time the project changes.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
