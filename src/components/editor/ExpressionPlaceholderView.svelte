@@ -22,7 +22,7 @@
     let { node }: Props = $props();
 
     const project = getProject();
-    const { root } = getRoot();
+    const root = getRoot();
     const caret = getCaret();
     const blocks = isBlocks();
 

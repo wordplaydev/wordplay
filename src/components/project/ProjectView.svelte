@@ -4,7 +4,14 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { getContext, onDestroy, setContext, tick } from 'svelte';
+    import {
+        getContext,
+        onDestroy,
+        onMount,
+        setContext,
+        tick,
+        untrack,
+    } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import {
         type DraggedContext,
@@ -163,7 +170,7 @@
         warn = true,
         shareable = true,
         dragged = $bindable(undefined),
-        index = $bindable(undefined)
+        index = $bindable(undefined),
     }: Props = $props();
 
     // The HTMLElement that represents this element
@@ -198,9 +205,6 @@
     /** The background color of the output, so we can make the tile match. */
     let outputBackground = $state<Color | string | null>(null);
 
-    /** True if the layout has been initialized. Used to remember to only initalize once. */
-    let layoutInitialized = $state(false);
-
     /** The new source recently added. Used to remember to keep it expanded initially. */
     let newSource = $state<Source | undefined>(undefined);
 
@@ -224,14 +228,14 @@
     >('fullscreen');
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
-    $effect(() =>
+    $effect(() => {
         pageFullscreen?.set({
             // Don't turn on fullscreen if we were requested to show output.
             on: layout.isFullscreen() && !showOutput,
             // Only set a background if it's the stage that's in fullscreen
             background: layout.isStageFullscreen() ? outputBackground : null,
-        }),
-    );
+        });
+    });
 
     /** Whether the browser is in fullscreen */
     let browserFullscreen = $state(false);
@@ -269,11 +273,13 @@
     // to reset it to false after a delay.
     $effect(() => {
         if ($keyboardEditIdle !== IdleKind.Idle) {
-            if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
-            keyboardIdleTimeout = setTimeout(
-                () => keyboardEditIdle.set(IdleKind.Idle),
-                TYPING_DELAY,
-            );
+            untrack(() => {
+                if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
+                keyboardIdleTimeout = setTimeout(
+                    () => keyboardEditIdle.set(IdleKind.Idle),
+                    TYPING_DELAY,
+                );
+            });
         }
         return () => {
             if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
@@ -285,53 +291,57 @@
      * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
      * so they can render selected feedback.
      */
-    let selectedOutputPaths: SelectedOutputPaths = $state<SelectedOutputPaths>([]);
+    let selectedOutputPaths: SelectedOutputPaths = $state<SelectedOutputPaths>(
+        [],
+    );
     const selectedOutput: Evaluate[] = $derived(
-        selectedOutputPaths.map(({ source, path }) => {
-                    if (
-                        source === undefined ||
-                        path === undefined ||
-                        $projectStore === undefined
-                    )
-                        return undefined;
-                    const name = source.getNames()[0];
-                    if (name === undefined) return undefined;
-                    const newSource = $projectStore.getSourceWithName(name);
-                    if (newSource === undefined) return undefined;
-                    return newSource.root.resolvePath(path);
-                })
-                .filter(
-                    (output): output is Evaluate => output instanceof Evaluate,
+        selectedOutputPaths
+            .map(({ source, path }) => {
+                if (
+                    source === undefined ||
+                    path === undefined ||
+                    $projectStore === undefined
                 )
+                    return undefined;
+                const name = source.getNames()[0];
+                if (name === undefined) return undefined;
+                const newSource = $projectStore.getSourceWithName(name);
+                if (newSource === undefined) return undefined;
+                return newSource.root.resolvePath(path);
+            })
+            .filter((output): output is Evaluate => output instanceof Evaluate),
     );
     let selectedPhrase = $state<SelectedPhrase>(null);
 
-    function setSelectedOutput(
-        project: Project,
-        evaluates: Evaluate[],
-    ) {
+    function setSelectedOutput(project: Project, evaluates: Evaluate[]) {
         // Map each selected output to its replacement, then set the selected output to the replacements.
-        selectedOutputPaths = 
-            evaluates.map((output) => {
-                return {
-                    source: project.getSourceOf(output),
-                    path: project.getRoot(output)?.getPath(output),
-                };
-            });
+        selectedOutputPaths = evaluates.map((output) => {
+            return {
+                source: project.getSourceOf(output),
+                path: project.getRoot(output)?.getPath(output),
+            };
+        });
     }
 
     function setSelectedPhrase(phrase: SelectedPhrase) {
         selectedPhrase = phrase;
     }
 
-    let selectionState = $state<SelectedOutputContext>({selectedPaths: [], selectedOutput: [], selectedPhrase: null, setSelectedOutput, setSelectedPhrase});
+    let selectionState = $state<SelectedOutputContext>({
+        selectedPaths: [],
+        selectedOutput: [],
+        selectedPhrase: null,
+        setSelectedOutput,
+        setSelectedPhrase,
+    });
+
     $effect(() => {
         selectionState.selectedOutput = selectedOutput;
         selectionState.selectedPaths = selectedOutputPaths;
         selectionState.selectedPhrase = selectedPhrase;
         selectionState.setSelectedOutput = setSelectedOutput;
         selectionState.setSelectedPhrase = setSelectedPhrase;
-    })
+    });
 
     setContext<SelectedOutputContext>(SelectedOutputSymbol, selectionState);
 
@@ -372,7 +382,7 @@
 
     // When the locales change, reset the evaluator to use the new locales.
     $effect(() => {
-        if ($locales) resetInputs();
+        if ($locales) untrack(() => resetInputs());
     });
 
     function updateEvaluator(newProject: Project) {
@@ -403,7 +413,10 @@
     let announce = $state<ReturnType<typeof Announcer>>();
     let announcerFunction: Writable<Announce | undefined> = writable(undefined);
     $effect(() => announcerFunction.set(announce?.announce));
-    setContext<Writable<Announce | undefined>>(AnnouncerSymbol, announcerFunction);
+    setContext<Writable<Announce | undefined>>(
+        AnnouncerSymbol,
+        announcerFunction,
+    );
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation: Writable<EvaluationContext> = writable(
@@ -444,7 +457,8 @@
 
     // Clear the selected output upon playing.
     evaluation.subscribe((val) => {
-        if (val.playing) selectedOutputPaths = [];
+        if (val.playing)
+            if (selectedOutputPaths.length > 0) selectedOutputPaths = [];
     });
 
     function syncTiles(tiles: Tile[]): Tile[] {
@@ -511,7 +525,7 @@
         );
     }
 
-    function initializedLayout() {
+    function getPersistedLayout() {
         const persistedLayout = Settings.getProjectLayout(project.getID());
         return persistedLayout === null
             ? null
@@ -522,65 +536,68 @@
                   );
     }
 
-    /** The current layout of the tile windows */
-    let layout = $state<Layout>(new Layout(project.getID(), [], undefined));
-    /** Compute a default layout, or a new layout when the languages change. */
-    $effect(() => {
-        layout =
-            (!layoutInitialized ||
-            layout.projectID !== project.getID()
-                ? initializedLayout()
-                : null) ??
+    function getInitialLayout() {
+        return (
+            getPersistedLayout() ??
             new Layout(
                 project.getID(),
-                layout
-                    ? syncTiles(layout.tiles)
-                    : // Create a layout in reading order.
-                      [
-                          new Tile(
-                              TileKind.Palette,
-                              TileKind.Palette,
-                              Mode.Collapsed,
-                              undefined,
-                              Tile.randomPosition(1024, 768),
-                          ),
-                          new Tile(
-                              TileKind.Output,
-                              TileKind.Output,
-                              Mode.Expanded,
-                              undefined,
-                              Tile.randomPosition(1024, 768),
-                          ),
-                          new Tile(
-                              TileKind.Documentation,
-                              TileKind.Documentation,
-                              Mode.Collapsed,
-                              undefined,
-                              Tile.randomPosition(1024, 768),
-                          ),
-                          ...project.getSources().map((source, index) =>
-                              // If starting with output only, collapse the source initially too.
-                              createSourceTile(source, index).withMode(
-                                  showOutput
-                                      ? Mode.Collapsed
-                                      : index === 0 || source === newSource
-                                        ? Mode.Expanded
-                                        : Mode.Collapsed,
-                              ),
-                          ),
-                      ],
-                layout
-                    ? layout.fullscreenID
-                    : // If no layout, and showing output was requested, we fullscreen on output
-                      showOutput
-                      ? TileKind.Output
-                      : undefined,
+                // Create a layout in reading order.
+                [
+                    new Tile(
+                        TileKind.Palette,
+                        TileKind.Palette,
+                        Mode.Collapsed,
+                        undefined,
+                        Tile.randomPosition(1024, 768),
+                    ),
+                    new Tile(
+                        TileKind.Output,
+                        TileKind.Output,
+                        Mode.Expanded,
+                        undefined,
+                        Tile.randomPosition(1024, 768),
+                    ),
+                    new Tile(
+                        TileKind.Documentation,
+                        TileKind.Documentation,
+                        Mode.Collapsed,
+                        undefined,
+                        Tile.randomPosition(1024, 768),
+                    ),
+                    ...project.getSources().map((source, index) =>
+                        // If starting with output only, collapse the source initially too.
+                        createSourceTile(source, index).withMode(
+                            showOutput
+                                ? Mode.Collapsed
+                                : index === 0 || source === newSource
+                                  ? Mode.Expanded
+                                  : Mode.Collapsed,
+                        ),
+                    ),
+                ],
+                // If showing output was requested, we fullscreen on output
+                showOutput ? TileKind.Output : undefined,
+            )
+        );
+    }
+
+    /** The current layout of the tile windows, starting with a serialized layout or a default. */
+    let layout = $state<Layout>(getInitialLayout());
+
+    /** If project changes, create a new layout based on the new project */
+    $effect(() => {
+        if (layout.projectID !== project.getID())
+            layout = new Layout(
+                project.getID(),
+                syncTiles(layout.tiles),
+                layout.fullscreenID,
             );
+        untrack(() => layout);
+    });
 
-        // Now that we've handled it, unset it.
-        requestedEdit = false;
-
-        if (!layoutInitialized && requestedPlay) {
+    // If the URL requested play, set to full screen and focus on the stage.
+    onMount(() => {
+        if (requestedPlay) {
             const output = layout.getOutput();
             if (output) {
                 setFullscreen(output);
@@ -588,13 +605,14 @@
             }
         }
 
-        layoutInitialized = true;
+        // After mounted, disable the requested edit.
+        if (requestedEdit) requestedEdit = false;
     });
 
     /** Persist the layout when it changes */
-    $effect(() =>
-        layout ? Settings.setProjectLayout(project.getID(), layout) : undefined,
-    );
+    $effect(() => {
+        Settings.setProjectLayout(project.getID(), layout);
+    });
 
     /** When the layout or path changes, add or remove query params based on state */
     $effect(() => {
@@ -656,7 +674,9 @@
     });
 
     /** Create an index whenever the project or locale changes. */
-    $effect(() => { index = ConceptIndex.make(project, $locales);});
+    $effect(() => {
+        index = ConceptIndex.make(project, $locales);
+    });
 
     // Create a reactive index state for the context.
     let indexContext = $state({ index });
@@ -726,15 +746,16 @@
     let latestPath = $state<Concept[]>($path ?? []);
     $effect(() => {
         if (
-            layout &&
             $path &&
-            ($path.length !== latestPath.length ||
+            ($path.length !== untrack(() => latestPath.length) ||
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
                 ))
         ) {
-            const docs = layout.getDocs();
-            if (docs) setMode(docs, Mode.Expanded);
+            untrack(() => {
+                const docs = layout.getDocs();
+                if (docs) setMode(docs, Mode.Expanded);
+            });
         }
         // Update the latest path.
         latestPath = $path ?? [];
@@ -753,7 +774,7 @@
             // Convert them into lists of conflicts
             .map((source) => conflictsOfInterest.get(source) ?? [])
             // Flatten the list
-            .flat()
+            .flat(),
     );
 
     /**
@@ -764,7 +785,9 @@
         // Re-evaluate immediately.
         if (!$evaluator.isStarted()) $evaluator.start();
 
-        if (updateTimer) clearTimeout(updateTimer);
+        untrack(() => {
+            if (updateTimer) clearTimeout(updateTimer);
+        });
         updateTimer = setTimeout(() => {
             project.analyze();
             conflicts?.set(project.getConflicts());
@@ -775,32 +798,36 @@
     $effect(() => {
         if ($evaluation.playing === false && $evaluation.step) {
             const source = project.getSourceOf($evaluation.step.node);
-            const tile =
-                layout && source
-                    ? layout.getSource(project.getIndexOfSource(source))
-                    : undefined;
+            const tile = source
+                ? untrack(() => layout).getSource(
+                      project.getIndexOfSource(source),
+                  )
+                : undefined;
             if (tile && tile.mode === Mode.Collapsed) {
-                setMode(tile, Mode.Expanded);
+                untrack(() => setMode(tile, Mode.Expanded));
             }
         }
     });
 
     /** When output selection changes, make the palette visible. */
     $effect(() => {
-        const palette = layout?.getPalette();
+        const palette = untrack(() => layout).getPalette();
         if (palette) {
             if (selectedOutput && selectedOutput.length > 0) {
                 if (palette.mode === Mode.Collapsed)
-                    setMode(palette, Mode.Expanded);
+                    untrack(() => setMode(palette, Mode.Expanded));
             }
         }
     });
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {
-        if (canvasWidth && canvasHeight && layout) {
-            layout = layout.resized($arrangement, canvasWidth, canvasHeight);
-        }
+        if (canvasWidth && canvasHeight)
+            layout = untrack(() => layout).resized(
+                $arrangement,
+                canvasWidth,
+                canvasHeight,
+            );
     });
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
@@ -874,10 +901,14 @@
         menu = undefined;
     }
 
-    let menuPosition = $state<ReturnType<typeof getMenuPosition> | undefined>(undefined);
+    let menuPosition = $state<ReturnType<typeof getMenuPosition> | undefined>(
+        undefined,
+    );
 
     /** When the menu changes, compute a menu position. */
-    $effect(() => { menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;});
+    $effect(() => {
+        menuPosition = menu ? getMenuPosition(menu.getCaret()) : undefined;
+    });
 
     // When the locale direction changes, update the output.
     $effect(() => {
@@ -892,11 +923,11 @@
             };
     });
 
-/**
+    /**
      * This reactive block creates a ProjectView wide context for commands to do their work,
      * particularly CommandButtons.
      */
-     let commandContext: CommandContext = $derived({
+    let commandContext: CommandContext = $derived({
         // Send the active caret, unless a non-source tile is fullscreen
         caret:
             layout === undefined || layout.isFullscreenNonSource()
@@ -919,8 +950,10 @@
     });
 
     // Create reactive context to share the above.
-    let commandContextState = $state({context: commandContext});;
-    $effect(() => { commandContextState.context = commandContext});
+    let commandContextState = $state({ context: commandContext });
+    $effect(() => {
+        commandContextState.context = commandContext;
+    });
     setContext(ProjectCommandContextSymbol, commandContextState);
 
     function toggleBlocks(on: boolean) {
@@ -1035,9 +1068,7 @@
             if (tile.mode === Mode.Collapsed && selectedOutput.length === 0) {
                 const output = project.getOutput();
                 if (output.length > 0) {
-                    setSelectedOutput(project, [
-                        output[0],
-                    ]);
+                    setSelectedOutput(project, [output[0]]);
                     $evaluator.pause();
                 }
             } else if (tile.mode === Mode.Expanded) {
@@ -1638,9 +1669,7 @@
                                 {#if tile.kind === TileKind.Source && editable}
                                     <GlyphChooser sourceID={tile.id} />
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
-                                    <Timeline
-                                        evaluator={$evaluator}
-                                />{/if}
+                                    <Timeline evaluator={$evaluator} />{/if}
                             {/snippet}
                             {#snippet margin()}
                                 {#if tile.kind === TileKind.Source && editable}

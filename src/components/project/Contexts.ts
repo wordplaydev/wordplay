@@ -211,7 +211,7 @@ export function getConceptIndex() {
 export const RootSymbol = Symbol('root');
 export type RootContext = { root: Root | undefined };
 export function getRoot() {
-    return getContext<RootContext>(RootSymbol);
+    return getContext<RootContext>(RootSymbol)?.root;
 }
 
 export const MenuNodeSymbol = Symbol('menu');

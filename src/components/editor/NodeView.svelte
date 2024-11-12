@@ -29,7 +29,7 @@
     let { node, small = false, direction = 'row' }: Props = $props();
 
     const evaluation = getEvaluation();
-    const { root } = getRoot();
+    const root = getRoot();
 
     let description = $derived(
         node && $evaluation

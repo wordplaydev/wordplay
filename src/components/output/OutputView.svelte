@@ -34,6 +34,7 @@
     import { default as ButtonUI } from '../widgets/Button.svelte';
     import Button from '../../input/Button';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { untrack } from 'svelte';
 
     interface Props {
         project: Project;
@@ -64,8 +65,14 @@
     const index = getConceptIndex();
     const evaluation = getEvaluation();
     const keyboardEditIdle = getKeyboardEditIdle();
-    const {selectedOutput, selectedPaths, selectedPhrase, setSelectedOutput, setSelectedPhrase} = getSelectedOutput();
-        const announce = getAnnounce();
+    const {
+        selectedOutput,
+        selectedPaths,
+        selectedPhrase,
+        setSelectedOutput,
+        setSelectedPhrase,
+    } = getSelectedOutput();
+    const announce = getAnnounce();
 
     let ignored = $state(false);
     let valueView = $state<HTMLElement | undefined>();
@@ -113,13 +120,13 @@
             $keyboardEditIdle === IdleKind.Typing,
     );
 
-    /** Keep a background color up to date. */
-    const back = $derived(
-        background ??
-            (value instanceof ExceptionValue
+    /** Keep the bindable background color up to date. */
+    $effect(() => {
+        background =
+            value instanceof ExceptionValue
                 ? 'var(--wordplay-error)'
-                : stageValue?.background ?? null),
-    );
+                : stageValue?.background ?? null;
+    });
 
     /** Keep track of streams that listen for keyboard input */
     const keys = $derived(
@@ -134,13 +141,15 @@
 
     // Announce changes in values.
     $effect(() => {
-        if ($announce && value !== undefined && stageValue === undefined) {
-            $announce(
-                'value',
-                $locales.getLanguages()[0],
-                exception
-                    ? exception.getExplanation($locales).toText()
-                    : value.getDescription($locales).toText(),
+        if ($announce && value !== undefined) {
+            untrack(() =>
+                $announce(
+                    'value',
+                    $locales.getLanguages()[0],
+                    exception
+                        ? exception.getExplanation($locales).toText()
+                        : value.getDescription($locales).toText(),
+                ),
             );
         }
     });
@@ -386,8 +395,7 @@
         // If we're editing, select output.
         if (editable) {
             if (painting) {
-                if (selectedPaths)
-                    setSelectedOutput(project, []);
+                if (selectedPaths) setSelectedOutput(project, []);
             } else if (!selectPointerOutput(event)) ignore();
         }
 
@@ -843,7 +851,7 @@
 
     let priorFocusRect: DOMRect | undefined = undefined;
 
-    // Keep track of the focus rect on the currently focused element so we 
+    // Keep track of the focus rect on the currently focused element so we
     // can track the nearest focused element after an update.
     $effect.pre(() => {
         const focus = document.activeElement;
@@ -911,8 +919,10 @@
         onkeydown={interactive ? handleKeyDown : null}
         onkeyup={interactive ? handleKeyUp : null}
         onwheel={interactive ? handleWheel : null}
-        onpointerdown={(event) => { event.stopPropagation(); 
-            if(interactive)handlePointerDown(event)}}
+        onpointerdown={(event) => {
+            event.stopPropagation();
+            if (interactive) handlePointerDown(event);
+        }}
         onpointerup={interactive ? handlePointerUp : null}
         onpointermove={interactive ? handlePointerMove : null}
         onpointerleave={interactive ? handlePointerLeave : null}
@@ -993,7 +1003,7 @@
                 />
                 {#if chats}
                     <ButtonUI
-                        background={back !== null}
+                        background={background !== null}
                         tip={$locales.get((l) => l.ui.output.button.submit)}
                         action={submitChat}>↑</ButtonUI
                     >

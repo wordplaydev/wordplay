@@ -12,7 +12,7 @@
     let { node }: Props = $props();
 
     let project = getProject();
-    let { root } = getRoot();
+    let root = getRoot();
 
     let context = $derived(
         root === undefined || $project === undefined

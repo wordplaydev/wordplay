@@ -32,7 +32,7 @@
 
     let caret = getCaret();
     let project = getProject();
-    let { root } = getRoot();
+    let root = getRoot();
     let localize = getLocalize();
     let hidden = getHidden();
     let blocks = isBlocks();
