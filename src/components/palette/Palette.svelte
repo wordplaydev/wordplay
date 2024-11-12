@@ -40,21 +40,26 @@
     let { project, editable }: Props = $props();
 
     let evaluation = getEvaluation();
-    let index = getConceptIndex();
-    let {selectedOutput} = getSelectedOutput();
+
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let { selectedOutput } = getSelectedOutput();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
-    let outputs = $derived(selectedOutput
-        ? selectedOutput
-              .map(
-                  (evaluate) =>
-                      new OutputExpression(project, evaluate, $locales),
-              )
-              .filter((out) => out.isOutput())
-        : []);
-    let definition = $derived(outputs[0]?.node.getFunction(
-        project.getNodeContext(outputs[0].node),
-    ));
+    let outputs = $derived(
+        selectedOutput
+            ? selectedOutput
+                  .map(
+                      (evaluate) =>
+                          new OutputExpression(project, evaluate, $locales),
+                  )
+                  .filter((out) => out.isOutput())
+            : [],
+    );
+    let definition = $derived(
+        outputs[0]?.node.getFunction(project.getNodeContext(outputs[0].node)),
+    );
 
     let phrase = $derived(getSoloPhrase(project));
     let group = $derived(getSoloGroup(project));
@@ -63,9 +68,12 @@
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(new Map());
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
+        new Map(),
+    );
     // Keep a reference to the text, since we need to pass that to the text style.
-    let phraseTextValues: OutputPropertyValueSet | undefined = $state(undefined);
+    let phraseTextValues: OutputPropertyValueSet | undefined =
+        $state(undefined);
 
     run(() => {
         // Make a set of all of the properties in the selection set
@@ -111,14 +119,12 @@
             }}
         >
             {#snippet content()}
-                    
-                    <MarkupHtmlView
-                        markup={$locales.concretize(
-                            (l) => l.ui.palette.prompt.editing,
-                        )}
-                    />
-                
-                    {/snippet}
+                <MarkupHtmlView
+                    markup={$locales.concretize(
+                        (l) => l.ui.palette.prompt.editing,
+                    )}
+                />
+            {/snippet}
         </Speech>
 
         <!-- Something selected? Show the property values. -->

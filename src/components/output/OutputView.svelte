@@ -62,7 +62,9 @@
         background = $bindable(null),
     }: Props = $props();
 
-    const index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
     const evaluation = getEvaluation();
     const keyboardEditIdle = getKeyboardEditIdle();
     const {

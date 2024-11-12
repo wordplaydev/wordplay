@@ -676,6 +676,7 @@
     /** Create an index whenever the project or locale changes. */
     $effect(() => {
         index = ConceptIndex.make(project, $locales);
+        indexContext.index = index;
     });
 
     // Create a reactive index state for the context.

@@ -50,7 +50,9 @@
      * 2) functions on the type. It includes any creator-defined types and borrowed types in the active project.
      */
 
-    let index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
     let path = getConceptPath();
 
     let dragged = getDragged();
@@ -337,6 +339,8 @@
                 concepts={index.getPrimaryConceptsWithPurpose(Purpose.Source)}
                 {collapse}
             />
+        {:else}
+            No index.
         {/if}
     </div>
     {#key highlights}

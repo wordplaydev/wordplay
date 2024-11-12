@@ -49,7 +49,8 @@
         };
     });
 
-    let index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
 
     // Keep track of the last example so we can remove it when the example changes.
     let lastExample = $state(example);

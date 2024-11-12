@@ -16,7 +16,9 @@
     let { type, context }: Props = $props();
 
     let path = getConceptPath();
-    let index = getConceptIndex();
+
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
 
     let types = $derived(
         type

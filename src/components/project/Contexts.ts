@@ -201,11 +201,11 @@ export function getConceptPath() {
 
 const ConceptIndexSymbol = Symbol('palette-index');
 export type ConceptIndexContext = { index: ConceptIndex | undefined };
-export function setConceptIndex(context: { index: ConceptIndex | undefined }) {
+export function setConceptIndex(context: ConceptIndexContext) {
     return setContext(ConceptIndexSymbol, context);
 }
-export function getConceptIndex() {
-    return getContext<ConceptIndexContext>(ConceptIndexSymbol).index;
+export function getConceptIndex(): ConceptIndexContext | undefined {
+    return getContext<ConceptIndexContext>(ConceptIndexSymbol);
 }
 
 export const RootSymbol = Symbol('root');

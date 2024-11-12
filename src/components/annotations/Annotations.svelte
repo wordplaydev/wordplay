@@ -44,13 +44,6 @@
     import Expander from '@components/widgets/Expander.svelte';
     import Templates from '@concepts/Templates';
 
-    
-    
-    
-    
-    
-    
-    
     interface Props {
         /** The project for which annotations should be shown */
         project: Project;
@@ -75,17 +68,16 @@
         sourceID,
         stepping,
         conflicts,
-        caret
+        caret,
     }: Props = $props();
 
     let evaluation = getEvaluation();
-    let index = getConceptIndex();
+
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
     let annotations: AnnotationInfo[] = $state([]);
     let annotationsByNode: Map<Node, AnnotationInfo[]> = $state(new Map());
-
-
-
-
 
     async function updateAnnotations() {
         // Wait for DOM updates so that everything is in position before we layout annotations.
@@ -209,25 +201,31 @@
             `.editor .node-view[data-id="${node.id}"]`,
         );
     }
-    let caretNode = $derived(caret
-        ? caret.position instanceof Node
-            ? caret.position
-            : caret.tokenExcludingSpace
-        : undefined);
+    let caretNode = $derived(
+        caret
+            ? caret.position instanceof Node
+                ? caret.position
+                : caret.tokenExcludingSpace
+            : undefined,
+    );
     let context = $derived(project.getContext(source));
-    let relevantConcept =
-        $derived(index && caret && caret.position instanceof Node
+    let relevantConcept = $derived(
+        index && caret && caret.position instanceof Node
             ? index?.getRelevantConcept(caret.position)
-            : undefined);
-    let caretNodeParent =
-        $derived(caretNode instanceof Node ? caretNode.getParent(context) : undefined);
-    let relevantParentConcept =
-        $derived(index && caretNodeParent
+            : undefined,
+    );
+    let caretNodeParent = $derived(
+        caretNode instanceof Node ? caretNode.getParent(context) : undefined,
+    );
+    let relevantParentConcept = $derived(
+        index && caretNodeParent
             ? index?.getRelevantConcept(caretNodeParent)
-            : undefined);
+            : undefined,
+    );
     // See if the caret is adjustable.
-    let adjustable =
-        $derived(caret && caretNode ? caret.getAdjustableLiteral() : undefined);
+    let adjustable = $derived(
+        caret && caretNode ? caret.getAdjustableLiteral() : undefined,
+    );
     // When any of these states change, update annotations.
     run(() => {
         stepping;
@@ -255,15 +253,13 @@
             {#if source.isEmpty()}
                 <Speech glyph={Glyphs.Function} scroll={false} below>
                     {#snippet content()}
-                                    
-                            <MarkupHTMLView
-                                markup={docToMarkup(
-                                    $locales.get((l) => l.ui.source.empty),
-                                ).concretize($locales, [toShortcut(ShowMenu)]) ??
-                                    ''}
-                            />
-                        
-                                    {/snippet}
+                        <MarkupHTMLView
+                            markup={docToMarkup(
+                                $locales.get((l) => l.ui.source.empty),
+                            ).concretize($locales, [toShortcut(ShowMenu)]) ??
+                                ''}
+                        />
+                    {/snippet}
                 </Speech>
             {:else}
                 {#each Array.from(annotationsByNode.values()) as annotations, index}
@@ -271,30 +267,86 @@
                 {/each}
                 <Speech glyph={Glyphs.Function} scroll={false} below>
                     {#snippet content()}
-                                    
-                            {#if stepping}
-                                <MarkupHTMLView
-                                    inline
-                                    markup={$locales.get(
-                                        (l) => l.ui.annotations.evaluating,
-                                    )}
-                                />
-                            {:else if caretNode}
-                                <div class="who">
+                        {#if stepping}
+                            <MarkupHTMLView
+                                inline
+                                markup={$locales.get(
+                                    (l) => l.ui.annotations.evaluating,
+                                )}
+                            />
+                        {:else if caretNode}
+                            <div class="who">
+                                <div class="intro">
+                                    <MarkupHTMLView
+                                        inline
+                                        markup={docToMarkup(
+                                            $locales.get(
+                                                (l) => l.ui.annotations.cursor,
+                                            ),
+                                        ).concretize($locales, [
+                                            caretNode.getLabel($locales),
+                                            caretNode instanceof Expression
+                                                ? new NodeRef(
+                                                      caretNode
+                                                          .getType(context)
+                                                          .generalize(context),
+                                                      $locales,
+                                                      context,
+                                                  )
+                                                : undefined,
+                                        ]) ?? ''}
+                                    />
+                                </div>
+                                {#if relevantConcept}
+                                    <div class="concept">
+                                        <MarkupHTMLView
+                                            inline
+                                            markup={$locales.get(
+                                                (l) => l.ui.annotations.learn,
+                                            )}
+                                        />
+                                        <ConceptLinkUI
+                                            link={relevantConcept}
+                                            label={DOCUMENTATION_SYMBOL}
+                                        />
+                                    </div>
+                                {/if}
+                                {#if adjustable}
+                                    <div class="tools">
+                                        <CommandButton
+                                            command={IncrementLiteral}
+                                            {sourceID}
+                                            background
+                                        />
+                                        <CommandButton
+                                            command={DecrementLiteral}
+                                            {sourceID}
+                                            background
+                                        />
+                                    </div>
+                                {/if}
+                                {#if caretNodeParent}
                                     <div class="intro">
                                         <MarkupHTMLView
                                             inline
                                             markup={docToMarkup(
                                                 $locales.get(
-                                                    (l) => l.ui.annotations.cursor,
+                                                    (l) =>
+                                                        l.ui.annotations
+                                                            .cursorParent,
                                                 ),
                                             ).concretize($locales, [
-                                                caretNode.getLabel($locales),
-                                                caretNode instanceof Expression
+                                                caretNodeParent.getLabel(
+                                                    $locales,
+                                                ),
+                                                caretNodeParent instanceof
+                                                Expression
                                                     ? new NodeRef(
-                                                          caretNode
+                                                          caretNodeParent
                                                               .getType(context)
-                                                              .generalize(context),
+                                                              .generalize(
+                                                                  context,
+                                                              ),
                                                           $locales,
                                                           context,
                                                       )
@@ -302,90 +354,32 @@
                                             ]) ?? ''}
                                         />
                                     </div>
-                                    {#if relevantConcept}
+                                    {#if relevantParentConcept}
                                         <div class="concept">
                                             <MarkupHTMLView
                                                 inline
                                                 markup={$locales.get(
-                                                    (l) => l.ui.annotations.learn,
+                                                    (l) =>
+                                                        l.ui.annotations.learn,
                                                 )}
                                             />
                                             <ConceptLinkUI
-                                                link={relevantConcept}
+                                                link={relevantParentConcept}
                                                 label={DOCUMENTATION_SYMBOL}
                                             />
                                         </div>
                                     {/if}
-                                    {#if adjustable}
-                                        <div class="tools">
-                                            <CommandButton
-                                                command={IncrementLiteral}
-                                                {sourceID}
-                                                background
-                                            />
-                                            <CommandButton
-                                                command={DecrementLiteral}
-                                                {sourceID}
-                                                background
-                                            />
-                                        </div>
-                                    {/if}
-                                    {#if caretNodeParent}
-                                        <div class="intro">
-                                            <MarkupHTMLView
-                                                inline
-                                                markup={docToMarkup(
-                                                    $locales.get(
-                                                        (l) =>
-                                                            l.ui.annotations
-                                                                .cursorParent,
-                                                    ),
-                                                ).concretize($locales, [
-                                                    caretNodeParent.getLabel(
-                                                        $locales,
-                                                    ),
-                                                    caretNodeParent instanceof
-                                                    Expression
-                                                        ? new NodeRef(
-                                                              caretNodeParent
-                                                                  .getType(context)
-                                                                  .generalize(
-                                                                      context,
-                                                                  ),
-                                                              $locales,
-                                                              context,
-                                                          )
-                                                        : undefined,
-                                                ]) ?? ''}
-                                            />
-                                        </div>
-                                        {#if relevantParentConcept}
-                                            <div class="concept">
-                                                <MarkupHTMLView
-                                                    inline
-                                                    markup={$locales.get(
-                                                        (l) =>
-                                                            l.ui.annotations.learn,
-                                                    )}
-                                                />
-                                                <ConceptLinkUI
-                                                    link={relevantParentConcept}
-                                                    label={DOCUMENTATION_SYMBOL}
-                                                />
-                                            </div>
-                                        {/if}
-                                    {/if}
-                                </div>
-                            {:else}
-                                <MarkupHTMLView
-                                    inline
-                                    markup={$locales.get(
-                                        (l) => l.ui.annotations.space,
-                                    )}
-                                />
-                            {/if}
-                        
-                                    {/snippet}
+                                {/if}
+                            </div>
+                        {:else}
+                            <MarkupHTMLView
+                                inline
+                                markup={$locales.get(
+                                    (l) => l.ui.annotations.space,
+                                )}
+                            />
+                        {/if}
+                    {/snippet}
                 </Speech>
             {/if}
         </div>

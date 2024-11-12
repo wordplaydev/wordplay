@@ -18,7 +18,9 @@
     let { link, label = undefined, symbolic = true }: Props = $props();
 
     // Resolve the concept
-    let index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
     let path = getConceptPath();
 
     type Match = {

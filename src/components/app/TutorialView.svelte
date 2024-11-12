@@ -14,7 +14,7 @@
         ProjectSymbol,
         DraggedSymbol,
         type ConceptIndexContext,
-        setConceptIndex
+        setConceptIndex,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -51,10 +51,10 @@
 
     // Get the concept index and path from the project view and put it in
     // a store, and the store in a context so that ContextViewUI can access the index.
-    let concepts: ConceptIndex | undefined = $state(undefined);
-    let conceptsStore = $state<ConceptIndexContext>({index: undefined});
+    let projectContext: ConceptIndex | undefined = $state(undefined);
+    let conceptsStore = $state<ConceptIndexContext>({ index: undefined });
     $effect(() => {
-        conceptsStore.index = concepts;
+        conceptsStore.index = projectContext;
     });
     setConceptIndex(conceptsStore);
 
@@ -89,7 +89,9 @@
     });
 
     /** Convert the instructions into a sequence of docs/space pairs */
-    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = $state([]);
+    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = $state(
+        [],
+    );
     run(() => {
         turns = dialog
             ? dialog.map((line) => {
@@ -105,17 +107,22 @@
             : [];
     });
 
-    let highlights = $derived(turns
-        .map((turn) =>
-            turn.speech
-                .nodes()
-                .filter(
-                    (node): node is ConceptLink => node instanceof ConceptLink,
-                ),
-        )
-        .flat()
-        .filter((concept) => concept.concept.getText().startsWith('@UI/'))
-        .map((concept) => concept.concept.getText().substring('@UI/'.length)));
+    let highlights = $derived(
+        turns
+            .map((turn) =>
+                turn.speech
+                    .nodes()
+                    .filter(
+                        (node): node is ConceptLink =>
+                            node instanceof ConceptLink,
+                    ),
+            )
+            .flat()
+            .filter((concept) => concept.concept.getText().startsWith('@UI/'))
+            .map((concept) =>
+                concept.concept.getText().substring('@UI/'.length),
+            ),
+    );
 
     const conceptPath = getConceptPath();
 
@@ -142,20 +149,32 @@
     });
 
     let isUse = $derived(performance !== undefined && performance[0] === 'use');
-    let performanceType = $derived(performance === undefined ? "" : isUse ? performance[1] : performance[0]);
-    let editable = $derived(performanceType === 'edit' || performanceType === 'conflict');
+    let performanceType = $derived(
+        performance === undefined
+            ? ''
+            : isUse
+              ? performance[1]
+              : performance[0],
+    );
+    let editable = $derived(
+        performanceType === 'edit' || performanceType === 'conflict',
+    );
     let fit = $derived(performanceType === 'fit' || performanceType === 'use');
     // A "use" performance? Find it in Performances.
     // Anything else? Take all the lines of source and join them together.
-    let source = $derived(performance === undefined ? '' : isUse
-        ? Performances[performance[2] as keyof typeof Performances].apply(
-              undefined,
-              performance.slice(3) as [string],
-          )
-        : performance.slice(1).join('\n'));
+    let source = $derived(
+        performance === undefined
+            ? ''
+            : isUse
+              ? Performances[performance[2] as keyof typeof Performances].apply(
+                    undefined,
+                    performance.slice(3) as [string],
+                )
+              : performance.slice(1).join('\n'),
+    );
 
     // Every time the progress changes, create an initial project for the step.
-    let initialProject = $state<Project|undefined>();
+    let initialProject = $state<Project | undefined>();
     run(() => {
         if (
             initialProject === undefined ||
@@ -220,31 +239,37 @@
 
     // When the project changes to something other than the initial project, start persisting it.
     run(() => {
-        if (initialProject && $projectStore !== undefined && !$projectStore.equals(initialProject))
+        if (
+            initialProject &&
+            $projectStore !== undefined &&
+            !$projectStore.equals(initialProject)
+        )
             Projects.getHistory($projectStore.getID())?.setPersist(
                 PersistenceType.Local,
             );
     });
 
     // Compute the options for the select based on the tutorial
-    let lessons = $derived(progress.tutorial.acts.map((act, actIndex) => {
-        return {
-            label: act.title,
-            options: act.scenes.map((scene, sceneIndex) => {
-                return {
-                    value: JSON.stringify(
-                        new Progress(
-                            progress.tutorial,
-                            actIndex + 1,
-                            sceneIndex + 1,
-                            0,
-                        ).serialize(),
-                    ),
-                    label: scene.subtitle ?? scene.title,
-                };
-            }),
-        };
-    }));
+    let lessons = $derived(
+        progress.tutorial.acts.map((act, actIndex) => {
+            return {
+                label: act.title,
+                options: act.scenes.map((scene, sceneIndex) => {
+                    return {
+                        value: JSON.stringify(
+                            new Progress(
+                                progress.tutorial,
+                                actIndex + 1,
+                                sceneIndex + 1,
+                                0,
+                            ).serialize(),
+                        ),
+                        label: scene.subtitle ?? scene.title,
+                    };
+                }),
+            };
+        }),
+    );
 
     function handleSelect(lesson: string | undefined) {
         if (lesson === undefined) return;
@@ -293,15 +318,18 @@
 
 <!-- If the body gets focus, focus the instructions. -->
 <svelte:body
-    onfocus={stopPropagation(preventDefault(() =>
-        tick().then(() => {
-            const newFocus = focusView ?? nextButton;
-            if (newFocus)
-                setKeyboardFocus(
-                    newFocus,
-                    'Body received focus, focusing tutorial.',
-                );
-        })))}
+    onfocus={stopPropagation(
+        preventDefault(() =>
+            tick().then(() => {
+                const newFocus = focusView ?? nextButton;
+                if (newFocus)
+                    setKeyboardFocus(
+                        newFocus,
+                        'Body received focus, focusing tutorial.',
+                    );
+            }),
+        ),
+    )}
 />
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -345,7 +373,8 @@
                               nextButton,
                               'Focusing next button after chat click',
                           )
-                        : undefined)}
+                        : undefined,
+                )}
             >
                 <div class="controls">
                     <Button
@@ -398,7 +427,7 @@
                         {#each turns as turn}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
-                                glyph={concepts
+                                glyph={projectContext
                                     ?.getConceptByName(turn.dialog[0])
                                     ?.getGlyphs($locales) ?? {
                                     symbols: turn.dialog[0],
@@ -409,10 +438,8 @@
                                 emotion={Emotion[turn.dialog[1]]}
                             >
                                 {#snippet content()}
-                                                                            
-                                        <MarkupHTMLView markup={turn.speech} />
-                                    
-                                                                            {/snippet}
+                                    <MarkupHTMLView markup={turn.speech} />
+                                {/snippet}
                             </Speech>
                         {/each}
                     {/key}
@@ -427,9 +454,9 @@
                 {#if project}
                     <div class="project"
                         ><ProjectView
-                            project={project}
+                            {project}
                             original={initialProject}
-                            bind:index={concepts}
+                            bind:index={projectContext}
                             bind:dragged
                             showOutput={!editable}
                             {fit}
@@ -442,10 +469,7 @@
             {:else}
                 {@const project = $projectStore ?? initialProject}
                 {#if project}
-                    <PlayView
-                        project={project}
-                        {fit}
-                    />
+                    <PlayView {project} {fit} />
                 {/if}
             {/if}
         {/key}

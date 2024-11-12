@@ -37,14 +37,11 @@
         editable: boolean;
     }
 
-    let {
-        project,
-        property,
-        values,
-        editable
-    }: Props = $props();
+    let { project, property, values, editable }: Props = $props();
 
-    let index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
     let bind = $derived(values.getBind());
     let bindConcept = $derived(bind ? index?.getBindConcept(bind) : undefined);
     let valuesAreSet = $derived(values.areSet());
@@ -63,109 +60,105 @@
 
 <NamedControl>
     {#snippet name()}
-    
-            {#if bindConcept}<small
-                    ><ConceptLinkUI
-                        link={bindConcept}
-                        label={DOCUMENTATION_SYMBOL}
-                    /></small
-                >{/if}
-            <label for={property.getName()}
-                >{bindConcept?.getName($locales, false) ?? '—'}</label
-            >
-            {#if editable}
-                <Button
-                    tip={valuesAreSet
-                        ? $locales.get((l) => l.ui.palette.button.revert)
-                        : $locales.get((l) => l.ui.palette.button.set)}
-                    bind:view={toggleView}
-                    action={() => toggleValues(!valuesAreSet)}
-                    >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
-                >{/if}
-        
+        {#if bindConcept}<small
+                ><ConceptLinkUI
+                    link={bindConcept}
+                    label={DOCUMENTATION_SYMBOL}
+                /></small
+            >{/if}
+        <label for={property.getName()}
+            >{bindConcept?.getName($locales, false) ?? '—'}</label
+        >
+        {#if editable}
+            <Button
+                tip={valuesAreSet
+                    ? $locales.get((l) => l.ui.palette.button.revert)
+                    : $locales.get((l) => l.ui.palette.button.set)}
+                bind:view={toggleView}
+                action={() => toggleValues(!valuesAreSet)}
+                >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
+            >{/if}
     {/snippet}
     {#snippet control()}
-    
-            {#if values.areMixed()}
-                <Note>{$locales.get((l) => l.ui.palette.labels.mixed)}</Note>
-            {:else if !values.areSet()}
-                {@const expression = values.getExpression()}
-                <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
-                <Note
-                    >{#if property.inherited}{$locales.get(
-                            (l) => l.ui.palette.labels.inherited,
-                        )}{:else if values.areDefault() && expression !== undefined}<NodeView
-                            node={expression}
-                        />
-                        {$locales.get(
-                            (l) => l.ui.palette.labels.default,
-                        )}{:else}&mdash;{/if}</Note
-                >
-            {:else if !values.areEditable(project)}
-                <Note>{$locales.get((l) => l.ui.palette.labels.computed)}</Note>
-            {:else if property.type instanceof OutputPropertyRange}
-                <BindSlider {property} {values} range={property.type} {editable} />
-            {:else if property.type instanceof OutputPropertyOptions}
-                <BindOptions
-                    {property}
-                    {values}
-                    options={property.type}
+        {#if values.areMixed()}
+            <Note>{$locales.get((l) => l.ui.palette.labels.mixed)}</Note>
+        {:else if !values.areSet()}
+            {@const expression = values.getExpression()}
+            <!-- If the values arent set, show as inherited if inherited, and otherwise show the default -->
+            <Note
+                >{#if property.inherited}{$locales.get(
+                        (l) => l.ui.palette.labels.inherited,
+                    )}{:else if values.areDefault() && expression !== undefined}<NodeView
+                        node={expression}
+                    />
+                    {$locales.get(
+                        (l) => l.ui.palette.labels.default,
+                    )}{:else}&mdash;{/if}</Note
+            >
+        {:else if !values.areEditable(project)}
+            <Note>{$locales.get((l) => l.ui.palette.labels.computed)}</Note>
+        {:else if property.type instanceof OutputPropertyRange}
+            <BindSlider {property} {values} range={property.type} {editable} />
+        {:else if property.type instanceof OutputPropertyOptions}
+            <BindOptions
+                {property}
+                {values}
+                options={property.type}
+                {editable}
+            />
+        {:else if property.type instanceof OutputPropertyText}
+            <BindText
+                {property}
+                {values}
+                validator={property.type.validator}
+                {editable}
+            />
+        {:else if property.type === 'color'}
+            <BindColor {property} {values} {editable} />
+        {:else if property.type === 'bool'}
+            <BindCheckbox {property} {values} {editable} />
+        {:else if property.type === 'pose'}
+            {@const expression = values.getExpression()}
+            {#if expression instanceof Evaluate && expression.is(project.shares.output.Pose, project.getNodeContext(expression))}
+                <PoseEditor
+                    {project}
+                    outputs={values.getOutputExpressions(project, $locales)}
+                    sequence={false}
                     {editable}
                 />
-            {:else if property.type instanceof OutputPropertyText}
-                <BindText
-                    {property}
-                    {values}
-                    validator={property.type.validator}
+            {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
+                <SequenceEditor
+                    {project}
+                    outputs={values.getOutputExpressions(project, $locales)}
                     {editable}
                 />
-            {:else if property.type === 'color'}
-                <BindColor {property} {values} {editable} />
-            {:else if property.type === 'bool'}
-                <BindCheckbox {property} {values} {editable} />
-            {:else if property.type === 'pose'}
-                {@const expression = values.getExpression()}
-                {#if expression instanceof Evaluate && expression.is(project.shares.output.Pose, project.getNodeContext(expression))}
-                    <PoseEditor
-                        {project}
-                        outputs={values.getOutputExpressions(project, $locales)}
-                        sequence={false}
-                        {editable}
-                    />
-                {:else if expression instanceof Evaluate && expression.is(project.shares.output.Sequence, project.getNodeContext(expression))}
-                    <SequenceEditor
-                        {project}
-                        outputs={values.getOutputExpressions(project, $locales)}
-                        {editable}
-                    />
-                {/if}
-            {:else if property.type === 'aura'}
-                <AuraEditor {project} {property} {values} {editable} />
-            {:else if property.type == 'poses'}
-                <SequencePosesEditor {project} map={values.getMap()} {editable} />
-            {:else if property.type === 'content'}
-                <ContentEditor {project} list={values.getList()} {editable} />
-            {:else if property.type === 'place'}
-                {@const place = values.getEvaluationOf(
-                    project,
-                    project.shares.output.Place,
-                )}
-                {@const motion = values.getEvaluationOf(
-                    project,
-                    project.shares.input.Motion,
-                )}
-                {@const placement = values.getEvaluationOf(
-                    project,
-                    project.shares.input.Placement,
-                )}
-                {#if place}
-                    <PlaceEditor {project} {place} {editable} convertable={true} />
-                {:else if motion}
-                    <MotionEditor {project} {motion} {editable} />
-                {:else if placement}
-                    <PlacementEditor {project} {placement} {editable} />
-                {/if}
             {/if}
-        
+        {:else if property.type === 'aura'}
+            <AuraEditor {project} {property} {values} {editable} />
+        {:else if property.type == 'poses'}
+            <SequencePosesEditor {project} map={values.getMap()} {editable} />
+        {:else if property.type === 'content'}
+            <ContentEditor {project} list={values.getList()} {editable} />
+        {:else if property.type === 'place'}
+            {@const place = values.getEvaluationOf(
+                project,
+                project.shares.output.Place,
+            )}
+            {@const motion = values.getEvaluationOf(
+                project,
+                project.shares.input.Motion,
+            )}
+            {@const placement = values.getEvaluationOf(
+                project,
+                project.shares.input.Placement,
+            )}
+            {#if place}
+                <PlaceEditor {project} {place} {editable} convertable={true} />
+            {:else if motion}
+                <MotionEditor {project} {motion} {editable} />
+            {:else if placement}
+                <PlacementEditor {project} {placement} {editable} />
+            {/if}
+        {/if}
     {/snippet}
 </NamedControl>

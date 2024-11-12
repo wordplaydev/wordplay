@@ -149,7 +149,9 @@
     const nodeConflicts = getConflicts();
     const keyboardEditIdle = getKeyboardEditIdle();
     const editors = getEditors();
-    const concepts = getConceptIndex();
+
+    let indexContext = getConceptIndex();
+    $: concepts = indexContext?.index;
 
     const dispatch = createEventDispatcher();
 

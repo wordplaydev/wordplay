@@ -41,32 +41,42 @@
     };
 
     // Get a link to the phrase concept, which explains how formatting works.
-    let index  = getConceptIndex();
-    let concept = $derived(index?.getStructureConcept(
-        project.basis.shares.output.Phrase,
-    ));
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let concept = $derived(
+        index?.getStructureConcept(project.basis.shares.output.Phrase),
+    );
 
     // It's formatted if all of the selected outputs are a markup value. If some are, formatted is undefined.
     let textValue = $derived(outputs.getValue());
-    let markupValue = $derived(textValue instanceof MarkupValue ? textValue : undefined);
-    let formatted = $derived(markupValue ? true : textValue ? false : undefined);
+    let markupValue = $derived(
+        textValue instanceof MarkupValue ? textValue : undefined,
+    );
+    let formatted = $derived(
+        markupValue ? true : textValue ? false : undefined,
+    );
     let formats = $derived(markupValue?.markup.paragraphs[0]?.getFormats());
-    let weight = $derived(formats?.find((format) => format in weights) ?? 'normal');
+    let weight = $derived(
+        formats?.find((format) => format in weights) ?? 'normal',
+    );
 
     // Account for italics inside the text, rather than wrapping it, passing indeterminate state to checkbox.
-    let italic =
-        $derived(formats && formats.includes('italic')
+    let italic = $derived(
+        formats && formats.includes('italic')
             ? true
             : textValue?.toWordplay().includes(ITALIC_SYMBOL)
               ? undefined
-              : false);
+              : false,
+    );
     // Account for underscores inside the text, rather than wrapping it, passing indeterminate state to checkbox.
-    let underlined =
-        $derived(formats && formats.includes('underline')
+    let underlined = $derived(
+        formats && formats.includes('underline')
             ? true
             : textValue?.toWordplay().includes(UNDERSCORE_SYMBOL)
               ? undefined
-              : false);
+              : false,
+    );
 
     // Given some format, apply it if not applied, and remove it if applied.
     function applyStyle(format: 'italic' | 'underline') {
@@ -235,27 +245,25 @@
 <NamedControl>
     {#snippet name()}
         {#if concept}
-                <small
-                    ><ConceptLinkUI
-                        link={concept}
-                        label={DOCUMENTATION_SYMBOL}
-                    /></small
-                >
-            {/if}
-            <!-- svelte-ignore a11y_label_has_associated_control -->
-            <label id="formatted"
-                >{$locales.get((l) => l.ui.palette.labels.format)}</label
+            <small
+                ><ConceptLinkUI
+                    link={concept}
+                    label={DOCUMENTATION_SYMBOL}
+                /></small
             >
+        {/if}
+        <!-- svelte-ignore a11y_label_has_associated_control -->
+        <label id="formatted"
+            >{$locales.get((l) => l.ui.palette.labels.format)}</label
+        >
     {/snippet}
     {#snippet control()}
-    
-            <Checkbox
-                label={$locales.get((l) => l.ui.palette.labels.format)}
-                on={formatted}
-                changed={(on) => setFormatted(on ?? false)}
-                id="formatted"
-            ></Checkbox>
-        
+        <Checkbox
+            label={$locales.get((l) => l.ui.palette.labels.format)}
+            on={formatted}
+            changed={(on) => setFormatted(on ?? false)}
+            id="formatted"
+        ></Checkbox>
     {/snippet}
 </NamedControl>
 {#if formatted}
