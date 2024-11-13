@@ -549,30 +549,30 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "Never. I won't. I can't. I love you."
+                            "我不想再離開了，我也很想你"
                         ],
                         ["Evaluate", "serious", "I love you…"],
                         null,
                         [
                             "FunctionDefinition",
                             "serious",
-                            "@Evaluate, I want to introduce you to our new director-in-training."
+                            "@Evaluate 我想和你介紹我們的新導演。"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "Hi. It's nice to meet you. Welcome to the Verse, we're so pleased to have you here."
+                            "嗨，很高興認識你，歡迎來到詩篇。我們都很高興你能來這裡。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "eager",
-                            "We've been meeting a few folks, @Program, @ExpressionPlaceholder, @UnparsableExpression. We're just getting started. I thought we'd come see you next, just because you're such an incredible part of our community. The most incredible part."
+                            "我向他介紹了很多夥伴 @Program 、 @ExpressionPlaceholder 、 @UnparsableExpression ，這才剛剛開始而已。我認為我們接下來該來見你，因為你是我們這個詩篇中非常不可思議的一部分，最不可思議的部分。"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "That's very kind. I'm grateful to be part of this community. And grateful to be so close to @FunctionDefinition. We do a lot of great things together. But as @FunctionDefinition probably told you, we can't do them without inspiration."
+                            "恩，謝謝你。我很感謝能成為這個社群的一部分，也很感謝能夠和 @FunctionDefinition 認識，我們一起做了很多很棒的事情。不過，正如 @FunctionDefinition 可能告訴過你們的，我們沒有靈感就無法做到這些。"
                         ],
                         null,
                         [
@@ -582,32 +582,32 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "Do you want to say what you do?"
+                            "你想說說你做的事嗎？"
                         ],
                         [
                             "Evaluate",
                             "serious",
-                            "Yes. But I can't explain it without explaining a bit about @FunctionDefinition too. They're too modest to share this, but they're probably the most important character in the Verse. They're certainly the most important person in my world. They're at the heart of every performance, and part of every other character's role. They represent the most fundamental idea in our world: the *function*."
-                        ],
-                        null,
-                        [
-                            "Evaluate",
-                            "serious",
-                            "Functions are a kind of alchemy. They take any number of inputs and use those inputs to produce one output. They can have names or be nameless. They can have zero inputs or five or an unknown number. And the alchemy: they're like @Program, and can have any number of expressions to produce a value."
+                            "恩，不過我無法解釋這些，除非先了解 @FunctionDefinition 做的事。它們太謙虛了，從不炫耀，但它們可能是這整個詩篇最重要的角色，他們也是對我來說最重要的角色。它們在每一場演出中都扮演著核心角色，並且是每個其他角色的一部分，它們代表著我們世界中最基本的概念： *函數*（Function）。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "Here's why that's so powerful: it turns out that everything in @Program is a composition of functions evaluations. All of the dances, all of the games, all of the wondrous stories we tell together — they are all a tapestry of functions being evaluated, one at a time, to compose the values you see on stage.",
-                            "And @FunctionDefinition, here, my sweet, dear @FunctionDefinition, is the one that defines all of them."
+                            "函數就像魔法一樣，它們可以接受任何數量的輸入，並且會使用這些輸入來產生一個輸出，比如說，它們可以有零個輸入，或者五個，或甚至是未知數量的輸入！ 而且，函數會根據不同的輸入來產生不同的結果。"
                         ],
                         null,
-                        ["FunctionDefinition", "happy", "… @Evaluate…"],
                         [
                             "Evaluate",
                             "serious",
-                            "Yes, @FunctionDefinition, that is who you are. And I am the lucky one who gets to do this evaluating. I take the inputs that others give me, follow the instructions that @FunctionDefinition defines, and create the output that @FunctionDefinition tells me to create. @FunctionDefinition gives the recipe and I make the meal. And then we feast together.",
+                            "為什麼這麼厲害呢？因為在程式 @Program 裡面，所有的東西都是由一個個函數來完成的。無論是跳舞、玩遊戲、還是講故事！",
+                            "而且，函數 @FunctionDefinition ，就是那個可以定義他們的人。"
+                        ],
+                        null,
+                        ["FunctionDefinition", "happy", "...評估 @Evaluate"],
+                        [
+                            "Evaluate",
+                            "serious",
+                            ", @FunctionDefinition, that is who you are. And I am the lucky one who gets to do this evaluating. I take the inputs that others give me, follow the instructions that @FunctionDefinition defines, and create the output that @FunctionDefinition tells me to create. @FunctionDefinition gives the recipe and I make the meal. And then we feast together.",
                             "Do you want to see?"
                         ],
                         [
