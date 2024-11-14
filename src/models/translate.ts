@@ -4,7 +4,7 @@ import { httpsCallable, type Functions } from 'firebase/functions';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import Names from '@nodes/Names';
-import { Locales } from '@db/Database';
+import { Locales } from '@db/Database';     
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Docs from '@nodes/Docs';
 import Doc from '@nodes/Doc';
@@ -33,6 +33,20 @@ export default async function translateProject(
     try {
         // Get the project's primary language.
         const sourceLanguage = project.getPrimaryLanguage();
+
+        // Keep track of existing names in target language 
+        const existingNames = new Set<string>(); 
+
+        // collect existing names in target language
+        project.getSources().forEach((source) => {
+            source.nodes()
+                .filter((node): node is Names => node instanceof Names)
+                .forEach((names) => {
+                    const targetName = names.getNameInLanguage(targetLanguage, undefined)?.getName();
+                    if (targetName) existingNames.add(targetName);
+                });
+        });
+        console.log('Existing Names:', Array.from(existingNames));
 
         // Find all of the names binds in the project's sources. We're going to add translated names to them, and update references to those names, if necessary.
         // Convert the binds into a record of translations to perform.
@@ -190,6 +204,17 @@ export default async function translateProject(
                                 : word.charAt(0).toUpperCase() + word.slice(1),
                         )
                         .join('');
+                        if (existingNames.has(translation)) {
+                            let counter = 2;
+                            // Increment the counter until a unique name is found
+                            while (existingNames.has(`${translation}${counter}`)) {
+                                counter++;
+                            }
+                            translation = `${translation}${counter}`;
+                        }
+    
+                        //Add the unique translation to the set
+                        existingNames.add(translation);
                 }
 
                 // If we have a translation, add it to the bind and update its references.
@@ -304,3 +329,6 @@ export default async function translateProject(
         return null;
     }
 }
+
+
+
