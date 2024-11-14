@@ -607,19 +607,19 @@
                         [
                             "Evaluate",
                             "serious",
-                            ", @FunctionDefinition, that is who you are. And I am the lucky one who gets to do this evaluating. I take the inputs that others give me, follow the instructions that @FunctionDefinition defines, and create the output that @FunctionDefinition tells me to create. @FunctionDefinition gives the recipe and I make the meal. And then we feast together.",
-                            "Do you want to see?"
+                            "沒錯，函數 @FunctionDefinition 你就是有那麼重要。而我則是那個有幸進行計算的角色，我接收大家給我的輸入，按照 @FunctionDefinition 設定的規則來計算，並根據函數 @FunctionDefinition 的指示來生成結果。簡單來說，函數 @FunctionDefinition 把食譜給我，我就能做菜，然後我們一起享受這頓大餐。",
+                            "你想看看我們是怎麼做的嗎？"
                         ],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "… Yes, let's show them."
+                            "那我們來讓他見識一下吧！"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "Every evaluate looks like this @UI/Evaluate: some function, followed by a left and right parenthesis, with any number of inputs between them. Here I just have @ExpressionPlaceholder as the function and three more as placeholder inputs."
+                            "每個評估都長得像這樣 @UI/Evaluate ：一個函數，後面跟著一對括號，括號中間放的是輸入。現在我只放了 @ExpressionPlaceholder 這個函數和三個占位符作為輸入。"
                         ],
                         ["conflict", "_(_ _ _)"],
                         null,
@@ -627,14 +627,14 @@
                         [
                             "Evaluate",
                             "serious",
-                            "Here's one of my favorite functions, @Phrase. They're full of fun buttons, knobs, and sliders. It's a way of showing text on stage, but with style, including different fonts, sizes, colors, and animations.",
-                            "Here's a simple evaluation of @Phrase @UI/Evaluate."
+                            "這是我最喜歡的函數之一--片語 @Phrase 。它充滿了有趣的按鈕、旋鈕和操作桿。這是一種在舞台上顯示文字的方法，而且可以用來調整不同的字型、大小、顏色和動畫。",
+                            "這裡是一個簡單版本的片語 @Phrase @UI/Evaluate 。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "That's what I look like in @Program: some function, followed by parentheses, with a list of expressions between them that represent the inputs. The function in this case is @Phrase and the single input is \\'hello'\\. When I evaluate this, I make a @Phrase value, which @Program then shows on stage."
+                            "然後...這就是我在 @Program 裡面看起來的樣子！一個函數，後面跟著括號，括號中放著一些表達式，代表輸入。 The function in this case is @Phrase and the single input is \\'hello'\\. When I evaluate this, I make a @Phrase value, which @Program then shows on stage."
                         ],
                         null,
                         [
