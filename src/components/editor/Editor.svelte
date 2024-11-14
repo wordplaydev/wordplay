@@ -527,10 +527,13 @@
     }
 
     function getNodeView(node: Node): HTMLElement | undefined {
+        if (editor === null) return undefined;
         // See if there's a node or value view that corresponds to this node.
         const view =
-            editor?.querySelector(`.node-view[data-id="${node.id}"]`) ??
-            editor?.querySelector(`.value[data-node-id="${node.id}"]`);
+            editor.querySelector(`.node-view[data-id="${node.id}"]`) ??
+            document.querySelector(
+                `.value[data-id="${evaluator.getCurrentValue()?.id}"]`,
+            );
         return view instanceof HTMLElement ? view : undefined;
     }
 
@@ -1163,7 +1166,7 @@
                 .map((expr) => {
                     return {
                         expression: expr,
-                        value: $evaluation.evaluator.getLatestExpressionValueInEvaluation(
+                        value: $evaluation.evaluator.getLatestExpressionValue(
                             expr,
                         ),
                     };

@@ -134,13 +134,14 @@ export default abstract class Expression extends Node {
         evaluator: Evaluator,
     ): Markup;
 
-    /** Utility function for getting an optional result   */
+    /** Utility function for getting an optional result  */
     getValueIfDefined(
         locales: Locales,
         context: Context,
         evaluator: Evaluator,
     ) {
-        const value = evaluator.peekValue();
+        const value =
+            evaluator.peekValue() ?? evaluator.getLatestExpressionValue(this);
         return value ? new ValueRef(value, locales, context) : undefined;
     }
 

@@ -1,20 +1,13 @@
 <script lang="ts">
     import Revision from '@edit/Revision';
-    import RootView from '../project/RootView.svelte';
-    import Block from '@nodes/Block';
     import type Menu from './util/Menu';
-    import { getConceptIndex } from '../project/Contexts';
-    import Speech from '../lore/Speech.svelte';
     import { locales } from '../../db/Database';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import Glyphs from '../../lore/Glyphs';
     import { RevisionSet } from './util/Menu';
     import Token from '../../nodes/Token';
-    import Bind from '../../nodes/Bind';
-    import Evaluate from '../../nodes/Evaluate';
-    import Input from '@nodes/Input';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { blocks } from '../../db/Database';
+    import MenuItem from './MenuItem.svelte';
+    import { tick } from 'svelte';
 
     export let menu: Menu;
     /* What to run when hiding the menu */
@@ -24,7 +17,7 @@
 
     // We pull out the organization here to avoid rerendering with the menu changes but the organization doesn't.
     // This not only helps with efficiency, but also prevent screen readers from resetting the menu item focus.
-    $: revisions = menu.getRevisionList();
+    $: revisions = menu.getOrganization();
 
     /**
      * Constrain the menu position to the viewport.
@@ -40,55 +33,41 @@
         menu.doEdit($locales, item);
     }
 
-    let index = getConceptIndex();
-
-    $: selectedRevision = menu.getSelection();
-    $: [newNode, newParent] =
-        selectedRevision instanceof Revision
-            ? selectedRevision.getEditedNode($locales)
-            : [undefined, undefined];
-    let evaluateBind: Bind | undefined;
-    $: if (
-        selectedRevision instanceof Revision &&
-        newNode instanceof Input &&
-        newParent instanceof Evaluate
-    ) {
-        const fun = newParent.getFunction(selectedRevision.context);
-        evaluateBind = fun?.inputs.find(
-            (input) =>
-                newNode instanceof Input && input.hasName(newNode.getName()),
-        );
-    }
-    $: selectedConcept =
-        $index && newParent && newNode
-            ? $index.getRelevantConcept(evaluateBind ?? newNode)
-            : undefined;
-    $: selectedDocs = selectedConcept?.getDocs($locales);
-
     /* When the selection changes, scroll it's corresponding view and focus it. */
     let revisionViews: HTMLElement[] = [];
     $: {
-        const view = revisionViews[menu.getSelectionID()];
-        if (view && view !== document.activeElement)
-            setKeyboardFocus(view, 'Focusing menu on menu change');
+        const id = `menuitem-${menu.getSelectionID()}`;
+        const itemView = document.getElementById(`${id}`);
+        if (itemView) {
+            setKeyboardFocus(itemView, 'Focusing menu on menu change');
+        } else {
+            tick().then(() => {
+                const id = `menuitem-${menu.getSelectionID()}`;
+                const itemView = document.getElementById(`${id}`);
+                if (itemView)
+                    setKeyboardFocus(itemView, 'Focusing menu on menu change');
+            });
+        }
     }
 
     function handleKey(event: KeyboardEvent) {
-        if (event.key === 'ArrowDown') {
+        if (
+            event.key === 'ArrowRight' &&
+            menu.getSelection() instanceof RevisionSet
+        ) {
+            menu = menu.in();
+            event.stopPropagation();
+            return;
+        } else if (event.key === 'ArrowDown' || event.key === 'ArrowRight') {
             menu = menu.down();
             event.stopPropagation();
             return;
-        } else if (event.key === 'ArrowUp') {
-            menu = menu.up();
+        } else if (event.key === 'ArrowLeft' && menu.inSubmenu()) {
+            if (menu) menu = menu.out();
             event.stopPropagation();
             return;
-        }
-        if (event.key === 'ArrowLeft' || event.key === 'Backspace') {
-            menu = menu.out();
-            event.stopPropagation();
-            return;
-        } else if (event.key === 'ArrowRight') {
-            menu = menu.in();
+        } else if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+            if (menu) menu = menu.up();
             event.stopPropagation();
             return;
         } else if (event.key === 'Escape') {
@@ -139,196 +118,151 @@
         aria-orientation="vertical"
         aria-label={$locales.get((l) => l.ui.source.menu.label)}
         aria-activedescendant="menuitem-{menu.inSubmenu()
-            ? menu.getSelectionIndex()[1]
+            ? `${menu.getSelectionIndex()[0]}-${menu.getSelectionIndex()[1]}`
             : menu.getSelectionIndex()[0]}"
         on:keydown={handleKey}
     >
-        {#if menu.inSubmenu()}
-            <div
-                role="menuitem"
-                class="revision"
-                tabindex="-1"
-                id="menuitem--1"
-                aria-label={$locales.get((l) => l.ui.source.menu.back)}
-                class:selected={menu.onBack()}
-                bind:this={revisionViews[-1]}
-                on:pointerdown|stopPropagation={() =>
-                    handleItemClick(undefined)}>←</div
-            >
-        {/if}
         {#each revisions as entry, itemIndex}
-            <div
-                role="menuitem"
-                tabindex="-1"
-                id="menuitem-{itemIndex}"
-                aria-label={entry instanceof Revision
-                    ? entry
-                          .getEditedNode($locales)[0]
-                          .getDescription($locales, entry.context)
-                          .toText()
-                    : $locales.getLocale().term[entry.purpose]}
-                class={`revision ${
-                    itemIndex === menu.getSelectionID() ? 'selected' : ''
-                } ${entry instanceof RevisionSet ? 'submenu' : ''}`}
-                bind:this={revisionViews[itemIndex]}
-                on:pointerdown|stopPropagation|preventDefault={() =>
-                    handleItemClick(entry)}
-            >
-                {#if entry instanceof Revision}
-                    {@const revision = entry}
-                    {@const [newNode] = entry.getEditedNode($locales)}
-                    {#if newNode !== undefined}
-                        {#if revision.isRemoval()}
-                            <strike
-                                ><RootView
-                                    node={newNode}
-                                    localized="symbolic"
-                                    blocks={$blocks}
-                                    inline={true}
-                                /></strike
-                            >
-                        {:else}
-                            <RootView
-                                node={newNode}
-                                localized="symbolic"
-                                blocks={$blocks}
-                                inline={true}
-                            />
-                        {/if}
-                    {:else}
-                        <MarkupHTMLView
-                            markup={revision.getDescription($locales)}
-                        />
-                    {/if}
-                {:else if entry instanceof RevisionSet}
+            {#if entry instanceof Revision}
+                <MenuItem
+                    {entry}
+                    bind:menu
+                    {handleItemClick}
+                    id="menuitem-{itemIndex}"
+                />
+            {:else}
+                <div
+                    role="menuitem"
+                    tabindex="-1"
+                    id="menuitem-{itemIndex}"
+                    aria-expanded={menu.getSelectionIndex()[0] === itemIndex &&
+                        menu.getSelectionIndex()[1] !== undefined}
+                    aria-label={$locales.getLocale().term[entry.purpose]}
+                    class={`revisionset ${
+                        menu.getSelection() === entry ? 'selected' : ''
+                    }`}
+                    class:show={menu.getSelectionIndex()[0] === itemIndex}
+                    bind:this={revisionViews[itemIndex]}
+                    on:pointerdown|stopPropagation|preventDefault={() =>
+                        handleItemClick(entry)}
+                    on:focusin={() => {
+                        const selection = menu.getSelectionIndex();
+                        menu = menu.withSelection(
+                            entry instanceof RevisionSet ||
+                                selection === undefined
+                                ? [itemIndex, undefined]
+                                : [selection[0], itemIndex],
+                        );
+                    }}
+                >
                     <MarkupHTMLView
                         markup={$locales.concretize(
-                            `/${$locales.get((l) =>
-                                entry instanceof RevisionSet
-                                    ? l.term[entry.purpose]
-                                    : '',
-                            )}…/`,
+                            `/${$locales.get((l) => l.term[entry.purpose])}…/`,
                         )}
                     />
-                {/if}
-            </div>
+                </div>
+                <div
+                    class="submenu"
+                    role="menu"
+                    tabindex="-1"
+                    aria-label={$locales.getLocale().term[entry.purpose]}
+                >
+                    {#each entry.revisions as revision, subitemIndex}
+                        <MenuItem
+                            entry={revision}
+                            bind:menu
+                            {handleItemClick}
+                            id={`menuitem-${itemIndex}-${subitemIndex}`}
+                        />
+                    {:else}
+                        <!-- Feedback if there are no items.-->
+                        &mdash;
+                    {/each}
+                </div>
+            {/if}
         {:else}
             <!-- Feedback if there are no items.-->
             &mdash;
         {/each}
     </div>
-    <div class="details">
-        {#if selectedRevision instanceof Revision}
-            <Speech glyph={selectedConcept ?? Glyphs.Program} below>
-                <svelte:fragment slot="content">
-                    <MarkupHTMLView
-                        markup={selectedRevision.getDescription($locales)}
-                    />
-                    {#if selectedDocs}
-                        <MarkupHTMLView markup={selectedDocs} />
-                    {/if}
-                </svelte:fragment>
-            </Speech>
-        {:else if selectedRevision instanceof RevisionSet}
-            {#each selectedRevision.revisions as revision}
-                {@const [newNode] = revision.getEditedNode($locales)}
-                {#if newNode !== undefined}
-                    <div
-                        class="revision"
-                        on:pointerdown|stopPropagation|preventDefault={() =>
-                            handleItemClick(revision)}
-                    >
-                        <RootView
-                            node={newNode instanceof Block &&
-                            newNode.statements.length > 1
-                                ? newNode
-                                : newNode}
-                            localized="symbolic"
-                            blocks={$blocks}
-                            inline={true}
-                        />
-                    </div>
-                {/if}
-            {/each}
-        {/if}
-    </div>
 </div>
 
 <style>
-    .menu {
+    .menu,
+    .submenu {
         background-color: var(--wordplay-background);
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         border-radius: var(--wordplay-border-radius);
         font-size: var(--wordplay-font-size);
         box-shadow: var(--wordplay-border-radius) var(--wordplay-border-radius)
             var(--wordplay-border-radius) 0px var(--wordplay-lightgrey);
+        border-spacing: 0;
+        /* Default size */
+        min-width: 15em;
+
+        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
+        touch-action: none;
+
+        /* Submenus should be absolute relative to this */
+        position: relative;
+    }
+
+    .menu {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
 
         /* Position the menu as floating, but bounded to the viewport */
         position: absolute;
 
-        /* Default size */
-        width: 30em;
+        width: auto;
         height: auto;
 
         /* Max size */
         max-width: 100vw;
         max-height: 30vh;
-
-        border-spacing: 0;
-
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-        padding: var(--wordplay-spacing);
-
-        /* Don't let iOS grab pointer move events, so we can do drag and drop. */
-        touch-action: none;
     }
 
-    .menu:focus-within {
-        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+    .revisions {
+        width: fit-content;
+        height: auto;
+        overflow-y: auto;
+        padding: var(--wordplay-spacing);
+    }
+
+    .submenu {
+        position: absolute;
+        background: var(--wordplay-background);
+        left: 100%;
+        top: 0;
+        display: none;
+        max-height: 20em;
+        padding: var(--wordplay-spacing);
+        overflow-y: auto;
+    }
+
+    .show + .submenu {
+        display: block;
     }
 
     .revisions {
         display: flex;
         flex-direction: column;
-        overflow-y: auto;
-        overflow-x: hidden;
         flex-grow: 1;
     }
 
-    .revision {
+    .revisionset {
         padding: var(--wordplay-spacing);
         border-radius: var(--wordplay-border-radius);
         cursor: pointer;
     }
 
-    .revision:focus {
-        outline: none;
-    }
-
-    .revision:focus:hover {
-        outline: var(--wordplay-highlight-color) solid
-            var(--wordplay-focus-width);
+    .revisionset:focus {
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
         outline-offset: calc(-1 * var(--wordplay-focus-width));
     }
 
-    .revision.selected:not(:hover) {
-        background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
-    }
-
-    .revision:hover {
+    .revisionset:hover {
         background: var(--wordplay-hover);
-    }
-
-    .revision.selected :not(.block) :global(.token-view) {
-        color: var(--wordplay-background);
-    }
-
-    .details {
-        margin-inline-end: auto;
-        width: 15em;
-        overflow-y: auto;
     }
 </style>

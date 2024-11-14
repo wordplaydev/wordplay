@@ -49,10 +49,7 @@
             node instanceof Expression &&
             !node.isEvaluationInvolved()
         )
-            value =
-                $evaluation.evaluator.getLatestExpressionValueInEvaluation(
-                    node,
-                );
+            value = $evaluation.evaluator.getLatestExpressionValue(node);
     }
 
     const blocks = isBlocks();

@@ -868,7 +868,7 @@
 <section
     class="output"
     data-testid="output"
-    data-uuid="stage"
+    data-uiid="stage"
     aria-label={$locales.get((l) => l.ui.output.label)}
     class:mini
     class:editing={$evaluation?.playing === false && !painting}

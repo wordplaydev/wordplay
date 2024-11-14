@@ -5,6 +5,7 @@ import type Purpose from '@concepts/Purpose';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type Locales from '@locale/Locales';
 
+/** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
 export type MenuSelection = [number, number | undefined];
 export type MenuOrganization = (Revision | RevisionSet)[];
 
@@ -182,7 +183,21 @@ export default class Menu {
     /** Get a unique identifier for the selection, for use by a UI */
     getSelectionID() {
         const [index, subindex] = this.selection;
-        return subindex ?? index;
+        return index + (subindex === undefined ? '' : `-${subindex}`);
+    }
+
+    getSelectionFor(revision: Revision): MenuSelection | undefined {
+        const org = this.organization;
+        const index = org.indexOf(revision);
+        if (index >= 0) return [index, undefined];
+
+        const set = org.find(
+            (item): item is RevisionSet =>
+                item instanceof RevisionSet &&
+                item.revisions.includes(revision),
+        );
+        if (set === undefined) return undefined;
+        return [org.indexOf(set), set.revisions.indexOf(revision)];
     }
 
     /** The number of revisions in the menu. */

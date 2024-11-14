@@ -198,28 +198,11 @@
         // If we couldn't find a view for the node, it's probably because it was replaced by a value view.
         // Find the value corresponding to the node that just evaluated.
         if (nodeView === null) {
-            const currentStep = evaluator.getCurrentStep();
-            if (currentStep) {
-                const firstExpression =
-                    currentStep.node instanceof Expression
-                        ? currentStep.node
-                        : evaluator.project
-                              .getRoot(currentStep.node)
-                              ?.getAncestors(currentStep.node)
-                              .find(
-                                  (a): a is Expression =>
-                                      a instanceof Expression,
-                              );
-                if (firstExpression) {
-                    const value =
-                        evaluator.getLatestExpressionValueInEvaluation(
-                            firstExpression,
-                        );
-                    if (value)
-                        nodeView = document.querySelector(
-                            `.value[data-id="${value.id}"]`,
-                        );
-                }
+            const value = evaluator.getCurrentValue();
+            if (value) {
+                nodeView = document.querySelector(
+                    `.value[data-id="${value.id}"]`,
+                );
             }
         }
 

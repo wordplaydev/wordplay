@@ -3,6 +3,29 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.12.4 2024-10-26
+
+### Added
+
+-   Added animation speed controls to stage
+
+## 0.12.3 2024-10-12
+
+### Fixed
+
+-   Fixed rendering of recent values in debugger.
+-   Fixed debugger highlights on literal values.
+-   Fixed UI ID for stage to correct highlight.
+-   Don't wrap node sequences in blocks mode.
+-   Describe added nodes during editing.
+-   Fixed ARIA bugs on autocomplete menu.
+
+## 0.12.2 2024-10-5
+
+### Fixed
+
+-   Corrected debugger behavior in the presence of reused values.
+
 ## 0.12.1 2024-09-28
 
 ### Fixed
