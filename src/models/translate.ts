@@ -78,7 +78,10 @@ export default async function translateProject(
                     names,
                     // The original text to translate, or undefined if there is no text to translate.
                     // Convert the camel cased name into separated words for better translation performance.
-                    original: nameToTranslate.getName(),
+                    original: nameToTranslate
+                    .getName()
+                    ?.replace(SeparateWords, ' $&')
+                    .trim(),                    
                     // The translation, or undefined if there is no translation yet.
                     translation: targetName,
                 };
