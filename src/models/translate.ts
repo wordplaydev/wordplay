@@ -46,7 +46,6 @@ export default async function translateProject(
                     if (targetName) existingNames.add(targetName);
                 });
         });
-        console.log('Existing Names:', Array.from(existingNames));
 
         // Find all of the names binds in the project's sources. We're going to add translated names to them, and update references to those names, if necessary.
         // Convert the binds into a record of translations to perform.
@@ -323,7 +322,6 @@ export default async function translateProject(
         // Return the revised project
         return newProject;
     } catch (e) {
-        console.error('Error in translateProject:', e);
         return null;
     }
 }
