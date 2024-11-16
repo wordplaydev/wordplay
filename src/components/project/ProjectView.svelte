@@ -1769,7 +1769,7 @@
                         {project}
                         {source}
                         expanded={tile.mode === Mode.Expanded}
-                        on:toggle={() => toggleTile(tile)}
+                        toggle={() => toggleTile(tile)}
                     />
                 {/if}
             {/each}

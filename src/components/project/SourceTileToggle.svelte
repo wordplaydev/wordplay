@@ -1,7 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
-    import { createEventDispatcher } from 'svelte';
     import type Source from '@nodes/Source';
     import { getConflicts } from './Contexts';
     import Glyphs from '../../lore/Glyphs';
@@ -16,20 +13,21 @@
         project: Project;
         source: Source;
         expanded: boolean;
+        toggle: () => void;
     }
 
-    let { project, source, expanded }: Props = $props();
+    let { project, source, expanded, toggle }: Props = $props();
 
     let conflicts = getConflicts();
-
-    const dispatch = createEventDispatcher();
 
     // The number of conflicts is the number of nodes in the source involved in conflicts
     let primaryCount = $state(0);
     let secondaryCount = $state(0);
-    run(() => {
-        primaryCount = 0;
-        secondaryCount = 0;
+
+    // Derive counts from sources.
+    $effect(() => {
+        let newPrimaryCount = 0;
+        let newSecondaryCount = 0;
         if ($conflicts) {
             for (const conflict of $conflicts) {
                 const nodes = conflict.getConflictingNodes(
@@ -37,22 +35,25 @@
                     Templates,
                 );
                 if (source.has(nodes.primary.node)) {
-                    if (!conflict.isMinor()) primaryCount++;
-                    else secondaryCount++;
+                    if (!conflict.isMinor()) newPrimaryCount++;
+                    else newSecondaryCount++;
                 } else if (
                     nodes.secondary !== undefined &&
                     source.has(nodes.secondary.node)
                 )
-                    secondaryCount++;
+                    newSecondaryCount++;
             }
         }
+
+        primaryCount = newPrimaryCount;
+        secondaryCount = newSecondaryCount;
     });
 </script>
 
 <Toggle
     tips={$locales.get((l) => l.ui.tile.toggle.show)}
     on={expanded}
-    toggle={() => dispatch('toggle')}
+    {toggle}
 >
     {#if primaryCount > 0}<span class="count primary">{primaryCount}</span>{/if}
     {#if secondaryCount > 0}<span class="count secondary">{secondaryCount}</span
