@@ -36,10 +36,10 @@
         <div style:margin-inline-start="-2.5em">
             <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
                 >{#snippet content()}
-                                <MarkupHtmlView
-                            markup={$locales.get((l) => l.ui.page.landing.value)}
-                        />
-                            {/snippet}</Speech
+                    <MarkupHtmlView
+                        markup={$locales.get((l) => l.ui.page.landing.value)}
+                    />
+                {/snippet}</Speech
             >
         </div>
     </div>
@@ -84,7 +84,7 @@
                 to="/learn"
                 subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
                 ><Iconified
-                    icon="🙋‍♀️"
+                    icon="🙋"
                     text={(l) => l.ui.page.learn.header}
                 /></BigLink
             >
@@ -102,13 +102,15 @@
         </Action>
     </div>
     {#snippet footer()}
-        <div class="details" >
+        <div class="details">
             <div class="links">
                 <div class="column">
                     <BigLink
                         smaller
                         to="/about"
-                        subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
+                        subtitle={$locales.get(
+                            (l) => l.ui.page.landing.link.about,
+                        )}
                         ><Iconified
                             icon="💭"
                             text={(l) => l.ui.page.about.header}
@@ -148,7 +150,8 @@
                         )}
                         ><Iconified
                             icon="🛠️"
-                            text={(l) => l.ui.page.landing.link.contribute.label}
+                            text={(l) =>
+                                l.ui.page.landing.link.contribute.label}
                         />
                     </BigLink>
                 </div>
