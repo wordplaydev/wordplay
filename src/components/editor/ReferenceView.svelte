@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type Reference from '@nodes/Reference';
     import NodeView from './NodeView.svelte';
     import { getEvaluation } from '../project/Contexts';
