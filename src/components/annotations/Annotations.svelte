@@ -226,8 +226,9 @@
     let adjustable = $derived(
         caret && caretNode ? caret.getAdjustableLiteral() : undefined,
     );
+
     // When any of these states change, update annotations.
-    run(() => {
+    $effect(() => {
         stepping;
         conflicts;
         $evaluation;
