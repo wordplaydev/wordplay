@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import CodeView from './CodeView.svelte';
     import type StructureConcept from '@concepts/StructureConcept';
     import BindConceptView from './BindConceptView.svelte';
@@ -38,9 +36,10 @@
     }
 
     // Any time the subconcept changes, scroll to it.
-    run(() => {
+    $effect(() => {
         if (subconcept) showSubconcept(subconcept);
     });
+
     // When we load, scroll to it.
     onMount(() => showSubconcept(subconcept));
 </script>
