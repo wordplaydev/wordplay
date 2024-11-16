@@ -1,6 +1,9 @@
+import { withVariationSelector } from '../unicode/emoji';
 import Setting from './Setting';
 
-export const AnimationFactorIcons = ['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼'];
+export const AnimationFactorIcons = ['🧘', '🏃', '½', '⅓', '¼'].map((i) =>
+    withVariationSelector(i),
+);
 
 export const AnimationFactorSetting = new Setting<number>(
     'animationFactor',

@@ -5,41 +5,36 @@
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { type Snippet } from 'svelte';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     interface Props {
         set: Project[];
-        edit: 
-        | {
-              description: string;
-              label: string;
-              action: (project: Project) => void;
-          }
-        | false;
+        edit:
+            | {
+                  description: string;
+                  label: string;
+                  action: (project: Project) => void;
+              }
+            | false;
         remove: (project: Project) =>
-        | {
-              description: string;
-              prompt: string;
-              label: string;
-              action: () => void;
-          }
-        | false;
-        copy: 
-        | {
-              description: string;
-              label: string;
-              action: (project: Project) => void;
-          }
-        | false;
+            | {
+                  description: string;
+                  prompt: string;
+                  label: string;
+                  action: () => void;
+              }
+            | false;
+        copy:
+            | {
+                  description: string;
+                  label: string;
+                  action: (project: Project) => void;
+              }
+            | false;
         children?: Snippet;
     }
 
-    let {
-        set,
-        edit,
-        remove,
-        copy,
-        children
-    }: Props = $props();
+    let { set, edit, remove, copy, children }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
         return projects.toSorted((a, b) =>
@@ -58,7 +53,7 @@
                 {#if edit}<Button
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
-                        >{edit.label}</Button
+                        >{withVariationSelector(edit.label)}</Button
                     >{/if}{#if copy}<Button
                         tip={copy.description}
                         action={() => copy.action(project)}>{copy.label}</Button
@@ -67,7 +62,9 @@
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
-                        >{removeMeta.label}</ConfirmButton
+                        >{withVariationSelector(
+                            removeMeta.label,
+                        )}</ConfirmButton
                     >{/if}</div
             >{@render children?.()}</ProjectPreview
         >
