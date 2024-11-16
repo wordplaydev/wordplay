@@ -29,7 +29,8 @@
     let { node, small = false, direction = 'row' }: Props = $props();
 
     const evaluation = getEvaluation();
-    const root = getRoot();
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
 
     let description = $derived(
         node && $evaluation
@@ -66,7 +67,9 @@
     let spaceRoot = $derived(
         root && node ? root.getSpaceRoot(node) : undefined,
     );
-    let space = $derived(firstToken ? $spaces?.getSpace(firstToken) ?? '' : '');
+    let space = $derived(
+        firstToken ? ($spaces?.getSpace(firstToken) ?? '') : '',
+    );
 
     // Get the hidden context.
     let hidden = getHidden();

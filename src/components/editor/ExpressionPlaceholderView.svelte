@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
     import NodeView from './NodeView.svelte';
     import {
@@ -22,7 +20,10 @@
     let { node }: Props = $props();
 
     const project = getProject();
-    const root = getRoot();
+
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
+
     const caret = getCaret();
     const blocks = isBlocks();
 
@@ -31,19 +32,19 @@
     );
 
     /** If this has no placeholder token, then get the label for field it represents */
-    let placeholder: string | undefined = $state();
-    run(() => {
+    let placeholder = $derived.by(() => {
         if (node.placeholder === undefined && root && $project) {
             const context = $project.getNodeContext(root.root);
             const parent = root.getParent(node);
             if (parent)
-                placeholder = parent.getChildPlaceholderLabel(
+                return parent.getChildPlaceholderLabel(
                     node,
                     $locales,
                     context,
                     root,
                 );
-        } else placeholder = undefined;
+        }
+        return undefined;
     });
 </script>
 

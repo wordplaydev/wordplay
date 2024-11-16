@@ -217,7 +217,7 @@ export function getConceptIndex(): ConceptIndexContext | undefined {
 export const RootSymbol = Symbol('root');
 export type RootContext = { root: Root | undefined };
 export function getRoot() {
-    return getContext<RootContext>(RootSymbol)?.root;
+    return getContext<RootContext>(RootSymbol);
 }
 
 export const MenuNodeSymbol = Symbol('menu');

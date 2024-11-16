@@ -32,7 +32,10 @@
 
     let caret = getCaret();
     let project = getProject();
-    let root = getRoot();
+
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
+
     let localize = getLocalize();
     let hidden = getHidden();
     let blocks = isBlocks();
