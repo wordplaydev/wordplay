@@ -4387,7 +4387,7 @@
                     "gallery": "gallery chooser"
                 }
             },
-        "settings": {
+            "settings": {
                 "header": "Settings",
                 "explanation": "Change layout, device, and theme settings.",
                 "button": {
