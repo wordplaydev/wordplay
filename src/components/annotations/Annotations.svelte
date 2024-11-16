@@ -10,8 +10,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type Conflict from '@conflicts/Conflict';
     import Expression from '@nodes/Expression';
     import Node from '@nodes/Node';
