@@ -754,20 +754,27 @@
 
     // When the path changes, show the docs and mirror the concept in the URL.
     let latestPath = $state<Concept[]>($path ?? []);
+
+    // When the path changes, show the docs, and leave fullscreen.
     $effect(() => {
+        const docs = untrack(() => layout.getDocs());
         if (
             $path &&
-            ($path.length !== untrack(() => latestPath.length) ||
+            ($path.length !== latestPath.length ||
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
-                ))
+                ) ||
+                untrack(() => layout.isFullscreen() || docs?.isCollapsed()))
         ) {
-            untrack(() => {
-                const docs = layout.getDocs();
-                if (docs) setMode(docs, Mode.Expanded);
-            });
+            if (docs) {
+                setFullscreen(undefined);
+                setMode(docs, Mode.Expanded);
+            }
         }
-        // Update the latest path.
+    });
+
+    // When the path changes, set the latest path
+    $effect(() => {
         latestPath = $path ?? [];
     });
 
@@ -1091,8 +1098,8 @@
             .resized($arrangement, canvasWidth, canvasHeight);
     }
 
-    async function setFullscreen(tile: Tile | undefined) {
-        if (tile === undefined) stopPlaying();
+    function setFullscreen(tile: Tile | undefined) {
+        if (tile === undefined && requestedPlay) stopPlaying();
 
         if (tile) {
             layout = layout.withFullscreen(tile.id);
@@ -1498,7 +1505,7 @@
                                 {#if tile.kind === TileKind.Output}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    {#if showOutput || requestedPlay}<Button
+                                    {#if showOutput && layout.isFullscreen()}<Button
                                             uiid="editProject"
                                             background
                                             padding={false}
