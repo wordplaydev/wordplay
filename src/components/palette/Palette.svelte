@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type Project from '@models/Project';
     import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
@@ -75,7 +73,8 @@
     let phraseTextValues: OutputPropertyValueSet | undefined =
         $state(undefined);
 
-    run(() => {
+    // Derive the property valuesand text values from outputs.
+    $effect(() => {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
             outputs.reduce(

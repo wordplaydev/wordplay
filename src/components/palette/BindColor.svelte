@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import Dimension from '@nodes/Dimension';
     import Evaluate from '@nodes/Evaluate';
     import NumberLiteral from '@nodes/NumberLiteral';
@@ -77,24 +75,24 @@
         // If they're all equal, return the value.
         return new Set(facets).size === 1 ? facets[0] : undefined;
     }
-    let lightness = $state(0);
-    run(() => {
-        lightness = $project
-            ? getColorValue($project.shares.output.Color.inputs[0], values) ?? 0
-            : 0;
-    });
-    let chroma = $state(0);
-    run(() => {
-        chroma = $project
-            ? getColorValue($project.shares.output.Color.inputs[1], values) ?? 0
-            : 0;
-    });
-    let hue = $state(0);
-    run(() => {
-        hue = $project
-            ? getColorValue($project.shares.output.Color.inputs[2], values) ?? 0
-            : 0;
-    });
+    let lightness = $derived(
+        $project
+            ? (getColorValue($project.shares.output.Color.inputs[0], values) ??
+                  0)
+            : 0,
+    );
+    let chroma = $derived(
+        $project
+            ? (getColorValue($project.shares.output.Color.inputs[1], values) ??
+                  0)
+            : 0,
+    );
+    let hue = $derived(
+        $project
+            ? (getColorValue($project.shares.output.Color.inputs[2], values) ??
+                  0)
+            : 0,
+    );
 </script>
 
 <ColorChooser {lightness} {chroma} {hue} change={handleChange} {editable} />

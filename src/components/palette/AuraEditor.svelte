@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type Project from '@models/Project';
     import { Projects, locales } from '../../db/Database';
     import Slider from '@components/widgets/Slider.svelte';
@@ -147,7 +145,7 @@
     let hue = $state(0);
     let chroma = $state(0);
     let lightness = $state(0);
-    run(() => {
+    $effect(() => {
         [lightness, chroma, hue] = getColor(values);
     });
 </script>
