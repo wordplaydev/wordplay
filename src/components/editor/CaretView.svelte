@@ -1,5 +1,4 @@
-<!-- @migration-task Error while migrating Svelte code: Can't migrate code with afterUpdate. Please migrate by hand. -->
-<script context="module" lang="ts">
+<script module lang="ts">
     export type CaretBounds = {
         top: number;
         left: number;
@@ -39,9 +38,9 @@
                 return {
                     node:
                         el instanceof HTMLElement && el.dataset.id
-                            ? caret.source.getNodeByID(
+                            ? (caret.source.getNodeByID(
                                   parseInt(el.dataset.id),
-                              ) ?? null
+                              ) ?? null)
                             : null,
                     horizontal:
                         getHorizontalCenterOfBounds(elBounds) - horizontal,
@@ -87,8 +86,7 @@
 </script>
 
 <script lang="ts">
-    import { afterUpdate, tick } from 'svelte';
-    import type Source from '@nodes/Source';
+    import { tick, untrack } from 'svelte';
     import Node from '@nodes/Node';
     import {
         animationDuration,
@@ -102,47 +100,69 @@
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
     import MenuTrigger from './MenuTrigger.svelte';
 
-    export let caret: Caret;
-    export let source: Source;
-    export let blink: boolean;
-    export let ignored: boolean;
-    export let blocks: boolean;
+    interface Props {
+        /** The current caret state to render */
+        caret: Caret;
+        /** Whether to blink the caret*/
+        blink: boolean;
+        /** Whether the last event was ignored and so the caret should wiggle */
+        ignored: boolean;
+        /** Whether the caret is in blocks mode */
+        blocks: boolean;
+        /** The current location of the caret */
+        location: CaretBounds | undefined;
+    }
 
-    // The current location of the caret.
-    export let location: CaretBounds | undefined = undefined;
+    let {
+        caret,
+        blink,
+        ignored,
+        blocks,
+        location = $bindable(undefined),
+    }: Props = $props();
 
-    let editorPadding: number | undefined = undefined;
+    /** The calculated padding of the editor. Determined from the DOM. */
+    let editorPadding = $state<number | undefined>(undefined);
 
-    // The HTMLElement rendering this view.
-    let element: HTMLElement;
+    /** The HTMLElement rendering this view. */
+    let element = $state<HTMLElement | null>(null);
 
-    // The current token we're on.
-    $: token = caret?.getToken();
+    /** Derive the current token we're on. */
+    let token = $derived(caret?.getToken());
 
-    $: leftToRight = $locales.getDirection() === 'ltr';
+    /** Derive the direction of text for the current locale */
+    let leftToRight = $derived($locales.getDirection() === 'ltr');
 
     // The index we should render
     let caretIndex: number | undefined = undefined;
 
+    // Get evaluation context from parent
     const evaluation = getEvaluation();
+
+    // Get the editor context from the parent
     const editor = getEditor();
 
-    // Whenever blocks, evaluation, or caret changes, compute position after animation delay.
-    $: {
+    let timeout = $state<NodeJS.Timeout | undefined>(undefined);
+    // Whenever key dependencies change, wait for DOM updates, then compute the caret's new location.
+    $effect(() => {
         blocks;
         $evaluation;
         caret;
         $editor;
-        tick().then(() =>
-            setTimeout(
+        tick().then(() => {
+            location = computeLocation();
+            untrack(() => {
+                if (timeout) clearTimeout(timeout);
+            });
+            timeout = setTimeout(
                 () => (location = computeLocation()),
                 $animationDuration + 25,
-            ),
-        );
-    }
+            );
+        });
+    });
 
     // Whenever the caret changes, update the index we should render and scroll to it.
-    $: {
+    $effect(() => {
         // Position depends on writing direction and layout and blocks mode
         if (
             token !== undefined &&
@@ -183,33 +203,27 @@
         location = computeLocation();
         // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
         scrollToCaret();
-    }
+    });
 
     async function scrollToCaret() {
         await tick();
         if (element) element.scrollIntoView({ block: 'nearest' });
     }
 
-    // After we render, update the caret position.
-    afterUpdate(() => {
-        // Update the caret's location, in case other things changed.
-        location = computeLocation();
-    });
-
     function getNodeView(node: Node) {
         const editorView = element?.parentElement;
-        if (editorView === null) return null;
+        if (!editorView) return null;
 
         const tokenView =
             node instanceof Token
-                ? getTokenView(editorView, node) ?? null
+                ? (getTokenView(editorView, node) ?? null)
                 : null;
 
         // No token view? (This can happen when stepping, since values are rendered instead of nodes.)
         // Try to find the nearest ancestor that is rendered and return that instead.
         if (tokenView !== null) return tokenView;
 
-        const parents = [node, ...source.root.getAncestors(node)];
+        const parents = [node, ...caret.source.root.getAncestors(node)];
         do {
             const parent = parents.shift();
             if (parent) {
@@ -253,7 +267,7 @@
         // If the caret height is invisible, try to find a token before and get its height.
         // And if that's not visible, then set a minimum.
         if (caretHeight === 0) {
-            const before = source.getTokenBefore(currentToken);
+            const before = caret.source.getTokenBefore(currentToken);
             const beforeView = before ? getNodeView(before) : undefined;
             caretHeight = beforeView?.getBoundingClientRect().height ?? 0;
         }
@@ -520,7 +534,7 @@
             // Figure out which three of this is the case, then position accordingly.
 
             const explicitSpace = new UnicodeString(
-                source.spaces.getSpace(token),
+                caret.source.spaces.getSpace(token),
             );
 
             const spaceIndex = explicitSpace.getLength() + caretIndex;

@@ -1528,7 +1528,6 @@
     <!-- Render the caret on top of the program -->
     <CaretView
         caret={$caret}
-        {source}
         blocks={$blocks}
         blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
         ignored={shakeCaret}

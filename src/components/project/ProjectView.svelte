@@ -133,7 +133,6 @@
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 
     interface Props {
         project: Project;
@@ -761,7 +760,7 @@
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
                 ) ||
-                untrack(() => layout.isFullscreen() || docs?.isCollapsed()))
+                untrack(() => layout.isFullscreen()))
         ) {
             if (docs) {
                 setFullscreen(undefined);
