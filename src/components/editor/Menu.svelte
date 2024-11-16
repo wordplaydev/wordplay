@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run, preventDefault, stopPropagation } from 'svelte/legacy';
-
     import Revision from '@edit/Revision';
     import type Menu from './util/Menu';
     import { locales } from '../../db/Database';
@@ -45,7 +43,7 @@
 
     /* When the selection changes, scroll it's corresponding view and focus it. */
     let revisionViews: HTMLElement[] = $state([]);
-    run(() => {
+    $effect(() => {
         const id = `menuitem-${menu.getSelectionID()}`;
         const itemView = document.getElementById(`${id}`);
         if (itemView) {
@@ -153,9 +151,11 @@
                     }`}
                     class:show={menu.getSelectionIndex()[0] === itemIndex}
                     bind:this={revisionViews[itemIndex]}
-                    onpointerdown={stopPropagation(
-                        preventDefault(() => handleItemClick(entry)),
-                    )}
+                    onpointerdown={(event) => {
+                        event.stopPropagation();
+                        event.preventDefault();
+                        handleItemClick(entry);
+                    }}
                     onfocusin={() => {
                         const selection = menu.getSelectionIndex();
                         menu = menu.withSelection(
