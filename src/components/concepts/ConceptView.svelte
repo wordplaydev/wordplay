@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { slide } from 'svelte/transition';
     import type Concept from '@concepts/Concept';
     import CodeView from './CodeView.svelte';
@@ -33,9 +31,8 @@
         type = undefined,
         header = true,
         variables = undefined,
-        children
+        children,
     }: Props = $props();
-
 
     /** See if the concept corresponds to a character name, and find that character name in the locale's tutorial. */
     let tutorialURL: string | undefined = $state(undefined);
@@ -66,7 +63,9 @@
         return undefined;
     }
     let node = $derived(concept.getRepresentation());
-    run(() => {
+
+    // When locales or the concept change, retrieve the URL to the tutorial.
+    $effect(() => {
         getConceptURL($locales.getLocale()).then((url) => (tutorialURL = url));
     });
 </script>
@@ -83,28 +82,26 @@
 
     <Speech glyph={concept.getGlyphs($locales)} below={header}>
         {#snippet content()}
-            
-                {@const markup = concept.getDocs($locales)}
-                {#if markup}
-                    <MarkupHTMLView {markup} />
-                {:else}
-                    {$locales.concretize((l) => l.ui.docs.nodoc)}
-                {/if}
-            
-            {/snippet}
+            {@const markup = concept.getDocs($locales)}
+            {#if markup}
+                <MarkupHTMLView {markup} />
+            {:else}
+                {$locales.concretize((l) => l.ui.docs.nodoc)}
+            {/if}
+        {/snippet}
         {#snippet aside()}
-                {#if variables}
-                    <small
-                        >{TYPE_OPEN_SYMBOL}{#each variables.variables as variable, index}{#if index > 0},
-                            {/if}{@const name = variable.names.getPreferredName(
-                                $locales.getLocales(),
-                            )}{#if name}<RootView
-                                    localized="symbolic"
-                                    node={name.withoutLanguage()}
-                                    blocks={$blocks}
-                                />{/if}{/each}{TYPE_CLOSE_SYMBOL}</small
-                    >{/if}
-            {/snippet}
+            {#if variables}
+                <small
+                    >{TYPE_OPEN_SYMBOL}{#each variables.variables as variable, index}{#if index > 0},
+                        {/if}{@const name = variable.names.getPreferredName(
+                            $locales.getLocales(),
+                        )}{#if name}<RootView
+                                localized="symbolic"
+                                node={name.withoutLanguage()}
+                                blocks={$blocks}
+                            />{/if}{/each}{TYPE_CLOSE_SYMBOL}</small
+                >{/if}
+        {/snippet}
     </Speech>
 
     {@render children?.()}
