@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type Place from '@output/Place';
     import {
         getColorCSS,
@@ -14,6 +12,7 @@
     import { locales } from '../../db/Database';
     import type Shape from '../../output/Shape';
     import { Circle, Polygon, Rectangle } from '../../output/Form';
+    import { untrack } from 'svelte';
 
     interface Props {
         shape: Shape;
@@ -34,7 +33,7 @@
         parentAscent,
         context,
         editing,
-        frame
+        frame,
     }: Props = $props();
 
     // Visible if z is ahead of focus and font size is greater than 0.
@@ -47,8 +46,10 @@
 
     let description: string | null = $state(null);
     let lastFrame = $state(0);
-    run(() => {
-        if (frame > lastFrame) description = shape.getDescription($locales);
+    // Only update the description if the frame has changed.
+    $effect(() => {
+        if (frame > untrack(() => lastFrame))
+            description = shape.getDescription($locales);
         lastFrame = frame;
     });
 </script>
