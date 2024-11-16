@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import Evaluate from '@nodes/Evaluate';
     import NodeView from './NodeView.svelte';
     import type Bind from '../../nodes/Bind';
@@ -23,7 +21,9 @@
     // The next possible bind, or undefined if there are no more binds.
     let nextBind: Bind | undefined = $state();
     let menuPosition: number | undefined = $state();
-    run(() => {
+
+    // Update the bind and menu position when the caret, projects, etc. change
+    $effect(() => {
         nextBind = undefined;
         menuPosition = undefined;
         // We only show when
