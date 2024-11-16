@@ -20,8 +20,11 @@
     let loading = $state(false);
     let error = $state(false);
 
-    /** The project store is derived from the projects and the page's project ID. */
-    let store: Writable<Project> | undefined = $state(undefined);
+    /**
+     * The project store is derived from the projects and the page's project ID.
+     * We avoid a proxy to allow comparisons between stores below and the store is not something we mutate.
+     */
+    let store: Writable<Project> | undefined = $state.raw(undefined);
     let project: Project | undefined = $state(undefined);
     let editable = $state(false);
     let overwritten = $state(false);
