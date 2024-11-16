@@ -589,13 +589,8 @@
 
     /** If project changes, create a new layout based on the new project */
     $effect(() => {
-        if (layout.projectID !== project.getID())
-            layout = new Layout(
-                project.getID(),
-                syncTiles(layout.tiles),
-                layout.fullscreenID,
-            );
-        untrack(() => layout);
+        if (untrack(() => layout.projectID !== project.getID()))
+            layout = getInitialLayout();
     });
 
     // If the URL requested play, set to full screen and focus on the stage.
@@ -610,11 +605,6 @@
 
         // After mounted, disable the requested edit.
         if (requestedEdit) requestedEdit = false;
-    });
-
-    /** Persist the layout when it changes */
-    $effect(() => {
-        Settings.setProjectLayout(project.getID(), layout);
     });
 
     /** When the layout or path changes, add or remove query params based on state */
@@ -647,6 +637,11 @@
         // If the search params haven't changed, don't navigate.
         if (search !== currentSearch)
             goto(`?${search}`, { replaceState: true });
+    });
+
+    /** Persist the layout when it changes */
+    $effect(() => {
+        Settings.setProjectLayout(project.getID(), layout);
     });
 
     /** The tile being dragged */
@@ -760,6 +755,7 @@
         const docs = untrack(() => layout.getDocs());
         if (
             $path &&
+            $path.length > 0 &&
             ($path.length !== latestPath.length ||
                 !$path.every((concept, index) =>
                     concept.isEqualTo(latestPath[index]),
