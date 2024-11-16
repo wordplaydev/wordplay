@@ -1,7 +1,5 @@
 <!-- A modifiable list of creators -->
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import isValidUsername from '@db/isValidUsername';
     import type { Creator } from '../../db/CreatorDatabase';
     import { DB, locales } from '../../db/Database';
@@ -21,15 +19,7 @@
         anonymize: boolean;
     }
 
-    let {
-        uids,
-        add,
-        remove,
-        removable,
-        editable,
-        anonymize
-    }: Props = $props();
-
+    let { uids, add, remove, removable, editable, anonymize }: Props = $props();
 
     let adding = $state(false);
     let emailOrUsername = $state('');
@@ -59,10 +49,14 @@
             emailOrUsername = '';
         }
     }
-    run(() => {
+
+    // When the user changes, reset unknown.
+    $effect(() => {
         if (emailOrUsername) unknown = false;
     });
-    run(() => {
+
+    // Set the creators to whatever user IDs we have.
+    $effect(() => {
         DB.Creators.getCreatorsByUIDs(uids).then((map) => (creators = map));
     });
 </script>
