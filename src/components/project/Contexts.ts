@@ -76,7 +76,10 @@ export function getKeyboardModifiers() {
 }
 
 export type ProjectCommandContext = { context: CommandContext };
-export const ProjectCommandContextSymbol = Symbol('projectcommand');
+const ProjectCommandContextSymbol = Symbol('projectcommand');
+export function setProjectCommandContext(context: ProjectCommandContext) {
+    return setContext(ProjectCommandContextSymbol, context);
+}
 export function getProjectCommandContext() {
     return getContext<ProjectCommandContext>(ProjectCommandContextSymbol);
 }

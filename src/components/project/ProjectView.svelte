@@ -30,7 +30,6 @@
         type EditorsContext,
         EditorsSymbol,
         type EditorState,
-        ProjectCommandContextSymbol,
         AnnouncerSymbol,
         type Announce,
         type KeyModifierState,
@@ -39,6 +38,7 @@
         type SelectedPhrase,
         setConceptIndex,
         setDraggedContext,
+        setProjectCommandContext,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -933,8 +933,9 @@
         caret:
             layout === undefined || layout.isFullscreenNonSource()
                 ? undefined
-                : Array.from($editors.values()).find((editor) => editor.focused)
-                      ?.caret ?? Array.from($editors.values())[0]?.caret,
+                : (Array.from($editors.values()).find(
+                      (editor) => editor.focused,
+                  )?.caret ?? Array.from($editors.values())[0]?.caret),
         project,
         editor: false,
         /** We intentionally depend on the evaluation store because it updates when the evaluator's state changes */
@@ -955,7 +956,7 @@
     $effect(() => {
         commandContextState.context = commandContext;
     });
-    setContext(ProjectCommandContextSymbol, commandContextState);
+    setProjectCommandContext(commandContextState);
 
     function toggleBlocks(on: boolean) {
         Settings.setBlocks(on);

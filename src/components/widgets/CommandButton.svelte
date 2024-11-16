@@ -34,7 +34,7 @@
     }: Props = $props();
 
     const editors = getEditors();
-    const { context } = getProjectCommandContext();
+    const context = getProjectCommandContext();
 
     let view: HTMLButtonElement | undefined = $state(undefined);
 
@@ -48,7 +48,10 @@
         command.active === undefined
             ? true
             : context
-              ? command.active(context, '')
+              ? command.active(
+                    { ...context.context, editor: editor !== undefined },
+                    '',
+                )
               : false,
     );
 </script>
@@ -66,7 +69,7 @@
         if (context === undefined) return;
 
         // Include the caret and toggle menu we have from the editor, if we have them.
-        const caretyContext = Object.assign(context);
+        const caretyContext = { ...context.context };
         if (editor) {
             caretyContext.caret = editor?.caret;
             caretyContext.toggleMenu = editor?.toggleMenu;

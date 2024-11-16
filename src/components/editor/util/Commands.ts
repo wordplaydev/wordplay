@@ -653,9 +653,9 @@ const Commands: Command[] = [
             caret
                 ? blocks
                     ? view
-                        ? moveVisualVertical(-1, view, caret) ?? false
+                        ? (moveVisualVertical(-1, view, caret) ?? false)
                         : false
-                    : caret.moveVertical(-1) ?? false
+                    : (caret.moveVertical(-1) ?? false)
                 : false,
     },
     {
@@ -672,9 +672,9 @@ const Commands: Command[] = [
             caret
                 ? blocks
                     ? view
-                        ? moveVisualVertical(1, view, caret) ?? false
+                        ? (moveVisualVertical(1, view, caret) ?? false)
                         : false
-                    : caret.moveVertical(1) ?? false
+                    : (caret.moveVertical(1) ?? false)
                 : false,
     },
     {
@@ -690,7 +690,7 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? caret.moveInlineSemantic(-1) ?? false
+                    ? (caret.moveInlineSemantic(-1) ?? false)
                     : caret.moveInline(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'
@@ -712,7 +712,7 @@ const Commands: Command[] = [
         execute: ({ caret, database, blocks }) =>
             caret
                 ? blocks
-                    ? caret.moveInlineSemantic(1) ?? false
+                    ? (caret.moveInlineSemantic(1) ?? false)
                     : caret.moveInline(
                           false,
                           database.Locales.getWritingDirection() === 'ltr'
@@ -1192,7 +1192,7 @@ const Commands: Command[] = [
                 ? false
                 : caret.isNode()
                   ? caret.enter()
-                  : caret.insert('\n', blocks, project) ?? false,
+                  : (caret.insert('\n', blocks, project) ?? false),
     },
     {
         symbol: '⌫',
@@ -1207,7 +1207,7 @@ const Commands: Command[] = [
         typing: true,
         execute: ({ caret, project, editor, blocks }) =>
             editor && caret
-                ? caret.delete(project, false, blocks) ?? false
+                ? (caret.delete(project, false, blocks) ?? false)
                 : false,
     },
     {
@@ -1223,7 +1223,7 @@ const Commands: Command[] = [
         typing: true,
         execute: ({ caret, project, editor, blocks }) =>
             editor && caret
-                ? caret.delete(project, true, blocks) ?? false
+                ? (caret.delete(project, true, blocks) ?? false)
                 : false,
     },
     {
@@ -1236,7 +1236,10 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyX',
         keySymbol: 'X',
-        active: () => typeof ClipboardItem !== 'undefined',
+        active: ({ caret }) =>
+            caret !== undefined &&
+            caret.isNode() &&
+            typeof ClipboardItem !== 'undefined',
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
             copyNode(
@@ -1259,6 +1262,7 @@ const Commands: Command[] = [
         alt: false,
         key: 'KeyC',
         keySymbol: 'C',
+        active: ({ caret }) => caret !== undefined && caret.isNode(),
         execute: (context) => {
             if (!(context.caret?.position instanceof Node)) return false;
             return (

@@ -253,8 +253,11 @@
             toggleMenu,
             grabFocus,
         };
+        // Update the editor state in the editors store.
         $editors.set(sourceID, state);
+        // Update the store with the edited map.
         editors.set($editors);
+        // Update the local editor state.
         editContext.set(state);
     }
 
@@ -387,10 +390,10 @@
                                 let nodesAtPosition =
                                     token === undefined
                                         ? []
-                                        : project
+                                        : (project
                                               .getRoot(token)
                                               ?.getSelfAndAncestors(token) ??
-                                          [];
+                                          []);
                                 let nodesInConflict = nodesAtPosition.find(
                                     (node) =>
                                         project.nodeInvolvedInConflicts(node),
