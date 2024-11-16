@@ -26,10 +26,7 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import { onDestroy } from 'svelte';
-
     import { animationFactor } from '../../db/Database';
     import type Emotion from '../../lore/Emotion';
 
@@ -56,7 +53,7 @@
                     { transform: 'scaleY(0.1)' },
                     { transform: 'scaleY(1)' },
                 ],
-                { duration: 500, iterations: 1, delay }
+                { duration: 500, iterations: 1, delay },
             );
         else return undefined;
     }
@@ -94,17 +91,17 @@
 
     let offset = $state(0);
     let gaze = $state(25);
-    run(() => {
+    $effect(() => {
         if (left && right && $animationFactor > 0) animateEyes();
     });
 
     let eyes = Squint.includes(emotion)
         ? 'squint'
         : Half.includes(emotion)
-        ? 'half'
-        : Wide.includes(emotion)
-        ? 'wide'
-        : 'half';
+          ? 'half'
+          : Wide.includes(emotion)
+            ? 'wide'
+            : 'half';
 </script>
 
 <div
@@ -113,8 +110,10 @@
     class:invert
     style:--offset="{offset}px"
     style:--gaze="{gaze}%"
-    ><div bind:this={left} class="eye left {eyes}"><div class="pupil"></div></div
-    ><div bind:this={right} class="eye right {eyes}"><div class="pupil"></div></div
+    ><div bind:this={left} class="eye left {eyes}"
+        ><div class="pupil"></div></div
+    ><div bind:this={right} class="eye right {eyes}"
+        ><div class="pupil"></div></div
     ></div
 >
 
@@ -165,7 +164,8 @@
     }
 
     .pupil {
-        transition: left calc(var(--animation-factor) * 100ms),
+        transition:
+            left calc(var(--animation-factor) * 100ms),
             top calc(var(--animation-factor) * 100ms);
     }
 
