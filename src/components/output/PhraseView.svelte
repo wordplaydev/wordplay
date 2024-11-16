@@ -7,9 +7,6 @@
 </script>
 
 <script lang="ts">
-    import { run, createBubbler, stopPropagation } from 'svelte/legacy';
-
-    const bubble = createBubbler();
     import type Phrase from '@output/Phrase';
     import type Place from '@output/Place';
     import {
@@ -22,13 +19,10 @@
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { getContext, onMount, tick } from 'svelte';
+    import { getContext, onMount, tick, untrack } from 'svelte';
     import type { Writable } from 'svelte/store';
     import moveOutput from '../palette/editOutput';
-    import {
-        getProject,
-        getSelectedOutput,
-    } from '../project/Contexts';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
@@ -54,21 +48,22 @@
         focus,
         interactive,
         parentAscent,
-        context = $bindable(),
+        context,
         editing,
-        frame
+        frame,
     }: Props = $props();
 
-    const {selectedOutput, selectedPhrase, setSelectedPhrase} = getSelectedOutput();
+    const { selectedOutput, selectedPhrase, setSelectedPhrase } =
+        getSelectedOutput();
     const project = getProject();
 
     // Compute a local context based on size and font.
-    run(() => {
-        context = phrase.getRenderContext(context);
-    });
+    let localContext = $derived(phrase.getRenderContext(context));
 
     // Visible if z is ahead of focus and font size is greater than 0.
-    let visible = $derived(place.z > focus.z && (phrase.size ?? context.size > 0));
+    let visible = $derived(
+        place.z > focus.z && (phrase.size ?? localContext.size > 0),
+    );
 
     // Get the phrase's text in the preferred language
     let text = $derived(phrase.getLocalizedTextOrDoc($locales));
@@ -79,24 +74,27 @@
     let input: HTMLInputElement | undefined = $state();
 
     // Selected if this phrase's value creator is selected
-    let selected =
-        $derived(phrase.value.creator instanceof Evaluate &&
-        selectedOutput.includes(phrase.value.creator));
+    let selected = $derived(
+        phrase.value.creator instanceof Evaluate &&
+            selectedOutput.includes(phrase.value.creator),
+    );
 
     let editable = getContext<Writable<boolean>>('editable');
-    let entered =
-        $derived(selected &&
-        $editable &&
-        selectedPhrase &&
-        selectedPhrase.index !== null);
+    let entered = $derived(
+        selected &&
+            $editable &&
+            selectedPhrase &&
+            selectedPhrase.index !== null,
+    );
 
-    let metrics = $derived(phrase.getMetrics(context));
+    let metrics = $derived(phrase.getMetrics(localContext));
 
     let description: string | null = $state(null);
     let lastFrame = $state(0);
-    run(() => {
+
+    $effect(() => {
         if (phrase.description) description = phrase.description.text;
-        else if (frame > lastFrame)
+        else if (frame > untrack(() => lastFrame))
             description = phrase.getDescription($locales);
         lastFrame = frame;
     });
@@ -106,11 +104,7 @@
     function restore() {
         if ($editable) {
             if (entered) {
-                if (
-                    input &&
-                    selectedPhrase &&
-                    selectedPhrase.index !== null
-                ) {
+                if (input && selectedPhrase && selectedPhrase.index !== null) {
                     input.setSelectionRange(
                         selectedPhrase.index,
                         selectedPhrase.index,
@@ -237,8 +231,8 @@
         data-selectable={selectable}
         ondblclick={$editable && interactive ? enter : null}
         onkeydown={$editable && interactive && !entered ? move : null}
-        style:font-family={getFaceCSS(context.face)}
-        style:font-size={getSizeCSS(context.size)}
+        style:font-family={getFaceCSS(localContext.face)}
+        style:font-size={getSizeCSS(localContext.size)}
         style:background={phrase.background?.toCSS() ?? null}
         style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
@@ -278,11 +272,11 @@
                 value={text}
                 bind:this={input}
                 oninput={handleInput}
-                onkeydown={stopPropagation(bubble('keydown'))}
-                onpointerdown={stopPropagation(bubble('pointerdown'))}
+                onkeydown={(event) => event.stopPropagation()}
+                onpointerdown={(event) => event.stopPropagation()}
                 style:width="{Math.max(
                     10,
-                    phrase.getMetrics(context, false).width,
+                    phrase.getMetrics(localContext, false).width,
                 )}px"
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"

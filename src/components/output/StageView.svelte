@@ -3,9 +3,7 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
-    import { onDestroy, onMount } from 'svelte';
+    import { onDestroy, onMount, untrack } from 'svelte';
     import type Project from '@models/Project';
     import type Stage from '@output/Stage';
     import { loadedFonts } from '@basis/Fonts';
@@ -43,6 +41,7 @@
         describeMovedOutput,
         describedChangedOutput,
     } from './OutputDescriptions';
+    import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 
     interface Props {
         project: Project;
@@ -55,7 +54,7 @@
         painting: boolean;
         background: boolean;
         /** Decide what focus to render. Explicitly set verse focus takes priority, then the fit focus if fitting content to viewport,
-     * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
+         * then the adjusted focus if providedWhenever the verse focus, fit setting, or adjusted focus change, updated the rendered focus */
         renderedFocus: Place;
     }
 
@@ -69,15 +68,13 @@
         grid = $bindable(),
         painting = $bindable(),
         background,
-        renderedFocus = $bindable()
+        renderedFocus = $bindable(),
     }: Props = $props();
-
 
     const evaluation = getEvaluation();
     const animatingNodes = getAnimatingNodes();
 
     const GRID_PADDING = 10;
-
 
     let view: HTMLElement | null = $state(null);
 
@@ -133,7 +130,6 @@
 
     const announcer = getAnnounce();
 
-
     /** The verse focus that fits the content to the view*/
     let fitFocus: Place | undefined = $state(undefined);
 
@@ -145,8 +141,7 @@
 
     /** When this is unmounted, stop all animations.*/
     onDestroy(() => {
-        if(animator)
-            animator.stop();
+        if (animator) animator.stop();
         if (observer) observer.disconnect();
     });
 
@@ -162,8 +157,6 @@
     let viewportHeight = $state(0);
     let changed = $state(false);
 
-
-
     export const adjustFocus = (dx: number, dy: number, dz: number) => {
         setFocus(
             renderedFocus.x + dx,
@@ -178,55 +171,69 @@
         // Stop fitting
         fit = false;
     };
+
     let editing = $derived($evaluation?.playing === false);
-    run(() => {
+
+    // When interactive or stage changes, update the announcement timeout and timer.
+    $effect(() => {
         if (interactive && stage) {
-            // Have we not announced in a while? Let's announce now.
-            const now = Date.now();
-            if (now - lastAnnouncement > StillDuration) {
-                frame++;
-                lastAnnouncement = now;
-            }
-            // Clear any timeout we had set up recently, then make a new one, announcing in a bit.
-            if (stillTimeout) clearTimeout(stillTimeout);
-            stillTimeout = setTimeout(() => {
-                frame++;
-                lastAnnouncement = Date.now();
-            }, StillDuration);
+            untrack(() => {
+                // Have we not announced in a while? Let's announce now.
+                const now = Date.now();
+                if (now - lastAnnouncement > StillDuration) {
+                    frame++;
+                    lastAnnouncement = now;
+                }
+                // Clear any timeout we had set up recently, then make a new one, announcing in a bit.
+                if (stillTimeout) clearTimeout(stillTimeout);
+                stillTimeout = setTimeout(() => {
+                    frame++;
+                    lastAnnouncement = Date.now();
+                }, StillDuration);
+            });
         }
     });
-    run(() => {
+
+    // When the evaluator changes, stop the animator and create a new animator for the new evaluator.
+    $effect(() => {
+        evaluator;
         // Previous scene? Stop it.
-        if (animator !== undefined) animator.stop();
-        // Make a new one.
-        animator = new Animator(
-            evaluator,
-            // When output exits, remove it from the map and triggering a render so that its removed from stage.
-            (name) => {
-                if (exiting.has(name)) {
-                    exiting.delete(name);
-                    // Update the set to force render
-                    exiting = new Map(exiting);
-                }
-            },
-            // When the animating poses or sequences on stage change, update the store
-            (nodes) => {
-                // Update the set of animated nodes.
-                if (interactive && animatingNodes)
-                    animatingNodes.set(new Set(nodes));
-            },
-        );
+        untrack(() => {
+            if (animator !== undefined) animator.stop();
+            // Make a new one.
+            animator = new Animator(
+                evaluator,
+                // When output exits, remove it from the map and triggering a render so that its removed from stage.
+                (name) => {
+                    if (exiting.has(name)) {
+                        exiting.delete(name);
+                        // Update the set to force render
+                        exiting = new Map(exiting);
+                    }
+                },
+                // When the animating poses or sequences on stage change, update the store
+                (nodes) => {
+                    // Update the set of animated nodes.
+                    if (interactive && animatingNodes)
+                        animatingNodes.set(new Set(nodes));
+                },
+            );
+        });
     });
-    let context = $derived(new RenderContext(
-        stage.face ?? $locales.getLocale().ui.font.app,
-        stage.size ?? DefaultSize,
-        project.getLocales(),
-        $loadedFonts,
-        $animationFactor,
-    ));
+
+    let context = $derived(
+        new RenderContext(
+            stage.face ?? $locales.getLocale().ui.font.app,
+            stage.size ?? DefaultSize,
+            project.getLocales(),
+            $loadedFonts,
+            $animationFactor,
+        ),
+    );
     let contentBounds = $derived(stage.getLayout(context));
+
     /** When verse or viewport changes, update the autofit focus. */
-    run(() => {
+    $effect(() => {
         if (view && fit) {
             // Get the bounds of the verse in verse units.
             const contentWidth = contentBounds.width;
@@ -263,18 +270,23 @@
             );
             // If we're currently fitting to content, just make the adjusted focus the same in case the setting is inactive.
             // This ensures we start from where we left off.
-            adjustedFocus = fitFocus;
+            untrack(() => {
+                if (fitFocus) adjustedFocus = fitFocus;
+            });
         }
     });
-    run(() => {
+
+    /** Define the rendered focused based on the stage's place, fit, and other states. Not derived since it is a bindable prop. */
+    $effect(() => {
         renderedFocus = stage.place
             ? stage.place
             : fit && fitFocus && $evaluation?.playing === true
               ? fitFocus
               : adjustedFocus;
     });
+
     /** Whenever the stage, languages, fonts, or rendered focus changes, update the rendered scene accordingly. */
-    run(() => {
+    $effect(() => {
         if (interactive && animator) {
             const results = animator.update(
                 stage,
@@ -285,61 +297,86 @@
                 context,
             );
 
-            previouslyPresent = present;
-            let animate: (() => void) | undefined = undefined;
-            if (results !== undefined) {
-                ({ entered, present, moved, animate } = results);
+            // Ignore read of present output since we assign it below.
+            untrack(() => {
+                previouslyPresent = present;
+                let animate: (() => void) | undefined = undefined;
+                if (results !== undefined) {
+                    ({ entered, present, moved, animate } = results);
 
-                // Get the list of newly exited phrases and add them to our set.
-                for (const [key, val] of results.exiting) {
-                    exiting.set(key, val);
+                    // Get the list of newly exited phrases and add them to our set.
+                    const newExiting = new Map();
+                    for (const [key, val] of results.exiting) {
+                        newExiting.set(key, val);
+                    }
+                    // Update the map of exiting outputs to render them to the view
+                    exiting = new Map(newExiting);
                 }
-                // Update the map of exiting outputs to render them to the view
-                exiting = new Map(exiting);
-            }
 
-            // Defer animation initialization until we have a view so that animations can be bound to DOM elements.
-            // Otherwise, animations will not have a DOM element to animate and will stop.
-            tick().then(() => {
-                if (animate) animate();
+                // Defer animation initialization until we have a view so that animations can be bound to DOM elements.
+                // Otherwise, animations will not have a DOM element to animate and will stop.
+                tick().then(() => {
+                    if (animate) animate();
+                });
             });
         }
     });
+
     // Announce changes on stage.
-    run(() => {
+    $effect(() => {
         if ($announcer) {
             const language = $locales.getLocale().language;
-            const changeDescription = describedChangedOutput(
-                $locales,
-                entered,
-                present,
-                previouslyPresent,
-            );
-            if (entered.size > 0)
-                $announcer(
-                    'entered',
-                    language,
-                    describeEnteredOutput($locales, entered) ?? '',
+
+            if (entered.size > 0) {
+                const enteredDescription =
+                    describeEnteredOutput($locales, entered) ?? '';
+                untrack(() =>
+                    $announcer('entered', language, enteredDescription),
                 );
-            else if (changeDescription) {
-                $announcer('changed', language, changeDescription);
-            } else if (moved.size > 0)
-                $announcer('moved', language, describeMovedOutput($locales, moved));
-        }
-    });
-    run(() => {
-        editableStore.set(editable);
-    });
-    let center = $derived(new Place(stage.value, 0, 0, 0));
-    let offsetFocus = $derived(renderedFocus.offset(center));
-    run(() => {
-        if (view && view.parentElement && observer) {
-            if (parent !== view.parentElement) {
-                if (parent) observer.unobserve(parent);
-                parent = view.parentElement;
-                observer.observe(parent);
+            } else {
+                const changeDescription = describedChangedOutput(
+                    $locales,
+                    entered,
+                    present,
+                    previouslyPresent,
+                );
+                if (changeDescription) {
+                    untrack(() =>
+                        $announcer('changed', language, changeDescription),
+                    );
+                } else if (moved.size > 0) {
+                    const moveDescription = describeMovedOutput(
+                        $locales,
+                        moved,
+                    );
+                    untrack(() =>
+                        $announcer('moved', language, moveDescription),
+                    );
+                }
             }
         }
+    });
+
+    // When editable changes, change the local store.
+    $effect(() => {
+        editableStore.set(editable);
+    });
+
+    let center = $derived(new Place(stage.value, 0, 0, 0));
+    let offsetFocus = $derived(renderedFocus.offset(center));
+
+    // When the viewport changes, update the observer to watch the new parent.
+    $effect(() => {
+        if (view)
+            untrack(() => {
+                if (view && view.parentElement && observer) {
+                    if (parent !== view.parentElement) {
+                        if (parent) observer.unobserve(parent);
+                        parent = view.parentElement;
+                        observer.observe(parent);
+                    }
+                }
+            });
     });
 </script>
 
@@ -394,7 +431,7 @@
                         style:top="{-top * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-></div>
+                    ></div>
                 {/each}
                 {#each range(bottom, top) as number}
                     <div
@@ -404,20 +441,20 @@
                         style:left="{left * PX_PER_METER -
                             HalfGridlineThickness}px"
                         style:width="{Math.abs(left - right) * PX_PER_METER}px"
-></div>
+                    ></div>
                 {/each}
                 <div
                     class="gridline horizontal axis"
                     style:top="0px"
                     style:left="{left * PX_PER_METER - HalfGridlineThickness}px"
                     style:width="{Math.abs(left - right) * PX_PER_METER}px"
-></div>
+                ></div>
                 <div
                     class="gridline vertical axis"
                     style:left="0px"
                     style:top="{-top * PX_PER_METER - HalfGridlineThickness}px"
                     style:height="{Math.abs(top - bottom) * PX_PER_METER}px"
-></div>
+                ></div>
             {/if}
             <!-- Render exiting nodes -->
             {#each Array.from(exiting.entries()) as [name, info] (name)}

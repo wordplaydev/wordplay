@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { run, preventDefault, stopPropagation } from 'svelte/legacy';
+    import { run } from 'svelte/legacy';
 
     import ProjectView from '@components/project/ProjectView.svelte';
     import Project from '@models/Project';
@@ -23,7 +23,7 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, setContext } from 'svelte';
+    import { onMount, setContext, untrack } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
@@ -132,20 +132,23 @@
         not just when it's assigned.
     */
     let performance = $state<Performance | undefined>();
-    run(() => {
+    $effect(() => {
         let newPerformance = progress.getPerformance();
-        if (
-            newPerformance !== undefined &&
-            newPerformance !== performance &&
-            conceptPath
-        ) {
-            // Reset the concept path when code changes.
-            conceptPath.set([]);
-            performance = newPerformance;
-        }
-        if (performance === undefined) {
-            performance = ['fit', 'Stage()'];
-        }
+        // Only update the performance when progress changes.
+        untrack(() => {
+            if (
+                newPerformance !== undefined &&
+                newPerformance !== performance &&
+                conceptPath
+            ) {
+                // Reset the concept path when code changes.
+                conceptPath.set([]);
+                performance = newPerformance;
+            }
+            if (performance === undefined) {
+                performance = ['fit', 'Stage()'];
+            }
+        });
     });
 
     let isUse = $derived(performance !== undefined && performance[0] === 'use');
@@ -174,34 +177,29 @@
     );
 
     // Every time the progress changes, create an initial project for the step.
-    let initialProject = $state<Project | undefined>();
-    run(() => {
-        if (
-            initialProject === undefined ||
-            progress.getProjectID() !== initialProject.getID()
-        )
-            initialProject = Project.make(
-                progress.getProjectID(),
-                scene
-                    ? scene.title
-                    : act
-                      ? act.title
-                      : $locales.getLocale().wordplay,
-                // Don't give the souce a name, otherwise it won't be localized on language change.
-                new Source('', source),
-                [],
-                $locales.getLocales(),
-                $user?.uid ?? null,
-                [],
-                false,
-                undefined,
-                false,
-                false,
-                false,
-                null,
-                moderatedFlags(),
-            );
-    });
+    let initialProject = $derived(
+        Project.make(
+            progress.getProjectID(),
+            scene
+                ? scene.title
+                : act
+                  ? act.title
+                  : $locales.getLocale().wordplay,
+            // Don't give the souce a name, otherwise it won't be localized on language change.
+            new Source('', source),
+            [],
+            $locales.getLocales(),
+            $user?.uid ?? null,
+            [],
+            false,
+            undefined,
+            false,
+            false,
+            false,
+            null,
+            moderatedFlags(),
+        ),
+    );
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
     // and use that instead.
@@ -318,18 +316,18 @@
 
 <!-- If the body gets focus, focus the instructions. -->
 <svelte:body
-    onfocus={stopPropagation(
-        preventDefault(() =>
-            tick().then(() => {
-                const newFocus = focusView ?? nextButton;
-                if (newFocus)
-                    setKeyboardFocus(
-                        newFocus,
-                        'Body received focus, focusing tutorial.',
-                    );
-            }),
-        ),
-    )}
+    onfocus={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        tick().then(() => {
+            const newFocus = focusView ?? nextButton;
+            if (newFocus)
+                setKeyboardFocus(
+                    newFocus,
+                    'Body received focus, focusing tutorial.',
+                );
+        });
+    }}
 />
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
@@ -367,14 +365,15 @@
             <div
                 class="turns"
                 aria-live="assertive"
-                onclick={stopPropagation(() =>
-                    nextButton
-                        ? setKeyboardFocus(
-                              nextButton,
-                              'Focusing next button after chat click',
-                          )
-                        : undefined,
-                )}
+                onclick={(event) => {
+                    if (nextButton) {
+                        event.stopPropagation();
+                        setKeyboardFocus(
+                            nextButton,
+                            'Focusing next button after chat click',
+                        );
+                    }
+                }}
             >
                 <div class="controls">
                     <Button

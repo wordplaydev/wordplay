@@ -192,7 +192,7 @@
     let outline = $state<HighlightSpec | undefined>(undefined);
 
     /** The current canvas */
-    let canvas = $state<HTMLDivElement>();
+    let canvas = $state<HTMLDivElement | undefined>();
 
     /** Whether to show the keyboard help dialog */
     let showHelpDialog = $state(false);
@@ -411,7 +411,11 @@
     /** This stores the instance of the announcer component */
     let announce = $state<ReturnType<typeof Announcer>>();
     let announcerFunction: Writable<Announce | undefined> = writable(undefined);
+
+    // Update the function context when the announcer changes.
     $effect(() => announcerFunction.set(announce?.announce));
+
+    // Set the announcer store in context.
     setContext<Writable<Announce | undefined>>(
         AnnouncerSymbol,
         announcerFunction,
@@ -674,9 +678,13 @@
         font: $locales.get((l) => l.ui.font.app),
     });
 
-    /** Create an index whenever the project or locale changes. */
+    /** Update the concept index whenever the project or locales change. */
     $effect(() => {
         index = ConceptIndex.make(project, $locales);
+    });
+
+    /* Keep the index context up to date when it changes.*/
+    $effect(() => {
         indexContext.index = index;
     });
 
@@ -1149,7 +1157,7 @@
     }
 
     async function handlePointerMove(event: PointerEvent) {
-        if (canvas === undefined) return;
+        if (!canvas) return;
 
         pointerX = event.clientX + canvas.scrollLeft;
         pointerY = event.clientY + canvas.scrollTop;
@@ -1846,6 +1854,9 @@
         overflow: hidden;
         width: 100%;
         height: 100%;
+
+        /* So tiles absolute positions are relative to the project view. */
+        position: relative;
 
         /* Don't let iOS grab pointer move events, so we can do drag and drop. */
         touch-action: none;

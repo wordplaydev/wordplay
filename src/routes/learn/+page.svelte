@@ -18,6 +18,7 @@
     import Header from '../../components/app/Header.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
     import { browser } from '$app/environment';
+    import { untrack } from 'svelte';
 
     let tutorial: Tutorial | undefined | null = $state(undefined);
 
@@ -48,7 +49,10 @@
     $effect(() => {
         if (tutorial) {
             initial = Progress.fromURL(tutorial, $page.url.searchParams);
-            if (initial) Settings.setTutorialProgress(initial);
+            // Untack, since the below reads and sets
+            untrack(() => {
+                if (initial) Settings.setTutorialProgress(initial);
+            });
         }
     });
 
@@ -69,11 +73,11 @@
         <Header>:(</Header>
         <Speech glyph={Glyphs.Function}
             >{#snippet content()}
-                                <p >
+                <p>
                     {$locales.get((l) => l.ui.page.learn.error)}
                     <Link to="/">🏠</Link></p
                 >
-                            {/snippet}</Speech
+            {/snippet}</Speech
         ></Writing
     >
 {:else}

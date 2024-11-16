@@ -1,6 +1,5 @@
 <script lang="ts">
     import GroupView from './GroupView.svelte';
-    import { run } from 'svelte/legacy';
 
     import type Place from '@output/Place';
     import {
@@ -23,8 +22,8 @@
     import type { Form } from '../../output/Form';
     import Shape from '../../output/Shape';
     import ShapeView from './ShapeView.svelte';
+    import { untrack } from 'svelte';
 
-    
     interface Props {
         group: Group | Stage;
         place: Place;
@@ -48,24 +47,22 @@
         clip = undefined,
         interactive,
         parentAscent,
-        context = $bindable(),
+        context,
         editing,
         frame,
-        children
+        children,
     }: Props = $props();
 
     let root = $derived(viewport !== undefined);
 
-    let {selectedOutput} = getSelectedOutput();
+    let { selectedOutput } = getSelectedOutput();
 
     // Compute a local context based on size and font.
-    run(() => {
-        context = group.getRenderContext(context);
-    });
+    let localContext = $derived(group.getRenderContext(context));
 
     let empty = $derived(group.isEmpty());
 
-    let layout = $derived(group.getLayout(context));
+    let layout = $derived(group.getLayout(localContext));
 
     // Filter out groups that are behind the focus
     // Sort by z to preserve rendering order
@@ -75,15 +72,16 @@
     // into this view's coordinate system so that the perspective rendering is in the right coordinates.
     let offsetFocus = $derived(focus.offset(place));
 
-    let selected =
-        $derived(group.value.creator instanceof Evaluate &&
-        selectedOutput.includes(group.value.creator));
+    let selected = $derived(
+        group.value.creator instanceof Evaluate &&
+            selectedOutput.includes(group.value.creator),
+    );
 
     let description: string | null = $state(null);
     let lastFrame = $state(0);
-    run(() => {
+    $effect(() => {
         if (group.description) description = group.description.text;
-        else if (frame > lastFrame)
+        else if (frame > untrack(() => lastFrame))
             description = group.getDescription($locales);
         lastFrame = frame;
     });
@@ -106,8 +104,8 @@
     data-selectable={group.selectable}
     style:width={sizeToPx(layout.width)}
     style:height={sizeToPx(layout.height)}
-    style:font-family={getFaceCSS(context.face)}
-    style:font-size={getSizeCSS(context.size)}
+    style:font-family={getFaceCSS(localContext.face)}
+    style:font-size={getSizeCSS(localContext.size)}
     style:background={(group instanceof Group
         ? group.background?.toCSS()
         : null) ?? null}
@@ -138,7 +136,7 @@
                 focus={offsetFocus}
                 {interactive}
                 parentAscent={root ? 0 : layout.height}
-                {context}
+                context={localContext}
                 {editing}
                 {frame}
             />
@@ -149,7 +147,7 @@
                 focus={offsetFocus}
                 {interactive}
                 parentAscent={root ? 0 : layout.height}
-                {context}
+                context={localContext}
                 {editing}
                 {frame}
             />
@@ -160,7 +158,7 @@
                 focus={offsetFocus}
                 parentAscent={root ? 0 : layout.height}
                 {interactive}
-                {context}
+                context={localContext}
                 {editing}
                 {frame}
             />
@@ -206,7 +204,8 @@
         cursor: pointer;
     }
 
-    :global(.stage.editing.interactive) .group:not(:global(.selected)):not(:global(.root)) {
+    :global(.stage.editing.interactive)
+        .group:not(:global(.selected)):not(:global(.root)) {
         outline: var(--wordplay-border-width) dotted
             var(--wordplay-inactive-color);
     }
