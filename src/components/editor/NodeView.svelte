@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type Node from '@nodes/Node';
     import {
         getEvaluation,
@@ -43,20 +41,17 @@
             : null,
     );
 
-    let value: Value | undefined = $state();
-    run(() => {
-        // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
-        // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
-        // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
-        value = undefined;
-        if (
-            $evaluation &&
+    // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
+    // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
+    // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
+    let value = $derived(
+        $evaluation &&
             !$evaluation.playing &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()
-        )
-            value = $evaluation.evaluator.getLatestExpressionValue(node);
-    });
+            ? $evaluation.evaluator.getLatestExpressionValue(node)
+            : undefined,
+    );
 
     const blocks = isBlocks();
 
