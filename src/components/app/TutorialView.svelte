@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import ProjectView from '@components/project/ProjectView.svelte';
     import Project from '@models/Project';
     import Speech from '@components/lore/Speech.svelte';
@@ -80,20 +78,19 @@
 
     /** This is bound to the project view's context */
     let dragged = $state<Node | undefined>();
+
     /** This is the tutorial's own dragged store, which we keep in a context */
     let localDragged = writable<Node | undefined>();
     setDraggedContext(localDragged);
+
     /** Whenever the local tutorial dragged context changes, push it to the project's store */
-    run(() => {
-        if (dragged) dragged = $localDragged;
+    $effect(() => {
+        dragged = $localDragged;
     });
 
     /** Convert the instructions into a sequence of docs/space pairs */
-    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = $state(
-        [],
-    );
-    run(() => {
-        turns = dialog
+    let turns: { speech: Markup; spaces: Spaces; dialog: Dialog }[] = $derived(
+        dialog
             ? dialog.map((line) => {
                   const [, , ...text] = line;
                   // Convert the list of paragraphs into a single doc.
@@ -104,8 +101,8 @@
                       dialog: line,
                   };
               })
-            : [];
-    });
+            : [],
+    );
 
     let highlights = $derived(
         turns
@@ -201,9 +198,16 @@
         ),
     );
 
+    // Store a reference to the project store for the current project.
+    let projectStore: Writable<Project> | undefined;
+    // Every time the progress changes, get the store for the corresponding project, if there is one.
+    $effect(() => {
+        projectStore = Projects.getStore(progress.getProjectID());
+    });
+
     // Every time the progress changes, see if there's a revision to the project stored in the database,
     // and use that instead.
-    run(() => {
+    $effect(() => {
         // Check asynchronously if there's a project for this tutorial project ID already.
         Projects.get(progress.getProjectID()).then((existingProject) => {
             // If there is, get it's store.
@@ -220,23 +224,17 @@
         });
     });
 
-    // Every time the progress changes, get the store for the corresponding project, if there is one.
-    let projectStore: Writable<Project> | undefined;
-    run(() => {
-        projectStore = Projects.getStore(progress.getProjectID());
-    });
-
     // Create a reactive context of the current project.
     const project = writable<Project | undefined>(undefined);
     setContext<ProjectContext>(ProjectSymbol, project);
 
     // Every time the project store changes, update the project context.
-    run(() => {
+    $effect(() => {
         project.set($projectStore);
     });
 
     // When the project changes to something other than the initial project, start persisting it.
-    run(() => {
+    $effect(() => {
         if (
             initialProject &&
             $projectStore !== undefined &&
