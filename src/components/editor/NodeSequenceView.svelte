@@ -3,8 +3,6 @@
 </script>
 
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import Node from '@nodes/Node';
     import { getCaret, isBlocks } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
@@ -17,7 +15,11 @@
         direction?: 'row' | 'column';
     }
 
-    let { nodes, elide = $bindable(false), direction = 'row' }: Props = $props();
+    let {
+        nodes,
+        elide = $bindable(false),
+        direction = 'row',
+    }: Props = $props();
 
     let caret = getCaret();
     const blocks = isBlocks();
@@ -31,7 +33,9 @@
     let visible: Node[] = $state([]);
     let hiddenBefore = $state(0);
     let hiddenAfter = $state(0);
-    run(() => {
+
+    // Update what's hidden and visible based on state.
+    $effect(() => {
         // More than some number? Elide.
         if (elide && nodes.length > LIMIT && $caret) {
             const first = nodes.at(0);
