@@ -133,6 +133,7 @@
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 
     interface Props {
         project: Project;
@@ -690,16 +691,16 @@
     // After mounting, see if there's a concept in the URL, and set the path to it if so.
     let path = getConceptPath();
 
-    // Restore the concept in the URL.
-    restoreConcept();
+    // Restore the concept in the URL after mounting.
+    onMount(() => restoreConcept());
 
     function resolveConcept(conceptPath: string): Concept | undefined {
         if (conceptPath && index) {
             const [ownerName, name] = conceptPath.split('/');
             const concept =
                 ownerName && name
-                    ? index?.getSubConcept(ownerName, name)
-                    : index?.getConceptByName(ownerName);
+                    ? index.getSubConcept(ownerName, name)
+                    : index.getConceptByName(ownerName);
             return concept;
         }
         return undefined;
