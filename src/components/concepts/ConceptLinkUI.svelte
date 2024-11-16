@@ -77,7 +77,7 @@
                             }
                         }
                     }
-                }
+                } else return { concept, container: undefined };
             }
             return { concept: undefined, container: undefined };
         }
