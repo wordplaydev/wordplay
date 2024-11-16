@@ -27,20 +27,19 @@
     );
     let definition = $derived(node.resolve(context));
 
-    let stream: StreamValue<Value, unknown> | undefined = $state();
-    run(() => {
+    let stream: StreamValue<Value, unknown> | undefined = $derived.by(() => {
         if ($evaluation) {
             const parent = root?.getParent(node);
-            stream =
-                parent instanceof Evaluate
-                    ? $evaluation.evaluator.getStreamFor(parent)
-                    : undefined;
+            return parent instanceof Evaluate
+                ? $evaluation.evaluator.getStreamFor(parent)
+                : undefined;
         }
+        return undefined;
     });
 
     // If this evaluated to the stream that recently changed, style it.
     let animating = $state(false);
-    run(() => {
+    $effect(() => {
         // Evaluated if...
         if (
             // There's evluation in this context
