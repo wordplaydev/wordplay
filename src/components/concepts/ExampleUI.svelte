@@ -1,7 +1,5 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
-    import { onDestroy, onMount, untrack } from 'svelte';
+    import { onDestroy, onMount } from 'svelte';
     import { getConceptIndex } from '../project/Contexts';
     import Project from '@models/Project';
     import type Example from '@nodes/Example';
