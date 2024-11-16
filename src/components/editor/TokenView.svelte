@@ -102,7 +102,9 @@
 {#if $blocks && root}
     <div
         class="token-view blocks token-category-{TokenCategories.get(
-            Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
         )}"
         class:hide
         class:active
@@ -161,7 +163,9 @@
 {:else}
     <span
         class="token-view text token-category-{TokenCategories.get(
-            Array.isArray(node.types) ? node.types[0] ?? 'default' : node.types,
+            Array.isArray(node.types)
+                ? (node.types[0] ?? 'default')
+                : node.types,
         )}"
         class:hide
         class:active

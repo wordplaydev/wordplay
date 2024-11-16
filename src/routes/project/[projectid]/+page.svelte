@@ -26,8 +26,14 @@
     let editable = $state(false);
     let overwritten = $state(false);
     let unsub: Unsubscriber | undefined = $state(undefined);
+
+    // A project context store for children
+    let projectContext = writable<Project | undefined>(undefined);
+    setContext<ProjectContext>(ProjectSymbol, projectContext);
+
+    // When the project changes, set the project context fo children.
     $effect(() => {
-        if (store) setContext<ProjectContext>(ProjectSymbol, store);
+        projectContext.set(project);
     });
 
     // Create a concept path for children

@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { stopPropagation } from 'svelte/legacy';
-
     import { getCaret } from '@components/project/Contexts';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { Projects } from '@db/Database';
@@ -21,7 +19,8 @@
 
     let on = $derived(node.getText() === TRUE_SYMBOL);
 
-    function toggle() {
+    function toggle(event: Event) {
+        event.stopPropagation();
         if (view) setKeyboardFocus(view, 'Boolean toggle after toggle');
 
         const newToken = new Token(
@@ -40,9 +39,9 @@
     data-id={node.id}
     aria-checked={on}
     bind:this={view}
-    onclick={stopPropagation(toggle)}
+    onclick={toggle}
     onkeydown={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? toggle() : undefined}
+        event.key === 'Enter' || event.key === ' ' ? toggle(event) : undefined}
     tabindex="0"
 >
     {on ? TRUE_SYMBOL : FALSE_SYMBOL}
