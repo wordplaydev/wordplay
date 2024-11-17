@@ -38,6 +38,7 @@
         setCaretContext,
     } from '../project/Contexts';
     import {
+        type HighlightSpec,
         type Highlights,
         HighlightTypes,
         getHighlights,
@@ -51,7 +52,7 @@
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from '../../edit/Autocomplete';
-    import { OutlinePadding } from './util/outline';
+    import { OutlinePadding, type Outline } from './util/outline';
     import Highlight from './Highlight.svelte';
     import {
         dropNodeOnSource,
@@ -81,6 +82,7 @@
     import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { string } from 'zod';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -246,13 +248,6 @@
 
         untrack(() => {
             tick().then(() => {
-                updateOutlines(
-                    $highlights,
-                    true,
-                    $locales.getDirection() === 'rtl',
-                    getNodeView,
-                );
-
                 // Optimization: add and remove classes for styling here rather than having them
                 // retrieved in each NodeView.
                 if (editor) {
@@ -1453,14 +1448,19 @@
     });
 
     // Update the outline positions any time the highlights change;
-    let outlines = $derived(
-        updateOutlines(
-            $highlights,
-            true,
-            $locales.getDirection() === 'rtl',
-            getNodeView,
-        ),
-    );
+    let outlines = $state<HighlightSpec[]>([]);
+    $effect(() => {
+        if ($highlights)
+            tick().then(() => {
+                outlines = updateOutlines(
+                    $highlights,
+                    true,
+                    $locales.getDirection() === 'rtl',
+                    getNodeView,
+                );
+            });
+    });
+
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {
         if ($blocks && $caret && focused) {
