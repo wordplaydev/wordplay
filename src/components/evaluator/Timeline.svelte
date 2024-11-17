@@ -4,7 +4,7 @@
     import BoolValue from '@values/BoolValue';
     import Button from '../../input/Button';
     import { slide } from 'svelte/transition';
-    import { tick } from 'svelte';
+    import { tick, untrack } from 'svelte';
     import ExceptionValue from '@values/ExceptionValue';
     import { getEvaluation } from '../project/Contexts';
     import Controls from './Controls.svelte';
@@ -45,7 +45,10 @@
 
     /** After each update, ensure the current change is in view */
     $effect(() => {
-        tick().then(() => updateScrollPosition());
+        currentReaction;
+        untrack(() => {
+            tick().then(() => updateScrollPosition());
+        });
     });
 
     /** When the current step index changes, update the scroll position to make sure it's in view. */

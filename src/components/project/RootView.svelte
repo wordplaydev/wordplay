@@ -11,10 +11,10 @@
         RootSymbol,
         SpaceSymbol,
         type SpaceContext,
-        CaretSymbol,
         LocalizeSymbol,
         ShowLinesSymbol,
         BlocksSymbol,
+        setCaretContext,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -77,7 +77,7 @@
     });
 
     $effect(() => {
-        if (inert) setContext(CaretSymbol, undefined);
+        if (inert) setCaretContext(undefined);
     });
 
     // A set of hidden nodes, such as hidden translations.

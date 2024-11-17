@@ -153,11 +153,11 @@
             location = computeLocation();
             untrack(() => {
                 if (timeout) clearTimeout(timeout);
+                timeout = setTimeout(
+                    () => (location = computeLocation()),
+                    $animationDuration + 25,
+                );
             });
-            timeout = setTimeout(
-                () => (location = computeLocation()),
-                $animationDuration + 25,
-            );
         });
     });
 

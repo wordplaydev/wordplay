@@ -113,8 +113,11 @@ export function getAnimatingNodes(): AnimatingNodesContext | undefined {
 
 // Editor related contexts
 
-export type CaretContext = Writable<Caret> | undefined;
-export const CaretSymbol = Symbol('caret');
+type CaretContext = Writable<Caret> | undefined;
+const CaretSymbol = Symbol('caret');
+export function setCaretContext(context: CaretContext) {
+    return setContext(CaretSymbol, context);
+}
 export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
 }

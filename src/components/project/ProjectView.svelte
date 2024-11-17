@@ -1651,13 +1651,16 @@
                                                 getSourceByTileID(tile.id) ===
                                                     project.getMain()}
                                             bind:menu
-                                            on:conflicts={(event) =>
+                                            updateConflicts={(
+                                                source,
+                                                conflicts,
+                                            ) =>
                                                 (conflictsOfInterest =
                                                     conflictsOfInterest.set(
-                                                        event.detail.source,
-                                                        event.detail.conflicts,
+                                                        source,
+                                                        conflicts,
                                                     ))}
-                                            on:preview={() =>
+                                            setOutputPreview={() =>
                                                 (selectedSourceIndex =
                                                     getSourceIndexByID(
                                                         tile.id,
