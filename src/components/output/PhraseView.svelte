@@ -53,8 +53,7 @@
         frame,
     }: Props = $props();
 
-    const { selectedOutput, selectedPhrase, setSelectedPhrase } =
-        getSelectedOutput();
+    const selection = getSelectedOutput();
     const project = getProject();
 
     // Compute a local context based on size and font.
@@ -76,15 +75,15 @@
     // Selected if this phrase's value creator is selected
     let selected = $derived(
         phrase.value.creator instanceof Evaluate &&
-            selectedOutput.includes(phrase.value.creator),
+            selection.selectedOutput.includes(phrase.value.creator),
     );
 
     let editable = getContext<Writable<boolean>>('editable');
     let entered = $derived(
         selected &&
             $editable &&
-            selectedPhrase &&
-            selectedPhrase.index !== null,
+            selection.selectedPhrase &&
+            selection.selectedPhrase.index !== null,
     );
 
     let metrics = $derived(phrase.getMetrics(localContext));
@@ -104,10 +103,14 @@
     function restore() {
         if ($editable) {
             if (entered) {
-                if (input && selectedPhrase && selectedPhrase.index !== null) {
+                if (
+                    input &&
+                    selection.selectedPhrase &&
+                    selection.selectedPhrase.index !== null
+                ) {
                     input.setSelectionRange(
-                        selectedPhrase.index,
-                        selectedPhrase.index,
+                        selection.selectedPhrase.index,
+                        selection.selectedPhrase.index,
                     );
                     setKeyboardFocus(
                         input,
@@ -127,8 +130,8 @@
     }
 
     function select(index: number | null) {
-        if (selectedPhrase === undefined) return;
-        setSelectedPhrase({
+        if (selection.selectedPhrase === undefined) return;
+        selection.setSelectedPhrase({
             name: phrase.getName(),
             index,
         });
@@ -137,7 +140,7 @@
     function move(event: KeyboardEvent) {
         if (
             $project === undefined ||
-            selectedOutput === undefined ||
+            selection.selectedOutput === undefined ||
             entered ||
             !event.key.startsWith('Arrow') ||
             !(phrase.value.creator instanceof Evaluate)
@@ -189,7 +192,8 @@
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
-        if ($project === undefined || selectedOutput === undefined) return;
+        if ($project === undefined || selection.selectedOutput === undefined)
+            return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.getText();

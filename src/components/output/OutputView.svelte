@@ -67,13 +67,7 @@
 
     const evaluation = getEvaluation();
     const keyboardEditIdle = getKeyboardEditIdle();
-    const {
-        selectedOutput,
-        selectedPaths,
-        selectedPhrase,
-        setSelectedOutput,
-        setSelectedPhrase,
-    } = getSelectedOutput();
+    const selection = getSelectedOutput();
     const announce = getAnnounce();
 
     let ignored = $state(false);
@@ -127,7 +121,7 @@
         background =
             value instanceof ExceptionValue
                 ? 'var(--wordplay-error)'
-                : stageValue?.background ?? null;
+                : (stageValue?.background ?? null);
     });
 
     /** Keep track of streams that listen for keyboard input */
@@ -267,17 +261,19 @@
         if (
             !evaluator.isPlaying() &&
             editable &&
-            selectedPaths !== undefined &&
-            selectedOutput !== undefined
+            selection.selectedPaths !== undefined &&
+            selection.selectedOutput !== undefined
         ) {
             const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
             if (evaluate !== undefined) {
                 // Add or remove the focused node from the selection.
                 if (select) {
-                    setSelectedOutput(
+                    selection.setSelectedOutput(
                         project,
-                        selectedOutput.includes(evaluate)
-                            ? selectedOutput.filter((o) => o !== evaluate)
+                        selection.selectedOutput.includes(evaluate)
+                            ? selection.selectedOutput.filter(
+                                  (o) => o !== evaluate,
+                              )
                             : [evaluate],
                     );
                     event.stopPropagation();
@@ -397,7 +393,8 @@
         // If we're editing, select output.
         if (editable) {
             if (painting) {
-                if (selectedPaths) setSelectedOutput(project, []);
+                if (selection.selectedPaths)
+                    selection.setSelectedOutput(project, []);
             } else if (!selectPointerOutput(event)) ignore();
         }
 
@@ -478,13 +475,14 @@
                       focus
                       ? renderedFocus
                       : // If there's selected output, it's the first output selected, and it has a place
-                        selectedOutput && selectedOutput.length > 0
+                        selection.selectedOutput &&
+                          selection.selectedOutput.length > 0
                         ? getOrCreatePlace(
                               project,
                               $locales,
-                              selectedOutput[0],
+                              selection.selectedOutput[0],
                               evaluator.project.getNodeContext(
-                                  selectedOutput[0],
+                                  selection.selectedOutput[0],
                               ),
                           )
                         : // Otherwise, there's no place the click started.
@@ -628,18 +626,18 @@
                         );
                         event.stopPropagation();
                     } else if (
-                        selectedOutput &&
-                        selectedOutput &&
-                        selectedOutput.length > 0 &&
-                        !selectedOutput[0].is(
+                        selection.selectedOutput &&
+                        selection.selectedOutput &&
+                        selection.selectedOutput.length > 0 &&
+                        !selection.selectedOutput[0].is(
                             project.shares.output.Stage,
-                            project.getNodeContext(selectedOutput[0]),
+                            project.getNodeContext(selection.selectedOutput[0]),
                         )
                     ) {
                         moveOutput(
                             DB,
                             project,
-                            selectedOutput,
+                            selection.selectedOutput,
                             $locales,
                             newX,
                             newY,
@@ -718,9 +716,9 @@
      */
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
         if (
-            selectedPaths === undefined ||
-            selectedOutput === undefined ||
-            selectedPhrase === undefined
+            selection.selectedPaths === undefined ||
+            selection.selectedOutput === undefined ||
+            selection.selectedPhrase === undefined
         )
             return false;
         // If we found the node in the project, add it to the selection.
@@ -729,24 +727,24 @@
             // If the shift key is down
             let newSelection: Evaluate[];
             if (event.shiftKey) {
-                const index = selectedOutput.indexOf(evaluate);
+                const index = selection.selectedOutput.indexOf(evaluate);
                 // If it's in the set, remove it.
                 if (index >= 0) {
                     newSelection = [
-                        ...selectedOutput.slice(0, index),
-                        ...selectedOutput.slice(index + 1),
+                        ...selection.selectedOutput.slice(0, index),
+                        ...selection.selectedOutput.slice(index + 1),
                     ];
                 } else {
-                    newSelection = [...selectedOutput, evaluate];
+                    newSelection = [...selection.selectedOutput, evaluate];
                 }
             }
             // Otherise, set the selection to the selection.
             else newSelection = [evaluate];
 
             // Update the selection
-            setSelectedOutput(project, newSelection);
+            selection.setSelectedOutput(project, newSelection);
             // Erase the selected phrase.
-            setSelectedPhrase(null);
+            selection.setSelectedPhrase(null);
 
             // Focus it too, for keyboard output.
             const outputView = valueView?.querySelector(
@@ -909,8 +907,8 @@
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
-        selectedOutput &&
-        selectedOutput.includes(stageValue.value.creator)}
+        selection.selectedOutput &&
+        selection.selectedOutput.includes(stageValue.value.creator)}
 >
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div

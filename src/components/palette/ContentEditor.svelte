@@ -18,7 +18,7 @@
 
     let { project, list, editable }: Props = $props();
 
-    const { setSelectedOutput } = getSelectedOutput();
+    const selection = getSelectedOutput();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
     let valid = $derived(
@@ -45,7 +45,8 @@
         if (list === undefined) return;
 
         const item = list.values[index];
-        if (item instanceof Evaluate) setSelectedOutput(project, [item]);
+        if (item instanceof Evaluate)
+            selection.setSelectedOutput(project, [item]);
     }
 </script>
 

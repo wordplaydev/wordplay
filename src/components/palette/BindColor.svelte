@@ -20,11 +20,12 @@
     let { property, values, editable }: Props = $props();
 
     let project = getProject();
-    let selectedOutput = getSelectedOutput();
+    let selection = getSelectedOutput();
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(l: number, c: number, h: number) {
-        if ($project === undefined || selectedOutput === undefined) return;
+        if ($project === undefined || selection.selectedOutput === undefined)
+            return;
 
         // Make a Color evaluation corresponding to the new value
         const replacement = Evaluate.make(

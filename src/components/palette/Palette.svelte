@@ -42,12 +42,12 @@
     let indexContext = getConceptIndex();
     let index = $derived(indexContext?.index);
 
-    let { selectedOutput } = getSelectedOutput();
+    let selection = getSelectedOutput();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     let outputs = $derived(
-        selectedOutput
-            ? selectedOutput
+        selection.selectedOutput
+            ? selection.selectedOutput
                   .map(
                       (evaluate) =>
                           new OutputExpression(project, evaluate, $locales),
@@ -73,7 +73,7 @@
     let phraseTextValues: OutputPropertyValueSet | undefined =
         $state(undefined);
 
-    // Derive the property valuesand text values from outputs.
+    // Derive the property values and text values from outputs.
     $effect(() => {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
@@ -85,17 +85,19 @@
                 [],
             ),
         );
-        propertyValues = new Map();
+        const newPropertyValues = new Map();
         // Map the properties to a set of values.
         for (const property of properties) {
             const values = new OutputPropertyValueSet(property, outputs);
             // Exclue any properties that happen to have no values.
             if (!values.isEmpty() && values.onAll())
-                propertyValues.set(property, values);
+                newPropertyValues.set(property, values);
             // Remember the phrase text property
             if (property.name === $locales.get((l) => l.output.Phrase.text))
                 phraseTextValues = values;
         }
+
+        propertyValues = newPropertyValues;
     });
 </script>
 

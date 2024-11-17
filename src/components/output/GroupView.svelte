@@ -55,7 +55,7 @@
 
     let root = $derived(viewport !== undefined);
 
-    let { selectedOutput } = getSelectedOutput();
+    let selection = getSelectedOutput();
 
     // Compute a local context based on size and font.
     let localContext = $derived(group.getRenderContext(context));
@@ -74,7 +74,7 @@
 
     let selected = $derived(
         group.value.creator instanceof Evaluate &&
-            selectedOutput.includes(group.value.creator),
+            selection.selectedOutput.includes(group.value.creator),
     );
 
     let description: string | null = $state(null);
