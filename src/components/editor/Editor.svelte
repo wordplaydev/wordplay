@@ -241,35 +241,38 @@
     $effect(() => {
         $highlights;
         $locales;
+        $caret;
         editor;
 
-        tick().then(() => {
-            updateOutlines(
-                $highlights,
-                true,
-                $locales.getDirection() === 'rtl',
-                getNodeView,
-            );
+        untrack(() => {
+            tick().then(() => {
+                updateOutlines(
+                    $highlights,
+                    true,
+                    $locales.getDirection() === 'rtl',
+                    getNodeView,
+                );
 
-            // Optimization: add and remove classes for styling here rather than having them
-            // retrieved in each NodeView.
-            if (editor) {
-                // Remove any existing highlights
-                for (const highlighted of editor.querySelectorAll(
-                    '.highlighted',
-                ))
-                    for (const highlightType of Object.keys(HighlightTypes))
-                        highlighted.classList.remove(highlightType);
+                // Optimization: add and remove classes for styling here rather than having them
+                // retrieved in each NodeView.
+                if (editor) {
+                    // Remove any existing highlights
+                    for (const highlighted of editor.querySelectorAll(
+                        '.highlighted',
+                    ))
+                        for (const highlightType of Object.keys(HighlightTypes))
+                            highlighted.classList.remove(highlightType);
 
-                // Add any new highlights of highlighted nodes.
-                for (const [node, types] of $highlights.entries()) {
-                    const view = getNodeView(node);
-                    if (view) {
-                        view.classList.add('highlighted');
-                        for (const type of types) view.classList.add(type);
+                    // Add any new highlights of highlighted nodes.
+                    for (const [node, types] of $highlights.entries()) {
+                        const view = getNodeView(node);
+                        if (view) {
+                            view.classList.add('highlighted');
+                            for (const type of types) view.classList.add(type);
+                        }
                     }
                 }
-            }
+            });
         });
     });
 
@@ -1434,23 +1437,19 @@
 
     // Update the highlights when any of these stores values change
     $effect(() => {
-        if ($nodeConflicts && $evaluation && $locales) {
-            tick().then(() =>
-                highlights.set(
-                    getHighlights(
-                        source,
-                        evaluator,
-                        $caret,
-                        $dragged,
-                        $hovered,
-                        $insertion,
-                        $animatingNodes,
-                        selectedOutput,
-                        $blocks,
-                    ),
-                ),
-            );
-        }
+        highlights.set(
+            getHighlights(
+                source,
+                evaluator,
+                $caret,
+                $dragged,
+                $hovered,
+                $insertion,
+                $animatingNodes,
+                selectedOutput,
+                $blocks,
+            ),
+        );
     });
 
     // Update the outline positions any time the highlights change;
