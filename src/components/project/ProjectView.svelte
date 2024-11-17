@@ -1654,12 +1654,14 @@
                                             updateConflicts={(
                                                 source,
                                                 conflicts,
-                                            ) =>
-                                                (conflictsOfInterest =
+                                            ) => {
+                                                conflictsOfInterest = new Map(
                                                     conflictsOfInterest.set(
                                                         source,
                                                         conflicts,
-                                                    ))}
+                                                    ),
+                                                );
+                                            }}
                                             setOutputPreview={() =>
                                                 (selectedSourceIndex =
                                                     getSourceIndexByID(

@@ -1388,7 +1388,7 @@
                                 ),
                         );
             }
-            updateConflicts(source, newConflictsOfInterest);
+            untrack(() => updateConflicts(source, newConflictsOfInterest));
 
             // Finally, update the conflicts of interest.
             conflictsOfInterest = newConflictsOfInterest;

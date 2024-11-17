@@ -60,7 +60,8 @@
                     const subConcept = Array.from(
                         concept.getSubConcepts(),
                     ).find((sub) => sub.hasName(names[1], $locales));
-                    if (subConcept !== undefined) concept = subConcept;
+                    if (subConcept !== undefined)
+                        return { container: concept, concept: subConcept };
                     else if (concept.affiliation !== undefined) {
                         const structure = index.getStructureConcept(
                             concept.affiliation,
