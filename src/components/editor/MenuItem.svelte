@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { preventDefault, stopPropagation, handlers } from 'svelte/legacy';
-
     import { blocks, locales } from '@db/Database';
     import Menu from './util/Menu';
     import Revision from '@edit/Revision';
@@ -12,24 +10,16 @@
     // import Bind from '../../nodes/Bind';
     // import Evaluate from '../../nodes/Evaluate';
     // import Input from '@nodes/Input';
-    
 
     interface Props {
         // import Glyphs from '../../lore/Glyphs';
         entry: Revision;
         menu: Menu;
         id: string;
-        handleItemClick: (
-        item: Revision | RevisionSet | undefined,
-    ) => void;
+        handleItemClick: (item: Revision | RevisionSet | undefined) => void;
     }
 
-    let {
-        entry,
-        menu = $bindable(),
-        id,
-        handleItemClick
-    }: Props = $props();
+    let { entry, menu = $bindable(), id, handleItemClick }: Props = $props();
 
     // let index = getConceptIndex();
 
@@ -61,7 +51,11 @@
         .getEditedNode($locales)[0]
         .getDescription($locales, entry.context)
         .toText()}
-    onpointerdown={handlers(stopPropagation(preventDefault(() => handleItemClick(entry))), stopPropagation(preventDefault(() => handleItemClick(entry))))}
+    onpointerdown={(event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        handleItemClick(entry);
+    }}
     class={`revision ${menu.getSelection() === entry ? 'selected' : ''}`}
     onfocusin={() => {
         const index = menu.getSelectionFor(entry);

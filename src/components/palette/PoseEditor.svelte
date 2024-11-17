@@ -1,6 +1,4 @@
 <script lang="ts">
-    import { run } from 'svelte/legacy';
-
     import type OutputProperty from '@edit/OutputProperty';
     import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
@@ -31,7 +29,7 @@
     let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
         new Map(),
     );
-    run(() => {
+    $effect(() => {
         propertyValues = new Map();
 
         // Map the properties to a set of values.
