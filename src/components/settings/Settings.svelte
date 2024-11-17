@@ -22,6 +22,7 @@
     import CreatorView from '../app/CreatorView.svelte';
     import { Creator } from '../../db/CreatorDatabase';
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
+    import { withVariationSelector } from '../../unicode/emoji';
 
     let user = getUser();
 
@@ -45,11 +46,13 @@
     let cameras: MediaDeviceInfo[] = $state([]);
     let mics: MediaDeviceInfo[] = $state([]);
 
-    let cameraDevice = $derived($camera
-        ? cameras.find((cam) => cam.deviceId === $camera)
-        : undefined);
+    let cameraDevice = $derived(
+        $camera ? cameras.find((cam) => cam.deviceId === $camera) : undefined,
+    );
 
-    let micDevice = $derived($mic ? mics.find((m) => m.deviceId === $mic) : undefined);
+    let micDevice = $derived(
+        $mic ? mics.find((m) => m.deviceId === $mic) : undefined,
+    );
 </script>
 
 <div class="settings">
@@ -93,7 +96,7 @@
                     )}
                 modes={['📐', '↔️', '↕', '⏹️']}
             />
-            </p>
+        </p>
         <p>
             <Mode
                 descriptions={$locales.get(
@@ -103,7 +106,7 @@
                 select={(choice) => Settings.setAnimationFactor(choice)}
                 modes={AnimationFactorIcons}
             />
-            </p>
+        </p>
         <!-- <p
             ><Mode
                 descriptions={$locales.get(
