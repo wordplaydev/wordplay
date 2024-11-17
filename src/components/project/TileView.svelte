@@ -217,6 +217,7 @@
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
     class="container"
+    class:arrangement
     onpointermove={handlePointerMove}
     onpointerleave={() => (resizeDirection = null)}
     onpointerdown={handlePointerDown}
@@ -329,7 +330,7 @@
 </div>
 
 <style>
-    .container {
+    .container.free {
         position: relative;
         display: block;
     }
