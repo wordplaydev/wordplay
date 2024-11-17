@@ -216,6 +216,7 @@
 
 <!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
+    class="container"
     onpointermove={handlePointerMove}
     onpointerleave={() => (resizeDirection = null)}
     onpointerdown={handlePointerDown}
@@ -240,28 +241,28 @@
             : `${
                   arrangement === 'free'
                       ? tile.position.left
-                      : tile.bounds?.left ?? 0
+                      : (tile.bounds?.left ?? 0)
               }px`}
         style:top={fullscreen
             ? null
             : `${
                   arrangement === 'free'
                       ? tile.position.top
-                      : tile.bounds?.top ?? 0
+                      : (tile.bounds?.top ?? 0)
               }px`}
         style:width={fullscreen
             ? null
             : `${
                   arrangement === 'free'
                       ? tile.position.width
-                      : tile.bounds?.width ?? 0
+                      : (tile.bounds?.width ?? 0)
               }px`}
         style:height={fullscreen
             ? null
             : `${
                   arrangement === 'free'
                       ? tile.position.height
-                      : tile.bounds?.height ?? 0
+                      : (tile.bounds?.height ?? 0)
               }px`}
         bind:this={view}
     >
@@ -328,6 +329,11 @@
 </div>
 
 <style>
+    .container {
+        position: relative;
+        display: inline-block;
+    }
+
     .tile {
         position: absolute;
         background: var(--wordplay-background);
