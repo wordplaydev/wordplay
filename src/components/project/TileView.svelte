@@ -331,7 +331,7 @@
 <style>
     .container {
         position: relative;
-        display: inline-block;
+        display: block;
     }
 
     .tile {
