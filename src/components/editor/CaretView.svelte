@@ -499,20 +499,26 @@
             // Trim the text to the position
             const trimmedText = token.text.substring(0, caretIndex).toString();
             // Get the text node of the token view
-            const textNode = tokenView.childNodes[0];
-            // Create a trimmed node, but replace spaces in the trimmed text with visible characters so that they are included in measurement.
-            const tempNode = document.createTextNode(
-                trimmedText.replaceAll(' ', '·'),
+            const textNode = Array.from(tokenView.childNodes).find(
+                (node) => node.nodeType === node.TEXT_NODE,
             );
-            // Temporarily replace the node
-            textNode.replaceWith(tempNode);
-            // Get the trimmed text element's dimensions
-            const trimmedBounds = tokenView.getBoundingClientRect();
-            const widthAtCaret = trimmedBounds.width;
-            const heightAtCaret = trimmedBounds.height;
+            let widthAtCaret = 0;
+            let heightAtCaret = 0;
+            if (textNode) {
+                // Create a trimmed node, but replace spaces in the trimmed text with visible characters so that they are included in measurement.
+                const tempNode = document.createTextNode(
+                    trimmedText.replaceAll(' ', '·'),
+                );
+                // Temporarily replace the node
+                textNode.replaceWith(tempNode);
+                // Get the trimmed text element's dimensions
+                const trimmedBounds = tokenView.getBoundingClientRect();
+                widthAtCaret = trimmedBounds.width;
+                heightAtCaret = trimmedBounds.height;
 
-            // Restore the text node
-            tempNode.replaceWith(textNode);
+                // Restore the text node
+                tempNode.replaceWith(textNode);
+            }
 
             return {
                 // If horizontal, set the left of the caret offset at the measured width in the direction of the writing.
