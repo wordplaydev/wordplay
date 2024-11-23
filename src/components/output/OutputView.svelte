@@ -35,6 +35,7 @@
     import Button from '../../input/Button';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { untrack } from 'svelte';
+    import Fonts from '@basis/Fonts';
 
     interface Props {
         project: Project;
@@ -108,6 +109,18 @@
     const stageValue = $derived(
         value === undefined ? undefined : toStage(evaluator, value),
     );
+
+    /** Every time the stage value changes, load any new fonts we might need */
+    $effect(() => {
+        if (stageValue) {
+            const faces = stageValue.gatherFaces(new Set());
+            faces.forEach((face) => {
+                // Make sure this font is loaded. This is a little late -- we could do some static analysis
+                // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
+                if (face) Fonts.loadFace(face);
+            });
+        }
+    });
 
     /** Keep track of whether the creator is typing, so we can blur output until the next change. */
     const typing = $derived(
