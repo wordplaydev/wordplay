@@ -82,7 +82,6 @@
     import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { string } from 'zod';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -164,6 +163,9 @@
 
     /** True if something in the editor is focused. */
     let focused: boolean = $state(false);
+
+    /** True if the editor was focused before the menu was shown, so we can know whether to restore it after hiding menu. */
+    let wasFocusedBeforeMenu = $state(false);
 
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
@@ -857,12 +859,14 @@
 
     // When the menu changes to undefined, focus back on this source.
     $effect(() => {
-        if (menu === undefined)
-            grabFocus('Grabbing focus after menu is hidden.');
+        if (menu === undefined && wasFocusedBeforeMenu)
+            grabFocus('Restoring editor focus after menu is hidden.');
     });
 
     async function showMenu(node: CaretPosition | undefined = undefined) {
         if (!editable) return;
+
+        wasFocusedBeforeMenu = focused;
 
         // Wait for everything to be updated so we have a fresh context
         await tick();
@@ -891,6 +895,7 @@
 
     function hideMenu() {
         menu = undefined;
+        wasFocusedBeforeMenu = false;
     }
 
     function toggleMenu() {

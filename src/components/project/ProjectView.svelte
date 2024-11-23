@@ -1301,27 +1301,32 @@
         );
         if (editor === null) return undefined;
 
+        const project = document.querySelector('.project');
+        if (project === null) return undefined;
+
+        const projectBounds = project.getBoundingClientRect();
+
         // Is it a node? Position near it's top left.
         if (caret.position instanceof Node) {
             const view = editor.querySelector(
                 `.node-view[data-id="${caret.position.id}"]`,
             );
             if (view == null) return undefined;
-            const rect = view.getBoundingClientRect();
+            const nodeBounds = view.getBoundingClientRect();
             return {
-                left: rect.left,
-                top: rect.bottom,
+                left: nodeBounds.left - projectBounds.left,
+                top: nodeBounds.bottom - projectBounds.top,
             };
         }
         // Is it a position? Position at the bottom right of the caret.
         else if (caret.isIndex()) {
             // Find the position of the caret in the editor.
-            const view = editor.querySelector('.caret');
-            if (view === null) return undefined;
-            const rect = view.getBoundingClientRect();
+            const caretView = editor.querySelector('.caret');
+            if (caretView === null) return undefined;
+            const caretBounds = caretView.getBoundingClientRect();
             return {
-                left: rect.left,
-                top: rect.bottom,
+                left: caretBounds.left - projectBounds.left,
+                top: caretBounds.bottom - projectBounds.top,
             };
         }
     }
