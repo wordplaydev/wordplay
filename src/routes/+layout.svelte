@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { onMount, setContext } from 'svelte';
+    import { onMount, setContext, type Snippet } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type { User } from 'firebase/auth';
     import { LocalesSymbol, UserSymbol } from '../components/project/Contexts';
@@ -9,7 +9,7 @@
     import { browser } from '$app/environment';
     import { getLanguageDirection } from '../locale/LanguageCode';
     interface Props {
-        children?: import('svelte').Snippet;
+        children: Snippet;
     }
 
     let { children }: Props = $props();
@@ -33,7 +33,7 @@
             document.documentElement.setAttribute('lang', language);
             document.documentElement.setAttribute(
                 'dir',
-                getLanguageDirection(language)
+                getLanguageDirection(language),
             );
         }
     });
@@ -83,7 +83,7 @@
             ...$locales.getLocales().map((locale) => locale.ui.font.app),
             'Noto Emoji',
             'Noto Color Emoji',
-        ])
+        ]),
     )
         .map((font) => `"${font}"`)
         .join(', ')}
@@ -94,13 +94,13 @@
             'Noto Emoji',
             'Noto Color Emoji',
             'Noto Sans',
-        ])
+        ]),
     )
         .map((font) => `"${font}"`)
         .join(', ')}
     lang={$locales.getLocale().language}
 >
-    {@render children?.()}
+    {@render children()}
     {#if !loaded && lag}
         <Loading />
     {/if}

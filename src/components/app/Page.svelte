@@ -5,16 +5,16 @@
     import { locales } from '../../db/Database';
     import Link from './Link.svelte';
     import { writable } from 'svelte/store';
-    import { setContext } from 'svelte';
+    import { setContext, type Snippet } from 'svelte';
     import Color from '../../output/Color';
     import Emoji from './Emoji.svelte';
 
     interface Props {
-        home?: boolean;
-        children: import('svelte').Snippet;
+        children: Snippet;
+        footer?: boolean;
     }
 
-    let { home = false, children }: Props = $props();
+    let { children, footer = true }: Props = $props();
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
@@ -30,7 +30,7 @@
             document.body.style.background = $fullscreen.on
                 ? $fullscreen.background instanceof Color
                     ? $fullscreen.background.toCSS()
-                    : $fullscreen.background ?? ''
+                    : ($fullscreen.background ?? '')
                 : '';
             document.body.style.color = $fullscreen.on
                 ? $fullscreen.background instanceof Color
@@ -59,7 +59,7 @@
     </main>
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
-            {#if !home}
+            {#if footer}
                 <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
                     ><Emoji>💬</Emoji></Link
                 >

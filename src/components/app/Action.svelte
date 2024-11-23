@@ -2,12 +2,13 @@
     import { type Snippet } from 'svelte';
     interface Props {
         children: Snippet;
+        meta?: boolean;
     }
 
-    let { children }: Props = $props();
+    let { children, meta = false }: Props = $props();
 </script>
 
-<div class="action">
+<div class="action" class:meta>
     {@render children()}
 </div>
 
@@ -20,5 +21,9 @@
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-background);
         flex: 1 0 auto;
+    }
+
+    .meta {
+        background: var(--wordplay-alternating-color);
     }
 </style>

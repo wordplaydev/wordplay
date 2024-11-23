@@ -12,9 +12,7 @@
         show?: boolean;
         description: DialogText;
         closeable?: boolean;
-        button?: 
-        | { tip: string; icon?: string; label: string }
-        | undefined;
+        button?: { tip: string; icon?: string; label: string } | undefined;
         children?: import('svelte').Snippet;
     }
 
@@ -23,7 +21,7 @@
         description,
         closeable = true,
         button = undefined,
-        children
+        children,
     }: Props = $props();
 
     let view: HTMLDialogElement | undefined = $state(undefined);
@@ -105,5 +103,8 @@
         min-height: 100%;
         padding: 1em;
         padding-top: 0;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 </style>

@@ -1,5 +1,3 @@
-<!-- A component that shows various flying glyphs -->
-
 <script lang="ts">
     import { onMount } from 'svelte';
     import Eyes from '../lore/Eyes.svelte';

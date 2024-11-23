@@ -1,21 +1,18 @@
 <script lang="ts">
     import Page from './Page.svelte';
+    import { type Snippet } from 'svelte';
 
     interface Props {
-        home?: boolean;
-        children?: import('svelte').Snippet;
-        footer?: import('svelte').Snippet;
+        children: Snippet;
+        footer?: boolean;
     }
 
-    let { home = false, children, footer }: Props = $props();
+    let { children, footer = true }: Props = $props();
 </script>
 
-<Page {home}>
+<Page {footer}>
     <div class="writing">
-        {@render children?.()}
-    </div>
-    <div class="footer">
-        {@render footer?.()}
+        {@render children()}
     </div>
 </Page>
 
@@ -32,14 +29,5 @@
 
     :global(p:not(:global(:last-of-type))) {
         margin-block-end: 1em;
-    }
-
-    .footer {
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-items: center;
-        width: 100vw;
-        background: var(--wordplay-alternating-color);
     }
 </style>

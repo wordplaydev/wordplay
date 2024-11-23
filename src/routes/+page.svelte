@@ -29,7 +29,7 @@
 </svelte:head>
 
 <Background />
-<Writing home>
+<Writing footer={false}>
     <Beta />
     <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
     <div class="welcome">
@@ -100,76 +100,66 @@
                 /></BigLink
             >
         </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/about"
+                subtitle={$locales.get((l) => l.ui.page.landing.link.about)}
+                ><Iconified
+                    icon="💭"
+                    text={(l) => l.ui.page.about.header}
+                /></BigLink
+            >
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/rights"
+                subtitle={$locales.get((l) => l.ui.page.landing.link.rights)}
+                ><Iconified
+                    icon="⚖️"
+                    text={(l) => l.ui.page.rights.header}
+                /></BigLink
+            ></Action
+        >
+        <Action meta>
+            <BigLink
+                smaller
+                external
+                to="https://discord.gg/Jh2Qq9husy"
+                subtitle={$locales.get(
+                    (l) => l.ui.page.landing.link.community.subtitle,
+                )}
+                ><Iconified
+                    icon="🗣️"
+                    text={(l) => l.ui.page.landing.link.community.label}
+                /></BigLink
+            ></Action
+        >
+        <Action meta>
+            <BigLink
+                smaller
+                external
+                to="https://github.com/wordplaydev/wordplay/wiki/contribute"
+                subtitle={$locales.get(
+                    (l) => l.ui.page.landing.link.contribute.subtitle,
+                )}
+                ><Iconified
+                    icon="🛠️"
+                    text={(l) => l.ui.page.landing.link.contribute.label}
+                />
+            </BigLink>
+        </Action>
+        <Action meta>
+            <BigLink
+                smaller
+                to="/donate"
+                subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
+            >
+                <Iconified icon="🤑" text={(l) => l.ui.page.donate.header} />
+            </BigLink>
+        </Action>
     </div>
-    {#snippet footer()}
-        <div class="details">
-            <div class="links">
-                <div class="column">
-                    <BigLink
-                        smaller
-                        to="/about"
-                        subtitle={$locales.get(
-                            (l) => l.ui.page.landing.link.about,
-                        )}
-                        ><Iconified
-                            icon="💭"
-                            text={(l) => l.ui.page.about.header}
-                        /></BigLink
-                    >
-                    <BigLink
-                        smaller
-                        to="/rights"
-                        subtitle={$locales.get(
-                            (l) => l.ui.page.landing.link.rights,
-                        )}
-                        ><Iconified
-                            icon="⚖️"
-                            text={(l) => l.ui.page.rights.header}
-                        /></BigLink
-                    >
-                </div>
-                <div class="column">
-                    <BigLink
-                        smaller
-                        external
-                        to="https://discord.gg/Jh2Qq9husy"
-                        subtitle={$locales.get(
-                            (l) => l.ui.page.landing.link.community.subtitle,
-                        )}
-                        ><Iconified
-                            icon="🗣️"
-                            text={(l) => l.ui.page.landing.link.community.label}
-                        /></BigLink
-                    >
-                    <BigLink
-                        smaller
-                        external
-                        to="https://github.com/wordplaydev/wordplay/wiki/contribute"
-                        subtitle={$locales.get(
-                            (l) => l.ui.page.landing.link.contribute.subtitle,
-                        )}
-                        ><Iconified
-                            icon="🛠️"
-                            text={(l) =>
-                                l.ui.page.landing.link.contribute.label}
-                        />
-                    </BigLink>
-                </div>
-                <div class="column">
-                    <BigLink
-                        smaller
-                        to="/donate"
-                        subtitle={$locales.get((l) => l.ui.page.donate.prompt)}
-                    >
-                        <Iconified
-                            icon="🤑"
-                            text={(l) => l.ui.page.donate.header}
-                        />
-                    </BigLink>
-                </div>
-            </div>
-        </div>
-    {/snippet}
 </Writing>
 
 <style>
@@ -188,29 +178,5 @@
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         align-items: stretch;
-    }
-
-    .details {
-        display: flex;
-        flex-direction: column;
-        gap: calc(var(--wordplay-spacing) * 2);
-        padding: calc(2 * var(--wordplay-spacing));
-        min-height: 20em;
-        margin-left: auto;
-        margin-right: auto;
-    }
-
-    .links {
-        display: flex;
-        flex-direction: row;
-        gap: var(--wordplay-spacing);
-    }
-
-    .column {
-        display: flex;
-        flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
-        flex-grow: 1;
-        flex-basis: 0;
     }
 </style>
