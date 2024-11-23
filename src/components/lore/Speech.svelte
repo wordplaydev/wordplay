@@ -9,9 +9,9 @@
     import Eyes from './Eyes.svelte';
     import { locales } from '@db/Database';
     import Emotion from '../../lore/Emotion';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
     import { type Snippet } from 'svelte';
-    
+
     interface Props {
         glyph: Glyph | Concept;
         /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
@@ -45,21 +45,27 @@
         emote = true,
         big = false,
         aside,
-        content
+        content,
     }: Props = $props();
 
-    let renderedEmotion =
-        $derived(emotion ??
-        (glyph instanceof Concept ? glyph?.getEmotion($locales) : undefined));
+    let renderedEmotion = $derived(
+        emotion ??
+            (glyph instanceof Concept
+                ? glyph?.getEmotion($locales)
+                : undefined),
+    );
 
-    let glyphs =
-        $derived(glyph instanceof Concept
+    let glyphs = $derived(
+        glyph instanceof Concept
             ? glyph.getGlyphs($locales).symbols
-            : glyph.symbols);
+            : glyph.symbols,
+    );
 
-    let symbols = $derived(withVariationSelector(
-        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs,
-    ));
+    let symbols = $derived(
+        withColorEmoji(
+            glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs,
+        ),
+    );
 </script>
 
 <div

@@ -28,7 +28,7 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
@@ -285,9 +285,8 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{withVariationSelector(
+        {:else if text instanceof TextLang}{withColorEmoji(
                 text.text,
-                true,
             )}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
                 inline

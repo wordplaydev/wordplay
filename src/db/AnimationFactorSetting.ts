@@ -1,8 +1,8 @@
-import { withVariationSelector } from '../unicode/emoji';
+import { withMonoEmoji } from '../unicode/emoji';
 import Setting from './Setting';
 
 export const AnimationFactorIcons = ['🧘', '🏃', '½', '⅓', '¼'].map((i) =>
-    withVariationSelector(i),
+    withMonoEmoji(i),
 );
 
 export const AnimationFactorSetting = new Setting<number>(

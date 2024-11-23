@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
     import type { Template } from '../../locale/LocaleText';
     import type Locales from '../../locale/Locales';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
@@ -15,25 +15,16 @@
         command: string;
     }
 
-    let {
-        symbols,
-        locales,
-        message,
-        tip,
-        action,
-        command
-    }: Props = $props();
+    let { symbols, locales, message, tip, action, command }: Props = $props();
 </script>
 
 <div class="offer">
     <Speech glyph={{ symbols }}>
         {#snippet content()}
-            
-                <MarkupHtmlView markup={locales.concretize(message)} />
-            
-            {/snippet}
+            <MarkupHtmlView markup={locales.concretize(message)} />
+        {/snippet}
     </Speech>
-    <Button large {tip} {action}>{withVariationSelector(command)}</Button>
+    <Button large {tip} {action}>{withMonoEmoji(command)}</Button>
 </div>
 
 <style>

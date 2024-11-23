@@ -22,7 +22,6 @@
     import CreatorView from '../app/CreatorView.svelte';
     import { Creator } from '../../db/CreatorDatabase';
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
-    import { withVariationSelector } from '../../unicode/emoji';
 
     let user = getUser();
 

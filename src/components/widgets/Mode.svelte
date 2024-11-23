@@ -1,6 +1,6 @@
 <script lang="ts">
     import type { ModeText } from '../../locale/UITexts';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         descriptions: ModeText<string[]>;
@@ -52,7 +52,7 @@
                         ? select(index)
                         : undefined}
             >
-                {withVariationSelector(mode)}
+                {withMonoEmoji(mode)}
             </button>
         {/each}
     </div>

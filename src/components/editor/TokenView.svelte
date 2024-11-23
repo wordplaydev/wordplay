@@ -10,7 +10,7 @@
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import { locales } from '../../db/Database';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
     import Sym from '@nodes/Sym';
     import Name from '@nodes/Name';
     import Reference from '@nodes/Reference';
@@ -97,7 +97,7 @@
         node.isSymbol(Sym.Name) ||
             node.isSymbol(Sym.Text) ||
             node.isSymbol(Sym.Words)
-            ? withVariationSelector(text.replaceAll(' ', '\xa0'))
+            ? withColorEmoji(text.replaceAll(' ', '\xa0'))
             : text.replaceAll(' ', '\xa0'),
     );
 </script>

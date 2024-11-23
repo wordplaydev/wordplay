@@ -6,7 +6,7 @@
     import type Project from '@models/Project';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import { getUser } from './Contexts';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         project: Project;
@@ -26,7 +26,7 @@
 
 <Button tip={$locales.get((l) => l.ui.project.button.duplicate)} action={copy}
     ><span class="copy"
-        >{withVariationSelector(COPY_SYMBOL)}
+        >{withMonoEmoji(COPY_SYMBOL)}
         {$locales.get((l) => l.ui.project.button.duplicate)}</span
     ></Button
 >

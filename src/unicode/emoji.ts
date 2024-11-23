@@ -1,5 +1,5 @@
 /** Adds emoji text variation descriptor to any noto emoji missing them. Ensures fonts are rendered consistently across Chrome, Safari, and Firefox. */
-export function withVariationSelector(text: string, color = false) {
+function withVariationSelector(text: string, color = false) {
     // Strip the presentation selectors from the string.
     const withoutPresentation = text.replaceAll(/(\uFE0F|\uFE0E)/gu, '');
     // Choose the appropriate presentation selector.
@@ -15,21 +15,10 @@ export function withVariationSelector(text: string, color = false) {
     );
 }
 
-function unicodeLiteral(str: string) {
-    var i;
-    var result = '';
-    for (i = 0; i < str.length; ++i) {
-        /* You should probably replace this by an isASCII test */
-        if (str.charCodeAt(i) > 126 || str.charCodeAt(i) < 32)
-            result += '\\u' + fixedHex(str.charCodeAt(i), 4);
-        else result += str[i];
-    }
-
-    return result;
+export function withColorEmoji(text: string) {
+    return withVariationSelector(text, true);
 }
 
-function fixedHex(number: number, length: number) {
-    var str = number.toString(16).toUpperCase();
-    while (str.length < length) str = '0' + str;
-    return str;
+export function withMonoEmoji(text: string) {
+    return withVariationSelector(text, false);
 }

@@ -18,10 +18,9 @@
     import { unescapeMarkupSymbols } from '../../parser/Tokenizer';
     import UnknownType from '../../nodes/UnknownType';
     import MarkupHtmlView from './MarkupHTMLView.svelte';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
     import CodeView from './CodeView.svelte';
 
-    
     interface Props {
         segment: Segment;
         spaces: Spaces;
@@ -68,9 +67,9 @@
         ><ValueView value={segment.value} /></strong
     >{:else if segment instanceof ConceptRef}<ConceptLinkUI link={segment} />
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withVariationSelector(
+{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withColorEmoji(
         (segment.startsWith('•')
             ? segment.getText().substring(1).trimStart()
-            : unescapeMarkupSymbols(segment.getText())
+            : withColorEmoji(unescapeMarkupSymbols(segment.getText()))
         ).replaceAll('--', '—'),
     )}{/if}

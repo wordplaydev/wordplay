@@ -6,7 +6,7 @@
     import UnicodeString from '../../models/UnicodeString';
     import { animationFactor } from '../../db/Database';
     import Emotion from '../../lore/Emotion';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
 
     type Glyph = {
         glyph: string;
@@ -112,7 +112,7 @@
                 class="glyph"
                 data-id={glyph.index}
                 style:font-size="{glyph.size}pt"
-                >{withVariationSelector(glyph.glyph)}<Eyes
+                >{withColorEmoji(glyph.glyph)}<Eyes
                     invert={false}
                     emotion={Emotion.neutral}
                 /></div

@@ -120,7 +120,7 @@
         PROJECT_PARAM_PLAY,
     } from '../../routes/project/constants';
     import Switch from '@components/widgets/Switch.svelte';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
     import FullscreenIcon from './FullscreenIcon.svelte';
     import Glyphs from '../../lore/Glyphs';
     import Speech from '@components/lore/Speech.svelte';
@@ -1506,7 +1506,7 @@
                                 {#if tile.kind === TileKind.Output}
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
-                                    {#if showOutput && layout.isFullscreen()}<Button
+                                    {#if (requestedPlay || showOutput) && layout.isFullscreen()}<Button
                                             uiid="editProject"
                                             background
                                             padding={false}
@@ -1516,7 +1516,8 @@
                                                         .viewcode,
                                             )}
                                             action={() => stopPlaying()}
-                                            ><Emoji>👁️</Emoji></Button
+                                            ><Emoji>{withMonoEmoji('👁️')}</Emoji
+                                            ></Button
                                         >{/if}
                                     <CommandButton
                                         background
@@ -1569,12 +1570,12 @@
                                     {#if !editable}<CopyButton {project}
                                         ></CopyButton>{/if}
                                     <Switch
-                                        onLabel={withVariationSelector('🖱️')}
+                                        onLabel={withMonoEmoji('🖱️')}
                                         onTip={$locales.get(
                                             (l) =>
                                                 l.ui.source.toggle.blocks.off,
                                         )}
-                                        offLabel={withVariationSelector('⌨️')}
+                                        offLabel={withMonoEmoji('⌨️')}
                                         offTip={$locales.get(
                                             (l) => l.ui.source.toggle.blocks.on,
                                         )}

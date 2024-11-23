@@ -1,6 +1,6 @@
 <script lang="ts">
     import { onMount, tick } from 'svelte';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
@@ -121,7 +121,7 @@
         class:error={validator ? validator(text) === false : null}
         aria-label={description}
         aria-placeholder={placeholder}
-        placeholder={withVariationSelector(placeholder)}
+        placeholder={withMonoEmoji(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
         style:max-width={max}
         disabled={!editable}

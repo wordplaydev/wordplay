@@ -5,7 +5,7 @@
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { type Snippet } from 'svelte';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         set: Project[];
@@ -53,18 +53,17 @@
                 {#if edit}<Button
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
-                        >{withVariationSelector(edit.label)}</Button
+                        >{withMonoEmoji(edit.label)}</Button
                     >{/if}{#if copy}<Button
                         tip={copy.description}
-                        action={() => copy.action(project)}>{copy.label}</Button
+                        action={() => copy.action(project)}
+                        >{withMonoEmoji(copy.label)}</Button
                     >{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
-                        >{withVariationSelector(
-                            removeMeta.label,
-                        )}</ConfirmButton
+                        >{withMonoEmoji(removeMeta.label)}</ConfirmButton
                     >{/if}</div
             >{@render children?.()}</ProjectPreview
         >
