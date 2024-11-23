@@ -1436,6 +1436,7 @@
 
     // Update the highlights when any of these stores values change
     $effect(() => {
+        $evaluation;
         highlights.set(
             getHighlights(
                 source,

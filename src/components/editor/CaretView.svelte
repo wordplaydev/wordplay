@@ -133,8 +133,50 @@
     /** Derive the direction of text for the current locale */
     let leftToRight = $derived($locales.getDirection() === 'ltr');
 
-    // The index we should render
-    let caretIndex: number | undefined = undefined;
+    // The index we should render is derived from the caret and locales.
+    let caretIndex: number | undefined = $derived.by(() => {
+        {
+            // Position depends on writing direction and layout and blocks mode
+            if (
+                token !== undefined &&
+                caret !== undefined &&
+                $locales.getDirection()
+            ) {
+                // Get some of the token's metadata
+                let spaceIndex = caret.source.getTokenSpacePosition(token);
+                let lastIndex = caret.source.getTokenLastPosition(token);
+                let textIndex = caret.source.getTokenTextPosition(token);
+
+                // Compute where the caret should be placed. Place it if...
+                return (
+                    // This token has to be in the source
+                    spaceIndex !== undefined &&
+                        lastIndex !== undefined &&
+                        textIndex !== undefined &&
+                        // Only show the caret if it's pointing to a number
+                        typeof caret.position === 'number' &&
+                        // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
+                        // or the end token of the program.
+                        (caret.isEnd() ||
+                            // It must be after the start OR at the start and not whitespace
+                            ((caret.position >= spaceIndex ||
+                                (caret.position === spaceIndex &&
+                                    (spaceIndex === 0 ||
+                                        !caret.isSpace(
+                                            caret.source
+                                                .getCode()
+                                                .at(spaceIndex) ?? '',
+                                        )))) &&
+                                // ... and it must be before the end OR at the end and either the very end or at whitespace.
+                                caret.position <= lastIndex))
+                        ? // The offset at which to render the token is the caret in it's text.
+                          // If the caret position is on a newline or tab, then it will be negative.
+                          caret.position - textIndex
+                        : undefined
+                );
+            } else return undefined;
+        }
+    });
 
     // Get evaluation context from parent
     const evaluation = getEvaluation();
@@ -143,72 +185,30 @@
     const editor = getEditor();
 
     let timeout = $state<NodeJS.Timeout | undefined>(undefined);
-    // Whenever key dependencies change, wait for DOM updates, then compute the caret's new location.
+    // Whenever the caret changes, wait for rendering, then compute it's location.
     $effect(() => {
-        blocks;
-        $evaluation;
         caret;
-        $editor;
+        $evaluation;
         tick().then(() => {
             location = computeLocation();
+            // Because some elements fade out when caret changes, affecting layout, we also need to recompute
+            // the caret position after the default animation duration.
             untrack(() => {
                 if (timeout) clearTimeout(timeout);
-                timeout = setTimeout(
-                    () => (location = computeLocation()),
-                    $animationDuration + 25,
-                );
+                timeout = setTimeout(() => {
+                    location = computeLocation();
+                }, $animationDuration + 25);
             });
         });
     });
 
-    // Whenever the caret changes, update the index we should render and scroll to it.
+    // When caret location or view changes, tick, then scroll to it.
     $effect(() => {
-        // Position depends on writing direction and layout and blocks mode
-        if (
-            token !== undefined &&
-            caret !== undefined &&
-            $locales.getDirection()
-        ) {
-            // Get some of the token's metadata
-            let spaceIndex = caret.source.getTokenSpacePosition(token);
-            let lastIndex = caret.source.getTokenLastPosition(token);
-            let textIndex = caret.source.getTokenTextPosition(token);
-
-            // Compute where the caret should be placed. Place it if...
-            caretIndex =
-                // This token has to be in the source
-                spaceIndex !== undefined &&
-                lastIndex !== undefined &&
-                textIndex !== undefined &&
-                // Only show the caret if it's pointing to a number
-                typeof caret.position === 'number' &&
-                // The position can be anywhere after after the first glyph of the token, up to and including after the token's last character,
-                // or the end token of the program.
-                (caret.isEnd() ||
-                    // It must be after the start OR at the start and not whitespace
-                    ((caret.position >= spaceIndex ||
-                        (caret.position === spaceIndex &&
-                            (spaceIndex === 0 ||
-                                !caret.isSpace(
-                                    caret.source.getCode().at(spaceIndex) ?? '',
-                                )))) &&
-                        // ... and it must be before the end OR at the end and either the very end or at whitespace.
-                        caret.position <= lastIndex))
-                    ? // The offset at which to render the token is the caret in it's text.
-                      // If the caret position is on a newline or tab, then it will be negative.
-                      caret.position - textIndex
-                    : undefined;
-        }
-        // Update the caret's location.
-        location = computeLocation();
-        // Now that we've rendered the caret, if it's out of the viewport and we're not evaluating, scroll to it.
-        scrollToCaret();
+        if (location && element)
+            tick().then(() => {
+                if (element) element.scrollIntoView({ block: 'nearest' });
+            });
     });
-
-    async function scrollToCaret() {
-        await tick();
-        if (element) element.scrollIntoView({ block: 'nearest' });
-    }
 
     function getNodeView(node: Node) {
         const editorView = element?.parentElement;
