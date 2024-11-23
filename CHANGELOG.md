@@ -12,7 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 -   Migrated to Svelte 5.
--   Updated point releases of dependencies.
+-   Updated point releases of all dependencies, except Firebase.
 
 ## 0.12.4 2024-10-26
 
