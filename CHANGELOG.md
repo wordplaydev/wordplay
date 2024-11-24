@@ -8,10 +8,15 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 -   Don't show expand/collapse toggle on guide.
+-   More consistent use of color and monochrome emojis.
+-   Removed several unused contexts.
+-   Faster caret movement by eliminating unnecessary recomputation.
+-   Fixed free form project layout.
+-   Corrected several invalid HTML issues for hydration.
 
 ### Maintenance
 
--   Migrated to Svelte 5.
+-   Migrated to Svelte 5, converting to $state, $derived, $effect, and snippets.
 -   Updated point releases of all dependencies, except Firebase.
 
 ## 0.12.4 2024-10-26
