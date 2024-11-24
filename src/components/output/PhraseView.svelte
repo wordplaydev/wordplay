@@ -19,8 +19,7 @@
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { getContext, onMount, tick, untrack } from 'svelte';
-    import type { Writable } from 'svelte/store';
+    import { onMount, tick, untrack } from 'svelte';
     import moveOutput from '../palette/editOutput';
     import { getProject, getSelectedOutput } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';
@@ -38,6 +37,7 @@
         interactive: boolean;
         parentAscent: number;
         context: RenderContext;
+        editable: boolean;
         editing: boolean;
         frame: number;
     }
@@ -49,6 +49,7 @@
         interactive,
         parentAscent,
         context,
+        editable,
         editing,
         frame,
     }: Props = $props();
@@ -78,10 +79,9 @@
             selection.selectedOutput.includes(phrase.value.creator),
     );
 
-    let editable = getContext<Writable<boolean>>('editable');
     let entered = $derived(
         selected &&
-            $editable &&
+            editable &&
             selection.selectedPhrase &&
             selection.selectedPhrase.index !== null,
     );
@@ -101,7 +101,7 @@
     onMount(restore);
 
     function restore() {
-        if ($editable) {
+        if (editable) {
             if (entered) {
                 if (
                     input &&
@@ -233,8 +233,8 @@
         data-node-id={phrase.value.creator.id}
         data-name={phrase.getName()}
         data-selectable={selectable}
-        ondblclick={$editable && interactive ? enter : null}
-        onkeydown={$editable && interactive && !entered ? move : null}
+        ondblclick={editable && interactive ? enter : null}
+        onkeydown={editable && interactive && !entered ? move : null}
         style:font-family={getFaceCSS(localContext.face)}
         style:font-size={getSizeCSS(localContext.size)}
         style:background={phrase.background?.toCSS() ?? null}

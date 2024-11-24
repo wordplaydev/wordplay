@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Language from '@nodes/Language';
     import NodeView from './NodeView.svelte';
-    import { isBlocks } from '@components/project/Contexts';
+    import { getIsBlocks } from '@components/project/Contexts';
 
     interface Props {
         node: Language;
@@ -9,7 +9,7 @@
 
     let { node }: Props = $props();
 
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 </script>
 
 <em class="language {$blocks ? 'blocks' : ''}"

@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import { getCaret, isBlocks } from '../project/Contexts';
+    import { getCaret, getIsBlocks } from '../project/Contexts';
     import NodeView from './NodeView.svelte';
     import Button from '../widgets/Button.svelte';
     import { locales } from '../../db/Database';
@@ -22,7 +22,7 @@
     }: Props = $props();
 
     let caret = getCaret();
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 
     /**
      * To help scalability of the editor, only show the first few values.

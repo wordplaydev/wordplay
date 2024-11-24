@@ -1,4 +1,6 @@
 <script lang="ts">
+    import { withMonoEmoji } from '../../unicode/emoji';
+
     interface Props {
         on: boolean;
         toggle: (on: boolean) => void;
@@ -35,7 +37,7 @@
         onkeydown={(event) =>
             event.key === 'Enter' || event.key === ' '
                 ? toggle(false)
-                : undefined}>{offLabel}</span
+                : undefined}>{withMonoEmoji(offLabel)}</span
     ><span
         class={`button on ${on ? 'active' : 'inactive'}`}
         role="button"
@@ -52,7 +54,7 @@
                 ? toggle(true)
                 : undefined}
     >
-        {onLabel}
+        {withMonoEmoji(onLabel)}
     </span>
 </span>
 

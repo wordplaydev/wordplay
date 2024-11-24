@@ -2,7 +2,7 @@
     import NodeView from './NodeView.svelte';
     import type Translation from '../../nodes/Translation';
     import NodeSequenceView from './NodeSequenceView.svelte';
-    import { isBlocks } from '@components/project/Contexts';
+    import { getIsBlocks } from '@components/project/Contexts';
 
     interface Props {
         node: Translation;
@@ -10,7 +10,7 @@
 
     let { node }: Props = $props();
 
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 </script>
 
 {#if $blocks}

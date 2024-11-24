@@ -5,8 +5,8 @@
         getHidden,
         getInsertionPoint,
         getRoot,
-        getSpace,
-        isBlocks,
+        getSpaces,
+        getIsBlocks,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression, { ExpressionKind } from '@nodes/Expression';
@@ -53,10 +53,10 @@
             : undefined,
     );
 
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 
     // Get the root's computed spaces store
-    let spaces = getSpace();
+    let spaces = getSpaces();
     // See if this node has any space to render.
     let firstToken = $derived(node?.getFirstLeaf());
     let spaceRoot = $derived(

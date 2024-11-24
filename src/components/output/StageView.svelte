@@ -26,8 +26,6 @@
     import Group from '@output/Group';
     import range from '../../util/range';
     import RenderContext from '@output/RenderContext';
-    import { setContext } from 'svelte';
-    import { writable } from 'svelte/store';
     import {
         getAnimatingNodes,
         getAnnounce,
@@ -144,11 +142,6 @@
         if (animator) animator.stop();
         if (observer) observer.disconnect();
     });
-
-    /** Expose the editable context to all children */
-    let editableStore = writable<boolean>(editable);
-    setContext('editable', editableStore);
-    setContext('project', project);
 
     /** Keep track of the tile view's content window size for use in fitting content to the window */
     let parent: Element | null = $state(null);
@@ -357,11 +350,6 @@
         }
     });
 
-    // When editable changes, change the local store.
-    $effect(() => {
-        editableStore.set(editable);
-    });
-
     let center = $derived(new Place(stage.value, 0, 0, 0));
     let offsetFocus = $derived(renderedFocus.offset(center));
 
@@ -406,6 +394,7 @@
             viewport={{ width: viewportWidth, height: viewportHeight }}
             clip={stage.frame}
             parentAscent={0}
+            {editable}
             {context}
             {interactive}
             {editing}
@@ -466,6 +455,7 @@
                         {interactive}
                         parentAscent={0}
                         {context}
+                        {editable}
                         {editing}
                         {frame}
                     />
@@ -477,6 +467,7 @@
                         parentAscent={0}
                         {interactive}
                         {context}
+                        {editable}
                         {editing}
                         {frame}
                     />

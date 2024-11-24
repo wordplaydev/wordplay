@@ -2,10 +2,7 @@
     import Page from '@components/app/Page.svelte';
     import Header from '@components/app/Header.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import {
-        ConceptPathSymbol,
-        getUser,
-    } from '../../components/project/Contexts';
+    import { getUser, setConceptPath } from '../../components/project/Contexts';
     import {
         query,
         type DocumentData,
@@ -20,7 +17,7 @@
         FieldPath,
         and,
     } from 'firebase/firestore';
-    import { onMount, setContext } from 'svelte';
+    import { onMount } from 'svelte';
     import { firestore } from '../../db/firebase';
     import {
         Flags,
@@ -74,7 +71,7 @@
     });
 
     // Create a concept path for children
-    setContext(ConceptPathSymbol, writable([]));
+    setConceptPath(writable([]));
 
     async function nextBatch() {
         if (firestore === undefined) {

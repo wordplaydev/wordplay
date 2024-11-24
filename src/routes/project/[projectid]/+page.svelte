@@ -1,16 +1,11 @@
 <script lang="ts">
-    import {
-        type ProjectContext,
-        ProjectSymbol,
-        ConceptPathSymbol,
-    } from '@components/project/Contexts';
+    import { setConceptPath, setProject } from '@components/project/Contexts';
     import { writable, type Unsubscriber, type Writable } from 'svelte/store';
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@models/Project';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
-    import { setContext } from 'svelte';
     import { browser } from '$app/environment';
     import { Projects, locales } from '@db/Database';
     import Page from '@components/app/Page.svelte';
@@ -32,7 +27,7 @@
 
     // A project context store for children
     let projectContext = writable<Project | undefined>(undefined);
-    setContext<ProjectContext>(ProjectSymbol, projectContext);
+    setProject(projectContext);
 
     // When the project changes, set the project context fo children.
     $effect(() => {
@@ -40,7 +35,7 @@
     });
 
     // Create a concept path for children
-    setContext(ConceptPathSymbol, writable([]));
+    setConceptPath(writable([]));
 
     // Whenever the page or projects change, update the project store.
     $effect(() => {

@@ -6,7 +6,7 @@
         getRoot,
         getHidden,
         getLocalize,
-        isBlocks,
+        getIsBlocks,
     } from '../project/Contexts';
     import TokenCategories from './TokenCategories';
     import { locales } from '../../db/Database';
@@ -38,7 +38,7 @@
 
     let localize = getLocalize();
     let hidden = getHidden();
-    let blocks = isBlocks();
+    let blocks = getIsBlocks();
 
     let hide = $derived(node ? $hidden?.has(node) : false);
     let editable = $derived($caret !== undefined);

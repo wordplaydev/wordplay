@@ -4,41 +4,29 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import {
-        getContext,
-        onDestroy,
-        onMount,
-        setContext,
-        tick,
-        untrack,
-    } from 'svelte';
+    import { getContext, onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import {
-        type AnimatingNodesContext,
-        type ConflictsContext,
-        type EvaluatorContext,
-        EvaluatorSymbol,
-        SelectedOutputSymbol,
         type SelectedOutputContext,
-        ConflictsSymbol,
-        AnimatingNodesSymbol,
-        type EvaluationContext,
-        EvaluationSymbol,
-        KeyboardEditIdleSymbol,
         getConceptPath,
         IdleKind,
-        type EditorsContext,
-        EditorsSymbol,
         type EditorState,
-        AnnouncerSymbol,
-        type Announce,
         type KeyModifierState,
-        KeyModfifierSymbol,
         type SelectedOutputPaths,
         type SelectedPhrase,
         setConceptIndex,
-        setDraggedContext,
+        setDragged,
         setProjectCommandContext,
+        setKeyboardEditIdle,
+        setKeyboardModifiers,
+        setEvaluation,
+        setAnimatingNodes,
+        setEditors,
+        setConflicts,
+        setSelectedOutputContext,
+        setAnnouncer,
+        type AnnouncerContext,
+        getFullscreen,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -222,9 +210,7 @@
     );
 
     /** The fullscreen context of the page that this is in. */
-    const pageFullscreen = getContext<
-        Writable<{ on: boolean; background: Color | string | null }> | undefined
-    >('fullscreen');
+    const pageFullscreen = getFullscreen();
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
@@ -240,7 +226,8 @@
     let browserFullscreen = $state(false);
 
     /** The conflicts present in the current project. **/
-    const conflicts: ConflictsContext = writable([]);
+    const conflicts = writable<Conflict[]>([]);
+    setConflicts(conflicts);
 
     /** Keep the project in a store so we can derive other stores from it. */
     let projectStore = writable<Project>(project);
@@ -250,7 +237,7 @@
 
     /** Keep a project view global store indicating whether the creator is idle. */
     const keyboardEditIdle = writable<IdleKind>(IdleKind.Idle);
-    setContext(KeyboardEditIdleSymbol, keyboardEditIdle);
+    setKeyboardEditIdle(keyboardEditIdle);
 
     let keyboardIdleTimeout = $state<NodeJS.Timeout | undefined>(undefined);
 
@@ -260,7 +247,7 @@
         alt: false,
         shift: false,
     });
-    setContext(KeyModfifierSymbol, keyModifiers);
+    setKeyboardModifiers(keyModifiers);
 
     /** Keep a currently selected output locale to send to the Evaluator for evaluation and rendering */
     let evaluationLocale = $state<Locale | undefined>(undefined);
@@ -342,7 +329,7 @@
         selectionState.setSelectedPhrase = setSelectedPhrase;
     });
 
-    setContext<SelectedOutputContext>(SelectedOutputSymbol, selectionState);
+    setSelectedOutputContext(selectionState);
 
     /**
      * Invalidates these inputs, indicating that it shouldn't be used.
@@ -356,14 +343,11 @@
     }
 
     /**
-     * Create a store for an evaluator for the project.
-     * Make it available to children.
-     * When the project changes,
+     * Create a state to store the current evaluator.
      */
     const evaluator: Writable<Evaluator> = writable();
-    let latestValue = $state<Value | undefined>();
 
-    setContext<EvaluatorContext>(EvaluatorSymbol, evaluator);
+    let latestValue = $state<Value | undefined>();
 
     // When the project changes, create a new evaluator, observe it.
     let evaluatorTimeout = $state<NodeJS.Timeout | undefined>();
@@ -410,22 +394,18 @@
 
     /** This stores the instance of the announcer component */
     let announce = $state<ReturnType<typeof Announcer>>();
-    let announcerFunction: Writable<Announce | undefined> = writable(undefined);
+    let announcerFunction: Writable<AnnouncerContext | undefined> =
+        writable(undefined);
 
     // Update the function context when the announcer changes.
     $effect(() => announcerFunction.set(announce?.announce));
 
     // Set the announcer store in context.
-    setContext<Writable<Announce | undefined>>(
-        AnnouncerSymbol,
-        announcerFunction,
-    );
+    setAnnouncer(announcerFunction);
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
-    const evaluation: Writable<EvaluationContext> = writable(
-        getEvaluationContext(),
-    );
-    setContext<Writable<EvaluationContext>>(EvaluationSymbol, evaluation);
+    const evaluation = writable(getEvaluationContext());
+    setEvaluation(evaluation);
 
     function updateEvaluatorStores() {
         evaluation.set(getEvaluationContext());
@@ -447,16 +427,12 @@
     });
 
     /** Several store contexts for tracking evaluator state. */
-    const animatingNodes: AnimatingNodesContext = writable<Set<Node>>(
-        new Set(),
-    );
-
-    setContext<AnimatingNodesContext>(AnimatingNodesSymbol, animatingNodes);
-    setContext<ConflictsContext>(ConflictsSymbol, conflicts);
+    const animatingNodes = writable<Set<Node>>(new Set());
+    setAnimatingNodes(animatingNodes);
 
     /** A store for tracking editor state for all Sources */
     const editors = writable(new Map<string, EditorState>());
-    setContext<EditorsContext>(EditorsSymbol, editors);
+    setEditors(editors);
 
     // Clear the selected output upon playing.
     evaluation.subscribe((val) => {
@@ -660,7 +636,7 @@
     $effect(() => {
         dragged = $draggedStore;
     });
-    setDraggedContext(draggedStore);
+    setDragged(draggedStore);
 
     /** True if the output should show a grid */
     let grid = $state(false);

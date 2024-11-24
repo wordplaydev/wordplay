@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import Docs from '@nodes/Docs';
     import Names from '@nodes/Names';
@@ -7,14 +6,13 @@
     import Spaces from '@parser/Spaces';
     import NodeView from '@components/editor/NodeView.svelte';
     import {
-        HiddenSymbol,
-        RootSymbol,
-        SpaceSymbol,
-        type SpaceContext,
-        LocalizeSymbol,
-        ShowLinesSymbol,
-        BlocksSymbol,
-        setCaretContext,
+        setCaret,
+        setSpaces,
+        setHidden,
+        setLocalize,
+        setRoot,
+        setShowLines,
+        setIsBlocks,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -61,43 +59,43 @@
     let root = $derived(node instanceof Source ? node.root : new Root(node));
 
     // Expose the root in a store context for quick access to it.
-    let rootStore = $state<{ root: Root | undefined }>({ root: undefined });
+    let rootContext = $state<{ root: Root | undefined }>({ root: undefined });
+    setRoot(rootContext);
+
     $effect(() => {
-        rootStore.root = root;
+        rootContext.root = root;
     });
-    setContext(RootSymbol, rootStore);
 
     // When the spaces change, update the rendered spaces
-    let renderedSpace: SpaceContext = writable(
-        spaces ?? getPreferredSpaces(node),
-    );
-    setContext(SpaceSymbol, renderedSpace);
+    let renderedSpace = writable(spaces ?? getPreferredSpaces(node));
+    setSpaces(renderedSpace);
+
     $effect(() => {
         renderedSpace.set(spaces ?? getPreferredSpaces(node));
     });
 
     $effect(() => {
-        if (inert) setCaretContext(undefined);
+        if (inert) setCaret(undefined);
     });
 
     // A set of hidden nodes, such as hidden translations.
     let hidden = writable<Set<Node>>(new Set());
-    setContext(HiddenSymbol, hidden);
+    setHidden(hidden);
 
     let localize = writable<LocalizedValue>(localized ?? 'symbolic');
-    setContext(LocalizeSymbol, localize);
+    setLocalize(localize);
     $effect(() => {
         localize.set(localized ?? 'symbolic');
     });
 
     let showLines = writable<boolean>(lines);
-    setContext(ShowLinesSymbol, showLines);
+    setShowLines(showLines);
     $effect(() => {
         showLines.set(lines);
     });
 
     let isBlocks = writable<boolean>(blocks);
-    setContext(BlocksSymbol, isBlocks);
+    setIsBlocks(isBlocks);
     $effect(() => {
         isBlocks.set(blocks);
     });

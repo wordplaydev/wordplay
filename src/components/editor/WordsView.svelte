@@ -2,7 +2,7 @@
     import type Words from '@nodes/Words';
     import NodeView from './NodeView.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
-    import { isBlocks } from '@components/project/Contexts';
+    import { getIsBlocks } from '@components/project/Contexts';
 
     interface Props {
         node: Words;
@@ -10,7 +10,7 @@
 
     let { node }: Props = $props();
 
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 </script>
 
 <span class="words {$blocks ? 'blocks' : ''} {node.getFormat()}"

@@ -5,9 +5,13 @@
     import { locales } from '../../db/Database';
     import Link from './Link.svelte';
     import { writable } from 'svelte/store';
-    import { setContext, type Snippet } from 'svelte';
+    import { type Snippet } from 'svelte';
     import Color from '../../output/Color';
     import Emoji from './Emoji.svelte';
+    import {
+        setFullscreen,
+        type FullscreenContext,
+    } from '@components/project/Contexts';
 
     interface Props {
         children: Snippet;
@@ -19,11 +23,11 @@
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
     // It's primarily ProjectView that does this.
-    let fullscreen = writable<{
-        on: boolean;
-        background: Color | string | null;
-    }>({ on: false, background: null });
-    setContext('fullscreen', fullscreen);
+    let fullscreen: FullscreenContext = writable({
+        on: false,
+        background: null,
+    });
+    setFullscreen(fullscreen);
 
     $effect(() => {
         if (typeof document !== 'undefined' && $fullscreen) {

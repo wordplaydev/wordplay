@@ -6,13 +6,12 @@
     import Note from '../../components/widgets/Note.svelte';
     import {
         getUser,
-        ConceptPathSymbol,
         getConceptPath,
-        type ProjectContext,
-        ProjectSymbol,
         type ConceptIndexContext,
         setConceptIndex,
-        setDraggedContext,
+        setDragged,
+        setProject,
+        setConceptPath,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -21,7 +20,7 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, setContext, untrack } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
@@ -57,7 +56,7 @@
     setConceptIndex(conceptsStore);
 
     // Create a concept path for children
-    setContext(ConceptPathSymbol, writable([]));
+    setConceptPath(writable([]));
 
     const user = getUser();
 
@@ -81,7 +80,7 @@
 
     /** This is the tutorial's own dragged store, which we keep in a context */
     let localDragged = writable<Node | undefined>();
-    setDraggedContext(localDragged);
+    setDragged(localDragged);
 
     /** Whenever the local tutorial dragged context changes, push it to the project's store */
     $effect(() => {
@@ -226,7 +225,7 @@
 
     // Create a reactive context of the current project.
     const project = writable<Project | undefined>(undefined);
-    setContext<ProjectContext>(ProjectSymbol, project);
+    setProject(project);
 
     // Every time the project store changes, update the project context.
     $effect(() => {

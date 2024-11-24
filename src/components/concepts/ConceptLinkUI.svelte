@@ -6,7 +6,7 @@
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import type ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
-    import { withColorEmoji } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
     import { goto } from '$app/navigation';
 
     interface Props {
@@ -119,10 +119,10 @@
         action={navigate}
         tip={$locales.concretize((l) => l.ui.docs.link, longName).toText()}
         ><span class="conceptlink interactive"
-            >{#if label}{withColorEmoji(label)}{:else}<span class="long"
+            >{#if label}{withMonoEmoji(label)}{:else}<span class="long"
                     >{longName}</span
                 >{#if symbolicName !== longName && symbolic}<sub
-                        >{withColorEmoji(symbolicName)}</sub
+                        >{withMonoEmoji(symbolicName)}</sub
                     >{/if}{/if}</span
         ></Button
     >{:else if ui}<TutorialHighlight

@@ -1,11 +1,11 @@
 <script lang="ts">
     import type LanguageCode from '../../locale/LanguageCode';
     import Announcement from './Announcement';
-    import type { Announce } from './Contexts';
+    import type { AnnouncerContext } from './Contexts';
 
     const delay = 200;
 
-    export const announce: Announce = (
+    export const announce: AnnouncerContext = (
         id: string,
         language: LanguageCode | undefined,
         message: string,

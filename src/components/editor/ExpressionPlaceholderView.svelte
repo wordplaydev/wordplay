@@ -5,7 +5,7 @@
         getCaret,
         getProject,
         getRoot,
-        isBlocks,
+        getIsBlocks,
     } from '../project/Contexts';
     import RootView from '../project/RootView.svelte';
     import UnknownType from '../../nodes/UnknownType';
@@ -25,7 +25,7 @@
     let root = $derived(rootContext?.root);
 
     const caret = getCaret();
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 
     let inferredType = $derived(
         $project ? node.getType($project.getNodeContext(node)) : undefined,

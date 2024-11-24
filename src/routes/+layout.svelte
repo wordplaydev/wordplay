@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { onMount, setContext, type Snippet } from 'svelte';
+    import { onMount, type Snippet } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type { User } from 'firebase/auth';
-    import { LocalesSymbol, UserSymbol } from '../components/project/Contexts';
+    import { setUser } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../basis/Fonts';
     import { locales, DB, animationFactor, dark } from '../db/Database';
@@ -14,17 +14,12 @@
 
     let { children }: Props = $props();
 
-    /** Expose the translations as context, updating them as necessary */
-    $effect(() => {
-        setContext(LocalesSymbol, $locales);
-    });
-
     let loaded = $state(false);
     let lag = $state(false);
 
     /** Create a user store to share globally. */
     const user = writable<User | null>(null);
-    setContext(UserSymbol, user);
+    setUser(user);
 
     /** Keep the page's language and direction up to date. */
     $effect(() => {

@@ -33,6 +33,7 @@
         interactive: boolean;
         parentAscent: number;
         context: RenderContext;
+        editable: boolean;
         editing: boolean;
         // A frame counter, used to update aria-labels at a slower rate then visual updates.
         frame: number;
@@ -48,6 +49,7 @@
         interactive,
         parentAscent,
         context,
+        editable,
         editing,
         frame,
         children,
@@ -137,6 +139,7 @@
                 {interactive}
                 parentAscent={root ? 0 : layout.height}
                 context={localContext}
+                {editable}
                 {editing}
                 {frame}
             />
@@ -159,6 +162,7 @@
                 parentAscent={root ? 0 : layout.height}
                 {interactive}
                 context={localContext}
+                {editable}
                 {editing}
                 {frame}
             />

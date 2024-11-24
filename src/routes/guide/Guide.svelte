@@ -6,15 +6,15 @@
     import Documentation from '@components/concepts/Documentation.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import {
-        ConceptPathSymbol,
         setConceptIndex,
+        setConceptPath,
     } from '@components/project/Contexts';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import { locales } from '@db/Database';
     import Project from '@models/Project';
     import Source from '@nodes/Source';
-    import { onMount, setContext } from 'svelte';
+    import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
 
     function getLocaleInURL() {
@@ -40,7 +40,7 @@
 
     // Create a concept path for children, initialized
     let path = writable<Concept[]>([]);
-    setContext(ConceptPathSymbol, path);
+    setConceptPath(path);
 
     let mounted = $state(false);
     onMount(() => {

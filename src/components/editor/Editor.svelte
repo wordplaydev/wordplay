@@ -5,7 +5,7 @@
 <script lang="ts">
     import Node from '@nodes/Node';
     import Caret, { type CaretPosition } from '../../edit/Caret';
-    import { onMount, setContext, untrack } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import UnicodeString from '@models/UnicodeString';
     import {
         handleKeyCommand,
@@ -19,23 +19,22 @@
     import Token from '@nodes/Token';
     import CaretView, { type CaretBounds } from './CaretView.svelte';
     import {
-        HoveredSymbol,
-        HighlightSymbol,
-        InsertionPointsSymbol,
         getDragged,
         getSelectedOutput,
         getAnimatingNodes,
         getConflicts,
         getEvaluation,
-        MenuNodeSymbol,
         getKeyboardEditIdle,
         IdleKind,
-        EditorSymbol,
         getConceptIndex,
         getEditors,
         getAnnounce,
-        type EditorState,
-        setCaretContext,
+        setCaret,
+        setEditor,
+        setHovered,
+        setInsertionPoint,
+        setHighlights,
+        setSetMenuNode,
     } from '../project/Contexts';
     import {
         type HighlightSpec,
@@ -135,7 +134,7 @@
     );
 
     // Share the caret store with children.
-    setCaretContext(caret);
+    setCaret(caret);
 
     // When source changes, update various nested state from the source.
     $effect(() => {
@@ -170,21 +169,21 @@
     // A store of highlighted nodes, used by node views to highlight themselves.
     // We store centrally since the logic that determines what's highlighted is in the Editor.
     const highlights = writable<Highlights>(new Map());
-    setContext(HighlightSymbol, highlights);
+    setHighlights(highlights);
 
     // A store of what node is hovered over, excluding tokens, used in drag and drop.
     const hovered = writable<Node | undefined>(undefined);
-    setContext(HoveredSymbol, hovered);
+    setHovered(hovered);
 
     // A store of what node is hovered over, including tokens.
     const hoveredAny = writable<Node | undefined>(undefined);
 
     // A store of current insertion points in a drag.
     const insertion = writable<InsertionPoint | undefined>(undefined);
-    setContext(InsertionPointsSymbol, insertion);
+    setInsertionPoint(insertion);
 
     // A store of the handle edit function
-    const editContext = writable<EditorState>({
+    const editContext = writable({
         edit: handleEdit,
         caret: $caret,
         blocks: $blocks,
@@ -193,7 +192,7 @@
         toggleMenu,
         grabFocus,
     });
-    setContext(EditorSymbol, editContext);
+    setEditor(editContext);
 
     // True if the last keyboard input was not handled by a command.
     let lastKeyDownIgnored = $state(false);
@@ -233,7 +232,7 @@
     // A store of the currently requested node for which to show a menu.
     const menuNode =
         writable<(position: CaretPosition | undefined) => void>(setMenuNode);
-    setContext(MenuNodeSymbol, menuNode);
+    setSetMenuNode(menuNode);
 
     // Focus the editor on mount, if autofocus is on.
     onMount(() =>
