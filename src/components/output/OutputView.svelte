@@ -405,8 +405,8 @@
             }
         }
 
-        // If we're editing, select output.
-        if (editable) {
+        // If we're editable and not playing, select output.
+        if (editable && !evaluator.isPlaying()) {
             if (painting) {
                 if (selection?.selectedPaths)
                     selection.setSelectedOutput(project, []);
