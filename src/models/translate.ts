@@ -192,10 +192,26 @@ export default async function translateProject(
                         .join('');
                 }
 
-                // If we have a translation, add it to the bind and update its references.
+                
+                // Use a Set to track existing names for conflict resolution
+                const existingNames = new Set(names.names.map((name) => name.getName()));
+
+                // Handle naimg conflicts
                 if (translation !== undefined) {
-                    // Return the updated bind and the updated references.
-                    return [names, names.withName(translation, targetLanguage)];
+                    let uniqueTranslation = translation;
+                    let count = 2;
+
+                    // If a conflict is detected, append a suffix and check again
+                    while (existingNames.has(uniqueTranslation)) {
+                        uniqueTranslation = `${translation}${count}`;
+                        count++;
+                    }
+
+                    // Add the resolved name to the Set
+                    existingNames.add(uniqueTranslation);
+
+                    // Return the unique translation to the bind and update its references
+                    return [names, names.withName(uniqueTranslation, targetLanguage)];
                 } else return [names, names];
             }),
         );
