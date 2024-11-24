@@ -109,7 +109,9 @@ export default class StructureConcept extends Concept {
         return {
             symbols:
                 this.definition.names.getSymbolicName() ??
-                this.definition.names.getLocaleNames(locales)[0],
+                this.definition.names
+                    .getLocaleNames(locales)
+                    .join(COMMA_SYMBOL),
         };
     }
 
