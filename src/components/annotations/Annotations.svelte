@@ -238,6 +238,7 @@
 <section
     aria-label={$locales.get((l) => l.ui.annotations.label)}
     class:expanded={$showAnnotations}
+    data-uiid="conflict"
     onpointerdown={() => {
         if (!$showAnnotations) Settings.setShowAnnotations(true);
     }}

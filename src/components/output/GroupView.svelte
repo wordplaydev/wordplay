@@ -76,7 +76,7 @@
 
     let selected = $derived(
         group.value.creator instanceof Evaluate &&
-            selection.selectedOutput.includes(group.value.creator),
+            selection?.selectedOutput.includes(group.value.creator),
     );
 
     let description: string | null = $state(null);

@@ -1239,7 +1239,7 @@
 
     // Whenever the selected output changes, ensure the first selected node is scrolled to.
     $effect(() => {
-        if (selection.selectedOutput !== undefined) {
+        if (selection?.selectedOutput !== undefined) {
             const node = selection.selectedOutput[0];
             if (node) {
                 tick().then(() => {
@@ -1421,7 +1421,7 @@
     $effect(() => {
         if (
             SHOW_OUTPUT_IN_PALETTE &&
-            selection.selectedPaths &&
+            selection?.selectedPaths &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
@@ -1445,7 +1445,7 @@
                 $hovered,
                 $insertion,
                 $animatingNodes,
-                selection.selectedOutput,
+                selection?.selectedOutput,
                 $blocks,
             ),
         );

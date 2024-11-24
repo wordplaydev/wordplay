@@ -210,16 +210,6 @@ export function getHighlights() {
     return getContext<HighlightContext>(HighlightSymbol);
 }
 
-// Highlight Counts
-const TutorialHighlightsSymbol = Symbol('tutorial-highlights');
-type TutorialHighlightsContext = Writable<string[]>;
-export function setHighlightCount(context: TutorialHighlightsContext) {
-    setContext(TutorialHighlightsSymbol, context);
-}
-export function getHighlightCount() {
-    return getContext<TutorialHighlightsContext>(TutorialHighlightsSymbol);
-}
-
 const SpacesSymbol = Symbol('space');
 type SpacesContext = Writable<Spaces>;
 export function setSpaces(context: SpacesContext) {
@@ -325,7 +315,7 @@ const SelectedOutputSymbol = Symbol('selected-output');
 export function setSelectedOutputContext(context: SelectedOutputContext) {
     setContext(SelectedOutputSymbol, context);
 }
-export function getSelectedOutput(): SelectedOutputContext {
+export function getSelectedOutput(): SelectedOutputContext | undefined {
     return getContext(SelectedOutputSymbol);
 }
 

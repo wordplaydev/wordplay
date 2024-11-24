@@ -1,40 +1,63 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
+    import { animationDuration } from '@db/Database';
+    import { tick } from 'svelte';
 
     interface Props {
         // A class name to highlight.
-        id?: string | undefined;
-        highlightIndex: number | undefined;
+        id: string;
+        source?: boolean;
     }
 
-    let { id = undefined, highlightIndex = undefined }: Props = $props();
+    let { id, source = false }: Props = $props();
 
     let bounds: DOMRect | undefined = $state(undefined);
 
     function size(again: boolean) {
-        if (id) {
+        if (id && !source) {
             bounds = document
                 .querySelector(`[data-uiid="${id}"]`)
                 ?.getBoundingClientRect();
             // Try again in a few seconds, in case there's some async rendering.
-            if (again && bounds === undefined)
-                setTimeout(() => size(false), 2000);
-        }
+            if (again) setTimeout(() => size(true), $animationDuration);
+        } else bounds = undefined;
     }
 
-    onMount(() => {
-        size(true);
+    let index = $state<number | undefined>(undefined);
+    let uiids = $state<string[]>([]);
+
+    // See what highlight number this is.
+    $effect(() => {
+        tick().then(() => {
+            uiids = Array.from(document.querySelectorAll(`.highlight.source`))
+                .map((el) =>
+                    el instanceof HTMLElement
+                        ? el.dataset.uiidtohighlight
+                        : undefined,
+                )
+                .filter((id) => id !== undefined);
+            const match = uiids.indexOf(id);
+            index = match === -1 ? undefined : match + 1;
+        });
     });
+
+    $effect(() => {
+        if (id && !source) tick().then(() => size(true));
+    });
+
+    let view = $state<HTMLElement | undefined>(undefined);
 </script>
 
 <span
     class="highlight"
-    class:hovering={id !== undefined}
+    class:source
+    data-uiidtohighlight={id}
+    bind:this={view}
+    class:hovering={bounds !== undefined && id !== undefined}
     style:left={bounds ? `${bounds.left}px` : undefined}
     style:top={bounds ? `${bounds.top}px` : undefined}
 >
-    {#if highlightIndex}
-        <span class="number">{highlightIndex}</span>
+    {#if index !== undefined && uiids.length > 1}
+        <span class="number">{index}</span>
     {/if}
 </span>
 

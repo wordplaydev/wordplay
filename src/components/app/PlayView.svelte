@@ -5,6 +5,7 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { DB, locales } from '../../db/Database';
+    import { untrack } from 'svelte';
 
     interface Props {
         project: Project;
@@ -21,11 +22,13 @@
     let evaluator = $state<Evaluator | undefined>();
     let latest: Value | undefined = $state(undefined);
     $effect(() => {
+        untrack(() => {
+            if (evaluator) {
+                evaluator.stop();
+                evaluator.ignore(update);
+            }
+        });
         evaluator = new Evaluator(project, DB, $locales.getLocales());
-        if (evaluator) {
-            evaluator.stop();
-            evaluator.ignore(update);
-        }
         evaluator.observe(update);
         evaluator.start();
     });

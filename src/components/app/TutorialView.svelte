@@ -12,8 +12,6 @@
         setDragged,
         setProject,
         setConceptPath,
-        HighlightCountSymbol,
-        highlightIndex,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -39,6 +37,7 @@
     import { moderatedFlags } from '../../models/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
+    import { highlight } from '@vitest/utils';
 
     interface Props {
         progress: Progress;
@@ -56,10 +55,6 @@
         conceptsStore.index = projectContext;
     });
     setConceptIndex(conceptsStore);
-
-    // Highlights count
-    const highlightCount = writable(0);
-    setContext(HighlightCountSymbol, highlightCount);
 
     // Create a concept path for children
     setConceptPath(writable([]));
@@ -125,11 +120,6 @@
                 concept.concept.getText().substring('@UI/'.length),
             ),
     );
-
-    $effect(() => {
-        highlightCount.set(highlights.length);
-        highlightIndex.set(1);
-    });
 
     const conceptPath = getConceptPath();
 
@@ -483,15 +473,9 @@
     </div>
 </section>
 {#key highlights}
-    {#if highlights.length > 1}
-        {#each highlights as highlight, index}
-            <TutorialHighlight id={highlight} highlightIndex={index + 1} />
-        {/each}
-    {:else}
-        {#each highlights as highlight}
-            <TutorialHighlight id={highlight} />
-        {/each}
-    {/if}
+    {#each highlights as highlight}
+        <TutorialHighlight id={highlight} />
+    {/each}
 {/key}
 
 <style>

@@ -76,12 +76,13 @@
     // Selected if this phrase's value creator is selected
     let selected = $derived(
         phrase.value.creator instanceof Evaluate &&
-            selection.selectedOutput.includes(phrase.value.creator),
+            selection?.selectedOutput.includes(phrase.value.creator),
     );
 
     let entered = $derived(
         selected &&
             editable &&
+            selection &&
             selection.selectedPhrase &&
             selection.selectedPhrase.index !== null,
     );
@@ -105,6 +106,7 @@
             if (entered) {
                 if (
                     input &&
+                    selection &&
                     selection.selectedPhrase &&
                     selection.selectedPhrase.index !== null
                 ) {
@@ -130,7 +132,7 @@
     }
 
     function select(index: number | null) {
-        if (selection.selectedPhrase === undefined) return;
+        if (selection?.selectedPhrase === undefined) return;
         selection.setSelectedPhrase({
             name: phrase.getName(),
             index,
@@ -140,7 +142,7 @@
     function move(event: KeyboardEvent) {
         if (
             $project === undefined ||
-            selection.selectedOutput === undefined ||
+            selection?.selectedOutput === undefined ||
             entered ||
             !event.key.startsWith('Arrow') ||
             !(phrase.value.creator instanceof Evaluate)
@@ -192,7 +194,7 @@
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
-        if ($project === undefined || selection.selectedOutput === undefined)
+        if ($project === undefined || selection?.selectedOutput === undefined)
             return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;

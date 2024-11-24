@@ -114,10 +114,12 @@
     $effect(() => {
         if (stageValue) {
             const faces = stageValue.gatherFaces(new Set());
-            faces.forEach((face) => {
-                // Make sure this font is loaded. This is a little late -- we could do some static analysis
-                // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
-                if (face) Fonts.loadFace(face);
+            untrack(() => {
+                faces.forEach((face) => {
+                    // Make sure this font is loaded. This is a little late -- we could do some static analysis
+                    // and try to determine this in advance -- but anything can compute a font name. Maybe an optimization later.
+                    if (face) Fonts.loadFace(face);
+                });
             });
         }
     });
@@ -274,7 +276,7 @@
         if (
             !evaluator.isPlaying() &&
             editable &&
-            selection.selectedPaths !== undefined &&
+            selection?.selectedPaths !== undefined &&
             selection.selectedOutput !== undefined
         ) {
             const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
@@ -406,7 +408,7 @@
         // If we're editing, select output.
         if (editable) {
             if (painting) {
-                if (selection.selectedPaths)
+                if (selection?.selectedPaths)
                     selection.setSelectedOutput(project, []);
             } else if (!selectPointerOutput(event)) ignore();
         }
@@ -488,7 +490,7 @@
                       focus
                       ? renderedFocus
                       : // If there's selected output, it's the first output selected, and it has a place
-                        selection.selectedOutput &&
+                        selection?.selectedOutput &&
                           selection.selectedOutput.length > 0
                         ? getOrCreatePlace(
                               project,
@@ -639,8 +641,7 @@
                         );
                         event.stopPropagation();
                     } else if (
-                        selection.selectedOutput &&
-                        selection.selectedOutput &&
+                        selection?.selectedOutput &&
                         selection.selectedOutput.length > 0 &&
                         !selection.selectedOutput[0].is(
                             project.shares.output.Stage,
@@ -729,6 +730,7 @@
      */
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
         if (
+            selection === undefined ||
             selection.selectedPaths === undefined ||
             selection.selectedOutput === undefined ||
             selection.selectedPhrase === undefined
@@ -920,7 +922,7 @@
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
-        selection.selectedOutput &&
+        selection?.selectedOutput &&
         selection.selectedOutput.includes(stageValue.value.creator)}
 >
     <!-- svelte-ignore a11y_no_static_element_interactions -->

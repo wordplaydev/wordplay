@@ -45,7 +45,7 @@
         if (list === undefined) return;
 
         const item = list.values[index];
-        if (item instanceof Evaluate)
+        if (item instanceof Evaluate && selection)
             selection.setSelectedOutput(project, [item]);
     }
 </script>

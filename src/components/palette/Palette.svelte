@@ -46,7 +46,7 @@
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     let outputs = $derived(
-        selection.selectedOutput
+        selection?.selectedOutput
             ? selection.selectedOutput
                   .map(
                       (evaluate) =>

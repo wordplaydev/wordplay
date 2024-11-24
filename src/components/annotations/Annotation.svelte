@@ -17,12 +17,12 @@
     let { id, annotations }: Props = $props();
 
     function resolveAnnotation(resolution: Resolution, context: Context) {
-        const {newProject} = resolution.mediator(context, $locales);
+        const { newProject } = resolution.mediator(context, $locales);
         Projects.reviseProject(newProject);
     }
 </script>
 
-<div class="annotations" data-uiid="conflict">
+<div class="annotations">
     {#each annotations as annotation}
         <div
             class={`annotation ${annotation.kind} ${
@@ -39,41 +39,39 @@
                 below
             >
                 {#snippet content()}
-                            
-                        {#each annotation.messages as markup}
-                            <aside aria-label={markup.toText()}>
-                                <MarkupHTMLView {markup} />
-                                {#if annotation.resolutions}
-                                    {#each annotation.resolutions as resolution}
-                                        <div class="resolution">
-                                            <Button
-                                                background
-                                                tip={$locales.get(
-                                                    (l) =>
-                                                        l.ui.annotations.button
-                                                            .resolution,
+                    {#each annotation.messages as markup}
+                        <aside aria-label={markup.toText()}>
+                            <MarkupHTMLView {markup} />
+                            {#if annotation.resolutions}
+                                {#each annotation.resolutions as resolution}
+                                    <div class="resolution">
+                                        <Button
+                                            background
+                                            tip={$locales.get(
+                                                (l) =>
+                                                    l.ui.annotations.button
+                                                        .resolution,
+                                            )}
+                                            action={() =>
+                                                resolveAnnotation(
+                                                    resolution,
+                                                    annotation.context,
+                                                )}>✓</Button
+                                        ><div class="description"
+                                            ><MarkupHtmlView
+                                                inline
+                                                markup={resolution.description(
+                                                    $locales,
+                                                    annotation.context,
                                                 )}
-                                                action={() =>
-                                                    resolveAnnotation(
-                                                        resolution,
-                                                        annotation.context,
-                                                    )}>✓</Button
-                                            ><div class="description"
-                                                ><MarkupHtmlView
-                                                    inline
-                                                    markup={resolution.description(
-                                                        $locales,
-                                                        annotation.context,
-                                                    )}
-                                                /></div
-                                            >
-                                        </div>
-                                    {/each}
-                                {/if}
-                            </aside>
-                        {/each}
-                    
-                            {/snippet}
+                                            /></div
+                                        >
+                                    </div>
+                                {/each}
+                            {/if}
+                        </aside>
+                    {/each}
+                {/snippet}
             </Speech>
         </div>
     {/each}
