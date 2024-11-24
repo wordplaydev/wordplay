@@ -1,5 +1,9 @@
 <script lang="ts">
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getTutorialHighlights,
+    } from '../project/Contexts';
     import ConceptLink from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
@@ -84,6 +88,12 @@
         }
     });
 
+    // Highlight counts
+    const tutorialHighlights = getTutorialHighlights();
+    const hlIndex = $derived(
+        ui && $tutorialHighlights ? $tutorialHighlights.indexOf(ui) : undefined,
+    );
+
     let longName: string = $derived(
         concept ? concept.getName($locales, false) : '',
     );
@@ -125,7 +135,11 @@
                         >{withMonoEmoji(symbolicName)}</sub
                     >{/if}{/if}</span
         ></Button
-    >{:else if ui}<TutorialHighlight
+    >{:else if ui}
+    <TutorialHighlight
+        highlightIndex={$tutorialHighlights && $tutorialHighlights.length > 1
+            ? hlIndex
+            : undefined}
     />{:else if link instanceof ConceptLink}<span
         >{#if container}{container.getName(
                 $locales,

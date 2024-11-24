@@ -1,5 +1,5 @@
-import { getContext, setContext } from 'svelte';
-import type { Readable, Writable } from 'svelte/store';
+import { setContext, getContext } from 'svelte';
+import { type Readable, type Writable } from 'svelte/store';
 import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { InsertionPoint } from '../../edit/Drag';
@@ -208,6 +208,16 @@ export function setHighlights(context: HighlightContext) {
 }
 export function getHighlights() {
     return getContext<HighlightContext>(HighlightSymbol);
+}
+
+// Highlight Counts
+const TutorialHighlightsSymbol = Symbol('tutorial-highlights');
+type TutorialHighlightsContext = Writable<string[]>;
+export function setHighlightCount(context: TutorialHighlightsContext) {
+    setContext(TutorialHighlightsSymbol, context);
+}
+export function getHighlightCount() {
+    return getContext<TutorialHighlightsContext>(TutorialHighlightsSymbol);
 }
 
 const SpacesSymbol = Symbol('space');

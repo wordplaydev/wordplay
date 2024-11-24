@@ -12,6 +12,8 @@
         setDragged,
         setProject,
         setConceptPath,
+        HighlightCountSymbol,
+        highlightIndex,
     } from '../../components/project/Contexts';
     import PlayView from './PlayView.svelte';
     import Button from '../widgets/Button.svelte';
@@ -20,7 +22,7 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, untrack } from 'svelte';
+    import { onMount, setContext, untrack } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
     import { writable, type Writable } from 'svelte/store';
     import { tick } from 'svelte';
@@ -54,6 +56,10 @@
         conceptsStore.index = projectContext;
     });
     setConceptIndex(conceptsStore);
+
+    // Highlights count
+    const highlightCount = writable(0);
+    setContext(HighlightCountSymbol, highlightCount);
 
     // Create a concept path for children
     setConceptPath(writable([]));
@@ -119,6 +125,11 @@
                 concept.concept.getText().substring('@UI/'.length),
             ),
     );
+
+    $effect(() => {
+        highlightCount.set(highlights.length);
+        highlightIndex.set(1);
+    });
 
     const conceptPath = getConceptPath();
 
@@ -472,9 +483,15 @@
     </div>
 </section>
 {#key highlights}
-    {#each highlights as highlight}
-        <TutorialHighlight id={highlight} />
-    {/each}
+    {#if highlights.length > 1}
+        {#each highlights as highlight, index}
+            <TutorialHighlight id={highlight} highlightIndex={index + 1} />
+        {/each}
+    {:else}
+        {#each highlights as highlight}
+            <TutorialHighlight id={highlight} />
+        {/each}
+    {/if}
 {/key}
 
 <style>
