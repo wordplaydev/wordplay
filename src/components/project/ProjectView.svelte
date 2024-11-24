@@ -144,6 +144,8 @@
         dragged?: Node | undefined;
         /** The concept index used for this project */
         index?: ConceptIndex | undefined;
+        /** Whether to persist the layout for layter */
+        persistLayout?: boolean;
     }
 
     let {
@@ -158,6 +160,7 @@
         shareable = true,
         dragged = $bindable(undefined),
         index = $bindable(undefined),
+        persistLayout = true,
     }: Props = $props();
 
     // The HTMLElement that represents this element
@@ -517,7 +520,7 @@
 
     function getInitialLayout() {
         return (
-            getPersistedLayout() ??
+            (persistLayout ? getPersistedLayout() : null) ??
             new Layout(
                 project.getID(),
                 // Create a layout in reading order.
@@ -567,7 +570,6 @@
     $effect(() => {
         if (untrack(() => layout.projectID) !== project.getID()) {
             layout = getInitialLayout();
-            console.log(layout);
         }
     });
 
@@ -619,7 +621,7 @@
 
     /** Persist the layout when it changes */
     $effect(() => {
-        Settings.setProjectLayout(project.getID(), layout);
+        if (persistLayout) Settings.setProjectLayout(project.getID(), layout);
     });
 
     /** The tile being dragged */
