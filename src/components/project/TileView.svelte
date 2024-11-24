@@ -19,7 +19,7 @@
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
-    import { locales } from '../../db/Database';
+    import { animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
     import Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
@@ -87,7 +87,7 @@
     let view: HTMLElement | undefined = $state();
     let resizeDirection: ResizeDirection | null = $state(null);
     let mounted = $state(false);
-    onMount(() => (mounted = true));
+    onMount(() => setTimeout(() => (mounted = true), $animationDuration));
 
     let foreground = $derived(
         background instanceof Color ? background.contrasting().toCSS() : null,

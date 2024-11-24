@@ -29,8 +29,12 @@
             }
         });
         evaluator = new Evaluator(project, DB, $locales.getLocales());
-        evaluator.observe(update);
-        evaluator.start();
+        untrack(() => {
+            if (evaluator) {
+                evaluator.observe(update);
+                evaluator.start();
+            }
+        });
     });
 </script>
 

@@ -1037,6 +1037,7 @@
         justify-items: stretch;
         align-items: stretch;
         position: relative;
+        height: 100%;
 
         flex-grow: 1;
     }

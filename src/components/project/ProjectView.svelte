@@ -565,8 +565,10 @@
 
     /** If project changes, create a new layout based on the new project */
     $effect(() => {
-        if (untrack(() => layout.projectID !== project.getID()))
+        if (untrack(() => layout.projectID) !== project.getID()) {
             layout = getInitialLayout();
+            console.log(layout);
+        }
     });
 
     // If the URL requested play, set to full screen and focus on the stage.
