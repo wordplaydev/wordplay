@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import Sym from '@nodes/Sym';
     import {
@@ -15,8 +13,12 @@
     import { locales } from '../../db/Database';
     import Names from '@nodes/Names';
 
-    export let value: StructureValue;
-    export let inline = true;
+    interface Props {
+        value: StructureValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 <!-- Inline structures show the name and binds -->
@@ -25,21 +27,20 @@
         symbol={$locales.getName(value.type.names)}
         type={Sym.Name}
     /><SymbolView symbol={EVAL_OPEN_SYMBOL} type={Sym.EvalOpen} /><Expandable
-        ><svelte:fragment slot="expanded">
+        >{#snippet expanded()}
             {#each [...value.context.getBindingsByNames()] as [name, val], index}<SymbolView
                     symbol={$locales.getName(name)}
                     type={Sym.Name}
                 /><SymbolView symbol={BIND_SYMBOL} type={Sym.Bind} /><ValueView
                     value={val}
                     {inline}
-                />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}</svelte:fragment
-        ><svelte:fragment slot="collapsed"
-            >{#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
+                />{#if index < value.type.inputs.length - 1}{' '}{/if}{/each}{/snippet}
+            {#snippet collapsed()}
+                {#if value.is(value.context.getEvaluator().project.shares.output.Color)}<span
                     class="color"
                     style:background-color={toColor(value)?.toCSS()}
                     >&ZeroWidthSpace;</span
-                >{:else}…{/if}</svelte:fragment
-        ></Expandable
+                >{:else}…{/if}{/snippet}</Expandable
     ><SymbolView symbol={EVAL_CLOSE_SYMBOL} type={Sym.EvalClose} />
 
     <!-- Block structures are HTML tables -->
@@ -48,31 +49,33 @@
         value.context.getEvaluator().project.shares.output.Color,
     )}
     <table>
-        <tr
-            ><th colspan={color ? 1 : 2}
-                ><SymbolView
-                    symbol={$locales.getName(value.type.names)}
-                    type={Sym.Name}
-                /></th
-            >{#if color}
-                <th
-                    ><span
-                        class="color"
-                        style:background-color={toColor(value)?.toCSS()}
-                        >&ZeroWidthSpace;</span
-                    ></th
-                >{/if}</tr
-        >
-        {#each [...value.context.getBindingsByNames()] as [name, val]}<tr
-                ><td
+        <tbody>
+            <tr
+                ><th colspan={color ? 1 : 2}
                     ><SymbolView
-                        symbol={name instanceof Names
-                            ? $locales.getName(name)
-                            : name}
+                        symbol={$locales.getName(value.type.names)}
                         type={Sym.Name}
-                    /></td
-                ><td><ValueView value={val} {inline} /></td></tr
-            >{/each}
+                    /></th
+                >{#if color}
+                    <th
+                        ><span
+                            class="color"
+                            style:background-color={toColor(value)?.toCSS()}
+                            >&ZeroWidthSpace;</span
+                        ></th
+                    >{/if}</tr
+            >
+            {#each [...value.context.getBindingsByNames()] as [name, val]}<tr
+                    ><td
+                        ><SymbolView
+                            symbol={name instanceof Names
+                                ? $locales.getName(name)
+                                : name}
+                            type={Sym.Name}
+                        /></td
+                    ><td><ValueView value={val} {inline} /></td></tr
+                >{/each}
+        </tbody>
     </table>
 {/if}
 

@@ -1,24 +1,28 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type TextValue from '@values/TextValue';
     import UnicodeString from '../../models/UnicodeString';
     import Expandable from './Expandable.svelte';
 
-    export let value: TextValue;
-    export let inline = true;
+    interface Props {
+        value: TextValue;
+        inline?: boolean;
+    }
 
-    $: text = value.toWordplay();
+    let { value, inline = true }: Props = $props();
+
+    let text = $derived(value.toWordplay());
 
     const limit = 32;
 </script>
 
 {#if inline && text.length > limit}
     <Expandable
-        ><svelte:fragment slot="expanded">{text}</svelte:fragment
-        ><svelte:fragment slot="collapsed"
-            >{new UnicodeString(text)
-                .substring(0, limit)
-                .toString()}…</svelte:fragment
-        ></Expandable
+        >{#snippet expanded()}
+                {text}
+            {/snippet}
+            {#snippet collapsed()}
+            {new UnicodeString(text)
+                    .substring(0, limit)
+                    .toString()}…
+            {/snippet}</Expandable
     >{:else}{text}{/if}

@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Node from '@nodes/Node';
     import {
@@ -7,8 +5,8 @@
         getHidden,
         getInsertionPoint,
         getRoot,
-        getSpace,
-        isBlocks,
+        getSpaces,
+        getIsBlocks,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression, { ExpressionKind } from '@nodes/Expression';
@@ -20,14 +18,19 @@
     import InsertionPointView from './InsertionPointView.svelte';
     import Block from '@nodes/Block';
 
-    export let node: Node | undefined;
-    export let small = false;
-    export let direction: 'row' | 'column' = 'row';
+    interface Props {
+        node: Node | undefined;
+        small?: boolean;
+        direction?: 'row' | 'column';
+    }
+
+    let { node, small = false, direction = 'row' }: Props = $props();
 
     const evaluation = getEvaluation();
-    const root = getRoot();
+    const rootContext = getRoot();
+    let root = $derived(rootContext?.root);
 
-    $: description =
+    let description = $derived(
         node && $evaluation
             ? node
                   .getDescription(
@@ -35,41 +38,44 @@
                       $evaluation.evaluator.project.getNodeContext(node),
                   )
                   .toText()
-            : null;
+            : null,
+    );
 
-    let value: Value | undefined;
-    $: {
-        // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
-        // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
-        // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
-        value = undefined;
-        if (
-            $evaluation &&
+    // Show a value if 1) it's an expression, 2) the evaluator is stepping, 3) it's not involved in the evaluation stack
+    // and 4) the node's evaluation is currently evaluating. Start by assuming there isn't a value.
+    // Note that this interacts with Editor.handleEdit(), which adjust caret positions if a value is rendered.
+    let value = $derived(
+        $evaluation &&
             !$evaluation.playing &&
             node instanceof Expression &&
             !node.isEvaluationInvolved()
-        )
-            value = $evaluation.evaluator.getLatestExpressionValue(node);
-    }
+            ? $evaluation.evaluator.getLatestExpressionValue(node)
+            : undefined,
+    );
 
-    const blocks = isBlocks();
+    const blocks = getIsBlocks();
 
     // Get the root's computed spaces store
-    let spaces = getSpace();
+    let spaces = getSpaces();
     // See if this node has any space to render.
-    $: firstToken = node?.getFirstLeaf();
-    $: spaceRoot = $root && node ? $root.getSpaceRoot(node) : undefined;
-    $: space = firstToken ? $spaces?.getSpace(firstToken) ?? '' : '';
+    let firstToken = $derived(node?.getFirstLeaf());
+    let spaceRoot = $derived(
+        root && node ? root.getSpaceRoot(node) : undefined,
+    );
+    let space = $derived(
+        firstToken ? ($spaces?.getSpace(firstToken) ?? '') : '',
+    );
 
     // Get the hidden context.
     let hidden = getHidden();
-    $: hide = node ? $hidden?.has(node) : false;
+    let hide = $derived(node ? $hidden?.has(node) : false);
 
     // Get the insertion point
     let insertion = getInsertionPoint();
 
-    $: kind =
-        $blocks && node instanceof Expression ? node.getKind() : undefined;
+    let kind = $derived(
+        $blocks && node instanceof Expression ? node.getKind() : undefined,
+    );
 
     function symbolOccurs(text: string, symbol: string) {
         for (let i = 0; i < text.length; i++)
@@ -142,10 +148,8 @@
                 {value}
                 {node}
                 interactive
-            />{:else}<svelte:component
-                this={getNodeView(node)}
-                {node}
-            />{/if}</div
+            />{:else}{@const SvelteComponent = getNodeView(node)}
+            <SvelteComponent {node} />{/if}</div
     >
 {/if}
 
@@ -207,8 +211,8 @@
         min-height: var(--wordplay-min-line-height) !important;
     }
 
-    .evaluate:not(.Program, .ProgramBlock),
-    .definition:not(.Program, .ProgramBlock) {
+    .evaluate:not(:global(.Program, .ProgramBlock)),
+    .definition:not(:global(.Program, .ProgramBlock)) {
         padding: calc(var(--wordplay-spacing) / 3);
         padding: calc(var(--wordplay-spacing) / 3)
             calc(var(--wordplay-spacing) / 2) calc(var(--wordplay-spacing) / 3)
@@ -221,7 +225,7 @@
         border-inline-start: var(--wordplay-focus-width) solid var(--color-blue);
     }
 
-    .block.evaluate:not(.Program, .ProgramBlock) {
+    .block.evaluate:not(:global(.Program, .ProgramBlock)) {
         border-bottom: calc(2 * var(--wordplay-border-width)) solid
             var(--wordplay-inactive-color);
     }

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export type ResizeDirection =
         | 'top'
         | 'top-left'
@@ -12,14 +12,14 @@
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
-    import { createEventDispatcher } from 'svelte';
+    import type { Snippet } from 'svelte';
     import Button from '../widgets/Button.svelte';
     import type Tile from './Tile';
     import { Mode } from './Tile';
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
-    import { locales } from '../../db/Database';
+    import { animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
     import Arrangement from '../../db/Arrangement';
     import Glyphs from '../../lore/Glyphs';
@@ -29,28 +29,69 @@
     import Emoji from '@components/app/Emoji.svelte';
     import TileSymbols from './TileSymbols';
     import FullscreenIcon from './FullscreenIcon.svelte';
+    import type Bounds from './Bounds';
 
-    export let project: Project;
-    export let tile: Tile;
-    export let layout: Layout;
-    export let arrangement: Arrangement;
-    export let dragging: boolean;
-    export let fullscreenID: string | undefined;
-    export let background: Color | string | null = null;
-    export let focuscontent = false;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        tile: Tile;
+        layout: Layout;
+        arrangement: Arrangement;
+        dragging: boolean;
+        fullscreenID: string | undefined;
+        background?: Color | string | null;
+        focuscontent?: boolean;
+        editable: boolean;
+        title: Snippet;
+        content: Snippet;
+        extra?: Snippet;
+        margin?: Snippet;
+        footer?: Snippet;
+        position: (position: Bounds) => void;
+        resize: (
+            id: string,
+            direction: ResizeDirection,
+            x: number,
+            y: number,
+        ) => void;
+        rename: (id: string, name: string) => void;
+        scroll: () => void;
+        setMode: (mode: Mode) => void;
+        setFullscreen: (fullscreen: boolean) => void;
+    }
 
-    $: fullscreen = tile.id === fullscreenID;
+    let {
+        project,
+        tile,
+        layout,
+        arrangement,
+        dragging,
+        fullscreenID,
+        background = null,
+        focuscontent = false,
+        editable,
+        title,
+        extra,
+        content,
+        margin,
+        footer,
+        position,
+        resize,
+        rename,
+        scroll,
+        setMode: mode,
+        setFullscreen,
+    }: Props = $props();
 
-    let view: HTMLElement | undefined;
-    let resizeDirection: ResizeDirection | null = null;
-    let mounted = false;
-    onMount(() => (mounted = true));
+    let fullscreen = $derived(tile.id === fullscreenID);
 
-    $: foreground =
-        background instanceof Color ? background.contrasting().toCSS() : null;
+    let view: HTMLElement | undefined = $state();
+    let resizeDirection: ResizeDirection | null = $state(null);
+    let mounted = $state(false);
+    onMount(() => setTimeout(() => (mounted = true), $animationDuration));
 
-    const dispatch = createEventDispatcher();
+    let foreground = $derived(
+        background instanceof Color ? background.contrasting().toCSS() : null,
+    );
 
     function handleKeyDown(event: KeyboardEvent) {
         // Move or resize on command-arrow
@@ -74,8 +115,8 @@
                       ? 1
                       : 0;
             if (horizontal !== 0)
-                dispatch('position', {
-                    position: resize
+                position(
+                    resize
                         ? {
                               left: tile.position.left,
                               top: tile.position.top,
@@ -94,10 +135,10 @@
                               width: tile.position.width,
                               height: tile.position.height,
                           },
-                });
+                );
             if (vertical !== 0)
-                dispatch('position', {
-                    position: resize
+                position(
+                    resize
                         ? {
                               left: tile.position.left,
                               top: tile.position.top,
@@ -116,7 +157,7 @@
                               width: tile.position.width,
                               height: tile.position.height,
                           },
-                });
+                );
             return;
         }
     }
@@ -124,12 +165,12 @@
     function handlePointerDown(event: PointerEvent) {
         if (resizeDirection !== null && view) {
             const rect = view.getBoundingClientRect();
-            dispatch('resize', {
-                id: tile.id,
-                direction: resizeDirection,
-                left: event.clientX - rect.left,
-                top: event.clientY - rect.top,
-            });
+            resize(
+                tile.id,
+                resizeDirection,
+                event.clientX - rect.left,
+                event.clientY - rect.top,
+            );
             event.stopPropagation();
         }
     }
@@ -169,16 +210,18 @@
     }
 
     function handleRename(name: string) {
-        dispatch('rename', { id: tile.id, name });
+        rename(tile.id, name);
     }
 </script>
 
-<!-- svelte-ignore a11y-no-static-element-interactions -->
+<!-- svelte-ignore a11y_no_static_element_interactions -->
 <div
-    on:pointermove={handlePointerMove}
-    on:pointerleave={() => (resizeDirection = null)}
-    on:pointerdown={handlePointerDown}
-    on:keydown={handleKeyDown}
+    class="container"
+    class:arrangement
+    onpointermove={handlePointerMove}
+    onpointerleave={() => (resizeDirection = null)}
+    onpointerdown={handlePointerDown}
+    onkeydown={handleKeyDown}
 >
     <section
         class="tile {resizeDirection
@@ -194,10 +237,34 @@
         style:background={background instanceof Color
             ? background.toCSS()
             : background}
-        style:left={fullscreen ? null : `${tile.bounds?.left ?? 0}px`}
-        style:top={fullscreen ? null : `${tile.bounds?.top ?? 0}px`}
-        style:width={fullscreen ? null : `${tile.bounds?.width ?? 0}px`}
-        style:height={fullscreen ? null : `${tile.bounds?.height ?? 0}px`}
+        style:left={fullscreen
+            ? null
+            : `${
+                  arrangement === 'free'
+                      ? tile.position.left
+                      : (tile.bounds?.left ?? 0)
+              }px`}
+        style:top={fullscreen
+            ? null
+            : `${
+                  arrangement === 'free'
+                      ? tile.position.top
+                      : (tile.bounds?.top ?? 0)
+              }px`}
+        style:width={fullscreen
+            ? null
+            : `${
+                  arrangement === 'free'
+                      ? tile.position.width
+                      : (tile.bounds?.width ?? 0)
+              }px`}
+        style:height={fullscreen
+            ? null
+            : `${
+                  arrangement === 'free'
+                      ? tile.position.height
+                      : (tile.bounds?.height ?? 0)
+              }px`}
         bind:this={view}
     >
         <!-- Render the toolbar -->
@@ -207,18 +274,14 @@
                     background={background !== null}
                     padding={false}
                     tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                    action={() => dispatch('mode', { mode: Mode.Collapsed })}
-                    >–</Button
+                    action={() => mode(Mode.Collapsed)}>–</Button
                 >
             {/if}
             <Toggle
                 tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
                 on={fullscreen}
                 background={background !== null}
-                toggle={() =>
-                    dispatch('fullscreen', {
-                        fullscreen: !fullscreen,
-                    })}
+                toggle={() => setFullscreen(!fullscreen)}
             >
                 <FullscreenIcon />
             </Toggle>
@@ -244,29 +307,34 @@
                         $locales,
                     )}
                 {/if}
-                <slot name="name" />
+                {@render title()}
             </div>
             <div class="toolbar">
-                <slot name="extra" />
+                {@render extra?.()}
             </div>
         </div>
         <!-- Render the content -->
         <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-            <div class="content" on:scroll={() => dispatch('scroll')}>
-                <slot name="content" />
+            <div class="content" onscroll={() => scroll()}>
+                {@render content()}
             </div>
-            <div class="margin"><slot name="margin" /></div>
+            <div class="margin">{@render margin?.()}</div>
         </div>
         <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
         {#if focuscontent}
-            <div class="focus-indicator" />
+            <div class="focus-indicator"></div>
         {/if}
         <!-- Render the footer -->
-        <div class="footer"><slot name="footer" /></div>
+        <div class="footer">{@render footer?.()}</div>
     </section>
 </div>
 
 <style>
+    .container.free {
+        position: relative;
+        display: block;
+    }
+
     .tile {
         position: absolute;
         background: var(--wordplay-background);
@@ -342,8 +410,8 @@
             var(--wordplay-border-color);
     }
 
-    .tile:not(.output).responsive,
-    .tile:not(.output).horizontal {
+    .tile:not(:global(.output)).responsive,
+    .tile:not(:global(.output)).horizontal {
         border-right: var(--wordplay-border-width) solid
             var(--wordplay-border-color);
     }

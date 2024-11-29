@@ -7,7 +7,7 @@ import type Context from './Context';
 import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
-import type { Template, DocText } from '@locale/LocaleText';
+import type { Template, DocText, LocaleText } from '@locale/LocaleText';
 import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
 import type Glyph from '../lore/Glyph';
 import type Purpose from '../concepts/Purpose';
@@ -660,9 +660,9 @@ export default abstract class Node {
     }
 
     /** Translates the node back into Wordplay text, using spaces if provided and . */
-    toWordplay(spaces?: Spaces): string {
+    toWordplay(spaces?: Spaces, locale?: LocaleText): string {
         return this.getChildren()
-            .map((child) => child.toWordplay(spaces))
+            .map((child) => child.toWordplay(spaces, locale))
             .join('');
     }
 

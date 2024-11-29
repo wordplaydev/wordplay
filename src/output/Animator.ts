@@ -378,10 +378,8 @@ export default class Animator {
         const name = animation.output.getName();
         this.animations.delete(name);
 
-        // Don't clean up if the animation hasn't exited yet. (Scene can force an exit animation);
-        if (this.exitedInfo.has(animation.name)) {
-            this.exit(name);
-        }
+        // Tell the listener that this name has exited, so it can do whatever cleanup it needs to do.
+        this.exit(name);
     }
 
     startingSequence(transitions: Transition[]) {

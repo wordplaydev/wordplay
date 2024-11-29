@@ -14,13 +14,17 @@
     import Note from '../widgets/Note.svelte';
     import { Projects, locales } from '@db/Database';
 
-    export let project: Project;
-    export let map: MapLiteral | undefined;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        map: MapLiteral | undefined;
+        editable: boolean;
+    }
+
+    let { project, map, editable }: Props = $props();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
-    $: valid =
-        map !== undefined &&
+    let valid =
+        $derived(map !== undefined &&
         map.values.every(
             (kv) =>
                 kv instanceof KeyValue &&
@@ -30,7 +34,7 @@
                     project.shares.output.Pose,
                     project.getNodeContext(kv.value)
                 )
-        );
+        ));
 
     function revisePercent(kv: KeyValue | Expression, percent: string) {
         let text = percent.replace('%', '');

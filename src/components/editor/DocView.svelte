@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Doc from '@nodes/Doc';
     import NodeView from './NodeView.svelte';
 
-    export let node: Doc;
+    interface Props {
+        node: Doc;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <span class="pilcrow start"><NodeView node={node.open} /></span><NodeView

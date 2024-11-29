@@ -7,7 +7,10 @@
 
     const user = getUser();
 
-    $: if (browser && $user === null) goto('/login');
+    // Go to the login page if on the profile and not logged in.
+    $effect(() => {
+        if (browser && $user === null) goto('/login');
+    });
 </script>
 
 <!-- Is the user logged in?  -->

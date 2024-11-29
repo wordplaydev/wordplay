@@ -23,7 +23,7 @@
 
     const user = getUser();
 
-    let newGalleryError = false;
+    let newGalleryError = $state(false);
     async function newGallery() {
         newGalleryError = false;
         try {
@@ -39,7 +39,7 @@
     const galleries = Galleries.creatorGalleries;
 
     // Whether to show an error
-    let deleteError = false;
+    let deleteError = $state(false);
 </script>
 
 <svelte:head>

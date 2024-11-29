@@ -2,8 +2,12 @@
     import { getEmoji } from '../../unicode/Unicode';
     import Button from './Button.svelte';
 
-    export let pick: (emoij: string) => void;
-    export let emoji: string;
+    interface Props {
+        pick: (emoij: string) => void;
+        emoji: string;
+    }
+
+    let { pick, emoji }: Props = $props();
 </script>
 
 <div class="picker">

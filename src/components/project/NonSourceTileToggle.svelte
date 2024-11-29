@@ -7,8 +7,12 @@
     import Emoji from '@components/app/Emoji.svelte';
     import TileSymbols from './TileSymbols';
 
-    export let project: Project;
-    export let tile: Tile;
+    interface Props {
+        project: Project;
+        tile: Tile;
+    }
+
+    let { project, tile }: Props = $props();
 
     const dispatch = createEventDispatcher();
 </script>

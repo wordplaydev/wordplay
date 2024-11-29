@@ -30,17 +30,23 @@
     import AuraEditor from './AuraEditor.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    export let project: Project;
-    export let property: OutputProperty;
-    export let values: OutputPropertyValueSet;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        property: OutputProperty;
+        values: OutputPropertyValueSet;
+        editable: boolean;
+    }
 
-    let index = getConceptIndex();
-    $: bind = values.getBind();
-    $: bindConcept = bind ? $index?.getBindConcept(bind) : undefined;
-    $: valuesAreSet = values.areSet();
+    let { project, property, values, editable }: Props = $props();
 
-    let toggleView: HTMLButtonElement | undefined;
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let bind = $derived(values.getBind());
+    let bindConcept = $derived(bind ? index?.getBindConcept(bind) : undefined);
+    let valuesAreSet = $derived(values.areSet());
+
+    let toggleView: HTMLButtonElement | undefined = $state();
 
     async function toggleValues(set: boolean) {
         if (set) values.set(DB, project, $locales);
@@ -53,7 +59,7 @@
 </script>
 
 <NamedControl>
-    <svelte:fragment slot="name">
+    {#snippet name()}
         {#if bindConcept}<small
                 ><ConceptLinkUI
                     link={bindConcept}
@@ -72,8 +78,8 @@
                 action={() => toggleValues(!valuesAreSet)}
                 >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
             >{/if}
-    </svelte:fragment>
-    <svelte:fragment slot="control">
+    {/snippet}
+    {#snippet control()}
         {#if values.areMixed()}
             <Note>{$locales.get((l) => l.ui.palette.labels.mixed)}</Note>
         {:else if !values.areSet()}
@@ -154,5 +160,5 @@
                 <PlacementEditor {project} {placement} {editable} />
             {/if}
         {/if}
-    </svelte:fragment>
+    {/snippet}
 </NamedControl>

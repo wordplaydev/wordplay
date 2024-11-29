@@ -15,36 +15,22 @@
     import Button from '@components/widgets/Button.svelte';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
 
-    export let example: Example;
-    export let spaces: Spaces;
-    /** True if this example should show it's value. */
-    export let evaluated: boolean;
-    export let inline: boolean;
-
-    $: project = Project.make(
-        null,
-        'example',
-        new Source('example', [example.program, spaces]),
-        [],
-        $locales.getLocales(),
-    );
-    let value: Value | undefined = undefined;
-    let stage: Stage | undefined = undefined;
-    let evaluator: Evaluator | undefined;
-    $: {
-        if (evaluator) evaluator.ignore(update);
-
-        if (evaluated) {
-            evaluator = new Evaluator(project, DB, $locales.getLocales());
-            evaluator.observe(update);
-            evaluator.start();
-        } else {
-            evaluator = undefined;
-        }
+    interface Props {
+        example: Example;
+        spaces: Spaces;
+        /** True if this example should show it's value. */
+        evaluated: boolean;
+        inline: boolean;
     }
 
+    let { example, spaces, evaluated, inline }: Props = $props();
+
+    let value: Value | undefined = $state(undefined);
+    let stage: Stage | undefined = $state(undefined);
+    let evaluator: Evaluator | undefined = $state();
+
     function update() {
-        if (evaluator) {
+        if (evaluator && project) {
             value = evaluator.getLatestSourceValue(project.getMain());
             stage = value
                 ? toStage(evaluator, value, new NameGenerator())
@@ -61,23 +47,57 @@
         };
     });
 
-    let index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
 
     // Keep track of the last example so we can remove it when the example changes.
-    let lastExample = example;
-    $: {
-        if ($index) {
-            if (lastExample) {
-                $index.removeExample(lastExample.program.expression);
-            }
-            lastExample = example;
-            $index.addExample(example.program.expression);
-        }
-    }
+    let lastExample = $state(example);
 
     // Remove the example from the index.
     onDestroy(() => {
-        $index?.removeExample(example.program.expression);
+        index?.removeExample(example.program.expression);
+    });
+
+    // Derive a project from the example.
+    let project = $derived<Project | undefined>(
+        Project.make(
+            null,
+            'example',
+            new Source('example', [example.program, spaces]),
+            [],
+            $locales.getLocales(),
+        ),
+    );
+
+    function reset(hard: boolean) {
+        // Don't create a new evaluator if the project is the same.
+        if (!hard && evaluator && evaluator.project === project) return;
+
+        evaluator?.ignore(update);
+
+        if (evaluated && project) {
+            evaluator = new Evaluator(project, DB, $locales.getLocales());
+            evaluator.observe(update);
+            evaluator.start();
+        } else {
+            evaluator = undefined;
+        }
+    }
+
+    /** Reset when the project changes */
+    $effect(() => {
+        if (project) reset(false);
+    });
+
+    /** Add the example to the index when it changes so it can be dragged */
+    $effect(() => {
+        if (index && lastExample !== example) {
+            if (lastExample) {
+                index.removeExample(lastExample.program.expression);
+            }
+            lastExample = example;
+            index.addExample(example.program.expression);
+        }
     });
 </script>
 
@@ -93,7 +113,7 @@
             /></div
         >{#if evaluated && value}
             <div class="value"
-                >{#if stage && evaluator}
+                >{#if stage && evaluator && project}
                     <div class="stage">
                         <OutputView
                             {project}
@@ -108,9 +128,7 @@
     </div>
     <Button
         tip={$locales.get((l) => l.ui.timeline.button.reset)}
-        action={() => {
-            project = project;
-        }}>↻</Button
+        action={() => reset(true)}>↻</Button
     >
 </div>
 

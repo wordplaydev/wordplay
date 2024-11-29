@@ -17,17 +17,17 @@
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
 
-    let username = '';
-    let password = '';
-    let password2 = '';
-    let available: undefined | boolean = undefined;
-    let reveal = false;
+    let username = $state('');
+    let password = $state('');
+    let password2 = $state('');
+    let available: undefined | boolean = $state(undefined);
+    let reveal = $state(false);
 
     /** When true, login submission button shows loading spinner */
-    let loading = false;
+    let loading = $state(false);
 
     /** Feedback to show in the login form */
-    let feedback: string | undefined = undefined;
+    let feedback: string | undefined = $state(undefined);
 
     function createAccountFormComplete() {
         return (

@@ -3,6 +3,22 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.13.0 2024-11-02
+
+### Fixed
+
+-   Don't show expand/collapse toggle on guide.
+-   More consistent use of color and monochrome emojis.
+-   Removed several unused contexts.
+-   Faster caret movement by eliminating unnecessary recomputation.
+-   Fixed free form project layout.
+-   Corrected several invalid HTML issues for hydration.
+
+### Maintenance
+
+-   Migrated to Svelte 5, converting to $state, $derived, $effect, and snippets.
+-   Updated point releases of all dependencies, except Firebase.
+
 ## 0.12.4 2024-10-26
 
 ### Added

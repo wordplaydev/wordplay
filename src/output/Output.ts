@@ -71,8 +71,6 @@ export default abstract class Output extends Valued {
         this.exiting = exiting;
         this.duration = duration;
         this.style = style;
-
-        if (this.face) Fonts.loadFace(this.face);
     }
 
     abstract getLayout(context: RenderContext): {
@@ -101,14 +99,16 @@ export default abstract class Output extends Valued {
     */
     abstract find(check: (output: Output) => boolean): Output | undefined;
 
+    abstract gatherFaces(set: Set<SupportedFace>): Set<SupportedFace>;
+
     getRestOrDefaultPose(): Pose | Sequence {
         return this.resting ?? this.pose;
     }
 
     getFirstRestPose(): Pose {
         return this.resting instanceof Sequence
-            ? this.resting.getFirstPose() ?? this.pose
-            : this.resting ?? this.pose;
+            ? (this.resting.getFirstPose() ?? this.pose)
+            : (this.resting ?? this.pose);
     }
 
     getDefaultPose(): DefinitePose {

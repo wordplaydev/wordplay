@@ -2,10 +2,14 @@
     import type { Creator } from '@db/CreatorDatabase';
     import { locales } from '@db/Database';
 
-    export let creator: Creator | null;
-    export let anonymize = true;
+    interface Props {
+        creator: Creator | null;
+        anonymize?: boolean;
+    }
 
-    $: username = creator?.getUsername(anonymize) ?? '';
+    let { creator, anonymize = true }: Props = $props();
+
+    let username = $derived(creator?.getUsername(anonymize) ?? '');
 </script>
 
 <div class="creator"

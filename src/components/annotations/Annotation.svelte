@@ -9,16 +9,20 @@
     import type { Resolution } from '@conflicts/Conflict';
     import type Context from '@nodes/Context';
 
-    export let id: number;
-    export let annotations: AnnotationInfo[];
+    interface Props {
+        id: number;
+        annotations: AnnotationInfo[];
+    }
+
+    let { id, annotations }: Props = $props();
 
     function resolveAnnotation(resolution: Resolution, context: Context) {
-        const {newProject} = resolution.mediator(context, $locales);
+        const { newProject } = resolution.mediator(context, $locales);
         Projects.reviseProject(newProject);
     }
 </script>
 
-<div class="annotations" data-uiid="conflict">
+<div class="annotations">
     {#each annotations as annotation}
         <div
             class={`annotation ${annotation.kind} ${
@@ -34,7 +38,7 @@
                 flip={annotation.kind === 'secondary'}
                 below
             >
-                <svelte:fragment slot="content">
+                {#snippet content()}
                     {#each annotation.messages as markup}
                         <aside aria-label={markup.toText()}>
                             <MarkupHTMLView {markup} />
@@ -67,7 +71,7 @@
                             {/if}
                         </aside>
                     {/each}
-                </svelte:fragment>
+                {/snippet}
             </Speech>
         </div>
     {/each}

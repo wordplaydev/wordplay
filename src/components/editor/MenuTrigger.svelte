@@ -2,11 +2,16 @@
     import { getSetMenuNode } from '../project/Contexts';
     import type { CaretPosition } from '../../edit/Caret';
 
-    export let position: CaretPosition;
+    interface Props {
+        position: CaretPosition;
+    }
+
+    let { position }: Props = $props();
 
     const menuNode = getSetMenuNode();
 
-    function show() {
+    function show(event: PointerEvent | KeyboardEvent) {
+        event.stopPropagation();
         if (menuNode) {
             $menuNode(position);
         }
@@ -17,9 +22,10 @@
     class="trigger"
     role="button"
     tabindex="0"
-    on:pointerdown|stopPropagation={show}
-    on:keydown|stopPropagation={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? show() : undefined}>▾</span
+    onpointerdown={show}
+    onkeydown={(event) =>
+        event.key === 'Enter' || event.key === ' ' ? show(event) : undefined}
+    >▾</span
 >
 
 <style>

@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     import ColorJS from 'colorjs.io';
     import Slider from './Slider.svelte';
 
@@ -58,24 +58,38 @@
     import Button from './Button.svelte';
     import { getFirstName } from '../../locale/LocaleText';
 
-    /** a degree (any number remainder 360) */
-    export let hue: number;
-    /** any positive value to infinity */
-    export let chroma: number;
-    /** 0-1 */
-    export let lightness: number;
-    /** A handler */
-    export let change: (l: number, c: number, h: number) => void;
-    export let editable = true;
+    
+    
+    
+    
+    interface Props {
+        /** a degree (any number remainder 360) */
+        hue: number;
+        /** any positive value to infinity */
+        chroma: number;
+        /** 0-1 */
+        lightness: number;
+        /** A handler */
+        change: (l: number, c: number, h: number) => void;
+        editable?: boolean;
+    }
 
-    $: color = new ColorJS(
+    let {
+        hue = $bindable(),
+        chroma = $bindable(),
+        lightness = $bindable(),
+        change,
+        editable = true
+    }: Props = $props();
+
+    let color = $derived(new ColorJS(
         ColorJS.spaces.lch,
         [lightness * 100, chroma, hue],
         1,
-    );
+    ));
 
-    let hueWidth: number | undefined = undefined;
-    let hueHeight: number | undefined = undefined;
+    let hueWidth: number | undefined = $state(undefined);
+    let hueHeight: number | undefined = $state(undefined);
     function handleMouseMove(event: MouseEvent) {
         if (
             event.buttons !== 1 ||
@@ -94,11 +108,11 @@
 </script>
 
 <div class="component">
-    <div class="preview" style:background-color={color.display()} />
+    <div class="preview" style:background-color={color.display()}></div>
     <div
         class="bands"
-        on:pointerdown={editable ? handleMouseMove : null}
-        on:pointermove={editable ? handleMouseMove : null}
+        onpointerdown={editable ? handleMouseMove : null}
+        onpointermove={editable ? handleMouseMove : null}
         bind:clientWidth={hueWidth}
         bind:clientHeight={hueHeight}
     >
@@ -110,14 +124,14 @@
                     lightness * 100,
                     val,
                 ).join(', ')})"
-            />
+></div>
         {/each}
 
         <div
             class="selection"
             style:left="{hueToPercent(hue) * hueWidth}px"
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
-        />
+></div>
     </div>
     <div class="primary">
         {#each Primary as primary}<Button
@@ -134,7 +148,7 @@
                         ColorJS.spaces.lch,
                         primary,
                     ).display()}
-                /></Button
+></div></Button
             >{/each}
     </div>
     <div class="slider">

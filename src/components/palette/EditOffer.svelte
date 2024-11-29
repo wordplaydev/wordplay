@@ -1,26 +1,30 @@
 <script lang="ts">
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withMonoEmoji } from '../../unicode/emoji';
     import type { Template } from '../../locale/LocaleText';
     import type Locales from '../../locale/Locales';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import Button from '../widgets/Button.svelte';
 
-    export let symbols: string;
-    export let locales: Locales;
-    export let message: Template;
-    export let tip: string;
-    export let action: () => void;
-    export let command: string;
+    interface Props {
+        symbols: string;
+        locales: Locales;
+        message: Template;
+        tip: string;
+        action: () => void;
+        command: string;
+    }
+
+    let { symbols, locales, message, tip, action, command }: Props = $props();
 </script>
 
 <div class="offer">
     <Speech glyph={{ symbols }}>
-        <svelte:fragment slot="content">
+        {#snippet content()}
             <MarkupHtmlView markup={locales.concretize(message)} />
-        </svelte:fragment>
+        {/snippet}
     </Speech>
-    <Button large {tip} {action}>{withVariationSelector(command)}</Button>
+    <Button large {tip} {action}>{withMonoEmoji(command)}</Button>
 </div>
 
 <style>

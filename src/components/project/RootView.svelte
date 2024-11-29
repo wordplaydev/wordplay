@@ -1,7 +1,4 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
-    import { setContext } from 'svelte';
     import { writable } from 'svelte/store';
     import Docs from '@nodes/Docs';
     import Names from '@nodes/Names';
@@ -9,14 +6,13 @@
     import Spaces from '@parser/Spaces';
     import NodeView from '@components/editor/NodeView.svelte';
     import {
-        HiddenSymbol,
-        RootSymbol,
-        SpaceSymbol,
-        type SpaceContext,
-        CaretSymbol,
-        LocalizeSymbol,
-        ShowLinesSymbol,
-        BlocksSymbol,
+        setCaret,
+        setSpaces,
+        setHidden,
+        setLocalize,
+        setRoot,
+        setShowLines,
+        setIsBlocks,
     } from './Contexts';
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
@@ -28,59 +24,84 @@
     import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type { LocalizedValue } from '@db/LocalizedSetting';
 
-    export let node: Node;
-    /** Optional space. To enable preferred space, set flag below. */
-    export let spaces: Spaces | undefined = undefined;
-    /** Whether to render as blocks */
-    export let blocks: boolean;
-    /** Whether to be read only */
-    export let inert = false;
-    /** Whether to render inline */
-    export let inline = false;
-    /** If inline, and true, this will be a maximum width */
-    export let elide = false;
-    /** If true, hides names and docs not in a selected locale */
-    export let localized: LocalizedValue = 'symbolic';
-    export let caret: Caret | undefined = undefined;
-    /** Whether to show line numbers */
-    export let lines: boolean = false;
+    interface Props {
+        node: Node;
+        /** Optional space. To enable preferred space, set flag below. */
+        spaces?: Spaces | undefined;
+        /** Whether to render as blocks */
+        blocks: boolean;
+        /** Whether to be read only */
+        inert?: boolean;
+        /** Whether to render inline */
+        inline?: boolean;
+        /** If inline, and true, this will be a maximum width */
+        elide?: boolean;
+        /** If true, hides names and docs not in a selected locale */
+        localized?: LocalizedValue;
+        caret?: Caret | undefined;
+        /** Whether to show line numbers */
+        lines?: boolean;
+    }
+
+    let {
+        node,
+        spaces = undefined,
+        blocks,
+        inert = false,
+        inline = false,
+        elide = false,
+        localized = 'symbolic',
+        caret = undefined,
+        lines = false,
+    }: Props = $props();
 
     /** Get the root, or make one if it's not a source. */
-    $: root = node instanceof Source ? node.root : new Root(node);
+    let root = $derived(node instanceof Source ? node.root : new Root(node));
 
     // Expose the root in a store context for quick access to it.
-    let rootStore = writable(root);
-    $: rootStore.set(root);
-    setContext(RootSymbol, rootStore);
+    let rootContext = $state<{ root: Root | undefined }>({ root: undefined });
+    setRoot(rootContext);
+
+    $effect(() => {
+        rootContext.root = root;
+    });
 
     // When the spaces change, update the rendered spaces
-    let renderedSpace: SpaceContext = writable(
-        spaces ?? getPreferredSpaces(node),
-    );
-    setContext(SpaceSymbol, renderedSpace);
-    $: renderedSpace.set(spaces ?? getPreferredSpaces(node));
+    let renderedSpace = writable(spaces ?? getPreferredSpaces(node));
+    setSpaces(renderedSpace);
 
-    $: if (inert) setContext(CaretSymbol, undefined);
+    $effect(() => {
+        renderedSpace.set(spaces ?? getPreferredSpaces(node));
+    });
+
+    $effect(() => {
+        if (inert) setCaret(undefined);
+    });
 
     // A set of hidden nodes, such as hidden translations.
     let hidden = writable<Set<Node>>(new Set());
-    setContext(HiddenSymbol, hidden);
+    setHidden(hidden);
 
     let localize = writable<LocalizedValue>(localized ?? 'symbolic');
-    setContext(LocalizeSymbol, localize);
-    $: localize.set(localized ?? 'symbolic');
+    setLocalize(localize);
+    $effect(() => {
+        localize.set(localized ?? 'symbolic');
+    });
 
     let showLines = writable<boolean>(lines);
-    setContext(ShowLinesSymbol, showLines);
-    $: showLines.set(lines);
+    setShowLines(showLines);
+    $effect(() => {
+        showLines.set(lines);
+    });
 
     let isBlocks = writable<boolean>(blocks);
-    setContext(BlocksSymbol, isBlocks);
-    $: isBlocks.set(blocks);
+    setIsBlocks(isBlocks);
+    $effect(() => {
+        isBlocks.set(blocks);
+    });
 
     // Update what's hidden when locales or localized changes.
-    $: {
-        $locales;
+    $effect(() => {
         const newHidden = new Set<Node>();
 
         if ($localize !== 'actual') {
@@ -156,9 +177,11 @@
 
         // Update hidden nodes.
         hidden.set(newHidden);
-    }
+    });
 
-    $: lineDigits = spaces?.getLastLineNumber().toString().length ?? 3;
+    let lineDigits = $derived(
+        spaces?.getLastLineNumber().toString().length ?? 3,
+    );
 </script>
 
 {#if inline}

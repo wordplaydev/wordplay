@@ -1,7 +1,11 @@
 <script lang="ts">
-    export let placeholder: string | undefined;
-    export let text: string;
-    export let rendered: string;
+    interface Props {
+        placeholder: string | undefined;
+        text: string;
+        rendered: string;
+    }
+
+    let { placeholder, text, rendered }: Props = $props();
 </script>
 
 {#if placeholder !== undefined}<span class="placeholder">{placeholder}</span

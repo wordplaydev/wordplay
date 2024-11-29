@@ -6,9 +6,9 @@
     import Button from '@components/widgets/Button.svelte';
 
     const user = getUser();
-    $: device = $user === null;
+    let device = $derived($user === null);
 
-    let showError = false;
+    let showError = $state(false);
 </script>
 
 <Button

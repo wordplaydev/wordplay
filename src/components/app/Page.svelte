@@ -5,33 +5,44 @@
     import { locales } from '../../db/Database';
     import Link from './Link.svelte';
     import { writable } from 'svelte/store';
-    import { setContext } from 'svelte';
+    import { type Snippet } from 'svelte';
     import Color from '../../output/Color';
     import Emoji from './Emoji.svelte';
+    import {
+        setFullscreen,
+        type FullscreenContext,
+    } from '@components/project/Contexts';
 
-    export let home = false;
+    interface Props {
+        children: Snippet;
+        footer?: boolean;
+    }
+
+    let { children, footer = true }: Props = $props();
 
     // Set a fullscreen flag to indicate whether footer should hide or not.
     // It's the responsibility of children componets to set this based on their state.
     // It's primarily ProjectView that does this.
-    let fullscreen = writable<{
-        on: boolean;
-        background: Color | string | null;
-    }>({ on: false, background: null });
-    setContext('fullscreen', fullscreen);
+    let fullscreen: FullscreenContext = writable({
+        on: false,
+        background: null,
+    });
+    setFullscreen(fullscreen);
 
-    $: if (typeof document !== 'undefined' && $fullscreen) {
-        document.body.style.background = $fullscreen.on
-            ? $fullscreen.background instanceof Color
-                ? $fullscreen.background.toCSS()
-                : $fullscreen.background ?? ''
-            : '';
-        document.body.style.color = $fullscreen.on
-            ? $fullscreen.background instanceof Color
-                ? $fullscreen.background.contrasting().toCSS()
-                : ''
-            : '';
-    }
+    $effect(() => {
+        if (typeof document !== 'undefined' && $fullscreen) {
+            document.body.style.background = $fullscreen.on
+                ? $fullscreen.background instanceof Color
+                    ? $fullscreen.background.toCSS()
+                    : ($fullscreen.background ?? '')
+                : '';
+            document.body.style.color = $fullscreen.on
+                ? $fullscreen.background instanceof Color
+                    ? $fullscreen.background.contrasting().toCSS()
+                    : ''
+                : '';
+        }
+    });
 
     function handleKey(event: KeyboardEvent) {
         if (
@@ -44,15 +55,15 @@
     }
 </script>
 
-<svelte:window on:keydown={handleKey} />
+<svelte:window onkeydown={handleKey} />
 
 <div class="page">
     <main>
-        <slot />
+        {@render children()}
     </main>
     <footer class:fullscreen={$fullscreen.on}>
         <nav>
-            {#if !home}
+            {#if footer}
                 <Link nowrap tip={$locales.get((l) => l.ui.widget.home)} to="/"
                     ><Emoji>💬</Emoji></Link
                 >

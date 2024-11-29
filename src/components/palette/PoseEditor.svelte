@@ -13,17 +13,23 @@
     import { Projects, locales } from '@db/Database';
     import getPoseProperties from '@edit/PoseProperties';
 
-    export let project: Project;
-    // takes in a list of outputexpressions to modify
-    export let outputs: OutputExpression[];
-    export let sequence: boolean;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        // takes in a list of outputexpressions to modify
+        outputs: OutputExpression[];
+        sequence: boolean;
+        editable: boolean;
+    }
 
-    $: PoseProperties = getPoseProperties(project, $locales, false);
+    let { project, outputs, sequence, editable }: Props = $props();
+
+    let PoseProperties = $derived(getPoseProperties(project, $locales, false));
 
     // Create a mapping from pose properties to values
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
-    $: {
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
+        new Map(),
+    );
+    $effect(() => {
         propertyValues = new Map();
 
         // Map the properties to a set of values.
@@ -33,7 +39,7 @@
             if (!valueSet.isEmpty() && valueSet.onAll())
                 propertyValues.set(property, valueSet);
         }
-    }
+    });
 
     function convert() {
         Projects.revise(

@@ -5,8 +5,12 @@
     import { onMount } from 'svelte';
     import type BindConcept from '../../concepts/BindConcept';
 
-    export let concept: StreamConcept;
-    export let subconcept: BindConcept | undefined = undefined;
+    interface Props {
+        concept: StreamConcept;
+        subconcept?: BindConcept | undefined;
+    }
+
+    let { concept, subconcept = undefined }: Props = $props();
 
     onMount(() => {
         if (subconcept) {

@@ -1,4 +1,4 @@
-<div class="separator" role="presentation" />
+<div class="separator" role="presentation"></div>
 
 <style>
     .separator {

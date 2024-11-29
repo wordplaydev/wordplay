@@ -7,15 +7,21 @@
     import { locales } from '@db/Database';
     import getSequenceProperties from '../../edit/SequenceProperties';
 
-    export let project: Project;
-    export let outputs: OutputExpression[];
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        outputs: OutputExpression[];
+        editable: boolean;
+    }
 
-    $: SequenceProperties = getSequenceProperties(project, $locales);
+    let { project, outputs, editable }: Props = $props();
+
+    let SequenceProperties = $derived(getSequenceProperties(project, $locales));
 
     // Create a mapping from pose properties to values
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
-    $: {
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
+        new Map(),
+    );
+    $effect(() => {
         propertyValues = new Map();
 
         // Map the properties to a set of values.
@@ -25,7 +31,7 @@
             if (!valueSet.isEmpty() && valueSet.onAll())
                 propertyValues.set(property, valueSet);
         }
-    }
+    });
 </script>
 
 <div class="sequence-properties">

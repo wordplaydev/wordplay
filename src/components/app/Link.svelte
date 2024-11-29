@@ -1,21 +1,32 @@
 <script lang="ts">
     import { page } from '$app/stores';
 
-    export let to: string;
-    export let tip: string | undefined = undefined;
-    export let nowrap = false;
-    export let external = false;
+    interface Props {
+        to: string;
+        tip?: string | undefined;
+        nowrap?: boolean;
+        external?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        to,
+        tip = undefined,
+        nowrap = false,
+        external = false,
+        children
+    }: Props = $props();
 </script>
 
 {#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
-    <slot />
+    {@render children?.()}
 {:else}<a
         data-sveltekit-preload-data="tap"
         title={tip}
         href={to}
         target={external ? '_blank' : null}
         class:nowrap
-        ><slot />{#if external}<span class="external">↗</span>{/if}</a
+        >{@render children?.()}{#if external}<span class="external">↗</span>{/if}</a
     >
 {/if}
 

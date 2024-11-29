@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import NodeView from './NodeView.svelte';
     import type FormattedType from '../../nodes/FormattedType';
 
-    export let node: FormattedType;
+    interface Props {
+        node: FormattedType;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.tick} />

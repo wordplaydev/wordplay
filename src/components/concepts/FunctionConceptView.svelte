@@ -5,10 +5,14 @@
     import type BindConcept from '../../concepts/BindConcept';
     import { onMount } from 'svelte';
 
-    export let concept: FunctionConcept;
-    export let subconcept: BindConcept | undefined = undefined;
+    interface Props {
+        concept: FunctionConcept;
+        subconcept?: BindConcept | undefined;
+    }
 
-    $: type = concept.definition.getOutputType(concept.context);
+    let { concept, subconcept = undefined }: Props = $props();
+
+    let type = $derived(concept.definition.getOutputType(concept.context));
 
     onMount(() => {
         if (subconcept) {

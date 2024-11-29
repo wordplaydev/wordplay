@@ -6,10 +6,19 @@
     import { getProject } from '../project/Contexts';
     import { Projects } from '../../db/Database';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let options: OutputPropertyOptions;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        options: OutputPropertyOptions;
+        editable: boolean;
+    }
+
+    let {
+        property,
+        values,
+        options,
+        editable
+    }: Props = $props();
 
     let project = getProject();
 

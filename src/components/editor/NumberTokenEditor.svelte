@@ -5,10 +5,19 @@
     import { toTokens } from '@parser/toTokens';
     import TokenTextEditor from './TokenEditor.svelte';
 
-    export let number: Token;
-    export let project: Project;
-    export let text: string;
-    export let placeholder: string;
+    interface Props {
+        number: Token;
+        project: Project;
+        text: string;
+        placeholder: string;
+    }
+
+    let {
+        number,
+        project,
+        text,
+        placeholder
+    }: Props = $props();
 </script>
 
 <TokenTextEditor

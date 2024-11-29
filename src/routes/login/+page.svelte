@@ -10,7 +10,10 @@
 
     let user = getUser();
 
-    $: if (browser && $user !== null) goto('/profile');
+    /** Go to profile if logged in. */
+    $effect(() => {
+        if (browser && $user !== null) goto('/profile');
+    });
 </script>
 
 <Writing>

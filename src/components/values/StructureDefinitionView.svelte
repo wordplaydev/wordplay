@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type StructureDefinitionValue from '@values/StructureDefinitionValue';
     import SymbolView from './SymbolView.svelte';
@@ -7,8 +5,12 @@
     import Sym from '@nodes/Sym';
     import { locales } from '../../db/Database';
 
-    export let value: StructureDefinitionValue;
-    export let inline = true;
+    interface Props {
+        value: StructureDefinitionValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 </script>
 
 {#if inline || !inline}<SymbolView

@@ -1,13 +1,15 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Language from '@nodes/Language';
     import NodeView from './NodeView.svelte';
-    import { isBlocks } from '@components/project/Contexts';
+    import { getIsBlocks } from '@components/project/Contexts';
 
-    export let node: Language;
+    interface Props {
+        node: Language;
+    }
 
-    const blocks = isBlocks();
+    let { node }: Props = $props();
+
+    const blocks = getIsBlocks();
 </script>
 
 <em class="language {$blocks ? 'blocks' : ''}"

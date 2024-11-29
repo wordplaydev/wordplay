@@ -1,8 +1,13 @@
 <script lang="ts">
-    export let capitalized = true;
+    interface Props {
+        capitalized?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let { capitalized = true, children }: Props = $props();
 </script>
 
-<span class:capitalized><slot /></span>
+<span class:capitalized>{@render children?.()}</span>
 
 <style>
     span {
