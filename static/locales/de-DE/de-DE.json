@@ -95,7 +95,7 @@
         "Select": "wählen",
         "Insert": "einfügen",
         "Update": "updaten",
-        "Delete": "löschen",  
+        "Delete": "löschen",
         "Union": "Union",
         "Stream": "Datenstrom",
         "Change": "verändern",
@@ -453,7 +453,8 @@
                 "ExpectedEndingExpression": "$~Ich brauche einen Ausdruck.",
                 "IgnoredExpression": {
                     "primary": "$~Ich werde das oben Gesagte ignorieren.",
-                    "secondary": "$~@Block, ignorier mich nicht!"
+                    "secondary": "$~@Block, ignorier mich nicht!",
+                    "resolution": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben."
                 }
             }
         },
@@ -3315,7 +3316,8 @@
             "gravity": {
                 "doc": "$~Die Schwerkraft, die auf die Ausgabe angewendet werden soll, deren Platz in @Motion ist.",
                 "names": "$~Schwere"
-            }
+            },
+            "defaultDescription": "$~Stufe $2[$2 |]von $1 gibt $3 aus[mit Rahmen $3|] $4"
         },
         "Group": {
             "names": ["$~🔳", "$~Gruppe"],
@@ -3415,7 +3417,8 @@
             "style": {
                 "doc": "$~Dasselbe wie @Phrase/Stil!",
                 "names": "$~Stil"
-            }
+            },
+            "defaultDescription": "$~$1[$1|] $2 $3"
         },
         "Phrase": {
             "names": ["💬", "Satzglied"],
@@ -3526,7 +3529,8 @@
             "style": {
                 "doc": "$~Der zu verwendende Animationsstil beim Wechsel an eine andere Stelle auf der Bühne.",
                 "names": "$~Stil"
-            }
+            },
+            "defaultDescription": "$~$3[$3 Takt |]Phrase $1 $2[benannt $2|] $4[$4|] $5"
         },
         "Arrangement": {
             "names": ["Arrangement"],
@@ -3661,6 +3665,12 @@
             "style": {
                 "doc": "$~Der Animationsstil, den ich verwenden sollte.",
                 "names": "$~Stil"
+            },
+            "description": {
+                "doc": [
+                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
+                ],
+                "names": "$~Beschreibung"
             }
         },
         "Form": {
@@ -4224,7 +4234,8 @@
                 "redo": "$~Rückgängig gemachte Bearbeitung wiederholen",
                 "search": "$~Suche nach einzufügenden Sonderzeichen",
                 "tidy": "$~ordentlicher Abstand",
-                "elide": "$~Elision umschalten"
+                "elide": "$~Elision umschalten",
+                "insertDocs": "$~Erklärungssymbol einfügen"
             }
         },
         "annotations": {
@@ -4262,6 +4273,9 @@
             },
             "button": {
                 "submit": "$~diese Chat-Nachricht senden"
+            },
+            "options": {
+                "locale": "$~Wählen Sie die Sprache für die Ausgabe"
             }
         },
         "timeline": {
@@ -4406,6 +4420,13 @@
                             "$~Code nicht lokalisieren",
                             "$~Code lokalisieren, wenn verfügbar",
                             "$~Code lokalisieren, aber Symbole bevorzugen"
+                        ]
+                    },
+                    "lines": {
+                        "label": "$~Zeilennummern",
+                        "modes": [
+                            "$~Zeilennummern im Textmodus anzeigen",
+                            "$~Zeilennummern im Textmodus nicht anzeigen"
                         ]
                     }
                 },
