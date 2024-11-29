@@ -37,7 +37,7 @@
     let { set, edit, remove, copy, children }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
-        return projects.toSorted((a, b) =>
+        return [...projects].sort((a, b) =>
             a.getName().localeCompare(b.getName(), $locales.getLanguages()),
         );
     }
