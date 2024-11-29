@@ -3151,7 +3151,7 @@
                             "kind",
                             "That size can be any expression. For example, say we wanted it to grow as @Time ticks. We can take time, multiply it by a fraction of a meter, and glorious, tick tick tick, hi hi hi. Try changing the frequency or the multiplier. See what beautiful growth you can create!"
                         ],
-                        ["fit", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
+                        ["fix", "Phrase('hi' Time(100ms) · 0.001m/ms)"],
                         null,
                         [
                             "Phrase",
