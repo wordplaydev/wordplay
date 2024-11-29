@@ -78,6 +78,7 @@ class Log {
 
 /** We use this for repair. Make sure it's valid before we do any repairs. */
 const DefaultLocale = getLocaleJSON(new Log(), 'en-US') as LocaleText;
+const DefaultTutorial = getTutorialJSON(new Log(), 'en-US') as Tutorial;
 
 if (!LocaleValidator(DefaultLocale)) {
     console.log(
@@ -197,11 +198,11 @@ function repairLocale(
 }
 
 /** Load, validate, and check the tutorial. */
-function validateTutorial(
+async function validateTutorial(
     log: Log,
     locale: LocaleText,
     tutorialJSON: Tutorial,
-): Tutorial | undefined {
+): Promise<Tutorial | undefined> {
     const validate = ajv.compile(tutorialSchema);
     const valid = validate(tutorialJSON);
     if (!valid && validate.errors) {
@@ -215,7 +216,9 @@ function validateTutorial(
         }
     } else log.good(2, 'Found valid tutorial.');
 
-    return checkTutorial(log, locale, tutorialJSON as Tutorial);
+    const revisedJSON = await checkTutorial(log, locale, tutorialJSON as Tutorial);
+
+    return revisedJSON;
 }
 
 class StringPath {
@@ -526,6 +529,87 @@ async function translate(
     return revised;
 }
 
+async function translateTutorial(
+    log: Log,
+    source: Tutorial,
+    target: Tutorial,
+    unwritten: StringPath[],
+) {
+    const revised = JSON.parse(JSON.stringify(target)) as Tutorial; // 深拷贝目标对象
+
+    // 从 source 提取需要翻译的字符串
+    const sourceStrings = unwritten
+        .map((path) => {
+            const match = path.resolve(source); // 从 source 中解析路径值
+            return match === undefined
+                ? undefined
+                : Array.isArray(match) // 如果值是数组，则返回数组内容，否则直接返回值
+                ? match
+                : match;
+        })
+        .filter((s) => s !== undefined)
+        .flat(); // 将数组展开为一维
+
+    // 将字符串分组，每组最多100个
+    const sourceStringsBatches: string[][] = [];
+    while (sourceStrings.length > 0) {
+        sourceStringsBatches.push(sourceStrings.splice(0, 100));
+    }
+
+    // 调用 Google Translate API 翻译字符串
+    let translations: string[] = [];
+    for (const batch of sourceStringsBatches) {
+        try {
+            const translator = new Translate.v2.Translate();
+            const [translatedBatch] = await translator.translate(batch, {
+                from: source.language,
+                to: target.language,
+            });
+            translations = [...translations, ...translatedBatch]; // 累积翻译结果
+        } catch (error) {
+            log.bad(
+                2,
+                "翻译失败。请确保 gcloud CLI 配置正确，错误信息：" + error,
+            );
+            return revised; // 如果翻译失败，返回原始目标对象
+        }
+    }
+
+    // 根据 unwritten 的路径，将翻译后的字符串写入 revised 对象
+    for (const path of unwritten) {
+        const match = path.resolve(source); // 从 source 获取当前路径的值
+        if (match !== undefined) {
+            if (
+                Array.isArray(match) &&
+                match.every((s) => typeof s === 'string') // 确保是字符串数组
+            ) {
+                const value = [];
+                for (let i = 0; i < match.length; i++) {
+                    let next = translations.shift();
+                    if (next) {
+                        value.push(`${MachineTranslated}${next.trim()}`); // 添加翻译标记
+                    }
+                }
+                path.repair(revised, value); // 更新目标路径的值
+            } else if (typeof match === 'string') {
+                let translation = translations.shift();
+                if (translation) {
+                    path.repair(
+                        revised,
+                        `${MachineTranslated}${translation.trim()}`, // 单个字符串翻译并更新
+                    );
+                }
+            }
+        }
+    }
+
+    return revised; // 返回更新后的对象
+}
+
+
+
+
+
 /** Given a locale, check it's validity, and repair what we can. */
 async function checkLocale(
     log: Log,
@@ -711,8 +795,32 @@ function checkTutorialLineType(line: Line): boolean {
     );
 }
 
-function checkTutorial(log: Log, locale: LocaleText, original: Tutorial) {
-    const revised = JSON.parse(JSON.stringify(original)) as Tutorial;
+async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): Promise<Tutorial | undefined> {
+    let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
+
+    // Get the key/value pairs
+    let pairs: StringPath[] = getKeyTemplatePairs(revised);
+
+    const unwritten = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isUnwritten(value)
+            : value.some((s) => isUnwritten(s)),
+    );
+
+    if (unwritten.length > 0) {
+        log.bad(
+            2,
+            `Tutorial has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
+        );
+
+        revised = await translateTutorial(
+            log,
+            DefaultTutorial,
+            revised,
+            unwritten,
+        );
+    }
+
 
     const programs = revised.acts
         .map((act) => {
@@ -904,7 +1012,7 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                 }
 
                 // Validate, repair, and translate the tutorial file.
-                const revisedTutorial = validateTutorial(
+                const revisedTutorial = await validateTutorial(
                     log,
                     revisedLocale,
                     currentTutorial as Tutorial,
