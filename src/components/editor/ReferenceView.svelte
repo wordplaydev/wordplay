@@ -96,6 +96,6 @@
     }
 
     .StreamDefinition {
-        text-shadow: 3px 3px 2px var(--wordplay-chrome);
+        text-decoration: underline dotted;
     }
 </style>
