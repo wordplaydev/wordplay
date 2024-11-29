@@ -200,7 +200,7 @@
                             "The instructions can get as sophisticated as you want, but there are a few rules.",
                             "For example, I can only evaluate to one *value* and show that value on stage. That one value can be as complex as you want, and as long as I know how to show it, I will.",
                             "But if you give me two things, I'll only show the last thing you give me.",
-                            "For example, try adding another instruction after the text you typed, whatever word you want, in quotes."
+                            "For example, try adding another line and then typing whatever word you want, in quotes."
                         ],
                         null,
                         [
@@ -853,7 +853,7 @@
                             "Text",
                             "excited",
                             "You can even write multiple translations of me in different languages. I'll evaluate to the closest match for the current language, letting you put on multilingual performances.",
-                            "You might not be able to see it unless you put the cursor inside me. I hide my little languages unless you're editing them. Move the cursor before the English and you'll see a surprise translation...",
+                            "By default, if the cursor isn't in the text, you will only see the name of the language you've chosen. Try moving the cursor in and out of the text to see the multiple translations show and hide.",
                             "You can try adding another translation. Just don't put any space between them or there'll be two of me!"
                         ],
                         null,
