@@ -39,7 +39,6 @@
         describeMovedOutput,
         describedChangedOutput,
     } from './OutputDescriptions';
-    import ConversionDefinitionValue from '@values/ConversionDefinitionValue';
 
     interface Props {
         project: Project;
@@ -121,6 +120,9 @@
     /** A set of all currently exiting outputs that need to be rendered in their last location. */
     let exiting: OutputInfoSet = $state(new Map());
 
+    /** A set of output names recently removed, used to avoid adding exited outputs that were already exited by the animaator. */
+    let recentlyExited = new Set<string>();
+
     let entered: Map<string, Output> = $state(new Map());
     let present: Map<string, Output> = $state(new Map());
     let moved: Moved = $state(new Map());
@@ -198,11 +200,9 @@
                 evaluator,
                 // When output exits, remove it from the map and triggering a render so that its removed from stage.
                 (name) => {
-                    if (exiting.has(name)) {
-                        exiting.delete(name);
-                        // Update the set to force render
-                        exiting = new Map(exiting);
-                    }
+                    // Remember that we exited this name.
+                    recentlyExited.add(name);
+                    if (exiting.has(name)) exiting.delete(name);
                 },
                 // When the animating poses or sequences on stage change, update the store
                 (nodes) => {
@@ -297,13 +297,18 @@
                 if (results !== undefined) {
                     ({ entered, present, moved, animate } = results);
 
-                    // Get the list of newly exited phrases and add them to our set.
+                    // Get the list of newly exited phrases and add them to our set,
+                    // unless they were recently removed.
                     const newExiting = new Map();
-                    for (const [key, val] of results.exiting) {
-                        newExiting.set(key, val);
+                    for (const [name, info] of results.exiting) {
+                        if (!recentlyExited.has(name))
+                            newExiting.set(name, info);
                     }
                     // Update the map of exiting outputs to render them to the view
                     exiting = new Map(newExiting);
+
+                    // Reset the recently exited.
+                    recentlyExited.clear();
                 }
 
                 // Defer animation initialization until we have a view so that animations can be bound to DOM elements.
