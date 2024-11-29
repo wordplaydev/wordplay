@@ -378,6 +378,9 @@ export class FontManager {
 
     facesLoaded = new Map<SupportedFace, 'requested' | 'loaded' | 'failed'>();
 
+    /** A cache of font strings for which FontFaceSet.check() returned true */
+    facesChecked = new Set<string>();
+
     constructor() {
         // Mark these as loaded so we don't redundantly load them.
         for (const face of this.defaultFaces)
@@ -405,9 +408,16 @@ export class FontManager {
     }
 
     isFaceLoaded(face: SupportedFace) {
-        return (
-            this.isFaceRequested(face) && document.fonts.check(`12px "${face}"`)
-        );
+        const faceString = `12px "${face}"`;
+        const checked = this.facesChecked.has(faceString);
+
+        if (checked) return true;
+        if (!this.isFaceRequested(face)) return false;
+        const check = document.fonts.check(faceString);
+        if (check) {
+            this.facesChecked.add(faceString);
+            return true;
+        } else return false;
     }
 
     loadLocales(locales: LocaleText[]) {
