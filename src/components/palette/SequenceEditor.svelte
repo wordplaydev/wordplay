@@ -6,6 +6,7 @@
     import type OutputExpression from '@edit/OutputExpression';
     import { locales } from '@db/Database';
     import getSequenceProperties from '../../edit/SequenceProperties';
+    import { untrack } from 'svelte';
 
     interface Props {
         project: Project;
@@ -25,12 +26,14 @@
         propertyValues = new Map();
 
         // Map the properties to a set of values.
-        for (const property of SequenceProperties) {
-            const valueSet = new OutputPropertyValueSet(property, outputs);
-            // Exclue any properties that happen to have no values.
-            if (!valueSet.isEmpty() && valueSet.onAll())
-                propertyValues.set(property, valueSet);
-        }
+        untrack(() => {
+            for (const property of SequenceProperties) {
+                const valueSet = new OutputPropertyValueSet(property, outputs);
+                // Exclue any properties that happen to have no values.
+                if (!valueSet.isEmpty() && valueSet.onAll())
+                    propertyValues.set(property, valueSet);
+            }
+        });
     });
 </script>
 
