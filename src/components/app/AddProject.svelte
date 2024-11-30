@@ -39,7 +39,7 @@
     bind:show={adding}
     description={$locales.get((l) => l.ui.page.projects.add)}
 >
-    <div class="templates">
+    <div class="templates" data-testid="addprojecttemplates">
         {#each templates as project}
             <ProjectPreview {project} action={() => add(project)} />{:else}
             <div class="center"><Spinning large></Spinning></div>

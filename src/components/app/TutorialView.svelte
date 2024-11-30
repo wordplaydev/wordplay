@@ -37,7 +37,6 @@
     import { moderatedFlags } from '../../models/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
-    import { highlight } from '@vitest/utils';
 
     interface Props {
         progress: Progress;
