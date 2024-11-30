@@ -23,7 +23,7 @@
         uiid = undefined,
         command = undefined,
         background = false,
-        children
+        children,
     }: Props = $props();
 
     async function doToggle(event: Event) {
@@ -33,9 +33,11 @@
         }
     }
 
-    let title = $derived(`${on ? tips.on : tips.off}${
-        command ? ' (' + toShortcut(command) + ')' : ''
-    }`);
+    let title = $derived(
+        `${on ? tips.on : tips.off}${
+            command ? ' (' + toShortcut(command) + ')' : ''
+        }`,
+    );
 </script>
 
 <!-- 

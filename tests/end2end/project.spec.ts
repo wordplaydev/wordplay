@@ -24,7 +24,7 @@ test('create project and visit its tiles ', async ({ page }) => {
     // Click to open the palette
     await page
         .getByRole('button')
-        .filter({ has: page.getByText(/.+palette/) })
+        .filter({ hasText: /.+palette/ })
         .click();
 
     // Expect the palette to be visible.
