@@ -19,6 +19,7 @@
 
 <Toggle
     uiid="{tile.id}Expand"
+    testid="{tile.id}-toggle"
     tips={$locales.get((l) => l.ui.tile.toggle.show)}
     on={tile.isExpanded()}
     toggle={() => dispatch('toggle')}

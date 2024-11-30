@@ -10,6 +10,7 @@
         toggle: () => void;
         active?: boolean;
         uiid?: string | undefined;
+        testid?: string | undefined;
         command?: Command | undefined;
         background?: boolean;
         children: Snippet;
@@ -21,6 +22,7 @@
         toggle,
         active = true,
         uiid = undefined,
+        testid = undefined,
         command = undefined,
         background = false,
         children,
@@ -48,6 +50,7 @@
     type="button"
     class:background
     data-uiid={uiid}
+    data-testid={testid}
     class:on
     {title}
     aria-label={title}

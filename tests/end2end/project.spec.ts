@@ -19,13 +19,10 @@ test('create project and visit its tiles ', async ({ page }) => {
     await expect(page.getByTestId('editor')).toHaveCount(1);
 
     // Click to open the guide
-    await page.getByText(/.+guide/, {}).click();
+    await page.getByTestId('docs-toggle').click();
 
     // Click to open the palette
-    await page
-        .getByRole('button')
-        .filter({ hasText: /.+palette/ })
-        .click();
+    await page.getByTestId('palette-toggle').click();
 
     // Expect the guide to be visible.
     await expect(page.getByTestId('documentation')).toBeVisible();
