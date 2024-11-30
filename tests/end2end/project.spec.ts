@@ -9,24 +9,27 @@ test('create project and visit its tiles ', async ({ page }) => {
     // Click the first preview link
     await page.getByTestId('preview').nth(1).click();
 
-    // Expect an output view
+    // Wait for the URL redirect to the project.
+    await page.waitForURL(/\/project\/.+/);
+
+    // Expect an output view to be visible.
     await expect(page.getByTestId('output')).toHaveCount(1);
 
-    // Expect to have an editor view
+    // Expect to have an editor to be visible.
     await expect(page.getByTestId('editor')).toHaveCount(1);
 
-    // Click to open the guide and expect it to be visible.
+    // Click to open the guide
     await page.getByText(/.+guide/, {}).click();
+
+    // Click to open the palette
+    await page
+        .getByRole('button')
+        .filter({ hasText: /.+palette/ })
+        .click();
 
     // Expect the guide to be visible.
     await expect(page.getByTestId('documentation')).toBeVisible();
 
-    // Click to open the palette
-    // await page
-    //     .getByRole('button')
-    //     .filter({ hasText: /.+palette/ })
-    //     .click();
-
     // // Expect the palette to be visible.
-    // await expect(page.getByTestId('palette')).toBeVisible();
+    await expect(page.getByTestId('palette')).toBeVisible();
 });
