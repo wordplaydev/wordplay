@@ -95,8 +95,9 @@
         .join(', ')}
     lang={$locales.getLocale().language}
 >
-    {@render children()}
     {#if !loaded && lag}
         <Loading />
+    {:else}
+        {@render children()}
     {/if}
 </div>
