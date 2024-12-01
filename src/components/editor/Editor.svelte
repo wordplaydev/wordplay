@@ -278,11 +278,13 @@
         // If the program contains this node, scroll it's first token into view.
         const stepNode = evaluator.getStepNode();
         if (stepNode && source.has(stepNode)) {
-            // Wait for everything to render, then find the node to scroll to.
+            // Wait for everything to render...
             await tick();
+
+            // Then find the node to scroll to. Keep searching for a visible node,
+            // in case the step node is invisible.
             let highlight: Node | undefined = stepNode;
             let element = null;
-            // Keep searching for a visible node, in case the step node is invisible.
             do {
                 element = document.querySelector(`[data-id="${highlight.id}"]`);
                 if (element !== null) break;

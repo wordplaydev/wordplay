@@ -206,9 +206,9 @@
         });
     });
 
-    // When caret location or view changes, tick, then scroll to it.
+    // When caret location or view changes and not playing, tick, then scroll to it.
     $effect(() => {
-        if (location && element)
+        if (location && element && $evaluation.playing)
             tick().then(() => {
                 if (element) element.scrollIntoView({ block: 'nearest' });
             });
