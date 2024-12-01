@@ -3,6 +3,14 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.13.1 2024-11-30
+
+### Fixed
+
+-   Resume animations after unpausing
+-   Fixed $effect cycle in palette
+-   Fixed label ids on palette
+
 ## 0.13.0 2024-11-02
 
 ### Fixed

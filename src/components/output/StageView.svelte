@@ -189,29 +189,42 @@
         }
     });
 
+    function resetAnimator() {
+        if (animator !== undefined) animator.stop();
+        // Make a new one.
+        animator = new Animator(
+            evaluator,
+            // When output exits, remove it from the map and triggering a render so that its removed from stage.
+            (name) => {
+                // Remember that we exited this name.
+                recentlyExited.add(name);
+                if (exiting.has(name)) exiting.delete(name);
+            },
+            // When the animating poses or sequences on stage change, update the store
+            (nodes) => {
+                // Update the set of animated nodes.
+                if (interactive && animatingNodes)
+                    animatingNodes.set(new Set(nodes));
+            },
+        );
+    }
+
     // When the evaluator changes, stop the animator and create a new animator for the new evaluator.
     $effect(() => {
         evaluator;
         // Previous scene? Stop it.
-        untrack(() => {
-            if (animator !== undefined) animator.stop();
-            // Make a new one.
-            animator = new Animator(
-                evaluator,
-                // When output exits, remove it from the map and triggering a render so that its removed from stage.
-                (name) => {
-                    // Remember that we exited this name.
-                    recentlyExited.add(name);
-                    if (exiting.has(name)) exiting.delete(name);
-                },
-                // When the animating poses or sequences on stage change, update the store
-                (nodes) => {
-                    // Update the set of animated nodes.
-                    if (interactive && animatingNodes)
-                        animatingNodes.set(new Set(nodes));
-                },
-            );
-        });
+        untrack(() => resetAnimator());
+    });
+
+    // Stop or When the evaluator is playing but the animator is stopped, create a new animator.
+    $effect(() => {
+        if (animator) {
+            if ($evaluation.playing) {
+                if (animator.isStopped()) untrack(() => resetAnimator());
+            } else {
+                animator.stop();
+            }
+        }
     });
 
     let context = $derived(

@@ -119,6 +119,10 @@ export default class Animator {
         this.physics = new Physics(evaluator);
     }
 
+    isStopped() {
+        return this.stopped;
+    }
+
     /**
      * When any of the following inputs change, update the stage accordingly so that the
      * rendered screen reflects it.
