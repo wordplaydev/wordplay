@@ -23,5 +23,7 @@ jobs:
                   cache: 'npm'
             - run: npm ci
               name: Install dependencies
+            - run: npx svelte-kit sync
+              name: Sync svelte-kit
             - run: npx svelte-check --tsconfig ./tsconfig.json .svelte-kit
               name: Run svelte-check
