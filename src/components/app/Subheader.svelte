@@ -13,5 +13,7 @@
 <style>
     h2 {
         font-size: min(6vw, 20pt);
+        margin-block-start: 1.5em;
+        margin-block-end: 0;
     }
 </style>
