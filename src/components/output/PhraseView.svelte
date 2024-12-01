@@ -287,9 +287,7 @@
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{withColorEmoji(
-                text.text,
-            )}{:else if text instanceof Markup}<MarkupHtmlView
+        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
                 inline
             />{/if}
