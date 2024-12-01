@@ -2,6 +2,8 @@
     import type TextValue from '@values/TextValue';
     import UnicodeString from '../../models/UnicodeString';
     import Expandable from './Expandable.svelte';
+    import Sym from '@nodes/Sym';
+    import SymbolView from './SymbolView.svelte';
 
     interface Props {
         value: TextValue;
@@ -18,11 +20,14 @@
 {#if inline && text.length > limit}
     <Expandable
         >{#snippet expanded()}
-                {text}
-            {/snippet}
-            {#snippet collapsed()}
-            {new UnicodeString(text)
+            <SymbolView symbol={text} type={Sym.Text} />
+        {/snippet}
+        {#snippet collapsed()}
+            <SymbolView
+                symbol="{new UnicodeString(text)
                     .substring(0, limit)
-                    .toString()}…
-            {/snippet}</Expandable
-    >{:else}{text}{/if}
+                    .toString()}…"
+                type={Sym.Text}
+            />
+        {/snippet}</Expandable
+    >{:else}<SymbolView symbol={text} type={Sym.Text} />{/if}

@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed exiting reactivity bug in StageView.
 -   Fixed Safari color emoji rendering.
 -   Fixed history update on initial guide navigation.
+-   Fixed rendering of text values for stepping highlights.
 
 ### Maintenance
 
