@@ -18,10 +18,11 @@
         editable?: boolean;
         classes?: string[] | undefined;
         /** An optional ID applied to the data-id attribute*/
-        id?: number | undefined;
+        data?: number | undefined;
         kind?: 'email' | 'password' | undefined;
         /** CSS length or nothing, setting the max-width of the field*/
         max?: string | undefined;
+        id?: string | undefined;
     }
 
     let {

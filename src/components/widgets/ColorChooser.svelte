@@ -58,10 +58,6 @@
     import Button from './Button.svelte';
     import { getFirstName } from '../../locale/LocaleText';
 
-    
-    
-    
-    
     interface Props {
         /** a degree (any number remainder 360) */
         hue: number;
@@ -72,6 +68,7 @@
         /** A handler */
         change: (l: number, c: number, h: number) => void;
         editable?: boolean;
+        id?: string | undefined;
     }
 
     let {
@@ -79,14 +76,13 @@
         chroma = $bindable(),
         lightness = $bindable(),
         change,
-        editable = true
+        editable = true,
+        id = undefined,
     }: Props = $props();
 
-    let color = $derived(new ColorJS(
-        ColorJS.spaces.lch,
-        [lightness * 100, chroma, hue],
-        1,
-    ));
+    let color = $derived(
+        new ColorJS(ColorJS.spaces.lch, [lightness * 100, chroma, hue], 1),
+    );
 
     let hueWidth: number | undefined = $state(undefined);
     let hueHeight: number | undefined = $state(undefined);
@@ -107,7 +103,7 @@
     }
 </script>
 
-<div class="component">
+<div class="component" {id}>
     <div class="preview" style:background-color={color.display()}></div>
     <div
         class="bands"
@@ -124,14 +120,14 @@
                     lightness * 100,
                     val,
                 ).join(', ')})"
-></div>
+            ></div>
         {/each}
 
         <div
             class="selection"
             style:left="{hueToPercent(hue) * hueWidth}px"
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
-></div>
+        ></div>
     </div>
     <div class="primary">
         {#each Primary as primary}<Button
@@ -148,7 +144,7 @@
                         ColorJS.spaces.lch,
                         primary,
                     ).display()}
-></div></Button
+                ></div></Button
             >{/each}
     </div>
     <div class="slider">

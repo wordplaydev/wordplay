@@ -15,14 +15,10 @@
         values: OutputPropertyValues;
         range: OutputPropertyRange;
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let {
-        property,
-        values,
-        range,
-        editable
-    }: Props = $props();
+    let { property, values, range, editable, id = undefined }: Props = $props();
 
     const project = getProject();
 
@@ -57,4 +53,5 @@
     change={handleChange}
     precision={range.precision}
     {editable}
+    {id}
 />

@@ -8,21 +8,26 @@
         project: Project;
         motion: Evaluate;
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let { project, motion, editable }: Props = $props();
+    let { project, motion, editable, id = undefined }: Props = $props();
 
-    let place = $derived(motion.getInput(
-        project.shares.input.Motion.inputs[0],
-        project.getNodeContext(motion)
-    ));
-    let velocity = $derived(motion.getInput(
-        project.shares.input.Motion.inputs[1],
-        project.getNodeContext(motion)
-    ));
+    let place = $derived(
+        motion.getInput(
+            project.shares.input.Motion.inputs[0],
+            project.getNodeContext(motion),
+        ),
+    );
+    let velocity = $derived(
+        motion.getInput(
+            project.shares.input.Motion.inputs[1],
+            project.getNodeContext(motion),
+        ),
+    );
 </script>
 
-<div class="motion">
+<div class="motion" {id}>
     {project.shares.input.Motion.names.getPreferredNameString([], true)}
     {#if place instanceof Evaluate}
         <div class="field"

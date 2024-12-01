@@ -14,9 +14,10 @@
         project: Project;
         list: ListLiteral | undefined;
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let { project, list, editable }: Props = $props();
+    let { project, list, editable, id = undefined }: Props = $props();
 
     const selection = getSelectedOutput();
 
@@ -50,7 +51,7 @@
     }
 </script>
 
-<div class="list">
+<div class="list" {id}>
     {#if list && valid}
         {#each list.values as content, index}
             <div class="content">

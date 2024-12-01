@@ -130,7 +130,7 @@
             markup = markup.replaceAll(weight, '');
         }
         // Add the desired weight.
-        const delimiter = format ? weights[format] ?? '' : '';
+        const delimiter = format ? (weights[format] ?? '') : '';
         markup = delimiter + markup + delimiter;
 
         // Update the program
@@ -252,8 +252,7 @@
                 /></small
             >
         {/if}
-        <!-- svelte-ignore a11y_label_has_associated_control -->
-        <label id="formatted"
+        <label for="formatted"
             >{$locales.get((l) => l.ui.palette.labels.format)}</label
         >
     {/snippet}

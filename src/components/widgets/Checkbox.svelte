@@ -1,12 +1,11 @@
 <script lang="ts">
-    
     interface Props {
         on: boolean | undefined;
         label: string;
         changed?: undefined | ((value: boolean | undefined) => void);
         editable?: boolean;
         /** Mandatory id for label */
-        id: string | null;
+        id: string | undefined;
     }
 
     let {
@@ -14,7 +13,7 @@
         label,
         changed = undefined,
         editable = true,
-        id
+        id,
     }: Props = $props();
 
     function handleInput() {

@@ -20,13 +20,15 @@
         place: Evaluate;
         editable: boolean;
         convertable: boolean;
+        id?: string | undefined;
     }
 
     let {
         project,
         place,
         editable,
-        convertable
+        convertable,
+        id = undefined,
     }: Props = $props();
 
     let views: HTMLInputElement[] = $state([]);
@@ -82,7 +84,7 @@
 </script>
 
 {project.shares.output.Place.names.getSymbolicName()}
-<div class="place">
+<div class="place" {id}>
     {#each project.shares.output.Place.inputs as dimension, index}
         {@const given = place?.getInput(
             dimension,

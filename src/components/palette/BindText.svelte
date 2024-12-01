@@ -22,13 +22,15 @@
         values: OutputPropertyValues;
         validator: (text: string) => boolean;
         editable: boolean;
+        id?: string | undefined;
     }
 
     let {
         property,
         values,
         validator,
-        editable
+        editable,
+        id = undefined,
     }: Props = $props();
 
     let project = getProject();
@@ -80,6 +82,7 @@
         changed={handleChange}
         bind:view
         {editable}
+        {id}
     />
     {isMarkup
         ? FORMATTED_SYMBOL

@@ -2,12 +2,13 @@
     interface Props {
         center?: boolean;
         children?: import('svelte').Snippet;
+        id?: string | undefined;
     }
 
-    let { center = false, children }: Props = $props();
+    let { center = false, id = undefined, children }: Props = $props();
 </script>
 
-<div class="note" class:center>{@render children?.()}</div>
+<div class="note" {id} class:center>{@render children?.()}</div>
 
 <style>
     div {

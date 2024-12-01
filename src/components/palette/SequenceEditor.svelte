@@ -12,9 +12,10 @@
         project: Project;
         outputs: OutputExpression[];
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let { project, outputs, editable }: Props = $props();
+    let { project, outputs, editable, id = undefined }: Props = $props();
 
     let SequenceProperties = $derived(getSequenceProperties(project, $locales));
 
@@ -37,7 +38,7 @@
     });
 </script>
 
-<div class="sequence-properties">
+<div class="sequence-properties" {id}>
     {#each Array.from(propertyValues.entries()) as [property, values]}
         <PaletteProperty {project} {property} {values} {editable} />
     {/each}

@@ -22,7 +22,7 @@
         text = $bindable(),
         placeholder,
         validator,
-        creator
+        creator,
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
@@ -114,7 +114,7 @@
 
 <TextField
     bind:text
-    id={token.id}
+    data={token.id}
     bind:view
     classes={['token-editor']}
     placeholder={placeholder ?? ''}

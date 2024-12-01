@@ -18,9 +18,16 @@
         property: OutputProperty;
         values: OutputPropertyValueSet;
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let { project, property, values, editable }: Props = $props();
+    let {
+        project,
+        property,
+        values,
+        editable,
+        id = undefined,
+    }: Props = $props();
 
     let blur = $state(
         getNumberBind(project.shares.output.Aura.inputs[1], values) ?? 0.05,
@@ -151,7 +158,7 @@
 </script>
 
 {project.shares.output.Aura.names.getSymbolicName()}
-<div class="aura">
+<div class="aura" {id}>
     <ColorChooser
         {lightness}
         {chroma}

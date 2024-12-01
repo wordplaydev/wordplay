@@ -10,9 +10,10 @@
         property: OutputProperty;
         values: OutputPropertyValues;
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let { property, values, editable }: Props = $props();
+    let { property, values, editable, id = undefined }: Props = $props();
 
     const project = getProject();
 
@@ -37,5 +38,5 @@
     on={values.getBool()}
     changed={handleChange}
     {editable}
-    id={property.getName()}
+    {id}
 />

@@ -7,17 +7,20 @@
         project: Project;
         placement: Evaluate;
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let { project, placement, editable }: Props = $props();
+    let { project, placement, editable, id = undefined }: Props = $props();
 
-    let place = $derived(placement.getInput(
-        project.shares.input.Placement.inputs[0],
-        project.getNodeContext(placement)
-    ));
+    let place = $derived(
+        placement.getInput(
+            project.shares.input.Placement.inputs[0],
+            project.getNodeContext(placement),
+        ),
+    );
 </script>
 
-<div class="motion">
+<div class="motion" {id}>
     {project.shares.input.Placement.names.getPreferredNameString([], true)}
     {#if place instanceof Evaluate}
         <div class="field"

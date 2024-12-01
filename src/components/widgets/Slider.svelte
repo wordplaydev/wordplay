@@ -14,6 +14,7 @@
         change: (value: Decimal) => void;
         precision?: number;
         editable: boolean;
+        id?: string | undefined;
     }
 
     let {
@@ -26,7 +27,8 @@
         tip,
         change,
         precision = 0,
-        editable
+        editable,
+        id = undefined,
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
@@ -52,14 +54,14 @@
     -->
     &#8203;
     {#if label}
-        <label for="label">{label}</label>
+        <label for={id ?? 'label'}>{label}</label>
     {/if}
     <input
         class="slider"
         type="range"
         aria-label={tip}
         title={tip}
-        id={label}
+        id={id ?? label}
         {min}
         {max}
         step={increment}

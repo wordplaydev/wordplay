@@ -15,9 +15,10 @@
         property: OutputProperty;
         values: OutputPropertyValueSet;
         editable: boolean;
+        id?: string | undefined;
     }
 
-    let { property, values, editable }: Props = $props();
+    let { property, values, editable, id = undefined }: Props = $props();
 
     let project = getProject();
     let selection = getSelectedOutput();
@@ -96,4 +97,11 @@
     );
 </script>
 
-<ColorChooser {lightness} {chroma} {hue} change={handleChange} {editable} />
+<ColorChooser
+    {id}
+    {lightness}
+    {chroma}
+    {hue}
+    change={handleChange}
+    {editable}
+/>

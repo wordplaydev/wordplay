@@ -11,13 +11,15 @@
         values: OutputPropertyValues;
         options: OutputPropertyOptions;
         editable: boolean;
+        id?: string | undefined;
     }
 
     let {
         property,
         values,
         options,
-        editable
+        editable,
+        id = undefined,
     }: Props = $props();
 
     let project = getProject();
@@ -37,7 +39,7 @@
 </script>
 
 <Options
-    id={property.getName()}
+    {id}
     label={property.getName()}
     value={options.toText(values.getExpression())}
     width="7em"
