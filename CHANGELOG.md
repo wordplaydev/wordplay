@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Resume animations after unpausing
 -   Fixed $effect cycle in palette
 -   Fixed label ids on palette
+-   Fixed exiting reactivity bug in StageView.
 
 ## 0.13.0 2024-11-02
 

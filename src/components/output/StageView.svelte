@@ -39,6 +39,7 @@
         describeMovedOutput,
         describedChangedOutput,
     } from './OutputDescriptions';
+    import { SvelteMap } from 'svelte/reactivity';
 
     interface Props {
         project: Project;
@@ -198,7 +199,11 @@
             (name) => {
                 // Remember that we exited this name.
                 recentlyExited.add(name);
-                if (exiting.has(name)) exiting.delete(name);
+                // Remove it from the exit set.
+                if (exiting.has(name)) {
+                    exiting.delete(name);
+                    exiting = new Map(exiting);
+                }
             },
             // When the animating poses or sequences on stage change, update the store
             (nodes) => {
@@ -314,8 +319,9 @@
                     // unless they were recently removed.
                     const newExiting = new Map();
                     for (const [name, info] of results.exiting) {
-                        if (!recentlyExited.has(name))
+                        if (!recentlyExited.has(name)) {
                             newExiting.set(name, info);
+                        }
                     }
                     // Update the map of exiting outputs to render them to the view
                     exiting = new Map(newExiting);
