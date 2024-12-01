@@ -99,7 +99,10 @@
             if (concept) newParams.set('concept', concept);
             else newParams.delete('concept');
             if (window.location.search !== `?${newParams.toString()}`) {
-                goto(`/guide?${newParams.toString()}`);
+                // If the path was empty, just replace the state, so we can go back.
+                goto(`/guide?${newParams.toString()}`, {
+                    replaceState: window.location.search === '',
+                });
             }
         }
     });

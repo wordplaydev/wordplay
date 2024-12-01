@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 -   Fixed label ids on palette
 -   Fixed exiting reactivity bug in StageView.
 -   Fixed Safari color emoji rendering.
+-   Fixed history update on initial guide navigation.
 
 ### Maintenance
 
