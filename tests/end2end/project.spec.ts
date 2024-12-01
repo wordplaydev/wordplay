@@ -1,13 +1,13 @@
 import { test, expect } from '@playwright/test';
 
 test('create project and visit its tiles ', async ({ page }) => {
-    await page.goto('/projects', { waitUntil: 'domcontentloaded' });
+    await page.goto('/projects');
 
     // Create a new blank project
     await page.getByTestId('addproject').click();
 
     // Click the first preview link
-    await page.getByTestId('preview').nth(1).click();
+    await page.getByTestId('preview').nth(0).click();
 
     // Wait for the URL redirect to the project.
     await page.waitForURL(/\/project\/.+/);

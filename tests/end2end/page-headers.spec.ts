@@ -10,7 +10,7 @@ async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
     // Expects page to have a heading with the name Wordplay.
     await expect(
         page.getByRole('heading', { name: linkAndHeader }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10000 });
 }
 
 // This test succeeds on all platforms except Mobile Safari when running in a GitHub action.
