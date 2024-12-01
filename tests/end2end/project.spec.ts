@@ -12,21 +12,17 @@ test('create project and visit its tiles ', async ({ page }) => {
     // Wait for the URL redirect to the project.
     await page.waitForURL(/\/project\/.+/);
 
-    // Expect an output view to be visible.
-    await expect(page.getByTestId('output')).toHaveCount(1);
-
-    // Expect to have an editor to be visible.
-    await expect(page.getByTestId('editor')).toHaveCount(1);
-
     // Click to open the guide
     await page.getByTestId('docs-toggle').click();
 
     // Click to open the palette
     await page.getByTestId('palette-toggle').click();
 
-    // Expect the guide to be visible.
-    await expect(page.getByTestId('documentation')).toBeVisible();
-
-    // // Expect the palette to be visible.
-    await expect(page.getByTestId('palette')).toBeVisible();
+    // Expect all four tiles to be visible.
+    await Promise.all([
+        expect(page.getByTestId('output')).toBeVisible(),
+        expect(page.getByTestId('editor')).toBeVisible(),
+        expect(page.getByTestId('documentation')).toBeVisible(),
+        expect(page.getByTestId('palette')).toBeVisible(),
+    ]);
 });
