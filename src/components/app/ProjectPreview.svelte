@@ -13,27 +13,38 @@
     import { getFaceCSS } from '@output/outputToCSS';
     import UnicodeString from '@models/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
+    
+    interface Props {
+        project: Project;
+        action?: (() => void) | undefined;
+        /** Whether to show the project's name. */
+        name?: boolean;
+        /** How many rems the preview square should be. */
+        size?: number;
+        /** The link to go to when clicked. If none is provided, goes to the project. */
+        link?: string | undefined;
+        children?: import('svelte').Snippet;
+    }
 
-    export let project: Project;
-    export let action: (() => void) | undefined = undefined;
-    /** Whether to show the project's name. */
-    export let name = true;
-    /** How many rems the preview square should be. */
-    export let size = 6;
-    /** The link to go to when clicked. If none is provided, goes to the project. */
-    export let link: string | undefined = undefined;
+    let {
+        project,
+        action = undefined,
+        name = true,
+        size = 6,
+        link = undefined,
+        children
+    }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let representativeForeground: string | null;
-    let representativeBackground: string | null;
-    let representativeFace: string | null;
-    let representativeText: string;
+    type Preview = {
+        representativeForeground: string | null;
+        representativeBackground: string | null;
+        representativeFace: string | null;
+        representativeText: string;
+    };
 
-    $: if (project) updatePreview();
-
-    $: path = link ?? project.getLink(true);
-
-    function updatePreview() {
+    /** Derive the preview contents from the project by getting it's first value */
+    let { representativeForeground, representativeBackground, representativeFace, representativeText } = $derived.by(() => {
         const evaluator = new Evaluator(
             project,
             DB,
@@ -45,35 +56,31 @@
         const stage = value ? toStage(evaluator, value) : undefined;
         if (stage && stage.face) Fonts.loadFace(stage.face);
 
-        [
-            representativeFace,
-            representativeForeground,
-            representativeBackground,
-            representativeText,
-        ] = [
-            stage ? getFaceCSS(stage.face) : null,
-            stage
+        return {
+            representativeFace: stage ? getFaceCSS(stage.face) : null,
+            representativeForeground: stage
                 ? stage.pose.color?.toCSS() ?? null
                 : 'var(--wordplay-evaluation-color)',
-            stage
+            representativeBackground: stage
                 ? stage.back.toCSS()
                 : value instanceof ExceptionValue || value === undefined
                   ? 'var(--wordplay-error)'
                   : null,
-            stage
+            representativeText: stage
                 ? new UnicodeString(stage.getRepresentativeText($locales))
                       .substring(0, 1)
                       .toString()
                 : value
                   ? value.getRepresentativeText($locales)
                   : EXCEPTION_SYMBOL,
-        ];
-    }
+        };
+    });
 
     const user = getUser();
 
+    let path = $derived(link ?? project.getLink(true));
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
-    $: audience = isAudience($user, project);
+    let audience = $derived(isAudience($user, project));
 </script>
 
 <div class="project" class:named={name}>
@@ -84,9 +91,9 @@
         style:width={`${size}rem`}
         style:height={`${size}rem`}
         href={action ? undefined : path}
-        on:click={(event) =>
+        onclick={(event) =>
             action && event.button === 0 ? action() : undefined}
-        on:keydown={(event) =>
+        onkeydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')
                 ? action()
                 : undefined}
@@ -111,7 +118,7 @@
                         >{:else}
                         {project.getName()}{/if}</Link
                 >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
-                    <Spinning />{:else}<slot />{/if}{/if}</div
+                    <Spinning />{:else}{@render children?.()}{/if}{/if}</div
         >{/if}
 </div>
 

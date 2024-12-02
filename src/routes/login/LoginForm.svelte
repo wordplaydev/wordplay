@@ -1,12 +1,17 @@
 <script lang="ts">
     import Feedback from '@components/app/Feedback.svelte';
 
-    export let submit: () => void;
-    export let feedback: string | undefined;
+    interface Props {
+        submit: () => void;
+        feedback: string | undefined;
+        children?: import('svelte').Snippet;
+    }
+
+    let { submit, feedback, children }: Props = $props();
 </script>
 
-<form class="login-form" on:submit={submit}
-    ><slot />{#if feedback}<Feedback>{feedback}</Feedback>{/if}</form
+<form class="login-form" onsubmit={submit}
+    >{@render children?.()}{#if feedback}<Feedback>{feedback}</Feedback>{/if}</form
 >
 
 <style>

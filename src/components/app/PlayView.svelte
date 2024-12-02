@@ -5,32 +5,46 @@
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';
     import { DB, locales } from '../../db/Database';
+    import { untrack } from 'svelte';
 
-    export let project: Project;
-    export let fit = true;
+    interface Props {
+        project: Project;
+        fit?: boolean;
+    }
+
+    let { project, fit = true }: Props = $props();
 
     function update() {
-        latest = evaluator.getLatestSourceValue(project.getMain());
+        if (evaluator)
+            latest = evaluator.getLatestSourceValue(project.getMain());
     }
     // Clone the project and get its initial value, then stop the project's evaluator.
-    let evaluator: Evaluator;
-    let latest: Value | undefined = undefined;
-    $: {
+    let evaluator = $state<Evaluator | undefined>();
+    let latest: Value | undefined = $state(undefined);
+    $effect(() => {
+        untrack(() => {
+            if (evaluator) {
+                evaluator.stop();
+                evaluator.ignore(update);
+            }
+        });
         evaluator = new Evaluator(project, DB, $locales.getLocales());
-        if (evaluator) {
-            evaluator.stop();
-            evaluator.ignore(update);
-        }
-        evaluator.observe(update);
-        evaluator.start();
-    }
+        untrack(() => {
+            if (evaluator) {
+                evaluator.observe(update);
+                evaluator.start();
+            }
+        });
+    });
 </script>
 
-<OutputView
-    {project}
-    {evaluator}
-    value={latest}
-    {fit}
-    grid={false}
-    editable={false}
-/>
+{#if evaluator}
+    <OutputView
+        {project}
+        {evaluator}
+        value={latest}
+        {fit}
+        grid={false}
+        editable={false}
+    />
+{/if}

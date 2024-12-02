@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type TableValue from '@values/TableValue';
     import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '@parser/Symbols';
@@ -31,18 +29,20 @@
         type={Sym.TableClose}
     />{#if value.rows.length > limit}
         <Expandable
-            ><svelte:fragment slot="expanded"
-                >{#each value.rows as item}<RowView
+            >
+            {#snippet expanded()}
+                {#each value.rows as item}<RowView
                         type={value.type}
                         row={item}
-                    />{/each}</svelte:fragment
-            ><svelte:fragment slot="collapsed"
-                >{#each value.rows.slice(0, limit) as item}<RowView
+                    />{/each}
+            {/snippet}
+            {#snippet collapsed()}
+                {#each value.rows.slice(0, limit) as item}<RowView
                         type={value.type}
                         row={item}
-                    />{/each}…</svelte:fragment
-            ></Expandable
-        >
+                    />{/each}…
+            {/snippet}
+        </Expandable>
     {:else}
         {#each value.rows as row}
             <SymbolView symbol={TABLE_OPEN_SYMBOL} type={Sym.TableOpen} />
@@ -60,26 +60,28 @@
     <SymbolView symbol={TABLE_CLOSE_SYMBOL} type={Sym.TableOpen} />
 {:else}
     <table>
-        <tr>
-            {#each value.type.columns as col}{' '}<td
-                    ><SymbolView
-                        symbol={col ? $locales.getName(col.names) : ''}
-                        type={Sym.Name}
-                    /></td
-                >{/each}
-        </tr>
-        {#each value.rows as row}
+        <tbody>
             <tr>
-                {#each value.type.columns as col}
-                    {@const cell = row.resolve(col.names)}
-                    <td
-                        >{#if cell}<ValueView
-                                value={cell}
-                                {inline}
-                            />{:else}-{/if}</td
-                    >
-                {/each}
+                {#each value.type.columns as col}<td
+                        ><SymbolView
+                            symbol={col ? $locales.getName(col.names) : ''}
+                            type={Sym.Name}
+                        /></td
+                    >{/each}
             </tr>
-        {/each}
+            {#each value.rows as row}
+                <tr>
+                    {#each value.type.columns as col}
+                        {@const cell = row.resolve(col.names)}
+                        <td
+                            >{#if cell}<ValueView
+                                    value={cell}
+                                    {inline}
+                                />{:else}-{/if}</td
+                        >
+                    {/each}
+                </tr>
+            {/each}
+        </tbody>
     </table>
 {/if}

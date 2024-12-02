@@ -4,21 +4,30 @@
     import PlaceEditor from './PlaceEditor.svelte';
     import VelocityEditor from './VelocityEditor.svelte';
 
-    export let project: Project;
-    export let motion: Evaluate;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        motion: Evaluate;
+        editable: boolean;
+        id?: string | undefined;
+    }
 
-    $: place = motion.getInput(
-        project.shares.input.Motion.inputs[0],
-        project.getNodeContext(motion)
+    let { project, motion, editable, id = undefined }: Props = $props();
+
+    let place = $derived(
+        motion.getInput(
+            project.shares.input.Motion.inputs[0],
+            project.getNodeContext(motion),
+        ),
     );
-    $: velocity = motion.getInput(
-        project.shares.input.Motion.inputs[1],
-        project.getNodeContext(motion)
+    let velocity = $derived(
+        motion.getInput(
+            project.shares.input.Motion.inputs[1],
+            project.getNodeContext(motion),
+        ),
     );
 </script>
 
-<div class="motion">
+<div class="motion" {id}>
     {project.shares.input.Motion.names.getPreferredNameString([], true)}
     {#if place instanceof Evaluate}
         <div class="field"

@@ -1,6 +1,9 @@
+import { withMonoEmoji } from '../unicode/emoji';
 import Setting from './Setting';
 
-export const AnimationFactorIcons = ['🧘🏽‍♀️', '🏃‍♀️', '½', '⅓', '¼'];
+export const AnimationFactorIcons = ['🧘', '🏃', '½', '⅓', '¼'].map((i) =>
+    withMonoEmoji(i),
+);
 
 export const AnimationFactorSetting = new Setting<number>(
     'animationFactor',

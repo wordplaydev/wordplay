@@ -1,20 +1,22 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import { HighlightTypes, type HighlightType } from './util/Highlights';
     import type { Outline } from './util/outline';
 
     const HIGHLIGHT_PADDING = 20;
 
-    export let outline: Outline;
-    export let underline: Outline;
-    export let types: HighlightType[];
-    export let above: boolean;
-    export let ignored = false;
+    interface Props {
+        outline: Outline;
+        underline: Outline;
+        types: HighlightType[];
+        above: boolean;
+        ignored?: boolean;
+    }
 
-    $: filteredClasses = types
-        .filter((type) => HighlightTypes[type] === above)
-        .join(' ');
+    let { outline, underline, types, above, ignored = false }: Props = $props();
+
+    let filteredClasses = $derived(
+        types.filter((type) => HighlightTypes[type] === above).join(' '),
+    );
 </script>
 
 <svg
@@ -69,7 +71,7 @@
     }
 
     /* Selections do stroke and background of different colors to give the node a sense of shape */
-    .hovered:not(.selected).outline path {
+    .hovered:not(:global(.selected)).outline path {
         stroke: var(--wordplay-hover);
         fill: var(--wordplay-hover);
     }

@@ -6,9 +6,14 @@
     import { getProject } from '../project/Contexts';
     import { Projects } from '../../db/Database';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        editable: boolean;
+        id?: string | undefined;
+    }
+
+    let { property, values, editable, id = undefined }: Props = $props();
 
     const project = getProject();
 
@@ -33,5 +38,5 @@
     on={values.getBool()}
     changed={handleChange}
     {editable}
-    id={property.getName()}
+    {id}
 />

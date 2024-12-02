@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type SetValue from '@values/SetValue';
     import SymbolView from './SymbolView.svelte';
@@ -8,8 +6,12 @@
     import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
     import Expandable from './Expandable.svelte';
 
-    export let value: SetValue;
-    export let inline = true;
+    interface Props {
+        value: SetValue;
+        inline?: boolean;
+    }
+
+    let { value, inline = true }: Props = $props();
 
     const CollapsedLimit = 3;
     const MaxItems = 100;
@@ -21,17 +23,18 @@
         symbol={SET_OPEN_SYMBOL}
         type={Sym.SetOpen}
     />{#if value.values.length > CollapsedLimit}<Expandable
-            ><svelte:fragment slot="expanded"
-                >{#each value.values as item, index}<ValueView
+            >{#snippet expanded()}
+                {#each value.values as item, index}<ValueView
+                    value={item}
+                    {inline}
+                />{#if index < value.values.length - 1}{' '}{/if}{/each}
+            {/snippet}
+            {#snippet collapsed()}        
+                {#each value.values.slice(0, CollapsedLimit) as item, index}<ValueView
                         value={item}
                         {inline}
-                    />{#if index < value.values.length - 1}{' '}{/if}{/each}</svelte:fragment
-            ><svelte:fragment slot="collapsed"
-                >{#each value.values.slice(0, CollapsedLimit) as item, index}<ValueView
-                        value={item}
-                        {inline}
-                    />{#if index < value.values.length - 1}{' '}{/if}{/each}…</svelte:fragment
-            ></Expandable
+                    />{#if index < value.values.length - 1}{' '}{/if}{/each}…
+            {/snippet}</Expandable
         >{:else}{#each value.values as item, index}<ValueView
                 value={item}
                 {inline}

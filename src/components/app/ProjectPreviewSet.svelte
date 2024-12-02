@@ -4,38 +4,45 @@
     import { locales } from '../../db/Database';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import { type Snippet } from 'svelte';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
-    export let set: Project[];
-    export let edit:
-        | {
-              description: string;
-              label: string;
-              action: (project: Project) => void;
-          }
-        | false;
-    export let remove: (project: Project) =>
-        | {
-              description: string;
-              prompt: string;
-              label: string;
-              action: () => void;
-          }
-        | false;
-    export let copy:
-        | {
-              description: string;
-              label: string;
-              action: (project: Project) => void;
-          }
-        | false;
+    interface Props {
+        set: Project[];
+        edit:
+            | {
+                  description: string;
+                  label: string;
+                  action: (project: Project) => void;
+              }
+            | false;
+        remove: (project: Project) =>
+            | {
+                  description: string;
+                  prompt: string;
+                  label: string;
+                  action: () => void;
+              }
+            | false;
+        copy:
+            | {
+                  description: string;
+                  label: string;
+                  action: (project: Project) => void;
+              }
+            | false;
+        children?: Snippet;
+    }
+
+    let { set, edit, remove, copy, children }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
-        return projects.sort((a, b) =>
+        return [...projects].sort((a, b) =>
             a.getName().localeCompare(b.getName(), $locales.getLanguages()),
         );
     }
 
-    $: listed = sortProjects(set).filter((p) => p.isListed());
+    let listed = $derived(sortProjects(set).filter((p) => p.isListed()));
 </script>
 
 <div class="projects">
@@ -46,18 +53,19 @@
                 {#if edit}<Button
                         tip={edit.description}
                         action={() => (edit ? edit.action(project) : undefined)}
-                        >{edit.label}</Button
+                        >{withMonoEmoji(edit.label)}</Button
                     >{/if}{#if copy}<Button
                         tip={copy.description}
-                        action={() => copy.action(project)}>{copy.label}</Button
+                        action={() => copy.action(project)}
+                        >{withMonoEmoji(copy.label)}</Button
                     >{/if}{#if removeMeta}<ConfirmButton
                         prompt={removeMeta.prompt}
                         tip={removeMeta.description}
                         action={() =>
                             removeMeta ? removeMeta.action() : undefined}
-                        >{removeMeta.label}</ConfirmButton
+                        >{withMonoEmoji(removeMeta.label)}</ConfirmButton
                     >{/if}</div
-            ><slot /></ProjectPreview
+            >{@render children?.()}</ProjectPreview
         >
     {/each}
 </div>

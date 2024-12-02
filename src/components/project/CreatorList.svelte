@@ -10,21 +10,22 @@
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
 
-    export let uids: string[];
-    export let add: (uid: string) => void;
-    export let remove: (uid: string) => void;
-    export let removable: (uid: string) => boolean;
-    export let editable: boolean;
-    export let anonymize: boolean;
+    interface Props {
+        uids: string[];
+        add: (uid: string) => void;
+        remove: (uid: string) => void;
+        removable: (uid: string) => boolean;
+        editable: boolean;
+        anonymize: boolean;
+    }
 
-    $: if (emailOrUsername) unknown = false;
+    let { uids, add, remove, removable, editable, anonymize }: Props = $props();
 
-    let adding = false;
-    let emailOrUsername = '';
-    let unknown = false;
+    let adding = $state(false);
+    let emailOrUsername = $state('');
+    let unknown = $state(false);
 
-    let creators: Record<string, Creator | null> = {};
-    $: DB.Creators.getCreatorsByUIDs(uids).then((map) => (creators = map));
+    let creators: Record<string, Creator | null> = $state({});
 
     function validCollaborator(emailOrUsername: string) {
         // Don't add self
@@ -48,10 +49,20 @@
             emailOrUsername = '';
         }
     }
+
+    // When the user changes, reset unknown.
+    $effect(() => {
+        if (emailOrUsername) unknown = false;
+    });
+
+    // Set the creators to whatever user IDs we have.
+    $effect(() => {
+        DB.Creators.getCreatorsByUIDs(uids).then((map) => (creators = map));
+    });
 </script>
 
 {#if editable}
-    <form class="form" on:submit={addCreator}>
+    <form class="form" onsubmit={addCreator}>
         <TextField
             bind:text={emailOrUsername}
             placeholder={$locales.get(

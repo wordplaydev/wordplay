@@ -251,6 +251,14 @@ export default class Stage extends Output {
             }, []),
         ];
     }
+
+    /** Scan all references to fonts and load them as necessary. */
+    gatherFaces(set: Set<SupportedFace>) {
+        if (this.face) set.add(this.face);
+        for (const content of this.content)
+            if (content) content.gatherFaces(set);
+        return set;
+    }
 }
 
 export class NameGenerator {

@@ -10,7 +10,9 @@
 
     const user = getUser();
 
-    $: if (browser && $user !== null) goto('/profile');
+    $effect(() => {
+        if (browser && $user !== null) goto('/profile');
+    });
 </script>
 
 <Writing>

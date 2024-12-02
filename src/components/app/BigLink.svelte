@@ -1,14 +1,25 @@
 <script lang="ts">
     import Link from './Link.svelte';
 
-    export let to: string;
-    export let subtitle: string | undefined = undefined;
-    export let external = false;
-    export let smaller = false;
+    interface Props {
+        to: string;
+        subtitle?: string | undefined;
+        external?: boolean;
+        smaller?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let {
+        to,
+        subtitle = undefined,
+        external = false,
+        smaller = false,
+        children
+    }: Props = $props();
 </script>
 
 <div class="biglink" class:smaller>
-    <div class="link"><Link nowrap {to} {external}><slot /></Link></div>
+    <div class="link"><Link nowrap {to} {external}>{@render children?.()}</Link></div>
     {#if subtitle}<div class="subtitle">{subtitle}</div>{/if}</div
 >
 

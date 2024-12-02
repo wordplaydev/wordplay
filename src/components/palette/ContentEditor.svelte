@@ -4,51 +4,54 @@
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
     import RootView from '../project/RootView.svelte';
-    import {
-        getSelectedOutputPaths,
-        setSelectedOutput,
-    } from '../project/Contexts';
+    import { getSelectedOutput } from '../project/Contexts';
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
     import { blocks, DB, locales } from '@db/Database';
     import { EDIT_SYMBOL } from '../../parser/Symbols';
 
-    export let project: Project;
-    export let list: ListLiteral | undefined;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        list: ListLiteral | undefined;
+        editable: boolean;
+        id?: string | undefined;
+    }
 
-    const selectedOutputPaths = getSelectedOutputPaths();
+    let { project, list, editable, id = undefined }: Props = $props();
+
+    const selection = getSelectedOutput();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
-    $: valid =
+    let valid = $derived(
         list !== undefined &&
-        list.values.every(
-            (value) =>
-                value instanceof Evaluate &&
-                (value.is(
-                    project.shares.output.Phrase,
-                    project.getNodeContext(value),
-                ) ||
-                    value.is(
-                        project.shares.output.Group,
+            list.values.every(
+                (value) =>
+                    value instanceof Evaluate &&
+                    (value.is(
+                        project.shares.output.Phrase,
                         project.getNodeContext(value),
                     ) ||
-                    value.is(
-                        project.shares.output.Shape,
-                        project.getNodeContext(value),
-                    )),
-        );
+                        value.is(
+                            project.shares.output.Group,
+                            project.getNodeContext(value),
+                        ) ||
+                        value.is(
+                            project.shares.output.Shape,
+                            project.getNodeContext(value),
+                        )),
+            ),
+    );
 
     function editContent(index: number) {
-        if (list === undefined || selectedOutputPaths === undefined) return;
+        if (list === undefined) return;
 
         const item = list.values[index];
-        if (item instanceof Evaluate)
-            setSelectedOutput(selectedOutputPaths, project, [item]);
+        if (item instanceof Evaluate && selection)
+            selection.setSelectedOutput(project, [item]);
     }
 </script>
 
-<div class="list">
+<div class="list" {id}>
     {#if list && valid}
         {#each list.values as content, index}
             <div class="content">

@@ -8,16 +8,24 @@
     import type FunctionConcept from '../../concepts/FunctionConcept';
     import { blocks } from '@db/Database';
 
-    export let type: Type;
-    export let context: Context;
+    interface Props {
+        type: Type;
+        context: Context;
+    }
+
+    let { type, context }: Props = $props();
 
     let path = getConceptPath();
-    let index = getConceptIndex();
 
-    $: types = type
-        .getTypeSet(context)
-        .list()
-        .map((type) => [type, $index?.getConceptOfType(type)] as const);
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let types = $derived(
+        type
+            .getTypeSet(context)
+            .list()
+            .map((type) => [type, index?.getConceptOfType(type)] as const),
+    );
 
     function navigate(type: StructureConcept | FunctionConcept) {
         path.set([...$path, type]);
@@ -31,8 +39,8 @@
             role="button"
             class="type"
             tabindex="0"
-            on:click={() => (concept ? navigate(concept) : undefined)}
-            on:keydown={(event) =>
+            onclick={() => (concept ? navigate(concept) : undefined)}
+            onkeydown={(event) =>
                 concept && (event.key === 'Enter' || event.key === ' ')
                     ? navigate(concept)
                     : undefined}

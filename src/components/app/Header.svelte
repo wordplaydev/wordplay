@@ -1,13 +1,19 @@
 <script lang="ts">
     import TiltedHeader from './Tilted.svelte';
 
-    /** Whether the header is in a list of blocks of text, and therefore should be offset to the inline start and have a block margin. */
-    export let block = true;
-    export let wrap = false;
+    
+    interface Props {
+        /** Whether the header is in a list of blocks of text, and therefore should be offset to the inline start and have a block margin. */
+        block?: boolean;
+        wrap?: boolean;
+        children?: import('svelte').Snippet;
+    }
+
+    let { block = true, wrap = false, children }: Props = $props();
 </script>
 
 <h1 class:block class:wrap
-    ><TiltedHeader capitalized={false}><slot /></TiltedHeader></h1
+    ><TiltedHeader capitalized={false}>{@render children?.()}</TiltedHeader></h1
 >
 
 <style>

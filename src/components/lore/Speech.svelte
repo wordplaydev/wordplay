@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export const Limit = 10;
 </script>
 
@@ -9,37 +9,62 @@
     import Eyes from './Eyes.svelte';
     import { locales } from '@db/Database';
     import Emotion from '../../lore/Emotion';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
+    import { type Snippet } from 'svelte';
 
-    export let glyph: Glyph | Concept;
-    /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
-    export let below = false;
-    /** If true and speech is not below, reading order is flipped. */
-    export let flip = false;
-    /** If true and speech is not below, baseline aligns the glyph and speech */
-    export let baseline = false;
-    /** If true, uses foreground color for background, and background for foreground. */
-    export let invert = false;
-    /** If true, sets height of speech to 100% and scrolls it */
-    export let scroll = true;
-    /** Optional emotion */
-    export let emotion: Emotion | undefined = undefined;
-    /** Optionally turn off animation */
-    export let emote = true;
-    /** Optionally double size of text */
-    export let big = false;
+    interface Props {
+        glyph: Glyph | Concept;
+        /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
+        below?: boolean;
+        /** If true and speech is not below, reading order is flipped. */
+        flip?: boolean;
+        /** If true and speech is not below, baseline aligns the glyph and speech */
+        baseline?: boolean;
+        /** If true, uses foreground color for background, and background for foreground. */
+        invert?: boolean;
+        /** If true, sets height of speech to 100% and scrolls it */
+        scroll?: boolean;
+        /** Optional emotion */
+        emotion?: Emotion | undefined;
+        /** Optionally turn off animation */
+        emote?: boolean;
+        /** Optionally double size of text */
+        big?: boolean;
+        aside?: Snippet;
+        content: Snippet;
+    }
 
-    $: renderedEmotion =
+    let {
+        glyph,
+        below = false,
+        flip = false,
+        baseline = false,
+        invert = false,
+        scroll = true,
+        emotion = undefined,
+        emote = true,
+        big = false,
+        aside,
+        content,
+    }: Props = $props();
+
+    let renderedEmotion = $derived(
         emotion ??
-        (glyph instanceof Concept ? glyph?.getEmotion($locales) : undefined);
+            (glyph instanceof Concept
+                ? glyph?.getEmotion($locales)
+                : undefined),
+    );
 
-    $: glyphs =
+    let glyphs = $derived(
         glyph instanceof Concept
             ? glyph.getGlyphs($locales).symbols
-            : glyph.symbols;
+            : glyph.symbols,
+    );
 
-    $: symbols = withVariationSelector(
-        glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs,
+    let symbols = $derived(
+        withColorEmoji(
+            glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs,
+        ),
     );
 </script>
 
@@ -68,7 +93,7 @@
                 {symbols}
             {/if}
             <Eyes {invert} emotion={emotion ?? Emotion.neutral} />
-        </div><slot name="aside" />
+        </div>{@render aside?.()}
     </div>
     <div
         class="message {below
@@ -82,9 +107,9 @@
             : 'ltr'}"
     >
         {#if scroll}
-            <div class="scroller"><slot name="content" /></div>
+            <div class="scroller">{@render content()}</div>
         {:else}
-            <slot name="content" />
+            {@render content()}
         {/if}
     </div>
 </div>

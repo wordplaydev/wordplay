@@ -17,9 +17,12 @@
     import LocaleName from './LocaleName.svelte';
     import { Settings } from '../../db/Database';
 
-    $: selectedLocales = $locales
-        .getPreferredLocales()
-        .map((locale) => localeToString(locale)) as SupportedLocale[];
+    let selectedLocales = $state<string[]>([]);
+    $effect(() => {
+        selectedLocales = $locales
+            .getPreferredLocales()
+            .map((locale) => localeToString(locale)) as SupportedLocale[];
+    });
 
     function select(
         locale: SupportedLocale,
@@ -70,7 +73,8 @@
                 active={selectedLocales.length > 1}
                 >{#if selectedLocales.length > 1}
                     ⨉
-                {/if}<LocaleName locale={selected} supported /></Button
+                {/if}
+                <LocaleName locale={selected} supported /></Button
             >
         {/each}
     </div>

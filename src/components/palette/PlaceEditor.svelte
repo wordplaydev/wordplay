@@ -15,12 +15,23 @@
     import NumberType from '../../nodes/NumberType';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    export let project: Project;
-    export let place: Evaluate;
-    export let editable: boolean;
-    export let convertable: boolean;
+    interface Props {
+        project: Project;
+        place: Evaluate;
+        editable: boolean;
+        convertable: boolean;
+        id?: string | undefined;
+    }
 
-    let views: HTMLInputElement[] = [];
+    let {
+        project,
+        place,
+        editable,
+        convertable,
+        id = undefined,
+    }: Props = $props();
+
+    let views: HTMLInputElement[] = $state([]);
 
     function valid(val: string) {
         const [num] = NumberValue.fromUnknown(val);
@@ -73,7 +84,7 @@
 </script>
 
 {project.shares.output.Place.names.getSymbolicName()}
-<div class="place">
+<div class="place" {id}>
     {#each project.shares.output.Place.inputs as dimension, index}
         {@const given = place?.getInput(
             dimension,

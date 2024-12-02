@@ -1,13 +1,15 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Sym from '@nodes/Sym';
     import TokenCategories from '../editor/TokenCategories';
 
-    export let symbol: string;
-    export let type: Sym;
+    interface Props {
+        symbol: string;
+        type: Sym;
+    }
 
-    $: category = TokenCategories.get(type);
+    let { symbol, type }: Props = $props();
+
+    let category = $derived(TokenCategories.get(type));
 </script>
 
 <span class={`symbol category-${category}`}>{symbol}</span>

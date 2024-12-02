@@ -18,15 +18,19 @@
     import Header from '../../components/app/Header.svelte';
     import type Tutorial from '../../tutorial/Tutorial';
     import { browser } from '$app/environment';
+    import { untrack } from 'svelte';
 
-    let tutorial: Tutorial | undefined | null = undefined;
+    let tutorial: Tutorial | undefined | null = $state(undefined);
 
-    $: if (browser && $locales) {
-        Locales.getTutorial(
-            $locales.get((l) => l.language),
-            $locales.get((l) => l.region),
-        ).then((t) => (tutorial = t));
-    }
+    /** Load the tutorial when locales change. */
+    $effect(() => {
+        if (browser && $locales) {
+            Locales.getTutorial(
+                $locales.get((l) => l.language),
+                $locales.get((l) => l.region),
+            ).then((t) => (tutorial = t));
+        }
+    });
 
     // If hot module reloading, and there's a locale update, refresh the tutorial.
     if (import.meta.hot) {
@@ -39,11 +43,18 @@
     }
 
     // Set progress if URL indicates one.
-    let initial: Progress | undefined = undefined;
-    $: if (tutorial) {
-        initial = Progress.fromURL(tutorial, $page.url.searchParams);
-        if (initial) Settings.setTutorialProgress(initial);
-    }
+    let initial: Progress | undefined = $state(undefined);
+
+    // Save tutorial projects with projects changes.
+    $effect(() => {
+        if (tutorial) {
+            initial = Progress.fromURL(tutorial, $page.url.searchParams);
+            // Untack, since the below reads and sets
+            untrack(() => {
+                if (initial) Settings.setTutorialProgress(initial);
+            });
+        }
+    });
 
     function navigate(newProgress: Progress) {
         initial = undefined;
@@ -61,10 +72,12 @@
     <Writing>
         <Header>:(</Header>
         <Speech glyph={Glyphs.Function}
-            ><p slot="content">
-                {$locales.get((l) => l.ui.page.learn.error)}
-                <Link to="/">🏠</Link></p
-            ></Speech
+            >{#snippet content()}
+                <p>
+                    {$locales.get((l) => l.ui.page.learn.error)}
+                    <Link to="/">🏠</Link></p
+                >
+            {/snippet}</Speech
         ></Writing
     >
 {:else}

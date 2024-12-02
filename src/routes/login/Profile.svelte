@@ -16,12 +16,20 @@
     import { goto } from '$app/navigation';
     import Action from '@components/app/Action.svelte';
 
-    export let user: User;
+    interface Props {
+        user: User;
+    }
 
-    $: creator = Creator.from(user);
+    let { user }: Props = $props();
 
-    let moderator = false;
-    $: isModerator(user).then((mod) => (moderator = mod));
+    let creator = $derived(Creator.from(user));
+
+    let moderator = $state(false);
+
+    // When the user changes, check if they're a moderator.
+    $effect(() => {
+        isModerator(user).then((mod) => (moderator = mod));
+    });
 
     function rename(name: string) {
         // This should trigger an update to the user store, and therefore this view.

@@ -18,7 +18,7 @@ import type { FontWeight } from '../basis/Fonts';
 import Mention from './Mention';
 import Branch from './Branch';
 import type Locales from '../locale/Locales';
-import { withVariationSelector } from '../unicode/emoji';
+import { withColorEmoji } from '../unicode/emoji';
 import type { TemplateInput } from '../locale/Locales';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
@@ -171,9 +171,7 @@ export default class Words extends Content {
             // Replace all repeated special characters with single special characters.
             else if (content instanceof Token) {
                 const replacement = content.withText(
-                    withVariationSelector(
-                        unescapeMarkupSymbols(content.getText()),
-                    ),
+                    withColorEmoji(unescapeMarkupSymbols(content.getText())),
                 );
                 if (replacement.getText() !== content.getText()) {
                     replacements.push([content, replacement]);

@@ -23,6 +23,7 @@ function LocaleHotReload() {
 /** @type {import('vite').UserConfig} */
 const config = {
     plugins: [sveltekit(), LocaleHotReload()],
+    build: { chunkSizeWarningLimit: 1600 },
 };
 
 export default config;

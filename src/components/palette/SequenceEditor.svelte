@@ -6,29 +6,39 @@
     import type OutputExpression from '@edit/OutputExpression';
     import { locales } from '@db/Database';
     import getSequenceProperties from '../../edit/SequenceProperties';
+    import { untrack } from 'svelte';
 
-    export let project: Project;
-    export let outputs: OutputExpression[];
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        outputs: OutputExpression[];
+        editable: boolean;
+        id?: string | undefined;
+    }
 
-    $: SequenceProperties = getSequenceProperties(project, $locales);
+    let { project, outputs, editable, id = undefined }: Props = $props();
+
+    let SequenceProperties = $derived(getSequenceProperties(project, $locales));
 
     // Create a mapping from pose properties to values
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
-    $: {
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
+        new Map(),
+    );
+    $effect(() => {
         propertyValues = new Map();
 
         // Map the properties to a set of values.
-        for (const property of SequenceProperties) {
-            const valueSet = new OutputPropertyValueSet(property, outputs);
-            // Exclue any properties that happen to have no values.
-            if (!valueSet.isEmpty() && valueSet.onAll())
-                propertyValues.set(property, valueSet);
-        }
-    }
+        untrack(() => {
+            for (const property of SequenceProperties) {
+                const valueSet = new OutputPropertyValueSet(property, outputs);
+                // Exclue any properties that happen to have no values.
+                if (!valueSet.isEmpty() && valueSet.onAll())
+                    propertyValues.set(property, valueSet);
+            }
+        });
+    });
 </script>
 
-<div class="sequence-properties">
+<div class="sequence-properties" {id}>
     {#each Array.from(propertyValues.entries()) as [property, values]}
         <PaletteProperty {project} {property} {values} {editable} />
     {/each}

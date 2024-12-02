@@ -119,6 +119,10 @@ export default class Animator {
         this.physics = new Physics(evaluator);
     }
 
+    isStopped() {
+        return this.stopped;
+    }
+
     /**
      * When any of the following inputs change, update the stage accordingly so that the
      * rendered screen reflects it.
@@ -378,10 +382,8 @@ export default class Animator {
         const name = animation.output.getName();
         this.animations.delete(name);
 
-        // Don't clean up if the animation hasn't exited yet. (Scene can force an exit animation);
-        if (this.exitedInfo.has(animation.name)) {
-            this.exit(name);
-        }
+        // Tell the listener that this name has exited, so it can do whatever cleanup it needs to do.
+        this.exit(name);
     }
 
     startingSequence(transitions: Transition[]) {

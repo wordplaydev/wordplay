@@ -1,11 +1,11 @@
 <script lang="ts">
     import type LanguageCode from '../../locale/LanguageCode';
     import Announcement from './Announcement';
-    import type { Announce } from './Contexts';
+    import type { AnnouncerContext } from './Contexts';
 
     const delay = 200;
 
-    export const announce: Announce = (
+    export const announce: AnnouncerContext = (
         id: string,
         language: LanguageCode | undefined,
         message: string,
@@ -59,9 +59,9 @@
         }
     }
 
-    let announcements: Announcement[] = [];
+    let announcements = $state<Announcement[]>([]);
     let current: { announcement: Announcement; time: number } | undefined =
-        undefined;
+        $state(undefined);
     let timeout: NodeJS.Timeout | undefined = undefined;
 </script>
 

@@ -1,6 +1,4 @@
-<svelte:options immutable />
-
-<script context="module" lang="ts">
+<script module lang="ts">
     type ParagraphOrList = Paragraph | { items: Paragraph[] };
 </script>
 
@@ -10,20 +8,24 @@
     import Paragraph from '@nodes/Paragraph';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
-    export let markup: Markup | string[] | string;
-    export let inline = false;
+    interface Props {
+        markup: Markup | string[] | string;
+        inline?: boolean;
+    }
 
-    $: parsed =
-        markup instanceof Markup
+    let { markup, inline = false }: Props = $props();
+
+    let parsed =
+        $derived(markup instanceof Markup
             ? markup
             : Markup.words(
                   Array.isArray(markup) ? markup.join('\n\n') : markup
-              );
+              ));
 
-    $: spaces = parsed.spaces;
+    let spaces = $derived(parsed.spaces);
 
     // Convert sequences of paragraphs that start with bullets into an HTML list.
-    $: paragraphsAndLists = parsed.paragraphs.reduce(
+    let paragraphsAndLists = $derived(parsed.paragraphs.reduce(
         (stuff: ParagraphOrList[], next: Paragraph) => {
             if (next.isBulleted()) {
                 const previous = stuff.at(-1);
@@ -36,7 +38,7 @@
             } else return [...stuff, next];
         },
         []
-    );
+    ));
 </script>
 
 {#if spaces}
@@ -101,7 +103,7 @@
         margin-block-end: 0em;
     }
 
-    p:not(:first-child) {
+    p:not(:global(:first-child)) {
         margin-block-start: 1em;
     }
 </style>

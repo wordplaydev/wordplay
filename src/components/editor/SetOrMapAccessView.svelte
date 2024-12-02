@@ -1,10 +1,12 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type SetOrMapAccess from '@nodes/SetOrMapAccess';
     import NodeView from './NodeView.svelte';
 
-    export let node: SetOrMapAccess;
+    interface Props {
+        node: SetOrMapAccess;
+    }
+
+    let { node }: Props = $props();
 </script>
 
 <NodeView node={node.setOrMap} /><NodeView node={node.open} /><NodeView

@@ -9,8 +9,12 @@
     import type TableType from '../../nodes/TableType';
     import ValueView from './ValueView.svelte';
 
-    export let type: TableType;
-    export let row: StructureValue;
+    interface Props {
+        type: TableType;
+        row: StructureValue;
+    }
+
+    let { type, row }: Props = $props();
 </script>
 
 <SymbolView symbol={TABLE_OPEN_SYMBOL} type={Sym.TableOpen} />

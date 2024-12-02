@@ -612,7 +612,7 @@
                     "secondary": "oh, am I not supposed to be here?"
                 },
                 "MissingInput": {
-                    "primary": "I can't evaluate without the input named $2 :(",
+                    "primary": "I can't evaluate without the input $2 :(",
                     "secondary": "I need a value, can you give me one?"
                 },
                 "NotInstantiable": "I can't make this @StructureDefinition, it has unimplemented functions.",
@@ -4387,7 +4387,7 @@
                     "gallery": "gallery chooser"
                 }
             },
-        "settings": {
+            "settings": {
                 "header": "Settings",
                 "explanation": "Change layout, device, and theme settings.",
                 "button": {

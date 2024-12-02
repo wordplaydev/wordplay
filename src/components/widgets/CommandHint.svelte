@@ -2,7 +2,11 @@
     import { toShortcut, type Command } from '../editor/util/Commands';
     import { getKeyboardModifiers } from '../project/Contexts';
 
-    export let command: Command;
+    interface Props {
+        command: Command;
+    }
+
+    let { command }: Props = $props();
 
     const modifiers = getKeyboardModifiers();
 </script>

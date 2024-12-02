@@ -1,5 +1,3 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Reference from '@nodes/Reference';
     import NodeView from './NodeView.svelte';
@@ -10,30 +8,36 @@
     import { animationFactor } from '../../db/Database';
     import Source from '@nodes/Source';
 
-    export let node: Reference;
+    interface Props {
+        node: Reference;
+    }
+
+    let { node }: Props = $props();
 
     let evaluation = getEvaluation();
 
-    $: project = $evaluation?.evaluator.project;
-    $: root = project?.getRoot(node);
-    $: context =
+    let project = $derived($evaluation?.evaluator.project);
+    let root = $derived(project?.getRoot(node));
+    let context = $derived(
         root?.root instanceof Source
             ? project?.getContext(root.root)
-            : undefined;
-    $: definition = node.resolve(context);
+            : undefined,
+    );
+    let definition = $derived(node.resolve(context));
 
-    let stream: StreamValue<Value, unknown> | undefined;
-    $: if ($evaluation) {
-        const parent = root?.getParent(node);
-        stream =
-            parent instanceof Evaluate
+    let stream: StreamValue<Value, unknown> | undefined = $derived.by(() => {
+        if ($evaluation) {
+            const parent = root?.getParent(node);
+            return parent instanceof Evaluate
                 ? $evaluation.evaluator.getStreamFor(parent)
                 : undefined;
-    }
+        }
+        return undefined;
+    });
 
     // If this evaluated to the stream that recently changed, style it.
-    let animating = false;
-    $: {
+    let animating = $state(false);
+    $effect(() => {
         // Evaluated if...
         if (
             // There's evluation in this context
@@ -51,7 +55,7 @@
             // Reset after the animation is done.
             setTimeout(() => (animating = false), $animationFactor * 200);
         }
-    }
+    });
 </script>
 
 <span
@@ -92,6 +96,6 @@
     }
 
     .StreamDefinition {
-        text-shadow: 3px 3px 2px var(--wordplay-chrome);
+        text-decoration: underline dotted;
     }
 </style>

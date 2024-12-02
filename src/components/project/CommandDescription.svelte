@@ -3,7 +3,11 @@
     import { toShortcut, type Command } from '../editor/util/Commands';
     import Emoji from '@components/app/Emoji.svelte';
 
-    export let command: Command;
+    interface Props {
+        command: Command;
+    }
+
+    let { command }: Props = $props();
 </script>
 
 <tr class="command">

@@ -10,7 +10,11 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import Toggle from '../widgets/Toggle.svelte';
 
-    export let sourceID: string;
+    interface Props {
+        sourceID: string;
+    }
+
+    let { sourceID }: Props = $props();
 
     const Defaults = Commands.filter(
         (command) => command.category === Category.Insert,
@@ -24,14 +28,14 @@
 
     const editors = getEditors();
 
-    let expanded = false;
-    let query = '';
-    $: results =
-        query.length < 3
+    let expanded = $state(false);
+    let query = $state('');
+    let results =
+        $derived(query.length < 3
             ? []
             : getUnicodeWithNameText(query).map((entry) =>
                   String.fromCodePoint(entry.hex),
-              );
+              ));
 
     function insert(glyph: string) {
         const editorState = $editors?.get(sourceID);

@@ -2,7 +2,11 @@
     import Reference from '@nodes/Reference';
     import CodeOptions from './CodeOptions.svelte';
 
-    export let reference: Reference;
+    interface Props {
+        reference: Reference;
+    }
+
+    let { reference }: Props = $props();
 </script>
 
 <CodeOptions current={reference.name} selection={reference} />

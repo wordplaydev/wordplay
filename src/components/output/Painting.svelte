@@ -2,7 +2,11 @@
     import Switch from '@components/widgets/Switch.svelte';
     import { locales } from '../../db/Database';
 
-    export let painting: boolean;
+    interface Props {
+        painting: boolean;
+    }
+
+    let { painting = $bindable() }: Props = $props();
 </script>
 
 <Switch
