@@ -1,6 +1,6 @@
 # Context
 
-<!-- Briefly describe what this issue is about -->
+I modified some inaccurate Chinese translations in the Chinese version of the tutorial (from line 1 to line 1118)
 
 ## Related issues
 
@@ -9,7 +9,7 @@ For pull requests that relate or close an issue, please include them below.  We 
 request to issue 1234. And when we merge the pull request, Github will automatically close the issue.
 -->
 
--   Related Issue #
+-   Related Issue #384
 -   Closes #
 
 ## Verification
