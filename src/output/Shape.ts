@@ -16,6 +16,7 @@ import { getOutputInput } from './Valued';
 import { getStyle } from './toOutput';
 import Place from './Place';
 import type Locales from '../locale/Locales';
+import type { SupportedFace } from '@basis/Fonts';
 
 export function createShapeType(locales: Locales) {
     return toStructure(`
@@ -149,6 +150,10 @@ export default class Shape extends Output {
 
     getEntryAnimated() {
         return this.entering !== undefined ? [this] : [];
+    }
+
+    gatherFaces(set: Set<SupportedFace>): Set<SupportedFace> {
+        return set;
     }
 }
 

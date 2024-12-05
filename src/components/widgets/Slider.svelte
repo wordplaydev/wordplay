@@ -3,18 +3,35 @@
     import Decimal from 'decimal.js';
     import { tick } from 'svelte';
 
-    export let value: number | undefined;
-    export let min: number;
-    export let max: number;
-    export let unit: string;
-    export let increment: number;
-    export let label: string | undefined = undefined;
-    export let tip: string;
-    export let change: (value: Decimal) => void;
-    export let precision = 0;
-    export let editable: boolean;
+    interface Props {
+        value: number | undefined;
+        min: number;
+        max: number;
+        unit: string;
+        increment: number;
+        label?: string | undefined;
+        tip: string;
+        change: (value: Decimal) => void;
+        precision?: number;
+        editable: boolean;
+        id?: string | undefined;
+    }
 
-    let view: HTMLInputElement | undefined = undefined;
+    let {
+        value = $bindable(),
+        min,
+        max,
+        unit,
+        increment,
+        label = undefined,
+        tip,
+        change,
+        precision = 0,
+        editable,
+        id = undefined,
+    }: Props = $props();
+
+    let view: HTMLInputElement | undefined = $state(undefined);
 
     async function handleChange() {
         if (value !== undefined)
@@ -37,20 +54,20 @@
     -->
     &#8203;
     {#if label}
-        <label for="label">{label}</label>
+        <label for={id ?? 'label'}>{label}</label>
     {/if}
     <input
         class="slider"
         type="range"
         aria-label={tip}
         title={tip}
-        id={label}
+        id={id ?? label}
         {min}
         {max}
         step={increment}
         bind:value
         bind:this={view}
-        on:input={handleChange}
+        oninput={handleChange}
         disabled={!editable}
     />
     <div class="text">

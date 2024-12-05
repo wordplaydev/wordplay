@@ -26,16 +26,16 @@
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
 
     /** The username typed into the text field */
-    let username = '';
-    let password = '';
-    let email = '';
+    let username = $state('');
+    let password = $state('');
+    let email = $state('');
 
     /** When true, login submission button shows loading spinner */
-    let loading = false;
+    let loading = $state(false);
 
     /** Feedback to show in the login form */
-    let usernameFeedback: string | undefined = undefined;
-    let emailFeedback: string | undefined = undefined;
+    let usernameFeedback: string | undefined = $state(undefined);
+    let emailFeedback: string | undefined = $state(undefined);
 
     /** When the page is mounted, see if the link is an email sign in link, and if so, attempt to finish logging in. */
     onMount(() => {

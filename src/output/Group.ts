@@ -192,6 +192,15 @@ export default class Group extends Output {
             }, []),
         ];
     }
+
+    gatherFaces(set: Set<SupportedFace>): Set<SupportedFace> {
+        for (const output of this.content) {
+            if (output !== null) {
+                output.gatherFaces(set);
+            }
+        }
+        return set;
+    }
 }
 
 export function toGroup(

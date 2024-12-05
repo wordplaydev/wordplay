@@ -43,9 +43,11 @@ export default class StreamConcept extends Concept {
 
     getGlyphs(locales: Locales) {
         return {
-            symbols: this.definition.names
-                .getLocaleNames(locales)
-                .join(COMMA_SYMBOL),
+            symbols:
+                this.definition.names.getSymbolicName() ??
+                this.definition.names
+                    .getLocaleNames(locales)
+                    .join(COMMA_SYMBOL),
         };
     }
 

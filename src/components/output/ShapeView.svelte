@@ -12,30 +12,46 @@
     import { locales } from '../../db/Database';
     import type Shape from '../../output/Shape';
     import { Circle, Polygon, Rectangle } from '../../output/Form';
+    import { untrack } from 'svelte';
 
-    export let shape: Shape;
-    export let place: Place;
-    export let focus: Place;
-    export let interactive: boolean;
-    export let parentAscent: number;
-    export let context: RenderContext;
-    export let editing: boolean;
-    export let frame: number;
+    interface Props {
+        shape: Shape;
+        place: Place;
+        focus: Place;
+        interactive: boolean;
+        parentAscent: number;
+        context: RenderContext;
+        editing: boolean;
+        frame: number;
+    }
+
+    let {
+        shape,
+        place,
+        focus,
+        interactive,
+        parentAscent,
+        context,
+        editing,
+        frame,
+    }: Props = $props();
 
     // Visible if z is ahead of focus and font size is greater than 0.
-    $: visible = place.z > focus.z;
+    let visible = $derived(place.z > focus.z);
 
-    $: selectable = shape.selectable;
+    let selectable = $derived(shape.selectable);
 
-    $: width = shape.form.getWidth() * PX_PER_METER;
-    $: height = shape.form.getHeight() * PX_PER_METER;
+    let width = $derived(shape.form.getWidth() * PX_PER_METER);
+    let height = $derived(shape.form.getHeight() * PX_PER_METER);
 
-    let description: string | null = null;
-    let lastFrame = 0;
-    $: {
-        if (frame > lastFrame) description = shape.getDescription($locales);
+    let description: string | null = $state(null);
+    let lastFrame = $state(0);
+    // Only update the description if the frame has changed.
+    $effect(() => {
+        if (frame > untrack(() => lastFrame))
+            description = shape.getDescription($locales);
         lastFrame = frame;
-    }
+    });
 </script>
 
 {#if visible}

@@ -6,30 +6,16 @@
     import Documentation from '@components/concepts/Documentation.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import {
-        ConceptIndexSymbol,
-        ConceptPathSymbol,
+        setConceptIndex,
+        setConceptPath,
     } from '@components/project/Contexts';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import { locales } from '@db/Database';
     import Project from '@models/Project';
     import Source from '@nodes/Source';
-    import { onMount, setContext } from 'svelte';
+    import { onMount } from 'svelte';
     import { writable } from 'svelte/store';
-
-    // There's no actual project; the documentation component just relies on one to have contexts.
-    $: project = Project.make(
-        null,
-        'guide',
-        Source.make(''),
-        [],
-        $locales.getLocales(),
-    );
-
-    $: index = ConceptIndex.make(project, $locales);
-    $: indexStore.set(index);
-    let indexStore = writable<ConceptIndex | undefined>(index);
-    setContext(ConceptIndexSymbol, indexStore);
 
     function getLocaleInURL() {
         return (
@@ -49,14 +35,14 @@
     }
 
     // Initialize locale and concept with URL.
-    let locale: string | null = null;
-    let concept: string | null = null;
+    let locale: string | null = $state(null);
+    let concept: string | null = $state(null);
 
     // Create a concept path for children, initialized
     let path = writable<Concept[]>([]);
-    setContext(ConceptPathSymbol, path);
+    setConceptPath(path);
 
-    let mounted = false;
+    let mounted = $state(false);
     onMount(() => {
         locale = getLocaleInURL();
         concept = getConceptFromURL();
@@ -87,21 +73,39 @@
         }
     });
 
+    // There's no actual project; the documentation component just relies on one to have contexts.
+    let project = $derived(
+        Project.make(null, 'guide', Source.make(''), [], $locales.getLocales()),
+    );
+    let index = $derived(ConceptIndex.make(project, $locales));
+    // svelte-ignore state_referenced_locally
+    let indexStore = $state({ index });
+    setConceptIndex(indexStore);
+
+    $effect(() => {
+        indexStore.index = index;
+    });
+
     // When the concept path changes, navigate to the corresponding URL.
-    $: if (browser && $path && mounted) {
-        const current = $path.at(-1);
-        if (current) {
-            concept = current.getName($locales, false);
-        } else concept = null;
-        const newParams = new URLSearchParams();
-        if (locale) newParams.set('locale', locale);
-        else newParams.delete('locale');
-        if (concept) newParams.set('concept', concept);
-        else newParams.delete('concept');
-        if (window.location.search !== `?${newParams.toString()}`) {
-            goto(`/guide?${newParams.toString()}`);
+    $effect(() => {
+        if (browser && $path && mounted) {
+            const current = $path.at(-1);
+            if (current) {
+                concept = current.getName($locales, false);
+            } else concept = null;
+            const newParams = new URLSearchParams();
+            if (locale) newParams.set('locale', locale);
+            else newParams.delete('locale');
+            if (concept) newParams.set('concept', concept);
+            else newParams.delete('concept');
+            if (window.location.search !== `?${newParams.toString()}`) {
+                // If the path was empty, just replace the state, so we can go back.
+                goto(`/guide?${newParams.toString()}`, {
+                    replaceState: window.location.search === '',
+                });
+            }
         }
-    }
+    });
 </script>
 
 <section class="guide">

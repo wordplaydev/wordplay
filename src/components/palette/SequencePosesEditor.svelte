@@ -14,23 +14,29 @@
     import Note from '../widgets/Note.svelte';
     import { Projects, locales } from '@db/Database';
 
-    export let project: Project;
-    export let map: MapLiteral | undefined;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        map: MapLiteral | undefined;
+        editable: boolean;
+        id?: string | undefined;
+    }
+
+    let { project, map, editable, id = undefined }: Props = $props();
 
     // Get the map from the value set, unless its not a valid sequence or the maps of the selections aren't equal.
-    $: valid =
+    let valid = $derived(
         map !== undefined &&
-        map.values.every(
-            (kv) =>
-                kv instanceof KeyValue &&
-                kv.key instanceof NumberLiteral &&
-                kv.value instanceof Evaluate &&
-                kv.value.is(
-                    project.shares.output.Pose,
-                    project.getNodeContext(kv.value)
-                )
-        );
+            map.values.every(
+                (kv) =>
+                    kv instanceof KeyValue &&
+                    kv.key instanceof NumberLiteral &&
+                    kv.value instanceof Evaluate &&
+                    kv.value.is(
+                        project.shares.output.Pose,
+                        project.getNodeContext(kv.value),
+                    ),
+            ),
+    );
 
     function revisePercent(kv: KeyValue | Expression, percent: string) {
         let text = percent.replace('%', '');
@@ -48,9 +54,9 @@
                 NumberLiteral.make(
                     kv instanceof KeyValue && kv.key instanceof NumberLiteral
                         ? kv.key.number.getText().replace('%', '')
-                        : 0
+                        : 0,
                 ),
-                createPoseLiteral(project, $locales)
+                createPoseLiteral(project, $locales),
             ),
             ...map.values.slice(index + 1),
         ] as KeyValue[]);
@@ -85,7 +91,7 @@
     }
 </script>
 
-<div class="pairs">
+<div class="pairs" {id}>
     {#if map && valid}
         {#each map.values as pair, index}
             {#if pair instanceof KeyValue && pair.value instanceof Evaluate}
@@ -94,7 +100,7 @@
                         ><TextField
                             text={pair.key.toWordplay()}
                             description={$locales.get(
-                                (l) => l.ui.palette.sequence.field
+                                (l) => l.ui.palette.sequence.field,
                             ).percent}
                             placeholder="%"
                             validator={(value) => {
@@ -127,14 +133,14 @@
                         />
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.add
+                                (l) => l.ui.palette.sequence.button.add,
                             )}
                             active={editable}
                             action={() => addPose(index)}>+</Button
                         >
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.remove
+                                (l) => l.ui.palette.sequence.button.remove,
                             )}
                             action={() => removePose(index)}
                             active={editable &&
@@ -143,14 +149,14 @@
                         >
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.up
+                                (l) => l.ui.palette.sequence.button.up,
                             )}
                             action={() => movePose(index, -1)}
                             active={editable && index > 0}>↑</Button
                         >
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.palette.sequence.button.down
+                                (l) => l.ui.palette.sequence.button.down,
                             )}
                             action={() => movePose(index, 1)}
                             active={editable && index < map.values.length - 1}
@@ -164,7 +170,7 @@
                                 new OutputExpression(
                                     project,
                                     pair.value,
-                                    $locales
+                                    $locales,
                                 ),
                             ]}
                             sequence

@@ -26,8 +26,12 @@
     import { getLanguageQuoteClose } from '@locale/LanguageCode';
     import { parseFormattedTranslation } from '@parser/parseExpression';
 
-    export let project: Project;
-    export let outputs: OutputPropertyValueSet;
+    interface Props {
+        project: Project;
+        outputs: OutputPropertyValueSet;
+    }
+
+    let { project, outputs }: Props = $props();
 
     const weights: Record<string, string> = {
         light: '~',
@@ -37,32 +41,42 @@
     };
 
     // Get a link to the phrase concept, which explains how formatting works.
-    let index = getConceptIndex();
-    $: concept = $index?.getStructureConcept(
-        project.basis.shares.output.Phrase,
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let concept = $derived(
+        index?.getStructureConcept(project.basis.shares.output.Phrase),
     );
 
     // It's formatted if all of the selected outputs are a markup value. If some are, formatted is undefined.
-    $: textValue = outputs.getValue();
-    $: markupValue = textValue instanceof MarkupValue ? textValue : undefined;
-    $: formatted = markupValue ? true : textValue ? false : undefined;
-    $: formats = markupValue?.markup.paragraphs[0]?.getFormats();
-    $: weight = formats?.find((format) => format in weights) ?? 'normal';
+    let textValue = $derived(outputs.getValue());
+    let markupValue = $derived(
+        textValue instanceof MarkupValue ? textValue : undefined,
+    );
+    let formatted = $derived(
+        markupValue ? true : textValue ? false : undefined,
+    );
+    let formats = $derived(markupValue?.markup.paragraphs[0]?.getFormats());
+    let weight = $derived(
+        formats?.find((format) => format in weights) ?? 'normal',
+    );
 
     // Account for italics inside the text, rather than wrapping it, passing indeterminate state to checkbox.
-    $: italic =
+    let italic = $derived(
         formats && formats.includes('italic')
             ? true
             : textValue?.toWordplay().includes(ITALIC_SYMBOL)
               ? undefined
-              : false;
+              : false,
+    );
     // Account for underscores inside the text, rather than wrapping it, passing indeterminate state to checkbox.
-    $: underlined =
+    let underlined = $derived(
         formats && formats.includes('underline')
             ? true
             : textValue?.toWordplay().includes(UNDERSCORE_SYMBOL)
               ? undefined
-              : false;
+              : false,
+    );
 
     // Given some format, apply it if not applied, and remove it if applied.
     function applyStyle(format: 'italic' | 'underline') {
@@ -116,7 +130,7 @@
             markup = markup.replaceAll(weight, '');
         }
         // Add the desired weight.
-        const delimiter = format ? weights[format] ?? '' : '';
+        const delimiter = format ? (weights[format] ?? '') : '';
         markup = delimiter + markup + delimiter;
 
         // Update the program
@@ -229,8 +243,8 @@
 </script>
 
 <NamedControl>
-    <svelte:fragment slot="name"
-        >{#if concept}
+    {#snippet name()}
+        {#if concept}
             <small
                 ><ConceptLinkUI
                     link={concept}
@@ -238,19 +252,18 @@
                 /></small
             >
         {/if}
-        <!-- svelte-ignore a11y-label-has-associated-control -->
-        <label id="formatted"
+        <label for="formatted"
             >{$locales.get((l) => l.ui.palette.labels.format)}</label
         >
-    </svelte:fragment>
-    <svelte:fragment slot="control">
+    {/snippet}
+    {#snippet control()}
         <Checkbox
             label={$locales.get((l) => l.ui.palette.labels.format)}
             on={formatted}
             changed={(on) => setFormatted(on ?? false)}
             id="formatted"
         ></Checkbox>
-    </svelte:fragment>
+    {/snippet}
 </NamedControl>
 {#if formatted}
     <div class="aspects">

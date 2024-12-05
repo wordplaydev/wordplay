@@ -7,14 +7,19 @@
     import Emoji from '@components/app/Emoji.svelte';
     import TileSymbols from './TileSymbols';
 
-    export let project: Project;
-    export let tile: Tile;
+    interface Props {
+        project: Project;
+        tile: Tile;
+    }
+
+    let { project, tile }: Props = $props();
 
     const dispatch = createEventDispatcher();
 </script>
 
 <Toggle
     uiid="{tile.id}Expand"
+    testid="{tile.id}-toggle"
     tips={$locales.get((l) => l.ui.tile.toggle.show)}
     on={tile.isExpanded()}
     toggle={() => dispatch('toggle')}

@@ -1,33 +1,37 @@
 <script lang="ts">
-    import { onMount, setContext } from 'svelte';
+    import { onMount, type Snippet } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type { User } from 'firebase/auth';
-    import { LocalesSymbol, UserSymbol } from '../components/project/Contexts';
+    import { setUser } from '../components/project/Contexts';
     import { writable } from 'svelte/store';
     import Fonts from '../basis/Fonts';
     import { locales, DB, animationFactor, dark } from '../db/Database';
     import { browser } from '$app/environment';
     import { getLanguageDirection } from '../locale/LanguageCode';
+    interface Props {
+        children: Snippet;
+    }
 
-    /** Expose the translations as context, updating them as necessary */
-    $: setContext(LocalesSymbol, $locales);
+    let { children }: Props = $props();
 
-    let loaded = false;
-    let lag = false;
+    let loaded = $state(false);
+    let lag = $state(false);
 
     /** Create a user store to share globally. */
     const user = writable<User | null>(null);
-    setContext(UserSymbol, user);
+    setUser(user);
 
-    // Keep the page's language and direction up to date.
-    $: if (typeof document !== 'undefined') {
-        const language = $locales.getLocale().language;
-        document.documentElement.setAttribute('lang', language);
-        document.documentElement.setAttribute(
-            'dir',
-            getLanguageDirection(language)
-        );
-    }
+    /** Keep the page's language and direction up to date. */
+    $effect(() => {
+        if (typeof document !== 'undefined') {
+            const language = $locales.getLocale().language;
+            document.documentElement.setAttribute('lang', language);
+            document.documentElement.setAttribute(
+                'dir',
+                getLanguageDirection(language),
+            );
+        }
+    });
 
     onMount(() => {
         // Force default font to load
@@ -57,11 +61,13 @@
     }
 
     /** When dark mode changes, update the body's dark class */
-    $: if (browser) {
-        if ($dark === true || ($dark === null && prefersDark()))
-            document.body.classList.add('dark');
-        else document.body.classList.remove('dark');
-    }
+    $effect(() => {
+        if (browser) {
+            if ($dark === true || ($dark === null && prefersDark()))
+                document.body.classList.add('dark');
+            else document.body.classList.remove('dark');
+        }
+    });
 </script>
 
 <div
@@ -72,7 +78,7 @@
             ...$locales.getLocales().map((locale) => locale.ui.font.app),
             'Noto Emoji',
             'Noto Color Emoji',
-        ])
+        ]),
     )
         .map((font) => `"${font}"`)
         .join(', ')}
@@ -83,14 +89,15 @@
             'Noto Emoji',
             'Noto Color Emoji',
             'Noto Sans',
-        ])
+        ]),
     )
         .map((font) => `"${font}"`)
         .join(', ')}
     lang={$locales.getLocale().language}
 >
-    <slot />
     {#if !loaded && lag}
         <Loading />
+    {:else}
+        {@render children()}
     {/if}
 </div>

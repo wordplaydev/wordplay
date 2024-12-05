@@ -1,11 +1,20 @@
 <script lang="ts">
-    export let on: boolean | undefined;
-    export let label: string;
-    export let changed: undefined | ((value: boolean | undefined) => void) =
-        undefined;
-    export let editable = true;
-    /** Mandatory id for label */
-    export let id: string | null;
+    interface Props {
+        on: boolean | undefined;
+        label: string;
+        changed?: undefined | ((value: boolean | undefined) => void);
+        editable?: boolean;
+        /** Mandatory id for label */
+        id: string | undefined;
+    }
+
+    let {
+        on = $bindable(),
+        label,
+        changed = undefined,
+        editable = true,
+        id,
+    }: Props = $props();
 
     function handleInput() {
         if (changed) changed(on);
@@ -20,7 +29,7 @@
     disabled={!editable}
     bind:checked={on}
     indeterminate={on === undefined}
-    on:change={handleInput}
+    onchange={handleInput}
 />
 
 <style>

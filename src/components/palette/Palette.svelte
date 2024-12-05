@@ -30,38 +30,51 @@
     import EditOffer from './EditOffer.svelte';
     import TextStyleEditor from './TextStyleEditor.svelte';
 
-    export let project: Project;
-    export let editable: boolean;
+    interface Props {
+        project: Project;
+        editable: boolean;
+    }
+
+    let { project, editable }: Props = $props();
 
     let evaluation = getEvaluation();
-    let index = getConceptIndex();
-    let selectedOutput = getSelectedOutput();
+
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
+    let selection = getSelectedOutput();
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
-    $: outputs = $selectedOutput
-        ? $selectedOutput
-              .map(
-                  (evaluate) =>
-                      new OutputExpression(project, evaluate, $locales),
-              )
-              .filter((out) => out.isOutput())
-        : [];
-    $: definition = outputs[0]?.node.getFunction(
-        project.getNodeContext(outputs[0].node),
+    let outputs = $derived(
+        selection?.selectedOutput
+            ? selection.selectedOutput
+                  .map(
+                      (evaluate) =>
+                          new OutputExpression(project, evaluate, $locales),
+                  )
+                  .filter((out) => out.isOutput())
+            : [],
+    );
+    let definition = $derived(
+        outputs[0]?.node.getFunction(project.getNodeContext(outputs[0].node)),
     );
 
-    $: phrase = getSoloPhrase(project);
-    $: group = getSoloGroup(project);
-    $: stage = getStage(project);
+    let phrase = $derived(getSoloPhrase(project));
+    let group = $derived(getSoloGroup(project));
+    let stage = $derived(getStage(project));
 
     /**
      * From the list of OutputExpressions, generate a value set for each property to allow for editing
      * multiple output expressions at once. */
-    let propertyValues: Map<OutputProperty, OutputPropertyValueSet>;
+    let propertyValues: Map<OutputProperty, OutputPropertyValueSet> = $state(
+        new Map(),
+    );
     // Keep a reference to the text, since we need to pass that to the text style.
-    let phraseTextValues: OutputPropertyValueSet | undefined = undefined;
+    let phraseTextValues: OutputPropertyValueSet | undefined =
+        $state(undefined);
 
-    $: {
+    // Derive the property values and text values from outputs.
+    $effect(() => {
         // Make a set of all of the properties in the selection set
         const properties = new Set<OutputProperty>(
             outputs.reduce(
@@ -72,18 +85,20 @@
                 [],
             ),
         );
-        propertyValues = new Map();
+        const newPropertyValues = new Map();
         // Map the properties to a set of values.
         for (const property of properties) {
             const values = new OutputPropertyValueSet(property, outputs);
             // Exclue any properties that happen to have no values.
             if (!values.isEmpty() && values.onAll())
-                propertyValues.set(property, values);
+                newPropertyValues.set(property, values);
             // Remember the phrase text property
             if (property.name === $locales.get((l) => l.output.Phrase.text))
                 phraseTextValues = values;
         }
-    }
+
+        propertyValues = newPropertyValues;
+    });
 </script>
 
 <section
@@ -95,7 +110,7 @@
         <Speech
             glyph={(outputs.length > 1 || definition === undefined
                 ? undefined
-                : $index?.getStructureConcept(definition)) ?? {
+                : index?.getStructureConcept(definition)) ?? {
                 symbols:
                     outputs.length === 0
                         ? '🎨'
@@ -104,13 +119,13 @@
                               .join(', '),
             }}
         >
-            <svelte:fragment slot="content">
+            {#snippet content()}
                 <MarkupHtmlView
                     markup={$locales.concretize(
                         (l) => l.ui.palette.prompt.editing,
                     )}
                 />
-            </svelte:fragment>
+            {/snippet}
         </Speech>
 
         <!-- Something selected? Show the property values. -->

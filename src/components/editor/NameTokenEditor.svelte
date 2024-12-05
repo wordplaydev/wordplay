@@ -8,10 +8,19 @@
     import { getCaret } from '@components/project/Contexts';
     import Name from '@nodes/Name';
 
-    export let name: Token;
-    export let project: Project;
-    export let text: string;
-    export let placeholder: string;
+    interface Props {
+        name: Token;
+        project: Project;
+        text: string;
+        placeholder: string;
+    }
+
+    let {
+        name,
+        project,
+        text,
+        placeholder
+    }: Props = $props();
 
     const caret = getCaret();
 </script>

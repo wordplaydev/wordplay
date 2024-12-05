@@ -71,8 +71,8 @@ export function describedChangedOutput(
 
     return changes.size === 0
         ? undefined
-        : Object.entries(changes)
-              .toSorted((a, b) => b[1] - a[1])
+        : [...Object.entries(changes)]
+              .sort((a, b) => b[1] - a[1])
               .map(([desc, count]) => `${count} ${desc}`)
               .join(', ');
 }

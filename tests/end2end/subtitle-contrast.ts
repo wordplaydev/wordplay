@@ -1,6 +1,7 @@
 import { test, expect } from '@playwright/test';
 import AxeBuilder from '@axe-core/playwright';
 import type { AxeResults } from 'axe-core';
+import goHome from './goHome';
 
 // Print out the accessibility scan results from AxeBuilder.
 function printAccessibilityScanResults(axeBuilderScanResults: AxeResults) {
@@ -28,7 +29,8 @@ function printAccessibilityScanResults(axeBuilderScanResults: AxeResults) {
 test('Test Wordplay homepage subtitles for WCAG violations', async ({
     page,
 }) => {
-    await page.goto('/');
+    await goHome(page);
+
     let accessibilityScanResults: AxeResults;
     try {
         accessibilityScanResults = await new AxeBuilder({ page })

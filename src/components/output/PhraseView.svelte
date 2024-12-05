@@ -1,4 +1,4 @@
-<script context="module" lang="ts">
+<script module lang="ts">
     export const CSSAlignments: Record<string, string> = {
         '<': 'left',
         '|': 'center',
@@ -19,85 +19,100 @@
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { getContext, onMount, tick } from 'svelte';
-    import type { Writable } from 'svelte/store';
+    import { onMount, tick, untrack } from 'svelte';
     import moveOutput from '../palette/editOutput';
-    import {
-        getProject,
-        getSelectedOutput,
-        getSelectedPhrase,
-    } from '../project/Contexts';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
-    import { withVariationSelector } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
-    export let phrase: Phrase;
-    export let place: Place;
-    export let focus: Place;
-    export let interactive: boolean;
-    export let parentAscent: number;
-    export let context: RenderContext;
-    export let editing: boolean;
-    export let frame: number;
+    interface Props {
+        phrase: Phrase;
+        place: Place;
+        focus: Place;
+        interactive: boolean;
+        parentAscent: number;
+        context: RenderContext;
+        editable: boolean;
+        editing: boolean;
+        frame: number;
+    }
 
-    const selectedOutput = getSelectedOutput();
-    const selectedPhrase = getSelectedPhrase();
+    let {
+        phrase,
+        place,
+        focus,
+        interactive,
+        parentAscent,
+        context,
+        editable,
+        editing,
+        frame,
+    }: Props = $props();
+
+    const selection = getSelectedOutput();
     const project = getProject();
 
     // Compute a local context based on size and font.
-    $: context = phrase.getRenderContext(context);
+    let localContext = $derived(phrase.getRenderContext(context));
 
     // Visible if z is ahead of focus and font size is greater than 0.
-    $: visible = place.z > focus.z && (phrase.size ?? context.size > 0);
+    let visible = $derived(
+        place.z > focus.z && (phrase.size ?? localContext.size > 0),
+    );
 
     // Get the phrase's text in the preferred language
-    $: text = phrase.getLocalizedTextOrDoc($locales);
-    $: empty = phrase.isEmpty();
-    $: selectable = phrase.selectable && !empty;
+    let text = $derived(phrase.getLocalizedTextOrDoc($locales));
+    let empty = $derived(phrase.isEmpty());
+    let selectable = $derived(phrase.selectable && !empty);
 
     // The text field, if being edited.
-    let input: HTMLInputElement | undefined;
+    let input: HTMLInputElement | undefined = $state();
 
     // Selected if this phrase's value creator is selected
-    $: selected =
+    let selected = $derived(
         phrase.value.creator instanceof Evaluate &&
-        $selectedOutput?.includes(phrase.value.creator);
+            selection?.selectedOutput.includes(phrase.value.creator),
+    );
 
-    let editable = getContext<Writable<boolean>>('editable');
-    $: entered =
+    let entered = $derived(
         selected &&
-        $editable &&
-        $selectedPhrase &&
-        $selectedPhrase.index !== null;
+            editable &&
+            selection &&
+            selection.selectedPhrase &&
+            selection.selectedPhrase.index !== null,
+    );
 
-    $: metrics = phrase.getMetrics(context);
+    let metrics = $derived(phrase.getMetrics(localContext));
 
-    let description: string | null = null;
-    let lastFrame = 0;
-    $: {
+    let description: string | null = $state(null);
+    let lastFrame = $state(0);
+
+    $effect(() => {
         if (phrase.description) description = phrase.description.text;
-        else if (frame > lastFrame)
+        else if (frame > untrack(() => lastFrame))
             description = phrase.getDescription($locales);
         lastFrame = frame;
-    }
+    });
 
     onMount(restore);
 
     function restore() {
-        if ($editable) {
+        if (editable) {
             if (entered) {
                 if (
                     input &&
-                    $selectedPhrase &&
-                    $selectedPhrase.index !== null
+                    selection &&
+                    selection.selectedPhrase &&
+                    selection.selectedPhrase.index !== null
                 ) {
                     input.setSelectionRange(
-                        $selectedPhrase.index,
-                        $selectedPhrase.index,
+                        selection.selectedPhrase.index,
+                        selection.selectedPhrase.index,
                     );
                     setKeyboardFocus(
                         input,
@@ -117,8 +132,8 @@
     }
 
     function select(index: number | null) {
-        if (selectedPhrase === undefined) return;
-        selectedPhrase.set({
+        if (selection?.selectedPhrase === undefined) return;
+        selection.setSelectedPhrase({
             name: phrase.getName(),
             index,
         });
@@ -127,7 +142,7 @@
     function move(event: KeyboardEvent) {
         if (
             $project === undefined ||
-            selectedOutput === undefined ||
+            selection?.selectedOutput === undefined ||
             entered ||
             !event.key.startsWith('Arrow') ||
             !(phrase.value.creator instanceof Evaluate)
@@ -179,7 +194,8 @@
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
-        if ($project === undefined || selectedOutput === undefined) return;
+        if ($project === undefined || selection?.selectedOutput === undefined)
+            return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.getText();
@@ -219,10 +235,10 @@
         data-node-id={phrase.value.creator.id}
         data-name={phrase.getName()}
         data-selectable={selectable}
-        on:dblclick={$editable && interactive ? enter : null}
-        on:keydown={$editable && interactive && !entered ? move : null}
-        style:font-family={getFaceCSS(context.face)}
-        style:font-size={getSizeCSS(context.size)}
+        ondblclick={editable && interactive ? enter : null}
+        onkeydown={editable && interactive && !entered ? move : null}
+        style:font-family={getFaceCSS(localContext.face)}
+        style:font-size={getSizeCSS(localContext.size)}
         style:background={phrase.background?.toCSS() ?? null}
         style:color={getColorCSS(phrase.getFirstRestPose(), phrase.pose)}
         style:opacity={getOpacityCSS(phrase.getFirstRestPose(), phrase.pose)}
@@ -261,20 +277,17 @@
                 type="text"
                 value={text}
                 bind:this={input}
-                on:input={handleInput}
-                on:keydown|stopPropagation
-                on:pointerdown|stopPropagation
+                oninput={handleInput}
+                onkeydown={(event) => event.stopPropagation()}
+                onpointerdown={(event) => event.stopPropagation()}
                 style:width="{Math.max(
                     10,
-                    phrase.getMetrics(context, false).width,
+                    phrase.getMetrics(localContext, false).width,
                 )}px"
                 style:height="{metrics.height}px"
                 style:line-height="{metrics.height}px"
             />
-        {:else if text instanceof TextLang}{withVariationSelector(
-                text.text,
-                true,
-            )}{:else if text instanceof Markup}<MarkupHtmlView
+        {:else if text instanceof TextLang}{text.text}{:else if text instanceof Markup}<MarkupHtmlView
                 markup={text.asLine()}
                 inline
             />{/if}
@@ -317,7 +330,7 @@
             var(--wordplay-highlight-color);
     }
 
-    :global(.stage.editing.interactive) :not(.selected) {
+    :global(.stage.editing.interactive) :not(:global(.selected)) {
         outline: var(--wordplay-focus-width) dotted
             var(--wordplay-inactive-color);
     }

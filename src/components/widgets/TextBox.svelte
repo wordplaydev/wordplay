@@ -1,12 +1,21 @@
 <script lang="ts">
     import { onMount } from 'svelte';
 
-    export let text: string;
-    export let description: string;
-    export let placeholder: string;
-    export let done: (text: string) => void;
+    interface Props {
+        text: string;
+        description: string;
+        placeholder: string;
+        done: (text: string) => void;
+    }
 
-    let view: HTMLTextAreaElement | undefined;
+    let {
+        text = $bindable(),
+        description,
+        placeholder,
+        done
+    }: Props = $props();
+
+    let view: HTMLTextAreaElement | undefined = $state();
 
     function resize() {
         if (view) {
@@ -24,9 +33,9 @@
     {placeholder}
     bind:value={text}
     bind:this={view}
-    on:blur={() => done(text)}
-    on:input={resize}
-/>
+    onblur={() => done(text)}
+    oninput={resize}
+></textarea>
 
 <style>
     textarea {

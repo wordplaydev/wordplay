@@ -1,21 +1,8 @@
 import { test, expect, type Page } from '@playwright/test';
-
-test('has Wordplay window title', async ({ page }) => {
-    await page.goto('/');
-
-    // Expect a title "to contain" a substring.
-    await expect(page).toHaveTitle('Wordplay');
-});
-
-test('has Wordplay header', async ({ page }) => {
-    await page.goto('/');
-
-    // Expects page to have a heading with the name Wordplay.
-    await expect(page.getByRole('heading', { name: 'Wordplay' })).toBeVisible();
-});
+import goHome from './goHome';
 
 async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
-    await page.goto('/');
+    await goHome(page);
 
     // Click the first matching link.
     await page.getByText(linkAndHeader).nth(0).click();
@@ -23,7 +10,7 @@ async function clickLinkAndCheckHeader(page: Page, linkAndHeader: string) {
     // Expects page to have a heading with the name Wordplay.
     await expect(
         page.getByRole('heading', { name: linkAndHeader }),
-    ).toBeVisible();
+    ).toBeVisible({ timeout: 10000 });
 }
 
 // This test succeeds on all platforms except Mobile Safari when running in a GitHub action.

@@ -6,10 +6,21 @@
     import { getProject } from '../project/Contexts';
     import { Projects } from '../../db/Database';
 
-    export let property: OutputProperty;
-    export let values: OutputPropertyValues;
-    export let options: OutputPropertyOptions;
-    export let editable: boolean;
+    interface Props {
+        property: OutputProperty;
+        values: OutputPropertyValues;
+        options: OutputPropertyOptions;
+        editable: boolean;
+        id?: string | undefined;
+    }
+
+    let {
+        property,
+        values,
+        options,
+        editable,
+        id = undefined,
+    }: Props = $props();
 
     let project = getProject();
 
@@ -28,7 +39,7 @@
 </script>
 
 <Options
-    id={property.getName()}
+    {id}
     label={property.getName()}
     value={options.toText(values.getExpression())}
     width="7em"

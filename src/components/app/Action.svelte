@@ -1,5 +1,15 @@
-<div class="action">
-    <slot />
+<script lang="ts">
+    import { type Snippet } from 'svelte';
+    interface Props {
+        children: Snippet;
+        meta?: boolean;
+    }
+
+    let { children, meta = false }: Props = $props();
+</script>
+
+<div class="action" class:meta>
+    {@render children()}
 </div>
 
 <style>
@@ -11,5 +21,9 @@
         border-radius: var(--wordplay-border-radius);
         background: var(--wordplay-background);
         flex: 1 0 auto;
+    }
+
+    .meta {
+        background: var(--wordplay-alternating-color);
     }
 </style>

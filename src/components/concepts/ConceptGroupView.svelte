@@ -6,10 +6,14 @@
     import Expander from '@components/widgets/Expander.svelte';
     import { animationDuration } from '../../db/Database';
 
-    export let concepts: Concept[];
-    export let collapse: boolean = true;
+    interface Props {
+        concepts: Concept[];
+        collapse?: boolean;
+    }
 
-    let expanded = false;
+    let { concepts, collapse = true }: Props = $props();
+
+    let expanded = $state(false);
 
     function toggle() {
         expanded = !expanded;
@@ -31,8 +35,10 @@
         <Note>&mdash;</Note>
     {/each}
 </div>
-{#if expanded || concepts.length > 3}
-    <Expander {expanded} {toggle}></Expander>
+{#if collapse}
+    {#if expanded || concepts.length > 3}
+        <Expander {expanded} {toggle}></Expander>
+    {/if}
 {/if}
 
 <style>

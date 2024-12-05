@@ -6,6 +6,7 @@ import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
 import type StructureType from './StructureType';
 import type Context from './Context';
+import type LocaleText from '@locale/LocaleText';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;
@@ -49,8 +50,10 @@ export default class StructureDefinitionType extends Type {
         return new StructureDefinitionType(this.type) as this;
     }
 
-    toWordplay(_: Spaces | undefined) {
-        return `•${this.type.definition.names.toWordplay(_)}`;
+    toWordplay(_: Spaces | undefined, locale: LocaleText | undefined) {
+        return locale
+            ? this.type.definition.names.getPreferredNameString([locale])
+            : this.type.definition.names.getFirst();
     }
 
     getNodeLocale(locales: Locales) {

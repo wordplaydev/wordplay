@@ -1,13 +1,15 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type Bind from '@nodes/Bind';
     import NodeView from './NodeView.svelte';
-    import { isBlocks } from '@components/project/Contexts';
+    import { getIsBlocks } from '@components/project/Contexts';
 
-    export let node: Bind;
+    interface Props {
+        node: Bind;
+    }
 
-    const blocks = isBlocks();
+    let { node }: Props = $props();
+
+    const blocks = getIsBlocks();
 </script>
 
 {#if $blocks}

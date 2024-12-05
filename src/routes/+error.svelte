@@ -10,9 +10,11 @@
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.unknown.header)}</Header>
     <Speech glyph={Glyphs.Function}
-        ><p slot="content">
-            {$locales.get((l) => l.ui.page.unknown.message)}
-            <Link to="/">🏠</Link></p
-        ></Speech
+        >{#snippet content()}
+                <p >
+                {$locales.get((l) => l.ui.page.unknown.message)}
+                <Link to="/">🏠</Link></p
+            >
+            {/snippet}</Speech
     >
 </Writing>

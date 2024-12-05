@@ -108,6 +108,12 @@ function getTokenRects(nodeView: HTMLElement) {
 
     // Get the rectangles of all of the tokens's text (or if a value, it's symbols).
     const tokenViews = nodeView.querySelectorAll('.token-view, .symbol');
+
+    if (tokenViews.length === 0) {
+        console.warn('No tokens found in node view');
+        console.warn(nodeView);
+    }
+
     for (const view of tokenViews) {
         if (view instanceof HTMLElement) {
             if (view.closest('.hide') === null) {

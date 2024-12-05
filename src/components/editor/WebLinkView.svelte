@@ -1,14 +1,16 @@
-<svelte:options immutable={true} />
-
 <script lang="ts">
     import type WebLink from '@nodes/WebLink';
     import NodeView from './NodeView.svelte';
     import { getCaret } from '../project/Contexts';
 
-    export let node: WebLink;
+    interface Props {
+        node: WebLink;
+    }
+
+    let { node }: Props = $props();
 
     let caret = getCaret();
-    $: editing = $caret?.isIn(node, true);
+    let editing = $derived($caret?.isIn(node, true));
 </script>
 
 {#if editing}

@@ -1,5 +1,5 @@
-import { getContext } from 'svelte';
-import { writable, type Readable, type Writable } from 'svelte/store';
+import { setContext, getContext } from 'svelte';
+import { type Readable, type Writable } from 'svelte/store';
 import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { InsertionPoint } from '../../edit/Drag';
@@ -26,24 +26,26 @@ import type { CaretPosition } from '../../edit/Caret';
 import type LanguageCode from '../../locale/LanguageCode';
 import type Spaces from '@parser/Spaces';
 import type { LocalizedValue } from '@db/LocalizedSetting';
+import type Color from '@output/Color';
 
-// App related contexts
+// Authentication related contexts
 
-export const UserSymbol = Symbol('user');
-export type UserContext = Writable<User | null>;
+const UserSymbol = Symbol('user');
+type UserContext = Writable<User | null>;
+export function setUser(context: UserContext) {
+    setContext(UserSymbol, context);
+}
 export function getUser(): UserContext {
     return getContext(UserSymbol);
 }
 
-export const LocalesSymbol = Symbol('locales');
-export function getLocales(): LocaleText[] {
-    return getContext(LocalesSymbol);
-}
-
 // Project related contexts
 
-export type ProjectContext = Readable<Project | undefined>;
-export const ProjectSymbol = Symbol('project');
+type ProjectContext = Readable<Project | undefined>;
+const ProjectSymbol = Symbol('project');
+export function setProject(context: ProjectContext) {
+    setContext(ProjectSymbol, context);
+}
 export function getProject() {
     return getContext<ProjectContext>(ProjectSymbol);
 }
@@ -57,8 +59,11 @@ export enum IdleKind {
     Typed = 'typed',
 }
 
-export type KeyboardEditIdleContext = Writable<IdleKind>;
-export const KeyboardEditIdleSymbol = Symbol('idle');
+type KeyboardEditIdleContext = Writable<IdleKind>;
+const KeyboardEditIdleSymbol = Symbol('idle');
+export function setKeyboardEditIdle(context: KeyboardEditIdleContext) {
+    setContext(KeyboardEditIdleSymbol, context);
+}
 export function getKeyboardEditIdle() {
     return getContext<KeyboardEditIdleContext>(KeyboardEditIdleSymbol);
 }
@@ -68,50 +73,58 @@ export type KeyModifierState = {
     alt: boolean;
     shift: boolean;
 };
-export const KeyModfifierSymbol = Symbol('modifiers');
+const KeyModfifierSymbol = Symbol('modifiers');
+type KeyModifierContext = Writable<KeyModifierState>;
+export function setKeyboardModifiers(context: KeyModifierContext) {
+    setContext(KeyModfifierSymbol, context);
+}
 export function getKeyboardModifiers() {
-    return getContext<Writable<KeyModifierState> | undefined>(
-        KeyModfifierSymbol,
-    );
+    return getContext<KeyModifierContext | undefined>(KeyModfifierSymbol);
 }
 
-export type ProjectCommandContext = Writable<CommandContext>;
-export const ProjectCommandContextSymbol = Symbol('projectcommand');
+type ProjectCommandContext = { context: CommandContext };
+const ProjectCommandContextSymbol = Symbol('projectcommand');
+export function setProjectCommandContext(context: ProjectCommandContext) {
+    setContext(ProjectCommandContextSymbol, context);
+}
 export function getProjectCommandContext() {
     return getContext<ProjectCommandContext>(ProjectCommandContextSymbol);
 }
 
 // Evaluation related contexts
 
-export type EvaluatorContext = Readable<Evaluator>;
-export const EvaluatorSymbol = Symbol('evaluator');
-export function getEvaluator() {
-    return getContext<EvaluatorContext>(EvaluatorSymbol);
-}
-
 /** A collection of state that changes each time the evaluator updates. */
-export type EvaluationContext = {
+type EvaluationContext = Writable<{
     evaluator: Evaluator;
     playing: boolean;
     step: Step | undefined;
     stepIndex: number;
     streams: StreamChange[];
-};
-export const EvaluationSymbol = Symbol('evaluation');
-export function getEvaluation(): Writable<EvaluationContext> {
+}>;
+const EvaluationSymbol = Symbol('evaluation');
+export function setEvaluation(context: EvaluationContext) {
+    setContext(EvaluationSymbol, context);
+}
+export function getEvaluation(): EvaluationContext {
     return getContext(EvaluationSymbol);
 }
 
-export const AnimatingNodesSymbol = Symbol('animatingNodes');
-export type AnimatingNodesContext = Writable<Set<Node>>;
+const AnimatingNodesSymbol = Symbol('animatingNodes');
+type AnimatingNodesContext = Writable<Set<Node>>;
+export function setAnimatingNodes(context: AnimatingNodesContext) {
+    setContext(AnimatingNodesSymbol, context);
+}
 export function getAnimatingNodes(): AnimatingNodesContext | undefined {
     return getContext(AnimatingNodesSymbol);
 }
 
 // Editor related contexts
 
-export type CaretContext = Writable<Caret> | undefined;
-export const CaretSymbol = Symbol('caret');
+type CaretContext = Writable<Caret> | undefined;
+const CaretSymbol = Symbol('caret');
+export function setCaret(context: CaretContext) {
+    setContext(CaretSymbol, context);
+}
 export function getCaret() {
     return getContext<CaretContext>(CaretSymbol);
 }
@@ -123,7 +136,7 @@ export type EditHandler = (
 ) => void;
 
 /** Various components outside the editor use this to apply edits */
-export const EditorsSymbol = Symbol('editors');
+
 export type EditorState = {
     caret: Caret;
     project: Project;
@@ -133,154 +146,177 @@ export type EditorState = {
     toggleMenu: () => void;
     grabFocus: (message: string) => void;
 };
-export type EditorsContext = Writable<Map<string, EditorState>>;
+
+const EditorsSymbol = Symbol('editors');
+type EditorsContext = Writable<Map<string, EditorState>>;
+export function setEditors(context: EditorsContext) {
+    setContext(EditorsSymbol, context);
+}
 export function getEditors() {
     return getContext<EditorsContext>(EditorsSymbol);
 }
 
-export type EditorContext = Writable<EditorState>;
-export const EditorSymbol = Symbol('editor');
+type EditorContext = Writable<EditorState>;
+const EditorSymbol = Symbol('editor');
+export function setEditor(context: EditorContext) {
+    setContext(EditorSymbol, context);
+}
 export function getEditor(): EditorContext | undefined {
     return getContext<EditorContext>(EditorSymbol);
 }
 
-export const ConflictsSymbol = Symbol('conflicts');
-export type ConflictsContext = Writable<Conflict[]>;
+const ConflictsSymbol = Symbol('conflicts');
+type ConflictsContext = Writable<Conflict[]>;
+export function setConflicts(context: ConflictsContext) {
+    setContext(ConflictsSymbol, context);
+}
 export function getConflicts(): ConflictsContext | undefined {
     return getContext(ConflictsSymbol);
 }
 
-export type HoveredContext = Writable<Node | undefined> | undefined;
-export const HoveredSymbol = Symbol('hovered');
+type HoveredContext = Writable<Node | undefined> | undefined;
+const HoveredSymbol = Symbol('hovered');
+export function setHovered(context: HoveredContext) {
+    setContext(HoveredSymbol, context);
+}
 export function getHovered() {
     return getContext<HoveredContext>(HoveredSymbol);
 }
 
-export type InsertionPointContext =
-    | Writable<InsertionPoint | undefined>
-    | undefined;
-export const InsertionPointsSymbol = Symbol('insertions');
+type InsertionPointContext = Writable<InsertionPoint | undefined> | undefined;
+const InsertionPointsSymbol = Symbol('insertions');
+export function setInsertionPoint(context: InsertionPointContext) {
+    setContext(InsertionPointsSymbol, context);
+}
 export function getInsertionPoint() {
     return getContext<InsertionPointContext>(InsertionPointsSymbol);
 }
 
-export type DraggedContext = Writable<Node | undefined>;
-export const DraggedSymbol = Symbol('dragged');
+type DraggedContext = Writable<Node | undefined>;
+const DraggedSymbol = Symbol('dragged');
+export function setDragged(context: DraggedContext) {
+    setContext(DraggedSymbol, context);
+}
 export function getDragged() {
     return getContext<DraggedContext | undefined>(DraggedSymbol);
 }
 
-export type HighlightContext = Writable<Highlights> | undefined;
-export const HighlightSymbol = Symbol('highlight');
+type HighlightContext = Writable<Highlights> | undefined;
+const HighlightSymbol = Symbol('highlight');
+export function setHighlights(context: HighlightContext) {
+    setContext(HighlightSymbol, context);
+}
 export function getHighlights() {
     return getContext<HighlightContext>(HighlightSymbol);
 }
 
-// Highlight Counts
-export const HighlightCountSymbol = Symbol('highlight-count');
-export type HighlightCountContext = Writable<number>;
-export function getHighlightCount(): HighlightCountContext {
-    return getContext<HighlightCountContext>(HighlightCountSymbol);
+const SpacesSymbol = Symbol('space');
+type SpacesContext = Writable<Spaces>;
+export function setSpaces(context: SpacesContext) {
+    setContext(SpacesSymbol, context);
+}
+export function getSpaces() {
+    return getContext<SpacesContext>(SpacesSymbol);
 }
 
-export const highlightIndex = writable(0);
-
-export const SpaceSymbol = Symbol('space');
-export type SpaceContext = Writable<Spaces>;
-export function getSpace() {
-    return getContext<SpaceContext>(SpaceSymbol);
+const HiddenSymbol = Symbol('hidden');
+type HiddenContext = Writable<Set<Node>>;
+export function setHidden(context: HiddenContext) {
+    setContext(HiddenSymbol, context);
 }
-
-export const HiddenSymbol = Symbol('hidden');
-export type HiddenContext = Writable<Set<Node>>;
 export function getHidden() {
     return getContext<HiddenContext | undefined>(HiddenSymbol);
 }
 
-export const LocalizeSymbol = Symbol('localize');
+const LocalizeSymbol = Symbol('localize');
+type LocalizeContext = Writable<LocalizedValue>;
+export function setLocalize(context: LocalizeContext) {
+    setContext(LocalizeSymbol, context);
+}
 export function getLocalize() {
-    return getContext<Writable<LocalizedValue> | undefined>(LocalizeSymbol);
+    return getContext<LocalizeContext>(LocalizeSymbol);
 }
 
-export const ConceptPathSymbol = Symbol('palette-path');
-export type ConceptPathContext = Writable<Concept[]>;
+const ConceptPathSymbol = Symbol('palette-path');
+type ConceptPathContext = Writable<Concept[]>;
+export function setConceptPath(context: ConceptPathContext) {
+    setContext(ConceptPathSymbol, context);
+}
 export function getConceptPath() {
     return getContext<ConceptPathContext>(ConceptPathSymbol);
 }
 
-export const ConceptIndexSymbol = Symbol('palette-index');
-export type ConceptIndexContext = Writable<ConceptIndex | undefined>;
-export function getConceptIndex() {
+const ConceptIndexSymbol = Symbol('palette-index');
+export type ConceptIndexContext = { index: ConceptIndex | undefined };
+export function setConceptIndex(context: ConceptIndexContext) {
+    setContext(ConceptIndexSymbol, context);
+}
+export function getConceptIndex(): ConceptIndexContext | undefined {
     return getContext<ConceptIndexContext>(ConceptIndexSymbol);
 }
 
-export const RootSymbol = Symbol('root');
-export type RootContext = Writable<Root | undefined>;
+const RootSymbol = Symbol('root');
+type RootContext = { root: Root | undefined };
+export function setRoot(context: RootContext) {
+    setContext(RootSymbol, context);
+}
 export function getRoot() {
     return getContext<RootContext>(RootSymbol);
 }
 
-export const MenuNodeSymbol = Symbol('menu');
-export type MenuNodeContext = Writable<
-    (position: CaretPosition | undefined) => void
->;
+const MenuNodeSymbol = Symbol('menu');
+type MenuNodeContext = Writable<(position: CaretPosition | undefined) => void>;
+export function setSetMenuNode(context: MenuNodeContext) {
+    setContext(MenuNodeSymbol, context);
+}
 export function getSetMenuNode() {
     return getContext<MenuNodeContext>(MenuNodeSymbol);
 }
 
-export const ShowLinesSymbol = Symbol('lines');
-export type ShowLinesContext = Writable<boolean>;
+const ShowLinesSymbol = Symbol('lines');
+type ShowLinesContext = Writable<boolean>;
+export function setShowLines(context: ShowLinesContext) {
+    setContext(ShowLinesSymbol, context);
+}
 export function getShowLines() {
     return getContext<ShowLinesContext>(ShowLinesSymbol);
 }
 
-export const BlocksSymbol = Symbol('blocks');
-export type BlocksContext = Writable<boolean>;
-export function isBlocks() {
+const BlocksSymbol = Symbol('blocks');
+type BlocksContext = Writable<boolean>;
+export function setIsBlocks(context: BlocksContext) {
+    setContext(BlocksSymbol, context);
+}
+export function getIsBlocks() {
     return getContext<BlocksContext>(BlocksSymbol);
 }
 
 // Output related contexts
+export type SelectedOutputPaths = {
+    source: Source | undefined;
+    path: Path | undefined;
+}[];
 
-export const SelectedOutputPathsSymbol = Symbol('selected-output-paths');
-export type SelectedOutputPathsContext = Writable<
-    { source: Source | undefined; path: Path | undefined }[]
->;
-export function getSelectedOutputPaths():
-    | SelectedOutputPathsContext
-    | undefined {
-    return getContext(SelectedOutputPathsSymbol);
-}
-
-export function setSelectedOutput(
-    paths: SelectedOutputPathsContext,
-    project: Project,
-    evaluates: Evaluate[],
-) {
-    // Map each selected output to its replacement, then set the selected output to the replacements.
-    paths.set(
-        evaluates.map((output) => {
-            return {
-                source: project.getSourceOf(output),
-                path: project.getRoot(output)?.getPath(output),
-            };
-        }),
-    );
-}
-
-export const SelectedOutputSymbol = Symbol('selected-output');
-export type SelectedOutputContext = Readable<Evaluate[]>;
-export function getSelectedOutput(): SelectedOutputContext | undefined {
-    return getContext(SelectedOutputSymbol);
-}
-
-export const SelectedPhraseSymbol = Symbol('selected-phrase');
-export type SelectedPhraseContext = Writable<{
+export type SelectedPhrase = {
     name: string;
     index: number | null;
-} | null>;
-export function getSelectedPhrase(): SelectedPhraseContext | undefined {
-    return getContext(SelectedPhraseSymbol);
+} | null;
+
+export type SelectedOutputContext = {
+    selectedPaths: SelectedOutputPaths;
+    selectedOutput: Evaluate[];
+    selectedPhrase: SelectedPhrase;
+    setSelectedOutput: (project: Project, evaluates: Evaluate[]) => void;
+    setSelectedPhrase: (phrase: SelectedPhrase) => void;
+};
+
+const SelectedOutputSymbol = Symbol('selected-output');
+
+export function setSelectedOutputContext(context: SelectedOutputContext) {
+    setContext(SelectedOutputSymbol, context);
+}
+export function getSelectedOutput(): SelectedOutputContext | undefined {
+    return getContext(SelectedOutputSymbol);
 }
 
 // Accessibility contexts
@@ -289,12 +325,37 @@ export function getSelectedPhrase(): SelectedPhraseContext | undefined {
 // for screen readers. Children can override by ID to change what's announced.
 // This minimizes the number of live regions on the page, increasing the likelihood
 // that they're read.
-export const AnnouncerSymbol = Symbol('announcer');
-export type Announce = (
+const AnnouncerSymbol = Symbol('announcer');
+export type AnnouncerContext = (
     id: string,
     language: LanguageCode | undefined,
     message: string,
 ) => void;
-export function getAnnounce(): Readable<Announce | undefined> {
+export function setAnnouncer(context: Writable<AnnouncerContext | undefined>) {
+    setContext(AnnouncerSymbol, context);
+}
+export function getAnnounce(): Writable<AnnouncerContext | undefined> {
     return getContext(AnnouncerSymbol);
+}
+
+// Presentation contexts
+const FullscreenSymbol = Symbol('fullscreen');
+export type FullscreenContext = Writable<{
+    on: boolean;
+    background: Color | string | null;
+}>;
+export function setFullscreen(context: FullscreenContext) {
+    setContext(FullscreenSymbol, context);
+}
+export function getFullscreen() {
+    return getContext<FullscreenContext>(FullscreenSymbol);
+}
+
+const InteractiveSymbol = Symbol('interactive');
+type InteractiveContext = { interactive: boolean };
+export function setInteractive(context: InteractiveContext) {
+    setContext(InteractiveSymbol, context);
+}
+export function getInteractive() {
+    return getContext<InteractiveContext>(InteractiveSymbol);
 }

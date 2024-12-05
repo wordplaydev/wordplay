@@ -11,7 +11,11 @@
     import Feedback from '@components/app/Feedback.svelte';
     import PII from './PII.svelte';
 
-    export let project: Project;
+    interface Props {
+        project: Project;
+    }
+
+    let { project }: Props = $props();
 
     const user = getUser();
     const creatorGalleries = Galleries.creatorGalleries;

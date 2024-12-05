@@ -23,12 +23,14 @@
     import Button from '../../components/widgets/Button.svelte';
     import { GalleriesCollection } from '../../db/GalleryDatabase';
 
-    let lastBatch: QueryDocumentSnapshot<DocumentData>;
+    let lastBatch = $state<QueryDocumentSnapshot<DocumentData> | undefined>(
+        undefined,
+    );
 
     const examples = Galleries.exampleGalleries;
 
     /** Start the list of galleries with the example galleries. */
-    let loadedGalleries: Gallery[] = [];
+    let loadedGalleries: Gallery[] = $state([]);
 
     onMount(async () => {
         nextBatch();
@@ -43,14 +45,14 @@
                   orderBy('featured'),
                   orderBy('id'),
                   startAfter(lastBatch),
-                  limit(5)
+                  limit(5),
               )
             : query(
                   collection(firestore, GalleriesCollection),
                   where('public', '==', true),
                   orderBy('featured'),
                   orderBy('id'),
-                  limit(5)
+                  limit(5),
               );
         const documentSnapshots = await getDocs(first);
 
@@ -63,13 +65,13 @@
             ...documentSnapshots.docs.map(
                 (snap) =>
                     new Gallery(
-                        upgradeGallery(snap.data() as SerializedGallery)
-                    )
+                        upgradeGallery(snap.data() as SerializedGallery),
+                    ),
             ),
         ];
     }
 
-    $: galleries = [...$examples, ...loadedGalleries];
+    let galleries = $derived([...$examples, ...loadedGalleries]);
 </script>
 
 <svelte:head>

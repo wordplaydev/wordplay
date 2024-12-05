@@ -7,8 +7,12 @@
     import { onMount } from 'svelte';
     import { locales } from '@db/Database';
 
-    export let concept: StructureConcept;
-    export let subconcept: BindConcept | undefined = undefined;
+    interface Props {
+        concept: StructureConcept;
+        subconcept?: BindConcept | undefined;
+    }
+
+    let { concept, subconcept = undefined }: Props = $props();
 
     function showSubconcept(sub: BindConcept | undefined) {
         if (sub) {
@@ -32,7 +36,10 @@
     }
 
     // Any time the subconcept changes, scroll to it.
-    $: if (subconcept) showSubconcept(subconcept);
+    $effect(() => {
+        if (subconcept) showSubconcept(subconcept);
+    });
+
     // When we load, scroll to it.
     onMount(() => showSubconcept(subconcept));
 </script>

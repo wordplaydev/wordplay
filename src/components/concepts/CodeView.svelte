@@ -12,17 +12,30 @@
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import { blocks } from '@db/Database';
 
-    export let node: Node;
-    export let concept: Concept | undefined = undefined;
-    export let spaces: Spaces | undefined = undefined;
-    export let type: Type | undefined = undefined;
-    export let describe = true;
-    export let inline = false;
-    export let outline = true;
+    interface Props {
+        node: Node;
+        concept?: Concept | undefined;
+        spaces?: Spaces | undefined;
+        type?: Type | undefined;
+        describe?: boolean;
+        inline?: boolean;
+        outline?: boolean;
+    }
+
+    let {
+        node,
+        concept = undefined,
+        spaces = undefined,
+        type = undefined,
+        describe = true,
+        inline = false,
+        outline = true,
+    }: Props = $props();
 
     let dragged = getDragged();
 
     function handlePointerDown(event: PointerEvent) {
+        event.stopPropagation();
         // Release the implicit pointer capture so events can travel to other components.
         if (event.target instanceof Element)
             event.target.releasePointerCapture(event.pointerId);
@@ -51,8 +64,8 @@
             class:definition={node instanceof Expression &&
                 node.getKind() === ExpressionKind.Definition}
             tabindex="0"
-            on:pointerdown|stopPropagation={handlePointerDown}
-            on:keydown={(event) =>
+            onpointerdown={handlePointerDown}
+            onkeydown={(event) =>
                 event.key === 'c' && (event.ctrlKey || event.metaKey)
                     ? copy()
                     : undefined}
@@ -114,7 +127,7 @@
         background: var(--wordplay-hover);
     }
 
-    .node:not(.outline) {
+    .node:not(:global(.outline)) {
         border-radius: var(--wordplay-border-radius);
     }
 

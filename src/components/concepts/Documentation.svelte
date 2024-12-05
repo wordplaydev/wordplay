@@ -35,10 +35,14 @@
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import ConceptLink from '../../nodes/ConceptLink';
 
-    export let project: Project;
-    export let collapse: boolean = true;
+    interface Props {
+        project: Project;
+        collapse?: boolean;
+    }
 
-    let view: HTMLElement | undefined;
+    let { project, collapse = true }: Props = $props();
+
+    let view: HTMLElement | undefined = $state();
 
     /**
      * The palette is hybrid documentation/drag and drop palette, organized by types.
@@ -46,17 +50,17 @@
      * 2) functions on the type. It includes any creator-defined types and borrowed types in the active project.
      */
 
-    let index = getConceptIndex();
+    let indexContext = getConceptIndex();
+    let index = $derived(indexContext?.index);
+
     let path = getConceptPath();
 
     let dragged = getDragged();
 
-    let query = '';
-    let results: [Concept, [string, number, number][]][] | undefined =
-        undefined;
+    let query = $state('');
 
-    let currentConcept: Concept | undefined = undefined;
-    $: currentConcept = $path[$path.length - 1];
+    /** The current concept is always the one at the end of the list. */
+    let currentConcept = $derived($path[$path.length - 1]);
 
     async function scrollToTop() {
         // Wait for everything to render
@@ -74,43 +78,42 @@
     });
     onDestroy(() => queryResetUnsub());
 
-    // When the path changes to a non-bind concept, scroll to top.
-    let previousPath: Concept[] = [];
-    $: {
+    /** Remember the previous path we visited */
+    let previousPath: Concept[] = $state([]);
+
+    /** When the path changes to a different concept, scroll to top. */
+    $effect(() => {
         if (
             previousPath.map((c) => c.getName($locales, false)).join() !==
             $path.map((c) => c.getName($locales, false)).join()
-        )
+        ) {
             scrollToTop();
-        previousPath = $path.slice();
-    }
+            previousPath = $path.slice();
+        }
+    });
 
-    // If the query changes to non-empty, compute results
-    $: {
-        if (query !== '') {
-            results = $index?.getQuery($locales, query);
-            // If there are results, sort them by priority
-            if (results) {
-                results = results.sort((a, b) => {
-                    const [, aMatches] = a;
-                    const [, bMatches] = b;
-                    const aMinPriority = Math.min.apply(
-                        null,
-                        aMatches.map(([, , match]) => match),
-                    );
-                    const bMinPriority = Math.min.apply(
-                        null,
-                        bMatches.map(([, , match]) => match),
-                    );
-                    return aMinPriority - bMinPriority;
-                });
-            }
-        } else results = undefined;
-    }
+    // If the query changes to non-empty, compute matches
+    let results: [Concept, [string, number, number][]][] | undefined = $derived(
+        query.length > 1
+            ? index?.getQuery($locales, query)?.sort((a, b) => {
+                  const [, aMatches] = a;
+                  const [, bMatches] = b;
+                  const aMinPriority = Math.min.apply(
+                      null,
+                      aMatches.map(([, , match]) => match),
+                  );
+                  const bMinPriority = Math.min.apply(
+                      null,
+                      bMatches.map(([, , match]) => match),
+                  );
+                  return aMinPriority - bMinPriority;
+              })
+            : undefined,
+    );
 
     // Find all the highlights in the current documentation so we can render them.
 
-    $: highlights =
+    let highlights = $derived(
         currentConcept === undefined
             ? undefined
             : currentConcept
@@ -123,7 +126,8 @@
                   )
                   .map((concept) =>
                       concept.concept.getText().substring('@UI/'.length),
-                  );
+                  ),
+    );
 
     // When a creator drops on the palette, remove the dragged node from the source it was dragged from.
     function handleDrop() {
@@ -176,7 +180,7 @@
 </script>
 
 <!-- Drop what's being dragged if the window loses focus. -->
-<svelte:window on:blur={() => dragged?.set(undefined)} />
+<svelte:window onblur={() => dragged?.set(undefined)} />
 
 <div class="header">
     <TextField
@@ -210,14 +214,14 @@
     class="documentation"
     data-testid="documentation"
     aria-label={$locales.get((l) => l.ui.docs.label)}
-    on:pointerup={handleDrop}
+    onpointerup={handleDrop}
     bind:this={view}
 >
     <div class="content">
         <!-- Search results are prioritized over a selected concept -->
         {#if results}
             {#each results as [concept, text]}
-                <p class="result">
+                <div class="result">
                     <CodeView {concept} node={concept.getRepresentation()} />
                     <!-- Show the matching text -->
                     {#if text.length > 1 || concept.getName($locales, false) !== text[0][0]}
@@ -237,7 +241,7 @@
                             {/each}
                         </div>
                     {/if}
-                </p>
+                </div>
             {:else}
                 <div class="empty">😞</div>
             {/each}
@@ -249,7 +253,7 @@
                 <FunctionConceptView concept={currentConcept} />
                 <!-- If it's a bind, don't show a bind view, show the concept that owns the bind, and ask it to scroll to it -->
             {:else if currentConcept instanceof BindConcept}
-                {@const owner = $index?.getConceptOwner(currentConcept)}
+                {@const owner = index?.getConceptOwner(currentConcept)}
                 {#if owner instanceof FunctionConcept}
                     <FunctionConceptView
                         concept={owner}
@@ -279,8 +283,8 @@
                 />
             {/if}
             <!-- Home page is default. -->
-        {:else if $index}
-            {@const projectConcepts = $index.getPrimaryConceptsWithPurpose(
+        {:else if index}
+            {@const projectConcepts = index.getPrimaryConceptsWithPurpose(
                 Purpose.Project,
             )}
             {#if projectConcepts.length > 0}
@@ -292,53 +296,51 @@
             {/if}
             <ConceptsView
                 category={$locales.get((l) => l.term.value)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Value)}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Value)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.evaluate)}
-                concepts={$index.getPrimaryConceptsWithPurpose(
-                    Purpose.Evaluate,
-                )}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Evaluate)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.bind)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Bind)}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Bind)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.decide)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Decide)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.input)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Input)}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Input)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.output)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Output)}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Output)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.type)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Type)}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Type)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.document)}
-                concepts={$index.getPrimaryConceptsWithPurpose(
-                    Purpose.Document,
-                )}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Document)}
                 {collapse}
             />
             <ConceptsView
                 category={$locales.get((l) => l.term.source)}
-                concepts={$index.getPrimaryConceptsWithPurpose(Purpose.Source)}
+                concepts={index.getPrimaryConceptsWithPurpose(Purpose.Source)}
                 {collapse}
             />
+        {:else}
+            No index.
         {/if}
     </div>
     {#key highlights}
@@ -365,6 +367,9 @@
     .content {
         flex: 1;
         padding: calc(2 * var(--wordplay-spacing));
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 
     .content:focus {

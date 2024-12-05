@@ -11,15 +11,19 @@
     } from '../../models/Moderation';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
-    export let project: Project;
+    interface Props {
+        project: Project;
+    }
+
+    let { project }: Props = $props();
 
     const user = getUser();
 
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
-    $: audience = isAudience($user, project);
-    $: warnings = getWarnings(project.getFlags(), $locales.getLocale());
-    $: blocks = getBlocks(project.getFlags(), $locales.getLocale());
-    $: unmoderated = getUnmoderated(project.getFlags(), $locales.getLocale());
+    let audience = $derived(isAudience($user, project));
+    let warnings = $derived(getWarnings(project.getFlags(), $locales.getLocale()));
+    let blocks = $derived(getBlocks(project.getFlags(), $locales.getLocale()));
+    let unmoderated = $derived(getUnmoderated(project.getFlags(), $locales.getLocale()));
 </script>
 
 <!-- If this is an audience member and one of the flags are active -->

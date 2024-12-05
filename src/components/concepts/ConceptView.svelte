@@ -18,16 +18,24 @@
     import Link from '../app/Link.svelte';
     import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
 
-    export let concept: Concept;
-    export let type: Type | undefined = undefined;
-    export let header = true;
-    export let variables: TypeVariables | undefined = undefined;
+    interface Props {
+        concept: Concept;
+        type?: Type | undefined;
+        header?: boolean;
+        variables?: TypeVariables | undefined;
+        children?: import('svelte').Snippet;
+    }
 
-    $: node = concept.getRepresentation();
+    let {
+        concept,
+        type = undefined,
+        header = true,
+        variables = undefined,
+        children,
+    }: Props = $props();
 
     /** See if the concept corresponds to a character name, and find that character name in the locale's tutorial. */
-    let tutorialURL: string | undefined = undefined;
-    $: getConceptURL($locales.getLocale()).then((url) => (tutorialURL = url));
+    let tutorialURL: string | undefined = $state(undefined);
 
     async function getConceptURL(locale: LocaleText) {
         const character = concept.getCharacter($locales);
@@ -54,6 +62,12 @@
 
         return undefined;
     }
+    let node = $derived(concept.getRepresentation());
+
+    // When locales or the concept change, retrieve the URL to the tutorial.
+    $effect(() => {
+        getConceptURL($locales.getLocale()).then((url) => (tutorialURL = url));
+    });
 </script>
 
 <div class="concept" transition:slide|local={{ duration: $animationDuration }}>
@@ -67,16 +81,16 @@
     {/if}
 
     <Speech glyph={concept.getGlyphs($locales)} below={header}>
-        <svelte:fragment slot="content">
+        {#snippet content()}
             {@const markup = concept.getDocs($locales)}
             {#if markup}
                 <MarkupHTMLView {markup} />
             {:else}
                 {$locales.concretize((l) => l.ui.docs.nodoc)}
             {/if}
-        </svelte:fragment>
-        <svelte:fragment slot="aside"
-            >{#if variables}
+        {/snippet}
+        {#snippet aside()}
+            {#if variables}
                 <small
                     >{TYPE_OPEN_SYMBOL}{#each variables.variables as variable, index}{#if index > 0},
                         {/if}{@const name = variable.names.getPreferredName(
@@ -86,11 +100,11 @@
                                 node={name.withoutLanguage()}
                                 blocks={$blocks}
                             />{/if}{/each}{TYPE_CLOSE_SYMBOL}</small
-                >{/if}</svelte:fragment
-        >
+                >{/if}
+        {/snippet}
     </Speech>
 
-    <slot />
+    {@render children?.()}
 </div>
 
 <style>

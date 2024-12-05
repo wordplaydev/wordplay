@@ -7,15 +7,20 @@
     import Token from '@nodes/Token';
     import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 
-    export let node: Token;
-    export let project: Project;
+    interface Props {
+        node: Token;
+        project: Project;
+    }
+
+    let { node, project }: Props = $props();
 
     const caret = getCaret();
-    let view: HTMLDivElement | undefined;
+    let view: HTMLDivElement | undefined = $state();
 
-    $: on = node.getText() === TRUE_SYMBOL;
+    let on = $derived(node.getText() === TRUE_SYMBOL);
 
-    function toggle() {
+    function toggle(event: Event) {
+        event.stopPropagation();
         if (view) setKeyboardFocus(view, 'Boolean toggle after toggle');
 
         const newToken = new Token(
@@ -34,9 +39,9 @@
     data-id={node.id}
     aria-checked={on}
     bind:this={view}
-    on:click|stopPropagation={toggle}
-    on:keydown={(event) =>
-        event.key === 'Enter' || event.key === ' ' ? toggle() : undefined}
+    onclick={toggle}
+    onkeydown={(event) =>
+        event.key === 'Enter' || event.key === ' ' ? toggle(event) : undefined}
     tabindex="0"
 >
     {on ? TRUE_SYMBOL : FALSE_SYMBOL}

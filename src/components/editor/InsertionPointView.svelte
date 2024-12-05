@@ -1,4 +1,4 @@
-<span class="insertion-point" />
+<span class="insertion-point"></span>
 
 <style>
     .insertion-point {
