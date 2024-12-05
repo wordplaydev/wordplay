@@ -329,7 +329,7 @@ export function updateOutlines(
             };
             outlines.push(outline);
             nodeViews.set(outline, nodeView);
-        } else console.error('No view of ' + node.toWordplay());
+        }
     }
 
     // Look for underline collisions.
