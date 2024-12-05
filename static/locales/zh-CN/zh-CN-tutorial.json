@@ -4,7 +4,7 @@
     "region": "CN",
     "acts": [
         {
-            "title": "诗篇1",
+            "title": "诗篇",
             "performance": ["use", "fit", "DarkVoid"],
             "scenes": [
                 {
