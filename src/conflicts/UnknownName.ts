@@ -69,12 +69,14 @@ export class UnknownName extends Conflict {
             );
 
             const userInput: string = this.name.name.text.text // user input
+            const maxNames: number = 1000; // the maximum number of names we want to check
+            names = names.slice(0, maxNames) // truncate the names array after the desired amount
 
             for (let i = names.length-1; i >= 0; i--) {
                 const currName: string = names[i].definition.names.names[0].name.text.text // loop through every name
-
+                
                 if (this.levenshtein(userInput, currName) > 1) { // check if levenshtein distance is greater than 1
-                    names.splice(i, 1) // filter out names that dissimilar
+                    names.splice(i, 1) // filter out names that are dissimilar
                 }
             };
         }
