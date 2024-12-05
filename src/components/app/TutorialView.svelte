@@ -199,27 +199,25 @@
 
     // Store a reference to the project store for the current project.
     let projectStore: Writable<Project> | undefined;
-    // Every time the progress changes, get the store for the corresponding project, if there is one.
-    $effect(() => {
-        projectStore = Projects.getStore(progress.getProjectID());
-    });
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
-    // and use that instead.
+    // and use that instead, and update the project store.
     $effect(() => {
         // Check asynchronously if there's a project for this tutorial project ID already.
         Projects.get(progress.getProjectID()).then((existingProject) => {
             // If there is, get it's store.
-            if (existingProject)
+            if (existingProject) {
                 projectStore = Projects.getStore(progress.getProjectID());
+            }
             // If there's not, add this project to the database and get its store, so it can be editable.
-            else if (initialProject)
+            else if (initialProject) {
                 projectStore = Projects.track(
                     initialProject,
                     true,
                     PersistenceType.Local,
                     false,
                 )?.getStore();
+            }
         });
     });
 
