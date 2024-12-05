@@ -800,6 +800,9 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
 
     // Get the key/value pairs
     let pairs: StringPath[] = getKeyTemplatePairs(revised);
+    if (locale.language === 'zh'){
+        console.log(pairs.slice(100,200))
+    }
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
@@ -1007,7 +1010,15 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
 
                 const currentTutorial = getTutorialJSON(log, language);
                 if (currentTutorial === undefined) {
-                    log.bad(2, "Couldn't find tutorial file.");
+                    log.good(2, "Couldn't find tutorial file. Using translaton to automatically generate it.");
+                    // const newTutorial = await createTranslationTutorial();
+                    // const prettyTutorial = await prettier.format(
+                    //     JSON.stringify(newTutorial, null, 4),
+                    //     {...prettierOptions, parser: 'json'},
+                    // );
+                    // fs.writeFileSync(getTutorialPath(language), newTutorial);
+
+
                     return undefined;
                 }
 
@@ -1017,6 +1028,42 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                     revisedLocale,
                     currentTutorial as Tutorial,
                 );
+
+                // Create a new tutorial file if the current one is missing.
+                const createTranslationTutorial = async (original: Tutorial) => {
+                    let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
+
+                    const filterPairs = (pairs: StringPath[]): StringPath[] =>{
+                        const result: StringPath[] = [];
+                        const pathToSecondPossibility = new Set<string>();
+
+                        pairs.forEach((pair) => {
+                            const {path, key, value} = pair;
+                            const lastButOne = path[path.length - 2];
+                            const pathString = JSON.stringify(path); // ready to be used as a key
+    
+                            if (
+                                lastButOne === 'lines' && key === '0' && ['fit', 'fix', 'edit', 'use'].includes(value)
+                            ){
+                                result.push(pair);
+                                pathToSecondPossibility.add(pathString);
+                            }else if(pathToSecondPossibility.has(pathString)){
+                                result.push(pair);
+                        } else if(
+                            lastButOne === 'lines' && (key === '0' || key === '1')){
+                            result.push(pair);
+                            }
+                        })
+                        return result;
+                    }
+
+                    let pairs: StringPath[] = getKeyTemplatePairs(revised);
+                    const pairsToTranslate = filterPairs(pairs);
+
+
+
+
+                };
                 if (
                     revisedTutorial &&
                     JSON.stringify(currentTutorial) !==
