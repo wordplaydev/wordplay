@@ -31,6 +31,7 @@ import { tokenize } from '../parser/Tokenizer';
 import DefaultLocales from '../locale/DefaultLocales';
 import Translate from '@google-cloud/translate';
 import { concretizeOrUndefined } from '@locale/concretize';
+import type LanguageCode from '@locale/LanguageCode';
 
 // Read in and compile the two schema so we can check files.
 const localeSchema = JSON.parse(
@@ -217,6 +218,7 @@ async function validateTutorial(
     } else log.good(2, 'Found valid tutorial.');
 
     const revisedJSON = await checkTutorial(log, locale, tutorialJSON as Tutorial);
+    console.log('revisedJSON over ***********')
 
     return revisedJSON;
 }
@@ -457,7 +459,9 @@ async function translate(
     // Resolve all of the source strings
     const sourceStrings = unwritten
         .map((path) => {
+            // console.log('path', path);
             const match = path.resolve(source);
+            // console.log('match', match);
             return match === undefined
                 ? undefined
                 : Array.isArray(match)
@@ -800,9 +804,6 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
 
     // Get the key/value pairs
     let pairs: StringPath[] = getKeyTemplatePairs(revised);
-    if (locale.language === 'zh'){
-        console.log(pairs.slice(100,200))
-    }
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
@@ -989,6 +990,93 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                 return undefined;
             }
 
+            // Create a new tutorial file if the current one is missing.
+            const createTranslationTutorial = async (original: Tutorial, language: LanguageCode) => {
+                let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
+
+                const filterPairs = (pairs: StringPath[]): StringPath[] =>{
+                    const doNotTranslate: StringPath[] = [];
+                    const pathToSecondPossibility = new Set<string>();
+                    // console.log('pairs', pairs.slice(1,30));
+
+                    pairs.forEach((pair) => {
+                        const {path, key, value} = pair;
+                        const lastButOne = path[path.length - 2];
+                        const pathString = JSON.stringify(path); // ready to be used as a key
+
+                        if (
+                            lastButOne === 'lines' && key === '0' && ['fit', 'fix', 'edit', 'use'].includes(value)
+                        ){
+                            doNotTranslate.push(pair);
+                            pathToSecondPossibility.add(pathString);
+                        }else if(pathToSecondPossibility.has(pathString)){
+                            doNotTranslate.push(pair);
+                    } else if(
+                        lastButOne === 'lines' && (key === '0' || key === '1')){
+                        doNotTranslate.push(pair);
+                        } else if(
+                            ['performance','$schema','region','language'].includes(key)
+                        ){
+                            doNotTranslate.push(pair);
+                        } else if(
+                            lastButOne === 'scenes' && key === 'concept'
+                        ){
+                            doNotTranslate.push(pair);
+                        }
+                    })
+                    // console.log('result', doNotTranslate);
+                    return doNotTranslate;
+                }
+
+                let pairs: StringPath[] = getKeyTemplatePairs(revised);
+                const pairsNotToTranslate = filterPairs(pairs);
+                const sourceStrings = pairs.filter((pair)=>{
+                    if (!pairsNotToTranslate.includes(pair)){
+                        return pair;
+                    }
+                })
+                
+                const sourceStringValues = sourceStrings.map((pair) => (pair.value as string));
+                // Split the strings into groups of 100, since Google Translate only allows 128 at a time.
+                const sourceStringsBatches: string[][] = [];
+                while (sourceStringValues.length > 0)
+                    sourceStringsBatches.push(sourceStringValues.splice(0, 100));
+
+                // Pass them to Google Translate
+                let translations: string[] = [];
+                for (const batch of sourceStringsBatches) {
+                    try {
+                        // Create a Google Translate client
+                        const translator = new Translate.v2.Translate();
+                        // Translate the strings
+                        const [translatedBatch] = await translator.translate(batch, {
+                            from: 'en',
+                            to: language,
+                        });
+                        translations = [...translations, ...translatedBatch];
+                    } catch (error) {
+                        log.bad(
+                            2,
+                            "Unable to translate. Make sure gcloud cli is installed, you are logged in, and your project is wordplay-prod. Here's the error Google gave" +
+                                error,
+                        );
+                        return revised;
+                    }
+                }
+                // console.log('translations', translations);
+
+                for (const source of sourceStrings){
+                    let translation = translations.shift();
+                    if (translation) {
+                        source.repair(
+                            revised,
+                            `${MachineTranslated}${translation.trim()}`,
+                        )
+                    }
+                }
+                return revised;
+            };
+
             // Validate, repair, and translate the locale file.
             const localeResults = await validateLocale(
                 log,
@@ -1011,14 +1099,14 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                 const currentTutorial = getTutorialJSON(log, language);
                 if (currentTutorial === undefined) {
                     log.good(2, "Couldn't find tutorial file. Using translaton to automatically generate it.");
-                    // const newTutorial = await createTranslationTutorial();
-                    // const prettyTutorial = await prettier.format(
-                    //     JSON.stringify(newTutorial, null, 4),
-                    //     {...prettierOptions, parser: 'json'},
-                    // );
-                    // fs.writeFileSync(getTutorialPath(language), newTutorial);
+                    const newTutorial = await createTranslationTutorial(DefaultTutorial, language as LanguageCode);
+                    const prettyTutorial = await prettier.format(
+                        JSON.stringify(newTutorial, null, 4),
+                        {...prettierOptions, parser: 'json'},
+                    );
 
-
+                    console.log("Creating " + language + " tutorial by machine translation");
+                    fs.writeFileSync(getTutorialPath(language), prettyTutorial);
                     return undefined;
                 }
 
@@ -1029,41 +1117,7 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
                     currentTutorial as Tutorial,
                 );
 
-                // Create a new tutorial file if the current one is missing.
-                const createTranslationTutorial = async (original: Tutorial) => {
-                    let revised = JSON.parse(JSON.stringify(original)) as Tutorial;
 
-                    const filterPairs = (pairs: StringPath[]): StringPath[] =>{
-                        const result: StringPath[] = [];
-                        const pathToSecondPossibility = new Set<string>();
-
-                        pairs.forEach((pair) => {
-                            const {path, key, value} = pair;
-                            const lastButOne = path[path.length - 2];
-                            const pathString = JSON.stringify(path); // ready to be used as a key
-    
-                            if (
-                                lastButOne === 'lines' && key === '0' && ['fit', 'fix', 'edit', 'use'].includes(value)
-                            ){
-                                result.push(pair);
-                                pathToSecondPossibility.add(pathString);
-                            }else if(pathToSecondPossibility.has(pathString)){
-                                result.push(pair);
-                        } else if(
-                            lastButOne === 'lines' && (key === '0' || key === '1')){
-                            result.push(pair);
-                            }
-                        })
-                        return result;
-                    }
-
-                    let pairs: StringPath[] = getKeyTemplatePairs(revised);
-                    const pairsToTranslate = filterPairs(pairs);
-
-
-
-
-                };
                 if (
                     revisedTutorial &&
                     JSON.stringify(currentTutorial) !==
