@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 - Updated all minor releases of dependencies except for Firebase.
+- Build functions before starting emulator
 
 ## 0.13.1 2024-11-30
 
