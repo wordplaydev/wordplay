@@ -121,6 +121,7 @@
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import ChatView from '@components/app/chat/ChatView.svelte';
 
     interface Props {
         project: Project;
@@ -443,7 +444,7 @@
             if (selectedOutputPaths.length > 0) selectedOutputPaths = [];
     });
 
-    function syncTiles(tiles: Tile[]): Tile[] {
+    function syncTiles(project: Project, tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
 
         // Go through each tile and map it to a source file.
@@ -512,51 +513,63 @@
         return persistedLayout === null
             ? null
             : persistedLayout
-                  .withTiles(syncTiles(persistedLayout.tiles))
+                  .withTiles(syncTiles(project, persistedLayout.tiles))
                   .withFullscreen(
                       requestedEdit ? undefined : persistedLayout.fullscreenID,
                   );
     }
 
     function getInitialLayout() {
+        const defaultTiles =
+            // Create a layout in reading order.
+            [
+                new Tile(
+                    TileKind.Palette,
+                    TileKind.Palette,
+                    Mode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Output,
+                    TileKind.Output,
+                    Mode.Expanded,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Documentation,
+                    TileKind.Documentation,
+                    Mode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Chat,
+                    TileKind.Chat,
+                    Mode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                ...project.getSources().map((source, index) =>
+                    // If starting with output only, collapse the source initially too.
+                    createSourceTile(source, index).withMode(
+                        showOutput
+                            ? Mode.Collapsed
+                            : index === 0 || source === newSource
+                              ? Mode.Expanded
+                              : Mode.Collapsed,
+                    ),
+                ),
+            ];
+
         return (
-            (persistLayout ? getPersistedLayout() : null) ??
+            (persistLayout
+                ? getPersistedLayout()?.withMissingTiles(defaultTiles)
+                : null) ??
             new Layout(
                 project.getID(),
-                // Create a layout in reading order.
-                [
-                    new Tile(
-                        TileKind.Palette,
-                        TileKind.Palette,
-                        Mode.Collapsed,
-                        undefined,
-                        Tile.randomPosition(1024, 768),
-                    ),
-                    new Tile(
-                        TileKind.Output,
-                        TileKind.Output,
-                        Mode.Expanded,
-                        undefined,
-                        Tile.randomPosition(1024, 768),
-                    ),
-                    new Tile(
-                        TileKind.Documentation,
-                        TileKind.Documentation,
-                        Mode.Collapsed,
-                        undefined,
-                        Tile.randomPosition(1024, 768),
-                    ),
-                    ...project.getSources().map((source, index) =>
-                        // If starting with output only, collapse the source initially too.
-                        createSourceTile(source, index).withMode(
-                            showOutput
-                                ? Mode.Collapsed
-                                : index === 0 || source === newSource
-                                  ? Mode.Expanded
-                                  : Mode.Collapsed,
-                        ),
-                    ),
-                ],
+                defaultTiles,
                 // If showing output was requested, we fullscreen on output
                 showOutput ? TileKind.Output : undefined,
             )
@@ -815,12 +828,16 @@
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {
+        refreshLayout();
+    });
+
+    function refreshLayout() {
         layout = untrack(() => layout).resized(
             $arrangement,
             canvasWidth,
             canvasHeight,
         );
-    });
+    }
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
     let maxRight = $state(0);
@@ -1330,10 +1347,17 @@
 
         // This will propogate back to a new project here, updating the UI.
         Projects.reviseProject(newProject);
+
+        // Sync the tiles.
+        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+        refreshLayout();
     }
 
     function removeSource(source: Source) {
-        Projects.reviseProject(project.withoutSource(source));
+        const newProject = project.withoutSource(source);
+        Projects.reviseProject(newProject);
+        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+        refreshLayout();
     }
 
     function renameSource(id: string, name: string) {
@@ -1621,8 +1645,10 @@
                                         bind:background={outputBackground}
                                         {editable}
                                     />
+                                {:else if tile.kind === TileKind.Chat}
+                                    <ChatView />
                                     <!-- Show an editor, annotations, and a mini output view -->
-                                {:else}
+                                {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <div class="annotated-editor">
                                         <Editor

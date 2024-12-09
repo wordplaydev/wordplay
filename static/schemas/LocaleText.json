@@ -11034,6 +11034,9 @@
                   "additionalProperties": false,
                   "description": "Tile labels appearing in the project footer tile toggles, except for source files.",
                   "properties": {
+                    "chat": {
+                      "type": "string"
+                    },
                     "docs": {
                       "type": "string"
                     },
@@ -11051,7 +11054,8 @@
                     "output",
                     "docs",
                     "source",
-                    "palette"
+                    "palette",
+                    "chat"
                   ],
                   "type": "object"
                 },

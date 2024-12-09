@@ -4065,7 +4065,8 @@
                 "output": "stage",
                 "palette": "palette",
                 "docs": "guide",
-                "source": "source"
+                "source": "source",
+                "chat": "chat"
             },
             "button": {
                 "collapse": "collapse window"

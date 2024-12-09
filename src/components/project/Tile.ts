@@ -13,6 +13,7 @@ export enum TileKind {
     Documentation = 'docs',
     Source = 'source',
     Palette = 'palette',
+    Chat = 'chat',
 }
 
 export default class Tile {
@@ -83,7 +84,9 @@ export default class Tile {
               ? 1
               : this.kind === TileKind.Documentation
                 ? 2
-                : 3;
+                : this.kind === TileKind.Chat
+                  ? 3
+                  : 4;
     }
 
     withBounds(bounds: Bounds) {
