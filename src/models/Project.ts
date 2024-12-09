@@ -177,6 +177,7 @@ export default class Project {
             flags,
             timestamp: timestamp ?? Date.now(),
             nonPII: [],
+            chat: null,
         });
     }
 
@@ -652,7 +653,7 @@ export default class Project {
                     source,
                     source.replace(original, replacement),
                     replacement === undefined
-                        ? source.getNodeFirstPosition(original) ?? 0
+                        ? (source.getNodeFirstPosition(original) ?? 0)
                         : replacement,
                 ]);
             // Update the replacement source with the next replacement.
@@ -660,7 +661,7 @@ export default class Project {
                 sources[1] = sources[1].replace(original, replacement);
                 sources[2] =
                     replacement === undefined
-                        ? source.getNodeFirstPosition(original) ?? 0
+                        ? (source.getNodeFirstPosition(original) ?? 0)
                         : replacement;
             }
         }
@@ -874,6 +875,7 @@ export default class Project {
             flags: { ...project.flags },
             timestamp: project.timestamp,
             nonPII: project.nonPII,
+            chat: null,
         });
     }
 
@@ -1077,6 +1079,7 @@ export default class Project {
             gallery: this.data.gallery,
             flags: { ...this.data.flags },
             nonPII: this.data.nonPII,
+            chat: this.data.chat,
         };
     }
 
