@@ -60,5 +60,11 @@ service cloud.firestore {
           );
       allow delete: if request.auth != null && request.auth.uid in resource.data.curators;
     }
+    match /chats/{chat} {
+      // Anyone logged in can create chats
+      allow create: if request.auth != null;
+      // Participants can read, update, and delete chats
+      allow read, update, delete: if request.auth != null && request.auth.uid in resource.data.participants;
+    }
   }
 }
