@@ -98,6 +98,10 @@ type UITexts = {
             unknown: string;
             /** The error to show if translation wasn't possible */
             translate: string;
+            /** The message for an error in a tile */
+            tile: string;
+            /** The button label for an error reset */
+            reset: string;
         };
         button: {
             /** Shows the sharing dialog */

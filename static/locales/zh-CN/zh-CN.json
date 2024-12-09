@@ -4025,7 +4025,9 @@
         "project": {
             "error": {
                 "unknown": "该演出不存在或未公开",
-                "translate": "翻译你的项目时出现问题。"
+                "translate": "翻译你的项目时出现问题。",
+                "tile": "$~糟糕，出现错误。",
+                "reset": "$~尝试重置..."
             },
             "button": {
                 "showCollaborators": "显示合作者对话框",

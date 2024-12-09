@@ -30,6 +30,7 @@
     import TileSymbols from './TileSymbols';
     import FullscreenIcon from './FullscreenIcon.svelte';
     import type Bounds from './Bounds';
+    import Note from '@components/widgets/Note.svelte';
 
     interface Props {
         project: Project;
@@ -267,65 +268,85 @@
               }px`}
         bind:this={view}
     >
-        <!-- Render the toolbar -->
-        <div class="header" style:color={foreground} style:fill={foreground}>
-            {#if !layout.isFullscreen()}
-                <Button
-                    background={background !== null}
-                    padding={false}
-                    tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                    action={() => mode(Mode.Collapsed)}>–</Button
-                >
-            {/if}
-            <Toggle
-                tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                on={fullscreen}
-                background={background !== null}
-                toggle={() => setFullscreen(!fullscreen)}
+        <svelte:boundary>
+            {#snippet failed(error, reset)}
+                <div class="error">
+                    <h2>{$locales.get((l) => l.ui.project.error.tile)}</h2>
+                    <p
+                        ><Button tip="Reset" action={reset} background
+                            >{$locales.get(
+                                (l) => l.ui.project.error.reset,
+                            )}</Button
+                        ></p
+                    >
+                    <Note>{'' + error}</Note>
+                </div>
+            {/snippet}
+
+            <!-- Render the toolbar -->
+            <div
+                class="header"
+                style:color={foreground}
+                style:fill={foreground}
             >
-                <FullscreenIcon />
-            </Toggle>
-            <div class="name" class:source={tile.isSource()}>
-                {#if editable && tile.isSource()}
-                    <Emoji>{Glyphs.Program.symbols}</Emoji>
-                    <TextField
-                        text={tile
-                            .getSource(project)
-                            ?.getPreferredName($locales.getLocales())}
-                        description={$locales.get(
-                            (l) => l.ui.source.field.name.description,
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.source.field.name.placeholder,
-                        )}
-                        validator={(text) => isName(text)}
-                        changed={handleRename}
-                    />
-                {:else}
-                    <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
-                        project,
-                        $locales,
-                    )}
+                {#if !layout.isFullscreen()}
+                    <Button
+                        background={background !== null}
+                        padding={false}
+                        tip={$locales.get((l) => l.ui.tile.button.collapse)}
+                        action={() => mode(Mode.Collapsed)}>–</Button
+                    >
                 {/if}
-                {@render title()}
+                <Toggle
+                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                    on={fullscreen}
+                    background={background !== null}
+                    toggle={() => setFullscreen(!fullscreen)}
+                >
+                    <FullscreenIcon />
+                </Toggle>
+                <div class="name" class:source={tile.isSource()}>
+                    {#if editable && tile.isSource()}
+                        <Emoji>{Glyphs.Program.symbols}</Emoji>
+                        <TextField
+                            text={tile
+                                .getSource(project)
+                                ?.getPreferredName($locales.getLocales())}
+                            description={$locales.get(
+                                (l) => l.ui.source.field.name.description,
+                            )}
+                            placeholder={$locales.get(
+                                (l) => l.ui.source.field.name.placeholder,
+                            )}
+                            validator={(text) => isName(text)}
+                            changed={handleRename}
+                        />
+                    {:else}
+                        <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
+                            project,
+                            $locales,
+                        )}
+                    {/if}
+                    {@render title()}
+                </div>
+                <div class="toolbar">
+                    {@render extra?.()}
+                </div>
             </div>
-            <div class="toolbar">
-                {@render extra?.()}
+            <!-- Render the content -->
+            <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+                <div class="content" onscroll={() => scroll()}>
+                    {@render content()}
+                </div>
+                <div class="margin">{@render margin?.()}</div>
             </div>
-        </div>
-        <!-- Render the content -->
-        <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-            <div class="content" onscroll={() => scroll()}>
-                {@render content()}
-            </div>
-            <div class="margin">{@render margin?.()}</div>
-        </div>
-        <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
-        {#if focuscontent}
-            <div class="focus-indicator"></div>
-        {/if}
-        <!-- Render the footer -->
-        <div class="footer">{@render footer?.()}</div>
+            <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
+            {#if focuscontent}
+                <div class="focus-indicator"></div>
+            {/if}
+            <!-- Render the footer -->
+            <div class="footer">{@render footer?.()}</div>
+        </svelte:boundary>
     </section>
 </div>
 
@@ -512,5 +533,12 @@
 
     .name.source {
         color: var(--wordplay-foreground);
+    }
+
+    .error {
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        height: 100%;
     }
 </style>
