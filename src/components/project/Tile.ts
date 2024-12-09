@@ -27,6 +27,21 @@ export default class Tile {
     /** The layout mode the window is in */
     readonly mode: Mode;
 
+    /** Get the test ID for the tile container */
+    getTestId() {
+        return `${this.kind}-container`;
+    }
+
+    /** Get the test ID for the expand button */
+    getExpandButtonTestId() {
+        return `${this.kind}-expand`;
+    }
+
+    /** Get the test ID for the exit fullscreen button */
+    getExitFullscreenButtonTestId() {
+        return `${this.kind}-exit-fullscreen`;
+    }
+
     constructor(
         id: string,
         kind: TileKind,

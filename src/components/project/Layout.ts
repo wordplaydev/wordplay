@@ -9,6 +9,9 @@ export type SerializedTile = {
     bounds: Bounds | null;
     position: Bounds;
     kind: TileKind;
+    testId: string;
+    expandButtonTestId: string;
+    exitFullscreenButtonTestId: string;
 };
 
 export type SerializedLayout = {
@@ -41,6 +44,9 @@ export default class Layout {
                     bounds: tile.bounds ?? null,
                     expanded: tile.mode === Mode.Expanded,
                     position: tile.position,
+                    testId: tile.getTestId(),
+                    expandButtonTestId: tile.getExpandButtonTestId(),
+                    exitFullscreenButtonTestId: tile.getExitFullscreenButtonTestId()
                 };
             }),
         };
