@@ -32,6 +32,7 @@ import DefaultLocales from '../locale/DefaultLocales';
 import Translate from '@google-cloud/translate';
 import { concretizeOrUndefined } from '@locale/concretize';
 import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
 
 // Read in and compile the two schema so we can check files.
 const localeSchema = JSON.parse(
@@ -218,7 +219,6 @@ async function validateTutorial(
     } else log.good(2, 'Found valid tutorial.');
 
     const revisedJSON = await checkTutorial(log, locale, tutorialJSON as Tutorial);
-    console.log('revisedJSON over ***********')
 
     return revisedJSON;
 }
@@ -539,28 +539,29 @@ async function translateTutorial(
     target: Tutorial,
     unwritten: StringPath[],
 ) {
-    const revised = JSON.parse(JSON.stringify(target)) as Tutorial; // 深拷贝目标对象
+    const revised = JSON.parse(JSON.stringify(target)) as Tutorial; // deep copy of target object
 
-    // 从 source 提取需要翻译的字符串
+    // extract string that need to be translated from source
     const sourceStrings = unwritten
         .map((path) => {
-            const match = path.resolve(source); // 从 source 中解析路径值
+            const match = path.resolve(source); // resolve the path value from source
             return match === undefined
                 ? undefined
-                : Array.isArray(match) // 如果值是数组，则返回数组内容，否则直接返回值
+                : Array.isArray(match) // if the value is an array, return the content of the array, otherwise return the value
                 ? match
                 : match;
         })
         .filter((s) => s !== undefined)
-        .flat(); // 将数组展开为一维
+        .flat(); // make it one dimensional
 
-    // 将字符串分组，每组最多100个
+    
+    // Split the strings into groups of 100, since Google Translate only allows 128 at a time.
     const sourceStringsBatches: string[][] = [];
     while (sourceStrings.length > 0) {
         sourceStringsBatches.push(sourceStrings.splice(0, 100));
     }
 
-    // 调用 Google Translate API 翻译字符串
+    // call Google Translate API to translate strings
     let translations: string[] = [];
     for (const batch of sourceStringsBatches) {
         try {
@@ -569,29 +570,28 @@ async function translateTutorial(
                 from: source.language,
                 to: target.language,
             });
-            translations = [...translations, ...translatedBatch]; // 累积翻译结果
+            translations = [...translations, ...translatedBatch]; // add the translated result to translations
         } catch (error) {
             log.bad(
                 2,
-                "翻译失败。请确保 gcloud CLI 配置正确，错误信息：" + error,
+                "Unable to translate. Make sure gcloud cli is installed, you are logged in, and your project is wordplay-prod. Here's the error Google gave" + error,
             );
-            return revised; // 如果翻译失败，返回原始目标对象
+            return revised; // return the original object if there is an error
         }
     }
 
-    // 根据 unwritten 的路径，将翻译后的字符串写入 revised 对象
     for (const path of unwritten) {
-        const match = path.resolve(source); // 从 source 获取当前路径的值
+        const match = path.resolve(source); // resolve the path value from source
         if (match !== undefined) {
             if (
                 Array.isArray(match) &&
-                match.every((s) => typeof s === 'string') // 确保是字符串数组
+                match.every((s) => typeof s === 'string') // make sure it's an array of strings
             ) {
                 const value = [];
                 for (let i = 0; i < match.length; i++) {
                     let next = translations.shift();
                     if (next) {
-                        value.push(`${MachineTranslated}${next.trim()}`); // 添加翻译标记
+                        value.push(`${MachineTranslated}${next.trim()}`); // add translation mark
                     }
                 }
                 path.repair(revised, value); // 更新目标路径的值
@@ -600,14 +600,14 @@ async function translateTutorial(
                 if (translation) {
                     path.repair(
                         revised,
-                        `${MachineTranslated}${translation.trim()}`, // 单个字符串翻译并更新
+                        `${MachineTranslated}${translation.trim()}`, // single string translation and update
                     );
                 }
             }
         }
     }
 
-    return revised; // 返回更新后的对象
+    return revised; // return the updated object
 }
 
 
@@ -817,6 +817,7 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
             `Tutorial has ${unwritten.length} unwritten strings ("${Unwritten}"). Translating using Google translate.`,
         );
 
+
         revised = await translateTutorial(
             log,
             DefaultTutorial,
@@ -824,7 +825,6 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
             unwritten,
         );
     }
-
 
     const programs = revised.acts
         .map((act) => {
@@ -870,7 +870,7 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
             return programs;
         })
         .flat();
-
+    
     for (const { kind, list } of programs) {
         let code: string | undefined = undefined;
         let conflictsIntentional = false;
@@ -885,6 +885,7 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
                     ((...input: string[]) => string) | undefined
                 >
             )[name];
+            
             if (fun === undefined)
                 log.bad(
                     2,
@@ -893,8 +894,8 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
             else {
                 code = fun(...inputs);
             }
-        } else code = list.join('\n');
 
+        } else code = list.join('\n');
         if (code) {
             const project = Project.make(
                 null,
@@ -905,7 +906,7 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
             );
             project.analyze();
             project.getAnalysis();
-
+            
             if (
                 !conflictsIntentional &&
                 project.getPrimaryConflicts().size > 0
@@ -922,6 +923,7 @@ async function checkTutorial(log: Log, locale: LocaleText, original: Tutorial): 
             }
         }
     }
+
 
     // Build a list of all concept links
     const conceptLinks: { dialog: Dialog; link: ConceptLink }[] = revised.acts
@@ -1067,13 +1069,23 @@ fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }).forEach(
 
                 for (const source of sourceStrings){
                     let translation = translations.shift();
+                    // detect if the translation includes a @ symbol
                     if (translation) {
-                        source.repair(
-                            revised,
-                            `${MachineTranslated}${translation.trim()}`,
-                        )
+
+                        if (translation.includes('@') || translation.includes('\\')) {
+                            translation = source.value as string;
+                            source.repair(revised, `${Unwritten}${translation.trim()}`);
+                        }else{
+                            source.repair(
+                                revised,
+                                `${MachineTranslated}${translation.trim()}`,
+                            )
+                        }
+
                     }
                 }
+                revised.region = language.slice(-2) as RegionCode;
+                revised.language = language.slice(-2).toLowerCase() as LanguageCode;
                 return revised;
             };
 
