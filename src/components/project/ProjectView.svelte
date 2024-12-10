@@ -1646,7 +1646,7 @@
                                         {editable}
                                     />
                                 {:else if tile.kind === TileKind.Chat}
-                                    <ChatView />
+                                    <ChatView {project} />
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}

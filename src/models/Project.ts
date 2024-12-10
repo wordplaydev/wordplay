@@ -1095,6 +1095,13 @@ export default class Project {
         );
     }
 
+    withChat(id: string | null) {
+        return new Project({
+            ...this.data,
+            chat: id,
+        });
+    }
+
     toWordplay() {
         return (
             `${this.getName()}\n` +

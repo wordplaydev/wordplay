@@ -1092,7 +1092,6 @@
         align-items: center;
         margin: auto;
         overflow: auto;
-        font-size: 5cqw;
         padding-block-start: 2em;
     }
 

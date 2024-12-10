@@ -31,6 +31,7 @@
     import FullscreenIcon from './FullscreenIcon.svelte';
     import type Bounds from './Bounds';
     import Note from '@components/widgets/Note.svelte';
+    import TileMessage from './TileMessage.svelte';
 
     interface Props {
         project: Project;
@@ -270,7 +271,7 @@
     >
         <svelte:boundary>
             {#snippet failed(error, reset)}
-                <div class="error">
+                <TileMessage error>
                     <h2>{$locales.get((l) => l.ui.project.error.tile)}</h2>
                     <p
                         ><Button tip="Reset" action={reset} background
@@ -280,7 +281,7 @@
                         ></p
                     >
                     <Note>{'' + error}</Note>
-                </div>
+                </TileMessage>
             {/snippet}
 
             <!-- Render the toolbar -->
@@ -338,7 +339,9 @@
                 <div class="content" onscroll={() => scroll()}>
                     {@render content()}
                 </div>
-                <div class="margin">{@render margin?.()}</div>
+                {#if margin}
+                    <div class="margin">{@render margin()}</div>
+                {/if}
             </div>
             <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
             {#if focuscontent}
@@ -373,7 +376,6 @@
         flex-direction: row;
         flex-wrap: nowrap;
         flex-grow: 1;
-        gap: var(--wordplay-spacing);
     }
 
     .toolbar {
@@ -533,12 +535,5 @@
 
     .name.source {
         color: var(--wordplay-foreground);
-    }
-
-    .error {
-        padding: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
-        height: 100%;
     }
 </style>

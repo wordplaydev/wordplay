@@ -1187,8 +1187,8 @@ const Commands: Command[] = [
         control: false,
         key: 'Enter',
         typing: true,
-        execute: ({ caret, blocks, project }) =>
-            caret === undefined
+        execute: ({ caret, blocks, project, editor }) =>
+            !editor || caret === undefined
                 ? false
                 : caret.isNode()
                   ? caret.enter()

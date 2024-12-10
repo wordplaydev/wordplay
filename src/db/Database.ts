@@ -234,6 +234,7 @@ export const Projects = DB.Projects;
 export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
+export const Chats = DB.Chats;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;

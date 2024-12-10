@@ -5,14 +5,15 @@
     interface Props {
         creator: Creator | null;
         anonymize?: boolean;
+        chrome?: boolean;
     }
 
-    let { creator, anonymize = true }: Props = $props();
+    let { creator, anonymize = true, chrome = true }: Props = $props();
 
     let username = $derived(creator?.getUsername(anonymize) ?? '');
 </script>
 
-<div class="creator"
+<div class="creator" class:chrome
     >{#if creator}<span
             class="name"
             style:animation-delay={`${Math.random() * 1000}ms`}
@@ -30,14 +31,17 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+        align-items: center;
+        justify-content: center;
+    }
+
+    .chrome {
         border-radius: var(--wordplay-border-radius);
         border-top-left-radius: 1em;
         border-bottom-left-radius: 1em;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         padding: calc(var(--wordplay-spacing) / 3);
         padding-left: var(--wordplay-spacing);
-        align-items: center;
-        justify-content: center;
     }
 
     @keyframes rotate {
