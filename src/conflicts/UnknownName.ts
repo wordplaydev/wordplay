@@ -76,7 +76,7 @@ export class UnknownName extends Conflict {
                 const currName: string = names[i].definition.names.names[0].name.text.text // get name in string form from Refer object
                 
                 if (this.levenshtein(userInput, currName) > 1) { // check if levenshtein distance is greater than 1
-                    names.splice(i, 1) // filter out names that are dissimilar
+                    names.splice(i, 1) // remove dissimilar names
                 }
             };
         }
