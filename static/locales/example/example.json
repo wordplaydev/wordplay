@@ -3077,7 +3077,9 @@
         "project": {
             "error": {
                 "unknown": "$?",
-                "translate": "$?"
+                "translate": "$?",
+                "tile": "$?",
+                "reset": "$?"
             },
             "button": {
                 "showCollaborators": "$?",

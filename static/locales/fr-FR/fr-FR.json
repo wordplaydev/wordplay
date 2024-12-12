@@ -4073,7 +4073,9 @@
         "project": {
             "error": {
                 "unknown": "$~Ce projet n'existe pas ou n'est pas public.",
-                "translate": "$~Il y a eu un problème lors de la traduction de votre projet."
+                "translate": "$~Il y a eu un problème lors de la traduction de votre projet.",
+                "tile": "$~Oups, il y a eu une erreur.",
+                "reset": "$~Tenter de réinitialiser..."
             },
             "button": {
                 "showCollaborators": "$~Afficher la boîte de dialogue des collaborateurs",

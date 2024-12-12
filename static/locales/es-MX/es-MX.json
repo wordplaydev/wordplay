@@ -127,8 +127,7 @@
                 "Puedo combinar con \\/\\ para formar unidades de proporción, como \\17manzanas/día\\ y con \\^\\ para formar unidades exponenciales como \\9.8m/s^2\\.",
                 "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
                 "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
-                "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!",
-                "Si alguna vez deseas convertir entre diferentes valores de unidades, hable con @Convert."
+                "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!"
             ]
         },
         "Doc": {
@@ -4040,7 +4039,9 @@
         "project": {
             "error": {
                 "unknown": "Esta actuación no existe o no es pública.",
-                "translate": "$~Hubo un problema al traducir tu proyecto."
+                "translate": "$~Hubo un problema al traducir tu proyecto.",
+                "tile": "$~Ups, hubo un error.",
+                "reset": "$~Intentar reiniciar..."
             },
             "button": {
                 "showCollaborators": "mostrar a los colaboradores el diálogo",
@@ -4531,7 +4532,7 @@
                 ],
                 "beta": [
                     "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
-                    "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
+                    null
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",

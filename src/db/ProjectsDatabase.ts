@@ -303,9 +303,6 @@ export default class ProjectsDatabase {
 
                 // Request a save.
                 this.saveSoon();
-
-                // Return the history
-                return history;
             }
             // If we already have a history, then reconcile the given version with the current history.
             else {
@@ -319,7 +316,11 @@ export default class ProjectsDatabase {
                 }
             }
 
+            // Refresh the history
             this.refreshEditableProjects();
+
+            // Return the history
+            return history;
         } else {
             this.readonlyProjects.set(project.getID(), project);
         }
