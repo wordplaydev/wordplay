@@ -618,6 +618,8 @@ type UITexts = {
                 localized: ModeText<[string, string, string]>;
             };
             options: {
+                /** The label for the font face chooser */
+                face: string;
                 /** The label for the microphone drop down */
                 mic: string;
                 /** The label for the camera drop down */

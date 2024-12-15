@@ -22,6 +22,8 @@
     import CreatorView from '../app/CreatorView.svelte';
     import { Creator } from '../../db/CreatorDatabase';
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
+    import { SupportedFaces } from '@basis/Fonts';
+    import { FaceSetting } from '@db/FaceSetting';
 
     let user = getUser();
 
@@ -71,109 +73,144 @@
         }}
         description={$locales.get((l) => l.ui.dialog.settings)}
     >
-        <Mode
-            descriptions={$locales.get((l) => l.ui.dialog.settings.mode.layout)}
-            choice={$arrangement === Arrangement.Responsive
-                ? 0
-                : $arrangement === Arrangement.Horizontal
-                  ? 1
-                  : $arrangement === Arrangement.Vertical
-                    ? 2
-                    : 3}
-            select={(choice) =>
-                Settings.setArrangement(
-                    choice == 0
-                        ? Arrangement.Responsive
-                        : choice === 1
-                          ? Arrangement.Horizontal
-                          : choice === 2
-                            ? Arrangement.Vertical
-                            : Arrangement.Free,
-                )}
-            modes={['📐', '↔️', '↕', '⏹️']}
-        />
-        <Mode
-            descriptions={$locales.get(
-                (l) => l.ui.dialog.settings.mode.animate,
-            )}
-            choice={$animationFactor}
-            select={(choice) => Settings.setAnimationFactor(choice)}
-            modes={AnimationFactorIcons}
-        />
-        {#if devicesRetrieved}
-            <label for="camera-setting">
-                🎥
+        <hr />
+        <div class="controls">
+            <label for="ui-face">
+                {$locales.get((l) => l.ui.dialog.settings.options.face)}
                 <Options
-                    value={cameraDevice?.label}
+                    value={FaceSetting.get() ?? 'Noto Sans'}
                     label={$locales.get(
-                        (l) => l.ui.dialog.settings.options.camera,
+                        (l) => l.ui.dialog.settings.options.face,
                     )}
-                    id="camera-setting"
+                    id="ui-face"
                     options={[
                         { value: undefined, label: '—' },
-                        ...cameras.map((device) => {
+                        ...SupportedFaces.map((face) => {
                             return {
-                                value: device.label,
-                                label: device.label,
+                                value: face,
+                                label: face,
                             };
                         }),
                     ]}
                     change={(choice) =>
-                        Settings.setCamera(
-                            cameras.find((camera) => camera.label === choice)
-                                ?.deviceId ?? null,
-                        )}
-                    width="4em"
-                />
+                        Settings.setFace(choice === undefined ? null : choice)}
+                ></Options>
             </label>
-            <label for="mic-setting">
-                🎤
-                <Options
-                    value={micDevice?.label}
-                    label={$locales.get(
-                        (l) => l.ui.dialog.settings.options.mic,
-                    )}
-                    id="mic-setting"
-                    options={[
-                        { value: undefined, label: '—' },
-                        ...mics.map((device) => {
-                            return {
-                                value: device.label,
-                                label: device.label,
-                            };
-                        }),
-                    ]}
-                    change={(choice) =>
-                        Settings.setMic(
-                            mics.find((mic) => mic.label === choice)
-                                ?.deviceId ?? null,
-                        )}
-                    width="4em"
-                />
-            </label>
-        {/if}
-        <Mode
-            descriptions={$locales.get((l) => l.ui.dialog.settings.mode.dark)}
-            choice={$dark === false ? 0 : $dark === true ? 1 : 2}
-            select={(choice) =>
-                Settings.setDark(
-                    choice === 0 ? false : choice === 1 ? true : null,
+            <Mode
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.layout,
                 )}
-            modes={['☼', '☽', '☼/☽']}
-        />
+                choice={$arrangement === Arrangement.Responsive
+                    ? 0
+                    : $arrangement === Arrangement.Horizontal
+                      ? 1
+                      : $arrangement === Arrangement.Vertical
+                        ? 2
+                        : 3}
+                select={(choice) =>
+                    Settings.setArrangement(
+                        choice == 0
+                            ? Arrangement.Responsive
+                            : choice === 1
+                              ? Arrangement.Horizontal
+                              : choice === 2
+                                ? Arrangement.Vertical
+                                : Arrangement.Free,
+                    )}
+                modes={['📐', '↔️', '↕', '⏹️']}
+            />
+            <Mode
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.animate,
+                )}
+                choice={$animationFactor}
+                select={(choice) => Settings.setAnimationFactor(choice)}
+                modes={AnimationFactorIcons}
+            />
+            {#if devicesRetrieved}
+                <label for="camera-setting">
+                    🎥
+                    <Options
+                        value={cameraDevice?.label}
+                        label={$locales.get(
+                            (l) => l.ui.dialog.settings.options.camera,
+                        )}
+                        id="camera-setting"
+                        options={[
+                            { value: undefined, label: '—' },
+                            ...cameras.map((device) => {
+                                return {
+                                    value: device.label,
+                                    label: device.label,
+                                };
+                            }),
+                        ]}
+                        change={(choice) =>
+                            Settings.setCamera(
+                                cameras.find(
+                                    (camera) => camera.label === choice,
+                                )?.deviceId ?? null,
+                            )}
+                        width="4em"
+                    />
+                </label>
+                <label for="mic-setting">
+                    🎤
+                    <Options
+                        value={micDevice?.label}
+                        label={$locales.get(
+                            (l) => l.ui.dialog.settings.options.mic,
+                        )}
+                        id="mic-setting"
+                        options={[
+                            { value: undefined, label: '—' },
+                            ...mics.map((device) => {
+                                return {
+                                    value: device.label,
+                                    label: device.label,
+                                };
+                            }),
+                        ]}
+                        change={(choice) =>
+                            Settings.setMic(
+                                mics.find((mic) => mic.label === choice)
+                                    ?.deviceId ?? null,
+                            )}
+                        width="4em"
+                    />
+                </label>
+            {/if}
+            <Mode
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.dark,
+                )}
+                choice={$dark === false ? 0 : $dark === true ? 1 : 2}
+                select={(choice) =>
+                    Settings.setDark(
+                        choice === 0 ? false : choice === 1 ? true : null,
+                    )}
+                modes={['☼', '☽', '☼/☽']}
+            />
 
-        <Mode
-            descriptions={$locales.get((l) => l.ui.dialog.settings.mode.space)}
-            choice={$spaceIndicator ? 1 : 0}
-            select={(choice) => Settings.setSpace(choice === 1 ? true : false)}
-            modes={['✗', '✓']}
-        />
-        <Mode
-            descriptions={$locales.get((l) => l.ui.dialog.settings.mode.lines)}
-            choice={$showLines ? 1 : 0}
-            select={(choice) => Settings.setLines(choice === 1 ? true : false)}
-            modes={['✗', '✓']}
-        />
+            <Mode
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.space,
+                )}
+                choice={$spaceIndicator ? 1 : 0}
+                select={(choice) =>
+                    Settings.setSpace(choice === 1 ? true : false)}
+                modes={['✗', '✓']}
+            />
+            <Mode
+                descriptions={$locales.get(
+                    (l) => l.ui.dialog.settings.mode.lines,
+                )}
+                choice={$showLines ? 1 : 0}
+                select={(choice) =>
+                    Settings.setLines(choice === 1 ? true : false)}
+                modes={['✗', '✓']}
+            />
+        </div>
     </Dialog>
 </div>
 
@@ -186,7 +223,15 @@
         margin-inline-start: auto;
     }
 
+    .controls {
+        display: flex;
+        flex-direction: column;
+        gap: calc(2 * var(--wordplay-spacing));
+        align-items: baseline;
+    }
+
     label {
         white-space: nowrap;
+        font-style: italic;
     }
 </style>

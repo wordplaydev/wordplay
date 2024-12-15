@@ -4418,7 +4418,8 @@
                 },
                 "options": {
                     "mic": "micrófono seleccionado",
-                    "camera": "cámara seleccionada "
+                    "camera": "cámara seleccionada ",
+                    "face": "$~tipo de fuente"
                 }
             },
             "locale": {
@@ -4531,8 +4532,7 @@
                     "• Gratis para siempre de la Universidad de Washington↗."
                 ],
                 "beta": [
-                    "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
-                    null
+                    "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera."
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",

@@ -4434,7 +4434,8 @@
                 },
                 "options": {
                     "mic": "$~ausgewähltes Mikrofon",
-                    "camera": "$~ausgewählte Kamera"
+                    "camera": "$~ausgewählte Kamera",
+                    "face": "$~Schriftart"
                 }
             },
             "locale": {

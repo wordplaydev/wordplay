@@ -599,6 +599,7 @@ export class FontManager {
 const Fonts = new FontManager();
 export default Fonts;
 
+/** The Wordplay text union type representing all valid font face names. */
 export const SupportedFontsFamiliesType = SupportedFaces.map(
     (font) => `"${font}"`,
 ).join(OR_SYMBOL);
