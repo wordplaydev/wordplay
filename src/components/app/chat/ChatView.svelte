@@ -15,7 +15,6 @@
     import CreatorView from '../CreatorView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick } from 'svelte';
-    import { placeholder } from '@babel/types';
 
     const { project }: { project: Project } = $props();
 
