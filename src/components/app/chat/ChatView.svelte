@@ -13,6 +13,8 @@
     import { Chats, Creators } from '@db/Database';
     import type Project from '@models/Project';
     import CreatorView from '../CreatorView.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { tick } from 'svelte';
 
     const { project }: { project: Project } = $props();
 
@@ -22,19 +24,32 @@
         Chats.addChat(project);
     }
 
-    function submit() {
+    function submitMessage() {
         if (newMessage.trim() === '') return;
         if (chat === undefined) return;
         Chats.addMessage(chat, newMessage);
         newMessage = '';
+        tick().then(() => {
+            if (newMessageView)
+                setKeyboardFocus(
+                    newMessageView,
+                    'Focus on chat after submitting',
+                );
+        });
     }
 
     let chat = $state<Chat | undefined>(undefined);
     let newMessage = $state('');
+    let newMessageView = $state<HTMLInputElement | undefined>();
+    let scrollerView = $state<HTMLDivElement | undefined>();
 
     $effect(() => {
         Chats.getChat(project).then((c) => {
             chat = c;
+            tick().then(() => {
+                if (scrollerView)
+                    scrollerView.scrollTop = scrollerView.scrollHeight;
+            });
         });
     });
 
@@ -84,7 +99,7 @@
     </TileMessage>
 {:else}
     <div class="chat">
-        <div class="scroller">
+        <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
                 {#each chat.getMessages() as msg}
                     {@render message(msg)}
@@ -93,11 +108,12 @@
                 {/each}
             </div>
         </div>
-        <form class="new">
+        <form class="new" data-sveltekit-keepfocus>
             <TextField
                 fill
                 placeholder="Type a message"
                 description="The chat message to submit"
+                bind:view={newMessageView}
                 bind:text={newMessage}
             />
             <Button
@@ -105,7 +121,7 @@
                 submit
                 active={chat !== undefined && newMessage.trim() !== ''}
                 tip="Send message"
-                action={submit}>Send</Button
+                action={submitMessage}>Send</Button
             >
         </form>
     </div>
@@ -113,10 +129,8 @@
 
 <style>
     .chat {
-        padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
         height: 100%;
     }
 
@@ -126,23 +140,23 @@
         height: 100%;
         width: 100%;
         margin-block-start: auto;
+        border-top: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
+        border-bottom: var(--wordplay-border-width) solid
+            var(--wordplay-border-color);
     }
 
     .messages {
-        width: 100%;
-        height: 100%;
-        border-bottom: var(--wordplay-border-width) solid
-            var(--wordplay-border-color);
         padding: var(--wordplay-spacing);
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
     }
 
     .new {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        padding: var(--wordplay-spacing);
     }
 
     .message {
@@ -150,6 +164,7 @@
         flex-direction: column;
         gap: var(--wordplay-spacing);
         width: 90%;
+        margin-block-end: var(--wordplay-spacing);
     }
 
     .creator.message {

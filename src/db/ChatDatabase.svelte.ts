@@ -111,12 +111,17 @@ export class ChatDatabase {
     private readonly db: Database;
 
     /** This is a global reactive map that stores chats obtained from Firestore */
-    private readonly chats = new SvelteMap<string, Chat>();
+    private readonly chats = $state(new SvelteMap<string, Chat>());
 
     private unsubscribe: Unsubscribe | undefined = undefined;
 
     constructor(db: Database) {
         this.db = db;
+    }
+
+    /** Take the given chat and update it's state */
+    updateChat(chat: Chat) {
+        this.chats.set(chat.getProjectID(), chat);
     }
 
     syncUser() {
@@ -127,11 +132,9 @@ export class ChatDatabase {
 
     /** Create a chat, if the project is owned and doesn't already have one. */
     async addChat(project: Project): Promise<string | undefined> {
+        if (firestore === undefined) return undefined;
         const owner = project.getOwner();
         if (owner === null) return undefined;
-        const chat = project.getID();
-        if (chat) return chat;
-        if (firestore === undefined) return undefined;
 
         // Create a new chat.
         const newChat: SerializedChat = {
@@ -150,7 +153,7 @@ export class ChatDatabase {
             );
 
             // Add the chat to the chats cache.
-            this.chats.set(newChat.project, new Chat(newChat));
+            this.updateChat(new Chat(newChat));
 
             // Add the chat to the project once we've added it to the database.
             Projects.reviseProject(project.withChat(newChat.project));
@@ -170,13 +173,22 @@ export class ChatDatabase {
         if (chat) return chat;
 
         if (firestore === undefined) return undefined;
-        const chatDoc = await getDoc(doc(firestore, ChatsCollection, chatID));
-        const remoteChat = chatDoc.data();
-        if (remoteChat === undefined) return undefined;
+        try {
+            const chatDoc = await getDoc(
+                doc(firestore, ChatsCollection, chatID),
+            );
+            if (chatDoc.exists()) {
+                const remoteChat = chatDoc.data();
+                if (remoteChat === undefined) return undefined;
 
-        const newChat = new Chat(remoteChat as SerializedChat);
-        this.chats.set(chatID, newChat);
-        return newChat;
+                const newChat = new Chat(remoteChat as SerializedChat);
+                this.updateChat(newChat);
+                return newChat;
+            }
+            return undefined;
+        } catch (err) {
+            return undefined;
+        }
     }
 
     async addMessage(
@@ -219,7 +231,7 @@ export class ChatDatabase {
                     // Try to parse the chat and save on success.
                     try {
                         ChatSchema.parse(chat);
-                        this.chats.set(chat.id, new Chat(chat.data));
+                        this.updateChat(new Chat(chat as SerializedChat));
                     } catch (error) {
                         // If the chat doesn't succeed, then we don't save it.
                         console.log(error);
