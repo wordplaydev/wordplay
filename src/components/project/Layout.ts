@@ -318,7 +318,9 @@ export default class Layout {
         let left = 0;
         const tileWidth =
             width /
-            ((docs ? 0.5 : 0) + sources.length + (output || palette ? 1 : 0));
+            ((docs || chat ? 0.5 : 0) +
+                sources.length +
+                (output || palette ? 1 : 0));
 
         // Docs first, if expanded, gets half a tile width
         if (docs || chat) {
