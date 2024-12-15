@@ -4483,6 +4483,30 @@
                 }
             }
         },
+        "chat": {
+            "label": "chat",
+            "field": {
+                "message": {
+                    "description": "The chat message to submit",
+                    "placeholder": "Type a message"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "Send",
+                    "tip": "Send a message to your collaborators"
+                },
+                "start": {
+                    "label": "Start chatting",
+                    "tip": "Begin a chat with yourself or others."
+                }
+            },
+            "error": {
+                "unowned": "This project has no owner, so it can't have a chat.",
+                "empty": "No messages."
+            },
+            "prompt": "Want to take notes or collaborate with others?"
+        },
         "palette": {
             "label": "palette",
             "labels": {

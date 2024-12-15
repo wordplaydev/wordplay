@@ -415,6 +415,32 @@ type UITexts = {
             conversions: string;
         };
     };
+    /** The project chat */
+    chat: {
+        /** The ARIA label for the chat section */
+        label: string;
+        /** The chat message input field */
+        field: {
+            /** The chat message input field */
+            message: FieldText;
+        };
+        /** Buttons in the chat tile */
+        button: {
+            /** The chat send button */
+            submit: ButtonText;
+            /** The start a chat button */
+            start: ButtonText;
+        };
+        /** Errors that can happen in the chat tile */
+        error: {
+            /** The project isn't owned by a person */
+            unowned: string;
+            /** No messages in the chat */
+            empty: string;
+        };
+        /** Messages to explain the purpose */
+        prompt: string;
+    };
     /** The palette editor */
     palette: {
         /** The ARIA label for the palette section */

@@ -3723,6 +3723,30 @@
         "template": {
             "unwritten": "$?",
             "unparsable": "$?"
+        },
+        "chat": {
+            "label": "$?",
+            "field": {
+                "message": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$?",
+                    "tip": "$?"
+                },
+                "start": {
+                    "label": "$?",
+                    "tip": "$?"
+                }
+            },
+            "error": {
+                "unowned": "$?",
+                "empty": "$?"
+            },
+            "prompt": "$?"
         }
     },
     "moderation": {

@@ -4812,6 +4812,30 @@
         "template": {
             "unwritten": "$~미정",
             "unparsable": "$~구문 분석할 수 없는 템플릿: $1"
+        },
+        "chat": {
+            "label": "$~채팅",
+            "field": {
+                "message": {
+                    "description": "$~제출할 채팅 메시지",
+                    "placeholder": "$~메시지를 입력하세요"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~보내다",
+                    "tip": "$~협력자에게 메시지를 보내세요"
+                },
+                "start": {
+                    "label": "$~채팅을 시작하세요",
+                    "tip": "$~자신이나 다른 사람과 대화를 시작하세요."
+                }
+            },
+            "error": {
+                "unowned": "$~이 프로젝트에는 소유자가 없으므로 채팅을 할 수 없습니다.",
+                "empty": "$~메시지가 없습니다."
+            },
+            "prompt": "$~다른 사람과 메모를 하거나 협업하고 싶으신가요?"
         }
     },
     "moderation": {

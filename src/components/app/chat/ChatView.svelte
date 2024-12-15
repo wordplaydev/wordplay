@@ -10,11 +10,12 @@
     import { type SerializedMessage } from '@db/ChatDatabase.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
     import type { Creator } from '@db/CreatorDatabase';
-    import { Chats, Creators } from '@db/Database';
+    import { Chats, Creators, locales } from '@db/Database';
     import type Project from '@models/Project';
     import CreatorView from '../CreatorView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick } from 'svelte';
+    import { placeholder } from '@babel/types';
 
     const { project }: { project: Project } = $props();
 
@@ -86,33 +87,40 @@
 
 {#if project.getOwner() === null}
     <TileMessage error>
-        <p>This project has no owner, so it can't have a chat.</p>
+        <p>{$locales.get((l) => l.ui.chat.error.unowned)}</p>
     </TileMessage>
 {:else if !chat}
     <TileMessage>
-        <p>Want to take notes or collaborate with others?</p>
+        <p>{$locales.get((l) => l.ui.chat.prompt)}</p>
         <p
-            ><Button tip="Start a chat" action={startChat} background
-                >Start a chat</Button
+            ><Button
+                tip={$locales.get((l) => l.ui.chat.button.start.tip)}
+                action={startChat}
+                background
+                >{$locales.get((l) => l.ui.chat.button.start.label)}</Button
             ></p
         >
     </TileMessage>
 {:else}
-    <div class="chat">
+    <section class="chat" aria-label={$locales.get((l) => l.ui.chat.label)}>
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
                 {#each chat.getMessages() as msg}
                     {@render message(msg)}
                 {:else}
-                    <Note>No messages.</Note>
+                    <Note>{$locales.get((l) => l.ui.chat.error.empty)}</Note>
                 {/each}
             </div>
         </div>
         <form class="new" data-sveltekit-keepfocus>
             <TextField
                 fill
-                placeholder="Type a message"
-                description="The chat message to submit"
+                placeholder={$locales.get(
+                    (l) => l.ui.chat.field.message.placeholder,
+                )}
+                description={$locales.get(
+                    (l) => l.ui.chat.field.message.description,
+                )}
                 bind:view={newMessageView}
                 bind:text={newMessage}
             />
@@ -120,11 +128,11 @@
                 background
                 submit
                 active={chat !== undefined && newMessage.trim() !== ''}
-                tip="Send message"
+                tip={$locales.get((l) => l.ui.chat.button.submit.tip)}
                 action={submitMessage}>Send</Button
             >
         </form>
-    </div>
+    </section>
 {/if}
 
 <style>

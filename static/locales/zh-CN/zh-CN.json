@@ -4752,6 +4752,30 @@
         "template": {
             "unwritten": "待定",
             "unparsable": "无法解析的模板: $1"
+        },
+        "chat": {
+            "label": "$~聊天",
+            "field": {
+                "message": {
+                    "description": "$~要提交的聊天消息",
+                    "placeholder": "$~键入消息"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~发送",
+                    "tip": "$~向您的合作者发送消息"
+                },
+                "start": {
+                    "label": "$~开始聊天",
+                    "tip": "$~开始与自己或他人聊天。"
+                }
+            },
+            "error": {
+                "unowned": "$~该项目没有所有者，因此无法聊天。",
+                "empty": "$~没有消息。"
+            },
+            "prompt": "$~想要做笔记或者与他人合作吗？"
         }
     },
     "moderation": {

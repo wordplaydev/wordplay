@@ -4775,6 +4775,30 @@
         "template": {
             "unwritten": "Por determinar",
             "unparsable": "Plantilla no analizable: $1"
+        },
+        "chat": {
+            "label": "$~charlar",
+            "field": {
+                "message": {
+                    "description": "$~El mensaje de chat para enviar",
+                    "placeholder": "$~Escribe un mensaje"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~Enviar",
+                    "tip": "$~Envía un mensaje a tus colaboradores"
+                },
+                "start": {
+                    "label": "$~Empezar a chatear",
+                    "tip": "$~Inicie una charla con usted mismo o con otras personas."
+                }
+            },
+            "error": {
+                "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",
+                "empty": "$~No hay mensajes."
+            },
+            "prompt": "$~¿Quieres tomar notas o colaborar con otros?"
         }
     },
     "moderation": {
