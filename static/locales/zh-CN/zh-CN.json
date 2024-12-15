@@ -4016,7 +4016,8 @@
                 "output": "舞台",
                 "palette": "调色板",
                 "docs": "指南",
-                "source": "源文件"
+                "source": "源文件",
+                "chat": "$~聊天"
             },
             "button": {
                 "collapse": "折叠窗口"

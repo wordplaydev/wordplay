@@ -4064,7 +4064,8 @@
                 "output": "$~scène",
                 "palette": "$~palette",
                 "docs": "$~guide",
-                "source": "$~source"
+                "source": "$~source",
+                "chat": "$~chat"
             },
             "button": {
                 "collapse": "$~réduire la fenêtre"

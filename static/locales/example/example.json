@@ -3068,7 +3068,8 @@
                 "output": "$?",
                 "palette": "$?",
                 "docs": "$?",
-                "source": "$?"
+                "source": "$?",
+                "chat": "$?"
             },
             "button": {
                 "collapse": "$?"

@@ -4030,7 +4030,8 @@
                 "output": "escenario",
                 "palette": "paleta",
                 "docs": "guía",
-                "source": "$source"
+                "source": "$source",
+                "chat": "$~charlar"
             },
             "button": {
                 "collapse": "colapsar esta ventana"

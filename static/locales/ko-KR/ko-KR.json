@@ -4067,7 +4067,8 @@
                 "output": "$~단계",
                 "palette": "$~팔레트",
                 "docs": "$~가이드",
-                "source": "$~원천"
+                "source": "$~원천",
+                "chat": "$~채팅"
             }
         },
         "project": {

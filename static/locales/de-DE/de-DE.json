@@ -4055,7 +4055,8 @@
                 "output": "$~Bühne",
                 "palette": "$~Palette",
                 "docs": "$~Führung",
-                "source": "$~Quelle"
+                "source": "$~Quelle",
+                "chat": "$~Chatten"
             },
             "button": {
                 "collapse": "$~Fenster ausblenden"
