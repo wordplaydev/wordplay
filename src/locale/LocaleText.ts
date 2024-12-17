@@ -31,6 +31,7 @@ export const EventuallySupportedLocales = [
     'fr-FR',
     'ja-JP',
     'de-DE',
+    'hi-IN',
 ];
 
 /** A list of locales officially supported by Wordplay. */
