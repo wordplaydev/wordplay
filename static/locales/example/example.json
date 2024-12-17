@@ -3419,7 +3419,8 @@
                 },
                 "options": {
                     "mic": "$?",
-                    "camera": "$?"
+                    "camera": "$?",
+                    "face": "$?"
                 }
             },
             "locale": {

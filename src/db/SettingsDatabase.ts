@@ -26,6 +26,7 @@ import { CreatorCollection } from './CreatorDatabase';
 import { SpaceSetting } from './SpaceSetting';
 import { LineSetting } from './LinesSetting';
 import { AnnotationsSetting } from './AnnotationsSetting';
+import { FaceSetting } from './FaceSetting';
 
 /** The schema of the record written to the creators collection. */
 export type SettingsSchemaV1 = {
@@ -61,6 +62,7 @@ export default class SettingsDatabase {
         locales: LocalesSetting,
         writingLayout: WritingLayoutSetting,
         tutorial: TutorialProgressSetting,
+        face: FaceSetting,
         camera: CameraSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
@@ -148,6 +150,14 @@ export default class SettingsDatabase {
 
     setTutorialProgress(progress: Progress) {
         this.settings.tutorial.set(this.database, progress.serialize());
+    }
+
+    setFace(face: string | null) {
+        this.settings.face.set(this.database, face);
+    }
+
+    getFace() {
+        return this.settings.face.get();
     }
 
     getCamera() {

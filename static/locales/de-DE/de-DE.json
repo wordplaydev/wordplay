@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "de",
     "region": "DE",
     "wordplay": "Wordplay",
@@ -960,7 +960,10 @@
             ],
             "start": "$~welchen Wert hat 1 $?",
             "conflict": {
-                "UnknownName": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen geben?]",
+                "UnknownName": {
+                    "conflict": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen geben?]",
+                    "resolution": "$!"
+                },
                 "ReferenceCycle": "$~ähm, der Wert von 1 $ hängt von ihm selbst ab. Woher weiß ich also, welchen Wert ich ihm zuweisen soll?",
                 "UnexpectedTypeVariable": "$~Ich weiß nicht, was ich mit diesen Eingabetypen machen soll"
             },
@@ -3228,7 +3231,10 @@
                 "$~SIE KÖNNEN MIR AUCH EINEN RAHMENRAND GEBEN UND ICH WERDE IHN ZUSCHNEIDEN.",
                 "$~\\Stage([Phrase('stufffffff')] Hintergrund: Farbe(75% 50 100°) Rahmen: Rechteck(-1m -1m 1m 1m))\\"
             ],
-            "description": "$~Stufe $1[$1|] von $2[$2|] Sätzen $3[$3 Rahmen|] $4",
+            "description": {
+                "names": "$!",
+                "doc": "$!"
+            },
             "content": {
                 "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Outputs.",
                 "names": "$~Inhalt"
@@ -3329,7 +3335,10 @@
                 "$~\\Gruppe(Stapel() [Phrase('erste') Phrase('zweite')])\\",
                 "$~Wie ich die Dinge genau arrangiere, hängt von dem @Arrangement ab, das Sie mir geben."
             ],
-            "description": "$~$1[$1|] $2 $3",
+            "description": {
+                "names": "$!",
+                "doc": "$!"
+            },
             "content": {
                 "doc": "$~Die Liste der anzuordnenden @Outputs.",
                 "names": "$~Inhalt"
@@ -3423,7 +3432,10 @@
         "Phrase": {
             "names": ["💬", "Satzglied"],
             "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
-            "description": "$~$3[$3 Takt |]Phrase $1 $2[benannt $2|] $4[$4|] $5",
+            "description": {
+                "names": "$!",
+                "doc": "$!"
+            },
             "text": {
                 "doc": "$~Die auf @Stage anzuzeigenden Charaktere.",
                 "names": "$~Text"
@@ -4434,7 +4446,8 @@
                 },
                 "options": {
                     "mic": "$~ausgewähltes Mikrofon",
-                    "camera": "$~ausgewählte Kamera"
+                    "camera": "$~ausgewählte Kamera",
+                    "face": "$~Schriftart"
                 }
             },
             "locale": {

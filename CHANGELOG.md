@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.13.3 2024-12-14
+
+### Added
+
+- Added ability to change user interface font to one of the supported fonts.
+
 ## 0.13.2 2024-12-09
 
 ### Added

@@ -4455,7 +4455,8 @@
                 },
                 "options": {
                     "mic": "$~microphone sélectionné",
-                    "camera": "$~caméra sélectionnée"
+                    "camera": "$~caméra sélectionnée",
+                    "face": "$~police de caractère"
                 }
             },
             "locale": {
