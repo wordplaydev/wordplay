@@ -136,7 +136,7 @@ export class Database {
             this.updateUser(newUser);
 
             // Update the galleries query with the new user.
-            this.Galleries.listen();
+            this.Galleries.registerRealtimeUpdates();
         });
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,

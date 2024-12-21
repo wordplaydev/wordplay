@@ -29,6 +29,7 @@ import { unknownFlags, type Moderation } from './Moderation';
 import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
 import {
+    type ProjectID,
     ProjectSchemaLatestVersion,
     type SerializedCaret,
     type SerializedProject,
@@ -204,7 +205,7 @@ export default class Project {
         );
     }
 
-    getID() {
+    getID(): ProjectID {
         return this.data.id;
     }
 

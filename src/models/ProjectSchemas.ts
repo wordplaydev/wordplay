@@ -18,6 +18,8 @@ export type SerializedSource = z.infer<typeof SourceSchema>;
 
 export const ProjectSchemaLatestVersion = 3;
 
+export type ProjectID = string;
+
 /** Define the schema for projects */
 export const ProjectSchemaV1 = z.object({
     /** The version of the project schema, used for keeping track of different versions of the project schema.  */

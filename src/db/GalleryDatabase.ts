@@ -23,6 +23,7 @@ import type Project from '../models/Project';
 import { localeToString } from '../locale/Locale';
 import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
+import type { ProjectID } from '@models/ProjectSchemas';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -49,10 +50,14 @@ export default class GalleryDatabase {
     readonly exampleGalleries: Writable<Gallery[]> = writable([]);
 
     /** Public galleries that have been loaded individually. */
-    readonly publicGalleries: Map<string, Writable<Gallery>> = new Map();
+    readonly publicGalleries: Map<ProjectID, Writable<Gallery>> = new Map();
 
     /** The unsubscribe function for the real time query for galleries this user has access to. */
     private galleriesQueryUnsubscribe: Unsubscribe | undefined;
+
+    /** A list of projects on which listeners for gallery updates to keep data in sync. */
+    private listeners: Map<ProjectID, Set<(gallery: Gallery) => void>> =
+        new Map();
 
     constructor(database: Database) {
         this.database = database;
@@ -73,11 +78,11 @@ export default class GalleryDatabase {
             this.exampleGalleries.set(localizedExamples);
         });
 
-        this.listen();
+        this.registerRealtimeUpdates();
     }
 
     /** Find all galleries that this user has access to */
-    listen() {
+    registerRealtimeUpdates() {
         // No database access? Bail and mark an error.
         if (firestore === undefined) {
             this.status.set('noaccess');
@@ -145,6 +150,19 @@ export default class GalleryDatabase {
                 }
             },
         );
+    }
+
+    /** Call the given function when the project with the given ID is involved in a gallery edit. */
+    listen(projectID: string, listener: (gallery: Gallery) => void) {
+        const current = this.listeners.get(projectID);
+        if (current) current.add(listener);
+        else this.listeners.set(projectID, new Set([listener]));
+    }
+
+    /** Stop calling the given function when the project with the given ID is involved in a gallery edit. */
+    ignore(projectID: string, listener: (gallery: Gallery) => void) {
+        const current = this.listeners.get(projectID);
+        if (current) current.delete(listener);
     }
 
     /** Create a new gallery with this user as its curator. */
@@ -237,6 +255,12 @@ export default class GalleryDatabase {
             gallery.getID(),
             galleries.get(gallery.getID()) ?? writable(gallery),
         );
+
+        // Notify all project listeners about the gallery updated.
+        for (const project of gallery.getProjects()) {
+            const listeners = this.listeners.get(project);
+            if (listeners) listeners.forEach((listener) => listener(gallery));
+        }
     }
 
     async delete(gallery: Gallery) {

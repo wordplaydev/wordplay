@@ -18,6 +18,7 @@ import { Projects, type Database } from './Database';
 import { firestore } from './firebase';
 import type Project from '@models/Project';
 import { v4 as uuidv4 } from 'uuid';
+import type Gallery from '@models/Gallery';
 
 ////////////////////////////////
 // SCHEMAS
@@ -127,10 +128,13 @@ export class ChatDatabase {
 
     private unsubscribe: Unsubscribe | undefined = undefined;
 
-    private listener: undefined | ((project: Project) => void) = undefined;
+    private projectsListener: (project: Project) => void;
+    private galleryListener: (gallery: Gallery) => void;
 
     constructor(db: Database) {
         this.db = db;
+        this.projectsListener = this.handleRevisedProject.bind(this);
+        this.galleryListener = this.handleRevisedGallery.bind(this);
     }
 
     /** Take the given chat and update it's state locally, and optionally remotely. */
@@ -138,11 +142,11 @@ export class ChatDatabase {
         const projectID = chat.getProjectID();
         this.chats.set(projectID, chat);
 
-        // Make sure we're listening to the chat.
-        if (this.listener === undefined) {
-            this.listener = this.updateProject.bind(this);
-            this.db.Projects.listen(projectID, this.listener);
-        }
+        // Make sure we're listening to updates on the chat's project.
+        this.db.Projects.listen(projectID, this.projectsListener);
+
+        // Make sure we're listening to the gallery of the project.
+        this.db.Galleries.listen(projectID, this.galleryListener);
 
         // If asked to persist, update remotely.
         if (persist && firestore) {
@@ -197,7 +201,33 @@ export class ChatDatabase {
     }
 
     /** Should be called when a project updates, to synchronize chat participants. */
-    updateProject(project: Project) {
+    async handleRevisedProject(project: Project) {
+        // Find the gallery of this project, if there is one.
+        const galleryID = project.getGallery();
+        const gallery =
+            galleryID === null
+                ? undefined
+                : await this.db.Galleries.get(galleryID);
+
+        // Ensure the chat has the correct eligible participants based on the project and gallery.
+        this.syncParticipants(project, gallery);
+    }
+
+    /** Should be called when a gallery updates, to synchronize chat participants */
+    async handleRevisedGallery(gallery: Gallery) {
+        // Synchronize the participants of all the projects in the gallery if this person is a curator of the gallery.
+        // The user doesn't have permissions otherwise.
+        const uid = this.db.getUser()?.uid;
+        if (uid !== undefined && gallery.getCurators().includes(uid)) {
+            for (const projectID of gallery.getProjects()) {
+                const project = await this.db.Projects.get(projectID);
+                if (project) this.syncParticipants(project, gallery);
+            }
+        }
+    }
+
+    /** Ensure the participants of the chat include the project owner, project collaborators, and if in a gallery, curators of the gallery it is in. */
+    syncParticipants(project: Project, gallery: Gallery | undefined) {
         // Ensure the chat has all of the project's contributors.
         const chat = this.chats.get(project.getID());
 
@@ -210,18 +240,27 @@ export class ChatDatabase {
             return;
         }
 
-        // Get the chat's sorted lists of participants as a string.
-        const chatParticipants = chat.getEligibleParticipants().sort().join();
+        // Get the chat's sorted lists of participants as a string, so we can quickly check the current set.
+        const currentChatParticipantsString = chat
+            .getEligibleParticipants()
+            .sort()
+            .join();
 
-        // Get the project's sorted lists of contributors as a string.
-        const projectContributors = project.getContributors().sort().join();
+        // Get the chat's intended participants based on the project and gallery.
+        const intendedChatParticipants = [
+            ...new Set([
+                ...project.getContributors(),
+                ...(gallery ? gallery.getCurators() : []),
+            ]),
+        ].sort();
 
-        if (chatParticipants !== projectContributors) {
+        // If they're not updated, update them.
+        if (currentChatParticipantsString !== intendedChatParticipants.join()) {
             // Update the chat with the new list of contributors.
             this.updateChat(
                 new Chat({
                     ...chat.getData(),
-                    participants: project.getContributors(),
+                    participants: intendedChatParticipants,
                 }),
                 true,
             );
@@ -314,8 +353,11 @@ export class ChatDatabase {
                     if (change.type === 'removed') {
                         const projectID = change.doc.id;
                         this.chats.delete(projectID);
-                        if (this.listener)
-                            this.db.Projects.ignore(projectID, this.listener);
+                        if (this.projectsListener)
+                            this.db.Projects.ignore(
+                                projectID,
+                                this.projectsListener,
+                            );
                     }
                 });
             },
