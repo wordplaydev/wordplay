@@ -13,6 +13,7 @@
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
     import { Projects, locales } from '@db/Database';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -145,7 +146,7 @@
                             action={() => removePose(index)}
                             active={editable &&
                                 map !== undefined &&
-                                map.values.length > 1}>⨉</Button
+                                map.values.length > 1}>{CANCEL_SYMBOL}</Button
                         >
                         <Button
                             tip={$locales.get(

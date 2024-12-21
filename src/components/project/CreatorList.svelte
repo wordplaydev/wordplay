@@ -9,6 +9,7 @@
     import Spinning from '../app/Spinning.svelte';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         uids: string[];
@@ -101,7 +102,7 @@
                         (l) => l.ui.project.button.removeCollaborator,
                     )}
                     active={removable(uid)}
-                    action={() => remove(uid)}>⨉</Button
+                    action={() => remove(uid)}>{CANCEL_SYMBOL}</Button
                 >{/if}</div
         >
     {/each}

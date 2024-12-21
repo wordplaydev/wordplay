@@ -77,7 +77,7 @@
                     : $locales.get((l) => l.ui.palette.button.set)}
                 bind:view={toggleView}
                 action={() => toggleValues(!valuesAreSet)}
-                >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
+                >{valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}</Button
             >{/if}
     {/snippet}
     {#snippet control()}

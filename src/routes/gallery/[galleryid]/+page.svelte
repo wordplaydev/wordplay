@@ -20,7 +20,11 @@
     import type Project from '../../../models/Project';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import AddProject from '@components/app/AddProject.svelte';
-    import { COPY_SYMBOL, EDIT_SYMBOL } from '../../../parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        COPY_SYMBOL,
+        EDIT_SYMBOL,
+    } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
 
     const user = getUser();
@@ -203,7 +207,7 @@
                                                     gallery.getID(),
                                                 )
                                               : false,
-                                      label: '⨉',
+                                      label: CANCEL_SYMBOL,
                                   }
                                 : false;
                         }}

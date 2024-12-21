@@ -16,6 +16,7 @@
     import type LanguageCode from '@locale/LanguageCode';
     import LocaleName from './LocaleName.svelte';
     import { Settings } from '../../db/Database';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     let selectedLocales = $state<string[]>([]);
     $effect(() => {
@@ -72,7 +73,7 @@
                 tip={$locales.get((l) => l.ui.dialog.locale.button.remove)}
                 active={selectedLocales.length > 1}
                 >{#if selectedLocales.length > 1}
-                    ⨉
+                    {CANCEL_SYMBOL}
                 {/if}
                 <LocaleName locale={selected} supported /></Button
             >

@@ -18,7 +18,11 @@
     import Feedback from '@components/app/Feedback.svelte';
     import { get } from 'svelte/store';
     import Subheader from '@components/app/Subheader.svelte';
-    import { COPY_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        COPY_SYMBOL,
+        EDIT_SYMBOL,
+    } from '../../parser/Symbols';
     import AddProject from '@components/app/AddProject.svelte';
 
     const user = getUser();
@@ -139,7 +143,7 @@
                                   console.error(error);
                               }
                           },
-                          label: '⨉',
+                          label: CANCEL_SYMBOL,
                       }
                     : false}
         />

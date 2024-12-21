@@ -8,7 +8,7 @@
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
     import { blocks, DB, locales } from '@db/Database';
-    import { EDIT_SYMBOL } from '../../parser/Symbols';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
 
     interface Props {
         project: Project;
@@ -61,7 +61,8 @@
                         list
                             ? removeContent(DB, project, list, index)
                             : undefined}
-                    active={editable && list.values.length > 0}>⨉</Button
+                    active={editable && list.values.length > 0}
+                    >{CANCEL_SYMBOL}</Button
                 >
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.up)}

@@ -114,7 +114,7 @@
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
-    import { COPY_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
     import { localeToString } from '@locale/Locale';
     import type Locale from '@locale/Locale';
@@ -1484,7 +1484,7 @@
                                                 (l) =>
                                                     l.ui.source.confirm.delete
                                                         .prompt,
-                                            )}>⨉</ConfirmButton
+                                            )}>{CANCEL_SYMBOL}</ConfirmButton
                                         >
                                     {/if}
                                 {:else if tile.kind === TileKind.Output}

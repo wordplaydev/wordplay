@@ -87,3 +87,4 @@ export const GLOBE2_SYMBOL = '🌍';
 export const GLOBE3_SYMBOL = '🌏';
 export const EDIT_SYMBOL = '✎';
 export const COPY_SYMBOL = '📋';
+export const CANCEL_SYMBOL = '⨉';
