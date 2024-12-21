@@ -78,9 +78,21 @@ export default class Chat {
     getProjectID() {
         return this.data.project;
     }
-    getParticipants() {
+
+    /** Get all participants based on the chat data */
+    getAllParticipants() {
+        return [...new Set(this.data.messages.map((m) => m.creator))];
+    }
+
+    // Get the participants allowed to chat, derived from project permissions
+    getEligibleParticipants() {
         return this.data.participants;
     }
+
+    isEligible(creator: string) {
+        return this.data.participants.includes(creator);
+    }
+
     getMessages() {
         return this.data.messages;
     }
@@ -115,13 +127,30 @@ export class ChatDatabase {
 
     private unsubscribe: Unsubscribe | undefined = undefined;
 
+    private listener: undefined | ((project: Project) => void) = undefined;
+
     constructor(db: Database) {
         this.db = db;
     }
 
-    /** Take the given chat and update it's state */
-    updateChat(chat: Chat) {
-        this.chats.set(chat.getProjectID(), chat);
+    /** Take the given chat and update it's state locally, and optionally remotely. */
+    updateChat(chat: Chat, persist: boolean) {
+        const projectID = chat.getProjectID();
+        this.chats.set(projectID, chat);
+
+        // Make sure we're listening to the chat.
+        if (this.listener === undefined) {
+            this.listener = this.updateProject.bind(this);
+            this.db.Projects.listen(projectID, this.listener);
+        }
+
+        // If asked to persist, update remotely.
+        if (persist && firestore) {
+            updateDoc(
+                doc(firestore, ChatsCollection, chat.getProjectID()),
+                chat.getData(),
+            );
+        }
     }
 
     syncUser() {
@@ -141,19 +170,21 @@ export class ChatDatabase {
             v: 1,
             project: project.getID(),
             messages: [],
-            participants: [owner],
+            // Everyone contributing is eligible to see and participate in the chat.
+            participants: project.getContributors(),
             unread: [],
         };
 
         // Add the chat to Firebase, relying on the realtime listener to update the local cache.
         try {
+            // Create the document.
             await setDoc(
                 doc(firestore, ChatsCollection, newChat.project),
                 newChat,
             );
 
-            // Add the chat to the chats cache.
-            this.updateChat(new Chat(newChat));
+            // Add the chat to the chats cache, but not remotely; we just created it.
+            this.updateChat(new Chat(newChat), false);
 
             // Add the chat to the project once we've added it to the database.
             Projects.reviseProject(project.withChat(newChat.project));
@@ -165,13 +196,47 @@ export class ChatDatabase {
         return newChat.project;
     }
 
+    /** Should be called when a project updates, to synchronize chat participants. */
+    updateProject(project: Project) {
+        // Ensure the chat has all of the project's contributors.
+        const chat = this.chats.get(project.getID());
+
+        // No corresponding chat? That's an issue: the only projects we should be listening to are the ones
+        // with chats!
+        if (chat === undefined) {
+            console.log(
+                `No chat found for project ${project.getID()}, but we're listening to its changes for some reason. Perhaps a defect?`,
+            );
+            return;
+        }
+
+        // Get the chat's sorted lists of participants as a string.
+        const chatParticipants = chat.getEligibleParticipants().sort().join();
+
+        // Get the project's sorted lists of contributors as a string.
+        const projectContributors = project.getContributors().sort().join();
+
+        if (chatParticipants !== projectContributors) {
+            // Update the chat with the new list of contributors.
+            this.updateChat(
+                new Chat({
+                    ...chat.getData(),
+                    participants: project.getContributors(),
+                }),
+                true,
+            );
+        }
+    }
+
     async getChat(project: Project): Promise<Chat | undefined> {
         const chatID = project.getID();
         if (chatID === null) return undefined;
 
+        // Do we have the chat cached? Return it.
         const chat = this.chats.get(chatID);
         if (chat) return chat;
 
+        // If not, see if it's in the database.
         if (firestore === undefined) return undefined;
         try {
             const chatDoc = await getDoc(
@@ -182,7 +247,8 @@ export class ChatDatabase {
                 if (remoteChat === undefined) return undefined;
 
                 const newChat = new Chat(remoteChat as SerializedChat);
-                this.updateChat(newChat);
+                // Update the chat locally, but do not persist, we already know it's in the database..
+                this.updateChat(newChat, false);
                 return newChat;
             }
             return undefined;
@@ -204,10 +270,9 @@ export class ChatDatabase {
             time: Date.now(),
             creator: user,
         };
-        updateDoc(
-            doc(firestore, ChatsCollection, chat.getProjectID()),
-            chat.withMessage(newMessage).getData(),
-        );
+
+        // Perist the revised chat, but don't wait for the remote update.
+        this.updateChat(chat.withMessage(newMessage), true);
         return newMessage;
     }
 
@@ -231,18 +296,27 @@ export class ChatDatabase {
                     // Try to parse the chat and save on success.
                     try {
                         ChatSchema.parse(chat);
-                        this.updateChat(new Chat(chat as SerializedChat));
+                        // Update the chat in the local cache, but do not persist; we just got it from the DB.
+                        this.updateChat(
+                            new Chat(chat as SerializedChat),
+                            false,
+                        );
                     } catch (error) {
                         // If the chat doesn't succeed, then we don't save it.
-                        console.log(error);
+                        console.error(error);
                     }
                 });
 
                 // Next, go through the changes and see if any were explicitly removed, and if so, delete them.
                 snapshot.docChanges().forEach((change) => {
                     // Removed? Delete the local cache of the project.
-                    if (change.type === 'removed')
-                        this.chats.delete(change.doc.id);
+                    // Stop litening to the project's changes.
+                    if (change.type === 'removed') {
+                        const projectID = change.doc.id;
+                        this.chats.delete(projectID);
+                        if (this.listener)
+                            this.db.Projects.ignore(projectID, this.listener);
+                    }
                 });
             },
             (error) => {

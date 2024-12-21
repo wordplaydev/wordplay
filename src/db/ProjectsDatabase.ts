@@ -110,6 +110,9 @@ export default class ProjectsDatabase {
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timeout | undefined = undefined;
 
+    /** A list of listeners that are notified of a project change. */
+    private listeners: Map<string, Set<(project: Project) => void>> = new Map();
+
     constructor(database: Database) {
         this.database = database;
 
@@ -149,6 +152,19 @@ export default class ProjectsDatabase {
                     : PersistenceType.Online,
                 true,
             );
+    }
+
+    /** Call the given function when the project with the given ID is edited locally or remotely. */
+    listen(projectID: string, listener: (project: Project) => void) {
+        const current = this.listeners.get(projectID);
+        if (current) current.add(listener);
+        else this.listeners.set(projectID, new Set([listener]));
+    }
+
+    /** Stop calling the given function when the project with the given ID is edited locally or remotely */
+    ignore(projectID: string, listener: (project: Project) => void) {
+        const current = this.listeners.get(projectID);
+        if (current) current.delete(listener);
     }
 
     async deserializeAll(serialized: unknown[]) {
@@ -467,6 +483,11 @@ export default class ProjectsDatabase {
     ): EditFailure | undefined {
         if (project.getSourceByteSize() > MAX_PROJECT_BYTE_SIZE)
             return EditFailure.TooLarge;
+
+        // Notify any listeners of this new project.
+        this.listeners
+            .get(project.getID())
+            ?.forEach((listener) => listener(project));
 
         // Update or create a history for this project.
         const history = this.projectHistories.get(project.getID());

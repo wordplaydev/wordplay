@@ -1,28 +1,34 @@
 <script lang="ts">
     import type { Creator } from '@db/CreatorDatabase';
-    import { locales } from '@db/Database';
+    import Feedback from './Feedback.svelte';
 
     interface Props {
         creator: Creator | null;
         anonymize?: boolean;
         chrome?: boolean;
+        fade?: boolean;
     }
 
-    let { creator, anonymize = true, chrome = true }: Props = $props();
+    let {
+        creator,
+        anonymize = true,
+        chrome = true,
+        fade = false,
+    }: Props = $props();
 
     let username = $derived(creator?.getUsername(anonymize) ?? '');
 </script>
 
-<div class="creator" class:chrome
+<div class="creator" class:chrome class:fade
     >{#if creator}<span
             class="name"
             style:animation-delay={`${Math.random() * 1000}ms`}
             >{creator.getName() ?? '😃'}</span
-        >{/if}{creator
-        ? username.length < 10
+        >{/if}{#if creator}
+        {username.length < 10
             ? username
-            : `${username.substring(0, 10)}…`
-        : $locales.get((l) => l.ui.page.login.anonymous)}</div
+            : `${username.substring(0, 10)}…`}{:else}
+        <Feedback inline>—</Feedback>{/if}</div
 >
 
 <style>
@@ -33,6 +39,10 @@
         gap: var(--wordplay-spacing);
         align-items: center;
         justify-content: center;
+    }
+
+    .fade {
+        color: var(--wordplay-inactive-color);
     }
 
     .chrome {

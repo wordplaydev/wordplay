@@ -15,6 +15,7 @@
     import CreatorView from '../CreatorView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick } from 'svelte';
+    import Loading from '../Loading.svelte';
 
     const { project }: { project: Project } = $props();
 
@@ -26,7 +27,7 @@
 
     function submitMessage() {
         if (newMessage.trim() === '') return;
-        if (chat === undefined) return;
+        if (!chat) return;
         Chats.addMessage(chat, newMessage);
         newMessage = '';
         tick().then(() => {
@@ -38,7 +39,7 @@
         });
     }
 
-    let chat = $state<Chat | undefined>(undefined);
+    let chat = $state<Chat | undefined | null>(null);
     let newMessage = $state('');
     let newMessageView = $state<HTMLInputElement | undefined>();
     let scrollerView = $state<HTMLDivElement | undefined>();
@@ -58,26 +59,40 @@
     // Set the creators to whatever user IDs we have.
     $effect(() => {
         if (chat)
-            Creators.getCreatorsByUIDs(chat.getParticipants()).then(
+            // We async load all participants, regardless of their chat eligibility, since we need to render
+            // their names.
+            Creators.getCreatorsByUIDs(chat.getAllParticipants()).then(
                 (map) => (creators = map),
             );
         else creators = {};
     });
+
+    function areSameDay(a: Date, b: Date): boolean {
+        return (
+            a.getDate() === b.getDate() &&
+            a.getMonth() === b.getMonth() &&
+            a.getFullYear() === b.getFullYear()
+        );
+    }
 </script>
 
-{#snippet message(msg: SerializedMessage)}
+{#snippet message(chat: Chat, msg: SerializedMessage)}
+    {@const date = new Date(msg.time)}
     <div class="message" class:creator={$user?.uid === msg.creator}>
         <div class="meta"
             ><CreatorView
                 chrome={false}
                 anonymize={false}
                 creator={creators[msg.creator]}
+                fade={!chat.isEligible(msg.creator)}
             />
             <div class="when"
-                >{new Date(msg.time).toLocaleString(undefined, {
-                    dateStyle: 'short',
-                    timeStyle: 'short',
-                })}</div
+                >{areSameDay(new Date(), date)
+                    ? date.toLocaleTimeString(undefined, { timeStyle: 'short' })
+                    : date.toLocaleString(undefined, {
+                          dateStyle: 'short',
+                          timeStyle: 'short',
+                      })}</div
             ></div
         >
         <div class="what">{msg.text}</div>
@@ -88,6 +103,8 @@
     <TileMessage error>
         <p>{$locales.get((l) => l.ui.chat.error.unowned)}</p>
     </TileMessage>
+{:else if chat === null}
+    <Loading></Loading>
 {:else if !chat}
     <TileMessage>
         <p>{$locales.get((l) => l.ui.chat.prompt)}</p>
@@ -105,7 +122,7 @@
         <div class="scroller" bind:this={scrollerView}>
             <div class="messages">
                 {#each chat.getMessages() as msg}
-                    {@render message(msg)}
+                    {@render message(chat, msg)}
                 {:else}
                     <Note>{$locales.get((l) => l.ui.chat.error.empty)}</Note>
                 {/each}

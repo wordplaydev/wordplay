@@ -707,6 +707,14 @@ export default class Project {
         return [...this.data.collaborators];
     }
 
+    /** Get a list of all owners and collaborators in a singe list. */
+    getContributors() {
+        return [
+            ...(this.data.owner ? [this.data.owner] : []),
+            ...this.data.collaborators,
+        ];
+    }
+
     hasCollaborator(uid: string) {
         return this.data.collaborators.includes(uid);
     }
