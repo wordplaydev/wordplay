@@ -4499,11 +4499,13 @@
                 "start": {
                     "label": "Start chatting",
                     "tip": "Begin a chat with yourself or others."
-                }
+                },
+                "delete": "delete this message"
             },
             "error": {
                 "unowned": "This project has no owner, so it can't have a chat.",
-                "empty": "No messages."
+                "empty": "No messages.",
+                "deleted": "This message was deleted."
             },
             "prompt": "Want to take notes or collaborate with others?"
         },

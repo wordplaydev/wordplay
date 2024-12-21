@@ -430,6 +430,8 @@ type UITexts = {
             submit: ButtonText;
             /** The start a chat button */
             start: ButtonText;
+            /** The message delete button */
+            delete: string;
         };
         /** Errors that can happen in the chat tile */
         error: {
@@ -437,6 +439,8 @@ type UITexts = {
             unowned: string;
             /** No messages in the chat */
             empty: string;
+            /** A message was deleted */
+            deleted: string;
         };
         /** Messages to explain the purpose */
         prompt: string;

@@ -8540,6 +8540,10 @@
                   "additionalProperties": false,
                   "description": "Buttons in the chat tile",
                   "properties": {
+                    "delete": {
+                      "description": "The message delete button",
+                      "type": "string"
+                    },
                     "start": {
                       "$ref": "#/definitions/ButtonText",
                       "description": "The start a chat button"
@@ -8551,7 +8555,8 @@
                   },
                   "required": [
                     "submit",
-                    "start"
+                    "start",
+                    "delete"
                   ],
                   "type": "object"
                 },
@@ -8559,6 +8564,10 @@
                   "additionalProperties": false,
                   "description": "Errors that can happen in the chat tile",
                   "properties": {
+                    "deleted": {
+                      "description": "A message was deleted",
+                      "type": "string"
+                    },
                     "empty": {
                       "description": "No messages in the chat",
                       "type": "string"
@@ -8570,7 +8579,8 @@
                   },
                   "required": [
                     "unowned",
-                    "empty"
+                    "empty",
+                    "deleted"
                   ],
                   "type": "object"
                 },

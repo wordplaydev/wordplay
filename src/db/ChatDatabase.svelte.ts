@@ -32,7 +32,7 @@ const MessageSchemaV1 = z.object({
     /** The author of the message. */
     creator: z.string(),
     /** The text of the message, using Wordplay markup format */
-    text: z.string(),
+    text: z.string().nullable(),
 });
 
 const MessageSchema = MessageSchemaV1;
@@ -82,7 +82,7 @@ export default class Chat {
         // We automatically trim the chat messages if they exceed the maximum size.
         // We estimate about 2 bytes per codepoint, even though some are 1 and some are 4.
         const size = data.messages.reduce(
-            (size, message) => size + message.text.length,
+            (size, message) => size + (message.text?.length ?? 0),
             0,
         );
 
@@ -93,7 +93,7 @@ export default class Chat {
             while (newSize > MAX_CHAT_MESSAGES_BYTES) {
                 const message = messages.shift();
                 if (message === undefined) break;
-                newSize -= message.text.length;
+                newSize -= message.text?.length ?? 0;
             }
             this.data = {
                 ...data,
@@ -140,15 +140,15 @@ export default class Chat {
         // Create a map of messages by time and text.
         const messageMap = new Map<string, SerializedMessage>();
         for (const message of messages) {
-            messageMap.set(`${message.time}-${message.text}`, message);
+            messageMap.set(message.id, message);
         }
 
         // Add the new messages to the map.
         for (const message of this.data.messages) {
-            messageMap.set(`${message.time}-${message.text}`, message);
+            messageMap.set(message.id, message);
         }
 
-        // Convert the map back to a list.
+        // Convert the map back to a list, sorted by time.
         const mergedMessages = Array.from(messageMap.values()).sort(
             (a, b) => a.time - b.time,
         );
@@ -156,6 +156,16 @@ export default class Chat {
         return new Chat({
             ...this.data,
             messages: mergedMessages,
+        });
+    }
+
+    /** Keep the message, but replace it's text with nothing. */
+    withoutMessage(message: SerializedMessage) {
+        return new Chat({
+            ...this.data,
+            messages: this.data.messages.map((m) =>
+                m.id === message.id ? { ...m, text: null } : m,
+            ),
         });
     }
 

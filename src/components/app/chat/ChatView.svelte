@@ -16,14 +16,11 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick } from 'svelte';
     import Loading from '../Loading.svelte';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     const { project }: { project: Project } = $props();
 
     const user = getUser();
-
-    function startChat() {
-        Chats.addChat(project);
-    }
 
     function submitMessage() {
         if (newMessage.trim() === '') return;
@@ -67,12 +64,21 @@
         else creators = {};
     });
 
+    function startChat() {
+        Chats.addChat(project);
+    }
+
     function areSameDay(a: Date, b: Date): boolean {
         return (
             a.getDate() === b.getDate() &&
             a.getMonth() === b.getMonth() &&
             a.getFullYear() === b.getFullYear()
         );
+    }
+
+    function deleteMessage(chat: Chat, message: SerializedMessage) {
+        if (!chat) return;
+        Chats.updateChat(chat.withoutMessage(message), true);
     }
 </script>
 
@@ -93,9 +99,21 @@
                           dateStyle: 'short',
                           timeStyle: 'short',
                       })}</div
-            ></div
+            >
+            {#if $user?.uid === msg.creator && msg.text !== null}
+                <Button
+                    tip={$locales.get((l) => l.ui.chat.button.delete)}
+                    action={() => deleteMessage(chat, msg)}
+                >
+                    {CANCEL_SYMBOL}</Button
+                >
+            {/if}
+        </div>
+        <div class="what"
+            >{#if msg.text === null}<em
+                    >{$locales.get((l) => l.ui.chat.error.deleted)}</em
+                >{:else}{msg.text}{/if}</div
         >
-        <div class="what">{msg.text}</div>
     </div>
 {/snippet}
 
