@@ -67,6 +67,10 @@ export type SerializedChat = z.infer<typeof ChatSchemaV1>;
 // APIs
 ////////////////////////////////
 
+// We let a chat be at most 128KB, which is a lot of text, but since we have to pass the
+// whole document around each time, we need to cap it.
+const MAX_CHAT_MESSAGES_BYTES = 131072;
+
 /** An immutable wrapper class for accessing and manipulating chat data */
 export default class Chat {
     /** The data of the chat. */
@@ -74,6 +78,28 @@ export default class Chat {
 
     constructor(data: SerializedChat) {
         this.data = data;
+
+        // We automatically trim the chat messages if they exceed the maximum size.
+        // We estimate about 2 bytes per codepoint, even though some are 1 and some are 4.
+        const size = data.messages.reduce(
+            (size, message) => size + message.text.length,
+            0,
+        );
+
+        // If the chat is too big, keep trimming old messages until it fits.
+        if (size > MAX_CHAT_MESSAGES_BYTES) {
+            let newSize = size;
+            let messages = data.messages;
+            while (newSize > MAX_CHAT_MESSAGES_BYTES) {
+                const message = messages.shift();
+                if (message === undefined) break;
+                newSize -= message.text.length;
+            }
+            this.data = {
+                ...data,
+                messages: messages,
+            };
+        }
     }
 
     getProjectID() {
