@@ -23,7 +23,11 @@
     import { getConceptIndex } from '../project/Contexts';
     import { DB, locales } from '../../db/Database';
     import { tick } from 'svelte';
-    import { DOCUMENTATION_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        DOCUMENTATION_SYMBOL,
+        EDIT_SYMBOL,
+    } from '../../parser/Symbols';
     import MotionEditor from './MotionEditor.svelte';
     import PlacementEditor from './PlacementEditor.svelte';
     import NamedControl from './NamedControl.svelte';
