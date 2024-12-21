@@ -17,6 +17,8 @@
     import { tick } from 'svelte';
     import Loading from '../Loading.svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import Link from '../Link.svelte';
 
     const { project }: { project: Project } = $props();
 
@@ -112,7 +114,7 @@
         <div class="what"
             >{#if msg.text === null}<em
                     >{$locales.get((l) => l.ui.chat.error.deleted)}</em
-                >{:else}{msg.text}{/if}</div
+                >{:else}<MarkupHTMLView markup={msg.text} />{/if}</div
         >
     </div>
 {/snippet}
@@ -147,23 +149,35 @@
             </div>
         </div>
         <form class="new" data-sveltekit-keepfocus>
-            <TextField
-                fill
-                placeholder={$locales.get(
-                    (l) => l.ui.chat.field.message.placeholder,
-                )}
-                description={$locales.get(
-                    (l) => l.ui.chat.field.message.description,
-                )}
-                bind:view={newMessageView}
-                bind:text={newMessage}
-            />
-            <Button
-                background
-                submit
-                active={chat !== undefined && newMessage.trim() !== ''}
-                tip={$locales.get((l) => l.ui.chat.button.submit.tip)}
-                action={submitMessage}>Send</Button
+            <div class="controls">
+                <TextField
+                    fill
+                    placeholder={$locales.get(
+                        (l) => l.ui.chat.field.message.placeholder,
+                    )}
+                    description={$locales.get(
+                        (l) => l.ui.chat.field.message.description,
+                    )}
+                    bind:view={newMessageView}
+                    bind:text={newMessage}
+                />
+                <Button
+                    background
+                    submit
+                    active={chat !== undefined && newMessage.trim() !== ''}
+                    tip={$locales.get((l) => l.ui.chat.button.submit.tip)}
+                    action={submitMessage}>Send</Button
+                >
+            </div>
+            <div class="formats"
+                >/<em>{$locales.get((l) => l.token.Italic)}</em>/ *<strong
+                    >{$locales.get((l) => l.token.Bold)}</strong
+                >* ^<span style="font-weight: bolder"
+                    >{$locales.get((l) => l.token.Extra)}</span
+                >^ _&nbsp;<u>{$locales.get((l) => l.token.Underline)}</u>&nbsp;_
+                \<code>{$locales.get((l) => l.token.Code)}</code>\ &lt;{$locales.get(
+                    (l) => l.token.Link,
+                )}@<Link to=".">https://...</Link>&gt;</div
             >
         </form>
     </section>
@@ -194,11 +208,22 @@
         flex-direction: column;
     }
 
+    .formats {
+        color: var(--wordplay-header);
+        font-size: calc(0.75 * var(--wordplay-small-font-size));
+    }
+
     .new {
+        display: flex;
+        flex-direction: column;
+        gap: calc(0.5 * var(--wordplay-spacing));
+        padding: var(--wordplay-spacing);
+    }
+
+    .controls {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        padding: var(--wordplay-spacing);
     }
 
     .message {
