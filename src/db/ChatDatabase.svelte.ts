@@ -135,6 +135,30 @@ export default class Chat {
         });
     }
 
+    /** Merges messages using time and text as unique identifier */
+    withMergedMessages(messages: SerializedMessage[]) {
+        // Create a map of messages by time and text.
+        const messageMap = new Map<string, SerializedMessage>();
+        for (const message of messages) {
+            messageMap.set(`${message.time}-${message.text}`, message);
+        }
+
+        // Add the new messages to the map.
+        for (const message of this.data.messages) {
+            messageMap.set(`${message.time}-${message.text}`, message);
+        }
+
+        // Convert the map back to a list.
+        const mergedMessages = Array.from(messageMap.values()).sort(
+            (a, b) => a.time - b.time,
+        );
+
+        return new Chat({
+            ...this.data,
+            messages: mergedMessages,
+        });
+    }
+
     getData() {
         return { ...this.data };
     }
@@ -166,6 +190,12 @@ export class ChatDatabase {
     /** Take the given chat and update it's state locally, and optionally remotely. */
     updateChat(chat: Chat, persist: boolean) {
         const projectID = chat.getProjectID();
+
+        // Get the existing chat, if it exists, so we can merge it's existing texts.
+        const existingMessages = this.chats.get(projectID)?.getMessages() ?? [];
+        chat = chat.withMergedMessages(existingMessages);
+
+        // Set the revised chat for the project in the local state, propogating updates.
         this.chats.set(projectID, chat);
 
         // Make sure we're listening to updates on the chat's project.
