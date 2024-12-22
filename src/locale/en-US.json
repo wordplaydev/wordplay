@@ -4504,6 +4504,7 @@
             },
             "error": {
                 "unowned": "This project has no owner, so it can't have a chat.",
+                "offline": "Unable to load this chat.",
                 "empty": "No messages.",
                 "deleted": "This message was deleted."
             },

@@ -437,6 +437,8 @@ type UITexts = {
         error: {
             /** The project isn't owned by a person */
             unowned: string;
+            /** Offline, or couldn't load the chat */
+            offline: string;
             /** No messages in the chat */
             empty: string;
             /** A message was deleted */

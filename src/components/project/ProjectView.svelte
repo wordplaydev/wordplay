@@ -27,6 +27,7 @@
         setAnnouncer,
         type AnnouncerContext,
         getFullscreen,
+        getUser,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -75,6 +76,7 @@
         localized,
         Creators,
         animationFactor,
+        Chats,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import type Value from '../../values/Value';
@@ -122,6 +124,7 @@
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import ChatView from '@components/app/chat/ChatView.svelte';
+    import type Chat from '@db/ChatDatabase.svelte';
 
     interface Props {
         project: Project;
@@ -212,6 +215,8 @@
     let requestedEdit = $state(
         $page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
+
+    const user = getUser();
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
@@ -966,6 +971,18 @@
     });
     setProjectCommandContext(commandContextState);
 
+    // Get the chat for the project, if there is one.
+    // undefined: there isn't one
+    // null: we're still loading
+    // false: couldn't load it.
+    let chat = $state<Chat | undefined | null | false>(null);
+    $effect(() => {
+        // When the project changes, get the chat, and mark read if it was unread.
+        Chats.getChat(project).then((retrievedChat) => {
+            chat = retrievedChat;
+        });
+    });
+
     function toggleBlocks(on: boolean) {
         Settings.setBlocks(on);
     }
@@ -1646,7 +1663,7 @@
                                         {editable}
                                     />
                                 {:else if tile.kind === TileKind.Chat}
-                                    <ChatView {project} />
+                                    <ChatView {project} {chat} />
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
@@ -1799,12 +1816,18 @@
                 >
             {/if}
             {#each layout.getNonSources() as tile}
-                <!-- No need to show the palette if not editable. -->
+                <!-- No need to show the tile if not visible when not editable. -->
                 {#if tile.isVisibleCollapsed(editable)}
                     <NonSourceTileToggle
                         {project}
                         {tile}
                         on:toggle={() => toggleTile(tile)}
+                        notification={tile.kind === TileKind.Chat &&
+                            chat !== undefined &&
+                            chat !== null &&
+                            chat !== false &&
+                            $user !== null &&
+                            chat.hasUnread($user.uid)}
                     />
                 {/if}
             {/each}

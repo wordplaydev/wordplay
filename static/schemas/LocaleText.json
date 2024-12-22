@@ -8572,6 +8572,10 @@
                       "description": "No messages in the chat",
                       "type": "string"
                     },
+                    "offline": {
+                      "description": "Offline, or couldn't load the chat",
+                      "type": "string"
+                    },
                     "unowned": {
                       "description": "The project isn't owned by a person",
                       "type": "string"
@@ -8579,6 +8583,7 @@
                   },
                   "required": [
                     "unowned",
+                    "offline",
                     "empty",
                     "deleted"
                   ],

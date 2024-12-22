@@ -14,13 +14,16 @@
     import type Project from '@models/Project';
     import CreatorView from '../CreatorView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { tick } from 'svelte';
+    import { tick, untrack } from 'svelte';
     import Loading from '../Loading.svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Link from '../Link.svelte';
 
-    const { project }: { project: Project } = $props();
+    const {
+        project,
+        chat,
+    }: { project: Project; chat: Chat | undefined | null | false } = $props();
 
     const user = getUser();
 
@@ -38,18 +41,22 @@
         });
     }
 
-    let chat = $state<Chat | undefined | null>(null);
     let newMessage = $state('');
     let newMessageView = $state<HTMLInputElement | undefined>();
     let scrollerView = $state<HTMLDivElement | undefined>();
 
+    // When the project changes, mark read if it was unread and scroll.
     $effect(() => {
-        Chats.getChat(project).then((c) => {
-            chat = c;
-            tick().then(() => {
-                if (scrollerView)
-                    scrollerView.scrollTop = scrollerView.scrollHeight;
+        if (chat && $user && chat.hasUnread($user.uid)) {
+            untrack(() => {
+                Chats.updateChat(chat.asRead($user.uid), true);
             });
+        }
+
+        // After the chat is visible, scroll to the bottom.
+        tick().then(() => {
+            if (scrollerView)
+                scrollerView.scrollTop = scrollerView.scrollHeight;
         });
     });
 
@@ -125,7 +132,11 @@
     </TileMessage>
 {:else if chat === null}
     <Loading></Loading>
-{:else if !chat}
+{:else if chat === false}
+    <TileMessage error>
+        <p>{$locales.get((l) => l.ui.chat.error.offline)}</p>
+    </TileMessage>
+{:else if chat === undefined}
     <TileMessage>
         <p>{$locales.get((l) => l.ui.chat.prompt)}</p>
         <p

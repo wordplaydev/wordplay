@@ -62,6 +62,7 @@
         <CreatorView
             anonymize={false}
             creator={$user ? Creator.from($user) : null}
+            prompt
         />
     </Link>
     <LanguageChooser />

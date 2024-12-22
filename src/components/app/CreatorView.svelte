@@ -1,12 +1,14 @@
 <script lang="ts">
     import type { Creator } from '@db/CreatorDatabase';
     import Feedback from './Feedback.svelte';
+    import { locales } from '@db/Database';
 
     interface Props {
         creator: Creator | null;
         anonymize?: boolean;
         chrome?: boolean;
         fade?: boolean;
+        prompt?: boolean;
     }
 
     let {
@@ -14,6 +16,7 @@
         anonymize = true,
         chrome = true,
         fade = false,
+        prompt = false,
     }: Props = $props();
 
     let username = $derived(creator?.getUsername(anonymize) ?? '');
@@ -27,7 +30,9 @@
         >{/if}{#if creator}
         {username.length < 10
             ? username
-            : `${username.substring(0, 10)}…`}{:else}
+            : `${username.substring(0, 10)}…`}{:else if prompt}{$locales.get(
+            (l) => l.ui.page.login.anonymous,
+        )}{:else}
         <Feedback inline>—</Feedback>{/if}</div
 >
 

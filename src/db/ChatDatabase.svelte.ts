@@ -52,7 +52,7 @@ const ChatSchemaV1 = z.object({
     /** A list of chat messages */
     messages: z.array(MessageSchema),
     /**
-     * A list of creator IDs who have not seen the latest message. This is updated by clients
+     * A list of creator IDs who have not seen a chat with an updated message. This is updated by clients
      * each time a message is added, so that other clients can check quickly check to see if any
      * chats they are in are new.
      */
@@ -169,6 +169,23 @@ export default class Chat {
         });
     }
 
+    getUnread() {
+        return [...this.data.unread];
+    }
+
+    /** True if the unread list contains the given user ID */
+    hasUnread(creator: string) {
+        return this.data.unread.includes(creator);
+    }
+
+    /** With the unread user unread */
+    asRead(creator: string) {
+        return new Chat({
+            ...this.data,
+            unread: this.data.unread.filter((u) => u !== creator),
+        });
+    }
+
     getData() {
         return { ...this.data };
     }
@@ -198,7 +215,7 @@ export class ChatDatabase {
     }
 
     /** Take the given chat and update it's state locally, and optionally remotely. */
-    updateChat(chat: Chat, persist: boolean) {
+    async updateChat(chat: Chat, persist: boolean) {
         const projectID = chat.getProjectID();
 
         // Get the existing chat, if it exists, so we can merge it's existing texts.
@@ -216,7 +233,8 @@ export class ChatDatabase {
 
         // If asked to persist, update remotely.
         if (persist && firestore) {
-            updateDoc(
+            console.log('Updating chat in firestore');
+            await updateDoc(
                 doc(firestore, ChatsCollection, chat.getProjectID()),
                 chat.getData(),
             );
@@ -333,7 +351,8 @@ export class ChatDatabase {
         }
     }
 
-    async getChat(project: Project): Promise<Chat | undefined> {
+    /** Get the chat for this project. Undefined if there isn't one, false if we couldn't due to an error. */
+    async getChat(project: Project): Promise<Chat | undefined | false> {
         const chatID = project.getID();
         if (chatID === null) return undefined;
 
@@ -355,10 +374,10 @@ export class ChatDatabase {
                 // Update the chat locally, but do not persist, we already know it's in the database..
                 this.updateChat(newChat, false);
                 return newChat;
-            }
-            return undefined;
+            } else return undefined;
         } catch (err) {
-            return undefined;
+            console.log(err);
+            return false;
         }
     }
 
