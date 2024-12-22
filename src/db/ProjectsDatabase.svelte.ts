@@ -1,5 +1,5 @@
 import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
-import { PersistenceType, ProjectHistory } from './ProjectHistory';
+import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
 import { get, writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type LocaleText from '../locale/LocaleText';
@@ -34,6 +34,7 @@ import { PossiblePII } from '@conflicts/PossiblePII';
 import { EditFailure } from './EditFailure';
 import { COPY_SYMBOL } from '@parser/Symbols';
 import type Gallery from '@models/Gallery';
+import { SvelteMap } from 'svelte/reactivity';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -94,7 +95,8 @@ export default class ProjectsDatabase {
         undefined;
 
     /** An in-memory index of project histories by project ID. Populated on load, synced with local IndexedDB and cloud Firestore, when available. */
-    private projectHistories: Map<string, ProjectHistory> = new Map();
+    private projectHistories: SvelteMap<string, ProjectHistory> =
+        new SvelteMap();
 
     /** A store of all user editable projects stored in projectsDB. Derived from editable projects above. */
     readonly allEditableProjects: Writable<Project[]> = writable([]);
@@ -103,7 +105,8 @@ export default class ProjectsDatabase {
     readonly allArchivedProjects: Writable<Project[]> = writable([]);
 
     /** A cache of read only projects, by project ID. */
-    readonly readonlyProjects: Map<string, Project | undefined> = new Map();
+    readonly readonlyProjects: SvelteMap<string, Project | undefined> =
+        new SvelteMap();
 
     /** Remember how to unsubscribe from the user's realtime query. */
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
@@ -256,7 +259,6 @@ export default class ProjectsDatabase {
             },
             (error) => {
                 if (error instanceof FirebaseError) {
-                    console.error(error.code);
                     console.error(error.message);
                 }
                 this.database.setStatus(
@@ -472,6 +474,7 @@ export default class ProjectsDatabase {
                     return project;
                 }
             } catch (err) {
+                console.error(err);
                 return undefined;
             }
         }
@@ -484,15 +487,17 @@ export default class ProjectsDatabase {
      * @param project The revised project
      * @param remember If true, keeps the current version of the project in the history, otherwise replaces it.
      * @param persist If true, try to save the change to disk and the cloud
+     * @param dynamic
      *
      * Returns true if the edit was successful, false if it was not.
      * */
-    edit(
+    async edit(
         project: Project,
         remember: boolean,
         persist: boolean,
         dynamic: boolean = false,
-    ): EditFailure | undefined {
+        when: 'immediate' | 'soon' = 'soon',
+    ): Promise<EditFailure | undefined> {
         if (project.getSourceByteSize() > MAX_PROJECT_BYTE_SIZE)
             return EditFailure.TooLarge;
 
@@ -517,8 +522,10 @@ export default class ProjectsDatabase {
                 // Update the editable projects.
                 this.refreshEditableProjects();
 
-                // Defer a save.
-                if (persist) this.saveSoon();
+                // Save according to the requested policy.
+                if (persist)
+                    if (when === 'immediate') await this.persist();
+                    else this.saveSoon();
 
                 return undefined;
             } else return EditFailure.Infinite;
@@ -526,7 +533,7 @@ export default class ProjectsDatabase {
         // No history? Directly edit the project in the database, if connected and asked to save the edit.
         // This is likely an edit by a curator of a gallery, e.g., removing a project from a collection.
         else if (firestore && persist) {
-            setDoc(
+            await setDoc(
                 doc(firestore, ProjectsCollection, project.getID()),
                 project.serialize(),
             );
@@ -597,6 +604,9 @@ export default class ProjectsDatabase {
 
         // Untrack the project.
         this.projectHistories.delete(id);
+
+        // Refresh the lists of editable projects.
+        this.refreshEditableProjects();
     }
 
     /** Persist in storage */
@@ -722,18 +732,13 @@ export default class ProjectsDatabase {
         revised: Project,
         remember = true,
         dynamic = false,
-    ): EditFailure | undefined {
+    ): Promise<EditFailure | undefined> {
         return this.edit(revised, remember, true, dynamic);
     }
 
     /** Gets the project history for the given project ID, if there is one. */
     getHistory(id: string) {
         return this.projectHistories.get(id);
-    }
-
-    /** Given a project ID, get the reactive store that stores it, so the caller can be notified when it changes. */
-    getStore(id: string) {
-        return this.projectHistories.get(id)?.getStore();
     }
 
     /** Given a project ID and direction, undo or redo */
@@ -812,7 +817,7 @@ export default class ProjectsDatabase {
             if (!this.projectHistories.has(projectID)) {
                 try {
                     const project = await this.get(projectID);
-                    if (project && project.getGallery() === gallery.getID()) {
+                    if (project) {
                         this.track(project, true, PersistenceType.Online, true);
                     }
                 } catch (err) {

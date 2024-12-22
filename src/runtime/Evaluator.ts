@@ -970,7 +970,7 @@ export default class Evaluator {
     }
 
     /** If the value computed is a Data or list that contains Data, persist the data. */
-    editSource(value: Value): void {
+    async editSource(value: Value): Promise<void> {
         const dataDefinition = this.getBasis().shares.output.Data;
         const data =
             value instanceof StructureValue && value.is(dataDefinition)
@@ -1012,7 +1012,7 @@ export default class Evaluator {
                     current.code.toString() !== valueText
                 ) {
                     // Revise the project with the new or overwritten source.
-                    const result = this.database.Projects.reviseProject(
+                    const result = await this.database.Projects.reviseProject(
                         current
                             ? this.project.withSource(
                                   current,

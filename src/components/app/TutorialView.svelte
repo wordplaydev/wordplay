@@ -32,7 +32,7 @@
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
-    import { PersistenceType } from '../../db/ProjectHistory';
+    import { PersistenceType } from '../../db/ProjectHistory.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
@@ -197,8 +197,8 @@
         ),
     );
 
-    // Store a reference to the project store for the current project.
-    let projectStore: Writable<Project> | undefined;
+    // Keep the current project state.
+    let project = $state<Project | undefined>();
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
     // and use that instead, and update the project store.
@@ -207,37 +207,45 @@
         Projects.get(progress.getProjectID()).then((existingProject) => {
             // If there is, get it's store.
             if (existingProject) {
-                projectStore = Projects.getStore(progress.getProjectID());
+                project = existingProject;
             }
             // If there's not, add this project to the database and get its store, so it can be editable.
             else if (initialProject) {
-                projectStore = Projects.track(
+                project = initialProject;
+                Projects.track(
                     initialProject,
                     true,
                     PersistenceType.Local,
                     false,
-                )?.getStore();
+                );
             }
         });
     });
 
+    // When history's current value changes, update the project. This is super important: it enables feedback
+    // after each edit of a project!
+    $effect(() => {
+        const history = Projects.getHistory(progress.getProjectID());
+        project = history?.getCurrent();
+    });
+
     // Create a reactive context of the current project.
-    const project = writable<Project | undefined>(undefined);
-    setProject(project);
+    const projectStore = writable<Project | undefined>(undefined);
+    setProject(projectStore);
 
     // Every time the project store changes, update the project context.
     $effect(() => {
-        project.set($projectStore);
+        projectStore.set($projectStore);
     });
 
     // When the project changes to something other than the initial project, start persisting it.
     $effect(() => {
         if (
             initialProject &&
-            $projectStore !== undefined &&
-            !$projectStore.equals(initialProject)
+            project !== undefined &&
+            !project.equals(initialProject)
         )
-            Projects.getHistory($projectStore.getID())?.setPersist(
+            Projects.getHistory(project.getID())?.setPersist(
                 PersistenceType.Local,
             );
     });
@@ -444,11 +452,11 @@
         <!-- Autofocus the main editor if it's currently focused -->
         {#key initialProject}
             {#if scene}
-                {@const project = $projectStore ?? initialProject}
-                {#if project}
+                {@const currentProject = project ?? initialProject}
+                {#if currentProject}
                     <div class="project"
                         ><ProjectView
-                            {project}
+                            project={currentProject}
                             original={initialProject}
                             bind:index={projectContext}
                             bind:dragged
@@ -462,9 +470,9 @@
                     >
                 {/if}
             {:else}
-                {@const project = $projectStore ?? initialProject}
-                {#if project}
-                    <PlayView {project} {fit} />
+                {@const currentProject = project ?? initialProject}
+                {#if currentProject}
+                    <PlayView project={currentProject} {fit} />
                 {/if}
             {/if}
         {/key}

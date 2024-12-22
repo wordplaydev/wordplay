@@ -15,7 +15,7 @@ import {
     getBestSupportedLocales,
     type Template,
 } from '../locale/LocaleText';
-import ProjectsDatabase from './ProjectsDatabase';
+import ProjectsDatabase from './ProjectsDatabase.svelte';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
 import GalleryDatabase from './GalleryDatabase';

@@ -24,7 +24,7 @@ import { localeToString } from '../locale/Locale';
 import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 import type { ProjectID } from '@models/ProjectSchemas';
-import ProjectsDatabase from './ProjectsDatabase';
+import ProjectsDatabase from './ProjectsDatabase.svelte';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -285,11 +285,16 @@ export default class GalleryDatabase {
         if (gallery === undefined) return;
 
         // Revise the project with a gallery ID. If the gallery is public, the project becomes public.
-        this.database.Projects.edit(
+        const result = await this.database.Projects.edit(
             project.withGallery(galleryID),
             false,
             true,
+            false,
+            'immediate',
         );
+
+        // Failure to edit project? Bail.
+        if (result !== undefined) return;
 
         // Remove the project from other galleries, since a project can only be in one gallery.
         const galleries = get(this.creatorGalleries);
@@ -300,7 +305,7 @@ export default class GalleryDatabase {
         }
 
         // Add the project ID to the gallery.
-        this.edit(gallery.withProject(project.getID()));
+        await this.edit(gallery.withProject(project.getID()));
     }
 
     // Remove the project from the gallery that it's in.
