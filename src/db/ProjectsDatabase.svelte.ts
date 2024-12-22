@@ -821,8 +821,8 @@ export default class ProjectsDatabase {
                         this.track(project, true, PersistenceType.Online, true);
                     }
                 } catch (err) {
-                    console.log(
-                        'Unable to get the project in the gallery. Perhaps a permissions issue?',
+                    console.error(
+                        'Unable to get the project in the gallery, even though the gallery was listed as containing the project.',
                     );
                 }
             }
