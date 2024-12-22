@@ -10,7 +10,7 @@ service cloud.firestore {
 
       function isCuratorOfProjectInGallery(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && (uid in gallery.curators || uid in gallery.creators);
+        return gallery != null && (uid in gallery.curators);
       }
 
       allow create: if request.auth != null;
