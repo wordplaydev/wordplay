@@ -24,7 +24,6 @@ import { localeToString } from '../locale/Locale';
 import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 import type { ProjectID } from '@models/ProjectSchemas';
-import ProjectsDatabase from './ProjectsDatabase.svelte';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -269,9 +268,15 @@ export default class GalleryDatabase {
 
     async delete(gallery: Gallery) {
         if (firestore === undefined) return undefined;
-        await deleteDoc(doc(firestore, GalleriesCollection, gallery.getID()));
 
-        // The realtime query will remove it.
+        // Remove all projects from the gallery.
+        for (const projectID of gallery.getProjects()) {
+            const project = await this.database.Projects.get(projectID);
+            if (project) await this.removeProjectFromGallery(project);
+        }
+
+        // Delete the gallery document now that the projects are removed.
+        await deleteDoc(doc(firestore, GalleriesCollection, gallery.getID()));
     }
 
     // Add the given project to the given gallery ID, or remove it if the gallery ID is undefined.
@@ -331,7 +336,13 @@ export default class GalleryDatabase {
 
     async removeProjectFromGallery(project: Project) {
         // Revise the project with a gallery ID.
-        this.database.Projects.edit(project.withGallery(null), false, true);
+        this.database.Projects.edit(
+            project.withGallery(null),
+            false,
+            true,
+            false,
+            'immediate',
+        );
     }
 
     // Remove the given creator from the gallery, and all of their projects.
