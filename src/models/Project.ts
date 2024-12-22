@@ -700,6 +700,10 @@ export default class Project {
         return this.data.owner;
     }
 
+    isOwner(uid: string) {
+        return this.data.owner === uid;
+    }
+
     withOwner(owner: string | null) {
         return new Project({ ...this.data, owner });
     }

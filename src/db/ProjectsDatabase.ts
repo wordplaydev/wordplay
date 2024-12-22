@@ -450,13 +450,24 @@ export default class ProjectsDatabase {
                     const user = this.database.getUser();
 
                     const project = await this.parseProject(projectDoc.data());
-                    if (project !== undefined)
+                    if (project !== undefined) {
+                        const galleryID = project.getGallery();
+                        const gallery = galleryID
+                            ? await this.database.Galleries.get(galleryID)
+                            : undefined;
+
                         this.track(
                             project,
-                            user !== null && project.getOwner() === user.uid,
+                            // The project is editable if the user is the owner, or the user is a collaborator, or the user
+                            user !== null &&
+                                (project.isOwner(user.uid) ||
+                                    project.hasCollaborator(user.uid) ||
+                                    (gallery !== undefined &&
+                                        gallery.hasCurator(user.uid))),
                             PersistenceType.Online,
                             false,
                         );
+                    }
                     return project;
                 }
             } catch (err) {

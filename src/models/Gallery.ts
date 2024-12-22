@@ -103,6 +103,10 @@ export default class Gallery {
         return `/gallery/${this.getID()}`;
     }
 
+    hasCurator(uid: string) {
+        return this.data.curators.includes(uid);
+    }
+
     getCurators() {
         return this.data.curators;
     }
