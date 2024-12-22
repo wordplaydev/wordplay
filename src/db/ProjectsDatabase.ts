@@ -33,6 +33,7 @@ import {
 import { PossiblePII } from '@conflicts/PossiblePII';
 import { EditFailure } from './EditFailure';
 import { COPY_SYMBOL } from '@parser/Symbols';
+import type Gallery from '@models/Gallery';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -790,6 +791,36 @@ export default class ProjectsDatabase {
         } catch (_) {
             console.error(_);
             return undefined;
+        }
+    }
+
+    /** When a gallery changes, ensure that we respect access, tracking any projects that we aren't tracking yet, and stopping tracking projects we were tracking. */
+    async refreshGallery(gallery: Gallery) {
+        // Find all projects we're tracking that are no longer in the gallery, and remove them.
+        for (const [projectID, history] of this.projectHistories.entries()) {
+            const current = history.getCurrent();
+            if (
+                current.getGallery() === gallery.getID() &&
+                !gallery.getProjects().includes(projectID)
+            ) {
+                this.deleteLocalProject(projectID);
+            }
+        }
+
+        // Find all of the projects in the gallery that we're not tracking, and track them.
+        for (const projectID of gallery.getProjects()) {
+            if (!this.projectHistories.has(projectID)) {
+                try {
+                    const project = await this.get(projectID);
+                    if (project && project.getGallery() === gallery.getID()) {
+                        this.track(project, true, PersistenceType.Online, true);
+                    }
+                } catch (err) {
+                    console.log(
+                        'Unable to get the project in the gallery. Perhaps a permissions issue?',
+                    );
+                }
+            }
         }
     }
 }

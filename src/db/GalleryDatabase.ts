@@ -24,6 +24,7 @@ import { localeToString } from '../locale/Locale';
 import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 import type { ProjectID } from '@models/ProjectSchemas';
+import ProjectsDatabase from './ProjectsDatabase';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -134,6 +135,9 @@ export default class GalleryDatabase {
                         store = writable(gallery);
                     }
                     newGalleries.set(gallery.getID(), store);
+
+                    // Notify the project's database that gallery permissions changed, requring a reload of the any projects in the gallery to see new permissions.
+                    this.database.Projects.refreshGallery(gallery);
                 });
 
                 // Update creator galleries, since the whole set has changed.
