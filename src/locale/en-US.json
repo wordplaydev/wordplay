@@ -4074,7 +4074,7 @@
         },
         "project": {
             "error": {
-                "unknown": "This project doesn't exist or isn't public.",
+                "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",
                 "tile": "Oops, there was an error",
                 "reset": "Attempt to reset..."
