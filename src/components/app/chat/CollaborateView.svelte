@@ -86,13 +86,16 @@
 
     // Set the creators to whatever user IDs we have.
     $effect(() => {
-        if (chat)
-            // We async load all participants, regardless of their chat eligibility, since we need to render
-            // their names.
-            Creators.getCreatorsByUIDs(chat.getAllParticipants()).then(
-                (map) => (creators = map),
-            );
-        else creators = {};
+        const owner = project.getOwner();
+        // We async load all participants, regardless of their chat eligibility, since we need to render
+        // their names.
+        Creators.getCreatorsByUIDs(
+            chat
+                ? [...chat.getAllParticipants(), ...(owner ? [owner] : [])]
+                : owner
+                  ? [owner]
+                  : [],
+        ).then((map) => (creators = map));
     });
 
     let editable = $derived($user !== null && project.getOwner() === $user.uid);
