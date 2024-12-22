@@ -326,7 +326,7 @@ export default class GalleryDatabase {
         if (gallery === undefined) return;
 
         // Revise the gallery with a project ID.
-        this.edit(gallery.withoutProject(project.getID()));
+        await this.edit(gallery.withoutProject(project.getID()));
     }
 
     async removeProjectFromGallery(project: Project) {
