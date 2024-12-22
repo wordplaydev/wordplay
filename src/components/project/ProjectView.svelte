@@ -91,7 +91,7 @@
         type CommandContext,
     } from '../editor/util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import Help from './Shortcuts.svelte';
+    import Shortcuts from './Shortcuts.svelte';
     import type Color from '../../output/Color';
     import Sharing from './Sharing.svelte';
     import Toggle from '../widgets/Toggle.svelte';
@@ -1748,6 +1748,25 @@
                     action={() => toClipboard(project.toWordplay())}
                     ><Emoji>{COPY_SYMBOL}</Emoji></Button
                 >
+                {#if shareable}
+                    <Dialog
+                        description={$locales.get((l) => l.ui.dialog.share)}
+                        button={{
+                            tip: $locales.get(
+                                (l) => l.ui.project.button.showCollaborators,
+                            ),
+                            icon:
+                                project.isPublic() &&
+                                isFlagged(project.getFlags())
+                                    ? '‼️'
+                                    : '↗',
+                            label: '',
+                        }}
+                    >
+                        <Sharing {project} />
+                    </Dialog>
+                {/if}
+                <Translate {project}></Translate>
             {/if}
 
             {#if editable}
@@ -1763,25 +1782,6 @@
                         Projects.reviseProject(project.withName(name))}
                     max="10em"
                 />
-                {#if shareable}
-                    <Dialog
-                        description={$locales.get((l) => l.ui.dialog.share)}
-                        button={{
-                            tip: $locales.get(
-                                (l) => l.ui.project.button.showCollaborators,
-                            ),
-                            icon: project.isPublic()
-                                ? isFlagged(project.getFlags())
-                                    ? '‼️'
-                                    : '🌐'
-                                : '🤫',
-                            label: $locales.get((l) => l.token.Share),
-                        }}
-                    >
-                        <Sharing {project} />
-                    </Dialog>
-                {/if}
-                <Translate {project}></Translate>
             {:else}{project.getName()}{/if}
             {#if editable && layout.hasVisibleCollapsedSource()}
                 <Separator />
@@ -1826,24 +1826,26 @@
                     />
                 {/if}
             {/each}
-            <span class="help">
+            <span class="right-align">
                 <Dialog
                     description={$locales.get((l) => l.ui.dialog.help)}
                     button={{
                         tip: $locales.get(ShowKeyboardHelp.description),
                         icon: ShowKeyboardHelp.symbol,
                         label: '',
-                    }}><Help /></Dialog
+                    }}><Shortcuts /></Dialog
                 >
+                <Toggle
+                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                    on={browserFullscreen}
+                    command={browserFullscreen
+                        ? ExitFullscreen
+                        : EnterFullscreen}
+                    toggle={() => setBrowserFullscreen(!browserFullscreen)}
+                >
+                    <FullscreenIcon />
+                </Toggle>
             </span>
-            <Toggle
-                tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                on={browserFullscreen}
-                command={browserFullscreen ? ExitFullscreen : EnterFullscreen}
-                toggle={() => setBrowserFullscreen(!browserFullscreen)}
-            >
-                <FullscreenIcon />
-            </Toggle>
         </nav>
 
         <!-- Render the menu on top of the annotations -->
@@ -1975,7 +1977,7 @@
         height: 100%;
     }
 
-    .help {
+    .right-align {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;

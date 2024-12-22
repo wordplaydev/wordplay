@@ -4080,7 +4080,7 @@
                 "reset": "Attempt to reset..."
             },
             "button": {
-                "showCollaborators": "show collaborators dialog",
+                "showCollaborators": "show share dialog",
                 "removeCollaborator": "remove collaborator",
                 "copy": "copy project to clipboard as text",
                 "addSource": "create a new $source",
@@ -4344,7 +4344,7 @@
         "dialog": {
             "share": {
                 "header": "Sharing",
-                "explanation": "Control who can edit and see this project.",
+                "explanation": "Share this project with galleries or the world.",
                 "subheader": {
                     "gallery": {
                         "header": "Gallery",
