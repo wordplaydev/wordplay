@@ -21,13 +21,11 @@
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import Button from '../../components/widgets/Button.svelte';
-    import { GalleriesCollection } from '../../db/GalleryDatabase';
+    import { GalleriesCollection } from '../../db/GalleryDatabase.svelte';
 
     let lastBatch = $state<QueryDocumentSnapshot<DocumentData> | undefined>(
         undefined,
     );
-
-    const examples = Galleries.exampleGalleries;
 
     /** Start the list of galleries with the example galleries. */
     let loadedGalleries: Gallery[] = $state([]);
@@ -71,7 +69,10 @@
         ];
     }
 
-    let galleries = $derived([...$examples, ...loadedGalleries]);
+    let galleries = $derived([
+        ...Galleries.getExampleGalleries(),
+        ...loadedGalleries,
+    ]);
 </script>
 
 <svelte:head>

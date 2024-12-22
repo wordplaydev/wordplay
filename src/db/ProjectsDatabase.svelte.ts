@@ -3,7 +3,7 @@ import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
 import { get, writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type LocaleText from '../locale/LocaleText';
-import { Locales, SaveStatus, type Database } from './Database';
+import { Galleries, Locales, SaveStatus, type Database } from './Database';
 import {
     collection,
     deleteDoc,
@@ -205,15 +205,26 @@ export default class ProjectsDatabase {
         // If there's no more user, do nothing.
         if (user === null) return;
 
+        // Get the current list of gallery ies.
+        const galleryIDsToWatch = Array.from(
+            Galleries.accessibleGalleries.keys(),
+        );
+
+        // Construct the query constraints.
+        const constraints = [
+            where('owner', '==', user.uid),
+            where('collaborators', 'array-contains', user.uid),
+        ];
+        // If the user has any gallery IDs it has access to, include those in the project query.
+        if (galleryIDsToWatch.length > 0)
+            constraints.push(where('gallery', 'in', galleryIDsToWatch));
+
         // Set up the realtime projects query for the user, tracking any projects from the cloud,
         // and deleting any tracked locally that didn't appear in the snapshot.
         this.projectsQueryUnsubscribe = onSnapshot(
             query(
                 collection(firestore, ProjectsCollection),
-                or(
-                    where('owner', '==', user.uid),
-                    where('collaborators', 'array-contains', user.uid),
-                ),
+                or(...constraints),
             ),
             async (snapshot) => {
                 const serialized: unknown[] = [];

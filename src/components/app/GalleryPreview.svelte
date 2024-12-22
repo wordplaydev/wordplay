@@ -69,7 +69,7 @@
         </div>
     {/if}
     <div class="description">
-        <Subheader
+        <Subheader compact
             ><Link nowrap to={gallery.getLink()}
                 >{gallery.getName($locales)}</Link
             >

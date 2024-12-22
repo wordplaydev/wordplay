@@ -118,9 +118,10 @@ export default class Gallery {
     }
 
     withoutCurator(uid: string) {
-        const newData = { ...this.data };
-        newData.projects = [...newData.projects.filter((id) => id !== uid)];
-        return new Gallery(newData);
+        return new Gallery({
+            ...this.data,
+            curators: this.data.curators.filter((id) => id !== uid),
+        });
     }
 
     getCreators() {

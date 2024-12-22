@@ -82,6 +82,11 @@
         flex-direction: column;
         gap: 1em;
     }
+
+    .markup:not(:last-child) {
+        margin-block-end: 1em;
+    }
+
     .paragraph.animated {
         transform: scaleY(0);
         animation-name: pop;

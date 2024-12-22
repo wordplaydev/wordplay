@@ -6,7 +6,6 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Options from '../widgets/Options.svelte';
     import { getUser } from './Contexts';
-    import CreatorList from './CreatorList.svelte';
     import Public from './Public.svelte';
     import Feedback from '@components/app/Feedback.svelte';
     import PII from './PII.svelte';
@@ -18,7 +17,6 @@
     let { project }: Props = $props();
 
     const user = getUser();
-    const creatorGalleries = Galleries.creatorGalleries;
 </script>
 
 {#if $user === null}
@@ -42,12 +40,14 @@
         value={project.getGallery() ?? undefined}
         options={[
             { value: undefined, label: '—' },
-            ...Array.from($creatorGalleries.values()).map((gallery) => {
-                return {
-                    value: get(gallery).getID(),
-                    label: get(gallery).getName($locales),
-                };
-            }),
+            ...Array.from(Galleries.accessibleGalleries.values()).map(
+                (gallery) => {
+                    return {
+                        value: gallery.getID(),
+                        label: gallery.getName($locales),
+                    };
+                },
+            ),
         ]}
         change={(galleryID) => {
             // Ask the gallery database to put this project in the gallery.

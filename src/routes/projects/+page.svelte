@@ -39,9 +39,6 @@
         }
     }
 
-    const status = Galleries.status;
-    const galleries = Galleries.creatorGalleries;
-
     // Whether to show an error
     let deleteError = $state(false);
 </script>
@@ -168,26 +165,26 @@
                 )}</Feedback
             >
         {/if}
-        {#if $status === 'loading'}
+        {#if Galleries.getStatus() === 'loading'}
             <Spinning
                 label={$locales.get((l) => l.ui.widget.loading.message)}
                 large
             />
-        {:else if $status === 'noaccess'}
+        {:else if Galleries.getStatus() === 'noaccess'}
             <Feedback
                 >{$locales.get(
                     (l) => l.ui.page.projects.error.noaccess,
                 )}</Feedback
             >
-        {:else if $status === 'loggedout'}
+        {:else if Galleries.getStatus() === 'loggedout'}
             <Feedback
                 >{$locales.get(
                     (l) => l.ui.page.projects.error.nogalleryedits,
                 )}</Feedback
             >
         {:else}
-            {#each $galleries.values() as gallery, index}
-                <GalleryPreview gallery={get(gallery)} delay={index * 1000} />
+            {#each Galleries.accessibleGalleries.values() as gallery, index}
+                <GalleryPreview {gallery} delay={index * 1000} />
             {/each}
         {/if}
     {:else}
