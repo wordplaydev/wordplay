@@ -4064,7 +4064,8 @@
                 "output": "$~scène",
                 "palette": "$~palette",
                 "docs": "$~guide",
-                "source": "$~source"
+                "source": "$~source",
+                "collaborate": "$~collaborer"
             },
             "button": {
                 "collapse": "$~réduire la fenêtre"
@@ -4344,10 +4345,6 @@
                 "header": "$~Partage",
                 "explanation": "$~Contrôlez qui peut modifier et voir ce projet.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "$~Collaborateurs",
-                        "explanation": "$~Les collaborateurs peuvent voir et modifier ce projet. Seuls les propriétaires de projet peuvent modifier les collaborateurs."
-                    },
                     "gallery": {
                         "header": "$~Galerie",
                         "explanation": "$~Ajoutez ce projet dans une galerie aux côtés d'autres créateurs ou créez une galerie sur votre page <projects@://projects>. Si vous ajoutez un projet à une galerie publique, votre projet deviendra public."
@@ -4811,6 +4808,42 @@
         "template": {
             "unwritten": "$~À déterminer",
             "unparsable": "$~Modèle non analysable : $1"
+        },
+        "collaborate": {
+            "label": "$~collaborer",
+            "role": {
+                "owner": "$~propriétaire",
+                "collaborators": "$~collaborateurs",
+                "curators": "$~conservateurs"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Le message de discussion à soumettre",
+                    "placeholder": "$~Tapez un message"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~Envoyer",
+                    "tip": "$~Envoyez un message à vos collaborateurs"
+                },
+                "start": {
+                    "label": "$~Démarrer une discussion",
+                    "tip": "$~Commencez une discussion avec vous-même ou avec d’autres."
+                },
+                "delete": "$~supprimer ce message"
+            },
+            "error": {
+                "unowned": "$~Ce projet n'a pas de propriétaire, il ne peut donc pas avoir de chat.",
+                "offline": "$~Impossible de charger ce chat.",
+                "empty": "$~Aucun message.",
+                "deleted": "$~Ce message a été supprimé."
+            },
+            "prompt": {
+                "owner": "$~Les collaborateurs peuvent modifier ou discuter de ce projet, ou vous pouvez discuter avec vous-même.",
+                "collaborator": "$~Vous êtes un collaborateur sur ce projet ; vous pouvez éditer et discuter.",
+                "curator": "$~Vous êtes curateur de la galerie de ce projet."
+            }
         }
     },
     "moderation": {

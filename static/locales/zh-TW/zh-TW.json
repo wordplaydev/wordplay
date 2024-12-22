@@ -4012,7 +4012,8 @@
                 "output": "舞台",
                 "palette": "調色盤",
                 "docs": "指南",
-                "source": "原始檔"
+                "source": "原始檔",
+                "collaborate": "$~合作"
             },
             "button": {
                 "collapse": "折疊視窗"
@@ -4292,10 +4293,6 @@
                 "header": "分享",
                 "explanation": "控制誰可以編輯和檢視此項目。",
                 "subheader": {
-                    "collaborators": {
-                        "header": "合作者",
-                        "explanation": "協作者可以檢視和編輯該項目。 只有專案擁有者才能修改協作者。"
-                    },
                     "gallery": {
                         "header": "畫廊",
                         "explanation": "將此項目新增至畫廊中，與其他創作者並列，或在您的<projects@://projects> 頁面上建立畫廊。如果您將專案新增至公開畫廊，您的專案將變為公開。"
@@ -4747,6 +4744,42 @@
         "template": {
             "unwritten": "待定",
             "unparsable": "無法解析的模板: $1"
+        },
+        "collaborate": {
+            "label": "$~合作",
+            "role": {
+                "owner": "$~所有者",
+                "collaborators": "$~合作者",
+                "curators": "$~策展人"
+            },
+            "field": {
+                "message": {
+                    "description": "$~要提交的聊天消息",
+                    "placeholder": "$~键入消息"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~发送",
+                    "tip": "$~向您的合作者发送消息"
+                },
+                "start": {
+                    "label": "$~开始聊天",
+                    "tip": "$~开始与自己或他人讨论。"
+                },
+                "delete": "$~删除此消息"
+            },
+            "error": {
+                "unowned": "$~该项目没有所有者，因此无法聊天。",
+                "offline": "$~无法加载此聊天。",
+                "empty": "$~没有消息。",
+                "deleted": "$~该消息已被删除。"
+            },
+            "prompt": {
+                "owner": "$~合作者可以编辑或聊天此项目，或者您可以与自己聊天。",
+                "collaborator": "$~您是该项目的合作者；您可以编辑和聊天。",
+                "curator": "$~您是该项目画廊的馆长。"
+            }
         }
     },
     "moderation": {

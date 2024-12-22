@@ -4055,7 +4055,8 @@
                 "output": "$~Bühne",
                 "palette": "$~Palette",
                 "docs": "$~Führung",
-                "source": "$~Quelle"
+                "source": "$~Quelle",
+                "collaborate": "$~zusammenarbeiten"
             },
             "button": {
                 "collapse": "$~Fenster ausblenden"
@@ -4335,10 +4336,6 @@
                 "header": "$~Weitergabe",
                 "explanation": "$~Steuern Sie, wer dieses Projekt bearbeiten und sehen kann.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "$~Kooperationspartner",
-                        "explanation": "$~Mitarbeiter können dieses Projekt anzeigen und bearbeiten. Nur Projektbesitzer können Mitarbeiter ändern."
-                    },
                     "gallery": {
                         "header": "$~Galerie",
                         "explanation": "$~Fügen Sie dieses Projekt einer Galerie neben anderen Erstellern hinzu oder erstellen Sie eine Galerie auf Ihrer Seite <projects@://projects>. Wenn Sie ein Projekt einer öffentlichen Galerie hinzufügen, wird Ihr Projekt öffentlich."
@@ -4802,6 +4799,42 @@
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
             "unparsable": "$~Nicht analysierbare Vorlage: $1"
+        },
+        "collaborate": {
+            "label": "$~zusammenarbeiten",
+            "role": {
+                "owner": "$~Eigentümer",
+                "collaborators": "$~Mitarbeiter",
+                "curators": "$~Kuratoren"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Die zu übermittelnde Chat-Nachricht",
+                    "placeholder": "$~Geben Sie eine Nachricht ein"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~Schicken",
+                    "tip": "$~Senden Sie eine Nachricht an Ihre Mitarbeiter"
+                },
+                "start": {
+                    "label": "$~Einen Chat starten",
+                    "tip": "$~Beginnen Sie eine Diskussion mit sich selbst oder anderen."
+                },
+                "delete": "$~diese Nachricht löschen"
+            },
+            "error": {
+                "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
+                "offline": "$~Dieser Chat konnte nicht geladen werden.",
+                "empty": "$~Keine Nachrichten.",
+                "deleted": "$~Diese Nachricht wurde gelöscht."
+            },
+            "prompt": {
+                "owner": "$~Mitarbeiter können dieses Projekt bearbeiten oder darüber chatten, oder Sie können mit sich selbst chatten.",
+                "collaborator": "$~Sie arbeiten an diesem Projekt mit; Sie können bearbeiten und chatten.",
+                "curator": "$~Sie sind Kurator der Galerie dieses Projekts."
+            }
         }
     },
     "moderation": {
