@@ -4803,9 +4803,10 @@
                 "deleted": "$~Este mensaje fue eliminado."
             },
             "prompt": {
-                "owner": "$~Los colaboradores pueden editar o chatear sobre este proyecto, o puedes chatear contigo mismo.",
-                "collaborator": "$~Eres colaborador de este proyecto; puedes editar y chatear.",
-                "curator": "$~Eres el curador de la galería de este proyecto."
+                "solo": "$~Chatea contigo mismo o agrega un colaborador, que pueda editar y chatear.",
+                "owner": "$~Los colaboradores pueden editar este proyecto y chatear sobre él.",
+                "collaborator": "$~Eres colaborador. Puedes editar este proyecto y conversar sobre él.",
+                "curator": "$~Eres el curador de la galería de este proyecto. Puedes editarlo y conversar sobre él."
             }
         }
     },

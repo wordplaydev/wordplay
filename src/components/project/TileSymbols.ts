@@ -1,7 +1,7 @@
 import {
+    COLLABORATE_SYMBOL,
     DOCUMENTATION_SYMBOL,
     PALETTE_SYMBOL,
-    PHRASE_SYMBOL,
     SOURCE_SYMBOL,
     STAGE_SYMBOL,
 } from '@parser/Symbols';
@@ -12,7 +12,7 @@ const TileSymbols: { [ID in TileKind]: string } = {
     palette: PALETTE_SYMBOL,
     docs: DOCUMENTATION_SYMBOL,
     source: SOURCE_SYMBOL,
-    collaborate: PHRASE_SYMBOL,
+    collaborate: COLLABORATE_SYMBOL,
 };
 
 export default TileSymbols;

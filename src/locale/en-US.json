@@ -4510,9 +4510,10 @@
                 "deleted": "This message was deleted."
             },
             "prompt": {
-                "owner": "Collaborators can edit or chat about this project, or you can chat with yourself.",
-                "collaborator": "You're a collaborator on this project; you can edit and chat.",
-                "curator": "You're a curator of this project's gallery."
+                "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
+                "owner": "Collaborators can edit this project and chat about it.",
+                "collaborator": "You're a collaborator. You can edit this project and chat about it.",
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it."
             }
         },
         "palette": {

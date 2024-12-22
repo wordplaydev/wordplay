@@ -81,6 +81,7 @@ export const GROUP_SYMBOL = '🔳';
 export const STAGE_SYMBOL = '🎭';
 export const PALETTE_SYMBOL = '🎨';
 export const DOCUMENTATION_SYMBOL = '📕';
+export const COLLABORATE_SYMBOL = '👥';
 
 export const GLOBE1_SYMBOL = '🌎';
 export const GLOBE2_SYMBOL = '🌍';

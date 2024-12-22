@@ -4831,9 +4831,10 @@
                 "deleted": "$~Diese Nachricht wurde gelöscht."
             },
             "prompt": {
-                "owner": "$~Mitarbeiter können dieses Projekt bearbeiten oder darüber chatten, oder Sie können mit sich selbst chatten.",
-                "collaborator": "$~Sie arbeiten an diesem Projekt mit; Sie können bearbeiten und chatten.",
-                "curator": "$~Sie sind Kurator der Galerie dieses Projekts."
+                "solo": "$~Chatten Sie mit sich selbst oder fügen Sie einen Mitarbeiter hinzu, der bearbeiten und chatten kann.",
+                "owner": "$~Mitarbeiter können dieses Projekt bearbeiten und darüber chatten.",
+                "collaborator": "$~Sie sind ein Mitarbeiter. Sie können dieses Projekt bearbeiten und darüber chatten.",
+                "curator": "$~Sie sind Kurator der Galerie dieses Projekts. Sie können dieses Projekt bearbeiten und darüber chatten."
             }
         }
     },

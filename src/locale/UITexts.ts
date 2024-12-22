@@ -454,6 +454,7 @@ type UITexts = {
         };
         /** Messages to explain the purpose */
         prompt: {
+            solo: string;
             owner: string;
             collaborator: string;
             curator: string;

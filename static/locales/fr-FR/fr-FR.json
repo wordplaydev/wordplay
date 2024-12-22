@@ -4840,9 +4840,10 @@
                 "deleted": "$~Ce message a été supprimé."
             },
             "prompt": {
-                "owner": "$~Les collaborateurs peuvent modifier ou discuter de ce projet, ou vous pouvez discuter avec vous-même.",
-                "collaborator": "$~Vous êtes un collaborateur sur ce projet ; vous pouvez éditer et discuter.",
-                "curator": "$~Vous êtes curateur de la galerie de ce projet."
+                "solo": "$~Discutez avec vous-même ou ajoutez un collaborateur, qui peut éditer et discuter.",
+                "owner": "$~Les collaborateurs peuvent éditer ce projet et en discuter.",
+                "collaborator": "$~Vous êtes un collaborateur. Vous pouvez éditer ce projet et en discuter.",
+                "curator": "$~Vous êtes curateur de la galerie de ce projet. Vous pouvez éditer ce projet et en discuter."
             }
         }
     },

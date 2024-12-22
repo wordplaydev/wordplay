@@ -164,7 +164,9 @@
     >
         <MarkupHTMLView
             markup={editable
-                ? $locales.get((l) => l.ui.collaborate.prompt.owner)
+                ? project.getCollaborators().length === 0
+                    ? $locales.get((l) => l.ui.collaborate.prompt.solo)
+                    : $locales.get((l) => l.ui.collaborate.prompt.owner)
                 : collaborator
                   ? $locales.get((l) => l.ui.collaborate.prompt.collaborator)
                   : $locales.get((l) => l.ui.collaborate.prompt.curator)}

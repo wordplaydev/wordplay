@@ -8619,9 +8619,13 @@
                     },
                     "owner": {
                       "type": "string"
+                    },
+                    "solo": {
+                      "type": "string"
                     }
                   },
                   "required": [
+                    "solo",
                     "owner",
                     "collaborator",
                     "curator"

@@ -3753,7 +3753,8 @@
             "prompt": {
                 "owner": "$?",
                 "collaborator": "$?",
-                "curator": "$?"
+                "curator": "$?",
+                "solo": "$?"
             }
         }
     },
