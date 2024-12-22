@@ -10,7 +10,6 @@
 <style>
     .message {
         padding: var(--wordplay-spacing);
-        background: var(--wordplay-hover);
         height: 100%;
     }
 

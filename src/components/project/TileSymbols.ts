@@ -12,7 +12,7 @@ const TileSymbols: { [ID in TileKind]: string } = {
     palette: PALETTE_SYMBOL,
     docs: DOCUMENTATION_SYMBOL,
     source: SOURCE_SYMBOL,
-    chat: PHRASE_SYMBOL,
+    collaborate: PHRASE_SYMBOL,
 };
 
 export default TileSymbols;

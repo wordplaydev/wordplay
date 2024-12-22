@@ -44,6 +44,7 @@
         gap: var(--wordplay-spacing);
         align-items: center;
         justify-content: center;
+        font-size: var(--wordplay-small-font-size);
     }
 
     .fade {

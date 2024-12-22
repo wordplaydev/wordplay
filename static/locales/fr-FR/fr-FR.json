@@ -4064,8 +4064,7 @@
                 "output": "$~scène",
                 "palette": "$~palette",
                 "docs": "$~guide",
-                "source": "$~source",
-                "chat": "$~chat"
+                "source": "$~source"
             },
             "button": {
                 "collapse": "$~réduire la fenêtre"
@@ -4812,30 +4811,6 @@
         "template": {
             "unwritten": "$~À déterminer",
             "unparsable": "$~Modèle non analysable : $1"
-        },
-        "chat": {
-            "label": "$~chat",
-            "field": {
-                "message": {
-                    "description": "$~Le message de discussion à soumettre",
-                    "placeholder": "$~Tapez un message"
-                }
-            },
-            "button": {
-                "submit": {
-                    "label": "$~Envoyer",
-                    "tip": "$~Envoyez un message à vos collaborateurs"
-                },
-                "start": {
-                    "label": "$~Commencer à discuter",
-                    "tip": "$~Commencez une conversation avec vous-même ou avec d’autres."
-                }
-            },
-            "error": {
-                "unowned": "$~Ce projet n'a pas de propriétaire, il ne peut donc pas avoir de chat.",
-                "empty": "$~Aucun message."
-            },
-            "prompt": "$~Vous souhaitez prendre des notes ou collaborer avec d’autres ?"
         }
     },
     "moderation": {

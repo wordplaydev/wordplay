@@ -230,7 +230,7 @@ export default class Layout {
         const docs = expanded.find(
             (tile) => tile.id === TileKind.Documentation,
         );
-        const chat = expanded.find((tile) => tile.id === TileKind.Chat);
+        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
 
         let top = 0;
         const tileHeight =
@@ -309,7 +309,7 @@ export default class Layout {
 
         const output = expanded.find((tile) => tile.id === TileKind.Output);
         const palette = expanded.find((tile) => tile.id === TileKind.Palette);
-        const chat = expanded.find((tile) => tile.id === TileKind.Chat);
+        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
         const sources = expanded.filter((tile) => tile.id.startsWith('source'));
         const docs = expanded.find(
             (tile) => tile.id === TileKind.Documentation,

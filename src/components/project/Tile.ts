@@ -13,7 +13,7 @@ export enum TileKind {
     Documentation = 'docs',
     Source = 'source',
     Palette = 'palette',
-    Chat = 'chat',
+    Collaborate = 'collaborate',
 }
 
 export default class Tile {
@@ -77,7 +77,7 @@ export default class Tile {
             (editable ||
                 !(
                     this.kind === TileKind.Palette ||
-                    this.kind === TileKind.Chat
+                    this.kind === TileKind.Collaborate
                 ))
         );
     }
@@ -89,7 +89,7 @@ export default class Tile {
               ? 1
               : this.kind === TileKind.Documentation
                 ? 2
-                : this.kind === TileKind.Chat
+                : this.kind === TileKind.Collaborate
                   ? 3
                   : 4;
     }

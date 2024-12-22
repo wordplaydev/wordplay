@@ -4055,8 +4055,7 @@
                 "output": "$~Bühne",
                 "palette": "$~Palette",
                 "docs": "$~Führung",
-                "source": "$~Quelle",
-                "chat": "$~Chatten"
+                "source": "$~Quelle"
             },
             "button": {
                 "collapse": "$~Fenster ausblenden"
@@ -4803,30 +4802,6 @@
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
             "unparsable": "$~Nicht analysierbare Vorlage: $1"
-        },
-        "chat": {
-            "label": "$~Chatten",
-            "field": {
-                "message": {
-                    "description": "$~Die zu übermittelnde Chat-Nachricht",
-                    "placeholder": "$~Geben Sie eine Nachricht ein"
-                }
-            },
-            "button": {
-                "submit": {
-                    "label": "$~Schicken",
-                    "tip": "$~Senden Sie eine Nachricht an Ihre Mitarbeiter"
-                },
-                "start": {
-                    "label": "$~Jetzt chatten",
-                    "tip": "$~Beginnen Sie einen Chat mit sich selbst oder anderen."
-                }
-            },
-            "error": {
-                "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
-                "empty": "$~Keine Nachrichten."
-            },
-            "prompt": "$~Möchten Sie Notizen machen oder mit anderen zusammenarbeiten?"
         }
     },
     "moderation": {

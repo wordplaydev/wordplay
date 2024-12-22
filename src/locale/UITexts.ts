@@ -416,13 +416,21 @@ type UITexts = {
         };
     };
     /** The project chat */
-    chat: {
+    collaborate: {
         /** The ARIA label for the chat section */
         label: string;
         /** The chat message input field */
         field: {
             /** The chat message input field */
             message: FieldText;
+        };
+        role: {
+            /** What to call the owner of a project */
+            owner: string;
+            /** What to call collaborators */
+            collaborators: string;
+            /** What to call curators */
+            curators: string;
         };
         /** Buttons in the chat tile */
         button: {
@@ -445,7 +453,11 @@ type UITexts = {
             deleted: string;
         };
         /** Messages to explain the purpose */
-        prompt: string;
+        prompt: {
+            owner: string;
+            collaborator: string;
+            curator: string;
+        };
     };
     /** The palette editor */
     palette: {
@@ -589,8 +601,6 @@ type UITexts = {
         share: DialogText & {
             /** The subheaders of the dialog */
             subheader: {
-                /** The collaborators subheader and explanation */
-                collaborators: DialogText;
                 /** The gallery subheader and explanation */
                 gallery: DialogText;
                 /** The public/private toggle subheader and explanation */

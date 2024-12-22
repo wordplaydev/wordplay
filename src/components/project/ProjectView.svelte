@@ -4,7 +4,7 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { getContext, onDestroy, onMount, tick, untrack } from 'svelte';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import {
         type SelectedOutputContext,
@@ -93,7 +93,7 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import Help from './Shortcuts.svelte';
     import type Color from '../../output/Color';
-    import Collaborators from './Collaborators.svelte';
+    import Sharing from './Sharing.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
@@ -123,7 +123,7 @@
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import ChatView from '@components/app/chat/ChatView.svelte';
+    import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
 
     interface Props {
@@ -550,8 +550,8 @@
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
-                    TileKind.Chat,
-                    TileKind.Chat,
+                    TileKind.Collaborate,
+                    TileKind.Collaborate,
                     Mode.Collapsed,
                     undefined,
                     Tile.randomPosition(1024, 768),
@@ -1662,8 +1662,8 @@
                                         bind:background={outputBackground}
                                         {editable}
                                     />
-                                {:else if tile.kind === TileKind.Chat}
-                                    <ChatView {project} {chat} />
+                                {:else if tile.kind === TileKind.Collaborate}
+                                    <CollaborateView {project} {chat} />
                                     <!-- Show an editor, annotations, and a mini output view -->
                                 {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
@@ -1775,15 +1775,10 @@
                                     ? '‼️'
                                     : '🌐'
                                 : '🤫',
-                            label: project.isPublic()
-                                ? $locales.get(
-                                      (l) => l.ui.dialog.share.mode.public,
-                                  ).modes[1]
-                                : $locales.get((l) => l.ui.dialog.share).mode
-                                      .public.modes[0],
+                            label: $locales.get((l) => l.token.Share),
                         }}
                     >
-                        <Collaborators {project} />
+                        <Sharing {project} />
                     </Dialog>
                 {/if}
                 <Translate {project}></Translate>
@@ -1822,7 +1817,7 @@
                         {project}
                         {tile}
                         on:toggle={() => toggleTile(tile)}
-                        notification={tile.kind === TileKind.Chat &&
+                        notification={tile.kind === TileKind.Collaborate &&
                             chat !== undefined &&
                             chat !== null &&
                             chat !== false &&

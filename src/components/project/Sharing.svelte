@@ -27,28 +27,6 @@
 {:else}
     <Subheader
         >{$locales.get(
-            (l) => l.ui.dialog.share.subheader.collaborators.header,
-        )}</Subheader
-    >
-    <MarkupHtmlView
-        markup={$locales.get(
-            (l) => l.ui.dialog.share.subheader.collaborators.explanation,
-        )}
-    />
-
-    <CreatorList
-        anonymize={false}
-        uids={project.getCollaborators()}
-        editable={$user !== null && project.getOwner() === $user.uid}
-        add={(userID) =>
-            Projects.reviseProject(project.withCollaborator(userID))}
-        remove={(userID) =>
-            Projects.reviseProject(project.withoutCollaborator(userID))}
-        removable={() => true}
-    />
-
-    <Subheader
-        >{$locales.get(
             (l) => l.ui.dialog.share.subheader.gallery.header,
         )}</Subheader
     >

@@ -4066,7 +4066,7 @@
                 "palette": "palette",
                 "docs": "guide",
                 "source": "source",
-                "chat": "chat"
+                "collaborate": "collaborate"
             },
             "button": {
                 "collapse": "collapse window"
@@ -4346,10 +4346,6 @@
                 "header": "Sharing",
                 "explanation": "Control who can edit and see this project.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "Collaborators",
-                        "explanation": "Collaborators can view and edit this project. Only project owners can modify collaborators."
-                    },
                     "gallery": {
                         "header": "Gallery",
                         "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
@@ -4483,8 +4479,13 @@
                 }
             }
         },
-        "chat": {
-            "label": "chat",
+        "collaborate": {
+            "label": "collaborate",
+            "role": {
+                "owner": "owner",
+                "collaborators": "collaborators",
+                "curators": "curators"
+            },
             "field": {
                 "message": {
                     "description": "The chat message to submit",
@@ -4497,8 +4498,8 @@
                     "tip": "Send a message to your collaborators"
                 },
                 "start": {
-                    "label": "Start chatting",
-                    "tip": "Begin a chat with yourself or others."
+                    "label": "Start a chat",
+                    "tip": "Begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
             },
@@ -4508,7 +4509,11 @@
                 "empty": "No messages.",
                 "deleted": "This message was deleted."
             },
-            "prompt": "Want to take notes or collaborate with others?"
+            "prompt": {
+                "owner": "Collaborators can edit or chat about this project, or you can chat with yourself.",
+                "collaborator": "You're a collaborator on this project; you can edit and chat.",
+                "curator": "You're a curator of this project's gallery."
+            }
         },
         "palette": {
             "label": "palette",

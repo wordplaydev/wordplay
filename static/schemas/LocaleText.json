@@ -8532,7 +8532,7 @@
               ],
               "type": "object"
             },
-            "chat": {
+            "collaborate": {
               "additionalProperties": false,
               "description": "The project chat",
               "properties": {
@@ -8608,13 +8608,54 @@
                   "type": "string"
                 },
                 "prompt": {
+                  "additionalProperties": false,
                   "description": "Messages to explain the purpose",
-                  "type": "string"
+                  "properties": {
+                    "collaborator": {
+                      "type": "string"
+                    },
+                    "curator": {
+                      "type": "string"
+                    },
+                    "owner": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "owner",
+                    "collaborator",
+                    "curator"
+                  ],
+                  "type": "object"
+                },
+                "role": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "collaborators": {
+                      "description": "What to call collaborators",
+                      "type": "string"
+                    },
+                    "curators": {
+                      "description": "What to call curators",
+                      "type": "string"
+                    },
+                    "owner": {
+                      "description": "What to call the owner of a project",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "owner",
+                    "collaborators",
+                    "curators"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
                 "label",
                 "field",
+                "role",
                 "button",
                 "error",
                 "prompt"
@@ -8983,10 +9024,6 @@
                       "additionalProperties": false,
                       "description": "The subheaders of the dialog",
                       "properties": {
-                        "collaborators": {
-                          "$ref": "#/definitions/DialogText",
-                          "description": "The collaborators subheader and explanation"
-                        },
                         "gallery": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The gallery subheader and explanation"
@@ -9001,7 +9038,6 @@
                         }
                       },
                       "required": [
-                        "collaborators",
                         "gallery",
                         "public",
                         "pii"
@@ -11123,7 +11159,7 @@
                   "additionalProperties": false,
                   "description": "Tile labels appearing in the project footer tile toggles, except for source files.",
                   "properties": {
-                    "chat": {
+                    "collaborate": {
                       "type": "string"
                     },
                     "docs": {
@@ -11144,7 +11180,7 @@
                     "docs",
                     "source",
                     "palette",
-                    "chat"
+                    "collaborate"
                   ],
                   "type": "object"
                 },
@@ -11333,7 +11369,7 @@
             "annotations",
             "output",
             "docs",
-            "chat",
+            "collaborate",
             "palette",
             "timeline",
             "dialog",

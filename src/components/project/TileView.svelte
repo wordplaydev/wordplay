@@ -32,6 +32,7 @@
     import type Bounds from './Bounds';
     import Note from '@components/widgets/Note.svelte';
     import TileMessage from './TileMessage.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         project: Project;
@@ -306,30 +307,30 @@
                 >
                     <FullscreenIcon />
                 </Toggle>
-                <div class="name" class:source={tile.isSource()}>
-                    {#if editable && tile.isSource()}
-                        <Emoji>{Glyphs.Program.symbols}</Emoji>
-                        <TextField
-                            text={tile
-                                .getSource(project)
-                                ?.getPreferredName($locales.getLocales())}
-                            description={$locales.get(
-                                (l) => l.ui.source.field.name.description,
-                            )}
-                            placeholder={$locales.get(
-                                (l) => l.ui.source.field.name.placeholder,
-                            )}
-                            validator={(text) => isName(text)}
-                            changed={handleRename}
-                        />
-                    {:else}
-                        <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
-                            project,
-                            $locales,
-                        )}
-                    {/if}
-                    {@render title()}
-                </div>
+                <Subheader compact>
+                    <div class="name" class:source={tile.isSource()}>
+                        {#if editable && tile.isSource()}
+                            <Emoji>{Glyphs.Program.symbols}</Emoji>
+                            <TextField
+                                text={tile
+                                    .getSource(project)
+                                    ?.getPreferredName($locales.getLocales())}
+                                description={$locales.get(
+                                    (l) => l.ui.source.field.name.description,
+                                )}
+                                placeholder={$locales.get(
+                                    (l) => l.ui.source.field.name.placeholder,
+                                )}
+                                validator={(text) => isName(text)}
+                                changed={handleRename}
+                            />
+                        {:else}
+                            <Emoji>{TileSymbols[tile.kind]}</Emoji
+                            >{tile.getName(project, $locales)}
+                        {/if}
+                        {@render title()}
+                    </div>
+                </Subheader>
                 <div class="toolbar">
                     {@render extra?.()}
                 </div>
