@@ -233,7 +233,6 @@ export class ChatDatabase {
 
         // If asked to persist, update remotely.
         if (persist && firestore) {
-            console.log('Updating chat in firestore');
             await updateDoc(
                 doc(firestore, ChatsCollection, chat.getProjectID()),
                 chat.getData(),
