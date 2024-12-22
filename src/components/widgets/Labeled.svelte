@@ -4,7 +4,7 @@
     const { label, children }: { label: string; children: Snippet } = $props();
 </script>
 
-<label>
+<label for="">
     <span class="label">{label}</span>
     {@render children()}
 </label>
