@@ -21,7 +21,6 @@
      */
     let store: Writable<Project> | undefined = $state.raw(undefined);
     let project: Project | undefined = $state(undefined);
-    let editable = $state(false);
     let overwritten = $state(false);
     let unsub: Unsubscriber | undefined = $state(undefined);
 
@@ -37,6 +36,37 @@
     // Create a concept path for children
     setConceptPath(writable([]));
 
+    // The logic to follow whenever we get a new or revised project.
+    function handleProjectChange(revisedProject: Project | undefined) {
+        // See if the project is editable, and if so, get it's store, so we can track it's changes.
+        const projectStore = revisedProject
+            ? Projects.getStore(revisedProject.getID())
+            : undefined;
+        if (revisedProject && projectStore) {
+            // Remember the project
+            project = revisedProject;
+            // If there's a different store, stop listening to the current store and listen to the new one.
+            if (store !== projectStore) {
+                // Unsubscribe from the previous store
+                if (unsub) unsub();
+                // Remember the new store
+                store = projectStore;
+                // Update the project we're showing whenever it changes.
+                unsub = store.subscribe((proj) => {
+                    overwritten =
+                        Projects.getHistory(proj.getID())?.wasOverwritten() ??
+                        false;
+                    handleProjectChange(proj);
+                });
+            }
+        } else {
+            if (unsub) unsub();
+            store = undefined;
+            if (project) Projects.deleteLocalProject(project.getID());
+            project = undefined;
+        }
+    }
+
     // Whenever the page or projects change, update the project store.
     $effect(() => {
         if ($page) {
@@ -48,33 +78,12 @@
                 // Async load the project from the database.
                 Projects.get(projectID)
                     .then((proj) => {
-                        // Remember the project
-                        project = proj;
-                        editable = false;
+                        // Remember that we're done loading and there's no error.
                         loading = false;
                         error = false;
 
-                        // See if the project is editable, and if so, get it's store, so we can track it's changes.
-                        const projectStore = Projects.getStore(projectID);
-                        if (projectStore) {
-                            // Mark the project editable, since there's a store for it.
-                            editable = true;
-                            // If there's a different store, stop listening to the current store and listen to the new one.
-                            if (store !== projectStore) {
-                                // Unsubscribe from the previous store
-                                if (unsub) unsub();
-                                // Remember the new store
-                                store = projectStore;
-                                // Update the project we're showing whenever it changes.
-                                unsub = store.subscribe((proj) => {
-                                    project = proj;
-                                    overwritten =
-                                        Projects.getHistory(
-                                            proj.getID(),
-                                        )?.wasOverwritten() ?? false;
-                                });
-                            }
-                        }
+                        // Handle
+                        handleProjectChange(proj);
                     })
                     .catch(() => {
                         error = true;
@@ -82,6 +91,9 @@
             }
         }
     });
+
+    // The project is editable if there's a store. We rely on the logic of ProjectsDatabase to determine when there's a store based on editability.
+    let editable = $derived(store !== undefined);
 </script>
 
 <svelte:head>

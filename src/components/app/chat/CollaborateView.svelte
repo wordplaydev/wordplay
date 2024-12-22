@@ -60,7 +60,7 @@
             Galleries.get(galleryID).then((g) => {
                 gallery = g;
             });
-        }
+        } else gallery = undefined;
     });
 
     let newMessage = $state('');
