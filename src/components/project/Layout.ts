@@ -2,6 +2,7 @@ import Arrangement from '../../db/Arrangement';
 import type Bounds from './Bounds';
 import { TileKind, Mode } from './Tile';
 import Tile from './Tile';
+import TileKinds from './TileKinds';
 
 export type SerializedTile = {
     id: TileKind | string;
@@ -123,7 +124,11 @@ export default class Layout {
     getNonSources() {
         return this.tiles
             .filter((tile) => !tile.id.startsWith('source'))
-            .sort((a, b) => a.id.localeCompare(b.id));
+            .sort(
+                (a, b) =>
+                    TileKinds[a.id as TileKind].order -
+                    TileKinds[b.id as TileKind].order,
+            );
     }
 
     replace(tile: Tile, newTile: Tile) {

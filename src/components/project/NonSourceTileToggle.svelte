@@ -5,7 +5,7 @@
     import { locales } from '@db/Database';
     import type Project from '../../models/Project';
     import Emoji from '@components/app/Emoji.svelte';
-    import TileSymbols from './TileSymbols';
+    import TileKinds from './TileKinds';
     import { TYPE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
@@ -26,6 +26,6 @@
     on={tile.isExpanded()}
     toggle={() => dispatch('toggle')}
     highlight={notification}
-    ><Emoji>{TileSymbols[tile.kind]}</Emoji>
+    ><Emoji>{TileKinds[tile.kind].symbol}</Emoji>
     {tile.getName(project, $locales)}</Toggle
 >

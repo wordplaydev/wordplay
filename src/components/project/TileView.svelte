@@ -27,7 +27,7 @@
     import Toggle from '../widgets/Toggle.svelte';
     import type Project from '../../models/Project';
     import Emoji from '@components/app/Emoji.svelte';
-    import TileSymbols from './TileSymbols';
+    import TileKinds from './TileKinds';
     import FullscreenIcon from './FullscreenIcon.svelte';
     import type Bounds from './Bounds';
     import Note from '@components/widgets/Note.svelte';
@@ -325,7 +325,7 @@
                                 changed={handleRename}
                             />
                         {:else}
-                            <Emoji>{TileSymbols[tile.kind]}</Emoji
+                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
                             >{tile.getName(project, $locales)}
                         {/if}
                         {@render title()}
