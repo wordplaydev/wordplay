@@ -3,6 +3,7 @@ import { FirebaseError } from 'firebase/app';
 import type { Unsubscribe, User } from 'firebase/auth';
 import {
     collection,
+    deleteDoc,
     doc,
     Firestore,
     getDoc,
@@ -237,6 +238,17 @@ export class ChatDatabase {
                 doc(firestore, ChatsCollection, chat.getProjectID()),
                 chat.getData(),
             );
+        }
+    }
+
+    async deleteChat(projectID: string) {
+        this.chats.delete(projectID);
+        if (firestore) {
+            try {
+                await deleteDoc(doc(firestore, ChatsCollection, projectID));
+            } catch (err) {
+                console.error(err);
+            }
         }
     }
 

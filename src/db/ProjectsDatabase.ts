@@ -568,6 +568,9 @@ export default class ProjectsDatabase {
         // Delete the project doc
         await deleteDoc(doc(firestore, ProjectsCollection, id));
 
+        // Delete the corresponding chat, if there is one.
+        this.database.Chats.deleteChat(id);
+
         // Delete from the local cache.
         this.deleteLocalProject(id);
 
