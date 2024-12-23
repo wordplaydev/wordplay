@@ -128,6 +128,10 @@ export default class Gallery {
         return this.data.creators;
     }
 
+    hasCreator(uid: string) {
+        return this.data.creators.includes(uid);
+    }
+
     withCreator(uid: string) {
         const newData = { ...this.data };
         newData.creators = [...new Set([...newData.creators, uid])];

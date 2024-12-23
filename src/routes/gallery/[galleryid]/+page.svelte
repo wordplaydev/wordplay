@@ -26,6 +26,7 @@
         EDIT_SYMBOL,
     } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
+    import { get } from 'http';
 
     const user = getUser();
 
@@ -84,6 +85,11 @@
         gallery
             ? $user !== null && gallery.getCurators().includes($user.uid)
             : false,
+    );
+    let projectsEditable = $derived(
+        $user !== null &&
+            gallery &&
+            (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid)),
     );
     let addable = $derived(
         gallery && $user ? gallery.getCreators().includes($user.uid) : false,
@@ -176,7 +182,7 @@
                 {#if projects}
                     <ProjectPreviewSet
                         set={projects}
-                        edit={editable
+                        edit={projectsEditable
                             ? {
                                   description: $locales.get(
                                       (l) =>
