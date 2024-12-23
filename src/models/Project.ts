@@ -720,6 +720,10 @@ export default class Project {
         ];
     }
 
+    hasContributor(uid: string) {
+        return this.getContributors().includes(uid);
+    }
+
     hasCollaborator(uid: string) {
         return this.data.collaborators.includes(uid);
     }

@@ -1,5 +1,9 @@
 <script lang="ts">
-    import { setConceptPath, setProject } from '@components/project/Contexts';
+    import {
+        getUser,
+        setConceptPath,
+        setProject,
+    } from '@components/project/Contexts';
     import {
         get,
         writable,
@@ -12,10 +16,12 @@
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import { browser } from '$app/environment';
-    import { Projects, locales } from '@db/Database';
+    import { Galleries, Projects, locales } from '@db/Database';
     import Page from '@components/app/Page.svelte';
     import Writing from '../../../components/app/Writing.svelte';
     import { untrack } from 'svelte';
+
+    let user = getUser();
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading = $state(false);
@@ -70,8 +76,20 @@
     // The project is overwriten if we have a history for it and it says so.
     let overwritten = $state(false);
 
-    // The project is editable if the project database's list of editable projects contains this project.
-    let editable = $derived(history !== undefined);
+    // Check if the project is editable by the current user.
+    let editable = $derived.by(() => {
+        if (project === undefined) return false;
+        const gallery = project.getGallery();
+        return (
+            $user !== null &&
+            history !== undefined &&
+            (project.hasContributor($user.uid) ||
+                (gallery !== null &&
+                    Galleries.accessibleGalleries
+                        .get(gallery)
+                        ?.hasCurator($user.uid)))
+        );
+    });
 
     // A project context store for children
     let projectContext = writable<Project | undefined>(undefined);
