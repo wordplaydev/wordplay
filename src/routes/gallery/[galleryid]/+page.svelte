@@ -26,7 +26,6 @@
         EDIT_SYMBOL,
     } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
-    import { get } from 'http';
 
     const user = getUser();
 
