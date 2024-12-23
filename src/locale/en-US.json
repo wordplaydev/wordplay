@@ -4504,7 +4504,7 @@
                 "delete": "delete this message"
             },
             "error": {
-                "unowned": "This project has no owner, so it can't have a chat.",
+                "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
                 "offline": "Unable to load this chat.",
                 "empty": "No messages.",
                 "deleted": "This message was deleted."
