@@ -259,7 +259,10 @@ export class ChatDatabase {
     }
 
     /** Create a chat, if the project is owned and doesn't already have one. */
-    async addChat(project: Project): Promise<string | undefined> {
+    async addChat(
+        project: Project,
+        gallery: Gallery | undefined,
+    ): Promise<string | undefined> {
         if (firestore === undefined) return undefined;
         const owner = project.getOwner();
         if (owner === null) return undefined;
@@ -270,7 +273,12 @@ export class ChatDatabase {
             project: project.getID(),
             messages: [],
             // Everyone contributing is eligible to see and participate in the chat.
-            participants: project.getContributors(),
+            participants: Array.from(
+                new Set([
+                    ...(gallery ? gallery.getCurators() : []),
+                    ...project.getContributors(),
+                ]),
+            ),
             unread: [],
         };
 
@@ -329,7 +337,7 @@ export class ChatDatabase {
         // No corresponding chat? That's an issue: the only projects we should be listening to are the ones
         // with chats!
         if (chat === undefined) {
-            console.log(
+            console.error(
                 `No chat found for project ${project.getID()}, but we're listening to its changes for some reason. Perhaps a defect?`,
             );
             return;

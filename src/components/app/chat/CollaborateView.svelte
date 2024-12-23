@@ -104,7 +104,7 @@
     );
 
     function startChat() {
-        Chats.addChat(project);
+        Chats.addChat(project, gallery);
     }
 
     function areSameDay(a: Date, b: Date): boolean {
