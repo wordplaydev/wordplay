@@ -10219,13 +10219,18 @@
                     "link": {
                       "additionalProperties": false,
                       "properties": {
+                        "new": {
+                          "description": "The prompt to create a new class",
+                          "type": "string"
+                        },
                         "request": {
                           "description": "The prompt to request teacher privileges",
                           "type": "string"
                         }
                       },
                       "required": [
-                        "request"
+                        "request",
+                        "new"
                       ],
                       "type": "object"
                     },

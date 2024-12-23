@@ -4633,8 +4633,8 @@
             "teach": {
                 "header": "Teach",
                 "prompt": {
-                    "none": "Create classes of student accounts to help you manage and organize student projects.",
-                    "some": "Manage your classes or create a new one."
+                    "none": "Welcome teacher! Create your first class to help you manage and organize student projects.",
+                    "some": "Welcome teacher! Manage your classes or create a new one."
                 },
                 "error": {
                     "offline": "We aren't able to check your teacher status.",
@@ -4642,7 +4642,8 @@
                     "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
                 },
                 "link": {
-                    "request": "Request teacher privileges"
+                    "request": "Request teacher privileges",
+                    "new": "Create a class"
                 }
             },
             "guide": {

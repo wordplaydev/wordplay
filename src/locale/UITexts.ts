@@ -794,6 +794,8 @@ type UITexts = {
             link: {
                 /** The prompt to request teacher privileges */
                 request: string;
+                /** The prompt to create a new class */
+                new: string;
             };
         };
         guide: {

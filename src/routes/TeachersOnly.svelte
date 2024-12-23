@@ -1,5 +1,6 @@
 <!-- A reusable component that only shows its content if the user is a teacher -->
 <script lang="ts">
+    import Centered from '@components/app/Centered.svelte';
     import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
@@ -23,11 +24,11 @@
             <MarkupHtmlView
                 markup={$locales.get((l) => l.ui.page.teach.error.teacher)}
             />
-            <p>
+            <Centered>
                 <Link to="https://forms.gle/6x1sbyC4SZHoPXYq5"
                     >{$locales.get((l) => l.ui.page.teach.link.request)}</Link
                 >
-            </p>
+            </Centered>
         {:else}
             {@render children()}
         {/if}

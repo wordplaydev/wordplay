@@ -6,7 +6,9 @@ export default async function (
 ): Promise<boolean | undefined> {
     try {
         const result = await user.getIdTokenResult();
-        return claim in result ? result.claims[claim] === true : undefined;
+        return claim in result.claims
+            ? result.claims[claim] === true
+            : undefined;
     } catch (err) {
         return undefined;
     }
