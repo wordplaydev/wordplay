@@ -11,6 +11,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #604, adding a project chat feature to enable communication between project collaborators and gallery owners.
 - Migrated to Sveltekit page state.
 
+### Maintenance
+
+- Updated minor versions.
+
 ## 0.13.2 2024-12-09
 
 ### Added
