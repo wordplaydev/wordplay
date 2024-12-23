@@ -2,6 +2,8 @@
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
+import type { User } from 'firebase/auth';
+
 /** Represents a learner record that the teacher has created. */
 export type Learner = {
     /** The Firebase UID of the learner. */
@@ -19,7 +21,7 @@ export type Class = {
     /** A long description of the class, to help a teacher provide instructions and context to students. */
     description: string;
     /** A set of user IDs representing the teachers who can manage the learners in the class. */
-    teachers: string[]; // The teacher uids that oversee the class
+    teachers: string[];
     /** The set of learners in the class */
     learners: Learner[];
     /** The galleries associated with the class, so that we can show the association on a gallery page */
