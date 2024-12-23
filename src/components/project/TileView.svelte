@@ -237,6 +237,7 @@
         class:focuscontent
         class:animated={mounted}
         data-id={tile.id}
+        data-testid="tile-{tile.id}"
         style:background={background instanceof Color
             ? background.toCSS()
             : background}
