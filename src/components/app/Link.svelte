@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
 
     interface Props {
         to: string;
@@ -18,7 +18,7 @@
     }: Props = $props();
 </script>
 
-{#if to === '/' ? $page.route.id === '/' : $page.route.id?.startsWith(to)}
+{#if to === '/' ? page.route.id === '/' : page.route.id?.startsWith(to)}
     {@render children?.()}
 {:else}<a
         data-sveltekit-preload-data="tap"

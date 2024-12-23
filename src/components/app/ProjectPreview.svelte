@@ -1,3 +1,4 @@
+<!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
     import type Project from '@models/Project';
     import Evaluator from '@runtime/Evaluator';
@@ -5,7 +6,7 @@
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
-    import { navigating } from '$app/stores';
+    import { navigating } from '$app/state';
     import Spinning from './Spinning.svelte';
     import { toStage } from '@output/Stage';
     import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
@@ -135,7 +136,7 @@
                             >&mdash;</em
                         >{:else}
                         {project.getName()}{/if}</Link
-                >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
+                >{#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}{/if}{/if}
             {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
                 >{/if}</div
