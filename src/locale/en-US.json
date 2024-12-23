@@ -4603,6 +4603,7 @@
                 ],
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
+                    "teach": "Manage classes of students and their projects",
                     "guide": "Search and browse the language reference",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
@@ -4627,6 +4628,21 @@
                 },
                 "options": {
                     "lesson": "current lesson"
+                }
+            },
+            "teach": {
+                "header": "Teach",
+                "prompt": {
+                    "none": "Create classes of student accounts to help you manage and organize student projects.",
+                    "some": "Manage your classes or create a new one."
+                },
+                "error": {
+                    "offline": "We aren't able to check your teacher status.",
+                    "login": "You need to be logged in to manage classes.",
+                    "teacher": "You need teacher privileges to create classes. Fill out this form and let's get to know each other!"
+                },
+                "link": {
+                    "request": "Request teacher privileges"
                 }
             },
             "guide": {

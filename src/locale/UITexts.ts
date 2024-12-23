@@ -735,6 +735,8 @@ type UITexts = {
                 about: string;
                 /** What content is on the learn page */
                 learn: string;
+                /** What content is on the teach page */
+                teach: string;
                 /** What content is on the guide page */
                 guide: string;
                 /** What content is on the projects page */
@@ -770,6 +772,28 @@ type UITexts = {
             options: {
                 /** The label for the lesson drop down */
                 lesson: string;
+            };
+        };
+        teach: {
+            /** The header for the teach page. */
+            header: string;
+            prompt: {
+                /** No classes */
+                none: string;
+                /** One or more classes */
+                some: string;
+            };
+            error: {
+                /** When unable to check teacher status or classes */
+                offline: string;
+                /** When not logged in */
+                login: string;
+                /** When logged in, but not a teacher */
+                teacher: string;
+            };
+            link: {
+                /** The prompt to request teacher privileges */
+                request: string;
             };
         };
         guide: {

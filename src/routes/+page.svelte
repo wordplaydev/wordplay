@@ -91,6 +91,17 @@
         </Action>
         <Action>
             <BigLink
+                smaller
+                to="/teach"
+                subtitle={$locales.get((l) => l.ui.page.landing.link.teach)}
+                ><Iconified
+                    icon="🧑🏽‍🏫"
+                    text={(l) => l.ui.page.teach.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
                 to="/guide"
                 smaller
                 subtitle={$locales.get((l) => l.ui.page.landing.link.guide)}

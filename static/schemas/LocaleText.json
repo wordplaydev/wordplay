@@ -9647,11 +9647,16 @@
                         "rights": {
                           "description": "What content is on the rights page",
                           "type": "string"
+                        },
+                        "teach": {
+                          "description": "What content is on the teach page",
+                          "type": "string"
                         }
                       },
                       "required": [
                         "about",
                         "learn",
+                        "teach",
                         "guide",
                         "projects",
                         "galleries",
@@ -10181,6 +10186,76 @@
                   ],
                   "type": "object"
                 },
+                "teach": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "login": {
+                          "description": "When not logged in",
+                          "type": "string"
+                        },
+                        "offline": {
+                          "description": "When unable to check teacher status or classes",
+                          "type": "string"
+                        },
+                        "teacher": {
+                          "description": "When logged in, but not a teacher",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "offline",
+                        "login",
+                        "teacher"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "description": "The header for the teach page.",
+                      "type": "string"
+                    },
+                    "link": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "request": {
+                          "description": "The prompt to request teacher privileges",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "request"
+                      ],
+                      "type": "object"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "none": {
+                          "description": "No classes",
+                          "type": "string"
+                        },
+                        "some": {
+                          "description": "One or more classes",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "none",
+                        "some"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "error",
+                    "link"
+                  ],
+                  "type": "object"
+                },
                 "unknown": {
                   "additionalProperties": false,
                   "description": "The unknown route page",
@@ -10205,6 +10280,7 @@
                 "unknown",
                 "landing",
                 "learn",
+                "teach",
                 "guide",
                 "projects",
                 "galleries",

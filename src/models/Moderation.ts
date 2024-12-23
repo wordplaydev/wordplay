@@ -3,6 +3,7 @@ import type { Template } from '../locale/LocaleText';
 import type LocaleText from '../locale/LocaleText';
 import type Project from './Project';
 import type Locales from '../locale/Locales';
+import getClaim from './getClaim';
 
 /** Ways the platform can respond to a content moderation flag */
 export enum Remedy {
@@ -116,12 +117,5 @@ export function getFlagDescription(
 }
 
 export async function isModerator(user: User) {
-    return user
-        .getIdTokenResult()
-        .then((idTokenResult) => {
-            return idTokenResult.claims.mod === true;
-        })
-        .catch(() => {
-            return false;
-        });
+    return (await getClaim(user, 'mod')) === true;
 }
