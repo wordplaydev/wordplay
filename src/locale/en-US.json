@@ -4639,7 +4639,7 @@
                 "error": {
                     "offline": "We aren't able to check your teacher status.",
                     "login": "You need to be logged in to manage classes.",
-                    "teacher": "You need teacher privileges to create classes. Fill out this form and let's get to know each other!"
+                    "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
                 },
                 "link": {
                     "request": "Request teacher privileges"
