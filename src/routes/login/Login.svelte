@@ -157,10 +157,9 @@
 <!-- Provide some reasons to log in -->
 <Header>{$locales.get((l) => l.ui.page.login.header)}</Header>
 
+<MarkupHtmlView markup={$locales.get((l) => l.ui.page.login.prompt.login)} />
+
 <LoginForm submit={usernameSignin} feedback={usernameFeedback}>
-    <MarkupHtmlView
-        markup={$locales.get((l) => l.ui.page.login.prompt.login)}
-    />
     <div class="form">
         <TextField
             description={$locales.get(
@@ -200,7 +199,16 @@
     </div>
 </LoginForm>
 
-<MarkupHtmlView markup={$locales.get((l) => l.ui.page.login.prompt.forgot)} />
+<MarkupHtmlView markup={$locales.get((l) => l.ui.page.login.prompt.join)} />
+
+<hr />
+
+<MarkupHtmlView
+    note
+    markup={$locales.get((l) => l.ui.page.login.prompt.forgot)}
+/>
+
+<hr />
 
 <LoginForm submit={emailSignin} feedback={emailFeedback}>
     <Note
@@ -244,7 +252,6 @@
         row-gap: var(--wordplay-spacing);
         align-items: baseline;
         justify-content: center;
-        margin-top: 1em;
         margin-bottom: 1em;
     }
 </style>

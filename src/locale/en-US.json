@@ -4689,10 +4689,11 @@
             },
             "login": {
                 "header": "Login",
-                "subtitle": "Create an account or login in to save your work online",
+                "subtitle": "Save, collaborate, and share",
                 "anonymous": "login",
                 "prompt": {
-                    "login": "Your performances are saving in this browser, but not online. If this is your device, that's okay! If it's not, others will have access to your projects, and you may lose them. To save them online and keep them private, log in or <create an account@://join>:",
+                    "login": "Login to save your projects, collaborate, and share:",
+                    "join": "Or, <create an account@://join> to start.",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
@@ -4776,8 +4777,9 @@
             "join": {
                 "header": "Join",
                 "prompt": {
-                    "username": "Ready to create an account? First, choose a *username*. It must be at least 5 characters, can't be an email address, and shouldn't contain your name or other identifing information.",
-                    "password": "Choose a password with at least *10 characters*. Enter it again to ensure you typed it correctly, and store it somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
+                    "create": "Create an account to save your projects, collaborate with others, and share your work.",
+                    "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifing information.",
+                    "password": "Passwords must be at least /10 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
             "rights": {

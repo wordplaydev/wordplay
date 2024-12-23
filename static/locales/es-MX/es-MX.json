@@ -4619,10 +4619,8 @@
             },
             "login": {
                 "header": "Iniciar sesión",
-                "subtitle": "Crea una cuenta o inicie sesión para guardar tu trabajo en línea",
                 "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "Tus actuaciones se estan guardano en este navegador, pero no en línea. Si este es tu dispositivo, ¡está bien! Si no es así, otros tendrán acceso a tus proyectos y es posible que los pierdas. Para guardarlos en línea y mantenerlos privados, inicie sesión o <cree una cuenta@://join>:",
                     "forgot": "*¿Olvidaste tu contraseña?* Desafortunadamente, no podemos recuperar tu cuenta ya que no recopilamos información de contacto.",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
@@ -4638,7 +4636,9 @@
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
                     "delete": "¿Quieres que olvidemos todo lo que has creado aquí? Esto no se puede deshacer.",
                     "reallyDelete": "¿Estás segura? Tu cuenta y configuraciones se eliminarán inmediatamente, y tus proyectos se programarán para su eliminación. Las colaboradoras en tus proyectos perderán de inmediato el acceso a ellos. Escribe tu correo electrónico o nombre de usuario para confirmar que esto es lo que deseas.",
-                    "name": "Elige un emoji para representarte a ti mismo ante los demás."
+                    "name": "Elige un emoji para representarte a ti mismo ante los demás.",
+                    "login": "$~Inicie sesión para guardar sus proyectos, colaborar y compartir:",
+                    "join": "$~O bien, <crear una cuenta@://unirse> para comenzar."
                 },
                 "error": {
                     "expired": "Este enlace ha expirado.",
@@ -4701,13 +4701,15 @@
                         "on": "Mostrar contraseña",
                         "off": "Ocultar contraseña"
                     }
-                }
+                },
+                "subtitle": "$~Guardar, colaborar y compartir"
             },
             "join": {
                 "header": "Unirse",
                 "prompt": {
-                    "username": "¿Lista para crear una cuenta? Primero, elige un *nombre de usuario*. Debe tener al menos 5 caracteres, no puede ser una dirección de correo electrónico y no debe contener tu nombre ni otra información identificativa.",
-                    "password": "Elige una contraseña con al menos *10 caracteres*. Ingrésala nuevamente para asegurarte de que la hayas escrito correctamente y guárdala en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar tu cuenta* si la pierdes, ya que no recopilamos información de contacto."
+                    "create": "$~Crea una cuenta para guardar tus proyectos, colaborar con otros y compartir tu trabajo.",
+                    "username": "$~Los nombres de usuario deben tener al menos /5 caracteres/, no pueden ser un correo electrónico y no deben contener su nombre u otra información de identificación.",
+                    "password": "$~Las contraseñas deben tener al menos 10 caracteres. Escríbalas dos veces y anótelas en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar su cuenta* si la pierde, ya que no recopilamos información de contacto."
                 }
             },
             "rights": {

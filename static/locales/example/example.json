@@ -3618,7 +3618,8 @@
                     "confirm": "$?",
                     "delete": "$?",
                     "reallyDelete": "$?",
-                    "name": "$?"
+                    "name": "$?",
+                    "join": "$?"
                 },
                 "error": {
                     "expired": "$?",
@@ -3687,7 +3688,8 @@
                 "header": "$?",
                 "prompt": {
                     "username": "$?",
-                    "password": "$?"
+                    "password": "$?",
+                    "create": "$?"
                 }
             },
             "rights": {

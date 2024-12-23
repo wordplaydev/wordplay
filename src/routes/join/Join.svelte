@@ -9,13 +9,13 @@
     import { Creator } from '@db/CreatorDatabase';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import Header from '@components/app/Header.svelte';
     import isValidUsername from '@db/isValidUsername';
     import { goto } from '$app/navigation';
     import { httpsCallable } from 'firebase/functions';
     import Feedback from '@components/app/Feedback.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
+    import Header from '@components/app/Header.svelte';
 
     let username = $state('');
     let password = $state('');
@@ -77,6 +77,11 @@
 
 <LoginForm submit={createAccount} {feedback}>
     <MarkupHtmlView
+        markup={$locales.get((l) => l.ui.page.join.prompt.create)}
+    />
+
+    <MarkupHtmlView
+        note
         markup={$locales.get((l) => l.ui.page.join.prompt.username)}
     />
 
@@ -99,6 +104,7 @@
     {/if}
 
     <MarkupHtmlView
+        note
         markup={$locales.get((l) => l.ui.page.join.prompt.password)}
     />
     <p class="center">

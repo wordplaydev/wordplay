@@ -4656,10 +4656,8 @@
             },
             "login": {
                 "header": "$~Se connecter",
-                "subtitle": "$~Créez un compte ou connectez-vous pour enregistrer votre travail en ligne",
                 "anonymous": "$~se connecter",
                 "prompt": {
-                    "login": "$~Vos performances sont enregistrées dans ce navigateur, mais pas en ligne. Si c'est votre appareil, ce n'est pas grave ! Si ce n'est pas le cas, d'autres auront accès à vos projets et vous risquez de les perdre. Pour les enregistrer en ligne et les garder privés, connectez-vous ou <create an account@://join> :",
                     "forgot": "$~*Mot de passe oublié ?* Malheureusement, nous ne pouvons pas récupérer votre compte car nous ne collectons pas d'informations de contact.",
                     "email": "$~Avez-vous un compte de messagerie uniquement ? Connectez-vous en soumettant votre adresse e-mail et, si un compte y est associé, nous vous enverrons un e-mail avec un lien de connexion. Les nouveaux comptes de messagerie uniquement ne sont pas pris en charge, afin de préserver la confidentialité.",
                     "enter": "$~Il semble que votre lien de connexion provienne d'un autre navigateur ou appareil. Pouvez-vous saisir à nouveau votre adresse e-mail, juste pour être sûr qu'il s'agit bien de vous ?",
@@ -4675,7 +4673,9 @@
                     "confirm": "$~Vérifiez votre ancienne adresse e-mail pour confirmer votre nouvelle adresse.",
                     "delete": "$~Vous voulez que nous oubliions tout ce que vous avez fait ici ? C'est irréversible.",
                     "reallyDelete": "$~Êtes-vous sûr ? Votre compte et vos paramètres seront immédiatement supprimés et vos projets seront programmés pour suppression. Les collaborateurs de vos projets perdront immédiatement l'accès à ces derniers. Saisissez votre adresse e-mail ou votre nom d'utilisateur pour confirmer que c'est bien ce que vous souhaitez.",
-                    "name": "$~Choisissezunemojipourvousreprésenterauprèsdesautres."
+                    "name": "$~Choisissezunemojipourvousreprésenterauprèsdesautres.",
+                    "login": "$~Connectez-vous pour sauvegarder vos projets, collaborer et partager :",
+                    "join": "$~Ou, <créez un compte@://join> pour commencer."
                 },
                 "error": {
                     "expired": "$~Ce lien a expiré.",
@@ -4738,13 +4738,15 @@
                         "on": "$~Afficher le mot de passe",
                         "off": "$~Masquer le mot de passe"
                     }
-                }
+                },
+                "subtitle": "$~Enregistrez, collaborez et partagez"
             },
             "join": {
                 "header": "$~Rejoindre",
                 "prompt": {
-                    "username": "$~Vous souhaitez créer un compte ? Tout d'abord, choisissez un *nom d'utilisateur*. Il doit comporter au moins 5 caractères, ne peut pas être une adresse e-mail et ne doit pas contenir votre nom ou d'autres informations permettant de vous identifier.",
-                    "password": "$~Choisissez un mot de passe comportant au moins *10 caractères*. Saisissez-le à nouveau pour vous assurer que vous l'avez tapé correctement et conservez-le dans un endroit sûr, comme un gestionnaire de mots de passe. *Il n'existe aucun moyen de récupérer votre compte* si vous le perdez, car nous ne collectons pas d'informations de contact."
+                    "create": "$~Créez un compte pour enregistrer vos projets, collaborer avec d'autres et partager votre travail.",
+                    "username": "$~Les noms d'utilisateur doivent comporter au moins /5 caractères/, ne peuvent pas être une adresse e-mail et ne doivent pas contenir votre nom ou d'autres informations d'identification.",
+                    "password": "$~Les mots de passe doivent comporter au moins /10 caractères/. Tapez-les deux fois et notez-les dans un endroit sûr, comme un gestionnaire de mots de passe. *Il n'y a aucun moyen de récupérer votre compte* si vous le perdez, car nous ne collectons pas d'informations de contact."
                 }
             },
             "rights": {

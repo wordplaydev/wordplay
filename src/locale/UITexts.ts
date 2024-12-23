@@ -849,6 +849,8 @@ type UITexts = {
             prompt: {
                 /** Prompts creator to login to save their work */
                 login: string;
+                /** Prompt to join on the login page */
+                join: string;
                 /** Forgot password regrets */
                 forgot: string;
                 /** Email login explanation */
@@ -950,6 +952,8 @@ type UITexts = {
             header: string;
             /** Requests for information on the account creation page */
             prompt: {
+                /** Prompt to create an account */
+                create: string;
                 /** Username rules */
                 username: string;
                 /** Password rules and warnings */

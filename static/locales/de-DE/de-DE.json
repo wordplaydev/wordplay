@@ -4643,10 +4643,8 @@
             },
             "login": {
                 "header": "Anmeldung",
-                "subtitle": "$~Erstellen Sie ein Konto oder melden Sie sich an, um Ihre Arbeit online zu speichern",
                 "anonymous": "Anmeldung",
                 "prompt": {
-                    "login": "$~Ihre Performances werden in diesem Browser gespeichert, aber nicht online. Wenn dies Ihr Gerät ist, ist das in Ordnung! Wenn nicht, haben andere Zugriff auf Ihre Projekte und Sie könnten sie verlieren. Um sie online zu speichern und privat zu halten, melden Sie sich an oder <erstellen Sie ein Konto@://join>:",
                     "forgot": "$~*Passwort vergessen?* Leider können wir Ihr Konto nicht wiederherstellen, da wir keine Kontaktinformationen erfassen.",
                     "email": "$~Haben Sie ein Nur-E-Mail-Konto? Melden Sie sich an, indem Sie Ihre E-Mail-Adresse angeben. Wenn ein Konto damit verknüpft ist, senden wir Ihnen eine E-Mail mit einem Anmeldelink. Neue Nur-E-Mail-Konten werden aus Datenschutzgründen nicht unterstützt.",
                     "enter": "$~Offenbar stammt Ihr Anmeldelink von einem anderen Browser oder Gerät. Können Sie Ihre E-Mail-Adresse noch einmal eingeben, damit wir sicher sind, dass Sie es sind?",
@@ -4662,7 +4660,9 @@
                     "confirm": "$~Überprüfen Sie Ihre alte E-Mail-Adresse, um Ihre neue Adresse zu bestätigen.",
                     "delete": "$~Möchten Sie, dass wir alles vergessen, was Sie hier gemacht haben? Dies kann nicht rückgängig gemacht werden.",
                     "reallyDelete": "$~Sind Sie sicher? Ihr Konto und Ihre Einstellungen werden sofort gelöscht und Ihre Projekte werden zur Löschung vorgemerkt. Mitarbeiter Ihrer Projekte verlieren sofort den Zugriff darauf. Geben Sie Ihre E-Mail-Adresse oder Ihren Benutzernamen ein, um zu bestätigen, dass Sie dies wünschen.",
-                    "name": "$~WählenSieeinEmojiaus,umsichanderenvorzustellen."
+                    "name": "$~WählenSieeinEmojiaus,umsichanderenvorzustellen.",
+                    "login": "$~Melden Sie sich an, um Ihre Projekte zu speichern, zusammenzuarbeiten und sie zu teilen:",
+                    "join": "$~Oder <create an account@://join>, um zu beginnen."
                 },
                 "error": {
                     "expired": "$~Dieser Link ist abgelaufen.",
@@ -4725,13 +4725,15 @@
                         "on": "$~Passwort anzeigen",
                         "off": "$~Passwort verbergen"
                     }
-                }
+                },
+                "subtitle": "$~Speichern, zusammenarbeiten und teilen"
             },
             "join": {
                 "header": "$~Verbinden",
                 "prompt": {
-                    "username": "$~Bereit, ein Konto zu erstellen? Wählen Sie zunächst einen *Benutzernamen*. Er muss mindestens 5 Zeichen lang sein, darf keine E-Mail-Adresse sein und sollte weder Ihren Namen noch andere identifizierende Informationen enthalten.",
-                    "password": "$~Wählen Sie ein Passwort mit mindestens *10 Zeichen*. Geben Sie es erneut ein, um sicherzustellen, dass Sie es richtig eingegeben haben, und speichern Sie es an einem sicheren Ort, beispielsweise in einem Passwort-Manager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
+                    "create": "$~Erstellen Sie ein Konto, um Ihre Projekte zu speichern, mit anderen zusammenzuarbeiten und Ihre Arbeit zu teilen.",
+                    "username": "$~Benutzernamen müssen mindestens 5 Zeichen lang sein, dürfen keine E-Mail-Adresse sein und dürfen weder Ihren Namen noch andere identifizierende Informationen enthalten.",
+                    "password": "$~Passwörter müssen mindestens /10 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
                 }
             },
             "rights": {
