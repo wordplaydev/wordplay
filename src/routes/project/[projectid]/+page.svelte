@@ -81,13 +81,16 @@
         if (project === undefined) return false;
         const gallery = project.getGallery();
         return (
-            $user !== null &&
-            history !== undefined &&
-            (project.hasContributor($user.uid) ||
-                (gallery !== null &&
-                    Galleries.accessibleGalleries
-                        .get(gallery)
-                        ?.hasCurator($user.uid)))
+            // Locally editing
+            ($user === null && history !== undefined) ||
+            // Logged in and a contributor or curator
+            ($user !== null &&
+                history !== undefined &&
+                (project.hasContributor($user.uid) ||
+                    (gallery !== null &&
+                        Galleries.accessibleGalleries
+                            .get(gallery)
+                            ?.hasCurator($user.uid))))
         );
     });
 
