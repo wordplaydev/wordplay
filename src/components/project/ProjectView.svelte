@@ -983,6 +983,20 @@
         });
     });
 
+    // When ovewritten, announce it
+    $effect(() => {
+        if (overwritten)
+            untrack(() => {
+                if (announce?.announce) {
+                    announce.announce(
+                        project.getID(),
+                        $locales.getLanguages()[0],
+                        $locales.get((l) => l.ui.source.overwritten),
+                    );
+                }
+            });
+    });
+
     function toggleBlocks(on: boolean) {
         Settings.setBlocks(on);
     }
@@ -1673,6 +1687,7 @@
                                             evaluator={$evaluator}
                                             {source}
                                             {editable}
+                                            {overwritten}
                                             sourceID={tile.id}
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
@@ -1805,11 +1820,6 @@
                     action={addSource}
                     >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
                 >{/if}
-            {#if overwritten}
-                <span class="overwritten"
-                    >{$locales.get((l) => l.ui.source.overwritten)}</span
-                >
-            {/if}
             {#each layout.getNonSources() as tile}
                 <!-- No need to show the tile if not visible when not editable. -->
                 {#if tile.isVisibleCollapsed(editable)}
@@ -1818,9 +1828,7 @@
                         {tile}
                         on:toggle={() => toggleTile(tile)}
                         notification={tile.kind === TileKind.Collaborate &&
-                            chat !== undefined &&
-                            chat !== null &&
-                            chat !== false &&
+                            !!chat &&
                             $user !== null &&
                             chat.hasUnread($user.uid)}
                     />
@@ -1990,15 +1998,5 @@
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         overflow-x: auto;
-    }
-
-    .overwritten {
-        display: inline-block;
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
-        padding-inline-start: var(--wordplay-spacing);
-        padding-inline-end: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
-        white-space: nowrap;
     }
 </style>

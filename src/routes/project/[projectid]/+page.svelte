@@ -60,10 +60,15 @@
     // after each edit of a project!
     $effect(() => {
         project = history?.getCurrent();
+        if (history?.wasOverwritten()) {
+            overwritten = true;
+            // When overwritten, add the class, then remove it later.
+            setTimeout(() => (overwritten = false), 1000);
+        } else overwritten = false;
     });
 
     // The project is overwriten if we have a history for it and it says so.
-    let overwritten = $derived(history?.wasOverwritten() ?? false);
+    let overwritten = $state(false);
 
     // The project is editable if the project database's list of editable projects contains this project.
     let editable = $derived(history !== undefined);
