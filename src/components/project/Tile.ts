@@ -2,6 +2,7 @@ import type Locales from '../../locale/Locales';
 import type Project from '../../models/Project';
 import type Bounds from './Bounds';
 import Layout from './Layout';
+import TileKinds from './TileKinds';
 
 export enum Mode {
     Expanded = 'expanded',
@@ -83,15 +84,7 @@ export default class Tile {
     }
 
     getOrder() {
-        return this.kind === TileKind.Palette
-            ? 0
-            : this.kind === TileKind.Output
-              ? 1
-              : this.kind === TileKind.Documentation
-                ? 2
-                : this.kind === TileKind.Collaborate
-                  ? 3
-                  : 4;
+        return TileKinds[this.kind].order;
     }
 
     withBounds(bounds: Bounds) {
