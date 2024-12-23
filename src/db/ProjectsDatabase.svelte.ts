@@ -1,9 +1,9 @@
 import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
-import { PersistenceType, ProjectHistory } from './ProjectHistory';
+import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
 import { get, writable, type Writable } from 'svelte/store';
 import Project from '../models/Project';
 import type LocaleText from '../locale/LocaleText';
-import { Locales, SaveStatus, type Database } from './Database';
+import { Galleries, Locales, SaveStatus, type Database } from './Database';
 import {
     collection,
     deleteDoc,
@@ -33,6 +33,8 @@ import {
 import { PossiblePII } from '@conflicts/PossiblePII';
 import { EditFailure } from './EditFailure';
 import { COPY_SYMBOL } from '@parser/Symbols';
+import type Gallery from '@models/Gallery';
+import { SvelteMap } from 'svelte/reactivity';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -93,7 +95,8 @@ export default class ProjectsDatabase {
         undefined;
 
     /** An in-memory index of project histories by project ID. Populated on load, synced with local IndexedDB and cloud Firestore, when available. */
-    private projectHistories: Map<string, ProjectHistory> = new Map();
+    private projectHistories: SvelteMap<string, ProjectHistory> =
+        new SvelteMap();
 
     /** A store of all user editable projects stored in projectsDB. Derived from editable projects above. */
     readonly allEditableProjects: Writable<Project[]> = writable([]);
@@ -102,13 +105,17 @@ export default class ProjectsDatabase {
     readonly allArchivedProjects: Writable<Project[]> = writable([]);
 
     /** A cache of read only projects, by project ID. */
-    readonly readonlyProjects: Map<string, Project | undefined> = new Map();
+    readonly readonlyProjects: SvelteMap<string, Project | undefined> =
+        new SvelteMap();
 
     /** Remember how to unsubscribe from the user's realtime query. */
     private projectsQueryUnsubscribe: Unsubscribe | undefined = undefined;
 
     /** Debounce timer, used to clear pending requests. */
     private timer: NodeJS.Timeout | undefined = undefined;
+
+    /** A list of listeners that are notified of a project change. */
+    private listeners: Map<string, Set<(project: Project) => void>> = new Map();
 
     constructor(database: Database) {
         this.database = database;
@@ -151,6 +158,19 @@ export default class ProjectsDatabase {
             );
     }
 
+    /** Call the given function when the project with the given ID is edited locally or remotely. */
+    listen(projectID: string, listener: (project: Project) => void) {
+        const current = this.listeners.get(projectID);
+        if (current) current.add(listener);
+        else this.listeners.set(projectID, new Set([listener]));
+    }
+
+    /** Stop calling the given function when the project with the given ID is edited locally or remotely */
+    ignore(projectID: string, listener: (project: Project) => void) {
+        const current = this.listeners.get(projectID);
+        if (current) current.delete(listener);
+    }
+
     async deserializeAll(serialized: unknown[]) {
         // Load all of the projects and their locale dependencies.
         return (
@@ -185,15 +205,26 @@ export default class ProjectsDatabase {
         // If there's no more user, do nothing.
         if (user === null) return;
 
+        // Get the current list of gallery ies.
+        const galleryIDsToWatch = Array.from(
+            Galleries.accessibleGalleries.keys(),
+        );
+
+        // Construct the query constraints.
+        const constraints = [
+            where('owner', '==', user.uid),
+            where('collaborators', 'array-contains', user.uid),
+        ];
+        // If the user has any gallery IDs it has access to, include those in the project query.
+        if (galleryIDsToWatch.length > 0)
+            constraints.push(where('gallery', 'in', galleryIDsToWatch));
+
         // Set up the realtime projects query for the user, tracking any projects from the cloud,
         // and deleting any tracked locally that didn't appear in the snapshot.
         this.projectsQueryUnsubscribe = onSnapshot(
             query(
                 collection(firestore, ProjectsCollection),
-                or(
-                    where('owner', '==', user.uid),
-                    where('collaborators', 'array-contains', user.uid),
-                ),
+                or(...constraints),
             ),
             async (snapshot) => {
                 const serialized: unknown[] = [];
@@ -239,7 +270,6 @@ export default class ProjectsDatabase {
             },
             (error) => {
                 if (error instanceof FirebaseError) {
-                    console.error(error.code);
                     console.error(error.message);
                 }
                 this.database.setStatus(
@@ -434,16 +464,28 @@ export default class ProjectsDatabase {
                     const user = this.database.getUser();
 
                     const project = await this.parseProject(projectDoc.data());
-                    if (project !== undefined)
+                    if (project !== undefined) {
+                        const galleryID = project.getGallery();
+                        const gallery = galleryID
+                            ? await this.database.Galleries.get(galleryID)
+                            : undefined;
+
                         this.track(
                             project,
-                            user !== null && project.getOwner() === user.uid,
+                            // The project is editable if the user is the owner, or the user is a collaborator, or the user
+                            user !== null &&
+                                (project.isOwner(user.uid) ||
+                                    project.hasCollaborator(user.uid) ||
+                                    (gallery !== undefined &&
+                                        gallery.hasCurator(user.uid))),
                             PersistenceType.Online,
                             false,
                         );
+                    }
                     return project;
                 }
             } catch (err) {
+                console.error(err);
                 return undefined;
             }
         }
@@ -456,17 +498,24 @@ export default class ProjectsDatabase {
      * @param project The revised project
      * @param remember If true, keeps the current version of the project in the history, otherwise replaces it.
      * @param persist If true, try to save the change to disk and the cloud
+     * @param dynamic
      *
      * Returns true if the edit was successful, false if it was not.
      * */
-    edit(
+    async edit(
         project: Project,
         remember: boolean,
         persist: boolean,
         dynamic: boolean = false,
-    ): EditFailure | undefined {
+        when: 'immediate' | 'soon' = 'soon',
+    ): Promise<EditFailure | undefined> {
         if (project.getSourceByteSize() > MAX_PROJECT_BYTE_SIZE)
             return EditFailure.TooLarge;
+
+        // Notify any listeners of this new project.
+        this.listeners
+            .get(project.getID())
+            ?.forEach((listener) => listener(project));
 
         // Update or create a history for this project.
         const history = this.projectHistories.get(project.getID());
@@ -484,8 +533,10 @@ export default class ProjectsDatabase {
                 // Update the editable projects.
                 this.refreshEditableProjects();
 
-                // Defer a save.
-                if (persist) this.saveSoon();
+                // Save according to the requested policy.
+                if (persist)
+                    if (when === 'immediate') await this.persist();
+                    else this.saveSoon();
 
                 return undefined;
             } else return EditFailure.Infinite;
@@ -493,7 +544,7 @@ export default class ProjectsDatabase {
         // No history? Directly edit the project in the database, if connected and asked to save the edit.
         // This is likely an edit by a curator of a gallery, e.g., removing a project from a collection.
         else if (firestore && persist) {
-            setDoc(
+            await setDoc(
                 doc(firestore, ProjectsCollection, project.getID()),
                 project.serialize(),
             );
@@ -547,6 +598,9 @@ export default class ProjectsDatabase {
         // Delete the project doc
         await deleteDoc(doc(firestore, ProjectsCollection, id));
 
+        // Delete the corresponding chat, if there is one.
+        this.database.Chats.deleteChat(id);
+
         // Delete from the local cache.
         this.deleteLocalProject(id);
 
@@ -561,6 +615,9 @@ export default class ProjectsDatabase {
 
         // Untrack the project.
         this.projectHistories.delete(id);
+
+        // Refresh the lists of editable projects.
+        this.refreshEditableProjects();
     }
 
     /** Persist in storage */
@@ -686,18 +743,13 @@ export default class ProjectsDatabase {
         revised: Project,
         remember = true,
         dynamic = false,
-    ): EditFailure | undefined {
+    ): Promise<EditFailure | undefined> {
         return this.edit(revised, remember, true, dynamic);
     }
 
     /** Gets the project history for the given project ID, if there is one. */
     getHistory(id: string) {
         return this.projectHistories.get(id);
-    }
-
-    /** Given a project ID, get the reactive store that stores it, so the caller can be notified when it changes. */
-    getStore(id: string) {
-        return this.projectHistories.get(id)?.getStore();
     }
 
     /** Given a project ID and direction, undo or redo */
@@ -755,6 +807,36 @@ export default class ProjectsDatabase {
         } catch (_) {
             console.error(_);
             return undefined;
+        }
+    }
+
+    /** When a gallery changes, ensure that we respect access, tracking any projects that we aren't tracking yet, and stopping tracking projects we were tracking. */
+    async refreshGallery(gallery: Gallery) {
+        // Find all projects we're tracking that are no longer in the gallery, and remove them.
+        for (const [projectID, history] of this.projectHistories.entries()) {
+            const current = history.getCurrent();
+            if (
+                current.getGallery() === gallery.getID() &&
+                !gallery.getProjects().includes(projectID)
+            ) {
+                this.deleteLocalProject(projectID);
+            }
+        }
+
+        // Find all of the projects in the gallery that we're not tracking, and track them.
+        for (const projectID of gallery.getProjects()) {
+            if (!this.projectHistories.has(projectID)) {
+                try {
+                    const project = await this.get(projectID);
+                    if (project) {
+                        this.track(project, true, PersistenceType.Online, true);
+                    }
+                } catch (err) {
+                    console.error(
+                        'Unable to get the project in the gallery, even though the gallery was listed as containing the project.',
+                    );
+                }
+            }
         }
     }
 }

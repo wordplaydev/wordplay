@@ -34,8 +34,9 @@ export const MAX_DYNAMIC_EDITS = 16;
 export class ProjectHistory {
     /** The id of the project being tracked */
     readonly id: string;
-    /** A Svelte store of the current version of the project. */
-    private current: Writable<Project>;
+
+    /** A Svelte state of the current version of the project. The little ! indicates that it can't be undefined. */
+    private current: Project = $state()!;
     /**
      * Previous versions of the project.
      * It always contains the current version of the project and is therefore never empty.
@@ -73,7 +74,7 @@ export class ProjectHistory {
         locales: LocalesDatabase,
     ) {
         this.id = project.getID();
-        this.current = writable(project);
+        this.current = project;
         this.history.push(project.serialize());
         this.index = 0;
         this.persist = persist;
@@ -83,14 +84,10 @@ export class ProjectHistory {
 
     /** Revise this project history to have all of the specified locales. */
     withLocales(locales: LocaleText[]) {
-        this.current.set(get(this.current).withLocales(locales));
+        this.current = this.current.withLocales(locales);
     }
 
     getCurrent() {
-        return get(this.current);
-    }
-
-    getStore() {
         return this.current;
     }
 
@@ -98,6 +95,7 @@ export class ProjectHistory {
         project: Project,
         remember: boolean,
         overwrite = false,
+        /** Whether the edit should be treated as one that is happening in rapid succession, to avoid saving too much history. */
         dynamic = false,
     ): boolean {
         // If its dynamic and the last dynamic was less than 200 milliseconds ago, increment the consecutive count, otherwise reset.
@@ -137,14 +135,10 @@ export class ProjectHistory {
             this.history.splice(0, PROJECT_HISTORY_LIMIT - this.history.length);
 
         // Ping the store, so everyone knows about the edit.
-        this.current.set(project);
+        this.current = project;
 
         // Note whether we've exceeded max dynamic edits.
         return true;
-    }
-
-    ping() {
-        this.current.set(this.getCurrent());
     }
 
     isUndoable() {
@@ -175,7 +169,7 @@ export class ProjectHistory {
         );
 
         // Change the current project to the historical project.
-        this.current.set(newProject);
+        this.current = newProject;
 
         // Set the change type to undo/redo.
         this.change = ChangeType.UndoRedo;

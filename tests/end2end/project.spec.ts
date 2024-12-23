@@ -18,11 +18,15 @@ test('create project and visit its tiles ', async ({ page }) => {
     // Click to open the palette
     await page.getByTestId('palette-toggle').click();
 
-    // Expect all four tiles to be visible.
+    // Click to open the collaboration panel
+    await page.getByTestId('collaborate-toggle').click();
+
+    // Expect all tiles to be visible.
     await Promise.all([
-        expect(page.getByTestId('output')).toBeVisible(),
-        expect(page.getByTestId('editor')).toBeVisible(),
-        expect(page.getByTestId('documentation')).toBeVisible(),
-        expect(page.getByTestId('palette')).toBeVisible(),
+        expect(page.getByTestId('tile-output')).toBeVisible(),
+        expect(page.getByTestId('tile-source0')).toBeVisible(),
+        expect(page.getByTestId('tile-docs')).toBeVisible(),
+        expect(page.getByTestId('tile-palette')).toBeVisible(),
+        expect(page.getByTestId('tile-collaborate')).toBeVisible(),
     ]);
 });

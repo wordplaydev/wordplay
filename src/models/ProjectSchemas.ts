@@ -16,7 +16,9 @@ const SourceSchema = z.object({
 /** How we store sources as JSON in databases */
 export type SerializedSource = z.infer<typeof SourceSchema>;
 
-export const ProjectSchemaLatestVersion = 2;
+export const ProjectSchemaLatestVersion = 3;
+
+export type ProjectID = string;
 
 /** Define the schema for projects */
 export const ProjectSchemaV1 = z.object({
@@ -61,14 +63,20 @@ export const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).merge(
 );
 type SerializedProjectV2 = z.infer<typeof ProjectSchemaV2>;
 
-export const ProjectSchema = ProjectSchemaV2;
+export const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).merge(
+    z.object({ v: z.literal(3), chat: z.nullable(z.string()) }),
+);
+type SerializedProjectV3 = z.infer<typeof ProjectSchemaV3>;
+
+export const ProjectSchema = ProjectSchemaV3;
 
 /** How we store projects as JSON in databases. These could be one of many versions, but currently there's only one. */
-export type SerializedProject = SerializedProjectV2;
+export type SerializedProject = SerializedProjectV3;
 
 export type SerializedProjectUnknownVersion =
     | SerializedProjectV1
-    | SerializedProjectV2;
+    | SerializedProjectV2
+    | SerializedProjectV3;
 
 /** Project updgrader */
 export function upgradeProject(
@@ -76,7 +84,9 @@ export function upgradeProject(
 ): SerializedProject {
     switch (project.v) {
         case 1:
-            return { ...project, v: 2, nonPII: [] };
+            return upgradeProject({ ...project, v: 2, nonPII: [] });
+        case 2:
+            return upgradeProject({ ...project, v: 3, chat: null });
         case ProjectSchemaLatestVersion:
             return project;
         default:

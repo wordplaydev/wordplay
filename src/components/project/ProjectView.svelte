@@ -4,7 +4,7 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { getContext, onDestroy, onMount, tick, untrack } from 'svelte';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import {
         type SelectedOutputContext,
@@ -27,6 +27,7 @@
         setAnnouncer,
         type AnnouncerContext,
         getFullscreen,
+        getUser,
     } from './Contexts';
     import type Project from '@models/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -75,6 +76,7 @@
         localized,
         Creators,
         animationFactor,
+        Chats,
     } from '../../db/Database';
     import Arrangement from '../../db/Arrangement';
     import type Value from '../../values/Value';
@@ -89,9 +91,9 @@
         type CommandContext,
     } from '../editor/util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import Help from './Shortcuts.svelte';
+    import Shortcuts from './Shortcuts.svelte';
     import type Color from '../../output/Color';
-    import Collaborators from './Collaborators.svelte';
+    import Sharing from './Sharing.svelte';
     import Toggle from '../widgets/Toggle.svelte';
     import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
@@ -114,13 +116,15 @@
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
-    import { COPY_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
     import { localeToString } from '@locale/Locale';
     import type Locale from '@locale/Locale';
     import { default as ModeChooser } from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import CollaborateView from '@components/app/chat/CollaborateView.svelte';
+    import type Chat from '@db/ChatDatabase.svelte';
 
     interface Props {
         project: Project;
@@ -211,6 +215,8 @@
     let requestedEdit = $state(
         $page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
+
+    const user = getUser();
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
@@ -443,7 +449,7 @@
             if (selectedOutputPaths.length > 0) selectedOutputPaths = [];
     });
 
-    function syncTiles(tiles: Tile[]): Tile[] {
+    function syncTiles(project: Project, tiles: Tile[]): Tile[] {
         const newTiles: Tile[] = [];
 
         // Go through each tile and map it to a source file.
@@ -512,51 +518,63 @@
         return persistedLayout === null
             ? null
             : persistedLayout
-                  .withTiles(syncTiles(persistedLayout.tiles))
+                  .withTiles(syncTiles(project, persistedLayout.tiles))
                   .withFullscreen(
                       requestedEdit ? undefined : persistedLayout.fullscreenID,
                   );
     }
 
     function getInitialLayout() {
+        const defaultTiles =
+            // Create a layout in reading order.
+            [
+                new Tile(
+                    TileKind.Palette,
+                    TileKind.Palette,
+                    Mode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Output,
+                    TileKind.Output,
+                    Mode.Expanded,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Documentation,
+                    TileKind.Documentation,
+                    Mode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                new Tile(
+                    TileKind.Collaborate,
+                    TileKind.Collaborate,
+                    Mode.Collapsed,
+                    undefined,
+                    Tile.randomPosition(1024, 768),
+                ),
+                ...project.getSources().map((source, index) =>
+                    // If starting with output only, collapse the source initially too.
+                    createSourceTile(source, index).withMode(
+                        showOutput
+                            ? Mode.Collapsed
+                            : index === 0 || source === newSource
+                              ? Mode.Expanded
+                              : Mode.Collapsed,
+                    ),
+                ),
+            ];
+
         return (
-            (persistLayout ? getPersistedLayout() : null) ??
+            (persistLayout
+                ? getPersistedLayout()?.withMissingTiles(defaultTiles)
+                : null) ??
             new Layout(
                 project.getID(),
-                // Create a layout in reading order.
-                [
-                    new Tile(
-                        TileKind.Palette,
-                        TileKind.Palette,
-                        Mode.Collapsed,
-                        undefined,
-                        Tile.randomPosition(1024, 768),
-                    ),
-                    new Tile(
-                        TileKind.Output,
-                        TileKind.Output,
-                        Mode.Expanded,
-                        undefined,
-                        Tile.randomPosition(1024, 768),
-                    ),
-                    new Tile(
-                        TileKind.Documentation,
-                        TileKind.Documentation,
-                        Mode.Collapsed,
-                        undefined,
-                        Tile.randomPosition(1024, 768),
-                    ),
-                    ...project.getSources().map((source, index) =>
-                        // If starting with output only, collapse the source initially too.
-                        createSourceTile(source, index).withMode(
-                            showOutput
-                                ? Mode.Collapsed
-                                : index === 0 || source === newSource
-                                  ? Mode.Expanded
-                                  : Mode.Collapsed,
-                        ),
-                    ),
-                ],
+                defaultTiles,
                 // If showing output was requested, we fullscreen on output
                 showOutput ? TileKind.Output : undefined,
             )
@@ -815,12 +833,16 @@
 
     /** When the canvas size changes, resize the layout */
     $effect(() => {
+        refreshLayout();
+    });
+
+    function refreshLayout() {
         layout = untrack(() => layout).resized(
             $arrangement,
             canvasWidth,
             canvasHeight,
         );
-    });
+    }
 
     /** The furthest boundary of a dragged tile, defining the dimensions of the canvas while in freeform layout mode. */
     let maxRight = $state(0);
@@ -948,6 +970,32 @@
         commandContextState.context = commandContext;
     });
     setProjectCommandContext(commandContextState);
+
+    // Get the chat for the project, if there is one.
+    // undefined: there isn't one
+    // null: we're still loading
+    // false: couldn't load it.
+    let chat = $state<Chat | undefined | null | false>(null);
+    $effect(() => {
+        // When the project changes, get the chat, and mark read if it was unread.
+        Chats.getChat(project).then((retrievedChat) => {
+            chat = retrievedChat;
+        });
+    });
+
+    // When ovewritten, announce it
+    $effect(() => {
+        if (overwritten)
+            untrack(() => {
+                if (announce?.announce) {
+                    announce.announce(
+                        project.getID(),
+                        $locales.getLanguages()[0],
+                        $locales.get((l) => l.ui.source.overwritten),
+                    );
+                }
+            });
+    });
 
     function toggleBlocks(on: boolean) {
         Settings.setBlocks(on);
@@ -1330,10 +1378,17 @@
 
         // This will propogate back to a new project here, updating the UI.
         Projects.reviseProject(newProject);
+
+        // Sync the tiles.
+        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+        refreshLayout();
     }
 
     function removeSource(source: Source) {
-        Projects.reviseProject(project.withoutSource(source));
+        const newProject = project.withoutSource(source);
+        Projects.reviseProject(newProject);
+        layout = layout.withTiles(syncTiles(newProject, layout.tiles));
+        refreshLayout();
     }
 
     function renameSource(id: string, name: string) {
@@ -1460,7 +1515,7 @@
                                                 (l) =>
                                                     l.ui.source.confirm.delete
                                                         .prompt,
-                                            )}>⨉</ConfirmButton
+                                            )}>{CANCEL_SYMBOL}</ConfirmButton
                                         >
                                     {/if}
                                 {:else if tile.kind === TileKind.Output}
@@ -1621,8 +1676,10 @@
                                         bind:background={outputBackground}
                                         {editable}
                                     />
+                                {:else if tile.kind === TileKind.Collaborate}
+                                    <CollaborateView {project} {chat} />
                                     <!-- Show an editor, annotations, and a mini output view -->
-                                {:else}
+                                {:else if tile.kind === TileKind.Source}
                                     {@const source = getSourceByTileID(tile.id)}
                                     <div class="annotated-editor">
                                         <Editor
@@ -1630,6 +1687,7 @@
                                             evaluator={$evaluator}
                                             {source}
                                             {editable}
+                                            {overwritten}
                                             sourceID={tile.id}
                                             selected={source === selectedSource}
                                             autofocus={autofocus &&
@@ -1705,6 +1763,25 @@
                     action={() => toClipboard(project.toWordplay())}
                     ><Emoji>{COPY_SYMBOL}</Emoji></Button
                 >
+                {#if shareable}
+                    <Dialog
+                        description={$locales.get((l) => l.ui.dialog.share)}
+                        button={{
+                            tip: $locales.get(
+                                (l) => l.ui.project.button.showCollaborators,
+                            ),
+                            icon:
+                                project.isPublic() &&
+                                isFlagged(project.getFlags())
+                                    ? '‼️'
+                                    : '↗',
+                            label: '',
+                        }}
+                    >
+                        <Sharing {project} />
+                    </Dialog>
+                {/if}
+                <Translate {project}></Translate>
             {/if}
 
             {#if editable}
@@ -1720,30 +1797,6 @@
                         Projects.reviseProject(project.withName(name))}
                     max="10em"
                 />
-                {#if shareable}
-                    <Dialog
-                        description={$locales.get((l) => l.ui.dialog.share)}
-                        button={{
-                            tip: $locales.get(
-                                (l) => l.ui.project.button.showCollaborators,
-                            ),
-                            icon: project.isPublic()
-                                ? isFlagged(project.getFlags())
-                                    ? '‼️'
-                                    : '🌐'
-                                : '🤫',
-                            label: project.isPublic()
-                                ? $locales.get(
-                                      (l) => l.ui.dialog.share.mode.public,
-                                  ).modes[1]
-                                : $locales.get((l) => l.ui.dialog.share).mode
-                                      .public.modes[0],
-                        }}
-                    >
-                        <Collaborators {project} />
-                    </Dialog>
-                {/if}
-                <Translate {project}></Translate>
             {:else}{project.getName()}{/if}
             {#if editable && layout.hasVisibleCollapsedSource()}
                 <Separator />
@@ -1767,39 +1820,40 @@
                     action={addSource}
                     >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
                 >{/if}
-            {#if overwritten}
-                <span class="overwritten"
-                    >{$locales.get((l) => l.ui.source.overwritten)}</span
-                >
-            {/if}
             {#each layout.getNonSources() as tile}
-                <!-- No need to show the palette if not editable. -->
+                <!-- No need to show the tile if not visible when not editable. -->
                 {#if tile.isVisibleCollapsed(editable)}
                     <NonSourceTileToggle
                         {project}
                         {tile}
                         on:toggle={() => toggleTile(tile)}
+                        notification={tile.kind === TileKind.Collaborate &&
+                            !!chat &&
+                            $user !== null &&
+                            chat.hasUnread($user.uid)}
                     />
                 {/if}
             {/each}
-            <span class="help">
+            <span class="right-align">
                 <Dialog
                     description={$locales.get((l) => l.ui.dialog.help)}
                     button={{
                         tip: $locales.get(ShowKeyboardHelp.description),
                         icon: ShowKeyboardHelp.symbol,
                         label: '',
-                    }}><Help /></Dialog
+                    }}><Shortcuts /></Dialog
                 >
+                <Toggle
+                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                    on={browserFullscreen}
+                    command={browserFullscreen
+                        ? ExitFullscreen
+                        : EnterFullscreen}
+                    toggle={() => setBrowserFullscreen(!browserFullscreen)}
+                >
+                    <FullscreenIcon />
+                </Toggle>
             </span>
-            <Toggle
-                tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                on={browserFullscreen}
-                command={browserFullscreen ? ExitFullscreen : EnterFullscreen}
-                toggle={() => setBrowserFullscreen(!browserFullscreen)}
-            >
-                <FullscreenIcon />
-            </Toggle>
         </nav>
 
         <!-- Render the menu on top of the annotations -->
@@ -1931,7 +1985,7 @@
         height: 100%;
     }
 
-    .help {
+    .right-align {
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
@@ -1944,15 +1998,5 @@
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         overflow-x: auto;
-    }
-
-    .overwritten {
-        display: inline-block;
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
-        padding-inline-start: var(--wordplay-spacing);
-        padding-inline-end: var(--wordplay-spacing);
-        border-radius: var(--wordplay-border-radius);
-        white-space: nowrap;
     }
 </style>

@@ -2,6 +2,7 @@ import Arrangement from '../../db/Arrangement';
 import type Bounds from './Bounds';
 import { TileKind, Mode } from './Tile';
 import Tile from './Tile';
+import TileKinds from './TileKinds';
 
 export type SerializedTile = {
     id: TileKind | string;
@@ -123,7 +124,11 @@ export default class Layout {
     getNonSources() {
         return this.tiles
             .filter((tile) => !tile.id.startsWith('source'))
-            .sort((a, b) => a.id.localeCompare(b.id));
+            .sort(
+                (a, b) =>
+                    TileKinds[a.id as TileKind].order -
+                    TileKinds[b.id as TileKind].order,
+            );
     }
 
     replace(tile: Tile, newTile: Tile) {
@@ -143,6 +148,14 @@ export default class Layout {
 
     withTiles(tiles: Tile[]) {
         return new Layout(this.projectID, tiles, this.fullscreenID);
+    }
+
+    /**  Adds any of the given tiles not in the current layout, based on id.*/
+    withMissingTiles(tiles: Tile[]) {
+        const newTiles = tiles.filter(
+            (tile) => !this.tiles.some((t) => t.id === tile.id),
+        );
+        return this.withTiles([...this.tiles, ...newTiles]);
     }
 
     withTileLast(tile: Tile) {
@@ -222,71 +235,71 @@ export default class Layout {
         const docs = expanded.find(
             (tile) => tile.id === TileKind.Documentation,
         );
+        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
 
         let top = 0;
         const tileHeight =
             height /
-            ((output || palette ? 1 : 0) +
-                (sources.length + (sources.length === 0 && docs ? 1 : 0)));
+            ((output ? 1 : 0) +
+                (palette ? 1 : 0) +
+                (docs ? 1 : 0) +
+                (chat ? 1 : 0) +
+                sources.length);
+
+        // The vertical layout is a stack of tiles, with the output at the top, followed by the sources, then other tiles.
 
         // If the output is expanded, give it a portion.
         if (output) {
-            // If the palette is expanded, give it a third of the width.
-            if (palette) {
-                newLayout = newLayout
-                    .withTileBounds(output, {
-                        left: width / 3,
-                        top: top,
-                        width: (width * 2) / 3,
-                        height: tileHeight,
-                    })
-                    .withTileBounds(palette, {
-                        left: 0,
-                        top: top,
-                        width: (width * 1) / 3,
-                        height: tileHeight,
-                    });
-            }
-            // No palette, give it all the width.
-            else {
-                newLayout = newLayout.withTileBounds(output, {
-                    left: 0,
-                    top: top,
-                    width,
-                    height: tileHeight,
-                });
-            }
+            newLayout = newLayout.withTileBounds(output, {
+                left: 0,
+                top: top,
+                width: width,
+                height: tileHeight,
+            });
             top += tileHeight;
-        } else if (palette) {
+        }
+
+        // Add the sources next
+        for (const tile of sources) {
+            newLayout = newLayout.withTileBounds(tile, {
+                left: 0,
+                top: top,
+                width: width,
+                height: tileHeight,
+            });
+            top += tileHeight;
+        }
+
+        // Then add the palette
+        if (palette) {
             newLayout = newLayout.withTileBounds(palette, {
                 left: 0,
                 top: top,
-                width,
+                width: width,
                 height: tileHeight,
             });
             top += tileHeight;
         }
 
-        if (docs)
+        if (docs) {
             newLayout = newLayout.withTileBounds(docs, {
                 left: 0,
                 top: top,
-                width: sources.length > 0 ? (width * 1) / 3 : width,
-                height:
-                    sources.length > 0
-                        ? tileHeight * sources.length
-                        : tileHeight,
-            });
-
-        for (const tile of sources) {
-            newLayout = newLayout.withTileBounds(tile, {
-                left: docs ? width / 3 : 0,
-                top: top,
-                width: docs ? (width * 2) / 3 : width,
+                width: width,
                 height: tileHeight,
             });
             top += tileHeight;
         }
+
+        if (chat) {
+            newLayout = newLayout.withTileBounds(chat, {
+                left: 0,
+                top: top,
+                width: width,
+                height: tileHeight,
+            });
+        }
+
         return newLayout;
     }
 
@@ -301,6 +314,7 @@ export default class Layout {
 
         const output = expanded.find((tile) => tile.id === TileKind.Output);
         const palette = expanded.find((tile) => tile.id === TileKind.Palette);
+        const chat = expanded.find((tile) => tile.id === TileKind.Collaborate);
         const sources = expanded.filter((tile) => tile.id.startsWith('source'));
         const docs = expanded.find(
             (tile) => tile.id === TileKind.Documentation,
@@ -309,16 +323,41 @@ export default class Layout {
         let left = 0;
         const tileWidth =
             width /
-            ((docs ? 0.5 : 0) + sources.length + (output || palette ? 1 : 0));
+            ((docs || chat ? 0.5 : 0) +
+                sources.length +
+                (output || palette ? 1 : 0));
 
         // Docs first, if expanded, gets half a tile width
-        if (docs) {
-            newLayout = newLayout.withTileBounds(docs, {
-                left: left,
-                top: 0,
-                width: tileWidth / 2,
-                height: height,
-            });
+        if (docs || chat) {
+            if (docs && chat) {
+                newLayout = newLayout
+                    .withTileBounds(docs, {
+                        left: left,
+                        top: 0,
+                        width: tileWidth / 2,
+                        height: height / 2,
+                    })
+                    .withTileBounds(chat, {
+                        left: left,
+                        top: height / 2,
+                        width: tileWidth / 2,
+                        height: height / 2,
+                    });
+            } else if (docs) {
+                newLayout = newLayout.withTileBounds(docs, {
+                    left: left,
+                    top: 0,
+                    width: tileWidth / 2,
+                    height: height,
+                });
+            } else if (chat) {
+                newLayout = newLayout.withTileBounds(chat, {
+                    left: left,
+                    top: 0,
+                    width: tileWidth / 2,
+                    height: height,
+                });
+            }
             left += tileWidth / 2;
         }
 

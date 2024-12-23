@@ -103,6 +103,10 @@ export default class Gallery {
         return `/gallery/${this.getID()}`;
     }
 
+    hasCurator(uid: string) {
+        return this.data.curators.includes(uid);
+    }
+
     getCurators() {
         return this.data.curators;
     }
@@ -114,13 +118,18 @@ export default class Gallery {
     }
 
     withoutCurator(uid: string) {
-        const newData = { ...this.data };
-        newData.projects = [...newData.projects.filter((id) => id !== uid)];
-        return new Gallery(newData);
+        return new Gallery({
+            ...this.data,
+            curators: this.data.curators.filter((id) => id !== uid),
+        });
     }
 
     getCreators() {
         return this.data.creators;
+    }
+
+    hasCreator(uid: string) {
+        return this.data.creators.includes(uid);
     }
 
     withCreator(uid: string) {

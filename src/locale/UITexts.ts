@@ -415,6 +415,51 @@ type UITexts = {
             conversions: string;
         };
     };
+    /** The project chat */
+    collaborate: {
+        /** The ARIA label for the chat section */
+        label: string;
+        /** The chat message input field */
+        field: {
+            /** The chat message input field */
+            message: FieldText;
+        };
+        role: {
+            /** What to call the owner of a project */
+            owner: string;
+            /** What to call collaborators */
+            collaborators: string;
+            /** What to call curators */
+            curators: string;
+        };
+        /** Buttons in the chat tile */
+        button: {
+            /** The chat send button */
+            submit: ButtonText;
+            /** The start a chat button */
+            start: ButtonText;
+            /** The message delete button */
+            delete: string;
+        };
+        /** Errors that can happen in the chat tile */
+        error: {
+            /** The project isn't owned by a person */
+            unowned: string;
+            /** Offline, or couldn't load the chat */
+            offline: string;
+            /** No messages in the chat */
+            empty: string;
+            /** A message was deleted */
+            deleted: string;
+        };
+        /** Messages to explain the purpose */
+        prompt: {
+            solo: string;
+            owner: string;
+            collaborator: string;
+            curator: string;
+        };
+    };
     /** The palette editor */
     palette: {
         /** The ARIA label for the palette section */
@@ -557,8 +602,6 @@ type UITexts = {
         share: DialogText & {
             /** The subheaders of the dialog */
             subheader: {
-                /** The collaborators subheader and explanation */
-                collaborators: DialogText;
                 /** The gallery subheader and explanation */
                 gallery: DialogText;
                 /** The public/private toggle subheader and explanation */

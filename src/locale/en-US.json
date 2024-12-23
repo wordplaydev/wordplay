@@ -4065,7 +4065,8 @@
                 "output": "stage",
                 "palette": "palette",
                 "docs": "guide",
-                "source": "source"
+                "source": "source",
+                "collaborate": "collaborate"
             },
             "button": {
                 "collapse": "collapse window"
@@ -4073,13 +4074,13 @@
         },
         "project": {
             "error": {
-                "unknown": "This project doesn't exist or isn't public.",
+                "unknown": "This project doesn't exist or you don't have access to it.",
                 "translate": "There was a problem translating your project.",
                 "tile": "Oops, there was an error",
                 "reset": "Attempt to reset..."
             },
             "button": {
-                "showCollaborators": "show collaborators dialog",
+                "showCollaborators": "show share dialog",
                 "removeCollaborator": "remove collaborator",
                 "copy": "copy project to clipboard as text",
                 "addSource": "create a new $source",
@@ -4177,7 +4178,7 @@
                 "• Browse the <galleries@://galleries> for inspiration.",
                 "If you're stuck, <learn more@://learn>."
             ],
-            "overwritten": "Received a more recent version!",
+            "overwritten": "Project revised elsewhere",
             "confirm": {
                 "delete": {
                     "description": "delete this $source",
@@ -4343,12 +4344,8 @@
         "dialog": {
             "share": {
                 "header": "Sharing",
-                "explanation": "Control who can edit and see this project.",
+                "explanation": "Share this project with galleries or the world.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "Collaborators",
-                        "explanation": "Collaborators can view and edit this project. Only project owners can modify collaborators."
-                    },
                     "gallery": {
                         "header": "Gallery",
                         "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
@@ -4480,6 +4477,43 @@
                     "insertCode": "Insert",
                     "debug": "Debug"
                 }
+            }
+        },
+        "collaborate": {
+            "label": "collaborate",
+            "role": {
+                "owner": "owner",
+                "collaborators": "collaborators",
+                "curators": "curators"
+            },
+            "field": {
+                "message": {
+                    "description": "The chat message to submit",
+                    "placeholder": "Type a message"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "Send",
+                    "tip": "Send a message to your collaborators"
+                },
+                "start": {
+                    "label": "Start a chat",
+                    "tip": "Begin a discussion with yourself or others."
+                },
+                "delete": "delete this message"
+            },
+            "error": {
+                "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
+                "offline": "Unable to load this chat.",
+                "empty": "No messages.",
+                "deleted": "This message was deleted."
+            },
+            "prompt": {
+                "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
+                "owner": "Collaborators can edit this project and chat about it.",
+                "collaborator": "You're a collaborator. You can edit this project and chat about it.",
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it."
             }
         },
         "palette": {

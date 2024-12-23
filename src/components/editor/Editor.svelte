@@ -105,6 +105,8 @@
         setOutputPreview: () => void;
         /** A function for updating conflicts of interest */
         updateConflicts: (source: Source, conflicts: Conflict[]) => void;
+        /** Whether the code was revised by another creator */
+        overwritten?: boolean;
     }
 
     let {
@@ -119,6 +121,7 @@
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
         updateConflicts,
+        overwritten = false,
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -1502,6 +1505,7 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
+    class:overwritten
     class:dragging={dragCandidate !== undefined ||
         $dragged !== undefined ||
         dragPoint !== undefined}
@@ -1782,5 +1786,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /** A single cycle color animation to indicate the code was revised. */
+    @keyframes overwritten {
+        0% {
+            background-color: var(--wordplay-highlight-color);
+        }
+
+        100% {
+            background-color: var(--wordplay-background);
+        }
+    }
+
+    .overwritten {
+        animation: overwritten 1s;
+        animation-iteration-count: 1;
     }
 </style>

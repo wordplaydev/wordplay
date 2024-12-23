@@ -27,10 +27,12 @@
     import Toggle from '../widgets/Toggle.svelte';
     import type Project from '../../models/Project';
     import Emoji from '@components/app/Emoji.svelte';
-    import TileSymbols from './TileSymbols';
+    import TileKinds from './TileKinds';
     import FullscreenIcon from './FullscreenIcon.svelte';
     import type Bounds from './Bounds';
     import Note from '@components/widgets/Note.svelte';
+    import TileMessage from './TileMessage.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         project: Project;
@@ -235,6 +237,7 @@
         class:focuscontent
         class:animated={mounted}
         data-id={tile.id}
+        data-testid="tile-{tile.id}"
         style:background={background instanceof Color
             ? background.toCSS()
             : background}
@@ -270,7 +273,7 @@
     >
         <svelte:boundary>
             {#snippet failed(error, reset)}
-                <div class="error">
+                <TileMessage error>
                     <h2>{$locales.get((l) => l.ui.project.error.tile)}</h2>
                     <p
                         ><Button tip="Reset" action={reset} background
@@ -280,7 +283,7 @@
                         ></p
                     >
                     <Note>{'' + error}</Note>
-                </div>
+                </TileMessage>
             {/snippet}
 
             <!-- Render the toolbar -->
@@ -305,30 +308,30 @@
                 >
                     <FullscreenIcon />
                 </Toggle>
-                <div class="name" class:source={tile.isSource()}>
-                    {#if editable && tile.isSource()}
-                        <Emoji>{Glyphs.Program.symbols}</Emoji>
-                        <TextField
-                            text={tile
-                                .getSource(project)
-                                ?.getPreferredName($locales.getLocales())}
-                            description={$locales.get(
-                                (l) => l.ui.source.field.name.description,
-                            )}
-                            placeholder={$locales.get(
-                                (l) => l.ui.source.field.name.placeholder,
-                            )}
-                            validator={(text) => isName(text)}
-                            changed={handleRename}
-                        />
-                    {:else}
-                        <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
-                            project,
-                            $locales,
-                        )}
-                    {/if}
-                    {@render title()}
-                </div>
+                <Subheader compact>
+                    <div class="name" class:source={tile.isSource()}>
+                        {#if editable && tile.isSource()}
+                            <Emoji>{Glyphs.Program.symbols}</Emoji>
+                            <TextField
+                                text={tile
+                                    .getSource(project)
+                                    ?.getPreferredName($locales.getLocales())}
+                                description={$locales.get(
+                                    (l) => l.ui.source.field.name.description,
+                                )}
+                                placeholder={$locales.get(
+                                    (l) => l.ui.source.field.name.placeholder,
+                                )}
+                                validator={(text) => isName(text)}
+                                changed={handleRename}
+                            />
+                        {:else}
+                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                            >{tile.getName(project, $locales)}
+                        {/if}
+                        {@render title()}
+                    </div>
+                </Subheader>
                 <div class="toolbar">
                     {@render extra?.()}
                 </div>
@@ -338,7 +341,9 @@
                 <div class="content" onscroll={() => scroll()}>
                     {@render content()}
                 </div>
-                <div class="margin">{@render margin?.()}</div>
+                {#if margin}
+                    <div class="margin">{@render margin()}</div>
+                {/if}
             </div>
             <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
             {#if focuscontent}
@@ -373,7 +378,6 @@
         flex-direction: row;
         flex-wrap: nowrap;
         flex-grow: 1;
-        gap: var(--wordplay-spacing);
     }
 
     .toolbar {
@@ -533,12 +537,5 @@
 
     .name.source {
         color: var(--wordplay-foreground);
-    }
-
-    .error {
-        padding: var(--wordplay-spacing);
-        background: var(--wordplay-error);
-        color: var(--wordplay-background);
-        height: 100%;
     }
 </style>

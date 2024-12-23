@@ -78,9 +78,7 @@
     }}
     button={{
         tip: $locales.get((l) => l.ui.project.button.translate),
-        label: `${getLanguageName(project.getPrimaryLanguage())}${
-            localeCount < 2 ? '' : `+${localeCount - 1}`
-        }…`,
+        label: `🌐 ${project.getPrimaryLanguage()}${localeCount < 2 ? '' : `+${localeCount - 1}`}`,
     }}
 >
     <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>

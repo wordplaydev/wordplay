@@ -1,19 +1,20 @@
 <script lang="ts">
     import type Project from '@models/Project';
     import Evaluator from '@runtime/Evaluator';
-    import { DB, locales } from '../../db/Database';
+    import { Chats, DB, locales } from '../../db/Database';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
     import { navigating } from '$app/stores';
     import Spinning from './Spinning.svelte';
     import { toStage } from '@output/Stage';
-    import { EXCEPTION_SYMBOL } from '@parser/Symbols';
+    import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
     import Fonts from '@basis/Fonts';
     import { getFaceCSS } from '@output/outputToCSS';
     import UnicodeString from '@models/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
-    
+    import type Chat from '@db/ChatDatabase.svelte';
+
     interface Props {
         project: Project;
         action?: (() => void) | undefined;
@@ -32,7 +33,7 @@
         name = true,
         size = 6,
         link = undefined,
-        children
+        children,
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -44,7 +45,12 @@
     };
 
     /** Derive the preview contents from the project by getting it's first value */
-    let { representativeForeground, representativeBackground, representativeFace, representativeText } = $derived.by(() => {
+    let {
+        representativeForeground,
+        representativeBackground,
+        representativeFace,
+        representativeText,
+    } = $derived.by(() => {
         const evaluator = new Evaluator(
             project,
             DB,
@@ -59,7 +65,7 @@
         return {
             representativeFace: stage ? getFaceCSS(stage.face) : null,
             representativeForeground: stage
-                ? stage.pose.color?.toCSS() ?? null
+                ? (stage.pose.color?.toCSS() ?? null)
                 : 'var(--wordplay-evaluation-color)',
             representativeBackground: stage
                 ? stage.back.toCSS()
@@ -81,6 +87,18 @@
     let path = $derived(link ?? project.getLink(true));
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
+
+    let chat = $state<Chat | undefined>(undefined);
+    $effect(() => {
+        // When the project changes, get the chat, and mark read if it was unread.
+        Chats.getChat(project).then((retrievedChat) => {
+            if (retrievedChat) chat = retrievedChat;
+        });
+    });
+
+    let unread = $derived(
+        chat !== undefined && $user !== null && chat.hasUnread($user.uid),
+    );
 </script>
 
 <div class="project" class:named={name}>
@@ -118,7 +136,9 @@
                         >{:else}
                         {project.getName()}{/if}</Link
                 >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
-                    <Spinning />{:else}{@render children?.()}{/if}{/if}</div
+                    <Spinning />{:else}{@render children?.()}{/if}{/if}
+            {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
+                >{/if}</div
         >{/if}
 </div>
 
@@ -186,5 +206,17 @@
 
     .blurred {
         filter: blur(10px);
+    }
+
+    .notification {
+        display: inline-block;
+        background: var(--wordplay-highlight-color);
+        color: var(--wordplay-background);
+        align-self: flex-start;
+        border-radius: var(--wordplay-border-radius);
+        animation: bounce;
+        animation-duration: calc(var(--animation-factor) * 1000ms);
+        animation-delay: 0;
+        animation-iteration-count: infinite;
     }
 </style>

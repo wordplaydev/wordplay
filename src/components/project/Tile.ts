@@ -2,6 +2,7 @@ import type Locales from '../../locale/Locales';
 import type Project from '../../models/Project';
 import type Bounds from './Bounds';
 import Layout from './Layout';
+import TileKinds from './TileKinds';
 
 export enum Mode {
     Expanded = 'expanded',
@@ -13,6 +14,7 @@ export enum TileKind {
     Documentation = 'docs',
     Source = 'source',
     Palette = 'palette',
+    Collaborate = 'collaborate',
 }
 
 export default class Tile {
@@ -72,18 +74,17 @@ export default class Tile {
 
     isVisibleCollapsed(editable: boolean) {
         return (
-            this.isCollapsed() && (editable || this.kind !== TileKind.Palette)
+            this.isCollapsed() &&
+            (editable ||
+                !(
+                    this.kind === TileKind.Palette ||
+                    this.kind === TileKind.Collaborate
+                ))
         );
     }
 
     getOrder() {
-        return this.kind === TileKind.Palette
-            ? 0
-            : this.kind === TileKind.Output
-              ? 1
-              : this.kind === TileKind.Documentation
-                ? 2
-                : 3;
+        return TileKinds[this.kind].order;
     }
 
     withBounds(bounds: Bounds) {

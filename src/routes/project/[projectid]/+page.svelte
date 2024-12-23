@@ -1,29 +1,98 @@
 <script lang="ts">
-    import { setConceptPath, setProject } from '@components/project/Contexts';
-    import { writable, type Unsubscriber, type Writable } from 'svelte/store';
+    import {
+        getUser,
+        setConceptPath,
+        setProject,
+    } from '@components/project/Contexts';
+    import {
+        get,
+        writable,
+        type Unsubscriber,
+        type Writable,
+    } from 'svelte/store';
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@models/Project';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import { browser } from '$app/environment';
-    import { Projects, locales } from '@db/Database';
+    import { Galleries, Projects, locales } from '@db/Database';
     import Page from '@components/app/Page.svelte';
     import Writing from '../../../components/app/Writing.svelte';
+    import { untrack } from 'svelte';
+
+    let user = getUser();
 
     /** True if we're async loading the project, as opposed to getting it from the browser cache. */
     let loading = $state(false);
     let error = $state(false);
 
-    /**
-     * The project store is derived from the projects and the page's project ID.
-     * We avoid a proxy to allow comparisons between stores below and the store is not something we mutate.
-     */
-    let store: Writable<Project> | undefined = $state.raw(undefined);
+    /** The project is set either by an effect on load or changes to the project history map in the database. **/
     let project: Project | undefined = $state(undefined);
-    let editable = $state(false);
+
+    let projectID = $derived(decodeURI($page.params.projectid));
+
+    // If the page params change, load the project explicitly, rather than waiting for the database to load it.
+    $effect(() => {
+        if ($page && browser && projectID) {
+            // Set loading feedback.
+            loading = true;
+
+            // We don't track this since we only want to depend on the page
+            untrack(() => {
+                // Async load the project from the database.
+                Projects.get(projectID)
+                    .then((proj) => {
+                        // Remember that we're done loading and there's no error.
+                        loading = false;
+                        error = false;
+
+                        // Handle
+                        project = proj;
+                    })
+                    .catch(() => {
+                        error = true;
+                    });
+            });
+        }
+    });
+
+    // Whenever the project history changes, update the project. This relies
+    // on Svelte 5's deep reactivity, as the history map and history state are reactive.
+
+    let history = $derived(Projects.getHistory(projectID));
+
+    // When history's current value changes, update the project. This is super important: it enables feedback
+    // after each edit of a project!
+    $effect(() => {
+        project = history?.getCurrent();
+        if (history?.wasOverwritten()) {
+            overwritten = true;
+            // When overwritten, add the class, then remove it later.
+            setTimeout(() => (overwritten = false), 1000);
+        } else overwritten = false;
+    });
+
+    // The project is overwriten if we have a history for it and it says so.
     let overwritten = $state(false);
-    let unsub: Unsubscriber | undefined = $state(undefined);
+
+    // Check if the project is editable by the current user.
+    let editable = $derived.by(() => {
+        if (project === undefined) return false;
+        const gallery = project.getGallery();
+        return (
+            // Locally editing
+            ($user === null && history !== undefined) ||
+            // Logged in and a contributor or curator
+            ($user !== null &&
+                history !== undefined &&
+                (project.hasContributor($user.uid) ||
+                    (gallery !== null &&
+                        Galleries.accessibleGalleries
+                            .get(gallery)
+                            ?.hasCurator($user.uid))))
+        );
+    });
 
     // A project context store for children
     let projectContext = writable<Project | undefined>(undefined);
@@ -36,52 +105,6 @@
 
     // Create a concept path for children
     setConceptPath(writable([]));
-
-    // Whenever the page or projects change, update the project store.
-    $effect(() => {
-        if ($page) {
-            const projectID = decodeURI($page.params.projectid);
-            // No matching project, but we have a project ID and we're in the browser?
-            if (projectID && projectID.length > 0 && browser) {
-                // Set loading feedback.
-                loading = true;
-                // Async load the project from the database.
-                Projects.get(projectID)
-                    .then((proj) => {
-                        // Remember the project
-                        project = proj;
-                        editable = false;
-                        loading = false;
-                        error = false;
-
-                        // See if the project is editable, and if so, get it's store, so we can track it's changes.
-                        const projectStore = Projects.getStore(projectID);
-                        if (projectStore) {
-                            // Mark the project editable, since there's a store for it.
-                            editable = true;
-                            // If there's a different store, stop listening to the current store and listen to the new one.
-                            if (store !== projectStore) {
-                                // Unsubscribe from the previous store
-                                if (unsub) unsub();
-                                // Remember the new store
-                                store = projectStore;
-                                // Update the project we're showing whenever it changes.
-                                unsub = store.subscribe((proj) => {
-                                    project = proj;
-                                    overwritten =
-                                        Projects.getHistory(
-                                            proj.getID(),
-                                        )?.wasOverwritten() ?? false;
-                                });
-                            }
-                        }
-                    })
-                    .catch(() => {
-                        error = true;
-                    });
-            }
-        }
-    });
 </script>
 
 <svelte:head>

@@ -13,6 +13,7 @@
         testid?: string | undefined;
         command?: Command | undefined;
         background?: boolean;
+        highlight?: boolean;
         children: Snippet;
     }
 
@@ -25,6 +26,7 @@
         testid = undefined,
         command = undefined,
         background = false,
+        highlight = false,
         children,
     }: Props = $props();
 
@@ -49,6 +51,7 @@
 <button
     type="button"
     class:background
+    class:highlight
     data-uiid={uiid}
     data-testid={testid}
     class:on
@@ -101,6 +104,16 @@
     .background {
         background: var(--wordplay-alternating-color);
         color: var(--wordplay-foreground);
+    }
+
+    .highlight {
+        background: var(--wordplay-highlight-color);
+        color: var(--wordplay-background);
+
+        animation: bounce;
+        animation-duration: calc(var(--animation-factor) * 1000ms);
+        animation-delay: 0;
+        animation-iteration-count: infinite;
     }
 
     button.on {

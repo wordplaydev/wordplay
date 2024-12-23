@@ -15,10 +15,11 @@ import {
     getBestSupportedLocales,
     type Template,
 } from '../locale/LocaleText';
-import ProjectsDatabase from './ProjectsDatabase';
+import ProjectsDatabase from './ProjectsDatabase.svelte';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './SettingsDatabase';
-import GalleryDatabase from './GalleryDatabase';
+import GalleryDatabase from './GalleryDatabase.svelte';
+import { ChatDatabase } from './ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './CreatorDatabase';
 import DefaultLocale from '../locale/DefaultLocale';
 
@@ -43,6 +44,9 @@ export class Database {
 
     /** A collection of creators loaded from the database */
     readonly Creators: CreatorDatabase;
+
+    /** A collection of chats loaded from the database */
+    readonly Chats: ChatDatabase;
 
     /** The status of persisting the projects. */
     readonly Status: Writable<{
@@ -73,6 +77,7 @@ export class Database {
         this.Projects = new ProjectsDatabase(this);
         this.Galleries = new GalleryDatabase(this);
         this.Creators = new CreatorDatabase(this);
+        this.Chats = new ChatDatabase(this);
     }
 
     getUser() {
@@ -131,7 +136,7 @@ export class Database {
             this.updateUser(newUser);
 
             // Update the galleries query with the new user.
-            this.Galleries.listen();
+            this.Galleries.registerRealtimeUpdates();
         });
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,
@@ -160,6 +165,9 @@ export class Database {
 
         // Tell the settings cache.
         this.Settings.syncUser();
+
+        // Tell the chat cache.
+        this.Chats.syncUser();
     }
 
     /** Clean up listeners */
@@ -226,6 +234,7 @@ export const Projects = DB.Projects;
 export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
+export const Chats = DB.Chats;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;

@@ -4030,7 +4030,8 @@
                 "output": "escenario",
                 "palette": "paleta",
                 "docs": "guía",
-                "source": "$source"
+                "source": "$source",
+                "collaborate": "$~colaborar"
             },
             "button": {
                 "collapse": "colapsar esta ventana"
@@ -4310,10 +4311,6 @@
                 "header": "Compartir",
                 "explanation": "Controla quién puede editar y ver este proyecto.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "Colaboradores",
-                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Sólo los propietarios del proyecto pueden modificar a los colaboradores."
-                    },
                     "gallery": {
                         "header": "Galería",
                         "explanation": "Agrega este proyecto a una galería junto con otros creadores, o crea una galería en tu página de <projects@://projects>. Si añades un proyecto a una galería pública, tu proyecto se volverá público."
@@ -4774,6 +4771,43 @@
         "template": {
             "unwritten": "Por determinar",
             "unparsable": "Plantilla no analizable: $1"
+        },
+        "collaborate": {
+            "label": "$~colaborar",
+            "role": {
+                "owner": "$~dueño",
+                "collaborators": "$~colaboradores",
+                "curators": "$~curadores"
+            },
+            "field": {
+                "message": {
+                    "description": "$~El mensaje de chat para enviar",
+                    "placeholder": "$~Escribe un mensaje"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~Enviar",
+                    "tip": "$~Envía un mensaje a tus colaboradores"
+                },
+                "start": {
+                    "label": "$~Iniciar un chat",
+                    "tip": "$~Inicie una discusión con usted mismo o con otros."
+                },
+                "delete": "$~eliminar este mensaje"
+            },
+            "error": {
+                "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",
+                "offline": "$~No se puede cargar este chat.",
+                "empty": "$~No hay mensajes.",
+                "deleted": "$~Este mensaje fue eliminado."
+            },
+            "prompt": {
+                "solo": "$~Chatea contigo mismo o agrega un colaborador, que pueda editar y chatear.",
+                "owner": "$~Los colaboradores pueden editar este proyecto y chatear sobre él.",
+                "collaborator": "$~Eres colaborador. Puedes editar este proyecto y conversar sobre él.",
+                "curator": "$~Eres el curador de la galería de este proyecto. Puedes editarlo y conversar sobre él."
+            }
         }
     },
     "moderation": {

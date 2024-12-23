@@ -46,7 +46,9 @@
 {#if button}
     <Button tip={button.tip} action={() => (show = true)}
         >{#if button.icon}<Emoji>{button.icon}</Emoji>
-        {/if}{button.label}</Button
+        {/if}
+        {#if button.label.length > 0}
+            {button.label}{/if}</Button
     >
 {/if}
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->

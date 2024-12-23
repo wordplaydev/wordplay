@@ -29,6 +29,7 @@ import { unknownFlags, type Moderation } from './Moderation';
 import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
 import {
+    type ProjectID,
     ProjectSchemaLatestVersion,
     type SerializedCaret,
     type SerializedProject,
@@ -177,6 +178,7 @@ export default class Project {
             flags,
             timestamp: timestamp ?? Date.now(),
             nonPII: [],
+            chat: null,
         });
     }
 
@@ -203,7 +205,7 @@ export default class Project {
         );
     }
 
-    getID() {
+    getID(): ProjectID {
         return this.data.id;
     }
 
@@ -652,7 +654,7 @@ export default class Project {
                     source,
                     source.replace(original, replacement),
                     replacement === undefined
-                        ? source.getNodeFirstPosition(original) ?? 0
+                        ? (source.getNodeFirstPosition(original) ?? 0)
                         : replacement,
                 ]);
             // Update the replacement source with the next replacement.
@@ -660,7 +662,7 @@ export default class Project {
                 sources[1] = sources[1].replace(original, replacement);
                 sources[2] =
                     replacement === undefined
-                        ? source.getNodeFirstPosition(original) ?? 0
+                        ? (source.getNodeFirstPosition(original) ?? 0)
                         : replacement;
             }
         }
@@ -698,12 +700,28 @@ export default class Project {
         return this.data.owner;
     }
 
+    isOwner(uid: string) {
+        return this.data.owner === uid;
+    }
+
     withOwner(owner: string | null) {
         return new Project({ ...this.data, owner });
     }
 
     getCollaborators() {
         return [...this.data.collaborators];
+    }
+
+    /** Get a list of all owners and collaborators in a singe list. */
+    getContributors() {
+        return [
+            ...(this.data.owner ? [this.data.owner] : []),
+            ...this.data.collaborators,
+        ];
+    }
+
+    hasContributor(uid: string) {
+        return this.getContributors().includes(uid);
     }
 
     hasCollaborator(uid: string) {
@@ -874,6 +892,7 @@ export default class Project {
             flags: { ...project.flags },
             timestamp: project.timestamp,
             nonPII: project.nonPII,
+            chat: null,
         });
     }
 
@@ -1077,6 +1096,7 @@ export default class Project {
             gallery: this.data.gallery,
             flags: { ...this.data.flags },
             nonPII: this.data.nonPII,
+            chat: this.data.chat,
         };
     }
 
@@ -1090,6 +1110,13 @@ export default class Project {
             (sum, source) => sum + source.getCode().toString().length,
             0,
         );
+    }
+
+    withChat(id: string | null) {
+        return new Project({
+            ...this.data,
+            chat: id,
+        });
     }
 
     toWordplay() {

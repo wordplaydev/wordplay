@@ -95,6 +95,7 @@
 
         // Handle increment/decrement.
         if (event.key !== 'ArrowUp' && event.key !== 'ArrowDown') return;
+
         event.stopPropagation();
         text = (number + (event.key === 'ArrowUp' ? 1 : -1)).toString();
         handleInput();
@@ -110,11 +111,10 @@
     });
 </script>
 
-<div class="field">
+<div class="field" class:fill>
     <input
         type="text"
         class={classes?.join(' ')}
-        class:fill
         class:border
         class:right
         data-id={id}
@@ -193,7 +193,11 @@
         text-align: right;
     }
 
-    input.fill {
+    .fill {
+        width: 100%;
+    }
+
+    .fill input {
         width: 100%;
     }
 

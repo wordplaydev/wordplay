@@ -3068,7 +3068,8 @@
                 "output": "$?",
                 "palette": "$?",
                 "docs": "$?",
-                "source": "$?"
+                "source": "$?",
+                "collaborate": "$?"
             },
             "button": {
                 "collapse": "$?"
@@ -3337,10 +3338,6 @@
                 "header": "$?",
                 "explanation": "$?",
                 "subheader": {
-                    "collaborators": {
-                        "header": "$?",
-                        "explanation": "$?"
-                    },
                     "gallery": {
                         "header": "$?",
                         "explanation": "$?"
@@ -3722,6 +3719,43 @@
         "template": {
             "unwritten": "$?",
             "unparsable": "$?"
+        },
+        "collaborate": {
+            "label": "$?",
+            "role": {
+                "owner": "$?",
+                "collaborators": "$?",
+                "curators": "$?"
+            },
+            "field": {
+                "message": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$?",
+                    "tip": "$?"
+                },
+                "start": {
+                    "label": "$?",
+                    "tip": "$?"
+                },
+                "delete": "$?"
+            },
+            "error": {
+                "unowned": "$?",
+                "offline": "$?",
+                "empty": "$?",
+                "deleted": "$?"
+            },
+            "prompt": {
+                "owner": "$?",
+                "collaborator": "$?",
+                "curator": "$?",
+                "solo": "$?"
+            }
         }
     },
     "moderation": {

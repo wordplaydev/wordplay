@@ -4016,7 +4016,8 @@
                 "output": "舞台",
                 "palette": "调色板",
                 "docs": "指南",
-                "source": "源文件"
+                "source": "源文件",
+                "collaborate": "$~合作"
             },
             "button": {
                 "collapse": "折叠窗口"
@@ -4296,10 +4297,6 @@
                 "header": "分享",
                 "explanation": "控制谁可以编辑和查看此项目。",
                 "subheader": {
-                    "collaborators": {
-                        "header": "合作者",
-                        "explanation": "協作者可以檢視和編輯該項目。 只有專案所有者才能修改協作者。"
-                    },
                     "gallery": {
                         "header": "画廊",
                         "explanation": "将此项目添加到画廊中，与其他创作者并列，或在你的 <projects@://projects> 页面上创建一个画廊。如果你将项目添加到公开画廊，你的项目将变为公开。"
@@ -4751,6 +4748,43 @@
         "template": {
             "unwritten": "待定",
             "unparsable": "无法解析的模板: $1"
+        },
+        "collaborate": {
+            "label": "$~合作",
+            "role": {
+                "owner": "$~所有者",
+                "collaborators": "$~合作者",
+                "curators": "$~策展人"
+            },
+            "field": {
+                "message": {
+                    "description": "$~要提交的聊天消息",
+                    "placeholder": "$~键入消息"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~发送",
+                    "tip": "$~向您的合作者发送消息"
+                },
+                "start": {
+                    "label": "$~开始聊天",
+                    "tip": "$~开始与自己或他人讨论。"
+                },
+                "delete": "$~删除此消息"
+            },
+            "error": {
+                "unowned": "$~该项目没有所有者，因此无法聊天。",
+                "offline": "$~无法加载此聊天。",
+                "empty": "$~没有消息。",
+                "deleted": "$~该消息已被删除。"
+            },
+            "prompt": {
+                "solo": "$~与自己聊天或添加可以编辑和聊天的合作者。",
+                "owner": "$~合作者可以编辑该项目并进行讨论。",
+                "collaborator": "$~您是协作者。您可以编辑此项目并进行讨论。",
+                "curator": "$~您是此项目画廊的管理员。您可以编辑此项目并就此项目进行讨论。"
+            }
         }
     },
     "moderation": {

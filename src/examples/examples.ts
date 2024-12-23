@@ -58,6 +58,7 @@ export function parseSerializedProject(
         gallery: null,
         flags: moderatedFlags(),
         nonPII: [],
+        chat: null,
     };
 }
 

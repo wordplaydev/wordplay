@@ -10,7 +10,7 @@ service cloud.firestore {
 
       function isCuratorOfProjectInGallery(uid, galleryID) {
         let gallery = get(/databases/$(database)/documents/galleries/$(galleryID)).data;
-        return gallery != null && (uid in gallery.curators || uid in gallery.creators);
+        return gallery != null && (uid in gallery.curators);
       }
 
       allow create: if request.auth != null;
@@ -19,8 +19,8 @@ service cloud.firestore {
       // 2) The requestor is the owner or a collaborator
       // 3) The requestor is a curator or creator of the gallery that the project is in, so all gallery projects are readable.
       allow read: if 
-        ('public' in resource.data && resource.data.public) || 
-        (request.auth != null && 
+        (resource.data != null && 'public' in resource.data && resource.data.public) || 
+        (resource.data != null && request.auth != null && 
           ( 
             ("mod" in request.auth.token && request.auth.token.mod) ||
             ('owner' in resource.data && resource.data.owner == request.auth.uid) || 
@@ -43,7 +43,7 @@ service cloud.firestore {
     }
     match /galleries/{gallery} {
       allow create: if request.auth != null;
-      allow read: if ("public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
+      allow read: if (resource.data != null && "public" in resource.data && resource.data.public) || (request.auth != null && (request.auth.uid in resource.data.curators || request.auth.uid in resource.data.creators));
       
       allow update: 
         if request.auth != null && 
@@ -59,6 +59,12 @@ service cloud.firestore {
             )
           );
       allow delete: if request.auth != null && request.auth.uid in resource.data.curators;
+    }
+    match /chats/{chat} {
+      // Anyone logged in can create chats
+      allow create: if request.auth != null;
+      // Participants can read, update, and delete chats
+      allow read, update, delete: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
     }
   }
 }
