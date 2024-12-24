@@ -4646,6 +4646,55 @@
                     "new": "Create a class"
                 }
             },
+            "newclass": {
+                "header": "New class",
+                "subheader": {
+                    "class": "Your class",
+                    "students": "Your students",
+                    "credentials": "Usernames and passwords",
+                    "submit": "Submit"
+                },
+                "prompt": {
+                    "start": "Create a new class to manage student accounts and projects.",
+                    "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
+                    "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe."
+                },
+                "field": {
+                    "name": {
+                        "description": "class name",
+                        "placeholder": "a short name"
+                    },
+                    "description": {
+                        "description": "description",
+                        "placeholder": "a description of your class, for you and your students."
+                    },
+                    "metadata": {
+                        "description": "student information",
+                        "placeholder": "e.g., student id, family name, given name",
+                        "note": "You can provide *any information* about students that you like. We will only use it to generate usernames and passwords for their accounts and to help you associate usernames to learners."
+                    },
+                    "words": {
+                        "description": "words to use in passwords",
+                        "placeholder": "e.g., cat dot rat...",
+                        "note": "Provide at least *25 words* randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
+                    },
+                    "edit": {
+                        "label": "edit",
+                        "tip": "edit the generated student information"
+                    },
+                    "submit": {
+                        "label": "create class",
+                        "tip": "Create a new class with this information."
+                    }
+                },
+                "error": {
+                    "empty": "Your list of students is empty.",
+                    "duplicates": "There are duplicate entries in the student information.",
+                    "columns": "Ensure each student has the same number of columns.",
+                    "limit": "You can't crete a class of more than 35 students at a time.",
+                    "words": "Provide at least 25 words."
+                }
+            },
             "guide": {
                 "header": "Guide",
                 "description": "This is a reference for every part of the Wordplay programming language. Search for a concept or browse the list to learn more."

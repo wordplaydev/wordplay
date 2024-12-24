@@ -10024,6 +10024,7 @@
                   ],
                   "type": "object"
                 },
+                "newclass": {},
                 "projects": {
                   "additionalProperties": false,
                   "description": "The project creation and browsing page",
@@ -10286,6 +10287,7 @@
                 "landing",
                 "learn",
                 "teach",
+                "newclass",
                 "guide",
                 "projects",
                 "galleries",

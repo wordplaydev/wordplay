@@ -47,8 +47,7 @@
     let width = $state(0);
 
     function handleInput() {
-        if (changed && (validator === undefined || validator(text) === true))
-            changed(text);
+        if (changed) changed(text);
 
         // Restore input
         tick().then(() => {
@@ -168,6 +167,8 @@
 
     input::placeholder {
         font-family: var(--wordplay-app-font);
+        font-style: italic;
+        color: var(--wordplay-inactive-color);
     }
 
     .measurer {

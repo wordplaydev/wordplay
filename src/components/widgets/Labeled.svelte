@@ -1,11 +1,18 @@
 <script lang="ts">
     import { type Snippet } from 'svelte';
 
-    const { label, children }: { label: string; children: Snippet } = $props();
+    const {
+        label,
+        children,
+        /** A CSS width to apply to the label */
+        fixed = '',
+    }: { label: string; children: Snippet; fixed?: string } = $props();
 </script>
 
 <label for="">
-    <span class="label">{label}</span>
+    <span class="label" class:fixed={fixed !== ''} style:min-width={fixed}
+        >{label}</span
+    >
     {@render children()}
 </label>
 
@@ -23,5 +30,9 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+    }
+
+    .fixed {
+        display: inline-block;
     }
 </style>

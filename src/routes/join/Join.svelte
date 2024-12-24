@@ -16,6 +16,7 @@
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import Header from '@components/app/Header.svelte';
+    import checkUsername from './checkUsername';
 
     let username = $state('');
     let password = $state('');
@@ -62,15 +63,6 @@
             }
         }
     }
-
-    async function checkUsername(name: string) {
-        if (functions === undefined) return;
-        const wordplayEmail = Creator.usernameEmail(name);
-
-        // Get missing info.
-        const emailExists = httpsCallable<string>(functions, 'emailExists');
-        available = (await emailExists(wordplayEmail)).data === false;
-    }
 </script>
 
 <Header>{$locales.get((l) => l.ui.page.join.header)}</Header>
@@ -96,7 +88,7 @@
             bind:text={username}
             editable={!loading}
             validator={(text) => isValidUsername(text)}
-            done={(text) => checkUsername(text)}
+            done={async (text) => (available = await checkUsername(text))}
         />
     </p>
     {#if available === false}

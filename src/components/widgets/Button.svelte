@@ -142,6 +142,10 @@
         color: var(--wordplay-inactive-color);
     }
 
+    .background[aria-disabled='true'] {
+        background: var(--wordplay-alternating-color);
+    }
+
     button:focus {
         background: var(--wordplay-focus-color);
         color: var(--wordplay-background);

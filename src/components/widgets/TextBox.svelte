@@ -5,14 +5,16 @@
         text: string;
         description: string;
         placeholder: string;
-        done: (text: string) => void;
+        active?: boolean;
+        done?: (text: string) => void;
     }
 
     let {
         text = $bindable(),
         description,
         placeholder,
-        done
+        done = undefined,
+        active = true,
     }: Props = $props();
 
     let view: HTMLTextAreaElement | undefined = $state();
@@ -33,7 +35,9 @@
     {placeholder}
     bind:value={text}
     bind:this={view}
-    onblur={() => done(text)}
+    aria-disabled={!active}
+    disabled={!active}
+    onblur={() => (done ? done(text) : undefined)}
     oninput={resize}
 ></textarea>
 
@@ -44,7 +48,7 @@
         border: none;
         border-left: var(--wordplay-focus-width) solid
             var(--wordplay-inactive-color);
-        padding: var(--wordplay-spacing);
+        padding-left: var(--wordplay-spacing);
         width: 100%;
         resize: none;
         background: var(--wordplay-background);
@@ -54,5 +58,15 @@
     textarea:focus {
         outline: none;
         border-left-color: var(--wordplay-focus-color);
+    }
+
+    textarea::placeholder {
+        font-style: italic;
+        color: var(--wordplay-inactive-color);
+        font-family: var(--wordplay-app-font);
+    }
+
+    textarea[aria-disabled='true'] {
+        background: var(--wordplay-inactive-color);
     }
 </style>
