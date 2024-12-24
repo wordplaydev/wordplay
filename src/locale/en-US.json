@@ -4657,6 +4657,8 @@
                 "prompt": {
                     "start": "Create a new class to manage student accounts and projects.",
                     "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
+                    "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
+                    "pending": "Generating usernames and passwords...",
                     "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe."
                 },
                 "field": {
@@ -4678,6 +4680,10 @@
                         "placeholder": "e.g., cat dot rat...",
                         "note": "Provide at least *25 words* randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
                     },
+                    "generate": {
+                        "label": "generate",
+                        "tip": "Create usernames and passwords based on the information above."
+                    },
                     "edit": {
                         "label": "edit",
                         "tip": "edit the generated student information"
@@ -4691,6 +4697,8 @@
                     "empty": "Your list of students is empty.",
                     "duplicates": "There are duplicate entries in the student information.",
                     "columns": "Ensure each student has the same number of columns.",
+                    "generate": "Unable to create unique usernames.",
+                    "taken": "One or more usernames above is taken",
                     "limit": "You can't crete a class of more than 35 students at a time.",
                     "words": "Provide at least 25 words."
                 }

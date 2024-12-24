@@ -93,9 +93,9 @@
             changed={() => {
                 if (available === false) available = undefined;
             }}
-            done={async (text) => {
+            dwelled={async (text) => {
                 checkingUsername = true;
-                available = await usernameAccountExists(text);
+                available = (await usernameAccountExists(text)) === false;
                 checkingUsername = false;
             }}
         />

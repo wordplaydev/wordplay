@@ -1,13 +1,15 @@
+import { usernameAccountExists, usernamesExist } from '@db/accountExists';
+import { Creator } from '@db/CreatorDatabase';
 import { UsernameLength } from '@db/isValidUsername';
 import NumberGenerator from 'recoverable-random';
 
 export type Credentials = { username: string; password: string };
 export type StudentWithCredentials = Credentials & { meta: string[] };
 
-export function createCredentials(
+export async function createCredentials(
     students: string[][],
     secrets: string[],
-): Credentials[] {
+): Promise<Credentials[] | undefined> {
     const credentials: Credentials[] = [];
 
     // A recoverable random number generate that we use to create stable usernames and passwords during editing.
@@ -29,6 +31,8 @@ export function createCredentials(
             .toLowerCase();
         let username = originalUsername;
         let usernameCount = 0;
+
+        // Keep searching for a user name that we haven't already chosen and is of sufficient length.
         while (
             credentials.some((c) => c.username === username) ||
             username.length < UsernameLength
@@ -59,7 +63,32 @@ export function createCredentials(
             password = randomPassword();
         }
 
+        // Add the credential we created.
         credentials.push({ username, password });
+    }
+
+    // Now that we have some proposed usernames and passwords, we need to make sure they are unique in Firebase Auth.
+    // We do this in bulk to avoid hitting the server too much.
+    const existsByEmail = await usernamesExist(
+        credentials.map((c) => c.username),
+    );
+    if (existsByEmail === undefined) return undefined;
+    // If the username already exists, we need to generate a new one.
+    for (const [email, exists] of Object.entries(existsByEmail)) {
+        if (exists) {
+            // Get the username back from the email.
+            const username = Creator.getUsername(email);
+            let revisedUsername = username;
+            // Keep adding a number to the end until we find a unique username.
+            let usernameCount = 0;
+            while (await usernameAccountExists(username)) {
+                usernameCount++;
+                revisedUsername = username + usernameCount;
+            }
+            // Update the usernmame.
+            const index = credentials.findIndex((c) => c.username === username);
+            if (index >= 0) credentials[index].username = revisedUsername;
+        }
     }
 
     return credentials;

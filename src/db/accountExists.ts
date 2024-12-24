@@ -16,7 +16,7 @@ export async function emailAccountExists(email: string) {
         'emailExists',
     );
     const { data } = await emailExists([email]);
-    return data !== undefined && data[email] === false;
+    return data !== undefined && data[email] === true;
 }
 
 export async function usernamesExist(usernames: string[]) {

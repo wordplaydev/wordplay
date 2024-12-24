@@ -17,6 +17,10 @@
             start: string;
             /** Prompt review of the genrated students.*/
             review: string;
+            /** What to say before there are any generated credentials. */
+            ready: string;
+            /** When generating usernames and passwords */
+            pending: string;
             /** Whether to edit the generated accounts */
             edit: string;
             /** Ready to submit instructions */
@@ -31,10 +35,14 @@
             metadata: FieldText & { note: string };
             /** The password words field */
             words: FieldText & { note: string };
+            /** The generate credentials button */
+            generate: ButtonText;
             /** The submit button */
             submit: ButtonText;
             /** The edit button */
             edit: ButtonText;
+            /** The done editing button */
+            done: ButtonText;
         };
         error: {
             /** Empty metadata */
@@ -43,6 +51,10 @@
             columns: string;
             /** Duplicate columns */
             duplicates: string;
+            /** A problem generating usernames */
+            generate: string;
+            /** A user name is taken */
+            taken: string;
             /** Too many users */
             limit: string;
             /** Not enough words */
@@ -64,19 +76,27 @@
     import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
     import {
         createCredentials,
-        type Credentials,
         type StudentWithCredentials,
     } from '../credentials';
     import Subheader from '@components/app/Subheader.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { UsernameLength } from '@db/isValidUsername';
     import { PasswordLength } from '../../login/IsValidPassword';
+    import { usernameAccountExists } from '@db/accountExists';
 
     let name = $state('');
     let description = $state('');
-    let metadata = $state('');
-    let words = $state('');
+    // For testing
+    let metadata = $state('amy, 5\nbryan, 10\nbob, 15\ndeann, 20');
+    let words = $state(
+        'waffle pickle almond kiwi saffron tofu marshmallow cinnamon licorice anchovy fig basil tapioca clam guava radish quince oat tamarind dill apricot wasabi persimmon millet truffle',
+    );
+    // let metadata = $state('');
+    // let words = $state(
+    //     '',
+    // );
     let editing = $state(false);
+    let usernamesTaken = $state<string[]>([]);
     let editedStudents = $state<undefined | StudentWithCredentials[]>(
         undefined,
     );
@@ -98,20 +118,28 @@
 
     let secrets = $derived(words.split(/\s+/));
     let wordsProblem = $derived(secrets.length < 25);
+    let generateProblem = $state(false);
 
     let students = $derived(trimmed.map((line) => line.split(',')));
 
-    let generatedStudents: StudentWithCredentials[] = $derived.by(() => {
-        const credentials = createCredentials(students, secrets);
+    let generatedStudents: StudentWithCredentials[] | undefined =
+        $state(undefined);
 
-        return students.map((student, index) => {
+    async function generate() {
+        const credentials = await createCredentials(students, secrets);
+        if (credentials === undefined) {
+            generateProblem = true;
+            return;
+        }
+
+        generatedStudents = students.map((student, index) => {
             return {
                 username: credentials[index]?.username ?? '',
                 password: credentials[index]?.password ?? '',
                 meta: student,
             };
         });
-    });
+    }
 
     let finalStudents = $derived(editedStudents ?? generatedStudents);
 
@@ -205,7 +233,7 @@
                 bind:text={words}
             ></LabeledTextbox>
 
-            {#if wordsProblem !== undefined}
+            {#if wordsProblem}
                 <Feedback>
                     {$locales.get((l) => l.ui.page.newclass.error.words)}
                 </Feedback>
@@ -216,7 +244,34 @@
                     (l) => l.ui.page.newclass.subheader.credentials,
                 )}</Subheader
             >
-            {#if students.length > 0}
+            {#if generatedStudents === undefined}
+                <MarkupHtmlView
+                    markup={$locales.get(
+                        (l) => l.ui.page.newclass.prompt.ready,
+                    )}
+                />
+
+                <Centered>
+                    <Button
+                        background
+                        tip={$locales.get(
+                            (l) => l.ui.page.newclass.field.generate.tip,
+                        )}
+                        action={generate}
+                        active={metadataProblem === undefined && !wordsProblem}
+                    >
+                        {$locales.get(
+                            (l) => l.ui.page.newclass.field.generate.label,
+                        )}</Button
+                    >
+                </Centered>
+
+                {#if generateProblem}
+                    <Feedback>
+                        {$locales.get((l) => l.ui.page.newclass.error.generate)}
+                    </Feedback>
+                {/if}
+            {:else}
                 <MarkupHtmlView
                     markup={$locales.get(
                         (l) => l.ui.page.newclass.prompt.review,
@@ -230,12 +285,15 @@
                             (l) => l.ui.page.newclass.field.edit.tip,
                         )}
                         action={() => {
+                            if (generatedStudents === undefined) return;
                             editing = true;
                             editedStudents = generatedStudents.map((s) => {
                                 return { ...s };
                             });
                         }}
-                        active={generatedStudents.length > 0 && !editing}
+                        active={generatedStudents !== undefined &&
+                            generatedStudents.length > 0 &&
+                            !editing}
                     >
                         {$locales.get(
                             (l) => l.ui.page.newclass.field.edit.label,
@@ -243,98 +301,128 @@
                     >
                 </Centered>
 
-                <table>
-                    <thead>
-                        <tr>
-                            {#each students[0]}
-                                <td></td>
-                            {/each}
-                            <th
-                                >{$locales.get(
-                                    (l) =>
-                                        l.ui.page.login.field.username
-                                            .placeholder,
-                                )}</th
-                            >
-                            <th
-                                >{$locales.get(
-                                    (l) =>
-                                        l.ui.page.login.field.password
-                                            .placeholder,
-                                )}</th
-                            >
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {#each generatedStudents as student, studentIndex}
-                            {@const columns = student.meta.length}
+                {@const taken = finalStudents
+                    ?.filter((s) => usernamesTaken.includes(s.username))
+                    .map((s) => s.username)}
+                {#if taken !== undefined && taken.length > 0}
+                    <Feedback
+                        >{$locales.get((l) => l.ui.page.newclass.error.taken)}:
+                        <em>{taken.join(', ')}</em></Feedback
+                    >
+                {/if}
+
+                {#if generatedStudents !== undefined && finalStudents !== undefined}
+                    <table>
+                        <thead>
                             <tr>
-                                {#each student.meta as cell, columnIndex}
+                                {#each students[0]}
+                                    <td></td>
+                                {/each}
+                                <th
+                                    >{$locales.get(
+                                        (l) =>
+                                            l.ui.page.login.field.username
+                                                .placeholder,
+                                    )}</th
+                                >
+                                <th
+                                    >{$locales.get(
+                                        (l) =>
+                                            l.ui.page.login.field.password
+                                                .placeholder,
+                                    )}</th
+                                >
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {#each generatedStudents as student, studentIndex}
+                                {@const columns = student.meta.length}
+                                <tr>
+                                    {#each student.meta as cell, columnIndex}
+                                        <td
+                                            >{#if editing}
+                                                <TextField
+                                                    description=""
+                                                    placeholder=""
+                                                    text={editedStudents !==
+                                                    undefined
+                                                        ? editedStudents[
+                                                              studentIndex
+                                                          ].meta[columnIndex]
+                                                        : cell}
+                                                    changed={(text) =>
+                                                        editedStudents
+                                                            ? (editedStudents[
+                                                                  studentIndex
+                                                              ].meta[
+                                                                  columnIndex
+                                                              ] = text)
+                                                            : undefined}
+                                                ></TextField>
+                                            {:else}{cell}
+                                            {/if}</td
+                                        >
+                                    {/each}
                                     <td
                                         >{#if editing}
                                             <TextField
                                                 description=""
                                                 placeholder=""
-                                                text={editedStudents !==
-                                                undefined
-                                                    ? editedStudents[
-                                                          studentIndex
-                                                      ].meta[columnIndex]
-                                                    : cell}
+                                                text={finalStudents[
+                                                    studentIndex
+                                                ].username}
+                                                validator={(text) =>
+                                                    !usernamesTaken.includes(
+                                                        text,
+                                                    )}
+                                                changed={(text) => {
+                                                    // Update the username after it's changed.
+                                                    editedStudents
+                                                        ? (editedStudents[
+                                                              studentIndex
+                                                          ].username = text)
+                                                        : undefined;
+                                                }}
+                                                dwelled={async (username) => {
+                                                    // After done editing, check if the username is taken.
+                                                    if (
+                                                        await usernameAccountExists(
+                                                            username,
+                                                        )
+                                                    )
+                                                        usernamesTaken.push(
+                                                            username,
+                                                        );
+                                                }}
+                                            ></TextField>
+                                        {:else}{finalStudents[studentIndex]
+                                                .username}
+                                        {/if}</td
+                                    >
+                                    <td
+                                        >{#if editing}
+                                            <TextField
+                                                description=""
+                                                placeholder=""
+                                                text={finalStudents[
+                                                    studentIndex
+                                                ].password}
                                                 changed={(text) =>
                                                     editedStudents
                                                         ? (editedStudents[
                                                               studentIndex
-                                                          ].meta[columnIndex] =
-                                                              text)
+                                                          ].password = text)
                                                         : undefined}
                                             ></TextField>
-                                        {:else}{cell}
+                                        {:else}{finalStudents[studentIndex]
+                                                .password}
                                         {/if}</td
                                     >
-                                {/each}
-                                <td
-                                    >{#if editing}
-                                        <TextField
-                                            description=""
-                                            placeholder=""
-                                            text={finalStudents[studentIndex]
-                                                .username}
-                                            changed={(text) =>
-                                                editedStudents
-                                                    ? (editedStudents[
-                                                          studentIndex
-                                                      ].username = text)
-                                                    : undefined}
-                                        ></TextField>
-                                    {:else}{finalStudents[studentIndex]
-                                            .username}
-                                    {/if}</td
-                                >
-                                <td
-                                    >{#if editing}
-                                        <TextField
-                                            description=""
-                                            placeholder=""
-                                            text={finalStudents[studentIndex]
-                                                .password}
-                                            changed={(text) =>
-                                                editedStudents
-                                                    ? (editedStudents[
-                                                          studentIndex
-                                                      ].password = text)
-                                                    : undefined}
-                                        ></TextField>
-                                    {:else}{finalStudents[studentIndex]
-                                            .password}
-                                    {/if}</td
-                                >
-                            </tr>
-                        {/each}
-                    </tbody>
-                </table>
-            {:else}
-                —
+                                </tr>
+                            {/each}
+                        </tbody>
+                    </table>
+                {/if}
             {/if}
 
             <Subheader
@@ -356,10 +444,12 @@
                     action={submit}
                     active={name.length > 0 &&
                         description.length > 0 &&
+                        finalStudents !== undefined &&
                         finalStudents.length > 0 &&
                         finalStudents.every(
                             (s) =>
                                 s.username.length >= UsernameLength &&
+                                !usernamesTaken.includes(s.username) &&
                                 s.password.length >= PasswordLength,
                         )}
                 >
