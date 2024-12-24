@@ -11,12 +11,11 @@
     import Button from '@components/widgets/Button.svelte';
     import isValidUsername from '@db/isValidUsername';
     import { goto } from '$app/navigation';
-    import { httpsCallable } from 'firebase/functions';
     import Feedback from '@components/app/Feedback.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import Header from '@components/app/Header.svelte';
-    import checkUsername from './checkUsername';
+    import { usernameAccountExists } from '../../db/accountExists';
 
     let username = $state('');
     let password = $state('');
@@ -26,6 +25,9 @@
 
     /** When true, login submission button shows loading spinner */
     let loading = $state(false);
+
+    /** When true, checking if username exists */
+    let checkingUsername = $state(false);
 
     /** Feedback to show in the login form */
     let feedback: string | undefined = $state(undefined);
@@ -88,10 +90,18 @@
             bind:text={username}
             editable={!loading}
             validator={(text) => isValidUsername(text)}
-            done={async (text) => (available = await checkUsername(text))}
+            changed={() => {
+                if (available === false) available = undefined;
+            }}
+            done={async (text) => {
+                checkingUsername = true;
+                available = await usernameAccountExists(text);
+                checkingUsername = false;
+            }}
         />
     </p>
-    {#if available === false}
+    {#if checkingUsername}<Spinning></Spinning>
+    {:else if available === false}
         <Feedback>This username is taken.</Feedback>
     {/if}
 

@@ -8,6 +8,7 @@ import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { PromisePool } from '@supercharge/promise-pool';
 import Translate from '@google-cloud/translate';
+import { type EmailExistsArgs, type EmailExistsResponse } from './types';
 
 initializeApp();
 const db = getFirestore();
@@ -29,15 +30,27 @@ export const getCreators = onCall<UserIdentifier[]>(
     },
 );
 
-export const emailExists = onCall<string>(async (request): Promise<boolean> => {
+/** Given a list of email addresses, return a map email => boolean indicating whether there is a corresponding account exists. Maximum of 100.*/
+export const emailExists = onCall<
+    EmailExistsArgs,
+    Promise<EmailExistsResponse>
+>(async (request) => {
+    const emails = request.data;
     return admin
         .auth()
-        .getUserByEmail(request.data)
-        .then(() => {
-            return true;
+        .getUsers(
+            emails.map((e) => {
+                return { email: e };
+            }),
+        )
+        .then(({ users }) => {
+            const found: Record<string, boolean> = {};
+            for (const email of emails)
+                found[email] = users.some((u) => u.email === email);
+            return found;
         })
         .catch(() => {
-            return false;
+            return undefined;
         });
 });
 

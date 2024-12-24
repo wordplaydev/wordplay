@@ -22,8 +22,8 @@
     import { onMount } from 'svelte';
     import { logEvent } from 'firebase/analytics';
     import Note from '@components/widgets/Note.svelte';
-    import { httpsCallable } from 'firebase/functions';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { emailAccountExists } from '../../db/accountExists';
 
     /** The username typed into the text field */
     let username = $state('');
@@ -77,8 +77,7 @@
             loading = true;
 
             // Get missing info.
-            const emailExists = httpsCallable<string>(functions, 'emailExists');
-            const exists = (await emailExists(email)).data;
+            const exists = await emailAccountExists(email);
 
             try {
                 /** If the account doesn't exist, do nothing */
