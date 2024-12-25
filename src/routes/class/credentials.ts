@@ -41,26 +41,33 @@ export async function createCredentials(
             username = originalUsername + usernameCount;
         }
 
-        function randomWord() {
-            return secrets[
-                Math.min(
-                    secrets.length - 1,
-                    Math.max(
-                        0,
-                        Math.floor(random.random(0, secrets.length - 1)),
-                    ),
-                )
-            ];
+        function randomWord(current: string) {
+            let pick = '';
+            do {
+                pick =
+                    secrets[
+                        Math.min(
+                            secrets.length - 1,
+                            Math.max(
+                                0,
+                                Math.floor(
+                                    random.random(0, secrets.length - 1),
+                                ),
+                            ),
+                        )
+                    ];
+            } while (current.includes(pick));
+            return pick;
         }
-        function randomPassword() {
+        function randomPassword(current: string) {
             let pass = '';
-            while (pass.length < 12) pass += randomWord();
+            while (pass.length < 12) pass += randomWord(current);
             return pass;
         }
 
-        let password = randomPassword();
+        let password = randomPassword('');
         while (credentials.some((c) => c.password === password)) {
-            password = randomPassword();
+            password = randomPassword(password);
         }
 
         // Add the credential we created.

@@ -2,8 +2,8 @@
 // /src/functions/types.ts and /src/db/functions.ts any time you modify them.
 
 // FUNCTION emailExists
-export type EmailExistsArgs = string[];
-export type EmailExistsResponse = Record<string, boolean> | undefined;
+export type EmailExistsInputs = string[];
+export type EmailExistsOutput = Record<string, boolean> | undefined;
 
 export type CreateClassInputs = {
     /** The uid of the teacher that should be the curator of the gallery created. */
@@ -21,15 +21,13 @@ export type CreateClassInputs = {
 };
 
 // FUNCTION createClass
-export type CreateClassError = { kind: 'account'; info: string };
+export type CreateClassError = {
+    kind: 'account' | 'limit' | 'generic';
+    info: string;
+};
 export type CreateClassOutput = {
     /** The ID of the class created */
     classid: string | undefined;
-    /** The uids of the students created */
-    students: {
-        username: string;
-        uid: string;
-    };
     /** Any errors returned by the function */
     error: undefined | CreateClassError;
 };

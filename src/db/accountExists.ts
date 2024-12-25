@@ -1,7 +1,10 @@
 import { Creator } from '@db/CreatorDatabase';
 import { functions } from '@db/firebase';
 import { httpsCallable } from 'firebase/functions';
-import { type EmailExistsArgs, type EmailExistsResponse } from '@db/functions';
+import {
+    type EmailExistsInputs,
+    type EmailExistsOutput,
+} from '@db/function-types';
 
 export async function usernameAccountExists(name: string) {
     const wordplayEmail = Creator.usernameEmail(name);
@@ -11,7 +14,7 @@ export async function usernameAccountExists(name: string) {
 export async function emailAccountExists(email: string) {
     if (functions === undefined) return;
     // Ask the server about the account.
-    const emailExists = httpsCallable<EmailExistsArgs, EmailExistsResponse>(
+    const emailExists = httpsCallable<EmailExistsInputs, EmailExistsOutput>(
         functions,
         'emailExists',
     );
@@ -24,7 +27,7 @@ export async function usernamesExist(usernames: string[]) {
 
     const emails = usernames.map((name) => Creator.usernameEmail(name));
 
-    const emailExists = httpsCallable<EmailExistsArgs, EmailExistsResponse>(
+    const emailExists = httpsCallable<EmailExistsInputs, EmailExistsOutput>(
         functions,
         'emailExists',
     );

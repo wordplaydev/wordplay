@@ -4661,7 +4661,7 @@
                     "pending": "Generating usernames and passwords...",
                     "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe.",
                     "submitting": "Requesting new accounts with the usernames and passwords above...",
-                    "download": "Your class is ready! Download the usernames and passwords below. You will not be able to download these later, and passwords are *not recoverable*, so keep them somewhere safe."
+                    "download": "Your class is ready! You should see a download of your student data in your download folder. *Passwords are not recoverable*, so keep this file somewhere safe!"
                 },
                 "field": {
                     "name": {
@@ -4703,7 +4703,8 @@
                     "taken": "One or more usernames above is taken",
                     "limit": "You can't crete a class of more than 35 students at a time.",
                     "words": "Provide at least 25 words.",
-                    "account": "Unable to create some of the accounts."
+                    "account": "Unable to create some of the accounts.",
+                    "generic": "We couldn't create the class. Here's some information to help developers figure out what went wrong."
                 }
             },
             "guide": {

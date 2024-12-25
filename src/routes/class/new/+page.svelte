@@ -65,8 +65,12 @@
             words: string;
             /** Couldn't create one or more accounts */
             account: string;
+            /** Generic error for developers to inspect */
+            generic: string;
         };
     };
+
+    export const MAX_CLASS_SIZE = 50;
 </script>
 
 <script lang="ts">
@@ -95,21 +99,20 @@
         CreateClassError,
         CreateClassInputs,
         CreateClassOutput,
-    } from '@db/functions';
+    } from '@db/function-types';
     import { getUser } from '@components/project/Contexts';
     import Link from '@components/app/Link.svelte';
+    import { Creator } from '@db/CreatorDatabase';
 
     let name = $state('');
     let description = $state('');
-    // For testing
-    let metadata = $state('amy, 5\nbryan, 10\nbob, 15\ndeann, 20');
+    // Some testing data
+    let metadata = $state('name1, 5\nname2, 10\nname3, 15\nname4, 20');
     let words = $state(
         'waffle pickle almond kiwi saffron tofu marshmallow cinnamon licorice anchovy fig basil tapioca clam guava radish quince oat tamarind dill apricot wasabi persimmon millet truffle',
     );
     // let metadata = $state('');
-    // let words = $state(
-    //     '',
-    // );
+    // let words = $state('');
     let editing = $state(false);
     let usernamesTaken = $state<string[]>([]);
     let editedStudents = $state<undefined | StudentWithCredentials[]>(
@@ -173,8 +176,8 @@
         | undefined = $derived.by(() => {
         // Must have at least one
         if (trimmed.length === 0) return 'empty';
-        // Can't have more than 35.
-        if (trimmed.length > 35) return 'limit';
+        // Can't have more than ...
+        if (trimmed.length > MAX_CLASS_SIZE) return 'limit';
 
         // Must have the same number of columns in each line
         if (new Set(trimmed.map((line) => line.split(',').length)).size !== 1)
@@ -205,7 +208,13 @@
                 teacher: $user.uid,
                 name,
                 description,
-                students: finalStudents,
+                students: finalStudents.map((s) => {
+                    // Convert the username to an email
+                    return {
+                        ...s,
+                        username: Creator.usernameEmail(s.username),
+                    };
+                }),
             })
         ).data;
 
@@ -215,6 +224,26 @@
             createError = error;
         } else if (classid) {
             newClassID = classid;
+
+            // Create a CSV for download.
+            const csv =
+                `${finalStudents[0].meta.map(() => 'info').join(',')},username,password\n` +
+                finalStudents
+                    .map(
+                        (s) =>
+                            `${s.meta.join(',')},${s.username},${s.password}`,
+                    )
+                    .join('\n');
+            const blob = new Blob([csv], { type: 'text/csv;charset=utf-16' });
+            const url = URL.createObjectURL(blob);
+            var link = document.createElement('a');
+            link.setAttribute('href', url);
+            link.setAttribute('download', 'students.csv');
+            document.body.appendChild(link);
+            link.click(); // This triggers the download.
+            document.body.removeChild(link);
+
+            // Tell the UI that the download info is ready to show.
             download = true;
         }
     }
@@ -236,12 +265,14 @@
             <LabeledTextbox
                 {fixed}
                 texts={(l) => l.ui.page.newclass.field.name}
+                editable={!download}
                 bind:text={name}
             ></LabeledTextbox>
             <LabeledTextbox
                 box
                 {fixed}
                 texts={(l) => l.ui.page.newclass.field.description}
+                editable={!download}
                 bind:text={description}
             ></LabeledTextbox>
 
@@ -403,6 +434,8 @@
                                                               studentIndex
                                                           ].meta[columnIndex]
                                                         : cell}
+                                                    editable={!submitting &&
+                                                        !download}
                                                     changed={(text) =>
                                                         editedStudents
                                                             ? (editedStudents[
@@ -436,6 +469,8 @@
                                                           ].username = text)
                                                         : undefined;
                                                 }}
+                                                editable={!submitting &&
+                                                    !download}
                                                 dwelled={async (username) => {
                                                     // After done editing, check if the username is taken.
                                                     if (
@@ -460,6 +495,8 @@
                                                 text={finalStudents[
                                                     studentIndex
                                                 ].password}
+                                                editable={!submitting &&
+                                                    !download}
                                                 changed={(text) =>
                                                     editedStudents
                                                         ? (editedStudents[
@@ -495,7 +532,8 @@
                         (l) => l.ui.page.newclass.field.submit.tip,
                     )}
                     action={submit}
-                    active={!submitting &&
+                    active={!download &&
+                        !submitting &&
                         $user !== null &&
                         name.length > 0 &&
                         description.length > 0 &&
@@ -518,7 +556,7 @@
                 <Feedback
                     >{$locales.get(
                         (l) => l.ui.page.newclass.error[createError!.kind],
-                    )}</Feedback
+                    )}: {createError.info}</Feedback
                 >
             {/if}
             {#if download === true}

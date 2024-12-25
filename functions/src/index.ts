@@ -8,7 +8,12 @@ import { UserIdentifier } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import { PromisePool } from '@supercharge/promise-pool';
 import Translate from '@google-cloud/translate';
-import { type EmailExistsArgs, type EmailExistsResponse } from './types';
+import {
+    CreateClassInputs,
+    CreateClassOutput,
+    type EmailExistsInputs,
+    type EmailExistsOutput,
+} from './function-types';
 
 initializeApp();
 const db = getFirestore();
@@ -32,8 +37,8 @@ export const getCreators = onCall<UserIdentifier[]>(
 
 /** Given a list of email addresses, return a map email => boolean indicating whether there is a corresponding account exists. Maximum of 100.*/
 export const emailExists = onCall<
-    EmailExistsArgs,
-    Promise<EmailExistsResponse>
+    EmailExistsInputs,
+    Promise<EmailExistsOutput>
 >(async (request) => {
     const emails = request.data;
     return admin
@@ -174,4 +179,131 @@ export const purgeArchivedProjects = onSchedule('every day 00:00', async () => {
         .process(async (id) => {
             projectsRef.doc(id).delete();
         });
+});
+
+/**
+ * Given a teacher user ID, credential information for several students, and
+ * a name and description for a class, create a class and return it's ID
+ */
+export const createClass = onCall<
+    CreateClassInputs,
+    Promise<CreateClassOutput>
+>(async (request) => {
+    const auth = admin.auth();
+    const { teacher, name, description, students } = request.data;
+
+    // Make sure there aren't too many students.
+    if (students.length > 50)
+        return { classid: undefined, error: { kind: 'limit', info: '' } };
+
+    // Ensure the teacher is a valid user ID.
+    try {
+        await auth.getUser(teacher);
+    } catch (error) {
+        console.error(JSON.stringify(error));
+        return {
+            classid: undefined,
+            undefined,
+            error: {
+                kind: 'generic',
+                info: "The teacher user id provided doesn't exist",
+            },
+        };
+    }
+
+    // Ensure the students are the correct type
+    if (!Array.isArray(students)) {
+        console.error('Received', JSON.stringify(students));
+        return {
+            classid: undefined,
+            error: {
+                kind: 'generic',
+                info: `expected a list of students but received a ${typeof students}`,
+            },
+        };
+    }
+
+    const malformed = students.some(
+        (s) =>
+            typeof s.username !== 'string' ||
+            typeof s.password !== 'string' ||
+            !Array.isArray(s.meta),
+    );
+    if (malformed)
+        return {
+            classid: undefined,
+            error: {
+                kind: 'generic',
+                info: `expected students in the list to have a username, password, and list of text, received ${JSON.stringify(malformed)}`,
+            },
+        };
+
+    // Verify that none of the user accounts exist
+    try {
+        const result = await auth.getUsers(
+            students.map((s) => {
+                return { email: s.username };
+            }),
+        );
+        // If any users exist, then we bail.
+        if (result.users.length > 0)
+            return {
+                classid: undefined,
+                error: {
+                    kind: 'account',
+                    info: 'One or more students already have accounts',
+                },
+            };
+    } catch (err) {
+        return {
+            classid: undefined,
+            error: {
+                kind: 'generic',
+                info: `Unable to check for existing users: ${JSON.stringify(err)}`,
+            },
+        };
+    }
+
+    // Okay, we're ready to create the user accounts!
+    const users: { uid: string; username: string; meta: string[] }[] = [];
+    for (const student of students) {
+        try {
+            const user = await auth.createUser({
+                email: student.username,
+                password: student.password,
+            });
+            users.push({
+                uid: user.uid,
+                username: student.username,
+                meta: student.meta,
+            });
+        } catch (error) {
+            return {
+                classid: undefined,
+                error: {
+                    kind: 'generic',
+                    info: `Unable to create user: ${JSON.stringify(error)}`,
+                },
+            };
+        }
+    }
+
+    // Create the class
+    const classRef = db.collection('classes').doc();
+    await classRef.set({
+        name,
+        description,
+        teachers: [teacher],
+        learners: users.map((u) => u.uid),
+        // Convert the email address back to a username
+        info: users.map((u) => {
+            return { ...u, username: u.username.split('@')[0] };
+        }),
+        galleries: [],
+    });
+
+    return {
+        classid: classRef.id,
+        error: undefined,
+    };
 });
