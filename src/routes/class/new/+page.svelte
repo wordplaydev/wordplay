@@ -25,6 +25,10 @@
             edit: string;
             /** Ready to submit instructions */
             submit: string;
+            /** Submitting instructions */
+            submitting: string;
+            /** Download instructions */
+            download: string;
         };
         field: {
             /** The class name */
@@ -59,6 +63,8 @@
             limit: string;
             /** Not enough words */
             words: string;
+            /** Couldn't create one or more accounts */
+            account: string;
         };
     };
 </script>
@@ -83,6 +89,15 @@
     import { UsernameLength } from '@db/isValidUsername';
     import { PasswordLength } from '../../login/IsValidPassword';
     import { usernameAccountExists } from '@db/accountExists';
+    import { httpsCallable } from 'firebase/functions';
+    import { functions } from '@db/firebase';
+    import type {
+        CreateClassError,
+        CreateClassInputs,
+        CreateClassOutput,
+    } from '@db/functions';
+    import { getUser } from '@components/project/Contexts';
+    import Link from '@components/app/Link.svelte';
 
     let name = $state('');
     let description = $state('');
@@ -100,6 +115,8 @@
     let editedStudents = $state<undefined | StudentWithCredentials[]>(
         undefined,
     );
+
+    let user = getUser();
 
     const fixed = '9em';
 
@@ -124,6 +141,11 @@
 
     let generatedStudents: StudentWithCredentials[] | undefined =
         $state(undefined);
+
+    let submitting = $state(false);
+    let download = $state<boolean>(false);
+    let createError = $state<CreateClassError | undefined>(undefined);
+    let newClassID = $state<string | undefined>(undefined);
 
     async function generate() {
         const credentials = await createCredentials(students, secrets);
@@ -164,7 +186,38 @@
         return undefined;
     });
 
-    function submit() {}
+    async function submit() {
+        if (functions === undefined) return;
+        if ($user === null) return;
+        if (!finalStudents) return;
+
+        // Give some feedback about the async call.
+        submitting = true;
+
+        // Call the cloud function, which creates the accounts and the class document
+        // and gives us the new class and student uids back.
+        const createClass = httpsCallable<CreateClassInputs, CreateClassOutput>(
+            functions,
+            'createClass',
+        );
+        const { classid, error } = (
+            await createClass({
+                teacher: $user.uid,
+                name,
+                description,
+                students: finalStudents,
+            })
+        ).data;
+
+        submitting = false;
+
+        if (error) {
+            createError = error;
+        } else if (classid) {
+            newClassID = classid;
+            download = true;
+        }
+    }
 </script>
 
 <Writing>
@@ -442,7 +495,9 @@
                         (l) => l.ui.page.newclass.field.submit.tip,
                     )}
                     action={submit}
-                    active={name.length > 0 &&
+                    active={!submitting &&
+                        $user !== null &&
+                        name.length > 0 &&
                         description.length > 0 &&
                         finalStudents !== undefined &&
                         finalStudents.length > 0 &&
@@ -458,6 +513,24 @@
                     )}</Button
                 >
             </Centered>
+
+            {#if createError}
+                <Feedback
+                    >{$locales.get(
+                        (l) => l.ui.page.newclass.error[createError!.kind],
+                    )}</Feedback
+                >
+            {/if}
+            {#if download === true}
+                <MarkupHtmlView
+                    markup={$locales.get(
+                        (l) => l.ui.page.newclass.prompt.download,
+                    )}
+                />
+                <Centered>
+                    <Link to="/class/{newClassID}">{name}</Link>
+                </Centered>
+            {/if}
         </form>
     </TeachersOnly>
 </Writing>

@@ -4659,7 +4659,9 @@
                     "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
                     "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
                     "pending": "Generating usernames and passwords...",
-                    "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe."
+                    "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe.",
+                    "submitting": "Requesting new accounts with the usernames and passwords above...",
+                    "download": "Your class is ready! Download the usernames and passwords below. You will not be able to download these later, and passwords are *not recoverable*, so keep them somewhere safe."
                 },
                 "field": {
                     "name": {
@@ -4700,7 +4702,8 @@
                     "generate": "Unable to create unique usernames.",
                     "taken": "One or more usernames above is taken",
                     "limit": "You can't crete a class of more than 35 students at a time.",
-                    "words": "Provide at least 25 words."
+                    "words": "Provide at least 25 words.",
+                    "account": "Unable to create some of the accounts."
                 }
             },
             "guide": {
