@@ -107,12 +107,12 @@
     let name = $state('');
     let description = $state('');
     // Some testing data
-    let metadata = $state('name1, 5\nname2, 10\nname3, 15\nname4, 20');
-    let words = $state(
-        'waffle pickle almond kiwi saffron tofu marshmallow cinnamon licorice anchovy fig basil tapioca clam guava radish quince oat tamarind dill apricot wasabi persimmon millet truffle',
-    );
-    // let metadata = $state('');
-    // let words = $state('');
+    // let metadata = $state('name1, 5\nname2, 10\nname3, 15\nname4, 20');
+    // let words = $state(
+    //     'waffle pickle almond kiwi saffron tofu marshmallow cinnamon licorice anchovy fig basil tapioca clam guava radish quince oat tamarind dill apricot wasabi persimmon millet truffle',
+    // );
+    let metadata = $state('');
+    let words = $state('');
     let editing = $state(false);
     let usernamesTaken = $state<string[]>([]);
     let editedStudents = $state<undefined | StudentWithCredentials[]>(
