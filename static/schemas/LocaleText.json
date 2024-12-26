@@ -9456,6 +9456,7 @@
                   ],
                   "type": "object"
                 },
+                "class": {},
                 "donate": {
                   "additionalProperties": false,
                   "description": "Giving related text",
@@ -10288,6 +10289,7 @@
                 "learn",
                 "teach",
                 "newclass",
+                "class",
                 "guide",
                 "projects",
                 "galleries",

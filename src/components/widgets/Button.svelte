@@ -148,7 +148,6 @@
 
     button:focus {
         background: var(--wordplay-focus-color);
-        color: var(--wordplay-background);
         fill: var(--wordplay-background);
     }
 

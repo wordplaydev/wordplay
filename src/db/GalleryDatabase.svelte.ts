@@ -24,6 +24,7 @@ import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 import type { ProjectID } from '@models/ProjectSchemas';
 import { SvelteMap } from 'svelte/reactivity';
+import { getClass, setClass } from './TeacherDatabase.svelte';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -164,8 +165,13 @@ export default class GalleryDatabase {
         if (current) current.delete(listener);
     }
 
-    /** Create a new gallery with this user as its curator. */
-    async create(locales: Locales): Promise<string | undefined> {
+    /** Create a new gallery, with the given curators and creators, defaulting to the current user as curator and an empty list of creators.*/
+    async create(
+        locales: Locales,
+        curators?: string[],
+        creators?: string[],
+        classid?: string,
+    ): Promise<string | undefined> {
         const user = this.database.getUser();
         if (user === null) return undefined;
 
@@ -186,14 +192,25 @@ export default class GalleryDatabase {
             description,
             words: [],
             projects: [],
-            curators: [user.uid],
-            creators: [],
+            curators: curators ?? [user.uid],
+            creators: creators ?? [],
             public: false,
             featured: false,
         };
 
         // Save the gallery online, and then locally. Return when it's created.
         await this.edit(new Gallery(gallery));
+
+        // Update the class to reference the newly created gallery.
+        if (classid) {
+            const group = await getClass(classid);
+            if (group) {
+                await setClass({
+                    ...group,
+                    galleries: [...group.galleries, id],
+                });
+            } else console.error("Couldn't find class to update.");
+        }
 
         return id;
     }

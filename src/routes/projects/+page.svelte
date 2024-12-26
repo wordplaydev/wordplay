@@ -16,7 +16,6 @@
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
     import { getUser } from '@components/project/Contexts';
     import Feedback from '@components/app/Feedback.svelte';
-    import { get } from 'svelte/store';
     import Subheader from '@components/app/Subheader.svelte';
     import {
         CANCEL_SYMBOL,

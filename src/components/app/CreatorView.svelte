@@ -26,7 +26,9 @@
     >{#if creator}<span
             class="name"
             style:animation-delay={`${Math.random() * 1000}ms`}
-            >{creator.getName() ?? '😃'}</span
+            >{creator.getName() === null || creator.getName() === ''
+                ? '😃'
+                : creator.getName()}</span
         >{/if}{#if creator}
         {username.length < 10
             ? username

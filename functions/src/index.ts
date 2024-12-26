@@ -14,6 +14,7 @@ import {
     type EmailExistsInputs,
     type EmailExistsOutput,
 } from './function-types';
+import { randomUUID } from 'crypto';
 
 initializeApp();
 const db = getFirestore();
@@ -289,8 +290,10 @@ export const createClass = onCall<
     }
 
     // Create the class
+    const id = randomUUID();
     const classRef = db.collection('classes').doc();
     await classRef.set({
+        id,
         name,
         description,
         teachers: [teacher],

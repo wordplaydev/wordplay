@@ -3,7 +3,15 @@
 // more transactional model.
 
 import type { User } from 'firebase/auth';
-import { collection, getDocs, query, where } from 'firebase/firestore';
+import {
+    collection,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    setDoc,
+    where,
+} from 'firebase/firestore';
 import { firestore as db } from './firebase';
 import z from 'zod';
 
@@ -14,15 +22,15 @@ export const LearnerSchema = z.object({
     /** The username of the learner. */
     username: z.string(),
     /** The list of metadata provided by the teacher about the learner, to help them recognize the learner. */
-    metadata: z.array(z.string()),
+    meta: z.array(z.string()),
 });
 
 export type Learner = z.infer<typeof LearnerSchema>;
 
 /** Represents a class that that the teacher has created. */
 export const ClassSchema = z.object({
-    /** The unique ID of the class document */
-    id: z.string().uuid(),
+    /** The immutable, unique ID of the document */
+    id: z.string(),
     /** A short description of the class, to help the teacher recognize and distinguish it from other classes. */
     name: z.string(),
     /** A long description of the class, to help a teacher provide instructions and context to students. */
@@ -39,26 +47,49 @@ export const ClassSchema = z.object({
 
 export type Class = z.infer<typeof ClassSchema>;
 
+export const ClassesCollection = 'classes';
+
 /** Retrieve the classes for which the current user is a teacher or student */
 export async function getTeachersClasses(
     user: User,
-): Promise<Class[] | undefined> {
+): Promise<Map<string, Class> | undefined> {
     if (db === undefined) return undefined;
 
     const docs = await getDocs(
         query(
-            collection(db, 'classes'),
+            collection(db, ClassesCollection),
             where('teachers', 'array-contains', user.uid),
         ),
     );
-    const classes: Class[] = [];
+    const classes: Map<string, Class> = new Map();
     docs.forEach((doc) => {
         const potentialClass = doc.data();
         try {
-            classes.push(ClassSchema.parse(potentialClass));
+            classes.set(doc.id, ClassSchema.parse(potentialClass));
         } catch (e) {
-            console.error('Class had an invalid schema', potentialClass);
+            console.error('Class had an invalid schema', potentialClass, e);
         }
     });
     return classes;
+}
+
+export async function getClass(id: string) {
+    if (db === undefined) return undefined;
+
+    const ref = await getDoc(doc(db, ClassesCollection, id));
+
+    if (ref.exists()) {
+        try {
+            return ClassSchema.parse(ref.data());
+        } catch (err) {
+            console.error('Class had an invalid schema', err);
+            return undefined;
+        }
+    } else return undefined;
+}
+
+export async function setClass(group: Class) {
+    if (db === undefined) return undefined;
+
+    await setDoc(doc(db, ClassesCollection, group.id), group);
 }

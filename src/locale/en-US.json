@@ -4707,6 +4707,20 @@
                     "generic": "We couldn't create the class. Here's some information to help developers figure out what went wrong."
                 }
             },
+            "class": {
+                "header": "Class",
+                "subheader": {
+                    "teachers": "Teachers",
+                    "students": "Students",
+                    "galleries": "Galleries"
+                },
+                "prompt": {
+                    "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators."
+                },
+                "error": {
+                    "notfound": "We couldn't find this class or you don't have permission to view it."
+                }
+            },
             "guide": {
                 "header": "Guide",
                 "description": "This is a reference for every part of the Wordplay programming language. Search for a concept or browse the list to learn more."

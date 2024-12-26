@@ -17,8 +17,8 @@
     <title>{$locales.get((l) => l.ui.page.teach.header)}</title>
 </svelte:head>
 
-{#snippet classDetails(group: Class)}
-    <Link to="/class/{group.id}"><Subheader>{group.name}</Subheader></Link>
+{#snippet classDetails(id: string, group: Class)}
+    <Link to="/class/{id}"><Subheader>{group.name}</Subheader></Link>
     <p>{group.description}</p>
     <p
         >{#each { length: group.learners.length }}👤{/each}</p
@@ -37,7 +37,7 @@
                         )}
                     />
                 {:else}
-                    {#if classes.length === 0}
+                    {#if classes.size === 0}
                         <MarkupHtmlView
                             markup={$locales.get(
                                 (l) => l.ui.page.teach.prompt.none,
@@ -55,8 +55,8 @@
                             {$locales.get((l) => l.ui.page.teach.link.new)}
                         </Link>
                     </Centered>
-                    {#each classes as group}
-                        {@render classDetails(group)}
+                    {#each classes.entries() as [id, group]}
+                        {@render classDetails(id, group)}
                     {/each}
                 {/if}
             {:catch}

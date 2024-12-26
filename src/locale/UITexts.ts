@@ -1,5 +1,6 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
+import type { ClassText } from '../routes/class/[classid]/+page.svelte';
 import type { NewClassText } from '../routes/class/new/+page.svelte';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './LocaleText';
@@ -800,6 +801,7 @@ type UITexts = {
             };
         };
         newclass: NewClassText;
+        class: ClassText;
         guide: {
             /** The header for the guide page */
             header: string;
