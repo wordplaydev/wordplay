@@ -1,4 +1,5 @@
 <script module lang="ts">
+    /** The localization strings for the page. */
     export type NewClassText = {
         /** The header for the create class page */
         header: string;
@@ -70,7 +71,10 @@
         };
     };
 
+    /** The maximum number of students in a class. */
     export const MAX_CLASS_SIZE = 50;
+    /** The fixed width of the fields. */
+    const FieldLabelWidth = '9em';
 </script>
 
 <script lang="ts">
@@ -104,24 +108,36 @@
     import Link from '@components/app/Link.svelte';
     import { Creator } from '@db/CreatorDatabase';
 
+    /** The state to store the name of the class. */
     let name = $state('');
+
+    /** The state to store the description fo the class. */
     let description = $state('');
-    // Some testing data
-    // let metadata = $state('name1, 5\nname2, 10\nname3, 15\nname4, 20');
-    // let words = $state(
-    //     'waffle pickle almond kiwi saffron tofu marshmallow cinnamon licorice anchovy fig basil tapioca clam guava radish quince oat tamarind dill apricot wasabi persimmon millet truffle',
-    // );
+    /** The CSV text of the student metadata */
     let metadata = $state('');
+    /** The space separated list of words for generating passwords */
     let words = $state('');
+    /** Whether the generated usernames and passwords are being edited */
     let editing = $state(false);
+    /** The cache of usernames that are taken from our checks. */
     let usernamesTaken = $state<string[]>([]);
+    /** The edited student data, if the teacher chose to edit. */
     let editedStudents = $state<undefined | StudentWithCredentials[]>(
         undefined,
     );
+    /** Whether there is a problem with the generated usernames and passwords */
+    let generateProblem = $state(false);
+    /** Whether the form has been submitted */
+    let submitting = $state(false);
+    /** Whether the results have been returned and we're downloading them */
+    let download = $state<boolean>(false);
+    /** The error upon account creation */
+    let createError = $state<CreateClassError | undefined>(undefined);
+    /** The class ID created upon successful submission of the form */
+    let newClassID = $state<string | undefined>(undefined);
 
+    /** The teacher logged in */
     let user = getUser();
-
-    const fixed = '9em';
 
     // Trim all the cells for normalization and comparison.
     let trimmed = $derived(
@@ -136,21 +152,19 @@
             ),
     );
 
+    /** The secret words, converted into a list */
     let secrets = $derived(words.split(/\s+/));
+    /** Whether there is a probelm with the secret words */
     let wordsProblem = $derived(secrets.length < 25);
-    let generateProblem = $state(false);
-
+    /** The 2D array of student metadata, derived from the trimmed student data */
     let students = $derived(trimmed.map((line) => line.split(',')));
 
+    /** The generated student data */
     let generatedStudents: StudentWithCredentials[] | undefined =
         $state(undefined);
 
-    let submitting = $state(false);
-    let download = $state<boolean>(false);
-    let createError = $state<CreateClassError | undefined>(undefined);
-    let newClassID = $state<string | undefined>(undefined);
-
-    async function generate() {
+    /** A function to generate usernames and passwords using the form data*/
+    async function generateCredentials() {
         const credentials = await createCredentials(students, secrets);
         if (credentials === undefined) {
             generateProblem = true;
@@ -166,8 +180,10 @@
         });
     }
 
+    /** The final list of student data to use for submission; either the edited data, or the generated data. */
     let finalStudents = $derived(editedStudents ?? generatedStudents);
 
+    /** Whether there is a problem with the metadata, for displaying feedback */
     let metadataProblem:
         | 'empty'
         | 'columns'
@@ -175,9 +191,9 @@
         | 'limit'
         | undefined = $derived.by(() => {
         // Must have at least one
-        if (trimmed.length === 0) return 'empty';
+        if (students.length === 0) return 'empty';
         // Can't have more than ...
-        if (trimmed.length > MAX_CLASS_SIZE) return 'limit';
+        if (students.length > MAX_CLASS_SIZE) return 'limit';
 
         // Must have the same number of columns in each line
         if (new Set(trimmed.map((line) => line.split(',').length)).size !== 1)
@@ -189,6 +205,7 @@
         return undefined;
     });
 
+    /** Submit the final student data, creating the accounts and class document. */
     async function submit() {
         if (functions === undefined) return;
         if ($user === null) return;
@@ -263,14 +280,14 @@
                 )}</Subheader
             >
             <LabeledTextbox
-                {fixed}
+                fixed={FieldLabelWidth}
                 texts={(l) => l.ui.page.newclass.field.name}
                 editable={!download}
                 bind:text={name}
             ></LabeledTextbox>
             <LabeledTextbox
                 box
-                {fixed}
+                fixed={FieldLabelWidth}
                 texts={(l) => l.ui.page.newclass.field.description}
                 editable={!download}
                 bind:text={description}
@@ -290,7 +307,7 @@
 
             <LabeledTextbox
                 box
-                {fixed}
+                fixed={FieldLabelWidth}
                 editable={!editing}
                 texts={(l) => l.ui.page.newclass.field.metadata}
                 bind:text={metadata}
@@ -311,7 +328,7 @@
             ></MarkupHtmlView>
             <LabeledTextbox
                 box
-                {fixed}
+                fixed={FieldLabelWidth}
                 texts={(l) => l.ui.page.newclass.field.words}
                 editable={!editing}
                 bind:text={words}
@@ -341,7 +358,7 @@
                         tip={$locales.get(
                             (l) => l.ui.page.newclass.field.generate.tip,
                         )}
-                        action={generate}
+                        action={generateCredentials}
                         active={metadataProblem === undefined && !wordsProblem}
                     >
                         {$locales.get(
