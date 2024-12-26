@@ -1,57 +1,40 @@
-<!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
     import type Project from '@models/Project';
     import Evaluator from '@runtime/Evaluator';
-    import { Chats, DB, locales } from '../../db/Database';
+    import { DB, locales, Creators } from '../../db/Database';
     import { isAudience, isFlagged } from '../../models/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
-    import { navigating } from '$app/state';
+    import { navigating } from '$app/stores';
     import Spinning from './Spinning.svelte';
     import { toStage } from '@output/Stage';
-    import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
+    import { EXCEPTION_SYMBOL } from '@parser/Symbols';
     import Fonts from '@basis/Fonts';
     import { getFaceCSS } from '@output/outputToCSS';
     import UnicodeString from '@models/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import CreatorView from './CreatorView.svelte';
 
-    interface Props {
-        project: Project;
-        action?: (() => void) | undefined;
-        /** Whether to show the project's name. */
-        name?: boolean;
-        /** How many rems the preview square should be. */
-        size?: number;
-        /** The link to go to when clicked. If none is provided, goes to the project. */
-        link?: string | undefined;
-        children?: import('svelte').Snippet;
-    }
-
-    let {
-        project,
-        action = undefined,
-        name = true,
-        size = 6,
-        link = undefined,
-        children,
-    }: Props = $props();
+    export let project: Project;
+    export let action: (() => void) | undefined = undefined;
+    /** Whether to show the project's name. */
+    export let name = true;
+    /** How many rems the preview square should be. */
+    export let size = 6;
+    /** The link to go to when clicked. If none is provided, goes to the project. */
+    export let link: string | undefined = undefined;
 
     // Clone the project and get its initial value, then stop the project's evaluator.
-    type Preview = {
-        representativeForeground: string | null;
-        representativeBackground: string | null;
-        representativeFace: string | null;
-        representativeText: string;
-    };
+    let representativeForeground: string | null;
+    let representativeBackground: string | null;
+    let representativeFace: string | null;
+    let representativeText: string;
 
-    /** Derive the preview contents from the project by getting it's first value */
-    let {
-        representativeForeground,
-        representativeBackground,
-        representativeFace,
-        representativeText,
-    } = $derived.by(() => {
+    $: if (project) updatePreview();
+
+    $: path = link ?? project.getLink(true);
+
+    function updatePreview() {
         const evaluator = new Evaluator(
             project,
             DB,
@@ -63,43 +46,39 @@
         const stage = value ? toStage(evaluator, value) : undefined;
         if (stage && stage.face) Fonts.loadFace(stage.face);
 
-        return {
-            representativeFace: stage ? getFaceCSS(stage.face) : null,
-            representativeForeground: stage
-                ? (stage.pose.color?.toCSS() ?? null)
+        [
+            representativeFace,
+            representativeForeground,
+            representativeBackground,
+            representativeText,
+        ] = [
+            stage ? getFaceCSS(stage.face) : null,
+            stage
+                ? stage.pose.color?.toCSS() ?? null
                 : 'var(--wordplay-evaluation-color)',
-            representativeBackground: stage
+            stage
                 ? stage.back.toCSS()
                 : value instanceof ExceptionValue || value === undefined
                   ? 'var(--wordplay-error)'
                   : null,
-            representativeText: stage
+            stage
                 ? new UnicodeString(stage.getRepresentativeText($locales))
                       .substring(0, 1)
                       .toString()
                 : value
                   ? value.getRepresentativeText($locales)
                   : EXCEPTION_SYMBOL,
-        };
-    });
+        ];
+    }
 
     const user = getUser();
 
-    let path = $derived(link ?? project.getLink(true));
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
-    let audience = $derived(isAudience($user, project));
+    $: audience = isAudience($user, project);
 
-    let chat = $state<Chat | undefined>(undefined);
-    $effect(() => {
-        // When the project changes, get the chat, and mark read if it was unread.
-        Chats.getChat(project).then((retrievedChat) => {
-            if (retrievedChat) chat = retrievedChat;
-        });
-    });
-
-    let unread = $derived(
-        chat !== undefined && $user !== null && chat.hasUnread($user.uid),
-    );
+    // Get owner and collaborators
+    $: owner = project.getOwner();
+    //$: collaborators = project.getCollaborators();
 </script>
 
 <div class="project" class:named={name}>
@@ -110,9 +89,9 @@
         style:width={`${size}rem`}
         style:height={`${size}rem`}
         href={action ? undefined : path}
-        onclick={(event) =>
+        on:click={(event) =>
             action && event.button === 0 ? action() : undefined}
-        onkeydown={(event) =>
+        on:keydown={(event) =>
             action && (event.key === '' || event.key === 'Enter')
                 ? action()
                 : undefined}
@@ -130,17 +109,36 @@
         </div>
     </a>
     {#if name}
-        <div class="name"
-            >{#if action}{project.getName()}{:else}<Link to={path}
+        <div class="name">
+            {#if action}{project.getName()}{:else}<Link to={path}
                     >{#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
                         >{:else}
                         {project.getName()}{/if}</Link
-                >{#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
-                    <Spinning />{:else}{@render children?.()}{/if}{/if}
-            {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
-                >{/if}</div
-        >{/if}
+                >{#if $navigating && `${$navigating.to?.url.pathname}${$navigating.to?.url.search}` === path}
+                    <Spinning />{:else}<slot />{/if}{/if}
+            {#if owner}<p>Owner: {owner}</p>
+                {#await Creators.getCreator(owner)}
+                    <Spinning label="" />
+                {:then creator}
+                    <div class="creator-info">
+                        <CreatorView {creator} />
+                        <!--{#if collaborators.length > 0}
+                            <div class="collaborators">
+                                {#each collaborators as collaborator}
+                                    {#await Creators.getCreator(collaborator)}
+                                        <Spinning label="" />
+                                    {:then collaboratorCreator}
+                                        <CreatorView creator={collaboratorCreator} />
+                                    {/await}
+                                {/each}
+                            </div>
+                        {/if}-->
+                    </div>
+                {/await}
+            {/if}
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -209,15 +207,16 @@
         filter: blur(10px);
     }
 
-    .notification {
-        display: inline-block;
-        background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
-        align-self: flex-start;
-        border-radius: var(--wordplay-border-radius);
-        animation: bounce;
-        animation-duration: calc(var(--animation-factor) * 1000ms);
-        animation-delay: 0;
-        animation-iteration-count: infinite;
+    .creator-info {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        margin-top: var(--wordplay-spacing);
+    }
+
+    .collaborators {
+        display: flex;
+        flex-direction: column;
+        gap: calc(var(--wordplay-spacing) / 2);
     }
 </style>
