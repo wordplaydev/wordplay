@@ -13,7 +13,7 @@ import {
     CreateClassOutput,
     type EmailExistsInputs,
     type EmailExistsOutput,
-} from './function-types';
+} from './functions';
 import { randomUUID } from 'crypto';
 
 initializeApp();
@@ -191,7 +191,7 @@ export const createClass = onCall<
     Promise<CreateClassOutput>
 >(async (request) => {
     const auth = admin.auth();
-    const { teacher, name, description, students } = request.data;
+    const { teacher, name, description, students, existing } = request.data;
 
     // Make sure there aren't too many students.
     if (students.length > 50)
@@ -297,7 +297,7 @@ export const createClass = onCall<
         name,
         description,
         teachers: [teacher],
-        learners: users.map((u) => u.uid),
+        learners: [...existing, ...users.map((u) => u.uid)],
         // Convert the email address back to a username
         info: users.map((u) => {
             return { ...u, username: u.username.split('@')[0] };

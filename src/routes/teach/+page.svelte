@@ -13,8 +13,6 @@
     let teach = getTeachData();
 
     let classes = $derived(teach.getClasses());
-
-    $inspect(classes);
 </script>
 
 <svelte:head>

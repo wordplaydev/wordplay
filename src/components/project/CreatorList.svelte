@@ -49,8 +49,8 @@
             } else {
                 unknown = false;
                 if (add) add(userID, emailOrUsername);
+                emailOrUsername = '';
             }
-            emailOrUsername = '';
         }
     }
 
@@ -87,12 +87,6 @@
                 action={() => undefined}>&gt;</Button
             >
             {#if adding}<Spinning label="" />{/if}
-            {#if unknown}
-                <Feedback
-                    >{$locales.get(
-                        (l) => l.ui.dialog.share.error.unknown,
-                    )}</Feedback
-                >{/if}
         </form>
     {/if}
 {/snippet}
@@ -151,6 +145,9 @@
         {@render field()}
     </div>
 {/if}
+{#if unknown}
+    <Feedback>{$locales.get((l) => l.ui.dialog.share.error.unknown)}</Feedback
+    >{/if}
 
 <style>
     .people {

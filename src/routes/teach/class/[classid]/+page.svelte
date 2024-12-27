@@ -62,6 +62,8 @@
     import TextField from '@components/widgets/TextField.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import { getUser } from '@components/project/Contexts';
+    import Link from '@components/app/Link.svelte';
+    import { PREVIOUS_SYMBOL } from '@parser/Symbols';
 
     let teach = getTeachData();
     let classData = $derived(teach.getClass(page.params.classid));
@@ -97,6 +99,9 @@
 </script>
 
 <Writing>
+    <Link to="/teach"
+        >{PREVIOUS_SYMBOL} {$locales.get((l) => l.ui.page.teach.header)}</Link
+    >
     {#if classData === null}
         <Header>{$locales.get((l) => l.ui.page.class.header)}</Header>
         <Feedback

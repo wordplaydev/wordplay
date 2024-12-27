@@ -4672,15 +4672,19 @@
                         "description": "description",
                         "placeholder": "a description of your class, for you and your students."
                     },
+                    "existing": {
+                        "label": "students with accounts",
+                        "prompt": "Do some of your students already have Wordplay accounts? Include them here."
+                    },
                     "metadata": {
                         "description": "student information",
                         "placeholder": "e.g., student id, family name, given name",
-                        "note": "You can provide *any information* about students that you like. We will only use it to generate usernames and passwords for their accounts and to help you associate usernames to learners."
+                        "prompt": "Want to create new accounts for students? Provide *any information* about students, one per line, separated by commas. This can be family names, given names, student numbers, or other distinguishing details. We will use it to generate usernames that you can edit below, helping you associate usernames to learners."
                     },
                     "words": {
                         "description": "words to use in passwords",
                         "placeholder": "e.g., cat dot rat...",
-                        "note": "Provide at least *25 words* randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
+                        "prompt": "Provide at least *25 words* randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
                     },
                     "generate": {
                         "label": "generate",
@@ -4696,7 +4700,6 @@
                     }
                 },
                 "error": {
-                    "empty": "Your list of students is empty.",
                     "duplicates": "There are duplicate entries in the student information.",
                     "columns": "Ensure each student has the same number of columns.",
                     "generate": "Unable to create unique usernames.",

@@ -3,15 +3,24 @@
 
     const {
         label,
+        column = false,
         children,
         /** A CSS width to apply to the label */
         fixed = '',
-    }: { label: string; children: Snippet; fixed?: string } = $props();
+    }: {
+        label: string;
+        column?: boolean;
+        children: Snippet;
+        fixed?: string;
+    } = $props();
 </script>
 
 <label for="">
-    <span class="label" class:fixed={fixed !== ''} style:min-width={fixed}
-        >{label}</span
+    <span
+        class="label"
+        class:column
+        class:fixed={fixed !== ''}
+        style:min-width={fixed}>{label}</span
     >
     {@render children()}
 </label>
@@ -30,6 +39,10 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+    }
+
+    .column {
+        flex-direction: column;
     }
 
     .fixed {
