@@ -16,7 +16,11 @@
         }
 
         getClass(id: string) {
-            return this.classes?.find((c) => c.id === id);
+            return this.classes === undefined
+                ? undefined
+                : this.classes === null
+                  ? null
+                  : (this.classes.find((c) => c.id === id) ?? null);
         }
 
         setClasses(classes: Class[] | null) {
@@ -26,21 +30,14 @@
 </script>
 
 <script lang="ts">
-    import Centered from '@components/app/Centered.svelte';
-    import Link from '@components/app/Link.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-
+    import Writing from '@components/app/Writing.svelte';
     import { getUser } from '@components/project/Contexts';
-    import { locales } from '@db/Database';
     import { firestore } from '@db/firebase';
     import {
         ClassesCollection,
         ClassSchema,
         type Class,
     } from '@db/TeacherDatabase.svelte';
-    import getClaim from '@models/getClaim';
     import { FirebaseError } from 'firebase/app';
     import type { Unsubscribe } from 'firebase/auth';
     import { collection, onSnapshot, query, where } from 'firebase/firestore';
@@ -105,27 +102,6 @@
     });
 </script>
 
-{#if $user === null}
-    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.teach.error.login)} />
-{:else}
-    {#await getClaim($user, 'teacher')}
-        <Spinning />
-    {:then claim}
-        {#if !claim}
-            <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.teach.error.teacher)}
-            />
-            <Centered>
-                <Link to="https://forms.gle/6x1sbyC4SZHoPXYq5"
-                    >{$locales.get((l) => l.ui.page.teach.link.request)}</Link
-                >
-            </Centered>
-        {:else}
-            {@render children()}
-        {/if}
-    {:catch}
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.teach.error.offline)}
-        />
-    {/await}
-{/if}
+<Writing>
+    {@render children()}
+</Writing>

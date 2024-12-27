@@ -76,7 +76,7 @@
     };
 
     /** The maximum number of students in a class. */
-    export const MAX_CLASS_SIZE = 50;
+    export const MaxClassSize = 50;
     /** The fixed width of the fields. */
     const FieldLabelWidth = '9em';
 </script>
@@ -84,7 +84,6 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import { locales } from '@db/Database';
-    import Writing from '@components/app/Writing.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Feedback from '@components/app/Feedback.svelte';
@@ -113,6 +112,8 @@
     import CreatorList from '@components/project/CreatorList.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
+    import { goto } from '$app/navigation';
+    import TeachersOnly from '../../TeachersOnly.svelte';
 
     /** The state to store the name of the class. */
     let name = $state('');
@@ -198,7 +199,7 @@
             if (students.length === 0) return undefined;
 
             // Can't have more than ...
-            if (students.length > MAX_CLASS_SIZE) return 'limit';
+            if (students.length > MaxClassSize) return 'limit';
 
             // Must have the same number of columns in each line
             if (
@@ -271,15 +272,14 @@
                 document.body.appendChild(link);
                 link.click(); // This triggers the download.
                 document.body.removeChild(link);
-            }
-
-            // Tell the UI that the download info is ready to show.
-            download = true;
+                // Tell the UI that the download info is ready to show.
+                download = true;
+            } else goto(`/teach/class/${classid}`);
         }
     }
 </script>
 
-<Writing>
+<TeachersOnly>
     <Link to="/teach"
         >{PREVIOUS_SYMBOL} {$locales.get((l) => l.ui.page.teach.header)}</Link
     >
@@ -626,7 +626,7 @@
             </Centered>
         {/if}
     </div>
-</Writing>
+</TeachersOnly>
 
 <style>
     .page {

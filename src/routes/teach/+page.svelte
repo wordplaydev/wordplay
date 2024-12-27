@@ -1,6 +1,5 @@
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
-    import Writing from '@components/app/Writing.svelte';
     import { locales } from '@db/Database';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { type Class } from '@db/TeacherDatabase.svelte';
@@ -28,31 +27,29 @@
     >
 {/snippet}
 
-<Writing>
-    <Header>{$locales.get((l) => l.ui.page.teach.header)}</Header>
-    {#if classes === undefined}
-        <Spinning></Spinning>
-    {:else if classes === null}
+<Header>{$locales.get((l) => l.ui.page.teach.header)}</Header>
+{#if classes === undefined}
+    <Spinning></Spinning>
+{:else if classes === null}
+    <MarkupHtmlView
+        markup={$locales.get((l) => l.ui.page.teach.error.offline)}
+    />
+{:else}
+    {#if classes.length === 0}
         <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.teach.error.offline)}
+            markup={$locales.get((l) => l.ui.page.teach.prompt.none)}
         />
     {:else}
-        {#if classes.length === 0}
-            <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.teach.prompt.none)}
-            />
-        {:else}
-            <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.teach.prompt.some)}
-            />
-        {/if}
-        <Centered>
-            <Link to="/teach/class/new">
-                {$locales.get((l) => l.ui.page.teach.link.new)}
-            </Link>
-        </Centered>
-        {#each classes as group}
-            {@render classDetails(group)}
-        {/each}
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.teach.prompt.some)}
+        />
     {/if}
-</Writing>
+    <Centered>
+        <Link to="/teach/class/new">
+            {$locales.get((l) => l.ui.page.teach.link.new)}
+        </Link>
+    </Centered>
+    {#each classes as group}
+        {@render classDetails(group)}
+    {/each}
+{/if}
