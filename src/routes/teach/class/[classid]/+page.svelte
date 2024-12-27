@@ -150,7 +150,10 @@
     <!-- Show all the teachers and allow them to be added and removed. -->
     <CreatorList
         uids={classData.teachers}
-        add={(uid) => addTeacher(classData, uid)}
+        add={(uid) =>
+            classData.teachers.includes(uid)
+                ? undefined
+                : addTeacher(classData, uid)}
         remove={(uid) => removeTeacher(classData, uid)}
         removable={() => classData.teachers.length > 1}
         editable={true}
@@ -163,7 +166,10 @@
 
     <CreatorList
         uids={classData.learners}
-        add={(uid, username) => addStudent(classData, uid, username)}
+        add={(uid, username) =>
+            classData.learners.includes(uid)
+                ? undefined
+                : addStudent(classData, uid, username)}
         remove={(uid) => removeStudent(classData, uid)}
         removable={() => classData.learners.length > 1}
         editable={true}
