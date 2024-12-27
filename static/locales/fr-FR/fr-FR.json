@@ -4047,7 +4047,15 @@
             "loading": {
                 "message": "$~Chargement des polices et du texte, merci de patienter !"
             },
-            "home": "$~aller à la page d'accueil"
+            "home": "$~aller à la page d'accueil",
+            "table": {
+                "cell": {
+                    "description": "$~modifier cette cellule",
+                    "placeholder": "$~valeur"
+                },
+                "addcolumn": "$~ajouter une colonne avant cette colonne",
+                "removecolumn": "$~supprimer cette colonne"
+            }
         },
         "tile": {
             "toggle": {
@@ -4141,6 +4149,10 @@
                 "delete": {
                     "header": "$~Supprimer",
                     "explanation": "$~La suppression de cette galerie ne supprimera pas ses projets. La galerie sera supprimée définitivement."
+                },
+                "classes": {
+                    "header": "$~Cours",
+                    "explanation": "$~Classes associées à cette galerie."
                 }
             },
             "confirm": {
@@ -4582,7 +4594,8 @@
                     "contribute": {
                         "label": "$~Contribuer",
                         "subtitle": "$~Aidez-nous à créer Wordplay."
-                    }
+                    },
+                    "teach": "$~Gérer les classes d'étudiants et leurs projets"
                 }
             },
             "learn": {
@@ -4790,6 +4803,120 @@
                     "$~Si 2 400 personnes donnaient 25 $ US par an, cela couvrirait nos coûts actuels, et tout excédent servirait à rémunérer davantage d’étudiants et d’enseignants.",
                     "$~Pouvez-vous faire partie de ces 2 400 personnes ? Si c'est le cas, voici notre lien vers le don à l'Université de Washington :"
                 ]
+            },
+            "teach": {
+                "header": "$~Enseigner",
+                "prompt": {
+                    "none": "$~Bienvenue professeur ! Créez une classe pour configurer et gérer les comptes étudiants et les galeries de projets.",
+                    "some": "$~Bienvenue professeur ! Gérez vos cours ou créez-en un nouveau."
+                },
+                "error": {
+                    "offline": "$~Nous ne sommes pas en mesure de vérifier votre statut d'enseignant.",
+                    "login": "$~Vous devez être connecté pour gérer les cours.",
+                    "teacher": "$~Vous devez disposer des privilèges d'enseignant pour créer et gérer des classes. Remplissez ce formulaire et faisons connaissance !"
+                },
+                "link": {
+                    "request": "$~Demander des privilèges d'enseignant",
+                    "new": "$~Créer une classe"
+                }
+            },
+            "newclass": {
+                "header": "$~Nouvelle classe",
+                "subheader": {
+                    "class": "$~Votre classe",
+                    "students": "$~Vos étudiants",
+                    "credentials": "$~Noms d'utilisateur et mots de passe",
+                    "submit": "$~Soumettre"
+                },
+                "prompt": {
+                    "start": "$~Créer une classe avec des comptes générés pour tous les élèves de votre classe et vous permettre de créer des galeries auxquelles tous vos élèves peuvent ajouter des projets. Si les élèves ont déjà des comptes, vous pouvez les ajouter ultérieurement.",
+                    "review": "$~Vérifiez les noms d'utilisateur et les mots de passe que nous avons créés. Voulez-vous les *modifier* avant de continuer ? Si vous le faites, vous ne pourrez pas modifier les informations sur les étudiants ci-dessus.",
+                    "ready": "$~Faites-nous savoir quand vous serez prêt à générer vos identifiants ci-dessus. Vous pourrez les modifier après l'avoir fait.",
+                    "pending": "$~Génération de noms d'utilisateur et de mots de passe...",
+                    "submit": "$~Prêt à soumettre votre demande ? Dès que votre demande sera acceptée, vous recevrez un téléchargement de ces informations. Les mots de passe ne sont pas récupérables, alors conservez-les dans un endroit sûr.",
+                    "submitting": "$~Demande de nouveaux comptes avec les noms d'utilisateur et mots de passe ci-dessus...",
+                    "download": "$~Votre cours est prêt ! Vous devriez voir un téléchargement des données de vos élèves dans votre dossier de téléchargement. *Les mots de passe ne sont pas récupérables*, alors conservez ce fichier dans un endroit sûr !"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nom de la classe",
+                        "placeholder": "$~un nom court"
+                    },
+                    "description": {
+                        "description": "$~description",
+                        "placeholder": "$~une description de votre classe, pour vous et vos élèves."
+                    },
+                    "existing": {
+                        "label": "$~étudiants avec comptes",
+                        "prompt": "$~Certains de vos élèves possèdent-ils déjà un compte Wordplay ? Ajoutez-les ici."
+                    },
+                    "metadata": {
+                        "description": "$~informations pour les étudiants",
+                        "placeholder": "$~par exemple, carte d'étudiant, nom de famille, prénom",
+                        "prompt": "$~Vous souhaitez créer de nouveaux comptes pour les élèves ? Fournissez *toutes les informations* sur les élèves, une par ligne, séparées par des virgules. Il peut s'agir de noms de famille, de prénoms, de numéros d'élèves ou d'autres détails distinctifs. Nous les utiliserons pour générer des noms d'utilisateur que vous pourrez modifier ci-dessous, ce qui vous aidera à associer les noms d'utilisateur aux apprenants."
+                    },
+                    "words": {
+                        "description": "$~mots à utiliser dans les mots de passe",
+                        "placeholder": "$~par exemple, chat, point, rat...",
+                        "prompt": "$~Fournissez au moins *25 mots* et générez au hasard des mots de passe de 2 à 3 mots faciles à retenir. Choisissez des mots que vos élèves connaissent ou demandez-leur de réfléchir à des mots. Plus c'est aléatoire, plus c'est sûr !"
+                    },
+                    "generate": {
+                        "label": "$~générer",
+                        "tip": "$~Créez des noms d’utilisateur et des mots de passe en fonction des informations ci-dessus."
+                    },
+                    "edit": {
+                        "label": "$~modifier",
+                        "tip": "$~modifier les informations sur les étudiants générées"
+                    },
+                    "submit": {
+                        "label": "$~créer une classe",
+                        "tip": "$~Créez une nouvelle classe avec ces informations."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Il y a des entrées en double dans les informations sur les étudiants.",
+                    "columns": "$~Assurez-vous que chaque élève dispose du même nombre de colonnes.",
+                    "generate": "$~Impossible de créer des noms d'utilisateur uniques.",
+                    "taken": "$~Un ou plusieurs noms d'utilisateur ci-dessus sont déjà pris",
+                    "limit": "$~Vous ne pouvez pas créer une classe de plus de 35 étudiants à la fois.",
+                    "words": "$~Fournissez au moins 25 mots.",
+                    "account": "$~Impossible de créer certains comptes.",
+                    "generic": "$~Nous n'avons pas pu créer la classe. Voici quelques informations pour aider les développeurs à comprendre ce qui s'est passé."
+                }
+            },
+            "class": {
+                "header": "$~Classe",
+                "subheader": {
+                    "teachers": "$~Enseignants",
+                    "students": "$~Étudiants",
+                    "galleries": "$~Galeries"
+                },
+                "prompt": {
+                    "gallery": "$~Créez une galerie pour votre classe afin d'organiser un devoir ou un projet. Tous les enseignants du projet seront les conservateurs de la galerie et tous les élèves les créateurs de la galerie.",
+                    "delete": "$~La suppression de cette classe supprimera définitivement les informations sur la classe, mais ses projets, ses galeries ou ses comptes étudiants."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nom de la classe",
+                        "placeholder": "$~nom"
+                    },
+                    "description": {
+                        "description": "$~description de la classe",
+                        "placeholder": "$~description"
+                    },
+                    "newteacher": {
+                        "placeholder": "$~email ou nom d'utilisateur",
+                        "description": "$~e-mail ou nom d'utilisateur du créateur à qui vous souhaitez donner accès à cette classe en tant qu'enseignant"
+                    },
+                    "addteacher": "$~Ajouter un enseignant à cette classe",
+                    "delete": {
+                        "tip": "$~Supprimez cette classe pour toujours.",
+                        "label": "$~Supprimer cette classe"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Nous n'avons pas pu trouver ce cours ou vous n'avez pas la permission de le consulter."
+                }
             }
         },
         "edit": {

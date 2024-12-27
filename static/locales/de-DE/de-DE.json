@@ -4038,7 +4038,15 @@
             "loading": {
                 "message": "$~Schriftarten und Text werden geladen, danke fürs Warten!"
             },
-            "home": "Startseite"
+            "home": "Startseite",
+            "table": {
+                "cell": {
+                    "description": "$~Diese Zelle bearbeiten",
+                    "placeholder": "$~Wert"
+                },
+                "addcolumn": "$~füge eine Spalte vor dieser Spalte hinzu",
+                "removecolumn": "$~diese Spalte entfernen"
+            }
         },
         "tile": {
             "toggle": {
@@ -4132,6 +4140,10 @@
                 "delete": {
                     "header": "$~Löschen",
                     "explanation": "$~Durch das Löschen dieser Galerie werden ihre Projekte nicht gelöscht. Die Galerie wird dauerhaft gelöscht."
+                },
+                "classes": {
+                    "header": "$~Klassen",
+                    "explanation": "$~Mit dieser Galerie verbundene Klassen."
                 }
             },
             "confirm": {
@@ -4573,7 +4585,8 @@
                     "contribute": {
                         "label": "Beitragen",
                         "subtitle": "Helfen Sie uns, Wordplay zu erstellen."
-                    }
+                    },
+                    "teach": "$~Verwalten Sie Schülerklassen und ihre Projekte"
                 }
             },
             "learn": {
@@ -4781,6 +4794,120 @@
             "guide": {
                 "header": "$~Führung",
                 "description": "$~Dies ist eine Referenz für jeden Teil der Programmiersprache Wordplay. Suchen Sie nach einem Konzept oder durchsuchen Sie die Liste, um mehr zu erfahren."
+            },
+            "teach": {
+                "header": "$~Unterrichten",
+                "prompt": {
+                    "none": "$~Willkommen, Lehrer! Erstellen Sie eine Klasse, um Schülerkonten und Projektgalerien einzurichten und zu verwalten.",
+                    "some": "$~Willkommen, Lehrer! Verwalten Sie Ihre Klassen oder erstellen Sie eine neue."
+                },
+                "error": {
+                    "offline": "$~Wir können Ihren Lehrerstatus nicht überprüfen.",
+                    "login": "$~Sie müssen angemeldet sein, um Kurse verwalten zu können.",
+                    "teacher": "$~Zum Erstellen und Verwalten von Klassen benötigen Sie Lehrerrechte. Füllen Sie dieses Formular aus und lernen Sie uns kennen!"
+                },
+                "link": {
+                    "request": "$~Lehrerberechtigungen anfordern",
+                    "new": "$~Erstellen einer Klasse"
+                }
+            },
+            "newclass": {
+                "header": "$~Neue Klasse",
+                "subheader": {
+                    "class": "$~Deine Klasse",
+                    "students": "$~Ihre Schüler",
+                    "credentials": "$~Benutzernamen und Passwörter",
+                    "submit": "$~Einreichen"
+                },
+                "prompt": {
+                    "start": "$~Erstellen Sie eine Klasse mit Generte-Konten für alle Schüler in Ihrer Klasse und erstellen Sie Galerien, zu denen alle Ihre Schüler Projekte hinzufügen können. Wenn die Schüler bereits Konten haben, können Sie diese später hinzufügen.",
+                    "review": "$~Überprüfen Sie die von uns erstellten Benutzernamen und Passwörter. Möchten Sie sie *bearbeiten*, bevor Sie fortfahren? Wenn Sie das tun, können Sie die oben stehenden Studenteninformationen nicht bearbeiten.",
+                    "ready": "$~Lassen Sie uns wissen, wenn Sie bereit sind, die oben genannten Anmeldeinformationen zu generieren. Sie können sie anschließend bearbeiten.",
+                    "pending": "$~Benutzernamen und Passwörter werden generiert ...",
+                    "submit": "$~Bereit zum Absenden? Sobald es erfolgreich war, erhalten Sie einen Download dieser Informationen. Passwörter sind *nicht wiederherstellbar*, bewahren Sie sie also an einem sicheren Ort auf.",
+                    "submitting": "$~Neue Konten mit den oben genannten Benutzernamen und Passwörtern anfordern …",
+                    "download": "$~Ihr Kurs ist bereit! Sie sollten einen Download Ihrer Schülerdaten in Ihrem Download-Ordner sehen. *Passwörter sind nicht wiederherstellbar*, bewahren Sie diese Datei also an einem sicheren Ort auf!"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~Klassenname",
+                        "placeholder": "$~ein kurzer Name"
+                    },
+                    "description": {
+                        "description": "$~Beschreibung",
+                        "placeholder": "$~eine Beschreibung Ihres Kurses für Sie und Ihre Schüler."
+                    },
+                    "existing": {
+                        "label": "$~Studierende mit Accounts",
+                        "prompt": "$~Haben einige Ihrer Schüler bereits Wordplay-Konten? Fügen Sie sie hier hinzu."
+                    },
+                    "metadata": {
+                        "description": "$~Informationen für Studierende",
+                        "placeholder": "$~z.B. Matrikelnummer, Nachname, Vorname",
+                        "prompt": "$~Möchten Sie neue Konten für Studenten erstellen? Geben Sie *alle Informationen* über Studenten ein, eine pro Zeile, getrennt durch Kommas. Dies können Familiennamen, Vornamen, Matrikelnummern oder andere Unterscheidungsmerkmale sein. Wir werden diese Informationen verwenden, um Benutzernamen zu generieren, die Sie unten bearbeiten können, um Benutzernamen den Lernenden zuzuordnen."
+                    },
+                    "words": {
+                        "description": "$~Wörter zur Verwendung in Passwörtern",
+                        "placeholder": "$~z. B. Katze, Punkt, Ratte ...",
+                        "prompt": "$~Geben Sie mindestens *25 Wörter* an und generieren Sie zufällig 2-3 Wörter umfassende, einprägsame Passwörter. Wählen Sie Wörter aus, die Ihre Schüler kennen, oder bitten Sie sie, Wörter zu sammeln. Je zufälliger, desto sicherer!"
+                    },
+                    "generate": {
+                        "label": "$~erzeugen",
+                        "tip": "$~Erstellen Sie Benutzernamen und Passwörter basierend auf den oben genannten Informationen."
+                    },
+                    "edit": {
+                        "label": "$~bearbeiten",
+                        "tip": "$~Bearbeiten Sie die generierten Studenteninformationen"
+                    },
+                    "submit": {
+                        "label": "$~Klasse erstellen",
+                        "tip": "$~Erstellen Sie mit diesen Informationen eine neue Klasse."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~In den Studierendendaten liegen doppelte Einträge vor.",
+                    "columns": "$~Stellen Sie sicher, dass jeder Schüler die gleiche Anzahl Spalten hat.",
+                    "generate": "$~Es können keine eindeutigen Benutzernamen erstellt werden.",
+                    "taken": "$~Einer oder mehrere der oben genannten Benutzernamen sind bereits vergeben",
+                    "limit": "$~Sie können keine Klasse mit mehr als 35 Schülern gleichzeitig erstellen.",
+                    "words": "$~Geben Sie mindestens 25 Wörter an.",
+                    "account": "$~Einige der Konten können nicht erstellt werden.",
+                    "generic": "$~Wir konnten die Klasse nicht erstellen. Hier sind einige Informationen, die Entwicklern helfen, herauszufinden, was schiefgelaufen ist."
+                }
+            },
+            "class": {
+                "header": "$~Klasse",
+                "subheader": {
+                    "teachers": "$~Lehrer",
+                    "students": "$~Studenten",
+                    "galleries": "$~Galerien"
+                },
+                "prompt": {
+                    "gallery": "$~Erstellen Sie für Ihre Klasse eine Galerie, um eine Aufgabe oder ein Projekt zu organisieren. Alle am Projekt beteiligten Lehrer sind Kuratoren der Galerie und alle Schüler sind Galerie-Ersteller.",
+                    "delete": "$~Durch das Löschen dieses Kurses werden die Informationen zum Kurs, aber seine Projekte, Galerien oder Schülerkonten dauerhaft gelöscht."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~Name der Klasse",
+                        "placeholder": "$~Name"
+                    },
+                    "description": {
+                        "description": "$~Beschreibung der Klasse",
+                        "placeholder": "$~Beschreibung"
+                    },
+                    "newteacher": {
+                        "placeholder": "$~E-Mail oder Benutzername",
+                        "description": "$~E-Mail oder Benutzername des Erstellers, dem Sie als Lehrer Zugriff auf diese Klasse gewähren möchten"
+                    },
+                    "addteacher": "$~Dieser Klasse einen Lehrer hinzufügen",
+                    "delete": {
+                        "tip": "$~Diese Klasse dauerhaft löschen.",
+                        "label": "$~Diese Klasse löschen"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Wir konnten diesen Kurs nicht finden oder Sie haben keine Berechtigung, ihn anzuzeigen."
+                }
             }
         },
         "edit": {
