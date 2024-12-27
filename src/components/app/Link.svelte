@@ -14,11 +14,11 @@
         tip = undefined,
         nowrap = false,
         external = false,
-        children
+        children,
     }: Props = $props();
 </script>
 
-{#if to === '/' ? page.route.id === '/' : page.route.id?.startsWith(to)}
+{#if to === '/' ? page.route.id === '/' : page.route.id?.endsWith(to)}
     {@render children?.()}
 {:else}<a
         data-sveltekit-preload-data="tap"
@@ -26,7 +26,8 @@
         href={to}
         target={external ? '_blank' : null}
         class:nowrap
-        >{@render children?.()}{#if external}<span class="external">↗</span>{/if}</a
+        >{@render children?.()}{#if external}<span class="external">↗</span
+            >{/if}</a
     >
 {/if}
 
