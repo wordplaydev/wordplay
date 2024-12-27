@@ -8,6 +8,7 @@
     class TeachData {
         /** Undefined means loading, null means not available, and otherwise a list */
         private classes: Class[] | undefined | null = $state(undefined);
+
         constructor() {}
 
         getClasses() {

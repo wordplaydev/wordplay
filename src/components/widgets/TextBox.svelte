@@ -7,6 +7,7 @@
         placeholder: string;
         active?: boolean;
         done?: (text: string) => void;
+        dwelled?: undefined | ((text: string) => void);
     }
 
     let {
@@ -15,9 +16,21 @@
         placeholder,
         done = undefined,
         active = true,
+        dwelled = undefined,
     }: Props = $props();
 
     let view: HTMLTextAreaElement | undefined = $state();
+
+    let timeout: NodeJS.Timeout | undefined = undefined;
+
+    function handleInput() {
+        if (dwelled)
+            timeout = setTimeout(() => {
+                if (dwelled) dwelled(text);
+            }, 1000);
+
+        resize();
+    }
 
     function resize() {
         if (view) {
@@ -36,15 +49,18 @@
     bind:value={text}
     bind:this={view}
     aria-disabled={!active}
+    rows={1}
     disabled={!active}
     onblur={() => (done ? done(text) : undefined)}
-    oninput={resize}
+    oninput={handleInput}
 ></textarea>
 
 <style>
     textarea {
-        font-family: var(--wordplay-app-font);
-        font-size: var(--wordplay-font-size);
+        font-family: inherit;
+        font-size: inherit;
+        font-weight: inherit;
+        line-height: inherit;
         border: none;
         border-left: var(--wordplay-focus-width) solid
             var(--wordplay-inactive-color);

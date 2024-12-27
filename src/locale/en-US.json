@@ -4718,6 +4718,14 @@
                     "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators."
                 },
                 "field": {
+                    "name": {
+                        "description": "name of the class",
+                        "placeholder": "name"
+                    },
+                    "description": {
+                        "description": "description of the class",
+                        "placeholder": "description"
+                    },
                     "newteacher": {
                         "placeholder": "email or username",
                         "description": "email or username of the creator who you want to give teacher access to this class"

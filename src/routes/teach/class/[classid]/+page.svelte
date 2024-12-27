@@ -15,6 +15,10 @@
             gallery: string;
         };
         field: {
+            /** The name of the class */
+            name: FieldText;
+            /** The description of the class */
+            description: FieldText;
             /** Add a teacher */
             newteacher: FieldText;
             /** Add a teacher button */
@@ -55,10 +59,17 @@
     } from '@db/TeacherDatabase.svelte';
     import type { FieldText } from '@locale/UITexts';
     import { getTeachData } from '../../+layout.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
+    import { getUser } from '@components/project/Contexts';
 
     let teach = getTeachData();
     let classData = $derived(teach.getClass(page.params.classid));
     let newGalleryError = $state(false);
+    let user = getUser();
+    let editable = $derived(
+        $user && classData && classData.teachers.includes($user.uid),
+    );
 
     async function createGallery(group: Class) {
         newGalleryError = false;
@@ -75,6 +86,14 @@
             newGalleryError = true;
         }
     }
+
+    function updateName(name: string) {
+        if (classData) setClass({ ...classData, name: name });
+    }
+
+    function updateDescription(description: string) {
+        if (classData) setClass({ ...classData, description: description });
+    }
 </script>
 
 <Writing>
@@ -86,8 +105,36 @@
     {:else if classData === undefined}
         <Spinning></Spinning>
     {:else}
-        <Header>{classData.name}</Header>
-        <p>{classData.description}</p>
+        <Header
+            >{#if editable}<TextBox
+                    text={classData.name}
+                    description={$locales.get(
+                        (l) => l.ui.page.class.field.name.description,
+                    )}
+                    placeholder={$locales.get(
+                        (l) => l.ui.page.class.field.name.placeholder,
+                    )}
+                    dwelled={updateName}
+                    done={updateName}
+                />{:else}{classData.name}{/if}</Header
+        >
+        <p
+            >{#if editable}
+                <TextBox
+                    text={classData.description}
+                    description={$locales.get(
+                        (l) => l.ui.page.class.field.description.description,
+                    )}
+                    placeholder={$locales.get(
+                        (l) => l.ui.page.class.field.description.placeholder,
+                    )}
+                    dwelled={updateDescription}
+                    done={updateDescription}
+                />
+            {:else}
+                {classData.description}
+            {/if}</p
+        >
 
         <Subheader
             >{$locales.get(

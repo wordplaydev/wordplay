@@ -62,6 +62,7 @@ export async function setClass(group: Class) {
     await setDoc(doc(db, ClassesCollection, group.id), group);
 }
 
+/** Add the teacher to the class and all associated galleries. */
 export async function addTeacher(classy: Class, uid: string) {
     setClass({
         ...classy,
@@ -75,6 +76,7 @@ export async function addTeacher(classy: Class, uid: string) {
     }
 }
 
+/** Remove the teacher from the class and all associated galleries. */
 export async function removeTeacher(classy: Class, uid: string) {
     setClass({
         ...classy,
@@ -87,6 +89,7 @@ export async function removeTeacher(classy: Class, uid: string) {
     }
 }
 
+/** Add the learner to the class document and all galleries associated with the class. */
 export async function addStudent(classy: Class, uid: string, username: string) {
     // Add the student to the learner list and the info
     await setClass({
@@ -105,6 +108,7 @@ export async function addStudent(classy: Class, uid: string, username: string) {
     }
 }
 
+/** Remove the learner from the class document and all galleries associated with the class. */
 export async function removeStudent(classy: Class, uid: string) {
     // Add the student to the learner list and the info
     await setClass({
