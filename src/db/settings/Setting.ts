@@ -1,5 +1,5 @@
 import { get, writable, type Writable } from 'svelte/store';
-import type { Database } from './Database';
+import type { Database } from '../Database';
 
 /** Represents a specific key value pair persisted in local storage, backed by a store, with facilities for reading and reading with error checking. */
 export default class Setting<Type> {

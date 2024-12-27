@@ -32,7 +32,7 @@
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
-    import { PersistenceType } from '../../db/ProjectHistory.svelte';
+    import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
     import Options from '@components/widgets/Options.svelte';
     import { moderatedFlags } from '../../models/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';

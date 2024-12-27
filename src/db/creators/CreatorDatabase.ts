@@ -1,6 +1,6 @@
 import { httpsCallable } from 'firebase/functions';
-import type { Database } from './Database';
-import { functions } from './firebase';
+import type { Database } from '../Database';
+import { functions } from '../firebase';
 import type { UserIdentifier } from 'firebase-admin/auth';
 import type { User } from 'firebase/auth';
 import isValidEmail from './isValidEmail';

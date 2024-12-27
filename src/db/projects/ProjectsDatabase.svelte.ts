@@ -1,9 +1,9 @@
-import Dexie, { liveQuery, type Observable, type Table } from 'dexie';
+import { type Observable } from 'dexie';
 import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
 import { get, writable, type Writable } from 'svelte/store';
-import Project from '../models/Project';
-import type LocaleText from '../locale/LocaleText';
-import { Galleries, Locales, SaveStatus, type Database } from './Database';
+import Project from '../../models/Project';
+import type LocaleText from '../../locale/LocaleText';
+import { Galleries, Locales, SaveStatus, type Database } from '../Database';
 import {
     collection,
     deleteDoc,
@@ -18,23 +18,23 @@ import {
     type Unsubscribe,
 } from 'firebase/firestore';
 import { FirebaseError } from 'firebase/app';
-import { firestore } from './firebase';
-import type Node from '../nodes/Node';
-import Source from '../nodes/Source';
-import { ExamplePrefix, getExample } from '../examples/examples';
-import { unknownFlags } from '../models/Moderation';
+import { firestore } from '../firebase';
+import type Node from '../../nodes/Node';
+import Source from '../../nodes/Source';
+import { ExamplePrefix, getExample } from '../../examples/examples';
+import { unknownFlags } from '../../models/Moderation';
 import {
-    ProjectSchemaLatestVersion,
     upgradeProject,
     type SerializedProject,
     type SerializedProjectUnknownVersion,
     ProjectSchema,
-} from '../models/ProjectSchemas';
+} from '../../models/ProjectSchemas';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import { EditFailure } from './EditFailure';
 import { COPY_SYMBOL } from '@parser/Symbols';
 import type Gallery from '@models/Gallery';
 import { SvelteMap } from 'svelte/reactivity';
+import { ProjectsDexie } from './ProjectsDexie';
 
 /** The name of the projects collection in Firebase */
 export const ProjectsCollection = 'projects';
@@ -43,41 +43,6 @@ export const ProjectsCollection = 'projects';
  * Projects shouldn't be larger than 1,048,576 bytes, the Firestore document limit.
  */
 export const MAX_PROJECT_BYTE_SIZE = 1048576;
-
-/** The schema of the IndexedDB cache of projects. */
-export class ProjectsDexie extends Dexie {
-    projects!: Table<SerializedProject>;
-
-    constructor() {
-        super('wordplay');
-        this.version(ProjectSchemaLatestVersion).stores({
-            projects: '++id, name, locales, owner, collabators',
-        });
-    }
-
-    async getProject(
-        id: string,
-    ): Promise<SerializedProjectUnknownVersion | undefined> {
-        const project = await this.projects.where('id').equals(id).toArray();
-        return project[0];
-    }
-
-    async deleteAllProjects(): Promise<void> {
-        return await this.projects.clear();
-    }
-
-    async deleteProject(id: string): Promise<void> {
-        return await this.projects.delete(id);
-    }
-
-    saveProjects(projects: SerializedProject[]) {
-        this.projects.bulkPut(projects);
-    }
-
-    async getAllProjects(): Promise<Observable<SerializedProject[]>> {
-        return liveQuery(() => this.projects.toArray());
-    }
-}
 
 export default class ProjectsDatabase {
     /** The database that manages this */

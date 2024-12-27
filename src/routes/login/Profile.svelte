@@ -6,7 +6,7 @@
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
     import { auth } from '../../db/firebase';
     import { isModerator } from '../../models/Moderation';
-    import { Creator } from '../../db/CreatorDatabase';
+    import { Creator } from '../../db/creators/CreatorDatabase';
     import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
     import { status } from '../../db/Database';

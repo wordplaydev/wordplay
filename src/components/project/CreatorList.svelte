@@ -1,9 +1,9 @@
 <!-- A modifiable list of creators -->
 <script lang="ts">
-    import isValidUsername from '@db/isValidUsername';
-    import type { Creator } from '../../db/CreatorDatabase';
+    import isValidUsername from '@db/creators/isValidUsername';
+    import type { Creator } from '../../db/creators/CreatorDatabase';
     import { DB, locales } from '../../db/Database';
-    import validEmail from '../../db/isValidEmail';
+    import validEmail from '../../db/creators/isValidEmail';
     import CreatorView from '../app/CreatorView.svelte';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';

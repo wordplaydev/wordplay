@@ -14,7 +14,7 @@
     } from '../db/Database';
     import { browser } from '$app/environment';
     import { getLanguageDirection } from '../locale/LanguageCode';
-    import { FaceSetting } from '@db/FaceSetting';
+    import { FaceSetting } from '@db/settings/FaceSetting';
     interface Props {
         children: Snippet;
     }

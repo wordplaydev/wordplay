@@ -35,7 +35,7 @@
     import Button from '../../components/widgets/Button.svelte';
     import type { Flag, Moderation } from '../../models/Moderation';
     import Spinning from '../../components/app/Spinning.svelte';
-    import { ProjectsCollection } from '../../db/ProjectsDatabase.svelte';
+    import { ProjectsCollection } from '../../db/projects/ProjectsDatabase.svelte';
     import Markup from '@nodes/Markup';
 
     const user = getUser();

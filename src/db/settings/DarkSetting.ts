@@ -5,5 +5,5 @@ export const DarkSetting = new Setting<boolean | null>(
     true,
     null,
     (value) => typeof value === 'boolean' || value === null,
-    (current, value) => current === value
+    (current, value) => current === value,
 );

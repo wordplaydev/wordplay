@@ -25,7 +25,7 @@ import type {
 import type { CaretPosition } from '../../edit/Caret';
 import type LanguageCode from '../../locale/LanguageCode';
 import type Spaces from '@parser/Spaces';
-import type { LocalizedValue } from '@db/LocalizedSetting';
+import type { LocalizedValue } from '@db/settings/LocalizedSetting';
 import type Color from '@output/Color';
 
 // Authentication related contexts

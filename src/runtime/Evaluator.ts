@@ -42,7 +42,7 @@ import StructureValue from '@values/StructureValue';
 import ListValue from '@values/ListValue';
 import TextValue from '@values/TextValue';
 import DynamicEditLimitException from '@values/DynamicEditLimitException';
-import { EditFailure } from '@db/EditFailure';
+import { EditFailure } from '@db/projects/EditFailure';
 import ReadOnlyEditException from '@values/ReadOnlyEditException';
 import EmptySourceNameException from '@values/EmptySourceNameException';
 import ProjectSizeLimitException from '@values/ProjectSizeLimitException';

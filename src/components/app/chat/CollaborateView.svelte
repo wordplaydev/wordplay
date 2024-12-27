@@ -9,7 +9,7 @@
     import TextField from '@components/widgets/TextField.svelte';
     import { type SerializedMessage } from '@db/ChatDatabase.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
-    import type { Creator } from '@db/CreatorDatabase';
+    import type { Creator } from '@db/creators/CreatorDatabase';
     import {
         Chats,
         Creators,

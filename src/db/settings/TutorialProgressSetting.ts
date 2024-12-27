@@ -1,5 +1,5 @@
-import type LanguageCode from '../locale/LanguageCode';
-import type { RegionCode } from '../locale/Regions';
+import type LanguageCode from '../../locale/LanguageCode';
+import type { RegionCode } from '../../locale/Regions';
 import Setting from './Setting';
 
 export type TutorialProgress = {
@@ -35,5 +35,5 @@ export const TutorialProgressSetting = new Setting<TutorialProgress>(
         current.region === value.region &&
         current.act === value.act &&
         current.scene === value.scene &&
-        current.line === value.line
+        current.line === value.line,
 );

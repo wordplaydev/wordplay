@@ -1,8 +1,8 @@
 import { get, writable, type Writable } from 'svelte/store';
-import Project from '../models/Project';
-import type LocaleText from '../locale/LocaleText';
+import Project from '../../models/Project';
+import type LocaleText from '../../locale/LocaleText';
 import type { SerializedProject } from '@models/ProjectSchemas';
-import type LocalesDatabase from './LocalesDatabase';
+import type LocalesDatabase from '../LocalesDatabase';
 
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;

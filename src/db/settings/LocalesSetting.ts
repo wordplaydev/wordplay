@@ -1,4 +1,7 @@
-import { SupportedLocales, type SupportedLocale } from '../locale/LocaleText';
+import {
+    SupportedLocales,
+    type SupportedLocale,
+} from '../../locale/LocaleText';
 import Setting from './Setting';
 
 export const LocalesSetting = new Setting<SupportedLocale[]>(

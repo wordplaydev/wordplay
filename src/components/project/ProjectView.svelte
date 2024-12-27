@@ -78,7 +78,7 @@
         animationFactor,
         Chats,
     } from '../../db/Database';
-    import Arrangement from '../../db/Arrangement';
+    import Arrangement from '../../db/settings/Arrangement';
     import type Value from '../../values/Value';
     import {
         EnterFullscreen,
@@ -115,7 +115,7 @@
     import Glyphs from '../../lore/Glyphs';
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
-    import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
+    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
     import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
     import { localeToString } from '@locale/Locale';

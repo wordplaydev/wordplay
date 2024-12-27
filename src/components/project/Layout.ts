@@ -1,4 +1,4 @@
-import Arrangement from '../../db/Arrangement';
+import Arrangement from '../../db/settings/Arrangement';
 import type Bounds from './Bounds';
 import { TileKind, Mode } from './Tile';
 import Tile from './Tile';

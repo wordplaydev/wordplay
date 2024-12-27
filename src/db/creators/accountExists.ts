@@ -1,4 +1,4 @@
-import { Creator } from '@db/CreatorDatabase';
+import { Creator } from '@db/creators/CreatorDatabase';
 import { functions } from '@db/firebase';
 import { httpsCallable } from 'firebase/functions';
 import { type EmailExistsInputs, type EmailExistsOutput } from '@db/functions';

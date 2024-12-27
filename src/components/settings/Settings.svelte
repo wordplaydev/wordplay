@@ -12,7 +12,7 @@
         spaceIndicator,
         showLines,
     } from '../../db/Database';
-    import Arrangement from '../../db/Arrangement';
+    import Arrangement from '../../db/settings/Arrangement';
     import Options from '../widgets/Options.svelte';
     import { onMount } from 'svelte';
     import Link from '../app/Link.svelte';
@@ -20,10 +20,10 @@
     import Mode from '../widgets/Mode.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import CreatorView from '../app/CreatorView.svelte';
-    import { Creator } from '../../db/CreatorDatabase';
-    import { AnimationFactorIcons } from '@db/AnimationFactorSetting';
+    import { Creator } from '../../db/creators/CreatorDatabase';
+    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
     import { SupportedFaces } from '@basis/Fonts';
-    import { FaceSetting } from '@db/FaceSetting';
+    import { FaceSetting } from '@db/settings/FaceSetting';
 
     let user = getUser();
 

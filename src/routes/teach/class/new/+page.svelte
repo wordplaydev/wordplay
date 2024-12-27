@@ -97,9 +97,9 @@
     } from '../credentials';
     import Subheader from '@components/app/Subheader.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { UsernameLength } from '@db/isValidUsername';
+    import { UsernameLength } from '@db/creators/isValidUsername';
     import { PasswordLength } from '../../../login/IsValidPassword';
-    import { usernameAccountExists } from '@db/accountExists';
+    import { usernameAccountExists } from '@db/creators/accountExists';
     import { httpsCallable } from 'firebase/functions';
     import { functions } from '@db/firebase';
     import type {
@@ -109,7 +109,7 @@
     } from '@db/functions';
     import { getUser } from '@components/project/Contexts';
     import Link from '@components/app/Link.svelte';
-    import { Creator } from '@db/CreatorDatabase';
+    import { Creator } from '@db/creators/CreatorDatabase';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';

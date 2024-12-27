@@ -1,4 +1,4 @@
-import { withMonoEmoji } from '../unicode/emoji';
+import { withMonoEmoji } from '../../unicode/emoji';
 import Setting from './Setting';
 
 export const AnimationFactorIcons = ['🧘', '🏃', '½', '⅓', '¼'].map((i) =>

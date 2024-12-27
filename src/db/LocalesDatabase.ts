@@ -5,7 +5,7 @@ import { SupportedLocales, type SupportedLocale } from '../locale/LocaleText';
 import { localeToString } from '@locale/Locale';
 import Fonts from '../basis/Fonts';
 import { Basis } from '../basis/Basis';
-import type Setting from './Setting';
+import type Setting from './settings/Setting';
 import type LanguageCode from '../locale/LanguageCode';
 import type { RegionCode } from '../locale/Regions';
 import type Tutorial from '../tutorial/Tutorial';

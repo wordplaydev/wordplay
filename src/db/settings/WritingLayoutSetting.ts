@@ -1,4 +1,4 @@
-import type { WritingLayout } from '../locale/Scripts';
+import type { WritingLayout } from '../../locale/Scripts';
 import Setting from './Setting';
 
 export const WritingLayoutSetting = new Setting<WritingLayout>(
@@ -11,5 +11,5 @@ export const WritingLayoutSetting = new Setting<WritingLayout>(
         value === 'vertical-lr'
             ? value
             : undefined,
-    (current, value) => current == value
+    (current, value) => current == value,
 );

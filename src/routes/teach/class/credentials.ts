@@ -1,6 +1,9 @@
-import { usernameAccountExists, usernamesExist } from '@db/accountExists';
-import { Creator } from '@db/CreatorDatabase';
-import { UsernameLength } from '@db/isValidUsername';
+import {
+    usernameAccountExists,
+    usernamesExist,
+} from '@db/creators/accountExists';
+import { Creator } from '@db/creators/CreatorDatabase';
+import { UsernameLength } from '@db/creators/isValidUsername';
 import NumberGenerator from 'recoverable-random';
 
 export type Credentials = { username: string; password: string };

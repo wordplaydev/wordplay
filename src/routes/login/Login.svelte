@@ -110,12 +110,12 @@
 </script>
 
 <script lang="ts">
-    import isValidUsername from '@db/isValidUsername';
+    import isValidUsername from '@db/creators/isValidUsername';
     import Header from '../../components/app/Header.svelte';
     import { locales } from '../../db/Database';
     import LoginForm from './LoginForm.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import isValidEmail from '@db/isValidEmail';
+    import isValidEmail from '@db/creators/isValidEmail';
     import Button from '@components/widgets/Button.svelte';
     import { analytics, auth, functions } from '@db/firebase';
     import {
@@ -124,7 +124,7 @@
         signInWithEmailAndPassword,
         signInWithEmailLink,
     } from 'firebase/auth';
-    import { Creator } from '@db/CreatorDatabase';
+    import { Creator } from '@db/creators/CreatorDatabase';
     import { FirebaseError } from 'firebase/app';
     import getAuthErrorDescription from './getAuthErrorDescription';
     import Spinning from '@components/app/Spinning.svelte';
@@ -134,7 +134,7 @@
     import { logEvent } from 'firebase/analytics';
     import Note from '@components/widgets/Note.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import { emailAccountExists } from '../../db/accountExists';
+    import { emailAccountExists } from '../../db/creators/accountExists';
 
     /** The username typed into the text field */
     let username = $state('');
