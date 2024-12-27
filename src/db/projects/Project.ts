@@ -179,6 +179,7 @@ export default class Project {
             timestamp: timestamp ?? Date.now(),
             nonPII: [],
             chat: null,
+            history: [],
         });
     }
 
@@ -893,6 +894,7 @@ export default class Project {
             timestamp: project.timestamp,
             nonPII: project.nonPII,
             chat: null,
+            history: [],
         });
     }
 
@@ -1097,6 +1099,7 @@ export default class Project {
             flags: { ...this.data.flags },
             nonPII: this.data.nonPII,
             chat: this.data.chat,
+            history: [],
         };
     }
 
