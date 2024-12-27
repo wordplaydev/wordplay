@@ -4633,7 +4633,7 @@
             "teach": {
                 "header": "Teach",
                 "prompt": {
-                    "none": "Welcome teacher! Create your first class to help you manage and organize student projects.",
+                    "none": "Welcome teacher! Create a class to set up and manage student accounts and project galleries.",
                     "some": "Welcome teacher! Manage your classes or create a new one."
                 },
                 "error": {
@@ -4655,7 +4655,7 @@
                     "submit": "Submit"
                 },
                 "prompt": {
-                    "start": "Create a new class to manage student accounts and projects.",
+                    "start": "Creating a class with generte accounts for all of the students in your class and let you create galleries that all of your students can add projects to. If students have existing accounts, you can add them later.",
                     "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
                     "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
                     "pending": "Generating usernames and passwords...",
