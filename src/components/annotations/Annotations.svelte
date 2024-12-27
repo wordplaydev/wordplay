@@ -17,7 +17,7 @@
     import { tick } from 'svelte';
     import type Step from '@runtime/Step';
     import type Evaluator from '@runtime/Evaluator';
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import { getConceptIndex, getEvaluation } from '../project/Contexts';
     import type Markup from '../../nodes/Markup';
     import type Source from '../../nodes/Source';

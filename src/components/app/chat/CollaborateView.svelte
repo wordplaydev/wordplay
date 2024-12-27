@@ -17,7 +17,7 @@
         locales,
         Projects,
     } from '@db/Database';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import CreatorView from '../CreatorView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick, untrack } from 'svelte';
@@ -26,7 +26,7 @@
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import Link from '../Link.svelte';
     import CreatorList from '@components/project/CreatorList.svelte';
-    import type Gallery from '@models/Gallery';
+    import type Gallery from '@db/galleries/Gallery';
     import Labeled from '@components/widgets/Labeled.svelte';
 
     const {

@@ -12,7 +12,7 @@
     } from 'svelte/store';
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Feedback from '@components/app/Feedback.svelte';
     import Loading from '@components/app/Loading.svelte';
     import { browser } from '$app/environment';

@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Updated minor versions of Svelte, Sveltekit, Vite.
 - Upgraded to Firebase 11, Firebase Functions 6, Firebase Admin 13
+- Consolidated organization of database-related files.
 
 ## 0.13.3 2024-12-14
 

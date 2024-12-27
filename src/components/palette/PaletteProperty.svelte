@@ -7,7 +7,7 @@
     import BindOptions from './BindOptions.svelte';
     import BindSlider from './BindSlider.svelte';
     import BindText from './BindText.svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import OutputPropertyOptions from '@edit/OutputPropertyOptions';
     import OutputPropertyText from '@edit/OutputPropertyText';
     import type OutputProperty from '@edit/OutputProperty';

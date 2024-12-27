@@ -4,7 +4,7 @@ import { httpsCallable, type Functions } from 'firebase/functions';
 import Reference from '@nodes/Reference';
 import type Source from '@nodes/Source';
 import Names from '@nodes/Names';
-import { Locales } from '@db/Database';     
+import { Locales } from '@db/Database';
 import BinaryEvaluate from '@nodes/BinaryEvaluate';
 import Docs from '@nodes/Docs';
 import Doc from '@nodes/Doc';
@@ -34,15 +34,18 @@ export default async function translateProject(
         // Get the project's primary language.
         const sourceLanguage = project.getPrimaryLanguage();
 
-        // Keep track of existing names in target language 
-        const existingNames = new Set<string>(); 
+        // Keep track of existing names in target language
+        const existingNames = new Set<string>();
 
         // collect existing names in target language
         project.getSources().forEach((source) => {
-            source.nodes()
+            source
+                .nodes()
                 .filter((node): node is Names => node instanceof Names)
                 .forEach((names) => {
-                    const targetName = names.getNameInLanguage(targetLanguage, undefined)?.getName();
+                    const targetName = names
+                        .getNameInLanguage(targetLanguage, undefined)
+                        ?.getName();
                     if (targetName) existingNames.add(targetName);
                 });
         });
@@ -79,9 +82,9 @@ export default async function translateProject(
                     // The original text to translate, or undefined if there is no text to translate.
                     // Convert the camel cased name into separated words for better translation performance.
                     original: nameToTranslate
-                    .getName()
-                    ?.replace(SeparateWords, ' $&')
-                    .trim(),                    
+                        .getName()
+                        ?.replace(SeparateWords, ' $&')
+                        .trim(),
                     // The translation, or undefined if there is no translation yet.
                     translation: targetName,
                 };
@@ -203,17 +206,17 @@ export default async function translateProject(
                                 : word.charAt(0).toUpperCase() + word.slice(1),
                         )
                         .join('');
-                        if (existingNames.has(translation)) {
-                            let counter = 2;
-                            // Increment the counter until a unique name is found
-                            while (existingNames.has(`${translation}${counter}`)) {
-                                counter++;
-                            }
-                            translation = `${translation}${counter}`;
+                    if (existingNames.has(translation)) {
+                        let counter = 2;
+                        // Increment the counter until a unique name is found
+                        while (existingNames.has(`${translation}${counter}`)) {
+                            counter++;
                         }
-    
-                        //Add the unique translation to the set
-                        existingNames.add(translation);
+                        translation = `${translation}${counter}`;
+                    }
+
+                    //Add the unique translation to the set
+                    existingNames.add(translation);
                 }
 
                 // If we have a translation, add it to the bind and update its references.
@@ -328,6 +331,3 @@ export default async function translateProject(
         return null;
     }
 }
-
-
-

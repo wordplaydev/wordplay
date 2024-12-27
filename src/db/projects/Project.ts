@@ -1,7 +1,7 @@
 import { v4 as uuidv4 } from 'uuid';
 import type Conflict from '@conflicts/Conflict';
 import Evaluate from '@nodes/Evaluate';
-import { Basis } from '../basis/Basis';
+import { Basis } from '../../basis/Basis';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import type Program from '@nodes/Program';
@@ -13,21 +13,21 @@ import type { SharedDefinition } from '@nodes/Borrow';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import { parseNames } from '../parser/parseBind';
-import Root from '../nodes/Root';
-import type { Path } from '../nodes/Root';
-import type { CaretPosition } from '../edit/Caret';
+import { parseNames } from '../../parser/parseBind';
+import Root from '../../nodes/Root';
+import type { Path } from '../../nodes/Root';
+import type { CaretPosition } from '../../edit/Caret';
 import type createDefaultShares from '@runtime/createDefaultShares';
-import FunctionType from '../nodes/FunctionType';
-import { getBestSupportedLocales } from '../locale/LocaleText';
+import FunctionType from '../../nodes/FunctionType';
+import { getBestSupportedLocales } from '../../locale/LocaleText';
 import { localeToString } from '@locale/Locale';
 import type Locale from '@locale/Locale';
-import type LocaleText from '../locale/LocaleText';
-import { toTokens } from '../parser/toTokens';
-import type LocalesDatabase from '../db/LocalesDatabase';
+import type LocaleText from '../../locale/LocaleText';
+import { toTokens } from '../../parser/toTokens';
+import type LocalesDatabase from '../LocalesDatabase';
 import { unknownFlags, type Moderation } from './Moderation';
-import DefaultLocale from '../locale/DefaultLocale';
-import Locales from '../locale/Locales';
+import DefaultLocale from '../../locale/DefaultLocale';
+import Locales from '../../locale/Locales';
 import {
     type ProjectID,
     ProjectSchemaLatestVersion,
@@ -40,7 +40,7 @@ import {
 import {
     PROJECT_PARAM_EDIT,
     PROJECT_PARAM_PLAY,
-} from '../routes/project/constants';
+} from '../../routes/project/constants';
 import Name from '@nodes/Name';
 import Doc from '@nodes/Doc';
 import type Definition from '@nodes/Definition';

@@ -2,7 +2,7 @@
     import KeyValue from '@nodes/KeyValue';
     import TextField from '../widgets/TextField.svelte';
     import PoseEditor from './PoseEditor.svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import MapLiteral from '@nodes/MapLiteral';
     import NumberLiteral from '@nodes/NumberLiteral';
     import { createPoseLiteral } from '@output/Pose';

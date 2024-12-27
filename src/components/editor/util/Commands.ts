@@ -35,7 +35,7 @@ import Names from '@nodes/Names';
 import { Settings, type Database } from '@db/Database';
 import type LocaleText from '@locale/LocaleText';
 import Sym from '../../../nodes/Sym';
-import type Project from '../../../models/Project';
+import type Project from '../../../db/projects/Project';
 import interpret from './interpret';
 import { TileKind } from '../../project/Tile';
 import { TAB_SYMBOL } from '@parser/Spaces';

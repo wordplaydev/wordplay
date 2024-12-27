@@ -9,7 +9,7 @@ import { getBind } from '@locale/getBind';
 import Evaluate from '@nodes/Evaluate';
 import Reference from '@nodes/Reference';
 import type LocaleText from '../locale/LocaleText';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Locales from '@locale/Locales';
 
 export function createAuraType(locales: Locales) {

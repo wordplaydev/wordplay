@@ -6,7 +6,7 @@
     import { locales } from '../../db/Database';
     import Emoji from '@components/app/Emoji.svelte';
     import Templates from '@concepts/Templates';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Context from '@nodes/Context';
 
     interface Props {

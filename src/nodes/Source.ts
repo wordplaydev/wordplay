@@ -7,7 +7,7 @@ import {
     DelimiterOpenByClose,
     tokenize,
 } from '@parser/Tokenizer';
-import UnicodeString from '../models/UnicodeString';
+import UnicodeString from '../unicode/UnicodeString';
 import type Value from '@values/Value';
 import type Context from './Context';
 import Names from './Names';

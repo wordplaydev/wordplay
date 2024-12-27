@@ -1,7 +1,6 @@
 import { type Observable } from 'dexie';
 import { PersistenceType, ProjectHistory } from './ProjectHistory.svelte';
-import { get, writable, type Writable } from 'svelte/store';
-import Project from '../../models/Project';
+import Project from './Project';
 import type LocaleText from '../../locale/LocaleText';
 import { Galleries, Locales, SaveStatus, type Database } from '../Database';
 import {
@@ -22,17 +21,17 @@ import { firestore } from '../firebase';
 import type Node from '../../nodes/Node';
 import Source from '../../nodes/Source';
 import { ExamplePrefix, getExample } from '../../examples/examples';
-import { unknownFlags } from '../../models/Moderation';
+import { unknownFlags } from './Moderation';
 import {
     upgradeProject,
     type SerializedProject,
     type SerializedProjectUnknownVersion,
     ProjectSchema,
-} from '../../models/ProjectSchemas';
+} from './ProjectSchemas';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import { EditFailure } from './EditFailure';
 import { COPY_SYMBOL } from '@parser/Symbols';
-import type Gallery from '@models/Gallery';
+import type Gallery from '@db/galleries/Gallery';
 import { SvelteMap } from 'svelte/reactivity';
 import { ProjectsDexie } from './ProjectsDexie';
 

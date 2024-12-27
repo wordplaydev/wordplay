@@ -17,9 +17,9 @@ import { SvelteMap } from 'svelte/reactivity';
 import { z } from 'zod';
 import { Projects, type Database } from './Database';
 import { firestore } from './firebase';
-import type Project from '@models/Project';
+import type Project from '@db/projects/Project';
 import { v4 as uuidv4 } from 'uuid';
-import type Gallery from '@models/Gallery';
+import type Gallery from '@db/galleries/Gallery';
 
 ////////////////////////////////
 // SCHEMAS

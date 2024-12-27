@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import ProjectPreview from './ProjectPreview.svelte';
     import { locales } from '../../db/Database';
     import Button from '../widgets/Button.svelte';

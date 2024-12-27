@@ -27,12 +27,12 @@
         startAfter,
     } from 'firebase/firestore';
     import { firestore } from '../../db/firebase';
-    import type { SerializedGallery } from '../../models/Gallery';
-    import Gallery, { upgradeGallery } from '../../models/Gallery';
+    import type { SerializedGallery } from '../../db/galleries/Gallery';
+    import Gallery, { upgradeGallery } from '../../db/galleries/Gallery';
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import Button from '../../components/widgets/Button.svelte';
-    import { GalleriesCollection } from '../../db/GalleryDatabase.svelte';
+    import { GalleriesCollection } from '../../db/galleries/GalleryDatabase.svelte';
 
     let lastBatch = $state<QueryDocumentSnapshot<DocumentData> | undefined>(
         undefined,

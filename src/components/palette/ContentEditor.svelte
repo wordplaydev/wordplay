@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Evaluate from '@nodes/Evaluate';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';

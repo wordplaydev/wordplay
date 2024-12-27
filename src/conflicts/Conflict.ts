@@ -2,7 +2,7 @@ import type Node from '@nodes/Node';
 import type Context from '@nodes/Context';
 import type Markup from '../nodes/Markup';
 import type Locales from '../locale/Locales';
-import type Project from '@models/Project';
+import type Project from '@db/projects/Project';
 
 type ConflictingNode = {
     node: Node;

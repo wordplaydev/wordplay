@@ -1,9 +1,9 @@
 <!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Evaluator from '@runtime/Evaluator';
     import { Chats, DB, locales } from '../../db/Database';
-    import { isAudience, isFlagged } from '../../models/Moderation';
+    import { isAudience, isFlagged } from '../../db/projects/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
     import { navigating } from '$app/state';
@@ -12,7 +12,7 @@
     import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
     import Fonts from '@basis/Fonts';
     import { getFaceCSS } from '@output/outputToCSS';
-    import UnicodeString from '@models/UnicodeString';
+    import UnicodeString from '../../unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
     import type Chat from '@db/ChatDatabase.svelte';
 

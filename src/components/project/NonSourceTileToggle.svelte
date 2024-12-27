@@ -3,7 +3,7 @@
     import Toggle from '../widgets/Toggle.svelte';
     import type Tile from './Tile';
     import { locales } from '@db/Database';
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import Emoji from '@components/app/Emoji.svelte';
     import TileKinds from './TileKinds';
     import { TYPE_SYMBOL } from '@parser/Symbols';

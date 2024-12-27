@@ -19,7 +19,7 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import parseDoc from '../parser/parseDoc';
 import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
-import type { FlagDescriptions } from '../models/Moderation';
+import type { FlagDescriptions } from '../db/projects/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';

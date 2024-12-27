@@ -28,7 +28,7 @@ import Source from '@nodes/Source';
 import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import Program from '@nodes/Program';
-import UnicodeString from '../models/UnicodeString';
+import UnicodeString from '../unicode/UnicodeString';
 import ListLiteral from '@nodes/ListLiteral';
 import SetLiteral from '../nodes/SetLiteral';
 import MapLiteral from '../nodes/MapLiteral';
@@ -44,7 +44,7 @@ import Translation from '../nodes/Translation';
 import { LanguageTagged } from '../nodes/LanguageTagged';
 import Reference from '../nodes/Reference';
 import Name from '../nodes/Name';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Definition from '../nodes/Definition';
 import DefinitionExpression from '../nodes/DefinitionExpression';
 import NameType from '../nodes/NameType';
@@ -92,7 +92,7 @@ export default class Caret {
         this.column =
             column === undefined
                 ? typeof position === 'number'
-                    ? this.source.getColumn(position) ?? 0
+                    ? (this.source.getColumn(position) ?? 0)
                     : 0
                 : column;
 
@@ -716,14 +716,14 @@ export default class Caret {
             const aPosition =
                 a instanceof Node
                     ? a instanceof Token
-                        ? this.source.getTokenTextPosition(a) ?? 0
-                        : this.source.getNodeFirstPosition(a) ?? 0
+                        ? (this.source.getTokenTextPosition(a) ?? 0)
+                        : (this.source.getNodeFirstPosition(a) ?? 0)
                     : a;
             const bPosition =
                 b instanceof Node
                     ? b instanceof Token
-                        ? this.source.getTokenTextPosition(b) ?? 0
-                        : this.source.getNodeFirstPosition(b) ?? 0
+                        ? (this.source.getTokenTextPosition(b) ?? 0)
+                        : (this.source.getNodeFirstPosition(b) ?? 0)
                     : b;
             return aPosition === bPosition && typeof a === 'number'
                 ? -1
@@ -1797,7 +1797,7 @@ export default class Caret {
         const token = node
             ? node
             : typeof this.position === 'number'
-              ? this.tokenExcludingSpace ?? this.tokenPrior
+              ? (this.tokenExcludingSpace ?? this.tokenPrior)
               : this.position;
 
         if (token === undefined) return;

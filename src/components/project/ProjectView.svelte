@@ -29,7 +29,7 @@
         getFullscreen,
         getUser,
     } from './Contexts';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
     import Annotations from '../annotations/Annotations.svelte';
     import type Conflict from '@conflicts/Conflict';
@@ -100,7 +100,7 @@
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Moderation from './Moderation.svelte';
-    import { isFlagged } from '../../models/Moderation';
+    import { isFlagged } from '../../db/projects/Moderation';
     import Dialog from '../widgets/Dialog.svelte';
     import Separator from './Separator.svelte';
     import Emoji from '../app/Emoji.svelte';

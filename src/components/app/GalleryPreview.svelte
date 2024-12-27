@@ -1,7 +1,7 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { Projects, locales } from '@db/Database';
-    import type Gallery from '../../models/Gallery';
+    import type Gallery from '../../db/galleries/Gallery';
     import Link from './Link.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import Spinning from './Spinning.svelte';
@@ -9,7 +9,7 @@
     import { browser } from '$app/environment';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import { onMount } from 'svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
 
     interface Props {
         gallery: Gallery;

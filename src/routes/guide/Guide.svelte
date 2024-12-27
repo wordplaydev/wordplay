@@ -21,7 +21,7 @@
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
     import { locales } from '@db/Database';
-    import Project from '@models/Project';
+    import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
     import { onMount } from 'svelte';
     import { writable } from 'svelte/store';

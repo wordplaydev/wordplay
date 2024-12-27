@@ -18,7 +18,7 @@ import {
 import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './settings/SettingsDatabase';
-import GalleryDatabase from './GalleryDatabase.svelte';
+import GalleryDatabase from './galleries/GalleryDatabase.svelte';
 import { ChatDatabase } from './ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
 import DefaultLocale from '../locale/DefaultLocale';

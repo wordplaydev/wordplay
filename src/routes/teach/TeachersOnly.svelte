@@ -6,7 +6,7 @@
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
     import { locales } from '@db/Database';
-    import getClaim from '@models/getClaim';
+    import getClaim from '@db/creators/getClaim';
 
     let { children } = $props();
 

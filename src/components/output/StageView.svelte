@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import { onDestroy, onMount, untrack } from 'svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import type Stage from '@output/Stage';
     import { loadedFonts } from '@basis/Fonts';
     import {

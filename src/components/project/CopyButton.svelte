@@ -3,7 +3,7 @@
     import Button from '@components/widgets/Button.svelte';
     import { locales, Projects } from '@db/Database';
     import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import { getUser } from './Contexts';
     import { withMonoEmoji } from '../../unicode/emoji';

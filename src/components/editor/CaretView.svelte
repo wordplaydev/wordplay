@@ -96,7 +96,7 @@
     import Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
     import Token from '@nodes/Token';
-    import UnicodeString from '@models/UnicodeString';
+    import UnicodeString from '../../unicode/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
     import MenuTrigger from './MenuTrigger.svelte';
 

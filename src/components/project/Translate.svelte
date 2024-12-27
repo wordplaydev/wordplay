@@ -9,8 +9,8 @@
     import { functions } from '@db/firebase';
     import { getLanguageName } from '@locale/LanguageCode';
     import { SupportedLocales } from '@locale/LocaleText';
-    import type Project from '@models/Project';
-    import translateProject from '@models/translate';
+    import type Project from '@db/projects/Project';
+    import translateProject from '@db/projects/translate';
 
     interface Props {
         project: Project;

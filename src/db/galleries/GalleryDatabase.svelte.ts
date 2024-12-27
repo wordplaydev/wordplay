@@ -12,25 +12,22 @@ import {
     getDocs,
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
-import Gallery, {
-    deserializeGallery,
-    type SerializedGallery,
-} from '../models/Gallery';
-import type { Database } from './Database';
-import { firestore } from './firebase';
+import Gallery, { deserializeGallery, type SerializedGallery } from './Gallery';
+import type { Database } from '../Database';
+import { firestore } from '../firebase';
 import { FirebaseError } from 'firebase/app';
-import type Project from '../models/Project';
-import { localeToString } from '../locale/Locale';
-import { getExampleGalleries } from '../examples/examples';
-import type Locales from '../locale/Locales';
-import type { ProjectID } from '@models/ProjectSchemas';
+import type Project from '../projects/Project';
+import { localeToString } from '../../locale/Locale';
+import { getExampleGalleries } from '../../examples/examples';
+import type Locales from '../../locale/Locales';
+import type { ProjectID } from '@db/projects/ProjectSchemas';
 import { SvelteMap } from 'svelte/reactivity';
 import {
     ClassesCollection,
     ClassSchema,
     getClass,
     setClass,
-} from './TeacherDatabase.svelte';
+} from '../TeacherDatabase.svelte';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';

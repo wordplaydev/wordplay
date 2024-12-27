@@ -26,7 +26,7 @@ import type { Performance, Line, Dialog } from '../tutorial/Tutorial';
 import Source from '../nodes/Source';
 import type Node from '../nodes/Node';
 import { DOCS_SYMBOL } from '../parser/Symbols';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import { tokenize } from '../parser/Tokenizer';
 import DefaultLocales from '../locale/DefaultLocales';
 import Translate from '@google-cloud/translate';

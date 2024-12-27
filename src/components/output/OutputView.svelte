@@ -2,7 +2,7 @@
     import { toStage } from '../../output/Stage';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import ValueView from '../values/ValueView.svelte';
     import StageView from './StageView.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';

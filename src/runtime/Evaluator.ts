@@ -12,7 +12,7 @@ import type Type from '@nodes/Type';
 import Source from '@nodes/Source';
 import type Names from '@nodes/Names';
 import Expression from '@nodes/Expression';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import type Step from './Step';
 import StructureDefinition from '@nodes/StructureDefinition';
 import FunctionDefinition from '@nodes/FunctionDefinition';

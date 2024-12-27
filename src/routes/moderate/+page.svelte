@@ -25,15 +25,15 @@
         isModerator,
         unknownFlags,
         withFlag,
-    } from '../../models/Moderation';
-    import type Project from '../../models/Project';
+    } from '../../db/projects/Moderation';
+    import type Project from '../../db/projects/Project';
     import { Projects } from '../../db/Database';
     import { writable } from 'svelte/store';
     import { locales } from '../../db/Database';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import Button from '../../components/widgets/Button.svelte';
-    import type { Flag, Moderation } from '../../models/Moderation';
+    import type { Flag, Moderation } from '../../db/projects/Moderation';
     import Spinning from '../../components/app/Spinning.svelte';
     import { ProjectsCollection } from '../../db/projects/ProjectsDatabase.svelte';
     import Markup from '@nodes/Markup';

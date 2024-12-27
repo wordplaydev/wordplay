@@ -1,7 +1,7 @@
 <script lang="ts">
     import { get } from 'svelte/store';
     import { Galleries, Projects, locales } from '../../db/Database';
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import Subheader from '../app/Subheader.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Options from '../widgets/Options.svelte';

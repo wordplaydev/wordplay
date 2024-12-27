@@ -6,7 +6,7 @@
     import Node from '@nodes/Node';
     import Caret, { type CaretPosition } from '../../edit/Caret';
     import { onMount, untrack } from 'svelte';
-    import UnicodeString from '@models/UnicodeString';
+    import UnicodeString from '../../unicode/UnicodeString';
     import {
         handleKeyCommand,
         type Edit,
@@ -47,7 +47,7 @@
     import TypePlaceholder from '@nodes/TypePlaceholder';
     import Sym from '@nodes/Sym';
     import RootView from '../project/RootView.svelte';
-    import Project from '@models/Project';
+    import Project from '@db/projects/Project';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from '../../edit/Autocomplete';

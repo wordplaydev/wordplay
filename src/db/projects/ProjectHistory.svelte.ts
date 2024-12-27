@@ -1,7 +1,7 @@
 import { get, writable, type Writable } from 'svelte/store';
-import Project from '../../models/Project';
+import Project from './Project';
 import type LocaleText from '../../locale/LocaleText';
-import type { SerializedProject } from '@models/ProjectSchemas';
+import type { SerializedProject } from '@db/projects/ProjectSchemas';
 import type LocalesDatabase from '../LocalesDatabase';
 
 // Remember this many project edits.

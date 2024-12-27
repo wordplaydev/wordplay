@@ -1,11 +1,11 @@
 import { test, expect } from 'vitest';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import { DB, Locales } from '../db/Database';
 import { readdirSync, readFileSync } from 'fs';
 import path from 'path';
 import { getExampleGalleries, parseSerializedProject } from './examples';
 import DefaultLocales from '../locale/DefaultLocales';
-import type { SerializedProject } from '../models/ProjectSchemas';
+import type { SerializedProject } from '../db/projects/ProjectSchemas';
 import Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
 import Docs from '@nodes/Docs';

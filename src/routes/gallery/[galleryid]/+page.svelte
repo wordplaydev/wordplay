@@ -51,10 +51,10 @@
     import CreatorList from '@components/project/CreatorList.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
-    import type Gallery from '@models/Gallery';
+    import type Gallery from '@db/galleries/Gallery';
     import Public from '@components/project/Public.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import type Project from '../../../models/Project';
+    import type Project from '../../../db/projects/Project';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import AddProject from '@components/app/AddProject.svelte';
     import {

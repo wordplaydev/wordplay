@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import Source from './Source';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';

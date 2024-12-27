@@ -7,7 +7,7 @@ import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import { getTypeOutputProperties } from './OutputProperties';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
 import {
     HorizontalLayout,

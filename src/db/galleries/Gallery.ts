@@ -1,6 +1,6 @@
-import type LocaleText from '../locale/LocaleText';
-import { localeToString } from '../locale/Locale';
-import type Locales from '../locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import { localeToString } from '@locale/Locale';
+import type Locales from '@locale/Locales';
 
 export const GallerySchemaLatestVersion = 1;
 

@@ -1,5 +1,5 @@
 import type Node from './Node';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Source from './Source';
 import type Type from './Type';
 import type Expression from './Expression';

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Options from '@components/widgets/Options.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import ConceptLinkUI from '@components/concepts/ConceptLinkUI.svelte';
