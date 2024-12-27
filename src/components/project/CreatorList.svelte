@@ -119,7 +119,7 @@
 
 <!-- If metadata was provided, use a table and offer edits -->
 {#if metadata}
-    {@const columns = Array.from(metadata.values())[0].length}
+    {@const columns = Array.from(metadata.values())[0]?.length ?? 0}
     <div class="column">
         <table>
             <thead>

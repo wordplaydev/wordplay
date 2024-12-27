@@ -13,6 +13,8 @@
         prompt: {
             /** Encourage galleries */
             gallery: string;
+            /** Explain deletion */
+            delete: string;
         };
         field: {
             /** The name of the class */
@@ -23,6 +25,8 @@
             newteacher: FieldText;
             /** Add a teacher button */
             addteacher: string;
+            /** Delete class */
+            delete: ButtonText;
         };
         error: {
             /** Couldn't find the requested class */
@@ -51,17 +55,19 @@
     import {
         addStudent,
         addTeacher,
+        deleteClass,
         removeStudent,
         removeTeacher,
         setClass,
         type Class,
     } from '@db/TeacherDatabase.svelte';
-    import type { FieldText } from '@locale/UITexts';
+    import type { ButtonText, FieldText } from '@locale/UITexts';
     import { getTeachData } from '../../+layout.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import { getUser } from '@components/project/Contexts';
     import Link from '@components/app/Link.svelte';
-    import { PREVIOUS_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, PREVIOUS_SYMBOL } from '@parser/Symbols';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
 
     let teach = getTeachData();
     let classData = $derived(teach.getClass(page.params.classid));
@@ -232,4 +238,26 @@
             {/if}
         {/await}
     {/each}
+
+    <MarkupHtmlView
+        markup={$locales.get((l) => l.ui.page.class.prompt.delete)}
+    />
+
+    <p>
+        <ConfirmButton
+            background
+            tip={$locales.get((l) => l.ui.page.class.field.delete.tip)}
+            prompt={$locales.get((l) => l.ui.page.class.field.delete.label)}
+            action={async () => {
+                if (classData) {
+                    await deleteClass(classData);
+                    goto('/teach');
+                }
+            }}
+            >{CANCEL_SYMBOL}
+            {$locales.get(
+                (l) => l.ui.page.class.field.delete.label,
+            )}</ConfirmButton
+        >
+    </p>
 {/if}

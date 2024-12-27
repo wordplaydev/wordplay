@@ -211,6 +211,24 @@ export const createClass = onCall<
         };
     }
 
+    // Ensure each existing user is a valid user ID and get their usernames.
+    const existingEmails: Map<string, string> = new Map();
+    for (const uid of existing) {
+        try {
+            const user = await auth.getUser(uid);
+            existingEmails.set(uid, user.email ?? '');
+        } catch (error) {
+            console.error(JSON.stringify(error));
+            return {
+                classid: undefined,
+                error: {
+                    kind: 'generic',
+                    info: "One of the existing user ids provided doesn't exist",
+                },
+            };
+        }
+    }
+
     // Ensure the students are the correct type
     if (!Array.isArray(students)) {
         console.error('Received', JSON.stringify(students));
@@ -297,9 +315,20 @@ export const createClass = onCall<
         teachers: [teacher],
         learners: [...existing, ...users.map((u) => u.uid)],
         // Convert the email address back to a username
-        info: users.map((u) => {
-            return { ...u, username: u.username.split('@')[0] };
-        }),
+        info: [
+            ...users.map((u) => {
+                return { ...u, username: u.username.split('@')[0] };
+            }),
+            // Ensure there's a row for each existing student
+            ...existing.map((uid) => {
+                return {
+                    uid,
+                    username: existingEmails.get(uid) ?? '',
+                    // Ensure the meta array is the same length as the new users
+                    meta: users[0]?.meta.map(() => '') ?? [],
+                };
+            }),
+        ],
         galleries: [],
     });
 

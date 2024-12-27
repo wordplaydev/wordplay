@@ -2,7 +2,7 @@
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
-import { doc, getDoc, setDoc } from 'firebase/firestore';
+import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
 import { firestore as db } from './firebase';
 import z from 'zod';
 import { Galleries } from './Database';
@@ -122,4 +122,10 @@ export async function removeStudent(classy: Class, uid: string) {
         const galleryData = await Galleries.get(gallery);
         if (galleryData) await Galleries.removeCreator(galleryData, uid);
     }
+}
+
+/** Delete this class document */
+export async function deleteClass(classy: Class) {
+    if (db === undefined) return;
+    deleteDoc(doc(db, ClassesCollection, classy.id));
 }

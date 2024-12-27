@@ -4726,7 +4726,9 @@
                     "galleries": "Galleries"
                 },
                 "prompt": {
-                    "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators."
+                    "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators.",
+
+                    "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts."
                 },
                 "field": {
                     "name": {
@@ -4741,7 +4743,11 @@
                         "placeholder": "email or username",
                         "description": "email or username of the creator who you want to give teacher access to this class"
                     },
-                    "addteacher": "Add a teacher to this class"
+                    "addteacher": "Add a teacher to this class",
+                    "delete": {
+                        "tip": "Delete this class forever.",
+                        "label": "Delete this class"
+                    }
                 },
                 "error": {
                     "notfound": "We couldn't find this class or you don't have permission to view it."
