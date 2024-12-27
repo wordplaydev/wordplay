@@ -41,10 +41,6 @@
 
     .subtitle {
         color: var(--wordplay-header);
-        font-size: min(24pt, max(14pt, 4vw));
-    }
-
-    .smaller .subtitle {
-        font-size: min(24pt, max(12pt, 2vw));
+        font-size: var(--wordplay-font-size);
     }
 </style>
