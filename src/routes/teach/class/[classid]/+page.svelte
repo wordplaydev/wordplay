@@ -49,7 +49,10 @@
     import { Galleries, locales } from '@db/Database';
     import { getClass, setClass, type Class } from '@db/TeacherDatabase.svelte';
     import type { FieldText } from '@locale/UITexts';
+    import { getTeachData } from '../../+layout.svelte';
 
+    let teach = getTeachData();
+    let classData = $derived(teach.getClass(page.params.classid));
     let newGalleryError = $state(false);
 
     async function createGallery(group: Class) {
@@ -84,106 +87,92 @@
 </script>
 
 <Writing>
-    {#await getClass(page.params.classid)}
-        <Header>{$locales.get((l) => l.ui.page.class.header)}</Header>
-        <Spinning></Spinning>
-    {:then group}
-        {#if group === undefined}
-            <Header>{$locales.get((l) => l.ui.page.class.header)}</Header>
-            <Feedback
-                >{$locales.get((l) => l.ui.page.class.error.notfound)}</Feedback
-            >
-        {:else}
-            <Header>{group.name}</Header>
-            <p>{group.description}</p>
-
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.class.subheader.teachers,
-                )}</Subheader
-            >
-
-            <!-- Show all the teachers and allow them to be added and removed. -->
-            <CreatorList
-                uids={group.teachers}
-                add={(uid) => addTeacher(group, uid)}
-                remove={(uid) => removeTeacher(group, uid)}
-                removable={() => group.teachers.length > 1}
-                editable={true}
-                anonymize={false}
-            ></CreatorList>
-
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.class.subheader.students,
-                )}</Subheader
-            >
-            <table>
-                <tbody>
-                    {#each group.info as student}
-                        <tr>
-                            <td>
-                                <CreatorView
-                                    creator={new Creator({
-                                        uid: student.uid,
-                                        name: '',
-                                        email: Creator.usernameEmail(
-                                            student.username,
-                                        ),
-                                    })}
-                                    anonymize={false}
-                                />
-                            </td>
-                            {#each student.meta as info}
-                                <td>{info}</td>
-                            {/each}
-                        </tr>
-                    {/each}
-                </tbody>
-            </table>
-
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.class.subheader.galleries,
-                )}</Subheader
-            >
-
-            <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.class.prompt.gallery)}
-            />
-
-            <Centered>
-                <Button
-                    tip={$locales.get(
-                        (l) => l.ui.page.projects.button.newgallery,
-                    )}
-                    action={() => createGallery(group)}
-                    ><span style:font-size="xxx-large">+</span>
-                </Button>
-            </Centered>
-
-            {#if newGalleryError}
-                <Feedback
-                    >{$locales.get(
-                        (l) => l.ui.page.class.error.gallery,
-                    )}</Feedback
-                >
-            {/if}
-
-            {#each group.galleries as gallery, index}
-                {#await Galleries.get(gallery)}
-                    <Spinning></Spinning>
-                {:then gallery}
-                    {#if gallery}
-                        <GalleryPreview {gallery} delay={index * 1000} />
-                    {/if}
-                {/await}
-            {/each}
-        {/if}
-    {:catch}
+    {#if classData === undefined}
         <Header>{$locales.get((l) => l.ui.page.class.header)}</Header>
         <Feedback
             >{$locales.get((l) => l.ui.page.class.error.notfound)}</Feedback
         >
-    {/await}
+    {:else}
+        <Header>{classData.name}</Header>
+        <p>{classData.description}</p>
+
+        <Subheader
+            >{$locales.get(
+                (l) => l.ui.page.class.subheader.teachers,
+            )}</Subheader
+        >
+
+        <!-- Show all the teachers and allow them to be added and removed. -->
+        <CreatorList
+            uids={classData.teachers}
+            add={(uid) => addTeacher(classData, uid)}
+            remove={(uid) => removeTeacher(classData, uid)}
+            removable={() => classData.teachers.length > 1}
+            editable={true}
+            anonymize={false}
+        ></CreatorList>
+
+        <Subheader
+            >{$locales.get(
+                (l) => l.ui.page.class.subheader.students,
+            )}</Subheader
+        >
+        <table>
+            <tbody>
+                {#each classData.info as student}
+                    <tr>
+                        <td>
+                            <CreatorView
+                                creator={new Creator({
+                                    uid: student.uid,
+                                    name: '',
+                                    email: Creator.usernameEmail(
+                                        student.username,
+                                    ),
+                                })}
+                                anonymize={false}
+                            />
+                        </td>
+                        {#each student.meta as info}
+                            <td>{info}</td>
+                        {/each}
+                    </tr>
+                {/each}
+            </tbody>
+        </table>
+
+        <Subheader
+            >{$locales.get(
+                (l) => l.ui.page.class.subheader.galleries,
+            )}</Subheader
+        >
+
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.class.prompt.gallery)}
+        />
+
+        <Centered>
+            <Button
+                tip={$locales.get((l) => l.ui.page.projects.button.newgallery)}
+                action={() => createGallery(classData)}
+                ><span style:font-size="xxx-large">+</span>
+            </Button>
+        </Centered>
+
+        {#if newGalleryError}
+            <Feedback
+                >{$locales.get((l) => l.ui.page.class.error.gallery)}</Feedback
+            >
+        {/if}
+
+        {#each classData.galleries as gallery, index}
+            {#await Galleries.get(gallery)}
+                <Spinning></Spinning>
+            {:then gallery}
+                {#if gallery}
+                    <GalleryPreview {gallery} delay={index * 1000} />
+                {/if}
+            {/await}
+        {/each}
+    {/if}
 </Writing>
