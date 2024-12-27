@@ -1,5 +1,7 @@
 <script module lang="ts">
-    export type ClassText = {
+    import type { ButtonText, FieldText } from '@locale/UITexts';
+
+    export type ClassPageText = {
         /** Header for the class page*/
         header: string;
         subheader: {
@@ -61,7 +63,6 @@
         setClass,
         type Class,
     } from '@db/TeacherDatabase.svelte';
-    import type { ButtonText, FieldText } from '@locale/UITexts';
     import { getTeachData } from '../../+layout.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import { getUser } from '@components/project/Contexts';

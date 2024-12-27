@@ -2,7 +2,16 @@
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
-import { deleteDoc, doc, getDoc, setDoc } from 'firebase/firestore';
+import {
+    collection,
+    deleteDoc,
+    doc,
+    getDoc,
+    getDocs,
+    query,
+    setDoc,
+    where,
+} from 'firebase/firestore';
 import { firestore as db } from './firebase';
 import z from 'zod';
 import { Galleries } from './Database';
@@ -41,6 +50,30 @@ export type Class = z.infer<typeof ClassSchema>;
 
 export const ClassesCollection = 'classes';
 
+/** Find all classes associated with this gallery. */
+export async function getClasses(galleryID: string) {
+    if (db === undefined) return [];
+
+    const querySnapshot = await getDocs(
+        query(
+            collection(db, ClassesCollection),
+            where('galleries', 'array-contains', galleryID),
+        ),
+    );
+
+    return querySnapshot.docs
+        .map((doc) => {
+            try {
+                return ClassSchema.parse(doc.data());
+            } catch (err) {
+                console.error('Class had an invalid schema', err);
+                return undefined;
+            }
+        })
+        .filter((c) => c !== undefined);
+}
+
+/** Get the class by the given ID */
 export async function getClass(id: string) {
     if (db === undefined) return undefined;
 
@@ -56,6 +89,7 @@ export async function getClass(id: string) {
     } else return undefined;
 }
 
+/** Update the class document with the given class, using its ID. */
 export async function setClass(group: Class) {
     if (db === undefined) return undefined;
 

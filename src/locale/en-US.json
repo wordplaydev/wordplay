@@ -4139,6 +4139,10 @@
             "untitled": "Untitled",
             "undescribed": "No description",
             "subheader": {
+                "classes": {
+                    "header": "Classes",
+                    "explanation": "Classes associated with this gallery."
+                },
                 "curators": {
                     "header": "Curators",
                     "explanation": "Creators who manage this gallery."

@@ -1,8 +1,10 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
-import type { ClassText } from '../routes/teach/class/[classid]/+page.svelte';
-import type { NewClassText } from '../routes/teach/class/new/+page.svelte';
+import type { GalleryPageText } from '../routes/gallery/[galleryid]/+page.svelte';
+import type { ClassPageText } from '../routes/teach/class/[classid]/+page.svelte';
+import type { NewClassPageText } from '../routes/teach/class/new/+page.svelte';
 import type EditTexts from './EditTexts';
+import type { GalleryText } from './GalleryTexts';
 import type { DocText, Template } from './LocaleText';
 
 export type ButtonText = {
@@ -181,36 +183,7 @@ type UITexts = {
         };
     };
     /** Gallery page labels */
-    gallery: {
-        /** What to call a gallery by default, before it's given a name */
-        untitled: string;
-        /** What to say if the description is empty */
-        undescribed: string;
-        /** Headers on the page */
-        subheader: {
-            /** The list of curators */
-            curators: DialogText;
-            /** The list of curators */
-            creators: DialogText;
-            /** Delete header */
-            delete: DialogText;
-        };
-        /** Confirm buttons on the gallery page */
-        confirm: {
-            /** The confirm button that deletes a source file */
-            delete: ConfirmText;
-            /** The confirm button that removes a project from a gallery */
-            remove: ConfirmText;
-        };
-        error: {
-            /** When the gallery is not known or is not public */
-            unknown: string;
-        };
-        field: {
-            name: FieldText;
-            description: FieldText;
-        };
-    };
+    gallery: GalleryPageText;
     /** Source file controls */
     source: {
         /** The ARIA label for the source file section */
@@ -809,8 +782,8 @@ type UITexts = {
                 new: string;
             };
         };
-        newclass: NewClassText;
-        class: ClassText;
+        newclass: NewClassPageText;
+        class: ClassPageText;
         guide: {
             /** The header for the guide page */
             header: string;

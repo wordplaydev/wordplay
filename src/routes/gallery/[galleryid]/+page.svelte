@@ -1,3 +1,42 @@
+<script module lang="ts">
+    import type { DialogText } from '@locale/UITexts';
+    import type { ConfirmText } from '@locale/UITexts';
+    import type { FieldText } from '@locale/UITexts';
+
+    export type GalleryPageText = {
+        /** What to call a gallery by default, before it's given a name */
+        untitled: string;
+        /** What to say if the description is empty */
+        undescribed: string;
+        /** Headers on the page */
+        subheader: {
+            /** Associtaed classes header */
+            classes: DialogText;
+            /** The list of curators */
+            curators: DialogText;
+            /** The list of curators */
+            creators: DialogText;
+            /** Delete header */
+            delete: DialogText;
+        };
+        /** Confirm buttons on the gallery page */
+        confirm: {
+            /** The confirm button that deletes a source file */
+            delete: ConfirmText;
+            /** The confirm button that removes a project from a gallery */
+            remove: ConfirmText;
+        };
+        error: {
+            /** When the gallery is not known or is not public */
+            unknown: string;
+        };
+        field: {
+            name: FieldText;
+            description: FieldText;
+        };
+    };
+</script>
+
 <script lang="ts">
     import { page } from '$app/stores';
     import Feedback from '@components/app/Feedback.svelte';
@@ -12,9 +51,7 @@
     import CreatorList from '@components/project/CreatorList.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
-    import type { Unsubscriber } from 'svelte/store';
     import type Gallery from '@models/Gallery';
-    import { onDestroy } from 'svelte';
     import Public from '@components/project/Public.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import type Project from '../../../models/Project';
@@ -26,6 +63,8 @@
         EDIT_SYMBOL,
     } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
+    import { getClasses, type Class } from '@db/TeacherDatabase.svelte';
+    import Link from '@components/app/Link.svelte';
 
     const user = getUser();
 
@@ -41,6 +80,13 @@
             // Not found? No gallery.
             else gallery = undefined;
         });
+    });
+
+    let classes = $state<Class[] | undefined>(undefined);
+    $effect(() => {
+        if (gallery) {
+            getClasses(gallery.getID()).then((matches) => (classes = matches));
+        }
     });
 
     // let galleryUnsubscribe: Unsubscriber | undefined = undefined;
@@ -289,6 +335,29 @@
                             : undefined}
                     removable={() => true}
                 />
+            {/if}
+
+            {#if classes}
+                <Subheader
+                    >{$locales.get(
+                        (l) => l.ui.gallery.subheader.classes.header,
+                    )}</Subheader
+                >
+                <MarkupHtmlView
+                    markup={$locales.get(
+                        (l) => l.ui.gallery.subheader.classes.explanation,
+                    )}
+                />
+
+                <ul>
+                    {#each classes as classy}
+                        <li
+                            ><Link to="/teach/class/{classy.id}"
+                                >{classy.name}</Link
+                            ></li
+                        >
+                    {/each}
+                </ul>
             {/if}
 
             {#if $user && gallery.getCurators().includes($user.uid)}

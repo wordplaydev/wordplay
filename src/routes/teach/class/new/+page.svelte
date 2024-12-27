@@ -1,6 +1,8 @@
 <script module lang="ts">
+    import type { ButtonText, FieldText } from '@locale/UITexts';
+
     /** The localization strings for the page. */
-    export type NewClassText = {
+    export type NewClassPageText = {
         /** The header for the create class page */
         header: string;
         subheader: {
@@ -88,7 +90,6 @@
     import Button from '@components/widgets/Button.svelte';
     import Feedback from '@components/app/Feedback.svelte';
     import Centered from '@components/app/Centered.svelte';
-    import type { ButtonText, FieldText } from '@locale/UITexts';
     import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
     import {
         createCredentials,
