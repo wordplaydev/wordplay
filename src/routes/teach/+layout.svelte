@@ -55,6 +55,7 @@
         if (firestore === undefined) return;
         if (uid === undefined) {
             if (unsub) unsub();
+            data.setClasses(null);
             return;
         }
 
