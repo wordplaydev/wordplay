@@ -1,3 +1,16 @@
+<script module lang="ts">
+    import type { Template } from '@locale/LocaleText';
+
+    export type RightsPageText = {
+        /** Header for the rights page */
+        header: string;
+        /** Paragraphs for the rights page */
+        content: Template[];
+        /** The consequences of violating a promise. */
+        consequences: Template[];
+    };
+</script>
+
 <script lang="ts">
     import Header from '../../components/app/Header.svelte';
     import Writing from '../../components/app/Writing.svelte';

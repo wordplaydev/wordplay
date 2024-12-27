@@ -7,6 +7,7 @@
     import Login from './Login.svelte';
     import { goto } from '$app/navigation';
     import { browser } from '$app/environment';
+    import { string } from 'zod';
 
     let user = getUser();
 
