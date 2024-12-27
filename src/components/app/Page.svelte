@@ -79,6 +79,9 @@
                 <Link nowrap to="/guide"
                     >{$locales.get((l) => l.ui.page.guide.header)}</Link
                 >
+                <Link nowrap to="/teach"
+                    >{$locales.get((l) => l.ui.page.teach.header)}</Link
+                >
                 <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
                     >{$locales.get((l) => l.term.help)}</Link
                 >

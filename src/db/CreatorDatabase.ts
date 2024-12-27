@@ -39,6 +39,12 @@ export class Creator {
         return email.endsWith(Creator.CreatorUsernameEmailDomain);
     }
 
+    static getUsername(email: string) {
+        return Creator.isUsername(email)
+            ? email.replace(Creator.CreatorUsernameEmailDomain, '')
+            : email;
+    }
+
     getName() {
         return this.data.name;
     }

@@ -4048,7 +4048,15 @@
             "loading": {
                 "message": "Loading font faces and text, thanks for waiting!"
             },
-            "home": "go to home page"
+            "home": "go to home page",
+            "table": {
+                "cell": {
+                    "description": "edit this cell",
+                    "placeholder": "value"
+                },
+                "addcolumn": "add a column before this column",
+                "removecolumn": "remove this column"
+            }
         },
         "tile": {
             "toggle": {
@@ -4131,6 +4139,10 @@
             "untitled": "Untitled",
             "undescribed": "No description",
             "subheader": {
+                "classes": {
+                    "header": "Classes",
+                    "explanation": "Classes associated with this gallery."
+                },
                 "curators": {
                     "header": "Curators",
                     "explanation": "Creators who manage this gallery."
@@ -4603,6 +4615,7 @@
                 ],
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
+                    "teach": "Manage classes of students and their projects",
                     "guide": "Search and browse the language reference",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
@@ -4627,6 +4640,121 @@
                 },
                 "options": {
                     "lesson": "current lesson"
+                }
+            },
+            "teach": {
+                "header": "Teach",
+                "prompt": {
+                    "none": "Welcome teacher! Create a class to set up and manage student accounts and project galleries.",
+                    "some": "Welcome teacher! Manage your classes or create a new one."
+                },
+                "error": {
+                    "offline": "We weren't able to check your teacher status. Are you logged in?",
+                    "login": "You need to be logged in to manage classes.",
+                    "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
+                },
+                "link": {
+                    "request": "Request teacher privileges",
+                    "new": "Create a class"
+                }
+            },
+            "newclass": {
+                "header": "New class",
+                "subheader": {
+                    "class": "Your class",
+                    "students": "Your students",
+                    "credentials": "Usernames and passwords",
+                    "submit": "Submit"
+                },
+                "prompt": {
+                    "start": "Creating a class with generte accounts for all of the students in your class and let you create galleries that all of your students can add projects to. If students have existing accounts, you can add them later.",
+                    "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
+                    "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
+                    "pending": "Generating usernames and passwords...",
+                    "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe.",
+                    "submitting": "Requesting new accounts with the usernames and passwords above...",
+                    "download": "Your class is ready! You should see a download of your student data in your download folder. *Passwords are not recoverable*, so keep this file somewhere safe!"
+                },
+                "field": {
+                    "name": {
+                        "description": "class name",
+                        "placeholder": "a short name"
+                    },
+                    "description": {
+                        "description": "description",
+                        "placeholder": "a description of your class, for you and your students."
+                    },
+                    "existing": {
+                        "label": "students with accounts",
+                        "prompt": "Do some of your students already have Wordplay accounts? Include them here."
+                    },
+                    "metadata": {
+                        "description": "student information",
+                        "placeholder": "e.g., student id, family name, given name",
+                        "prompt": "Want to create new accounts for students? Provide *any information* about students, one per line, separated by commas. This can be family names, given names, student numbers, or other distinguishing details. We will use it to generate usernames that you can edit below, helping you associate usernames to learners."
+                    },
+                    "words": {
+                        "description": "words to use in passwords",
+                        "placeholder": "e.g., cat dot rat...",
+                        "prompt": "Provide at least *25 words* randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
+                    },
+                    "generate": {
+                        "label": "generate",
+                        "tip": "Create usernames and passwords based on the information above."
+                    },
+                    "edit": {
+                        "label": "edit",
+                        "tip": "edit the generated student information"
+                    },
+                    "submit": {
+                        "label": "create class",
+                        "tip": "Create a new class with this information."
+                    }
+                },
+                "error": {
+                    "duplicates": "There are duplicate entries in the student information.",
+                    "columns": "Ensure each student has the same number of columns.",
+                    "generate": "Unable to create unique usernames.",
+                    "taken": "One or more usernames above is taken",
+                    "limit": "You can't crete a class of more than 35 students at a time.",
+                    "words": "Provide at least 25 words.",
+                    "account": "Unable to create some of the accounts.",
+                    "generic": "We couldn't create the class. Here's some information to help developers figure out what went wrong."
+                }
+            },
+            "class": {
+                "header": "Class",
+                "subheader": {
+                    "teachers": "Teachers",
+                    "students": "Students",
+                    "galleries": "Galleries"
+                },
+                "prompt": {
+                    "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators.",
+
+                    "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts."
+                },
+                "field": {
+                    "name": {
+                        "description": "name of the class",
+                        "placeholder": "name"
+                    },
+                    "description": {
+                        "description": "description of the class",
+                        "placeholder": "description"
+                    },
+                    "newteacher": {
+                        "placeholder": "email or username",
+                        "description": "email or username of the creator who you want to give teacher access to this class"
+                    },
+                    "addteacher": "Add a teacher to this class",
+                    "delete": {
+                        "tip": "Delete this class forever.",
+                        "label": "Delete this class"
+                    }
+                },
+                "error": {
+                    "notfound": "We couldn't find this class or you don't have permission to view it."
                 }
             },
             "guide": {

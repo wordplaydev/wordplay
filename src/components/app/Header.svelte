@@ -1,7 +1,4 @@
 <script lang="ts">
-    import TiltedHeader from './Tilted.svelte';
-
-    
     interface Props {
         /** Whether the header is in a list of blocks of text, and therefore should be offset to the inline start and have a block margin. */
         block?: boolean;
@@ -12,9 +9,7 @@
     let { block = true, wrap = false, children }: Props = $props();
 </script>
 
-<h1 class:block class:wrap
-    ><TiltedHeader capitalized={false}>{@render children?.()}</TiltedHeader></h1
->
+<h1 class:block class:wrap>{@render children?.()}</h1>
 
 <style>
     h1 {

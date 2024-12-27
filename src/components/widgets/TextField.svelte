@@ -9,6 +9,8 @@
         description: string;
         validator?: undefined | ((text: string) => boolean);
         changed?: undefined | ((text: string) => void);
+        // Called if someone typed and paused for more than a second.
+        dwelled?: undefined | ((text: string) => void);
         done?: undefined | ((text: string) => void);
         fill?: boolean;
         view?: HTMLInputElement | undefined;
@@ -31,6 +33,7 @@
         description,
         validator = undefined,
         changed = undefined,
+        dwelled = undefined,
         done = undefined,
         fill = false,
         view = $bindable(undefined),
@@ -46,9 +49,16 @@
 
     let width = $state(0);
 
+    let timeout: NodeJS.Timeout | undefined = undefined;
+
     function handleInput() {
-        if (changed && (validator === undefined || validator(text) === true))
-            changed(text);
+        if (changed) changed(text);
+
+        if (timeout) clearTimeout(timeout);
+        if (dwelled)
+            timeout = setTimeout(() => {
+                if (dwelled) dwelled(text);
+            }, 1000);
 
         // Restore input
         tick().then(() => {
@@ -168,6 +178,8 @@
 
     input::placeholder {
         font-family: var(--wordplay-app-font);
+        font-style: italic;
+        color: var(--wordplay-inactive-color);
     }
 
     .measurer {

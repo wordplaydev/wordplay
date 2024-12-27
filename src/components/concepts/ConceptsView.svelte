@@ -1,7 +1,6 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
     import ConceptGroupView from './ConceptGroupView.svelte';
-    import TiltedHeader from '../app/Tilted.svelte';
 
     interface Props {
         category: string;
@@ -12,7 +11,7 @@
     let { category, concepts, collapse }: Props = $props();
 </script>
 
-<h1><TiltedHeader>{category}</TiltedHeader></h1>
+<h1>{category}</h1>
 <ConceptGroupView {concepts} {collapse} />
 
 <style>

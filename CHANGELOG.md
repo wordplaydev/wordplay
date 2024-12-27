@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.14.0 2024-12-27
+
+### Added
+
+- Fixed #519, adding the ability for teachers to create classes, student accounts, and galleries associated with classes.
+
 ## 0.13.3 2024-12-14
 
 ### Added

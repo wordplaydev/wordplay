@@ -60,6 +60,11 @@
                 >{$locales.get((l) => l.ui.page.projects.header)}</Link
             ></p
         >
+        <p
+            ><Link to="/teach"
+                >{$locales.get((l) => l.ui.page.teach.header)}</Link
+            ></p
+        >
     </Action>
     <Action>
         <p>{$locales.get((l) => l.ui.page.login.prompt.name)}</p>

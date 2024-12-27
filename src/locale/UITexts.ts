@@ -1,6 +1,22 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
+import type { UnknownPageText } from '../routes/+error.svelte';
+import type { LandingPageText } from '../routes/+page.svelte';
+import type { AboutPageText } from '../routes/about/+page.svelte';
+import type { DonatePageText } from '../routes/donate/+page.svelte';
+import type { GalleriesPageText } from '../routes/galleries/+page.svelte';
+import type { GalleryPageText } from '../routes/gallery/[galleryid]/+page.svelte';
+import type { GuidePageText } from '../routes/guide/Guide.svelte';
+import type { JoinPageText } from '../routes/join/Join.svelte';
+import type { LearnPageText } from '../routes/learn/+page.svelte';
+import type { LoginPageText } from '../routes/login/Login.svelte';
+import type { ProjectsPageText } from '../routes/projects/+page.svelte';
+import type { RightsPageText } from '../routes/rights/+page.svelte';
+import type { TeachPageText } from '../routes/teach/+page.svelte';
+import type { ClassPageText } from '../routes/teach/class/[classid]/+page.svelte';
+import type { NewClassPageText } from '../routes/teach/class/new/+page.svelte';
 import type EditTexts from './EditTexts';
+import type { GalleryText } from './GalleryTexts';
 import type { DocText, Template } from './LocaleText';
 
 export type ButtonText = {
@@ -75,6 +91,15 @@ type UITexts = {
         };
         /** The go home button description */
         home: string;
+        /** An editable table */
+        table: {
+            /** The field to edit a cell */
+            cell: FieldText;
+            /** The button to remove a row from the table */
+            addcolumn: string;
+            /** The button to remove a row from the table */
+            removecolumn: string;
+        };
     };
     /** Controls for the tiled windows in the project */
     tile: {
@@ -170,36 +195,7 @@ type UITexts = {
         };
     };
     /** Gallery page labels */
-    gallery: {
-        /** What to call a gallery by default, before it's given a name */
-        untitled: string;
-        /** What to say if the description is empty */
-        undescribed: string;
-        /** Headers on the page */
-        subheader: {
-            /** The list of curators */
-            curators: DialogText;
-            /** The list of curators */
-            creators: DialogText;
-            /** Delete header */
-            delete: DialogText;
-        };
-        /** Confirm buttons on the gallery page */
-        confirm: {
-            /** The confirm button that deletes a source file */
-            delete: ConfirmText;
-            /** The confirm button that removes a project from a gallery */
-            remove: ConfirmText;
-        };
-        error: {
-            /** When the gallery is not known or is not public */
-            unknown: string;
-        };
-        field: {
-            name: FieldText;
-            description: FieldText;
-        };
-    };
+    gallery: GalleryPageText;
     /** Source file controls */
     source: {
         /** The ARIA label for the source file section */
@@ -716,268 +712,33 @@ type UITexts = {
     };
     page: {
         /** The unknown route page */
-        unknown: {
-            /** The header for the unknown route */
-            header: string;
-            /** The message for the unknown route */
-            message: string;
-        };
-        landing: {
-            /** The value proposition for the site */
-            value: Template;
-            /** A description of the platform's features */
-            description: Template | Template[];
-            /** The landing page beta warning */
-            beta: Template[];
-            /** The subtitles below links */
-            link: {
-                /** What content is on the about page */
-                about: string;
-                /** What content is on the learn page */
-                learn: string;
-                /** What content is on the guide page */
-                guide: string;
-                /** What content is on the projects page */
-                projects: string;
-                /** What content is on the galleries page */
-                galleries: string;
-                /** What content is on the rights page */
-                rights: string;
-                /** The community link */
-                community: {
-                    label: string;
-                    subtitle: string;
-                };
-                /** The contributor link */
-                contribute: {
-                    label: string;
-                    subtitle: string;
-                };
-            };
-        };
-        learn: {
-            /** The header for the tutorial page */
-            header: string;
-            /** When the tutorial could not be found */
-            error: string;
-            button: {
-                /** Advance to the next pause in the dialog */
-                next: string;
-                /** Navigate back to the previous pause in the dialog */
-                previous: string;
-            };
-            /** Labels for drop down menus */
-            options: {
-                /** The label for the lesson drop down */
-                lesson: string;
-            };
-        };
-        guide: {
-            /** The header for the guide page */
-            header: string;
-            /** A description of the guide */
-            description: string;
-        };
+        unknown: UnknownPageText;
+        /** Landing page text */
+        landing: LandingPageText;
+        /** Tutorial page text */
+        learn: LearnPageText;
+        /** Teacher landing page text */
+        teach: TeachPageText;
+        /** New class page text */
+        newclass: NewClassPageText;
+        /** Class page text */
+        class: ClassPageText;
+        /** Docuemntation guide page text */
+        guide: GuidePageText;
         /** The project creation and browsing page */
-        projects: {
-            /** Header for the projects page */
-            header: string;
-            /** Explanation for the project page */
-            projectprompt: string;
-            /** The header for the archived subsection */
-            archiveheader: string;
-            /** Explanation for the archive subsection */
-            archiveprompt: string;
-            /** Header for the galleries page */
-            galleriesheader: string;
-            /** A prompt to create galleries */
-            galleryprompt: string;
-            /** Dialog text for the project addition dialog */
-            add: DialogText;
-            /** Buttons on the project page */
-            button: {
-                /** Create a new project */
-                newproject: string;
-                /** Edit a project */
-                editproject: string;
-                /** View a project's code */
-                viewcode: string;
-                /** Create a new gallery */
-                newgallery: string;
-                /** The project unarchive button description */
-                unarchive: string;
-            };
-            confirm: {
-                /** The project archive button */
-                archive: ConfirmText;
-                /** The project delete button */
-                delete: ConfirmText;
-            };
-            error: {
-                /** When there's no access to the database. */
-                noaccess: string;
-                /** When the creator is not logged in. */
-                nogalleryedits: string;
-                /** Unable to create a gallery */
-                newgallery: string;
-                /** Feedback that we are unable to delete when logged out */
-                nodeletes: string;
-                /** Unable to delete project */
-                delete: string;
-            };
-        };
-        galleries: {
-            /** How to describe galleries of projects */
-            header: string;
-            /** Explanation for the galleries page */
-            prompt: string;
-            /** The subheader for the examples */
-            examples: string;
-        };
-        about: {
-            /** Header for the about page */
-            header: string;
-            /** Text for the about page */
-            content: string[];
-        };
+        projects: ProjectsPageText;
+        /** Gallery browsing page text */
+        galleries: GalleriesPageText;
+        /** About page text */
+        about: AboutPageText;
         /** The login and account page */
-        login: {
-            /** Header for the login page when not logged in */
-            header: string;
-            /** Subtitle for the header link on the landing page */
-            subtitle: string;
-            prompt: {
-                /** Prompts creator to login to save their work */
-                login: string;
-                /** Prompt to join on the login page */
-                join: string;
-                /** Forgot password regrets */
-                forgot: string;
-                /** Email login explanation */
-                email: string;
-                /** Prompt to check email for a login link. */
-                sent: string;
-                /** Tells the creator that they can change their email address. */
-                changeEmail: string;
-                /** Tells the creator that they can cahnge their password */
-                changePassword: string;
-                /** Asks the creator to enter their email if they opened the email link in a different browser. */
-                enter: string;
-                /** Encouragement to go create after logging in. */
-                play: string;
-                /** Description of password rules */
-                passwordrule: string;
-                /** Reminder to write down password */
-                passwordreminder: string;
-                /** Too young feedback */
-                tooyoung: string;
-                /** Offers to log out the creator. */
-                logout: string;
-                /** Shown briefly before page redirects to projects */
-                success: string;
-                /** Prompts creator to check their original email to confirm the email change */
-                confirm: string;
-                /** Offers to delete account */
-                delete: string;
-                /** Offers to really delete account forever */
-                reallyDelete: string;
-                /** Pick an emoji as a name */
-                name: string;
-            };
-            /** Shown in the footer a creator is not logged in. */
-            anonymous: string;
-            field: {
-                /** The login email */
-                email: FieldText;
-                /** The login username */
-                username: FieldText;
-                /** The login password */
-                password: FieldText;
-                /** The old password */
-                currentPassword: FieldText;
-                /** The new password */
-                newPassword: FieldText;
-            };
-            feedback: {
-                /** Change email pending */
-                changing: string;
-                /** Account deleting pending */
-                deleting: string;
-                /** Password successfully updated */
-                updatedPassword: string;
-                /** Email or username must match to delete account */
-                match: string;
-            };
-            error: {
-                /** Shown when the login link expired */
-                expired: string;
-                /** Shown when the login link isn't valid */
-                invalid: string;
-                /** Shown when the email address isn't valid */
-                email: string;
-                /** Unknown failure to login */
-                failure: string;
-                /** When there's no connection to Firebase */
-                offline: string;
-                /** When the email address couldn't be changed for unknown reasons. */
-                unchanged: string;
-                /** When account deletion failed */
-                delete: string;
-                /** When a password is wrong */
-                wrongPassword: string;
-                /** When there are too mant failed attempts */
-                tooMany: string;
-            };
-            button: {
-                /** Log out of the account */
-                logout: ButtonText;
-                /** Login button description */
-                login: string;
-                /** Update email button description  */
-                updateEmail: string;
-                /** Delete account button */
-                delete: ButtonText;
-                /** Confirm deletion */
-                reallyDelete: ButtonText;
-                /** Update password */
-                updatePassword: string;
-            };
-            toggle: {
-                /** Reveal password toggle */
-                reveal: ToggleText;
-            };
-        };
-        join: {
-            /** The account creation header */
-            header: string;
-            /** Requests for information on the account creation page */
-            prompt: {
-                /** Prompt to create an account */
-                create: string;
-                /** Username rules */
-                username: string;
-                /** Password rules and warnings */
-                password: string;
-            };
-        };
+        login: LoginPageText;
+        /** Account creation page text */
+        join: JoinPageText;
         /** The rights/terms of service page */
-        rights: {
-            /** Header for the rights page */
-            header: string;
-            /** Paragraphs for the rights page */
-            content: Template[];
-            /** The consequences of violating a promise. */
-            consequences: Template[];
-        };
+        rights: RightsPageText;
         /** Giving related text */
-        donate: {
-            /** The label for the link and header */
-            header: Template;
-            /** The explanation of the link */
-            prompt: Template;
-            /** The content of the page */
-            content: Template[];
-        };
+        donate: DonatePageText;
     };
     /** Descriptions of cursor positions and code transformations */
     edit: EditTexts;

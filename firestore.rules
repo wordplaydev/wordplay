@@ -66,5 +66,21 @@ service cloud.firestore {
       // Participants can read, update, and delete chats
       allow read, update, delete: if request.auth != null && (resource == null || (resource.data != null && request.auth.uid in resource.data.participants));
     }
+    match /classes/{class} {
+      function isTeacher() { 
+        return "teacher" in request.auth.token && request.auth.token.teacher; 
+      }
+
+      // Only teachers can create classes
+      allow create: if request.auth != null && isTeacher();
+      // Students and teachers can read classes
+      allow get: if request.auth != null && resource.data != null && (
+        ("learners" in resource.data && request.auth.uid in resource.data.learners) || 
+        ("teachers" in resource.data && request.auth.uid in resource.data.teachers)
+      );
+      allow list: if request.auth != null;
+      // Only teachers of a class can update and delete classes
+      allow update, delete: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers);
+    }
   }
 }

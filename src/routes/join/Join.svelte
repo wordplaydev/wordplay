@@ -1,3 +1,19 @@
+<script module lang="ts">
+    export type JoinPageText = {
+        /** The account creation header */
+        header: string;
+        /** Requests for information on the account creation page */
+        prompt: {
+            /** Prompt to create an account */
+            create: string;
+            /** Username rules */
+            username: string;
+            /** Password rules and warnings */
+            password: string;
+        };
+    };
+</script>
+
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
     import LoginForm from '../login/LoginForm.svelte';
@@ -11,11 +27,11 @@
     import Button from '@components/widgets/Button.svelte';
     import isValidUsername from '@db/isValidUsername';
     import { goto } from '$app/navigation';
-    import { httpsCallable } from 'firebase/functions';
     import Feedback from '@components/app/Feedback.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Toggle from '@components/widgets/Toggle.svelte';
     import Header from '@components/app/Header.svelte';
+    import { usernameAccountExists } from '../../db/accountExists';
 
     let username = $state('');
     let password = $state('');
@@ -25,6 +41,9 @@
 
     /** When true, login submission button shows loading spinner */
     let loading = $state(false);
+
+    /** When true, checking if username exists */
+    let checkingUsername = $state(false);
 
     /** Feedback to show in the login form */
     let feedback: string | undefined = $state(undefined);
@@ -62,15 +81,6 @@
             }
         }
     }
-
-    async function checkUsername(name: string) {
-        if (functions === undefined) return;
-        const wordplayEmail = Creator.usernameEmail(name);
-
-        // Get missing info.
-        const emailExists = httpsCallable<string>(functions, 'emailExists');
-        available = (await emailExists(wordplayEmail)).data === false;
-    }
 </script>
 
 <Header>{$locales.get((l) => l.ui.page.join.header)}</Header>
@@ -96,10 +106,18 @@
             bind:text={username}
             editable={!loading}
             validator={(text) => isValidUsername(text)}
-            done={(text) => checkUsername(text)}
+            changed={() => {
+                if (available === false) available = undefined;
+            }}
+            dwelled={async (text) => {
+                checkingUsername = true;
+                available = (await usernameAccountExists(text)) === false;
+                checkingUsername = false;
+            }}
         />
     </p>
-    {#if available === false}
+    {#if checkingUsername}<Spinning></Spinning>
+    {:else if available === false}
         <Feedback>This username is taken.</Feedback>
     {/if}
 

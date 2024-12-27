@@ -4013,7 +4013,15 @@
             "loading": {
                 "message": "Cargando fuentes y texto, ¡gracias por esperar! "
             },
-            "home": "ir a la página de inicio"
+            "home": "ir a la página de inicio",
+            "table": {
+                "cell": {
+                    "description": "$~editar esta celda",
+                    "placeholder": "$~valor"
+                },
+                "addcolumn": "$~Añade una columna antes de esta columna.",
+                "removecolumn": "$~eliminar esta columna"
+            }
         },
         "tile": {
             "toggle": {
@@ -4107,6 +4115,10 @@
                 "delete": {
                     "header": "Borrar",
                     "explanation": "Borrar esta galería no borrará sus proyectos. La galería se borrará para siempre."
+                },
+                "classes": {
+                    "header": "$~Clases",
+                    "explanation": "$~Clases asociadas a esta galería."
                 }
             },
             "confirm": {
@@ -4545,7 +4557,8 @@
                     "contribute": {
                         "label": "Contribuir",
                         "subtitle": "Ayúdanos a hacer Wordplay."
-                    }
+                    },
+                    "teach": "$~Gestionar clases de estudiantes y sus proyectos"
                 }
             },
             "learn": {
@@ -4753,6 +4766,120 @@
                     "Si 2,400 personas donaran $$25 USD al año, eso cubriría nuestros costos actuales, y cualquier excedente se destinaría a compensar a más estudiantes y profesores.",
                     "¿Puedes ser una de esas 2,400 personas? Si es así, aquí está nuestro enlace de donación de la Universidad de Washington:"
                 ]
+            },
+            "teach": {
+                "header": "$~Enseñar",
+                "prompt": {
+                    "none": "$~¡Bienvenido, profesor! Crea una clase para configurar y administrar cuentas de estudiantes y galerías de proyectos.",
+                    "some": "$~¡Bienvenido profesor! Gestiona tus clases o crea una nueva."
+                },
+                "error": {
+                    "offline": "$~No podemos verificar tu estado de profesor.",
+                    "login": "$~Debes iniciar sesión para administrar clases.",
+                    "teacher": "$~Necesitas privilegios de profesor para crear y administrar clases. ¡Completa este formulario y conozcámonos!"
+                },
+                "link": {
+                    "request": "$~Solicitar privilegios de profesor",
+                    "new": "$~Crear una clase"
+                }
+            },
+            "newclass": {
+                "header": "$~Nueva clase",
+                "subheader": {
+                    "class": "$~Tu clase",
+                    "students": "$~Tus estudiantes",
+                    "credentials": "$~Nombres de usuario y contraseñas",
+                    "submit": "$~Entregar"
+                },
+                "prompt": {
+                    "start": "$~Crea una clase con cuentas generadas para todos los estudiantes de tu clase y te permite crear galerías a las que todos tus estudiantes pueden agregar proyectos. Si los estudiantes tienen cuentas existentes, puedes agregarlas más tarde.",
+                    "review": "$~Revisa los nombres de usuario y las contraseñas que creamos. ¿Quieres *editarlos* antes de continuar? Si lo haces, no podrás editar la información del estudiante que aparece arriba.",
+                    "ready": "$~Avísanos cuando estés listo para generar las credenciales que aparecen arriba. Puedes editarlas después de hacerlo.",
+                    "pending": "$~Generando nombres de usuario y contraseñas...",
+                    "submit": "$~¿Está listo para enviar su solicitud? En cuanto la envíe correctamente, recibirá una descarga de esta información. Las contraseñas *no se pueden recuperar*, así que guárdelas en un lugar seguro.",
+                    "submitting": "$~Solicitando nuevas cuentas con los nombres de usuario y contraseñas anteriores...",
+                    "download": "$~¡Tu clase está lista! Deberías ver una descarga de los datos de tus estudiantes en tu carpeta de descargas. *Las contraseñas no se pueden recuperar*, así que guarda este archivo en un lugar seguro."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre de la clase",
+                        "placeholder": "$~un nombre corto"
+                    },
+                    "description": {
+                        "description": "$~descripción",
+                        "placeholder": "$~una descripción de tu clase, para ti y tus estudiantes."
+                    },
+                    "existing": {
+                        "label": "$~estudiantes con cuentas",
+                        "prompt": "$~¿Alguno de tus alumnos ya tiene cuenta en Wordplay? Inclúyelos aquí."
+                    },
+                    "metadata": {
+                        "description": "$~Información del estudiante",
+                        "placeholder": "$~p. ej., identificación de estudiante, apellido, nombre de pila",
+                        "prompt": "$~¿Quieres crear nuevas cuentas para estudiantes? Proporciona *cualquier información* sobre los estudiantes, una por línea, separada por comas. Puede tratarse de apellidos, nombres de pila, números de estudiante u otros detalles distintivos. Los utilizaremos para generar nombres de usuario que puedes editar a continuación, lo que te ayudará a asociar nombres de usuario con estudiantes."
+                    },
+                    "words": {
+                        "description": "$~Palabras para usar en contraseñas",
+                        "placeholder": "$~p. ej., gato punto rata...",
+                        "prompt": "$~Proporcione al menos *25 palabras* y genere contraseñas de 2 a 3 palabras que puedan recordarse al azar. Elija palabras que sus alumnos conozcan o pídales que hagan una lluvia de ideas. ¡Cuanto más aleatorias, más seguras!"
+                    },
+                    "generate": {
+                        "label": "$~generar",
+                        "tip": "$~Cree nombres de usuario y contraseñas basados en la información anterior."
+                    },
+                    "edit": {
+                        "label": "$~editar",
+                        "tip": "$~Editar la información del estudiante generada"
+                    },
+                    "submit": {
+                        "label": "$~crear clase",
+                        "tip": "$~Crea una nueva clase con esta información."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Hay entradas duplicadas en la información del estudiante.",
+                    "columns": "$~Asegúrese de que cada estudiante tenga el mismo número de columnas.",
+                    "generate": "$~No se pueden crear nombres de usuario únicos.",
+                    "taken": "$~Uno o más de los nombres de usuario anteriores ya están en uso",
+                    "limit": "$~No puedes crear una clase de más de 35 estudiantes a la vez.",
+                    "words": "$~Proporcionar al menos 25 palabras.",
+                    "account": "$~No se pueden crear algunas de las cuentas.",
+                    "generic": "$~No pudimos crear la clase. Aquí hay información para ayudar a los desarrolladores a descubrir qué salió mal."
+                }
+            },
+            "class": {
+                "header": "$~Clase",
+                "subheader": {
+                    "teachers": "$~Profesores",
+                    "students": "$~Estudiantes",
+                    "galleries": "$~Galerías"
+                },
+                "prompt": {
+                    "gallery": "$~Crea una galería para tu clase para organizar una tarea o un proyecto. Todos los profesores del proyecto serán los curadores de la galería y todos los estudiantes, los creadores de la galería.",
+                    "delete": "$~Eliminar esta clase eliminará permanentemente la información sobre la clase, pero también sus proyectos, galerías o cuentas de estudiantes."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre de la clase",
+                        "placeholder": "$~nombre"
+                    },
+                    "description": {
+                        "description": "$~Descripción de la clase",
+                        "placeholder": "$~descripción"
+                    },
+                    "newteacher": {
+                        "placeholder": "$~correo electrónico o nombre de usuario",
+                        "description": "$~Correo electrónico o nombre de usuario del creador a quien desea darle acceso docente a esta clase"
+                    },
+                    "addteacher": "$~Agregar un profesor a esta clase",
+                    "delete": {
+                        "tip": "$~Eliminar esta clase para siempre.",
+                        "label": "$~Eliminar esta clase"
+                    }
+                },
+                "error": {
+                    "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla."
+                }
             }
         },
         "edit": {

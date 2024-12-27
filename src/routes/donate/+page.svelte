@@ -1,3 +1,16 @@
+<script module lang="ts">
+    import type { Template } from '@locale/LocaleText';
+
+    export type DonatePageText = {
+        /** The label for the link and header */
+        header: Template;
+        /** The explanation of the link */
+        prompt: Template;
+        /** The content of the page */
+        content: Template[];
+    };
+</script>
+
 <script lang="ts">
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';

@@ -9,6 +9,7 @@ import {
     doc,
     getDoc,
     deleteDoc,
+    getDocs,
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import Gallery, {
@@ -24,6 +25,12 @@ import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 import type { ProjectID } from '@models/ProjectSchemas';
 import { SvelteMap } from 'svelte/reactivity';
+import {
+    ClassesCollection,
+    ClassSchema,
+    getClass,
+    setClass,
+} from './TeacherDatabase.svelte';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -164,8 +171,13 @@ export default class GalleryDatabase {
         if (current) current.delete(listener);
     }
 
-    /** Create a new gallery with this user as its curator. */
-    async create(locales: Locales): Promise<string | undefined> {
+    /** Create a new gallery, with the given curators and creators, defaulting to the current user as curator and an empty list of creators.*/
+    async create(
+        locales: Locales,
+        curators?: string[],
+        creators?: string[],
+        classid?: string,
+    ): Promise<string | undefined> {
         const user = this.database.getUser();
         if (user === null) return undefined;
 
@@ -186,14 +198,25 @@ export default class GalleryDatabase {
             description,
             words: [],
             projects: [],
-            curators: [user.uid],
-            creators: [],
+            curators: curators ?? [user.uid],
+            creators: creators ?? [],
             public: false,
             featured: false,
         };
 
         // Save the gallery online, and then locally. Return when it's created.
         await this.edit(new Gallery(gallery));
+
+        // Update the class to reference the newly created gallery.
+        if (classid) {
+            const group = await getClass(classid);
+            if (group) {
+                await setClass({
+                    ...group,
+                    galleries: [...group.galleries, id],
+                });
+            } else console.error("Couldn't find class to update.");
+        }
 
         return id;
     }
@@ -249,12 +272,30 @@ export default class GalleryDatabase {
 
     async delete(gallery: Gallery) {
         if (firestore === undefined) return undefined;
+        const user = this.database.getUser();
+        if (user === null) return undefined;
 
         // Remove all projects from the gallery.
         for (const projectID of gallery.getProjects()) {
             const project = await this.database.Projects.get(projectID);
             if (project) await this.removeProjectFromGallery(project);
         }
+
+        // Remove the gallery from any classes it is in.
+        const classes = await getDocs(
+            query(
+                collection(firestore, ClassesCollection),
+                where('galleries', 'array-contains', gallery.getID()),
+            ),
+        );
+        // Don't wait for each removal, just async request it.
+        classes.forEach((doc) => {
+            const group = ClassSchema.parse(doc.data());
+            setClass({
+                ...group,
+                galleries: group.galleries.filter((g) => g !== gallery.getID()),
+            });
+        });
 
         // Delete the gallery document now that the projects are removed.
         await deleteDoc(doc(firestore, GalleriesCollection, gallery.getID()));
