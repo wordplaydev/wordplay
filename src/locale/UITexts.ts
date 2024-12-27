@@ -77,6 +77,15 @@ type UITexts = {
         };
         /** The go home button description */
         home: string;
+        /** An editable table */
+        table: {
+            /** The field to edit a cell */
+            cell: FieldText;
+            /** The button to remove a row from the table */
+            addcolumn: string;
+            /** The button to remove a row from the table */
+            removecolumn: string;
+        };
     };
     /** Controls for the tiled windows in the project */
     tile: {

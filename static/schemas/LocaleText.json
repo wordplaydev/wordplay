@@ -11446,13 +11446,38 @@
                     "message"
                   ],
                   "type": "object"
+                },
+                "table": {
+                  "additionalProperties": false,
+                  "description": "An editable table",
+                  "properties": {
+                    "addcolumn": {
+                      "description": "The button to remove a row from the table",
+                      "type": "string"
+                    },
+                    "cell": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The field to edit a cell"
+                    },
+                    "removecolumn": {
+                      "description": "The button to remove a row from the table",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cell",
+                    "addcolumn",
+                    "removecolumn"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
                 "confirm",
                 "dialog",
                 "loading",
-                "home"
+                "home",
+                "table"
               ],
               "type": "object"
             }

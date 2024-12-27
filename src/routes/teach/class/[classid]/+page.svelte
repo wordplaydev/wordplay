@@ -162,6 +162,44 @@
         editable={true}
         anonymize={false}
         metadata={new Map(classData.info.map((info) => [info.uid, info.meta]))}
+        cell={(uid, column, text) => {
+            // Copy the student metadata, but update the column of the corresponding user
+            setClass({
+                ...classData,
+                info: classData.info.map((student) =>
+                    student.uid === uid
+                        ? {
+                              ...student,
+                              meta: student.meta.map((value, index) =>
+                                  index === column ? text : value,
+                              ),
+                          }
+                        : student,
+                ),
+            });
+        }}
+        addcolumn={(index) => {
+            setClass({
+                ...classData,
+                info: classData.info.map((student) => ({
+                    ...student,
+                    meta: [
+                        ...student.meta.slice(0, index),
+                        '',
+                        ...student.meta.slice(index),
+                    ],
+                })),
+            });
+        }}
+        removecolumn={(index) => {
+            setClass({
+                ...classData,
+                info: classData.info.map((student) => ({
+                    ...student,
+                    meta: student.meta.filter((_, i) => i !== index),
+                })),
+            });
+        }}
     ></CreatorList>
 
     <Subheader

@@ -4048,7 +4048,15 @@
             "loading": {
                 "message": "Loading font faces and text, thanks for waiting!"
             },
-            "home": "go to home page"
+            "home": "go to home page",
+            "table": {
+                "cell": {
+                    "description": "edit this cell",
+                    "placeholder": "value"
+                },
+                "addcolumn": "add a column before this column",
+                "removecolumn": "remove this column"
+            }
         },
         "tile": {
             "toggle": {
