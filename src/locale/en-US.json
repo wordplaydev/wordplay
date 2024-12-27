@@ -4649,7 +4649,7 @@
                     "some": "Welcome teacher! Manage your classes or create a new one."
                 },
                 "error": {
-                    "offline": "We aren't able to check your teacher status.",
+                    "offline": "We weren't able to check your teacher status. Are you logged in?",
                     "login": "You need to be logged in to manage classes.",
                     "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
                 },
