@@ -1,27 +1,22 @@
 import { z } from 'zod';
 
+/** Schema for the cursor position path */
 const PathSchema = z.array(
     z.object({ type: z.string(), index: z.number().min(0) }),
 );
+
+/** Schema for a cursor position */
 const CaretSchema = z.union([z.number().min(0), PathSchema]);
 
-export type SerializedCaret = z.infer<typeof CaretSchema>;
-
+/** Schema for a source file in a project */
 const SourceSchema = z.object({
     names: z.string(),
     code: z.string(),
     caret: CaretSchema,
 });
 
-/** How we store sources as JSON in databases */
-export type SerializedSource = z.infer<typeof SourceSchema>;
-
-export const ProjectSchemaLatestVersion = 3;
-
-export type ProjectID = string;
-
 /** Define the schema for projects */
-export const ProjectSchemaV1 = z.object({
+const ProjectSchemaV1 = z.object({
     /** The version of the project schema, used for keeping track of different versions of the project schema.  */
     v: z.literal(1),
     /** A very likely unique uuid4 string */
@@ -56,21 +51,37 @@ export const ProjectSchemaV1 = z.object({
         misinformation: z.nullable(z.boolean()),
     }),
 });
-type SerializedProjectV1 = z.infer<typeof ProjectSchemaV1>;
 
-export const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).merge(
+/** v2 adds a PII approved list */
+const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).merge(
+    /** A list of strings that are not considered personally identifiable by a creator */
     z.object({ v: z.literal(2), nonPII: z.array(z.string()) }),
 );
-type SerializedProjectV2 = z.infer<typeof ProjectSchemaV2>;
-
-export const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).merge(
+/** v3 adds a nullable chat ID */
+const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).merge(
+    /** The chat that corresponds to this project */
     z.object({ v: z.literal(3), chat: z.nullable(z.string()) }),
 );
+
+/** How we store sources as JSON in databases */
+export type SerializedCaret = z.infer<typeof CaretSchema>;
+export type SerializedSource = z.infer<typeof SourceSchema>;
+
+/** Inferred types for all project schema versions. */
+type SerializedProjectV1 = z.infer<typeof ProjectSchemaV1>;
+type SerializedProjectV2 = z.infer<typeof ProjectSchemaV2>;
 type SerializedProjectV3 = z.infer<typeof ProjectSchemaV3>;
 
+/** An alias for a project ID, to help clarify when a string is a project ID throughout the implementation. */
+export type ProjectID = string;
+
+/** The latest version of a project.  */
+export const ProjectSchemaLatestVersion = 3;
+
+/** Alias for the latest version of the schema. */
 export const ProjectSchema = ProjectSchemaV3;
 
-/** How we store projects as JSON in databases. These could be one of many versions, but currently there's only one. */
+/** The type of the latest version of the project */
 export type SerializedProject = SerializedProjectV3;
 
 export type SerializedProjectUnknownVersion =
