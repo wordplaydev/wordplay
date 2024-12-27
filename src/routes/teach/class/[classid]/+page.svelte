@@ -34,7 +34,6 @@
 
     import { page } from '$app/state';
     import Centered from '@components/app/Centered.svelte';
-    import CreatorView from '@components/app/CreatorView.svelte';
     import Feedback from '@components/app/Feedback.svelte';
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
 
@@ -45,9 +44,15 @@
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import { Creator } from '@db/CreatorDatabase';
     import { Galleries, locales } from '@db/Database';
-    import { getClass, setClass, type Class } from '@db/TeacherDatabase.svelte';
+    import {
+        addStudent,
+        addTeacher,
+        removeStudent,
+        removeTeacher,
+        setClass,
+        type Class,
+    } from '@db/TeacherDatabase.svelte';
     import type { FieldText } from '@locale/UITexts';
     import { getTeachData } from '../../+layout.svelte';
 
@@ -70,28 +75,16 @@
             newGalleryError = true;
         }
     }
-
-    async function removeTeacher(group: Class, uid: string) {
-        setClass({
-            ...group,
-            teachers: group.teachers.filter((teacher) => teacher !== uid),
-        });
-    }
-
-    async function addTeacher(group: Class, uid: string) {
-        setClass({
-            ...group,
-            teachers: [...group.teachers, uid],
-        });
-    }
 </script>
 
 <Writing>
-    {#if classData === undefined}
+    {#if classData === null}
         <Header>{$locales.get((l) => l.ui.page.class.header)}</Header>
         <Feedback
             >{$locales.get((l) => l.ui.page.class.error.notfound)}</Feedback
         >
+    {:else if classData === undefined}
+        <Spinning></Spinning>
     {:else}
         <Header>{classData.name}</Header>
         <p>{classData.description}</p>
@@ -117,29 +110,18 @@
                 (l) => l.ui.page.class.subheader.students,
             )}</Subheader
         >
-        <table>
-            <tbody>
-                {#each classData.info as student}
-                    <tr>
-                        <td>
-                            <CreatorView
-                                creator={new Creator({
-                                    uid: student.uid,
-                                    name: '',
-                                    email: Creator.usernameEmail(
-                                        student.username,
-                                    ),
-                                })}
-                                anonymize={false}
-                            />
-                        </td>
-                        {#each student.meta as info}
-                            <td>{info}</td>
-                        {/each}
-                    </tr>
-                {/each}
-            </tbody>
-        </table>
+
+        <CreatorList
+            uids={classData.learners}
+            add={(uid, username) => addStudent(classData, uid, username)}
+            remove={(uid) => removeStudent(classData, uid)}
+            removable={() => classData.learners.length > 1}
+            editable={true}
+            anonymize={false}
+            metadata={new Map(
+                classData.info.map((info) => [info.uid, info.meta]),
+            )}
+        ></CreatorList>
 
         <Subheader
             >{$locales.get(

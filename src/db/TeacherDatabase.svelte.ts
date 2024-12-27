@@ -2,18 +2,10 @@
 // By design, we get all data on demand here, rather than caching, using a
 // more transactional model.
 
-import type { User } from 'firebase/auth';
-import {
-    collection,
-    doc,
-    getDoc,
-    getDocs,
-    query,
-    setDoc,
-    where,
-} from 'firebase/firestore';
+import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { firestore as db } from './firebase';
 import z from 'zod';
+import { Galleries } from './Database';
 
 /** Represents a learner record that the teacher has created. */
 export const LearnerSchema = z.object({
@@ -49,30 +41,6 @@ export type Class = z.infer<typeof ClassSchema>;
 
 export const ClassesCollection = 'classes';
 
-/** Retrieve the classes for which the current user is a teacher or student */
-export async function getTeachersClasses(
-    user: User,
-): Promise<Map<string, Class> | undefined> {
-    if (db === undefined) return undefined;
-
-    const docs = await getDocs(
-        query(
-            collection(db, ClassesCollection),
-            where('teachers', 'array-contains', user.uid),
-        ),
-    );
-    const classes: Map<string, Class> = new Map();
-    docs.forEach((doc) => {
-        const potentialClass = doc.data();
-        try {
-            classes.set(doc.id, ClassSchema.parse(potentialClass));
-        } catch (e) {
-            console.error('Class had an invalid schema', potentialClass, e);
-        }
-    });
-    return classes;
-}
-
 export async function getClass(id: string) {
     if (db === undefined) return undefined;
 
@@ -92,4 +60,62 @@ export async function setClass(group: Class) {
     if (db === undefined) return undefined;
 
     await setDoc(doc(db, ClassesCollection, group.id), group);
+}
+
+export async function addTeacher(classy: Class, uid: string) {
+    setClass({
+        ...classy,
+        teachers: [...classy.teachers, uid],
+    });
+
+    // Add the student to all galleries associated with the class.
+    for (const gallery of classy.galleries) {
+        const galleryData = await Galleries.get(gallery);
+        if (galleryData) Galleries.edit(galleryData.withCurator(uid));
+    }
+}
+
+export async function removeTeacher(classy: Class, uid: string) {
+    setClass({
+        ...classy,
+        teachers: classy.teachers.filter((teacher) => teacher !== uid),
+    });
+
+    for (const gallery of classy.galleries) {
+        const galleryData = await Galleries.get(gallery);
+        if (galleryData) await Galleries.removeCurator(galleryData, uid);
+    }
+}
+
+export async function addStudent(classy: Class, uid: string, username: string) {
+    // Add the student to the learner list and the info
+    await setClass({
+        ...classy,
+        learners: [...classy.learners, uid],
+        info: [
+            ...classy.info,
+            { uid, username, meta: classy.info[0].meta.map(() => '') },
+        ],
+    });
+
+    // Add the student to all galleries associated with the class.
+    for (const gallery of classy.galleries) {
+        const galleryData = await Galleries.get(gallery);
+        if (galleryData) Galleries.edit(galleryData.withCreator(uid));
+    }
+}
+
+export async function removeStudent(classy: Class, uid: string) {
+    // Add the student to the learner list and the info
+    await setClass({
+        ...classy,
+        learners: [...classy.learners.filter((learner) => learner !== uid)],
+        info: [...classy.info.filter((learner) => learner.uid !== uid)],
+    });
+
+    // Remove the student from all galleries associated with the class.
+    for (const gallery of classy.galleries) {
+        const galleryData = await Galleries.get(gallery);
+        if (galleryData) await Galleries.removeCreator(galleryData, uid);
+    }
 }

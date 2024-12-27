@@ -13,14 +13,17 @@
 
     interface Props {
         uids: string[];
-        add?: undefined | ((uid: string) => void);
-        remove?: undefined | ((uid: string) => void);
+        add?: undefined | ((uid: string, emailOrUsername: string) => void);
+        remove?: undefined | ((uid: string, emailOrUsername: string) => void);
         removable?: undefined | ((uid: string) => boolean);
         editable: boolean;
         anonymize: boolean;
+        /** A uid by metadata list, if provided, it's rendered as a table instead. */
+        metadata?: Map<string, string[]> | undefined;
     }
 
-    let { uids, add, remove, removable, editable, anonymize }: Props = $props();
+    let { uids, add, remove, removable, editable, anonymize, metadata }: Props =
+        $props();
 
     let adding = $state(false);
     let emailOrUsername = $state('');
@@ -45,7 +48,7 @@
                 unknown = true;
             } else {
                 unknown = false;
-                if (add) add(userID);
+                if (add) add(userID, emailOrUsername);
             }
             emailOrUsername = '';
         }
@@ -62,21 +65,7 @@
     });
 </script>
 
-<div class="people">
-    {#each Object.entries(creators) as [uid, creator]}
-        <div class="person"
-            >{#if creator}<CreatorView
-                    {anonymize}
-                    {creator}
-                />{:else}?{/if}{#if editable && removable && remove}<Button
-                    tip={$locales.get(
-                        (l) => l.ui.project.button.removeCollaborator,
-                    )}
-                    active={removable(uid)}
-                    action={() => remove(uid)}>{CANCEL_SYMBOL}</Button
-                >{/if}</div
-        >
-    {/each}
+{#snippet field()}
     {#if editable}
         <form class="form" onsubmit={addCreator}>
             <TextField
@@ -106,7 +95,62 @@
                 >{/if}
         </form>
     {/if}
-</div>
+{/snippet}
+
+{#snippet removeButton(uid: string, email: string)}
+    {#if editable && removable && remove}<Button
+            tip={$locales.get((l) => l.ui.project.button.removeCollaborator)}
+            active={removable(uid)}
+            action={() => remove(uid, email)}>{CANCEL_SYMBOL}</Button
+        >{/if}
+{/snippet}
+
+{#if metadata}
+    <div class="column">
+        <table>
+            <tbody>
+                {#each Object.entries(creators) as [uid, creator]}
+                    {@const info = metadata.get(uid)}
+                    {#if creator}
+                        <tr>
+                            <td>
+                                <CreatorView {anonymize} {creator} />
+                            </td>
+                            {#if info}
+                                {#each info as datum}
+                                    <td>{datum}</td>
+                                {/each}
+                                <td>
+                                    {@render removeButton(
+                                        uid,
+                                        creator.getUsername(false),
+                                    )}
+                                </td>
+                            {:else}
+                                <td colspan="100"></td>
+                            {/if}
+                        </tr>
+                    {/if}
+                {/each}
+            </tbody>
+        </table>
+        {@render field()}
+    </div>
+{:else}<div class="people">
+        {#each Object.entries(creators) as [uid, creator]}
+            <div class="person"
+                >{#if creator}<CreatorView
+                        {anonymize}
+                        {creator}
+                    />{:else}?{/if}{#if creator}{@render removeButton(
+                        uid,
+                        creator?.getUsername(false),
+                    )}{/if}</div
+            >
+        {/each}
+        {@render field()}
+    </div>
+{/if}
 
 <style>
     .people {
@@ -128,5 +172,15 @@
         display: flex;
         flex-direction: row;
         flex-wrap: nowrap;
+    }
+
+    .column {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+    }
+
+    table {
+        width: fit-content;
     }
 </style>

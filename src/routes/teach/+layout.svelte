@@ -6,7 +6,8 @@
     }
 
     class TeachData {
-        private classes: Class[] | undefined = $state(undefined);
+        /** Undefined means loading, null means not available, and otherwise a list */
+        private classes: Class[] | undefined | null = $state(undefined);
         constructor() {}
 
         getClasses() {
@@ -17,20 +18,28 @@
             return this.classes?.find((c) => c.id === id);
         }
 
-        setClasses(classes: Class[]) {
+        setClasses(classes: Class[] | null) {
             this.classes = classes;
         }
     }
 </script>
 
 <script lang="ts">
+    import Centered from '@components/app/Centered.svelte';
+    import Link from '@components/app/Link.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+
     import { getUser } from '@components/project/Contexts';
+    import { locales } from '@db/Database';
     import { firestore } from '@db/firebase';
     import {
         ClassesCollection,
         ClassSchema,
         type Class,
     } from '@db/TeacherDatabase.svelte';
+    import getClaim from '@models/getClaim';
     import { FirebaseError } from 'firebase/app';
     import type { Unsubscribe } from 'firebase/auth';
     import { collection, onSnapshot, query, where } from 'firebase/firestore';
@@ -76,6 +85,7 @@
                 );
             },
             (error) => {
+                data.setClasses(null);
                 if (error instanceof FirebaseError) {
                     console.error(error.code);
                     console.error(error.message);
@@ -94,4 +104,27 @@
     });
 </script>
 
-{@render children()}
+{#if $user === null}
+    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.teach.error.login)} />
+{:else}
+    {#await getClaim($user, 'teacher')}
+        <Spinning />
+    {:then claim}
+        {#if !claim}
+            <MarkupHtmlView
+                markup={$locales.get((l) => l.ui.page.teach.error.teacher)}
+            />
+            <Centered>
+                <Link to="https://forms.gle/6x1sbyC4SZHoPXYq5"
+                    >{$locales.get((l) => l.ui.page.teach.link.request)}</Link
+                >
+            </Centered>
+        {:else}
+            {@render children()}
+        {/if}
+    {:catch}
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.teach.error.offline)}
+        />
+    {/await}
+{/if}

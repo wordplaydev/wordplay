@@ -81,7 +81,6 @@
     import Header from '@components/app/Header.svelte';
     import { locales } from '@db/Database';
     import Writing from '@components/app/Writing.svelte';
-    import TeachersOnly from '../../../TeachersOnly.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Feedback from '@components/app/Feedback.svelte';
@@ -268,326 +267,301 @@
 
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.newclass.header)}</Header>
-    <TeachersOnly>
+    <MarkupHtmlView
+        markup={$locales.get((l) => l.ui.page.newclass.prompt.start)}
+    />
+
+    <form>
+        <Subheader
+            >{$locales.get(
+                (l) => l.ui.page.newclass.subheader.class,
+            )}</Subheader
+        >
+        <LabeledTextbox
+            fixed={FieldLabelWidth}
+            texts={(l) => l.ui.page.newclass.field.name}
+            editable={!download}
+            bind:text={name}
+        ></LabeledTextbox>
+        <LabeledTextbox
+            box
+            fixed={FieldLabelWidth}
+            texts={(l) => l.ui.page.newclass.field.description}
+            editable={!download}
+            bind:text={description}
+        ></LabeledTextbox>
+
+        <Subheader
+            >{$locales.get(
+                (l) => l.ui.page.newclass.subheader.students,
+            )}</Subheader
+        >
+
         <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.newclass.prompt.start)}
-        />
+            markup={$locales.get((l) => l.ui.page.newclass.field.metadata.note)}
+        ></MarkupHtmlView>
 
-        <form>
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.subheader.class,
-                )}</Subheader
-            >
-            <LabeledTextbox
-                fixed={FieldLabelWidth}
-                texts={(l) => l.ui.page.newclass.field.name}
-                editable={!download}
-                bind:text={name}
-            ></LabeledTextbox>
-            <LabeledTextbox
-                box
-                fixed={FieldLabelWidth}
-                texts={(l) => l.ui.page.newclass.field.description}
-                editable={!download}
-                bind:text={description}
-            ></LabeledTextbox>
+        <LabeledTextbox
+            box
+            fixed={FieldLabelWidth}
+            editable={!editing}
+            texts={(l) => l.ui.page.newclass.field.metadata}
+            bind:text={metadata}
+        ></LabeledTextbox>
 
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.subheader.students,
-                )}</Subheader
-            >
+        {#if metadataProblem !== undefined}
+            <Feedback>
+                {$locales.get((l) => l.ui.page.newclass.error[metadataProblem])}
+            </Feedback>
+        {/if}
 
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.newclass.field.words.note)}
+        ></MarkupHtmlView>
+        <LabeledTextbox
+            box
+            fixed={FieldLabelWidth}
+            texts={(l) => l.ui.page.newclass.field.words}
+            editable={!editing}
+            bind:text={words}
+        ></LabeledTextbox>
+
+        {#if wordsProblem}
+            <Feedback>
+                {$locales.get((l) => l.ui.page.newclass.error.words)}
+            </Feedback>
+        {/if}
+
+        <Subheader
+            >{$locales.get(
+                (l) => l.ui.page.newclass.subheader.credentials,
+            )}</Subheader
+        >
+        {#if generatedStudents === undefined}
             <MarkupHtmlView
-                markup={$locales.get(
-                    (l) => l.ui.page.newclass.field.metadata.note,
-                )}
-            ></MarkupHtmlView>
-
-            <LabeledTextbox
-                box
-                fixed={FieldLabelWidth}
-                editable={!editing}
-                texts={(l) => l.ui.page.newclass.field.metadata}
-                bind:text={metadata}
-            ></LabeledTextbox>
-
-            {#if metadataProblem !== undefined}
-                <Feedback>
-                    {$locales.get(
-                        (l) => l.ui.page.newclass.error[metadataProblem],
-                    )}
-                </Feedback>
-            {/if}
-
-            <MarkupHtmlView
-                markup={$locales.get(
-                    (l) => l.ui.page.newclass.field.words.note,
-                )}
-            ></MarkupHtmlView>
-            <LabeledTextbox
-                box
-                fixed={FieldLabelWidth}
-                texts={(l) => l.ui.page.newclass.field.words}
-                editable={!editing}
-                bind:text={words}
-            ></LabeledTextbox>
-
-            {#if wordsProblem}
-                <Feedback>
-                    {$locales.get((l) => l.ui.page.newclass.error.words)}
-                </Feedback>
-            {/if}
-
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.subheader.credentials,
-                )}</Subheader
-            >
-            {#if generatedStudents === undefined}
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.page.newclass.prompt.ready,
-                    )}
-                />
-
-                <Centered>
-                    <Button
-                        background
-                        tip={$locales.get(
-                            (l) => l.ui.page.newclass.field.generate.tip,
-                        )}
-                        action={generateCredentials}
-                        active={metadataProblem === undefined && !wordsProblem}
-                    >
-                        {$locales.get(
-                            (l) => l.ui.page.newclass.field.generate.label,
-                        )}</Button
-                    >
-                </Centered>
-
-                {#if generateProblem}
-                    <Feedback>
-                        {$locales.get((l) => l.ui.page.newclass.error.generate)}
-                    </Feedback>
-                {/if}
-            {:else}
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.page.newclass.prompt.review,
-                    )}
-                />
-
-                <Centered>
-                    <Button
-                        background
-                        tip={$locales.get(
-                            (l) => l.ui.page.newclass.field.edit.tip,
-                        )}
-                        action={() => {
-                            if (generatedStudents === undefined) return;
-                            editing = true;
-                            editedStudents = generatedStudents.map((s) => {
-                                return { ...s };
-                            });
-                        }}
-                        active={generatedStudents !== undefined &&
-                            generatedStudents.length > 0 &&
-                            !editing}
-                    >
-                        {$locales.get(
-                            (l) => l.ui.page.newclass.field.edit.label,
-                        )}</Button
-                    >
-                </Centered>
-
-                {@const taken = finalStudents
-                    ?.filter((s) => usernamesTaken.includes(s.username))
-                    .map((s) => s.username)}
-                {#if taken !== undefined && taken.length > 0}
-                    <Feedback
-                        >{$locales.get((l) => l.ui.page.newclass.error.taken)}:
-                        <em>{taken.join(', ')}</em></Feedback
-                    >
-                {/if}
-
-                {#if generatedStudents !== undefined && finalStudents !== undefined}
-                    <table>
-                        <thead>
-                            <tr>
-                                {#each students[0]}
-                                    <td></td>
-                                {/each}
-                                <th
-                                    >{$locales.get(
-                                        (l) =>
-                                            l.ui.page.login.field.username
-                                                .placeholder,
-                                    )}</th
-                                >
-                                <th
-                                    >{$locales.get(
-                                        (l) =>
-                                            l.ui.page.login.field.password
-                                                .placeholder,
-                                    )}</th
-                                >
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {#each generatedStudents as student, studentIndex}
-                                {@const columns = student.meta.length}
-                                <tr>
-                                    {#each student.meta as cell, columnIndex}
-                                        <td
-                                            >{#if editing}
-                                                <TextField
-                                                    description=""
-                                                    placeholder=""
-                                                    text={editedStudents !==
-                                                    undefined
-                                                        ? editedStudents[
-                                                              studentIndex
-                                                          ].meta[columnIndex]
-                                                        : cell}
-                                                    editable={!submitting &&
-                                                        !download}
-                                                    changed={(text) =>
-                                                        editedStudents
-                                                            ? (editedStudents[
-                                                                  studentIndex
-                                                              ].meta[
-                                                                  columnIndex
-                                                              ] = text)
-                                                            : undefined}
-                                                ></TextField>
-                                            {:else}{cell}
-                                            {/if}</td
-                                        >
-                                    {/each}
-                                    <td
-                                        >{#if editing}
-                                            <TextField
-                                                description=""
-                                                placeholder=""
-                                                text={finalStudents[
-                                                    studentIndex
-                                                ].username}
-                                                validator={(text) =>
-                                                    !usernamesTaken.includes(
-                                                        text,
-                                                    )}
-                                                changed={(text) => {
-                                                    // Update the username after it's changed.
-                                                    editedStudents
-                                                        ? (editedStudents[
-                                                              studentIndex
-                                                          ].username = text)
-                                                        : undefined;
-                                                }}
-                                                editable={!submitting &&
-                                                    !download}
-                                                dwelled={async (username) => {
-                                                    // After done editing, check if the username is taken.
-                                                    if (
-                                                        await usernameAccountExists(
-                                                            username,
-                                                        )
-                                                    )
-                                                        usernamesTaken.push(
-                                                            username,
-                                                        );
-                                                }}
-                                            ></TextField>
-                                        {:else}{finalStudents[studentIndex]
-                                                .username}
-                                        {/if}</td
-                                    >
-                                    <td
-                                        >{#if editing}
-                                            <TextField
-                                                description=""
-                                                placeholder=""
-                                                text={finalStudents[
-                                                    studentIndex
-                                                ].password}
-                                                editable={!submitting &&
-                                                    !download}
-                                                changed={(text) =>
-                                                    editedStudents
-                                                        ? (editedStudents[
-                                                              studentIndex
-                                                          ].password = text)
-                                                        : undefined}
-                                            ></TextField>
-                                        {:else}{finalStudents[studentIndex]
-                                                .password}
-                                        {/if}</td
-                                    >
-                                </tr>
-                            {/each}
-                        </tbody>
-                    </table>
-                {/if}
-            {/if}
-
-            <Subheader
-                >{$locales.get(
-                    (l) => l.ui.page.newclass.subheader.submit,
-                )}</Subheader
-            >
-
-            <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.newclass.prompt.submit)}
+                markup={$locales.get((l) => l.ui.page.newclass.prompt.ready)}
             />
 
             <Centered>
                 <Button
                     background
                     tip={$locales.get(
-                        (l) => l.ui.page.newclass.field.submit.tip,
+                        (l) => l.ui.page.newclass.field.generate.tip,
                     )}
-                    action={submit}
-                    active={!download &&
-                        !submitting &&
-                        $user !== null &&
-                        name.length > 0 &&
-                        description.length > 0 &&
-                        finalStudents !== undefined &&
-                        finalStudents.length > 0 &&
-                        finalStudents.every(
-                            (s) =>
-                                s.username.length >= UsernameLength &&
-                                !usernamesTaken.includes(s.username) &&
-                                s.password.length >= PasswordLength,
-                        )}
+                    action={generateCredentials}
+                    active={metadataProblem === undefined && !wordsProblem}
                 >
                     {$locales.get(
-                        (l) => l.ui.page.newclass.field.submit.label,
+                        (l) => l.ui.page.newclass.field.generate.label,
                     )}</Button
                 >
             </Centered>
 
-            {#if createError}
+            {#if generateProblem}
+                <Feedback>
+                    {$locales.get((l) => l.ui.page.newclass.error.generate)}
+                </Feedback>
+            {/if}
+        {:else}
+            <MarkupHtmlView
+                markup={$locales.get((l) => l.ui.page.newclass.prompt.review)}
+            />
+
+            <Centered>
+                <Button
+                    background
+                    tip={$locales.get((l) => l.ui.page.newclass.field.edit.tip)}
+                    action={() => {
+                        if (generatedStudents === undefined) return;
+                        editing = true;
+                        editedStudents = generatedStudents.map((s) => {
+                            return { ...s };
+                        });
+                    }}
+                    active={generatedStudents !== undefined &&
+                        generatedStudents.length > 0 &&
+                        !editing}
+                >
+                    {$locales.get(
+                        (l) => l.ui.page.newclass.field.edit.label,
+                    )}</Button
+                >
+            </Centered>
+
+            {@const taken = finalStudents
+                ?.filter((s) => usernamesTaken.includes(s.username))
+                .map((s) => s.username)}
+            {#if taken !== undefined && taken.length > 0}
                 <Feedback
-                    >{$locales.get(
-                        (l) => l.ui.page.newclass.error[createError!.kind],
-                    )}: {createError.info}</Feedback
+                    >{$locales.get((l) => l.ui.page.newclass.error.taken)}:
+                    <em>{taken.join(', ')}</em></Feedback
                 >
             {/if}
-            {#if download === true}
-                <MarkupHtmlView
-                    markup={$locales.get(
-                        (l) => l.ui.page.newclass.prompt.download,
-                    )}
-                />
-                <Centered>
-                    <Link to="/teach/class/{newClassID}">{name}</Link>
-                </Centered>
+
+            {#if generatedStudents !== undefined && finalStudents !== undefined}
+                <table>
+                    <thead>
+                        <tr>
+                            {#each students[0]}
+                                <td></td>
+                            {/each}
+                            <th
+                                >{$locales.get(
+                                    (l) =>
+                                        l.ui.page.login.field.username
+                                            .placeholder,
+                                )}</th
+                            >
+                            <th
+                                >{$locales.get(
+                                    (l) =>
+                                        l.ui.page.login.field.password
+                                            .placeholder,
+                                )}</th
+                            >
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {#each generatedStudents as student, studentIndex}
+                            {@const columns = student.meta.length}
+                            <tr>
+                                {#each student.meta as cell, columnIndex}
+                                    <td
+                                        >{#if editing}
+                                            <TextField
+                                                description=""
+                                                placeholder=""
+                                                text={editedStudents !==
+                                                undefined
+                                                    ? editedStudents[
+                                                          studentIndex
+                                                      ].meta[columnIndex]
+                                                    : cell}
+                                                editable={!submitting &&
+                                                    !download}
+                                                changed={(text) =>
+                                                    editedStudents
+                                                        ? (editedStudents[
+                                                              studentIndex
+                                                          ].meta[columnIndex] =
+                                                              text)
+                                                        : undefined}
+                                            ></TextField>
+                                        {:else}{cell}
+                                        {/if}</td
+                                    >
+                                {/each}
+                                <td
+                                    >{#if editing}
+                                        <TextField
+                                            description=""
+                                            placeholder=""
+                                            text={finalStudents[studentIndex]
+                                                .username}
+                                            validator={(text) =>
+                                                !usernamesTaken.includes(text)}
+                                            changed={(text) => {
+                                                // Update the username after it's changed.
+                                                editedStudents
+                                                    ? (editedStudents[
+                                                          studentIndex
+                                                      ].username = text)
+                                                    : undefined;
+                                            }}
+                                            editable={!submitting && !download}
+                                            dwelled={async (username) => {
+                                                // After done editing, check if the username is taken.
+                                                if (
+                                                    await usernameAccountExists(
+                                                        username,
+                                                    )
+                                                )
+                                                    usernamesTaken.push(
+                                                        username,
+                                                    );
+                                            }}
+                                        ></TextField>
+                                    {:else}{finalStudents[studentIndex]
+                                            .username}
+                                    {/if}</td
+                                >
+                                <td
+                                    >{#if editing}
+                                        <TextField
+                                            description=""
+                                            placeholder=""
+                                            text={finalStudents[studentIndex]
+                                                .password}
+                                            editable={!submitting && !download}
+                                            changed={(text) =>
+                                                editedStudents
+                                                    ? (editedStudents[
+                                                          studentIndex
+                                                      ].password = text)
+                                                    : undefined}
+                                        ></TextField>
+                                    {:else}{finalStudents[studentIndex]
+                                            .password}
+                                    {/if}</td
+                                >
+                            </tr>
+                        {/each}
+                    </tbody>
+                </table>
             {/if}
-        </form>
-    </TeachersOnly>
+        {/if}
+
+        <Subheader
+            >{$locales.get(
+                (l) => l.ui.page.newclass.subheader.submit,
+            )}</Subheader
+        >
+
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.newclass.prompt.submit)}
+        />
+
+        <Centered>
+            <Button
+                background
+                tip={$locales.get((l) => l.ui.page.newclass.field.submit.tip)}
+                action={submit}
+                active={!download &&
+                    !submitting &&
+                    $user !== null &&
+                    name.length > 0 &&
+                    description.length > 0 &&
+                    finalStudents !== undefined &&
+                    finalStudents.length > 0 &&
+                    finalStudents.every(
+                        (s) =>
+                            s.username.length >= UsernameLength &&
+                            !usernamesTaken.includes(s.username) &&
+                            s.password.length >= PasswordLength,
+                    )}
+            >
+                {$locales.get(
+                    (l) => l.ui.page.newclass.field.submit.label,
+                )}</Button
+            >
+        </Centered>
+
+        {#if createError}
+            <Feedback
+                >{$locales.get(
+                    (l) => l.ui.page.newclass.error[createError!.kind],
+                )}: {createError.info}</Feedback
+            >
+        {/if}
+        {#if download === true}
+            <MarkupHtmlView
+                markup={$locales.get((l) => l.ui.page.newclass.prompt.download)}
+            />
+            <Centered>
+                <Link to="/teach/class/{newClassID}">{name}</Link>
+            </Centered>
+        {/if}
+    </form>
 </Writing>
 
 <style>

@@ -3,12 +3,12 @@
     import Writing from '@components/app/Writing.svelte';
     import { locales } from '@db/Database';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import TeachersOnly from '../TeachersOnly.svelte';
     import { type Class } from '@db/TeacherDatabase.svelte';
     import Link from '@components/app/Link.svelte';
     import Centered from '@components/app/Centered.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import { getTeachData } from './+layout.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
 
     let teach = getTeachData();
 
@@ -32,29 +32,29 @@
 
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.teach.header)}</Header>
-    <TeachersOnly>
-        {#if classes === undefined}
+    {#if classes === undefined}
+        <Spinning></Spinning>
+    {:else if classes === null}
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.teach.error.offline)}
+        />
+    {:else}
+        {#if classes.length === 0}
             <MarkupHtmlView
-                markup={$locales.get((l) => l.ui.page.teach.error.offline)}
+                markup={$locales.get((l) => l.ui.page.teach.prompt.none)}
             />
         {:else}
-            {#if classes.length === 0}
-                <MarkupHtmlView
-                    markup={$locales.get((l) => l.ui.page.teach.prompt.none)}
-                />
-            {:else}
-                <MarkupHtmlView
-                    markup={$locales.get((l) => l.ui.page.teach.prompt.some)}
-                />
-            {/if}
-            <Centered>
-                <Link to="/teach/class/new">
-                    {$locales.get((l) => l.ui.page.teach.link.new)}
-                </Link>
-            </Centered>
-            {#each classes as group}
-                {@render classDetails(group)}
-            {/each}
+            <MarkupHtmlView
+                markup={$locales.get((l) => l.ui.page.teach.prompt.some)}
+            />
         {/if}
-    </TeachersOnly>
+        <Centered>
+            <Link to="/teach/class/new">
+                {$locales.get((l) => l.ui.page.teach.link.new)}
+            </Link>
+        </Centered>
+        {#each classes as group}
+            {@render classDetails(group)}
+        {/each}
+    {/if}
 </Writing>
