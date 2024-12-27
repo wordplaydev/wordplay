@@ -81,7 +81,7 @@
     import Header from '@components/app/Header.svelte';
     import { locales } from '@db/Database';
     import Writing from '@components/app/Writing.svelte';
-    import TeachersOnly from '../../TeachersOnly.svelte';
+    import TeachersOnly from '../../../TeachersOnly.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Feedback from '@components/app/Feedback.svelte';
@@ -95,7 +95,7 @@
     import Subheader from '@components/app/Subheader.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import { UsernameLength } from '@db/isValidUsername';
-    import { PasswordLength } from '../../login/IsValidPassword';
+    import { PasswordLength } from '../../../login/IsValidPassword';
     import { usernameAccountExists } from '@db/accountExists';
     import { httpsCallable } from 'firebase/functions';
     import { functions } from '@db/firebase';
@@ -583,7 +583,7 @@
                     )}
                 />
                 <Centered>
-                    <Link to="/class/{newClassID}">{name}</Link>
+                    <Link to="/teach/class/{newClassID}">{name}</Link>
                 </Centered>
             {/if}
         </form>

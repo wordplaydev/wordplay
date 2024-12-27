@@ -18,7 +18,7 @@
 </svelte:head>
 
 {#snippet classDetails(id: string, group: Class)}
-    <Link to="/class/{id}"><Subheader>{group.name}</Subheader></Link>
+    <Link to="/teach/class/{id}"><Subheader>{group.name}</Subheader></Link>
     <p>{group.description}</p>
     <p
         >{#each { length: group.learners.length }}👤{/each}</p
@@ -51,7 +51,7 @@
                         />
                     {/if}
                     <Centered>
-                        <Link to="/class/new">
+                        <Link to="/teach/class/new">
                             {$locales.get((l) => l.ui.page.teach.link.new)}
                         </Link>
                     </Centered>

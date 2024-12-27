@@ -1,7 +1,7 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
-import type { ClassText } from '../routes/class/[classid]/+page.svelte';
-import type { NewClassText } from '../routes/class/new/+page.svelte';
+import type { ClassText } from '../routes/teach/class/[classid]/+page.svelte';
+import type { NewClassText } from '../routes/teach/class/new/+page.svelte';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './LocaleText';
 

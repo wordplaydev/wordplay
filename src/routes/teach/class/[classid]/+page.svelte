@@ -14,6 +14,12 @@
             /** Encourage galleries */
             gallery: string;
         };
+        field: {
+            /** Add a teacher */
+            newteacher: FieldText;
+            /** Add a teacher button */
+            addteacher: string;
+        };
         error: {
             /** Couldn't find the requested class */
             notfound: string;
@@ -37,10 +43,12 @@
     import Subheader from '@components/app/Subheader.svelte';
     import Writing from '@components/app/Writing.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import CreatorList from '@components/project/CreatorList.svelte';
     import Button from '@components/widgets/Button.svelte';
     import { Creator } from '@db/CreatorDatabase';
-    import { Creators, Galleries, locales } from '@db/Database';
-    import { getClass, type Class } from '@db/TeacherDatabase.svelte';
+    import { Galleries, locales } from '@db/Database';
+    import { getClass, setClass, type Class } from '@db/TeacherDatabase.svelte';
+    import type { FieldText } from '@locale/UITexts';
 
     let newGalleryError = $state(false);
 
@@ -58,6 +66,20 @@
             console.error(error);
             newGalleryError = true;
         }
+    }
+
+    async function removeTeacher(group: Class, uid: string) {
+        setClass({
+            ...group,
+            teachers: group.teachers.filter((teacher) => teacher !== uid),
+        });
+    }
+
+    async function addTeacher(group: Class, uid: string) {
+        setClass({
+            ...group,
+            teachers: [...group.teachers, uid],
+        });
     }
 </script>
 
@@ -81,13 +103,15 @@
                 )}</Subheader
             >
 
-            <div class="flow">
-                {#await Creators.getCreatorsByUIDs(group.teachers) then creators}
-                    {#each Object.values(creators) as creator}
-                        <CreatorView {creator} anonymize={false} />
-                    {/each}
-                {/await}
-            </div>
+            <!-- Show all the teachers and allow them to be added and removed. -->
+            <CreatorList
+                uids={group.teachers}
+                add={(uid) => addTeacher(group, uid)}
+                remove={(uid) => removeTeacher(group, uid)}
+                removable={() => group.teachers.length > 1}
+                editable={true}
+                anonymize={false}
+            ></CreatorList>
 
             <Subheader
                 >{$locales.get(
@@ -163,13 +187,3 @@
         >
     {/await}
 </Writing>
-
-<style>
-    .flow {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
-    }
-</style>
