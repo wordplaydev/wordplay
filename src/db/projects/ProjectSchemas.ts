@@ -28,9 +28,9 @@ const SourceSchema = z.object({
 });
 
 /** Schema for a history entry */
-const HistorySchema = z.object({
+const SourceCheckpointSchema = z.object({
     /** When the history was recorded */
-    timestamp: z.number(),
+    time: z.number(),
     /** The source files at the time of recording */
     sources: z.array(SourceSchema),
 });
@@ -85,7 +85,7 @@ const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).merge(
 /** v2 adds a source file history */
 const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).merge(
     /** A list of source files in the project */
-    z.object({ v: z.literal(4), history: z.array(HistorySchema) }),
+    z.object({ v: z.literal(4), history: z.array(SourceCheckpointSchema) }),
 );
 
 /** The latest version of a project.  */
@@ -94,6 +94,7 @@ export const ProjectSchemaLatestVersion = 4;
 /** How we store sources as JSON in databases */
 export type SerializedCaret = z.infer<typeof CaretSchema>;
 export type SerializedSource = z.infer<typeof SourceSchema>;
+export type SerializedSourceCheckpoint = z.infer<typeof SourceCheckpointSchema>;
 
 /** An alias for a project ID, to help clarify when a string is a project ID throughout the implementation. */
 export type ProjectID = string;
