@@ -9,6 +9,7 @@ import {
     doc,
     getDoc,
     deleteDoc,
+    getDocs,
 } from 'firebase/firestore';
 import { v4 as uuidv4 } from 'uuid';
 import Gallery, {
@@ -24,7 +25,12 @@ import { getExampleGalleries } from '../examples/examples';
 import type Locales from '../locale/Locales';
 import type { ProjectID } from '@models/ProjectSchemas';
 import { SvelteMap } from 'svelte/reactivity';
-import { getClass, setClass } from './TeacherDatabase.svelte';
+import {
+    ClassesCollection,
+    ClassSchema,
+    getClass,
+    setClass,
+} from './TeacherDatabase.svelte';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';
@@ -266,12 +272,30 @@ export default class GalleryDatabase {
 
     async delete(gallery: Gallery) {
         if (firestore === undefined) return undefined;
+        const user = this.database.getUser();
+        if (user === null) return undefined;
 
         // Remove all projects from the gallery.
         for (const projectID of gallery.getProjects()) {
             const project = await this.database.Projects.get(projectID);
             if (project) await this.removeProjectFromGallery(project);
         }
+
+        // Remove the gallery from any classes it is in.
+        const classes = await getDocs(
+            query(
+                collection(firestore, ClassesCollection),
+                where('galleries', 'array-contains', gallery.getID()),
+            ),
+        );
+        // Don't wait for each removal, just async request it.
+        classes.forEach((doc) => {
+            const group = ClassSchema.parse(doc.data());
+            setClass({
+                ...group,
+                galleries: group.galleries.filter((g) => g !== gallery.getID()),
+            });
+        });
 
         // Delete the gallery document now that the projects are removed.
         await deleteDoc(doc(firestore, GalleriesCollection, gallery.getID()));

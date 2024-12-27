@@ -70,7 +70,11 @@ service cloud.firestore {
       // Only teachers can create classes
       allow create: if request.auth != null && request.auth.token.teacher == true;
       // Students and teachers can read classes
-      allow read: if request.auth != null && (resource.data != null && request.auth.uid in resource.data.learners || request.auth.uid in resource.data.teachers);
+      allow get: if request.auth != null && resource.data != null && (
+        ("learners" in resource.data && request.auth.uid in resource.data.learners) || 
+        ("teachers" in resource.data && request.auth.uid in resource.data.teachers)
+      );
+      allow list: if request.auth != null && request.auth.token.teacher == true;
       // Only teachers of a class can update and delete classes
       allow update, delete: if request.auth != null && request.auth.token.teacher == true && (resource.data != null && request.auth.uid in resource.data.teachers);
     }
