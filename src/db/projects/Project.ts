@@ -893,8 +893,8 @@ export default class Project {
             flags: { ...project.flags },
             timestamp: project.timestamp,
             nonPII: project.nonPII,
-            chat: null,
-            history: [],
+            chat: project.chat,
+            history: project.history,
         });
     }
 
