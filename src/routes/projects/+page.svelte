@@ -53,13 +53,7 @@
 <script lang="ts">
     import Writing from '@components/app/Writing.svelte';
     import Header from '@components/app/Header.svelte';
-    import {
-        Galleries,
-        Projects,
-        archivedProjects,
-        editableProjects,
-        locales,
-    } from '@db/Database';
+    import { Galleries, Projects, locales } from '@db/Database';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import { goto } from '$app/navigation';
     import Button from '@components/widgets/Button.svelte';
@@ -115,7 +109,7 @@
     />
 
     <ProjectPreviewSet
-        set={$editableProjects}
+        set={Projects.allEditableProjects}
         edit={{
             description: $locales.get(
                 (l) => l.ui.page.projects.button.editproject,
@@ -143,7 +137,7 @@
         }}
     />
     <!-- If there are any archived projects, make an archived section. -->
-    {#if $archivedProjects.length > 0}
+    {#if Projects.allArchivedProjects.length > 0}
         <Subheader
             >{$locales.get((l) => l.ui.page.projects.archiveheader)}</Subheader
         >
@@ -163,7 +157,7 @@
             >
         {/if}
         <ProjectPreviewSet
-            set={$archivedProjects}
+            set={Projects.allArchivedProjects}
             edit={{
                 description: $locales.get(
                     (l) => l.ui.page.projects.button.unarchive,

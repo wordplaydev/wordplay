@@ -251,8 +251,6 @@ export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
 export const localized = Settings.settings.localized.value;
 export const status = DB.Status;
-export const editableProjects = Projects.allEditableProjects;
-export const archivedProjects = Projects.allArchivedProjects;
 
 if (import.meta.hot) {
     import.meta.hot.on('locales-update', () => {

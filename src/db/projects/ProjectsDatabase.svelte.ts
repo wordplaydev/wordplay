@@ -63,11 +63,22 @@ export default class ProjectsDatabase {
     private projectHistories: SvelteMap<string, ProjectHistory> =
         new SvelteMap();
 
+    /** The latest versions of all projects */
+    readonly currentProjects: Project[] = $derived(
+        Array.from(this.projectHistories.values()).map((history) =>
+            history.getCurrent(),
+        ),
+    );
+
     /** A store of all user editable projects stored in projectsDB. Derived from editable projects above. */
-    readonly allEditableProjects: Writable<Project[]> = writable([]);
+    readonly allEditableProjects: Project[] = $derived(
+        this.currentProjects.filter((project) => !project.isArchived()),
+    );
 
     /** A store of all archived projects stored in projectsDB. Derived from editable projects above. */
-    readonly allArchivedProjects: Writable<Project[]> = writable([]);
+    readonly allArchivedProjects: Project[] = $derived(
+        this.currentProjects.filter((project) => project.isArchived()),
+    );
 
     /** A cache of read only projects, by project ID. */
     readonly readonlyProjects: SvelteMap<string, Project | undefined> =
@@ -229,9 +240,6 @@ export default class ProjectsDatabase {
                 // Delete the deleted if the data was from the server.
                 if (!snapshot.metadata.fromCache)
                     for (const id of deleted) await this.deleteLocalProject(id);
-
-                // Refresh stores after everything is added and deleted.
-                this.refreshEditableProjects();
             },
             (error) => {
                 if (error instanceof FirebaseError) {
@@ -253,7 +261,7 @@ export default class ProjectsDatabase {
      * Duplicate a project and give it to the current user, returning it's ID.
      */
     duplicate(project: Project): Project {
-        const nameExists = get(this.allEditableProjects).some(
+        const nameExists = this.allEditableProjects.some(
             (p) => p.getName() === project.getName(),
         );
         const copy = project
@@ -293,9 +301,6 @@ export default class ProjectsDatabase {
                 history = new ProjectHistory(project, persist, saved, Locales);
                 this.projectHistories.set(project.getID(), history);
 
-                // Update the editable projects
-                this.refreshEditableProjects();
-
                 // Request a save.
                 this.saveSoon();
             }
@@ -311,28 +316,11 @@ export default class ProjectsDatabase {
                 }
             }
 
-            // Refresh the history
-            this.refreshEditableProjects();
-
             // Return the history
             return history;
         } else {
             this.readonlyProjects.set(project.getID(), project);
         }
-    }
-
-    /** Get all the current projects in a list so that anything that depends on the projects has a fresh list. */
-    refreshEditableProjects() {
-        this.allEditableProjects.set(
-            Array.from(this.projectHistories.values())
-                .map((history) => history.getCurrent())
-                .filter((project) => !project.isArchived()),
-        );
-        this.allArchivedProjects.set(
-            Array.from(this.projectHistories.values())
-                .map((history) => history.getCurrent())
-                .filter((project) => project.isArchived()),
-        );
     }
 
     /** Create a project and return it's ID */
@@ -495,9 +483,6 @@ export default class ProjectsDatabase {
 
             // If the save was successful, update the projects and persist if asked.
             if (success === true) {
-                // Update the editable projects.
-                this.refreshEditableProjects();
-
                 // Save according to the requested policy.
                 if (persist)
                     if (when === 'immediate') await this.persist();
@@ -568,9 +553,6 @@ export default class ProjectsDatabase {
 
         // Delete from the local cache.
         this.deleteLocalProject(id);
-
-        // Refresh the project stores.
-        this.refreshEditableProjects();
     }
 
     /** Delete project locally */
@@ -580,9 +562,6 @@ export default class ProjectsDatabase {
 
         // Untrack the project.
         this.projectHistories.delete(id);
-
-        // Refresh the lists of editable projects.
-        this.refreshEditableProjects();
     }
 
     /** Persist in storage */
@@ -754,7 +733,6 @@ export default class ProjectsDatabase {
     async deleteLocal() {
         this.localDB.deleteAllProjects();
         this.projectHistories.clear();
-        this.refreshEditableProjects();
     }
 
     /** Attempt to parse a seralized project into a project. */
