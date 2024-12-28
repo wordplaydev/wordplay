@@ -313,6 +313,7 @@
     :global(.editing) .phrase {
         min-width: 8px;
         min-height: 8px;
+        pointer-events: all;
     }
 
     .phrase[data-selectable='true'] {
