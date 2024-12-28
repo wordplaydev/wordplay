@@ -23,6 +23,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Don't show moderation warning on editable projects.
 - Handle caret pointer placements below the last line correctly.
 - Don't filter output interfaces from the concept index.
+- Fixed bad wrap within docs ending in newline.
 
 ### Maintenance
 

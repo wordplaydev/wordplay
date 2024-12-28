@@ -271,6 +271,14 @@
         color: var(--color-blue);
     }
 
+    .token-category-docs:first-child {
+        margin-inline-end: var(--wordplay-spacing);
+    }
+
+    .token-category-docs:last-child {
+        margin-inline-start: var(--wordplay-spacing);
+    }
+
     .token-view.newline {
         display: block;
     }
