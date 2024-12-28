@@ -139,7 +139,7 @@
     // Share the caret store with children.
     setCaret(caret);
 
-    // When source changes, update various nested state from the source.
+    // When source changes, make sure the caret is pointing to the source.
     $effect(() => {
         caret.set(untrack(() => $caret).withSource(source));
     });
@@ -1211,11 +1211,8 @@
     // When the project is undone or redone, if we haven't restored the position, restore it, then remember the restored position.
     $effect(() => {
         if (
-            untrack(
-                () =>
-                    Projects.getHistory(project.getID())?.wasRestored() &&
-                    restoredPosition === undefined,
-            )
+            Projects.getHistory(project.getID())?.wasRestored() &&
+            untrack(() => restoredPosition === undefined)
         ) {
             const position = project.getCaretPosition(source);
             if (position !== undefined && position !== restoredPosition) {
@@ -1608,7 +1605,10 @@
     <CaretView
         caret={$caret}
         blocks={$blocks}
-        blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
+        blink={$keyboardEditIdle === IdleKind.Idle &&
+            focused &&
+            editable &&
+            restoredPosition === undefined}
         ignored={shakeCaret}
         bind:location={caretLocation}
     />
