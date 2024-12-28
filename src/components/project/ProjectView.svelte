@@ -1,5 +1,88 @@
 <script module lang="ts">
-    export const TYPING_DELAY = 500;
+    import { type Template } from '@locale/LocaleText';
+    import { type FieldText, type DialogText } from '@locale/UITexts';
+
+    export const TypingDelay = 500;
+
+    export type ProjectText = {
+        /** The error shown when a project ID is unknown. */
+        error: {
+            unknown: string;
+            /** The error to show if translation wasn't possible */
+            translate: string;
+            /** The message for an error in a tile */
+            tile: string;
+            /** The button label for an error reset */
+            reset: string;
+        };
+        button: {
+            /** Shows the sharing dialog */
+            showCollaborators: string;
+            /** Remove a collaborator that has been shared with */
+            removeCollaborator: string;
+            /** Copy the project as text to the clipboard */
+            copy: string;
+            /** Add a source file */
+            addSource: string;
+            /** Duplicate the project */
+            duplicate: string;
+            /** Revert project to original code */
+            revert: string;
+            /** Keyboard shortcut to focus output tile */
+            focusOutput: string;
+            /** Keyboard shortcut to focus source tiles */
+            focusSource: string;
+            /** Keyboard shortcut to focus documentation tile */
+            focusDocs: string;
+            /** Keyboard shortcut to focus palette tiles */
+            focusPalette: string;
+            /** Keyboard shortcut to cycle between tiles */
+            focusCycle: string;
+            /** Show save error button */
+            unsaved: string;
+            /** Show translation button */
+            translate: string;
+            /** The tooltip for the primary locale setting button */
+            primary: string;
+            /** The history switch */
+            history: { off: string; on: string };
+        };
+        field: {
+            /** The project name text field */
+            name: FieldText;
+        };
+        /** The keyboard shortcut to show the shortcut menu */
+        help: string;
+        /** The text to show when all of the tiles are collapsed. */
+        collapsed: string;
+        /** The messages shown for save status */
+        save: {
+            /** When projects fail to save locally */
+            projectsNotSavedLocally: Template;
+            /** When projects can't save locally */
+            projectsCannotNotSaveLocally: Template;
+            /** When a project wasn't saved because it contained PII */
+            projectContainedPII: Template;
+            /** Projects failed to load */
+            projectsNotLoadingOnline: Template;
+            /** When a project couldn't be saved to the database */
+            projectNotSavedOnline: Template;
+            /** When settings are being saved */
+            settingsUnsaved: Template;
+        };
+        dialog: {
+            /** The header for the save error */
+            unsaved: Template;
+            /** The content for the translation dialog */
+            translate: DialogText;
+        };
+        subheader: {
+            /** The header for the source language */
+            source: Template;
+            /** The header for the destination language */
+            destination: Template;
+        };
+    };
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -125,6 +208,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
+    import Checkpoints from './Checkpoints.svelte';
 
     interface Props {
         project: Project;
@@ -199,6 +283,9 @@
     /** The background color of the output, so we can make the tile match. */
     let outputBackground = $state<Color | string | null>(null);
 
+    /** Whether the history is visible */
+    let historical = $state(false);
+
     /** The new source recently added. Used to remember to keep it expanded initially. */
     let newSource = $state<Source | undefined>(undefined);
 
@@ -272,7 +359,7 @@
                 if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
                 keyboardIdleTimeout = setTimeout(
                     () => keyboardEditIdle.set(IdleKind.Idle),
-                    TYPING_DELAY,
+                    TypingDelay,
                 );
             });
         }
@@ -365,7 +452,7 @@
             if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
             evaluatorTimeout = setTimeout(
                 () => updateEvaluator(newProject),
-                TYPING_DELAY,
+                TypingDelay,
             );
         } else {
             updateEvaluator(newProject);
@@ -802,7 +889,7 @@
         updateTimer = setTimeout(() => {
             project.analyze();
             conflicts?.set(project.getConflicts());
-        }, TYPING_DELAY);
+        }, TypingDelay);
     });
 
     /** When stepping and the current step changes, change the active source. */
@@ -1741,15 +1828,20 @@
     </div>
 
     {#if !layout.isFullscreen() && !requestedPlay}
+        {@const owner = project.getOwner()}
         <nav class="footer">
-            {#if original}<Button
-                    uiid="revertProject"
-                    tip={$locales.get((l) => l.ui.project.button.revert)}
-                    active={!project.equals(original)}
-                    action={() => revert()}>↺</Button
-                >{/if}
-            {#if !editable}
-                {@const owner = project.getOwner()}
+            <div class="footer-row">
+                {#if original}<Button
+                        uiid="revertProject"
+                        tip={$locales.get((l) => l.ui.project.button.revert)}
+                        active={!project.equals(original)}
+                        action={() => revert()}>↺</Button
+                    >{/if}
+                <Button
+                    tip={$locales.get((l) => l.ui.project.button.copy)}
+                    action={() => toClipboard(project.toWordplay())}
+                    ><Emoji>{COPY_SYMBOL}</Emoji></Button
+                >
                 {#if owner}
                     {#await Creators.getCreator(owner)}
                         <Spinning label="" />
@@ -1757,103 +1849,118 @@
                         <CreatorView {creator} />
                     {/await}
                 {/if}
-            {:else}
-                <Button
-                    tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}
-                    ><Emoji>{COPY_SYMBOL}</Emoji></Button
-                >
-                {#if shareable}
+                {#if editable}
+                    <TextField
+                        text={project.getName()}
+                        description={$locales.get(
+                            (l) => l.ui.project.field.name.description,
+                        )}
+                        placeholder={$locales.get(
+                            (l) => l.ui.project.field.name.placeholder,
+                        )}
+                        changed={(name) =>
+                            Projects.reviseProject(project.withName(name))}
+                        max="10em"
+                    />
+                {:else}{project.getName()}{/if}
+                {#each project.getSources() as source, index}
+                    {@const tile = layout.getTileWithID(
+                        Layout.getSourceID(index),
+                    )}
+                    {#if tile && tile.isCollapsed()}
+                        <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
+                        <SourceTileToggle
+                            {project}
+                            {source}
+                            expanded={tile.mode === Mode.Expanded}
+                            toggle={() => toggleTile(tile)}
+                        />
+                    {/if}
+                {/each}
+                {#if editable && layout.hasVisibleCollapsedSource()}
+                    <Separator />
+                {/if}
+                {#if editable}
+                    <Button
+                        uiid="addSource"
+                        tip={$locales.get((l) => l.ui.project.button.addSource)}
+                        action={addSource}
+                        >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
+                    >{/if}
+                {#each layout.getNonSources() as tile}
+                    <!-- No need to show the tile if not visible when not editable. -->
+                    {#if tile.isVisibleCollapsed(editable)}
+                        <NonSourceTileToggle
+                            {project}
+                            {tile}
+                            on:toggle={() => toggleTile(tile)}
+                            notification={tile.kind === TileKind.Collaborate &&
+                                !!chat &&
+                                $user !== null &&
+                                chat.hasUnread($user.uid)}
+                        />
+                    {/if}
+                {/each}
+                <span class="right-align">
                     <Dialog
-                        description={$locales.get((l) => l.ui.dialog.share)}
+                        description={$locales.get((l) => l.ui.dialog.help)}
                         button={{
-                            tip: $locales.get(
-                                (l) => l.ui.project.button.showCollaborators,
-                            ),
-                            icon:
-                                project.isPublic() &&
-                                isFlagged(project.getFlags())
-                                    ? '‼️'
-                                    : '↗',
+                            tip: $locales.get(ShowKeyboardHelp.description),
+                            icon: ShowKeyboardHelp.symbol,
                             label: '',
-                        }}
+                        }}><Shortcuts /></Dialog
                     >
-                        <Sharing {project} />
-                    </Dialog>
-                {/if}
-                <Translate {project}></Translate>
-            {/if}
-
+                    <Toggle
+                        tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                        on={browserFullscreen}
+                        command={browserFullscreen
+                            ? ExitFullscreen
+                            : EnterFullscreen}
+                        toggle={() => setBrowserFullscreen(!browserFullscreen)}
+                    >
+                        <FullscreenIcon />
+                    </Toggle>
+                </span>
+            </div>
             {#if editable}
-                <TextField
-                    text={project.getName()}
-                    description={$locales.get(
-                        (l) => l.ui.project.field.name.description,
-                    )}
-                    placeholder={$locales.get(
-                        (l) => l.ui.project.field.name.placeholder,
-                    )}
-                    changed={(name) =>
-                        Projects.reviseProject(project.withName(name))}
-                    max="10em"
-                />
-            {:else}{project.getName()}{/if}
-            {#if editable && layout.hasVisibleCollapsedSource()}
-                <Separator />
+                <div class="footer-row">
+                    {#if shareable}
+                        <Dialog
+                            description={$locales.get((l) => l.ui.dialog.share)}
+                            button={{
+                                tip: $locales.get(
+                                    (l) =>
+                                        l.ui.project.button.showCollaborators,
+                                ),
+                                icon:
+                                    project.isPublic() &&
+                                    isFlagged(project.getFlags())
+                                        ? '‼️'
+                                        : '↗',
+                                label: '',
+                            }}
+                        >
+                            <Sharing {project} />
+                        </Dialog>
+                    {/if}
+                    <Translate {project}></Translate>
+                    <Switch
+                        on={historical}
+                        toggle={(on) => (historical = on)}
+                        offLabel="⏳"
+                        onLabel="⌛️"
+                        offTip={$locales.get(
+                            (l) => l.ui.project.button.history.off,
+                        )}
+                        onTip={$locales.get(
+                            (l) => l.ui.project.button.history.on,
+                        )}
+                    />
+                    {#if historical}
+                        <Checkpoints {project}></Checkpoints>
+                    {/if}
+                </div>
             {/if}
-            {#each project.getSources() as source, index}
-                {@const tile = layout.getTileWithID(Layout.getSourceID(index))}
-                {#if tile && tile.isCollapsed()}
-                    <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
-                    <SourceTileToggle
-                        {project}
-                        {source}
-                        expanded={tile.mode === Mode.Expanded}
-                        toggle={() => toggleTile(tile)}
-                    />
-                {/if}
-            {/each}
-            {#if editable}
-                <Button
-                    uiid="addSource"
-                    tip={$locales.get((l) => l.ui.project.button.addSource)}
-                    action={addSource}
-                    >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
-                >{/if}
-            {#each layout.getNonSources() as tile}
-                <!-- No need to show the tile if not visible when not editable. -->
-                {#if tile.isVisibleCollapsed(editable)}
-                    <NonSourceTileToggle
-                        {project}
-                        {tile}
-                        on:toggle={() => toggleTile(tile)}
-                        notification={tile.kind === TileKind.Collaborate &&
-                            !!chat &&
-                            $user !== null &&
-                            chat.hasUnread($user.uid)}
-                    />
-                {/if}
-            {/each}
-            <span class="right-align">
-                <Dialog
-                    description={$locales.get((l) => l.ui.dialog.help)}
-                    button={{
-                        tip: $locales.get(ShowKeyboardHelp.description),
-                        icon: ShowKeyboardHelp.symbol,
-                        label: '',
-                    }}><Shortcuts /></Dialog
-                >
-                <Toggle
-                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                    on={browserFullscreen}
-                    command={browserFullscreen
-                        ? ExitFullscreen
-                        : EnterFullscreen}
-                    toggle={() => setBrowserFullscreen(!browserFullscreen)}
-                >
-                    <FullscreenIcon />
-                </Toggle>
-            </span>
         </nav>
 
         <!-- Render the menu on top of the annotations -->
@@ -1998,5 +2105,17 @@
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
         overflow-x: auto;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        align-items: flex-start;
+    }
+
+    .footer-row {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
     }
 </style>

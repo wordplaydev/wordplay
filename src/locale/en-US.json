@@ -4101,7 +4101,11 @@
                 "focusCycle": "focus on the next tile",
                 "unsaved": "show save error",
                 "translate": "edit this project's languages and translate it into other languages.",
-                "primary": "set as this project's primary locale"
+                "primary": "set as this project's primary locale",
+                "history": {
+                    "on": "show recent project code",
+                    "redo": "show current project code"
+                }
             },
             "field": {
                 "name": {
@@ -4133,6 +4137,12 @@
             "subheader": {
                 "source": "Source",
                 "destination": "Destination"
+            }
+        },
+        "checkpoints": {
+            "button": {
+                "clear": "clear all project history",
+                "select": "view this version"
             }
         },
         "gallery": {

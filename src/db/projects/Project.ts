@@ -1156,6 +1156,10 @@ export default class Project {
         });
     }
 
+    getCheckpoints() {
+        return this.data.history;
+    }
+
     getLatestCheckpoint(): SerializedSourceCheckpoint | undefined {
         return this.data.history[this.data.history.length - 1];
     }
@@ -1172,6 +1176,10 @@ export default class Project {
                 return true;
         }
         return false;
+    }
+
+    withoutHistory() {
+        return new Project({ ...this.data, history: [] });
     }
 
     toWordplay() {

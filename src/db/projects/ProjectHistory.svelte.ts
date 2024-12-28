@@ -29,7 +29,7 @@ export const MaxDynamicEdits = 16;
 /**
  * The time after which we automatically checkpoint the source history.
  */
-const CheckpointTime = 60 * 1000;
+const CheckpointTime = 1 * 1000;
 
 /**
  * An class representing a project and its history, and a Svelte store for reactivity
@@ -115,7 +115,7 @@ export class ProjectHistory {
         if (this.consecutiveDynamicEdits >= MaxDynamicEdits) return false;
 
         // When was the last time we checkpointed the source history? If never, remember the time.
-        const now = performance.now();
+        const now = Date.now();
         if (this.lastSave === undefined) this.lastSave = now;
         // If the checkpoint time has elapsed since the last edit, remember the current version before updating this version.
         else if (
@@ -126,7 +126,7 @@ export class ProjectHistory {
                 time: now,
                 sources: this.current.getSerializedSources(),
             });
-            this.lastSave = performance.now();
+            this.lastSave = Date.now();
         }
 
         // Is the undo pointer before the end? Trim the future before we add the future.
