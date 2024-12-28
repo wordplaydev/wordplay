@@ -122,10 +122,7 @@ export class ProjectHistory {
             now - this.lastSave > CheckpointTime &&
             this.current.latestCheckpointIsDifferentFrom(project)
         ) {
-            project = project.withCheckpoint({
-                time: now,
-                sources: this.current.getSerializedSources(),
-            });
+            project = project.withCheckpoint();
             this.lastSave = Date.now();
         }
 

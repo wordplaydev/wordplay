@@ -129,7 +129,7 @@
     import Button from '../widgets/Button.svelte';
     import Palette from '../palette/Palette.svelte';
     import type Bounds from './Bounds';
-    import type Source from '@nodes/Source';
+    import Source from '@nodes/Source';
     import SourceTileToggle from './SourceTileToggle.svelte';
     import type MenuInfo from '../editor/util/Menu';
     import Menu from '../editor/Menu.svelte';
@@ -209,6 +209,7 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
+    import { parseNames } from '@parser/parseBind';
 
     interface Props {
         project: Project;
@@ -283,8 +284,11 @@
     /** The background color of the output, so we can make the tile match. */
     let outputBackground = $state<Color | string | null>(null);
 
-    /** Whether the history is visible */
-    let historical = $state(false);
+    /** The current checkpoint chosen in the checkpoint chooser */
+    let checkpoint = $state(-1);
+
+    /** Whether the project is editable and viewing an older checkpoint */
+    let editableAndCurrent = $derived(editable && checkpoint === -1);
 
     /** The new source recently added. Used to remember to keep it expanded initially. */
     let newSource = $state<Source | undefined>(undefined);
@@ -292,8 +296,17 @@
     /** Keep a source select, to decide what value is shown on stage */
     let selectedSourceIndex = $state(0);
 
+    /** The current sources being viewed, either the project's source, or a checkpointed one */
+    const sources = $derived(
+        checkpoint >= 0
+            ? project
+                  .getCheckpoints()
+                  [checkpoint].sources.map((s) => new Source(s.names, s.code))
+            : project.getSources(),
+    );
+
     /** The selected source is based on the index.*/
-    const selectedSource = $derived(project.getSources()[selectedSourceIndex]);
+    const selectedSource = $derived(sources[selectedSourceIndex]);
 
     // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
     let requestedPlay = $state(
@@ -459,10 +472,18 @@
         }
     });
 
-    // When the locales change, reset the evaluator to use the new locales.
+    // When the locales change or the checkpoint changes, reset the evaluator to use the new locales.
     $effect(() => {
-        if ($locales) untrack(() => resetInputs());
+        checkpoint;
+        $locales;
+        untrack(() => resetInputs());
     });
+
+    function getCheckpointProject(proj: Project) {
+        return proj.withSources(
+            proj.getSources().map((s, index) => [s, sources[index]]),
+        );
+    }
 
     function updateEvaluator(newProject: Project) {
         // Stop the old evaluator.
@@ -470,7 +491,8 @@
 
         // Make the new evaluator, replaying the previous evaluator's inputs, unless we marked the last evaluator is out of date.
         const newEvaluator = new Evaluator(
-            newProject,
+            // Is the checkpoint not now? Use the old sources instead of the current ones.
+            checkpoint >= 0 ? getCheckpointProject(newProject) : newProject,
             DB,
             // Choose the selected evaluation locale or if not selected, currently selected IDE locale
             evaluationLocale ? [evaluationLocale] : localesUsed,
@@ -574,7 +596,7 @@
 
         // Go through each source file and find the tile. If we don't find one, create one.
         let index = 0;
-        for (const source of project.getSources()) {
+        for (const source of sources) {
             const tile = tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index),
             );
@@ -643,7 +665,7 @@
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
-                ...project.getSources().map((source, index) =>
+                ...sources.map((source, index) =>
                     // If starting with output only, collapse the source initially too.
                     createSourceTile(source, index).withMode(
                         showOutput
@@ -980,7 +1002,7 @@
     $effect(() => {
         if (menu) {
             // Find the tile corresponding to the menu's source file.
-            const index = project.getSources().indexOf(menu.getCaret().source);
+            const index = sources.indexOf(menu.getCaret().source);
             const tile = layout?.tiles.find(
                 (tile) => tile.id === Layout.getSourceID(index),
             );
@@ -1371,7 +1393,7 @@
     }
 
     function getSourceByTileID(id: string) {
-        return project.getSources()[getSourceIndexByID(id)];
+        return sources[getSourceIndexByID(id)];
     }
 
     function handleKey(event: KeyboardEvent) {
@@ -1561,7 +1583,7 @@
                             {project}
                             {tile}
                             {layout}
-                            {editable}
+                            editable={editableAndCurrent}
                             arrangement={$arrangement}
                             background={tile.kind === TileKind.Output
                                 ? outputBackground
@@ -1750,7 +1772,10 @@
                                 {#if tile.kind === TileKind.Documentation}
                                     <Documentation {project} />
                                 {:else if tile.kind === TileKind.Palette}
-                                    <Palette {project} {editable} />
+                                    <Palette
+                                        {project}
+                                        editable={editableAndCurrent}
+                                    />
                                 {:else if tile.kind === TileKind.Output}
                                     <OutputView
                                         {project}
@@ -1761,7 +1786,7 @@
                                         bind:painting
                                         {paintingConfig}
                                         bind:background={outputBackground}
-                                        {editable}
+                                        editable={editableAndCurrent}
                                     />
                                 {:else if tile.kind === TileKind.Collaborate}
                                     <CollaborateView {project} {chat} />
@@ -1773,7 +1798,7 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
-                                            {editable}
+                                            editable={editableAndCurrent}
                                             {overwritten}
                                             sourceID={tile.id}
                                             selected={source === selectedSource}
@@ -1804,7 +1829,41 @@
                             {/snippet}
                             {#snippet footer()}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    <GlyphChooser sourceID={tile.id} />
+                                    {#if editableAndCurrent}<GlyphChooser
+                                            sourceID={tile.id}
+                                        />{/if}
+                                    {#if checkpoint > -1}
+                                        <div class="checkpoint"
+                                            >{$locales.get(
+                                                (l) =>
+                                                    l.ui.checkpoints.label
+                                                        .checkpoint,
+                                            )}
+                                            <Button
+                                                background
+                                                tip={$locales.get(
+                                                    (l) =>
+                                                        l.ui.checkpoints.button
+                                                            .restore,
+                                                )}
+                                                active={checkpoint > -1}
+                                                action={() => {
+                                                    // Save a version of the project with the current source in the history and the new source the old source.
+                                                    Projects.reviseProject(
+                                                        getCheckpointProject(
+                                                            project.withCheckpoint(),
+                                                        ),
+                                                    );
+                                                    checkpoint = -1;
+                                                }}
+                                                >{$locales.get(
+                                                    (l) =>
+                                                        l.ui.checkpoints.button
+                                                            .restore,
+                                                )}</Button
+                                            >
+                                        </div>
+                                    {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
                             {/snippet}
@@ -1863,7 +1922,7 @@
                         max="10em"
                     />
                 {:else}{project.getName()}{/if}
-                {#each project.getSources() as source, index}
+                {#each sources as source, index}
                     {@const tile = layout.getTileWithID(
                         Layout.getSourceID(index),
                     )}
@@ -1944,21 +2003,8 @@
                         </Dialog>
                     {/if}
                     <Translate {project}></Translate>
-                    <Switch
-                        on={historical}
-                        toggle={(on) => (historical = on)}
-                        offLabel="⏳"
-                        onLabel="⌛️"
-                        offTip={$locales.get(
-                            (l) => l.ui.project.button.history.off,
-                        )}
-                        onTip={$locales.get(
-                            (l) => l.ui.project.button.history.on,
-                        )}
-                    />
-                    {#if historical}
-                        <Checkpoints {project}></Checkpoints>
-                    {/if}
+                    <Separator />
+                    <Checkpoints {project} bind:checkpoint></Checkpoints>
                 </div>
             {/if}
         </nav>
@@ -2102,8 +2148,6 @@
     }
 
     .footer {
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
         overflow-x: auto;
         display: flex;
         flex-direction: column;
@@ -2117,5 +2161,12 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+    }
+
+    .checkpoint {
+        width: 100%;
+        padding: var(--wordplay-spacing);
+        background: var(--wordplay-warning);
+        color: var(--wordplay-background);
     }
 </style>

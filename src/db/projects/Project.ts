@@ -1142,9 +1142,17 @@ export default class Project {
         );
     }
 
-    withCheckpoint(checkpoint: SerializedSourceCheckpoint) {
-        // Add the checkpoint to the end.
-        let history = [...this.data.history, checkpoint];
+    withCheckpoint(checkpoint?: SerializedSourceCheckpoint) {
+        // None provided? Checkpoint this project's current source.
+        if (checkpoint === undefined)
+            checkpoint = {
+                time: Date.now(),
+                sources: this.getSerializedSources(),
+            };
+        // Add the checkpoint, keep the list sorted by time.
+        let history = [...this.data.history, checkpoint].sort(
+            (a, b) => a.time - b.time,
+        );
 
         // Remove any old checkpoints until we're under the size limit.
         while (Project.getHistorySize(history) > MaxCheckpointSize)

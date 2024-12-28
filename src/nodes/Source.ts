@@ -32,6 +32,8 @@ import type Definition from './Definition';
 import type Locales from '../locale/Locales';
 import type Evaluator from '@runtime/Evaluator';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import { parseNames } from '@parser/parseBind';
+import { toTokens } from '@parser/toTokens';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -64,7 +66,8 @@ export default class Source extends Expression {
     ) {
         super();
 
-        this.names = names instanceof Names ? names : Names.make([names]);
+        this.names =
+            names instanceof Names ? names : parseNames(toTokens(names));
 
         if (typeof code === 'string' || code instanceof UnicodeString) {
             // Generate the AST from the provided code.

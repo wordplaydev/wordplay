@@ -3,13 +3,20 @@
     const Hour = 60 * Minute;
     const Day = 24 * Hour;
     const Week = 7 * Day;
-    const Month = 30 * Day;
 
     export type CheckpointsText = {
+        label: {
+            now: string;
+            checkpoint: string;
+            ago: Template;
+        };
         button: {
             clear: string;
             select: string;
             checkpoint: string;
+            back: string;
+            forward: string;
+            restore: string;
         };
     };
 </script>
@@ -21,8 +28,17 @@
     import { onMount } from 'svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Emoji from '@components/app/Emoji.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import { docToMarkup, type Template } from '@locale/LocaleText';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
 
-    let { project }: { project: Project } = $props();
+    let {
+        project,
+        // -1 represents nothing choice, 0-N represents the index into the checkpoint history
+        checkpoint = $bindable(-1),
+    }: { project: Project; checkpoint: number } = $props();
+
+    let history = $derived(project.getCheckpoints().reverse());
 
     let now = $state(Date.now());
     onMount(() => {
@@ -34,11 +50,11 @@
         const delta = now - time;
         if (delta < Minute)
             return {
-                number: Math.round(delta / Minute),
+                number: Math.round(delta / 1000),
                 unit: 's',
             };
         else if (delta < Hour)
-            return { number: Math.round(delta / Hour), unit: 'min' };
+            return { number: Math.round(delta / Minute), unit: 'min' };
         else if (delta < Day)
             return {
                 number: Math.round(delta / Hour),
@@ -58,41 +74,69 @@
 </script>
 
 <section class="checkpoints">
+    <Button
+        tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}
+        action={() => {
+            Projects.reviseProject(project.withCheckpoint());
+            return;
+        }}><Emoji>📸</Emoji></Button
+    >
     {#if project.getCheckpoints().length === 0}
         &mdash;
     {:else}
-        <Button
+        <ConfirmButton
             tip={$locales.get((l) => l.ui.checkpoints.button.clear)}
+            prompt={$locales.get((l) => l.ui.checkpoints.button.clear)}
             action={() => {
                 Projects.reviseProject(project.withoutHistory());
+                checkpoint = -1;
                 return;
-            }}>{CANCEL_SYMBOL}</Button
+            }}>{CANCEL_SYMBOL}</ConfirmButton
         >
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}
+            tip={$locales.get((l) => l.ui.checkpoints.button.forward)}
+            active={checkpoint < history.length - 1}
             action={() => {
-                Projects.reviseProject(
-                    project.withCheckpoint({
-                        time: Date.now(),
-                        sources: project.getSerializedSources(),
-                    }),
-                );
+                checkpoint++;
                 return;
-            }}><Emoji>📸</Emoji></Button
+            }}><Emoji>⏴</Emoji></Button
         >
-        {#each project.getCheckpoints().reverse() as checkpoint}
-            {@const delta = getDelta(checkpoint.time)}
-            <Button
-                tip={$locales.get((l) => l.ui.checkpoints.button.select)}
-                action={() => {}}
-            >
-                <div class="checkpoint"
-                    ><div class="number">{Math.abs(delta.number)}</div><div
-                        class="unit">{delta.unit}</div
-                    ></div
-                ></Button
-            >
-        {/each}
+        <Button
+            tip={$locales.get((l) => l.ui.checkpoints.button.back)}
+            active={checkpoint > -1}
+            action={() => {
+                checkpoint--;
+                return;
+            }}><Emoji>⏵</Emoji></Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.checkpoints.label.now)}
+            active={checkpoint > -1}
+            action={() => {
+                checkpoint = -1;
+                return;
+            }}><Emoji>⏵⏵</Emoji></Button
+        >
+        <span class="checkpoint">
+            {#if checkpoint === -1}
+                {$locales.get((l) => l.ui.checkpoints.label.now)}
+                <span class="time"> / {history.length}</span>
+            {:else}
+                {@const duration = getDelta(history[checkpoint].time)}
+                {checkpoint + 1}/{history.length}
+                <span class="time"
+                    ><MarkupHtmlView
+                        inline
+                        markup={docToMarkup(
+                            $locales.get((l) => l.ui.checkpoints.label.ago),
+                        ).concretize($locales, [
+                            duration.number,
+                            duration.unit,
+                        ]) ?? ''}
+                    /></span
+                >
+            {/if}
+        </span>
     {/if}
 </section>
 
@@ -104,18 +148,7 @@
         align-items: center;
     }
 
-    .checkpoint {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .number {
+    .time {
         font-size: var(--wordplay-small-font-size);
-        font-style: italic;
-    }
-
-    .unit {
-        font-size: calc(0.5 * var(--wordplay-small-font-size));
     }
 </style>

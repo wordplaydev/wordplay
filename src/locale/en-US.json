@@ -4140,10 +4140,18 @@
             }
         },
         "checkpoints": {
+            "label": {
+                "now": "now",
+                "checkpoint": "This is a previous version of this project.",
+                "ago": "$1 $2 ago"
+            },
             "button": {
-                "clear": "clear all project history",
+                "clear": "delete history",
                 "select": "view this version",
-                "checkpoint": "save this version of the project"
+                "checkpoint": "save this version of the project",
+                "back": "go back to the previous version",
+                "forward": "return to the next version",
+                "restore": "restore this version"
             }
         },
         "gallery": {
