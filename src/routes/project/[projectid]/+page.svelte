@@ -113,9 +113,9 @@
 
 {#if project}
     <Page>
-        <!-- When the project ID changes, create a new project. -->
+        <!-- When the project ID changes, create a fresh project view. -->
         {#key project.getID()}
-            <ProjectView {project} {editable} {overwritten} warn={true} />
+            <ProjectView {project} {editable} {overwritten} warn={!editable} />
         {/key}
     </Page>
 {:else if loading}
