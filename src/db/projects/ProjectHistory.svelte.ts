@@ -188,7 +188,9 @@ export class ProjectHistory {
         );
 
         // Change the current project to the historical project.
-        this.current = newProject;
+        // Since we use the time of the project to determine overwrites, give it a new time
+        // so the projects database doesn't overwrite it.
+        this.current = newProject.withNewTime();
 
         // Set the change type to undo/redo.
         this.change = ChangeType.UndoRedo;

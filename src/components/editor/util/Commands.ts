@@ -634,8 +634,11 @@ export const Undo: Command = {
         database.Projects.getHistory(
             evaluator.project.getID(),
         )?.isUndoable() === true,
-    execute: ({ database, evaluator }) =>
-        database.Projects.undoRedo(evaluator.project.getID(), -1) !== undefined,
+    execute: ({ database, evaluator }) => {
+        database.Projects.undoRedo(evaluator.project.getID(), -1);
+        // Always swallow the shortcut to avoid the browser or OS from handling it.
+        return true;
+    },
 };
 
 const Commands: Command[] = [
@@ -1172,9 +1175,11 @@ const Commands: Command[] = [
             database.Projects.getHistory(
                 evaluator.project.getID(),
             )?.isRedoable() === true,
-        execute: ({ database, evaluator }) =>
-            database.Projects.undoRedo(evaluator.project.getID(), 1) !==
-            undefined,
+        execute: ({ database, evaluator }) => {
+            database.Projects.undoRedo(evaluator.project.getID(), 1);
+            // Always swallow the shortcut to avoid the browser or OS from handling it.
+            return true;
+        },
     },
     ToggleBlocks,
     {

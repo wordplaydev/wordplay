@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Permit reference to initial value in reactions.
 - Phrases shouldn't intercept pointer events unless selectable, so selectable things are selectable.
 - Don't scroll to caret on evaluation update.
+- Prevent undo/redo from going to browser.
 
 ### Maintenance
 
