@@ -7,7 +7,6 @@
     import Dialog from '@components/widgets/Dialog.svelte';
     import { Projects, Settings, locales } from '@db/Database';
     import { functions } from '@db/firebase';
-    import { getLanguageName } from '@locale/LanguageCode';
     import { SupportedLocales } from '@locale/LocaleText';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
@@ -77,8 +76,8 @@
         ),
     }}
     button={{
-        tip: $locales.get((l) => l.ui.project.button.translate),
-        label: `🌐 ${project.getPrimaryLanguage()}${localeCount < 2 ? '' : `+${localeCount - 1}`}`,
+        tip: $locales.get((l) => l.ui.project.button.translate.tip),
+        label: `🌐 ${$locales.get((l) => l.ui.project.button.translate.label)}`,
     }}
 >
     <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>

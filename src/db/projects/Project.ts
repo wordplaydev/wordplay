@@ -35,6 +35,7 @@ import {
     type SerializedProject,
     type SerializedProjectUnknownVersion,
     type SerializedSource,
+    type SerializedSourceCheckpoint,
     upgradeProject,
 } from './ProjectSchemas';
 import {
@@ -65,7 +66,7 @@ export type ProjectData = Omit<SerializedProject, 'sources' | 'locales'> & {
      * Not an indicator of what locales are currently selected; a locale may be selected that this project does not use. */
     locales: LocaleText[];
     /** Serialized caret positions for each source file */
-    carets: SerializedCarets;
+    carets: SerializedSourceCaret[];
 };
 
 type Analysis = {
@@ -83,7 +84,12 @@ type Analysis = {
 };
 
 type SerializedSourceCaret = { source: Source; caret: SerializedCaret };
-type SerializedCarets = SerializedSourceCaret[];
+
+/**
+ * The maximum number of code points we allow in the history. We allow about 20% of a 1 MB project file.
+ * For a very large project (thousand of lines of code) that allows for ~100 distinct versions.
+ */
+const MaxCheckpointSize = 200000;
 
 /**
  * A project with a name, some source files, and evaluators for each source file.
@@ -146,7 +152,7 @@ export default class Project {
         owner: string | null = null,
         collaborators: string[] = [],
         pub = false,
-        carets: SerializedCarets | undefined = undefined,
+        carets: SerializedSourceCaret[] | undefined = undefined,
         listed = true,
         archived = false,
         persisted = false,
@@ -179,6 +185,7 @@ export default class Project {
             timestamp: timestamp ?? Date.now(),
             nonPII: [],
             chat: null,
+            history: [],
         });
     }
 
@@ -197,10 +204,9 @@ export default class Project {
         return (
             this.getID() === project.getID() &&
             this.getName() === project.getName() &&
-            this.getSources().every((source1) =>
-                project
-                    .getSources()
-                    .some((source2) => source1.isEqualTo(source2)),
+            this.getSources().length === project.getSources().length &&
+            this.getSources().every((source1, index1) =>
+                source1.isEqualTo(project.getSources()[index1]),
             )
         );
     }
@@ -892,7 +898,8 @@ export default class Project {
             flags: { ...project.flags },
             timestamp: project.timestamp,
             nonPII: project.nonPII,
-            chat: null,
+            chat: project.chat,
+            history: project.history,
         });
     }
 
@@ -1069,20 +1076,24 @@ export default class Project {
         );
     }
 
+    getSerializedSources(): SerializedSource[] {
+        return this.getSources().map((source) => {
+            return {
+                names: source.names.toWordplay(),
+                code: source.code.toString(),
+                caret:
+                    this.data.carets.find((c) => c.source === source)?.caret ??
+                    0,
+            };
+        });
+    }
+
     serialize(): SerializedProject {
         return {
             v: ProjectSchemaLatestVersion,
             id: this.getID(),
             name: this.getName(),
-            sources: this.getSources().map((source) => {
-                return {
-                    names: source.names.toWordplay(),
-                    code: source.code.toString(),
-                    caret:
-                        this.data.carets.find((c) => c.source === source)
-                            ?.caret ?? 0,
-                };
-            }),
+            sources: this.getSerializedSources(),
             locales: this.getLocales()
                 .getLocales()
                 .map((l) => localeToString(l)),
@@ -1097,6 +1108,7 @@ export default class Project {
             flags: { ...this.data.flags },
             nonPII: this.data.nonPII,
             chat: this.data.chat,
+            history: this.data.history,
         };
     }
 
@@ -1117,6 +1129,65 @@ export default class Project {
             ...this.data,
             chat: id,
         });
+    }
+
+    static getHistorySize(history: SerializedSourceCheckpoint[]) {
+        return history.reduce(
+            (size, checkpoint) =>
+                checkpoint.sources.reduce(
+                    (sum, source) => source.code.length + sum,
+                    0,
+                ) + size,
+            0,
+        );
+    }
+
+    withCheckpoint(checkpoint?: SerializedSourceCheckpoint) {
+        // None provided? Checkpoint this project's current source.
+        if (checkpoint === undefined)
+            checkpoint = {
+                time: Date.now(),
+                sources: this.getSerializedSources(),
+            };
+        // Add the checkpoint, keep the list sorted by time.
+        let history = [...this.data.history, checkpoint].sort(
+            (a, b) => a.time - b.time,
+        );
+
+        // Remove any old checkpoints until we're under the size limit.
+        while (Project.getHistorySize(history) > MaxCheckpointSize)
+            history.shift();
+
+        return new Project({
+            ...this.data,
+            history: history,
+        });
+    }
+
+    getCheckpoints() {
+        return this.data.history;
+    }
+
+    getLatestCheckpoint(): SerializedSourceCheckpoint | undefined {
+        return this.data.history[this.data.history.length - 1];
+    }
+
+    latestCheckpointIsDifferentFrom(project: Project): boolean {
+        const latest = this.getLatestCheckpoint();
+        // No checkpoint? Yeah, this is different.
+        if (latest === undefined) return true;
+
+        const { sources } = latest;
+        if (sources.length !== project.getSources().length) return true;
+        for (let i = 0; i < sources.length; i++) {
+            if (sources[i].code !== project.getSources()[i].code.toString())
+                return true;
+        }
+        return false;
+    }
+
+    withoutHistory() {
+        return new Project({ ...this.data, history: [] });
     }
 
     toWordplay() {

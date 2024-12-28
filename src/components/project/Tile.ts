@@ -74,12 +74,11 @@ export default class Tile {
 
     isVisibleCollapsed(editable: boolean) {
         return (
-            this.isCollapsed() &&
-            (editable ||
-                !(
-                    this.kind === TileKind.Palette ||
-                    this.kind === TileKind.Collaborate
-                ))
+            editable ||
+            !(
+                this.kind === TileKind.Palette ||
+                this.kind === TileKind.Collaborate
+            )
         );
     }
 

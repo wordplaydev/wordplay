@@ -3091,7 +3091,6 @@
                 "reset": "$?"
             },
             "button": {
-                "showCollaborators": "$?",
                 "removeCollaborator": "$?",
                 "copy": "$?",
                 "addSource": "$?",
@@ -3104,7 +3103,15 @@
                 "focusCycle": "$?",
                 "unsaved": "$?",
                 "translate": "$?",
-                "primary": "$?"
+                "primary": "$?",
+                "share": {
+                    "tip": "$?",
+                    "label": "$?"
+                },
+                "history": {
+                    "on": "$?",
+                    "redo": "$?"
+                }
             },
             "field": {
                 "name": {
@@ -3884,6 +3891,23 @@
                 "collaborator": "$?",
                 "curator": "$?",
                 "solo": "$?"
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$?",
+                "history": "$?",
+                "restore": "$?",
+                "ago": "$?"
+            },
+            "button": {
+                "clear": "$?",
+                "select": "$?",
+                "checkpoint": "$?",
+                "back": "$?",
+                "forward": "$?",
+                "restore": "$?",
+                "now": "$?"
             }
         }
     },
