@@ -623,7 +623,7 @@
                 : source.getStartOfTokenLine(token);
         }
 
-        // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
+        // Otherwise, if the pointer wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
         type BreakInfo = {
             token: Token;
             offset: number;
@@ -642,6 +642,9 @@
                     // Check the br container, which gives us a more accurate bounding client rect.
                     const rect = br.getBoundingClientRect();
                     if (tokenView === undefined || token === undefined)
+                        return undefined;
+                    // Skip the line if it doesn't include the pointer's y.
+                    if (event.clientY < rect.top || event.clientY > rect.bottom)
                         return undefined;
                     return {
                         token,

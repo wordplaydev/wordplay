@@ -19,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed async issues with conflict updates in project view.
 - Autocomplete elision symbol outside of rich text.
 - Don't show moderation warning on editable projects.
+- Handle caret pointer placements below the last line correctly.
 
 ### Maintenance
 
