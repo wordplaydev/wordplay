@@ -1343,7 +1343,9 @@ export default class Evaluator {
             .filter((stream): stream is Kind => stream instanceof type);
     }
 
-    /** Called by stream definitions to identify previously created streams to which an evaluation should correspond. */
+    /**
+     * Called by stream definitions to identify previously created streams to which an evaluation should correspond.
+     */
     incrementStreamEvaluationCount(evaluate: StreamCreator) {
         // Set or increment the evaluation count.
         const count = this.streamCreatorCount.get(evaluate) ?? 0;
