@@ -27,9 +27,9 @@ export enum PersistenceType {
 export const MaxDynamicEdits = 16;
 
 /**
- * The time after which we automatically checkpoint the source history.
+ * The time after which we automatically checkpoint the source history. Currently up to every minute.
  */
-const CheckpointTime = 1 * 1000;
+const CheckpointTime = 60 * 1000;
 
 /**
  * An class representing a project and its history, and a Svelte store for reactivity

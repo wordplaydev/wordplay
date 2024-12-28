@@ -4142,7 +4142,8 @@
         "checkpoints": {
             "button": {
                 "clear": "clear all project history",
-                "select": "view this version"
+                "select": "view this version",
+                "checkpoint": "save this version of the project"
             }
         },
         "gallery": {

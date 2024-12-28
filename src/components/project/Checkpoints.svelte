@@ -1,7 +1,5 @@
 <script module lang="ts">
-    import type { ButtonText } from '@locale/UITexts';
-
-    const Minute = 60000;
+    const Minute = 60 * 1000;
     const Hour = 60 * Minute;
     const Day = 24 * Hour;
     const Week = 7 * Day;
@@ -11,6 +9,7 @@
         button: {
             clear: string;
             select: string;
+            checkpoint: string;
         };
     };
 </script>
@@ -21,6 +20,7 @@
     import type Project from '@db/projects/Project';
     import { onMount } from 'svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import Emoji from '@components/app/Emoji.svelte';
 
     let { project }: { project: Project } = $props();
 
@@ -38,21 +38,21 @@
                 unit: 's',
             };
         else if (delta < Hour)
-            return { number: Math.round(delta / Hour), unit: 'm' };
+            return { number: Math.round(delta / Hour), unit: 'min' };
         else if (delta < Day)
+            return {
+                number: Math.round(delta / Hour),
+                unit: 'hours',
+            };
+        else if (delta < Week)
             return {
                 number: Math.round(delta / Day),
                 unit: 'days',
             };
-        else if (delta < Week)
+        else
             return {
                 number: Math.round(delta / Week),
                 unit: 'weeks',
-            };
-        else
-            return {
-                number: Math.round(delta / Month),
-                unit: 'months',
             };
     }
 </script>
@@ -67,6 +67,18 @@
                 Projects.reviseProject(project.withoutHistory());
                 return;
             }}>{CANCEL_SYMBOL}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}
+            action={() => {
+                Projects.reviseProject(
+                    project.withCheckpoint({
+                        time: Date.now(),
+                        sources: project.getSerializedSources(),
+                    }),
+                );
+                return;
+            }}><Emoji>📸</Emoji></Button
         >
         {#each project.getCheckpoints().reverse() as checkpoint}
             {@const delta = getDelta(checkpoint.time)}
