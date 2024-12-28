@@ -1,3 +1,6 @@
+const EmoijRegex =
+    /((\p{Extended_Pictographic}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\u200D)+)/gu;
+
 /** Adds emoji text variation descriptor to any noto emoji missing them. Ensures fonts are rendered consistently across Chrome, Safari, and Firefox. */
 function withVariationSelector(text: string, color = false) {
     // Strip the presentation selectors from the string.
@@ -9,10 +12,7 @@ function withVariationSelector(text: string, color = false) {
     // of code points, and they can be terminated by a presentation selector, so we match the whole
     // sequence, and append the selector to the end.
     // For the standard details, see: https://www.unicode.org/reports/tr51/
-    return withoutPresentation.replaceAll(
-        /((\p{Extended_Pictographic}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\u200D)+)/gu,
-        `$1${selector}`,
-    );
+    return withoutPresentation.replaceAll(EmoijRegex, `$1${selector}`);
 }
 
 export function withColorEmoji(text: string) {
@@ -21,4 +21,8 @@ export function withColorEmoji(text: string) {
 
 export function withMonoEmoji(text: string) {
     return withVariationSelector(text, false);
+}
+
+export function isEmoji(text: string) {
+    return EmoijRegex.test(text);
 }

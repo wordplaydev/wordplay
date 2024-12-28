@@ -9,6 +9,7 @@
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
     import Toggle from '../widgets/Toggle.svelte';
+    import { isEmoji } from '../../unicode/emoji';
 
     interface Props {
         sourceID: string;
@@ -30,12 +31,21 @@
 
     let expanded = $state(false);
     let query = $state('');
-    let results =
-        $derived(query.length < 3
+    let results = $derived(
+        query.length < 3
             ? []
-            : getUnicodeWithNameText(query).map((entry) =>
-                  String.fromCodePoint(entry.hex),
-              ));
+            : getUnicodeWithNameText(query)
+                  .map((entry) => String.fromCodePoint(entry.hex))
+                  .toSorted((a, b) =>
+                      isEmoji(a)
+                          ? isEmoji(b)
+                              ? a.localeCompare(b)
+                              : -1
+                          : isEmoji(b)
+                            ? 1
+                            : -1,
+                  ),
+    );
 
     function insert(glyph: string) {
         const editorState = $editors?.get(sourceID);
