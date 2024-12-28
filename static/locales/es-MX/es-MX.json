@@ -4053,7 +4053,6 @@
                 "reset": "$~Intentar reiniciar..."
             },
             "button": {
-                "showCollaborators": "mostrar a los colaboradores el diálogo",
                 "removeCollaborator": "quitar colaboradora",
                 "copy": "copiar proyecto como texto",
                 "addSource": "crear una nueva $source",
@@ -4066,7 +4065,15 @@
                 "focusCycle": "enfoque en la siguiente teja ",
                 "unsaved": "mostrar error de guardado",
                 "translate": "$~editar los idiomas de este proyecto y traducirlo a otros idiomas.",
-                "primary": "$~establecido como la ubicación principal de este proyecto"
+                "primary": "$~establecido como la ubicación principal de este proyecto",
+                "share": {
+                    "tip": "$~Mostrar opciones para compartir proyectos",
+                    "label": "$~compartir"
+                },
+                "history": {
+                    "on": "$~mostrar código de proyecto reciente",
+                    "redo": "$~mostrar el código del proyecto actual"
+                }
             },
             "field": {
                 "name": {
@@ -4936,6 +4943,23 @@
                 "owner": "$~Los colaboradores pueden editar este proyecto y chatear sobre él.",
                 "collaborator": "$~Eres colaborador. Puedes editar este proyecto y conversar sobre él.",
                 "curator": "$~Eres el curador de la galería de este proyecto. Puedes editarlo y conversar sobre él."
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~ahora",
+                "history": "$~restaurar",
+                "restore": "$~Esta es una versión anterior de este proyecto.",
+                "ago": "$~Hace 1 $2 $"
+            },
+            "button": {
+                "clear": "$~borrar historial",
+                "select": "$~Ver esta versión",
+                "checkpoint": "$~guardar esta versión del proyecto",
+                "back": "$~volver a la versión anterior",
+                "forward": "$~volver a la siguiente versión",
+                "restore": "$~restaurar esta versión",
+                "now": "$~volver a la versión actual"
             }
         }
     },

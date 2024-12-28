@@ -1,27 +1,42 @@
+/**
+ * UPDATING THE PROJECT SCHEMA
+ *
+ * The key steps are:
+ * - Define a new ProjectSchema below that modifies the previous schema with a new version number and new data.
+ * - Update ProjectSchemaLatestVersion to the latest version number
+ * - Add the previous most recent schema to SerializedProjectUnknownVersion
+ * - Update SerializedProject to the new version of the schema
+ * - Update upgradeProject() to include a case to upgrade the previous version to the new current version
+ * - Update Project.ts to add any default values to newly created projects.
+ */
+
 import { z } from 'zod';
 
+/** Schema for the cursor position path */
 const PathSchema = z.array(
     z.object({ type: z.string(), index: z.number().min(0) }),
 );
+
+/** Schema for a cursor position */
 const CaretSchema = z.union([z.number().min(0), PathSchema]);
 
-export type SerializedCaret = z.infer<typeof CaretSchema>;
-
+/** Schema for a source file in a project */
 const SourceSchema = z.object({
     names: z.string(),
     code: z.string(),
     caret: CaretSchema,
 });
 
-/** How we store sources as JSON in databases */
-export type SerializedSource = z.infer<typeof SourceSchema>;
-
-export const ProjectSchemaLatestVersion = 3;
-
-export type ProjectID = string;
+/** Schema for a history entry */
+const SourceCheckpointSchema = z.object({
+    /** When the history was recorded */
+    time: z.number(),
+    /** The source files at the time of recording */
+    sources: z.array(SourceSchema),
+});
 
 /** Define the schema for projects */
-export const ProjectSchemaV1 = z.object({
+const ProjectSchemaV1 = z.object({
     /** The version of the project schema, used for keeping track of different versions of the project schema.  */
     v: z.literal(1),
     /** A very likely unique uuid4 string */
@@ -56,27 +71,45 @@ export const ProjectSchemaV1 = z.object({
         misinformation: z.nullable(z.boolean()),
     }),
 });
-type SerializedProjectV1 = z.infer<typeof ProjectSchemaV1>;
 
-export const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).merge(
+/** v2 adds a PII approved list */
+const ProjectSchemaV2 = ProjectSchemaV1.omit({ v: true }).merge(
+    /** A list of strings that are not considered personally identifiable by a creator */
     z.object({ v: z.literal(2), nonPII: z.array(z.string()) }),
 );
-type SerializedProjectV2 = z.infer<typeof ProjectSchemaV2>;
-
-export const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).merge(
+/** v3 adds a nullable chat ID */
+const ProjectSchemaV3 = ProjectSchemaV2.omit({ v: true }).merge(
+    /** The chat that corresponds to this project */
     z.object({ v: z.literal(3), chat: z.nullable(z.string()) }),
 );
-type SerializedProjectV3 = z.infer<typeof ProjectSchemaV3>;
+/** v2 adds a source file history */
+const ProjectSchemaV4 = ProjectSchemaV3.omit({ v: true }).merge(
+    /** A list of source files in the project */
+    z.object({ v: z.literal(4), history: z.array(SourceCheckpointSchema) }),
+);
 
-export const ProjectSchema = ProjectSchemaV3;
+/** The latest version of a project.  */
+export const ProjectSchemaLatestVersion = 4;
 
-/** How we store projects as JSON in databases. These could be one of many versions, but currently there's only one. */
-export type SerializedProject = SerializedProjectV3;
+/** How we store sources as JSON in databases */
+export type SerializedCaret = z.infer<typeof CaretSchema>;
+export type SerializedSource = z.infer<typeof SourceSchema>;
+export type SerializedSourceCheckpoint = z.infer<typeof SourceCheckpointSchema>;
+
+/** An alias for a project ID, to help clarify when a string is a project ID throughout the implementation. */
+export type ProjectID = string;
+
+/** Alias for the latest version of the schema. */
+export const ProjectSchema = ProjectSchemaV4;
+
+/** The type of the latest version of the project */
+export type SerializedProject = z.infer<typeof ProjectSchemaV4>;
 
 export type SerializedProjectUnknownVersion =
-    | SerializedProjectV1
-    | SerializedProjectV2
-    | SerializedProjectV3;
+    | z.infer<typeof ProjectSchemaV1>
+    | z.infer<typeof ProjectSchemaV2>
+    | z.infer<typeof ProjectSchemaV3>
+    | SerializedProject;
 
 /** Project updgrader */
 export function upgradeProject(
@@ -87,6 +120,8 @@ export function upgradeProject(
             return upgradeProject({ ...project, v: 2, nonPII: [] });
         case 2:
             return upgradeProject({ ...project, v: 3, chat: null });
+        case 3:
+            return upgradeProject({ ...project, v: 4, history: [] });
         case ProjectSchemaLatestVersion:
             return project;
         default:
