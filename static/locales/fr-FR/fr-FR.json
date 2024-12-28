@@ -4087,7 +4087,6 @@
                 "reset": "$~Tenter de réinitialiser..."
             },
             "button": {
-                "showCollaborators": "$~Afficher la boîte de dialogue des collaborateurs",
                 "removeCollaborator": "$~supprimer un collaborateur",
                 "copy": "$~copier le projet dans le presse-papiers sous forme de texte",
                 "addSource": "$~créer une nouvelle $source",
@@ -4100,7 +4099,15 @@
                 "focusCycle": "$~se concentrer sur la tuile suivante",
                 "unsaved": "$~afficher l'erreur de sauvegarde",
                 "translate": "$~modifier les langues de ce projet et le traduire dans d'autres langues.",
-                "primary": "$~définir comme lieu principal de ce projet"
+                "primary": "$~définir comme lieu principal de ce projet",
+                "share": {
+                    "tip": "$~afficher les options de partage de projet",
+                    "label": "$~partager"
+                },
+                "history": {
+                    "on": "$~afficher le code du projet récent",
+                    "redo": "$~afficher le code du projet actuel"
+                }
             },
             "field": {
                 "name": {
@@ -4973,6 +4980,23 @@
                 "owner": "$~Les collaborateurs peuvent éditer ce projet et en discuter.",
                 "collaborator": "$~Vous êtes un collaborateur. Vous pouvez éditer ce projet et en discuter.",
                 "curator": "$~Vous êtes curateur de la galerie de ce projet. Vous pouvez éditer ce projet et en discuter."
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~maintenant",
+                "history": "$~restaurer",
+                "restore": "$~Ceci est une version précédente de ce projet.",
+                "ago": "$~1 $ il y a 2 $"
+            },
+            "button": {
+                "clear": "$~supprimer l'historique",
+                "select": "$~voir cette version",
+                "checkpoint": "$~enregistrer cette version du projet",
+                "back": "$~revenir à la version précédente",
+                "forward": "$~revenir à la version suivante",
+                "restore": "$~restaurer cette version",
+                "now": "$~revenir à la version actuelle"
             }
         }
     },
