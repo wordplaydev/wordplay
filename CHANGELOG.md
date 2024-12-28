@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Added
 
 - Fixed #519, adding the ability for teachers to create classes, student accounts, and galleries associated with classes.
+- Added ability to refer to initial bound reaction values by name.
 
 ### Fixed
 

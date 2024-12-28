@@ -619,6 +619,10 @@ export default class Evaluator {
         return this.evaluations.find((e) => e.getDefinition() === expression);
     }
 
+    getEvaluations() {
+        return this.evaluations;
+    }
+
     // PREDICATES
 
     isStarted(): boolean {

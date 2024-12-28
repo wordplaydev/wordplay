@@ -31,6 +31,7 @@ import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import StreamType from './StreamType';
 import Changed from './Changed';
+import Bind from './Bind';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -226,6 +227,25 @@ export default class Reaction extends Expression {
 
                 // Create the initial stream so we can refer to it by "." in the condition
                 evaluator.createReactionStream(this, initialValue);
+
+                // If this reaction is bound, bind the name to the initial value in the evaluation in which the bind is happening,
+                // so the condition to refer to it.
+                const bind = evaluator
+                    .getCurrentEvaluation()
+                    ?.getSource()
+                    ?.root.getAncestors(this)
+                    .find((ancestor) => ancestor instanceof Bind);
+                if (bind) {
+                    // Find the evaluation that has a step that evaluates this bind.
+                    const evaluation = evaluator
+                        .getEvaluations()
+                        .find((evaluation) =>
+                            evaluation.getStepThat(
+                                (step) => step.node === bind,
+                            ),
+                        );
+                    if (evaluation) evaluation.bind(bind.names, initialValue);
+                }
 
                 return undefined;
             }),
