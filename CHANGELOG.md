@@ -17,6 +17,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Prevent undo/redo from going to browser.
 - Correctly restore position after undo/read.
 - Fixed async issues with conflict updates in project view.
+- Autocomplete elision symbol outside of rich text.
 
 ### Maintenance
 

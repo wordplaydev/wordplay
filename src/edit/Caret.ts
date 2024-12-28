@@ -1181,8 +1181,11 @@ export default class Caret {
         if (
             complete &&
             text in DelimiterCloseByOpen &&
-            ((!this.isInsideText() && !FormattingSymbols.includes(text)) ||
-                (this.isInsideText() && FormattingSymbols.includes(text))) &&
+            ((!this.isInsideWords() &&
+                (!FormattingSymbols.includes(text) ||
+                    // Allow the elision symbol, since it can be completed outside of words.
+                    text === ELISION_SYMBOL)) ||
+                (this.isInsideWords() && FormattingSymbols.includes(text))) &&
             (this.tokenPrior === undefined ||
                 // The text typed does not close an unmatched delimiter
                 (this.source.getUnmatchedDelimiter(this.tokenPrior, text) ===
@@ -1259,12 +1262,13 @@ export default class Caret {
         return newSource ? [text, newSource, newPosition, closed] : undefined;
     }
 
-    isInsideText() {
+    isInsideWords() {
         const isText =
             this.tokenExcludingSpace !== undefined &&
             this.tokenExcludingSpace.isSymbol(Sym.Words);
         const isAfterText =
-            this.tokenPrior && this.tokenPrior.isSymbol(Sym.Words);
+            this.tokenPrior !== undefined &&
+            this.tokenPrior.isSymbol(Sym.Words);
         return (isText && !this.betweenDelimiters()) || isAfterText;
     }
 
