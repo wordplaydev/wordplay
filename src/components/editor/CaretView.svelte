@@ -208,7 +208,9 @@
 
     // When caret location or view changes and not playing, tick, then scroll to it.
     $effect(() => {
-        if (location && element && $evaluation.playing)
+        // If the location is set and we're not playing, then scroll to it.
+        // Don't respond to changes in evaluation; they aren't relevant to scroll position.
+        if (location && untrack(() => $evaluation.playing))
             tick().then(() => {
                 if (element) element.scrollIntoView({ block: 'nearest' });
             });
