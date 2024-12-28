@@ -306,6 +306,8 @@
 
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
+
+        pointer-events: none;
     }
 
     :global(.editing) .phrase {
@@ -315,6 +317,7 @@
 
     .phrase[data-selectable='true'] {
         cursor: pointer;
+        pointer-events: all;
     }
 
     .phrase > :global(.light) {

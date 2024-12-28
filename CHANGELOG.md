@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Permit reference to initial value in reactions.
+- Phrases shouldn't intercept pointer events unless selectable, so selectable things are selectable.
 
 ### Maintenance
 
