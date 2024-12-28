@@ -22,6 +22,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Autocomplete elision symbol outside of rich text.
 - Don't show moderation warning on editable projects.
 - Handle caret pointer placements below the last line correctly.
+- Don't filter output interfaces from the concept index.
 
 ### Maintenance
 
