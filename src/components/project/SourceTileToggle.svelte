@@ -61,7 +61,7 @@
     {#if primaryCount === 0 && secondaryCount === 0}<Emoji
             >{Glyphs.Program.symbols}</Emoji
         >{/if}
-    {$locales.getName(source.names)}
+    {#if !expanded}{$locales.getName(source.names)}{/if}
 </Toggle>
 
 <style>

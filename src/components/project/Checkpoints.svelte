@@ -7,7 +7,8 @@
     export type CheckpointsText = {
         label: {
             now: string;
-            checkpoint: string;
+            history: string;
+            restore: string;
             ago: Template;
         };
         button: {
@@ -17,6 +18,7 @@
             back: string;
             forward: string;
             restore: string;
+            now: string;
         };
     };
 </script>
@@ -74,6 +76,8 @@
 </script>
 
 <section class="checkpoints">
+    🕐
+    {$locales.get((l) => l.ui.checkpoints.label.history)}
     <Button
         tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}
         action={() => {
@@ -110,7 +114,7 @@
             }}><Emoji>⏵</Emoji></Button
         >
         <Button
-            tip={$locales.get((l) => l.ui.checkpoints.label.now)}
+            tip={$locales.get((l) => l.ui.checkpoints.button.now)}
             active={checkpoint > -1}
             action={() => {
                 checkpoint = -1;
@@ -145,7 +149,7 @@
         display: flex;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
-        align-items: center;
+        align-items: baseline;
     }
 
     .time {

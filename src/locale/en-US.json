@@ -4088,7 +4088,10 @@
                 "reset": "Attempt to reset..."
             },
             "button": {
-                "showCollaborators": "show share dialog",
+                "share": {
+                    "tip": "show project sharing options",
+                    "label": "share"
+                },
                 "removeCollaborator": "remove collaborator",
                 "copy": "copy project to clipboard as text",
                 "addSource": "create a new $source",
@@ -4100,7 +4103,10 @@
                 "focusPalette": "focus on the palette",
                 "focusCycle": "focus on the next tile",
                 "unsaved": "show save error",
-                "translate": "edit this project's languages and translate it into other languages.",
+                "translate": {
+                    "tip": "edit this project's languages and translate it into other languages.",
+                    "label": "translate"
+                },
                 "primary": "set as this project's primary locale",
                 "history": {
                     "on": "show recent project code",
@@ -4126,7 +4132,7 @@
             "dialog": {
                 "unsaved": "Unsaved work...",
                 "translate": {
-                    "header": "Languages",
+                    "header": "Translate",
                     "explanation": [
                         "These are the languages your project is using.",
                         "To try to translate your project into other languages, choose a primary source language and then choose a new language.",
@@ -4142,7 +4148,8 @@
         "checkpoints": {
             "label": {
                 "now": "now",
-                "checkpoint": "This is a previous version of this project.",
+                "history": "restore",
+                "restore": "This is a previous version of this project.",
                 "ago": "$1 $2 ago"
             },
             "button": {
@@ -4151,7 +4158,8 @@
                 "checkpoint": "save this version of the project",
                 "back": "go back to the previous version",
                 "forward": "return to the next version",
-                "restore": "restore this version"
+                "restore": "restore this version",
+                "now": "return to the current version"
             }
         },
         "gallery": {

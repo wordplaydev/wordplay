@@ -1,6 +1,10 @@
 <script module lang="ts">
     import { type Template } from '@locale/LocaleText';
-    import { type FieldText, type DialogText } from '@locale/UITexts';
+    import {
+        type FieldText,
+        type DialogText,
+        type ButtonText,
+    } from '@locale/UITexts';
 
     export const TypingDelay = 500;
 
@@ -17,7 +21,7 @@
         };
         button: {
             /** Shows the sharing dialog */
-            showCollaborators: string;
+            share: ButtonText;
             /** Remove a collaborator that has been shared with */
             removeCollaborator: string;
             /** Copy the project as text to the clipboard */
@@ -41,7 +45,7 @@
             /** Show save error button */
             unsaved: string;
             /** Show translation button */
-            translate: string;
+            translate: ButtonText;
             /** The tooltip for the primary locale setting button */
             primary: string;
             /** The history switch */
@@ -1837,7 +1841,7 @@
                                             >{$locales.get(
                                                 (l) =>
                                                     l.ui.checkpoints.label
-                                                        .checkpoint,
+                                                        .restore,
                                             )}
                                             <Button
                                                 background
@@ -1926,7 +1930,7 @@
                     {@const tile = layout.getTileWithID(
                         Layout.getSourceID(index),
                     )}
-                    {#if tile && tile.isCollapsed()}
+                    {#if tile}
                         <!-- Mini source view output is visible when collapsed, or if its main, when output is collapsed. -->
                         <SourceTileToggle
                             {project}
@@ -1988,20 +1992,22 @@
                             description={$locales.get((l) => l.ui.dialog.share)}
                             button={{
                                 tip: $locales.get(
-                                    (l) =>
-                                        l.ui.project.button.showCollaborators,
+                                    (l) => l.ui.project.button.share.tip,
                                 ),
                                 icon:
                                     project.isPublic() &&
                                     isFlagged(project.getFlags())
                                         ? '‼️'
                                         : '↗',
-                                label: '',
+                                label: $locales.get(
+                                    (l) => l.ui.project.button.share.label,
+                                ),
                             }}
                         >
                             <Sharing {project} />
                         </Dialog>
                     {/if}
+                    <Separator />
                     <Translate {project}></Translate>
                     <Separator />
                     <Checkpoints {project} bind:checkpoint></Checkpoints>
