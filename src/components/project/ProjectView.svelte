@@ -902,20 +902,31 @@
     );
 
     /**
-     * Re-analyze on a delay any time the project changes.
+     * Any time the evaluator of the project changes, start it, and analyze it after some delay.
      * */
     let updateTimer = $state<NodeJS.Timeout | undefined>(undefined);
     $effect(() => {
-        // Re-evaluate immediately.
+        // Re-evaluate immediately if not started.
         if (!$evaluator.isStarted()) $evaluator.start();
 
         untrack(() => {
             if (updateTimer) clearTimeout(updateTimer);
         });
-        updateTimer = setTimeout(() => {
-            project.analyze();
-            conflicts?.set(project.getConflicts());
-        }, TypingDelay);
+
+        function updateConflicts() {
+            // In the middle of analyzing? Check later.
+            if (project.analyzed === 'analyzing')
+                setTimeout(updateConflicts, TypingDelay);
+            // Done analyzing, or not analyzed?
+            else {
+                // Analyze if not analyzed  yet.
+                if (project.analyzed === 'unanalyzed') project.analyze();
+                // Get the resulting conflicts.
+                conflicts.set(project.getConflicts());
+            }
+        }
+
+        updateTimer = setTimeout(updateConflicts, TypingDelay);
     });
 
     /** When stepping and the current step changes, change the active source. */

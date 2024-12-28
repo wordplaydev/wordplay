@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Don't scroll to caret on evaluation update.
 - Prevent undo/redo from going to browser.
 - Correctly restore position after undo/read.
+- Fixed async issues with conflict updates in project view.
 
 ### Maintenance
 
