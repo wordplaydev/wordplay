@@ -27,7 +27,6 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
-    import { withColorEmoji } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
@@ -99,9 +98,7 @@
         lastFrame = frame;
     });
 
-    onMount(restore);
-
-    function restore() {
+    $effect(() => {
         if (editable) {
             if (entered) {
                 if (
@@ -121,7 +118,7 @@
                 }
             }
         }
-    }
+    });
 
     async function enter(event: MouseEvent) {
         select(input?.selectionStart ?? 0);
