@@ -190,6 +190,7 @@
     const editor = getEditor();
 
     // Whenever the caret changes, wait for rendering, then update it's location.
+    let animationDelayTimeout: NodeJS.Timeout | undefined = undefined;
     $effect(() => {
         caret;
         // Not playing? Depend on evaluation $evaluation. Otherwise, only update when caret changes.
@@ -201,10 +202,10 @@
             location = computeLocation();
             // Because some elements fade out when caret changes, affecting layout, we also need to recompute
             // the caret position after the default animation duration to ensure it's positioned correctly.
-            debounce(
-                () => (location = computeLocation()),
-                $animationDuration + 25,
-            );
+            if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
+            animationDelayTimeout = setTimeout(() => {
+                location = computeLocation();
+            }, $animationDuration);
         });
     });
 

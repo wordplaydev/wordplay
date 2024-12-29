@@ -81,8 +81,6 @@
     import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import debounce from '../../util/debounce';
-    import { KeyboardIdleWaitTime } from '@components/project/ProjectView.svelte';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
