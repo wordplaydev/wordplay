@@ -212,7 +212,8 @@
     let lastScroll = 0;
     $effect(() => {
         // If the location is set and we're not playing, then scroll to it after updates are complete.
-        if (location)
+        if (location) {
+            lastScroll = performance.now();
             tick().then(() => {
                 // If it's been more than 200ms since the last scroll, then scroll to the caret now.
                 if (performance.now() - lastScroll > 200 && element) {
@@ -226,6 +227,7 @@
                         lastScroll = performance.now();
                     }, 30);
             });
+        }
     });
 
     function scrollIntoView() {
@@ -405,7 +407,6 @@
     }
 
     function computeLocation(): CaretBounds | undefined {
-        console.log('Compute location');
         if (caret === undefined) return;
 
         // The editor is always horizontal-tb
