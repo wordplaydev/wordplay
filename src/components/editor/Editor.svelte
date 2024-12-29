@@ -299,15 +299,32 @@
         } else lastKeyDownIgnored = false;
     }
 
+    /**
+     * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
+     * resetting the cache whenever the source changes, since we will likely have new nodes.
+     * null represents that the node could not be found when we first checked.
+     */
+    let nodeViewCache = new Map<Node, HTMLElement | null>();
+    $effect(() => {
+        if (source) nodeViewCache = new Map();
+    });
     function getNodeView(node: Node): HTMLElement | undefined {
         if (editor === null) return undefined;
+        const cache = nodeViewCache.get(node);
+        if (cache !== undefined) return cache ?? undefined;
         // See if there's a node or value view that corresponds to this node.
         const view =
-            editor.querySelector(`.node-view[data-id="${node.id}"]`) ??
+            document.getElementById(`node-${node.id}`) ??
             document.querySelector(
                 `.value[data-id="${evaluator.getCurrentValue()?.id}"]`,
             );
-        return view instanceof HTMLElement ? view : undefined;
+        if (view instanceof HTMLElement) {
+            nodeViewCache.set(node, view);
+            return view;
+        } else {
+            nodeViewCache.set(node, null);
+            return undefined;
+        }
     }
 
     function getTokenByView(program: Program, tokenView: Element) {
