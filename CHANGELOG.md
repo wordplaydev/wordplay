@@ -25,6 +25,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Don't filter output interfaces from the concept index.
 - Fixed bad wrap within docs ending in newline.
 - Tick for collisions.
+- Keep focus on keyboard-moved phrase.
 
 ### Maintenance
 
