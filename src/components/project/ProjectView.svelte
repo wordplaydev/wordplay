@@ -1101,7 +1101,7 @@
     // false: couldn't load it.
     let chat = $state<Chat | undefined | null | false>(null);
     $effect(() => {
-        // When the project changes, get the chat, and mark read if it was unread.
+        // When the project or chat change, get the chat.
         Chats.getChat(project).then((retrievedChat) => {
             chat = retrievedChat;
         });

@@ -395,7 +395,6 @@ export class ChatDatabase {
                 return newChat;
             } else return undefined;
         } catch (err) {
-            console.log(err);
             return false;
         }
     }
