@@ -7,11 +7,11 @@
         getRoot,
         getSpaces,
         getIsBlocks,
+        getHighlights,
     } from '../project/Contexts';
     import getNodeView from './util/nodeToView';
     import Expression, { ExpressionKind } from '@nodes/Expression';
     import ValueView from '@components/values/ValueView.svelte';
-    import type Value from '@values/Value';
     import Space from './Space.svelte';
     import Token from '../../nodes/Token';
     import { locales } from '../../db/Database';
@@ -73,6 +73,10 @@
     // Get the insertion point
     let insertion = getInsertionPoint();
 
+    // Get the highlights
+    let highlights = getHighlights();
+    let highlight = $derived(node ? $highlights?.get(node) : undefined);
+
     let kind = $derived(
         $blocks && node instanceof Expression ? node.getKind() : undefined,
     );
@@ -128,18 +132,23 @@
                     ? $insertion
                     : undefined}
             />{/if}{/if}<div
-        class="node-view {$blocks
-            ? 'block'
-            : ''} {direction} {node.getDescriptor()} {node instanceof Token
-            ? 'Token'
-            : ''} {node instanceof Block && node.isRoot()
-            ? 'ProgramBlock'
-            : ''}"
+        class={[
+            'node-view',
+            direction,
+            node.getDescriptor(),
+            ...(highlight ? highlight.values() : []),
+            {
+                block: $blocks,
+                hide,
+                small,
+                evaluate: kind === ExpressionKind.Evaluate,
+                definition: kind === ExpressionKind.Definition,
+                Token: node instanceof Token,
+                ProgramBlock: node instanceof Block && node.isRoot(),
+                highlighted: highlight,
+            },
+        ]}
         data-uiid={node.getDescriptor()}
-        class:hide
-        class:small
-        class:evaluate={kind === ExpressionKind.Evaluate}
-        class:definition={kind === ExpressionKind.Definition}
         data-id={node.id}
         id={`node-${node.id}`}
         aria-hidden={hide ? 'true' : null}

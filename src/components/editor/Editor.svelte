@@ -163,6 +163,27 @@
     /** The DOM node representing the editor */
     let editor: HTMLElement | null = $state(null);
 
+    /** A cache of the .token-view HTMLElements */
+    let tokenViews: HTMLElement[] | undefined = $state(undefined);
+
+    /**
+     * An expensive operation to get all the token views for various operations.
+     * We try to do it only once per update.
+     */
+    function getTokenViews() {
+        if (editor === null) tokenViews = [];
+        else if (tokenViews !== undefined) return tokenViews;
+        else
+            tokenViews = Array.from(
+                editor.getElementsByClassName('token-view'),
+            ) as HTMLElement[];
+        return tokenViews;
+    }
+
+    $effect(() => {
+        if (source) tokenViews = undefined;
+    });
+
     /** True if something in the editor is focused. */
     let focused: boolean = $state(false);
 
@@ -241,44 +262,6 @@
     onMount(() =>
         autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
     );
-
-    /**
-     * A cache of nodes we have highlighted, so we can remove highlights without a query.
-     * Only used below as a performance optimization, should not be used for any other purpose.
-     * */
-    let highlightNodes: HTMLElement[] = [];
-
-    // After updates, update highlight outlines.
-    $effect(() => {
-        $highlights;
-        $locales;
-        $caret;
-        editor;
-
-        untrack(() => {
-            tick().then(() => {
-                // Optimization: add and remove classes for styling here rather than having them
-                // retrieved in each NodeView.
-                if (editor) {
-                    // Remove any existing highlights previously added.
-                    for (const highlighted of highlightNodes)
-                        for (const highlightType of Object.keys(HighlightTypes))
-                            highlighted.classList.remove(highlightType);
-
-                    // Add any new highlights of highlighted nodes.
-                    highlightNodes = [];
-                    for (const [node, types] of $highlights.entries()) {
-                        const view = getNodeView(node);
-                        if (view) {
-                            highlightNodes.push(view);
-                            view.classList.add('highlighted');
-                            for (const type of types) view.classList.add(type);
-                        }
-                    }
-                }
-            });
-        });
-    });
 
     async function evalUpdate() {
         // No evaluator, or we're playing? No need to update the eval editor info.
@@ -564,7 +547,7 @@
         // Otherwise, the pointer is over the editor.
         // Find the closest token and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
-        const closestToken = Array.from(editor.querySelectorAll('.token-view'))
+        const closestToken = Array.from(getTokenViews())
             .map((tokenView) => {
                 const textRect = tokenView.getBoundingClientRect();
                 return {
@@ -1154,6 +1137,7 @@
             toggleMenu,
             blocks: $blocks,
             view: editor,
+            getTokenViews,
         });
 
         // Don't insert symbols if composing.
@@ -1618,6 +1602,7 @@
             editable &&
             restoredPosition === undefined}
         ignored={shakeCaret}
+        {getTokenViews}
         bind:location={caretLocation}
     />
     <!-- 

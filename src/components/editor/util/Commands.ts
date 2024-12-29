@@ -105,6 +105,7 @@ export type CommandContext = {
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
     help?: () => void;
+    getTokenViews?: () => HTMLElement[];
 };
 
 export type Edit = Caret | Revision;
@@ -652,11 +653,12 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: ({ caret, blocks, view }) =>
+        execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? blocks
-                    ? view
-                        ? (moveVisualVertical(-1, view, caret) ?? false)
+                    ? view && getTokenViews
+                        ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
+                          false)
                         : false
                     : (caret.moveVertical(-1) ?? false)
                 : false,
@@ -671,11 +673,12 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret, blocks, view }) =>
+        execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? blocks
-                    ? view
-                        ? (moveVisualVertical(1, view, caret) ?? false)
+                    ? view && getTokenViews
+                        ? (moveVisualVertical(1, view, caret, getTokenViews) ??
+                          false)
                         : false
                     : (caret.moveVertical(1) ?? false)
                 : false,

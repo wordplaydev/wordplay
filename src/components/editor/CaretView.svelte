@@ -19,6 +19,7 @@
         direction: -1 | 1,
         editor: HTMLElement,
         caret: Caret,
+        getTokenViews: () => HTMLElement[],
     ): Caret | undefined {
         // Find the token view that the caret is in.
         const currentToken =
@@ -32,7 +33,7 @@
         const verticalThreshold = bounds.height;
 
         // Find all the token views
-        const nearest = Array.from(editor.querySelectorAll('.token-view'))
+        const nearest = Array.from(getTokenViews())
             .map((el) => {
                 const elBounds = el.getBoundingClientRect();
                 return {
@@ -111,6 +112,8 @@
         blocks: boolean;
         /** The current location of the caret */
         location: CaretBounds | undefined;
+        /** A function for getting the editor's token views */
+        getTokenViews: () => HTMLElement[];
     }
 
     let {
@@ -119,6 +122,7 @@
         ignored,
         blocks,
         location = $bindable(undefined),
+        getTokenViews,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -244,13 +248,12 @@
     }
 
     function computeCaretAndLineHeight(
-        editor: HTMLElement,
         currentToken: Token,
         currentTokenRect: DOMRect,
         horizontal: boolean,
     ): [number, number] {
         // To compute line height, find two tokens on adjacent lines and difference their tops.
-        const tokenViews = editor.querySelectorAll(`.Token`);
+        const tokenViews = getTokenViews();
         let firstTokenView: Element | undefined = undefined;
         let firstTokenViewAfterLineBreak: Element | undefined = undefined;
         let lineBreakCount: number | undefined = undefined;
@@ -494,7 +497,6 @@
         let tokenTop = tokenViewRect.top + viewportYOffset;
 
         const [caretHeight, lineHeight] = computeCaretAndLineHeight(
-            editorView,
             token,
             tokenViewRect,
             horizontal,
