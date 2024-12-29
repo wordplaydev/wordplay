@@ -126,7 +126,7 @@ export default class FormattedLiteral extends Literal {
             const text =
                 value instanceof TextValue
                     ? value.text
-                    : value?.toString() ?? '';
+                    : (value?.toString() ?? '');
             concrete = concrete.replace(example, new Token(text, Sym.Words));
         }
 
@@ -170,7 +170,7 @@ export default class FormattedLiteral extends Literal {
     }
 
     getFinish(): Node {
-        throw this.texts[this.texts.length - 1];
+        return this.texts[this.texts.length - 1];
     }
 
     getStartExplanations(locales: Locales) {

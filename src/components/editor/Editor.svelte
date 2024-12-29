@@ -283,7 +283,6 @@
         if (stepNode && source.has(stepNode)) {
             // Wait for everything to render...
             await tick();
-
             // Then find the node to scroll to. Keep searching for a visible node,
             // in case the step node is invisible.
             let highlight: Node | undefined = stepNode;
@@ -294,7 +293,7 @@
                 else highlight = source.root.getParent(highlight);
             } while (element === null && highlight !== undefined);
 
-            if (element !== null) ensureElementIsVisible(element);
+            if (element !== null) await ensureElementIsVisible(element);
         }
     }
 
