@@ -150,6 +150,7 @@
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
         align-items: baseline;
+        white-space: nowrap;
     }
 
     .time {
