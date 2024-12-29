@@ -1462,17 +1462,17 @@
 
     // Update the outline positions any time the highlights change;
     let outlines = $state<HighlightSpec[]>([]);
-    // $effect(() => {
-    //     if ($highlights)
-    //         tick().then(() => {
-    //             outlines = updateOutlines(
-    //                 $highlights,
-    //                 true,
-    //                 $locales.getDirection() === 'rtl',
-    //                 getNodeView,
-    //             );
-    //         });
-    // });
+    $effect(() => {
+        if ($highlights)
+            tick().then(() => {
+                outlines = updateOutlines(
+                    $highlights,
+                    true,
+                    $locales.getDirection() === 'rtl',
+                    getNodeView,
+                );
+            });
+    });
 
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {
