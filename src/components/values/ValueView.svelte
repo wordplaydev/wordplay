@@ -28,8 +28,11 @@
     const SvelteComponent = $derived(valueToView(value.constructor));
 </script>
 
-<div class="value" data-id={value.id} data-node-id={node?.id ?? null}
-    ><SvelteComponent {value} {inline} /></div
+<div
+    class="value"
+    id="value-{value.id}"
+    data-id={value.id}
+    data-node-id={node?.id ?? null}><SvelteComponent {value} {inline} /></div
 >
 
 <style>

@@ -315,9 +315,7 @@
         // See if there's a node or value view that corresponds to this node.
         const view =
             document.getElementById(`node-${node.id}`) ??
-            document.querySelector(
-                `.value[data-id="${evaluator.getCurrentValue()?.id}"]`,
-            );
+            document.getElementById(`value-${evaluator.getCurrentValue()?.id}`);
         if (view instanceof HTMLElement) {
             nodeViewCache.set(node, view);
             return view;
