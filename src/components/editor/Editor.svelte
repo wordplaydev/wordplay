@@ -242,6 +242,12 @@
         autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
     );
 
+    /**
+     * A cache of nodes we have highlighted, so we can remove highlights without a query.
+     * Only used below as a performance optimization, should not be used for any other purpose.
+     * */
+    let highlightNodes: HTMLElement[] = [];
+
     // After updates, update highlight outlines.
     $effect(() => {
         $highlights;
@@ -254,17 +260,17 @@
                 // Optimization: add and remove classes for styling here rather than having them
                 // retrieved in each NodeView.
                 if (editor) {
-                    // Remove any existing highlights
-                    for (const highlighted of editor.querySelectorAll(
-                        '.highlighted',
-                    ))
+                    // Remove any existing highlights previously added.
+                    for (const highlighted of highlightNodes)
                         for (const highlightType of Object.keys(HighlightTypes))
                             highlighted.classList.remove(highlightType);
 
                     // Add any new highlights of highlighted nodes.
+                    highlightNodes = [];
                     for (const [node, types] of $highlights.entries()) {
                         const view = getNodeView(node);
                         if (view) {
+                            highlightNodes.push(view);
                             view.classList.add('highlighted');
                             for (const type of types) view.classList.add(type);
                         }

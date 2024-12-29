@@ -117,7 +117,7 @@ function getTokenRects(nodeView: HTMLElement) {
     for (const view of tokenViews) {
         if (view instanceof HTMLElement) {
             if (view.closest('.hide') === null) {
-                // Find space textAdd rects for space prior to token
+                // Add rects for space prior to token
                 const spaceViews = nodeView.querySelectorAll(
                     '.space[data-id="' +
                         view.dataset.id +
