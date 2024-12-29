@@ -46,6 +46,7 @@ import { EditFailure } from '@db/projects/EditFailure';
 import ReadOnlyEditException from '@values/ReadOnlyEditException';
 import EmptySourceNameException from '@values/EmptySourceNameException';
 import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
+import Collision from '@input/Collision';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -1387,13 +1388,17 @@ export default class Evaluator {
 
         // If it's a temporal stream and we haven't already started a loop, start one.
         // Ensure we only start one by having an animation flag.
-        if (stream instanceof TemporalStreamValue) {
+        if (stream instanceof TemporalStreamValue)
             this.temporalStreams.push(stream);
-            // If we haven't yet started a loop, start one.
-            if (this.reactive && !this.ticking) {
-                this.ticking = true;
-                this.later(this.tick.bind(this));
-            }
+
+        // Temporal streams and collision streams need ticking to work.
+        const shouldTick =
+            stream instanceof TemporalStreamValue ||
+            stream instanceof Collision;
+        // If we haven't yet started a loop, start one.
+        if (shouldTick && this.reactive && !this.ticking) {
+            this.ticking = true;
+            this.later(this.tick.bind(this));
         }
     }
 
