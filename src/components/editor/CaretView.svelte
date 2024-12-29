@@ -189,8 +189,7 @@
     // Get the editor context from the parent
     const editor = getEditor();
 
-    let timeout = $state<NodeJS.Timeout | undefined>(undefined);
-    // Whenever the caret changes, wait for rendering, then compute it's location.
+    // Whenever the caret changes, wait for rendering, then update it's location.
     $effect(() => {
         caret;
         // Not playing? Depend on evaluation $evaluation. Otherwise, only update when caret changes.
@@ -201,13 +200,11 @@
         tick().then(() => {
             location = computeLocation();
             // Because some elements fade out when caret changes, affecting layout, we also need to recompute
-            // the caret position after the default animation duration.
-            untrack(() => {
-                if (timeout) clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    location = computeLocation();
-                }, $animationDuration + 25);
-            });
+            // the caret position after the default animation duration to ensure it's positioned correctly.
+            debounce(
+                () => (location = computeLocation()),
+                $animationDuration + 25,
+            );
         });
     });
 
@@ -408,6 +405,7 @@
     }
 
     function computeLocation(): CaretBounds | undefined {
+        console.log('Compute location');
         if (caret === undefined) return;
 
         // The editor is always horizontal-tb
