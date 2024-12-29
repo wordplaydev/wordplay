@@ -284,7 +284,7 @@
                 else highlight = source.root.getParent(highlight);
             } while (element === null && highlight !== undefined);
 
-            if (element !== null) await ensureElementIsVisible(element);
+            if (element !== null) ensureElementIsVisible(element);
         }
     }
 
@@ -336,17 +336,12 @@
         return undefined;
     }
 
-    async function ensureElementIsVisible(element: Element, nearest = false) {
+    function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
-        // Because this is called to keep caret in view, we debounce
-        debounce(
-            () =>
-                element.scrollIntoView({
-                    block: nearest ? 'nearest' : 'center',
-                    inline: nearest ? 'nearest' : 'center',
-                }),
-            KeyboardIdleWaitTime,
-        );
+        element.scrollIntoView({
+            block: nearest ? 'nearest' : 'center',
+            inline: nearest ? 'nearest' : 'center',
+        });
     }
 
     function handleRelease() {
@@ -1469,17 +1464,17 @@
 
     // Update the outline positions any time the highlights change;
     let outlines = $state<HighlightSpec[]>([]);
-    $effect(() => {
-        if ($highlights)
-            tick().then(() => {
-                outlines = updateOutlines(
-                    $highlights,
-                    true,
-                    $locales.getDirection() === 'rtl',
-                    getNodeView,
-                );
-            });
-    });
+    // $effect(() => {
+    //     if ($highlights)
+    //         tick().then(() => {
+    //             outlines = updateOutlines(
+    //                 $highlights,
+    //                 true,
+    //                 $locales.getDirection() === 'rtl',
+    //                 getNodeView,
+    //             );
+    //         });
+    // });
 
     // When the caret changes in block mode and the editor is focused, see if we need to focus a token widget.
     $effect(() => {

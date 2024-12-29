@@ -100,6 +100,7 @@
     import UnicodeString from '../../unicode/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
     import MenuTrigger from './MenuTrigger.svelte';
+    import debounce from '../../util/debounce';
 
     interface Props {
         /** The current caret state to render */
@@ -211,13 +212,28 @@
     });
 
     // When caret location or view changes and not playing, tick, then scroll to it.
+    let lastScroll = 0;
     $effect(() => {
-        // If the location is set and we're not playing, then scroll to it.
+        // If the location is set and we're not playing, then scroll to it after updates are complete.
         if (location)
             tick().then(() => {
-                if (element) element.scrollIntoView({ block: 'nearest' });
+                // If it's been more than 200ms since the last scroll, then scroll to the caret now.
+                if (performance.now() - lastScroll > 200 && element) {
+                    scrollIntoView();
+                    lastScroll = performance.now();
+                }
+                // Otherwise, debounce it for 30ms later, in case another comes soon.
+                else
+                    debounce(() => {
+                        scrollIntoView();
+                        lastScroll = performance.now();
+                    }, 30);
             });
     });
+
+    function scrollIntoView() {
+        if (element) element.scrollIntoView({ block: 'nearest' });
+    }
 
     function getNodeView(node: Node) {
         const editorView = element?.parentElement;
