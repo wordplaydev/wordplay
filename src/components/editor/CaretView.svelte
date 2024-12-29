@@ -84,6 +84,20 @@
     ): HTMLElement | null {
         return editor.querySelector(`.node-view[data-id="${token.id}"]`);
     }
+
+    /** Given a text node, determine the dimensions of a substring of it. */
+    function measureSubstringWidth(
+        node: ChildNode,
+        start: number,
+        end: number,
+    ) {
+        const range = document.createRange();
+        range.setStart(node, start);
+        range.setEnd(node, end);
+
+        const rect = range.getBoundingClientRect();
+        return [rect.width, rect.height];
+    }
 </script>
 
 <script lang="ts">
@@ -512,31 +526,21 @@
             horizontal,
         );
 
-        // Is the caret in the text, and not the space?
+        // Is the caret in the text, and not the space? We need to measure it's location in the text.
         if (caretIndex > 0) {
-            // Trim the text to the position
-            const trimmedText = token.text.substring(0, caretIndex).toString();
-            // Get the text node of the token view
+            // Find the first text node of the token view.
             const textNode = Array.from(tokenView.childNodes).find(
                 (node) => node.nodeType === node.TEXT_NODE,
             );
             let widthAtCaret = 0;
             let heightAtCaret = 0;
-            if (textNode) {
-                // Create a trimmed node, but replace spaces in the trimmed text with visible characters so that they are included in measurement.
-                const tempNode = document.createTextNode(
-                    trimmedText.replaceAll(' ', '·'),
+            // Use a range to measure its dimensions.
+            if (textNode)
+                [widthAtCaret, heightAtCaret] = measureSubstringWidth(
+                    textNode,
+                    0,
+                    caretIndex,
                 );
-                // Temporarily replace the node
-                textNode.replaceWith(tempNode);
-                // Get the trimmed text element's dimensions
-                const trimmedBounds = tokenView.getBoundingClientRect();
-                widthAtCaret = trimmedBounds.width;
-                heightAtCaret = trimmedBounds.height;
-
-                // Restore the text node
-                tempNode.replaceWith(textNode);
-            }
 
             return {
                 // If horizontal, set the left of the caret offset at the measured width in the direction of the writing.
