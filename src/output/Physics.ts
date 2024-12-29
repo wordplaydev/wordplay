@@ -282,8 +282,6 @@ export default class Physics {
 
                     // Does the output have no motion but does have matter? Move it to its latest position and apply a velocity.
                     if (motion === undefined) {
-                        // const previousPlace = shape.getPlace();
-
                         MatterJS.Body.setPosition(
                             shape.body,
                             shape.getPosition(
@@ -378,7 +376,10 @@ export default class Physics {
         }
     }
 
+    private lastTime: number = 0;
+
     tick(elapsed: number) {
+        console.log(elapsed);
         // UPDATE all the engines forward by the duration that has elapsed with the new arrangement.
         // Only do this if we haven't done it for the current delta.
         if (

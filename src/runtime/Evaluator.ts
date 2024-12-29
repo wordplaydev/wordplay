@@ -221,7 +221,9 @@ export default class Evaluator {
 
     /** The relative time, accounting for pauses, accumulated from deltas */
     currentTime = 0;
-    animating = false;
+
+    /** Whether we're ticking due to a temporal stream or physics engine that was started. */
+    ticking = false;
 
     /**
      * A list of temporal streams that have updated, for pooling them into a single reevaluation,
@@ -1388,8 +1390,8 @@ export default class Evaluator {
         if (stream instanceof TemporalStreamValue) {
             this.temporalStreams.push(stream);
             // If we haven't yet started a loop, start one.
-            if (this.reactive && !this.animating) {
-                this.animating = true;
+            if (this.reactive && !this.ticking) {
+                this.ticking = true;
                 this.later(this.tick.bind(this));
             }
         }
