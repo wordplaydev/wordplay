@@ -213,25 +213,19 @@
     $effect(() => {
         // If the location is set and we're not playing, then scroll to it after updates are complete.
         if (location) {
-            lastScroll = performance.now();
-            tick().then(() => {
-                // If it's been more than 200ms since the last scroll, then scroll to the caret now.
-                if (performance.now() - lastScroll > 200 && element) {
-                    scrollIntoView();
+            // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
+            // This prevents them from pooling up and causing the editor to hang.
+            if (performance.now() - lastScroll > 200 && element) {
+                tick().then(() => {
+                    if (element) element.scrollIntoView({ block: 'nearest' });
                     lastScroll = performance.now();
-                }
-                // Otherwise, debounce it for 30ms later, in case another comes soon.
-                else
-                    debounce(() => {
-                        scrollIntoView();
-                        lastScroll = performance.now();
-                    }, 30);
-            });
+                });
+            }
         }
     });
 
     function scrollIntoView() {
-        if (element) element.scrollIntoView({ block: 'nearest' });
+        lastScroll = performance.now();
     }
 
     function getNodeView(node: Node) {
