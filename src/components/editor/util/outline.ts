@@ -110,7 +110,7 @@ function getTokenRects(nodeView: HTMLElement) {
     const tokenViews = nodeView.querySelectorAll('.token-view, .symbol');
 
     if (tokenViews.length === 0) {
-        console.warn('No tokens found in node view');
+        console.warn('No tokens or symbols found in node view');
         console.warn(nodeView);
     }
 

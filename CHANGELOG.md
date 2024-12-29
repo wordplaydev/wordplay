@@ -26,6 +26,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed bad wrap within docs ending in newline.
 - Tick for collisions.
 - Keep focus on keyboard-moved phrase.
+- Render Markup values as symbols for debugger to highlight.
 
 ### Maintenance
 
