@@ -109,17 +109,18 @@ export function unescapeMarkupSymbols(text: string) {
     );
 }
 
-/** Words are any sequence of characters that aren't formatting characters, unless those special characters are repeated, indicating an escape. */
+/**
+ *  Words are any sequence of characters that aren't formatting characters, unless those special characters are repeated,
+ * indicating an escape. */
 export const WordsRegEx = new RegExp(
     // Escape regex special characters
     `^(${MarkupSymbols.map((c) => {
         const escape =
-            c === '\\' ||
-            c === '/' ||
-            c === '|' ||
-            c === '*' ||
-            c === '^' ||
-            c === '$' ||
+            c === CODE_SYMBOL ||
+            c === ITALIC_SYMBOL ||
+            c === BOLD_SYMBOL ||
+            c === EXTRA_SYMBOL ||
+            c === MENTION_SYMBOL ||
             c === OR_SYMBOL ||
             c === LIST_OPEN_SYMBOL ||
             c === LIST_CLOSE_SYMBOL
@@ -130,7 +131,12 @@ export const WordsRegEx = new RegExp(
         // Escape character class special characters
         (c) =>
             `${
-                c === '\\' || c === '/' || c === '[' || c === ']' ? '\\' : ''
+                c === CODE_SYMBOL ||
+                c === ITALIC_SYMBOL ||
+                c === LIST_OPEN_SYMBOL ||
+                c === LIST_CLOSE_SYMBOL
+                    ? '\\'
+                    : ''
             }${c}`,
     ).join('')}])+`,
     'u',
