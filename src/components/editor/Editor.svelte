@@ -163,6 +163,10 @@
     /** The DOM node representing the editor */
     let editor: HTMLElement | null = $state(null);
 
+    /** The width and height of the editor viewport */
+    let editorWidth = $state(0);
+    let editorHeight = $state(0);
+
     /** A cache of the .token-view HTMLElements */
     let tokenViews: HTMLElement[] | undefined = $state(undefined);
 
@@ -1521,6 +1525,8 @@
     dir={$locales.getDirection()}
     data-id={source.id}
     bind:this={editor}
+    bind:clientWidth={editorWidth}
+    bind:clientHeight={editorHeight}
     onpointerdown={handlePointerDown}
     onpointerup={handleRelease}
     onpointermove={handlePointerMove}
@@ -1618,6 +1624,9 @@
             restoredPosition === undefined}
         ignored={shakeCaret}
         {getTokenViews}
+        viewport={editor}
+        viewportWidth={editorWidth}
+        viewportHeight={editorHeight}
         bind:location={caretLocation}
     />
     <!-- 

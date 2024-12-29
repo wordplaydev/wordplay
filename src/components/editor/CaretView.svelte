@@ -100,7 +100,6 @@
     import UnicodeString from '../../unicode/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
     import MenuTrigger from './MenuTrigger.svelte';
-    import debounce from '../../util/debounce';
 
     interface Props {
         /** The current caret state to render */
@@ -115,6 +114,11 @@
         location: CaretBounds | undefined;
         /** A function for getting the editor's token views */
         getTokenViews: () => HTMLElement[];
+        /** The editor view */
+        viewport: HTMLElement | null;
+        /** Width and height of the viewport */
+        viewportWidth: number;
+        viewportHeight: number;
     }
 
     let {
@@ -124,6 +128,9 @@
         blocks,
         location = $bindable(undefined),
         getTokenViews,
+        viewport,
+        viewportWidth,
+        viewportHeight,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -413,27 +420,21 @@
         // No caret view? No caret.
         if (element === null || element === undefined) return;
 
-        // Find views, and if any are missing, bail.
-        const editorView = element.parentElement;
-        if (editorView === null) return;
-
-        const viewport = editorView;
+        // Don't have a viewport? Can't compute.
         if (viewport === null) return;
 
         // Get the padding
         if (editorPadding === undefined) {
-            const editorStyle = window.getComputedStyle(editorView);
+            const editorStyle = window.getComputedStyle(viewport);
             editorPadding = parseInt(
                 editorStyle.getPropertyValue('padding-left').replace('px', ''),
             );
         }
 
-        const viewportRect = viewport.getBoundingClientRect();
-        const viewportWidth = viewportRect.width;
-
         // Compute the top left of the editor's viewport.
-        const viewportXOffset = -viewportRect.left + viewport.scrollLeft;
-        const viewportYOffset = -viewportRect.top + viewport.scrollTop;
+        const viewportRect = viewport.getBoundingClientRect();
+        const viewportXOffset = -viewportRect.left;
+        const viewportYOffset = -viewportRect.top;
 
         // If the caret is a node, find the bottom left token view.
         if (caret.position instanceof Node) {
@@ -529,8 +530,8 @@
                 // Temporarily replace the node
                 textNode.replaceWith(tempNode);
                 // Get the trimmed text element's dimensions
-                const trimmedBounds = tokenView.getBoundingClientRect();
-                widthAtCaret = trimmedBounds.width;
+                const trimmedBounds = tokenView.getBoundingClientRect(),
+                    widthAtCaret = trimmedBounds.width;
                 heightAtCaret = trimmedBounds.height;
 
                 // Restore the text node
@@ -565,7 +566,7 @@
             const spaceAfter = explicitSpace.substring(spaceIndex);
 
             const { beforeSpaceWidth, beforeSpaceHeight } =
-                computeSpaceDimensions(editorView, token, spaceIndex);
+                computeSpaceDimensions(viewport, token, spaceIndex);
 
             // Find the line number inline end.
             const lineWidth =
