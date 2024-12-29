@@ -81,6 +81,8 @@
     import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import debounce from '../../util/debounce';
+    import { KeyboardIdleWaitTime } from '@components/project/ProjectView.svelte';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -321,10 +323,15 @@
 
     async function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
-        element.scrollIntoView({
-            block: nearest ? 'nearest' : 'center',
-            inline: nearest ? 'nearest' : 'center',
-        });
+        // Because this is called to keep caret in view, we debounce
+        debounce(
+            () =>
+                element.scrollIntoView({
+                    block: nearest ? 'nearest' : 'center',
+                    inline: nearest ? 'nearest' : 'center',
+                }),
+            KeyboardIdleWaitTime,
+        );
     }
 
     function handleRelease() {

@@ -6,7 +6,8 @@
         type ButtonText,
     } from '@locale/UITexts';
 
-    export const TypingDelay = 500;
+    /** How long to wait until considering typing idle. */
+    export const KeyboardIdleWaitTime = 500;
 
     export type ProjectText = {
         /** The error shown when a project ID is unknown. */
@@ -376,7 +377,7 @@
                 if (keyboardIdleTimeout) clearTimeout(keyboardIdleTimeout);
                 keyboardIdleTimeout = setTimeout(
                     () => keyboardEditIdle.set(IdleKind.Idle),
-                    TypingDelay,
+                    KeyboardIdleWaitTime,
                 );
             });
         }
@@ -469,7 +470,7 @@
             if (evaluatorTimeout) clearTimeout(evaluatorTimeout);
             evaluatorTimeout = setTimeout(
                 () => updateEvaluator(newProject),
-                TypingDelay,
+                KeyboardIdleWaitTime,
             );
         } else {
             updateEvaluator(newProject);
@@ -916,7 +917,7 @@
         function updateConflicts() {
             // In the middle of analyzing? Check later.
             if (project.analyzed === 'analyzing')
-                setTimeout(updateConflicts, TypingDelay);
+                setTimeout(updateConflicts, KeyboardIdleWaitTime);
             // Done analyzing, or not analyzed?
             else {
                 // Analyze if not analyzed  yet.
@@ -926,7 +927,7 @@
             }
         }
 
-        updateTimer = setTimeout(updateConflicts, TypingDelay);
+        updateTimer = setTimeout(updateConflicts, KeyboardIdleWaitTime);
     });
 
     /** When stepping and the current step changes, change the active source. */
