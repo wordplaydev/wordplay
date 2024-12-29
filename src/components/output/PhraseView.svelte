@@ -78,6 +78,8 @@
             selection?.selectedOutput.includes(phrase.value.creator),
     );
 
+    let view = $state<HTMLDivElement | undefined>(undefined);
+
     let entered = $derived(
         selected &&
             editable &&
@@ -96,6 +98,12 @@
         else if (frame > untrack(() => lastFrame))
             description = phrase.getDescription($locales);
         lastFrame = frame;
+    });
+
+    /** If selected, the view of this phrase should be focused. */
+    $effect(() => {
+        if (selected && view)
+            setKeyboardFocus(view, 'focused on selected phrase');
     });
 
     $effect(() => {
@@ -218,6 +226,7 @@
 
 {#if visible}
     <div
+        bind:this={view}
         role={selectable ? 'button' : null}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
