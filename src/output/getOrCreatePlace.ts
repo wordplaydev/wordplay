@@ -24,11 +24,16 @@ export function getOrCreatePlace(
 ) {
     const place = getPlaceExpression(project, evaluate, context);
     if (place instanceof Evaluate) {
+        const context = project.getNodeContext(place);
         // Only return a place if it's a Place creator.
-        if (
-            place.is(project.shares.output.Place, project.getNodeContext(place))
-        )
-            return toPlace(evaluateCode(place.toWordplay(), [], locales));
+        if (place.is(project.shares.output.Place, context))
+            return toPlace(
+                evaluateCode(
+                    place.toWordplay(context.source.spaces),
+                    [],
+                    locales,
+                ),
+            );
         else return undefined;
     } else
         return toPlace(
