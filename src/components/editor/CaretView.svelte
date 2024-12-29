@@ -530,8 +530,8 @@
                 // Temporarily replace the node
                 textNode.replaceWith(tempNode);
                 // Get the trimmed text element's dimensions
-                const trimmedBounds = tokenView.getBoundingClientRect(),
-                    widthAtCaret = trimmedBounds.width;
+                const trimmedBounds = tokenView.getBoundingClientRect();
+                widthAtCaret = trimmedBounds.width;
                 heightAtCaret = trimmedBounds.height;
 
                 // Restore the text node
