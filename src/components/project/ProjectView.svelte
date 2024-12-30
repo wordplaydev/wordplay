@@ -215,6 +215,7 @@
     import type Chat from '@db/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
     import { parseNames } from '@parser/parseBind';
+    import Link from '@components/app/Link.svelte';
 
     interface Props {
         project: Project;
@@ -1849,7 +1850,7 @@
                                             sourceID={tile.id}
                                         />{/if}
                                     {#if checkpoint > -1}
-                                        <div class="checkpoint"
+                                        <div class="editor-warning"
                                             >{$locales.get(
                                                 (l) =>
                                                     l.ui.checkpoints.label
@@ -1878,6 +1879,14 @@
                                                             .restore,
                                                 )}</Button
                                             >
+                                        </div>
+                                    {/if}
+                                    {#if $blocks}
+                                        <div class="editor-warning"
+                                            >This editing mode is experimental. <Link
+                                                to="https://discord.gg/Jh2Qq9husy"
+                                                >Discuss</Link
+                                            > improvements.
                                         </div>
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
@@ -2182,10 +2191,10 @@
         align-items: center;
     }
 
-    .checkpoint {
+    .editor-warning {
         width: 100%;
         padding: var(--wordplay-spacing);
-        background: var(--wordplay-warning);
+        background: var(--wordplay-error);
         color: var(--wordplay-background);
     }
 </style>
