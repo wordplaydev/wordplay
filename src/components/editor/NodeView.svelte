@@ -81,6 +81,9 @@
         $blocks && node instanceof Expression ? node.getKind() : undefined,
     );
 
+    // Get the Svelte component with which to render this node.
+    let NodeView = $derived(node ? getNodeView(node) : undefined);
+
     function symbolOccurs(text: string, symbol: string) {
         for (let i = 0; i < text.length; i++)
             if (text.charAt(i) === symbol) return true;
@@ -95,34 +98,37 @@
     }
 </script>
 
+<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->
+{#snippet blockSpace(firstToken: Token)}
+    {@const hasSpace = symbolOccurs(space, ' ') || symbolOccurs(space, '\t')}
+    {@const lines = Array.from(
+        Array(Math.max(0, countSymbolOccurences(space, '\n'))).keys(),
+    )}{#if hasSpace || lines.length > 0}{#key $insertion}<span
+                class="space"
+                role="none"
+                data-id={firstToken.id}
+                data-uiid="space"
+            >
+                {#if hasSpace}<div data-id={firstToken.id}
+                        >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
+                            ></InsertionPointView>{/if}<span
+                            class="space-text"
+                            data-uiid="space-text">&nbsp;</span
+                        ></div
+                    >{:else}{#each lines as line}<div class="break"
+                            >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
+                                />{/if}</div
+                        >{/each}{/if}</span
+            >{/key}{/if}
+{/snippet}
+
 <!-- Don't render anything if we weren't given a node. -->
 {#if node !== undefined}
-    <!-- Render space preceding this node, if any, then either a value view if stepping or the node. -->
-    {#if !hide && firstToken && spaceRoot === node}<!-- If blocks, render a single space when there's one or more spaces, and a line break for each extra line break. -->
+    <!-- Render space preceding this node if not hidden, if there's a first token, and this node is the root of the preceding space. -->
+    {#if !hide && firstToken && spaceRoot === node}
         {#if $blocks}
-            {@const hasSpace =
-                symbolOccurs(space, ' ') || symbolOccurs(space, '\t')}
-            {@const lines = Array.from(
-                Array(
-                    Math.max(0, countSymbolOccurences(space, '\n') - 1),
-                ).keys(),
-            )}{#if hasSpace || lines.length > 0}{#key $insertion}<span
-                        class="space"
-                        role="none"
-                        data-id={firstToken.id}
-                        data-uiid="space"
-                    >
-                        {#if hasSpace}<div data-id={firstToken.id}
-                                >{#if firstToken && $insertion?.token === firstToken}<InsertionPointView
-                                    ></InsertionPointView>{/if}<span
-                                    class="space-text"
-                                    data-uiid="space-text">&nbsp;</span
-                                ></div
-                            >{:else}{#each lines as line}<div class="break"
-                                    >{#if $insertion && $insertion.list[$insertion.index] === node && $insertion.line === line}<InsertionPointView
-                                        />{/if}</div
-                                >{/each}{/if}</span
-                    >{/key}{/if}{:else}
+            {@render blockSpace(firstToken)}
+        {:else}
             <Space
                 token={firstToken}
                 first={$spaces.isFirst(firstToken)}
@@ -131,7 +137,9 @@
                 insertion={$insertion?.token === firstToken
                     ? $insertion
                     : undefined}
-            />{/if}{/if}<div
+            />
+        {/if}
+    {/if}<!-- Render the node view wrapper, but no extra whitespace! --><div
         class={[
             'node-view',
             direction,
@@ -153,12 +161,9 @@
         id={`node-${node.id}`}
         aria-hidden={hide ? 'true' : null}
         aria-label={description}
-        >{#if value}<ValueView
-                {value}
-                {node}
-                interactive
-            />{:else}{@const SvelteComponent = getNodeView(node)}
-            <SvelteComponent {node} />{/if}</div
+        ><!--Render the value if there's a value ot render, or the node view otherwise -->
+        {#if value}<ValueView {value} {node} interactive />{:else}
+            <NodeView {node} />{/if}</div
     >
 {/if}
 
