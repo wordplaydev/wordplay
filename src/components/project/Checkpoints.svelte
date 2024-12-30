@@ -40,7 +40,7 @@
         checkpoint = $bindable(-1),
     }: { project: Project; checkpoint: number } = $props();
 
-    let history = $derived(project.getCheckpoints().reverse());
+    let history = $derived(project.getCheckpoints().toReversed());
 
     let now = $state(Date.now());
     onMount(() => {
