@@ -129,24 +129,6 @@
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
         ></div>
     </div>
-    <div class="primary">
-        {#each Primary as primary}<Button
-                tip="color"
-                action={() => {
-                    lightness = primary[0] / 100;
-                    chroma = primary[1];
-                    hue = primary[2];
-                    broadcast();
-                }}
-                ><div
-                    class="color"
-                    style:background={new ColorJS(
-                        ColorJS.spaces.lch,
-                        primary,
-                    ).display()}
-                ></div></Button
-            >{/each}
-    </div>
     <div class="slider">
         <Slider
             value={lightness}
@@ -191,6 +173,24 @@
             {editable}
         />
     </div>
+    <div class="primary">
+        {#each Primary as primary}<Button
+                tip="color"
+                action={() => {
+                    lightness = primary[0] / 100;
+                    chroma = primary[1];
+                    hue = primary[2];
+                    broadcast();
+                }}
+                ><div
+                    class="color"
+                    style:background={new ColorJS(
+                        ColorJS.spaces.lch,
+                        primary,
+                    ).display()}
+                ></div></Button
+            >{/each}
+    </div>
 </div>
 
 <style>
@@ -203,8 +203,7 @@
     }
 
     .bands {
-        width: 3.5rem;
-        height: 3.5rem;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: column;
@@ -234,8 +233,6 @@
     }
 
     .primary {
-        width: 3em;
-        height: 2em;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
@@ -250,8 +247,8 @@
 
     .preview {
         width: auto;
-        min-width: 3.5rem;
-        height: 3.5rem;
+        min-width: 2rem;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 </style>

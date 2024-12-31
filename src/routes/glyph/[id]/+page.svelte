@@ -33,12 +33,21 @@
     import { GlyphSize, glyphToSVG } from '../../../glyphs/glyphs';
     import Page from '@components/app/Page.svelte';
     import Mode from '@components/widgets/Mode.svelte';
+    import ColorChooser from '@components/widgets/ColorChooser.svelte';
+    import { LCHtoRGB } from '@output/Color';
 
     let name = $state('');
     let description = $state('');
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(0);
+
+    /** The current drawing color */
+    let lightness = $state(50);
+    let chroma = $state(100);
+    let hue = $state(180);
+
+    $inspect(LCHtoRGB(lightness, chroma, hue));
 
     /** Make the rendered shape as a preview */
     let shape = $derived({
@@ -108,7 +117,16 @@
                             (mode = choice as DrawingMode)}
                         labeled={false}
                     ></Mode>
-                    insert
+                    <ColorChooser
+                        hue={lightness}
+                        {chroma}
+                        lightness={hue}
+                        change={(l, c, h) => {
+                            lightness = l;
+                            chroma = c;
+                            hue = h;
+                        }}
+                    ></ColorChooser>
                     <br />
                     cool
                     <br />
@@ -201,9 +219,16 @@
     }
 
     .canvas {
-        width: 100%;
+        flex: 1;
         aspect-ratio: 1/1;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+    }
+
+    .palette {
+        max-width: 20%;
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
     }
 
     .preview {
@@ -234,11 +259,5 @@
             right: 0;
             background: var(--wordplay-border-color);
         }
-    }
-
-    .palette {
-        display: flex;
-        flex-direction: column;
-        gap: var(--wordplay-spacing);
     }
 </style>
