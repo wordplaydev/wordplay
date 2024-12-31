@@ -31,7 +31,7 @@ type Color = z.infer<typeof ColorSchema>;
 
 const StrokeSchema = z.object({
     /** Optional stroke. Null means CSS currentColor */
-    color: ColorSchema,
+    color: ColorSchema.nullable(),
     width: z.number(), // pixels
     cap: z.union([z.literal('round'), z.literal('square')]),
 });
@@ -43,7 +43,8 @@ const RectangleSchema = z
         center: PositionSchema, // The center of the rectangle
         angle: z.number().optional(),
         stroke: StrokeSchema.optional(),
-        fill: ColorSchema.optional(),
+        // Null represents current color
+        fill: ColorSchema.optional().nullable(),
         corner: z.number().optional(),
     })
     // The width and height of the rectange.
@@ -54,7 +55,7 @@ type Rectangle = z.infer<typeof RectangleSchema>;
 const PixelSchema = z.object({
     type: z.literal('pixel'),
     point: PositionSchema, // The center of the pixel
-    fill: ColorSchema, // It's fill color, no stroke
+    fill: ColorSchema.nullable(), // It's fill color, no stroke
 });
 type Pixel = z.infer<typeof PixelSchema>;
 
@@ -63,7 +64,7 @@ const EllipseSchema = z
         type: z.literal('ellipse'),
         center: PositionSchema,
         stroke: StrokeSchema.optional(),
-        fill: ColorSchema.optional(),
+        fill: ColorSchema.optional().nullable(),
         angle: z.number().optional(), // degrees
     })
     // The radius on each dimension
@@ -74,7 +75,8 @@ type Ellipse = z.infer<typeof EllipseSchema>;
 const PathSchema = z.object({
     type: z.literal('path'),
     stroke: StrokeSchema.optional(),
-    fill: ColorSchema.optional(),
+    // Null represents current color
+    fill: ColorSchema.optional().nullable(),
     // A series of positions defining the path.
     points: z.array(PositionSchema).nonempty(),
     angle: z.number().optional(), // degrees rotated around the center
@@ -123,9 +125,10 @@ function rectToSVG(rect: Rectangle): string {
         height: rect.height,
         rx: rect.corner,
         ry: rect.corner,
-        fill: rect.fill
-            ? LCHtoRGB(rect.fill.l, rect.fill.c, rect.fill.h)
-            : undefined,
+        fill: colorToSVG(rect.fill),
+        stroke: rect.stroke ? colorToSVG(rect.stroke.color) : undefined,
+        'stroke-width': rect.stroke?.width,
+        'stroke-linecap': rect.stroke?.cap,
         transform: rect.angle
             ? `rotate(${rect.angle}, ${rect.center[0]}, ${rect.center[1]})`
             : undefined,
@@ -138,9 +141,10 @@ function ellipseToSVG(ellipse: Ellipse): string {
         cy: ellipse.center[1],
         rx: ellipse.width / 2,
         ry: ellipse.height / 2,
-        fill: ellipse.fill
-            ? LCHtoRGB(ellipse.fill.l, ellipse.fill.c, ellipse.fill.h)
-            : undefined,
+        fill: colorToSVG(ellipse.fill),
+        stroke: ellipse.stroke ? colorToSVG(ellipse.stroke.color) : undefined,
+        'stroke-width': ellipse.stroke?.width,
+        'stroke-linecap': ellipse.stroke?.cap,
         transform: ellipse.angle
             ? `rotate(${ellipse.angle}, ${ellipse.center[0]}, ${ellipse.center[1]})`
             : undefined,
@@ -153,7 +157,7 @@ function pixelToSVG(pixel: Pixel): string {
         y: pixel.point[1],
         width: 1,
         height: 1,
-        fill: LCHtoRGB(pixel.fill.l, pixel.fill.c, pixel.fill.h),
+        fill: colorToSVG(pixel.fill),
     });
 }
 
@@ -167,22 +171,27 @@ function pathToSVG(path: Path): string {
 
     return tag('path', {
         d: `M ${points} ${path.closed ? 'Z' : ''}`,
-        fill: path.fill
-            ? LCHtoRGB(path.fill.l, path.fill.c, path.fill.h)
-            : undefined,
-        stroke: path.stroke
-            ? LCHtoRGB(
-                  path.stroke.color.l,
-                  path.stroke.color.c,
-                  path.stroke.color.h,
-              )
-            : undefined,
+        fill:
+            path.fill === null
+                ? 'currentColor'
+                : path.fill !== undefined
+                  ? LCHtoRGB(path.fill.l, path.fill.c, path.fill.h)
+                  : undefined,
+        stroke: path.stroke ? colorToSVG(path.stroke.color) : undefined,
         'stroke-width': path.stroke?.width,
         'stroke-linecap': path.stroke?.cap,
         transform: path.angle
             ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x[0], 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x[1], 0) / path.points.length}`
             : undefined,
     });
+}
+
+function colorToSVG(fill: Color | undefined | null): string {
+    return fill === null
+        ? 'currentColor'
+        : fill !== undefined
+          ? LCHtoRGB(fill.l, fill.c, fill.h)
+          : 'currentColor';
 }
 
 function tag(
