@@ -50,7 +50,9 @@
     import {
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
+        LEARN_SYMBOL,
         STAGE_SYMBOL,
+        TEACH_SYMBOL,
     } from '@parser/Symbols';
     import Beta from './Beta.svelte';
     import Speech from '@components/lore/Speech.svelte';
@@ -124,7 +126,7 @@
                 to="/learn"
                 subtitle={$locales.get((l) => l.ui.page.landing.link.learn)}
                 ><Iconified
-                    icon="🙋"
+                    icon={LEARN_SYMBOL}
                     text={(l) => l.ui.page.learn.header}
                 /></BigLink
             >
@@ -146,7 +148,7 @@
                 to="/teach"
                 subtitle={$locales.get((l) => l.ui.page.landing.link.teach)}
                 ><Iconified
-                    icon="🧑🏽‍🏫"
+                    icon={TEACH_SYMBOL}
                     text={(l) => l.ui.page.teach.header}
                 /></BigLink
             >
