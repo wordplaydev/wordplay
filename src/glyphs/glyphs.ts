@@ -90,7 +90,8 @@ export type Shape = Rectangle | Ellipse | Pixel | Path;
 
 /** A 128x128 pixel canvas of layered shapes */
 export type Glyph = {
-    name: string; // A language tagged name
+    name: string; // A language tagged name in Wordplay syntax
+    description: string; // A language tagged name in Wordplay syntax
     shapes: Shape[]; // In rendering order, back to front
 };
 
