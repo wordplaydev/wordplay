@@ -4646,6 +4646,7 @@
                     "guide": "Search and browse the language reference",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
+                    "glyphs": "Create custom emojis and symbols",
                     "rights": "Responsibilities, ours and yours",
                     "about": "Why does this place exist?",
                     "community": {
@@ -4828,6 +4829,10 @@
                 "header": "Galleries",
                 "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
                 "examples": "Examples"
+            },
+            "glyphs": {
+                "header": "Glyphs",
+                "prompt": "Create custom emojis and symbols to use in your projects and share with others."
             },
             "about": {
                 "header": "About",

@@ -22,6 +22,8 @@
             projects: string;
             /** What content is on the galleries page */
             galleries: string;
+            /** What content is on on the glyphs page */
+            glyphs: string;
             /** What content is on the rights page */
             rights: string;
             /** The community link */
@@ -50,6 +52,7 @@
     import {
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
+        GLYPHS_SYMBOL,
         LEARN_SYMBOL,
         STAGE_SYMBOL,
         TEACH_SYMBOL,
@@ -117,6 +120,17 @@
                 ><Iconified
                     icon={STAGE_SYMBOL}
                     text={(l) => l.ui.page.galleries.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/glyphs"
+                subtitle={$locales.get((l) => l.ui.page.landing.link.glyphs)}
+                ><Iconified
+                    icon={GLYPHS_SYMBOL}
+                    text={(l) => l.ui.page.glyphs.header}
                 /></BigLink
             >
         </Action>

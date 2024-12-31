@@ -9358,6 +9358,9 @@
                 "galleries": {
                   "description": "Gallery browsing page text"
                 },
+                "glyphs": {
+                  "description": "The glyph creation and browsing page"
+                },
                 "guide": {
                   "description": "Docuemntation guide page text"
                 },
@@ -9398,6 +9401,7 @@
                 "class",
                 "guide",
                 "projects",
+                "glyphs",
                 "galleries",
                 "about",
                 "login",

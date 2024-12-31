@@ -17,9 +17,9 @@ import type { TeachPageText } from '../routes/teach/+page.svelte';
 import type { ClassPageText } from '../routes/teach/class/[classid]/+page.svelte';
 import type { NewClassPageText } from '../routes/teach/class/new/+page.svelte';
 import type EditTexts from './EditTexts';
-import type { GalleryText } from './GalleryTexts';
 import type { DocText, Template } from './LocaleText';
 import type { CheckpointsText } from '@components/project/Checkpoints.svelte';
+import type { GlyphsPageText } from '../routes/glyphs/+page.svelte';
 
 export type ButtonText = {
     /** The buttons label */
@@ -655,6 +655,8 @@ type UITexts = {
         guide: GuidePageText;
         /** The project creation and browsing page */
         projects: ProjectsPageText;
+        /** The glyph creation and browsing page */
+        glyphs: GlyphsPageText;
         /** Gallery browsing page text */
         galleries: GalleriesPageText;
         /** About page text */
