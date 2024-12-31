@@ -1,6 +1,4 @@
 <script module lang="ts">
-    import type { ConfirmText, DialogText } from '@locale/UITexts';
-
     export type GlyphsPageText = {
         /** Header for the glyphs page */
         header: string;

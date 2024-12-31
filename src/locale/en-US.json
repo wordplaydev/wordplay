@@ -4834,6 +4834,34 @@
                 "header": "Glyphs",
                 "prompt": "Create custom emojis and symbols to use in your projects and share with others."
             },
+            "glyph": {
+                "header": "Glyph",
+                "prompt": "Create a symbol with shapes and pixels.",
+                "field": {
+                    "name": {
+                        "description": "name of the glyph",
+                        "placeholder": "name"
+                    },
+                    "description": {
+                        "description": "description of the glyph",
+                        "placeholder": "description"
+                    },
+                    "mode": {
+                        "label": "drawing mode",
+                        "modes": [
+                            "select",
+                            "pixel",
+                            "rectangle",
+                            "ellipse",
+                            "path"
+                        ]
+                    }
+                },
+                "error": {
+                    "name": "Glyphs need a name so you can refer to them in projects.",
+                    "description": "Glyphs need a description so those who can't see know what they represent."
+                }
+            },
             "about": {
                 "header": "About",
                 "content": [

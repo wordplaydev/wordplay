@@ -6,8 +6,10 @@
         description: string;
         placeholder: string;
         active?: boolean;
+        inline?: boolean;
         done?: (text: string) => void;
         dwelled?: undefined | ((text: string) => void);
+        validator?: undefined | ((text: string) => boolean);
     }
 
     let {
@@ -15,7 +17,9 @@
         description,
         placeholder,
         done = undefined,
+        validator = undefined,
         active = true,
+        inline = false,
         dwelled = undefined,
     }: Props = $props();
 
@@ -46,6 +50,7 @@
     title={description}
     aria-label={description}
     {placeholder}
+    class={{ inline, error: validator ? validator(text) === false : null }}
     bind:value={text}
     bind:this={view}
     aria-disabled={!active}
@@ -71,9 +76,8 @@
         color: var(--wordplay-foreground);
     }
 
-    textarea:focus {
-        outline: none;
-        border-left-color: var(--wordplay-focus-color);
+    .inline {
+        width: auto;
     }
 
     textarea::placeholder {
@@ -84,5 +88,16 @@
 
     textarea[aria-disabled='true'] {
         background: var(--wordplay-inactive-color);
+    }
+
+    .error {
+        color: var(--wordplay-error);
+        border-color: var(--wordplay-error);
+    }
+
+    /* Needs to be last to override the error color */
+    textarea:focus {
+        outline: none;
+        border-left-color: var(--wordplay-focus-color);
     }
 </style>

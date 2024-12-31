@@ -213,18 +213,20 @@
         width: 100%;
     }
 
-    input:focus {
-        border-bottom: var(--wordplay-focus-color) solid
-            var(--wordplay-focus-width);
-    }
-
     input.error {
         color: var(--wordplay-error);
+        border-color: var(--wordplay-error);
     }
 
     input::placeholder {
         color: var(--wordplay-inactive-color);
         font-style: italic;
         opacity: 1;
+    }
+
+    /* Needs to be last to override errors */
+    input:focus {
+        border-bottom: var(--wordplay-focus-color) solid
+            var(--wordplay-focus-width);
     }
 </style>

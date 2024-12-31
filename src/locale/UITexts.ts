@@ -20,6 +20,7 @@ import type EditTexts from './EditTexts';
 import type { DocText, Template } from './LocaleText';
 import type { CheckpointsText } from '@components/project/Checkpoints.svelte';
 import type { GlyphsPageText } from '../routes/glyphs/+page.svelte';
+import type { GlyphPageText } from '../routes/glyph/[id]/+page.svelte';
 
 export type ButtonText = {
     /** The buttons label */
@@ -657,6 +658,8 @@ type UITexts = {
         projects: ProjectsPageText;
         /** The glyph creation and browsing page */
         glyphs: GlyphsPageText;
+        /** The glyph editor page */
+        glyph: GlyphPageText;
         /** Gallery browsing page text */
         galleries: GalleriesPageText;
         /** About page text */

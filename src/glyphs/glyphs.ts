@@ -96,9 +96,9 @@ export type Glyph = {
 };
 
 /** The width and height of the grid */
-const GlyphSize = 128;
+export const GlyphSize = 48;
 
-export function toGlyphSVG(glyph: Glyph, size: number): string {
+export function glyphToSVG(glyph: Glyph, size: number): string {
     return `<svg width=${size} height=${size} viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s))}</svg>`;
 }
 
