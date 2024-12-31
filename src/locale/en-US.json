@@ -4855,6 +4855,12 @@
                             "ellipse",
                             "path"
                         ]
+                    },
+                    "color": {
+                        "inherit": "inherit",
+                        "inheritTip": "Shapes will use the color of their surrounding text.",
+                        "color": "choose",
+                        "colorTip": "Shapes will use the color you choose."
                     }
                 },
                 "error": {

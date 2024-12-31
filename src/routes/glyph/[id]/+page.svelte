@@ -7,6 +7,12 @@
             name: FieldText;
             description: FieldText;
             mode: ModeText<string[]>;
+            color: {
+                inherit: string;
+                inheritTip: string;
+                color: string;
+                colorTip: string;
+            };
         };
         error: {
             name: string;
@@ -35,6 +41,7 @@
     import Mode from '@components/widgets/Mode.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
     import { LCHtoRGB } from '@output/Color';
+    import Switch from '@components/widgets/Switch.svelte';
 
     let name = $state('');
     let description = $state('');
@@ -46,6 +53,9 @@
     let lightness = $state(50);
     let chroma = $state(100);
     let hue = $state(180);
+
+    /** Whether to have a color*/
+    let color = $state(true);
 
     $inspect(LCHtoRGB(lightness, chroma, hue));
 
@@ -85,7 +95,7 @@
             <p>{$locales.get((l) => l.ui.page.glyph.prompt)}</p>
         </div>
         <div class="editor">
-            <div class="controls">
+            <div class="content">
                 <div class={['canvas', DrawingMode[mode].toLowerCase()]}>
                     <div class="grid">
                         <!-- Render gridlines below everything -->
@@ -103,20 +113,67 @@
                         {/each}
                     </div>
                 </div>
-                <div class="palette">
-                    <div class="preview">
-                        {@html glyphToSVG(shape, 64)}
-                    </div>
-                    <Mode
-                        descriptions={$locales.get(
-                            (l) => l.ui.page.glyph.field.mode,
+                <div class="labels">
+                    <TextField
+                        bind:text={name}
+                        placeholder={$locales.get(
+                            (l) => l.ui.page.glyph.field.name.placeholder,
                         )}
-                        modes={['👆', '■', '▬', '●', '◡']}
-                        choice={mode}
-                        select={(choice: number) =>
-                            (mode = choice as DrawingMode)}
-                        labeled={false}
-                    ></Mode>
+                        description={$locales.get(
+                            (l) => l.ui.page.glyph.field.name.description,
+                        )}
+                        done={() => {}}
+                        validator={validName}
+                    ></TextField>
+                    <TextBox
+                        inline
+                        bind:text={description}
+                        placeholder={$locales.get(
+                            (l) =>
+                                l.ui.page.glyph.field.description.placeholder,
+                        )}
+                        description={$locales.get(
+                            (l) =>
+                                l.ui.page.glyph.field.description.description,
+                        )}
+                        done={() => {}}
+                        validator={validDescription}
+                    ></TextBox>
+                    {#if error}
+                        <Feedback inline>{error}</Feedback>
+                    {/if}
+                </div>
+            </div>
+            <div class="palette">
+                <div class="preview">
+                    {@html glyphToSVG(shape, 64)}
+                </div>
+                <Mode
+                    descriptions={$locales.get(
+                        (l) => l.ui.page.glyph.field.mode,
+                    )}
+                    modes={['👆', '■', '▬', '●', '◡']}
+                    choice={mode}
+                    select={(choice: number) => (mode = choice as DrawingMode)}
+                    labeled={false}
+                ></Mode>
+                <Switch
+                    on={color}
+                    toggle={(on) => (color = on)}
+                    offLabel={$locales.get(
+                        (l) => l.ui.page.glyph.field.color.inherit,
+                    )}
+                    offTip={$locales.get(
+                        (l) => l.ui.page.glyph.field.color.inheritTip,
+                    )}
+                    onLabel={$locales.get(
+                        (l) => l.ui.page.glyph.field.color.color,
+                    )}
+                    onTip={$locales.get(
+                        (l) => l.ui.page.glyph.field.color.colorTip,
+                    )}
+                ></Switch>
+                {#if color}
                     <ColorChooser
                         hue={lightness}
                         {chroma}
@@ -127,38 +184,12 @@
                             hue = h;
                         }}
                     ></ColorChooser>
-                    <br />
-                    cool
-                    <br />
-                    things
-                </div>
-            </div>
-            <div class="labels">
-                <TextField
-                    bind:text={name}
-                    placeholder={$locales.get(
-                        (l) => l.ui.page.glyph.field.name.placeholder,
-                    )}
-                    description={$locales.get(
-                        (l) => l.ui.page.glyph.field.name.description,
-                    )}
-                    done={() => {}}
-                    validator={validName}
-                ></TextField>
-                <TextBox
-                    inline
-                    bind:text={description}
-                    placeholder={$locales.get(
-                        (l) => l.ui.page.glyph.field.description.placeholder,
-                    )}
-                    description={$locales.get(
-                        (l) => l.ui.page.glyph.field.description.description,
-                    )}
-                    done={() => {}}
-                    validator={validDescription}
-                ></TextBox>
-                {#if error}
-                    <Feedback inline>{error}</Feedback>
+                {:else}
+                    <Feedback>
+                        {$locales.get(
+                            (l) => l.ui.page.glyph.field.color.inheritTip,
+                        )}</Feedback
+                    >
                 {/if}
             </div>
         </div>
@@ -187,9 +218,10 @@
 
     .editor {
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         gap: var(--wordplay-spacing);
         padding: var(--wordplay-spacing);
+        align-items: start;
     }
 
     .select {
@@ -209,12 +241,12 @@
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         row-gap: var(--wordplay-spacing);
+        align-items: baseline;
     }
 
-    .controls {
-        width: 100%;
+    .content {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         gap: var(--wordplay-spacing);
     }
 
@@ -222,10 +254,13 @@
         flex: 1;
         aspect-ratio: 1/1;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        /* Set a current color to make strokes and fills using current color visible */
+        color: var(--wordplay-background);
     }
 
     .palette {
         max-width: 20%;
+        min-width: 8em;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
