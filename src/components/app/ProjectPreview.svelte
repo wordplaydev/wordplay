@@ -1,8 +1,9 @@
+<!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Evaluator from '@runtime/Evaluator';
-    import { Chats, DB, locales,Creators } from '../../db/Database';
-    import { isAudience, isFlagged } from '../../models/Moderation';
+    import { Chats, DB, locales,Creators } from '../../db/Database';//Amy
+    import { isAudience, isFlagged } from '../../db/projects/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
     import { navigating } from '$app/state';
@@ -11,7 +12,7 @@
     import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
     import Fonts from '@basis/Fonts';
     import { getFaceCSS } from '@output/outputToCSS';
-    import UnicodeString from '@models/UnicodeString';
+    import UnicodeString from '../../unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
     import type Chat from '@db/ChatDatabase.svelte';
     import CreatorView from './ProjectCreatorView.svelte';
@@ -19,8 +20,11 @@
     interface Props {
         project: Project;
         action?: (() => void) | undefined;
+        /** Whether to show the project's name. */
         name?: boolean;
+        /** How many rems the preview square should be. */
         size?: number;
+        /** The link to go to when clicked. If none is provided, goes to the project. */
         link?: string | undefined;
         children?: import('svelte').Snippet;
     }
@@ -34,6 +38,7 @@
         children,
     }: Props = $props();
 
+    // Clone the project and get its initial value, then stop the project's evaluator.
     type Preview = {
         representativeForeground: string | null;
         representativeBackground: string | null;
@@ -41,6 +46,7 @@
         representativeText: string;
     };
 
+    /** Derive the preview contents from the project by getting it's first value */
     let {
         representativeForeground,
         representativeBackground,
@@ -82,10 +88,12 @@
     const owner = $derived( project.getOwner());
     const collaborators = $derived( project.getCollaborators());
     let path = $derived(link ?? project.getLink(true));
+    /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
     let chat = $state<Chat | undefined>(undefined);
     $effect(() => {
+        // When the project changes, get the chat, and mark read if it was unread.
         Chats.getChat(project).then((retrievedChat) => {
             if (retrievedChat) chat = retrievedChat;
         });
@@ -129,10 +137,9 @@
                     >{#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
                         >{:else}
-                        {project.getName()}{/if}</Link
-                >{#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
+                        {project.getName()}{/if}</Link>
+                    {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}{/if}{/if}
-                    
                     {#if owner}
                     
                     {#await Creators.getCreator(owner)}
