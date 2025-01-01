@@ -105,7 +105,12 @@
                 )}
                 bind:text={password}
                 editable={!deleteSubmitted}
-                validator={(pass) => isValidPassword(pass)}
+                validator={(pass) =>
+                    isValidPassword(pass)
+                        ? true
+                        : $locales.get(
+                              (l) => l.ui.page.login.error.invalidPassword,
+                          )}
             />
             <Button
                 background

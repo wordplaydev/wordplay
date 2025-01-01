@@ -263,6 +263,12 @@ type UITexts = {
             /** Toggle elision */
             elide: string;
         };
+        error: {
+            /** An invalid source name */
+            invalidName: string;
+            /** Invalid words in a words token editor */
+            invalidWords: string;
+        };
     };
     /** The conflicts area in the margin of the editor. */
     annotations: {
@@ -488,6 +494,17 @@ type UITexts = {
                 percent: string;
             };
         };
+        /** Errors for the palette */
+        error: {
+            /** The value entered isn't a number */
+            nan: string;
+            /** 0-100 range */
+            percent: string;
+            /** Sequence percent must be greater than the last */
+            moreThanPrevious: string;
+            /** Sequence precent must be less than the next */
+            lessThanNext: string;
+        };
     };
     /** The timeline view below the output */
     timeline: {
@@ -557,6 +574,8 @@ type UITexts = {
                 unknown: string;
                 /** When someone wants to add a collaborator but isn't authenticated */
                 anonymous: string;
+                /** Can't add self */
+                self: string;
             };
             options: {
                 /** The label for the gallery chooser */

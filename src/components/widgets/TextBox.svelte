@@ -9,7 +9,7 @@
         inline?: boolean;
         done?: (text: string) => void;
         dwelled?: undefined | ((text: string) => void);
-        validator?: undefined | ((text: string) => boolean);
+        validator?: undefined | ((text: string) => string | true);
     }
 
     let {
@@ -24,8 +24,18 @@
     }: Props = $props();
 
     let view: HTMLTextAreaElement | undefined = $state();
+    let focused = $state(false);
 
     let timeout: NodeJS.Timeout | undefined = undefined;
+
+    /** The message to display if invalid */
+    let message = $derived.by(() => {
+        if (validator) {
+            const message = validator(text);
+            if (message === true) return undefined;
+            else return message;
+        } else return undefined;
+    });
 
     function handleInput() {
         if (dwelled)
@@ -46,21 +56,33 @@
     onMount(() => resize());
 </script>
 
-<textarea
-    title={description}
-    aria-label={description}
-    {placeholder}
-    class={{ inline, error: validator ? validator(text) === false : null }}
-    bind:value={text}
-    bind:this={view}
-    aria-disabled={!active}
-    rows={1}
-    disabled={!active}
-    onblur={() => (done ? done(text) : undefined)}
-    oninput={handleInput}
-></textarea>
+<div class="box" class:focused>
+    <textarea
+        title={description}
+        aria-label={description}
+        {placeholder}
+        class={{ inline, error: message !== undefined }}
+        bind:value={text}
+        bind:this={view}
+        aria-disabled={!active}
+        rows={1}
+        disabled={!active}
+        onblur={() => {
+            if (done) done(text);
+            focused = false;
+        }}
+        onfocus={() => (focused = true)}
+        oninput={handleInput}
+    ></textarea>
+    {#if message !== undefined}
+        <div class="message">{message}</div>
+    {/if}
+</div>
 
 <style>
+    .box {
+        position: relative;
+    }
     textarea {
         font-family: inherit;
         font-size: inherit;
@@ -99,5 +121,22 @@
     textarea:focus {
         outline: none;
         border-left-color: var(--wordplay-focus-color);
+    }
+
+    .message {
+        display: none;
+    }
+
+    .focused .message {
+        display: block;
+        position: absolute;
+        top: 100%;
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-small-font-size) - 2pt);
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
+        z-index: 2;
     }
 </style>

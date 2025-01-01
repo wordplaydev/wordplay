@@ -75,6 +75,8 @@
             invalid: string;
             /** Shown when the email address isn't valid */
             email: string;
+            /** Invalid username */
+            invalidUsername: string;
             /** Unknown failure to login */
             failure: string;
             /** When there's no connection to Firebase */
@@ -85,6 +87,10 @@
             delete: string;
             /** When a password is wrong */
             wrongPassword: string;
+            /** When the password is invalid */
+            invalidPassword: string;
+            /** When the passwords don't match */
+            mismatched: string;
             /** When there are too mant failed attempts */
             tooMany: string;
         };
@@ -280,7 +286,10 @@
             )}
             bind:text={username}
             editable={!loading}
-            validator={(text) => isValidUsername(text) || isValidEmail(text)}
+            validator={(text) =>
+                !(isValidUsername(text) || isValidEmail(text))
+                    ? $locales.get((l) => l.ui.page.login.error.invalidUsername)
+                    : true}
         />
         <TextField
             kind="password"
@@ -292,7 +301,10 @@
             )}
             bind:text={password}
             editable={!loading}
-            validator={(pass) => isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : true}
         />
         {#if loading}
             <Spinning></Spinning>
@@ -337,7 +349,10 @@
             )}
             bind:text={email}
             editable={!loading}
-            validator={(text) => isValidEmail(text)}
+            validator={(text) =>
+                !isValidEmail(text)
+                    ? $locales.get((l) => l.ui.page.login.error.email)
+                    : true}
         />
         {#if loading}
             <Spinning></Spinning>

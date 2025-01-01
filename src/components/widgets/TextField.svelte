@@ -7,7 +7,7 @@
         text?: string;
         placeholder: string;
         description: string;
-        validator?: undefined | ((text: string) => boolean);
+        validator?: undefined | ((text: string) => string | true);
         changed?: undefined | ((text: string) => void);
         // Called if someone typed and paused for more than a second.
         dwelled?: undefined | ((text: string) => void);
@@ -48,8 +48,20 @@
     }: Props = $props();
 
     let width = $state(0);
+    let focused = $state(false);
 
     let timeout: NodeJS.Timeout | undefined = undefined;
+
+    /** The message to display if invalid */
+    let message = $derived.by(() => {
+        if (validator) {
+            const message = validator(text);
+            if (message === true) return undefined;
+            else return message;
+        } else return undefined;
+    });
+
+    $inspect(focused);
 
     function handleInput() {
         if (changed) changed(text);
@@ -121,7 +133,7 @@
     });
 </script>
 
-<div class="field" class:fill>
+<div class="field" class:fill class:focused>
     <input
         type="text"
         class={classes?.join(' ')}
@@ -129,7 +141,7 @@
         class:right
         data-id={id}
         data-defaultfocus={defaultFocus ? '' : null}
-        class:error={validator ? validator(text) === false : null}
+        class:error={message !== undefined}
         aria-label={description}
         aria-placeholder={placeholder}
         placeholder={withMonoEmoji(placeholder)}
@@ -141,7 +153,11 @@
         oninput={handleInput}
         onkeydown={handleKeyDown}
         onpointerdown={(event) => event.stopPropagation()}
-        onblur={() => (done ? done(text) : undefined)}
+        onblur={() => {
+            focused = false;
+            if (done) done(text);
+        }}
+        onfocus={() => (focused = true)}
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0
@@ -150,6 +166,9 @@
               ? '•'.repeat(text.length)
               : text.replaceAll(' ', '\xa0')}</span
     >
+    {#if message}
+        <div class="message">{message}</div>
+    {/if}
 </div>
 
 <style>
@@ -228,5 +247,22 @@
     input:focus {
         border-bottom: var(--wordplay-focus-color) solid
             var(--wordplay-focus-width);
+    }
+
+    .message {
+        display: none;
+    }
+
+    .focused .message {
+        display: block;
+        position: absolute;
+        top: 100%;
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-small-font-size) - 2pt);
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
+        z-index: 2;
     }
 </style>

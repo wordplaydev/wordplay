@@ -105,7 +105,10 @@
             )}
             bind:text={username}
             editable={!loading}
-            validator={(text) => isValidUsername(text)}
+            validator={(text) =>
+                !isValidUsername(text)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidUsername)
+                    : true}
             changed={() => {
                 if (available === false) available = undefined;
             }}
@@ -136,7 +139,10 @@
             )}
             bind:text={password}
             editable={!loading}
-            validator={(pass) => isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : true}
         />
         <TextField
             kind={reveal ? undefined : 'password'}
@@ -148,7 +154,12 @@
             )}
             bind:text={password2}
             editable={!loading}
-            validator={(pass) => pass === password && isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : pass !== password
+                      ? $locales.get((l) => l.ui.page.login.error.mismatched)
+                      : true}
         />
         <Toggle
             tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}

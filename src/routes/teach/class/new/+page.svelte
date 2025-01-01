@@ -515,9 +515,17 @@
                                                     studentIndex
                                                 ].username}
                                                 validator={(text) =>
-                                                    !usernamesTaken.includes(
+                                                    usernamesTaken.includes(
                                                         text,
-                                                    )}
+                                                    )
+                                                        ? $locales.get(
+                                                              (l) =>
+                                                                  l.ui.page
+                                                                      .newclass
+                                                                      .error
+                                                                      .taken,
+                                                          )
+                                                        : true}
                                                 changed={(text) => {
                                                     // Update the username after it's changed.
                                                     editedStudents

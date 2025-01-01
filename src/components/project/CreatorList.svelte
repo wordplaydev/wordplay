@@ -49,12 +49,13 @@
 
     let creators: Record<string, Creator | null> = $state({});
 
-    function validCollaborator(emailOrUsername: string) {
+    function validCollaborator(emailOrUsername: string): string | true {
+        if (!validEmail(emailOrUsername) || !isValidUsername(emailOrUsername))
+            return $locales.get((l) => l.ui.page.login.error.invalidUsername);
         // Don't add self
-        return (
-            (validEmail(emailOrUsername) || isValidUsername(emailOrUsername)) &&
-            emailOrUsername !== DB.getUserEmail()
-        );
+        if (emailOrUsername === DB.getUserEmail())
+            return $locales.get((l) => l.ui.dialog.share.error.self);
+        return true;
     }
 
     async function addCreator() {
@@ -101,7 +102,7 @@
                 background
                 padding={false}
                 tip={$locales.get((l) => l.ui.dialog.share.button.submit)}
-                active={validCollaborator(emailOrUsername)}
+                active={validCollaborator(emailOrUsername) === true}
                 action={() => undefined}>&gt;</Button
             >
             {#if adding}<Spinning label="" />{/if}

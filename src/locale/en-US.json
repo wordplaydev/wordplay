@@ -4300,6 +4300,10 @@
                 "search": "search for special characters to insert",
                 "tidy": "tidy spacing",
                 "elide": "toggle elision"
+            },
+            "error": {
+                "invalidName": "This must be a valid Wordplay name.",
+                "invalidWords": "Words can't be empty or contain reserved symbols."
             }
         },
         "annotations": {
@@ -4412,7 +4416,8 @@
                 },
                 "error": {
                     "unknown": "We don't know a creator with this email.",
-                    "anonymous": "You must be logged in to share."
+                    "anonymous": "You must be logged in to share.",
+                    "self": "You can't add yourself."
                 },
                 "button": {
                     "submit": "Share the project with this email address",
@@ -4611,6 +4616,12 @@
                 "field": {
                     "percent": "edit percent"
                 }
+            },
+            "error": {
+                "nan": "This is not a number.",
+                "percent": "Must be a percent between 0 and 100.",
+                "lessThanNext": "This must be less than the next entry.",
+                "moreThanPrevious": "This must be more than the previous entry."
             }
         },
         "save": {
@@ -4938,12 +4949,15 @@
                 "error": {
                     "expired": "This link expired.",
                     "invalid": "This link isn't valid.",
-                    "email": "This email wasn't valid.",
+                    "email": "Not a valid email.",
+                    "invalidUsername": "Usernames must be emails or >5 letters with no spaces.",
                     "failure": "Unable to login :(",
                     "offline": "We couldn't reach the cloud ☁️.",
                     "unchanged": "We couldn't change your email address, but we don't know why.",
                     "delete": "We couldn't delete your account, but we don't know why.",
+                    "invalidPassword": "Passwords must be at least 10 characters long.",
                     "wrongPassword": "Not a valid username and password. Either your password is wrong, or someone else has this username.",
+                    "mismatched": "The passwords don't match.",
                     "tooMany": "You've tried and failed to log in too many times. You'll have to wait to try again."
                 },
                 "feedback": {

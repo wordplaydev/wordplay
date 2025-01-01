@@ -176,10 +176,14 @@
 
     function validName(name: string) {
         const tokens = toTokens(name);
-        return tokens.nextAre(Sym.Name, Sym.End);
+        return tokens.nextAre(Sym.Name, Sym.End)
+            ? true
+            : $locales.get((l) => l.ui.page.glyph.feedback.name);
     }
     function validDescription(description: string) {
-        return description.length > 0;
+        return description.length > 0
+            ? true
+            : $locales.get((l) => l.ui.page.glyph.feedback.description);
     }
 
     let error = $derived(

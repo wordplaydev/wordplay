@@ -8957,6 +8957,10 @@
                           "description": "When someone wants to add a collaborator but isn't authenticated",
                           "type": "string"
                         },
+                        "self": {
+                          "description": "Can't add self",
+                          "type": "string"
+                        },
                         "unknown": {
                           "description": "When someone tries to add an email collaborator that doesn't have a Wordplay account",
                           "type": "string"
@@ -8964,7 +8968,8 @@
                       },
                       "required": [
                         "unknown",
-                        "anonymous"
+                        "anonymous",
+                        "self"
                       ],
                       "type": "object"
                     },
@@ -9502,6 +9507,35 @@
                   ],
                   "type": "object"
                 },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors for the palette",
+                  "properties": {
+                    "lessThanNext": {
+                      "description": "Sequence precent must be less than the next",
+                      "type": "string"
+                    },
+                    "moreThanPrevious": {
+                      "description": "Sequence percent must be greater than the last",
+                      "type": "string"
+                    },
+                    "nan": {
+                      "description": "The value entered isn't a number",
+                      "type": "string"
+                    },
+                    "percent": {
+                      "description": "0-100 range",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "nan",
+                    "percent",
+                    "moreThanPrevious",
+                    "lessThanNext"
+                  ],
+                  "type": "object"
+                },
                 "field": {
                   "additionalProperties": false,
                   "properties": {
@@ -9696,7 +9730,8 @@
                 "button",
                 "prompt",
                 "field",
-                "sequence"
+                "sequence",
+                "error"
               ],
               "type": "object"
             },
@@ -10041,6 +10076,24 @@
                   "$ref": "#/definitions/DocText",
                   "description": "The text to show when a source file is empty"
                 },
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "invalidName": {
+                      "description": "An invalid source name",
+                      "type": "string"
+                    },
+                    "invalidWords": {
+                      "description": "Invalid words in a words token editor",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "invalidName",
+                    "invalidWords"
+                  ],
+                  "type": "object"
+                },
                 "field": {
                   "additionalProperties": false,
                   "properties": {
@@ -10113,7 +10166,8 @@
                 "button",
                 "menu",
                 "field",
-                "cursor"
+                "cursor",
+                "error"
               ],
               "type": "object"
             },

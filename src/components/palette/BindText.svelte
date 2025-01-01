@@ -20,7 +20,7 @@
     interface Props {
         property: OutputProperty;
         values: OutputPropertyValues;
-        validator: (text: string) => boolean;
+        validator: (text: string) => string | true;
         editable: boolean;
         id?: string | undefined;
     }

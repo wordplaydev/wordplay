@@ -75,7 +75,10 @@
             {#if value !== undefined}
                 <TextField
                     text={`${value}`}
-                    validator={valid}
+                    validator={(text) =>
+                        !valid(text)
+                            ? $locales.get((l) => l.ui.palette.error.nan)
+                            : true}
                     {editable}
                     placeholder={dimension.names.getNames()[0]}
                     description={$locales.get(

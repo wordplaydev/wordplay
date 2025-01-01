@@ -322,7 +322,13 @@
                                 placeholder={$locales.get(
                                     (l) => l.ui.source.field.name.placeholder,
                                 )}
-                                validator={(text) => isName(text)}
+                                validator={(text) =>
+                                    !isName(text)
+                                        ? $locales.get(
+                                              (l) =>
+                                                  l.ui.source.error.invalidName,
+                                          )
+                                        : true}
                                 changed={handleRename}
                             />
                         {:else}
@@ -501,6 +507,7 @@
         gap: calc(var(--wordplay-spacing) / 2);
         width: 100%;
         overflow-x: auto;
+        overflow-y: visible;
         flex-shrink: 0;
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;
