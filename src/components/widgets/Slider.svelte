@@ -92,7 +92,7 @@
         gap: var(--wordplay-spacing);
         align-items: center;
         height: 1em;
-        width: 100%;
+        flex: 1;
     }
 
     .slider {
@@ -117,11 +117,11 @@
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         border-radius: var(--wordplay-border-radius);
         margin: 0 0;
-        /* width: 5em; */
         background: none;
         appearance: none;
         -webkit-appearance: none;
         /* Allow for it to be tiny */
+        width: auto;
         min-width: 2em;
     }
 

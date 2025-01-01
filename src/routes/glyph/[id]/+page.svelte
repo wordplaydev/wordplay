@@ -1119,7 +1119,7 @@
 
     <style>
         .palette {
-            min-width: 15em;
+            min-width: 6em;
             display: flex;
             flex-direction: column;
             gap: calc(2 * var(--wordplay-spacing));

@@ -128,6 +128,26 @@
             style:top="{(1 - chromaToPercent(chroma)) * hueHeight}px"
         ></div>
     </div>
+    <div class="primary">
+        {#each Primary as primary}<Button
+                tip="color"
+                padding={false}
+                action={() => {
+                    lightness = primary[0] / 100;
+                    chroma = primary[1];
+                    hue = primary[2];
+                    broadcast();
+                }}
+                ><div
+                    class="color"
+                    style:background={new ColorJS(
+                        ColorJS.spaces.lch,
+                        primary,
+                    ).display()}
+                ></div></Button
+            >{/each}
+    </div>
+
     <div class="slider">
         <Slider
             value={lightness}
@@ -172,25 +192,6 @@
             {editable}
         />
     </div>
-    <div class="primary">
-        {#each Primary as primary}<Button
-                tip="color"
-                padding={false}
-                action={() => {
-                    lightness = primary[0] / 100;
-                    chroma = primary[1];
-                    hue = primary[2];
-                    broadcast();
-                }}
-                ><div
-                    class="color"
-                    style:background={new ColorJS(
-                        ColorJS.spaces.lch,
-                        primary,
-                    ).display()}
-                ></div></Button
-            >{/each}
-    </div>
 </div>
 
 <style>
@@ -200,9 +201,11 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
     }
 
     .bands {
+        min-width: 4em;
         height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
@@ -213,11 +216,9 @@
 
     .slider {
         flex-grow: 1;
-        min-width: 30%;
     }
 
     .band {
-        width: 100%;
         pointer-events: none;
         touch-action: none;
     }
@@ -237,6 +238,7 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: 0;
+        row-gap: 0;
     }
 
     .color {
