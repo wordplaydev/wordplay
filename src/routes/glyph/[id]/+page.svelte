@@ -283,7 +283,6 @@
                 const svg = candidate.parentElement;
                 if (svg !== null && svg.parentElement === canvasView) {
                     const index = Array.from(svg.childNodes).indexOf(candidate);
-                    console.log(index);
                     if (index >= 0) {
                         if (event.shiftKey)
                             selection = [...selection, shapes[index]];
@@ -436,7 +435,7 @@
             setState(choice === 0 ? 'none' : choice === 1 ? 'inherit' : 'set')}
         labeled={false}
     ></Mode>
-    {#if state}
+    {#if state === 'set'}
         <ColorChooser
             lightness={color[0]}
             chroma={color[1]}
