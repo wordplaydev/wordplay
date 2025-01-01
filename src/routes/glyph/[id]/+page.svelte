@@ -1215,15 +1215,15 @@
                 style:height={'calc(100% / ' + GlyphSize + ')'}
             ></div>
         {/if}
-        <div class="notes">
-            {#if pendingPath}
+        {#if pendingPath}
+            <div class="notes">
                 <Feedback
                     >{$locales.get(
                         (l) => l.ui.page.glyph.feedback.end,
                     )}</Feedback
                 >
-            {/if}
-        </div>
+            </div>
+        {/if}
     </div>
     <style>
         .canvas {
@@ -1373,6 +1373,7 @@
     }
 
     .content {
+        width: 100%;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);

@@ -180,8 +180,4 @@
         background: var(--wordplay-chrome);
         border-color: var(--wordplay-alternating-color);
     }
-
-    button:active[aria-disabled='false'] {
-        transform: scale(0.8);
-    }
 </style>
