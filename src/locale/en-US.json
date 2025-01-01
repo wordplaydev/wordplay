@@ -4839,7 +4839,7 @@
                 "prompt": "Create a symbol with shapes and pixels.",
                 "instructions": "• Choose colors, shapes, fill and stroke colors in the palette.\n\n• Choose a drawing mode\n\n• Use the keyboard or pointer to move the current position within the grid to make the shape.\n\n• Give your glyph a name to refer to it in your projects. \n\n• Give it a description so those that can't see your glyph know what it represents.",
                 "subheader": {
-                    "other": "other"
+                    "shape": "shape"
                 },
                 "shape": {
                     "pixel": "pixel",

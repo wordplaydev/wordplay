@@ -5,7 +5,7 @@
         prompt: string;
         instructions: string;
         subheader: {
-            other: string;
+            shape: string;
         };
         shape: {
             pixel: string;
@@ -662,7 +662,7 @@
             ></Slider>
         {/if}
         {#if mode !== DrawingMode.Pixel}
-            <h3>{$locales.get((l) => l.ui.page.glyph.subheader.other)}</h3>
+            <h3>{$locales.get((l) => l.ui.page.glyph.subheader.shape)}</h3>
         {/if}
         <!-- Only rectangles have a radius -->
         {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
