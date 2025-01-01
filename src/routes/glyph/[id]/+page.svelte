@@ -96,6 +96,7 @@
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import path from 'path';
+    import { tick } from 'svelte';
 
     /** The current name of the shape */
     let name = $state('');
@@ -295,7 +296,6 @@
                         0,
                         drawingCursorPosition.y - 1,
                     );
-
                 event.stopPropagation();
             } else if (event.key === 'ArrowDown') {
                 if (selection.length > 0) {
@@ -565,8 +565,9 @@
             '🎨',
         ]}
         choice={state === 'none' ? 0 : state === 'inherit' ? 1 : 2}
-        select={(choice: number) =>
-            setState(choice === 0 ? 'none' : choice === 1 ? 'inherit' : 'set')}
+        select={(choice: number) => {
+            setState(choice === 0 ? 'none' : choice === 1 ? 'inherit' : 'set');
+        }}
         labeled={false}
     ></Mode>
     {#if state === 'set'}
@@ -656,7 +657,11 @@
             descriptions={$locales.get((l) => l.ui.page.glyph.field.mode)}
             modes={['👆', '■', '▬', '●', '◡']}
             choice={mode}
-            select={(choice: number) => (mode = choice as DrawingMode)}
+            select={(choice: number) => {
+                mode = choice as DrawingMode;
+                if (canvasView)
+                    setKeyboardFocus(canvasView, 'Focus the canvas.');
+            }}
             labeled={false}
         ></Mode>
 
