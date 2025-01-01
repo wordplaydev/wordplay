@@ -284,6 +284,36 @@
         };
     }
 
+    function getCurrentPath(): GlyphPath {
+        return {
+            type: 'path',
+            points: [[drawingCursorPosition.x, drawingCursorPosition.y]],
+            closed: currentClosed,
+            curved: currentCurved,
+            ...(currentFillSetting !== undefined && {
+                fill: getCurrentFill(),
+            }),
+            ...(currentStrokeSetting !== undefined && {
+                stroke: getCurrentStroke(),
+            }),
+            ...(currentAngle !== 0 && { angle: currentAngle }),
+        };
+    }
+
+    function updatePendingPath() {
+        if (pendingPath === undefined) return;
+        const last = pendingPath.points[pendingPath.points.length - 1];
+        // Different point than the last? Record it.
+        if (
+            last[0] !== drawingCursorPosition.x &&
+            last[1] !== drawingCursorPosition.y
+        )
+            pendingPath.points.push([
+                drawingCursorPosition.x,
+                drawingCursorPosition.y,
+            ]);
+    }
+
     function handleKey(event: KeyboardEvent) {
         // Handle cursor movement
         if (event.key.startsWith('Arrow')) {
@@ -368,6 +398,13 @@
             }
             event.stopPropagation();
         }
+        // If in path mode, start a path
+        else if (mode === DrawingMode.Path && action) {
+            if (pendingPath === undefined) {
+                pendingPath = getCurrentPath();
+                shapes = [...shapes, pendingPath];
+            } else updatePendingPath();
+        }
         // If in path mode and key is escape, close the path
         else if (event.key === 'Escape') {
             if (mode === DrawingMode.Path) {
@@ -436,34 +473,10 @@
             return;
         } else if (mode === DrawingMode.Path && !move) {
             if (pendingPath === undefined) {
-                pendingPath = {
-                    type: 'path',
-                    points: [
-                        [drawingCursorPosition.x, drawingCursorPosition.y],
-                    ],
-                    closed: currentClosed,
-                    curved: currentCurved,
-                    ...(currentFillSetting !== undefined && {
-                        fill: getCurrentFill(),
-                    }),
-                    ...(currentStrokeSetting !== undefined && {
-                        stroke: getCurrentStroke(),
-                    }),
-                    ...(currentAngle !== 0 && { angle: currentAngle }),
-                };
+                pendingPath = getCurrentPath();
                 shapes = [...shapes, pendingPath];
-            } else {
-                const last = pendingPath.points[pendingPath.points.length - 1];
-                // Different point than the last? Record it.
-                if (
-                    last[0] !== drawingCursorPosition.x &&
-                    last[1] !== drawingCursorPosition.y
-                )
-                    pendingPath.points.push([
-                        drawingCursorPosition.x,
-                        drawingCursorPosition.y,
-                    ]);
-            }
+            } else updatePendingPath();
+
             return;
         } else if (mode === DrawingMode.Select) {
             if (!move) {
