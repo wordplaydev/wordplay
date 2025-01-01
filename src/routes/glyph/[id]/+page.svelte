@@ -97,6 +97,9 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import path from 'path';
     import { tick } from 'svelte';
+    import { parseName } from '@parser/parseBind';
+    import { toTokens } from '@parser/toTokens';
+    import Sym from '@nodes/Sym';
 
     /** The current name of the shape */
     let name = $state('');
@@ -172,7 +175,8 @@
     });
 
     function validName(name: string) {
-        return name.length > 0;
+        const tokens = toTokens(name);
+        return tokens.nextAre(Sym.Name, Sym.End);
     }
     function validDescription(description: string) {
         return description.length > 0;

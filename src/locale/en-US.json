@@ -4892,7 +4892,7 @@
                     "curved": "curved"
                 },
                 "feedback": {
-                    "name": "Glyphs need a name so you can refer to them in projects.",
+                    "name": "Glyphs need a valid Wordplay name so you can refer to them in projects.",
                     "description": "Glyphs need a description so those who can't see know what they represent.",
                     "end": "Press esc, enter, or space to finish shape.",
                     "select": "Hold shift for multiple, press arrows to move, or delete to remove."
