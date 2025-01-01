@@ -60,7 +60,13 @@
     import TextField from '@components/widgets/TextField.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import Feedback from '@components/app/Feedback.svelte';
-    import { GlyphSize, glyphToSVG, type Shape } from '../../../glyphs/glyphs';
+    import {
+        GlyphSize,
+        glyphToSVG,
+        pixelsAreEqual,
+        type Pixel,
+        type Shape,
+    } from '../../../glyphs/glyphs';
     import Page from '@components/app/Page.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
@@ -68,6 +74,7 @@
     import type LocaleText from '@locale/LocaleText';
     import Slider from '@components/widgets/Slider.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     /** The current name of the shape */
     let name = $state('');
@@ -107,8 +114,11 @@
     /** The curved path state */
     let curved = $state(true);
 
+    /** The HTML element of the canvas */
+    let canvasView: HTMLDivElement | null = null;
+
     /** Make the rendered shape as a preview */
-    let shape = $derived({
+    let glyph = $derived({
         name,
         description,
         shapes,
@@ -129,7 +139,41 @@
               : undefined,
     );
 
+    /** Set the pixel at the current position and fill. */
+    function setPixel() {
+        const candidate: Pixel = {
+            type: 'pixel',
+            point: [position.x, position.y],
+            fill:
+                fill === undefined
+                    ? null
+                    : {
+                          l: currentFill[0],
+                          c: currentFill[1],
+                          h: currentFill[2],
+                      },
+        };
+        const match = shapes
+            // Remove pixels at the same position
+            .find((s) => s.type === 'pixel' && pixelsAreEqual(s, candidate));
+        // Already an identical pixel? No need to rerender.
+        if (match) return;
+
+        shapes = [
+            ...shapes
+                // Remove pixels at the same position
+                .filter(
+                    (s) =>
+                        s.type === 'pixel' &&
+                        (s.point[0] !== position.x ||
+                            s.point[1] !== position.y),
+                ),
+            candidate,
+        ];
+    }
+
     function handleKey(event: KeyboardEvent) {
+        // Handle cursor movement
         if (event.key === 'ArrowUp') {
             position.y = Math.max(0, position.y - 1);
         } else if (event.key === 'ArrowDown') {
@@ -138,6 +182,40 @@
             position.x = Math.max(0, position.x - 1);
         } else if (event.key === 'ArrowRight') {
             position.x = Math.min(GlyphSize - 1, position.x + 1);
+        }
+
+        // If in pixel mode, drop a pixel.
+        if (
+            mode === DrawingMode.Pixel &&
+            (event.key === 'Enter' || event.key === ' ')
+        ) {
+            setPixel();
+            event.stopPropagation();
+            return;
+        }
+    }
+
+    function handlePointer(event: PointerEvent) {
+        if (!(event.currentTarget instanceof HTMLElement)) return;
+        // Move the position to the pointer
+        position = {
+            x: Math.floor(
+                (event.offsetX / event.currentTarget.clientWidth) * GlyphSize,
+            ),
+            y: Math.floor(
+                (event.offsetY / event.currentTarget.clientHeight) * GlyphSize,
+            ),
+        };
+        event.stopPropagation();
+
+        // Button not down? Don't do anything else.
+        if (event.buttons !== 1) return;
+
+        // In pixel mode? Drop a pixel.
+        if (mode === DrawingMode.Pixel) {
+            setPixel();
+            if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
+            return;
         }
     }
 </script>
@@ -194,7 +272,6 @@
 
     <style>
         .grid {
-            position: relative;
             width: 100%;
             height: 100%;
 
@@ -225,7 +302,7 @@
     <div class="palette">
         <h2>{$locales.get((l) => l.ui.page.glyph.subheader.preview)}</h2>
         <div class="preview">
-            {@html glyphToSVG(shape, 64)}
+            {@html glyphToSVG(glyph, '32px')}
         </div>
         <h2>{$locales.get((l) => l.ui.page.glyph.field.mode).label}</h2>
         <Mode
@@ -338,13 +415,9 @@
             gap: calc(2 * var(--wordplay-spacing));
         }
 
-        h2 {
-            margin: 0;
-        }
-
         .preview {
-            width: 64px;
-            height: 64px;
+            width: 32px;
+            height: 32px;
             border: var(--wordplay-border-color) solid
                 var(--wordplay-border-width);
         }
@@ -409,12 +482,56 @@
         aria-describedby="instructions"
         class={['canvas', DrawingMode[mode].toLowerCase()]}
         tabindex={0}
+        bind:this={canvasView}
         onkeydown={handleKey}
+        onpointerdown={handlePointer}
+        onpointermove={handlePointer}
     >
         {@render grid()}
+        {@html glyphToSVG(glyph, '100%')}
+        {#if mode !== DrawingMode.Select}
+            <div
+                class="position"
+                style:left="{(100 * position.x) / GlyphSize}%"
+                style:top="{(100 * position.y) / GlyphSize}%"
+                style:width={'calc(100% / ' + GlyphSize + ')'}
+                style:height={'calc(100% / ' + GlyphSize + ')'}
+            ></div>
+        {/if}
     </div>
-
     <style>
+        .canvas {
+            position: relative;
+            aspect-ratio: 1/1;
+            border: var(--wordplay-border-color) solid
+                var(--wordplay-border-width);
+            /* Set a current color to make strokes and fills using current color visible */
+            color: var(--wordplay-background);
+        }
+
+        .canvas:focus {
+            outline: var(--wordplay-focus-color) solid
+                var(--wordplay-focus-width);
+        }
+
+        .position {
+            position: absolute;
+            width: 1em;
+            height: 1em;
+            border: solid var(--wordplay-highlight-color)
+                var(--wordplay-focus-width);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .canvas svg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
         .select {
             cursor: default;
         }
@@ -424,14 +541,6 @@
         .path,
         .pixel {
             cursor: crosshair;
-        }
-
-        .canvas {
-            aspect-ratio: 1/1;
-            border: var(--wordplay-border-color) solid
-                var(--wordplay-border-width);
-            /* Set a current color to make strokes and fills using current color visible */
-            color: var(--wordplay-background);
         }
     </style>
 {/snippet}
@@ -484,5 +593,9 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+    }
+
+    h2 {
+        margin: 0;
     }
 </style>

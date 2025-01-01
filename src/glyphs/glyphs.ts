@@ -56,7 +56,7 @@ const PixelSchema = z.object({
     point: PositionSchema, // The center of the pixel
     fill: ColorSchema.nullable(), // It's fill color, no stroke
 });
-type Pixel = z.infer<typeof PixelSchema>;
+export type Pixel = z.infer<typeof PixelSchema>;
 
 const EllipseSchema = z
     .object({
@@ -99,11 +99,11 @@ export type Glyph = {
 /** The width and height of the grid */
 export const GlyphSize = 32;
 
-export function glyphToSVG(glyph: Glyph, size: number): string {
-    return `<svg width=${size} height=${size} viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s))}</svg>`;
+export function glyphToSVG(glyph: Glyph, size: number | string): string {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s))}</svg>`;
 }
 
-function shapeToSVG(shape: Shape): string {
+export function shapeToSVG(shape: Shape): string {
     switch (shape.type) {
         case 'rect':
             return rectToSVG(shape);
@@ -158,6 +158,20 @@ function pixelToSVG(pixel: Pixel): string {
         height: 1,
         fill: colorToSVG(pixel.fill),
     });
+}
+
+export function pixelsAreEqual(one: Pixel, two: Pixel): boolean {
+    return (
+        one.point[0] === two.point[0] &&
+        one.point[1] === two.point[1] &&
+        ((!('fill' in one) && !('fill' in two)) ||
+            (one.fill === null && two.fill === null) ||
+            (one.fill !== null &&
+                two.fill !== null &&
+                one.fill.l === two.fill.l &&
+                one.fill.c === two.fill.c &&
+                one.fill.h === two.fill.h))
+    );
 }
 
 function pathToSVG(path: Path): string {
