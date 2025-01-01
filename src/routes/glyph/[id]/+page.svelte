@@ -4,16 +4,39 @@
         header: string;
         prompt: string;
         instructions: string;
+        subheader: {
+            preview: string;
+            other: string;
+        };
         field: {
             name: FieldText;
             description: FieldText;
             mode: ModeText<string[]>;
-            color: {
-                inherit: string;
-                inheritTip: string;
-                color: string;
-                colorTip: string;
+            fill: ModeText<string[]>;
+            stroke: ModeText<string[]>;
+            /** What to call no color */
+            none: string;
+            /** What to call inherited color */
+            inherit: string;
+            /** Labels for the stroke width slider*/
+            strokeWidth: {
+                label: string;
+                tip: string;
             };
+            /** Labels for the border radius slider */
+            radius: {
+                label: string;
+                tip: string;
+            };
+            /** Labels for the rotation slider */
+            angle: {
+                label: string;
+                tip: string;
+            };
+            /** Closed path label */
+            closed: string;
+            /** Curved path label */
+            curved: string;
         };
         error: {
             name: string;
@@ -41,10 +64,10 @@
     import Page from '@components/app/Page.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
-    import { LCHtoRGB } from '@output/Color';
-    import Switch from '@components/widgets/Switch.svelte';
-    import Note from '@components/widgets/Note.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import type LocaleText from '@locale/LocaleText';
+    import Slider from '@components/widgets/Slider.svelte';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
 
     /** The current name of the shape */
     let name = $state('');
@@ -61,13 +84,28 @@
     /** The current position for drawing, within the bounds of the glyph grid */
     let position = $state({ x: 0, y: 0 });
 
-    /** The current drawing color */
-    let lightness = $state(50);
-    let chroma = $state(100);
-    let hue = $state(180);
+    /** The current fill color and whether it's on, off, or inherited */
+    let currentFill: [number, number, number] = $state([100, 100, 0]);
+    let fill: boolean | undefined = $state(true);
 
-    /** Whether the current drawing color is the chosen one or inherited */
-    let color = $state(true);
+    /** The current stroke color and whether it's on, off, or inherited  */
+    let currentStroke: [number, number, number] = $state([100, 100, 0]);
+    let stroke: boolean | undefined = $state(true);
+
+    /** The current stroke width */
+    let strokeWidth = $state(1);
+
+    /** The current border radius for rectangles */
+    let radius = $state(0);
+
+    /** The current rotation */
+    let angle = $state(0);
+
+    /** The closed path state */
+    let closed = $state(true);
+
+    /** The curved path state */
+    let curved = $state(true);
 
     /** Make the rendered shape as a preview */
     let shape = $derived({
@@ -107,6 +145,38 @@
 <svelte:head>
     <title>{$locales.get((l) => l.ui.page.glyph.header)} — {name}</title>
 </svelte:head>
+
+{#snippet colorChooser(
+    state: boolean | undefined,
+    color: [number, number, number],
+    accessor: (locale: LocaleText) => any,
+    setState: (state: boolean | undefined) => void,
+    setColor: (color: [number, number, number]) => void,
+)}
+    <h2>{$locales.get(accessor).label}</h2>
+    <Mode
+        descriptions={$locales.get(accessor)}
+        modes={[
+            $locales.get((l) => l.ui.page.glyph.field.none),
+            $locales.get((l) => l.ui.page.glyph.field.inherit),
+            '🎨',
+        ]}
+        choice={state === true ? 2 : state === false ? 0 : 1}
+        select={(choice: number) =>
+            setState(choice === 2 ? true : choice === 0 ? false : undefined)}
+        labeled={false}
+    ></Mode>
+    {#if state}
+        <ColorChooser
+            lightness={color[0]}
+            chroma={color[1]}
+            hue={color[2]}
+            change={(l, c, h) => {
+                setColor([l, c, h]);
+            }}
+        ></ColorChooser>
+    {/if}
+{/snippet}
 
 <Page>
     <section>
@@ -171,11 +241,17 @@
                         <Feedback inline>{error}</Feedback>
                     {/if}
                 </div>
+                <MarkupHtmlView
+                    markup={$locales.get((l) => l.ui.page.glyph.instructions)}
+                ></MarkupHtmlView>
             </div>
             <div class="palette">
+                <h2>{$locales.get((l) => l.ui.page.glyph.subheader.preview)}</h2
+                >
                 <div class="preview">
                     {@html glyphToSVG(shape, 64)}
                 </div>
+                <h2>{$locales.get((l) => l.ui.page.glyph.field.mode).label}</h2>
                 <Mode
                     descriptions={$locales.get(
                         (l) => l.ui.page.glyph.field.mode,
@@ -185,45 +261,109 @@
                     select={(choice: number) => (mode = choice as DrawingMode)}
                     labeled={false}
                 ></Mode>
-                <Switch
-                    on={color}
-                    toggle={(on) => (color = on)}
-                    offLabel={$locales.get(
-                        (l) => l.ui.page.glyph.field.color.inherit,
+
+                <!-- Shape only items -->
+                {#if mode !== DrawingMode.Select}
+                    <!-- All shapes have fills -->
+                    {@render colorChooser(
+                        fill,
+                        currentFill,
+                        (l) => l.ui.page.glyph.field.fill,
+                        (choice) => (fill = choice),
+                        (color) => (currentFill = color),
                     )}
-                    offTip={$locales.get(
-                        (l) => l.ui.page.glyph.field.color.inheritTip,
-                    )}
-                    onLabel={$locales.get(
-                        (l) => l.ui.page.glyph.field.color.color,
-                    )}
-                    onTip={$locales.get(
-                        (l) => l.ui.page.glyph.field.color.colorTip,
-                    )}
-                ></Switch>
-                {#if color}
-                    <ColorChooser
-                        hue={lightness}
-                        {chroma}
-                        lightness={hue}
-                        change={(l, c, h) => {
-                            lightness = l;
-                            chroma = c;
-                            hue = h;
-                        }}
-                    ></ColorChooser>
-                {:else}
-                    <Feedback>
-                        {$locales.get(
-                            (l) => l.ui.page.glyph.field.color.inheritTip,
-                        )}</Feedback
-                    >
+                    <!-- All shapes except pixels have fills -->
+                    {#if mode !== DrawingMode.Pixel}
+                        {@render colorChooser(
+                            stroke,
+                            currentStroke,
+                            (l) => l.ui.page.glyph.field.stroke,
+                            (choice) => (stroke = choice),
+                            (color) => (currentStroke = color),
+                        )}
+                        <Slider
+                            label={$locales.get(
+                                (l) => l.ui.page.glyph.field.strokeWidth.label,
+                            )}
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.field.strokeWidth.tip,
+                            )}
+                            min={1}
+                            max={5}
+                            increment={0.1}
+                            precision={1}
+                            unit={''}
+                            bind:value={strokeWidth}
+                        ></Slider>
+                    {/if}
+                    {#if mode !== DrawingMode.Pixel}
+                        <h2
+                            >{$locales.get(
+                                (l) => l.ui.page.glyph.subheader.other,
+                            )}</h2
+                        >
+                    {/if}
+                    <!-- Only rectangles have a radius -->
+                    {#if mode === DrawingMode.Rect}
+                        <Slider
+                            label={$locales.get(
+                                (l) => l.ui.page.glyph.field.radius.label,
+                            )}
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.field.radius.tip,
+                            )}
+                            min={0}
+                            max={5}
+                            increment={0.1}
+                            precision={1}
+                            unit={''}
+                            bind:value={radius}
+                        ></Slider>
+                    {/if}
+                    <!-- All shapes but pixels have rotation -->
+                    {#if mode !== DrawingMode.Pixel}
+                        <Slider
+                            label={$locales.get(
+                                (l) => l.ui.page.glyph.field.angle.label,
+                            )}
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.field.angle.tip,
+                            )}
+                            min={0}
+                            max={359}
+                            increment={1}
+                            precision={0}
+                            unit={''}
+                            bind:value={angle}
+                        ></Slider>
+                    {/if}
+                    {#if mode === DrawingMode.Path}
+                        <label>
+                            <Checkbox
+                                id="closed-path"
+                                on={closed}
+                                label={$locales.get(
+                                    (l) => l.ui.page.glyph.field.closed,
+                                )}
+                            ></Checkbox>{$locales.get(
+                                (l) => l.ui.page.glyph.field.closed,
+                            )}
+                        </label>
+                        <label>
+                            <Checkbox
+                                id="curved-path"
+                                on={curved}
+                                label={$locales.get(
+                                    (l) => l.ui.page.glyph.field.curved,
+                                )}
+                            ></Checkbox>{$locales.get(
+                                (l) => l.ui.page.glyph.field.curved,
+                            )}</label
+                        >
+                    {/if}
                 {/if}
             </div>
         </div>
-        <MarkupHtmlView
-            markup={$locales.get((l) => l.ui.page.glyph.instructions)}
-        ></MarkupHtmlView>
     </section>
 </Page>
 
@@ -282,7 +422,6 @@
     }
 
     .canvas {
-        flex: 1;
         aspect-ratio: 1/1;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         /* Set a current color to make strokes and fills using current color visible */
@@ -290,15 +429,19 @@
     }
 
     .palette {
-        max-width: 20%;
-        min-width: 8em;
+        min-width: 15em;
         display: flex;
         flex-direction: column;
-        gap: var(--wordplay-spacing);
+        gap: calc(2 * var(--wordplay-spacing));
+    }
+
+    h2 {
+        margin: 0;
     }
 
     .preview {
-        aspect-ratio: 1/1;
+        width: 64px;
+        height: 64px;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
     }
 
@@ -325,5 +468,11 @@
             right: 0;
             background: var(--wordplay-border-color);
         }
+    }
+
+    label {
+        display: flex;
+        flex-direction: row;
+        align-items: baseline;
     }
 </style>

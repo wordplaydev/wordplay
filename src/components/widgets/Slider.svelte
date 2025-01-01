@@ -11,9 +11,9 @@
         increment: number;
         label?: string | undefined;
         tip: string;
-        change: (value: Decimal) => void;
+        change?: (value: Decimal) => void;
         precision?: number;
-        editable: boolean;
+        editable?: boolean;
         id?: string | undefined;
     }
 
@@ -25,16 +25,16 @@
         increment,
         label = undefined,
         tip,
-        change,
+        change = undefined,
         precision = 0,
-        editable,
+        editable = true,
         id = undefined,
     }: Props = $props();
 
     let view: HTMLInputElement | undefined = $state(undefined);
 
     async function handleChange() {
-        if (value !== undefined)
+        if (value !== undefined && change !== undefined)
             change(
                 new Decimal(value)
                     // Add two digits of precision to percent units

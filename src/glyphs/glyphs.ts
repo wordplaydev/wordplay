@@ -33,7 +33,6 @@ const StrokeSchema = z.object({
     /** Optional stroke. Null means CSS currentColor */
     color: ColorSchema.nullable(),
     width: z.number(), // pixels
-    cap: z.union([z.literal('round'), z.literal('square')]),
 });
 type Stroke = z.infer<typeof StrokeSchema>;
 
@@ -128,7 +127,7 @@ function rectToSVG(rect: Rectangle): string {
         fill: colorToSVG(rect.fill),
         stroke: rect.stroke ? colorToSVG(rect.stroke.color) : undefined,
         'stroke-width': rect.stroke?.width,
-        'stroke-linecap': rect.stroke?.cap,
+        'stroke-linecap': 'round',
         transform: rect.angle
             ? `rotate(${rect.angle}, ${rect.center[0]}, ${rect.center[1]})`
             : undefined,
@@ -144,7 +143,7 @@ function ellipseToSVG(ellipse: Ellipse): string {
         fill: colorToSVG(ellipse.fill),
         stroke: ellipse.stroke ? colorToSVG(ellipse.stroke.color) : undefined,
         'stroke-width': ellipse.stroke?.width,
-        'stroke-linecap': ellipse.stroke?.cap,
+        'stroke-linecap': 'round',
         transform: ellipse.angle
             ? `rotate(${ellipse.angle}, ${ellipse.center[0]}, ${ellipse.center[1]})`
             : undefined,
@@ -179,7 +178,7 @@ function pathToSVG(path: Path): string {
                   : undefined,
         stroke: path.stroke ? colorToSVG(path.stroke.color) : undefined,
         'stroke-width': path.stroke?.width,
-        'stroke-linecap': path.stroke?.cap,
+        'stroke-linecap': 'round',
         transform: path.angle
             ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x[0], 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x[1], 0) / path.points.length}`
             : undefined,

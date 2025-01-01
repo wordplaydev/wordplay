@@ -4838,6 +4838,10 @@
                 "header": "Glyph",
                 "prompt": "Create a symbol with shapes and pixels.",
                 "instructions": "• Choose colors, shapes, fill and stroke colors in the palette.\n\n• Choose a drawing mode\n\n• Use the keyboard or pointer to move the current position within the grid to make the shape.\n\n• Give your glyph a name to refer to it in your projects. \n\n• Give it a description so those that can't see your glyph know what it represents.",
+                "subheader": {
+                    "preview": "preview",
+                    "other": "other"
+                },
                 "field": {
                     "name": {
                         "description": "name of the glyph",
@@ -4848,7 +4852,7 @@
                         "placeholder": "description"
                     },
                     "mode": {
-                        "label": "drawing mode",
+                        "label": "mode",
                         "modes": [
                             "select",
                             "pixel",
@@ -4857,12 +4861,30 @@
                             "path"
                         ]
                     },
-                    "color": {
-                        "inherit": "inherit",
-                        "inheritTip": "Shapes will use the color of their surrounding text.",
-                        "color": "choose",
-                        "colorTip": "Shapes will use the color you choose."
-                    }
+                    "fill": {
+                        "label": "fill",
+                        "modes": ["none", "inerit", "choose"]
+                    },
+                    "stroke": {
+                        "label": "stroke",
+                        "modes": ["none", "inerit", "choose"]
+                    },
+                    "none": "none",
+                    "inherit": "inherit",
+                    "strokeWidth": {
+                        "label": "stroke width",
+                        "tip": "how wide the stroke is rendered"
+                    },
+                    "radius": {
+                        "label": "corner radius",
+                        "tip": "how round rectangle corners are"
+                    },
+                    "angle": {
+                        "label": "angle",
+                        "tip": "how much to rotate the shape around its center"
+                    },
+                    "closed": "connect first and last points",
+                    "curved": "curved"
                 },
                 "error": {
                     "name": "Glyphs need a name so you can refer to them in projects.",
