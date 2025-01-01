@@ -41,6 +41,7 @@
         error: {
             name: string;
             description: string;
+            end: string;
         };
     };
 
@@ -95,11 +96,11 @@
     let position = $state({ x: 0, y: 0 });
 
     /** The current fill color and whether it's on, off, or inherited */
-    let currentFill: [number, number, number] = $state([1, 100, 0]);
+    let currentFill: [number, number, number] = $state([0.5, 0, 0]);
     let fill: boolean | undefined = $state(true);
 
     /** The current stroke color and whether it's on, off, or inherited  */
-    let currentStroke: [number, number, number] = $state([0, 100, 0]);
+    let currentStroke: [number, number, number] = $state([0.0, 0, 0]);
     let stroke: boolean | undefined = $state(true);
 
     /** The current stroke width */
@@ -115,7 +116,7 @@
     let closed = $state(true);
 
     /** The curved path state */
-    let curved = $state(true);
+    let curved = $state(false);
 
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = null;
@@ -127,13 +128,18 @@
     let pendingEllipse: GlyphEllipse | undefined = $state(undefined);
 
     /** The pendig path */
-    let pendingPath: GlyphPath;
+    let pendingPath: GlyphPath | undefined = $state(undefined);
 
     /** Make the rendered shape as a preview */
     let glyph = $derived({
         name,
         description,
         shapes,
+    });
+
+    // If the mode changes, end the pending path.
+    $effect(() => {
+        if (mode !== DrawingMode.Path) pendingPath = undefined;
     });
 
     function validName(name: string) {
@@ -176,9 +182,9 @@
                 // Remove pixels at the same position
                 .filter(
                     (s) =>
-                        s.type === 'pixel' &&
-                        (s.point[0] !== position.x ||
-                            s.point[1] !== position.y),
+                        s.type !== 'pixel' ||
+                        s.point[0] !== position.x ||
+                        s.point[1] !== position.y,
                 ),
             candidate,
         ];
@@ -211,11 +217,15 @@
         // Handle cursor movement
         if (event.key === 'ArrowUp') {
             position.y = Math.max(0, position.y - 1);
+            event.stopPropagation();
         } else if (event.key === 'ArrowDown') {
             position.y = Math.min(GlyphSize - 1, position.y + 1);
+            event.stopPropagation();
         } else if (event.key === 'ArrowLeft') {
             position.x = Math.max(0, position.x - 1);
+            event.stopPropagation();
         } else if (event.key === 'ArrowRight') {
+            event.stopPropagation();
             position.x = Math.min(GlyphSize - 1, position.x + 1);
         }
 
@@ -225,13 +235,25 @@
             (event.key === 'Enter' || event.key === ' ')
         ) {
             setPixel();
-            event.stopPropagation();
             return;
+        }
+        // If in path mode and key is escape, close the path
+        if (mode === DrawingMode.Path && event.key === 'Escape') {
+            if (pendingPath) {
+                pendingPath = undefined;
+                event.stopPropagation();
+                return;
+            }
         }
     }
 
-    function handlePointerDown(event: PointerEvent) {
+    function handlePointerDown(event: PointerEvent, move: boolean) {
         if (!(event.currentTarget instanceof HTMLElement)) return;
+
+        if (!move) {
+            setKeyboardFocus(event.currentTarget, 'Focus the canvas.');
+            event.preventDefault();
+        }
 
         // Get the current canvas position.
         const x = Math.floor(
@@ -313,11 +335,30 @@
                 );
             }
             return;
+        } else if (mode === DrawingMode.Path && !move) {
+            if (pendingPath === undefined) {
+                pendingPath = {
+                    type: 'path',
+                    points: [[position.x, position.y]],
+                    closed: closed,
+                    curved: curved,
+                    ...(fill !== false && { fill: getCurrentFill() }),
+                    ...(stroke !== false && { stroke: getCurrentStroke() }),
+                    ...(angle !== 0 && { angle }),
+                };
+                shapes = [...shapes, pendingPath];
+            } else {
+                const last = pendingPath.points[pendingPath.points.length - 1];
+                // Different point than the last? Record it.
+                if (last[0] !== position.x && last[1] !== position.y)
+                    pendingPath.points.push([position.x, position.y]);
+            }
+            return;
         }
     }
 
     function handlePointerUp(event: PointerEvent) {
-        // Done? Reset the pending rect to nothing.
+        // Done? Reset the pending shapes to nothing.
         if (pendingRect) {
             pendingRect = undefined;
             event.stopPropagation();
@@ -494,7 +535,7 @@
                 <label>
                     <Checkbox
                         id="closed-path"
-                        on={closed}
+                        bind:on={closed}
                         label={$locales.get(
                             (l) => l.ui.page.glyph.field.closed,
                         )}
@@ -505,7 +546,7 @@
                 <label>
                     <Checkbox
                         id="curved-path"
-                        on={curved}
+                        bind:on={curved}
                         label={$locales.get(
                             (l) => l.ui.page.glyph.field.curved,
                         )}
@@ -594,8 +635,8 @@
         tabindex={0}
         bind:this={canvasView}
         onkeydown={handleKey}
-        onpointerdown={handlePointerDown}
-        onpointermove={handlePointerDown}
+        onpointerdown={(event) => handlePointerDown(event, false)}
+        onpointermove={(event) => handlePointerDown(event, true)}
         onpointerup={handlePointerUp}
     >
         {@render grid()}
@@ -608,6 +649,13 @@
                 style:width={'calc(100% / ' + GlyphSize + ')'}
                 style:height={'calc(100% / ' + GlyphSize + ')'}
             ></div>
+        {/if}
+        {#if pendingPath}
+            <div class="note">
+                <Feedback
+                    >{$locales.get((l) => l.ui.page.glyph.error.end)}</Feedback
+                >
+            </div>
         {/if}
     </div>
     <style>
@@ -652,6 +700,13 @@
         .path,
         .pixel {
             cursor: crosshair;
+        }
+
+        .note {
+            position: absolute;
+            top: var(--wordplay-spacing);
+            left: var(--wordplay-spacing);
+            right: var(--wordplay-spacing);
         }
     </style>
 {/snippet}

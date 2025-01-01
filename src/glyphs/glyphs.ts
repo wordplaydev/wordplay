@@ -195,7 +195,7 @@ function pathToSVG(path: GlyphPath): string {
         'stroke-width': path.stroke?.width,
         'stroke-linecap': 'round',
         transform: path.angle
-            ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x[0], 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x[1], 0) / path.points.length}`
+            ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x[0], 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x[1], 0) / path.points.length})`
             : undefined,
     });
 }
