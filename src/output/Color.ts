@@ -103,6 +103,8 @@ export function toColor(value: Value | undefined) {
 
 /** l: 0-1, c: 0-infinity, h=0-360 */
 export function LCHtoRGB(l: number, c: number, h: number) {
-    const color = new ColorJS(ColorJS.spaces.lch, [l * 100, c, h], 1);
-    return color.to('srgb').toString();
+    return `lch(${l * 100}% ${c} ${h}deg)`;
+    // The previous way we converted to rgb prior to LCH support.
+    // const color = new ColorJS(ColorJS.spaces.lch, [l * 100, c, h], 1);
+    // return color.to('srgb').toString();
 }
