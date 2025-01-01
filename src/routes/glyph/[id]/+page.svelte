@@ -57,6 +57,8 @@
         Ellipse,
         Path,
     }
+
+    type ColorSetting = 'none' | 'inherit' | 'set';
 </script>
 
 <script lang="ts">
@@ -104,11 +106,11 @@
 
     /** The current fill color and whether it's on, off, or inherited */
     let currentFill: [number, number, number] = $state([0.5, 0, 0]);
-    let fill: boolean | undefined = $state(true);
+    let fill: ColorSetting = $state('set');
 
     /** The current stroke color and whether it's on, off, or inherited  */
     let currentStroke: [number, number, number] = $state([0.0, 0, 0]);
-    let stroke: boolean | undefined = $state(true);
+    let stroke: ColorSetting = $state('set');
 
     /** The current stroke width */
     let strokeWidth = $state(1);
@@ -198,24 +200,29 @@
     }
 
     function getCurrentFill() {
-        return fill === undefined
+        return fill === 'inherit'
             ? null
-            : {
-                  l: currentFill[0],
-                  c: currentFill[1],
-                  h: currentFill[2],
-              };
+            : fill === 'none'
+              ? undefined
+              : {
+                    l: currentFill[0],
+                    c: currentFill[1],
+                    h: currentFill[2],
+                };
     }
 
     function getCurrentStroke() {
-        return stroke === undefined
+        return stroke === 'none'
             ? undefined
             : {
-                  color: {
-                      l: currentStroke[0],
-                      c: currentStroke[1],
-                      h: currentStroke[2],
-                  },
+                  color:
+                      stroke === 'inherit'
+                          ? null
+                          : {
+                                l: currentStroke[0],
+                                c: currentStroke[1],
+                                h: currentStroke[2],
+                            },
                   width: strokeWidth,
               };
     }
@@ -319,8 +326,8 @@
                         width: 1,
                         height: 1,
                     },
-                    ...(fill !== false && { fill: getCurrentFill() }),
-                    ...(stroke !== false && { stroke: getCurrentStroke() }),
+                    ...(fill !== undefined && { fill: getCurrentFill() }),
+                    ...(stroke !== undefined && { stroke: getCurrentStroke() }),
                     ...(corner !== 1 && { corner }),
                     ...(angle !== 0 && { angle }),
                 };
@@ -347,8 +354,8 @@
                         width: 1,
                         height: 1,
                     },
-                    ...(fill !== false && { fill: getCurrentFill() }),
-                    ...(stroke !== false && { stroke: getCurrentStroke() }),
+                    ...(fill !== undefined && { fill: getCurrentFill() }),
+                    ...(stroke !== undefined && { stroke: getCurrentStroke() }),
                     ...(angle !== 0 && { angle }),
                 };
                 shapes = [...shapes, pendingEllipse];
@@ -371,8 +378,8 @@
                     points: [[position.x, position.y]],
                     closed: closed,
                     curved: curved,
-                    ...(fill !== false && { fill: getCurrentFill() }),
-                    ...(stroke !== false && { stroke: getCurrentStroke() }),
+                    ...(fill !== undefined && { fill: getCurrentFill() }),
+                    ...(stroke !== undefined && { stroke: getCurrentStroke() }),
                     ...(angle !== 0 && { angle }),
                 };
                 shapes = [...shapes, pendingPath];
@@ -406,10 +413,10 @@
 
 <!-- Fill and stroke choosers -->
 {#snippet colorChooser(
-    state: boolean | undefined,
+    state: ColorSetting,
     color: [number, number, number],
     accessor: (locale: LocaleText) => any,
-    setState: (state: boolean | undefined) => void,
+    setState: (state: ColorSetting) => void,
     setColor: (color: [number, number, number]) => void,
 )}
     <h2>{$locales.get(accessor).label}</h2>
@@ -420,9 +427,9 @@
             $locales.get((l) => l.ui.page.glyph.field.inherit),
             '🎨',
         ]}
-        choice={state === true ? 2 : state === false ? 0 : 1}
+        choice={state === 'none' ? 0 : state === 'inherit' ? 1 : 2}
         select={(choice: number) =>
-            setState(choice === 2 ? true : choice === 0 ? false : undefined)}
+            setState(choice === 0 ? 'none' : choice === 1 ? 'inherit' : 'set')}
         labeled={false}
     ></Mode>
     {#if state}
@@ -517,23 +524,49 @@
         ></Mode>
 
         <!-- Shape only items -->
-        {#if mode !== DrawingMode.Select}
+        {#if mode !== DrawingMode.Select || selection.length > 0}
             <!-- All shapes have fills -->
             {@render colorChooser(
                 fill,
                 currentFill,
                 (l) => l.ui.page.glyph.field.fill,
-                (choice) => (fill = choice),
-                (color) => (currentFill = color),
+                (choice) => {
+                    fill = choice;
+                    for (const shape of selection)
+                        shape.fill = getCurrentFill();
+                },
+                (color) => {
+                    currentFill = color;
+                    for (const shape of selection)
+                        shape.fill = getCurrentFill();
+                },
             )}
-            <!-- All shapes except pixels have fills -->
-            {#if mode !== DrawingMode.Pixel}
+            <!-- All shapes except pixels have strokes -->
+            {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
                 {@render colorChooser(
                     stroke,
                     currentStroke,
                     (l) => l.ui.page.glyph.field.stroke,
-                    (choice) => (stroke = choice),
-                    (color) => (currentStroke = color),
+                    (choice) => {
+                        stroke = choice;
+                        for (const shape of selection)
+                            if (shape.type !== 'pixel')
+                                shape.stroke = getCurrentStroke();
+                    },
+                    (color) => {
+                        currentStroke = color;
+                        for (const shape of selection)
+                            if (shape.type !== 'pixel')
+                                if (shape.stroke)
+                                    // Already a stroke? Just set the color.
+                                    shape.stroke.color = {
+                                        l: currentStroke[0],
+                                        c: currentStroke[1],
+                                        h: currentStroke[2],
+                                    };
+                                // Otherwise, set the whole stroke.
+                                else shape.stroke = getCurrentStroke();
+                    },
                 )}
                 <Slider
                     label={$locales.get(
@@ -548,13 +581,18 @@
                     precision={1}
                     unit={''}
                     bind:value={strokeWidth}
+                    change={(val) => {
+                        for (const shape of selection)
+                            if ('stroke' in shape && shape.stroke !== undefined)
+                                shape.stroke.width = val.toNumber();
+                    }}
                 ></Slider>
             {/if}
             {#if mode !== DrawingMode.Pixel}
                 <h2>{$locales.get((l) => l.ui.page.glyph.subheader.other)}</h2>
             {/if}
             <!-- Only rectangles have a radius -->
-            {#if mode === DrawingMode.Rect}
+            {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
                 <Slider
                     label={$locales.get(
                         (l) => l.ui.page.glyph.field.radius.label,
@@ -566,10 +604,16 @@
                     precision={1}
                     unit={''}
                     bind:value={corner}
+                    change={(val) => {
+                        // Update any selected rectangle's rounded corners.
+                        for (const shape of selection)
+                            if (shape.type === 'rect')
+                                shape.corner = val.toNumber();
+                    }}
                 ></Slider>
             {/if}
             <!-- All shapes but pixels have rotation -->
-            {#if mode !== DrawingMode.Pixel}
+            {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
                 <Slider
                     label={$locales.get(
                         (l) => l.ui.page.glyph.field.angle.label,
@@ -581,9 +625,15 @@
                     precision={0}
                     unit={''}
                     bind:value={angle}
+                    change={(val) => {
+                        // Update any selected shape's rotation
+                        for (const shape of selection)
+                            if (shape.type !== 'pixel')
+                                shape.angle = val.toNumber();
+                    }}
                 ></Slider>
             {/if}
-            {#if mode === DrawingMode.Path}
+            {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
                 <label>
                     <Checkbox
                         id="closed-path"
@@ -591,6 +641,12 @@
                         label={$locales.get(
                             (l) => l.ui.page.glyph.field.closed,
                         )}
+                        changed={(on) => {
+                            // Update any selected shape's closed state
+                            for (const shape of selection)
+                                if (shape.type === 'path' && on !== undefined)
+                                    shape.closed = on;
+                        }}
                     ></Checkbox>{$locales.get(
                         (l) => l.ui.page.glyph.field.closed,
                     )}
@@ -602,6 +658,12 @@
                         label={$locales.get(
                             (l) => l.ui.page.glyph.field.curved,
                         )}
+                        changed={(on) => {
+                            // Update any selected shape's curved state
+                            for (const shape of selection)
+                                if (shape.type === 'path' && on !== undefined)
+                                    shape.curved = on;
+                        }}
                     ></Checkbox>{$locales.get(
                         (l) => l.ui.page.glyph.field.curved,
                     )}</label
@@ -708,6 +770,7 @@
             left: 0;
             width: 100%;
             height: 100%;
+            color: var(--wordplay-foreground);
         }
 
         .select {
@@ -723,7 +786,6 @@
 
         svg .selected {
             stroke: var(--wordplay-highlight-color);
-            stroke-width: 1%;
         }
     </style>
 {/snippet}

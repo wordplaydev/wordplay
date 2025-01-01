@@ -212,7 +212,7 @@ function pathToSVG(path: GlyphPath, selected: boolean = false): string {
                 ? 'currentColor'
                 : path.fill !== undefined
                   ? LCHtoRGB(path.fill.l, path.fill.c, path.fill.h)
-                  : undefined,
+                  : 'none',
         stroke: path.stroke ? colorToSVG(path.stroke.color) : undefined,
         'stroke-width': path.stroke?.width,
         'stroke-linecap': 'round',
