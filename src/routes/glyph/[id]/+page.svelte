@@ -241,6 +241,10 @@
         } else if (event.key === 'ArrowRight') {
             event.stopPropagation();
             position.x = Math.min(GlyphSize - 1, position.x + 1);
+        } else if (event.key === 'Delete' || event.key === 'Backspace') {
+            shapes = shapes.filter((s) => !selection.includes(s));
+            selection = [];
+            return;
         }
 
         // If in pixel mode, drop a pixel.
