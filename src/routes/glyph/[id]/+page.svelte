@@ -81,6 +81,7 @@
         glyphToSVG,
         moveShape,
         pixelsAreEqual,
+        type Glyph,
         type GlyphEllipse,
         type GlyphPath,
         type GlyphPixel,
@@ -95,11 +96,9 @@
     import Slider from '@components/widgets/Slider.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import path from 'path';
-    import { tick } from 'svelte';
-    import { parseName } from '@parser/parseBind';
     import { toTokens } from '@parser/toTokens';
     import Sym from '@nodes/Sym';
+    import { v4 as uuidv4 } from 'uuid';
 
     /** The current name of the shape */
     let name = $state('');
@@ -115,6 +114,9 @@
 
     /** The current selection of shapes, just pointers to the object, since we will mutate them. */
     let selection: GlyphShape[] = $state([]);
+
+    /** The current copied shapes */
+    let copy: GlyphShape[] | undefined = $state(undefined);
 
     /** The current position for drawing, within the bounds of the glyph grid */
     let drawingCursorPosition = $state({ x: 0, y: 0 });
@@ -197,6 +199,7 @@
     /** Set the pixel at the current position and fill. */
     function setPixel() {
         const candidate: GlyphPixel = {
+            id: uuidv4(),
             type: 'pixel',
             center: [drawingCursorPosition.x, drawingCursorPosition.y],
             fill: currentFillSetting === undefined ? null : { ...currentFill },
@@ -243,6 +246,7 @@
     function getCurrentRect(): GlyphRectangle {
         return {
             ...{
+                id: uuidv4(),
                 type: 'rect',
                 center: [drawingCursorPosition.x, drawingCursorPosition.y],
                 width: 1,
@@ -276,6 +280,7 @@
 
     function getCurrentEllipse(): GlyphEllipse {
         return {
+            id: uuidv4(),
             ...{
                 type: 'ellipse',
                 center: [drawingCursorPosition.x, drawingCursorPosition.y],
@@ -294,6 +299,7 @@
 
     function getCurrentPath(): GlyphPath {
         return {
+            id: uuidv4(),
             type: 'path',
             points: [[drawingCursorPosition.x, drawingCursorPosition.y]],
             closed: currentClosed,
@@ -381,6 +387,40 @@
             shapes = shapes.filter((s) => !selection.includes(s));
             selection = [];
             event.stopPropagation();
+            return;
+        }
+
+        // Handle copy
+        if (event.key === 'c' && event.metaKey) {
+            copy = selection.map(
+                (s) => JSON.parse(JSON.stringify(s)) as GlyphShape,
+            );
+            event.stopPropagation();
+            event.preventDefault();
+            return;
+        }
+
+        // Handle paste
+        if (event.key === 'v' && event.metaKey) {
+            if (copy) {
+                const copies = copy.map(
+                    (s) => JSON.parse(JSON.stringify(s)) as GlyphShape,
+                );
+                // Translate the copies down a bit to make them visible.
+                for (const shape of copies) {
+                    moveShape(shape, 1, 1, 'translate');
+                    // Give the shape a new ID.
+                    shape.id = uuidv4();
+                }
+                // Update the copy to the things just copied
+                copy = copies;
+                // Add the copies t the end of the shape.
+                shapes = [...shapes, ...copies];
+                // Select all the copies so they can be moved.
+                selection = [...copies];
+            }
+            event.stopPropagation();
+            event.preventDefault();
             return;
         }
 
