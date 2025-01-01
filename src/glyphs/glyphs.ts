@@ -49,7 +49,7 @@ const RectangleSchema = z
     // The width and height of the rectange.
     .merge(SizeSchema);
 
-type Rectangle = z.infer<typeof RectangleSchema>;
+export type Rectangle = z.infer<typeof RectangleSchema>;
 
 const PixelSchema = z.object({
     type: z.literal('pixel'),
@@ -128,9 +128,10 @@ function rectToSVG(rect: Rectangle): string {
         stroke: rect.stroke ? colorToSVG(rect.stroke.color) : undefined,
         'stroke-width': rect.stroke?.width,
         'stroke-linecap': 'round',
-        transform: rect.angle
-            ? `rotate(${rect.angle}, ${rect.center[0]}, ${rect.center[1]})`
-            : undefined,
+        transform:
+            'angle' in rect
+                ? `rotate(${rect.angle}, ${rect.center[0]}, ${rect.center[1]})`
+                : undefined,
     });
 }
 

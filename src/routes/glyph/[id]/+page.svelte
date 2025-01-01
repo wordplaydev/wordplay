@@ -65,6 +65,7 @@
         glyphToSVG,
         pixelsAreEqual,
         type Pixel,
+        type Rectangle,
         type Shape,
     } from '../../../glyphs/glyphs';
     import Page from '@components/app/Page.svelte';
@@ -100,10 +101,10 @@
     let stroke: boolean | undefined = $state(true);
 
     /** The current stroke width */
-    let strokeWidth = $state(1);
+    let strokeWidth = $state(0.25);
 
     /** The current border radius for rectangles */
-    let radius = $state(0);
+    let corner = $state(0);
 
     /** The current rotation */
     let angle = $state(0);
@@ -116,6 +117,9 @@
 
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = null;
+
+    /** The pending rectangle position */
+    let pendingRect: Rectangle | undefined = $state(undefined);
 
     /** Make the rendered shape as a preview */
     let glyph = $derived({
@@ -172,6 +176,29 @@
         ];
     }
 
+    function getCurrentFill() {
+        return fill === undefined
+            ? null
+            : {
+                  l: currentFill[0],
+                  c: currentFill[1],
+                  h: currentFill[2],
+              };
+    }
+
+    function getCurrentStroke() {
+        return stroke === undefined
+            ? undefined
+            : {
+                  color: {
+                      l: currentStroke[0],
+                      c: currentStroke[1],
+                      h: currentStroke[2],
+                  },
+                  width: strokeWidth,
+              };
+    }
+
     function handleKey(event: KeyboardEvent) {
         // Handle cursor movement
         if (event.key === 'ArrowUp') {
@@ -195,16 +222,21 @@
         }
     }
 
-    function handlePointer(event: PointerEvent) {
+    function handlePointerDown(event: PointerEvent) {
         if (!(event.currentTarget instanceof HTMLElement)) return;
+
+        // Get the current canvas position.
+        const x = Math.floor(
+            (event.offsetX / event.currentTarget.clientWidth) * GlyphSize,
+        );
+        const y = Math.floor(
+            (event.offsetY / event.currentTarget.clientHeight) * GlyphSize,
+        );
+
         // Move the position to the pointer
         position = {
-            x: Math.floor(
-                (event.offsetX / event.currentTarget.clientWidth) * GlyphSize,
-            ),
-            y: Math.floor(
-                (event.offsetY / event.currentTarget.clientHeight) * GlyphSize,
-            ),
+            x,
+            y,
         };
         event.stopPropagation();
 
@@ -215,6 +247,45 @@
         if (mode === DrawingMode.Pixel) {
             setPixel();
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
+            return;
+        }
+        // In rectangle mode? Start or update a rectangle.
+        if (mode === DrawingMode.Rect) {
+            // If there's no pending rect, start one at the current position.
+            if (pendingRect === undefined) {
+                pendingRect = {
+                    ...{
+                        type: 'rect',
+                        center: [position.x, position.y],
+                        width: 1,
+                        height: 1,
+                    },
+                    ...(fill !== false && { fill: getCurrentFill() }),
+                    ...(stroke !== false && { stroke: getCurrentStroke() }),
+                    ...(corner !== 1 && { corner }),
+                    ...(angle !== 0 && { angle }),
+                };
+                console.log(pendingRect);
+                shapes = [...shapes, pendingRect];
+            } else {
+                // Update the pending rect's dimensions to the current pointer position.
+                pendingRect.width = Math.max(
+                    1,
+                    Math.abs(position.x - pendingRect.center[0]) * 2,
+                );
+                pendingRect.height = Math.max(
+                    1,
+                    Math.abs(position.y - pendingRect.center[1]) * 2,
+                );
+            }
+        }
+    }
+
+    function handlePointerUp(event: PointerEvent) {
+        // Done? Reset the pending rect to nothing.
+        if (pendingRect) {
+            pendingRect = undefined;
+            event.stopPropagation();
             return;
         }
     }
@@ -339,8 +410,8 @@
                     tip={$locales.get(
                         (l) => l.ui.page.glyph.field.strokeWidth.tip,
                     )}
-                    min={1}
-                    max={5}
+                    min={0}
+                    max={1}
                     increment={0.1}
                     precision={1}
                     unit={''}
@@ -362,7 +433,7 @@
                     increment={0.1}
                     precision={1}
                     unit={''}
-                    bind:value={radius}
+                    bind:value={corner}
                 ></Slider>
             {/if}
             <!-- All shapes but pixels have rotation -->
@@ -484,8 +555,9 @@
         tabindex={0}
         bind:this={canvasView}
         onkeydown={handleKey}
-        onpointerdown={handlePointer}
-        onpointermove={handlePointer}
+        onpointerdown={handlePointerDown}
+        onpointermove={handlePointerDown}
+        onpointerup={handlePointerUp}
     >
         {@render grid()}
         {@html glyphToSVG(glyph, '100%')}
