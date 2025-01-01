@@ -314,58 +314,73 @@
             ]);
     }
 
+    function handleArrow(dx: -1 | 0 | 1, dy: -1 | 0 | 1) {
+        // Selection? Move the selection in the preferred direction.
+        if (selection.length > 0) {
+            for (const shape of selection)
+                moveShape(shape, dx, dy, 'translate');
+        }
+        // In all other moves, move the drawing cursor.
+        else {
+            drawingCursorPosition.y = Math.max(0, drawingCursorPosition.y + dx);
+            drawingCursorPosition.y = Math.max(0, drawingCursorPosition.y + dy);
+        }
+    }
+
     function handleKey(event: KeyboardEvent) {
         // Handle cursor movement
         if (event.key.startsWith('Arrow')) {
-            if (event.key === 'ArrowUp') {
-                if (selection.length > 0) {
-                    for (const shape of shapes)
-                        moveShape(shape, 0, -1, 'translate');
-                } else
-                    drawingCursorPosition.y = Math.max(
-                        0,
-                        drawingCursorPosition.y - 1,
-                    );
-                event.stopPropagation();
-            } else if (event.key === 'ArrowDown') {
-                if (selection.length > 0) {
-                    for (const shape of shapes)
-                        moveShape(shape, 0, 1, 'translate');
-                } else
-                    drawingCursorPosition.y = Math.min(
-                        GlyphSize - 1,
-                        drawingCursorPosition.y + 1,
-                    );
-                event.stopPropagation();
-            } else if (event.key === 'ArrowLeft') {
-                if (selection.length > 0) {
-                    for (const shape of shapes)
-                        moveShape(shape, -1, 0, 'translate');
-                } else
-                    drawingCursorPosition.x = Math.max(
-                        0,
-                        drawingCursorPosition.x - 1,
-                    );
-                event.stopPropagation();
-            } else if (event.key === 'ArrowRight') {
-                if (selection.length > 0) {
-                    for (const shape of shapes)
-                        moveShape(shape, 1, 0, 'translate');
-                } else
-                    drawingCursorPosition.x = Math.min(
-                        GlyphSize - 1,
-                        drawingCursorPosition.x + 1,
-                    );
-                event.stopPropagation();
+            // Handle keyboard selection
+            if (event.shiftKey && shapes.length > 0) {
+                // No selection? Select the first shape in the list.
+                if (selection.length === 0) {
+                    selection = [shapes[0]];
+                }
+                // Otherwise, move the selection based on the arrow key.
+                else {
+                    if (event.key === 'ArrowUp' || event.key === 'ArrowLeft') {
+                        const index = shapes.indexOf(selection[0]);
+                        if (index >= 0)
+                            selection = [
+                                shapes[
+                                    index === 0 ? shapes.length - 1 : index - 1
+                                ],
+                            ];
+                    } else if (
+                        event.key === 'ArrowDown' ||
+                        event.key === 'ArrowRight'
+                    ) {
+                        const index = shapes.indexOf(selection[0]);
+                        selection = [
+                            shapes[index === shapes.length - 1 ? 0 : index + 1],
+                        ];
+                    }
+                }
+            } else {
+                if (event.key === 'ArrowUp') handleArrow(0, -1);
+                else if (event.key === 'ArrowDown') handleArrow(0, 1);
+                else if (event.key === 'ArrowLeft') handleArrow(-1, 0);
+                else if (event.key === 'ArrowRight') handleArrow(1, 0);
+                // Pending shape? Update it based on the new position.
+                if (pendingRectOrEllipse) updatePendingRectOrEllipse();
             }
-            // Pending shape? Update it based on the new position.
-            if (pendingRectOrEllipse) updatePendingRectOrEllipse();
+            // Swallow the arrow event
+            event.stopPropagation();
         }
 
+        // Handle deletion.
         if (event.key === 'Delete' || event.key === 'Backspace') {
             shapes = shapes.filter((s) => !selection.includes(s));
             selection = [];
             event.stopPropagation();
+            return;
+        }
+
+        // Handle select all
+        if (event.key === 'a' && event.metaKey) {
+            selection = [...shapes];
+            event.stopPropagation();
+            event.preventDefault();
             return;
         }
 
