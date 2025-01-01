@@ -146,6 +146,7 @@
     <title>{$locales.get((l) => l.ui.page.glyph.header)} — {name}</title>
 </svelte:head>
 
+<!-- Fill and stroke choosers -->
 {#snippet colorChooser(
     state: boolean | undefined,
     color: [number, number, number],
@@ -178,6 +179,263 @@
     {/if}
 {/snippet}
 
+<!-- Grid lines -->
+{#snippet grid()}
+    <div class="grid">
+        <!-- Render gridlines below everything -->
+        {#each { length: GlyphSize }, x}
+            <div class="line yline" style="left: {100 * (x / GlyphSize)}%"
+            ></div>
+        {/each}
+        {#each { length: GlyphSize }, y}
+            <div class="line xline" style="top: {100 * (y / GlyphSize)}%"></div>
+        {/each}
+    </div>
+
+    <style>
+        .grid {
+            position: relative;
+            width: 100%;
+            height: 100%;
+
+            .line {
+                position: absolute;
+                background: var(--wordplay-border-color);
+            }
+
+            .yline {
+                width: var(--wordplay-border-width);
+                top: 0;
+                bottom: 0;
+            }
+
+            .xline {
+                position: absolute;
+                height: var(--wordplay-border-width);
+                left: 0;
+                right: 0;
+                background: var(--wordplay-border-color);
+            }
+        }
+    </style>
+{/snippet}
+
+<!-- The palette -->
+{#snippet palette()}
+    <div class="palette">
+        <h2>{$locales.get((l) => l.ui.page.glyph.subheader.preview)}</h2>
+        <div class="preview">
+            {@html glyphToSVG(shape, 64)}
+        </div>
+        <h2>{$locales.get((l) => l.ui.page.glyph.field.mode).label}</h2>
+        <Mode
+            descriptions={$locales.get((l) => l.ui.page.glyph.field.mode)}
+            modes={['👆', '■', '▬', '●', '◡']}
+            choice={mode}
+            select={(choice: number) => (mode = choice as DrawingMode)}
+            labeled={false}
+        ></Mode>
+
+        <!-- Shape only items -->
+        {#if mode !== DrawingMode.Select}
+            <!-- All shapes have fills -->
+            {@render colorChooser(
+                fill,
+                currentFill,
+                (l) => l.ui.page.glyph.field.fill,
+                (choice) => (fill = choice),
+                (color) => (currentFill = color),
+            )}
+            <!-- All shapes except pixels have fills -->
+            {#if mode !== DrawingMode.Pixel}
+                {@render colorChooser(
+                    stroke,
+                    currentStroke,
+                    (l) => l.ui.page.glyph.field.stroke,
+                    (choice) => (stroke = choice),
+                    (color) => (currentStroke = color),
+                )}
+                <Slider
+                    label={$locales.get(
+                        (l) => l.ui.page.glyph.field.strokeWidth.label,
+                    )}
+                    tip={$locales.get(
+                        (l) => l.ui.page.glyph.field.strokeWidth.tip,
+                    )}
+                    min={1}
+                    max={5}
+                    increment={0.1}
+                    precision={1}
+                    unit={''}
+                    bind:value={strokeWidth}
+                ></Slider>
+            {/if}
+            {#if mode !== DrawingMode.Pixel}
+                <h2>{$locales.get((l) => l.ui.page.glyph.subheader.other)}</h2>
+            {/if}
+            <!-- Only rectangles have a radius -->
+            {#if mode === DrawingMode.Rect}
+                <Slider
+                    label={$locales.get(
+                        (l) => l.ui.page.glyph.field.radius.label,
+                    )}
+                    tip={$locales.get((l) => l.ui.page.glyph.field.radius.tip)}
+                    min={0}
+                    max={5}
+                    increment={0.1}
+                    precision={1}
+                    unit={''}
+                    bind:value={radius}
+                ></Slider>
+            {/if}
+            <!-- All shapes but pixels have rotation -->
+            {#if mode !== DrawingMode.Pixel}
+                <Slider
+                    label={$locales.get(
+                        (l) => l.ui.page.glyph.field.angle.label,
+                    )}
+                    tip={$locales.get((l) => l.ui.page.glyph.field.angle.tip)}
+                    min={0}
+                    max={359}
+                    increment={1}
+                    precision={0}
+                    unit={''}
+                    bind:value={angle}
+                ></Slider>
+            {/if}
+            {#if mode === DrawingMode.Path}
+                <label>
+                    <Checkbox
+                        id="closed-path"
+                        on={closed}
+                        label={$locales.get(
+                            (l) => l.ui.page.glyph.field.closed,
+                        )}
+                    ></Checkbox>{$locales.get(
+                        (l) => l.ui.page.glyph.field.closed,
+                    )}
+                </label>
+                <label>
+                    <Checkbox
+                        id="curved-path"
+                        on={curved}
+                        label={$locales.get(
+                            (l) => l.ui.page.glyph.field.curved,
+                        )}
+                    ></Checkbox>{$locales.get(
+                        (l) => l.ui.page.glyph.field.curved,
+                    )}</label
+                >
+            {/if}
+        {/if}
+    </div>
+
+    <style>
+        .palette {
+            min-width: 15em;
+            display: flex;
+            flex-direction: column;
+            gap: calc(2 * var(--wordplay-spacing));
+        }
+
+        h2 {
+            margin: 0;
+        }
+
+        .preview {
+            width: 64px;
+            height: 64px;
+            border: var(--wordplay-border-color) solid
+                var(--wordplay-border-width);
+        }
+
+        label {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+        }
+    </style>
+{/snippet}
+
+{#snippet meta()}
+    <div class="meta">
+        <TextField
+            bind:text={name}
+            placeholder={$locales.get(
+                (l) => l.ui.page.glyph.field.name.placeholder,
+            )}
+            description={$locales.get(
+                (l) => l.ui.page.glyph.field.name.description,
+            )}
+            done={() => {}}
+            validator={validName}
+        ></TextField>
+        <TextBox
+            inline
+            bind:text={description}
+            placeholder={$locales.get(
+                (l) => l.ui.page.glyph.field.description.placeholder,
+            )}
+            description={$locales.get(
+                (l) => l.ui.page.glyph.field.description.description,
+            )}
+            done={() => {}}
+            validator={validDescription}
+        ></TextBox>
+        {#if error}
+            <Feedback inline>{error}</Feedback>
+        {/if}
+    </div>
+    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.glyph.instructions)}
+    ></MarkupHtmlView>
+
+    <style>
+        .meta {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            gap: var(--wordplay-spacing);
+            row-gap: var(--wordplay-spacing);
+            align-items: baseline;
+        }
+    </style>
+{/snippet}
+
+{#snippet canvas()}
+    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+    <div
+        role="application"
+        aria-describedby="instructions"
+        class={['canvas', DrawingMode[mode].toLowerCase()]}
+        tabindex={0}
+        onkeydown={handleKey}
+    >
+        {@render grid()}
+    </div>
+
+    <style>
+        .select {
+            cursor: default;
+        }
+
+        .rect,
+        .ellipse,
+        .path,
+        .pixel {
+            cursor: crosshair;
+        }
+
+        .canvas {
+            aspect-ratio: 1/1;
+            border: var(--wordplay-border-color) solid
+                var(--wordplay-border-width);
+            /* Set a current color to make strokes and fills using current color visible */
+            color: var(--wordplay-background);
+        }
+    </style>
+{/snippet}
+
 <Page>
     <section>
         <div class="header">
@@ -186,183 +444,10 @@
         </div>
         <div class="editor">
             <div class="content">
-                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-                <div
-                    role="application"
-                    aria-describedby="instructions"
-                    class={['canvas', DrawingMode[mode].toLowerCase()]}
-                    tabindex={0}
-                    onkeydown={handleKey}
-                >
-                    <div class="grid">
-                        <!-- Render gridlines below everything -->
-                        {#each { length: GlyphSize }, x}
-                            <div
-                                class="line yline"
-                                style="left: {100 * (x / GlyphSize)}%"
-                            ></div>
-                        {/each}
-                        {#each { length: GlyphSize }, y}
-                            <div
-                                class="line xline"
-                                style="top: {100 * (y / GlyphSize)}%"
-                            ></div>
-                        {/each}
-                    </div>
-                </div>
-                <div class="labels">
-                    <TextField
-                        bind:text={name}
-                        placeholder={$locales.get(
-                            (l) => l.ui.page.glyph.field.name.placeholder,
-                        )}
-                        description={$locales.get(
-                            (l) => l.ui.page.glyph.field.name.description,
-                        )}
-                        done={() => {}}
-                        validator={validName}
-                    ></TextField>
-                    <TextBox
-                        inline
-                        bind:text={description}
-                        placeholder={$locales.get(
-                            (l) =>
-                                l.ui.page.glyph.field.description.placeholder,
-                        )}
-                        description={$locales.get(
-                            (l) =>
-                                l.ui.page.glyph.field.description.description,
-                        )}
-                        done={() => {}}
-                        validator={validDescription}
-                    ></TextBox>
-                    {#if error}
-                        <Feedback inline>{error}</Feedback>
-                    {/if}
-                </div>
-                <MarkupHtmlView
-                    markup={$locales.get((l) => l.ui.page.glyph.instructions)}
-                ></MarkupHtmlView>
+                {@render canvas()}
+                {@render meta()}
             </div>
-            <div class="palette">
-                <h2>{$locales.get((l) => l.ui.page.glyph.subheader.preview)}</h2
-                >
-                <div class="preview">
-                    {@html glyphToSVG(shape, 64)}
-                </div>
-                <h2>{$locales.get((l) => l.ui.page.glyph.field.mode).label}</h2>
-                <Mode
-                    descriptions={$locales.get(
-                        (l) => l.ui.page.glyph.field.mode,
-                    )}
-                    modes={['👆', '■', '▬', '●', '◡']}
-                    choice={mode}
-                    select={(choice: number) => (mode = choice as DrawingMode)}
-                    labeled={false}
-                ></Mode>
-
-                <!-- Shape only items -->
-                {#if mode !== DrawingMode.Select}
-                    <!-- All shapes have fills -->
-                    {@render colorChooser(
-                        fill,
-                        currentFill,
-                        (l) => l.ui.page.glyph.field.fill,
-                        (choice) => (fill = choice),
-                        (color) => (currentFill = color),
-                    )}
-                    <!-- All shapes except pixels have fills -->
-                    {#if mode !== DrawingMode.Pixel}
-                        {@render colorChooser(
-                            stroke,
-                            currentStroke,
-                            (l) => l.ui.page.glyph.field.stroke,
-                            (choice) => (stroke = choice),
-                            (color) => (currentStroke = color),
-                        )}
-                        <Slider
-                            label={$locales.get(
-                                (l) => l.ui.page.glyph.field.strokeWidth.label,
-                            )}
-                            tip={$locales.get(
-                                (l) => l.ui.page.glyph.field.strokeWidth.tip,
-                            )}
-                            min={1}
-                            max={5}
-                            increment={0.1}
-                            precision={1}
-                            unit={''}
-                            bind:value={strokeWidth}
-                        ></Slider>
-                    {/if}
-                    {#if mode !== DrawingMode.Pixel}
-                        <h2
-                            >{$locales.get(
-                                (l) => l.ui.page.glyph.subheader.other,
-                            )}</h2
-                        >
-                    {/if}
-                    <!-- Only rectangles have a radius -->
-                    {#if mode === DrawingMode.Rect}
-                        <Slider
-                            label={$locales.get(
-                                (l) => l.ui.page.glyph.field.radius.label,
-                            )}
-                            tip={$locales.get(
-                                (l) => l.ui.page.glyph.field.radius.tip,
-                            )}
-                            min={0}
-                            max={5}
-                            increment={0.1}
-                            precision={1}
-                            unit={''}
-                            bind:value={radius}
-                        ></Slider>
-                    {/if}
-                    <!-- All shapes but pixels have rotation -->
-                    {#if mode !== DrawingMode.Pixel}
-                        <Slider
-                            label={$locales.get(
-                                (l) => l.ui.page.glyph.field.angle.label,
-                            )}
-                            tip={$locales.get(
-                                (l) => l.ui.page.glyph.field.angle.tip,
-                            )}
-                            min={0}
-                            max={359}
-                            increment={1}
-                            precision={0}
-                            unit={''}
-                            bind:value={angle}
-                        ></Slider>
-                    {/if}
-                    {#if mode === DrawingMode.Path}
-                        <label>
-                            <Checkbox
-                                id="closed-path"
-                                on={closed}
-                                label={$locales.get(
-                                    (l) => l.ui.page.glyph.field.closed,
-                                )}
-                            ></Checkbox>{$locales.get(
-                                (l) => l.ui.page.glyph.field.closed,
-                            )}
-                        </label>
-                        <label>
-                            <Checkbox
-                                id="curved-path"
-                                on={curved}
-                                label={$locales.get(
-                                    (l) => l.ui.page.glyph.field.curved,
-                                )}
-                            ></Checkbox>{$locales.get(
-                                (l) => l.ui.page.glyph.field.curved,
-                            )}</label
-                        >
-                    {/if}
-                {/if}
-            </div>
+            {@render palette()}
         </div>
     </section>
 </Page>
@@ -391,88 +476,13 @@
     .editor {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
+        gap: calc(2 * var(--wordplay-spacing));
         align-items: start;
-    }
-
-    .select {
-        cursor: default;
-    }
-
-    .rect,
-    .ellipse,
-    .path,
-    .pixel {
-        cursor: crosshair;
-    }
-
-    .labels {
-        display: flex;
-        flex-direction: row;
-        flex-wrap: wrap;
-        gap: var(--wordplay-spacing);
-        row-gap: var(--wordplay-spacing);
-        align-items: baseline;
     }
 
     .content {
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
-    }
-
-    .canvas {
-        aspect-ratio: 1/1;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        /* Set a current color to make strokes and fills using current color visible */
-        color: var(--wordplay-background);
-    }
-
-    .palette {
-        min-width: 15em;
-        display: flex;
-        flex-direction: column;
-        gap: calc(2 * var(--wordplay-spacing));
-    }
-
-    h2 {
-        margin: 0;
-    }
-
-    .preview {
-        width: 64px;
-        height: 64px;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-    }
-
-    .grid {
-        position: relative;
-        width: 100%;
-        height: 100%;
-
-        .line {
-            position: absolute;
-            background: var(--wordplay-border-color);
-        }
-
-        .yline {
-            width: var(--wordplay-border-width);
-            top: 0;
-            bottom: 0;
-        }
-
-        .xline {
-            position: absolute;
-            height: var(--wordplay-border-width);
-            left: 0;
-            right: 0;
-            background: var(--wordplay-border-color);
-        }
-    }
-
-    label {
-        display: flex;
-        flex-direction: row;
-        align-items: baseline;
     }
 </style>

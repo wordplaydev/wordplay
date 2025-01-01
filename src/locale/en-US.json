@@ -4862,11 +4862,11 @@
                         ]
                     },
                     "fill": {
-                        "label": "fill",
+                        "label": "fill color",
                         "modes": ["none", "inerit", "choose"]
                     },
                     "stroke": {
-                        "label": "stroke",
+                        "label": "stroke color",
                         "modes": ["none", "inerit", "choose"]
                     },
                     "none": "none",
