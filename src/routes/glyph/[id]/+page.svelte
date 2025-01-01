@@ -38,10 +38,15 @@
             /** Curved path label */
             curved: string;
         };
-        error: {
+        feedback: {
+            /** When the name isn't a valid Wordplay name */
             name: string;
+            /** When the description is empty */
             description: string;
+            /** When completing a path, instructions on how to end it. */
             end: string;
+            /** When selecting, instructions on how to select multiple. */
+            select: string;
         };
     };
 
@@ -86,11 +91,14 @@
     /** The current description of the shape */
     let description = $state('');
 
-    /** The current shapes of the shape */
+    /** The current list of shapes of the glyph */
     let shapes: GlyphShape[] = $state([]);
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(0);
+
+    /** The current selection of shapes, just pointers to the object, since we will mutate them. */
+    let selection: GlyphShape[] = $state([]);
 
     /** The current position for drawing, within the bounds of the glyph grid */
     let position = $state({ x: 0, y: 0 });
@@ -151,9 +159,9 @@
 
     let error = $derived(
         !validName(name)
-            ? $locales.get((l) => l.ui.page.glyph.error.name)
+            ? $locales.get((l) => l.ui.page.glyph.feedback.name)
             : !validDescription(description)
-              ? $locales.get((l) => l.ui.page.glyph.error.description)
+              ? $locales.get((l) => l.ui.page.glyph.feedback.description)
               : undefined,
     );
 
@@ -250,9 +258,31 @@
     function handlePointerDown(event: PointerEvent, move: boolean) {
         if (!(event.currentTarget instanceof HTMLElement)) return;
 
-        if (!move) {
-            setKeyboardFocus(event.currentTarget, 'Focus the canvas.');
+        if (!move && canvasView) {
+            setKeyboardFocus(canvasView, 'Focus the canvas.');
             event.preventDefault();
+        }
+
+        if (!move) {
+            const candidate = document.elementFromPoint(
+                event.clientX,
+                event.clientY,
+            );
+            let found = false;
+            if (candidate instanceof SVGElement) {
+                const svg = candidate.parentElement;
+                if (svg !== null && svg.parentElement === canvasView) {
+                    const index = Array.from(svg.childNodes).indexOf(candidate);
+                    console.log(index);
+                    if (index >= 0) {
+                        if (event.shiftKey)
+                            selection = [...selection, shapes[index]];
+                        else selection = [shapes[index]];
+                        found = true;
+                    }
+                }
+            }
+            if (!found) selection = [];
         }
 
         // Get the current canvas position.
@@ -640,7 +670,7 @@
         onpointerup={handlePointerUp}
     >
         {@render grid()}
-        {@html glyphToSVG(glyph, '100%')}
+        {@html glyphToSVG(glyph, '100%', selection)}
         {#if mode !== DrawingMode.Select}
             <div
                 class="position"
@@ -652,8 +682,19 @@
         {/if}
         {#if pendingPath}
             <div class="note">
-                <Feedback
-                    >{$locales.get((l) => l.ui.page.glyph.error.end)}</Feedback
+                <Feedback inline
+                    >{$locales.get(
+                        (l) => l.ui.page.glyph.feedback.end,
+                    )}</Feedback
+                >
+            </div>
+        {/if}
+        {#if selection.length >= 1}
+            <div class="note">
+                <Feedback inline
+                    >{$locales.get(
+                        (l) => l.ui.page.glyph.feedback.select,
+                    )}</Feedback
                 >
             </div>
         {/if}
@@ -704,9 +745,14 @@
 
         .note {
             position: absolute;
-            top: var(--wordplay-spacing);
+            top: 0;
             left: var(--wordplay-spacing);
             right: var(--wordplay-spacing);
+        }
+
+        svg .selected {
+            stroke: var(--wordplay-highlight-color);
+            stroke-width: 1%;
         }
     </style>
 {/snippet}

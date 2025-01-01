@@ -99,25 +99,41 @@ export type Glyph = {
 /** The width and height of the grid */
 export const GlyphSize = 32;
 
-export function glyphToSVG(glyph: Glyph, size: number | string): string {
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s))}</svg>`;
+/**
+ *
+ * @param glyph The glyph to render
+ * @param size The CSS width and height of the SVG
+ * @param selected An optional list of shapes that should have the class "selected"
+ * @returns
+ */
+export function glyphToSVG(
+    glyph: Glyph,
+    size: number | string,
+    selection?: GlyphShape[],
+): string {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s, selection)).join('')}</svg>`;
 }
 
-export function shapeToSVG(shape: GlyphShape): string {
+export function shapeToSVG(
+    shape: GlyphShape,
+    selection?: GlyphShape[],
+): string {
+    const selected = selection?.includes(shape);
     switch (shape.type) {
         case 'rect':
-            return rectToSVG(shape);
+            return rectToSVG(shape, selected);
         case 'ellipse':
-            return ellipseToSVG(shape);
+            return ellipseToSVG(shape, selected);
         case 'pixel':
-            return pixelToSVG(shape);
+            return pixelToSVG(shape, selected);
         case 'path':
-            return pathToSVG(shape);
+            return pathToSVG(shape, selected);
     }
 }
 
-function rectToSVG(rect: GlyphRectangle): string {
+function rectToSVG(rect: GlyphRectangle, selected: boolean = false): string {
     return tag('rect', {
+        class: selected ? 'selected' : undefined,
         x: rect.center[0] - rect.width / 2,
         y: rect.center[1] - rect.height / 2,
         width: rect.width,
@@ -135,8 +151,12 @@ function rectToSVG(rect: GlyphRectangle): string {
     });
 }
 
-function ellipseToSVG(ellipse: GlyphEllipse): string {
+function ellipseToSVG(
+    ellipse: GlyphEllipse,
+    selected: boolean = false,
+): string {
     return tag('ellipse', {
+        class: selected ? 'selected' : undefined,
         cx: ellipse.center[0],
         cy: ellipse.center[1],
         rx: ellipse.width / 2,
@@ -151,8 +171,9 @@ function ellipseToSVG(ellipse: GlyphEllipse): string {
     });
 }
 
-function pixelToSVG(pixel: GlyphPixel): string {
+function pixelToSVG(pixel: GlyphPixel, selected: boolean = false): string {
     return tag('rect', {
+        class: selected ? 'selected' : undefined,
         x: pixel.point[0],
         y: pixel.point[1],
         width: 1,
@@ -175,7 +196,7 @@ export function pixelsAreEqual(one: GlyphPixel, two: GlyphPixel): boolean {
     );
 }
 
-function pathToSVG(path: GlyphPath): string {
+function pathToSVG(path: GlyphPath, selected: boolean = false): string {
     const points = path.points
         .map(
             ([x, y], index) =>
@@ -184,6 +205,7 @@ function pathToSVG(path: GlyphPath): string {
         .join(' ');
 
     return tag('path', {
+        class: selected ? 'selected' : undefined,
         d: `M ${points} ${path.closed ? 'Z' : ''}`,
         fill:
             path.fill === null
