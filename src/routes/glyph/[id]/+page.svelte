@@ -642,15 +642,17 @@
                 precision={1}
                 unit={''}
                 bind:value={() => {
-                    const widths = new Set(
-                        selection
-                            .filter((s) => s.type !== 'pixel')
-                            .map((s) => s.stroke?.width)
-                            .filter((w) => w !== undefined),
+                    const widths = [
+                        ...new Set(
+                            selection
+                                .filter((s) => s.type !== 'pixel')
+                                .map((s) => s.stroke?.width ?? 0),
+                        ),
+                    ];
+                    return (
+                        (widths.length === 1 ? widths[0] : undefined) ??
+                        currentStrokeWidth
                     );
-                    const width = widths.values().next().value;
-                    if (width !== undefined) return width;
-                    else return currentStrokeWidth;
                 },
                 (val) => {
                     if (selection.length > 0) {
@@ -676,15 +678,17 @@
                 unit={''}
                 bind:value={() => {
                     // Uniform corner value? Show that.
-                    const corners = new Set(
-                        selection
-                            .filter((s) => s.type === 'rect')
-                            .map((s) => s.corner ?? 0)
-                            .filter((c) => c !== undefined),
+                    const corners = [
+                        ...new Set(
+                            selection
+                                .filter((s) => s.type === 'rect')
+                                .map((s) => s.corner ?? 0),
+                        ),
+                    ];
+                    return (
+                        (corners.length === 1 ? corners[0] : undefined) ??
+                        currentCorner
                     );
-                    const corner = corners.values().next().value;
-                    if (corner !== undefined) return corner;
-                    else return currentCorner;
                 },
                 (val) => {
                     if (selection.length > 0) {
@@ -707,15 +711,18 @@
                 unit={''}
                 bind:value={() => {
                     // Is there a uniform selected angle? Show that.
-                    const angles = new Set(
-                        selection
-                            .filter((s) => s.type !== 'pixel')
-                            .map((s) => s.angle ?? 0)
-                            .filter((a) => a !== undefined),
+                    const angles = [
+                        ...new Set(
+                            selection
+                                .filter((s) => s.type !== 'pixel')
+                                .map((s) => s.angle ?? 0)
+                                .filter((a) => a !== undefined),
+                        ),
+                    ];
+                    return (
+                        (angles.length === 1 ? angles[0] : undefined) ??
+                        currentAngle
                     );
-                    const angle = angles.values().next().value;
-                    if (angle !== undefined) return angle;
-                    else return currentAngle;
                 },
                 (val) => {
                     if (selection.length > 0) {
@@ -732,14 +739,17 @@
                     id="closed-path"
                     bind:on={() => {
                         // If the selection has an identical closed state, set the current closed state to it
-                        const closed = new Set(
-                            selection
-                                .filter((s) => s.type === 'path')
-                                .map((s) => s.closed),
+                        const closed = [
+                            ...new Set(
+                                selection
+                                    .filter((s) => s.type === 'path')
+                                    .map((s) => s.closed),
+                            ),
+                        ];
+                        return (
+                            (closed.length === 1 ? closed[0] : undefined) ??
+                            currentClosed
                         );
-                        const close = closed.values().next().value;
-                        if (close !== undefined) return close;
-                        else return currentClosed;
                     },
                     (on) => {
                         if (selection.length > 0) {
@@ -757,14 +767,17 @@
                     id="curved-path"
                     bind:on={() => {
                         // If there's a selection and they have the same curved state, show that, otherwise show the current curved value.
-                        const curves = new Set(
-                            selection
-                                .filter((s) => s.type === 'path')
-                                .map((s) => s.curved),
+                        const curves = [
+                            ...new Set(
+                                selection
+                                    .filter((s) => s.type === 'path')
+                                    .map((s) => s.curved),
+                            ),
+                        ];
+                        return (
+                            (curves.length === 1 ? curves[0] : undefined) ??
+                            currentCurved
                         );
-                        const curved = curves.values().next().value;
-                        if (curved !== undefined) return curved;
-                        else return currentCurved;
                     },
                     (on) => {
                         // If there's a selection, update the value for all selected shapes.
