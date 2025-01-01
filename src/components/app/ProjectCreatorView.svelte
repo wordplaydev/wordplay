@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type { Creator } from '@db/CreatorDatabase';
+    import type { Creator } from '@db/creators/CreatorDatabase';
     import Feedback from './Feedback.svelte';
     import { locales } from '@db/Database';
 
