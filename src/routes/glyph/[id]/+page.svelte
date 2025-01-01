@@ -3,6 +3,7 @@
     export type GlyphPageText = {
         header: string;
         prompt: string;
+        instructions: string;
         field: {
             name: FieldText;
             description: FieldText;
@@ -36,37 +37,44 @@
     import TextField from '@components/widgets/TextField.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import Feedback from '@components/app/Feedback.svelte';
-    import { GlyphSize, glyphToSVG } from '../../../glyphs/glyphs';
+    import { GlyphSize, glyphToSVG, type Shape } from '../../../glyphs/glyphs';
     import Page from '@components/app/Page.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
     import { LCHtoRGB } from '@output/Color';
     import Switch from '@components/widgets/Switch.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
 
+    /** The current name of the shape */
     let name = $state('');
+
+    /** The current description of the shape */
     let description = $state('');
+
+    /** The current shapes of the shape */
+    let shapes: Shape[] = $state([]);
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(0);
+
+    /** The current position for drawing, within the bounds of the glyph grid */
+    let position = $state({ x: 0, y: 0 });
 
     /** The current drawing color */
     let lightness = $state(50);
     let chroma = $state(100);
     let hue = $state(180);
 
-    /** Whether to have a color*/
+    /** Whether the current drawing color is the chosen one or inherited */
     let color = $state(true);
-
-    $inspect(LCHtoRGB(lightness, chroma, hue));
 
     /** Make the rendered shape as a preview */
     let shape = $derived({
         name,
         description,
-        shapes: [],
+        shapes,
     });
-
-    $inspect(mode);
 
     function validName(name: string) {
         return name.length > 0;
@@ -82,6 +90,18 @@
               ? $locales.get((l) => l.ui.page.glyph.error.description)
               : undefined,
     );
+
+    function handleKey(event: KeyboardEvent) {
+        if (event.key === 'ArrowUp') {
+            position.y = Math.max(0, position.y - 1);
+        } else if (event.key === 'ArrowDown') {
+            position.y = Math.min(GlyphSize - 1, position.y + 1);
+        } else if (event.key === 'ArrowLeft') {
+            position.x = Math.max(0, position.x - 1);
+        } else if (event.key === 'ArrowRight') {
+            position.x = Math.min(GlyphSize - 1, position.x + 1);
+        }
+    }
 </script>
 
 <svelte:head>
@@ -96,7 +116,15 @@
         </div>
         <div class="editor">
             <div class="content">
-                <div class={['canvas', DrawingMode[mode].toLowerCase()]}>
+                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+                <div
+                    role="application"
+                    aria-describedby="instructions"
+                    class={['canvas', DrawingMode[mode].toLowerCase()]}
+                    tabindex={0}
+                    onkeydown={handleKey}
+                >
                     <div class="grid">
                         <!-- Render gridlines below everything -->
                         {#each { length: GlyphSize }, x}
@@ -193,6 +221,9 @@
                 {/if}
             </div>
         </div>
+        <MarkupHtmlView
+            markup={$locales.get((l) => l.ui.page.glyph.instructions)}
+        ></MarkupHtmlView>
     </section>
 </Page>
 
@@ -201,6 +232,7 @@
         display: flex;
         flex-direction: column;
         flex-wrap: nowrap;
+        gap: var(--wordplay-spacing);
         width: 100%;
         height: 100%;
         background: var(--wordplay-background);
@@ -220,7 +252,6 @@
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
-        padding: var(--wordplay-spacing);
         align-items: start;
     }
 

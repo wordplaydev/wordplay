@@ -122,7 +122,7 @@
     p,
     ul {
         margin-block-start: 0em;
-        margin-block-end: 1em;
+        margin-block-end: 0em;
     }
 
     p:last-child {

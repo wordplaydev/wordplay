@@ -49,7 +49,6 @@
         [50, 127, 174], // green
         [50, 117, 282], // blue
         [85, 75, 88], // yellow
-        [85, 122, 49], // orange
     ];
 </script>
 
@@ -176,6 +175,7 @@
     <div class="primary">
         {#each Primary as primary}<Button
                 tip="color"
+                padding={false}
                 action={() => {
                     lightness = primary[0] / 100;
                     chroma = primary[1];
