@@ -74,7 +74,6 @@
         resize: none;
         background: var(--wordplay-background);
         color: var(--wordplay-foreground);
-        flex: 1;
     }
 
     .inline {

@@ -5,7 +5,6 @@
         prompt: string;
         instructions: string;
         subheader: {
-            preview: string;
             other: string;
         };
         field: {
@@ -481,9 +480,32 @@
 <!-- The palette -->
 {#snippet palette()}
     <div class="palette">
-        <h2>{$locales.get((l) => l.ui.page.glyph.subheader.preview)}</h2>
-        <div class="preview">
-            {@html glyphToSVG(glyph, '32px')}
+        <div class="meta">
+            <TextField
+                bind:text={name}
+                placeholder={$locales.get(
+                    (l) => l.ui.page.glyph.field.name.placeholder,
+                )}
+                description={$locales.get(
+                    (l) => l.ui.page.glyph.field.name.description,
+                )}
+                done={() => {}}
+                validator={validName}
+            ></TextField>
+            <TextBox
+                bind:text={description}
+                placeholder={$locales.get(
+                    (l) => l.ui.page.glyph.field.description.placeholder,
+                )}
+                description={$locales.get(
+                    (l) => l.ui.page.glyph.field.description.description,
+                )}
+                done={() => {}}
+                validator={validDescription}
+            ></TextBox>
+            {#if error}
+                <Feedback>{error}</Feedback>
+            {/if}
         </div>
         <h2>{$locales.get((l) => l.ui.page.glyph.field.mode).label}</h2>
         <Mode
@@ -596,63 +618,37 @@
             gap: calc(2 * var(--wordplay-spacing));
         }
 
-        .preview {
-            width: 32px;
-            height: 32px;
-            border: var(--wordplay-border-color) solid
-                var(--wordplay-border-width);
-        }
-
         label {
             display: flex;
             flex-direction: row;
             align-items: baseline;
         }
+
+        .meta {
+            display: flex;
+            flex-direction: column;
+            gap: var(--wordplay-spacing);
+        }
+
+        p {
+            margin: 0;
+        }
     </style>
 {/snippet}
 
 {#snippet meta()}
-    <div class="meta">
-        <TextField
-            bind:text={name}
-            placeholder={$locales.get(
-                (l) => l.ui.page.glyph.field.name.placeholder,
-            )}
-            description={$locales.get(
-                (l) => l.ui.page.glyph.field.name.description,
-            )}
-            done={() => {}}
-            validator={validName}
-        ></TextField>
-        <TextBox
-            inline
-            bind:text={description}
-            placeholder={$locales.get(
-                (l) => l.ui.page.glyph.field.description.placeholder,
-            )}
-            description={$locales.get(
-                (l) => l.ui.page.glyph.field.description.description,
-            )}
-            done={() => {}}
-            validator={validDescription}
-        ></TextBox>
-        {#if error}
-            <Feedback inline>{error}</Feedback>
-        {/if}
-    </div>
-    <MarkupHtmlView markup={$locales.get((l) => l.ui.page.glyph.instructions)}
+    {#if pendingPath}
+        <Feedback>{$locales.get((l) => l.ui.page.glyph.feedback.end)}</Feedback>
+    {/if}
+    {#if selection.length >= 1}
+        <Feedback
+            >{$locales.get((l) => l.ui.page.glyph.feedback.select)}</Feedback
+        >
+    {/if}
+    <MarkupHtmlView
+        note
+        markup={$locales.get((l) => l.ui.page.glyph.instructions)}
     ></MarkupHtmlView>
-
-    <style>
-        .meta {
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-            gap: var(--wordplay-spacing);
-            row-gap: var(--wordplay-spacing);
-            align-items: baseline;
-        }
-    </style>
 {/snippet}
 
 {#snippet canvas()}
@@ -679,24 +675,6 @@
                 style:width={'calc(100% / ' + GlyphSize + ')'}
                 style:height={'calc(100% / ' + GlyphSize + ')'}
             ></div>
-        {/if}
-        {#if pendingPath}
-            <div class="note">
-                <Feedback inline
-                    >{$locales.get(
-                        (l) => l.ui.page.glyph.feedback.end,
-                    )}</Feedback
-                >
-            </div>
-        {/if}
-        {#if selection.length >= 1}
-            <div class="note">
-                <Feedback inline
-                    >{$locales.get(
-                        (l) => l.ui.page.glyph.feedback.select,
-                    )}</Feedback
-                >
-            </div>
         {/if}
     </div>
     <style>
@@ -743,13 +721,6 @@
             cursor: crosshair;
         }
 
-        .note {
-            position: absolute;
-            top: 0;
-            left: var(--wordplay-spacing);
-            right: var(--wordplay-spacing);
-        }
-
         svg .selected {
             stroke: var(--wordplay-highlight-color);
             stroke-width: 1%;
@@ -762,6 +733,9 @@
         <div class="header">
             <Header>{$locales.get((l) => l.ui.page.glyph.header)}</Header>
             <p>{$locales.get((l) => l.ui.page.glyph.prompt)}</p>
+            <div class="preview">
+                {@html glyphToSVG(glyph, '32px')}
+            </div>
         </div>
         <div class="editor">
             <div class="content">
@@ -805,6 +779,13 @@
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
+    }
+
+    .preview {
+        width: 32px;
+        height: 32px;
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        align-self: baseline;
     }
 
     h2 {
