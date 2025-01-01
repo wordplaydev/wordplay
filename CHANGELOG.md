@@ -29,6 +29,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Render Markup values as symbols for debugger to highlight.
 - Fixed Phrase dragging in output view.
 - Performance improvements to editor.
+- Fixed teach and learn emojis on landing page.
 
 ### Maintenance
 
