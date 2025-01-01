@@ -75,6 +75,7 @@
     import TextBox from '@components/widgets/TextBox.svelte';
     import Feedback from '@components/app/Feedback.svelte';
     import {
+        getPathCenter,
         getSharedColor,
         GlyphSize,
         glyphToSVG,
@@ -94,6 +95,7 @@
     import Slider from '@components/widgets/Slider.svelte';
     import Checkbox from '@components/widgets/Checkbox.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import path from 'path';
 
     /** The current name of the shape */
     let name = $state('');
@@ -112,6 +114,9 @@
 
     /** The current position for drawing, within the bounds of the glyph grid */
     let drawingCursorPosition = $state({ x: 0, y: 0 });
+
+    /** The relative positions from each selected shape's center, so we can maintain relative positions for multiple selections. */
+    let dragOffsets: { x: number; y: number }[] | undefined = $state(undefined);
 
     /** The current fill color and whether it's on, off, or inherited */
     let currentFill: LCH = $state({
@@ -232,7 +237,8 @@
         // Handle cursor movement
         if (event.key === 'ArrowUp') {
             if (selection.length > 0) {
-                for (const shape of shapes) moveShape(shape, 0, -1);
+                for (const shape of shapes)
+                    moveShape(shape, 0, -1, 'translate');
             } else
                 drawingCursorPosition.y = Math.max(
                     0,
@@ -241,7 +247,7 @@
             event.stopPropagation();
         } else if (event.key === 'ArrowDown') {
             if (selection.length > 0) {
-                for (const shape of shapes) moveShape(shape, 0, 1);
+                for (const shape of shapes) moveShape(shape, 0, 1, 'translate');
             } else
                 drawingCursorPosition.y = Math.min(
                     GlyphSize - 1,
@@ -250,7 +256,8 @@
             event.stopPropagation();
         } else if (event.key === 'ArrowLeft') {
             if (selection.length > 0) {
-                for (const shape of shapes) moveShape(shape, -1, 0);
+                for (const shape of shapes)
+                    moveShape(shape, -1, 0, 'translate');
             } else
                 drawingCursorPosition.x = Math.max(
                     0,
@@ -259,7 +266,7 @@
             event.stopPropagation();
         } else if (event.key === 'ArrowRight') {
             if (selection.length > 0) {
-                for (const shape of shapes) moveShape(shape, 1, 0);
+                for (const shape of shapes) moveShape(shape, 1, 0, 'translate');
             } else
                 drawingCursorPosition.x = Math.min(
                     GlyphSize - 1,
@@ -313,10 +320,12 @@
             x,
             y,
         };
-        event.stopPropagation();
 
         // Button not down? Don't do anything else.
         if (event.buttons !== 1) return;
+
+        // Swallow the event.
+        event.stopPropagation();
 
         // In pixel mode? Drop a pixel.
         if (mode === DrawingMode.Pixel) {
@@ -431,29 +440,74 @@
                     ]);
             }
             return;
-        } else if (mode === DrawingMode.Select && !move) {
-            const candidate = document.elementFromPoint(
-                event.clientX,
-                event.clientY,
-            );
-            let found = false;
-            if (candidate instanceof SVGElement) {
-                const svg = candidate.parentElement;
-                if (svg !== null && svg.parentElement === canvasView) {
-                    const index = Array.from(svg.childNodes).indexOf(candidate);
-                    if (index >= 0) {
-                        if (event.shiftKey)
-                            selection = [...selection, shapes[index]];
-                        else selection = [shapes[index]];
-                        found = true;
+        } else if (mode === DrawingMode.Select) {
+            if (!move) {
+                const candidate = document.elementFromPoint(
+                    event.clientX,
+                    event.clientY,
+                );
+                let found = false;
+                if (candidate instanceof SVGElement) {
+                    const svg = candidate.parentElement;
+                    if (svg !== null && svg.parentElement === canvasView) {
+                        const index = Array.from(svg.childNodes).indexOf(
+                            candidate,
+                        );
+                        if (index >= 0) {
+                            const selected = shapes[index];
+                            // Don't change the selection if the selected shape is already selected.
+                            if (!selection.includes(selected)) {
+                                if (event.shiftKey)
+                                    selection = [...selection, shapes[index]];
+                                else selection = [shapes[index]];
+                            }
+                            found = true;
+                        }
+                    }
+                }
+                if (!found) selection = [];
+            }
+
+            // No drag position yet? Set one.
+            if (dragOffsets === undefined) {
+                dragOffsets = [];
+                for (const shape of selection) {
+                    switch (shape.type) {
+                        // These three are easy.
+                        case 'rect':
+                        case 'ellipse':
+                        case 'pixel':
+                            dragOffsets.push({
+                                x: x - shape.center[0],
+                                y: y - shape.center[1],
+                            });
+                        case 'path':
+                            if (shape.type === 'path') {
+                                const center = getPathCenter(shape);
+                                dragOffsets.push({
+                                    x: x - center[0],
+                                    y: y - center[1],
+                                });
+                            }
                     }
                 }
             }
-            if (!found) selection = [];
+            // Are we moving? Move the selection, accounting for the shape's offsets.
+            else {
+                for (const [index, shape] of selection.entries())
+                    moveShape(
+                        shape,
+                        x - dragOffsets[index].x,
+                        y - dragOffsets[index].y,
+                        'move',
+                    );
+            }
         }
     }
 
     function handlePointerUp(event: PointerEvent) {
+        if (dragOffsets) dragOffsets = undefined;
+
         // Done? Reset the pending shapes to nothing.
         if (pendingRect) {
             selection = [pendingRect];

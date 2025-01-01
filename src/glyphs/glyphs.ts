@@ -12,8 +12,8 @@
 import { LCHtoRGB } from '@output/Color';
 import z from 'zod';
 
-const PositionSchema = z.array(z.number()).nonempty().length(2);
-type Postion = z.infer<typeof PositionSchema>;
+const PointSchema = z.array(z.number()).nonempty().length(2);
+type Point = z.infer<typeof PointSchema>;
 
 const SizeSchema = z.object({
     width: z.number(),
@@ -39,7 +39,7 @@ type Stroke = z.infer<typeof StrokeSchema>;
 const RectangleSchema = z
     .object({
         type: z.literal('rect'),
-        center: PositionSchema, // The center of the rectangle
+        center: PointSchema, // The center of the rectangle
         angle: z.number().optional(),
         stroke: StrokeSchema.optional(),
         // Null represents current color
@@ -53,7 +53,7 @@ export type GlyphRectangle = z.infer<typeof RectangleSchema>;
 
 const PixelSchema = z.object({
     type: z.literal('pixel'),
-    center: PositionSchema, // The center of the pixel
+    center: PointSchema, // The center of the pixel
     fill: ColorSchema.nullable(), // It's fill color, no stroke
 });
 export type GlyphPixel = z.infer<typeof PixelSchema>;
@@ -61,7 +61,7 @@ export type GlyphPixel = z.infer<typeof PixelSchema>;
 const EllipseSchema = z
     .object({
         type: z.literal('ellipse'),
-        center: PositionSchema,
+        center: PointSchema,
         stroke: StrokeSchema.optional(),
         fill: ColorSchema.optional().nullable(),
         angle: z.number().optional(), // degrees
@@ -77,7 +77,7 @@ const PathSchema = z.object({
     // Null represents current color
     fill: ColorSchema.optional().nullable(),
     // A series of positions defining the path.
-    points: z.array(PositionSchema).nonempty(),
+    points: z.array(PointSchema).nonempty(),
     angle: z.number().optional(), // degrees rotated around the center
     // Whether the path is closed by connecting the last point to the first
     closed: z.boolean(),
@@ -266,21 +266,57 @@ export function getSharedColor(
     else return rest.every((c) => colorsAreEqual(first, c)) ? first : undefined;
 }
 
-/** Mutate the given shape in the specified direction. */
-export function moveShape(shape: GlyphShape, dx: number, dy: number) {
+export function getPathCenter(path: GlyphPath): Point {
+    // Compute the center
+    const center = path.points.reduce(
+        (sum, [x, y]) => [sum[0] + x, sum[1] + y],
+        [0, 0],
+    );
+    // Divide by the number of points to get the center
+    center[0] /= path.points.length;
+    center[1] /= path.points.length;
+    return center;
+}
+
+/** Mutate the given shape in the specified direction. If set is true, interpret the position as a new location, otherwise interpret it is a translation. */
+export function moveShape(
+    shape: GlyphShape,
+    x: number,
+    y: number,
+    set: 'move' | 'translate',
+) {
     switch (shape.type) {
         // These three are easy.
         case 'rect':
         case 'ellipse':
         case 'pixel':
-            shape.center[0] += dx;
-            shape.center[1] += dy;
+            if (set == 'move') {
+                shape.center[0] = x;
+                shape.center[1] = y;
+            } else {
+                shape.center[0] += x;
+                shape.center[1] += y;
+            }
         // This one requires moving all the points.
         case 'path':
             if (shape.type === 'path') {
+                // Compute the center
+                const center = shape.points.reduce(
+                    (sum, [x, y]) => [sum[0] + x, sum[1] + y],
+                    [0, 0],
+                );
+                // Divide by the number of points to get the center
+                center[0] /= shape.points.length;
+                center[1] /= shape.points.length;
+
                 for (const point of shape.points) {
-                    point[0] += dx;
-                    point[1] += dy;
+                    if (set === 'move') {
+                        point[0] = x + (point[0] - center[0]);
+                        point[1] = y + (point[1] - center[1]);
+                    } else {
+                        point[0] += x;
+                        point[1] += y;
+                    }
                 }
             }
     }
