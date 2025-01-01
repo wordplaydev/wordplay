@@ -26,6 +26,8 @@
         max?: string | undefined;
         /** A unique ID for testing and ARIA purposes */
         id: string;
+        /** Whether to put validation messages inline instead of floating */
+        inlineValidation?: boolean;
     }
 
     let {
@@ -46,6 +48,7 @@
         id,
         kind = undefined,
         max = undefined,
+        inlineValidation = false,
     }: Props = $props();
 
     let width = $state(0);
@@ -61,8 +64,6 @@
             else return message;
         } else return undefined;
     });
-
-    $inspect(focused);
 
     function handleInput() {
         if (changed) changed(text);
@@ -134,7 +135,7 @@
     });
 </script>
 
-<div class="field" class:fill class:focused>
+<div class="field" class:fill class:focused class:inline={inlineValidation}>
     <input
         type="text"
         class={classes?.join(' ')}
@@ -171,7 +172,9 @@
               : text.replaceAll(' ', '\xa0')}</span
     >
     {#if message}
-        <div class="message" id="{id}-error">{message}</div>
+        <div class="message" class:inline={inlineValidation} id="{id}-error"
+            >{message}</div
+        >
     {/if}
 </div>
 
@@ -179,6 +182,10 @@
     .field {
         display: inline-block;
         position: relative;
+    }
+
+    .field.inline {
+        z-index: 2;
     }
 
     [disabled] {
@@ -268,5 +275,15 @@
         border-bottom-left-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
         z-index: 2;
+    }
+
+    .focused .message.inline {
+        top: 0;
+        left: 100%;
+        white-space: nowrap;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
     }
 </style>

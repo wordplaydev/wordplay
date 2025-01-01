@@ -308,37 +308,46 @@
                 >
                     <FullscreenIcon />
                 </Toggle>
-                <Subheader compact>
-                    <div class="name" class:source={tile.isSource()}>
-                        {#if editable && tile.isSource()}
-                            <Emoji>{Glyphs.Program.symbols}</Emoji>
-                            <TextField
-                                id="source-name-editor-{tile.id}"
-                                text={tile
-                                    .getSource(project)
-                                    ?.getPreferredName($locales.getLocales())}
-                                description={$locales.get(
-                                    (l) => l.ui.source.field.name.description,
-                                )}
-                                placeholder={$locales.get(
-                                    (l) => l.ui.source.field.name.placeholder,
-                                )}
-                                validator={(text) =>
-                                    !isName(text)
-                                        ? $locales.get(
-                                              (l) =>
-                                                  l.ui.source.error.invalidName,
-                                          )
-                                        : true}
-                                changed={handleRename}
-                            />
-                        {:else}
-                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
-                            >{tile.getName(project, $locales)}
-                        {/if}
-                        {@render title()}
-                    </div>
-                </Subheader>
+                <!-- This goes above the toolbar because we need the feedback to be visible. -->
+                <div style="z-index:2">
+                    <Subheader compact>
+                        <div class="name" class:source={tile.isSource()}>
+                            {#if editable && tile.isSource()}
+                                <Emoji>{Glyphs.Program.symbols}</Emoji>
+                                <TextField
+                                    id="source-name-editor-{tile.id}"
+                                    text={tile
+                                        .getSource(project)
+                                        ?.getPreferredName(
+                                            $locales.getLocales(),
+                                        )}
+                                    description={$locales.get(
+                                        (l) =>
+                                            l.ui.source.field.name.description,
+                                    )}
+                                    placeholder={$locales.get(
+                                        (l) =>
+                                            l.ui.source.field.name.placeholder,
+                                    )}
+                                    validator={(text) =>
+                                        !isName(text)
+                                            ? $locales.get(
+                                                  (l) =>
+                                                      l.ui.source.error
+                                                          .invalidName,
+                                              )
+                                            : true}
+                                    inlineValidation
+                                    changed={handleRename}
+                                />
+                            {:else}
+                                <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                                >{tile.getName(project, $locales)}
+                            {/if}
+                            {@render title()}
+                        </div>
+                    </Subheader>
+                </div>
                 <div class="toolbar">
                     {@render extra?.()}
                 </div>
