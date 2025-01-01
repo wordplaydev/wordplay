@@ -702,21 +702,6 @@
     </style>
 {/snippet}
 
-{#snippet meta()}
-    {#if pendingPath}
-        <Feedback>{$locales.get((l) => l.ui.page.glyph.feedback.end)}</Feedback>
-    {/if}
-    {#if selection.length >= 1}
-        <Feedback
-            >{$locales.get((l) => l.ui.page.glyph.feedback.select)}</Feedback
-        >
-    {/if}
-    <MarkupHtmlView
-        note
-        markup={$locales.get((l) => l.ui.page.glyph.instructions)}
-    ></MarkupHtmlView>
-{/snippet}
-
 {#snippet canvas()}
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -742,6 +727,15 @@
                 style:height={'calc(100% / ' + GlyphSize + ')'}
             ></div>
         {/if}
+        <div class="notes">
+            {#if pendingPath}
+                <Feedback
+                    >{$locales.get(
+                        (l) => l.ui.page.glyph.feedback.end,
+                    )}</Feedback
+                >
+            {/if}
+        </div>
     </div>
     <style>
         .canvas {
@@ -791,6 +785,13 @@
         svg .selected {
             stroke: var(--wordplay-highlight-color);
         }
+
+        .notes {
+            position: absolute;
+            top: -2em;
+            left: var(--wordplay-spacing);
+            right: var(--wordplay-spacing);
+        }
     </style>
 {/snippet}
 
@@ -806,7 +807,17 @@
         <div class="editor">
             <div class="content">
                 {@render canvas()}
-                {@render meta()}
+                <MarkupHtmlView
+                    note
+                    markup={$locales.get((l) => l.ui.page.glyph.instructions)}
+                ></MarkupHtmlView>
+                {#if selection.length >= 1}
+                    <Feedback
+                        >{$locales.get(
+                            (l) => l.ui.page.glyph.feedback.select,
+                        )}</Feedback
+                    >
+                {/if}
             </div>
             {@render palette()}
         </div>
