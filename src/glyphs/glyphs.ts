@@ -49,14 +49,14 @@ const RectangleSchema = z
     // The width and height of the rectange.
     .merge(SizeSchema);
 
-export type Rectangle = z.infer<typeof RectangleSchema>;
+export type GlyphRectangle = z.infer<typeof RectangleSchema>;
 
 const PixelSchema = z.object({
     type: z.literal('pixel'),
     point: PositionSchema, // The center of the pixel
     fill: ColorSchema.nullable(), // It's fill color, no stroke
 });
-export type Pixel = z.infer<typeof PixelSchema>;
+export type GlyphPixel = z.infer<typeof PixelSchema>;
 
 const EllipseSchema = z
     .object({
@@ -69,7 +69,7 @@ const EllipseSchema = z
     // The radius on each dimension
     .merge(SizeSchema);
 
-export type Ellipse = z.infer<typeof EllipseSchema>;
+export type GlyphEllipse = z.infer<typeof EllipseSchema>;
 
 const PathSchema = z.object({
     type: z.literal('path'),
@@ -85,15 +85,15 @@ const PathSchema = z.object({
     // See: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
     curved: z.boolean(),
 });
-type Path = z.infer<typeof PathSchema>;
+export type GlyphPath = z.infer<typeof PathSchema>;
 
-export type Shape = Rectangle | Ellipse | Pixel | Path;
+export type GlyphShape = GlyphRectangle | GlyphEllipse | GlyphPixel | GlyphPath;
 
 /** A 128x128 pixel canvas of layered shapes */
 export type Glyph = {
     name: string; // A language tagged name in Wordplay syntax
     description: string; // A language tagged name in Wordplay syntax
-    shapes: Shape[]; // In rendering order, back to front
+    shapes: GlyphShape[]; // In rendering order, back to front
 };
 
 /** The width and height of the grid */
@@ -103,7 +103,7 @@ export function glyphToSVG(glyph: Glyph, size: number | string): string {
     return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s))}</svg>`;
 }
 
-export function shapeToSVG(shape: Shape): string {
+export function shapeToSVG(shape: GlyphShape): string {
     switch (shape.type) {
         case 'rect':
             return rectToSVG(shape);
@@ -116,7 +116,7 @@ export function shapeToSVG(shape: Shape): string {
     }
 }
 
-function rectToSVG(rect: Rectangle): string {
+function rectToSVG(rect: GlyphRectangle): string {
     return tag('rect', {
         x: rect.center[0] - rect.width / 2,
         y: rect.center[1] - rect.height / 2,
@@ -135,7 +135,7 @@ function rectToSVG(rect: Rectangle): string {
     });
 }
 
-function ellipseToSVG(ellipse: Ellipse): string {
+function ellipseToSVG(ellipse: GlyphEllipse): string {
     return tag('ellipse', {
         cx: ellipse.center[0],
         cy: ellipse.center[1],
@@ -151,7 +151,7 @@ function ellipseToSVG(ellipse: Ellipse): string {
     });
 }
 
-function pixelToSVG(pixel: Pixel): string {
+function pixelToSVG(pixel: GlyphPixel): string {
     return tag('rect', {
         x: pixel.point[0],
         y: pixel.point[1],
@@ -161,7 +161,7 @@ function pixelToSVG(pixel: Pixel): string {
     });
 }
 
-export function pixelsAreEqual(one: Pixel, two: Pixel): boolean {
+export function pixelsAreEqual(one: GlyphPixel, two: GlyphPixel): boolean {
     return (
         one.point[0] === two.point[0] &&
         one.point[1] === two.point[1] &&
@@ -175,7 +175,7 @@ export function pixelsAreEqual(one: Pixel, two: Pixel): boolean {
     );
 }
 
-function pathToSVG(path: Path): string {
+function pathToSVG(path: GlyphPath): string {
     const points = path.points
         .map(
             ([x, y], index) =>

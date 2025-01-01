@@ -64,10 +64,11 @@
         GlyphSize,
         glyphToSVG,
         pixelsAreEqual,
-        type Ellipse,
-        type Pixel,
-        type Rectangle,
-        type Shape,
+        type GlyphEllipse,
+        type GlyphPath,
+        type GlyphPixel,
+        type GlyphRectangle,
+        type GlyphShape,
     } from '../../../glyphs/glyphs';
     import Page from '@components/app/Page.svelte';
     import Mode from '@components/widgets/Mode.svelte';
@@ -85,7 +86,7 @@
     let description = $state('');
 
     /** The current shapes of the shape */
-    let shapes: Shape[] = $state([]);
+    let shapes: GlyphShape[] = $state([]);
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(0);
@@ -120,10 +121,13 @@
     let canvasView: HTMLDivElement | null = null;
 
     /** The pending rectangle */
-    let pendingRect: Rectangle | undefined = $state(undefined);
+    let pendingRect: GlyphRectangle | undefined = $state(undefined);
 
     /** The pending ellipse */
-    let pendingEllipse: Ellipse | undefined = $state(undefined);
+    let pendingEllipse: GlyphEllipse | undefined = $state(undefined);
+
+    /** The pendig path */
+    let pendingPath: GlyphPath;
 
     /** Make the rendered shape as a preview */
     let glyph = $derived({
@@ -149,7 +153,7 @@
 
     /** Set the pixel at the current position and fill. */
     function setPixel() {
-        const candidate: Pixel = {
+        const candidate: GlyphPixel = {
             type: 'pixel',
             point: [position.x, position.y],
             fill:
