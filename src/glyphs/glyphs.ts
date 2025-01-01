@@ -69,7 +69,7 @@ const EllipseSchema = z
     // The radius on each dimension
     .merge(SizeSchema);
 
-type Ellipse = z.infer<typeof EllipseSchema>;
+export type Ellipse = z.infer<typeof EllipseSchema>;
 
 const PathSchema = z.object({
     type: z.literal('path'),
@@ -200,12 +200,12 @@ function pathToSVG(path: Path): string {
     });
 }
 
-function colorToSVG(fill: Color | undefined | null): string {
+function colorToSVG(fill: Color | undefined | null): string | undefined {
     return fill === null
         ? 'currentColor'
-        : fill !== undefined
+        : fill
           ? LCHtoRGB(fill.l, fill.c, fill.h)
-          : 'currentColor';
+          : 'none';
 }
 
 function tag(

@@ -64,6 +64,7 @@
         GlyphSize,
         glyphToSVG,
         pixelsAreEqual,
+        type Ellipse,
         type Pixel,
         type Rectangle,
         type Shape,
@@ -93,15 +94,15 @@
     let position = $state({ x: 0, y: 0 });
 
     /** The current fill color and whether it's on, off, or inherited */
-    let currentFill: [number, number, number] = $state([100, 100, 0]);
+    let currentFill: [number, number, number] = $state([1, 100, 0]);
     let fill: boolean | undefined = $state(true);
 
     /** The current stroke color and whether it's on, off, or inherited  */
-    let currentStroke: [number, number, number] = $state([100, 100, 0]);
+    let currentStroke: [number, number, number] = $state([0, 100, 0]);
     let stroke: boolean | undefined = $state(true);
 
     /** The current stroke width */
-    let strokeWidth = $state(0.25);
+    let strokeWidth = $state(1);
 
     /** The current border radius for rectangles */
     let corner = $state(0);
@@ -118,8 +119,11 @@
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = null;
 
-    /** The pending rectangle position */
+    /** The pending rectangle */
     let pendingRect: Rectangle | undefined = $state(undefined);
+
+    /** The pending ellipse */
+    let pendingEllipse: Ellipse | undefined = $state(undefined);
 
     /** Make the rendered shape as a preview */
     let glyph = $derived({
@@ -265,7 +269,6 @@
                     ...(corner !== 1 && { corner }),
                     ...(angle !== 0 && { angle }),
                 };
-                console.log(pendingRect);
                 shapes = [...shapes, pendingRect];
             } else {
                 // Update the pending rect's dimensions to the current pointer position.
@@ -278,6 +281,34 @@
                     Math.abs(position.y - pendingRect.center[1]) * 2,
                 );
             }
+            return;
+        } else if (mode === DrawingMode.Ellipse) {
+            // If there's no pending rect, start one at the current position.
+            if (pendingEllipse === undefined) {
+                pendingEllipse = {
+                    ...{
+                        type: 'ellipse',
+                        center: [position.x, position.y],
+                        width: 1,
+                        height: 1,
+                    },
+                    ...(fill !== false && { fill: getCurrentFill() }),
+                    ...(stroke !== false && { stroke: getCurrentStroke() }),
+                    ...(angle !== 0 && { angle }),
+                };
+                shapes = [...shapes, pendingEllipse];
+            } else {
+                // Update the pending rect's dimensions to the current pointer position.
+                pendingEllipse.width = Math.max(
+                    1,
+                    Math.abs(position.x - pendingEllipse.center[0]) * 2,
+                );
+                pendingEllipse.height = Math.max(
+                    1,
+                    Math.abs(position.y - pendingEllipse.center[1]) * 2,
+                );
+            }
+            return;
         }
     }
 
@@ -285,6 +316,10 @@
         // Done? Reset the pending rect to nothing.
         if (pendingRect) {
             pendingRect = undefined;
+            event.stopPropagation();
+            return;
+        } else if (pendingEllipse) {
+            pendingEllipse = undefined;
             event.stopPropagation();
             return;
         }
@@ -411,7 +446,7 @@
                         (l) => l.ui.page.glyph.field.strokeWidth.tip,
                     )}
                     min={0}
-                    max={1}
+                    max={3}
                     increment={0.1}
                     precision={1}
                     unit={''}
