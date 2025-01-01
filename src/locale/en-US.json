@@ -4848,11 +4848,17 @@
             "glyph": {
                 "header": "Glyph",
                 "prompt": "Create a symbol with shapes and pixels.",
-                "instructions": "• Choose colors, shapes, fill and stroke colors in the palette.\n\n• Choose a drawing mode\n\n• Use the keyboard or pointer to move the current position within the grid to make the shape.\n\n• Give your glyph a name to refer to it in your projects. \n\n• Give it a description so those that can't see your glyph know what it represents.",
-                "subheader": {
-                    "shape": "shape"
+                "instructions": {
+                    "empty": "Choose a drawing mode in the palette to create shapes.",
+                    "unselected": "Select shapes with your pointer or by holding *shift* and using the *arrow* keys.",
+                    "selected": "Use the *arrow* keys to move shapes, shift to add more shapes, and *delete* to remove them. Use the controls to modify the selection's colors and shapes.",
+                    "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel.",
+                    "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
+                    "ellipse": "To draw ellipses and circles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",
+                    "path": "Paths can be line segments, polygons, and curves. Click to start add points, or use the *arrow* keys and *space*. Press *escape* to finish the path. *delete* will remove the last point."
                 },
                 "shape": {
+                    "shape": "shape",
                     "pixel": "pixel",
                     "rect": "rectangle",
                     "ellipse": "ellipse",
@@ -4925,8 +4931,7 @@
                 "feedback": {
                     "name": "Glyphs need a valid Wordplay name so you can refer to them in projects.",
                     "description": "Glyphs need a description so those who can't see know what they represent.",
-                    "end": "Press esc, enter, or space to finish shape.",
-                    "select": "Hold shift for multiple, press arrows to move, or delete to remove."
+                    "end": "Press escape to finish shape."
                 }
             },
             "about": {

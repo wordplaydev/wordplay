@@ -3,11 +3,17 @@
     export type GlyphPageText = {
         header: string;
         prompt: string;
-        instructions: string;
-        subheader: {
-            shape: string;
+        instructions: {
+            empty: string;
+            unselected: string;
+            selected: string;
+            pixel: string;
+            rect: string;
+            ellipse: string;
+            path: string;
         };
         shape: {
+            shape: string;
             pixel: string;
             rect: string;
             ellipse: string;
@@ -64,8 +70,6 @@
             description: string;
             /** When completing a path, instructions on how to end it. */
             end: string;
-            /** When selecting, instructions on how to select multiple. */
-            select: string;
         };
     };
 
@@ -409,7 +413,7 @@
         }
         // In all other moves, move the drawing cursor.
         else {
-            drawingCursorPosition.y = Math.max(0, drawingCursorPosition.y + dx);
+            drawingCursorPosition.x = Math.max(0, drawingCursorPosition.x + dx);
             drawingCursorPosition.y = Math.max(0, drawingCursorPosition.y + dy);
         }
     }
@@ -453,14 +457,6 @@
             }
             // Swallow the arrow event
             event.stopPropagation();
-        }
-
-        // Handle deletion.
-        if (event.key === 'Delete' || event.key === 'Backspace') {
-            setShapes(shapes.filter((s) => !selection.includes(s)));
-            selection = [];
-            event.stopPropagation();
-            return;
         }
 
         // Handle undo/redo
@@ -553,24 +549,41 @@
             event.stopPropagation();
         }
         // If in path mode, start a path
-        else if (mode === DrawingMode.Path && action) {
-            if (pendingPath === undefined) {
-                pendingPath = getCurrentPath();
-                addShapes(pendingPath);
-            } else updatePendingPath();
-        }
-        // If in path mode and key is escape, close the path
-        else if (event.key === 'Escape') {
-            if (mode === DrawingMode.Path) {
-                if (pendingPath) {
-                    selection = [pendingPath];
-                    pendingPath = undefined;
-                    mode = DrawingMode.Select;
+        else if (mode === DrawingMode.Path) {
+            if (action) {
+                if (pendingPath === undefined) {
+                    pendingPath = getCurrentPath();
+                    addShapes(pendingPath);
+                } else updatePendingPath();
+            } else if (event.key === 'Delete' || event.key === 'Backspace') {
+                if (pendingPath && pendingPath.points.length > 1) {
+                    pendingPath.points.pop();
                     event.stopPropagation();
                     return;
                 }
             }
-            if (mode === DrawingMode.Select) {
+            // If in path mode and key is escape, close the path
+            else if (event.key === 'Escape') {
+                if (mode === DrawingMode.Path) {
+                    if (pendingPath) {
+                        selection = [pendingPath];
+                        pendingPath = undefined;
+                        mode = DrawingMode.Select;
+                        event.stopPropagation();
+                        return;
+                    }
+                }
+            }
+        }
+        if (mode === DrawingMode.Select) {
+            if (event.key === 'Escape') {
+                selection = [];
+                event.stopPropagation();
+                return;
+            }
+            // Handle deletion.
+            else if (event.key === 'Delete' || event.key === 'Backspace') {
+                setShapes(shapes.filter((s) => !selection.includes(s)));
                 selection = [];
                 event.stopPropagation();
                 return;
@@ -956,7 +969,7 @@
             ></Slider>
         {/if}
         {#if mode !== DrawingMode.Pixel}
-            <h3>{$locales.get((l) => l.ui.page.glyph.subheader.shape)}</h3>
+            <h3>{$locales.get((l) => l.ui.page.glyph.shape.shape)}</h3>
         {/if}
         <!-- Only rectangles have a radius -->
         {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
@@ -1280,16 +1293,41 @@
             <div class="content">
                 {@render canvas()}
                 <MarkupHtmlView
-                    note
-                    markup={$locales.get((l) => l.ui.page.glyph.instructions)}
+                    markup={mode === DrawingMode.Select && shapes.length === 0
+                        ? $locales.get(
+                              (l) => l.ui.page.glyph.instructions.empty,
+                          )
+                        : mode === DrawingMode.Select &&
+                            shapes.length > 0 &&
+                            selection.length === 0
+                          ? $locales.get(
+                                (l) => l.ui.page.glyph.instructions.unselected,
+                            )
+                          : mode === DrawingMode.Select &&
+                              shapes.length > 0 &&
+                              selection.length > 0
+                            ? $locales.get(
+                                  (l) => l.ui.page.glyph.instructions.selected,
+                              )
+                            : mode === DrawingMode.Pixel
+                              ? $locales.get(
+                                    (l) => l.ui.page.glyph.instructions.pixel,
+                                )
+                              : mode === DrawingMode.Rect
+                                ? $locales.get(
+                                      (l) => l.ui.page.glyph.instructions.rect,
+                                  )
+                                : mode === DrawingMode.Ellipse
+                                  ? $locales.get(
+                                        (l) =>
+                                            l.ui.page.glyph.instructions
+                                                .ellipse,
+                                    )
+                                  : $locales.get(
+                                        (l) =>
+                                            l.ui.page.glyph.instructions.path,
+                                    )}
                 ></MarkupHtmlView>
-                {#if selection.length >= 1}
-                    <Feedback
-                        >{$locales.get(
-                            (l) => l.ui.page.glyph.feedback.select,
-                        )}</Feedback
-                    >
-                {/if}
             </div>
             {@render palette()}
         </div>
