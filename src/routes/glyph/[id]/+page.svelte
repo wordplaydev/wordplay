@@ -259,6 +259,7 @@
         if (mode === DrawingMode.Path && event.key === 'Escape') {
             if (pendingPath) {
                 pendingPath = undefined;
+                mode = DrawingMode.Select;
                 event.stopPropagation();
                 return;
             }
@@ -271,27 +272,6 @@
         if (!move && canvasView) {
             setKeyboardFocus(canvasView, 'Focus the canvas.');
             event.preventDefault();
-        }
-
-        if (!move) {
-            const candidate = document.elementFromPoint(
-                event.clientX,
-                event.clientY,
-            );
-            let found = false;
-            if (candidate instanceof SVGElement) {
-                const svg = candidate.parentElement;
-                if (svg !== null && svg.parentElement === canvasView) {
-                    const index = Array.from(svg.childNodes).indexOf(candidate);
-                    if (index >= 0) {
-                        if (event.shiftKey)
-                            selection = [...selection, shapes[index]];
-                        else selection = [shapes[index]];
-                        found = true;
-                    }
-                }
-            }
-            if (!found) selection = [];
         }
 
         // Get the current canvas position.
@@ -319,7 +299,7 @@
             return;
         }
         // In rectangle mode? Start or update a rectangle.
-        if (mode === DrawingMode.Rect) {
+        else if (mode === DrawingMode.Rect) {
             // If there's no pending rect, start one at the current position.
             if (pendingRect === undefined) {
                 pendingRect = {
@@ -393,6 +373,25 @@
                     pendingPath.points.push([position.x, position.y]);
             }
             return;
+        } else if (mode === DrawingMode.Select && !move) {
+            const candidate = document.elementFromPoint(
+                event.clientX,
+                event.clientY,
+            );
+            let found = false;
+            if (candidate instanceof SVGElement) {
+                const svg = candidate.parentElement;
+                if (svg !== null && svg.parentElement === canvasView) {
+                    const index = Array.from(svg.childNodes).indexOf(candidate);
+                    if (index >= 0) {
+                        if (event.shiftKey)
+                            selection = [...selection, shapes[index]];
+                        else selection = [shapes[index]];
+                        found = true;
+                    }
+                }
+            }
+            if (!found) selection = [];
         }
     }
 
@@ -400,10 +399,12 @@
         // Done? Reset the pending shapes to nothing.
         if (pendingRect) {
             pendingRect = undefined;
+            mode = DrawingMode.Select;
             event.stopPropagation();
             return;
         } else if (pendingEllipse) {
             pendingEllipse = undefined;
+            mode = DrawingMode.Select;
             event.stopPropagation();
             return;
         }
