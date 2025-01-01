@@ -64,7 +64,7 @@
         chroma: number;
         /** 0-1 */
         lightness: number;
-        /** A handler */
+        /** Called every time the color changes */
         change: (l: number, c: number, h: number) => void;
         editable?: boolean;
         id?: string | undefined;

@@ -24,6 +24,8 @@ import {
     CHANGE_SYMBOL,
     ELISION_SYMBOL,
     DOCS_SYMBOL,
+    UNDO_SYMBOL,
+    REDO_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -622,7 +624,7 @@ export const InsertSymbol: Command = {
 };
 
 export const Undo: Command = {
-    symbol: '⟲',
+    symbol: UNDO_SYMBOL,
     description: (l) => l.ui.source.cursor.undo,
     visible: Visibility.Visible,
     category: Category.Modify,
@@ -1165,7 +1167,7 @@ const Commands: Command[] = [
     ShowMenu,
     Undo,
     {
-        symbol: '⟳',
+        symbol: REDO_SYMBOL,
         description: (l) => l.ui.source.cursor.redo,
         visible: Visibility.Visible,
         category: Category.Modify,

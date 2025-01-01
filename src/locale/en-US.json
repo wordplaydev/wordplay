@@ -4918,7 +4918,9 @@
                     "clearPixels": {
                         "label": "clear pixels",
                         "tip": "Remove all pixels."
-                    }
+                    },
+                    "undo": "Undo to the previous design",
+                    "redo": "Redo to the next design"
                 },
                 "feedback": {
                     "name": "Glyphs need a valid Wordplay name so you can refer to them in projects.",

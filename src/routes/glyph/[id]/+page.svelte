@@ -52,6 +52,10 @@
             clearPixels: ButtonText;
             /** The clear all button */
             clear: ButtonText;
+            /** The undo tooltip */
+            undo: string;
+            /** The redo tooltip */
+            redo: string;
         };
         feedback: {
             /** When the name isn't a valid Wordplay name */
@@ -112,9 +116,10 @@
     import {
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
+        REDO_SYMBOL,
         SHARE_SYMBOL,
+        UNDO_SYMBOL,
     } from '@parser/Symbols';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
 
     /** The current name of the shape */
     let name = $state('');
@@ -123,13 +128,19 @@
     let description = $state('');
 
     /** The current list of shapes of the glyph */
-    let shapes: GlyphShape[] = $state.raw([]);
+    let shapes: GlyphShape[] = $state([]);
+
+    /** The history of shapes, to support undo/redo */
+    let history: GlyphShape[][] = $state([]);
+
+    /** Where we are in the undo history, to support redo */
+    let historyIndex = $state(0);
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(0);
 
     /** The current selection of shapes, just pointers to the object, since we will mutate them. */
-    let selection: GlyphShape[] = $state.raw([]);
+    let selection: GlyphShape[] = $state([]);
 
     /** The current copied shapes */
     let copy: GlyphShape[] | undefined = $state(undefined);
@@ -212,6 +223,44 @@
               : undefined,
     );
 
+    /** Centralized shape list updating to support undo/redo. */
+    function setShapes(newShapes: GlyphShape[]) {
+        // Remove the future if we're in the past
+        if (historyIndex < history.length - 1)
+            history = history.slice(0, historyIndex);
+
+        // Update the shapes.
+        shapes = newShapes;
+
+        // Clone the current shapes and add them to the history the shapes to the history
+        history = [
+            ...history,
+            structuredClone($state.snapshot(shapes)) as GlyphShape[],
+        ];
+
+        // Move the index to the present.
+        historyIndex = history.length - 1;
+
+        // No more than 100 steps back, just to be conservative about memory.
+        if (history.length > 100) {
+            history.shift();
+        }
+    }
+
+    function undo() {
+        if (historyIndex > 0) {
+            historyIndex--;
+            shapes = history[historyIndex];
+        }
+    }
+
+    function redo() {
+        if (historyIndex < history.length - 1) {
+            historyIndex++;
+            shapes = history[historyIndex];
+        }
+    }
+
     /** Set the pixel at the current position and fill. */
     function setPixel() {
         const candidate: GlyphPixel = {
@@ -226,7 +275,7 @@
         // Already an identical pixel? No need to rerender.
         if (match) return;
 
-        shapes = [
+        setShapes([
             ...shapes
                 // Remove pixels at the same position
                 .filter(
@@ -236,7 +285,7 @@
                         s.center[1] !== drawingCursorPosition.y,
                 ),
             candidate,
-        ];
+        ]);
     }
 
     function getCurrentFill() {
@@ -345,10 +394,10 @@
     }
 
     function addShapes(newShapes: GlyphShape | GlyphShape[]) {
-        shapes = [
+        setShapes([
             ...shapes,
             ...(Array.isArray(newShapes) ? newShapes : [newShapes]),
-        ];
+        ]);
     }
 
     function handleArrow(dx: -1 | 0 | 1, dy: -1 | 0 | 1) {
@@ -356,6 +405,7 @@
         if (selection.length > 0) {
             for (const shape of selection)
                 moveShape(shape, dx, dy, 'translate');
+            setShapes([...shapes]);
         }
         // In all other moves, move the drawing cursor.
         else {
@@ -407,9 +457,24 @@
 
         // Handle deletion.
         if (event.key === 'Delete' || event.key === 'Backspace') {
-            shapes = shapes.filter((s) => !selection.includes(s));
+            setShapes(shapes.filter((s) => !selection.includes(s)));
             selection = [];
             event.stopPropagation();
+            return;
+        }
+
+        // Handle undo/redo
+        if (event.key === 'z' && event.metaKey) {
+            if (event.shiftKey) redo();
+            else undo();
+            event.stopPropagation();
+            event.preventDefault();
+            return;
+        }
+        if (event.key === 'y' && event.metaKey) {
+            redo();
+            event.stopPropagation();
+            event.preventDefault();
             return;
         }
 
@@ -641,6 +706,8 @@
             pendingRectOrEllipse = undefined;
             mode = DrawingMode.Select;
             event.stopPropagation();
+            // Snapshot for history.
+            setShapes([...shapes]);
             return;
         }
     }
@@ -652,10 +719,11 @@
             const newIndex =
                 direction === 'back' ? currentIndex - 1 : currentIndex + 1;
             if (newIndex >= 0 && newIndex < shapes.length) {
-                shapes.splice(currentIndex, 1);
-                shapes.splice(newIndex, 0, shape);
+                const newShapes = [...shapes];
+                newShapes.splice(currentIndex, 1);
+                newShapes.splice(newIndex, 0, shape);
+                setShapes([...newShapes]);
             }
-            shapes = [...shapes];
         }
     }
 </script>
@@ -811,10 +879,12 @@
             (choice) => {
                 currentFillSetting = choice;
                 for (const shape of selection) shape.fill = getCurrentFill();
+                setShapes([...shapes]);
             },
             (color) => {
                 currentFill = color;
                 for (const shape of selection) shape.fill = getCurrentFill();
+                setShapes([...shapes]);
             },
         )}
         <!-- All shapes except pixels have strokes -->
@@ -830,19 +900,25 @@
                 (l) => l.ui.page.glyph.field.stroke,
                 (choice) => {
                     currentStrokeSetting = choice;
-                    for (const shape of selection)
-                        if (shape.type !== 'pixel')
-                            shape.stroke = getCurrentStroke();
+                    if (selection.length > 0) {
+                        for (const shape of selection)
+                            if (shape.type !== 'pixel')
+                                shape.stroke = getCurrentStroke();
+                        setShapes([...shapes]);
+                    }
                 },
                 (color) => {
                     currentStroke = color;
-                    for (const shape of selection)
-                        if (shape.type !== 'pixel')
-                            if (shape.stroke)
-                                // Already a stroke? Just set the color.
-                                shape.stroke.color = { ...currentStroke };
-                            // Otherwise, set the whole stroke.
-                            else shape.stroke = getCurrentStroke();
+                    if (selection.length > 0) {
+                        for (const shape of selection)
+                            if (shape.type !== 'pixel')
+                                if (shape.stroke)
+                                    // Already a stroke? Just set the color.
+                                    shape.stroke.color = { ...currentStroke };
+                                // Otherwise, set the whole stroke.
+                                else shape.stroke = getCurrentStroke();
+                        setShapes([...shapes]);
+                    }
                 },
             )}
             <!-- If there's a selection and they have the same stroke width, show that, otherwise show the current stroke value. -->
@@ -876,6 +952,7 @@
                                 shape.stroke.width = val;
                     } else currentStrokeWidth = val;
                 }}
+                release={() => setShapes([...shapes])}
             ></Slider>
         {/if}
         {#if mode !== DrawingMode.Pixel}
@@ -912,6 +989,7 @@
                             if (shape.type === 'rect') shape.corner = val;
                     } else currentCorner = val;
                 }}
+                release={() => setShapes([...shapes])}
             ></Slider>
         {/if}
         <!-- All shapes but pixels have rotation -->
@@ -946,6 +1024,7 @@
                             if (shape.type !== 'pixel') shape.angle = val;
                     } else currentAngle = val;
                 }}
+                release={() => setShapes([...shapes])}
             ></Slider>
         {/if}
         {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
@@ -972,6 +1051,7 @@
                             for (const shape of selection)
                                 if (shape.type === 'path' && on !== undefined)
                                     shape.closed = on;
+                            setShapes([...shapes]);
                         } else currentCurved = on;
                     }}
                     label={$locales.get((l) => l.ui.page.glyph.field.closed)}
@@ -1001,6 +1081,7 @@
                             for (const shape of selection)
                                 if (shape.type === 'path' && on !== undefined)
                                     shape.curved = on;
+                            setShapes([...shapes]);
                         }
                         // Otherwise update the current curved value.
                         else currentCurved = on;
@@ -1042,7 +1123,17 @@
 {#snippet canvas()}
     <div class="toolbar">
         <Button
-            background
+            tip={$locales.get((l) => l.ui.page.glyph.button.undo)}
+            action={() => undo()}
+            active={historyIndex > 0}>{UNDO_SYMBOL}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.page.glyph.button.redo)}
+            action={() => redo()}
+            active={historyIndex < history.length - 1}
+            >{REDO_SYMBOL}
+        </Button>
+        <Button
             tip={$locales.get((l) => l.ui.page.glyph.button.back.tip)}
             action={() => arrange('back')}
             active={selection.length > 0 && shapes.length > 1}
@@ -1050,7 +1141,6 @@
             {$locales.get((l) => l.ui.page.glyph.button.back.label)}</Button
         >
         <Button
-            background
             tip={$locales.get((l) => l.ui.page.glyph.button.forward.tip)}
             action={() => arrange('forward')}
             active={selection.length > 0 && shapes.length > 1}
@@ -1058,10 +1148,9 @@
             {$locales.get((l) => l.ui.page.glyph.button.forward.label)}</Button
         >
         <Button
-            background
             tip={$locales.get((l) => l.ui.page.glyph.button.clearPixels.tip)}
             action={() => {
-                shapes = shapes.filter((s) => s.type !== 'pixel');
+                setShapes(shapes.filter((s) => s.type !== 'pixel'));
             }}
             active={shapes.some((s) => s.type === 'pixel')}
             >{CANCEL_SYMBOL}
@@ -1070,10 +1159,9 @@
             )}</Button
         >
         <Button
-            background
             tip={$locales.get((l) => l.ui.page.glyph.button.clear.tip)}
             action={() => {
-                shapes = [];
+                setShapes([]);
             }}
             active={shapes.length > 0}
             >{CANCEL_SYMBOL}

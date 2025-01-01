@@ -12,6 +12,7 @@
         label?: string | undefined;
         tip: string;
         change?: (value: Decimal) => void;
+        release?: (value: number | undefined) => void;
         precision?: number;
         editable?: boolean;
         id?: string | undefined;
@@ -26,6 +27,7 @@
         label = undefined,
         tip,
         change = undefined,
+        release = undefined,
         precision = 0,
         editable = true,
         id = undefined,
@@ -68,6 +70,7 @@
         bind:value
         bind:this={view}
         oninput={handleChange}
+        onpointerup={() => release?.(value)}
         disabled={!editable}
     />
     <div class="text">
