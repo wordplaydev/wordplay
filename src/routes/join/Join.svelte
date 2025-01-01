@@ -97,6 +97,7 @@
 
     <p class="center">
         <TextField
+            id="username-field"
             description={$locales.get(
                 (l) => l.ui.page.login.field.username.description,
             )}
@@ -130,6 +131,7 @@
     />
     <p class="center">
         <TextField
+            id="password-field"
             kind={reveal ? undefined : 'password'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,
@@ -145,6 +147,7 @@
                     : true}
         />
         <TextField
+            id="password-repeat-field"
             kind={reveal ? undefined : 'password'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,

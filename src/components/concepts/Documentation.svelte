@@ -184,6 +184,7 @@
 
 <div class="header">
     <TextField
+        id="concept-search"
         placeholder={'🔍'}
         description={$locales.get((l) => l.ui.docs.field.search)}
         bind:text={query}

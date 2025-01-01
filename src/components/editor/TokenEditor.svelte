@@ -114,6 +114,7 @@
 </script>
 
 <TextField
+    id="token-editor-{token.id}"
     bind:text
     data={token.id}
     bind:view

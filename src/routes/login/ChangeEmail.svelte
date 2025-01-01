@@ -39,6 +39,7 @@
 <p>{$locales.get((l) => l.ui.page.login.prompt.changeEmail)}</p>
 <form onsubmit={update}>
     <TextField
+        id="new-email"
         description={$locales.get(
             (l) => l.ui.page.login.field.email.description,
         )}

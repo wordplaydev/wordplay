@@ -96,6 +96,7 @@
         <div class="dimension">
             {#if value !== undefined || given == undefined}
                 <TextField
+                    id="place-editor-{index}"
                     text={`${value ?? 0}`}
                     validator={valid}
                     {editable}

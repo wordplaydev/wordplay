@@ -65,6 +65,7 @@
 
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
+        id="glyph-search"
         placeholder="🔍"
         description={$locales.get((l) => l.ui.source.cursor.search)}
         bind:text={query}

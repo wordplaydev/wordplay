@@ -278,6 +278,7 @@
 <LoginForm submit={usernameSignin} feedback={usernameFeedback}>
     <div class="form">
         <TextField
+            id="login-username-field"
             description={$locales.get(
                 (l) => l.ui.page.login.field.username.description,
             )}
@@ -292,6 +293,7 @@
                     : true}
         />
         <TextField
+            id="login-password-field"
             kind="password"
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,
@@ -340,6 +342,7 @@
     >
     <div class="form">
         <TextField
+            id="login-email-field"
             kind={'email'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.email.description,

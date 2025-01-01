@@ -313,6 +313,7 @@
                         {#if editable && tile.isSource()}
                             <Emoji>{Glyphs.Program.symbols}</Emoji>
                             <TextField
+                                id="source-name-editor-{tile.id}"
                                 text={tile
                                     .getSource(project)
                                     ?.getPreferredName($locales.getLocales())}

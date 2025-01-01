@@ -10,6 +10,7 @@
         done?: (text: string) => void;
         dwelled?: undefined | ((text: string) => void);
         validator?: undefined | ((text: string) => string | true);
+        id: string;
     }
 
     let {
@@ -21,6 +22,7 @@
         active = true,
         inline = false,
         dwelled = undefined,
+        id,
     }: Props = $props();
 
     let view: HTMLTextAreaElement | undefined = $state();
@@ -56,10 +58,12 @@
     onMount(() => resize());
 </script>
 
-<div class="box" class:focused>
+<div class="box" {id} class:focused>
     <textarea
         title={description}
         aria-label={description}
+        aria-invalid={message !== undefined}
+        aria-describedby="{id}-error"
         {placeholder}
         class={{ inline, error: message !== undefined }}
         bind:value={text}
@@ -75,7 +79,7 @@
         oninput={handleInput}
     ></textarea>
     {#if message !== undefined}
-        <div class="message">{message}</div>
+        <div class="message" id="id-{id}">{message}</div>
     {/if}
 </div>
 

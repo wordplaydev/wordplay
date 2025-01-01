@@ -99,6 +99,7 @@
                 <div class="pair">
                     <div class="percent"
                         ><TextField
+                            id="percent-editor-{id}-{index}"
                             text={pair.key.toWordplay()}
                             description={$locales.get(
                                 (l) => l.ui.palette.sequence.field,

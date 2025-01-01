@@ -74,6 +74,7 @@
         <div class="dimension">
             {#if value !== undefined}
                 <TextField
+                    id={`velocity-${index}`}
                     text={`${value}`}
                     validator={(text) =>
                         !valid(text)

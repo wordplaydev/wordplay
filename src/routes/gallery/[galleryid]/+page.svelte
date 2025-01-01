@@ -156,6 +156,7 @@
         {:else}
             <Header
                 >{#if editable}<TextField
+                        id="gallery-name"
                         text={name ?? ''}
                         description={$locales.get(
                             (l) => l.ui.gallery.field.name.description,
@@ -187,6 +188,7 @@
                               )}
                     />{:else}
                     <TextBox
+                        id="gallery-description"
                         text={description ?? ''}
                         description={$locales.get(
                             (l) => l.ui.gallery.field.description.description,

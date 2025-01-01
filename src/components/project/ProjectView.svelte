@@ -1935,6 +1935,7 @@
                 {/if}
                 {#if editable}
                     <TextField
+                        id="project-name"
                         text={project.getName()}
                         description={$locales.get(
                             (l) => l.ui.project.field.name.description,

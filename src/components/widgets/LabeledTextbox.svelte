@@ -12,22 +12,26 @@
         text = $bindable<string>(),
         box = false,
         editable = true,
+        id,
     }: {
         box?: boolean;
         text: string;
         texts: (locale: LocaleText) => FieldText;
         fixed?: string | undefined;
         editable?: boolean;
+        id: string;
     } = $props();
 </script>
 
 <Labeled {fixed} label={$locales.get(texts).description}
     >{#if box}<TextBox
+            {id}
             bind:text
             placeholder={$locales.get(texts).placeholder}
             description={$locales.get(texts).description}
             active={editable}
         ></TextBox>{:else}<TextField
+            {id}
             bind:text
             placeholder={$locales.get(texts).placeholder}
             description={$locales.get(texts).description}

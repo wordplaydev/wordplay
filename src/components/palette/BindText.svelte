@@ -22,16 +22,10 @@
         values: OutputPropertyValues;
         validator: (text: string) => string | true;
         editable: boolean;
-        id?: string | undefined;
+        id: string;
     }
 
-    let {
-        property,
-        values,
-        validator,
-        editable,
-        id = undefined,
-    }: Props = $props();
+    let { property, values, validator, editable, id }: Props = $props();
 
     let project = getProject();
     let view: HTMLInputElement | undefined = $state(undefined);

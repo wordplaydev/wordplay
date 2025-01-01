@@ -114,6 +114,7 @@
 {:else}
     <Header
         >{#if editable}<TextBox
+                id="class-name"
                 text={classData.name}
                 description={$locales.get(
                     (l) => l.ui.page.class.field.name.description,
@@ -128,6 +129,7 @@
     <p
         >{#if editable}
             <TextBox
+                id="class-description"
                 text={classData.description}
                 description={$locales.get(
                     (l) => l.ui.page.class.field.description.description,

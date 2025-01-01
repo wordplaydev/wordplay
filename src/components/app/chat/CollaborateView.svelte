@@ -265,6 +265,7 @@
             <form class="new" data-sveltekit-keepfocus>
                 <div class="controls">
                     <TextField
+                        id="new-message"
                         fill
                         placeholder={$locales.get(
                             (l) => l.ui.collaborate.field.message.placeholder,

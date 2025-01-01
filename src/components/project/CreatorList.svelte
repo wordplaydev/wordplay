@@ -88,6 +88,7 @@
     {#if editable}
         <form class="form" onsubmit={addCreator}>
             <TextField
+                id="creator-to-add"
                 bind:text={emailOrUsername}
                 placeholder={$locales.get(
                     (l) => l.ui.dialog.share.field.emailOrUsername.placeholder,
@@ -171,6 +172,7 @@
                                     <td>
                                         {#if cell}
                                             <TextField
+                                                id="metadata-{uid}-{column}"
                                                 text={datum}
                                                 placeholder={$locales.get(
                                                     (l) =>

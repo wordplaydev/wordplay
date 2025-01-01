@@ -63,6 +63,7 @@
 
 <form onsubmit={update}>
     <TextField
+        id="currentpassword"
         kind={reveal ? undefined : 'password'}
         description={$locales.get(
             (l) => l.ui.page.login.field.currentPassword.description,
@@ -78,6 +79,7 @@
                 : true}
     />
     <TextField
+        id="repeatpassword"
         kind={reveal ? undefined : 'password'}
         description={$locales.get(
             (l) => l.ui.page.login.field.newPassword.description,
@@ -93,6 +95,7 @@
                 : true}
     />
     <TextField
+        id="newpassword"
         kind={reveal ? undefined : 'password'}
         description={$locales.get(
             (l) => l.ui.page.login.field.newPassword.description,

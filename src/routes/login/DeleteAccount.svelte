@@ -81,6 +81,7 @@
                     : undefined}
         >
             <TextField
+                id="delete-account-username"
                 description={$locales.get((l) =>
                     creator.isUsername()
                         ? l.ui.page.login.field.username.description
@@ -97,6 +98,7 @@
             />
             <TextField
                 kind="password"
+                id="delete-account-password"
                 description={$locales.get(
                     (l) => l.ui.page.login.field.password.description,
                 )}

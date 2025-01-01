@@ -663,6 +663,7 @@
     <div class="palette">
         <div class="meta">
             <TextField
+                id="glyph-name"
                 bind:text={name}
                 placeholder={$locales.get(
                     (l) => l.ui.page.glyph.field.name.placeholder,
@@ -674,6 +675,7 @@
                 validator={validName}
             ></TextField>
             <TextBox
+                id="glyph-description"
                 bind:text={description}
                 placeholder={$locales.get(
                     (l) => l.ui.page.glyph.field.description.placeholder,

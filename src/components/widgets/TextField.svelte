@@ -24,7 +24,8 @@
         kind?: 'email' | 'password' | undefined;
         /** CSS length or nothing, setting the max-width of the field*/
         max?: string | undefined;
-        id?: string | undefined;
+        /** A unique ID for testing and ARIA purposes */
+        id: string;
     }
 
     let {
@@ -42,7 +43,7 @@
         defaultFocus = false,
         editable = true,
         classes = undefined,
-        id = undefined,
+        id,
         kind = undefined,
         max = undefined,
     }: Props = $props();
@@ -139,11 +140,14 @@
         class={classes?.join(' ')}
         class:border
         class:right
+        {id}
         data-id={id}
         data-defaultfocus={defaultFocus ? '' : null}
         class:error={message !== undefined}
         aria-label={description}
         aria-placeholder={placeholder}
+        aria-invalid={message !== undefined}
+        aria-describedby="{id}-error"
         placeholder={withMonoEmoji(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
         style:max-width={max}
@@ -167,7 +171,7 @@
               : text.replaceAll(' ', '\xa0')}</span
     >
     {#if message}
-        <div class="message">{message}</div>
+        <div class="message" id="{id}-error">{message}</div>
     {/if}
 </div>
 
