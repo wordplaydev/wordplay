@@ -148,11 +148,9 @@
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = null;
 
-    /** The pending rectangle */
-    let pendingRect: GlyphRectangle | undefined = $state(undefined);
-
-    /** The pending ellipse */
-    let pendingEllipse: GlyphEllipse | undefined = $state(undefined);
+    /** The pending rectangle or ellipse */
+    let pendingRectOrEllipse: GlyphRectangle | GlyphEllipse | undefined =
+        $state(undefined);
 
     /** The pendig path */
     let pendingPath: GlyphPath | undefined = $state(undefined);
@@ -233,66 +231,156 @@
               };
     }
 
+    function getCurrentRect(): GlyphRectangle {
+        return {
+            ...{
+                type: 'rect',
+                center: [drawingCursorPosition.x, drawingCursorPosition.y],
+                width: 1,
+                height: 1,
+            },
+            ...(currentFillSetting !== undefined && {
+                fill: getCurrentFill(),
+            }),
+            ...(currentStrokeSetting !== undefined && {
+                stroke: getCurrentStroke(),
+            }),
+            ...(currentCorner !== 1 && { corner: currentCorner }),
+            ...(currentAngle !== 0 && { angle: currentAngle }),
+        };
+    }
+
+    function updatePendingRectOrEllipse() {
+        if (pendingRectOrEllipse === undefined) return;
+        // Update the pending rect's dimensions to the current pointer position.
+        pendingRectOrEllipse.width = Math.max(
+            1,
+            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.center[0]) *
+                2,
+        );
+        pendingRectOrEllipse.height = Math.max(
+            1,
+            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.center[1]) *
+                2,
+        );
+    }
+
+    function getCurrentEllipse(): GlyphEllipse {
+        return {
+            ...{
+                type: 'ellipse',
+                center: [drawingCursorPosition.x, drawingCursorPosition.y],
+                width: 1,
+                height: 1,
+            },
+            ...(currentFillSetting !== undefined && {
+                fill: getCurrentFill(),
+            }),
+            ...(currentStrokeSetting !== undefined && {
+                stroke: getCurrentStroke(),
+            }),
+            ...(currentAngle !== 0 && { angle: currentAngle }),
+        };
+    }
+
     function handleKey(event: KeyboardEvent) {
         // Handle cursor movement
-        if (event.key === 'ArrowUp') {
-            if (selection.length > 0) {
-                for (const shape of shapes)
-                    moveShape(shape, 0, -1, 'translate');
-            } else
-                drawingCursorPosition.y = Math.max(
-                    0,
-                    drawingCursorPosition.y - 1,
-                );
-            event.stopPropagation();
-        } else if (event.key === 'ArrowDown') {
-            if (selection.length > 0) {
-                for (const shape of shapes) moveShape(shape, 0, 1, 'translate');
-            } else
-                drawingCursorPosition.y = Math.min(
-                    GlyphSize - 1,
-                    drawingCursorPosition.y + 1,
-                );
-            event.stopPropagation();
-        } else if (event.key === 'ArrowLeft') {
-            if (selection.length > 0) {
-                for (const shape of shapes)
-                    moveShape(shape, -1, 0, 'translate');
-            } else
-                drawingCursorPosition.x = Math.max(
-                    0,
-                    drawingCursorPosition.x - 1,
-                );
-            event.stopPropagation();
-        } else if (event.key === 'ArrowRight') {
-            if (selection.length > 0) {
-                for (const shape of shapes) moveShape(shape, 1, 0, 'translate');
-            } else
-                drawingCursorPosition.x = Math.min(
-                    GlyphSize - 1,
-                    drawingCursorPosition.x + 1,
-                );
-            event.stopPropagation();
-        } else if (event.key === 'Delete' || event.key === 'Backspace') {
+        if (event.key.startsWith('Arrow')) {
+            if (event.key === 'ArrowUp') {
+                if (selection.length > 0) {
+                    for (const shape of shapes)
+                        moveShape(shape, 0, -1, 'translate');
+                } else
+                    drawingCursorPosition.y = Math.max(
+                        0,
+                        drawingCursorPosition.y - 1,
+                    );
+
+                event.stopPropagation();
+            } else if (event.key === 'ArrowDown') {
+                if (selection.length > 0) {
+                    for (const shape of shapes)
+                        moveShape(shape, 0, 1, 'translate');
+                } else
+                    drawingCursorPosition.y = Math.min(
+                        GlyphSize - 1,
+                        drawingCursorPosition.y + 1,
+                    );
+                event.stopPropagation();
+            } else if (event.key === 'ArrowLeft') {
+                if (selection.length > 0) {
+                    for (const shape of shapes)
+                        moveShape(shape, -1, 0, 'translate');
+                } else
+                    drawingCursorPosition.x = Math.max(
+                        0,
+                        drawingCursorPosition.x - 1,
+                    );
+                event.stopPropagation();
+            } else if (event.key === 'ArrowRight') {
+                if (selection.length > 0) {
+                    for (const shape of shapes)
+                        moveShape(shape, 1, 0, 'translate');
+                } else
+                    drawingCursorPosition.x = Math.min(
+                        GlyphSize - 1,
+                        drawingCursorPosition.x + 1,
+                    );
+                event.stopPropagation();
+            }
+            // Pending shape? Update it based on the new position.
+            if (pendingRectOrEllipse) updatePendingRectOrEllipse();
+        }
+
+        if (event.key === 'Delete' || event.key === 'Backspace') {
             shapes = shapes.filter((s) => !selection.includes(s));
             selection = [];
+            event.stopPropagation();
             return;
         }
 
+        const action = event.key === 'Enter' || event.key === ' ';
+
         // If in pixel mode, drop a pixel.
-        if (
-            mode === DrawingMode.Pixel &&
-            (event.key === 'Enter' || event.key === ' ')
-        ) {
+        if (mode === DrawingMode.Pixel && action) {
             setPixel();
+            event.stopPropagation();
             return;
         }
-        // If in path mode and key is escape, close the path
-        if (mode === DrawingMode.Path && event.key === 'Escape') {
-            if (pendingPath) {
-                selection = [pendingPath];
-                pendingPath = undefined;
+        // If in rect or ellipse mode...
+        else if (
+            (mode === DrawingMode.Rect || mode === DrawingMode.Ellipse) &&
+            action
+        ) {
+            // No pending rect? Make one
+            if (pendingRectOrEllipse === undefined) {
+                pendingRectOrEllipse =
+                    mode === DrawingMode.Rect
+                        ? getCurrentRect()
+                        : getCurrentEllipse();
+                shapes = [...shapes, pendingRectOrEllipse];
+            }
+            // If there is one, finish it
+            else {
+                selection = [pendingRectOrEllipse];
+                pendingRectOrEllipse = undefined;
                 mode = DrawingMode.Select;
+            }
+            event.stopPropagation();
+        }
+        // If in path mode and key is escape, close the path
+        else if (event.key === 'Escape') {
+            if (mode === DrawingMode.Path) {
+                if (pendingPath) {
+                    selection = [pendingPath];
+                    pendingPath = undefined;
+                    mode = DrawingMode.Select;
+                    event.stopPropagation();
+                    return;
+                }
+            }
+            if (mode === DrawingMode.Select) {
+                selection = [];
                 event.stopPropagation();
                 return;
             }
@@ -334,79 +422,16 @@
             return;
         }
         // In rectangle mode? Start or update a rectangle.
-        else if (mode === DrawingMode.Rect) {
+        else if (mode === DrawingMode.Rect || mode === DrawingMode.Ellipse) {
             // If there's no pending rect, start one at the current position.
-            if (pendingRect === undefined) {
-                pendingRect = {
-                    ...{
-                        type: 'rect',
-                        center: [
-                            drawingCursorPosition.x,
-                            drawingCursorPosition.y,
-                        ],
-                        width: 1,
-                        height: 1,
-                    },
-                    ...(currentFillSetting !== undefined && {
-                        fill: getCurrentFill(),
-                    }),
-                    ...(currentStrokeSetting !== undefined && {
-                        stroke: getCurrentStroke(),
-                    }),
-                    ...(currentCorner !== 1 && { corner: currentCorner }),
-                    ...(currentAngle !== 0 && { angle: currentAngle }),
-                };
-                shapes = [...shapes, pendingRect];
+            if (pendingRectOrEllipse === undefined) {
+                pendingRectOrEllipse =
+                    mode === DrawingMode.Rect
+                        ? getCurrentRect()
+                        : getCurrentEllipse();
+                shapes = [...shapes, pendingRectOrEllipse];
             } else {
-                // Update the pending rect's dimensions to the current pointer position.
-                pendingRect.width = Math.max(
-                    1,
-                    Math.abs(drawingCursorPosition.x - pendingRect.center[0]) *
-                        2,
-                );
-                pendingRect.height = Math.max(
-                    1,
-                    Math.abs(drawingCursorPosition.y - pendingRect.center[1]) *
-                        2,
-                );
-            }
-            return;
-        } else if (mode === DrawingMode.Ellipse) {
-            // If there's no pending rect, start one at the current position.
-            if (pendingEllipse === undefined) {
-                pendingEllipse = {
-                    ...{
-                        type: 'ellipse',
-                        center: [
-                            drawingCursorPosition.x,
-                            drawingCursorPosition.y,
-                        ],
-                        width: 1,
-                        height: 1,
-                    },
-                    ...(currentFillSetting !== undefined && {
-                        fill: getCurrentFill(),
-                    }),
-                    ...(currentStrokeSetting !== undefined && {
-                        stroke: getCurrentStroke(),
-                    }),
-                    ...(currentAngle !== 0 && { angle: currentAngle }),
-                };
-                shapes = [...shapes, pendingEllipse];
-            } else {
-                // Update the pending rect's dimensions to the current pointer position.
-                pendingEllipse.width = Math.max(
-                    1,
-                    Math.abs(
-                        drawingCursorPosition.x - pendingEllipse.center[0],
-                    ) * 2,
-                );
-                pendingEllipse.height = Math.max(
-                    1,
-                    Math.abs(
-                        drawingCursorPosition.y - pendingEllipse.center[1],
-                    ) * 2,
-                );
+                updatePendingRectOrEllipse();
             }
             return;
         } else if (mode === DrawingMode.Path && !move) {
@@ -509,15 +534,9 @@
         if (dragOffsets) dragOffsets = undefined;
 
         // Done? Reset the pending shapes to nothing.
-        if (pendingRect) {
-            selection = [pendingRect];
-            pendingRect = undefined;
-            mode = DrawingMode.Select;
-            event.stopPropagation();
-            return;
-        } else if (pendingEllipse) {
-            selection = [pendingEllipse];
-            pendingEllipse = undefined;
+        if (pendingRectOrEllipse) {
+            selection = [pendingRectOrEllipse];
+            pendingRectOrEllipse = undefined;
             mode = DrawingMode.Select;
             event.stopPropagation();
             return;
