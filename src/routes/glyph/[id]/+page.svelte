@@ -48,6 +48,10 @@
             back: ButtonText;
             /** The move selection forward button */
             forward: ButtonText;
+            /** The clear pixels button */
+            clearPixels: ButtonText;
+            /** The clear all button */
+            clear: ButtonText;
         };
         feedback: {
             /** When the name isn't a valid Wordplay name */
@@ -105,7 +109,12 @@
     import Sym from '@nodes/Sym';
     import { v4 as uuidv4 } from 'uuid';
     import Button from '@components/widgets/Button.svelte';
-    import { BORROW_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
+    import {
+        BORROW_SYMBOL,
+        CANCEL_SYMBOL,
+        SHARE_SYMBOL,
+    } from '@parser/Symbols';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
 
     /** The current name of the shape */
     let name = $state('');
@@ -1047,6 +1056,28 @@
             active={selection.length > 0 && shapes.length > 1}
             >{BORROW_SYMBOL}
             {$locales.get((l) => l.ui.page.glyph.button.forward.label)}</Button
+        >
+        <Button
+            background
+            tip={$locales.get((l) => l.ui.page.glyph.button.clearPixels.tip)}
+            action={() => {
+                shapes = shapes.filter((s) => s.type !== 'pixel');
+            }}
+            active={shapes.some((s) => s.type === 'pixel')}
+            >{CANCEL_SYMBOL}
+            {$locales.get(
+                (l) => l.ui.page.glyph.button.clearPixels.label,
+            )}</Button
+        >
+        <Button
+            background
+            tip={$locales.get((l) => l.ui.page.glyph.button.clear.tip)}
+            action={() => {
+                shapes = [];
+            }}
+            active={shapes.length > 0}
+            >{CANCEL_SYMBOL}
+            {$locales.get((l) => l.ui.page.glyph.button.clear.label)}</Button
         >
     </div>
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
