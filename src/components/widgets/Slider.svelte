@@ -98,6 +98,7 @@
 
     label {
         font-style: italic;
+        font-size: var(--wordplay-small-font-size);
     }
 
     .text {

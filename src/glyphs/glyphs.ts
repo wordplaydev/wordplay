@@ -182,20 +182,6 @@ function pixelToSVG(pixel: GlyphPixel, selected: boolean = false): string {
     });
 }
 
-export function pixelsAreEqual(one: GlyphPixel, two: GlyphPixel): boolean {
-    return (
-        one.point[0] === two.point[0] &&
-        one.point[1] === two.point[1] &&
-        ((!('fill' in one) && !('fill' in two)) ||
-            (one.fill === null && two.fill === null) ||
-            (one.fill !== null &&
-                two.fill !== null &&
-                one.fill.l === two.fill.l &&
-                one.fill.c === two.fill.c &&
-                one.fill.h === two.fill.h))
-    );
-}
-
 function pathToSVG(path: GlyphPath, selected: boolean = false): string {
     const points = path.points
         .map(
@@ -239,4 +225,43 @@ function tag(
         .map(([k, v]) => (v === undefined ? undefined : `${k}="${v}"`))
         .filter((pair) => pair !== undefined)
         .join(' ')}/>`;
+}
+
+export function pixelsAreEqual(one: GlyphPixel, two: GlyphPixel): boolean {
+    return (
+        one.point[0] === two.point[0] &&
+        one.point[1] === two.point[1] &&
+        ((!('fill' in one) && !('fill' in two)) ||
+            (one.fill === null && two.fill === null) ||
+            (one.fill !== null &&
+                two.fill !== null &&
+                one.fill.l === two.fill.l &&
+                one.fill.c === two.fill.c &&
+                one.fill.h === two.fill.h))
+    );
+}
+
+export function colorsAreEqual(
+    one: Color | null | undefined,
+    two: Color | null | undefined,
+): boolean {
+    return (
+        (one === null && two === null) ||
+        (one == undefined && two === undefined) ||
+        (!!one &&
+            !!two &&
+            one.l === two.l &&
+            one.c === two.c &&
+            one.h === two.h)
+    );
+}
+
+export function getSharedColor(
+    colors: (Color | null | undefined)[],
+): Color | null | undefined {
+    const first = colors[0];
+    const rest = colors.slice(1);
+    if (first == undefined) return undefined;
+    if (rest.length === 0) return first;
+    else return rest.every((c) => colorsAreEqual(first, c)) ? first : undefined;
 }

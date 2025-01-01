@@ -4841,6 +4841,12 @@
                 "subheader": {
                     "other": "other"
                 },
+                "shape": {
+                    "pixel": "pixel",
+                    "rect": "rectangle",
+                    "ellipse": "ellipse",
+                    "path": "path"
+                },
                 "field": {
                     "name": {
                         "description": "name of the glyph",
@@ -4861,11 +4867,11 @@
                         ]
                     },
                     "fill": {
-                        "label": "fill color",
+                        "label": "fill",
                         "modes": ["none", "inerit", "choose"]
                     },
                     "stroke": {
-                        "label": "stroke color",
+                        "label": "stroke",
                         "modes": ["none", "inerit", "choose"]
                     },
                     "none": "none",
