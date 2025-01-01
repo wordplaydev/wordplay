@@ -160,61 +160,10 @@
 
     // If the mode changes, end the pending path.
     $effect(() => {
-        if (mode !== DrawingMode.Path) pendingPath = undefined;
-    });
-
-    // If the selection has an identical stroke width, set the current stoke width to it
-    $effect(() => {
-        const widths = new Set(
-            selection
-                .filter((s) => s.type !== 'pixel')
-                .map((s) => s.stroke?.width)
-                .filter((w) => w !== undefined),
-        );
-        const width = widths.values().next().value;
-        if (width !== undefined) currentStrokeWidth = width;
-    });
-
-    // If the selection has an identical corner radius, set the current corner radius to it
-    $effect(() => {
-        const corners = new Set(
-            selection
-                .filter((s) => s.type === 'rect')
-                .map((s) => s.corner ?? 0)
-                .filter((c) => c !== undefined),
-        );
-        const corner = corners.values().next().value;
-        if (corner !== undefined) currentCorner = corner;
-    });
-
-    // If the selection has an identical angle, set the current angle to it
-    $effect(() => {
-        const angles = new Set(
-            selection
-                .filter((s) => s.type !== 'pixel')
-                .map((s) => s.angle ?? 0)
-                .filter((a) => a !== undefined),
-        );
-        const angle = angles.values().next().value;
-        if (angle !== undefined) currentAngle = angle;
-    });
-
-    // If the selection has an identical closed state, set the current closed state to it
-    $effect(() => {
-        const closed = new Set(
-            selection.filter((s) => s.type === 'path').map((s) => s.closed),
-        );
-        const close = closed.values().next().value;
-        if (close !== undefined) currentClosed = close;
-    });
-
-    // If the selection has an identical curved state, set the current curved state to it
-    $effect(() => {
-        const curves = new Set(
-            selection.filter((s) => s.type === 'path').map((s) => s.curved),
-        );
-        const curved = curves.values().next().value;
-        if (curved !== undefined) currentCurved = curved;
+        if (mode !== DrawingMode.Path && pendingPath !== undefined) {
+            selection = [pendingPath];
+            pendingPath = undefined;
+        }
     });
 
     function validName(name: string) {
@@ -692,11 +641,23 @@
                 increment={0.1}
                 precision={1}
                 unit={''}
-                bind:value={currentStrokeWidth}
-                change={(val) => {
-                    for (const shape of selection)
-                        if ('stroke' in shape && shape.stroke !== undefined)
-                            shape.stroke.width = val.toNumber();
+                bind:value={() => {
+                    const widths = new Set(
+                        selection
+                            .filter((s) => s.type !== 'pixel')
+                            .map((s) => s.stroke?.width)
+                            .filter((w) => w !== undefined),
+                    );
+                    const width = widths.values().next().value;
+                    if (width !== undefined) return width;
+                    else return currentStrokeWidth;
+                },
+                (val) => {
+                    if (selection.length > 0) {
+                        for (const shape of selection)
+                            if ('stroke' in shape && shape.stroke !== undefined)
+                                shape.stroke.width = val;
+                    } else currentStrokeWidth = val;
                 }}
             ></Slider>
         {/if}
@@ -713,12 +674,24 @@
                 increment={0.1}
                 precision={1}
                 unit={''}
-                bind:value={currentCorner}
-                change={(val) => {
-                    // Update any selected rectangle's rounded corners.
-                    for (const shape of selection)
-                        if (shape.type === 'rect')
-                            shape.corner = val.toNumber();
+                bind:value={() => {
+                    // Uniform corner value? Show that.
+                    const corners = new Set(
+                        selection
+                            .filter((s) => s.type === 'rect')
+                            .map((s) => s.corner ?? 0)
+                            .filter((c) => c !== undefined),
+                    );
+                    const corner = corners.values().next().value;
+                    if (corner !== undefined) return corner;
+                    else return currentCorner;
+                },
+                (val) => {
+                    if (selection.length > 0) {
+                        // Update any selected rectangle's rounded corners.
+                        for (const shape of selection)
+                            if (shape.type === 'rect') shape.corner = val;
+                    } else currentCorner = val;
                 }}
             ></Slider>
         {/if}
@@ -732,12 +705,24 @@
                 increment={1}
                 precision={0}
                 unit={''}
-                bind:value={currentAngle}
-                change={(val) => {
-                    // Update any selected shape's rotation
-                    for (const shape of selection)
-                        if (shape.type !== 'pixel')
-                            shape.angle = val.toNumber();
+                bind:value={() => {
+                    // Is there a uniform selected angle? Show that.
+                    const angles = new Set(
+                        selection
+                            .filter((s) => s.type !== 'pixel')
+                            .map((s) => s.angle ?? 0)
+                            .filter((a) => a !== undefined),
+                    );
+                    const angle = angles.values().next().value;
+                    if (angle !== undefined) return angle;
+                    else return currentAngle;
+                },
+                (val) => {
+                    if (selection.length > 0) {
+                        // Update any selected shape's rotation
+                        for (const shape of selection)
+                            if (shape.type !== 'pixel') shape.angle = val;
+                    } else currentAngle = val;
                 }}
             ></Slider>
         {/if}
@@ -745,27 +730,54 @@
             <label>
                 <Checkbox
                     id="closed-path"
-                    bind:on={currentClosed}
-                    label={$locales.get((l) => l.ui.page.glyph.field.closed)}
-                    changed={(on) => {
-                        // Update any selected shape's closed state
-                        for (const shape of selection)
-                            if (shape.type === 'path' && on !== undefined)
-                                shape.closed = on;
+                    bind:on={() => {
+                        // If the selection has an identical closed state, set the current closed state to it
+                        const closed = new Set(
+                            selection
+                                .filter((s) => s.type === 'path')
+                                .map((s) => s.closed),
+                        );
+                        const close = closed.values().next().value;
+                        if (close !== undefined) return close;
+                        else return currentClosed;
+                    },
+                    (on) => {
+                        if (selection.length > 0) {
+                            // Update any selected shape's closed state
+                            for (const shape of selection)
+                                if (shape.type === 'path' && on !== undefined)
+                                    shape.closed = on;
+                        } else currentCurved = on;
                     }}
+                    label={$locales.get((l) => l.ui.page.glyph.field.closed)}
                 ></Checkbox>{$locales.get((l) => l.ui.page.glyph.field.closed)}
             </label>
             <label>
                 <Checkbox
                     id="curved-path"
-                    bind:on={currentCurved}
-                    label={$locales.get((l) => l.ui.page.glyph.field.curved)}
-                    changed={(on) => {
-                        // Update any selected shape's curved state
-                        for (const shape of selection)
-                            if (shape.type === 'path' && on !== undefined)
-                                shape.curved = on;
+                    bind:on={() => {
+                        // If there's a selection and they have the same curved state, show that, otherwise show the current curved value.
+                        const curves = new Set(
+                            selection
+                                .filter((s) => s.type === 'path')
+                                .map((s) => s.curved),
+                        );
+                        const curved = curves.values().next().value;
+                        if (curved !== undefined) return curved;
+                        else return currentCurved;
+                    },
+                    (on) => {
+                        // If there's a selection, update the value for all selected shapes.
+                        if (selection.length > 0) {
+                            // Update any selected shape's curved state
+                            for (const shape of selection)
+                                if (shape.type === 'path' && on !== undefined)
+                                    shape.curved = on;
+                        }
+                        // Otherwise update the current curved value.
+                        else currentCurved = on;
                     }}
+                    label={$locales.get((l) => l.ui.page.glyph.field.curved)}
                 ></Checkbox>{$locales.get(
                     (l) => l.ui.page.glyph.field.curved,
                 )}</label
