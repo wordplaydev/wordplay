@@ -56,7 +56,7 @@ const PixelSchema = z.object({
     id: z.string(),
     type: z.literal('pixel'),
     center: PointSchema, // The center of the pixel
-    fill: ColorSchema.nullable(), // It's fill color, no stroke
+    fill: ColorSchema.nullable(), // If null, it's currentColor
 });
 export type GlyphPixel = z.infer<typeof PixelSchema>;
 

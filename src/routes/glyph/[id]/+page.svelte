@@ -207,6 +207,12 @@
         }
     });
 
+    // If the mode changes to pixel, and the fill is set to none, set it to set.
+    $effect(() => {
+        if (mode === DrawingMode.Pixel && currentFillSetting === 'none')
+            currentFillSetting = 'set';
+    });
+
     function validName(name: string) {
         const tokens = toTokens(name);
         return tokens.nextAre(Sym.Name, Sym.End)
@@ -749,6 +755,8 @@
 {#snippet colorChooser(
     state: ColorSetting,
     color: LCH,
+    /** Whether no fill is allowed */
+    none: boolean,
     accessor: (locale: LocaleText) => any,
     setState: (state: ColorSetting) => void,
     setColor: (color: LCH) => void,
@@ -757,13 +765,13 @@
     <Mode
         descriptions={$locales.get(accessor)}
         modes={[
-            $locales.get((l) => l.ui.page.glyph.field.none),
-            $locales.get((l) => l.ui.page.glyph.field.inherit),
             '🎨',
+            $locales.get((l) => l.ui.page.glyph.field.inherit),
+            ...(none ? [$locales.get((l) => l.ui.page.glyph.field.none)] : []),
         ]}
-        choice={state === 'none' ? 0 : state === 'inherit' ? 1 : 2}
+        choice={state === 'none' ? 2 : state === 'inherit' ? 1 : 0}
         select={(choice: number) => {
-            setState(choice === 0 ? 'none' : choice === 1 ? 'inherit' : 'set');
+            setState(choice === 2 ? 'none' : choice === 1 ? 'inherit' : 'set');
         }}
         labeled={false}
     ></Mode>
@@ -888,6 +896,7 @@
             currentFillSetting,
             // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
             getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
+            mode !== DrawingMode.Pixel,
             (l) => l.ui.page.glyph.field.fill,
             (choice) => {
                 currentFillSetting = choice;
@@ -910,6 +919,7 @@
                         .filter((s) => s.type !== 'pixel')
                         .map((s) => s.stroke?.color),
                 ) ?? currentStroke,
+                true,
                 (l) => l.ui.page.glyph.field.stroke,
                 (choice) => {
                     currentStrokeSetting = choice;
