@@ -78,6 +78,7 @@
         getSharedColor,
         GlyphSize,
         glyphToSVG,
+        moveShape,
         pixelsAreEqual,
         type GlyphEllipse,
         type GlyphPath,
@@ -185,7 +186,7 @@
     function setPixel() {
         const candidate: GlyphPixel = {
             type: 'pixel',
-            point: [drawingCursorPosition.x, drawingCursorPosition.y],
+            center: [drawingCursorPosition.x, drawingCursorPosition.y],
             fill: currentFillSetting === undefined ? null : { ...currentFill },
         };
         const match = shapes
@@ -200,8 +201,8 @@
                 .filter(
                     (s) =>
                         s.type !== 'pixel' ||
-                        s.point[0] !== drawingCursorPosition.x ||
-                        s.point[1] !== drawingCursorPosition.y,
+                        s.center[0] !== drawingCursorPosition.x ||
+                        s.center[1] !== drawingCursorPosition.y,
                 ),
             candidate,
         ];
@@ -230,23 +231,41 @@
     function handleKey(event: KeyboardEvent) {
         // Handle cursor movement
         if (event.key === 'ArrowUp') {
-            drawingCursorPosition.y = Math.max(0, drawingCursorPosition.y - 1);
+            if (selection.length > 0) {
+                for (const shape of shapes) moveShape(shape, 0, -1);
+            } else
+                drawingCursorPosition.y = Math.max(
+                    0,
+                    drawingCursorPosition.y - 1,
+                );
             event.stopPropagation();
         } else if (event.key === 'ArrowDown') {
-            drawingCursorPosition.y = Math.min(
-                GlyphSize - 1,
-                drawingCursorPosition.y + 1,
-            );
+            if (selection.length > 0) {
+                for (const shape of shapes) moveShape(shape, 0, 1);
+            } else
+                drawingCursorPosition.y = Math.min(
+                    GlyphSize - 1,
+                    drawingCursorPosition.y + 1,
+                );
             event.stopPropagation();
         } else if (event.key === 'ArrowLeft') {
-            drawingCursorPosition.x = Math.max(0, drawingCursorPosition.x - 1);
+            if (selection.length > 0) {
+                for (const shape of shapes) moveShape(shape, -1, 0);
+            } else
+                drawingCursorPosition.x = Math.max(
+                    0,
+                    drawingCursorPosition.x - 1,
+                );
             event.stopPropagation();
         } else if (event.key === 'ArrowRight') {
+            if (selection.length > 0) {
+                for (const shape of shapes) moveShape(shape, 1, 0);
+            } else
+                drawingCursorPosition.x = Math.min(
+                    GlyphSize - 1,
+                    drawingCursorPosition.x + 1,
+                );
             event.stopPropagation();
-            drawingCursorPosition.x = Math.min(
-                GlyphSize - 1,
-                drawingCursorPosition.x + 1,
-            );
         } else if (event.key === 'Delete' || event.key === 'Backspace') {
             shapes = shapes.filter((s) => !selection.includes(s));
             selection = [];

@@ -53,7 +53,7 @@ export type GlyphRectangle = z.infer<typeof RectangleSchema>;
 
 const PixelSchema = z.object({
     type: z.literal('pixel'),
-    point: PositionSchema, // The center of the pixel
+    center: PositionSchema, // The center of the pixel
     fill: ColorSchema.nullable(), // It's fill color, no stroke
 });
 export type GlyphPixel = z.infer<typeof PixelSchema>;
@@ -174,8 +174,8 @@ function ellipseToSVG(
 function pixelToSVG(pixel: GlyphPixel, selected: boolean = false): string {
     return tag('rect', {
         class: selected ? 'selected' : undefined,
-        x: pixel.point[0],
-        y: pixel.point[1],
+        x: pixel.center[0],
+        y: pixel.center[1],
         width: 1,
         height: 1,
         fill: colorToSVG(pixel.fill),
@@ -229,8 +229,8 @@ function tag(
 
 export function pixelsAreEqual(one: GlyphPixel, two: GlyphPixel): boolean {
     return (
-        one.point[0] === two.point[0] &&
-        one.point[1] === two.point[1] &&
+        one.center[0] === two.center[0] &&
+        one.center[1] === two.center[1] &&
         ((!('fill' in one) && !('fill' in two)) ||
             (one.fill === null && two.fill === null) ||
             (one.fill !== null &&
@@ -264,4 +264,24 @@ export function getSharedColor(
     if (first == undefined) return undefined;
     if (rest.length === 0) return first;
     else return rest.every((c) => colorsAreEqual(first, c)) ? first : undefined;
+}
+
+/** Mutate the given shape in the specified direction. */
+export function moveShape(shape: GlyphShape, dx: number, dy: number) {
+    switch (shape.type) {
+        // These three are easy.
+        case 'rect':
+        case 'ellipse':
+        case 'pixel':
+            shape.center[0] += dx;
+            shape.center[1] += dy;
+        // This one requires moving all the points.
+        case 'path':
+            if (shape.type === 'path') {
+                for (const point of shape.points) {
+                    point[0] += dx;
+                    point[1] += dy;
+                }
+            }
+    }
 }
