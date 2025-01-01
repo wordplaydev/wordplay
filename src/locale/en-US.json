@@ -4902,6 +4902,16 @@
                     "closed": "connect first and last points",
                     "curved": "curved"
                 },
+                "button": {
+                    "back": {
+                        "label": "back",
+                        "tip": "Move selected shapes behind."
+                    },
+                    "forward": {
+                        "label": "forward",
+                        "tip": "Move selected shapes in front."
+                    }
+                },
                 "feedback": {
                     "name": "Glyphs need a valid Wordplay name so you can refer to them in projects.",
                     "description": "Glyphs need a description so those who can't see know what they represent.",

@@ -1,5 +1,5 @@
 <script module lang="ts">
-    import type { FieldText, ModeText } from '@locale/UITexts';
+    import type { ButtonText, FieldText, ModeText } from '@locale/UITexts';
     export type GlyphPageText = {
         header: string;
         prompt: string;
@@ -43,6 +43,12 @@
             /** Curved path label */
             curved: string;
         };
+        button: {
+            /** The move selection back button */
+            back: ButtonText;
+            /** The move selection forward button */
+            forward: ButtonText;
+        };
         feedback: {
             /** When the name isn't a valid Wordplay name */
             name: string;
@@ -81,7 +87,6 @@
         glyphToSVG,
         moveShape,
         pixelsAreEqual,
-        type Glyph,
         type GlyphEllipse,
         type GlyphPath,
         type GlyphPixel,
@@ -99,6 +104,8 @@
     import { toTokens } from '@parser/toTokens';
     import Sym from '@nodes/Sym';
     import { v4 as uuidv4 } from 'uuid';
+    import Button from '@components/widgets/Button.svelte';
+    import { BORROW_SYMBOL, SHARE_SYMBOL } from '@parser/Symbols';
 
     /** The current name of the shape */
     let name = $state('');
@@ -107,13 +114,13 @@
     let description = $state('');
 
     /** The current list of shapes of the glyph */
-    let shapes: GlyphShape[] = $state([]);
+    let shapes: GlyphShape[] = $state.raw([]);
 
     /** The current drawing mode of the editor*/
     let mode: DrawingMode = $state(0);
 
     /** The current selection of shapes, just pointers to the object, since we will mutate them. */
-    let selection: GlyphShape[] = $state([]);
+    let selection: GlyphShape[] = $state.raw([]);
 
     /** The current copied shapes */
     let copy: GlyphShape[] | undefined = $state(undefined);
@@ -328,6 +335,13 @@
             ]);
     }
 
+    function addShapes(newShapes: GlyphShape | GlyphShape[]) {
+        shapes = [
+            ...shapes,
+            ...(Array.isArray(newShapes) ? newShapes : [newShapes]),
+        ];
+    }
+
     function handleArrow(dx: -1 | 0 | 1, dy: -1 | 0 | 1) {
         // Selection? Move the selection in the preferred direction.
         if (selection.length > 0) {
@@ -392,9 +406,12 @@
 
         // Handle copy
         if (event.key === 'c' && event.metaKey) {
-            copy = selection.map(
-                (s) => JSON.parse(JSON.stringify(s)) as GlyphShape,
-            );
+            copy = selection
+                .map((s) => structuredClone($state.snapshot(s)) as GlyphShape)
+                .map((s) => {
+                    s.id = uuidv4();
+                    return s;
+                });
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -404,7 +421,7 @@
         if (event.key === 'v' && event.metaKey) {
             if (copy) {
                 const copies = copy.map(
-                    (s) => JSON.parse(JSON.stringify(s)) as GlyphShape,
+                    (s) => structuredClone($state.snapshot(s)) as GlyphShape,
                 );
                 // Translate the copies down a bit to make them visible.
                 for (const shape of copies) {
@@ -415,7 +432,7 @@
                 // Update the copy to the things just copied
                 copy = copies;
                 // Add the copies t the end of the shape.
-                shapes = [...shapes, ...copies];
+                addShapes(copies);
                 // Select all the copies so they can be moved.
                 selection = [...copies];
             }
@@ -451,7 +468,7 @@
                     mode === DrawingMode.Rect
                         ? getCurrentRect()
                         : getCurrentEllipse();
-                shapes = [...shapes, pendingRectOrEllipse];
+                addShapes(pendingRectOrEllipse);
             }
             // If there is one, finish it
             else {
@@ -465,7 +482,7 @@
         else if (mode === DrawingMode.Path && action) {
             if (pendingPath === undefined) {
                 pendingPath = getCurrentPath();
-                shapes = [...shapes, pendingPath];
+                addShapes(pendingPath);
             } else updatePendingPath();
         }
         // If in path mode and key is escape, close the path
@@ -529,7 +546,7 @@
                     mode === DrawingMode.Rect
                         ? getCurrentRect()
                         : getCurrentEllipse();
-                shapes = [...shapes, pendingRectOrEllipse];
+                addShapes(pendingRectOrEllipse);
             } else {
                 updatePendingRectOrEllipse();
             }
@@ -537,7 +554,7 @@
         } else if (mode === DrawingMode.Path && !move) {
             if (pendingPath === undefined) {
                 pendingPath = getCurrentPath();
-                shapes = [...shapes, pendingPath];
+                addShapes(pendingPath);
             } else updatePendingPath();
 
             return;
@@ -616,6 +633,20 @@
             mode = DrawingMode.Select;
             event.stopPropagation();
             return;
+        }
+    }
+
+    function arrange(direction: 'back' | 'forward') {
+        // Move each shape forward or backward in the shape list.
+        for (const shape of selection) {
+            const currentIndex = shapes.findIndex((s) => s.id === shape.id);
+            const newIndex =
+                direction === 'back' ? currentIndex - 1 : currentIndex + 1;
+            if (newIndex >= 0 && newIndex < shapes.length) {
+                shapes.splice(currentIndex, 1);
+                shapes.splice(newIndex, 0, shape);
+            }
+            shapes = [...shapes];
         }
     }
 </script>
@@ -1000,6 +1031,24 @@
 {/snippet}
 
 {#snippet canvas()}
+    <div class="toolbar">
+        <Button
+            background
+            tip={$locales.get((l) => l.ui.page.glyph.button.back.tip)}
+            action={() => arrange('back')}
+            active={selection.length > 0 && shapes.length > 1}
+            >{SHARE_SYMBOL}
+            {$locales.get((l) => l.ui.page.glyph.button.back.label)}</Button
+        >
+        <Button
+            background
+            tip={$locales.get((l) => l.ui.page.glyph.button.forward.tip)}
+            action={() => arrange('forward')}
+            active={selection.length > 0 && shapes.length > 1}
+            >{BORROW_SYMBOL}
+            {$locales.get((l) => l.ui.page.glyph.button.forward.label)}</Button
+        >
+    </div>
     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
     <div
@@ -1047,6 +1096,13 @@
         .canvas:focus {
             outline: var(--wordplay-focus-color) solid
                 var(--wordplay-focus-width);
+        }
+
+        .toolbar {
+            display: flex;
+            flex-direction: row;
+            gap: var(--wordplay-spacing);
+            justify-content: center;
         }
 
         .position {
