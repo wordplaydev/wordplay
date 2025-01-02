@@ -18,7 +18,6 @@
 <style>
     .feedback {
         font-family: var(--wordplay-app-font);
-        font-size: var(--wordplay-small-font-size);
         font-weight: normal;
         color: var(--wordplay-background);
         background: var(--wordplay-error);

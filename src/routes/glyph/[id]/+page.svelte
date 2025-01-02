@@ -71,6 +71,10 @@
             description: string;
             /** When completing a path, instructions on how to end it. */
             end: string;
+            /** Couldn't load the glyph */
+            loadfail: string;
+            /** The glyph doesn't exist */
+            notfound: string;
         };
         announce: {
             /** When cursor position changes $1 x, $2: y. */
@@ -94,7 +98,7 @@
 </script>
 
 <script lang="ts">
-    import { locales } from '@db/Database';
+    import { GlyphsDB, locales } from '@db/Database';
     import Header from '@components/app/Header.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
@@ -106,6 +110,7 @@
         glyphToSVG,
         moveShape,
         pixelsAreEqual,
+        type Glyph,
         type GlyphEllipse,
         type GlyphPath,
         type GlyphPixel,
@@ -131,10 +136,15 @@
         SHARE_SYMBOL,
         UNDO_SYMBOL,
     } from '@parser/Symbols';
-    import { getAnnounce } from '@components/project/Contexts';
+    import { getAnnounce, getUser } from '@components/project/Contexts';
     import { untrack } from 'svelte';
+    import { page } from '$app/state';
+    import Spinning from '@components/app/Spinning.svelte';
 
-    // For announcing changes.
+    /** So we know who's making this.*/
+    const user = getUser();
+
+    /** For announcing changes.*/
     const announce = getAnnounce();
 
     /** The current name of the shape */
@@ -195,7 +205,7 @@
     let currentCurved = $state(false);
 
     /** The HTML element of the canvas */
-    let canvasView: HTMLDivElement | null = null;
+    let canvasView: HTMLDivElement | null = $state(null);
 
     /** The pending rectangle or ellipse */
     let pendingRectOrEllipse: GlyphRectangle | GlyphEllipse | undefined =
@@ -204,11 +214,53 @@
     /** The pendig path */
     let pendingPath: GlyphPath | undefined = $state(undefined);
 
-    /** Make the rendered shape as a preview */
-    let glyph = $derived({
+    /** The persisted glyph */
+    let persisted: Glyph | 'loading' | 'failed' | 'unknown' = $state('loading');
+
+    /** Always have an up to date glyph to render and save */
+    let editedGlyph: Glyph = $derived({
+        id: page.params.id,
+        owner: $user?.uid ?? null,
+        updated: Date.now(),
         name,
         description,
         shapes,
+    });
+
+    /**
+     * When the edited glyph changes and we have loaded the persisted one,
+     * tell the database about the new value.
+     * */
+    $effect(() => {
+        // IF th
+        if (editedGlyph && typeof persisted !== 'string')
+            untrack(() =>
+                GlyphsDB.updateGlyph(
+                    $state.snapshot(editedGlyph) as Glyph,
+                    true,
+                ),
+            );
+    });
+
+    /** When the page loads or its id changes, load the persisted glyph */
+    $effect(() => {
+        const id = page.params.id;
+        // Don't track the below; it's just a one-time load unless the id changes.
+        untrack(() =>
+            GlyphsDB.getGlyph(id).then((loadedGlyph) => {
+                persisted =
+                    loadedGlyph === undefined
+                        ? 'failed'
+                        : loadedGlyph === null
+                          ? 'unknown'
+                          : loadedGlyph;
+                if (loadedGlyph) {
+                    name = loadedGlyph.name;
+                    description = loadedGlyph.description;
+                    shapes = loadedGlyph.shapes;
+                }
+            }),
+        );
     });
 
     // If the mode changes, end the pending path.
@@ -1208,147 +1260,177 @@
             <Header>{$locales.get((l) => l.ui.page.glyph.header)}</Header>
             <p>{$locales.get((l) => l.ui.page.glyph.prompt)}</p>
             <div class="preview">
-                {@html glyphToSVG(glyph, '32px')}
+                {@html glyphToSVG(editedGlyph, '32px')}
             </div>
         </div>
-        <div class="editor">
-            <div class="content">
-                <div class="toolbar">
-                    <Button
-                        tip={$locales.get((l) => l.ui.page.glyph.button.undo)}
-                        action={() => undo()}
-                        active={historyIndex > 0}>{UNDO_SYMBOL}</Button
+        {#if persisted === 'loading'}
+            <Spinning></Spinning>
+        {:else if persisted === 'failed'}
+            <Feedback
+                >{$locales.get(
+                    (l) => l.ui.page.glyph.feedback.loadfail,
+                )}</Feedback
+            >
+        {:else if persisted === 'unknown'}
+            <Feedback
+                >{$locales.get(
+                    (l) => l.ui.page.glyph.feedback.notfound,
+                )}</Feedback
+            >
+        {:else}
+            <div class="editor">
+                <div class="content">
+                    <div class="toolbar">
+                        <Button
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.button.undo,
+                            )}
+                            action={() => undo()}
+                            active={historyIndex > 0}>{UNDO_SYMBOL}</Button
+                        >
+                        <Button
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.button.redo,
+                            )}
+                            action={() => redo()}
+                            active={historyIndex < history.length - 1}
+                            >{REDO_SYMBOL}
+                        </Button>
+                        <Button
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.button.back.tip,
+                            )}
+                            action={() => arrange('back')}
+                            active={selection.length > 0 && shapes.length > 1}
+                            >{SHARE_SYMBOL}
+                            {$locales.get(
+                                (l) => l.ui.page.glyph.button.back.label,
+                            )}</Button
+                        >
+                        <Button
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.button.forward.tip,
+                            )}
+                            action={() => arrange('forward')}
+                            active={selection.length > 0 && shapes.length > 1}
+                            >{BORROW_SYMBOL}
+                            {$locales.get(
+                                (l) => l.ui.page.glyph.button.forward.label,
+                            )}</Button
+                        >
+                        <Button
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.button.clearPixels.tip,
+                            )}
+                            action={() => {
+                                setShapes(
+                                    shapes.filter((s) => s.type !== 'pixel'),
+                                );
+                            }}
+                            active={shapes.some((s) => s.type === 'pixel')}
+                            >{CANCEL_SYMBOL}
+                            {$locales.get(
+                                (l) => l.ui.page.glyph.button.clearPixels.label,
+                            )}</Button
+                        >
+                        <Button
+                            tip={$locales.get(
+                                (l) => l.ui.page.glyph.button.clear.tip,
+                            )}
+                            action={() => {
+                                setShapes([]);
+                            }}
+                            active={shapes.length > 0}
+                            >{CANCEL_SYMBOL}
+                            {$locales.get(
+                                (l) => l.ui.page.glyph.button.clear.label,
+                            )}</Button
+                        >
+                    </div>
+                    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+                    <div
+                        role="application"
+                        aria-describedby="instructions"
+                        class={['canvas', DrawingMode[mode].toLowerCase()]}
+                        tabindex={0}
+                        bind:this={canvasView}
+                        onkeydown={handleKey}
+                        onpointerdown={(event) =>
+                            handlePointerDown(event, false)}
+                        onpointermove={(event) =>
+                            handlePointerDown(event, true)}
+                        onpointerup={handlePointerUp}
                     >
-                    <Button
-                        tip={$locales.get((l) => l.ui.page.glyph.button.redo)}
-                        action={() => redo()}
-                        active={historyIndex < history.length - 1}
-                        >{REDO_SYMBOL}
-                    </Button>
-                    <Button
-                        tip={$locales.get(
-                            (l) => l.ui.page.glyph.button.back.tip,
-                        )}
-                        action={() => arrange('back')}
-                        active={selection.length > 0 && shapes.length > 1}
-                        >{SHARE_SYMBOL}
-                        {$locales.get(
-                            (l) => l.ui.page.glyph.button.back.label,
-                        )}</Button
-                    >
-                    <Button
-                        tip={$locales.get(
-                            (l) => l.ui.page.glyph.button.forward.tip,
-                        )}
-                        action={() => arrange('forward')}
-                        active={selection.length > 0 && shapes.length > 1}
-                        >{BORROW_SYMBOL}
-                        {$locales.get(
-                            (l) => l.ui.page.glyph.button.forward.label,
-                        )}</Button
-                    >
-                    <Button
-                        tip={$locales.get(
-                            (l) => l.ui.page.glyph.button.clearPixels.tip,
-                        )}
-                        action={() => {
-                            setShapes(shapes.filter((s) => s.type !== 'pixel'));
-                        }}
-                        active={shapes.some((s) => s.type === 'pixel')}
-                        >{CANCEL_SYMBOL}
-                        {$locales.get(
-                            (l) => l.ui.page.glyph.button.clearPixels.label,
-                        )}</Button
-                    >
-                    <Button
-                        tip={$locales.get(
-                            (l) => l.ui.page.glyph.button.clear.tip,
-                        )}
-                        action={() => {
-                            setShapes([]);
-                        }}
-                        active={shapes.length > 0}
-                        >{CANCEL_SYMBOL}
-                        {$locales.get(
-                            (l) => l.ui.page.glyph.button.clear.label,
-                        )}</Button
-                    >
-                </div>
-                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-                <div
-                    role="application"
-                    aria-describedby="instructions"
-                    class={['canvas', DrawingMode[mode].toLowerCase()]}
-                    tabindex={0}
-                    bind:this={canvasView}
-                    onkeydown={handleKey}
-                    onpointerdown={(event) => handlePointerDown(event, false)}
-                    onpointermove={(event) => handlePointerDown(event, true)}
-                    onpointerup={handlePointerUp}
-                >
-                    {@render grid()}
-                    {@html glyphToSVG(glyph, '100%', selection)}
-                    {#if mode !== DrawingMode.Select}
-                        <div
-                            class="position"
-                            style:left="{(100 * drawingCursorPosition.x) /
-                                GlyphSize}%"
-                            style:top="{(100 * drawingCursorPosition.y) /
-                                GlyphSize}%"
-                            style:width={'calc(100% / ' + GlyphSize + ')'}
-                            style:height={'calc(100% / ' + GlyphSize + ')'}
-                        ></div>
-                    {/if}
-                    {#if pendingPath}
-                        <div class="notes">
-                            <Feedback
-                                >{$locales.get(
-                                    (l) => l.ui.page.glyph.feedback.end,
-                                )}</Feedback
-                            >
-                        </div>
-                    {/if}
-                </div>
-                <MarkupHtmlView
-                    markup={mode === DrawingMode.Select && shapes.length === 0
-                        ? $locales.get(
-                              (l) => l.ui.page.glyph.instructions.empty,
-                          )
-                        : mode === DrawingMode.Select &&
-                            shapes.length > 0 &&
-                            selection.length === 0
-                          ? $locales.get(
-                                (l) => l.ui.page.glyph.instructions.unselected,
-                            )
-                          : mode === DrawingMode.Select &&
-                              shapes.length > 0 &&
-                              selection.length > 0
+                        {@render grid()}
+                        {@html glyphToSVG(editedGlyph, '100%', selection)}
+                        {#if mode !== DrawingMode.Select}
+                            <div
+                                class="position"
+                                style:left="{(100 * drawingCursorPosition.x) /
+                                    GlyphSize}%"
+                                style:top="{(100 * drawingCursorPosition.y) /
+                                    GlyphSize}%"
+                                style:width={'calc(100% / ' + GlyphSize + ')'}
+                                style:height={'calc(100% / ' + GlyphSize + ')'}
+                            ></div>
+                        {/if}
+                        {#if pendingPath}
+                            <div class="notes">
+                                <Feedback
+                                    >{$locales.get(
+                                        (l) => l.ui.page.glyph.feedback.end,
+                                    )}</Feedback
+                                >
+                            </div>
+                        {/if}
+                    </div>
+                    <MarkupHtmlView
+                        markup={mode === DrawingMode.Select &&
+                        shapes.length === 0
                             ? $locales.get(
-                                  (l) => l.ui.page.glyph.instructions.selected,
+                                  (l) => l.ui.page.glyph.instructions.empty,
                               )
-                            : mode === DrawingMode.Pixel
+                            : mode === DrawingMode.Select &&
+                                shapes.length > 0 &&
+                                selection.length === 0
                               ? $locales.get(
-                                    (l) => l.ui.page.glyph.instructions.pixel,
+                                    (l) =>
+                                        l.ui.page.glyph.instructions.unselected,
                                 )
-                              : mode === DrawingMode.Rect
+                              : mode === DrawingMode.Select &&
+                                  shapes.length > 0 &&
+                                  selection.length > 0
                                 ? $locales.get(
-                                      (l) => l.ui.page.glyph.instructions.rect,
+                                      (l) =>
+                                          l.ui.page.glyph.instructions.selected,
                                   )
-                                : mode === DrawingMode.Ellipse
+                                : mode === DrawingMode.Pixel
                                   ? $locales.get(
                                         (l) =>
-                                            l.ui.page.glyph.instructions
-                                                .ellipse,
+                                            l.ui.page.glyph.instructions.pixel,
                                     )
-                                  : $locales.get(
-                                        (l) =>
-                                            l.ui.page.glyph.instructions.path,
-                                    )}
-                ></MarkupHtmlView>
+                                  : mode === DrawingMode.Rect
+                                    ? $locales.get(
+                                          (l) =>
+                                              l.ui.page.glyph.instructions.rect,
+                                      )
+                                    : mode === DrawingMode.Ellipse
+                                      ? $locales.get(
+                                            (l) =>
+                                                l.ui.page.glyph.instructions
+                                                    .ellipse,
+                                        )
+                                      : $locales.get(
+                                            (l) =>
+                                                l.ui.page.glyph.instructions
+                                                    .path,
+                                        )}
+                    ></MarkupHtmlView>
+                </div>
+                {@render palette()}
             </div>
-            {@render palette()}
-        </div>
+        {/if}
     </section>
 </Page>
 
@@ -1382,6 +1464,7 @@
 
     .content {
         width: 100%;
+        max-width: 40em;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);

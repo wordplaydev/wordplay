@@ -4843,7 +4843,15 @@
             },
             "glyphs": {
                 "header": "Glyphs",
-                "prompt": "Create custom emojis and symbols to use in your projects and share with others."
+                "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
+                "button": {
+                    "new": "Create a new glyph"
+                },
+                "error": {
+                    "offline": "We couldn't access your glyphs stored online.",
+                    "noauth": "You must be logged in to see your glyphs and create new ones.",
+                    "create": "Unable to create a new glyph."
+                }
             },
             "glyph": {
                 "header": "Glyph",
@@ -4931,7 +4939,9 @@
                 "feedback": {
                     "name": "Glyphs need a valid Wordplay name so you can refer to them in projects.",
                     "description": "Glyphs need a description so those who can't see know what they represent.",
-                    "end": "Press escape to finish shape."
+                    "end": "Press escape to finish shape.",
+                    "loadfail": "There was a problem loading this glyph.",
+                    "notfound": "This glyph doesn't exist."
                 },
                 "announce": {
                     "position": "at $1 $2",

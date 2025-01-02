@@ -22,6 +22,7 @@ import GalleryDatabase from './galleries/GalleryDatabase.svelte';
 import { ChatDatabase } from './ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
 import DefaultLocale from '../locale/DefaultLocale';
+import { GlyphDatabase } from './GlyphDatabase.svelte';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -47,6 +48,9 @@ export class Database {
 
     /** A collection of chats loaded from the database */
     readonly Chats: ChatDatabase;
+
+    /** A collection of glyphs loaded from the database */
+    readonly Glyphs: GlyphDatabase;
 
     /** The status of persisting the projects. */
     readonly Status: Writable<{
@@ -78,6 +82,7 @@ export class Database {
         this.Galleries = new GalleryDatabase(this);
         this.Creators = new CreatorDatabase(this);
         this.Chats = new ChatDatabase(this);
+        this.Glyphs = new GlyphDatabase(this);
     }
 
     getUser() {
@@ -168,6 +173,9 @@ export class Database {
 
         // Tell the chat cache.
         this.Chats.syncUser();
+
+        // Tell the glyphs database.
+        this.Glyphs.syncUser();
     }
 
     /** Clean up listeners */
@@ -235,6 +243,7 @@ export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
 export const Chats = DB.Chats;
+export const GlyphsDB = DB.Glyphs;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;

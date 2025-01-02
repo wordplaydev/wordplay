@@ -91,14 +91,32 @@ const PathSchema = z.object({
 });
 export type GlyphPath = z.infer<typeof PathSchema>;
 
-export type GlyphShape = GlyphRectangle | GlyphEllipse | GlyphPixel | GlyphPath;
+const GlyphShapeSchema = z.union([
+    PixelSchema,
+    RectangleSchema,
+    EllipseSchema,
+    PathSchema,
+]);
+export type GlyphShape = z.infer<typeof GlyphShapeSchema>;
 
 /** A 128x128 pixel canvas of layered shapes */
-export type Glyph = {
-    name: string; // A language tagged name in Wordplay syntax
-    description: string; // A language tagged name in Wordplay syntax
-    shapes: GlyphShape[]; // In rendering order, back to front
-};
+export const GlyphSchema = z.object({
+    // A unique identifier for the glyph
+    id: z.string().uuid(),
+    // The optional owner of this glyph. (If it doesn't have one, it was made offline).
+    owner: z.string().nullable(),
+    // The Unix time of when this was last updated, for simple distributed conflict resolution.
+    updated: z.number(),
+    // A Wordplay name
+    name: z.string(),
+    // A list of tagged names in Wordplay syntax
+    description: z.string(),
+    // In rendering order, back to front
+    shapes: z.array(
+        z.union([PixelSchema, RectangleSchema, EllipseSchema, PathSchema]),
+    ),
+});
+export type Glyph = z.infer<typeof GlyphSchema>;
 
 /** The width and height of the grid */
 export const GlyphSize = 32;

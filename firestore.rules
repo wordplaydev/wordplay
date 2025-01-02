@@ -82,5 +82,11 @@ service cloud.firestore {
       // Only teachers of a class can update and delete classes
       allow update, delete: if request.auth != null && isTeacher() && (resource.data != null && request.auth.uid in resource.data.teachers);
     }
+    match /glyphs/{glyph} {
+      // Anyone logged in can create glyphs
+      allow create: if request.auth != null;
+      // Owners or ownerless glyphs can be read
+      allow read, update, delete: if resource == null || (request.auth != null && request.auth.uid == resource.data.owner);
+    }
   }
 }
