@@ -82,10 +82,9 @@
     aria-relevant="all"
     data-kind={current?.announcement.kind}
 >
-    {#key current}{#if current}<span lang={current.announcement.language}>
-                {current.announcement.text}
-            </span>{/if}
-    {/key}
+    {#if current}<span lang={current.announcement.language}>
+            {current.announcement.text}
+        </span>{/if}
 </div>
 
 <style>

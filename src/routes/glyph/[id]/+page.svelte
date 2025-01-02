@@ -73,8 +73,10 @@
             end: string;
         };
         announce: {
-            /** When cursor position changes */
+            /** When cursor position changes $1 x, $2: y. */
             position: Template;
+            /** When selection changes. $1 is list of shape types. */
+            selection: Template;
         };
     };
 
@@ -130,6 +132,7 @@
         UNDO_SYMBOL,
     } from '@parser/Symbols';
     import { getAnnounce } from '@components/project/Contexts';
+    import { untrack } from 'svelte';
 
     // For announcing changes.
     const announce = getAnnounce();
@@ -220,6 +223,35 @@
     $effect(() => {
         if (mode === DrawingMode.Pixel && currentFillSetting === 'none')
             currentFillSetting = 'set';
+    });
+
+    // When the selection changes, announce it.
+    $effect(() => {
+        selection;
+        untrack(() => {
+            if ($announce)
+                $announce(
+                    'new selection',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get(
+                                (l) => l.ui.page.glyph.announce.selection,
+                            ),
+                            selection.length === 0
+                                ? undefined
+                                : selection
+                                      .map((s) =>
+                                          $locales.get(
+                                              (l) =>
+                                                  l.ui.page.glyph.shape[s.type],
+                                          ),
+                                      )
+                                      .join(', '),
+                        )
+                        .toText(),
+                );
+        });
     });
 
     function validName(name: string) {
