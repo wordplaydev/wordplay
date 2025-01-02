@@ -367,7 +367,6 @@
     /** Set the pixel at the current position and fill. */
     function setPixel() {
         const candidate: GlyphPixel = {
-            id: uuidv4(),
             type: 'pixel',
             center: [drawingCursorPosition.x, drawingCursorPosition.y],
             fill: currentFillSetting === undefined ? null : { ...currentFill },
@@ -414,7 +413,6 @@
     function getCurrentRect(): GlyphRectangle {
         return {
             ...{
-                id: uuidv4(),
                 type: 'rect',
                 center: [drawingCursorPosition.x, drawingCursorPosition.y],
                 width: 1,
@@ -448,7 +446,6 @@
 
     function getCurrentEllipse(): GlyphEllipse {
         return {
-            id: uuidv4(),
             ...{
                 type: 'ellipse',
                 center: [drawingCursorPosition.x, drawingCursorPosition.y],
@@ -467,7 +464,6 @@
 
     function getCurrentPath(): GlyphPath {
         return {
-            id: uuidv4(),
             type: 'path',
             points: [[drawingCursorPosition.x, drawingCursorPosition.y]],
             closed: currentClosed,
@@ -593,12 +589,9 @@
 
         // Handle copy
         if (event.key === 'c' && event.metaKey) {
-            copy = selection
-                .map((s) => structuredClone($state.snapshot(s)) as GlyphShape)
-                .map((s) => {
-                    s.id = uuidv4();
-                    return s;
-                });
+            copy = selection.map(
+                (s) => structuredClone($state.snapshot(s)) as GlyphShape,
+            );
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -613,8 +606,6 @@
                 // Translate the copies down a bit to make them visible.
                 for (const shape of copies) {
                     moveShape(shape, 1, 1, 'translate');
-                    // Give the shape a new ID.
-                    shape.id = uuidv4();
                 }
                 // Update the copy to the things just copied
                 copy = copies;
@@ -845,7 +836,7 @@
     function arrange(direction: 'back' | 'forward') {
         // Move each shape forward or backward in the shape list.
         for (const shape of selection) {
-            const currentIndex = shapes.findIndex((s) => s.id === shape.id);
+            const currentIndex = shapes.findIndex((s) => s === shape);
             const newIndex =
                 direction === 'back' ? currentIndex - 1 : currentIndex + 1;
             if (newIndex >= 0 && newIndex < shapes.length) {

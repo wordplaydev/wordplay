@@ -38,7 +38,6 @@ type Stroke = z.infer<typeof StrokeSchema>;
 
 const RectangleSchema = z
     .object({
-        id: z.string(),
         type: z.literal('rect'),
         center: PointSchema, // The center of the rectangle
         angle: z.number().optional(),
@@ -53,7 +52,6 @@ const RectangleSchema = z
 export type GlyphRectangle = z.infer<typeof RectangleSchema>;
 
 const PixelSchema = z.object({
-    id: z.string(),
     type: z.literal('pixel'),
     center: PointSchema, // The center of the pixel
     fill: ColorSchema.nullable(), // If null, it's currentColor
@@ -62,7 +60,6 @@ export type GlyphPixel = z.infer<typeof PixelSchema>;
 
 const EllipseSchema = z
     .object({
-        id: z.string(),
         type: z.literal('ellipse'),
         center: PointSchema,
         stroke: StrokeSchema.optional(),
@@ -75,7 +72,6 @@ const EllipseSchema = z
 export type GlyphEllipse = z.infer<typeof EllipseSchema>;
 
 const PathSchema = z.object({
-    id: z.string(),
     type: z.literal('path'),
     stroke: StrokeSchema.optional(),
     // Null represents current color
@@ -140,7 +136,7 @@ export function shapeToSVG(
     shape: GlyphShape,
     selection?: GlyphShape[],
 ): string {
-    const selected = selection?.some((s) => s.id === shape.id);
+    const selected = selection?.some((s) => s === shape);
     switch (shape.type) {
         case 'rect':
             return rectToSVG(shape, selected);
