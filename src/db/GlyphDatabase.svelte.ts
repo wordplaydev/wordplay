@@ -109,6 +109,9 @@ export class GlyphDatabase {
         const glyph: Glyph = {
             id: uuidv4(),
             owner: user.uid,
+            public: false,
+            viewers: [],
+            projects: [],
             updated: Date.now(),
             name: '',
             description: '',

@@ -217,6 +217,19 @@
     /** The persisted glyph */
     let persisted: Glyph | 'loading' | 'failed' | 'unknown' = $state('loading');
 
+    /** The list of viewers, derived from the projects using it */
+    let viewers: string[] = $derived.by(() =>
+        typeof persisted === 'string' ? [] : persisted.viewers,
+    );
+
+    /** The list of projects using the glyph */
+    let projects: string[] = $derived.by(() =>
+        typeof persisted === 'string' ? [] : persisted.projects,
+    );
+
+    /** Whether the project is public */
+    let isPublic: boolean = $state(false);
+
     /** Always have an up to date glyph to render and save */
     let editedGlyph: Glyph = $derived({
         id: page.params.id,
@@ -225,6 +238,9 @@
         name,
         description,
         shapes,
+        viewers,
+        projects,
+        public: isPublic,
     });
 
     /**

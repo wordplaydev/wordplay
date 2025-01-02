@@ -101,6 +101,12 @@ export const GlyphSchema = z.object({
     id: z.string().uuid(),
     // The optional owner of this glyph. (If it doesn't have one, it was made offline).
     owner: z.string().nullable(),
+    // The list of viewers who can see this glyph, derived from the list of projects using it.
+    viewers: z.array(z.string()),
+    // The list of project IDs using this glyph, for deriving viewers. Added when a project makes a reference to this glyph.
+    projects: z.array(z.string()),
+    // Whether this glyph is public.
+    public: z.boolean(),
     // The Unix time of when this was last updated, for simple distributed conflict resolution.
     updated: z.number(),
     // A Wordplay name

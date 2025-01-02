@@ -85,8 +85,12 @@ service cloud.firestore {
     match /glyphs/{glyph} {
       // Anyone logged in can create glyphs
       allow create: if request.auth != null;
-      // Owners or ownerless glyphs can be read
-      allow read, update, delete: if resource == null || (request.auth != null && request.auth.uid == resource.data.owner);
+      // Allowed if it doesn't exist or this is the owner asking, Owners or ownerless glyphs can be read
+      allow read, update, delete: 
+        if resource == null || (resource.data.public || (request.auth != null && (
+           request.auth.uid == resource.data.owner || 
+           request.auth.uid in resource.data.viewers
+        )));
     }
   }
 }
