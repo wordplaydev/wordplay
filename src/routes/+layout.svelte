@@ -2,8 +2,12 @@
     import { onMount, type Snippet } from 'svelte';
     import Loading from '@components/app/Loading.svelte';
     import type { User } from 'firebase/auth';
-    import { setUser } from '../components/project/Contexts';
-    import { writable } from 'svelte/store';
+    import {
+        setAnnouncer,
+        setUser,
+        type AnnouncerContext,
+    } from '../components/project/Contexts';
+    import { writable, type Writable } from 'svelte/store';
     import Fonts from '../basis/Fonts';
     import {
         locales,
@@ -15,6 +19,8 @@
     import { browser } from '$app/environment';
     import { getLanguageDirection } from '../locale/LanguageCode';
     import { FaceSetting } from '@db/settings/FaceSetting';
+    import Announcer from '@components/project/Announcer.svelte';
+
     interface Props {
         children: Snippet;
     }
@@ -27,6 +33,10 @@
     /** Create a user store to share globally. */
     const user = writable<User | null>(null);
     setUser(user);
+
+    // Create a store context for the announcer function.
+    let announcerStore: Writable<AnnouncerContext> = writable();
+    setAnnouncer(announcerStore);
 
     /** Keep the page's language and direction up to date. */
     $effect(() => {
@@ -133,6 +143,10 @@
         {@render children()}
     {/if}
 </div>
+<!-- Render a live region with announcements as soon as possible -->
+<Announcer
+    bind:announcer={() => $announcerStore, (fn) => announcerStore.set(fn)}
+/>
 
 <style>
     .root {

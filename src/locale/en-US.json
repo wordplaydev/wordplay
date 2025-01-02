@@ -4932,6 +4932,9 @@
                     "name": "Glyphs need a valid Wordplay name so you can refer to them in projects.",
                     "description": "Glyphs need a description so those who can't see know what they represent.",
                     "end": "Press escape to finish shape."
+                },
+                "announce": {
+                    "position": "at $1 $2"
                 }
             },
             "about": {

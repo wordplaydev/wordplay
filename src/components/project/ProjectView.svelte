@@ -112,10 +112,9 @@
         setEditors,
         setConflicts,
         setSelectedOutputContext,
-        setAnnouncer,
-        type AnnouncerContext,
         getFullscreen,
         getUser,
+        getAnnounce,
     } from './Contexts';
     import type Project from '@db/projects/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -214,7 +213,6 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
-    import { parseNames } from '@parser/parseBind';
     import Link from '@components/app/Link.svelte';
 
     interface Props {
@@ -326,6 +324,9 @@
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
+
+    /** The live region announcer */
+    const announce = getAnnounce();
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
@@ -515,17 +516,6 @@
         // Set the evaluator store
         evaluator.set(newEvaluator);
     }
-
-    /** This stores the instance of the announcer component */
-    let announce = $state<ReturnType<typeof Announcer>>();
-    let announcerFunction: Writable<AnnouncerContext | undefined> =
-        writable(undefined);
-
-    // Update the function context when the announcer changes.
-    $effect(() => announcerFunction.set(announce?.announce));
-
-    // Set the announcer store in context.
-    setAnnouncer(announcerFunction);
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation = writable(getEvaluationContext());
@@ -1113,8 +1103,8 @@
     $effect(() => {
         if (overwritten)
             untrack(() => {
-                if (announce?.announce) {
-                    announce.announce(
+                if ($announce) {
+                    $announce(
                         project.getID(),
                         $locales.getLanguages()[0],
                         $locales.get((l) => l.ui.source.overwritten),
@@ -1556,8 +1546,6 @@
 {#if warn}
     <Moderation {project} />
 {/if}
-<!-- Render a live region with announcements as soon as possible -->
-<Announcer bind:this={announce} />
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <div

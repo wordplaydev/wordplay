@@ -1,5 +1,6 @@
 <script module lang="ts">
     import type { ButtonText, FieldText, ModeText } from '@locale/UITexts';
+    import type { Template } from '@locale/LocaleText';
     export type GlyphPageText = {
         header: string;
         prompt: string;
@@ -71,6 +72,10 @@
             /** When completing a path, instructions on how to end it. */
             end: string;
         };
+        announce: {
+            /** When cursor position changes */
+            position: Template;
+        };
     };
 
     // svelte-ignore non_reactive_update
@@ -124,6 +129,10 @@
         SHARE_SYMBOL,
         UNDO_SYMBOL,
     } from '@parser/Symbols';
+    import { getAnnounce } from '@components/project/Contexts';
+
+    // For announcing changes.
+    const announce = getAnnounce();
 
     /** The current name of the shape */
     let name = $state('');
@@ -419,8 +428,25 @@
         }
         // In all other moves, move the drawing cursor.
         else {
-            drawingCursorPosition.x = Math.max(0, drawingCursorPosition.x + dx);
-            drawingCursorPosition.y = Math.max(0, drawingCursorPosition.y + dy);
+            drawingCursorPosition = {
+                x: Math.max(0, drawingCursorPosition.x + dx),
+                y: Math.max(0, drawingCursorPosition.y + dy),
+            };
+
+            if ($announce)
+                $announce(
+                    'new drawing cursor position',
+                    $locales.getLanguages()[0],
+                    $locales
+                        .concretize(
+                            $locales.get(
+                                (l) => l.ui.page.glyph.announce.position,
+                            ),
+                            drawingCursorPosition.x,
+                            drawingCursorPosition.y,
+                        )
+                        .toText(),
+                );
         }
     }
 
@@ -463,6 +489,7 @@
             }
             // Swallow the arrow event
             event.stopPropagation();
+            event.preventDefault();
         }
 
         // Handle undo/redo
@@ -789,15 +816,15 @@
 
 <!-- Grid lines -->
 {#snippet grid()}
-    <div class="grid">
+    <div aria-hidden="true" class="grid">
         <!-- Render gridlines below everything -->
-        {#each { length: GlyphSize }, x}
-            <div class="line yline" style="left: {100 * (x / GlyphSize)}%"
-            ></div>
-        {/each}
-        {#each { length: GlyphSize }, y}
-            <div class="line xline" style="top: {100 * (y / GlyphSize)}%"></div>
-        {/each}
+        {#each { length: GlyphSize }, x}<div
+                class="line yline"
+                style="left: {100 * (x / GlyphSize)}%"
+            ></div>{/each}{#each { length: GlyphSize }, y}<div
+                class="line xline"
+                style="top: {100 * (y / GlyphSize)}%"
+            ></div>{/each}
     </div>
 
     <style>
@@ -1143,153 +1170,6 @@
     </style>
 {/snippet}
 
-{#snippet canvas()}
-    <div class="toolbar">
-        <Button
-            tip={$locales.get((l) => l.ui.page.glyph.button.undo)}
-            action={() => undo()}
-            active={historyIndex > 0}>{UNDO_SYMBOL}</Button
-        >
-        <Button
-            tip={$locales.get((l) => l.ui.page.glyph.button.redo)}
-            action={() => redo()}
-            active={historyIndex < history.length - 1}
-            >{REDO_SYMBOL}
-        </Button>
-        <Button
-            tip={$locales.get((l) => l.ui.page.glyph.button.back.tip)}
-            action={() => arrange('back')}
-            active={selection.length > 0 && shapes.length > 1}
-            >{SHARE_SYMBOL}
-            {$locales.get((l) => l.ui.page.glyph.button.back.label)}</Button
-        >
-        <Button
-            tip={$locales.get((l) => l.ui.page.glyph.button.forward.tip)}
-            action={() => arrange('forward')}
-            active={selection.length > 0 && shapes.length > 1}
-            >{BORROW_SYMBOL}
-            {$locales.get((l) => l.ui.page.glyph.button.forward.label)}</Button
-        >
-        <Button
-            tip={$locales.get((l) => l.ui.page.glyph.button.clearPixels.tip)}
-            action={() => {
-                setShapes(shapes.filter((s) => s.type !== 'pixel'));
-            }}
-            active={shapes.some((s) => s.type === 'pixel')}
-            >{CANCEL_SYMBOL}
-            {$locales.get(
-                (l) => l.ui.page.glyph.button.clearPixels.label,
-            )}</Button
-        >
-        <Button
-            tip={$locales.get((l) => l.ui.page.glyph.button.clear.tip)}
-            action={() => {
-                setShapes([]);
-            }}
-            active={shapes.length > 0}
-            >{CANCEL_SYMBOL}
-            {$locales.get((l) => l.ui.page.glyph.button.clear.label)}</Button
-        >
-    </div>
-    <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
-    <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
-    <div
-        role="application"
-        aria-describedby="instructions"
-        class={['canvas', DrawingMode[mode].toLowerCase()]}
-        tabindex={0}
-        bind:this={canvasView}
-        onkeydown={handleKey}
-        onpointerdown={(event) => handlePointerDown(event, false)}
-        onpointermove={(event) => handlePointerDown(event, true)}
-        onpointerup={handlePointerUp}
-    >
-        {@render grid()}
-        {@html glyphToSVG(glyph, '100%', selection)}
-        {#if mode !== DrawingMode.Select}
-            <div
-                class="position"
-                style:left="{(100 * drawingCursorPosition.x) / GlyphSize}%"
-                style:top="{(100 * drawingCursorPosition.y) / GlyphSize}%"
-                style:width={'calc(100% / ' + GlyphSize + ')'}
-                style:height={'calc(100% / ' + GlyphSize + ')'}
-            ></div>
-        {/if}
-        {#if pendingPath}
-            <div class="notes">
-                <Feedback
-                    >{$locales.get(
-                        (l) => l.ui.page.glyph.feedback.end,
-                    )}</Feedback
-                >
-            </div>
-        {/if}
-    </div>
-    <style>
-        .canvas {
-            position: relative;
-            aspect-ratio: 1/1;
-            border: var(--wordplay-border-color) solid
-                var(--wordplay-border-width);
-            /* Set a current color to make strokes and fills using current color visible */
-            color: var(--wordplay-background);
-        }
-
-        .canvas:focus {
-            outline: var(--wordplay-focus-color) solid
-                var(--wordplay-focus-width);
-        }
-
-        .toolbar {
-            display: flex;
-            flex-direction: row;
-            gap: var(--wordplay-spacing);
-            justify-content: center;
-        }
-
-        .position {
-            position: absolute;
-            width: 1em;
-            height: 1em;
-            border: solid var(--wordplay-highlight-color)
-                var(--wordplay-focus-width);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-
-        .canvas svg {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            color: var(--wordplay-foreground);
-        }
-
-        .select {
-            cursor: default;
-        }
-
-        .rect,
-        .ellipse,
-        .path,
-        .pixel {
-            cursor: crosshair;
-        }
-
-        svg .selected {
-            stroke: var(--wordplay-highlight-color);
-        }
-
-        .notes {
-            position: absolute;
-            top: -2em;
-            left: var(--wordplay-spacing);
-            right: var(--wordplay-spacing);
-        }
-    </style>
-{/snippet}
-
 <Page>
     <section>
         <div class="header">
@@ -1301,7 +1181,103 @@
         </div>
         <div class="editor">
             <div class="content">
-                {@render canvas()}
+                <div class="toolbar">
+                    <Button
+                        tip={$locales.get((l) => l.ui.page.glyph.button.undo)}
+                        action={() => undo()}
+                        active={historyIndex > 0}>{UNDO_SYMBOL}</Button
+                    >
+                    <Button
+                        tip={$locales.get((l) => l.ui.page.glyph.button.redo)}
+                        action={() => redo()}
+                        active={historyIndex < history.length - 1}
+                        >{REDO_SYMBOL}
+                    </Button>
+                    <Button
+                        tip={$locales.get(
+                            (l) => l.ui.page.glyph.button.back.tip,
+                        )}
+                        action={() => arrange('back')}
+                        active={selection.length > 0 && shapes.length > 1}
+                        >{SHARE_SYMBOL}
+                        {$locales.get(
+                            (l) => l.ui.page.glyph.button.back.label,
+                        )}</Button
+                    >
+                    <Button
+                        tip={$locales.get(
+                            (l) => l.ui.page.glyph.button.forward.tip,
+                        )}
+                        action={() => arrange('forward')}
+                        active={selection.length > 0 && shapes.length > 1}
+                        >{BORROW_SYMBOL}
+                        {$locales.get(
+                            (l) => l.ui.page.glyph.button.forward.label,
+                        )}</Button
+                    >
+                    <Button
+                        tip={$locales.get(
+                            (l) => l.ui.page.glyph.button.clearPixels.tip,
+                        )}
+                        action={() => {
+                            setShapes(shapes.filter((s) => s.type !== 'pixel'));
+                        }}
+                        active={shapes.some((s) => s.type === 'pixel')}
+                        >{CANCEL_SYMBOL}
+                        {$locales.get(
+                            (l) => l.ui.page.glyph.button.clearPixels.label,
+                        )}</Button
+                    >
+                    <Button
+                        tip={$locales.get(
+                            (l) => l.ui.page.glyph.button.clear.tip,
+                        )}
+                        action={() => {
+                            setShapes([]);
+                        }}
+                        active={shapes.length > 0}
+                        >{CANCEL_SYMBOL}
+                        {$locales.get(
+                            (l) => l.ui.page.glyph.button.clear.label,
+                        )}</Button
+                    >
+                </div>
+                <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
+                <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
+                <div
+                    role="application"
+                    aria-describedby="instructions"
+                    class={['canvas', DrawingMode[mode].toLowerCase()]}
+                    tabindex={0}
+                    bind:this={canvasView}
+                    onkeydown={handleKey}
+                    onpointerdown={(event) => handlePointerDown(event, false)}
+                    onpointermove={(event) => handlePointerDown(event, true)}
+                    onpointerup={handlePointerUp}
+                >
+                    {@render grid()}
+                    {@html glyphToSVG(glyph, '100%', selection)}
+                    {#if mode !== DrawingMode.Select}
+                        <div
+                            class="position"
+                            style:left="{(100 * drawingCursorPosition.x) /
+                                GlyphSize}%"
+                            style:top="{(100 * drawingCursorPosition.y) /
+                                GlyphSize}%"
+                            style:width={'calc(100% / ' + GlyphSize + ')'}
+                            style:height={'calc(100% / ' + GlyphSize + ')'}
+                        ></div>
+                    {/if}
+                    {#if pendingPath}
+                        <div class="notes">
+                            <Feedback
+                                >{$locales.get(
+                                    (l) => l.ui.page.glyph.feedback.end,
+                                )}</Feedback
+                            >
+                        </div>
+                    {/if}
+                </div>
                 <MarkupHtmlView
                     markup={mode === DrawingMode.Select && shapes.length === 0
                         ? $locales.get(
@@ -1389,5 +1365,67 @@
     h2,
     h3 {
         margin: 0;
+    }
+
+    .canvas {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        aspect-ratio: 1/1;
+        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
+        /* Set a current color to make strokes and fills using current color visible */
+        color: var(--wordplay-background);
+    }
+
+    .canvas:focus {
+        outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
+    }
+
+    .toolbar {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        justify-content: center;
+    }
+
+    .position {
+        position: absolute;
+        width: 1em;
+        height: 1em;
+        border: solid var(--wordplay-highlight-color)
+            var(--wordplay-focus-width);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    .canvas :global(svg) {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        color: var(--wordplay-foreground);
+    }
+
+    :global(.canvas svg .selected) {
+        stroke: var(--wordplay-highlight-color);
+    }
+
+    .select {
+        cursor: default;
+    }
+
+    .rect,
+    .ellipse,
+    .path,
+    .pixel {
+        cursor: crosshair;
+    }
+
+    .notes {
+        position: absolute;
+        top: -2em;
+        left: var(--wordplay-spacing);
+        right: var(--wordplay-spacing);
     }
 </style>

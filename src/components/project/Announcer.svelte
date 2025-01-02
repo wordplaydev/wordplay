@@ -1,11 +1,12 @@
 <script lang="ts">
+    import { onMount } from 'svelte';
     import type LanguageCode from '../../locale/LanguageCode';
     import Announcement from './Announcement';
     import type { AnnouncerContext } from './Contexts';
 
     const delay = 200;
 
-    export const announce: AnnouncerContext = (
+    const announce: AnnouncerContext = (
         id: string,
         language: LanguageCode | undefined,
         message: string,
@@ -18,6 +19,13 @@
         // No current message or it's been more than a second? Dequeue.
         if (current === undefined || delta > delay) dequeue();
     };
+
+    let { announcer = $bindable(undefined) } = $props();
+
+    /** Set the announcer once mounted. */
+    onMount(() => {
+        announcer = announce;
+    });
 
     function dequeue() {
         // Is there a timeout? Wait for it to dequue.
@@ -74,10 +82,10 @@
     aria-relevant="all"
     data-kind={current?.announcement.kind}
 >
-    {#if current}<span lang={current.announcement.language}>
-            {current.announcement.text}
-        </span>
-    {/if}
+    {#key current}{#if current}<span lang={current.announcement.language}>
+                {current.announcement.text}
+            </span>{/if}
+    {/key}
 </div>
 
 <style>
