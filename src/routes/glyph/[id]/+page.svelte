@@ -127,7 +127,6 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { toTokens } from '@parser/toTokens';
     import Sym from '@nodes/Sym';
-    import { v4 as uuidv4 } from 'uuid';
     import Button from '@components/widgets/Button.svelte';
     import {
         BORROW_SYMBOL,
