@@ -16,6 +16,7 @@ type CreatorSchema = {
 
 /** Tracks metadata about creators, which is primarily stored in Firebase Auth, but also Firestore, where non-auth data about users lives. */
 export class Creator {
+    /** This is the domain we append to work around the lack of Firebase support for raw usernames. */
     static CreatorUsernameEmailDomain = '@u.wordplay.dev';
     readonly data: CreatorSchema;
     constructor(data: CreatorSchema) {
