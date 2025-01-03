@@ -71,8 +71,20 @@ export class Creator {
                       '',
                   )
                 : this.data.email;
+    } 
+    
+    getProjectUsername(anonymous: boolean) {
+        return this.data.email === null
+            ? '—'
+            : anonymous
+              ? `${this.data.email.split('@')[0]}`
+              : this.isUsername()
+                ? this.data.email.replace(
+                      Creator.CreatorUsernameEmailDomain,
+                      '',
+                  )
+                : this.data.email;
     }
-
     getUID() {
         return this.data.uid;
     }
