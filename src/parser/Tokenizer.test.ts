@@ -73,6 +73,13 @@ test.each([
     ['[\'\\hi\\\' "hello"]', '[|\'|\\|hi|\\|\'|"|hello|"|]|'],
     ["«hello \\name\\, I 'am' Amy»", "«|hello |\\|name|\\|, I 'am' Amy|»|"],
     ['1 + *2* 3', '1|+|3|'],
+    /** Ensure all variants on concepts are tokenized correctly */
+    ['`@Boolean`', '`|@Boolean|`|'],
+    ['`@UI/button`', '`|@UI/button|`|'],
+    ['`@Stage/color`', '`|@Stage/color|`|'],
+    ['`@11`', '`|@11|`|'],
+    ['`@2222`', '`|@2222|`|'],
+    ['`@ABCDEF`', '`|@ABCDEF|`|'],
 ])('%s -> %s', (code: string, segments: string) => {
     expect(
         tokens(code)
