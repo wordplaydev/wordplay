@@ -48,7 +48,7 @@
 <div class="projects">
     {#each listed as project (project.getID())}
         {@const removeMeta = remove(project)}
-        <ProjectPreview {project} link={project.getLink(true)}
+        <!--amy--><ProjectPreview {project} link={project.getLink(true)} anonymize={true} 
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}
