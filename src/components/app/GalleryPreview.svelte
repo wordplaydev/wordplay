@@ -1,271 +1,113 @@
-<!-- @migration task: review uses of `navigating` -->
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import Evaluator from '@runtime/Evaluator';
-    import { Chats, DB, locales,Creators } from '../../db/Database';
-    import { isAudience, isFlagged } from '../../db/projects/Moderation';
-    import { getUser } from '../project/Contexts';
+    import { goto } from '$app/navigation';
+    import { Projects, locales } from '@db/Database';
+    import type Gallery from '../../db/galleries/Gallery';
     import Link from './Link.svelte';
-    import { navigating } from '$app/state';
+    import ProjectPreview from './ProjectPreview.svelte';
     import Spinning from './Spinning.svelte';
-    import { toStage } from '@output/Stage';
-    import { EXCEPTION_SYMBOL, PHRASE_SYMBOL } from '@parser/Symbols';
-    import Fonts from '@basis/Fonts';
-    import { getFaceCSS } from '@output/outputToCSS';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import ExceptionValue from '@values/ExceptionValue';
-    import type Chat from '@db/ChatDatabase.svelte';
-    import CreatorView from './CreatorView.svelte';//Amy
+    import Subheader from './Subheader.svelte';
+    import { browser } from '$app/environment';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
+    import { onMount } from 'svelte';
+    import type Project from '@db/projects/Project';
 
     interface Props {
-        project: Project;
-        action?: (() => void) | undefined;
-        /** Whether to show the project's name. */
-        name?: boolean;
-        /** How many rems the preview square should be. */
-        size?: number;
-        /** The link to go to when clicked. If none is provided, goes to the project. */
-        link?: string | undefined;
-        children?: import('svelte').Snippet;
-        anonymize?: boolean;//Amy
+        gallery: Gallery;
+        /** How many milliseconds to wait to start updating */
+        delay: number;
     }
 
-    let {
-        project,
-        action = undefined,
-        name = true,
-        size = 6,
-        link = undefined,
-        children,
-        anonymize = true//Amy
-    }: Props = $props();
+    let { gallery, delay }: Props = $props();
 
-    // Clone the project and get its initial value, then stop the project's evaluator.
-    type Preview = {
-        representativeForeground: string | null;
-        representativeBackground: string | null;
-        representativeFace: string | null;
-        representativeText: string;
-    };
+    let index = $state(0);
+    let projectID = $state<string | undefined>(gallery.getProjects()[0]);
 
-    /** Derive the preview contents from the project by getting it's first value */
-    let {
-        representativeForeground,
-        representativeBackground,
-        representativeFace,
-        representativeText,
-    } = $derived.by(() => {
-        const evaluator = new Evaluator(
-            project,
-            DB,
-            $locales.getLocales(),
-            false,
-        );
-        const value = evaluator.getInitialValue();
-        evaluator.stop();
-        const stage = value ? toStage(evaluator, value) : undefined;
-        if (stage && stage.face) Fonts.loadFace(stage.face);
+    /** Null means loading */
+    let project: Project | null | undefined = $state(null);
+    let timeoutID: NodeJS.Timeout;
 
-        return {
-            representativeFace: stage ? getFaceCSS(stage.face) : null,
-            representativeForeground: stage
-                ? (stage.pose.color?.toCSS() ?? null)
-                : 'var(--wordplay-evaluation-color)',
-            representativeBackground: stage
-                ? stage.back.toCSS()
-                : value instanceof ExceptionValue || value === undefined
-                  ? 'var(--wordplay-error)'
-                  : null,
-            representativeText: stage
-                ? new UnicodeString(stage.getRepresentativeText($locales))
-                      .substring(0, 1)
-                      .toString()
-                : value
-                  ? value.getRepresentativeText($locales)
-                  : EXCEPTION_SYMBOL,
-        };
-    });
-
-    const user = getUser();
-    
-
-    let path = $derived(link ?? project.getLink(true));
-    /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
-    let audience = $derived(isAudience($user, project));
-
-    //add by Amy begin
-    const owner = $derived( project.getOwner());
-    const collaborators = $derived( project.getCollaborators());
-    $effect(() => {
-        if (audience === false) {
-            anonymize = false;
-        }
-    });//这里判断是否creator or collaborator 
-    //add by Amy end
-   
-    let chat = $state<Chat | undefined>(undefined);
-    $effect(() => {
-        // When the project changes, get the chat, and mark read if it was unread.
-        Chats.getChat(project).then((retrievedChat) => {
-            if (retrievedChat) chat = retrievedChat;
-        });
-    });
-
-    let unread = $derived(
-        chat !== undefined && $user !== null && chat.hasUnread($user.uid),
+    let description = $derived(
+        gallery.getDescription($locales).split('\n').join('\n\n'),
     );
+
+    async function loadNext() {
+        index = (index + 1) % gallery.getProjects().length;
+        projectID = gallery.getProjects()[index];
+        if (projectID) project = await Projects.get(projectID);
+        timeoutID = setTimeout(loadNext, 10000);
+    }
+
+    onMount(() => {
+        setTimeout(loadNext, delay);
+
+        return () =>
+            timeoutID !== undefined ? clearTimeout(timeoutID) : undefined;
+    });
 </script>
 
-<div class="project" class:named={name}>
-    <a
-        class="preview"
-        data-testid="preview"
-        data-sveltekit-preload-data="tap"
-        style:width={`${size}rem`}
-        style:height={`${size}rem`}
-        href={action ? undefined : path}
-        onclick={(event) =>
-            action && event.button === 0 ? action() : undefined}
-        onkeydown={(event) =>
-            action && (event.key === '' || event.key === 'Enter')
-                ? action()
-                : undefined}
-    >
-        <div
-            class="output"
-            role="presentation"
-            style:background={representativeBackground}
-            style:color={representativeForeground}
-            style:font-family={representativeFace}
-            style:font-size={`${Math.max(4, size - 3)}rem`}
-            class:blurred={audience && isFlagged(project.getFlags())}
-        >
-            {representativeText}
+<div class="gallery">
+    <!-- We have to guard this since we haven't structured the project database to run server side fetches, so SvelteKit builds fail. -->
+    {#if browser && project !== undefined}
+        <div class="previews">
+            {#if gallery.getProjects().length === 0}
+                &mdash;
+            {:else if project === null}
+                <Spinning
+                    large
+                    label={$locales.get((l) => l.ui.widget.loading.message)}
+                />
+            {:else}
+                <ProjectPreview
+                    {project}
+                    name={false}
+                    action={() =>
+                        project ? goto(gallery.getLink()) : undefined}
+                    size={8}
+                    link={gallery.getLink()}
+                />
+            {/if}
         </div>
-    </a>
-    {#if name }
-        <div class="name"
-            >{#if action}{project.getName()}{:else}<Link to={path}
-                    >{#if project.getName().length === 0}<em class="untitled"
-                            >&mdash;</em
-                        >{:else}
-                        {project.getName()}{/if}</Link
-                >{#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
-                    <Spinning />{:else}{@render children?.()}{/if}{/if}
-            <!--add by Amy-->
-            {#if owner}
-                    
-            {#await Creators.getCreator(owner)}
-                <Spinning label="" />
-            {:then creator}
-                <div class="creator-info">
-                    <CreatorView
-                        anonymize={anonymize}
-                        creator={creator}
-                    />
-                    {#if collaborators.length > 0}
-                        <div class="collaborators">
-                            {$locales.get(
-                                (l) => l.ui.collaborate.role.collaborators,
-                            )}:
-                            {#each collaborators.slice(0, 2) as collaborator}
-                                {#await Creators.getCreator(collaborator)}
-                                    <Spinning label="" />
-                                {:then collaboratorCreator}   
-                                    <CreatorView 
-                                        anonymize={anonymize}
-                                        creator={collaboratorCreator} />
-                                {/await}
-                            {/each}
-                            {#if collaborators.length > 2}
-                                <span>...</span> 
-                            {/if}
-                        </div>
-                    {/if}
-                </div>
-            {/await}
-            
-        {/if}<!--add by Amy-->
-            {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
-                >{/if}</div
-        >{/if}
+    {/if}
+    <div class="description">
+        <Subheader compact
+            ><Link nowrap to={gallery.getLink()}
+                >{gallery.getName($locales)}</Link
+            >
+            <sub
+                ><span class="dots"
+                    >{'•'.repeat(gallery.getProjects().length)}</span
+                ></sub
+            ></Subheader
+        >
+        <MarkupHtmlView
+            markup={description.length > 0
+                ? description
+                : `/${$locales.get((l) => l.ui.gallery.undescribed)}/`}
+        />
+    </div>
 </div>
 
 <style>
-    .project {
-        border: var(--wordplay-border-color);
-        border-radius: var(--wordplay-border-radius);
+    .gallery {
         display: flex;
         flex-direction: row;
-        align-items: center;
+        flex-wrap: nowrap;
+        margin-block-start: 2em;
         gap: var(--wordplay-spacing);
+        align-items: top;
     }
 
-    .project.named {
-        min-width: 12em;
-    }
-
-    .output {
-        display: flex;
-        /** For some reason this is necessary for keeping the glyph centered. */
-        align-items: center;
-        justify-content: center;
-        width: 100%;
-        height: 100%;
-        background: var(--wordplay-background);
-        text-decoration: none;
+    .dots {
         color: var(--wordplay-foreground);
+        font-size: xx-large;
     }
 
-    a {
-        text-decoration: none;
-    }
-
-    .name {
+    .previews {
         display: flex;
         flex-direction: column;
-    }
-
-    .untitled {
-        color: var(--wordplay-inactive-color);
-    }
-
-    .preview {
-        transition: transform ease-out;
-        transition-duration: calc(var(--animation-factor) * 200ms);
-        background: var(--wordplay-inactive-color);
-    }
-
-    .project .preview:hover,
-    .project:focus .preview {
-        transform: scale(1.05);
-    }
-
-    .preview {
-        cursor: pointer;
-        overflow: hidden;
-        border: var(--wordplay-border-color) solid var(--wordplay-border-width);
-        border-radius: var(--wordplay-border-radius);
-    }
-
-    .preview:hover {
-        border-color: var(--wordplay-highlight-color);
-        border-width: var(--wordplay-focus-width);
-    }
-
-    .blurred {
-        filter: blur(10px);
-    }
-
-    .notification {
-        display: inline-block;
-        background: var(--wordplay-highlight-color);
-        color: var(--wordplay-background);
-        align-self: flex-start;
-        border-radius: var(--wordplay-border-radius);
-        animation: bounce;
-        animation-duration: calc(var(--animation-factor) * 1000ms);
-        animation-delay: 0;
-        animation-iteration-count: infinite;
+        align-items: center;
+        gap: var(--wordplay-spacing);
+        width: 8em;
+        height: 8em;
     }
 </style>
