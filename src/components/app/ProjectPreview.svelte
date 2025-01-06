@@ -2,7 +2,7 @@
 <script lang="ts">
     import type Project from '@db/projects/Project';
     import Evaluator from '@runtime/Evaluator';
-    import { Chats, DB, locales,Creators } from '../../db/Database';//Amy
+    import { Chats, DB, locales,Creators } from '../../db/Database';
     import { isAudience, isFlagged } from '../../db/projects/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
@@ -15,7 +15,7 @@
     import UnicodeString from '../../unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
     import type Chat from '@db/ChatDatabase.svelte';
-    import CreatorView from './ProjectCreatorView.svelte';
+    import CreatorView from './CreatorView.svelte';//Amy
 
     interface Props {
         project: Project;
@@ -27,6 +27,7 @@
         /** The link to go to when clicked. If none is provided, goes to the project. */
         link?: string | undefined;
         children?: import('svelte').Snippet;
+        anonymize?: boolean;//Amy
     }
 
     let {
@@ -36,6 +37,7 @@
         size = 6,
         link = undefined,
         children,
+        anonymize = true//Amy
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -85,12 +87,22 @@
     });
 
     const user = getUser();
-    const owner = $derived( project.getOwner());
-    const collaborators = $derived( project.getCollaborators());
+    
+
     let path = $derived(link ?? project.getLink(true));
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
+    //add by Amy begin
+    const owner = $derived( project.getOwner());
+    const collaborators = $derived( project.getCollaborators());
+    $effect(() => {
+        if (audience === false) {
+            anonymize = false;
+        }
+    });//这里判断是否creator or collaborator 
+    //add by Amy end
+   
     let chat = $state<Chat | undefined>(undefined);
     $effect(() => {
         // When the project changes, get the chat, and mark read if it was unread.
@@ -131,44 +143,49 @@
             {representativeText}
         </div>
     </a>
-    {#if name}
+    {#if name }
         <div class="name"
             >{#if action}{project.getName()}{:else}<Link to={path}
                     >{#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
                         >{:else}
-                        {project.getName()}{/if}</Link>
-                    {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
+                        {project.getName()}{/if}</Link
+                >{#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}{/if}{/if}
-                    {#if owner}
+            <!--add by Amy-->
+            {#if owner}
                     
-                    {#await Creators.getCreator(owner)}
-                        <Spinning label="" />
-                    {:then creator}
-                        <div class="creator-info">
-                            <CreatorView {creator} />
-                            {#if collaborators.length > 0}
-                                <div class="collaborators">
-                                    {$locales.get(
-                                        (l) => l.ui.collaborate.role.collaborators,
-                                    )}:
-                                    {#each collaborators.slice(0, 2) as collaborator}
-                                        {#await Creators.getCreator(collaborator)}
-                                            <Spinning label="" />
-                                        {:then collaboratorCreator} 
-                                            
-                                            <CreatorView creator={collaboratorCreator} />
-                                        {/await}
-                                    {/each}
-                                    {#if collaborators.length > 2}
-                                        <span>...</span> 
-                                    {/if}
-                                </div>
+            {#await Creators.getCreator(owner)}
+                <Spinning label="" />
+            {:then creator}
+                <div class="creator-info">
+                    <CreatorView
+                        anonymize={anonymize}
+                        creator={creator}
+                    />
+                    {#if collaborators.length > 0}
+                        <div class="collaborators">
+                            {$locales.get(
+                                (l) => l.ui.collaborate.role.collaborators,
+                            )}:
+                            {#each collaborators.slice(0, 2) as collaborator}
+                                {#await Creators.getCreator(collaborator)}
+                                    <Spinning label="" />
+                                {:then collaboratorCreator}   
+                                    <CreatorView 
+                                        anonymize={anonymize}
+                                        creator={collaboratorCreator} />
+                                {/await}
+                            {/each}
+                            {#if collaborators.length > 2}
+                                <span>...</span> 
                             {/if}
                         </div>
-                    {/await}
-                    
-                {/if}
+                    {/if}
+                </div>
+            {/await}
+            
+        {/if}<!--add by Amy-->
             {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
                 >{/if}</div
         >{/if}
