@@ -27,7 +27,7 @@
         /** The link to go to when clicked. If none is provided, goes to the project. */
         link?: string | undefined;
         children?: import('svelte').Snippet;
-        anonymize?: boolean;//Amy
+        anonymize?: boolean;
     }
 
     let {
@@ -37,7 +37,7 @@
         size = 6,
         link = undefined,
         children,
-        anonymize = true//Amy
+        anonymize = true
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -96,11 +96,12 @@
     //add by Amy begin
     const owner = $derived( project.getOwner());
     const collaborators = $derived( project.getCollaborators());
-    $effect(() => {
+    /*$effect(() => {
         if (audience === false) {
             anonymize = false;
         }
-    });//这里判断是否creator or collaborator 
+    });*/
+    //这里判断是否creator or collaborator 
     //add by Amy end
    
     let chat = $state<Chat | undefined>(undefined);
