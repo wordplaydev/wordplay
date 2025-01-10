@@ -6,8 +6,6 @@
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
     import { type Snippet } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
-    import { getUser } from '../project/Contexts';//Amy
-    import { isAudience, isFlagged } from '../../db/projects/Moderation';//Amy
 
     interface Props {
         set: Project[];
@@ -34,9 +32,10 @@
               }
             | false;
         children?: Snippet;
+        anonymize?: boolean;//Amy2025.1.8
     }
 
-    let { set, edit, remove, copy, children }: Props = $props();
+    let { set, edit, remove, copy, children,anonymize = true }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
         return [...projects].sort((a, b) =>
@@ -45,13 +44,12 @@
     }
 
     let listed = $derived(sortProjects(set).filter((p) => p.isListed()));
-    const user = getUser();//Amy
 </script>
 
 <div class="projects">
     {#each listed as project (project.getID())}
         {@const removeMeta = remove(project)}
-        <!--amy--><ProjectPreview {project} link={project.getLink(true)} anonymize={isAudience($user, project)} 
+        <!--amy--><ProjectPreview {project} link={project.getLink(true)} anonymize={anonymize} 
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}
