@@ -135,6 +135,7 @@
                 label: '🗑️',
             };
         }}
+        anonymize={false}
     />
     <!-- If there are any archived projects, make an archived section. -->
     {#if Projects.allArchivedProjects.length > 0}
@@ -167,6 +168,7 @@
                 label: '↑🗑️',
             }}
             copy={false}
+            anonymize={false}
             remove={(project) =>
                 $user && project.getOwner() === $user.uid
                     ? {
