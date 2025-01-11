@@ -87,7 +87,7 @@ export default function bootstrapNumber(locales: Locales) {
     }
 
     function createUnaryOp(
-        text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
+        text: (locale: LocaleText) => FunctionText<readonly NameAndDoc[]>,
         outputType: Type,
         expression: (
             requestor: Expression,
