@@ -42,9 +42,10 @@ export function getTranslatableLocalePairs(locale: LocaleText): StringPath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter(
         (pair) =>
-            // As long as its not one of the top level locale definitions, and not an array, its something to translate
+            // Skip any arrays of non-strings, emotions, and top level declarations.
             !(
-                Array.isArray(pair.value) ||
+                (Array.isArray(pair.value) &&
+                    pair.value.every((s) => typeof s === 'string')) ||
                 pair.key === 'emotion' ||
                 (pair.top() &&
                     (pair.key === '$schema' ||
