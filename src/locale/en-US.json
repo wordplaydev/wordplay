@@ -134,7 +134,7 @@
             "name": "explanation",
             "emotion": "serious",
             "doc": [
-                "I richly format things with @Markup, like explanations of some of of your @Program, or even the words you put on stage with @Phrase.",
+                "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
                 "For example, I can go before any expression:",
                 "\\¶Is this really supposed to be 7?¶\n7\\",
                 "For example, you can place me before @Bind:",
