@@ -136,28 +136,36 @@ async function checkTutorial(
             }
         } else code = list.join('\n');
         if (code) {
-            const project = Project.make(
-                null,
-                'test',
-                new Source('start', code),
-                [],
-                locale,
-            );
-            project.analyze();
-            project.getAnalysis();
+            try {
+                const project = Project.make(
+                    null,
+                    'test',
+                    new Source('start', code),
+                    [],
+                    locale,
+                );
 
-            if (
-                !conflictsIntentional &&
-                project.getPrimaryConflicts().size > 0
-            ) {
+                project.analyze();
+                project.getAnalysis();
+
+                if (
+                    !conflictsIntentional &&
+                    project.getPrimaryConflicts().size > 0
+                ) {
+                    log.bad(
+                        2,
+                        `Uh oh, there's a conflict in...\n\n${code}, ${Array.from(
+                            project.getPrimaryConflicts().values(),
+                        )
+                            .flat()
+                            .map((c) => c.toString())
+                            .join(',')}`,
+                    );
+                }
+            } catch (error) {
                 log.bad(
                     2,
-                    `Uh oh, there's a conflict in...\n\n${code}, ${Array.from(
-                        project.getPrimaryConflicts().values(),
-                    )
-                        .flat()
-                        .map((c) => c.toString())
-                        .join(',')}`,
+                    `Unable to create project and check for conflicts tutorial code: ${code}.\n${error}`,
                 );
             }
         }
