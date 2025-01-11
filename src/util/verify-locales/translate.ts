@@ -47,12 +47,11 @@ const concept = new RegExp(ConceptRegEx, 'g');
  */
 export function restoreConcepts(before: string, after: string): string {
     // Find all concept links in the before string.
-    const beforeConceptLinks = Array.from(before.matchAll(concept)).map(
+    const beforeConcepts = Array.from(before.matchAll(concept)).map(
         (s) => s[0],
     );
     // Didn't find any? Return the translated string.
-    if (beforeConceptLinks === null || beforeConceptLinks.length === 0)
-        return after;
+    if (beforeConcepts.length === 0) return after;
 
     // Replace the concept links in the after string.
     const afterConceptLinks = Array.from(after.matchAll(concept));
@@ -63,18 +62,18 @@ export function restoreConcepts(before: string, after: string): string {
     const mapping = new Map<string, string>();
     for (let index = 0; index < afterConceptLinks.length; index++) {
         // Get the matching text and index.
-        const afterConcept = afterConceptLinks[index];
-        const afterIndex = afterConcept.index;
-        const afterText = afterConcept[0];
+        const afterText = afterConceptLinks[index][0];
 
         // Is the text in the list of before concepts? Assume it was preserved and keep it.
-        if (beforeConceptLinks.includes(afterText)) continue;
+        if (beforeConcepts.includes(afterText)) continue;
 
         // Otherwise, choose the next before concept link name, assuming order was preserved (which is is not always, as grammar can reverse things).
-        const beforeText = beforeConceptLinks.shift();
+        const beforeText = beforeConcepts.shift();
 
         // No before text or text is the same? Just keep it the same.
         if (beforeText === undefined || beforeText === afterText) continue;
+
+        // Remember the mapping we found, so we can do a bulk search and replace after.
         mapping.set(beforeText, afterText);
     }
 
