@@ -40,7 +40,6 @@ export const SupportedLocales = Array.from(
         'en-US',
         'es-MX',
         'zh-CN',
-        'zh-TW',
         ...(import.meta.hot ? EventuallySupportedLocales : []),
     ]),
 );
