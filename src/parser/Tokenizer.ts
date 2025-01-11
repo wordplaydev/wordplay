@@ -313,7 +313,7 @@ const MarkupTokenPatterns = [
     ListOpenPattern,
     ListClosePattern,
     {
-        pattern: new RegExp(`^${ConceptRegEx}`),
+        pattern: new RegExp(`^${ConceptRegEx}`, 'u'),
         types: [Sym.Concept],
     },
     { pattern: LINK_SYMBOL, types: [Sym.Link] },

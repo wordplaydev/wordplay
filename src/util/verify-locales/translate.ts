@@ -39,7 +39,7 @@ export default async function translate(
     return translations;
 }
 
-const concept = new RegExp(ConceptRegEx, 'g');
+const concept = new RegExp(ConceptRegEx, 'ug');
 
 /**
  * Take a string with zero or more concept links, find the corresponding ones in the after string,
