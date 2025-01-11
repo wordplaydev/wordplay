@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.14.1 2024-01-11
 
+### Added
+
+- Click outside dialog to dismiss it.
+
 ### Maintenence
 
 - Cleaned up the supported locales code.
