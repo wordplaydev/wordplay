@@ -23,29 +23,7 @@ import type { FlagDescriptions } from '../db/projects/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
-
-/** A list of locales that are in progress but not supported yet. Only added when developing locally. */
-export const EventuallySupportedLocales = [
-    'zh-TW',
-    'ko-KR',
-    'fr-FR',
-    'ja-JP',
-    'de-DE',
-    'hi-IN',
-];
-
-/** A list of locales officially supported by Wordplay. */
-export const SupportedLocales = Array.from(
-    new Set([
-        'en-US',
-        'es-MX',
-        'zh-CN',
-        ...(import.meta.hot ? EventuallySupportedLocales : []),
-    ]),
-);
-
-/** One of the supported locales above */
-export type SupportedLocale = (typeof SupportedLocales)[number];
+import { type SupportedLocale, SupportedLocales } from './SupportedLocales';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';

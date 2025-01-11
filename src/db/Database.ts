@@ -10,11 +10,8 @@ import {
     type User,
 } from 'firebase/auth';
 import type LocaleText from '../locale/LocaleText';
-import {
-    type SupportedLocale,
-    getBestSupportedLocales,
-    type Template,
-} from '../locale/LocaleText';
+import { getBestSupportedLocales, type Template } from '../locale/LocaleText';
+import { type SupportedLocale } from '@locale/SupportedLocales';
 import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
 import LocalesDatabase from './LocalesDatabase';
 import SettingsDatabase from './settings/SettingsDatabase';

@@ -10,7 +10,7 @@ import {
 import { CameraSetting } from './CameraSetting';
 import { MicSetting } from './MicSetting';
 import { derived } from 'svelte/store';
-import type { SupportedLocale } from '../../locale/LocaleText';
+import type { SupportedLocale } from '@locale/SupportedLocales';
 import type { Database } from '../Database';
 import type { SerializedLayout } from '../../components/project/Layout';
 import type Arrangement from './Arrangement';

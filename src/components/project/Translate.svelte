@@ -7,7 +7,7 @@
     import Dialog from '@components/widgets/Dialog.svelte';
     import { Projects, Settings, locales } from '@db/Database';
     import { functions } from '@db/firebase';
-    import { SupportedLocales } from '@locale/LocaleText';
+    import { SupportedLocales } from '@locale/SupportedLocales';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
 

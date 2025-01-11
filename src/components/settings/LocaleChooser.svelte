@@ -4,12 +4,10 @@
     import Button from '../widgets/Button.svelte';
     import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import { DB, locales } from '@db/Database';
-    import {
-        SupportedLocales,
-        getLocaleLanguage,
-        type SupportedLocale,
-        EventuallySupportedLocales,
-    } from '../../locale/LocaleText';
+    import { getLocaleLanguage } from '../../locale/LocaleText';
+    import { type SupportedLocale } from '@locale/SupportedLocales';
+    import { SupportedLocales } from '@locale/SupportedLocales';
+    import { EventuallySupportedLocales } from '@locale/SupportedLocales';
     import Link from '../app/Link.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import { localeToString } from '../../locale/Locale';
