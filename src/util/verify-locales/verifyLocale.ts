@@ -31,7 +31,13 @@ export function createUnwrittenLocale(): LocaleText {
     const pairs = getTranslatableLocalePairs(locale);
 
     // Mark all strings as unwritten
-    for (const pair of pairs) pair.repair(locale, Unwritten + pair.value);
+    for (const pair of pairs)
+        pair.repair(
+            locale,
+            Array.isArray(pair.value)
+                ? pair.value.map((s) => Unwritten + s)
+                : Unwritten + pair.value,
+        );
 
     // Return the unwritten locale
     return locale;
@@ -40,19 +46,21 @@ export function createUnwrittenLocale(): LocaleText {
 /** Get translatable keys for locale text */
 export function getTranslatableLocalePairs(locale: LocaleText): StringPath[] {
     // Find the translatable pairs
-    return getKeyTemplatePairs(locale).filter(
-        (pair) =>
-            // Skip any arrays of non-strings, emotions, and top level declarations.
-            !(
-                (Array.isArray(pair.value) &&
-                    pair.value.every((s) => typeof s === 'string')) ||
-                pair.key === 'emotion' ||
-                (pair.top() &&
-                    (pair.key === '$schema' ||
-                        pair.key === 'language' ||
-                        pair.key === 'region'))
-            ),
-    );
+    return getKeyTemplatePairs(locale).filter((pair) => {
+        // Emotion? Skip it.
+        if (pair.key === 'emotion') return false;
+
+        // Top level declaration? Skip it.
+        if (
+            pair.top() &&
+            (pair.key === '$schema' ||
+                pair.key === 'language' ||
+                pair.key === 'region')
+        )
+            return false;
+
+        return true;
+    });
 }
 
 /** Load, validate, and check the locale. */

@@ -6,10 +6,11 @@ export const EventuallySupportedLocales = [
     'ja-JP',
     'de-DE',
     'hi-IN',
+    'pa-IN',
 ]; /** A list of locales officially supported by Wordplay. */
 
 /** Supported locale names. Update this list when a locale is ready to share with the world. */
-export const SupportedLocaleCodes = ['en-US', 'es-MX', 'zh-CN', 'pi-IN'];
+export const SupportedLocaleCodes = ['en-US', 'es-MX', 'zh-CN'];
 
 /** Officially supported locales that have passable text for the UI and tutorial. */
 export const SupportedLocales = Array.from(

@@ -17,7 +17,6 @@ import type { TeachPageText } from '../routes/teach/+page.svelte';
 import type { ClassPageText } from '../routes/teach/class/[classid]/+page.svelte';
 import type { NewClassPageText } from '../routes/teach/class/new/+page.svelte';
 import type EditTexts from './EditTexts';
-import type { GalleryText } from './GalleryTexts';
 import type { DocText, Template } from './LocaleText';
 import type { CheckpointsText } from '@components/project/Checkpoints.svelte';
 
@@ -35,7 +34,7 @@ export type ToggleText = {
     off: string;
 };
 
-export type ModeText<Modes extends string[]> = {
+export type ModeText<Modes extends readonly string[]> = {
     /** The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
     /** The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance */
