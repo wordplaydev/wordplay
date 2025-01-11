@@ -93,7 +93,7 @@ export type NameAndDoc = {
     doc: DocText;
 };
 
-export type FunctionText<Inputs extends NameAndDoc[]> = NameAndDoc & {
+export type FunctionText<Inputs extends readonly NameAndDoc[]> = NameAndDoc & {
     /** Bind definitions for the inputs this function takes */
     inputs: Inputs;
 };
@@ -204,7 +204,7 @@ export function createBind(
 
 export function createInputs(
     locales: Locales,
-    fun: (locale: LocaleText) => NameAndDoc[],
+    fun: (locale: LocaleText) => readonly NameAndDoc[],
     types: (Type | [Type, Expression])[],
 ) {
     return types.map((type, index) =>
