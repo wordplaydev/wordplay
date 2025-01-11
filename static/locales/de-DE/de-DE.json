@@ -3680,7 +3680,7 @@
             },
             "description": {
                 "doc": [
-                    "$~Eine Beschreibung für Zuschauer, die keine visuelle Ausgabe sehen können."
+                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
                 ],
                 "names": "$~Beschreibung"
             }
