@@ -4493,7 +4493,7 @@
             },
             "locale": {
                 "header": "Language",
-                "explanation": "Choose your languages and regions.",
+                "explanation": "Choose languages for the interface, tutorial, and documentation.",
                 "subheader": {
                     "selected": "Selected",
                     "supported": "Available",
@@ -4502,8 +4502,8 @@
                 },
                 "button": {
                     "show": "change locale",
-                    "replace": "replace with this locale",
-                    "add": "add this locale",
+                    "replace": "use this locale",
+                    "add": "use this locale and the current ones",
                     "remove": "remove this locale"
                 }
             },

@@ -4,7 +4,10 @@
     import Button from '../widgets/Button.svelte';
     import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import { DB, locales } from '@db/Database';
-    import { getLocaleLanguage } from '../../locale/LocaleText';
+    import {
+        getLocaleLanguage,
+        getLocaleLanguageName,
+    } from '../../locale/LocaleText';
     import { type SupportedLocale } from '@locale/SupportedLocales';
     import { SupportedLocales } from '@locale/SupportedLocales';
     import { EventuallySupportedLocales } from '@locale/SupportedLocales';
@@ -56,7 +59,9 @@
     description={$locales.get((l) => l.ui.dialog.locale)}
     button={{
         tip: $locales.get((l) => l.ui.dialog.locale.button.show),
-        label: selectedLocales.join(' + '),
+        label: selectedLocales
+            .map((code) => getLocaleLanguageName(code))
+            .join(' + '),
     }}
 >
     <h2

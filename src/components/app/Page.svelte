@@ -122,14 +122,15 @@
         z-index: 1;
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
-        white-space: nowrap;
     }
 
     nav {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
+        font-size: var(--wordplay-small-font-size);
     }
 </style>
