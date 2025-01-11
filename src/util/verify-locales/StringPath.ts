@@ -104,8 +104,7 @@ export function getKeyTemplatePairs(
         // Account for these when finding strings for verification.
         else if (
             Array.isArray(value) &&
-            value.every((v) => typeof v === 'string') &&
-            key !== 'names'
+            value.every((v) => typeof v === 'string')
         )
             pairs.push(new StringPath(path, key, value));
         else if (

@@ -2,7 +2,12 @@ import type LocaleText from '@locale/LocaleText';
 import type Log from './Log';
 import type Tutorial from '../../tutorial/Tutorial';
 import type StringPath from './StringPath';
-import { isUnwritten, MachineTranslated, Unwritten } from '@locale/LocaleText';
+import {
+    isAutomated,
+    isUnwritten,
+    MachineTranslated,
+    Unwritten,
+} from '@locale/LocaleText';
 import { getKeyTemplatePairs } from './StringPath';
 import {
     PerformanceMode,
@@ -209,6 +214,20 @@ async function checkTutorial(
                 2,
                 `Unknown tutorial concept: ${link.getName()}, found in ${dialog}`,
             );
+
+    const pairs = getTranslatableTutorialPairs(revised);
+
+    const automated = pairs.filter(({ value }) =>
+        typeof value === 'string'
+            ? isAutomated(value)
+            : value.some((s) => isAutomated(s)),
+    );
+
+    if (automated.length > 0)
+        log.bad(
+            2,
+            `Tutorial has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
+        );
 
     return revised;
 }
