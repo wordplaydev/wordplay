@@ -125,7 +125,7 @@
                 "$~Ich bin eine /Maßeinheit/!",
                 "$~Ich kann jede standardisierte Einheit sein, wie \\1m\\, \\10s\\, \\100g\\ oder jede andere wissenschaftliche Einheit. Ich bin auch gerne bereit, jede Einheit zu sein, die Sie sich ausdenken möchten, wie \\17apple\\.",
                 "$~Ich kann mit \\/\\ kombiniert werden, um Verhältniseinheiten wie \\17Äpfel/Tag\\ zu bilden, und mit \\^\\, um Exponentialeinheiten wie \\9,8m/s^2\\ zu bilden.",
-                "$~Ich muss immer nach einer @Nummer kommen. Wenn ich das nicht tue, könnte ich mit einer @Referenz verwechselt werden, was ziemlich peinlich wäre!",
+                "$~Ich muss immer nach einer @Number kommen. Wenn ich das nicht tue, könnte ich mit einer @Reference verwechselt werden, was ziemlich peinlich wäre!",
                 "$~Ich bin auch ziemlich gut darin, Inkonsistenzen zwischen Einheiten zu finden. Beispielsweise ergibt \\1Katze + 1Hund\\ keinen Sinn!",
                 "$~Wenn Sie jemals zwischen verschiedenen Einheitenwerten umrechnen möchten, wenden Sie sich an @Convert."
             ]
@@ -134,7 +134,7 @@
             "name": "$~Erläuterung",
             "emotion": "$?",
             "doc": [
-                "$~Ich formatiere Dinge ausführlich mit @Markup, beispielsweise Erklärungen zu einigen Ihrer @Programme oder sogar die Wörter, die Sie mit @Phrase auf die Bühne bringen.",
+                "$~Ich formatiere Dinge ausführlich mit @Markup, beispielsweise Erklärungen zu einigen Ihrer @Program oder sogar die Wörter, die Sie mit @Phrase auf die Bühne bringen.",
                 "$~Beispielsweise kann ich vor jeden Ausdruck Folgendes setzen:",
                 "$~\\``Soll das wirklich 7 sein?``\n7\\",
                 "$~Beispielsweise können Sie „me“ vor „@Bind“ platzieren:",
@@ -145,7 +145,7 @@
                 "$~\\``Ich erinnere mich an die Namen und Lieblingsfrüchte von Leuten``\n•Person(Name•''Frucht•'')\\",
                 "$~Sie können mich auch ganz an den Anfang von @Program stellen, um zu sagen, worum es in der gesamten Aufführung geht",
                 "$~\\``Dieses Programm sagt Hallo``\n\n'Hallo!'\\",
-                "$~Sie können mir eine @Sprache geben, damit andere wissen, in welcher Sprache ich geschrieben bin:",
+                "$~Sie können mir eine @Language geben, damit andere wissen, in welcher Sprache ich geschrieben bin:",
                 "$~\\``Ich bin ein englischer Arzt``/en\nDauer: 5 s\\",
                 "$~Wussten Sie, dass Sie eine Liste von mir erstellen können? Sprechen Sie mit @Docs."
             ]
@@ -181,7 +181,7 @@
                 "$~Das ist, was ich mache. Nur ein kleiner Schrägstrich und ein paar Buchstaben, und niemand wird jemals verwirrt sein, in welcher Sprache ein Text ist.",
                 "$~Angenommen, Sie möchten „my $name“ sagen, aber klarstellen, dass ich Englisch meine:",
                 "$~\\\"Sprache\"/de\\",
-                "$~Oder nehmen wir an, Sie möchten dies für einen @Namen tun.",
+                "$~Oder nehmen wir an, Sie möchten dies für einen @Name tun.",
                 "$~\\sound/de: 'miau'\\",
                 "$~Oder sogar @Doc!",
                 "$~\\``Onomatopoeia``/de\nTon/de: \"miau\"\\",
@@ -214,7 +214,7 @@
             "name": "Namen",
             "emotion": "$?",
             "doc": [
-                "$~Ich bin eine Liste von @Namen, nützlich, wenn Sie einem Wert mehrere Namen zuweisen möchten, oft mit unterschiedlicher @Sprache.",
+                "$~Ich bin eine Liste von @Name, nützlich, wenn Sie einem Wert mehrere Namen zuweisen möchten, oft mit unterschiedlicher @Sprache.",
                 "$~Namen werden durch \\,\\-Symbole getrennt. Hier ist beispielsweise @Bind, das einen Wert angibt, der ein Vielfaches von @Name ist.",
                 "$~\\hi/en,hello/en,hola/es: 'willkommen'\\"
             ]
@@ -382,7 +382,7 @@
                 "$~\\pi: 3.1415926\\",
                 "$~Ich benenne Eingaben in @FunctionDefinition und @StructureDefinition, ich benenne Werte in @Block. Ich benenne alles!",
                 "$~Oh, aber wussten Sie, dass Sie für einen Wert *viele Namen* haben können?",
-                "$~Ich freue mich riesig, Ihnen davon zu erzählen! Ein Wert, viele @Namen. Zum Beispiel:",
+                "$~Ich freue mich riesig, Ihnen davon zu erzählen! Ein Wert, viele @Name. Zum Beispiel:",
                 "$~\\joe,tess,amy: 5\\",
                 "$~Siehst du was ich dort gemacht habe?",
                 "$~Ein Wert, drei Namen.",
@@ -625,7 +625,7 @@
                     "secondary": "$~Ich habe keinen Input mit dem Namen $1"
                 },
                 "InputListMustBeLast": "$~Liste der Eingänge muss zuletzt sein",
-                "SeparatedEvaluate": "$~Ist $1 der Name einer $2[$Struktur|$Funktion], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um ein @Evaluate und nicht um einen separaten @Block handelt."
+                "SeparatedEvaluate": "$~Ist $1 der Name einer $2[Structure|Function], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um ein @Evaluate und nicht um einen separaten @Block handelt."
             },
             "exception": {
                 "FunctionException": {
@@ -799,7 +799,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Ich bin die großartigste aller bedingten Prüfungen! Ich nehme einen Wert, vergleiche ihn mit einer beliebigen Anzahl von Fällen und bewerte den entsprechenden Ausdruck, der übereinstimmt.",
-                "$~Wenn Sie beispielsweise eine @Nummer haben und diese in einen @Text umwandeln möchten, könnten Sie etwa so vorgehen:",
+                "$~Wenn Sie beispielsweise eine @Number haben und diese in einen @Text umwandeln möchten, könnten Sie etwa so vorgehen:",
                 "$~\\Nummer: 2\nNummer ??? 1: 'eins' 2: 'zwei' 3: 'drei' 'größer!'\\",
                 "$~Wenn keine Übereinstimmung vorliegt, bewerte ich den Standardausdruck, den Sie mir geben.",
                 "$~Ich bin wirklich hilfreich, wenn es darum geht, eine der vielen möglichen @Number-, @Text- oder komplexeren Werte in etwas anderes umzuwandeln.",
@@ -815,7 +815,7 @@
             "name": "$~Zahlenliteral",
             "description": "$~$1 $2[$2|]",
             "emotion": "$?",
-            "doc": "$~Ich bin eine bestimmte @Nummer. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Nummer.",
+            "doc": "$~Ich bin eine bestimmte @Number. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Number.",
             "start": "$~$1!",
             "conflict": {
                 "NotANumber": "$~Ich dachte, ich kenne alle Zahlen, aber diese hier kenne ich nicht"
@@ -953,7 +953,7 @@
             "description": "$~1 Dollar",
             "emotion": "$?",
             "doc": [
-                "$~Wissen Sie, wie @Bind den Dingen @Namen gibt? Ich bin die Art, wie Sie sie bezeichnen. Ich sehe nach, ob ein @Bind diesen Namen hat, und gebe Ihnen in diesem Fall seinen Wert. So:",
+                "$~Wissen Sie, wie @Bind den Dingen @Name gibt? Ich bin die Art, wie Sie sie bezeichnen. Ich sehe nach, ob ein @Bind diesen Namen hat, und gebe Ihnen in diesem Fall seinen Wert. So:",
                 "$~\\Papagei: 'Polly'\nPapagei\\",
                 "$~Wenn ich den Namen nicht finde, weiß ich nicht, was ich tun soll.",
                 "$~\\Papagei: 'Polly'\nPerry\\"
@@ -1257,7 +1257,7 @@
             "description": "$~$1[$1 | Zahl]",
             "emotion": "$?",
             "doc": [
-                "$~Wissen Sie, was @Bind sein sollte? Eine @Nummer. Weil Nummern das Beste sind.",
+                "$~Wissen Sie, was @Bind sein sollte? Eine @Number. Weil Nummern das Beste sind.",
                 "$~\\Anzahl•#: 17\\"
             ]
         },
@@ -1590,9 +1590,9 @@
                     "doc": [
                         "$~Ich erstelle einen neuen @Text, der von mir stammt und so oft wiederholt wird wie \\count\\:",
                         "$~\\'hallo ' · 5\\",
-                        "$~Wenn Sie mir eine Bruchzahl @Zahl geben, ignoriere ich den Bruch:",
+                        "$~Wenn Sie mir eine Bruchzahl @Number geben, ignoriere ich den Bruch:",
                         "$~\\'hallo ' · 5.5\\",
-                        "$~Wenn Sie mir eine negative @Zahl oder Null geben, gebe ich einen leeren @Text.",
+                        "$~Wenn Sie mir eine negative @Number oder Null geben, gebe ich einen leeren @Text.",
                         "$~\\'hallo ' · -5\\",
                         "$~Der längste Text, den ich erstellen kann, ist 65.535 Zeichen lang. Wenn Sie versuchen, einen längeren Text zu erstellen, wiederhole ich den Text so oft wie möglich."
                     ],
@@ -1676,7 +1676,7 @@
             },
             "conversion": {
                 "list": "$~Teilt den Text in eine Liste einzelner Zeichen auf.",
-                "number": "$~Wandelt Text in eine @Zahl um, und wenn es keine Zahl ist, in einen Nicht-Zahlenwert."
+                "number": "$~Wandelt Text in eine @Number um, und wenn es keine Zahl ist, in einen Nicht-Zahlenwert."
             }
         },
         "Number": {
@@ -1717,14 +1717,14 @@
                     "names": ["$~+", "$~hinzufügen"],
                     "inputs": [
                         {
-                            "doc": "$~Die hinzuzufügende @Nummer.",
+                            "doc": "$~Die hinzuzufügende @Number.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "subtract": {
                     "doc": [
-                        "$~Ich subtrahiere die @Nummer, die Sie mir geben, von mir selbst und erstelle eine neue @Nummer derselben @Einheit.",
+                        "$~Ich subtrahiere die @Number, die Sie mir geben, von mir selbst und erstelle eine neue @Number derselben @Einheit.",
                         "$~Zum Beispiel:",
                         "$~\\1 - 1\\",
                         "$~\\3Katze - 5Katze\\",
@@ -1734,7 +1734,7 @@
                     "names": ["$~-", "$~subtrahieren"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, die von mir abgezogen werden soll.",
+                            "doc": "$~Die @Number, die von mir abgezogen werden soll.",
                             "names": "$~Nummer"
                         }
                     ]
@@ -1756,7 +1756,7 @@
                 },
                 "divide": {
                     "doc": [
-                        "$~Ich dividiere mich durch die gegebene @Zahl und erstelle einen Quotienten aus meiner @Einheit und der @Einheit der gegebenen Zahl:",
+                        "$~Ich dividiere mich durch die gegebene @Number und erstelle einen Quotienten aus meiner @Einheit und der @Einheit der gegebenen Zahl:",
                         "$~\\5 ÷ 5\\",
                         "$~\\5 m ÷ 5 m\\",
                         "$~\\5m ÷ 5s\\"
@@ -1764,14 +1764,14 @@
                     "names": ["÷", "divide"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Zahl, durch die ich dividieren soll.",
+                            "doc": "$~Die @Number, durch die ich dividieren soll.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "remainder": {
                     "doc": [
-                        "$~Ich dividiere durch die gegebene @Zahl, gebe aber den Rest aus:",
+                        "$~Ich dividiere durch die gegebene @Number, gebe aber den Rest aus:",
                         "$~\\10 % 2\\",
                         "$~\\10m % 2\\",
                         "$~\\10m/s % 3\\"
@@ -1779,14 +1779,14 @@
                     "names": ["$~%", "$~Rest"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Zahl, durch die ich dividieren soll.",
+                            "doc": "$~Die @Number, durch die ich dividieren soll.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "positive": {
                     "doc": [
-                        "$~Ich erstelle eine neue @Nummer, die mich positiv macht, wenn auch negativ.",
+                        "$~Ich erstelle eine neue @Number, die mich positiv macht, wenn auch negativ.",
                         "$~\\-200.positive()\\"
                     ],
                     "names": ["$~positiv"],
@@ -1794,7 +1794,7 @@
                 },
                 "round": {
                     "doc": [
-                        "$~Ich erstelle eine neue @Zahl, die auf die nächste Ganzzahl rundet.",
+                        "$~Ich erstelle eine neue @Number, die auf die nächste Ganzzahl rundet.",
                         "$~\\9.4.round()\\",
                         "$~\\9.5.round()\\",
                         "$~\\9.6.round()\\"
@@ -1814,7 +1814,7 @@
                 },
                 "roundUp": {
                     "doc": [
-                        "$~Ich erstelle eine neue @Zahl, die auf die kleinste Ganzzahl rundet, die größer ist als ich.",
+                        "$~Ich erstelle eine neue @Number, die auf die kleinste Ganzzahl rundet, die größer ist als ich.",
                         "$~\\10.5.roundUp()\\",
                         "$~\\10.9.roundUp()\\",
                         "$~\\10.99.roundUp()\\"
@@ -1824,7 +1824,7 @@
                 },
                 "power": {
                     "doc": [
-                        "$~Ich potenziere mich selbst mit der angegebenen @Zahl. Bruchexponenten sind ok!",
+                        "$~Ich potenziere mich selbst mit der angegebenen @Number. Bruchexponenten sind ok!",
                         "$~\\2 ^ 8\\",
                         "$~\\10 ^ -2\\",
                         "$~\\5 ^ -.5\\"
@@ -1853,21 +1853,21 @@
                 },
                 "lessThan": {
                     "doc": [
-                        "$~\\⊤\\ wenn ich kleiner bin als die angegebene @Zahl:",
+                        "$~\\⊤\\ wenn ich kleiner bin als die angegebene @Number:",
                         "$~\\1 < 2\\",
                         "$~\\2 < 1\\"
                     ],
                     "names": ["<", "lessthan"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "lessOrEqual": {
                     "doc": [
-                        "$~\\⊤\\ wenn I kleiner oder gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I kleiner oder gleich der angegebenen @Number ist:",
                         "$~\\1 ≤ 2\\",
                         "$~\\2 ≤ 1\\",
                         "$~\\2 ≤ 2\\"
@@ -1875,28 +1875,28 @@
                     "names": ["≤", "lessorequal"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "greaterThan": {
                     "doc": [
-                        "$~\\⊤\\ wenn ich größer als die angegebene @Zahl bin:",
+                        "$~\\⊤\\ wenn ich größer als die angegebene @Number bin:",
                         "$~\\1 > 2\\",
                         "$~\\2 > 1\\"
                     ],
                     "names": [">", "greaterthan"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "greaterOrEqual": {
                     "doc": [
-                        "$~\\⊤\\ wenn I größer oder gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I größer oder gleich der angegebenen @Number ist:",
                         "$~\\1 ≥ 2\\",
                         "$~\\2 ≥ 1\\",
                         "$~\\2 ≥ 2\\"
@@ -1904,35 +1904,35 @@
                     "names": ["≥", "greaterorequal"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "equal": {
                     "doc": [
-                        "$~\\⊤\\ wenn I gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I gleich der angegebenen @Number ist:",
                         "$~\\1 = 2\\",
                         "$~\\2 = 2\\"
                     ],
                     "names": ["$~=", "$~gleich"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "notequal": {
                     "doc": [
-                        "$~\\⊤\\ wenn I gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I gleich der angegebenen @Number ist:",
                         "$~\\1 ≠ 2\\",
                         "$~\\2 ≠ 2\\"
                     ],
                     "names": ["$~≠", "$~nichtgleich"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
@@ -2040,7 +2040,7 @@
                 "$~Meine Einträge sind nummeriert, beginnend bei 1. Sie können die Werte, die ich mit @ListAccess speichere, anhand ihrer Nummer abrufen:",
                 "$~Der zweite Wert in dieser Liste ist beispielsweise \\['banana']\\",
                 "$~\\['Apfel' 'Banane' 'Mango'][2]\\",
-                "$~Ich kann alles in mir haben. Schau dir diese Liste an, mit @Text, @Nummer und @Zeit!",
+                "$~Ich kann alles in mir haben. Schau dir diese Liste an, mit @Text, @Number und @Zeit!",
                 "$~\\['Apfel' 10 + 10 Zeit()]\\",
                 "$~Wenn Sie mir eine Liste mit vielen Dingen geben, verallgemeinere ich sie, wenn sie einen gemeinsamen Typ haben. Aber manchmal meinen Sie diese spezifischen Dinge vielleicht wörtlich. Wenn das der Fall ist, setzen Sie einfach ein ! hinter mich und ich stelle sicher, dass ich eine Liste mit genau diesen Werten darstelle.",
                 "$~\\['Apfel' 'Banane' 'Mango']!\\",
@@ -2262,7 +2262,7 @@
                 "translate": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert und einen optionalen Index als Eingabe verwendet und einen Wert erzeugt. Ich werde ihn dann für jedes meiner Elemente auswerten und meine Werte in neue Werte umwandeln.",
-                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Nummern und Sie wollten alle verdoppeln:",
+                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Numbern und Sie wollten alle verdoppeln:",
                         "$~\\[2 4 6 8].translate(ƒ(Zahl•#) Zahl · 2)\\"
                     ],
                     "names": "$~übersetzen",
@@ -2290,7 +2290,7 @@
                 "filter": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert und einen optionalen Index als Eingabe verwendet und einen @Boolean erzeugt, und ich erstelle eine neue Liste, die nur die Elemente enthält, die sich als \\⊤\\ ergeben.",
-                        "$~Stellen Sie sich zum Beispiel vor, ich wäre eine Liste mit @Zahlen und Sie wollten nur die positiven:",
+                        "$~Stellen Sie sich zum Beispiel vor, ich wäre eine Liste mit @Numberen und Sie wollten nur die positiven:",
                         "$~\\[2 -4 8 -16].filter(ƒ(Anzahl•#) Zahl ≥ 0)\\"
                     ],
                     "names": "$~Filter",
@@ -2318,7 +2318,7 @@
                 "all": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert als Eingabe verwendet und einen @Boolean erzeugt, wenn er eine bestimmte Bedingung erfüllt. Ich erstelle \\⊤\\, wenn alle Elemente die Bedingung erfüllen.",
-                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Nummern und Sie wollten wissen, ob alles positiv ist:",
+                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Numbern und Sie wollten wissen, ob alles positiv ist:",
                         "$~\\[2 -4 8 -16].alle(ƒ(Anzahl•#) Zahl ≥ 0)\\"
                     ],
                     "names": "$~alle",
@@ -2453,7 +2453,7 @@
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Der Wert, der in eine @Nummer umgewandelt werden soll.",
+                            "doc": "$~Der Wert, der in eine @Number umgewandelt werden soll.",
                             "names": "$~Wert"
                         }
                     ]
@@ -2609,7 +2609,7 @@
                 "translate": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die ein Element nimmt und darauf basierend ein neues Element erstellt. Anschließend übersetze ich alle Elemente in mir in ein neues @Set (und entferne dabei alle Duplikate).",
-                        "$~Lassen Sie uns beispielsweise alle meine @Zahlen in @Text umwandeln:",
+                        "$~Lassen Sie uns beispielsweise alle meine @Numberen in @Text umwandeln:",
                         "$~\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(Zahl•#) Zahl→'')\\"
                     ],
                     "names": "translate",
@@ -2974,7 +2974,7 @@
                 "$~Jedes Mal führt @Program eine Neuauswertung mit dem neuen Zeitwert durch.",
                 "$~Zum Beispiel:",
                 "$~\\Zeit()\\",
-                "$~Wenn Sie die Zeit als @Time/Frequenz angeben, tickt es mit dieser Rate. Beispiel:",
+                "$~Wenn Sie die Zeit als @Time/frequency angeben, tickt es mit dieser Rate. Beispiel:",
                 "$~\\Zeit(1000ms)\\",
                 "$~Es gibt jedoch Grenzen dafür, wie klein es sein kann, da @Program Zeit zur Auswertung braucht, bevor es auf den nächsten Tick reagieren kann.",
                 "$~Der kleinste Wert liegt wahrscheinlich bei etwa \\20ms\\."
@@ -3143,7 +3143,7 @@
                 "$~\\Webseite('https://wordplay.dev')\\",
                 "$~Und es gibt anscheinend dieses Ding namens <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, das Ihnen gefällt, wenn Sie Dinge auf einer Webseite abfragen. Geben Sie uns eine CSS-Auswahlabfrage und wir erhalten nur den Text, der dieser Abfrage entspricht. Wie dieses Beispiel, das die Überschriften der ersten Ebene erhält.",
                 "$~\\Webseite('https://wordplay.dev' 'h1')\\",
-                "$~Dabei kann vieles schiefgehen. Wenn Sie Ihre Internetverbindung verlieren, die URL nichts ergibt, die URL nicht öffentlich ist oder es sich nicht um eine HTML-Seite handelt … All dies kann zu einer Ausnahme führen. Wenn Sie eine Seite finden, die funktioniert, erhalten Sie eine @Nummer, die den Prozentsatz der Fertigstellung angibt, und dann eine @Liste der Wörter auf der Seite."
+                "$~Dabei kann vieles schiefgehen. Wenn Sie Ihre Internetverbindung verlieren, die URL nichts ergibt, die URL nicht öffentlich ist oder es sich nicht um eine HTML-Seite handelt … All dies kann zu einer Ausnahme führen. Wenn Sie eine Seite finden, die funktioniert, erhalten Sie eine @Number, die den Prozentsatz der Fertigstellung angibt, und dann eine @Liste der Wörter auf der Seite."
             ],
             "names": ["$~🔗", "$~Website"],
             "url": {
@@ -3177,11 +3177,11 @@
             ],
             "subject": {
                 "names": "$~Thema",
-                "doc": "$~Der Name des @Outputs, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$~Der Name des @Output, bei dem ich nach Kollisionen suchen soll."
             },
             "object": {
                 "names": "$~andere",
-                "doc": "$~Der Name des anderen @Outputs, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$~Der Name des anderen @Output, bei dem ich nach Kollisionen suchen soll."
             }
         },
         "Rebound": {
@@ -3217,7 +3217,7 @@
         "Output": {
             "names": "$~Ausgabe",
             "doc": [
-                "$~Ich bin keine @StructureDefinition, die man tatsächlich erstellen kann. Aber ich bin eine sehr wichtige, da ich die wichtigsten Elemente unseres Tanzes inspiriere: @Phrase, @Gruppe und @Bühne.",
+                "$~Ich bin keine @StructureDefinition, die man tatsächlich erstellen kann. Aber ich bin eine sehr wichtige, da ich die wichtigsten Elemente unseres Tanzes inspiriere: @Phrase, @Group und @Bühne.",
                 "$~Lernen Sie sie kennen, um mehr über ihre Verwendung zu erfahren."
             ]
         },
@@ -3236,7 +3236,7 @@
                 "doc": "$!"
             },
             "content": {
-                "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Outputs.",
+                "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Output.",
                 "names": "$~Inhalt"
             },
             "frame": {
@@ -3244,11 +3244,11 @@
                 "names": "$~rahmen"
             },
             "size": {
-                "doc": "$~LIKE @Gruppe/Größe",
+                "doc": "$~LIKE @Group/Größe",
                 "names": "$~Größe"
             },
             "face": {
-                "doc": "$~LIKE @Gruppe/Gesicht",
+                "doc": "$~LIKE @Group/Gesicht",
                 "names": "$~Gesicht"
             },
             "place": {
@@ -3256,11 +3256,11 @@
                 "names": "$~Ort"
             },
             "name": {
-                "doc": ["$~DAS GLEICHE WIE @Phrase/Name!"],
-                "names": "$~Name"
+                "doc": ["$~DAS GLEICHE WIE @Phrase/name!"],
+                "names": "$~namen"
             },
             "selectable": {
-                "doc": "$~GLEICH WIE @Phrase/auswählbar!",
+                "doc": "$~GLEICH WIE @Phrase/selectable!",
                 "names": "$~wählbar"
             },
             "color": {
@@ -3276,8 +3276,8 @@
                 "names": "$~Opazität"
             },
             "offset": {
-                "doc": "$~DAS GLEICHE WIE @Group/Offset",
-                "names": "$~Versatz"
+                "doc": "$~DAS GLEICHE WIE @Group/offset",
+                "names": "$~versatz"
             },
             "rotation": {
                 "doc": "$~DAS GLEICHE WIE @Group/rotation",
@@ -3285,7 +3285,7 @@
             },
             "scale": {
                 "doc": "$~DAS GLEICHE WIE @Group/scale",
-                "names": "$~Skala"
+                "names": "$~skala"
             },
             "flipx": {
                 "doc": "$~GLEICH WIE @Group/flipx",
@@ -3300,7 +3300,7 @@
                 "names": "$~Eingabe"
             },
             "resting": {
-                "doc": "$~DAS GLEICHE WIE @Gruppe/Ruhen!",
+                "doc": "$~DAS GLEICHE WIE @Group/Ruhen!",
                 "names": "$~Ruhen"
             },
             "moving": {
@@ -3316,7 +3316,7 @@
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~DAS GLEICHE WIE @Phrase/Stil!",
+                "doc": "$~DAS GLEICHE WIE @Phrase/style!",
                 "names": "$~Stil"
             },
             "gravity": {
@@ -3340,7 +3340,7 @@
                 "doc": "$!"
             },
             "content": {
-                "doc": "$~Die Liste der anzuordnenden @Outputs.",
+                "doc": "$~Die Liste der anzuordnenden @Output.",
                 "names": "$~Inhalt"
             },
             "layout": {
@@ -3357,7 +3357,7 @@
             },
             "face": {
                 "doc": "$~Der Name der Schriftart sollte in meinem Inhalt enthalten sein, es sei denn, Sie haben eine eigene Schriftart zum Verwenden.",
-                "names": "$~Gesicht"
+                "names": "$~gesicht"
             },
             "place": {
                 "doc": "$~Der Platz auf der Bühne, an dem ich sein sollte. Der Inhalt in mir wird relativ dorthin angeordnet.",
@@ -3424,7 +3424,7 @@
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~Dasselbe wie @Phrase/Stil!",
+                "doc": "$~Dasselbe wie @Phrase/style!",
                 "names": "$~Stil"
             },
             "defaultDescription": "$~$1[$1|] $2 $3"
@@ -3446,7 +3446,7 @@
             },
             "face": {
                 "doc": "$~Der Name der Schriftart, die ich verwenden soll.",
-                "names": "$~Gesicht"
+                "names": "$~gesicht"
             },
             "place": {
                 "doc": "$~Der Platz auf der Bühne, an dem ich sein sollte.",
@@ -3457,7 +3457,7 @@
                 "names": ["$~↵", "$~wickeln"]
             },
             "alignment": {
-                "doc": "$~Wenn eine @Phrase/Wrap-Grenze festgelegt ist, ob ich Symbole am Anfang, in der Mitte oder am Ende der Kante ausrichten soll.",
+                "doc": "$~Wenn eine @Phrase/wrap festgelegt ist, ob ich Symbole am Anfang, in der Mitte oder am Ende der Kante ausrichten soll.",
                 "names": "$~Ausrichtung"
             },
             "direction": {
@@ -3519,7 +3519,7 @@
                 "names": "$~flippig"
             },
             "entering": {
-                "doc": "$~Die @Pose oder @Sequenz, die ich beim Betreten der Bühne machen sollte.",
+                "doc": "$~Die @Pose oder @Sequence, die ich beim Betreten der Bühne machen sollte.",
                 "names": "$~Eingabe"
             },
             "resting": {
@@ -3602,7 +3602,7 @@
         "Free": {
             "names": ["$~Frei"],
             "doc": [
-                "$~Ich sage: Egal. Setz dich, wo du willst. Setz dich einfach irgendwo hin! Achte darauf, dass alle @Outputs, die du mir gibst, einen @Place haben, sonst wissen sie nicht, wohin sie gehen sollen.",
+                "$~Ich sage: Egal. Setz dich, wo du willst. Setz dich einfach irgendwo hin! Achte darauf, dass alle @Output, die du mir gibst, einen @Place haben, sonst wissen sie nicht, wohin sie gehen sollen.",
                 "$~Oh, und denken Sie daran, dass der @Place, den Sie jedem @Output geben, relativ zum @Place der @Group ist! Wenn Sie sich also fragen, warum Dinge nicht dort erscheinen, wo Sie es erwarten, versuchen Sie, der @Group ebenfalls einen Platz zu geben."
             ],
             "description": "$~Freiform-Ausgaben für 1 USD"
@@ -3776,7 +3776,7 @@
                 "names": "$~Opazität"
             },
             "offset": {
-                "doc": "$~Ein @Place, der angibt, wie weit es von der Stelle eines @Outputs entfernt sein soll, statt der Standardeinstellung. Hilfreich zum Wackeln an Ort und Stelle.",
+                "doc": "$~Ein @Place, der angibt, wie weit es von der Stelle eines @Output entfernt sein soll, statt der Standardeinstellung. Hilfreich zum Wackeln an Ort und Stelle.",
                 "names": "$~Versatz"
             },
             "rotation": {
@@ -3926,7 +3926,7 @@
             ],
             "names": ["$~🔮", "$~Aura"],
             "color": {
-                "doc": "$~Die @Farbe, die die @Aura haben sollte.",
+                "doc": "$~Die @Color, die die @Aura haben sollte.",
                 "names": "$~Farbe"
             },
             "blur": {
@@ -3950,7 +3950,7 @@
         },
         "sequence": {
             "sway": {
-                "doc": "$~Ich erstelle eine @Sequence, die um den Mittelpunkt eines @Outputs hin und her schwankt.",
+                "doc": "$~Ich erstelle eine @Sequence, die um den Mittelpunkt eines @Output hin und her schwankt.",
                 "names": ["vaivén"],
                 "angle": {
                     "doc": "$~Wie stark die Neigung beim Schwanken sein soll.",
