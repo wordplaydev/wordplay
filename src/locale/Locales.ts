@@ -9,6 +9,7 @@ import { getLanguageDirection } from './LanguageCode';
 import { localeToString } from './Locale';
 import type { Concretizer } from './concretize';
 import type Markup from '@nodes/Markup';
+import { getKeyTemplatePairs } from '../util/verify-locales/StringPath';
 
 export type TemplateInput =
     | number
@@ -111,14 +112,31 @@ export default class Locales {
             match = accessor(this.fallback);
         }
 
+        // If the thing we got is a nested object, clean all the objects.
+        if (typeof match === 'object' && match !== null) {
+            const cleaned = JSON.parse(JSON.stringify(match)) as Record<
+                any,
+                any
+            >;
+            const pairs = getKeyTemplatePairs(cleaned);
+            for (const pair of pairs)
+                if (typeof pair.value === 'string')
+                    pair.repair(cleaned, this.clean(pair.value, fallback));
+            match = cleaned;
+        }
+
         return (
-            typeof match === 'string'
-                ? this.clean(match, fallback)
-                : Array.isArray(match) &&
-                    match.every((s) => typeof s === 'string')
-                  ? match.map((s) => this.clean(s, fallback))
-                  : match
-        ) as Kind;
+            // Is the match a string? Clean it.
+            (
+                typeof match === 'string'
+                    ? this.clean(match, fallback)
+                    : // Is it an array? Clean each one.
+                      Array.isArray(match) &&
+                        match.every((s) => typeof s === 'string')
+                      ? match.map((s) => this.clean(s, fallback))
+                      : match
+            ) as Kind
+        );
     }
 
     /** Annotates the text as unwritten or machine translated while also replacing any terminology */
