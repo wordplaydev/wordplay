@@ -162,7 +162,7 @@ async function handleLocale(locale: string) {
             );
 
             if (JSON.stringify(revisedTutorial) !== prettyTutorial) {
-                log.good(1, 'Writing repaired ' + locale + ' tutorial');
+                log.good(1, 'Writing revised ' + locale + ' tutorial');
                 fs.writeFileSync(getTutorialPath(locale), prettyTutorial);
             }
         }
