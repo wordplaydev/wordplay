@@ -4506,7 +4506,6 @@
                 "subheader": {
                     "selected": "$~Wybrany",
                     "supported": "$~Dostępny",
-                    "coming": "$~Już wkrótce",
                     "help": "$~Pomóż nam tłumaczyć…"
                 },
                 "button": {

@@ -8,6 +8,7 @@
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { clickOutside } from '@components/app/clickOutside';
+    import { withColorEmoji } from '../../unicode/emoji';
 
     interface Props {
         show?: boolean;
@@ -46,7 +47,7 @@
 
 {#if button}
     <Button tip={button.tip} action={() => (show = true)}
-        >{#if button.icon}<Emoji>{button.icon}</Emoji>
+        >{#if button.icon}<Emoji>{withColorEmoji(button.icon)}</Emoji>
         {/if}
         {#if button.label.length > 0}
             {button.label}{/if}</Button

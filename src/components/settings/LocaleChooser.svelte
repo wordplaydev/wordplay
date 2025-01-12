@@ -7,6 +7,7 @@
     import {
         getLocaleLanguage,
         getLocaleLanguageName,
+        isLocaleDraft,
     } from '../../locale/LocaleText';
     import { type SupportedLocale } from '@locale/SupportedLocales';
     import { SupportedLocales } from '@locale/SupportedLocales';
@@ -17,7 +18,7 @@
     import type LanguageCode from '@locale/LanguageCode';
     import LocaleName from './LocaleName.svelte';
     import { Settings } from '../../db/Database';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, DRAFT_SYMBOL } from '@parser/Symbols';
 
     let selectedLocales = $state<string[]>([]);
     $effect(() => {
@@ -59,6 +60,9 @@
     description={$locales.get((l) => l.ui.dialog.locale)}
     button={{
         tip: $locales.get((l) => l.ui.dialog.locale.button.show),
+        icon: selectedLocales.some((locale) => isLocaleDraft(locale))
+            ? DRAFT_SYMBOL
+            : '',
         label: selectedLocales
             .map((code) => getLocaleLanguageName(code))
             .join(' + '),
@@ -104,19 +108,6 @@
         {:else}&mdash;
         {/each}
     </div>
-    <h2
-        >{$locales
-            .concretize((l) => l.ui.dialog.locale.subheader.coming)
-            .toText()}</h2
-    >
-
-    {#if EventuallySupportedLocales.length > 0}
-        {#each EventuallySupportedLocales as supported}
-            <div class="option">
-                <LocaleName locale={supported} supported={false} />
-            </div>
-        {/each}
-    {/if}
 
     <h2
         ><Link
@@ -131,6 +122,7 @@
         {#each PossibleLanguages.filter((lang) => lang !== '😀' && !SupportedLocales.some((locale) => getLocaleLanguage(locale) === lang)) as lang}
             <LocaleName locale={lang} supported={false} />
         {/each}
+        ...
     </div>
 </Dialog>
 

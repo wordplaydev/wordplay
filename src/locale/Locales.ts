@@ -10,6 +10,7 @@ import { localeToString } from './Locale';
 import type { Concretizer } from './concretize';
 import type Markup from '@nodes/Markup';
 import { getKeyTemplatePairs } from '../util/verify-locales/StringPath';
+import { DRAFT_SYMBOL } from '@parser/Symbols';
 
 export type TemplateInput =
     | number
@@ -141,7 +142,7 @@ export default class Locales {
 
     /** Annotates the text as unwritten or machine translated while also replacing any terminology */
     clean(text: string, unwritten: boolean) {
-        return `${unwritten ? '🚧' : ''}${text.replace(MachineTranslated, '')}`;
+        return `${unwritten ? DRAFT_SYMBOL : ''}${text.replace(MachineTranslated, '')}`;
     }
 
     /**

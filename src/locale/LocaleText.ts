@@ -23,7 +23,11 @@ import type { FlagDescriptions } from '../db/projects/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
-import { type SupportedLocale, SupportedLocales } from './SupportedLocales';
+import {
+    EventuallySupportedLocales,
+    type SupportedLocale,
+    SupportedLocales,
+} from './SupportedLocales';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';
@@ -159,6 +163,10 @@ export function getLocaleRegion(locale: string): string | undefined {
 export function getLocaleRegionName(locale: string): string | undefined {
     const region = getLocaleRegion(locale);
     return region ? Regions[region as RegionCode].en : undefined;
+}
+
+export function isLocaleDraft(locale: string): boolean {
+    return EventuallySupportedLocales.includes(locale);
 }
 
 /** Find the best supported locales from the requested raw language codes */

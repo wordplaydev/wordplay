@@ -14,19 +14,15 @@ export const EventuallySupportedLocales = [
     'pl-PL',
     'gu-IN',
     'tr-TR',
-]; /** A list of locales officially supported by Wordplay. */
+];
 
-/** Supported locale names. Update this list when a locale is ready to share with the world. */
-export const SupportedLocaleCodes = ['en-US', 'es-MX', 'zh-CN'];
+/** Supported locale names. Put a locale in this list when it's no longer a draft. */
+const SupportedLocaleCodes = ['en-US', 'es-MX', 'zh-CN'];
 
 /** Officially supported locales that have passable text for the UI and tutorial. */
 export const SupportedLocales = Array.from(
-    new Set([
-        ...SupportedLocaleCodes,
-        // If you're developing locally, all eventually supported locales are included for testing purposes.
-        ...(import.meta.hot ? EventuallySupportedLocales : []),
-    ]),
-); /** One of the supported locales above */
+    new Set([...SupportedLocaleCodes, ...EventuallySupportedLocales]),
+);
 
-/**  */
+/** A type to represent one of the strings above */
 export type SupportedLocale = (typeof SupportedLocaleCodes)[number];

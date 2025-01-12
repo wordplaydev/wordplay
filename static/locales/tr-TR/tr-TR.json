@@ -4496,7 +4496,6 @@
                 "subheader": {
                     "selected": "$~Seçilmiş",
                     "supported": "$~Mevcut",
-                    "coming": "$~Yakında gelecek",
                     "help": "$~…'i çevirmemize yardım edin."
                 },
                 "button": {

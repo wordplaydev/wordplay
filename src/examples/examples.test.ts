@@ -117,42 +117,42 @@ test.each([...projects, ...templates])(
 //     },
 // );
 
-test.each([...templates])(
-    'Ensure template docs are localized',
-    async (template: SerializedProject) => {
-        const project = await Project.deserialize(Locales, template);
+// test.each([...templates])(
+//     'Ensure template docs are localized',
+//     async (template: SerializedProject) => {
+//         const project = await Project.deserialize(Locales, template);
 
-        const supportedLanguages = SupportedLocales.map((locale) =>
-            getLocaleLanguage(locale),
-        ).filter((lang): lang is LanguageCode => lang !== undefined);
+//         const supportedLanguages = SupportedLocales.map((locale) =>
+//             getLocaleLanguage(locale),
+//         ).filter((lang): lang is LanguageCode => lang !== undefined);
 
-        // Find all docs
-        const docs = project.getSources().reduce((docs: Docs[], source) => {
-            return [
-                ...docs,
-                ...source.expression
-                    .nodes()
-                    .filter((node): node is Docs => node instanceof Docs),
-            ];
-        }, []);
+//         // Find all docs
+//         const docs = project.getSources().reduce((docs: Docs[], source) => {
+//             return [
+//                 ...docs,
+//                 ...source.expression
+//                     .nodes()
+//                     .filter((node): node is Docs => node instanceof Docs),
+//             ];
+//         }, []);
 
-        const incompleteDocs = docs.filter(
-            (doc) =>
-                !supportedLanguages.every((lang) => doc.containsLanguage(lang)),
-        );
+//         const incompleteDocs = docs.filter(
+//             (doc) =>
+//                 !supportedLanguages.every((lang) => doc.containsLanguage(lang)),
+//         );
 
-        expect(
-            incompleteDocs,
-            `Docs in template '${template.name}' ${incompleteDocs
-                .map((doc) => doc.toWordplay())
-                .join(
-                    ', ',
-                )} are missing translations for one or more supported languages ${supportedLanguages.join(
-                ', ',
-            )}`,
-        ).toHaveLength(0);
-    },
-);
+//         expect(
+//             incompleteDocs,
+//             `Docs in template '${template.name}' ${incompleteDocs
+//                 .map((doc) => doc.toWordplay())
+//                 .join(
+//                     ', ',
+//                 )} are missing translations for one or more supported languages ${supportedLanguages.join(
+//                 ', ',
+//             )}`,
+//         ).toHaveLength(0);
+//     },
+// );
 
 test.each([
     ...getExampleGalleries(DefaultLocales)

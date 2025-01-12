@@ -37,6 +37,7 @@
     import { moderatedFlags } from '../../db/projects/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
+    import { DRAFT_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         progress: Progress;
@@ -337,10 +338,10 @@
 <section class="tutorial" onkeydown={handleKey}>
     <div class="header">
         <Header block={false}
-            >{#if fallback}🚧{/if}
+            >{#if fallback}{DRAFT_SYMBOL}{/if}
             {$locales.get(
                 (l) => l.ui.page.learn.header,
-            )}{#if fallback}🚧{/if}</Header
+            )}{#if fallback}{DRAFT_SYMBOL}{/if}</Header
         >
         <nav>
             {#if act !== undefined}

@@ -93,3 +93,5 @@ export const CANCEL_SYMBOL = '⨉';
 // The "teacher" emoji is a combination of the "person" and "school" emojis.
 export const TEACH_SYMBOL = '\u{1F9D1}\u200D\u{1F3EB}';
 export const LEARN_SYMBOL = '\u{1F9D1}\u200D\u{1F393}';
+
+export const DRAFT_SYMBOL = '🚧';
