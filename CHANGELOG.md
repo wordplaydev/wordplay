@@ -19,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Cleaned up the supported locales code.
 - Clarified language chooser functionality.
+- Removed example localization check.
 
 ## 0.14.0 2024-12-27
 

@@ -68,52 +68,54 @@ test.each([...projects, ...templates])(
     },
 );
 
-test.each([...templates])(
-    'Ensure template names are localized',
-    async (template: SerializedProject) => {
-        const project = await Project.deserialize(Locales, template);
+// NOTE: Disabling this test. Don't think its necessary to have all examples localized in all
+// supported locales, since we can translate examples on demand.
+// test.each([...templates])(
+//     'Ensure template names are localized',
+//     async (template: SerializedProject) => {
+//         const project = await Project.deserialize(Locales, template);
 
-        // Find all names, except the binds that are inputs to an evaluae
-        const names = project.getSources().reduce((binds: Names[], source) => {
-            return [
-                ...binds,
-                ...source.expression.nodes().filter(
-                    (node): node is Names =>
-                        node instanceof Names &&
-                        // Exclude names that are in bind in an evaluate, since those are not definitions
-                        !(
-                            project
-                                .getRoot(node)
-                                ?.getAncestors(node)[1] instanceof Evaluate
-                        ),
-                ),
-            ];
-        }, []);
+//         // Find all names, except the binds that are inputs to an evaluae
+//         const names = project.getSources().reduce((binds: Names[], source) => {
+//             return [
+//                 ...binds,
+//                 ...source.expression.nodes().filter(
+//                     (node): node is Names =>
+//                         node instanceof Names &&
+//                         // Exclude names that are in bind in an evaluate, since those are not definitions
+//                         !(
+//                             project
+//                                 .getRoot(node)
+//                                 ?.getAncestors(node)[1] instanceof Evaluate
+//                         ),
+//                 ),
+//             ];
+//         }, []);
 
-        const supportedLanguages = SupportedLocales.map((locale) =>
-            getLocaleLanguage(locale),
-        ).filter((lang): lang is LanguageCode => lang !== undefined);
+//         const supportedLanguages = SupportedLocales.map((locale) =>
+//             getLocaleLanguage(locale),
+//         ).filter((lang): lang is LanguageCode => lang !== undefined);
 
-        // Ensure all binds are localized
-        const incompleteNames = names.filter(
-            (name) =>
-                !supportedLanguages.every((lang) =>
-                    name.containsLanguage(lang),
-                ),
-        );
+//         // Ensure all binds are localized
+//         const incompleteNames = names.filter(
+//             (name) =>
+//                 !supportedLanguages.every((lang) =>
+//                     name.containsLanguage(lang),
+//                 ),
+//         );
 
-        expect(
-            incompleteNames,
-            `Names in template '${template.name}' ${incompleteNames
-                .map((bind) => `'${bind.getNames()[0].toLowerCase()}'`)
-                .join(
-                    ', ',
-                )} are missing translations for one or more supported languages ${supportedLanguages.join(
-                ', ',
-            )}`,
-        ).toHaveLength(0);
-    },
-);
+//         expect(
+//             incompleteNames,
+//             `Names in template '${template.name}' ${incompleteNames
+//                 .map((bind) => `'${bind.getNames()[0].toLowerCase()}'`)
+//                 .join(
+//                     ', ',
+//                 )} are missing translations for one or more supported languages ${supportedLanguages.join(
+//                 ', ',
+//             )}`,
+//         ).toHaveLength(0);
+//     },
+// );
 
 test.each([...templates])(
     'Ensure template docs are localized',
