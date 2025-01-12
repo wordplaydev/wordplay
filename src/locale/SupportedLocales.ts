@@ -1,5 +1,5 @@
 /** A list of locales that are in progress but not supported yet. Only added when developing locally. */
-export const EventuallySupportedLocales = [
+export const DraftLocales = [
     'zh-TW',
     'ko-KR',
     'fr-FR',
@@ -17,12 +17,12 @@ export const EventuallySupportedLocales = [
 ];
 
 /** Supported locale names. Put a locale in this list when it's no longer a draft. */
-const SupportedLocaleCodes = ['en-US', 'es-MX', 'zh-CN'];
+const CompleteLocales = ['en-US', 'es-MX', 'zh-CN'];
 
 /** Officially supported locales that have passable text for the UI and tutorial. */
 export const SupportedLocales = Array.from(
-    new Set([...SupportedLocaleCodes, ...EventuallySupportedLocales]),
+    new Set([...CompleteLocales, ...DraftLocales]),
 );
 
 /** A type to represent one of the strings above */
-export type SupportedLocale = (typeof SupportedLocaleCodes)[number];
+export type SupportedLocale = (typeof SupportedLocales)[number];

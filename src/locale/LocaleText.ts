@@ -24,7 +24,7 @@ import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
 import {
-    EventuallySupportedLocales,
+    DraftLocales,
     type SupportedLocale,
     SupportedLocales,
 } from './SupportedLocales';
@@ -166,7 +166,7 @@ export function getLocaleRegionName(locale: string): string | undefined {
 }
 
 export function isLocaleDraft(locale: string): boolean {
-    return EventuallySupportedLocales.includes(locale);
+    return DraftLocales.includes(locale);
 }
 
 /** Find the best supported locales from the requested raw language codes */

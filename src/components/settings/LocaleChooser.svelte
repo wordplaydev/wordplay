@@ -11,7 +11,7 @@
     } from '../../locale/LocaleText';
     import { type SupportedLocale } from '@locale/SupportedLocales';
     import { SupportedLocales } from '@locale/SupportedLocales';
-    import { EventuallySupportedLocales } from '@locale/SupportedLocales';
+    import { DraftLocales } from '@locale/SupportedLocales';
     import Link from '../app/Link.svelte';
     import Dialog from '../widgets/Dialog.svelte';
     import { localeToString } from '../../locale/Locale';
