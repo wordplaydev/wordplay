@@ -8,6 +8,7 @@ export const EventuallySupportedLocales = [
     'hi-IN',
     'pa-IN',
     'ta-LK',
+    'sv-FI',
 ]; /** A list of locales officially supported by Wordplay. */
 
 /** Supported locale names. Update this list when a locale is ready to share with the world. */
