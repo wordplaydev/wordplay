@@ -18,7 +18,7 @@
 
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.unknown.header)}</Header>
-    <Speech glyph={Glyphs.Function}
+    <Speech glyph={Glyphs.FunctionDefinition}
         >{#snippet content()}
             <p>
                 {$locales.get((l) => l.ui.page.unknown.message)}

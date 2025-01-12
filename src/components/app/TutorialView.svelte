@@ -29,7 +29,11 @@
     import TutorialHighlight from './TutorialHighlight.svelte';
     import Emotion from '../../lore/Emotion';
     import { Performances } from '../../tutorial/Performances';
-    import type { Dialog, Performance } from '../../tutorial/Tutorial';
+    import type {
+        Character,
+        Dialog,
+        Performance,
+    } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
     import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
@@ -38,6 +42,8 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
+    import Glyphs, { GlyphSet } from '../../lore/Glyphs';
+    import { withColorEmoji } from '../../unicode/emoji';
 
     interface Props {
         progress: Progress;
@@ -338,10 +344,8 @@
 <section class="tutorial" onkeydown={handleKey}>
     <div class="header">
         <Header block={false}
-            >{#if fallback}{DRAFT_SYMBOL}{/if}
-            {$locales.get(
-                (l) => l.ui.page.learn.header,
-            )}{#if fallback}{DRAFT_SYMBOL}{/if}</Header
+            >{#if fallback}{withColorEmoji(DRAFT_SYMBOL)}{/if}
+            {$locales.get((l) => l.ui.page.learn.header)}</Header
         >
         <nav>
             {#if act !== undefined}
@@ -428,13 +432,17 @@
                 {:else}
                     {#key turns}
                         {#each turns as turn}
+                            {@const character = turn.dialog[0]}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
                                 glyph={projectContext
-                                    ?.getConceptByName(turn.dialog[0])
-                                    ?.getGlyphs($locales) ?? {
-                                    symbols: turn.dialog[0],
-                                }}
+                                    ?.getConceptByName(character)
+                                    ?.getGlyphs($locales) ??
+                                    Glyphs[
+                                        character as keyof typeof Glyphs
+                                    ] ?? {
+                                        symbols: character,
+                                    }}
                                 flip={turn.dialog[0] !== 'FunctionDefinition'}
                                 baseline
                                 scroll={false}

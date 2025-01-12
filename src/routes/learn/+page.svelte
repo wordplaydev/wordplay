@@ -91,7 +91,7 @@
 {:else if tutorial === null}
     <Writing>
         <Header>:(</Header>
-        <Speech glyph={Glyphs.Function}
+        <Speech glyph={Glyphs.FunctionDefinition}
             >{#snippet content()}
                 <p>
                     {$locales.get((l) => l.ui.page.learn.error)}

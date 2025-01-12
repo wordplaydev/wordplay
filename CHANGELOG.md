@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Tutorial typos
 - More precise empty input lists in locale schema.
+- Fixed node concept links.
 
 ### Maintenence
 

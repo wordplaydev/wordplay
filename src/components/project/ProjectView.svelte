@@ -1586,7 +1586,7 @@
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
-                    <Speech glyph={Glyphs.Function}>
+                    <Speech glyph={Glyphs.FunctionDefinition}>
                         {#snippet content()}
                             {$locales.get((l) => l.ui.project.collapsed)} ⬇
                         {/snippet}

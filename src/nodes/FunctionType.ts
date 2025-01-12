@@ -213,7 +213,7 @@ export default class FunctionType extends Type {
     }
 
     getGlyphs() {
-        return Glyphs.Function;
+        return Glyphs.FunctionDefinition;
     }
 
     getDefaultExpression(context: Context): Expression {
