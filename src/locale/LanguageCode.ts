@@ -106,6 +106,7 @@ export const Languages = {
     ga: { name: 'Gaeilge', en: 'Irish', scripts: ['Latn'] },
     gd: { name: 'Gàidhlig', en: 'Scottish Gaelic', scripts: ['Latn'] },
     gl: { name: 'galego', en: 'Galician', scripts: ['Latn'] },
+    gu: { name: 'ગુજરાતી', en: 'Gujarati', scripts: ['Gujr'] },
     ha: { name: 'Hausa', en: 'Hausa', scripts: ['Latn'] },
     he: { name: 'עברית', en: 'Hebrew', scripts: ['Hebr'] },
     hi: { name: 'हिंदी', en: 'Hindi', scripts: ['Deva'] },
