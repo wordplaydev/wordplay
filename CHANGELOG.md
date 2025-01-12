@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Click outside dialog to dismiss it.
 - Fixed #603 Machine translation of tutorials.
 - Include all draft locales, but mark as draft.
+- Translate to any Google Translate supported language.
 
 ### Fixed
 

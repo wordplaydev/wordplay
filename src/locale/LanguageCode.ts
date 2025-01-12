@@ -19,15 +19,42 @@ type LanguageMetadata = {
     scripts: Script[];
 };
 
+/** Languages not supported by Google Translate */
+export const Untranslatable = ['😀', 'bo', 'fo', 'ii', 'iu', 'syc', 'wo'];
+
 /** BCP 47 language tags and other metadata. */
 export const Languages = {
-    '😀': { name: 'Emoji', en: 'Emoji', scripts: ['Emoj'] },
-    af: { name: 'Afrikaans', en: 'Afrikaans', scripts: ['Latn'] },
+    '😀': {
+        name: 'Emoji',
+        en: 'Emoji',
+        scripts: ['Emoj'],
+    },
+    af: {
+        name: 'Afrikaans',
+        en: 'Afrikaans',
+        scripts: ['Latn'],
+    },
     am: { name: 'አማርኛ', en: 'Amharic', scripts: ['Ethi'] },
-    ar: { name: 'العربية', en: 'Arabic', scripts: ['Arab'] },
-    as: { name: 'অসমীয়া', en: 'Assamese', scripts: ['Brah'] },
-    az: { name: 'Azərbaycan­lı', en: 'Azerbaijani', scripts: ['Latn'] },
-    ba: { name: 'Башҡорт', en: 'Bashkir', scripts: ['Arab'] },
+    ar: {
+        name: 'العربية',
+        en: 'Arabic',
+        scripts: ['Arab'],
+    },
+    as: {
+        name: 'অসমীয়া',
+        en: 'Assamese',
+        scripts: ['Brah'],
+    },
+    az: {
+        name: 'Azərbaycan­lı',
+        en: 'Azerbaijani',
+        scripts: ['Latn'],
+    },
+    ba: {
+        name: 'Башҡорт',
+        en: 'Bashkir',
+        scripts: ['Arab'],
+    },
     be: {
         name: 'беларуская',
         en: 'Belarusian',
@@ -43,8 +70,16 @@ export const Languages = {
         scripts: ['Cyrl'],
     },
     bn: { name: 'বাংলা', en: 'Bengali', scripts: ['Brah'] },
-    bo: { name: 'བོད་ཡིག', en: 'Tibetan', scripts: ['Phag'] },
-    br: { name: 'brezhoneg', en: 'Breton', scripts: ['Latn'] },
+    bo: {
+        name: 'བོད་ཡིག',
+        en: 'Tibetan',
+        scripts: ['Phag'],
+    },
+    br: {
+        name: 'brezhoneg',
+        en: 'Breton',
+        scripts: ['Latn'],
+    },
     bs: {
         name: 'bosanski/босански',
         en: 'Bosnian',
@@ -57,10 +92,19 @@ export const Languages = {
         secondary: '"',
         scripts: ['Latn'],
     },
-    co: { name: 'Corsu', en: 'Corsican', scripts: ['Latn'] },
+    co: {
+        name: 'Corsu',
+        en: 'Corsican',
+        scripts: ['Latn'],
+    },
     cs: { name: 'čeština', en: 'Czech', scripts: ['Latn'] },
     cy: { name: 'Cymraeg', en: 'Welsh', scripts: ['Latn'] },
-    da: { name: 'dansk', en: 'Danish', quote: '»', scripts: ['Latn'] },
+    da: {
+        name: 'dansk',
+        en: 'Danish',
+        quote: '»',
+        scripts: ['Latn'],
+    },
     de: {
         name: 'Deutsch',
         en: 'German',
@@ -75,7 +119,11 @@ export const Languages = {
         secondary: "'",
         scripts: ['Grek'],
     },
-    en: { name: 'English', en: 'English', scripts: ['Latn'] },
+    en: {
+        name: 'English',
+        en: 'English',
+        scripts: ['Latn'],
+    },
     es: {
         name: 'español',
         en: 'Spanish',
@@ -90,11 +138,23 @@ export const Languages = {
         secondary: '"',
         scripts: ['Latn'],
     },
-    eu: { name: 'euskara', en: 'Basque', scripts: ['Latn'] },
+    eu: {
+        name: 'euskara',
+        en: 'Basque',
+        scripts: ['Latn'],
+    },
     fa: { name: 'فارسى', en: 'Persian', scripts: ['Arab'] },
     fi: { name: 'suomi', en: 'Finnish', scripts: ['Latn'] },
-    fil: { name: 'Filipino', en: 'Filipino', scripts: ['Latn'] },
-    fo: { name: 'føroyskt', en: 'Faroese', scripts: ['Latn'] },
+    fil: {
+        name: 'Filipino',
+        en: 'Filipino',
+        scripts: ['Latn'],
+    },
+    fo: {
+        name: 'føroyskt',
+        en: 'Faroese',
+        scripts: ['Latn'],
+    },
     fr: {
         name: 'français',
         en: 'French',
@@ -104,9 +164,21 @@ export const Languages = {
     },
     fy: { name: 'Frysk', en: 'Frisian', scripts: ['Latn'] },
     ga: { name: 'Gaeilge', en: 'Irish', scripts: ['Latn'] },
-    gd: { name: 'Gàidhlig', en: 'Scottish Gaelic', scripts: ['Latn'] },
-    gl: { name: 'galego', en: 'Galician', scripts: ['Latn'] },
-    gu: { name: 'ગુજરાતી', en: 'Gujarati', scripts: ['Gujr'] },
+    gd: {
+        name: 'Gàidhlig',
+        en: 'Scottish Gaelic',
+        scripts: ['Latn'],
+    },
+    gl: {
+        name: 'galego',
+        en: 'Galician',
+        scripts: ['Latn'],
+    },
+    gu: {
+        name: 'ગુજરાતી',
+        en: 'Gujarati',
+        scripts: ['Gujr'],
+    },
     ha: { name: 'Hausa', en: 'Hausa', scripts: ['Latn'] },
     he: { name: 'עברית', en: 'Hebrew', scripts: ['Hebr'] },
     hi: { name: 'हिंदी', en: 'Hindi', scripts: ['Deva'] },
@@ -124,13 +196,33 @@ export const Languages = {
         secondary: '»',
         scripts: ['Latn'],
     },
-    hy: { name: 'Հայերեն', en: 'Armenian', scripts: ['Armn'] },
-    id: { name: 'Bahasa Indonesia', en: 'Indonesian', scripts: ['Latn'] },
+    hy: {
+        name: 'Հայերեն',
+        en: 'Armenian',
+        scripts: ['Armn'],
+    },
+    id: {
+        name: 'Bahasa Indonesia',
+        en: 'Indonesian',
+        scripts: ['Latn'],
+    },
     ig: { name: 'Igbo', en: 'Igbo', scripts: ['Latn'] },
     ii: { name: 'ꆈꌠꁱꂷ', en: 'Yi', scripts: ['Yiii'] },
-    is: { name: 'íslenska', en: 'Icelandic', scripts: ['Latn'] },
-    it: { name: 'italiano', en: 'Italian', scripts: ['Latn'] },
-    iu: { name: 'Inuktitut /ᐃᓄᒃᑎᑐᑦ (ᑲᓇᑕ)', en: 'Inuktitut', scripts: ['Cans'] },
+    is: {
+        name: 'íslenska',
+        en: 'Icelandic',
+        scripts: ['Latn'],
+    },
+    it: {
+        name: 'italiano',
+        en: 'Italian',
+        scripts: ['Latn'],
+    },
+    iu: {
+        name: 'Inuktitut /ᐃᓄᒃᑎᑐᑦ (ᑲᓇᑕ)',
+        en: 'Inuktitut',
+        scripts: ['Cans'],
+    },
     ja: {
         name: '日本語',
         en: 'Japanese',
@@ -138,8 +230,16 @@ export const Languages = {
         secondary: '『',
         scripts: ['Hira', 'Jpan', 'Kana'],
     },
-    ka: { name: 'ქართული', en: 'Georgian', scripts: ['Geor'] },
-    kk: { name: 'Қазақша', en: 'Kazakh', scripts: ['Arab', 'Cyrl'] },
+    ka: {
+        name: 'ქართული',
+        en: 'Georgian',
+        scripts: ['Geor'],
+    },
+    kk: {
+        name: 'Қазақша',
+        en: 'Kazakh',
+        scripts: ['Arab', 'Cyrl'],
+    },
     km: { name: 'ខ្មែរ', en: 'Khmer', scripts: ['Khmr'] },
     kn: { name: 'ಕನ್ನಡ', en: 'Kannada', scripts: ['Knda'] },
     ko: {
@@ -147,7 +247,7 @@ export const Languages = {
         en: 'Korean',
         scripts: ['Kore'],
     },
-    kok: { name: 'कोंकणी', en: 'Konkani', scripts: ['Deva'] },
+    gom: { name: 'कोंकणी', en: 'Konkani', scripts: ['Deva'] },
     ky: { name: 'Кыргыз', en: 'Kyrgyz', scripts: ['Cyrl'] },
     lb: { name: 'Lëtzebuergesch', en: 'Luxembourgish', scripts: ['Latn'] },
     lo: { name: 'ລາວ', en: 'Lao', scripts: ['Laoo'] },
@@ -203,7 +303,7 @@ export const Languages = {
     sq: { name: 'shqipe', en: 'Albanian', scripts: ['Latn'] },
     sr: { name: 'srpski/српски', en: 'Serbian', scripts: ['Cyrl'] },
     sv: { name: 'svenska', en: 'Swedish', quote: '”', scripts: ['Latn'] },
-    sw: { name: 'Kiswahili', en: 'Kiswahili', scripts: ['Latn'] },
+    sw: { name: 'Kiswahili', en: 'Swahili', scripts: ['Latn'] },
     syc: { name: 'ܣܘܪܝܝܐ', en: 'Syriac', scripts: ['Syrc'] },
     ta: { name: 'தமிழ்', en: 'Tamil', scripts: ['Taml'] },
     te: { name: 'తెలుగు', en: 'Telugu', scripts: ['Telu'] },
@@ -243,6 +343,10 @@ export { type LanguageCode as default };
 export const PossibleLanguages: LanguageCode[] = Object.keys(
     Languages,
 ) as LanguageCode[];
+
+export const TranslatableLanguages = PossibleLanguages.filter(
+    (code) => !Untranslatable.includes(code),
+);
 
 export function getLanguageName(code: LanguageCode): string | undefined {
     return Languages[code]?.name;
