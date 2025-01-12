@@ -78,7 +78,7 @@ export function restoreConcepts(before: string, after: string): string {
     }
 
     for (const [beforeText, afterText] of mapping.entries()) {
-        after = after.replace(afterText, beforeText);
+        after = after.replaceAll(afterText, beforeText);
     }
 
     // If there are any dangling concepts that are a concept symbol followed by a non-letter, remove it.
