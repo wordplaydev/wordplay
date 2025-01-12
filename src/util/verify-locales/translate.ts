@@ -68,7 +68,7 @@ export function restoreConcepts(before: string, after: string): string {
         if (beforeConcepts.includes(afterText)) continue;
 
         // Otherwise, choose the next before concept link name, assuming order was preserved (which is is not always, as grammar can reverse things).
-        const beforeText = beforeConcepts.shift();
+        const beforeText = beforeConcepts.shift() ?? mapping.get(afterText);
 
         // No before text or text is the same? Just keep it the same.
         if (beforeText === undefined || beforeText === afterText) continue;

@@ -159,12 +159,14 @@ async function checkTutorial(
                 ) {
                     log.bad(
                         2,
-                        `Uh oh, there's a conflict in...\n\n${code}, ${Array.from(
+                        `Found conflicts ${Array.from(
                             project.getPrimaryConflicts().values(),
                         )
                             .flat()
                             .map((c) => c.toString())
-                            .join(',')}`,
+                            .join(
+                                ',',
+                            )} in program: ${code.substring(0, 100)}...`,
                     );
                 }
             } catch (error) {
