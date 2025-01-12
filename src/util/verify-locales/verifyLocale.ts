@@ -148,13 +148,16 @@ async function checkLocale(
                         node instanceof Token && node.isSymbol(Sym.Unknown),
                 );
 
-            if (unknownTokens.length > 0)
+            if (unknownTokens.length > 0) {
                 log.bad(
                     2,
-                    `Found invalid tokens in ${path.toString()}: ${unknownTokens.join(
-                        ', ',
-                    )}`,
+                    `Found invalid tokens ${unknownTokens
+                        .map((s) => `"${s.getText()}"`)
+                        .join(
+                            ', ',
+                        )} at ${path.toString()} in ${toDocString(path.value).substring(0, 50)}... Ensure all delimiters are closed properly.`,
                 );
+            }
 
             const missingConcepts = doc
                 .nodes()
