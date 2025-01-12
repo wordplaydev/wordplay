@@ -166,6 +166,9 @@ const DocPattern = { pattern: DOCS_SYMBOL, types: [Sym.Doc] };
 const ListOpenPattern = { pattern: LIST_OPEN_SYMBOL, types: [Sym.ListOpen] };
 const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
 
+/** Variable references in markup, for templating and reuse in locales (e.g., $1, $?, $source) */
+export const MentionRegEx = '\\$[a-zA-Z0-9?]+';
+
 /** Valid tokens inside of code. */
 const CodeTokenPatterns: TokenPattern[] = [
     ListOpenPattern,
@@ -335,7 +338,7 @@ const MarkupTokenPatterns = [
         types: [Sym.Extra],
     },
     {
-        pattern: /^\$[a-zA-Z0-9?]+/,
+        pattern: new RegExp(`^${MentionRegEx}`, 'u'),
         types: [Sym.Mention],
     },
     {

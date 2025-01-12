@@ -1,6 +1,7 @@
 import Translate from '@google-cloud/translate';
 import type Log from './Log';
 import ConceptRegEx from '@parser/ConceptRegEx';
+import { MentionRegEx } from '@parser/Tokenizer';
 
 export default async function translate(
     log: Log,
@@ -26,9 +27,21 @@ export default async function translate(
             translations = [
                 ...translations,
                 // Restore concepts in all of the translated strings.
-                ...translatedBatch.map((translation, index) =>
-                    restoreConcepts(batch[index], translation),
-                ),
+                ...translatedBatch
+                    .map((translation, index) =>
+                        restoreReferences(
+                            batch[index],
+                            translation,
+                            ConceptPattern,
+                        ),
+                    )
+                    .map((translation, index) =>
+                        restoreReferences(
+                            batch[index],
+                            translation,
+                            MentionPattern,
+                        ),
+                    ),
             ];
             log.good(2, 'Translated ' + batch.length + ' strings...');
         } catch (error) {
@@ -39,22 +52,27 @@ export default async function translate(
     return translations;
 }
 
-const concept = new RegExp(ConceptRegEx, 'ug');
+export const ConceptPattern = new RegExp(ConceptRegEx, 'ug');
+export const MentionPattern = new RegExp(MentionRegEx, 'ug');
 
 /**
  * Take a string with zero or more concept links, find the corresponding ones in the after string,
  * and replace them with the original links.
  */
-export function restoreConcepts(before: string, after: string): string {
+export function restoreReferences(
+    before: string,
+    after: string,
+    pattern: RegExp,
+): string {
     // Find all concept links in the before string.
-    const beforeConcepts = Array.from(before.matchAll(concept)).map(
+    const beforeConcepts = Array.from(before.matchAll(pattern)).map(
         (s) => s[0],
     );
     // Didn't find any? Return the translated string.
     if (beforeConcepts.length === 0) return after;
 
     // Replace the concept links in the after string.
-    const afterConceptLinks = Array.from(after.matchAll(concept));
+    const afterConceptLinks = Array.from(after.matchAll(pattern));
     // Didn't find any? That's not good. Return the translated string.
     if (afterConceptLinks === null) return after;
 
