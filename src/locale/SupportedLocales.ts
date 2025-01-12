@@ -11,6 +11,7 @@ export const EventuallySupportedLocales = [
     'sv-FI',
     'sr-RS',
     'mr-IN',
+    'pl-PL',
 ]; /** A list of locales officially supported by Wordplay. */
 
 /** Supported locale names. Update this list when a locale is ready to share with the world. */
