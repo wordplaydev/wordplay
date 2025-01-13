@@ -15,7 +15,7 @@
     import UnicodeString from '../../unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
     import type Chat from '@db/ChatDatabase.svelte';
-    import CreatorView from './CreatorView.svelte';//Amy
+    import CreatorView from './CreatorView.svelte';
 
     interface Props {
         project: Project;
@@ -95,11 +95,8 @@
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
-    //add by Amy begin
     const owner = $derived( project.getOwner());
     const collaborators = $derived( project.getCollaborators());
-    //这里判断是否creator or collaborator 
-    //add by Amy end
    
     let chat = $state<Chat | undefined>(undefined);
     $effect(() => {
@@ -150,7 +147,7 @@
                         {project.getName()}{/if}</Link
                 >{#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
                     <Spinning />{:else}{@render children?.()}{/if}{/if}
-            <!--add by Amy-->
+
             {#if owner}
                     
             {#await Creators.getCreator(owner)}
@@ -186,7 +183,7 @@
                 {/if}
             {/if}
             
-        {/if}<!--add by Amy-->
+        {/if}
             {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
                 >{/if}</div
         >{/if}
