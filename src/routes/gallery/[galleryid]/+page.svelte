@@ -137,8 +137,18 @@
             (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid)),
     );
 
-    let anonymize = $derived( !($user !== null && gallery && (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))) );
-
+    //Amy begin
+    let anonymize = $derived(
+        !($user !== null &&
+            gallery &&
+            (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid))),
+    );
+    
+    let showCollaborators = $derived(
+    $user !== null && gallery &&
+    (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid)) ? true : undefined
+    );
+    //Amy end
     let addable = $derived(
         gallery && $user ? gallery.getCreators().includes($user.uid) : false,
     );
@@ -227,9 +237,11 @@
                     />
                 {/if}
 
-                {#if projects}
+                {#if projects} 
                     <ProjectPreviewSet
                         set={projects}
+                        anonymize={anonymize}
+                        showCollaborators={showCollaborators}
                         edit={projectsEditable
                             ? {
                                   description: $locales.get(
@@ -275,7 +287,6 @@
                                   }
                                 : false;
                         }}
-                        anonymize = {anonymize}
                     />
                 {:else}
                     <Spinning large />
