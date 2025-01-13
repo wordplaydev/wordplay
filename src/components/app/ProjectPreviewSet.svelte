@@ -33,9 +33,10 @@
             | false;
         children?: Snippet;
         anonymize?: boolean;//Amy2025.1.8
+        showCollaborators?:boolean;//Amy 2025.1.12
     }
 
-    let { set, edit, remove, copy, children,anonymize = true }: Props = $props();
+    let { set, edit, remove, copy, children,anonymize = true,showCollaborators=false }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
         return [...projects].sort((a, b) =>
@@ -49,7 +50,7 @@
 <div class="projects">
     {#each listed as project (project.getID())}
         {@const removeMeta = remove(project)}
-        <!--amy--><ProjectPreview {project} link={project.getLink(true)} anonymize={anonymize} 
+        <!--amy--><ProjectPreview {project} link={project.getLink(true)} anonymize={anonymize} showCollaborators={showCollaborators}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}
