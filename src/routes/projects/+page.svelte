@@ -107,7 +107,7 @@
             goto(`/project/${newProjectID}`);
         }}
     />
-
+aa
     <ProjectPreviewSet
         set={Projects.allEditableProjects}
         edit={{
@@ -136,6 +136,7 @@
             };
         }}
         anonymize={false}
+        showCollaborators={true}
     />
     <!-- If there are any archived projects, make an archived section. -->
     {#if Projects.allArchivedProjects.length > 0}
@@ -156,7 +157,7 @@
                     (l) => l.ui.page.projects.error.delete,
                 )}</Feedback
             >
-        {/if}
+        {/if} 
         <ProjectPreviewSet
             set={Projects.allArchivedProjects}
             edit={{
@@ -169,6 +170,7 @@
             }}
             copy={false}
             anonymize={false}
+            showCollaborators={true}
             remove={(project) =>
                 $user && project.getOwner() === $user.uid
                     ? {
