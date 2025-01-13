@@ -137,7 +137,7 @@
             (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid)),
     );
 
-    //Amy begin
+
     let anonymize = $derived(
         !($user !== null &&
             gallery &&
@@ -148,7 +148,7 @@
     $user !== null && gallery &&
     (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid)) ? true : undefined
     );
-    //Amy end
+  
     let addable = $derived(
         gallery && $user ? gallery.getCreators().includes($user.uid) : false,
     );
