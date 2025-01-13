@@ -28,6 +28,7 @@
         link?: string | undefined;
         children?: import('svelte').Snippet;
         anonymize?: boolean;
+        showCollaborators?:boolean;
     }
 
     let {
@@ -37,7 +38,8 @@
         size = 6,
         link = undefined,
         children,
-        anonymize = true
+        anonymize = true,
+        showCollaborators=false,
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -96,11 +98,6 @@
     //add by Amy begin
     const owner = $derived( project.getOwner());
     const collaborators = $derived( project.getCollaborators());
-    /*$effect(() => {
-        if (audience === false) {
-            anonymize = false;
-        }
-    });*/
     //这里判断是否creator or collaborator 
     //add by Amy end
    
@@ -164,27 +161,30 @@
                         anonymize={anonymize}
                         creator={creator}
                     />
-                    {#if collaborators.length > 0}
-                        <div class="collaborators">
-                            {$locales.get(
-                                (l) => l.ui.collaborate.role.collaborators,
-                            )}:
-                            {#each collaborators.slice(0, 2) as collaborator}
-                                {#await Creators.getCreator(collaborator)}
-                                    <Spinning label="" />
-                                {:then collaboratorCreator}   
-                                    <CreatorView 
-                                        anonymize={anonymize}
-                                        creator={collaboratorCreator} />
-                                {/await}
-                            {/each}
-                            {#if collaborators.length > 2}
-                                <span>...</span> 
-                            {/if}
-                        </div>
+                    
+                </div>
+            {/await} 
+            {#if showCollaborators }
+                {#if collaborators.length > 0}
+                <div class="collaborators">
+                    {$locales.get(
+                        (l) => l.ui.collaborate.role.collaborators,
+                    )}:
+                    {#each collaborators.slice(0, 2) as collaborator}
+                        {#await Creators.getCreator(collaborator)}
+                            <Spinning label="" />
+                        {:then collaboratorCreator}   
+                            <CreatorView 
+                                anonymize={anonymize}
+                                creator={collaboratorCreator} />
+                        {/await}
+                    {/each}
+                    {#if collaborators.length > 2}
+                        <span>...</span> 
                     {/if}
                 </div>
-            {/await}
+                {/if}
+            {/if}
             
         {/if}<!--add by Amy-->
             {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
