@@ -133,9 +133,10 @@
     );
     let projectsEditable = $derived(
         $user !== null &&
-            gallery &&
+            !!gallery &&
             (gallery.hasCurator($user.uid) || gallery.hasCreator($user.uid)),
     );
+
     let addable = $derived(
         gallery && $user ? gallery.getCreators().includes($user.uid) : false,
     );
@@ -227,6 +228,8 @@
                 {#if projects}
                     <ProjectPreviewSet
                         set={projects}
+                        anonymize={!projectsEditable}
+                        showCollaborators={projectsEditable}
                         edit={projectsEditable
                             ? {
                                   description: $locales.get(

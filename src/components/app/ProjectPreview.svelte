@@ -2,7 +2,7 @@
 <script lang="ts">
     import type Project from '@db/projects/Project';
     import Evaluator from '@runtime/Evaluator';
-    import { Chats, DB, locales } from '../../db/Database';
+    import { Chats, DB, locales, Creators } from '../../db/Database';
     import { isAudience, isFlagged } from '../../db/projects/Moderation';
     import { getUser } from '../project/Contexts';
     import Link from './Link.svelte';
@@ -15,6 +15,7 @@
     import UnicodeString from '../../unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
     import type Chat from '@db/ChatDatabase.svelte';
+    import CreatorView from './CreatorView.svelte';
 
     interface Props {
         project: Project;
@@ -26,6 +27,8 @@
         /** The link to go to when clicked. If none is provided, goes to the project. */
         link?: string | undefined;
         children?: import('svelte').Snippet;
+        anonymize?: boolean;
+        showCollaborators?: boolean;
     }
 
     let {
@@ -35,6 +38,8 @@
         size = 6,
         link = undefined,
         children,
+        anonymize = true,
+        showCollaborators = false,
     }: Props = $props();
 
     // Clone the project and get its initial value, then stop the project's evaluator.
@@ -89,6 +94,13 @@
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
 
+    const owner = $derived(project.getOwner());
+    const collaborators = $derived(project.getCollaborators());
+    const editable = $derived(
+        $user !== null &&
+            ($user.uid === owner || collaborators.includes($user.uid)),
+    );
+
     let chat = $state<Chat | undefined>(undefined);
     $effect(() => {
         // When the project changes, get the chat, and mark read if it was unread.
@@ -130,17 +142,50 @@
         </div>
     </a>
     {#if name}
-        <div class="name"
-            >{#if action}{project.getName()}{:else}<Link to={path}
-                    >{#if project.getName().length === 0}<em class="untitled"
+        <div class="name">
+            {#if action}
+                {project.getName()}
+            {:else}
+                <Link to={path}>
+                    {#if project.getName().length === 0}<em class="untitled"
                             >&mdash;</em
-                        >{:else}
+                        >
+                    {:else}
                         {project.getName()}{/if}</Link
-                >{#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
-                    <Spinning />{:else}{@render children?.()}{/if}{/if}
-            {#if unread}<div class="notification">{PHRASE_SYMBOL}</div
-                >{/if}</div
-        >{/if}
+                >
+                {#if navigating && `${navigating.to?.url.pathname}${navigating.to?.url.search}` === path}
+                    <Spinning />{:else}{@render children?.()}
+                {/if}
+            {/if}
+
+            <!-- If editable and there's an owner, possibly show collaborators. -->
+            {#if editable && owner !== null && showCollaborators && collaborators.length > 0}
+                <div class="creators">
+                    {#await Creators.getCreator(owner)}
+                        <Spinning label="" />
+                    {:then creator}
+                        <CreatorView {anonymize} {creator} />
+                    {/await}
+                    {#each collaborators.slice(0, 2) as collaborator}
+                        {#await Creators.getCreator(collaborator)}
+                            <Spinning label="" />
+                        {:then collaboratorCreator}
+                            <CreatorView
+                                {anonymize}
+                                creator={collaboratorCreator}
+                            />
+                        {/await}
+                    {/each}
+                    {#if collaborators.length > 2}
+                        <span>...</span>
+                    {/if}
+                </div>
+            {/if}
+            {#if unread}
+                <div class="notification">{PHRASE_SYMBOL}</div>
+            {/if}
+        </div>
+    {/if}
 </div>
 
 <style>
@@ -219,5 +264,14 @@
         animation-duration: calc(var(--animation-factor) * 1000ms);
         animation-delay: 0;
         animation-iteration-count: infinite;
+    }
+
+    .creators {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        margin-block-start: var(--wordplay-spacing);
+        gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
     }
 </style>
