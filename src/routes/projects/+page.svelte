@@ -107,7 +107,7 @@
             goto(`/project/${newProjectID}`);
         }}
     />
-aa
+
     <ProjectPreviewSet
         set={Projects.allEditableProjects}
         edit={{
@@ -157,7 +157,7 @@ aa
                     (l) => l.ui.page.projects.error.delete,
                 )}</Feedback
             >
-        {/if} 
+        {/if}
         <ProjectPreviewSet
             set={Projects.allArchivedProjects}
             edit={{
