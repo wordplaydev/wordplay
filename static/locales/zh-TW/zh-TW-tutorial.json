@@ -634,7 +634,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "然後...這就是是我在方程式（Program） @Program 裡面看起來的樣子！一個函數，後面跟著括號，括號中放著一些表達式，代表輸入。現在，函式（Function）是片語（Phrase）@Phrase的模式，然後我們輸入\\'你好'\\。當我開始評估後，我會做出一個片語（Phrase）@Phrase然後再把片語（Phrase）@Phrase 放到舞台上。"
+                            "然後...這就是是我在方程式（Program） @Program 裡面看起來的樣子！一個函數，後面跟著括號，括號中放著一些表達式，代表輸入。現在，函式（Function）是片語（Phrase）@Phrase的模式，然後我們輸入\\'你好'\\。當我開始評估後，我會做出一個片語（Phrase）@Phrase 然後再把片語（Phrase）@Phrase 放到舞台上。"
                         ],
                         null,
                         [
