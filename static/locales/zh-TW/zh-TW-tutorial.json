@@ -230,7 +230,7 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "謝謝你！方程式（Program）@Program 我們很期待接下來去見見其他人並告訴他們我們有導演了！"
+                            "謝謝你！方程式（Program）@Program ，我們很期待接下來去見見其他人並告訴他們我們有導演了！"
                         ],
                         [
                             "Program",
@@ -248,19 +248,19 @@
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "你會喜歡 @ExpressionPlaceholder 的！他們很善良，也很靈活，但他們有點害羞，請對他們有耐心一點。"
+                            "你會喜歡佔位符（Placeholder）@ExpressionPlaceholder 的！他們很善良，也很靈活，但他們有點害羞，請對他們有耐心一點。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "confused",
-                            "嗨囉？ @ExpressionPlaceholder ？ 你在哪裡？",
+                            "嗨囉？ 佔位符（Placeholder）@ExpressionPlaceholder ？ 你在哪裡？",
                             "恩...他們通常到處都是，現在卻好像不在了..."
                         ],
                         [
                             "ExpressionPlaceholder",
                             "scared",
-                            "@FunctionDefinition ...是你嗎？"
+                            "函式（Function）@FunctionDefinition ...是你嗎？"
                         ],
                         null,
                         [
@@ -292,7 +292,7 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "他剛剛認識 @Program 現在正開始學習，我覺得最好接下來讓他認識你，因為你是我們這裡很多人的一個很好的代表。"
+                            "他剛剛認識方程式（Program）@Program 現在正開始學習，我覺得最好接下來讓他認識你，因為你是我們這裡很多人的一個很好的代表。"
                         ],
                         ["ExpressionPlaceholder", "curious", "…"],
                         null,
@@ -306,28 +306,28 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "好啊！我的朋友 @ExpressionPlaceholder 是一個佔位符（Placeholder），他們在程序中代表任何的表達方式。他們不會評估任何值，其實，當 @Program 看到他們出現的時候， @Program 就會因為不清楚要做什麼而停下來。"
+                            "好啊！我的朋友佔位符（Placeholder） @ExpressionPlaceholder 在程序中能代表任何的表達方式。他們不會評估任何值，其實，當方程式（Program） @Program 看到他們出現的時候，方程式（Program） @Program 就會因為不清楚要做什麼而停下來。"
                         ],
                         null,
                         ["conflict", "_"],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "但他們是強大的，直到你決定好這一部分的表演想要表達的是什麼之前，他們可以代表其他人，就像一個未知數。 @ExpressionPlaceholder ，想要在這裡 @Program 示範一下嗎？看到在 @Program @UI/ExpressionPlaceholder 那裡的佔位符了嗎？這表示你可以在那裡輸入訊息。"
+                            "但他們是強大的，直到你決定好這一部分的表演想要表達的是什麼之前，他們可以代表其他人，就像一個未知數。佔位符（Placeholder） @ExpressionPlaceholder ，想要在這裡 @Program 示範一下嗎？看到在方程式（Program） @Program @UI/ExpressionPlaceholder 那裡的佔位符了嗎？這表示你可以在那裡輸入訊息。"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "neutral",
-                            "因為 @Program 要怎麼處理 @ExpressionPlaceholder ，所以它在 *舞台* 上表示 *例外* @UI/exception ，並在 @Program @UI/conflict 顯示 *衝突* 。",
-                            "但是如果你點擊 @ExpressionPlaceholder ，或者將文字光標移到上面，你會看到很多其他可能性。你也可以直接在 @ExpressionPlaceholder 上輸入內容。例如，試著在引號中輸入你的名字。"
+                            "因為方程式（Program） @Program 不知道要怎麼處理佔位符（Placeholder） @ExpressionPlaceholder ，所以它在 *舞台* 上表示 *例外* @UI/exception ，並在方程式（Program） @Program @UI/conflict 顯示 *衝突* 。",
+                            "但是如果你點擊佔位符（Placeholder） @ExpressionPlaceholder ，或者將文字光標移到上面，你會看到很多其他可能性。你也可以直接在佔位符（Placeholder） @ExpressionPlaceholder 上輸入內容。例如，試著在引號中輸入你的名字。"
                         ],
                         null,
                         ["use", "fit", "Symbol", "-"],
                         [
                             "FunctionDefinition",
                             "serious",
-                            "就像這樣， @ExpressionPlaceholder 被其他字符取代了，我說的都對嗎？ @ExpressionPlaceholder ？"
+                            "就像這樣，佔位符（Placeholder） @ExpressionPlaceholder 被其他字符取代了，我說的都對嗎？佔位符（Placeholder） @ExpressionPlaceholder ？"
                         ],
                         ["ExpressionPlaceholder", "eager", "恩，沒錯。"],
                         null,
@@ -352,19 +352,19 @@
                 },
                 {
                     "title": "再說一遍？",
-                    "subtitle": "無法解析（Unparsable）",
+                    "subtitle": "無法理解（Unparsable）",
                     "concept": "UnparsableExpression",
                     "performance": ["use", "fit", "Symbol", "ahkeolfewvk"],
                     "lines": [
                         [
                             "FunctionDefinition",
                             "eager",
-                            "嘿！ @UnparsableExpression ？是你嗎？"
+                            "嘿！無法理解（Unparsable） @UnparsableExpression ？是你嗎？"
                         ],
                         [
                             "UnparsableExpression",
                             "neutral",
-                            "/dwjkdlserkuvisdke!/"
+                            "ㄐ%ㄓ$ㄜ|"
                         ],
                         null,
                         ["use", "fit", "Symbol", "c iise we dvk"],
@@ -376,7 +376,7 @@
                         [
                             "UnparsableExpression",
                             "sad",
-                            "/sd fdsdfdsf ksdf. Dkfjdfdskfd df sdf sd fsdk;l!  Adks  zxcviw werdsf wer  ado. We dsdfd ksld df.ds dfsdfds DIDIIDI./"
+                            "ㄧ#ㄎ(ㄋ)ㄥ!ㄅ^ㄓ+ㄚㄦ_ㄣ|ㄐ%ㄥ&ㄇ*ㄩ#ㄑㄒ(ㄉ)ㄓ&&ㄩ#ㄓ^ㄩ|ㄧ$ㄎ(ㄓ)ㄇ!ㄥ%ㄙㄣ&ㄐ*ㄉ)ㄓ&ㄨ$ㄚ^ㄙ+ㄧㄑ|ㄇ$ㄉ*ㄩ#ㄙ|ㄥ"
                         ],
                         [
                             "FunctionDefinition",
@@ -384,16 +384,16 @@
                             "（聽起來他們在海灘上玩了很久，交了新朋友，還練習了什麼都不做。）"
                         ],
                         null,
-                        ["use", "fit", "Symbol", "ivioas we wjjdks"],
+                        ["use", "fit", "Symbol", "$ㄩ&ㄧ@ㄅ"],
                         [
                             "FunctionDefinition",
                             "excited",
-                            "我想介紹你認識我們的新導演！他才剛到，還在學習基本的東西，我剛剛才把他們介紹給 @Program 和 @ExpressionPlaceholder 。"
+                            "我想介紹你認識我們的新導演！他才剛到，還在學習基本的東西，我剛剛才把他們介紹給方程式（Program） @Program 和佔位符（Placeholder） @ExpressionPlaceholder 。"
                         ],
                         [
                             "UnparsableExpression",
                             "excited",
-                            "/EEIRC DFUIDIII CAD EWDF FSDE!!!/"
+                            "/&ㄋ@ㄕㄧ!ㄙ#ㄥ+ㄦ%ㄨ+ㄥ@ㄧ^ㄩㄒ|ㄧ$ㄇ+ㄐ*ㄙ#ㄧㄖ@ㄎ!/"
                         ],
                         [
                             "FunctionDefinition",
@@ -422,7 +422,7 @@
                         [
                             "UnparsableExpression",
                             "eager",
-                            "/CNNNDN KDKLSL oOOLLlllll PPOLSLSO liiiiiiis, sdllslll, xck we ifolls a./"
+                            "/ㄒ!ㄧㄧ&ㄑ|ㄕㄨ+ㄨ%ㄉ_ㄧ+ㄓ@ㄅㄒ%ㄨ#ㄧㄓ&ㄣ_ㄦ$ㄓ|ㄣㄋ+ㄖ%ㄑ!ㄉㄐㄕ#ㄓㄨㄧ/"
                         ],
                         [
                             "FunctionDefinition",
@@ -434,7 +434,7 @@
                         [
                             "UnparsableExpression",
                             "eager",
-                            "/ICO Odksjdf lksls kjsfiou fskd we rl,vxids eekd sd dsmf kksdcv./"
+                            "/ㄧ^ㄖ%ㄋ_ㄅ&ㄩㄓ+ㄧ$ㄥㄥ&ㄙ+ㄑ|ㄦ!ㄓㄒ$ㄩ&ㄧ@ㄅ^ㄉ|/"
                         ],
                         [
                             "FunctionDefinition",
@@ -446,31 +446,31 @@
                         [
                             "FunctionDefinition",
                             "curious",
-                            "謝拉！ @UnparsableExpression ！",
+                            "謝拉！無法理解（Unparsable） @UnparsableExpression ！",
                             "就像他們說的，當你說了我們聽不懂的話時， @UnparsableExpression 就是來這裡說「等一下！我們聽不懂！」，我很希望我們能幫助你，但我們有時真的猜不出來你想表達什麼。"
                         ],
                         null,
                         [
                             "UnparsableExpression",
                             "eager",
-                            "/OSOOSOO SOIEIIEIEIIE ISIISI EIEIIEE!/"
+                            "/ㄅ@ㄚ!ㄋ^ㄧ? ㄧ%ㄏ^ㄩ#ㄉ$ㄜㄌ(ㄑ) ㄖ+ㄇ|ㄆ=ㄥ*ㄙ&ㄓ@ㄐ/"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "所以～ @UnparsableExpression 希望你你可以試著打很多亂七八糟的字，試著讓他們出現很多次。（你可以試著在鍵盤上面隨便亂按，這樣他們大概會出現很多次。）"
+                            "所以～無法理解（Unparsable） @UnparsableExpression 希望你你可以試著打很多亂七八糟的字，試著讓他們出現很多次。（你可以試著在鍵盤上面隨便亂按，這樣他們大概會出現很多次。）"
                         ],
                         ["edit", ""],
                         null,
                         [
                             "UnparsableExpression",
                             "happy",
-                            "/PPOOOEPOEP EPWPEPEPPEPP PP PE P!/"
+                            "/_ㄇ%ㄩㄥ#ㄨ(ㄥ)ㄐ!ㄉ+ㄙㄒ$ㄕ^ㄎ+ㄦ!!/"
                         ],
                         [
                             "FunctionDefinition",
                             "kind",
-                            "他們很喜歡這樣，謝謝你！其實寫一些完全沒意義的東西是很難的。但這不代表你寫的每一個字我們都能理解，像是你剛剛打的那些我就不太懂， @UnparsableExpression ，你知道嗎？"
+                            "他們很喜歡這樣，謝謝你！其實寫一些完全沒意義的東西是很難的。但這不代表你寫的每一個字我們都能理解，像是你剛剛打的那些我就不太懂，無法理解（Unparsable） @UnparsableExpression ，你知道嗎？"
                         ],
                         ["UnparsableExpression", "confused", "… /DDook/"],
                         null,
@@ -484,12 +484,12 @@
                         [
                             "FunctionDefinition",
                             "kind",
-                            "還在想？沒關係，我也才剛開始展示我們能做到的事情。接下來，我們去見見 @Evaluate 吧！再見， @UnparsableExpression 我們下次再一起玩吧～"
+                            "還在想？沒關係，我也才剛開始展示我們能做到的事情。接下來，我們去見見評估（Evaluate） @Evaluate 吧！再見， @UnparsableExpression 我們下次再一起玩吧～"
                         ],
                         [
                             "UnparsableExpression",
                             "happy",
-                            "/Ood sd fosd oiewi dk c HNLLLooooooO!/"
+                            "/$ㄚ^ㄙ+ㄧㄑ|ㄇ$ㄉ*ㄩ#ㄙ|ㄥ_ㄋ!/"
                         ]
                     ]
                 },
@@ -505,9 +505,9 @@
                         [
                             "FunctionDefinition",
                             "excited",
-                            "我好期待讓你見到 @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
+                            "我好期待讓你見到評估（Evaluate） @Evaluate 喔！它真的是我最好的朋友，我們幾乎什麼事都一起做。我定什麼規則，它就來玩什麼規則，我們簡直就是天生一對。不過他比我強大多了... @Evaluate？"
                         ],
-                        ["Evaluate", "shy", "@FunctionDefinition ？"],
+                        ["Evaluate", "shy", "函式（Function）@FunctionDefinition ？"],
                         null,
                         [
                             "FunctionDefinition",
@@ -556,7 +556,7 @@
                         [
                             "FunctionDefinition",
                             "serious",
-                            "@Evaluate 我想和你介紹我們的新導演。"
+                            "評估（Evaluate）@Evaluate 我想和你介紹我們的新導演。"
                         ],
                         [
                             "Evaluate",
@@ -567,12 +567,12 @@
                         [
                             "FunctionDefinition",
                             "eager",
-                            "我向他介紹了很多夥伴 @Program 、 @ExpressionPlaceholder 、 @UnparsableExpression ，這才剛剛開始而已。我認為我們接下來該來見你，因為你是我們這個詩篇中非常不可思議的一部分，最不可思議的部分。"
+                            "我向他介紹了很多夥伴方程式（Program） @Program 、 佔位符（Placeholder）@ExpressionPlaceholder 、 無法理解（Unparsable）@UnparsableExpression ，這才剛剛開始而已。我認為我們接下來該來見你，因為你是我們這個詩篇中非常不可思議的一部分，最不可思議的部分。"
                         ],
                         [
                             "Evaluate",
                             "shy",
-                            "恩，謝謝你。我很感謝能成為這個社群的一部分，也很感謝能夠和 @FunctionDefinition 認識，我們一起做了很多很棒的事情。不過，正如 @FunctionDefinition 可能告訴過你們的，我們沒有靈感就無法做到這些。"
+                            "恩，謝謝你。我也很感謝能成為這裡的一份子，也很感謝能夠遇到函式（Function） @FunctionDefinition ，我們一起做了很多很棒的事情。不過，和函式（Function） @FunctionDefinition 可能告訴過你們的一樣，我們沒有導演就無法做到這些。"
                         ],
                         null,
                         [
@@ -587,7 +587,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "恩，不過我無法解釋這些，除非先了解 @FunctionDefinition 做的事。它們太謙虛了，從不炫耀，但它們可能是這整個詩篇最重要的角色，他們也是對我來說最重要的角色。它們在每一場演出中都扮演著核心角色，並且是每個其他角色的一部分，它們代表著我們世界中最基本的概念： *函數*（Function）。"
+                            "恩，不過我無法解釋這些，除非先了解函式（Function） @FunctionDefinition 做的事。它們太謙虛了，從不炫耀，但它們可能是這整個詩篇最重要的角色，他們也是對我來說最重要的角色。它們在每一場演出中都扮演著核心角色，並且是每個其他角色的一部分，它們代表著我們世界中最基本的概念： *函數*（Function）。"
                         ],
                         null,
                         [
@@ -599,15 +599,15 @@
                         [
                             "Evaluate",
                             "serious",
-                            "為什麼這麼厲害呢？因為在程式 @Program 裡面，所有的東西都是由一個個函數來完成的。無論是跳舞、玩遊戲、還是講故事！",
-                            "而且，函數 @FunctionDefinition ，就是那個可以定義他們的人。"
+                            "為什麼這麼厲害呢？因為在程式方程式（Program） @Program 裡面，所有的東西都是由一個個函數來完成的。無論是跳舞、玩遊戲、還是講故事！",
+                            "而且，函式（Function） @FunctionDefinition ，就是那個可以定義他們的人。"
                         ],
                         null,
-                        ["FunctionDefinition", "happy", "...評估 @Evaluate"],
+                        ["FunctionDefinition", "happy", "...評估（Evaluate） @Evaluate"],
                         [
                             "Evaluate",
                             "serious",
-                            "沒錯，函數 @FunctionDefinition 你就是有那麼重要。而我則是那個有幸進行計算的角色，我接收大家給我的輸入，按照 @FunctionDefinition 設定的規則來計算，並根據函數 @FunctionDefinition 的指示來生成結果。簡單來說，函數 @FunctionDefinition 把食譜給我，我就能做菜，然後我們一起享受這頓大餐。",
+                            "沒錯，函式（Function） @FunctionDefinition 你就是有那麼重要。而我則是那個有幸進行計算的角色，我接收大家給我的輸入，按照函式（Function） @FunctionDefinition 設定的規則來計算，並根據函式（Function） @FunctionDefinition 的指示來生成結果。簡單來說，函式（Function） @FunctionDefinition 把食譜給我，我就能做菜，然後我們一起享受這頓大餐。",
                             "你想看看我們是怎麼做的嗎？"
                         ],
                         [
@@ -619,7 +619,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "每個評估都長得像這樣 @UI/Evaluate ：一個函數，後面跟著一對括號，括號中間放的是輸入。現在我只放了 @ExpressionPlaceholder 這個函數和三個占位符作為輸入。"
+                            "每個評估都長得像這樣 @UI/Evaluate ：一個函數，後面跟著一對括號，括號中間放的是輸入。現在我只放了佔位符（Placeholder） @ExpressionPlaceholder 作為輸入。"
                         ],
                         ["conflict", "_(_ _ _)"],
                         null,
@@ -627,14 +627,14 @@
                         [
                             "Evaluate",
                             "serious",
-                            "這是我最喜歡的函數之一--片語 @Phrase 。它充滿了有趣的按鈕、旋鈕和操作桿。這是一種在舞台上顯示文字的方法，而且可以用來調整不同的字型、大小、顏色和動畫。",
-                            "這裡是一個簡單版本的片語 @Phrase @UI/Evaluate 。"
+                            "這是我最喜歡的函數之一--片語（Phrase） @Phrase 。它充滿了有趣的按鈕、旋鈕和操作桿。這是一種在舞台上顯示文字的方法，而且可以用來調整不同的字型、大小、顏色和動畫。",
+                            "這裡是一個簡單版本的片語（Phrase） @Phrase @UI/Evaluate 。"
                         ],
                         null,
                         [
                             "Evaluate",
                             "serious",
-                            "然後...這就是是我在 @Program 裡面看起來的樣子！一個函數，後面跟著括號，括號中放著一些表達式，代表輸入。現在，函數是片語（ @Phrase）的模式，然後我們輸入\\'你好'\\。當我開始評估後，我會做出一個 片語（@Phrase）然後再把片語（@Phrase）放到舞台上。"
+                            "然後...這就是是我在方程式（Program） @Program 裡面看起來的樣子！一個函數，後面跟著括號，括號中放著一些表達式，代表輸入。現在，函式（Function）是片語（Phrase）@Phrase的模式，然後我們輸入\\'你好'\\。當我開始評估後，我會做出一個片語（Phrase）@Phrase然後再把片語（Phrase）@Phrase 放到舞台上。"
                         ],
                         null,
                         [
