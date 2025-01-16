@@ -2,7 +2,7 @@ import { expect, test } from 'vitest';
 import Evaluator from '@runtime/Evaluator';
 import NumberValue from '@values/NumberValue';
 import Source from './Source';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import type Value from '../values/Value';
 import { DB } from '../db/Database';
 import DefaultLocale from '../locale/DefaultLocale';

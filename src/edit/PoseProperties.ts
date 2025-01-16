@@ -6,13 +6,13 @@ import Unit from '../nodes/Unit';
 import { createColorLiteral } from '../output/Color';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
 
 export default function getPoseProperties(
     project: Project,
     locales: Locales,
-    background: boolean
+    background: boolean,
 ): OutputProperty[] {
     return [
         new OutputProperty(
@@ -23,7 +23,7 @@ export default function getPoseProperties(
             (expr, context) =>
                 expr instanceof Evaluate &&
                 expr.is(project.shares.output.Color, context),
-            (locales) => createColorLiteral(project, locales, 0.5, 100, 180)
+            (locales) => createColorLiteral(project, locales, 0.5, 100, 180),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Pose.opacity),
@@ -31,7 +31,7 @@ export default function getPoseProperties(
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(1)
+            () => NumberLiteral.make(1),
         ),
         ...(background
             ? [
@@ -44,7 +44,7 @@ export default function getPoseProperties(
                           expr instanceof Evaluate &&
                           expr.is(project.shares.output.Color, context),
                       (languages) =>
-                          createColorLiteral(project, languages, 0.5, 100, 180)
+                          createColorLiteral(project, languages, 0.5, 100, 180),
                   ),
               ]
             : []),
@@ -54,7 +54,7 @@ export default function getPoseProperties(
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(1)
+            () => NumberLiteral.make(1),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Pose.rotation),
@@ -62,7 +62,7 @@ export default function getPoseProperties(
             false,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make(0, Unit.create(['°']))
+            () => NumberLiteral.make(0, Unit.create(['°'])),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Pose.offset),
@@ -76,14 +76,14 @@ export default function getPoseProperties(
                 Evaluate.make(
                     Reference.make(
                         locales.getName(project.shares.output.Place.names),
-                        project.shares.output.Place
+                        project.shares.output.Place,
                     ),
                     [
                         NumberLiteral.make(0, Unit.meters()),
                         NumberLiteral.make(0, Unit.meters()),
                         NumberLiteral.make(0, Unit.meters()),
-                    ]
-                )
+                    ],
+                ),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Pose.flipx),
@@ -91,7 +91,7 @@ export default function getPoseProperties(
             false,
             false,
             (expr) => expr instanceof BooleanLiteral,
-            () => BooleanLiteral.make(false)
+            () => BooleanLiteral.make(false),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Pose.flipy),
@@ -99,7 +99,7 @@ export default function getPoseProperties(
             false,
             false,
             (expr) => expr instanceof BooleanLiteral,
-            () => BooleanLiteral.make(false)
+            () => BooleanLiteral.make(false),
         ),
     ];
 }

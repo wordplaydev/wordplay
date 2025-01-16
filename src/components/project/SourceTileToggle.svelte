@@ -6,7 +6,7 @@
     import { locales } from '../../db/Database';
     import Emoji from '@components/app/Emoji.svelte';
     import Templates from '@concepts/Templates';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Context from '@nodes/Context';
 
     interface Props {
@@ -61,7 +61,7 @@
     {#if primaryCount === 0 && secondaryCount === 0}<Emoji
             >{Glyphs.Program.symbols}</Emoji
         >{/if}
-    {$locales.getName(source.names)}
+    {#if !expanded}{$locales.getName(source.names)}{/if}
 </Toggle>
 
 <style>

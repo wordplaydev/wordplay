@@ -236,7 +236,7 @@ export class Iteration<State = any> extends Expression {
     }
 
     getGlyphs() {
-        return Glyphs.Function;
+        return Glyphs.FunctionDefinition;
     }
 }
 

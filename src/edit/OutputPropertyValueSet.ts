@@ -1,4 +1,4 @@
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import Evaluate from '@nodes/Evaluate';
 import type Expression from '@nodes/Expression';
 import BoolValue from '@values/BoolValue';

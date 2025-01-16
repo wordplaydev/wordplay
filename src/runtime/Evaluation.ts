@@ -136,6 +136,10 @@ export default class Evaluation {
         return this.#source;
     }
 
+    getStepThat(predicate: (step: Step) => boolean) {
+        return this.#steps.find(predicate);
+    }
+
     getCreator() {
         return this.#evaluation;
     }

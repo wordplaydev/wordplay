@@ -27,7 +27,6 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
-    import { withColorEmoji } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
@@ -79,6 +78,8 @@
             selection?.selectedOutput.includes(phrase.value.creator),
     );
 
+    let view = $state<HTMLDivElement | undefined>(undefined);
+
     let entered = $derived(
         selected &&
             editable &&
@@ -99,9 +100,13 @@
         lastFrame = frame;
     });
 
-    onMount(restore);
+    /** If selected, the view of this phrase should be focused. */
+    $effect(() => {
+        if (selected && view)
+            setKeyboardFocus(view, 'focused on selected phrase');
+    });
 
-    function restore() {
+    $effect(() => {
         if (editable) {
             if (entered) {
                 if (
@@ -121,7 +126,7 @@
                 }
             }
         }
-    }
+    });
 
     async function enter(event: MouseEvent) {
         select(input?.selectionStart ?? 0);
@@ -221,6 +226,7 @@
 
 {#if visible}
     <div
+        bind:this={view}
         role={selectable ? 'button' : null}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
@@ -306,15 +312,19 @@
 
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
+
+        pointer-events: none;
     }
 
     :global(.editing) .phrase {
         min-width: 8px;
         min-height: 8px;
+        pointer-events: all;
     }
 
     .phrase[data-selectable='true'] {
         cursor: pointer;
+        pointer-events: all;
     }
 
     .phrase > :global(.light) {

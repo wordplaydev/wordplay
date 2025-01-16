@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import Source from './Source';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import type Value from '@values/Value';
@@ -80,12 +80,18 @@ test.each([
             const actualInitial = evaluator.getLatestSourceValue(source);
             expect(actualInitial?.toString()).toBe(expectedValue);
 
-            // Add the given value to the stream
-            const stream = Array.from(
-                evaluator.streamsByCreator.values(),
-            )[0][0];
-            expect(stream).not.toBeUndefined();
-            stream?.add(value(source), null);
+            // Find the non-reaction stream created and add the requested value to it.
+            const streams = Array.from(evaluator.streamsByCreator.keys()).find(
+                (s) => !(s instanceof Reaction),
+            );
+            if (streams) {
+                const values = evaluator.streamsByCreator.get(streams);
+                if (values) {
+                    const stream = values[0];
+                    stream.add(value(source), null);
+                }
+                expect(values).not.toBeUndefined();
+            } else expect(streams).not.toBeUndefined();
 
             // Manually flush reactions, since time is pooled.
             evaluator.flush();

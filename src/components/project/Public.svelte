@@ -7,7 +7,7 @@
         getBlocks,
         getWarnings,
         type Moderation,
-    } from '../../models/Moderation';
+    } from '../../db/projects/Moderation';
     import Warning from '../widgets/Warning.svelte';
 
     interface Props {

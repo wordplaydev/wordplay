@@ -1,13 +1,59 @@
+<script module lang="ts">
+    import type { ConfirmText, DialogText } from '@locale/UITexts';
+
+    export type ProjectsPageText = {
+        /** Header for the projects page */
+        header: string;
+        /** Explanation for the project page */
+        projectprompt: string;
+        /** The header for the archived subsection */
+        archiveheader: string;
+        /** Explanation for the archive subsection */
+        archiveprompt: string;
+        /** Header for the galleries page */
+        galleriesheader: string;
+        /** A prompt to create galleries */
+        galleryprompt: string;
+        /** Dialog text for the project addition dialog */
+        add: DialogText;
+        /** Buttons on the project page */
+        button: {
+            /** Create a new project */
+            newproject: string;
+            /** Edit a project */
+            editproject: string;
+            /** View a project's code */
+            viewcode: string;
+            /** Create a new gallery */
+            newgallery: string;
+            /** The project unarchive button description */
+            unarchive: string;
+        };
+        confirm: {
+            /** The project archive button */
+            archive: ConfirmText;
+            /** The project delete button */
+            delete: ConfirmText;
+        };
+        error: {
+            /** When there's no access to the database. */
+            noaccess: string;
+            /** When the creator is not logged in. */
+            nogalleryedits: string;
+            /** Unable to create a gallery */
+            newgallery: string;
+            /** Feedback that we are unable to delete when logged out */
+            nodeletes: string;
+            /** Unable to delete project */
+            delete: string;
+        };
+    };
+</script>
+
 <script lang="ts">
     import Writing from '@components/app/Writing.svelte';
     import Header from '@components/app/Header.svelte';
-    import {
-        Galleries,
-        Projects,
-        archivedProjects,
-        editableProjects,
-        locales,
-    } from '@db/Database';
+    import { Galleries, Projects, locales } from '@db/Database';
     import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import { goto } from '$app/navigation';
     import Button from '@components/widgets/Button.svelte';
@@ -16,9 +62,12 @@
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
     import { getUser } from '@components/project/Contexts';
     import Feedback from '@components/app/Feedback.svelte';
-    import { get } from 'svelte/store';
     import Subheader from '@components/app/Subheader.svelte';
-    import { COPY_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        COPY_SYMBOL,
+        EDIT_SYMBOL,
+    } from '../../parser/Symbols';
     import AddProject from '@components/app/AddProject.svelte';
 
     const user = getUser();
@@ -34,9 +83,6 @@
             newGalleryError = true;
         }
     }
-
-    const status = Galleries.status;
-    const galleries = Galleries.creatorGalleries;
 
     // Whether to show an error
     let deleteError = $state(false);
@@ -63,7 +109,7 @@
     />
 
     <ProjectPreviewSet
-        set={$editableProjects}
+        set={Projects.allEditableProjects}
         edit={{
             description: $locales.get(
                 (l) => l.ui.page.projects.button.editproject,
@@ -89,9 +135,11 @@
                 label: '🗑️',
             };
         }}
+        anonymize={false}
+        showCollaborators={true}
     />
     <!-- If there are any archived projects, make an archived section. -->
-    {#if $archivedProjects.length > 0}
+    {#if Projects.allArchivedProjects.length > 0}
         <Subheader
             >{$locales.get((l) => l.ui.page.projects.archiveheader)}</Subheader
         >
@@ -111,7 +159,7 @@
             >
         {/if}
         <ProjectPreviewSet
-            set={$archivedProjects}
+            set={Projects.allArchivedProjects}
             edit={{
                 description: $locales.get(
                     (l) => l.ui.page.projects.button.unarchive,
@@ -121,6 +169,8 @@
                 label: '↑🗑️',
             }}
             copy={false}
+            anonymize={false}
+            showCollaborators={true}
             remove={(project) =>
                 $user && project.getOwner() === $user.uid
                     ? {
@@ -139,7 +189,7 @@
                                   console.error(error);
                               }
                           },
-                          label: '⨉',
+                          label: CANCEL_SYMBOL,
                       }
                     : false}
         />
@@ -164,26 +214,26 @@
                 )}</Feedback
             >
         {/if}
-        {#if $status === 'loading'}
+        {#if Galleries.getStatus() === 'loading'}
             <Spinning
                 label={$locales.get((l) => l.ui.widget.loading.message)}
                 large
             />
-        {:else if $status === 'noaccess'}
+        {:else if Galleries.getStatus() === 'noaccess'}
             <Feedback
                 >{$locales.get(
                     (l) => l.ui.page.projects.error.noaccess,
                 )}</Feedback
             >
-        {:else if $status === 'loggedout'}
+        {:else if Galleries.getStatus() === 'loggedout'}
             <Feedback
                 >{$locales.get(
                     (l) => l.ui.page.projects.error.nogalleryedits,
                 )}</Feedback
             >
         {:else}
-            {#each $galleries.values() as gallery, index}
-                <GalleryPreview gallery={get(gallery)} delay={index * 1000} />
+            {#each Galleries.accessibleGalleries.values() as gallery, index}
+                <GalleryPreview {gallery} delay={index * 1000} />
             {/each}
         {/if}
     {:else}

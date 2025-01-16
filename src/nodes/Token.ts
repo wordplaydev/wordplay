@@ -1,4 +1,4 @@
-import UnicodeString from '../models/UnicodeString';
+import UnicodeString from '../unicode/UnicodeString';
 import type Spaces from '../parser/Spaces';
 import type LocaleText from '../locale/LocaleText';
 import Node, { type Grammar, type Replacement } from './Node';

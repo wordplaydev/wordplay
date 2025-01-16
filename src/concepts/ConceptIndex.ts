@@ -3,7 +3,7 @@ import type Node from '@nodes/Node';
 import type Type from '@nodes/Type';
 import StructureConcept from './StructureConcept';
 import Purpose from './Purpose';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import StructureDefinition from '@nodes/StructureDefinition';
 import FunctionDefinition from '@nodes/FunctionDefinition';
 import FunctionConcept from './FunctionConcept';

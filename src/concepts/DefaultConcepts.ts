@@ -154,17 +154,15 @@ export function getOutputConcepts(
     context: Context,
 ): Concept[] {
     return [
-        ...Object.values(context.project.shares.output)
-            .filter((def) => !def.isInterface())
-            .map((def) =>
-                getStructureOrFunctionConcept(
-                    def,
-                    Purpose.Output,
-                    undefined,
-                    locales,
-                    context,
-                ),
+        ...Object.values(context.project.shares.output).map((def) =>
+            getStructureOrFunctionConcept(
+                def,
+                Purpose.Output,
+                undefined,
+                locales,
+                context,
             ),
+        ),
         ...Object.values(context.project.shares.sequences).map((def) =>
             getStructureOrFunctionConcept(
                 def,

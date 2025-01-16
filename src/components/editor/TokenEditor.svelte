@@ -1,6 +1,6 @@
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Token from '@nodes/Token';
     import { getCaret, getEditor } from '@components/project/Contexts';
     import { Projects } from '@db/Database';

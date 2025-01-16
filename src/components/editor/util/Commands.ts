@@ -35,7 +35,7 @@ import Names from '@nodes/Names';
 import { Settings, type Database } from '@db/Database';
 import type LocaleText from '@locale/LocaleText';
 import Sym from '../../../nodes/Sym';
-import type Project from '../../../models/Project';
+import type Project from '../../../db/projects/Project';
 import interpret from './interpret';
 import { TileKind } from '../../project/Tile';
 import { TAB_SYMBOL } from '@parser/Spaces';
@@ -105,6 +105,7 @@ export type CommandContext = {
     focusOrCycleTile?: (content?: TileKind) => void;
     resetInputs?: () => void;
     help?: () => void;
+    getTokenViews?: () => HTMLElement[];
 };
 
 export type Edit = Caret | Revision;
@@ -634,8 +635,11 @@ export const Undo: Command = {
         database.Projects.getHistory(
             evaluator.project.getID(),
         )?.isUndoable() === true,
-    execute: ({ database, evaluator }) =>
-        database.Projects.undoRedo(evaluator.project.getID(), -1) !== undefined,
+    execute: ({ database, evaluator }) => {
+        database.Projects.undoRedo(evaluator.project.getID(), -1);
+        // Always swallow the shortcut to avoid the browser or OS from handling it.
+        return true;
+    },
 };
 
 const Commands: Command[] = [
@@ -649,11 +653,12 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowUp',
         keySymbol: '↑',
-        execute: ({ caret, blocks, view }) =>
+        execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? blocks
-                    ? view
-                        ? (moveVisualVertical(-1, view, caret) ?? false)
+                    ? view && getTokenViews
+                        ? (moveVisualVertical(-1, view, caret, getTokenViews) ??
+                          false)
                         : false
                     : (caret.moveVertical(-1) ?? false)
                 : false,
@@ -668,11 +673,12 @@ const Commands: Command[] = [
         shift: false,
         key: 'ArrowDown',
         keySymbol: '↓',
-        execute: ({ caret, blocks, view }) =>
+        execute: ({ caret, blocks, view, getTokenViews }) =>
             caret
                 ? blocks
-                    ? view
-                        ? (moveVisualVertical(1, view, caret) ?? false)
+                    ? view && getTokenViews
+                        ? (moveVisualVertical(1, view, caret, getTokenViews) ??
+                          false)
                         : false
                     : (caret.moveVertical(1) ?? false)
                 : false,
@@ -1172,9 +1178,11 @@ const Commands: Command[] = [
             database.Projects.getHistory(
                 evaluator.project.getID(),
             )?.isRedoable() === true,
-        execute: ({ database, evaluator }) =>
-            database.Projects.undoRedo(evaluator.project.getID(), 1) !==
-            undefined,
+        execute: ({ database, evaluator }) => {
+            database.Projects.undoRedo(evaluator.project.getID(), 1);
+            // Always swallow the shortcut to avoid the browser or OS from handling it.
+            return true;
+        },
     },
     ToggleBlocks,
     {
@@ -1187,8 +1195,8 @@ const Commands: Command[] = [
         control: false,
         key: 'Enter',
         typing: true,
-        execute: ({ caret, blocks, project }) =>
-            caret === undefined
+        execute: ({ caret, blocks, project, editor }) =>
+            !editor || caret === undefined
                 ? false
                 : caret.isNode()
                   ? caret.enter()

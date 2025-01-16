@@ -1,27 +1,41 @@
 <script lang="ts">
-    import type { Creator } from '@db/CreatorDatabase';
+    import type { Creator } from '@db/creators/CreatorDatabase';
+    import Feedback from './Feedback.svelte';
     import { locales } from '@db/Database';
 
     interface Props {
         creator: Creator | null;
         anonymize?: boolean;
+        chrome?: boolean;
+        fade?: boolean;
+        prompt?: boolean;
     }
 
-    let { creator, anonymize = true }: Props = $props();
+    let {
+        creator,
+        anonymize = true,
+        chrome = true,
+        fade = false,
+        prompt = false,
+    }: Props = $props();
 
     let username = $derived(creator?.getUsername(anonymize) ?? '');
 </script>
 
-<div class="creator"
+<div class="creator" class:chrome class:fade
     >{#if creator}<span
             class="name"
             style:animation-delay={`${Math.random() * 1000}ms`}
-            >{creator.getName() ?? '😃'}</span
-        >{/if}{creator
-        ? username.length < 10
+            >{creator.getName() === null || creator.getName() === ''
+                ? '😃'
+                : creator.getName()}</span
+        >{/if}{#if creator}
+        {username.length < 10
             ? username
-            : `${username.substring(0, 10)}…`
-        : $locales.get((l) => l.ui.page.login.anonymous)}</div
+            : `${username.substring(0, 10)}…`}{:else if prompt}{$locales.get(
+            (l) => l.ui.page.login.anonymous,
+        )}{:else}
+        <Feedback inline>—</Feedback>{/if}</div
 >
 
 <style>
@@ -30,14 +44,22 @@
         flex-direction: row;
         flex-wrap: nowrap;
         gap: var(--wordplay-spacing);
+        align-items: center;
+        justify-content: center;
+        font-size: var(--wordplay-small-font-size);
+    }
+
+    .fade {
+        color: var(--wordplay-inactive-color);
+    }
+
+    .chrome {
         border-radius: var(--wordplay-border-radius);
         border-top-left-radius: 1em;
         border-bottom-left-radius: 1em;
         border: var(--wordplay-border-color) solid var(--wordplay-border-width);
         padding: calc(var(--wordplay-spacing) / 3);
         padding-left: var(--wordplay-spacing);
-        align-items: center;
-        justify-content: center;
     }
 
     @keyframes rotate {

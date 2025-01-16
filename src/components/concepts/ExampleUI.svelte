@@ -1,7 +1,7 @@
 <script lang="ts">
     import { onDestroy, onMount } from 'svelte';
     import { getConceptIndex } from '../project/Contexts';
-    import Project from '@models/Project';
+    import Project from '@db/projects/Project';
     import type Example from '@nodes/Example';
     import Source from '@nodes/Source';
     import type Spaces from '@parser/Spaces';

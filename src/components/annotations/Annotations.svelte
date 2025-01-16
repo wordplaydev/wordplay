@@ -17,7 +17,7 @@
     import { tick } from 'svelte';
     import type Step from '@runtime/Step';
     import type Evaluator from '@runtime/Evaluator';
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import { getConceptIndex, getEvaluation } from '../project/Contexts';
     import type Markup from '../../nodes/Markup';
     import type Source from '../../nodes/Source';
@@ -251,7 +251,7 @@
     {#if $showAnnotations}
         <div class="annotations">
             {#if source.isEmpty()}
-                <Speech glyph={Glyphs.Function} scroll={false} below>
+                <Speech glyph={Glyphs.FunctionDefinition} scroll={false} below>
                     {#snippet content()}
                         <MarkupHTMLView
                             markup={docToMarkup(
@@ -265,7 +265,7 @@
                 {#each Array.from(annotationsByNode.values()) as annotations, index}
                     <Annotation id={index} {annotations} />
                 {/each}
-                <Speech glyph={Glyphs.Function} scroll={false} below>
+                <Speech glyph={Glyphs.FunctionDefinition} scroll={false} below>
                     {#snippet content()}
                         {#if stepping}
                             <MarkupHTMLView

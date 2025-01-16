@@ -11,7 +11,7 @@ import { NameGenerator, toStage } from './Stage';
 import { toGrid } from './Grid';
 import NoneValue from '@values/NoneValue';
 import { toFree } from './Free';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import { toBoolean, toNumber } from './Stage';
 import { toFont as toFace, toText } from './Phrase';
 import Place, { toPlace } from './Place';

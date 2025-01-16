@@ -4,7 +4,7 @@ import Expression from '@nodes/Expression';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import TypePlaceholder from '@nodes/TypePlaceholder';
 import Type from '@nodes/Type';
-import type Project from '@models/Project';
+import type Project from '@db/projects/Project';
 import Token from '@nodes/Token';
 import Sym from '@nodes/Sym';
 import Program from '@nodes/Program';

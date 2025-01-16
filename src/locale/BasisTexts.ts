@@ -1,5 +1,8 @@
 import type { DocText, NameText, FunctionText, NameAndDoc } from './LocaleText';
 
+const Empty = [] as const;
+type EmptyInputs = typeof Empty;
+
 export type BasisNameAndDoc = {
     /** Documentation to explain what the type is for and how it's used. */
     doc: DocText;
@@ -17,7 +20,7 @@ type BasisTexts = {
             /** See `en-US.json` for documentation  */
             or: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
-            not: FunctionText<[]>;
+            not: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             equals: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
@@ -49,7 +52,7 @@ type BasisTexts = {
         /** Functions in the type */
         function: {
             /** See `en-US.json` for documentation  */
-            length: FunctionText<[]>;
+            length: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             equals: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
@@ -90,13 +93,13 @@ type BasisTexts = {
             /** See `en-US.json` for documentation  */
             remainder: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
-            positive: FunctionText<[]>;
+            positive: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            round: FunctionText<[]>;
+            round: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            roundDown: FunctionText<[]>;
+            roundDown: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            roundUp: FunctionText<[]>;
+            roundUp: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             power: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
@@ -114,9 +117,9 @@ type BasisTexts = {
             /** See `en-US.json` for documentation  */
             notequal: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
-            cos: FunctionText<[]>;
+            cos: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            sin: FunctionText<[]>;
+            sin: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             min: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
@@ -239,15 +242,15 @@ type BasisTexts = {
             /** See `en-US.json` for documentation  */
             replace: FunctionText<[NameAndDoc, NameAndDoc]>;
             /** See `en-US.json` for documentation  */
-            length: FunctionText<[]>;
+            length: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            random: FunctionText<[]>;
+            random: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            shuffled: FunctionText<[]>;
+            shuffled: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            first: FunctionText<[]>;
+            first: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            last: FunctionText<[]>;
+            last: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             has: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
@@ -255,15 +258,15 @@ type BasisTexts = {
             /** See `en-US.json` for documentation  */
             subsequence: FunctionText<[NameAndDoc, NameAndDoc]>;
             /** See `en-US.json` for documentation  */
-            sansFirst: FunctionText<[]>;
+            sansFirst: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
-            sansLast: FunctionText<[]>;
+            sansLast: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             sans: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
             sansAll: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
-            reverse: FunctionText<[]>;
+            reverse: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             equals: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
@@ -312,7 +315,7 @@ type BasisTexts = {
         /** Functions in the type */
         function: {
             /** See `en-US.json` for documentation  */
-            size: FunctionText<[]>;
+            size: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             equals: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */
@@ -354,7 +357,7 @@ type BasisTexts = {
         /** Functions in the type */
         function: {
             /** See `en-US.json` for documentation  */
-            size: FunctionText<[]>;
+            size: FunctionText<EmptyInputs>;
             /** See `en-US.json` for documentation  */
             equals: FunctionText<[NameAndDoc]>;
             /** See `en-US.json` for documentation  */

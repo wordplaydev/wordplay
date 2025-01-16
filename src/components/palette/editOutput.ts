@@ -1,5 +1,5 @@
 import Evaluate from '@nodes/Evaluate';
-import type Project from '@models/Project';
+import type Project from '@db/projects/Project';
 import Bind from '@nodes/Bind';
 import Expression from '@nodes/Expression';
 import NumberLiteral from '@nodes/NumberLiteral';

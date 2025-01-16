@@ -9,7 +9,7 @@ import type { DefinitePose } from './Pose';
 import type Pose from './Pose';
 import type Sequence from './Sequence';
 import { Form, toForm } from './Form';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Value from '../values/Value';
 import type { NameGenerator } from './Stage';
 import { getOutputInput } from './Valued';

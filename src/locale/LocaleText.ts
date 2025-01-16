@@ -19,26 +19,15 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import parseDoc from '../parser/parseDoc';
 import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
-import type { FlagDescriptions } from '../models/Moderation';
+import type { FlagDescriptions } from '../db/projects/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
-
-/** A list of locales that are in progress but not supported yet. Only added when developing locally. */
-export const EventuallySupportedLocales = ['zh-TW', 'ko-KR', 'fr-FR', 'ja-JP', 'de-DE'];
-
-/** A list of locales officially supported by Wordplay. */
-export const SupportedLocales = Array.from(
-    new Set([
-        'en-US',
-        'es-MX',
-        'zh-CN',
-        ...(import.meta.hot ? EventuallySupportedLocales : []),
-    ]),
-);
-
-/** One of the supported locales above */
-export type SupportedLocale = (typeof SupportedLocales)[number];
+import {
+    DraftLocales,
+    type SupportedLocale,
+    SupportedLocales,
+} from './SupportedLocales';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';
@@ -108,7 +97,7 @@ export type NameAndDoc = {
     doc: DocText;
 };
 
-export type FunctionText<Inputs extends NameAndDoc[]> = NameAndDoc & {
+export type FunctionText<Inputs extends readonly NameAndDoc[]> = NameAndDoc & {
     /** Bind definitions for the inputs this function takes */
     inputs: Inputs;
 };
@@ -176,6 +165,10 @@ export function getLocaleRegionName(locale: string): string | undefined {
     return region ? Regions[region as RegionCode].en : undefined;
 }
 
+export function isLocaleDraft(locale: string): boolean {
+    return DraftLocales.includes(locale);
+}
+
 /** Find the best supported locales from the requested raw language codes */
 export function getBestSupportedLocales(locales: string[]) {
     // Map each locale into the best match.
@@ -219,7 +212,7 @@ export function createBind(
 
 export function createInputs(
     locales: Locales,
-    fun: (locale: LocaleText) => NameAndDoc[],
+    fun: (locale: LocaleText) => readonly NameAndDoc[],
     types: (Type | [Type, Expression])[],
 ) {
     return types.map((type, index) =>

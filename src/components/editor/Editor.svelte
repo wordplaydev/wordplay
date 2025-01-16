@@ -6,7 +6,7 @@
     import Node from '@nodes/Node';
     import Caret, { type CaretPosition } from '../../edit/Caret';
     import { onMount, untrack } from 'svelte';
-    import UnicodeString from '@models/UnicodeString';
+    import UnicodeString from '../../unicode/UnicodeString';
     import {
         handleKeyCommand,
         type Edit,
@@ -47,7 +47,7 @@
     import TypePlaceholder from '@nodes/TypePlaceholder';
     import Sym from '@nodes/Sym';
     import RootView from '../project/RootView.svelte';
-    import Project from '@models/Project';
+    import Project from '@db/projects/Project';
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from '../../edit/Autocomplete';
@@ -105,6 +105,8 @@
         setOutputPreview: () => void;
         /** A function for updating conflicts of interest */
         updateConflicts: (source: Source, conflicts: Conflict[]) => void;
+        /** Whether the code was revised by another creator */
+        overwritten?: boolean;
     }
 
     let {
@@ -119,6 +121,7 @@
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
         updateConflicts,
+        overwritten = false,
     }: Props = $props();
 
     // A per-editor store that contains the current editor's cursor. We expose it as context to children.
@@ -136,7 +139,7 @@
     // Share the caret store with children.
     setCaret(caret);
 
-    // When source changes, update various nested state from the source.
+    // When source changes, make sure the caret is pointing to the source.
     $effect(() => {
         caret.set(untrack(() => $caret).withSource(source));
     });
@@ -159,6 +162,31 @@
 
     /** The DOM node representing the editor */
     let editor: HTMLElement | null = $state(null);
+
+    /** The width and height of the editor viewport */
+    let editorWidth = $state(0);
+    let editorHeight = $state(0);
+
+    /** A cache of the .token-view HTMLElements */
+    let tokenViews: HTMLElement[] | undefined = $state(undefined);
+
+    /**
+     * An expensive operation to get all the token views for various operations.
+     * We try to do it only once per update.
+     */
+    function getTokenViews() {
+        if (editor === null) tokenViews = [];
+        else if (tokenViews !== undefined) return tokenViews;
+        else
+            tokenViews = Array.from(
+                editor.getElementsByClassName('token-view'),
+            ) as HTMLElement[];
+        return tokenViews;
+    }
+
+    $effect(() => {
+        if (source) tokenViews = undefined;
+    });
 
     /** True if something in the editor is focused. */
     let focused: boolean = $state(false);
@@ -239,38 +267,6 @@
         autofocus ? grabFocus('Auto-focusing editor on mount.') : undefined,
     );
 
-    // After updates, update highlight outlines.
-    $effect(() => {
-        $highlights;
-        $locales;
-        $caret;
-        editor;
-
-        untrack(() => {
-            tick().then(() => {
-                // Optimization: add and remove classes for styling here rather than having them
-                // retrieved in each NodeView.
-                if (editor) {
-                    // Remove any existing highlights
-                    for (const highlighted of editor.querySelectorAll(
-                        '.highlighted',
-                    ))
-                        for (const highlightType of Object.keys(HighlightTypes))
-                            highlighted.classList.remove(highlightType);
-
-                    // Add any new highlights of highlighted nodes.
-                    for (const [node, types] of $highlights.entries()) {
-                        const view = getNodeView(node);
-                        if (view) {
-                            view.classList.add('highlighted');
-                            for (const type of types) view.classList.add(type);
-                        }
-                    }
-                }
-            });
-        });
-    });
-
     async function evalUpdate() {
         // No evaluator, or we're playing? No need to update the eval editor info.
         if (evaluator === undefined || evaluator.isPlaying()) return;
@@ -280,7 +276,6 @@
         if (stepNode && source.has(stepNode)) {
             // Wait for everything to render...
             await tick();
-
             // Then find the node to scroll to. Keep searching for a visible node,
             // in case the step node is invisible.
             let highlight: Node | undefined = stepNode;
@@ -306,15 +301,30 @@
         } else lastKeyDownIgnored = false;
     }
 
+    /**
+     * Given a node, find its rendered counterpart. This is expensive, so we do some caching.
+     * resetting the cache whenever the source changes, since we will likely have new nodes.
+     * null represents that the node could not be found when we first checked.
+     */
+    let nodeViewCache = new Map<Node, HTMLElement | null>();
+    $effect(() => {
+        if (source) nodeViewCache = new Map();
+    });
     function getNodeView(node: Node): HTMLElement | undefined {
         if (editor === null) return undefined;
+        const cache = nodeViewCache.get(node);
+        if (cache !== undefined) return cache ?? undefined;
         // See if there's a node or value view that corresponds to this node.
         const view =
-            editor.querySelector(`.node-view[data-id="${node.id}"]`) ??
-            document.querySelector(
-                `.value[data-id="${evaluator.getCurrentValue()?.id}"]`,
-            );
-        return view instanceof HTMLElement ? view : undefined;
+            document.getElementById(`node-${node.id}`) ??
+            document.getElementById(`value-${evaluator.getCurrentValue()?.id}`);
+        if (view instanceof HTMLElement) {
+            nodeViewCache.set(node, view);
+            return view;
+        } else {
+            nodeViewCache.set(node, null);
+            return undefined;
+        }
     }
 
     function getTokenByView(program: Program, tokenView: Element) {
@@ -328,7 +338,7 @@
         return undefined;
     }
 
-    async function ensureElementIsVisible(element: Element, nearest = false) {
+    function ensureElementIsVisible(element: Element, nearest = false) {
         // Scroll to the element. Note that we don't set "smooth" here because it break's Chrome's ability to horizontally scroll.
         element.scrollIntoView({
             block: nearest ? 'nearest' : 'center',
@@ -556,7 +566,7 @@
         // Otherwise, the pointer is over the editor.
         // Find the closest token and choose either it's right or left side.
         // Map the token text to a list of vertical and horizontal distances
-        const closestToken = Array.from(editor.querySelectorAll('.token-view'))
+        const closestToken = Array.from(getTokenViews())
             .map((tokenView) => {
                 const textRect = tokenView.getBoundingClientRect();
                 return {
@@ -620,7 +630,7 @@
                 : source.getStartOfTokenLine(token);
         }
 
-        // Otherwise, if the mouse wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
+        // Otherwise, if the pointer wasn't within the vertical bounds of the nearest token text, choose the nearest empty line.
         type BreakInfo = {
             token: Token;
             offset: number;
@@ -639,6 +649,9 @@
                     // Check the br container, which gives us a more accurate bounding client rect.
                     const rect = br.getBoundingClientRect();
                     if (tokenView === undefined || token === undefined)
+                        return undefined;
+                    // Skip the line if it doesn't include the pointer's y.
+                    if (event.clientY < rect.top || event.clientY > rect.bottom)
                         return undefined;
                     return {
                         token,
@@ -1143,6 +1156,7 @@
             toggleMenu,
             blocks: $blocks,
             view: editor,
+            getTokenViews,
         });
 
         // Don't insert symbols if composing.
@@ -1208,11 +1222,8 @@
     // When the project is undone or redone, if we haven't restored the position, restore it, then remember the restored position.
     $effect(() => {
         if (
-            untrack(
-                () =>
-                    Projects.getHistory(project.getID())?.wasRestored() &&
-                    restoredPosition === undefined,
-            )
+            Projects.getHistory(project.getID())?.wasRestored() &&
+            untrack(() => restoredPosition === undefined)
         ) {
             const position = project.getCaretPosition(source);
             if (position !== undefined && position !== restoredPosition) {
@@ -1502,6 +1513,7 @@
         : 'stepping'}"
     class:readonly={!editable}
     class:focused
+    class:overwritten
     class:dragging={dragCandidate !== undefined ||
         $dragged !== undefined ||
         dragPoint !== undefined}
@@ -1513,6 +1525,8 @@
     dir={$locales.getDirection()}
     data-id={source.id}
     bind:this={editor}
+    bind:clientWidth={editorWidth}
+    bind:clientHeight={editorHeight}
     onpointerdown={handlePointerDown}
     onpointerup={handleRelease}
     onpointermove={handlePointerMove}
@@ -1604,8 +1618,15 @@
     <CaretView
         caret={$caret}
         blocks={$blocks}
-        blink={$keyboardEditIdle === IdleKind.Idle && focused && editable}
+        blink={$keyboardEditIdle === IdleKind.Idle &&
+            focused &&
+            editable &&
+            restoredPosition === undefined}
         ignored={shakeCaret}
+        {getTokenViews}
+        viewport={editor}
+        viewportWidth={editorWidth}
+        viewportHeight={editorHeight}
         bind:location={caretLocation}
     />
     <!-- 
@@ -1782,5 +1803,21 @@
         display: flex;
         align-items: center;
         justify-content: center;
+    }
+
+    /** A single cycle color animation to indicate the code was revised. */
+    @keyframes overwritten {
+        0% {
+            background-color: var(--wordplay-highlight-color);
+        }
+
+        100% {
+            background-color: var(--wordplay-background);
+        }
+    }
+
+    .overwritten {
+        animation: overwritten 1s;
+        animation-iteration-count: 1;
     }
 </style>

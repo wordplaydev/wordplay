@@ -7,10 +7,9 @@
     import Dialog from '@components/widgets/Dialog.svelte';
     import { Projects, Settings, locales } from '@db/Database';
     import { functions } from '@db/firebase';
-    import { getLanguageName } from '@locale/LanguageCode';
-    import { SupportedLocales } from '@locale/LocaleText';
-    import type Project from '@models/Project';
-    import translateProject from '@models/translate';
+    import type Project from '@db/projects/Project';
+    import translateProject from '@db/projects/translate';
+    import { TranslatableLanguages } from '@locale/LanguageCode';
 
     interface Props {
         project: Project;
@@ -23,7 +22,6 @@
     let show: boolean = $state(false);
 
     let projectLocales = $derived(project.getLocales().getLocales());
-    let localeCount = $derived(projectLocales.length - 1);
     let primaryLocale = $derived(
         `${projectLocales[0].language}-${projectLocales[0].region}`,
     );
@@ -77,10 +75,8 @@
         ),
     }}
     button={{
-        tip: $locales.get((l) => l.ui.project.button.translate),
-        label: `${getLanguageName(project.getPrimaryLanguage())}${
-            localeCount < 2 ? '' : `+${localeCount - 1}`
-        }…`,
+        tip: $locales.get((l) => l.ui.project.button.translate.tip),
+        label: `🌐 ${$locales.get((l) => l.ui.project.button.translate.label)}`,
     }}
 >
     <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>
@@ -101,12 +97,13 @@
         >{$locales.get((l) => l.ui.project.subheader.destination)}</Subheader
     >
     <div class="options">
-        {#each SupportedLocales as supported}
+        <!-- Allow all of the languages that Google Translate supports. -->
+        {#each TranslatableLanguages as language}
             <div class="option">
                 <Button
-                    action={() => translate(supported)}
+                    action={() => translate(language)}
                     tip={$locales.get((l) => l.ui.dialog.locale.button.replace)}
-                    ><LocaleName locale={supported} supported /></Button
+                    ><LocaleName locale={language} supported /></Button
                 >
             </div>
         {:else}&mdash;

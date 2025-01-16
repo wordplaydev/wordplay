@@ -1,15 +1,15 @@
 <script lang="ts">
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import { Creator } from '@db/CreatorDatabase';
+    import { Creator } from '@db/creators/CreatorDatabase';
     import { signInWithEmailAndPassword, type User } from 'firebase/auth';
     import TextField from '../../components/widgets/TextField.svelte';
-    import validEmail from '../../db/isValidEmail';
+    import validEmail from '../../db/creators/isValidEmail';
     import { DB, locales } from '@db/Database';
     import Feedback from '@components/app/Feedback.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import { auth } from '@db/firebase';
-    import isValidEmail from '../../db/isValidEmail';
+    import isValidEmail from '../../db/creators/isValidEmail';
     import isValidPassword from './IsValidPassword';
 
     interface Props {

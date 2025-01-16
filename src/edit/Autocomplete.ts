@@ -1,6 +1,6 @@
 import Node, { ListOf, type Field, type NodeKind, Empty } from '@nodes/Node';
 import type Caret from './Caret';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Revision from '@edit/Revision';
 import type Context from '@nodes/Context';
 import Replace from '@edit/Replace';

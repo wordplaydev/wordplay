@@ -21,15 +21,18 @@
     import { isName } from '../../parser/Tokenizer';
     import { animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
-    import Arrangement from '../../db/Arrangement';
+    import Arrangement from '../../db/settings/Arrangement';
     import Glyphs from '../../lore/Glyphs';
     import Color from '../../output/Color';
     import Toggle from '../widgets/Toggle.svelte';
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import Emoji from '@components/app/Emoji.svelte';
-    import TileSymbols from './TileSymbols';
+    import TileKinds from './TileKinds';
     import FullscreenIcon from './FullscreenIcon.svelte';
     import type Bounds from './Bounds';
+    import Note from '@components/widgets/Note.svelte';
+    import TileMessage from './TileMessage.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         project: Project;
@@ -234,6 +237,7 @@
         class:focuscontent
         class:animated={mounted}
         data-id={tile.id}
+        data-testid="tile-{tile.id}"
         style:background={background instanceof Color
             ? background.toCSS()
             : background}
@@ -267,65 +271,87 @@
               }px`}
         bind:this={view}
     >
-        <!-- Render the toolbar -->
-        <div class="header" style:color={foreground} style:fill={foreground}>
-            {#if !layout.isFullscreen()}
-                <Button
-                    background={background !== null}
-                    padding={false}
-                    tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                    action={() => mode(Mode.Collapsed)}>–</Button
-                >
-            {/if}
-            <Toggle
-                tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
-                on={fullscreen}
-                background={background !== null}
-                toggle={() => setFullscreen(!fullscreen)}
+        <svelte:boundary>
+            {#snippet failed(error, reset)}
+                <TileMessage error>
+                    <h2>{$locales.get((l) => l.ui.project.error.tile)}</h2>
+                    <p
+                        ><Button tip="Reset" action={reset} background
+                            >{$locales.get(
+                                (l) => l.ui.project.error.reset,
+                            )}</Button
+                        ></p
+                    >
+                    <Note>{'' + error}</Note>
+                </TileMessage>
+            {/snippet}
+
+            <!-- Render the toolbar -->
+            <div
+                class="header"
+                style:color={foreground}
+                style:fill={foreground}
             >
-                <FullscreenIcon />
-            </Toggle>
-            <div class="name" class:source={tile.isSource()}>
-                {#if editable && tile.isSource()}
-                    <Emoji>{Glyphs.Program.symbols}</Emoji>
-                    <TextField
-                        text={tile
-                            .getSource(project)
-                            ?.getPreferredName($locales.getLocales())}
-                        description={$locales.get(
-                            (l) => l.ui.source.field.name.description,
-                        )}
-                        placeholder={$locales.get(
-                            (l) => l.ui.source.field.name.placeholder,
-                        )}
-                        validator={(text) => isName(text)}
-                        changed={handleRename}
-                    />
-                {:else}
-                    <Emoji>{TileSymbols[tile.kind]}</Emoji>{tile.getName(
-                        project,
-                        $locales,
-                    )}
+                {#if !layout.isFullscreen()}
+                    <Button
+                        background={background !== null}
+                        padding={false}
+                        tip={$locales.get((l) => l.ui.tile.button.collapse)}
+                        action={() => mode(Mode.Collapsed)}>–</Button
+                    >
                 {/if}
-                {@render title()}
+                <Toggle
+                    tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
+                    on={fullscreen}
+                    background={background !== null}
+                    toggle={() => setFullscreen(!fullscreen)}
+                >
+                    <FullscreenIcon />
+                </Toggle>
+                <Subheader compact>
+                    <div class="name" class:source={tile.isSource()}>
+                        {#if editable && tile.isSource()}
+                            <Emoji>{Glyphs.Program.symbols}</Emoji>
+                            <TextField
+                                text={tile
+                                    .getSource(project)
+                                    ?.getPreferredName($locales.getLocales())}
+                                description={$locales.get(
+                                    (l) => l.ui.source.field.name.description,
+                                )}
+                                placeholder={$locales.get(
+                                    (l) => l.ui.source.field.name.placeholder,
+                                )}
+                                validator={(text) => isName(text)}
+                                changed={handleRename}
+                            />
+                        {:else}
+                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                            >{tile.getName(project, $locales)}
+                        {/if}
+                        {@render title()}
+                    </div>
+                </Subheader>
+                <div class="toolbar">
+                    {@render extra?.()}
+                </div>
             </div>
-            <div class="toolbar">
-                {@render extra?.()}
+            <!-- Render the content -->
+            <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
+                <div class="content" onscroll={() => scroll()}>
+                    {@render content()}
+                </div>
+                {#if margin}
+                    <div class="margin">{@render margin()}</div>
+                {/if}
             </div>
-        </div>
-        <!-- Render the content -->
-        <div class="main" class:rtl={$locales.getDirection() === 'rtl'}>
-            <div class="content" onscroll={() => scroll()}>
-                {@render content()}
-            </div>
-            <div class="margin">{@render margin?.()}</div>
-        </div>
-        <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
-        {#if focuscontent}
-            <div class="focus-indicator"></div>
-        {/if}
-        <!-- Render the footer -->
-        <div class="footer">{@render footer?.()}</div>
+            <!-- Render a focus indicator. We do this instead of an outline to avoid content form overlapping an inset CSS outline.  -->
+            {#if focuscontent}
+                <div class="focus-indicator"></div>
+            {/if}
+            <!-- Render the footer -->
+            <div class="footer">{@render footer?.()}</div>
+        </svelte:boundary>
     </section>
 </div>
 
@@ -352,7 +378,6 @@
         flex-direction: row;
         flex-wrap: nowrap;
         flex-grow: 1;
-        gap: var(--wordplay-spacing);
     }
 
     .toolbar {

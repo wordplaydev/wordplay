@@ -27,7 +27,7 @@
     import Purpose from '@concepts/Purpose';
     import { tick } from 'svelte';
     import TextField from '../widgets/TextField.svelte';
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import { Projects, locales } from '../../db/Database';
     import getScrollParent from '../util/getScrollParent';
     import Note from '../widgets/Note.svelte';

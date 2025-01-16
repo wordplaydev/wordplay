@@ -11,7 +11,7 @@ import OutputPropertyText from './OutputPropertyText';
 import OutputPropertyOptions from './OutputPropertyOptions';
 import OutputPropertyRange from './OutputPropertyRange';
 import Reference from '../nodes/Reference';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type { NameAndDoc, NameText } from '../locale/LocaleText';
 import getPoseProperties from './PoseProperties';
 import BooleanLiteral from '../nodes/BooleanLiteral';

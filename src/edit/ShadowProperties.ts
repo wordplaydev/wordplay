@@ -7,7 +7,7 @@ import { createColorLiteral } from '../output/Color';
 import type LocaleText from '../locale/LocaleText';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 
 export default function getShadowProperties(
     project: Project,

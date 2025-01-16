@@ -7,7 +7,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
 import BoolValue from '@values/BoolValue';
-import UnicodeString from '../models/UnicodeString';
+import UnicodeString from '../unicode/UnicodeString';
 import type Locales from '../locale/Locales';
 
 export default class TextValue extends SimpleValue {

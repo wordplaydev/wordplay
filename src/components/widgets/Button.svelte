@@ -38,7 +38,7 @@
         background = false,
         padding = true,
         testid = undefined,
-        children
+        children,
     }: Props = $props();
 
     let loading = $state(false);
@@ -75,8 +75,12 @@
     bind:this={view}
     onmousedown={(event) => event.preventDefault()}
     ondblclick={(event) => event.stopPropagation()}
-    onclick={loading ? null : (event) => { event.stopPropagation();
-              event.button === 0 && active ? doAction(event) : undefined}}
+    onclick={loading
+        ? null
+        : (event) => {
+              event.stopPropagation();
+              event.button === 0 && active ? doAction(event) : undefined;
+          }}
     onkeydown={loading
         ? null
         : (event) =>
@@ -128,15 +132,22 @@
         height: inherit;
     }
 
+    .background {
+        color: var(--wordplay-foreground);
+        background: var(--wordplay-alternating-color);
+    }
     [aria-disabled='true'] {
         cursor: default;
         background: none;
         color: var(--wordplay-inactive-color);
     }
 
+    .background[aria-disabled='true'] {
+        background: var(--wordplay-alternating-color);
+    }
+
     button:focus {
         background: var(--wordplay-focus-color);
-        color: var(--wordplay-background);
         fill: var(--wordplay-background);
     }
 
@@ -150,11 +161,6 @@
 
     .large {
         font-size: 24pt;
-    }
-
-    .background {
-        color: var(--wordplay-foreground);
-        background: var(--wordplay-alternating-color);
     }
 
     .background.padding {

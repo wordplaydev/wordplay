@@ -5,7 +5,7 @@ import type Node from '@nodes/Node';
 import UnusedBind from '@conflicts/UnusedBind';
 import UnparsableType from '@nodes/UnparsableType';
 import UnparsableExpression from '@nodes/UnparsableExpression';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import Example from '../nodes/Example';
 import { Basis } from './Basis';
 import DefaultLocale from '../locale/DefaultLocale';

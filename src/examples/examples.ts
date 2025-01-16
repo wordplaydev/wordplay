@@ -1,14 +1,14 @@
 import { parseNames } from '../parser/parseBind';
 import { toTokens } from '../parser/toTokens';
-import Gallery, { GallerySchemaLatestVersion } from '../models/Gallery';
-import { moderatedFlags } from '../models/Moderation';
+import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
+import { moderatedFlags } from '../db/projects/Moderation';
 import { localeToString } from '../locale/Locale';
 import type { GalleryText } from '../locale/GalleryTexts';
 import {
     ProjectSchemaLatestVersion,
     type SerializedProject,
-} from '../models/ProjectSchemas';
-import Project from '@models/Project';
+} from '../db/projects/ProjectSchemas';
+import Project from '@db/projects/Project';
 import type Locales from '@locale/Locales';
 import { Locales as LocalesDB } from '@db/Database';
 
@@ -58,6 +58,8 @@ export function parseSerializedProject(
         gallery: null,
         flags: moderatedFlags(),
         nonPII: [],
+        chat: null,
+        history: [],
     };
 }
 

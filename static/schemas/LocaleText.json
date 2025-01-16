@@ -209,32 +209,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[]>": {
-      "additionalProperties": false,
-      "properties": {
-        "doc": {
-          "$ref": "#/definitions/DocText",
-          "description": "Documentation for this definition, to appear in the documentation browser."
-        },
-        "inputs": {
-          "description": "Bind definitions for the inputs this function takes",
-          "maxItems": 0,
-          "minItems": 0,
-          "type": "array"
-        },
-        "names": {
-          "$ref": "#/definitions/NameText",
-          "description": "One or more names for this definition. Be careful not to introduce duplicates."
-        }
-      },
-      "required": [
-        "doc",
-        "inputs",
-        "names"
-      ],
-      "type": "object"
-    },
-    "FunctionText<[def-alias-1170802340-4024-4270-1170802340-0-8512,def-alias-1170802340-4024-4270-1170802340-0-8512]>": {
+    "FunctionText<[def-alias-1170802340-3627-3873-1170802340-0-8249,def-alias-1170802340-3627-3873-1170802340-0-8249]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -262,7 +237,7 @@
       ],
       "type": "object"
     },
-    "FunctionText<[def-alias-1170802340-4024-4270-1170802340-0-8512]>": {
+    "FunctionText<[def-alias-1170802340-3627-3873-1170802340-0-8249]>": {
       "additionalProperties": false,
       "properties": {
         "doc": {
@@ -276,6 +251,31 @@
           },
           "maxItems": 1,
           "minItems": 1,
+          "type": "array"
+        },
+        "names": {
+          "$ref": "#/definitions/NameText",
+          "description": "One or more names for this definition. Be careful not to introduce duplicates."
+        }
+      },
+      "required": [
+        "doc",
+        "inputs",
+        "names"
+      ],
+      "type": "object"
+    },
+    "FunctionText<alias-1184849637-108-141-1184849637-0-17849>": {
+      "additionalProperties": false,
+      "properties": {
+        "doc": {
+          "$ref": "#/definitions/DocText",
+          "description": "Documentation for this definition, to appear in the documentation browser."
+        },
+        "inputs": {
+          "description": "Bind definitions for the inputs this function takes",
+          "maxItems": 0,
+          "minItems": 0,
           "type": "array"
         },
         "names": {
@@ -377,23 +377,23 @@
                   "description": "Functions in the type",
                   "properties": {
                     "and": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "not": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "or": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -449,7 +449,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "all": {
@@ -491,7 +491,7 @@
                       "type": "object"
                     },
                     "append": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "combine": {
@@ -533,7 +533,7 @@
                       "type": "object"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -613,59 +613,59 @@
                       "type": "object"
                     },
                     "first": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "join": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "last": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "random": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "replace": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%2Cdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%2Cdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "reverse": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sans": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sansAll": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sansFirst": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sansLast": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "shuffled": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sorted": {
@@ -707,7 +707,7 @@
                       "type": "object"
                     },
                     "subsequence": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%2Cdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%2Cdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -880,7 +880,7 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -922,19 +922,19 @@
                       "type": "object"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "set": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%2Cdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%2Cdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "size": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -976,7 +976,7 @@
                       "type": "object"
                     },
                     "unset": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1047,11 +1047,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1336,87 +1336,87 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "cos": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "divide": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "greaterOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "greaterThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "lessOrEqual": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "lessThan": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "max": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "min": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "multiply": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "positive": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "power": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remainder": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "root": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "round": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "roundDown": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "roundUp": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "sin": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "subtract": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1490,15 +1490,15 @@
                   "description": "Functions in the type",
                   "properties": {
                     "add": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "difference": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "filter": {
@@ -1540,19 +1540,19 @@
                       "type": "object"
                     },
                     "intersection": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "remove": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "size": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "translate": {
@@ -1594,7 +1594,7 @@
                       "type": "object"
                     },
                     "union": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1662,11 +1662,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1721,11 +1721,11 @@
                   "description": "Functions in the type",
                   "properties": {
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequal": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -1785,39 +1785,39 @@
                   "description": "Functions in the type",
                   "properties": {
                     "combine": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "ends": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "equals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "has": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "length": {
-                      "$ref": "#/definitions/FunctionText%3C%5B%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3Calias-1184849637-108-141-1184849637-0-17849%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "notequals": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "repeat": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "segment": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     },
                     "starts": {
-                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-4024-4270-1170802340-0-8512%5D%3E",
+                      "$ref": "#/definitions/FunctionText%3C%5Bdef-alias-1170802340-3627-3873-1170802340-0-8249%5D%3E",
                       "description": "See `en-US.json` for documentation"
                     }
                   },
@@ -2384,6 +2384,7 @@
             "ga",
             "gd",
             "gl",
+            "gu",
             "ha",
             "he",
             "hi",
@@ -8532,6 +8533,143 @@
               ],
               "type": "object"
             },
+            "checkpoints": {
+              "description": "Checkpoints text"
+            },
+            "collaborate": {
+              "additionalProperties": false,
+              "description": "The project chat",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "description": "Buttons in the chat tile",
+                  "properties": {
+                    "delete": {
+                      "description": "The message delete button",
+                      "type": "string"
+                    },
+                    "start": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The start a chat button"
+                    },
+                    "submit": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "The chat send button"
+                    }
+                  },
+                  "required": [
+                    "submit",
+                    "start",
+                    "delete"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors that can happen in the chat tile",
+                  "properties": {
+                    "deleted": {
+                      "description": "A message was deleted",
+                      "type": "string"
+                    },
+                    "empty": {
+                      "description": "No messages in the chat",
+                      "type": "string"
+                    },
+                    "offline": {
+                      "description": "Offline, or couldn't load the chat",
+                      "type": "string"
+                    },
+                    "unowned": {
+                      "description": "The project isn't owned by a person",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unowned",
+                    "offline",
+                    "empty",
+                    "deleted"
+                  ],
+                  "type": "object"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "description": "The chat message input field",
+                  "properties": {
+                    "message": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The chat message input field"
+                    }
+                  },
+                  "required": [
+                    "message"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "description": "The ARIA label for the chat section",
+                  "type": "string"
+                },
+                "prompt": {
+                  "additionalProperties": false,
+                  "description": "Messages to explain the purpose",
+                  "properties": {
+                    "collaborator": {
+                      "type": "string"
+                    },
+                    "curator": {
+                      "type": "string"
+                    },
+                    "owner": {
+                      "type": "string"
+                    },
+                    "solo": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "solo",
+                    "owner",
+                    "collaborator",
+                    "curator"
+                  ],
+                  "type": "object"
+                },
+                "role": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "collaborators": {
+                      "description": "What to call collaborators",
+                      "type": "string"
+                    },
+                    "curators": {
+                      "description": "What to call curators",
+                      "type": "string"
+                    },
+                    "owner": {
+                      "description": "What to call the owner of a project",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "owner",
+                    "collaborators",
+                    "curators"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "label",
+                "field",
+                "role",
+                "button",
+                "error",
+                "prompt"
+              ],
+              "type": "object"
+            },
             "dialog": {
               "additionalProperties": false,
               "properties": {
@@ -8644,10 +8782,6 @@
                       "additionalProperties": false,
                       "description": "Subheaders in the local chooser dialog.",
                       "properties": {
-                        "coming": {
-                          "description": "How to label locales that are coming soon",
-                          "type": "string"
-                        },
                         "help": {
                           "description": "How to request help with localization",
                           "type": "string"
@@ -8664,7 +8798,6 @@
                       "required": [
                         "selected",
                         "supported",
-                        "coming",
                         "help"
                       ],
                       "type": "object"
@@ -8763,12 +8896,17 @@
                           "description": "The label for the camera drop down",
                           "type": "string"
                         },
+                        "face": {
+                          "description": "The label for the font face chooser",
+                          "type": "string"
+                        },
                         "mic": {
                           "description": "The label for the microphone drop down",
                           "type": "string"
                         }
                       },
                       "required": [
+                        "face",
                         "mic",
                         "camera"
                       ],
@@ -8889,10 +9027,6 @@
                       "additionalProperties": false,
                       "description": "The subheaders of the dialog",
                       "properties": {
-                        "collaborators": {
-                          "$ref": "#/definitions/DialogText",
-                          "description": "The collaborators subheader and explanation"
-                        },
                         "gallery": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The gallery subheader and explanation"
@@ -8907,7 +9041,6 @@
                         }
                       },
                       "required": [
-                        "collaborators",
                         "gallery",
                         "public",
                         "pii"
@@ -9125,99 +9258,7 @@
               "type": "object"
             },
             "gallery": {
-              "additionalProperties": false,
-              "description": "Gallery page labels",
-              "properties": {
-                "confirm": {
-                  "additionalProperties": false,
-                  "description": "Confirm buttons on the gallery page",
-                  "properties": {
-                    "delete": {
-                      "$ref": "#/definitions/ConfirmText",
-                      "description": "The confirm button that deletes a source file"
-                    },
-                    "remove": {
-                      "$ref": "#/definitions/ConfirmText",
-                      "description": "The confirm button that removes a project from a gallery"
-                    }
-                  },
-                  "required": [
-                    "delete",
-                    "remove"
-                  ],
-                  "type": "object"
-                },
-                "error": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "unknown": {
-                      "description": "When the gallery is not known or is not public",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "unknown"
-                  ],
-                  "type": "object"
-                },
-                "field": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "description": {
-                      "$ref": "#/definitions/FieldText"
-                    },
-                    "name": {
-                      "$ref": "#/definitions/FieldText"
-                    }
-                  },
-                  "required": [
-                    "name",
-                    "description"
-                  ],
-                  "type": "object"
-                },
-                "subheader": {
-                  "additionalProperties": false,
-                  "description": "Headers on the page",
-                  "properties": {
-                    "creators": {
-                      "$ref": "#/definitions/DialogText",
-                      "description": "The list of curators"
-                    },
-                    "curators": {
-                      "$ref": "#/definitions/DialogText",
-                      "description": "The list of curators"
-                    },
-                    "delete": {
-                      "$ref": "#/definitions/DialogText",
-                      "description": "Delete header"
-                    }
-                  },
-                  "required": [
-                    "curators",
-                    "creators",
-                    "delete"
-                  ],
-                  "type": "object"
-                },
-                "undescribed": {
-                  "description": "What to say if the description is empty",
-                  "type": "string"
-                },
-                "untitled": {
-                  "description": "What to call a gallery by default, before it's given a name",
-                  "type": "string"
-                }
-              },
-              "required": [
-                "untitled",
-                "undescribed",
-                "subheader",
-                "confirm",
-                "error",
-                "field"
-              ],
-              "type": "object"
+              "description": "Gallery page labels"
             },
             "output": {
               "additionalProperties": false,
@@ -9302,765 +9343,55 @@
               "additionalProperties": false,
               "properties": {
                 "about": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "content": {
-                      "description": "Text for the about page",
-                      "items": {
-                        "type": "string"
-                      },
-                      "type": "array"
-                    },
-                    "header": {
-                      "description": "Header for the about page",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "content"
-                  ],
-                  "type": "object"
+                  "description": "About page text"
+                },
+                "class": {
+                  "description": "Class page text"
                 },
                 "donate": {
-                  "additionalProperties": false,
-                  "description": "Giving related text",
-                  "properties": {
-                    "content": {
-                      "description": "The content of the page",
-                      "items": {
-                        "$ref": "#/definitions/Template"
-                      },
-                      "type": "array"
-                    },
-                    "header": {
-                      "$ref": "#/definitions/Template",
-                      "description": "The label for the link and header"
-                    },
-                    "prompt": {
-                      "$ref": "#/definitions/Template",
-                      "description": "The explanation of the link"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "prompt",
-                    "content"
-                  ],
-                  "type": "object"
+                  "description": "Giving related text"
                 },
                 "galleries": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "examples": {
-                      "description": "The subheader for the examples",
-                      "type": "string"
-                    },
-                    "header": {
-                      "description": "How to describe galleries of projects",
-                      "type": "string"
-                    },
-                    "prompt": {
-                      "description": "Explanation for the galleries page",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "prompt",
-                    "examples"
-                  ],
-                  "type": "object"
+                  "description": "Gallery browsing page text"
                 },
                 "guide": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "description": {
-                      "description": "A description of the guide",
-                      "type": "string"
-                    },
-                    "header": {
-                      "description": "The header for the guide page",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "description"
-                  ],
-                  "type": "object"
+                  "description": "Docuemntation guide page text"
                 },
                 "join": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "header": {
-                      "description": "The account creation header",
-                      "type": "string"
-                    },
-                    "prompt": {
-                      "additionalProperties": false,
-                      "description": "Requests for information on the account creation page",
-                      "properties": {
-                        "password": {
-                          "description": "Password rules and warnings",
-                          "type": "string"
-                        },
-                        "username": {
-                          "description": "Username rules",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "username",
-                        "password"
-                      ],
-                      "type": "object"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "prompt"
-                  ],
-                  "type": "object"
+                  "description": "Account creation page text"
                 },
                 "landing": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "beta": {
-                      "description": "The landing page beta warning",
-                      "items": {
-                        "$ref": "#/definitions/Template"
-                      },
-                      "type": "array"
-                    },
-                    "description": {
-                      "anyOf": [
-                        {
-                          "$ref": "#/definitions/Template"
-                        },
-                        {
-                          "items": {
-                            "$ref": "#/definitions/Template"
-                          },
-                          "type": "array"
-                        }
-                      ],
-                      "description": "A description of the platform's features"
-                    },
-                    "link": {
-                      "additionalProperties": false,
-                      "description": "The subtitles below links",
-                      "properties": {
-                        "about": {
-                          "description": "What content is on the about page",
-                          "type": "string"
-                        },
-                        "community": {
-                          "additionalProperties": false,
-                          "description": "The community link",
-                          "properties": {
-                            "label": {
-                              "type": "string"
-                            },
-                            "subtitle": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "label",
-                            "subtitle"
-                          ],
-                          "type": "object"
-                        },
-                        "contribute": {
-                          "additionalProperties": false,
-                          "description": "The contributor link",
-                          "properties": {
-                            "label": {
-                              "type": "string"
-                            },
-                            "subtitle": {
-                              "type": "string"
-                            }
-                          },
-                          "required": [
-                            "label",
-                            "subtitle"
-                          ],
-                          "type": "object"
-                        },
-                        "galleries": {
-                          "description": "What content is on the galleries page",
-                          "type": "string"
-                        },
-                        "guide": {
-                          "description": "What content is on the guide page",
-                          "type": "string"
-                        },
-                        "learn": {
-                          "description": "What content is on the learn page",
-                          "type": "string"
-                        },
-                        "projects": {
-                          "description": "What content is on the projects page",
-                          "type": "string"
-                        },
-                        "rights": {
-                          "description": "What content is on the rights page",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "about",
-                        "learn",
-                        "guide",
-                        "projects",
-                        "galleries",
-                        "rights",
-                        "community",
-                        "contribute"
-                      ],
-                      "type": "object"
-                    },
-                    "value": {
-                      "$ref": "#/definitions/Template",
-                      "description": "The value proposition for the site"
-                    }
-                  },
-                  "required": [
-                    "value",
-                    "description",
-                    "beta",
-                    "link"
-                  ],
-                  "type": "object"
+                  "description": "Landing page text"
                 },
                 "learn": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "button": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "next": {
-                          "description": "Advance to the next pause in the dialog",
-                          "type": "string"
-                        },
-                        "previous": {
-                          "description": "Navigate back to the previous pause in the dialog",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "next",
-                        "previous"
-                      ],
-                      "type": "object"
-                    },
-                    "error": {
-                      "description": "When the tutorial could not be found",
-                      "type": "string"
-                    },
-                    "header": {
-                      "description": "The header for the tutorial page",
-                      "type": "string"
-                    },
-                    "options": {
-                      "additionalProperties": false,
-                      "description": "Labels for drop down menus",
-                      "properties": {
-                        "lesson": {
-                          "description": "The label for the lesson drop down",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "lesson"
-                      ],
-                      "type": "object"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "error",
-                    "button",
-                    "options"
-                  ],
-                  "type": "object"
+                  "description": "Tutorial page text"
                 },
                 "login": {
-                  "additionalProperties": false,
-                  "description": "The login and account page",
-                  "properties": {
-                    "anonymous": {
-                      "description": "Shown in the footer a creator is not logged in.",
-                      "type": "string"
-                    },
-                    "button": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "delete": {
-                          "$ref": "#/definitions/ButtonText",
-                          "description": "Delete account button"
-                        },
-                        "login": {
-                          "description": "Login button description",
-                          "type": "string"
-                        },
-                        "logout": {
-                          "$ref": "#/definitions/ButtonText",
-                          "description": "Log out of the account"
-                        },
-                        "reallyDelete": {
-                          "$ref": "#/definitions/ButtonText",
-                          "description": "Confirm deletion"
-                        },
-                        "updateEmail": {
-                          "description": "Update email button description",
-                          "type": "string"
-                        },
-                        "updatePassword": {
-                          "description": "Update password",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "logout",
-                        "login",
-                        "updateEmail",
-                        "delete",
-                        "reallyDelete",
-                        "updatePassword"
-                      ],
-                      "type": "object"
-                    },
-                    "error": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "delete": {
-                          "description": "When account deletion failed",
-                          "type": "string"
-                        },
-                        "email": {
-                          "description": "Shown when the email address isn't valid",
-                          "type": "string"
-                        },
-                        "expired": {
-                          "description": "Shown when the login link expired",
-                          "type": "string"
-                        },
-                        "failure": {
-                          "description": "Unknown failure to login",
-                          "type": "string"
-                        },
-                        "invalid": {
-                          "description": "Shown when the login link isn't valid",
-                          "type": "string"
-                        },
-                        "offline": {
-                          "description": "When there's no connection to Firebase",
-                          "type": "string"
-                        },
-                        "tooMany": {
-                          "description": "When there are too mant failed attempts",
-                          "type": "string"
-                        },
-                        "unchanged": {
-                          "description": "When the email address couldn't be changed for unknown reasons.",
-                          "type": "string"
-                        },
-                        "wrongPassword": {
-                          "description": "When a password is wrong",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "expired",
-                        "invalid",
-                        "email",
-                        "failure",
-                        "offline",
-                        "unchanged",
-                        "delete",
-                        "wrongPassword",
-                        "tooMany"
-                      ],
-                      "type": "object"
-                    },
-                    "feedback": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "changing": {
-                          "description": "Change email pending",
-                          "type": "string"
-                        },
-                        "deleting": {
-                          "description": "Account deleting pending",
-                          "type": "string"
-                        },
-                        "match": {
-                          "description": "Email or username must match to delete account",
-                          "type": "string"
-                        },
-                        "updatedPassword": {
-                          "description": "Password successfully updated",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "changing",
-                        "deleting",
-                        "updatedPassword",
-                        "match"
-                      ],
-                      "type": "object"
-                    },
-                    "field": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "currentPassword": {
-                          "$ref": "#/definitions/FieldText",
-                          "description": "The old password"
-                        },
-                        "email": {
-                          "$ref": "#/definitions/FieldText",
-                          "description": "The login email"
-                        },
-                        "newPassword": {
-                          "$ref": "#/definitions/FieldText",
-                          "description": "The new password"
-                        },
-                        "password": {
-                          "$ref": "#/definitions/FieldText",
-                          "description": "The login password"
-                        },
-                        "username": {
-                          "$ref": "#/definitions/FieldText",
-                          "description": "The login username"
-                        }
-                      },
-                      "required": [
-                        "email",
-                        "username",
-                        "password",
-                        "currentPassword",
-                        "newPassword"
-                      ],
-                      "type": "object"
-                    },
-                    "header": {
-                      "description": "Header for the login page when not logged in",
-                      "type": "string"
-                    },
-                    "prompt": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "changeEmail": {
-                          "description": "Tells the creator that they can change their email address.",
-                          "type": "string"
-                        },
-                        "changePassword": {
-                          "description": "Tells the creator that they can cahnge their password",
-                          "type": "string"
-                        },
-                        "confirm": {
-                          "description": "Prompts creator to check their original email to confirm the email change",
-                          "type": "string"
-                        },
-                        "delete": {
-                          "description": "Offers to delete account",
-                          "type": "string"
-                        },
-                        "email": {
-                          "description": "Email login explanation",
-                          "type": "string"
-                        },
-                        "enter": {
-                          "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
-                          "type": "string"
-                        },
-                        "forgot": {
-                          "description": "Forgot password regrets",
-                          "type": "string"
-                        },
-                        "login": {
-                          "description": "Prompts creator to login to save their work",
-                          "type": "string"
-                        },
-                        "logout": {
-                          "description": "Offers to log out the creator.",
-                          "type": "string"
-                        },
-                        "name": {
-                          "description": "Pick an emoji as a name",
-                          "type": "string"
-                        },
-                        "passwordreminder": {
-                          "description": "Reminder to write down password",
-                          "type": "string"
-                        },
-                        "passwordrule": {
-                          "description": "Description of password rules",
-                          "type": "string"
-                        },
-                        "play": {
-                          "description": "Encouragement to go create after logging in.",
-                          "type": "string"
-                        },
-                        "reallyDelete": {
-                          "description": "Offers to really delete account forever",
-                          "type": "string"
-                        },
-                        "sent": {
-                          "description": "Prompt to check email for a login link.",
-                          "type": "string"
-                        },
-                        "success": {
-                          "description": "Shown briefly before page redirects to projects",
-                          "type": "string"
-                        },
-                        "tooyoung": {
-                          "description": "Too young feedback",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "login",
-                        "forgot",
-                        "email",
-                        "sent",
-                        "changeEmail",
-                        "changePassword",
-                        "enter",
-                        "play",
-                        "passwordrule",
-                        "passwordreminder",
-                        "tooyoung",
-                        "logout",
-                        "success",
-                        "confirm",
-                        "delete",
-                        "reallyDelete",
-                        "name"
-                      ],
-                      "type": "object"
-                    },
-                    "subtitle": {
-                      "description": "Subtitle for the header link on the landing page",
-                      "type": "string"
-                    },
-                    "toggle": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "reveal": {
-                          "$ref": "#/definitions/ToggleText",
-                          "description": "Reveal password toggle"
-                        }
-                      },
-                      "required": [
-                        "reveal"
-                      ],
-                      "type": "object"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "subtitle",
-                    "prompt",
-                    "anonymous",
-                    "field",
-                    "feedback",
-                    "error",
-                    "button",
-                    "toggle"
-                  ],
-                  "type": "object"
+                  "description": "The login and account page"
+                },
+                "newclass": {
+                  "description": "New class page text"
                 },
                 "projects": {
-                  "additionalProperties": false,
-                  "description": "The project creation and browsing page",
-                  "properties": {
-                    "add": {
-                      "$ref": "#/definitions/DialogText",
-                      "description": "Dialog text for the project addition dialog"
-                    },
-                    "archiveheader": {
-                      "description": "The header for the archived subsection",
-                      "type": "string"
-                    },
-                    "archiveprompt": {
-                      "description": "Explanation for the archive subsection",
-                      "type": "string"
-                    },
-                    "button": {
-                      "additionalProperties": false,
-                      "description": "Buttons on the project page",
-                      "properties": {
-                        "editproject": {
-                          "description": "Edit a project",
-                          "type": "string"
-                        },
-                        "newgallery": {
-                          "description": "Create a new gallery",
-                          "type": "string"
-                        },
-                        "newproject": {
-                          "description": "Create a new project",
-                          "type": "string"
-                        },
-                        "unarchive": {
-                          "description": "The project unarchive button description",
-                          "type": "string"
-                        },
-                        "viewcode": {
-                          "description": "View a project's code",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "newproject",
-                        "editproject",
-                        "viewcode",
-                        "newgallery",
-                        "unarchive"
-                      ],
-                      "type": "object"
-                    },
-                    "confirm": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "archive": {
-                          "$ref": "#/definitions/ConfirmText",
-                          "description": "The project archive button"
-                        },
-                        "delete": {
-                          "$ref": "#/definitions/ConfirmText",
-                          "description": "The project delete button"
-                        }
-                      },
-                      "required": [
-                        "archive",
-                        "delete"
-                      ],
-                      "type": "object"
-                    },
-                    "error": {
-                      "additionalProperties": false,
-                      "properties": {
-                        "delete": {
-                          "description": "Unable to delete project",
-                          "type": "string"
-                        },
-                        "newgallery": {
-                          "description": "Unable to create a gallery",
-                          "type": "string"
-                        },
-                        "noaccess": {
-                          "description": "When there's no access to the database.",
-                          "type": "string"
-                        },
-                        "nodeletes": {
-                          "description": "Feedback that we are unable to delete when logged out",
-                          "type": "string"
-                        },
-                        "nogalleryedits": {
-                          "description": "When the creator is not logged in.",
-                          "type": "string"
-                        }
-                      },
-                      "required": [
-                        "noaccess",
-                        "nogalleryedits",
-                        "newgallery",
-                        "nodeletes",
-                        "delete"
-                      ],
-                      "type": "object"
-                    },
-                    "galleriesheader": {
-                      "description": "Header for the galleries page",
-                      "type": "string"
-                    },
-                    "galleryprompt": {
-                      "description": "A prompt to create galleries",
-                      "type": "string"
-                    },
-                    "header": {
-                      "description": "Header for the projects page",
-                      "type": "string"
-                    },
-                    "projectprompt": {
-                      "description": "Explanation for the project page",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "projectprompt",
-                    "archiveheader",
-                    "archiveprompt",
-                    "galleriesheader",
-                    "galleryprompt",
-                    "add",
-                    "button",
-                    "confirm",
-                    "error"
-                  ],
-                  "type": "object"
+                  "description": "The project creation and browsing page"
                 },
                 "rights": {
-                  "additionalProperties": false,
-                  "description": "The rights/terms of service page",
-                  "properties": {
-                    "consequences": {
-                      "description": "The consequences of violating a promise.",
-                      "items": {
-                        "$ref": "#/definitions/Template"
-                      },
-                      "type": "array"
-                    },
-                    "content": {
-                      "description": "Paragraphs for the rights page",
-                      "items": {
-                        "$ref": "#/definitions/Template"
-                      },
-                      "type": "array"
-                    },
-                    "header": {
-                      "description": "Header for the rights page",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "content",
-                    "consequences"
-                  ],
-                  "type": "object"
+                  "description": "The rights/terms of service page"
+                },
+                "teach": {
+                  "description": "Teacher landing page text"
                 },
                 "unknown": {
-                  "additionalProperties": false,
-                  "description": "The unknown route page",
-                  "properties": {
-                    "header": {
-                      "description": "The header for the unknown route",
-                      "type": "string"
-                    },
-                    "message": {
-                      "description": "The message for the unknown route",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "header",
-                    "message"
-                  ],
-                  "type": "object"
+                  "description": "The unknown route page"
                 }
               },
               "required": [
                 "unknown",
                 "landing",
                 "learn",
+                "teach",
+                "newclass",
+                "class",
                 "guide",
                 "projects",
                 "galleries",
@@ -10371,213 +9702,7 @@
               "type": "object"
             },
             "project": {
-              "additionalProperties": false,
-              "description": "Project settings and controls",
-              "properties": {
-                "button": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "addSource": {
-                      "description": "Add a source file",
-                      "type": "string"
-                    },
-                    "copy": {
-                      "description": "Copy the project as text to the clipboard",
-                      "type": "string"
-                    },
-                    "duplicate": {
-                      "description": "Duplicate the project",
-                      "type": "string"
-                    },
-                    "focusCycle": {
-                      "description": "Keyboard shortcut to cycle between tiles",
-                      "type": "string"
-                    },
-                    "focusDocs": {
-                      "description": "Keyboard shortcut to focus documentation tile",
-                      "type": "string"
-                    },
-                    "focusOutput": {
-                      "description": "Keyboard shortcut to focus output tile",
-                      "type": "string"
-                    },
-                    "focusPalette": {
-                      "description": "Keyboard shortcut to focus palette tiles",
-                      "type": "string"
-                    },
-                    "focusSource": {
-                      "description": "Keyboard shortcut to focus source tiles",
-                      "type": "string"
-                    },
-                    "primary": {
-                      "description": "The tooltip for the primary locale setting button",
-                      "type": "string"
-                    },
-                    "removeCollaborator": {
-                      "description": "Remove a collaborator that has been shared with",
-                      "type": "string"
-                    },
-                    "revert": {
-                      "description": "Revert project to original code",
-                      "type": "string"
-                    },
-                    "showCollaborators": {
-                      "description": "Shows the sharing dialog",
-                      "type": "string"
-                    },
-                    "translate": {
-                      "description": "Show translation button",
-                      "type": "string"
-                    },
-                    "unsaved": {
-                      "description": "Show save error button",
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "showCollaborators",
-                    "removeCollaborator",
-                    "copy",
-                    "addSource",
-                    "duplicate",
-                    "revert",
-                    "focusOutput",
-                    "focusSource",
-                    "focusDocs",
-                    "focusPalette",
-                    "focusCycle",
-                    "unsaved",
-                    "translate",
-                    "primary"
-                  ],
-                  "type": "object"
-                },
-                "collapsed": {
-                  "description": "The text to show when all of the tiles are collapsed.",
-                  "type": "string"
-                },
-                "dialog": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "translate": {
-                      "$ref": "#/definitions/DialogText",
-                      "description": "The content for the translation dialog"
-                    },
-                    "unsaved": {
-                      "$ref": "#/definitions/Template",
-                      "description": "The header for the save error"
-                    }
-                  },
-                  "required": [
-                    "unsaved",
-                    "translate"
-                  ],
-                  "type": "object"
-                },
-                "error": {
-                  "additionalProperties": false,
-                  "description": "The error shown when a project ID is unknown.",
-                  "properties": {
-                    "translate": {
-                      "description": "The error to show if translation wasn't possible",
-                      "type": "string"
-                    },
-                    "unknown": {
-                      "type": "string"
-                    }
-                  },
-                  "required": [
-                    "unknown",
-                    "translate"
-                  ],
-                  "type": "object"
-                },
-                "field": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "name": {
-                      "$ref": "#/definitions/FieldText",
-                      "description": "The project name text field"
-                    }
-                  },
-                  "required": [
-                    "name"
-                  ],
-                  "type": "object"
-                },
-                "help": {
-                  "description": "The keyboard shortcut to show the shortcut menu",
-                  "type": "string"
-                },
-                "save": {
-                  "additionalProperties": false,
-                  "description": "The messages shown for save status",
-                  "properties": {
-                    "projectContainedPII": {
-                      "$ref": "#/definitions/Template",
-                      "description": "When a project wasn't saved because it contained PII"
-                    },
-                    "projectNotSavedOnline": {
-                      "$ref": "#/definitions/Template",
-                      "description": "When a project couldn't be saved to the database"
-                    },
-                    "projectsCannotNotSaveLocally": {
-                      "$ref": "#/definitions/Template",
-                      "description": "When projects can't save locally"
-                    },
-                    "projectsNotLoadingOnline": {
-                      "$ref": "#/definitions/Template",
-                      "description": "Projects failed to load"
-                    },
-                    "projectsNotSavedLocally": {
-                      "$ref": "#/definitions/Template",
-                      "description": "When projects fail to save locally"
-                    },
-                    "settingsUnsaved": {
-                      "$ref": "#/definitions/Template",
-                      "description": "When settings are being saved"
-                    }
-                  },
-                  "required": [
-                    "projectsNotSavedLocally",
-                    "projectsCannotNotSaveLocally",
-                    "projectContainedPII",
-                    "projectsNotLoadingOnline",
-                    "projectNotSavedOnline",
-                    "settingsUnsaved"
-                  ],
-                  "type": "object"
-                },
-                "subheader": {
-                  "additionalProperties": false,
-                  "properties": {
-                    "destination": {
-                      "$ref": "#/definitions/Template",
-                      "description": "The header for the destination language"
-                    },
-                    "source": {
-                      "$ref": "#/definitions/Template",
-                      "description": "The header for the source language"
-                    }
-                  },
-                  "required": [
-                    "source",
-                    "destination"
-                  ],
-                  "type": "object"
-                }
-              },
-              "required": [
-                "error",
-                "button",
-                "field",
-                "help",
-                "collapsed",
-                "save",
-                "dialog",
-                "subheader"
-              ],
-              "type": "object"
+              "description": "Project settings and controls"
             },
             "save": {
               "additionalProperties": false,
@@ -11019,6 +10144,9 @@
                   "additionalProperties": false,
                   "description": "Tile labels appearing in the project footer tile toggles, except for source files.",
                   "properties": {
+                    "collaborate": {
+                      "type": "string"
+                    },
                     "docs": {
                       "type": "string"
                     },
@@ -11036,7 +10164,8 @@
                     "output",
                     "docs",
                     "source",
-                    "palette"
+                    "palette",
+                    "collaborate"
                   ],
                   "type": "object"
                 },
@@ -11203,13 +10332,38 @@
                     "message"
                   ],
                   "type": "object"
+                },
+                "table": {
+                  "additionalProperties": false,
+                  "description": "An editable table",
+                  "properties": {
+                    "addcolumn": {
+                      "description": "The button to remove a row from the table",
+                      "type": "string"
+                    },
+                    "cell": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The field to edit a cell"
+                    },
+                    "removecolumn": {
+                      "description": "The button to remove a row from the table",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "cell",
+                    "addcolumn",
+                    "removecolumn"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
                 "confirm",
                 "dialog",
                 "loading",
-                "home"
+                "home",
+                "table"
               ],
               "type": "object"
             }
@@ -11220,11 +10374,13 @@
             "widget",
             "tile",
             "project",
+            "checkpoints",
             "gallery",
             "source",
             "annotations",
             "output",
             "docs",
+            "collaborate",
             "palette",
             "timeline",
             "dialog",

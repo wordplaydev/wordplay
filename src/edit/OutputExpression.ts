@@ -1,4 +1,4 @@
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import Evaluate from '../nodes/Evaluate';
 import StructureDefinition from '@nodes/StructureDefinition';
 import Expression from '@nodes/Expression';

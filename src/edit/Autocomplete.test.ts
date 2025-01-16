@@ -1,6 +1,6 @@
 import { test, expect } from 'vitest';
 import Caret from './Caret';
-import Project from '@models/Project';
+import Project from '@db/projects/Project';
 import Source from '@nodes/Source';
 import { getEditsAt } from './Autocomplete';
 import type Node from '@nodes/Node';

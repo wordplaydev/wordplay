@@ -7,6 +7,8 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { clickOutside } from '@components/app/clickOutside';
+    import { withColorEmoji } from '../../unicode/emoji';
 
     interface Props {
         show?: boolean;
@@ -45,31 +47,36 @@
 
 {#if button}
     <Button tip={button.tip} action={() => (show = true)}
-        >{#if button.icon}<Emoji>{button.icon}</Emoji>
-        {/if}{button.label}</Button
+        >{#if button.icon}<Emoji>{withColorEmoji(button.icon)}</Emoji>
+        {/if}
+        {#if button.label.length > 0}
+            {button.label}{/if}</Button
     >
 {/if}
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <dialog
     bind:this={view}
+    use:clickOutside={() => (show = false)}
     tabindex="-1"
     onkeydown={closeable
         ? (event) => (event.key === 'Escape' ? (show = false) : undefined)
         : undefined}
 >
-    {#if closeable}
-        <div class="close">
-            <Button
-                tip={$locales.get((l) => l.ui.widget.dialog.close)}
-                action={() => (show = false)}>❌</Button
-            >
-        </div>
-    {/if}
+    <div class="container">
+        {#if closeable}
+            <div class="close">
+                <Button
+                    tip={$locales.get((l) => l.ui.widget.dialog.close)}
+                    action={() => (show = false)}>❌</Button
+                >
+            </div>
+        {/if}
 
-    <div class="content">
-        <Header>{description.header}</Header>
-        <MarkupHtmlView markup={description.explanation} />
-        {@render children?.()}
+        <div class="content">
+            <Header>{description.header}</Header>
+            <MarkupHtmlView markup={description.explanation} />
+            {@render children?.()}
+        </div>
     </div>
 </dialog>
 
@@ -77,7 +84,7 @@
     dialog {
         position: relative;
         border-radius: var(--wordplay-border-radius);
-        padding: 1em;
+        padding: 0;
         margin-left: auto;
         margin-right: auto;
         max-width: 95vw;
@@ -90,6 +97,13 @@
     dialog::backdrop {
         transition: backdrop-filter;
         backdrop-filter: blur(2px);
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        gap: var(--wordplay-spacing);
+        padding: 1em;
     }
 
     .close {

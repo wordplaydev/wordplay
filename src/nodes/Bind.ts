@@ -589,14 +589,17 @@ export default class Bind extends Expression {
               ]
             : [
                   new Start(this, (evaluator) => {
+                      // Unrwap any wrapped expression from the bind's value expression.
                       const value =
                           this.value instanceof DocumentedExpression
                               ? this.value.expression
-                              : this.value;
+                              : this.value instanceof Block &&
+                                  this.value.statements.length === 1
+                                ? this.value.statements[0]
+                                : this.value;
 
-                      // Before evaluating the bind's value, see if the value expression previously evaluated to
-                      // a stream, and if so, bind this Bind's names to the previous value. This allows
-                      // for stream-based recurrence relations, where a stream or reaction's future values can be
+                      // If it's a reaction or evaluate, bind the names to the previous value.
+                      // This allows for stream-based recurrence relations, where a stream or reaction's future values can be
                       // affected by their past values.
                       if (
                           value instanceof Evaluate ||

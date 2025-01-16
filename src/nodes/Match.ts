@@ -225,9 +225,6 @@ export default class Match extends Expression {
             // Finish the expression (see evaluate() below)
             new Finish(this),
         ];
-
-        // TODO Finish implementing evaluation.
-        return value;
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

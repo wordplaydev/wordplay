@@ -1,4 +1,4 @@
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import Evaluate from '../nodes/Evaluate';
 import type Expression from '../nodes/Expression';
 import ListLiteral from '../nodes/ListLiteral';
@@ -10,7 +10,7 @@ import type Locales from '../locale/Locales';
 
 export default function getGroupProperties(
     project: Project,
-    locales: Locales
+    locales: Locales,
 ): OutputProperty[] {
     return [
         new OutputProperty(
@@ -20,8 +20,8 @@ export default function getGroupProperties(
                     .filter((type) =>
                         type.implements(
                             project.shares.output.Arrangement,
-                            project.getContext(project.getMain())
-                        )
+                            project.getContext(project.getMain()),
+                        ),
                     )
                     .map((type) => `${type.names.getNames()[0]}`),
                 false,
@@ -29,7 +29,7 @@ export default function getGroupProperties(
                 (expression: Expression | undefined) =>
                     expression instanceof Evaluate
                         ? expression.fun.toWordplay()
-                        : undefined
+                        : undefined,
             ),
             true,
             false,
@@ -38,10 +38,10 @@ export default function getGroupProperties(
                 Evaluate.make(
                     Reference.make(
                         locales.getName(project.shares.output.Stack.names),
-                        project.shares.output.Stack
+                        project.shares.output.Stack,
                     ),
-                    []
-                )
+                    [],
+                ),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Group.content),
@@ -49,7 +49,7 @@ export default function getGroupProperties(
             true,
             false,
             (expr) => expr instanceof ListLiteral,
-            () => ListLiteral.make([])
+            () => ListLiteral.make([]),
         ),
         ...getTypeOutputProperties(project, locales),
     ];

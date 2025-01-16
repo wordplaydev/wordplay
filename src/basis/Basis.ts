@@ -165,7 +165,7 @@ export class Basis {
 
 export function createBasisFunction(
     locales: Locales,
-    text: (locale: LocaleText) => FunctionText<NameAndDoc[]>,
+    text: (locale: LocaleText) => FunctionText<readonly NameAndDoc[]>,
     typeVars: TypeVariables | undefined,
     types: (Type | [Type, Expression])[],
     output: Type,

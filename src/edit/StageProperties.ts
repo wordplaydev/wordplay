@@ -1,4 +1,4 @@
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import ListLiteral from '../nodes/ListLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
@@ -9,7 +9,7 @@ import type Locales from '../locale/Locales';
 
 export default function getStageProperties(
     project: Project,
-    locales: Locales
+    locales: Locales,
 ): OutputProperty[] {
     return [
         new OutputProperty(
@@ -18,7 +18,7 @@ export default function getStageProperties(
             true,
             false,
             (expr) => expr instanceof ListLiteral,
-            () => ListLiteral.make([])
+            () => ListLiteral.make([]),
         ),
         new OutputProperty(
             locales.get((l) => l.output.Stage.gravity),
@@ -26,7 +26,7 @@ export default function getStageProperties(
             true,
             false,
             (expr) => expr instanceof NumberLiteral,
-            () => NumberLiteral.make('9.8', Unit.create(['m'], ['s', 's']))
+            () => NumberLiteral.make('9.8', Unit.create(['m'], ['s', 's'])),
         ),
         ...getTypeOutputProperties(project, locales),
     ];

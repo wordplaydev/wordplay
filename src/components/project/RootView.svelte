@@ -22,7 +22,7 @@
     import FormattedLiteral from '../../nodes/FormattedLiteral';
     import type Caret from '@edit/Caret';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type { LocalizedValue } from '@db/LocalizedSetting';
+    import type { LocalizedValue } from '@db/settings/LocalizedSetting';
 
     interface Props {
         node: Node;

@@ -79,6 +79,9 @@
                 <Link nowrap to="/guide"
                     >{$locales.get((l) => l.ui.page.guide.header)}</Link
                 >
+                <Link nowrap to="/teach"
+                    >{$locales.get((l) => l.ui.page.teach.header)}</Link
+                >
                 <Link nowrap external to="https://discord.gg/Jh2Qq9husy"
                     >{$locales.get((l) => l.term.help)}</Link
                 >
@@ -119,14 +122,15 @@
         z-index: 1;
         color: var(--wordplay-foreground);
         background: var(--wordplay-background);
-        white-space: nowrap;
     }
 
     nav {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: center;
         padding: var(--wordplay-spacing);
         gap: var(--wordplay-spacing);
+        font-size: var(--wordplay-small-font-size);
     }
 </style>

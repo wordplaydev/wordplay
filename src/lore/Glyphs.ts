@@ -47,7 +47,7 @@ import {
 } from '@parser/Symbols';
 import type Glyph from './Glyph';
 
-const GlyphSet = {
+export const GlyphSet = {
     // Parsing
     Unparsable: {
         symbols: UNPARSABLE_SYMBOL,
@@ -87,7 +87,7 @@ const GlyphSet = {
     Program: {
         symbols: '📄',
     },
-    Function: {
+    FunctionDefinition: {
         symbols: FUNCTION_SYMBOL,
     },
     Evaluate: {
@@ -222,6 +222,8 @@ const GlyphSet = {
     DocumentedExpression: {
         symbols: DOCS_SYMBOL + DOCS_SYMBOL + PLACEHOLDER_SYMBOL,
     },
+    ExpressionPlaceholder: { symbols: PLACEHOLDER_SYMBOL },
+    UnparsableExpression: { symbols: UNPARSABLE_SYMBOL },
     Link: {
         symbols: LINK_SYMBOL,
     },

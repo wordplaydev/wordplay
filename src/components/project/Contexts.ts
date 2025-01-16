@@ -4,7 +4,7 @@ import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
 import type { InsertionPoint } from '../../edit/Drag';
 import type Caret from '../../edit/Caret';
-import type Project from '@models/Project';
+import type Project from '@db/projects/Project';
 import type Node from '@nodes/Node';
 import type { Highlights } from '../editor/util/Highlights';
 import type Evaluate from '@nodes/Evaluate';
@@ -15,7 +15,6 @@ import type { Path } from '@nodes/Root';
 import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
-import type LocaleText from '@locale/LocaleText';
 import type Root from '@nodes/Root';
 import type {
     CommandContext,
@@ -25,7 +24,7 @@ import type {
 import type { CaretPosition } from '../../edit/Caret';
 import type LanguageCode from '../../locale/LanguageCode';
 import type Spaces from '@parser/Spaces';
-import type { LocalizedValue } from '@db/LocalizedSetting';
+import type { LocalizedValue } from '@db/settings/LocalizedSetting';
 import type Color from '@output/Color';
 
 // Authentication related contexts
