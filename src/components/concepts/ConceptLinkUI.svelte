@@ -8,6 +8,7 @@
     import Button from '../widgets/Button.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
     import { goto } from '$app/navigation';
+    import { getCodepointFromString } from '../../unicode/Unicode';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept;
@@ -26,19 +27,19 @@
     type Match = {
         concept: Concept | undefined;
         container?: Concept | undefined;
+        unicode?: string | undefined;
         ui?: string | undefined;
     };
 
     // Derive the concept, container, and UI based on the link.
-    let { concept, container, ui }: Match = $derived.by((): Match => {
+    let { concept, container, ui, unicode }: Match = $derived.by((): Match => {
         if (link instanceof Concept) {
             return {
                 concept: link,
                 container: index?.getConceptOwner(link),
             };
-        } else if (index === undefined)
-            return { concept: undefined, container: undefined };
-        // Try to resolve the concept in the index
+        }
+        // Otherwise, try to resolve the concept.
         else {
             // Remove the link symbol
             const id =
@@ -53,8 +54,19 @@
                     ui: names[1],
                 };
             }
-            // Otherwise, try to resolve a concept or subconcept.
-            else {
+            // See if the concept is a hex string
+            else if (id.match(/^[0-9a-fA-F]+$/)) {
+                const codepoint = getCodepointFromString(id);
+                return codepoint
+                    ? {
+                          concept: undefined,
+                          container: undefined,
+                          unicode: codepoint,
+                      }
+                    : { concept: undefined, container: undefined };
+            }
+            // Otherwise, try to resolve a concept or subconcept in the index.
+            else if (index !== undefined) {
                 let concept = index.getConceptByName(names[0]);
                 if (concept && names.length > 1) {
                     const subConcept = Array.from(
@@ -80,6 +92,7 @@
                     }
                 } else return { concept, container: undefined };
             }
+
             return { concept: undefined, container: undefined };
         }
     });
@@ -114,7 +127,8 @@
     }
 </script>
 
-{#if concept}<Button
+{#if concept}
+    <Button
         padding={false}
         action={navigate}
         tip={$locales.concretize((l) => l.ui.docs.link, longName).toText()}
@@ -125,16 +139,18 @@
                         >{withMonoEmoji(symbolicName)}</sub
                     >{/if}{/if}</span
         ></Button
-    >{:else if ui}
-    <TutorialHighlight
-        id={ui}
-        source
-    />{:else if link instanceof ConceptLink}<span
+    >
+{:else if ui}
+    <TutorialHighlight id={ui} source />
+{:else if unicode}{unicode}
+{:else if link instanceof ConceptLink}
+    <span
         >{#if container}{container.getName(
                 $locales,
                 false,
             )}{/if}{link.concept.getText()}</span
-    >{/if}
+    >
+{/if}
 
 <style>
     .conceptlink {

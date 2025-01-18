@@ -28,3 +28,8 @@ export function getUnicodeNamed(name: string) {
 export function getEmoji() {
     return codepoints.filter((point) => point.emoji !== undefined);
 }
+
+export function getCodepointFromString(text: string) {
+    const conversion = String.fromCharCode(parseInt(text, 16));
+    return conversion.length === 0 ? undefined : conversion;
+}

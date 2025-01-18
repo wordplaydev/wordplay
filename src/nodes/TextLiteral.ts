@@ -24,6 +24,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type EditContext from '@edit/EditContext';
 import { ConceptRegExPattern } from '@parser/Tokenizer';
+import { getCodepointFromString } from '../unicode/Unicode';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */
@@ -259,11 +260,6 @@ function getConcepts(text: string) {
     return Array.from(text.matchAll(ConceptRegEx)).map((match) => ({
         concept: match[0],
         index: match.index,
-        unicode: unescapeUnicodeHex(match[0].substring(1)),
+        unicode: getCodepointFromString(match[0].substring(1)),
     }));
-}
-
-function unescapeUnicodeHex(text: string) {
-    const conversion = String.fromCharCode(parseInt(text, 16));
-    return conversion.length === 0 ? undefined : conversion;
 }
