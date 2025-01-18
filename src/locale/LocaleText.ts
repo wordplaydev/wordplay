@@ -156,9 +156,9 @@ export function getLocaleLanguageName(
 ): string | undefined {
     if (typeof locale === 'string') {
         const language = getLocaleLanguage(locale);
-        return language ? Languages[language].name : undefined;
+        return language ? Languages[language]?.name : undefined;
     } else {
-        return Languages[locale.language].name;
+        return Languages[locale.language]?.name;
     }
 }
 

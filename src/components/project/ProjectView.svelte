@@ -1,5 +1,5 @@
 <script module lang="ts">
-    import { getLocaleLanguageName, type Template } from '@locale/LocaleText';
+    import { type Template } from '@locale/LocaleText';
     import {
         type FieldText,
         type DialogText,
@@ -213,8 +213,7 @@
     import type Chat from '@db/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
     import Link from '@components/app/Link.svelte';
-    import Options from '@components/widgets/Options.svelte';
-    import { localeToString, stringToLocale } from '@locale/Locale';
+    import EditorLocaleChooser from './EditorLocaleChooser.svelte';
 
     interface Props {
         project: Project;
@@ -1752,49 +1751,17 @@
                                         toggle={toggleBlocks}
                                         on={$blocks}
                                     />
-                                    {LOCALE_SYMBOL}
-                                    {@const sourceLocale =
-                                        editorLocales[tile.id]}
-                                    <Options
-                                        id="code-locale"
-                                        value={sourceLocale
-                                            ? localeToString(sourceLocale)
-                                            : undefined}
-                                        label={$locales.get(
-                                            (l) =>
-                                                l.ui.source.options.locale.tip,
-                                        )}
-                                        width="auto"
-                                        options={[
-                                            {
-                                                value: undefined,
-                                                label: $locales.get(
-                                                    (l) =>
-                                                        l.ui.source.options
-                                                            .locale.all,
-                                                ),
-                                            },
-                                            ...localesUsed.map((locale) => {
-                                                const localeString =
-                                                    localeToString(locale);
-                                                return {
-                                                    value: localeString,
-                                                    label: localeString
-                                                        ? (getLocaleLanguageName(
-                                                              locale,
-                                                          ) ?? '—')
-                                                        : '—',
-                                                };
-                                            }),
-                                        ]}
-                                        change={(value) => {
-                                            editorLocales[tile.id] =
-                                                value === undefined
-                                                    ? null
-                                                    : (stringToLocale(value) ??
-                                                      null);
-                                        }}
-                                    ></Options>
+                                    {#if localesUsed.length > 1}
+                                        {LOCALE_SYMBOL}
+                                        <EditorLocaleChooser
+                                            locale={editorLocales[tile.id] ??
+                                                null}
+                                            options={localesUsed}
+                                            change={(locale) => {
+                                                editorLocales[tile.id] = locale;
+                                            }}
+                                        ></EditorLocaleChooser>
+                                    {/if}
                                     <!-- Make a Button for every navigate command -->
                                     {#each VisibleNavigateCommands as command}<CommandButton
                                             {command}

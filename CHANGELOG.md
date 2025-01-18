@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed #649: broken links in translations.
 - Fixed #646: docs not showing correct locale.
 - Removed locale annotations from tutorial text.
+- Only show code locale chooser if more than one locale present.
 
 ## 0.14.1 2024-01-11
 
