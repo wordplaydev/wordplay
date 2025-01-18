@@ -13,6 +13,7 @@ import { toMarkup } from '../parser/toMarkup';
 import Token from './Token';
 import Sym from './Sym';
 import Words from './Words';
+import { getCodepointFromString } from '../unicode/Unicode';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -142,21 +143,27 @@ export default class Markup extends Content {
         const formats: FormattedText[] = [];
         const words: Words[] = [];
         for (const node of this.traverseTopDownWithEnterAndExit()) {
+            const italic = words.some((word) => word.getFormat() === 'italic');
+            const weight =
+                words
+                    .map((word) => word.getWeight())
+                    .filter((word): word is FontWeight => word !== undefined)
+                    .at(-1) ?? 400;
             if (node instanceof Words) {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
-            } else if (node instanceof Token && node.isSymbol(Sym.Words)) {
+            } else if (
+                node instanceof Token &&
+                (node.isSymbol(Sym.Words) || node.isSymbol(Sym.Concept))
+            ) {
+                const text = node.isSymbol(Sym.Concept)
+                    ? (getCodepointFromString(node.getText().slice(1)) ??
+                      node.getText())
+                    : node.getText();
                 formats.push({
-                    text: node.getText(),
-                    italic: words.some((word) => word.getFormat() === 'italic'),
-                    weight:
-                        words
-                            .map((word) => word.getWeight())
-                            .filter(
-                                (word): word is FontWeight =>
-                                    word !== undefined,
-                            )
-                            .at(-1) ?? 400,
+                    text: text,
+                    italic,
+                    weight,
                 });
             }
         }

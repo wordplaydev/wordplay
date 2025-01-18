@@ -8,6 +8,7 @@ import Symbol from './Sym';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import type Locales from '../locale/Locales';
+import { getCodepointFromString } from '../unicode/Unicode';
 
 export default class ConceptLink extends Content {
     readonly concept: Token;
@@ -30,6 +31,12 @@ export default class ConceptLink extends Content {
 
     getName() {
         return this.concept.getText().slice(1);
+    }
+
+    getCodepoint() {
+        const name = this.getName();
+        if (name.match(/^[0-9a-fA-F]+$/)) return getCodepointFromString(name);
+        return undefined;
     }
 
     /** Is valid if it refers to a concept key in the given Locale */

@@ -55,15 +55,14 @@
                 };
             }
             // See if the concept is a hex string
-            else if (id.match(/^[0-9a-fA-F]+$/)) {
-                const codepoint = getCodepointFromString(id);
-                return codepoint
-                    ? {
-                          concept: undefined,
-                          container: undefined,
-                          unicode: codepoint,
-                      }
-                    : { concept: undefined, container: undefined };
+            const codepoint =
+                link instanceof ConceptLink ? link.getCodepoint() : undefined;
+            if (codepoint) {
+                return {
+                    concept: undefined,
+                    container: undefined,
+                    unicode: codepoint,
+                };
             }
             // Otherwise, try to resolve a concept or subconcept in the index.
             else if (index !== undefined) {
