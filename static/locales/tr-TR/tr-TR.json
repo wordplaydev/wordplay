@@ -4843,7 +4843,7 @@
                 "anonymous": "$~giriş yapmak",
                 "prompt": {
                     "login": "$~Projelerinizi kaydetmek, işbirliği yapmak ve paylaşmak için giriş yapın:",
-                    "join": "$~Veya başlamak için <bir hesap oluşturun@://katıl>.",
+                    "join": "$~Veya başlamak için <bir hesap oluşturun@://join>.",
                     "forgot": "$~*Şifrenizi mi unuttunuz?* İletişim bilgilerinizi toplamadığımız için hesabınızı maalesef kurtaramıyoruz.",
                     "enter": "$~Giriş bağlantınız farklı bir tarayıcıdan veya cihazdan gelmiş gibi görünüyor. Siz olduğunuzdan emin olmak için e-postanızı tekrar girebilir misiniz?",
                     "play": "$~Giriş yaptınız, projelerinizi artık çevrimiçi olarak kaydedebiliriz! Bir şey oluşturmak ister misiniz?",

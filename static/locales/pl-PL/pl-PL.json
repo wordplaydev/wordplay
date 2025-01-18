@@ -4853,7 +4853,7 @@
                 "anonymous": "$~login",
                 "prompt": {
                     "login": "$~Zaloguj się, aby zapisać swoje projekty, współpracować i udostępniać:",
-                    "join": "$~Lub <utwórz konto@://dołącz>, aby rozpocząć.",
+                    "join": "$~Lub <utwórz konto@://join>, aby rozpocząć.",
                     "forgot": "$~*Zapomniałeś hasła?* Niestety, nie możemy odzyskać Twojego konta, ponieważ nie gromadzimy danych kontaktowych.",
                     "enter": "$~Wygląda na to, że Twój link logowania pochodzi z innej przeglądarki lub urządzenia. Czy możesz wpisać swój adres e-mail jeszcze raz, abyśmy mieli pewność, że to Ty?",
                     "play": "$~Jesteś zalogowany, możemy teraz zapisać Twoje projekty online! Chcesz coś stworzyć?",
