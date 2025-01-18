@@ -14,6 +14,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Tidy all source in a project after translation.
 - Simplified editor language chooser.
 - Fixed broken links in translations.
+- Removed locale annotations from tutorial text.
 
 ## 0.14.1 2024-01-11
 
