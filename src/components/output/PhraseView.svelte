@@ -19,7 +19,7 @@
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { onMount, tick, untrack } from 'svelte';
+    import { tick, untrack } from 'svelte';
     import moveOutput from '../palette/editOutput';
     import { getProject, getSelectedOutput } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';

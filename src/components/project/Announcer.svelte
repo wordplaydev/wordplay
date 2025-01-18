@@ -1,15 +1,16 @@
 <script lang="ts">
     import type LanguageCode from '../../locale/LanguageCode';
     import Announcement from './Announcement';
-    import type { AnnouncerContext } from './Contexts';
 
+    /** How long to wait before updating the live region. */
     const delay = 200;
 
-    export const announce: AnnouncerContext = (
+    /** A function we expose to other components to announce things with this component. */
+    export function announce(
         id: string,
         language: LanguageCode | undefined,
         message: string,
-    ) => {
+    ) {
         // Enqueue the announcement
         announcements.push(new Announcement(id, language, message));
 
@@ -17,7 +18,7 @@
         const delta = Date.now() - (current ? current.time : 0);
         // No current message or it's been more than a second? Dequeue.
         if (current === undefined || delta > delay) dequeue();
-    };
+    }
 
     function dequeue() {
         // Is there a timeout? Wait for it to dequue.

@@ -56,7 +56,7 @@
         representativeBackground,
         representativeFace,
         representativeText,
-    } = $derived.by(() => {
+    }: Preview = $derived.by(() => {
         const evaluator = new Evaluator(
             project,
             DB,

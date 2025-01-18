@@ -20,20 +20,16 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, setContext, untrack } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable, type Writable } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import { tick } from 'svelte';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
     import TutorialHighlight from './TutorialHighlight.svelte';
     import Emotion from '../../lore/Emotion';
     import { Performances } from '../../tutorial/Performances';
-    import type {
-        Character,
-        Dialog,
-        Performance,
-    } from '../../tutorial/Tutorial';
+    import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
     import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
@@ -42,7 +38,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
-    import Glyphs, { GlyphSet } from '../../lore/Glyphs';
+    import Glyphs from '../../lore/Glyphs';
     import { withColorEmoji } from '../../unicode/emoji';
 
     interface Props {

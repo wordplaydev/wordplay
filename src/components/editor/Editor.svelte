@@ -39,7 +39,6 @@
     import {
         type HighlightSpec,
         type Highlights,
-        HighlightTypes,
         getHighlights,
         updateOutlines,
     } from './util/Highlights';
@@ -51,7 +50,7 @@
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from '../../edit/Autocomplete';
-    import { OutlinePadding, type Outline } from './util/outline';
+    import { OutlinePadding } from './util/outline';
     import Highlight from './Highlight.svelte';
     import {
         dropNodeOnSource,

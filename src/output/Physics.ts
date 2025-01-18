@@ -376,8 +376,6 @@ export default class Physics {
         }
     }
 
-    private lastTime: number = 0;
-
     tick(elapsed: number) {
         // UPDATE all the engines forward by the duration that has elapsed with the new arrangement.
         // Only do this if we haven't done it for the current delta.

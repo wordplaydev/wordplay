@@ -43,15 +43,12 @@
     $effect(() => {
         if (id && !source) tick().then(() => size(true));
     });
-
-    let view = $state<HTMLElement | undefined>(undefined);
 </script>
 
 <span
     class="highlight"
     class:source
     data-uiidtohighlight={id}
-    bind:this={view}
     class:hovering={bounds !== undefined && id !== undefined}
     style:left={bounds ? `${bounds.left}px` : undefined}
     style:top={bounds ? `${bounds.top}px` : undefined}

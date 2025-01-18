@@ -214,7 +214,6 @@
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
-    import { parseNames } from '@parser/parseBind';
     import Link from '@components/app/Link.svelte';
 
     interface Props {
@@ -517,15 +516,15 @@
     }
 
     /** This stores the instance of the announcer component */
-    let announce = $state<ReturnType<typeof Announcer>>();
-    let announcerFunction: Writable<AnnouncerContext | undefined> =
+    let announcer = $state<ReturnType<typeof Announcer>>();
+    let announcerStore: Writable<AnnouncerContext | undefined> =
         writable(undefined);
 
     // Update the function context when the announcer changes.
-    $effect(() => announcerFunction.set(announce?.announce));
+    $effect(() => announcerStore.set(announcer?.announce));
 
     // Set the announcer store in context.
-    setAnnouncer(announcerFunction);
+    setAnnouncer(announcerStore);
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation = writable(getEvaluationContext());
@@ -1113,8 +1112,8 @@
     $effect(() => {
         if (overwritten)
             untrack(() => {
-                if (announce?.announce) {
-                    announce.announce(
+                if (announcer?.announce) {
+                    announcer.announce(
                         project.getID(),
                         $locales.getLanguages()[0],
                         $locales.get((l) => l.ui.source.overwritten),
@@ -1557,7 +1556,7 @@
     <Moderation {project} />
 {/if}
 <!-- Render a live region with announcements as soon as possible -->
-<Announcer bind:this={announce} />
+<Announcer bind:this={announcer} />
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <div
