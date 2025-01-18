@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Removed all unused imports and variables.
+- Mono emojis for dialog buttons.
 
 ## 0.14.1 2024-01-11
 
