@@ -3,6 +3,9 @@
     import { locales } from '@db/Database';
     import { localeToString, stringToLocale } from '@locale/Locale';
     import type Locale from '@locale/Locale';
+    import { getLocaleLanguageName } from '@locale/LocaleText';
+    import { LOCALE_SYMBOL } from '@parser/Symbols';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         localesUsed?: Locale[];
@@ -15,7 +18,8 @@
 
 <!-- svelte-ignore a11y_label_has_associated_control -->
 <label class="output-locale"
-    >🌐 <Options
+    >{withMonoEmoji(LOCALE_SYMBOL)}
+    <Options
         id="output-locale"
         value={locale === undefined ? undefined : localeToString(locale)}
         label={$locales.get((l) => l.ui.output.options.locale)}
@@ -29,7 +33,7 @@
                 const label = localeToString(l);
                 return {
                     value: label,
-                    label,
+                    label: label ? (getLocaleLanguageName(label) ?? '—') : '—',
                 };
             }),
         ]}

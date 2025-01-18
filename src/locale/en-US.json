@@ -4339,7 +4339,7 @@
                 "submit": "submit this chat message"
             },
             "options": {
-                "locale": "choose the language for output"
+                "locale": "preferred language for output"
             }
         },
         "timeline": {
@@ -4479,9 +4479,9 @@
                     "localized": {
                         "label": "code localization",
                         "modes": [
-                            "do not localize code",
-                            "localize code when available",
-                            "localize code but prefer symbols"
+                            "show all translations of names, text, and documentation",
+                            "only show translations in the current language(s)",
+                            "only show translations in the current language(s), but prefer symbols"
                         ]
                     }
                 },

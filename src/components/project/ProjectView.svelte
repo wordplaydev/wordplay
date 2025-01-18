@@ -1,5 +1,5 @@
 <script module lang="ts">
-    import { type Template } from '@locale/LocaleText';
+    import { getLocaleLanguageName, type Template } from '@locale/LocaleText';
     import {
         type FieldText,
         type DialogText,
@@ -126,7 +126,7 @@
     import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
     import type { HighlightSpec } from '../editor/util/Highlights';
     import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Tile, { TileKind, Mode } from './Tile';
+    import Tile, { TileKind, TileMode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
     import Editor from '../editor/Editor.svelte';
     import Layout from './Layout';
@@ -204,11 +204,15 @@
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        COPY_SYMBOL,
+        EMOJI_SYMBOL,
+        LOCALE_SYMBOL,
+    } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
-    import { localeToString } from '@locale/Locale';
     import type Locale from '@locale/Locale';
-    import { default as ModeChooser } from '@components/widgets/Mode.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
@@ -575,8 +579,8 @@
                     requestedPlay
                         ? tile.withMode(
                               tile.kind === TileKind.Output
-                                  ? Mode.Expanded
-                                  : Mode.Collapsed,
+                                  ? TileMode.Expanded
+                                  : TileMode.Collapsed,
                           )
                         : // Not playing? Whatever it's current mode is.
                           tile,
@@ -589,10 +593,10 @@
                             // If playing, keep the source files collapsed
                             .withMode(
                                 requestedPlay
-                                    ? Mode.Collapsed
+                                    ? TileMode.Collapsed
                                     : requestedEdit &&
                                         source === project.getMain()
-                                      ? Mode.Expanded
+                                      ? TileMode.Expanded
                                       : tile.mode,
                             ),
                     );
@@ -621,7 +625,9 @@
         return new Tile(
             Layout.getSourceID(index),
             TileKind.Source,
-            index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
+            index === 0 || expandNewTile
+                ? TileMode.Expanded
+                : TileMode.Collapsed,
             undefined,
             Tile.randomPosition(1024, 768),
         );
@@ -645,28 +651,28 @@
                 new Tile(
                     TileKind.Palette,
                     TileKind.Palette,
-                    Mode.Collapsed,
+                    TileMode.Collapsed,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
                     TileKind.Output,
                     TileKind.Output,
-                    Mode.Expanded,
+                    TileMode.Expanded,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
-                    Mode.Collapsed,
+                    TileMode.Collapsed,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
                     TileKind.Collaborate,
                     TileKind.Collaborate,
-                    Mode.Collapsed,
+                    TileMode.Collapsed,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
@@ -674,10 +680,10 @@
                     // If starting with output only, collapse the source initially too.
                     createSourceTile(source, index).withMode(
                         showOutput
-                            ? Mode.Collapsed
+                            ? TileMode.Collapsed
                             : index === 0 || source === newSource
-                              ? Mode.Expanded
-                              : Mode.Collapsed,
+                              ? TileMode.Expanded
+                              : TileMode.Collapsed,
                     ),
                 ),
             ];
@@ -876,7 +882,7 @@
         ) {
             if (docs) {
                 setFullscreen(undefined);
-                setMode(docs, Mode.Expanded);
+                setMode(docs, TileMode.Expanded);
             }
         }
     });
@@ -894,7 +900,7 @@
                 (source) =>
                     layout &&
                     layout.getSource(project.getIndexOfSource(source))?.mode ===
-                        Mode.Expanded,
+                        TileMode.Expanded,
             )
             // Convert them into lists of conflicts
             .map((source) => conflictsOfInterest.get(source) ?? [])
@@ -939,8 +945,8 @@
                       project.getIndexOfSource(source),
                   )
                 : undefined;
-            if (tile && tile.mode === Mode.Collapsed) {
-                untrack(() => setMode(tile, Mode.Expanded));
+            if (tile && tile.mode === TileMode.Collapsed) {
+                untrack(() => setMode(tile, TileMode.Expanded));
             }
         }
     });
@@ -950,8 +956,8 @@
         const palette = untrack(() => layout).getPalette();
         if (palette) {
             if (selectedOutput && selectedOutput.length > 0) {
-                if (palette.mode === Mode.Collapsed)
-                    untrack(() => setMode(palette, Mode.Expanded));
+                if (palette.mode === TileMode.Collapsed)
+                    untrack(() => setMode(palette, TileMode.Expanded));
             }
         }
     });
@@ -1222,7 +1228,7 @@
         }
     }
 
-    function setMode(tile: Tile, mode: Mode) {
+    function setMode(tile: Tile, mode: TileMode) {
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
         // Special case selected output and the palette.
@@ -1231,13 +1237,16 @@
             selectedOutput &&
             selectedOutputPaths
         ) {
-            if (tile.mode === Mode.Collapsed && selectedOutput.length === 0) {
+            if (
+                tile.mode === TileMode.Collapsed &&
+                selectedOutput.length === 0
+            ) {
                 const output = project.getOutput();
                 if (output.length > 0) {
                     setSelectedOutput(project, [output[0]]);
                     $evaluator.pause();
                 }
-            } else if (tile.mode === Mode.Expanded) {
+            } else if (tile.mode === TileMode.Expanded) {
                 setSelectedOutput(project, []);
             }
         }
@@ -1487,7 +1496,9 @@
     function toggleTile(tile: Tile) {
         setMode(
             tile,
-            tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded,
+            tile.mode === TileMode.Expanded
+                ? TileMode.Collapsed
+                : TileMode.Expanded,
         );
     }
 
@@ -1531,7 +1542,7 @@
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
             requestedPlay = false;
-            setMode(main, Mode.Expanded);
+            setMode(main, TileMode.Expanded);
             layout = layout.withoutFullscreen();
         }
     }
@@ -1714,7 +1725,7 @@
                                             >{#if fit}🔒{:else}🔓{/if}</Emoji
                                         ></Toggle
                                     >
-                                    <ModeChooser
+                                    <Mode
                                         descriptions={$locales.get(
                                             (l) =>
                                                 l.ui.dialog.settings.mode
@@ -1742,7 +1753,8 @@
                                         toggle={toggleBlocks}
                                         on={$blocks}
                                     />
-                                    <ModeChooser
+                                    {LOCALE_SYMBOL}
+                                    <Mode
                                         labeled={false}
                                         descriptions={$locales.get(
                                             (l) =>
@@ -1763,11 +1775,17 @@
                                                       : 'symbolic',
                                             )}
                                         modes={[
-                                            '...',
-                                            localeToString(
-                                                $locales.getLocale(),
-                                            ),
-                                            '😀',
+                                            "'…'",
+                                            $locales
+                                                .getLocales()
+                                                .map(
+                                                    (locale) =>
+                                                        getLocaleLanguageName(
+                                                            locale,
+                                                        ) ?? '?',
+                                                )
+                                                .join('+'),
+                                            EMOJI_SYMBOL,
                                         ]}
                                     />
                                     <!-- Make a Button for every navigate command -->
@@ -1955,7 +1973,7 @@
                         <SourceTileToggle
                             {project}
                             {source}
-                            expanded={tile.mode === Mode.Expanded}
+                            expanded={tile.mode === TileMode.Expanded}
                             toggle={() => toggleTile(tile)}
                         />
                     {/if}

@@ -1,6 +1,6 @@
 import Arrangement from '../../db/settings/Arrangement';
 import type Bounds from './Bounds';
-import { TileKind, Mode } from './Tile';
+import { TileKind, TileMode } from './Tile';
 import Tile from './Tile';
 import TileKinds from './TileKinds';
 
@@ -40,7 +40,7 @@ export default class Layout {
                     id: tile.id,
                     kind: tile.kind,
                     bounds: tile.bounds ?? null,
-                    expanded: tile.mode === Mode.Expanded,
+                    expanded: tile.mode === TileMode.Expanded,
                     position: tile.position,
                 };
             }),
@@ -57,7 +57,9 @@ export default class Layout {
                           new Tile(
                               tile.id,
                               tile.kind,
-                              tile.expanded ? Mode.Expanded : Mode.Collapsed,
+                              tile.expanded
+                                  ? TileMode.Expanded
+                                  : TileMode.Collapsed,
                               tile.bounds ?? undefined,
                               tile.position ?? undefined,
                           ),
@@ -181,7 +183,7 @@ export default class Layout {
         return this.replace(tile, tile.withPosition(bounds));
     }
 
-    withTileInMode(tile: Tile, mode: Mode) {
+    withTileInMode(tile: Tile, mode: TileMode) {
         return this.replace(tile, tile.withMode(mode));
     }
 
@@ -190,7 +192,7 @@ export default class Layout {
         return new Layout(
             this.projectID,
             this.tiles.map((tile) =>
-                tile.id === tileID ? tile.withMode(Mode.Expanded) : tile,
+                tile.id === tileID ? tile.withMode(TileMode.Expanded) : tile,
             ),
             tileID,
         );
@@ -201,11 +203,11 @@ export default class Layout {
     }
 
     collapsed() {
-        return this.tiles.filter((tile) => tile.mode === Mode.Collapsed);
+        return this.tiles.filter((tile) => tile.mode === TileMode.Collapsed);
     }
 
     expanded() {
-        return this.tiles.filter((tile) => tile.mode !== Mode.Collapsed);
+        return this.tiles.filter((tile) => tile.mode !== TileMode.Collapsed);
     }
 
     resized(arrangement: Arrangement, width: number, height: number) {

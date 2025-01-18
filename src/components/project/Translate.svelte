@@ -10,6 +10,7 @@
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
     import { TranslatableLanguages } from '@locale/LanguageCode';
+    import { LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         project: Project;
@@ -76,7 +77,7 @@
     }}
     button={{
         tip: $locales.get((l) => l.ui.project.button.translate.tip),
-        label: `🌐 ${$locales.get((l) => l.ui.project.button.translate.label)}`,
+        label: `${LOCALE_SYMBOL} ${$locales.get((l) => l.ui.project.button.translate.label)}`,
     }}
 >
     <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>

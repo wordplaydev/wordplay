@@ -5,6 +5,7 @@ import {
     type WritingDirection,
     type WritingLayout,
 } from './Scripts';
+import { EMOJI_SYMBOL } from '@parser/Symbols';
 
 type LanguageMetadata = {
     /** The language name, in its basis script */
@@ -20,7 +21,15 @@ type LanguageMetadata = {
 };
 
 /** Languages not supported by Google Translate */
-export const Untranslatable = ['😀', 'bo', 'fo', 'ii', 'iu', 'syc', 'wo'];
+export const Untranslatable = [
+    EMOJI_SYMBOL,
+    'bo',
+    'fo',
+    'ii',
+    'iu',
+    'syc',
+    'wo',
+];
 
 /** BCP 47 language tags and other metadata. */
 export const Languages = {

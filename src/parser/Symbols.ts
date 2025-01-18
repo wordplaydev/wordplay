@@ -67,6 +67,7 @@ export const UNPARSABLE_SYMBOL = '🤷🏻‍♀️';
 export const SOURCE_SYMBOL = '📄';
 export const NATIVE_SYMBOL = '🤫';
 export const DEGREE_SYMBOL = '°';
+export const EMOJI_SYMBOL = '😀';
 
 export const LINK_SYMBOL = '@';
 export const UNDERSCORE_SYMBOL = '_';
@@ -95,3 +96,5 @@ export const TEACH_SYMBOL = '\u{1F9D1}\u200D\u{1F3EB}';
 export const LEARN_SYMBOL = '\u{1F9D1}\u200D\u{1F393}';
 
 export const DRAFT_SYMBOL = '🚧';
+
+export const LOCALE_SYMBOL = GLOBE1_SYMBOL;
