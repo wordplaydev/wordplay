@@ -24,8 +24,8 @@ import type {
 import type { CaretPosition } from '../../edit/Caret';
 import type LanguageCode from '../../locale/LanguageCode';
 import type Spaces from '@parser/Spaces';
-import type { LocalizedValue } from '@db/settings/LocalizedSetting';
 import type Color from '@output/Color';
+import type Locale from '@locale/Locale';
 
 // Authentication related contexts
 
@@ -228,7 +228,7 @@ export function getHidden() {
 }
 
 const LocalizeSymbol = Symbol('localize');
-type LocalizeContext = Writable<LocalizedValue>;
+type LocalizeContext = Writable<Locale | null>;
 export function setLocalize(context: LocalizeContext) {
     setContext(LocalizeSymbol, context);
 }

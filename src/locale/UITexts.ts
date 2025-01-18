@@ -159,6 +159,13 @@ type UITexts = {
             /** The name of the source file */
             name: FieldText;
         };
+        options: {
+            /** The locale chooser for a source */
+            locale: {
+                tip: string;
+                all: string;
+            };
+        };
         cursor: {
             /** Move caret to the line before */
             priorLine: string;
@@ -580,8 +587,6 @@ type UITexts = {
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */
                 lines: ModeText<[string, string]>;
-                /** The localized none/localized/symbolic mode */
-                localized: ModeText<[string, string, string]>;
             };
             options: {
                 /** The label for the font face chooser */

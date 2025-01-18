@@ -4304,6 +4304,12 @@
                 "search": "$~wyszukaj znaki specjalne do wstawienia",
                 "tidy": "$~schludne odstępy",
                 "elide": "$~przełącz elizję"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4483,14 +4489,6 @@
                             "$~poziomo, od lewej do prawej",
                             "$~pionowo, od prawej do lewej",
                             "$~pionowo, od lewej do prawej"
-                        ]
-                    },
-                    "localized": {
-                        "label": "$~lokalizacja kodu",
-                        "modes": [
-                            "$~nie lokalizuj kodu",
-                            "$~zlokalizuj kod, gdy będzie dostępny",
-                            "$~zlokalizuj kod, ale preferuj symbole"
                         ]
                     }
                 },

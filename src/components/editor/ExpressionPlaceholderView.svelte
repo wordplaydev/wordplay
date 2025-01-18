@@ -63,7 +63,7 @@
                     elide
                     inert
                     inline
-                    localized="symbolic"
+                    locale="symbolic"
                     node={inferredType}
                     blocks={$blocks}
                 /></div

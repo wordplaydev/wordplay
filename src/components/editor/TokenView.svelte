@@ -81,7 +81,7 @@
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
-        !isInCaret && context && root && localize && $localize !== 'actual'
+        !isInCaret && context && root && localize && $localize === null
             ? node.localized(
                   $localize === 'symbolic',
                   $locales.getLocales(),

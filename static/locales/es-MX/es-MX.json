@@ -4245,6 +4245,12 @@
                 "tidy": "espaciado ordenado",
                 "elide": "$~alternar elisión",
                 "insertDocs": "$~Insertar símbolo de explicación"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4414,14 +4420,6 @@
                             "horizontal, de izquierda a derecha",
                             "vertical, de derecha a izquierda",
                             "vertical, de izquierda a derecha"
-                        ]
-                    },
-                    "localized": {
-                        "label": "localización de código",
-                        "modes": [
-                            "no localizar el código",
-                            "localizar el código cuando esté disponible",
-                            "localizar el código pero preferir símbolos"
                         ]
                     },
                     "lines": {

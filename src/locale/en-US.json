@@ -4234,6 +4234,12 @@
                     "off": "expand the matching glyphs"
                 }
             },
+            "options": {
+                "locale": {
+                    "tip": "preferred language for source",
+                    "all": "all"
+                }
+            },
             "button": {
                 "selectOutput": "show this output on stage",
                 "expandSequence": "expand this collapsed code"
@@ -4474,14 +4480,6 @@
                             "horizontal, left to right",
                             "vertical, right to left",
                             "vertical, left to right"
-                        ]
-                    },
-                    "localized": {
-                        "label": "code localization",
-                        "modes": [
-                            "show all translations of names, text, and documentation",
-                            "only show translations in the current language(s)",
-                            "only show translations in the current language(s), but prefer symbols"
                         ]
                     }
                 },

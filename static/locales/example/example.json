@@ -3272,6 +3272,12 @@
                 "tidy": "$?",
                 "elide": "$?",
                 "insertDocs": "$?"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -3421,10 +3427,6 @@
                         "modes": ["$?", "$?"]
                     },
                     "writing": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
-                    },
-                    "localized": {
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
                     },

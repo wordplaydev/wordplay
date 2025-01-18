@@ -162,9 +162,10 @@ export function getLocaleLanguageName(
     }
 }
 
-export function getLocaleRegion(locale: string): string | undefined {
+export function getLocaleRegion(locale: string): RegionCode | undefined {
     const [, region] = locale.split('-');
-    return region;
+    if (region !== undefined && region in Regions) return region as RegionCode;
+    else return undefined;
 }
 
 export function getLocaleRegionName(locale: string): string | undefined {

@@ -5,7 +5,7 @@
     import LocaleName from '@components/settings/LocaleName.svelte';
     import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
-    import { Projects, Settings, locales } from '@db/Database';
+    import { Projects, locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
@@ -14,9 +14,11 @@
 
     interface Props {
         project: Project;
+        /** A callback to show all of the languages, so we can make them visible if editors are hiding them. */
+        showAll: () => void;
     }
 
-    let { project }: Props = $props();
+    let { project, showAll }: Props = $props();
 
     let translating: boolean = $state(false);
     let error: boolean = $state(false);
@@ -46,7 +48,7 @@
                 // Revise the project
                 Projects.reviseProject(revisedProject);
                 // Show the new translations.
-                Settings.setLocalized('actual');
+                showAll();
                 // Hide the dialog.
                 show = false;
             } else {

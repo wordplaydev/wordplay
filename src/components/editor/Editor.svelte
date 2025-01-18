@@ -77,9 +77,9 @@
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Emoji from '@components/app/Emoji.svelte';
-    import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type Locale from '@locale/Locale';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -96,6 +96,8 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** The locale to use for rending code */
+        locale: Locale | null;
         /** The bindable menu the ProjectView displaying this editor should show. */
         menu?: Menu | undefined;
         /** The bindable conflicts to show based caret and mouse position. */
@@ -116,6 +118,7 @@
         selected,
         autofocus = true,
         editable,
+        locale,
         menu = $bindable(undefined),
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
@@ -1597,7 +1600,7 @@
     <RootView
         node={program}
         spaces={source.spaces}
-        localized={$localized}
+        {locale}
         caret={$caret}
         blocks={$blocks}
         lines={$showLines}

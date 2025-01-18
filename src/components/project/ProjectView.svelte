@@ -161,7 +161,6 @@
         Settings,
         Projects,
         blocks,
-        localized,
         Creators,
         animationFactor,
         Chats,
@@ -204,12 +203,7 @@
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import {
-        CANCEL_SYMBOL,
-        COPY_SYMBOL,
-        EMOJI_SYMBOL,
-        LOCALE_SYMBOL,
-    } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, COPY_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
     import type Locale from '@locale/Locale';
     import Mode from '@components/widgets/Mode.svelte';
@@ -219,6 +213,8 @@
     import type Chat from '@db/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
     import Link from '@components/app/Link.svelte';
+    import Options from '@components/widgets/Options.svelte';
+    import { localeToString, stringToLocale } from '@locale/Locale';
 
     interface Props {
         project: Project;
@@ -372,6 +368,9 @@
 
     /** Keep track of locales used */
     const localesUsed = $derived(project.getLocalesUsed());
+
+    /** Keep a reactive map from source to EditorLocale chosen for the source */
+    let editorLocales = $state<Record<string, Locale | null>>({});
 
     // When keyboard isn't idle, set a timeout to set it to idle later.
     // to reset it to false after a delay.
@@ -1754,40 +1753,48 @@
                                         on={$blocks}
                                     />
                                     {LOCALE_SYMBOL}
-                                    <Mode
-                                        labeled={false}
-                                        descriptions={$locales.get(
+                                    {@const sourceLocale =
+                                        editorLocales[tile.id]}
+                                    <Options
+                                        id="code-locale"
+                                        value={sourceLocale
+                                            ? localeToString(sourceLocale)
+                                            : undefined}
+                                        label={$locales.get(
                                             (l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .localized,
+                                                l.ui.source.options.locale.tip,
                                         )}
-                                        choice={$localized === 'actual'
-                                            ? 0
-                                            : $localized === 'localized'
-                                              ? 1
-                                              : 2}
-                                        select={(choice) =>
-                                            Settings.setLocalized(
-                                                choice === 0
-                                                    ? 'actual'
-                                                    : choice === 1
-                                                      ? 'localized'
-                                                      : 'symbolic',
-                                            )}
-                                        modes={[
-                                            "'…'",
-                                            $locales
-                                                .getLocales()
-                                                .map(
-                                                    (locale) =>
-                                                        getLocaleLanguageName(
-                                                            locale,
-                                                        ) ?? '?',
-                                                )
-                                                .join('+'),
-                                            EMOJI_SYMBOL,
+                                        width="auto"
+                                        options={[
+                                            {
+                                                value: undefined,
+                                                label: $locales.get(
+                                                    (l) =>
+                                                        l.ui.source.options
+                                                            .locale.all,
+                                                ),
+                                            },
+                                            ...localesUsed.map((locale) => {
+                                                const localeString =
+                                                    localeToString(locale);
+                                                return {
+                                                    value: localeString,
+                                                    label: localeString
+                                                        ? (getLocaleLanguageName(
+                                                              locale,
+                                                          ) ?? '—')
+                                                        : '—',
+                                                };
+                                            }),
                                         ]}
-                                    />
+                                        change={(value) => {
+                                            editorLocales[tile.id] =
+                                                value === undefined
+                                                    ? null
+                                                    : (stringToLocale(value) ??
+                                                      null);
+                                        }}
+                                    ></Options>
                                     <!-- Make a Button for every navigate command -->
                                     {#each VisibleNavigateCommands as command}<CommandButton
                                             {command}
@@ -1832,6 +1839,8 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
+                                            locale={editorLocales[tile.id] ??
+                                                null}
                                             editable={editableAndCurrent}
                                             {overwritten}
                                             sourceID={tile.id}
@@ -2046,7 +2055,13 @@
                         </Dialog>
                     {/if}
                     <Separator />
-                    <Translate {project}></Translate>
+                    <Translate
+                        {project}
+                        showAll={() => {
+                            for (const id of Object.keys(editorLocales))
+                                editorLocales[id] = null;
+                        }}
+                    ></Translate>
                     <Separator />
                     <Checkpoints {project} bind:checkpoint></Checkpoints>
                 </div>
@@ -2076,7 +2091,7 @@
                     node={dragged}
                     inline
                     spaces={project.getSourceOf(dragged)?.spaces}
-                    localized={$localized}
+                    locale={$locales.getLocale()}
                     blocks={$blocks}
                 />
                 <div class="cursor">🐲</div>
