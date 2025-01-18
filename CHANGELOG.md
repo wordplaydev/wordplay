@@ -13,7 +13,8 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - When only showing preferred languages in editor, hide non-preferred, tagged translations if there are untagged translations.
 - Tidy all source in a project after translation.
 - Simplified editor language chooser.
-- Fixed broken links in translations.
+- Fixed #649: broken links in translations.
+- Fixed #646: docs not showing correct locale.
 - Removed locale annotations from tutorial text.
 
 ## 0.14.1 2024-01-11
