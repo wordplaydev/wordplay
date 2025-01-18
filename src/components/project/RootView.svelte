@@ -125,13 +125,14 @@
 
                 // If the caret is not inside the node, decide whether to hide.
                 if (!inside) {
-                    // If at least one is visible, hide all those not in a preferred language.
+                    // If at least one preferred language is visible or there is an untagged node, hide all those that are not preferred.
                     if (
                         $locales
                             .getLanguages()
                             .some((lang) =>
                                 tags.some((l) => l.getLanguage() === lang),
-                            )
+                            ) ||
+                        tags.some((l) => l.getLanguage() === undefined)
                     ) {
                         // Keep track of if there's a node that's visible so we know when to hide separators.
                         let priorVisible = false;
@@ -139,7 +140,7 @@
                         for (const nameDocOrText of tags) {
                             const language = nameDocOrText.getLanguage();
                             const selectedLocale =
-                                language !== undefined &&
+                                language === undefined ||
                                 $locales.hasLanguage(language);
                             // Not a selected locale? Hide the whole name or doc.
                             if (!selectedLocale) {

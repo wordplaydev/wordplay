@@ -10,6 +10,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Removed all unused imports and variables.
 - Mono emojis for dialog buttons.
 - Consistent use of globe as locale icon.
+- When only showing preferred languages in editor, hide non-preferred, tagged translations if there are untagged translations.
 
 ## 0.14.1 2024-01-11
 
