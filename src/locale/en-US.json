@@ -307,7 +307,11 @@
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
                 "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a concept link!'\\",
-                "When the @Doc you wrote appears here, it'll show a link to the concept."
+                "Characters also have numbers that correspond to them. For exmple, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
+                "\\`@192 is so nice!`\\",
+                "And if you make your own character, you can refer to them by the name you gave them.",
+                "\\`@coolbeans`\\",
+                "Oh... I guess that character doesn't exist, so you get a little square. But if they did, they would show up here!"
             ]
         },
         "Words": {
@@ -1093,7 +1097,7 @@
             "name": "translation",
             "description": "translation $1",
             "emotion": "serious",
-            "doc": "I represent some text, with a @Language tag. See @Text to learn more!",
+            "doc": "I represent some text, with an optional @Language tag. See @Text to learn more!",
             "conflict": {
                 "phone": "Is *$1* someone's phone number? Don't share me online if so!\n\n$2",
                 "email": "Is *$1* someone's email? Don't share me here if so!\n\n$2",
@@ -1549,10 +1553,12 @@
                 "Just remember to close me if you open me, and use the matching symbol. Otherwise I won't know that you're done with your words.",
                 "\\'hello'/en'hola'/es-MX\\",
                 "You can also tag me with languages, and even give multiple translations. I'll evaluate to whatever languages are currently selected, if there's a matching langauge.",
-                "If you want to make me with some other values, you can use a symbol to ",
-                "For instance, consider this:",
+                "If you want to make me with some other values, you can do this:",
                 "\\\"Here are some sums \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
                 "See how elegantly I just evaluated those sums, and placed them inside the @Text?",
+                "I have one last little secret: did you know we all have a unique number? It's true! You can refer to us by our number. For example, @FunctionDefinition is 192:",
+                "\\'@192'\\",
+                "See how 192 turned into @FunctionDefinition? I hear you call these numbers 'Unicode'.",
                 "Otherwise, there just so many glorious functions that @FunctionDefinition made for me to do all kinds of things with words!"
             ],
             "name": ["''", "Text"],

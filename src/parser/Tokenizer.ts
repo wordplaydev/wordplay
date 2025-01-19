@@ -317,8 +317,8 @@ const CodeTokenPatterns: TokenPattern[] = [
  * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
  * 4) the globally unique name of a creator-defined glyph
  */
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]+|${NameRegExPattern}(/${NameRegExPattern})*)`;
-const ConceptRegEx = new RegExp(`^${ConceptRegExPattern}`, 'u');
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}|${NameRegExPattern}(/${NameRegExPattern})?)`;
+const ConceptRegEx = new RegExp(`^${ConceptRegExPattern}`, 'gu');
 
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [

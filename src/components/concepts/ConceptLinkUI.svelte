@@ -48,6 +48,7 @@
             // Remove the link symbol
             const id =
                 link instanceof ConceptLink ? link.getName() : link.concept;
+            console.log("Couldn't find " + id);
             // Split the name by /
             const names = id.split('/');
             // See if it's a UI reference
@@ -67,28 +68,35 @@
             // Otherwise, try to resolve a concept or subconcept in the index.
             else if (index !== undefined) {
                 let concept = index.getConceptByName(names[0]);
-                if (concept && names.length > 1) {
-                    const subConcept = Array.from(
-                        concept.getSubConcepts(),
-                    ).find((sub) => sub.hasName(names[1], $locales));
-                    if (subConcept !== undefined)
-                        return { container: concept, concept: subConcept };
-                    else if (concept.affiliation !== undefined) {
-                        const structure = index.getStructureConcept(
-                            concept.affiliation,
-                        );
-                        if (structure) {
-                            const subConcept = Array.from(
-                                structure.getSubConcepts(),
-                            ).find((sub) => sub.hasName(names[1], $locales));
-                            if (subConcept) {
-                                return {
-                                    container: concept,
-                                    concept: subConcept,
-                                };
+                if (concept) {
+                    if (names.length > 1) {
+                        const subConcept = Array.from(
+                            concept.getSubConcepts(),
+                        ).find((sub) => sub.hasName(names[1], $locales));
+                        if (subConcept !== undefined)
+                            return { container: concept, concept: subConcept };
+                        else if (concept.affiliation !== undefined) {
+                            const structure = index.getStructureConcept(
+                                concept.affiliation,
+                            );
+                            if (structure) {
+                                const subConcept = Array.from(
+                                    structure.getSubConcepts(),
+                                ).find((sub) =>
+                                    sub.hasName(names[1], $locales),
+                                );
+                                if (subConcept) {
+                                    return {
+                                        container: concept,
+                                        concept: subConcept,
+                                    };
+                                }
                             }
                         }
-                    }
+                    } else
+                        return {
+                            concept,
+                        };
                 }
             }
 
@@ -152,6 +160,35 @@
     {link.concept.getText()}
 {:else if link instanceof ConceptRef}
     {link.concept}
+{:else}
+    {link.getName($locales, true)}
+{/if}
+
+{#if concept}
+    <style>
+        .conceptlink {
+            display: inline-block;
+            font-style: normal;
+        }
+
+        .conceptlink.interactive {
+            text-decoration: underline;
+            text-decoration-color: var(--wordplay-highlight-color);
+            text-decoration-thickness: var(--wordplay-border-width);
+        }
+
+        :global(button):focus .conceptlink,
+        .conceptlink.interactive:hover {
+            cursor: pointer;
+            text-decoration-thickness: var(--wordplay-focus-width);
+        }
+
+        :global(button):focus .conceptlink {
+            background: var(--wordplay-focus-color);
+            color: var(--wordplay-background);
+            border-radius: var(--wordplay-border-radius);
+        }
+    </style>
 {/if}
 
 <style>
