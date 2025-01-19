@@ -44,6 +44,11 @@
                 { "fieldPath": "public", "order": "ASCENDING" },
                 { "fieldPath": "timestamp", "order": "ASCENDING" }
             ]
+        },
+        {
+            "collectionGroup": "glyphs",
+            "queryScope": "COLLECTION",
+            "fields": [{ "fieldPath": "name", "order": "ASCENDING" }]
         }
     ],
     "fieldOverrides": []

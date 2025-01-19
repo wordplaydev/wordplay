@@ -138,6 +138,10 @@ export function glyphToSVG(
     return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s, selection)).join('')}</svg>`;
 }
 
+export function unknownGlyphSVG(size: number | string) {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}"><rect fill="none" stroke-width="3" stroke="currentColor" x="0" y="0" width="32" height="32" /></svg>`;
+}
+
 export function shapeToSVG(
     shape: GlyphShape,
     selection?: GlyphShape[],

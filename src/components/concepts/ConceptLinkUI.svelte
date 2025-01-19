@@ -4,11 +4,11 @@
     import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
-    import type ConceptRef from '../../locale/ConceptRef';
+    import ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
     import { goto } from '$app/navigation';
-    import { getCodepointFromString } from '../../unicode/Unicode';
+    import GlyphView from '@components/output/GlyphView.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept;
@@ -24,15 +24,19 @@
 
     let path = getConceptPath();
 
-    type Match = {
-        concept: Concept | undefined;
-        container?: Concept | undefined;
-        unicode?: string | undefined;
-        ui?: string | undefined;
-    };
+    /** The different types of matches we can find */
+    type Match =
+        | {
+              concept: Concept;
+              container?: Concept | undefined;
+          }
+        | { unicode: string }
+        | { ui: string }
+        | { glyph: string }
+        | undefined;
 
     // Derive the concept, container, and UI based on the link.
-    let { concept, container, ui, unicode }: Match = $derived.by((): Match => {
+    let match: Match = $derived.by((): Match => {
         if (link instanceof Concept) {
             return {
                 concept: link,
@@ -49,8 +53,6 @@
             // See if it's a UI reference
             if (names[0] === 'UI' && names.length > 1) {
                 return {
-                    concept: undefined,
-                    container: undefined,
                     ui: names[1],
                 };
             }
@@ -59,8 +61,6 @@
                 link instanceof ConceptLink ? link.getCodepoint() : undefined;
             if (codepoint) {
                 return {
-                    concept: undefined,
-                    container: undefined,
                     unicode: codepoint,
                 };
             }
@@ -89,23 +89,24 @@
                             }
                         }
                     }
-                } else return { concept, container: undefined };
+                }
             }
 
-            return { concept: undefined, container: undefined };
+            return { glyph: id };
         }
     });
 
-    let longName: string = $derived(
-        concept ? concept.getName($locales, false) : '',
+    let concept: Concept | undefined = $derived(
+        match && 'concept' in match ? match.concept : undefined,
     );
-    let symbolicName: string = $derived(
-        concept ? concept.getName($locales, true) : '',
-    );
+
+    let longName: string = $derived(concept?.getName($locales, false) ?? '');
+    let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
     function navigate() {
         // If we have a concept and the last concept isn't it, navigate
-        if (concept) {
+        if (match && 'concept' in match) {
+            const concept = match.concept;
             if (path) {
                 // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
                 const alreadyHere = $path.at(-1) === concept;
@@ -139,16 +140,18 @@
                     >{/if}{/if}</span
         ></Button
     >
-{:else if ui}
-    <TutorialHighlight id={ui} source />
-{:else if unicode}{unicode}
+{:else if match}
+    {#if 'ui' in match}
+        <TutorialHighlight id={match.ui} source />
+    {:else if 'unicode' in match}
+        {match.unicode}
+    {:else if 'glyph' in match}
+        <GlyphView name={match.glyph} />
+    {/if}
 {:else if link instanceof ConceptLink}
-    <span
-        >{#if container}{container.getName(
-                $locales,
-                false,
-            )}{/if}{link.concept.getText()}</span
-    >
+    {link.concept.getText()}
+{:else if link instanceof ConceptRef}
+    {link.concept}
 {/if}
 
 <style>

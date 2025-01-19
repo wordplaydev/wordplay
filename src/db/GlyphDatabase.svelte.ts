@@ -6,10 +6,13 @@ import { SvelteMap } from 'svelte/reactivity';
 import { GlyphSchema, type Glyph, type GlyphShape } from '../glyphs/glyphs';
 import { SaveStatus, type Database } from './Database';
 import {
+    and,
     collection,
     doc,
     getDoc,
+    getDocs,
     onSnapshot,
+    or,
     query,
     setDoc,
     where,
@@ -31,7 +34,10 @@ export class GlyphDatabase {
      * It's our locale cache.
      * null = we know it's not there.
      */
-    readonly glyphs = $state<Record<string, Glyph | null>>({});
+    readonly glyphsByID = $state<Record<string, Glyph | null>>({});
+
+    /** This is a cache of glyphs by name, mirroring the glyphs by id. We update it whenever we update the main store. */
+    readonly glyphsByName = $state<Record<string, Glyph | null>>({});
 
     /** The realtime listener unsubscriber */
     private unsubscribe: Unsubscribe | undefined = undefined;
@@ -86,7 +92,9 @@ export class GlyphDatabase {
                     // Stop litening to the project's changes.
                     if (change.type === 'removed') {
                         const glyphID = change.doc.id;
-                        delete this.glyphs[glyphID];
+                        const data = change.doc.data();
+                        delete this.glyphsByID[glyphID];
+                        delete this.glyphsByName[data.name];
                     }
                 });
             },
@@ -134,7 +142,7 @@ export class GlyphDatabase {
 
     /** Update the local store's version of this glyph, and defer a save to the database later. */
     updateGlyph(glyph: Glyph, persist: boolean) {
-        const existingGlyph = this.glyphs[glyph.id];
+        const existingGlyph = this.glyphsByID[glyph.id];
 
         // Are they equivalent? Don't bother. This prevents cycles.
         if (
@@ -147,8 +155,12 @@ export class GlyphDatabase {
             existingGlyph === undefined ||
             existingGlyph === null ||
             glyph.updated > existingGlyph.updated
-        )
-            this.glyphs[glyph.id] = { ...glyph, updated: Date.now() };
+        ) {
+            const newGlyph = { ...glyph, updated: Date.now() };
+            this.glyphsByID[glyph.id] = newGlyph;
+            if (existingGlyph) delete this.glyphsByName[existingGlyph.name];
+            this.glyphsByName[glyph.name] = newGlyph;
+        }
 
         // Are we to persist? Defer a save.
         if (persist) {
@@ -185,38 +197,77 @@ export class GlyphDatabase {
     }
 
     /**
-     * Get the glyph by ID.
-     * undefined: we are enable to check for it.
-     * null: it doesn't exist in the database.
+     * Get the glyph by ID or name.
+     @returns `undefined` if unable to check for it, `null`: it doesn't exist in the database, or the matching `Glyph`.
      * */
-    async getGlyph(id: string): Promise<Glyph | null | undefined> {
-        const localMatch = this.glyphs[id];
+    async getGlyph(idOrName: string): Promise<Glyph | null | undefined> {
+        // Is it in the store by ID or name?
+        const localMatchByID = this.glyphsByID[idOrName];
+        const localMatchByName = this.glyphsByName[idOrName];
+
         // Doesn't exist? Say so.
-        if (localMatch === null) return null;
+        if (localMatchByID === null && localMatchByName === null) return null;
         // Found a match locally? Return it. Rely on realtime to keep it up to date.
-        if (localMatch !== undefined) return localMatch;
+        if (localMatchByID !== undefined) return localMatchByID;
+        if (localMatchByName !== undefined) return localMatchByName;
+
         // We have to check, but don't have database access? Undefined.
-        if (firestore === undefined) return;
+        const user = this.db.getUser();
+        if (firestore === undefined || user === null) return undefined;
 
         try {
-            const onlineMatch = await getDoc(
-                doc(firestore, GlyphsCollection, id),
+            let match: Glyph | null = null;
+            // Check the database by ID.
+            const onlineMatchByID = await getDoc(
+                doc(firestore, GlyphsCollection, idOrName),
             );
-            if (onlineMatch.exists()) {
-                const glyph = onlineMatch.data();
+            if (onlineMatchByID.exists()) {
+                const glyph = onlineMatchByID.data();
                 try {
-                    const parsed: Glyph = GlyphSchema.parse(glyph);
-                    this.updateGlyph(parsed, false);
-                    return parsed;
+                    match = GlyphSchema.parse(glyph);
                 } catch (err) {
                     // Couldn't parse, so don't save it.
                     console.error(err);
                     return null;
                 }
-            } else {
-                this.glyphs[id] = null;
-                return null;
             }
+
+            // Check the database by name.
+            const onlineMatchByName = await getDocs(
+                query(
+                    collection(firestore, GlyphsCollection),
+                    and(
+                        where('name', '==', idOrName),
+                        or(
+                            where('public', '==', true),
+                            where('owner', '==', user.uid),
+                            where('viewers', 'array-contains', user.uid),
+                        ),
+                    ),
+                ),
+            );
+            onlineMatchByName.forEach((doc) => {
+                if (doc.exists()) {
+                    const glyph = doc.data();
+                    try {
+                        match = GlyphSchema.parse(glyph);
+                    } catch (err) {
+                        // Couldn't parse, so don't save it.
+                        console.error(err);
+                        return null;
+                    }
+                }
+            });
+
+            // Did we find one? Update the local store and return it.
+            if (match) {
+                this.updateGlyph(match, false);
+                return match;
+            } else {
+                this.glyphsByID[idOrName] = null;
+                this.glyphsByName[idOrName] = null;
+            }
+            return null;
         } catch (err) {
             console.error(err);
             return undefined;
@@ -225,7 +276,7 @@ export class GlyphDatabase {
 
     /** Get all cached glyphs owned by the user */
     getOwnedGlyphs(): Glyph[] {
-        return Array.from(Object.values(this.glyphs))
+        return Array.from(Object.values(this.glyphsByID))
             .filter((glyph) => glyph !== null)
             .filter((glyph) => glyph.owner === this.db.getUser()?.uid);
     }
