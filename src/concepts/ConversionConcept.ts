@@ -4,12 +4,12 @@ import Convert from '@nodes/Convert';
 import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
 import type Node from '@nodes/Node';
 import Emotion from '../lore/Emotion';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Concept from './Concept';
 import Purpose from './Purpose';
 import type StructureConcept from './StructureConcept';
 import type Markup from '../nodes/Markup';
-import type { Character } from '../tutorial/Tutorial';
+import type { CharacterName } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
 
 export default class ConversionConcept extends Concept {
@@ -38,8 +38,8 @@ export default class ConversionConcept extends Concept {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Conversion;
+    getCharacter() {
+        return Characters.Conversion;
     }
 
     getEmotion() {
@@ -75,7 +75,7 @@ export default class ConversionConcept extends Concept {
         return new Set();
     }
 
-    getCharacter(): Character | undefined {
+    getCharacterName(): CharacterName | undefined {
         return undefined;
     }
 

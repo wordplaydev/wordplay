@@ -3,7 +3,7 @@ import { UnparsableConflict } from '@conflicts/UnparsableConflict';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Node, { list, type Grammar, type Replacement, node } from './Node';
 import Type from './Type';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
 import type Context from './Context';
 import type Token from './Token';
@@ -47,7 +47,7 @@ export default class UnparsableType extends Type {
         return locales.get((l) => l.node.UnparsableType);
     }
 
-    getGlyphs() {
-        return Glyphs.Unparsable;
+    getCharacter() {
+        return Characters.Unparsable;
     }
 }

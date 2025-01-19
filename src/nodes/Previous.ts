@@ -21,7 +21,7 @@ import UnionType from './UnionType';
 import NoneType from './NoneType';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Purpose from '../concepts/Purpose';
@@ -237,7 +237,7 @@ export default class Previous extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Previous;
+    getCharacter() {
+        return Characters.Previous;
     }
 }

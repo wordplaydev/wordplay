@@ -159,7 +159,7 @@
 
     .output {
         display: flex;
-        /** For some reason this is necessary for keeping the glyph centered. */
+        /** For some reason this is necessary for keeping the character centered. */
         align-items: center;
         justify-content: center;
         width: 100%;

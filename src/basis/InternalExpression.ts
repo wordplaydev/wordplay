@@ -8,7 +8,7 @@ import type TypeSet from '@nodes/TypeSet';
 import StartFinish from '@runtime/StartFinish';
 import SimpleExpression from '@nodes/SimpleExpression';
 import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Start from '@runtime/Start';
 import Finish from '@runtime/Finish';
@@ -111,7 +111,7 @@ export default class InternalExpression extends SimpleExpression {
         return locales.concretize((l) => l.node.InternalExpression.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Basis;
+    getCharacter() {
+        return Characters.Basis;
     }
 }

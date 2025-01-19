@@ -5,7 +5,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import Token from './Token';
 import Sym from './Sym';
 import type TypeSet from './TypeSet';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
 import NoneLiteral from './NoneLiteral';
 
@@ -64,8 +64,8 @@ export default class NoneType extends BasisType {
         return locales.get((l) => l.node.NoneType);
     }
 
-    getGlyphs() {
-        return Glyphs.None;
+    getCharacter() {
+        return Characters.None;
     }
 
     getDefaultExpression() {

@@ -18,7 +18,7 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Purpose from '../concepts/Purpose';
 import FunctionDefinition from './FunctionDefinition';
@@ -396,7 +396,7 @@ export default class Update extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Update;
+    getCharacter() {
+        return Characters.Update;
     }
 }

@@ -6,7 +6,7 @@ import type Step from '@runtime/Step';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Expression, { ExpressionKind } from './Expression';
 import type TypeSet from './TypeSet';
@@ -178,8 +178,8 @@ export default class Otherwise extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.NoneOr;
+    getCharacter() {
+        return Characters.NoneOr;
     }
 
     getKind(): ExpressionKind {

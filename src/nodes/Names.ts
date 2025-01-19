@@ -189,11 +189,10 @@ export default class Names extends Node {
 
     getLowerCaseNames() {
         return this.names
-            .map(
-                (a) =>
-                    a
-                        .getName()
-                        ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
+            .map((a) =>
+                a
+                    .getName()
+                    ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
             )
             .filter((n): n is string => n !== undefined);
     }
@@ -227,7 +226,7 @@ export default class Names extends Node {
         );
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.getNames()[0],
             emotion: Emotion.kind,

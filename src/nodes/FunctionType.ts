@@ -17,7 +17,7 @@ import {
     optional as optional,
     list,
 } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -212,8 +212,8 @@ export default class FunctionType extends Type {
         return locales.get((l) => l.node.FunctionType);
     }
 
-    getGlyphs() {
-        return Glyphs.Function;
+    getCharacter() {
+        return Characters.Function;
     }
 
     getDefaultExpression(context: Context): Expression {

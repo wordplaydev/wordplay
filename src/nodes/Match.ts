@@ -13,7 +13,7 @@ import { node, type Grammar, type Replacement, list } from './Node';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import KeyValue from './KeyValue';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '@concepts/Purpose';
 import UnionType from './UnionType';
 import NodeRef from '@locale/NodeRef';
@@ -263,7 +263,7 @@ export default class Match extends Expression {
         return locales.concretize((l) => l.node.Match.finish);
     }
 
-    getGlyphs() {
-        return Glyphs.Match;
+    getCharacter() {
+        return Characters.Match;
     }
 }

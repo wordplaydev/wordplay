@@ -148,7 +148,7 @@
     import Evaluate from '@nodes/Evaluate';
     import { page } from '$app/stores';
     import type Caret from '../../edit/Caret';
-    import GlyphChooser from '../editor/GlyphChooser.svelte';
+    import CharacterChooser from '../editor/CharacterChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import {
@@ -199,7 +199,7 @@
     import Switch from '@components/widgets/Switch.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
     import FullscreenIcon from './FullscreenIcon.svelte';
-    import Glyphs from '../../lore/Glyphs';
+    import Characters from '../../lore/BasisCharacters';
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
@@ -1574,7 +1574,7 @@
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
-                    <Speech glyph={Glyphs.Function}>
+                    <Speech character={Characters.Function}>
                         {#snippet content()}
                             {$locales.get((l) => l.ui.project.collapsed)} ⬇
                         {/snippet}
@@ -1834,7 +1834,7 @@
                             {/snippet}
                             {#snippet footer()}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    {#if editableAndCurrent}<GlyphChooser
+                                    {#if editableAndCurrent}<CharacterChooser
                                             sourceID={tile.id}
                                         />{/if}
                                     {#if checkpoint > -1}
@@ -1958,7 +1958,7 @@
                         uiid="addSource"
                         tip={$locales.get((l) => l.ui.project.button.addSource)}
                         action={addSource}
-                        >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
+                        >+<Emoji>{Characters.Program.symbols}</Emoji></Button
                     >{/if}
                 {#each layout.getNonSources() as tile}
                     <!-- No need to show the tile if not visible when not editable. -->

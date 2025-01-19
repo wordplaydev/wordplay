@@ -4174,7 +4174,7 @@
                     "on": "esconder los fondos de los bloques",
                     "off": "mostrar los fondos de los bloques"
                 },
-                "glyphs": {
+                "characters": {
                     "on": "colapsar los glifos coincidentes",
                     "off": "expandir los glifos coincidentes"
                 }

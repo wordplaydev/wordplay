@@ -8,7 +8,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Definition from './Definition';
 import type Node from './Node';
 import type LocaleText from '@locale/LocaleText';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { Grammar } from './Node';
 import BasisType from './BasisType';
 import type Spaces from '../parser/Spaces';
@@ -159,8 +159,8 @@ export default class StructureType extends BasisType {
         return locales.get((l) => l.node.StructureType);
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDescriptionInputs(locales: Locales) {

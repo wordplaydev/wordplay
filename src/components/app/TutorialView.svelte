@@ -429,9 +429,9 @@
                         {#each turns as turn}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
-                                glyph={projectContext
+                                character={projectContext
                                     ?.getConceptByName(turn.dialog[0])
-                                    ?.getGlyphs($locales) ?? {
+                                    ?.getCharacter($locales) ?? {
                                     symbols: turn.dialog[0],
                                 }}
                                 flip={turn.dialog[0] !== 'FunctionDefinition'}

@@ -16,7 +16,7 @@ import type Conflict from '@conflicts/Conflict';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Sym from './Sym';
@@ -259,7 +259,7 @@ export default class ListLiteral extends Expression {
         return [this.values.length];
     }
 
-    getGlyphs() {
-        return Glyphs.List;
+    getCharacter() {
+        return Characters.List;
     }
 }

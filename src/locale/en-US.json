@@ -4235,9 +4235,9 @@
                     "on": "edit as text",
                     "off": "edit as blocks"
                 },
-                "glyphs": {
-                    "on": "collapse the matching glyphs",
-                    "off": "expand the matching glyphs"
+                "characters": {
+                    "on": "collapse the matching characters",
+                    "off": "expand the matching characters"
                 }
             },
             "button": {
@@ -4663,7 +4663,7 @@
                     "guide": "Search and browse the language reference",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
-                    "glyphs": "Create custom emojis and symbols",
+                    "characters": "Create custom emojis and symbols",
                     "rights": "Responsibilities, ours and yours",
                     "about": "Why does this place exist?",
                     "community": {
@@ -4847,21 +4847,21 @@
                 "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
                 "examples": "Examples"
             },
-            "glyphs": {
-                "header": "Glyphs",
+            "characters": {
+                "header": "Characters",
                 "prompt": "Create custom emojis and symbols to use in your projects and share with others.",
                 "button": {
-                    "new": "Create a new glyph"
+                    "new": "Create a new character"
                 },
                 "error": {
-                    "offline": "We couldn't access your glyphs stored online.",
-                    "noauth": "You must be logged in to see your glyphs and create new ones.",
-                    "create": "Unable to create a new glyph."
+                    "offline": "We couldn't access your characters stored online.",
+                    "noauth": "You must be logged in to see your characters and create new ones.",
+                    "create": "Unable to create a new character."
                 }
             },
-            "glyph": {
-                "header": "Glyph",
-                "prompt": "Create a symbol with shapes and pixels.",
+            "character": {
+                "header": "Character",
+                "prompt": "Create an emoji or symbol with shapes and pixels.",
                 "instructions": {
                     "empty": "Choose a drawing mode in the palette to create shapes.",
                     "unselected": "Select shapes with your pointer or by holding *shift* and using the *arrow* keys.",
@@ -4880,11 +4880,11 @@
                 },
                 "field": {
                     "name": {
-                        "description": "name of the glyph",
+                        "description": "name of the character",
                         "placeholder": "name"
                     },
                     "description": {
-                        "description": "description of the glyph",
+                        "description": "description of the character",
                         "placeholder": "description"
                     },
                     "mode": {
@@ -4943,11 +4943,11 @@
                     "redo": "Redo to the next design"
                 },
                 "feedback": {
-                    "name": "Glyphs need a valid Wordplay name so you can refer to them in projects.",
-                    "description": "Glyphs need a description so those who can't see know what they represent.",
+                    "name": "Characters need a valid Wordplay name so you can refer to them in projects.",
+                    "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "Press escape to finish shape.",
-                    "loadfail": "There was a problem loading this glyph.",
-                    "notfound": "This glyph doesn't exist."
+                    "loadfail": "There was a problem loading this character.",
+                    "notfound": "This character doesn't exist."
                 },
                 "announce": {
                     "position": "at $1 $2",

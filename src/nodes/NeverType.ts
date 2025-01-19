@@ -1,6 +1,6 @@
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Type from './Type';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { NEVER_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
 
@@ -39,7 +39,7 @@ export default class NeverType extends Type {
         return locales.get((l) => l.node.NeverType);
     }
 
-    getGlyphs() {
-        return Glyphs.Never;
+    getCharacter() {
+        return Characters.Never;
     }
 }

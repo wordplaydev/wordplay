@@ -4,7 +4,7 @@ import Example from './Example';
 import WebLink from './WebLink';
 import type { Grammar, Replacement } from './Node';
 import Words, { type Format } from './Words';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import Token from './Token';
@@ -91,8 +91,8 @@ export default class Paragraph extends Content {
         return locales.get((l) => l.node.Paragraph);
     }
 
-    getGlyphs() {
-        return Glyphs.Paragraph;
+    getCharacter() {
+        return Characters.Paragraph;
     }
 
     concretize(

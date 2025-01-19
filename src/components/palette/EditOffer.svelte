@@ -19,7 +19,7 @@
 </script>
 
 <div class="offer">
-    <Speech glyph={{ symbols }}>
+    <Speech character={{ symbols }}>
         {#snippet content()}
             <MarkupHtmlView markup={locales.concretize(message)} />
         {/snippet}

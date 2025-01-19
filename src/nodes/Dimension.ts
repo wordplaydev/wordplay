@@ -4,7 +4,7 @@ import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import NameToken from './NameToken';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import type Locales from '../locale/Locales';
@@ -153,7 +153,7 @@ export default class Dimension extends Node {
         return Markup.words(
             dim === undefined
                 ? ''
-                : {
+                : ({
                       pm: 'picometers',
                       nm: 'nanometers',
                       µm: 'micrometers',
@@ -181,11 +181,11 @@ export default class Dimension extends Node {
                       oz: 'ounces',
                       lb: 'pounds',
                       pt: 'font size',
-                  }[dim] ?? locales.get((l) => l.node.Dimension.description),
+                  }[dim] ?? locales.get((l) => l.node.Dimension.description)),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Dimension;
+    getCharacter() {
+        return Characters.Dimension;
     }
 }

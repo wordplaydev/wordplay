@@ -23,7 +23,7 @@ import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
 import NoneValue from '@values/NoneValue';
 import type LocaleText from '@locale/LocaleText';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Root from './Root';
 import Markup from './Markup';
 import Purpose from '../concepts/Purpose';
@@ -929,8 +929,8 @@ export default class Source extends Expression {
         return new Markup([]);
     }
 
-    getGlyphs() {
-        return Glyphs.Source;
+    getCharacter() {
+        return Characters.Source;
     }
 
     getPurpose() {

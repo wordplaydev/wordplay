@@ -288,7 +288,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: GLOBE1_SYMBOL, types: [Sym.Locale] },
     { pattern: GLOBE2_SYMBOL, types: [Sym.Locale] },
     { pattern: GLOBE3_SYMBOL, types: [Sym.Locale] },
-    // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
+    // Prefix and infix operators are single Unicode characters that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF
     // - Supplementary operators: U+2A00–U+2AFF
@@ -300,7 +300,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     FormattedPattern,
     DocPattern,
 
-    // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
+    // All other tokens are names, which are sequences of Unicode characters that are not one of the reserved symbols above or whitespace.
     {
         pattern: NameRegEx,
         types: [Sym.Name],
@@ -315,7 +315,7 @@ const CodeTokenPatterns: TokenPattern[] = [
  * 1) a uesr interface concept (e.g., @UI/toolbar)
  * 2) a Wordplay programming language concept (e.g., @Bool)
  * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
- * 4) the globally unique name of a creator-defined glyph
+ * 4) the globally unique name of a creator-defined character
  */
 export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}|${NameRegExPattern}(/${NameRegExPattern})?)`;
 const ConceptRegEx = new RegExp(`^${ConceptRegExPattern}`, 'gu');

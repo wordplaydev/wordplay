@@ -2,7 +2,6 @@ import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import type Locales from '@locale/Locales';
 import type { NodeText, DescriptiveNodeText } from '@locale/NodeTexts';
-import type Glyph from '../lore/Glyph';
 import type Context from './Context';
 import Expression from './Expression';
 import type { GuardContext } from './Expression';
@@ -13,7 +12,7 @@ import type TypeSet from './TypeSet';
 import Token from './Token';
 import Sym from './Sym';
 import BindToken from './BindToken';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Evaluate from './Evaluate';
 import Refer from '@edit/Refer';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -171,8 +170,8 @@ export default class Input extends Node {
         return locales.concretize((l) => l.node.Input.start);
     }
 
-    getGlyphs(): Glyph {
-        return { symbols: this.name.getText() + Glyphs.Bind };
+    getCharacter() {
+        return { symbols: this.name.getText() + Characters.Bind };
     }
 
     getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {

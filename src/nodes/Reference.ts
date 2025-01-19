@@ -407,7 +407,7 @@ export default class Reference extends SimpleExpression {
         return [this.getName()];
     }
 
-    getGlyphs() {
+    getCharacter() {
         return { symbols: this.name.getText() };
     }
 }

@@ -13,7 +13,7 @@ import Evaluate from './Evaluate';
 import PropertyReference from './PropertyReference';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 
@@ -219,8 +219,8 @@ export default class NumberType extends BasisType {
         return locales.get((l) => l.node.NumberType);
     }
 
-    getGlyphs() {
-        return Glyphs.Number;
+    getCharacter() {
+        return Characters.Number;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

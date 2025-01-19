@@ -6565,7 +6565,7 @@
             },
             "Words": {
               "$ref": "#/definitions/NodeText",
-              "description": "A sequence of glyphs in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ `"
+              "description": "A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ `"
             }
           },
           "required": [
@@ -6911,7 +6911,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "content": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7003,7 +7003,7 @@
                 },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How tall glyphs in a phrase, group, or stage should be"
+                  "description": "How tall characters in a phrase, group, or stage should be"
                 },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7095,7 +7095,7 @@
             },
             "Phrase": {
               "additionalProperties": false,
-              "description": "A sequence of glyphs",
+              "description": "A sequence of characters",
               "properties": {
                 "alignment": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7111,7 +7111,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "defaultDescription": {
                   "$ref": "#/definitions/Template",
@@ -7199,7 +7199,7 @@
                 },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How tall glyphs in a phrase, group, or stage should be"
+                  "description": "How tall characters in a phrase, group, or stage should be"
                 },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7207,11 +7207,11 @@
                 },
                 "text": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The glyphs to render"
+                  "description": "The characters to render"
                 },
                 "wrap": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The boundary at which to wrap glyphs to another line"
+                  "description": "The boundary at which to wrap characters to another line"
                 }
               },
               "required": [
@@ -7513,7 +7513,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7705,7 +7705,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "content": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7797,7 +7797,7 @@
                 },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How tall glyphs in a phrase, group, or stage should be"
+                  "description": "How tall characters in a phrase, group, or stage should be"
                 },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -9253,11 +9253,11 @@
               "properties": {
                 "app": {
                   "$ref": "#/definitions/SupportedFace",
-                  "description": "The application font to use throughout the application. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
+                  "description": "The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                 },
                 "code": {
                   "$ref": "#/definitions/SupportedFace",
-                  "description": "The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
+                  "description": "The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                 }
               },
               "required": [
@@ -9354,6 +9354,12 @@
                 "about": {
                   "description": "About page text"
                 },
+                "character": {
+                  "description": "The character editor page"
+                },
+                "characters": {
+                  "description": "The character creation and browsing page"
+                },
                 "class": {
                   "description": "Class page text"
                 },
@@ -9362,12 +9368,6 @@
                 },
                 "galleries": {
                   "description": "Gallery browsing page text"
-                },
-                "glyph": {
-                  "description": "The glyph editor page"
-                },
-                "glyphs": {
-                  "description": "The glyph creation and browsing page"
                 },
                 "guide": {
                   "description": "Docuemntation guide page text"
@@ -9409,8 +9409,8 @@
                 "class",
                 "guide",
                 "projects",
-                "glyphs",
-                "glyph",
+                "characters",
+                "character",
                 "galleries",
                 "about",
                 "login",
@@ -9990,7 +9990,7 @@
                       "type": "string"
                     },
                     "search": {
-                      "description": "Search for glyph",
+                      "description": "Search for character",
                       "type": "string"
                     },
                     "selectAll": {
@@ -10145,14 +10145,14 @@
                       "$ref": "#/definitions/ToggleText",
                       "description": "The blocks/text toggle"
                     },
-                    "glyphs": {
+                    "characters": {
                       "$ref": "#/definitions/ToggleText",
-                      "description": "The glyph chooser expand/collapse toggle"
+                      "description": "The character chooser expand/collapse toggle"
                     }
                   },
                   "required": [
                     "blocks",
-                    "glyphs"
+                    "characters"
                   ],
                   "type": "object"
                 }

@@ -20,7 +20,7 @@ import ValueException from '@values/ValueException';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import { UnenclosedType } from './UnenclosedType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
@@ -176,7 +176,7 @@ export default class This extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.This;
+    getCharacter() {
+        return Characters.This;
     }
 }

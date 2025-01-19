@@ -17,7 +17,7 @@ import Docs from './Docs';
 import StartFinish from '@runtime/StartFinish';
 import { node, none, type Grammar, type Replacement, any } from './Node';
 import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type Value from '../values/Value';
 import NodeRef from '../locale/NodeRef';
@@ -204,8 +204,8 @@ export default class ConversionDefinition extends DefinitionExpression {
         return locales.concretize((l) => l.node.ConversionDefinition.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Conversion;
+    getCharacter() {
+        return Characters.Conversion;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

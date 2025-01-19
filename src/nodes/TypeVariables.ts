@@ -6,7 +6,7 @@ import Names from './Names';
 import type TypeVariable from './TypeVariable';
 import type Conflict from '@conflicts/Conflict';
 import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Node, { node } from './Node';
 import type Locales from '../locale/Locales';
@@ -96,7 +96,7 @@ export default class TypeVariables extends Node {
         return locales.get((l) => l.node.TypeVariables);
     }
 
-    getGlyphs() {
-        return Glyphs.Name;
+    getCharacter() {
+        return Characters.Name;
     }
 }

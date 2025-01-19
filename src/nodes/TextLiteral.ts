@@ -230,7 +230,7 @@ export default class TextLiteral extends Literal {
         return locales.concretize((l) => l.node.TextLiteral.start);
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.texts[0].getDelimiters(),
             emotion: Emotion.excited,

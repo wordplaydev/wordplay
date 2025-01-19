@@ -5,7 +5,7 @@ import Type from './Type';
 import PlaceholderToken from './PlaceholderToken';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 
@@ -72,7 +72,7 @@ export default class TypePlaceholder extends Type {
         return locales.get((l) => l.node.TypePlaceholder);
     }
 
-    getGlyphs() {
-        return Glyphs.Placeholder;
+    getCharacter() {
+        return Characters.Placeholder;
     }
 }

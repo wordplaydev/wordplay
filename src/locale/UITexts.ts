@@ -19,8 +19,8 @@ import type { NewClassPageText } from '../routes/teach/class/new/+page.svelte';
 import type EditTexts from './EditTexts';
 import type { DocText, Template } from './LocaleText';
 import type { CheckpointsText } from '@components/project/Checkpoints.svelte';
-import type { GlyphsPageText } from '../routes/glyphs/+page.svelte';
-import type { GlyphPageText } from '../routes/glyph/[id]/+page.svelte';
+import type { CharactersPageText } from '../routes/characters/+page.svelte';
+import type { CharacterPageText } from '../routes/character/[id]/+page.svelte';
 
 export type ButtonText = {
     /** The buttons label */
@@ -66,9 +66,9 @@ export type FieldText = {
 
 type UITexts = {
     font: {
-        /** The application font to use throughout the application. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         app: SupportedFace;
-        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
+        /** The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported. */
         code: SupportedFace;
     };
     phrases: {
@@ -140,8 +140,8 @@ type UITexts = {
         toggle: {
             /** The blocks/text toggle */
             blocks: ToggleText;
-            /** The glyph chooser expand/collapse toggle */
-            glyphs: ToggleText;
+            /** The character chooser expand/collapse toggle */
+            characters: ToggleText;
         };
         button: {
             /** Output preview button for selecting output for display in output tile */
@@ -256,7 +256,7 @@ type UITexts = {
             undo: string;
             /** Redo undone edit */
             redo: string;
-            /** Search for glyph */
+            /** Search for character */
             search: string;
             /** Tidy spacing */
             tidy: string;
@@ -675,10 +675,10 @@ type UITexts = {
         guide: GuidePageText;
         /** The project creation and browsing page */
         projects: ProjectsPageText;
-        /** The glyph creation and browsing page */
-        glyphs: GlyphsPageText;
-        /** The glyph editor page */
-        glyph: GlyphPageText;
+        /** The character creation and browsing page */
+        characters: CharactersPageText;
+        /** The character editor page */
+        character: CharacterPageText;
         /** Gallery browsing page text */
         galleries: GalleriesPageText;
         /** About page text */

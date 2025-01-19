@@ -1,12 +1,11 @@
 import type { NodeText, DescriptiveNodeText } from '../locale/NodeTexts';
-import type Glyph from '../lore/Glyph';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
 import type TypeSet from './TypeSet';
 import Sym from './Sym';
 import Token from './Token';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { DOCS_SYMBOL } from '../parser/Symbols';
 import type Locales from '../locale/Locales';
 import FormattedLiteral from './FormattedLiteral';
@@ -51,8 +50,8 @@ export default class FormattedType extends BasisType {
         ) as this;
     }
 
-    getGlyphs(): Glyph {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 
     getNodeLocale(locales: Locales): NodeText | DescriptiveNodeText {

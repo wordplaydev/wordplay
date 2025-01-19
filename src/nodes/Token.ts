@@ -248,7 +248,7 @@ export default class Token extends Node {
             .replaceAll('\t', '\\t')}`;
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.getText(),
             emotion: Emotion.cheerful,

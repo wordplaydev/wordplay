@@ -1,8 +1,7 @@
 import Purpose from '../concepts/Purpose';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import type Glyph from '../lore/Glyph';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Content from './Content';
 import { node, type Replacement, type Grammar } from './Node';
 import Token from './Token';
@@ -65,8 +64,8 @@ export default class Mention extends Content {
         return locales.get((l) => l.node.Mention);
     }
 
-    getGlyphs(): Glyph {
-        return Glyphs.Mention;
+    getCharacter() {
+        return Characters.Mention;
     }
 
     concretize(

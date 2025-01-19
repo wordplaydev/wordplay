@@ -9,7 +9,7 @@ import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import SimpleExpression from './SimpleExpression';
 import BooleanType from './BooleanType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Language from './Language';
 import StartFinish from '@runtime/StartFinish';
@@ -123,7 +123,7 @@ export default class IsLocale extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Locale;
+    getCharacter() {
+        return Characters.Locale;
     }
 }

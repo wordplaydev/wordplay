@@ -122,7 +122,7 @@ export default class TextType extends BasisType {
         return locales.get((l) => l.node.TextType);
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.open.getDelimiters(),
             emotion: Emotion.excited,

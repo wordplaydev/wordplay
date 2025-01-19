@@ -18,7 +18,7 @@ import TypeToken from './TypeToken';
 import { node, type Grammar, type Replacement, none, any } from './Node';
 import SimpleExpression from './SimpleExpression';
 import type { Template } from '@locale/LocaleText';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type Root from './Root';
 import NodeRef from '../locale/NodeRef';
 import Evaluate from './Evaluate';
@@ -223,7 +223,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return locales.concretize((l) => l.node.ExpressionPlaceholder.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Placeholder;
+    getCharacter() {
+        return Characters.Placeholder;
     }
 }

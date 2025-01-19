@@ -18,7 +18,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
@@ -235,7 +235,7 @@ export default class Conditional extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Conditional;
+    getCharacter() {
+        return Characters.Conditional;
     }
 }

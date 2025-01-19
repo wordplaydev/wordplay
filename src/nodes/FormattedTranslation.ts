@@ -6,7 +6,7 @@ import { FORMATTED_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import type Paragraph from './Paragraph';
 import Words from './Words';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import { LanguageTagged } from './LanguageTagged';
@@ -123,7 +123,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return locales.get((l) => l.node.FormattedTranslation);
     }
 
-    getGlyphs() {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 }

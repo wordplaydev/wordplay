@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import type LocaleText from '@locale/LocaleText';
 import { node, type Field, type Replacement } from './Node';
 import Token from './Token';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '../parser/Symbols';
 import Symbol from './Sym';
 import Purpose from '../concepts/Purpose';
@@ -87,8 +87,8 @@ export default class ConceptLink extends Content {
         return locales.get((l) => l.node.ConceptLink);
     }
 
-    getGlyphs() {
-        return Glyphs.Link;
+    getCharacter() {
+        return Characters.Link;
     }
 
     concretize(): ConceptLink {

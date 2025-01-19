@@ -7,7 +7,7 @@ import { NONE_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement } from './Node';
 import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
@@ -92,7 +92,7 @@ export default class NoneLiteral extends Literal {
         return locales.concretize((l) => l.node.NoneLiteral.start);
     }
 
-    getGlyphs() {
-        return Glyphs.None;
+    getCharacter() {
+        return Characters.None;
     }
 }

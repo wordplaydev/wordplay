@@ -1,6 +1,6 @@
 import type { Grammar, Replacement } from './Node';
 import type Locale from '@locale/Locale';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Node, { list, node } from './Node';
 import Literal from './Literal';
@@ -148,8 +148,8 @@ export default class FormattedLiteral extends Literal {
         return locales.get((l) => l.node.FormattedLiteral);
     }
 
-    getGlyphs() {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 
     getValue(locales: Locale[]): Value {

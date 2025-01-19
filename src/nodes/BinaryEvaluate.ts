@@ -34,7 +34,7 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import NodeRef from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../values/FunctionValue';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import Reference from './Reference';
@@ -476,9 +476,9 @@ export default class BinaryEvaluate extends Expression {
         );
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
-            symbols: Glyphs.BinaryEvaluate.symbols,
+            symbols: Characters.BinaryEvaluate.symbols,
             emotion: Emotion.kind,
         };
     }

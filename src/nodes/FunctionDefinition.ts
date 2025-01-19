@@ -27,7 +27,7 @@ import TypeToken from './TypeToken';
 import { any, node, none, type Grammar, type Replacement, list } from './Node';
 import type LocaleText from '@locale/LocaleText';
 import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import NameType from './NameType';
@@ -182,8 +182,8 @@ export default class FunctionDefinition extends DefinitionExpression {
                         .filter((input) => !input.hasDefault())
                         .map((input) =>
                             input.type
-                                ? input.type.getDefaultExpression(context) ??
-                                  ExpressionPlaceholder.make(input.type)
+                                ? (input.type.getDefaultExpression(context) ??
+                                  ExpressionPlaceholder.make(input.type))
                                 : ExpressionPlaceholder.make(),
                         ),
                 );
@@ -483,7 +483,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs() {
-        return Glyphs.Function;
+    getCharacter() {
+        return Characters.Function;
     }
 }

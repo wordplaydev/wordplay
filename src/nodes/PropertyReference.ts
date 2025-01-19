@@ -24,7 +24,7 @@ import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import UnimplementedException from '../values/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
@@ -395,8 +395,8 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Reference;
+    getCharacter() {
+        return Characters.Reference;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

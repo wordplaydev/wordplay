@@ -5,7 +5,7 @@ import BasisType from './BasisType';
 import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
 import BooleanLiteral from './BooleanLiteral';
 
@@ -62,8 +62,8 @@ export default class BooleanType extends BasisType {
         return locales.get((l) => l.node.BooleanType);
     }
 
-    getGlyphs() {
-        return Glyphs.BooleanType;
+    getCharacter() {
+        return Characters.BooleanType;
     }
 
     getDefaultExpression() {

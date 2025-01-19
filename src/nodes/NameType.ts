@@ -185,7 +185,7 @@ export default class NameType extends Type {
         return locales.get((l) => l.node.NameType);
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.name.getText(),
             emotion: Emotion.kind,

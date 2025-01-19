@@ -371,7 +371,7 @@ export default class Unit extends Type {
         return locales.get((l) => l.node.Unit);
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.toWordplay(),
             emotion: Emotion.kind,

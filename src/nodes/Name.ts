@@ -163,7 +163,7 @@ export default class Name extends LanguageTagged {
         return [this.name.getText()];
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.name.getText(),
             emotion: Emotion.kind,

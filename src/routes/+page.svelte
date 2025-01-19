@@ -22,8 +22,8 @@
             projects: string;
             /** What content is on the galleries page */
             galleries: string;
-            /** What content is on on the glyphs page */
-            glyphs: string;
+            /** What content is on on the characters page */
+            characters: string;
             /** What content is on the rights page */
             rights: string;
             /** The community link */
@@ -52,14 +52,14 @@
     import {
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
-        GLYPHS_SYMBOL,
+        SYMBOL_SYMBOL,
         LEARN_SYMBOL,
         STAGE_SYMBOL,
         TEACH_SYMBOL,
     } from '@parser/Symbols';
     import Beta from './Beta.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import Glyphs from '../lore/Glyphs';
+    import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
     import Iconified from './Iconified.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -79,7 +79,7 @@
     <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
     <div class="welcome">
         <div style:margin-inline-start="-2.5em">
-            <Speech glyph={Glyphs.Function} emotion={Emotion.happy} big
+            <Speech character={Characters.Function} emotion={Emotion.happy} big
                 >{#snippet content()}
                     <MarkupHtmlView
                         markup={$locales.get((l) => l.ui.page.landing.value)}
@@ -126,11 +126,13 @@
         <Action>
             <BigLink
                 smaller
-                to="/glyphs"
-                subtitle={$locales.get((l) => l.ui.page.landing.link.glyphs)}
+                to="/characters"
+                subtitle={$locales.get(
+                    (l) => l.ui.page.landing.link.characters,
+                )}
                 ><Iconified
-                    icon={GLYPHS_SYMBOL}
-                    text={(l) => l.ui.page.glyphs.header}
+                    icon={SYMBOL_SYMBOL}
+                    text={(l) => l.ui.page.characters.header}
                 /></BigLink
             >
         </Action>

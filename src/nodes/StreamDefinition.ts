@@ -31,7 +31,7 @@ import type LocaleText from '@locale/LocaleText';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Evaluate from './Evaluate';
 import Reference from './Reference';
@@ -281,7 +281,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return locales.concretize((l) => l.node.StreamDefinition.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

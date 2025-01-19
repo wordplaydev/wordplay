@@ -22,7 +22,7 @@
     import { animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
     import Arrangement from '../../db/settings/Arrangement';
-    import Glyphs from '../../lore/Glyphs';
+    import Characters from '../../lore/BasisCharacters';
     import Color from '../../output/Color';
     import Toggle from '../widgets/Toggle.svelte';
     import type Project from '../../db/projects/Project';
@@ -313,7 +313,7 @@
                     <Subheader compact>
                         <div class="name" class:source={tile.isSource()}>
                             {#if editable && tile.isSource()}
-                                <Emoji>{Glyphs.Program.symbols}</Emoji>
+                                <Emoji>{Characters.Program.symbols}</Emoji>
                                 <TextField
                                     id="source-name-editor-{tile.id}"
                                     text={tile

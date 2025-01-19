@@ -14,7 +14,7 @@ import TypeSet from './TypeSet';
 import Start from '@runtime/Start';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Sym from './Sym';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
@@ -168,8 +168,8 @@ export default class Is extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

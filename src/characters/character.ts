@@ -1,5 +1,5 @@
 /**
- * This file contains type definitions and functionality for managing custom glyphs, which are rendered as SVGs.
+ * This file contains type definitions and functionality for managing custom characters, which are rendered as SVGs.
  * Aspects of symbols connected to the programming language are in /nodes with the rest of the language and
  * aspects related to rendering are in /output. Everying here is about reasoning about and processing symbols,
  * independent of the the language or rendering.
@@ -19,7 +19,6 @@ const SizeSchema = z.object({
     width: z.number(),
     height: z.number(),
 });
-type Size = z.infer<typeof SizeSchema>;
 
 /** See Color.ts for LCH details. */
 const ColorSchema = z.object({
@@ -34,7 +33,6 @@ const StrokeSchema = z.object({
     color: ColorSchema.nullable(),
     width: z.number(), // pixels
 });
-type Stroke = z.infer<typeof StrokeSchema>;
 
 const RectangleSchema = z
     .object({
@@ -49,14 +47,14 @@ const RectangleSchema = z
     // The width and height of the rectange.
     .merge(SizeSchema);
 
-export type GlyphRectangle = z.infer<typeof RectangleSchema>;
+export type CharacterRectangle = z.infer<typeof RectangleSchema>;
 
 const PixelSchema = z.object({
     type: z.literal('pixel'),
     center: PointSchema, // The center of the pixel
     fill: ColorSchema.nullable(), // If null, it's currentColor
 });
-export type GlyphPixel = z.infer<typeof PixelSchema>;
+export type CharacterPixel = z.infer<typeof PixelSchema>;
 
 const EllipseSchema = z
     .object({
@@ -69,7 +67,7 @@ const EllipseSchema = z
     // The radius on each dimension
     .merge(SizeSchema);
 
-export type GlyphEllipse = z.infer<typeof EllipseSchema>;
+export type CharacterEllipse = z.infer<typeof EllipseSchema>;
 
 const PathSchema = z.object({
     type: z.literal('path'),
@@ -85,27 +83,27 @@ const PathSchema = z.object({
     // See: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
     curved: z.boolean(),
 });
-export type GlyphPath = z.infer<typeof PathSchema>;
+export type CharacterPath = z.infer<typeof PathSchema>;
 
-const GlyphShapeSchema = z.union([
+const CharacterShapeSchema = z.union([
     PixelSchema,
     RectangleSchema,
     EllipseSchema,
     PathSchema,
 ]);
-export type GlyphShape = z.infer<typeof GlyphShapeSchema>;
+export type CharacterShape = z.infer<typeof CharacterShapeSchema>;
 
 /** A 128x128 pixel canvas of layered shapes */
-export const GlyphSchema = z.object({
-    // A unique identifier for the glyph
+export const CharacterSchema = z.object({
+    // A unique identifier for the character
     id: z.string().uuid(),
-    // The optional owner of this glyph. (If it doesn't have one, it was made offline).
+    // The optional owner of this character. (If it doesn't have one, it was made offline).
     owner: z.string().nullable(),
-    // The list of viewers who can see this glyph, derived from the list of projects using it.
+    // The list of viewers who can see this character, derived from the list of projects using it.
     viewers: z.array(z.string()),
-    // The list of project IDs using this glyph, for deriving viewers. Added when a project makes a reference to this glyph.
+    // The list of project IDs using this character, for deriving viewers. Added when a project makes a reference to this character.
     projects: z.array(z.string()),
-    // Whether this glyph is public.
+    // Whether this character is public.
     public: z.boolean(),
     // The Unix time of when this was last updated, for simple distributed conflict resolution.
     updated: z.number(),
@@ -118,33 +116,33 @@ export const GlyphSchema = z.object({
         z.union([PixelSchema, RectangleSchema, EllipseSchema, PathSchema]),
     ),
 });
-export type Glyph = z.infer<typeof GlyphSchema>;
+export type Character = z.infer<typeof CharacterSchema>;
 
 /** The width and height of the grid */
-export const GlyphSize = 32;
+export const CharacterSize = 32;
 
 /**
  *
- * @param glyph The glyph to render
+ * @param character The character to render
  * @param size The CSS width and height of the SVG
  * @param selected An optional list of shapes that should have the class "selected"
  * @returns
  */
-export function glyphToSVG(
-    glyph: Glyph,
+export function characterToSVG(
+    character: Character,
     size: number | string,
-    selection?: GlyphShape[],
+    selection?: CharacterShape[],
 ): string {
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}">${glyph.shapes.map((s) => shapeToSVG(s, selection)).join('')}</svg>`;
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${CharacterSize} ${CharacterSize}">${character.shapes.map((s) => shapeToSVG(s, selection)).join('')}</svg>`;
 }
 
-export function unknownGlyphSVG(size: number | string) {
-    return `<svg width="${size}" height="${size}" viewBox="0 0 ${GlyphSize} ${GlyphSize}"><rect fill="none" stroke-width="3" stroke="currentColor" x="0" y="0" width="32" height="32" /></svg>`;
+export function unknownCharacterSVG(size: number | string) {
+    return `<svg width="${size}" height="${size}" viewBox="0 0 ${CharacterSize} ${CharacterSize}"><rect fill="none" stroke-width="3" stroke="currentColor" x="0" y="0" width="32" height="32" /></svg>`;
 }
 
 export function shapeToSVG(
-    shape: GlyphShape,
-    selection?: GlyphShape[],
+    shape: CharacterShape,
+    selection?: CharacterShape[],
 ): string {
     const selected = selection?.some((s) => s === shape);
     switch (shape.type) {
@@ -159,7 +157,10 @@ export function shapeToSVG(
     }
 }
 
-function rectToSVG(rect: GlyphRectangle, selected: boolean = false): string {
+function rectToSVG(
+    rect: CharacterRectangle,
+    selected: boolean = false,
+): string {
     return tag('rect', {
         class: selected ? 'selected' : undefined,
         x: rect.center[0] - rect.width / 2,
@@ -180,7 +181,7 @@ function rectToSVG(rect: GlyphRectangle, selected: boolean = false): string {
 }
 
 function ellipseToSVG(
-    ellipse: GlyphEllipse,
+    ellipse: CharacterEllipse,
     selected: boolean = false,
 ): string {
     return tag('ellipse', {
@@ -199,7 +200,7 @@ function ellipseToSVG(
     });
 }
 
-function pixelToSVG(pixel: GlyphPixel, selected: boolean = false): string {
+function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
     return tag('rect', {
         class: selected ? 'selected' : undefined,
         x: pixel.center[0],
@@ -210,7 +211,7 @@ function pixelToSVG(pixel: GlyphPixel, selected: boolean = false): string {
     });
 }
 
-function pathToSVG(path: GlyphPath, selected: boolean = false): string {
+function pathToSVG(path: CharacterPath, selected: boolean = false): string {
     const points = path.points
         .map(
             ([x, y], index) =>
@@ -255,7 +256,10 @@ function tag(
         .join(' ')}/>`;
 }
 
-export function pixelsAreEqual(one: GlyphPixel, two: GlyphPixel): boolean {
+export function pixelsAreEqual(
+    one: CharacterPixel,
+    two: CharacterPixel,
+): boolean {
     return (
         one.center[0] === two.center[0] &&
         one.center[1] === two.center[1] &&
@@ -294,7 +298,7 @@ export function getSharedColor(
     else return rest.every((c) => colorsAreEqual(first, c)) ? first : undefined;
 }
 
-export function getPathCenter(path: GlyphPath): Point {
+export function getPathCenter(path: CharacterPath): Point {
     // Compute the center
     const center = path.points.reduce(
         (sum, [x, y]) => [sum[0] + x, sum[1] + y],
@@ -308,7 +312,7 @@ export function getPathCenter(path: GlyphPath): Point {
 
 /** Mutate the given shape in the specified direction. If set is true, interpret the position as a new location, otherwise interpret it is a translation. */
 export function moveShape(
-    shape: GlyphShape,
+    shape: CharacterShape,
     x: number,
     y: number,
     set: 'move' | 'translate',

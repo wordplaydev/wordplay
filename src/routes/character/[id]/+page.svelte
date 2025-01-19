@@ -1,7 +1,7 @@
 <script module lang="ts">
     import type { ButtonText, FieldText, ModeText } from '@locale/UITexts';
     import type { Template } from '@locale/LocaleText';
-    export type GlyphPageText = {
+    export type CharacterPageText = {
         header: string;
         prompt: string;
         instructions: {
@@ -71,9 +71,9 @@
             description: string;
             /** When completing a path, instructions on how to end it. */
             end: string;
-            /** Couldn't load the glyph */
+            /** Couldn't load the character */
             loadfail: string;
-            /** The glyph doesn't exist */
+            /** The character doesn't exist */
             notfound: string;
         };
         announce: {
@@ -98,7 +98,7 @@
 </script>
 
 <script lang="ts">
-    import { GlyphsDB, locales } from '@db/Database';
+    import { CharactersDB, locales } from '@db/Database';
     import Header from '@components/app/Header.svelte';
     import TextField from '@components/widgets/TextField.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
@@ -106,17 +106,17 @@
     import {
         getPathCenter,
         getSharedColor,
-        GlyphSize,
-        glyphToSVG,
+        CharacterSize,
+        characterToSVG,
         moveShape,
         pixelsAreEqual,
-        type Glyph,
-        type GlyphEllipse,
-        type GlyphPath,
-        type GlyphPixel,
-        type GlyphRectangle,
-        type GlyphShape,
-    } from '../../../glyphs/glyphs';
+        type Character,
+        type CharacterEllipse,
+        type CharacterPath,
+        type CharacterPixel,
+        type CharacterRectangle,
+        type CharacterShape,
+    } from '../../../characters/character';
     import Page from '@components/app/Page.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
@@ -139,6 +139,7 @@
     import { untrack } from 'svelte';
     import { page } from '$app/state';
     import Spinning from '@components/app/Spinning.svelte';
+    import Locales from '@locale/Locales';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -152,11 +153,11 @@
     /** The current description of the shape */
     let description = $state('');
 
-    /** The current list of shapes of the glyph */
-    let shapes: GlyphShape[] = $state([]);
+    /** The current list of shapes of the character */
+    let shapes: CharacterShape[] = $state([]);
 
     /** The history of shapes, to support undo/redo */
-    let history: GlyphShape[][] = $state([]);
+    let history: CharacterShape[][] = $state([]);
 
     /** Where we are in the undo history, to support redo */
     let historyIndex = $state(0);
@@ -165,12 +166,12 @@
     let mode: DrawingMode = $state(0);
 
     /** The current selection of shapes, just pointers to the object, since we will mutate them. */
-    let selection: GlyphShape[] = $state([]);
+    let selection: CharacterShape[] = $state([]);
 
     /** The current copied shapes */
-    let copy: GlyphShape[] | undefined = $state(undefined);
+    let copy: CharacterShape[] | undefined = $state(undefined);
 
-    /** The current position for drawing, within the bounds of the glyph grid */
+    /** The current position for drawing, within the bounds of the character grid */
     let drawingCursorPosition = $state({ x: 0, y: 0 });
 
     /** The relative positions from each selected shape's center, so we can maintain relative positions for multiple selections. */
@@ -207,21 +208,24 @@
     let canvasView: HTMLDivElement | null = $state(null);
 
     /** The pending rectangle or ellipse */
-    let pendingRectOrEllipse: GlyphRectangle | GlyphEllipse | undefined =
-        $state(undefined);
+    let pendingRectOrEllipse:
+        | CharacterRectangle
+        | CharacterEllipse
+        | undefined = $state(undefined);
 
     /** The pendig path */
-    let pendingPath: GlyphPath | undefined = $state(undefined);
+    let pendingPath: CharacterPath | undefined = $state(undefined);
 
-    /** The persisted glyph */
-    let persisted: Glyph | 'loading' | 'failed' | 'unknown' = $state('loading');
+    /** The persisted character */
+    let persisted: Character | 'loading' | 'failed' | 'unknown' =
+        $state('loading');
 
     /** The list of viewers, derived from the projects using it */
     let viewers: string[] = $derived.by(() =>
         typeof persisted === 'string' ? [] : persisted.viewers,
     );
 
-    /** The list of projects using the glyph */
+    /** The list of projects using the character */
     let projects: string[] = $derived.by(() =>
         typeof persisted === 'string' ? [] : persisted.projects,
     );
@@ -229,8 +233,8 @@
     /** Whether the project is public */
     let isPublic: boolean = $state(false);
 
-    /** Always have an up to date glyph to render and save */
-    let editedGlyph: Glyph = $derived({
+    /** Always have an up to date character to render and save */
+    let editedCharacter: Character = $derived({
         id: page.params.id,
         owner: $user?.uid ?? null,
         updated: Date.now(),
@@ -243,36 +247,36 @@
     });
 
     /**
-     * When the edited glyph changes and we have loaded the persisted one,
+     * When the edited character changes and we have loaded the persisted one,
      * tell the database about the new value.
      * */
     $effect(() => {
         // IF th
-        if (editedGlyph && typeof persisted !== 'string')
+        if (editedCharacter && typeof persisted !== 'string')
             untrack(() =>
-                GlyphsDB.updateGlyph(
-                    $state.snapshot(editedGlyph) as Glyph,
+                CharactersDB.updateCharacter(
+                    $state.snapshot(editedCharacter) as Character,
                     true,
                 ),
             );
     });
 
-    /** When the page loads or its id changes, load the persisted glyph */
+    /** When the page loads or its id changes, load the persisted character */
     $effect(() => {
         const id = page.params.id;
         // Don't track the below; it's just a one-time load unless the id changes.
         untrack(() =>
-            GlyphsDB.getGlyph(id).then((loadedGlyph) => {
+            CharactersDB.getByIDOrName(id).then((loadedCharacter) => {
                 persisted =
-                    loadedGlyph === undefined
+                    loadedCharacter === undefined
                         ? 'failed'
-                        : loadedGlyph === null
+                        : loadedCharacter === null
                           ? 'unknown'
-                          : loadedGlyph;
-                if (loadedGlyph) {
-                    name = loadedGlyph.name;
-                    description = loadedGlyph.description;
-                    shapes = loadedGlyph.shapes;
+                          : loadedCharacter;
+                if (loadedCharacter) {
+                    name = loadedCharacter.name;
+                    description = loadedCharacter.description;
+                    shapes = loadedCharacter.shapes;
                 }
             }),
         );
@@ -303,7 +307,7 @@
                     $locales
                         .concretize(
                             $locales.get(
-                                (l) => l.ui.page.glyph.announce.selection,
+                                (l) => l.ui.page.character.announce.selection,
                             ),
                             selection.length === 0
                                 ? undefined
@@ -311,7 +315,9 @@
                                       .map((s) =>
                                           $locales.get(
                                               (l) =>
-                                                  l.ui.page.glyph.shape[s.type],
+                                                  l.ui.page.character.shape[
+                                                      s.type
+                                                  ],
                                           ),
                                       )
                                       .join(', '),
@@ -325,24 +331,24 @@
         const tokens = toTokens(name);
         return tokens.nextAre(Sym.Name, Sym.End)
             ? true
-            : $locales.get((l) => l.ui.page.glyph.feedback.name);
+            : $locales.get((l) => l.ui.page.character.feedback.name);
     }
     function validDescription(description: string) {
         return description.length > 0
             ? true
-            : $locales.get((l) => l.ui.page.glyph.feedback.description);
+            : $locales.get((l) => l.ui.page.character.feedback.description);
     }
 
     let error = $derived(
         !validName(name)
-            ? $locales.get((l) => l.ui.page.glyph.feedback.name)
+            ? $locales.get((l) => l.ui.page.character.feedback.name)
             : !validDescription(description)
-              ? $locales.get((l) => l.ui.page.glyph.feedback.description)
+              ? $locales.get((l) => l.ui.page.character.feedback.description)
               : undefined,
     );
 
     /** Centralized shape list updating to support undo/redo. */
-    function setShapes(newShapes: GlyphShape[]) {
+    function setShapes(newShapes: CharacterShape[]) {
         // Remove the future if we're in the past
         if (historyIndex < history.length - 1)
             history = history.slice(0, historyIndex);
@@ -353,7 +359,7 @@
         // Clone the current shapes and add them to the history the shapes to the history
         history = [
             ...history,
-            structuredClone($state.snapshot(shapes)) as GlyphShape[],
+            structuredClone($state.snapshot(shapes)) as CharacterShape[],
         ];
 
         // Move the index to the present.
@@ -381,7 +387,7 @@
 
     /** Set the pixel at the current position and fill. */
     function setPixel() {
-        const candidate: GlyphPixel = {
+        const candidate: CharacterPixel = {
             type: 'pixel',
             center: [drawingCursorPosition.x, drawingCursorPosition.y],
             fill: currentFillSetting === undefined ? null : { ...currentFill },
@@ -425,7 +431,7 @@
               };
     }
 
-    function getCurrentRect(): GlyphRectangle {
+    function getCurrentRect(): CharacterRectangle {
         return {
             ...{
                 type: 'rect',
@@ -459,7 +465,7 @@
         );
     }
 
-    function getCurrentEllipse(): GlyphEllipse {
+    function getCurrentEllipse(): CharacterEllipse {
         return {
             ...{
                 type: 'ellipse',
@@ -477,7 +483,7 @@
         };
     }
 
-    function getCurrentPath(): GlyphPath {
+    function getCurrentPath(): CharacterPath {
         return {
             type: 'path',
             points: [[drawingCursorPosition.x, drawingCursorPosition.y]],
@@ -507,7 +513,7 @@
             ]);
     }
 
-    function addShapes(newShapes: GlyphShape | GlyphShape[]) {
+    function addShapes(newShapes: CharacterShape | CharacterShape[]) {
         setShapes([
             ...shapes,
             ...(Array.isArray(newShapes) ? newShapes : [newShapes]),
@@ -535,7 +541,7 @@
                     $locales
                         .concretize(
                             $locales.get(
-                                (l) => l.ui.page.glyph.announce.position,
+                                (l) => l.ui.page.character.announce.position,
                             ),
                             drawingCursorPosition.x,
                             drawingCursorPosition.y,
@@ -605,7 +611,7 @@
         // Handle copy
         if (event.key === 'c' && event.metaKey) {
             copy = selection.map(
-                (s) => structuredClone($state.snapshot(s)) as GlyphShape,
+                (s) => structuredClone($state.snapshot(s)) as CharacterShape,
             );
             event.stopPropagation();
             event.preventDefault();
@@ -616,7 +622,8 @@
         if (event.key === 'v' && event.metaKey) {
             if (copy) {
                 const copies = copy.map(
-                    (s) => structuredClone($state.snapshot(s)) as GlyphShape,
+                    (s) =>
+                        structuredClone($state.snapshot(s)) as CharacterShape,
                 );
                 // Translate the copies down a bit to make them visible.
                 for (const shape of copies) {
@@ -724,10 +731,10 @@
 
         // Get the current canvas position.
         const x = Math.floor(
-            (event.offsetX / event.currentTarget.clientWidth) * GlyphSize,
+            (event.offsetX / event.currentTarget.clientWidth) * CharacterSize,
         );
         const y = Math.floor(
-            (event.offsetY / event.currentTarget.clientHeight) * GlyphSize,
+            (event.offsetY / event.currentTarget.clientHeight) * CharacterSize,
         );
 
         // Move the position to the pointer
@@ -865,11 +872,12 @@
 </script>
 
 <svelte:head>
-    <title>{$locales.get((l) => l.ui.page.glyph.header)} — {name}</title>
+    <title>{$locales.get((l) => l.ui.page.character.header)} — {name}</title>
 </svelte:head>
 
 <!-- Fill and stroke choosers -->
 {#snippet colorChooser(
+    locales: Locales,
     state: ColorSetting,
     color: LCH,
     /** Whether no fill is allowed */
@@ -878,13 +886,15 @@
     setState: (state: ColorSetting) => void,
     setColor: (color: LCH) => void,
 )}
-    <h3>{$locales.get(accessor).label}</h3>
+    <h3>{locales.get(accessor).label}</h3>
     <Mode
-        descriptions={$locales.get(accessor)}
+        descriptions={locales.get(accessor)}
         modes={[
             '🎨',
-            $locales.get((l) => l.ui.page.glyph.field.inherit),
-            ...(none ? [$locales.get((l) => l.ui.page.glyph.field.none)] : []),
+            locales.get((l) => l.ui.page.character.field.inherit),
+            ...(none
+                ? [locales.get((l) => l.ui.page.character.field.none)]
+                : []),
         ]}
         choice={state === 'none' ? 2 : state === 'inherit' ? 1 : 0}
         select={(choice: number) => {
@@ -908,12 +918,12 @@
 {#snippet grid()}
     <div aria-hidden="true" class="grid">
         <!-- Render gridlines below everything -->
-        {#each { length: GlyphSize }, x}<div
+        {#each { length: CharacterSize }, x}<div
                 class="line yline"
-                style="left: {100 * (x / GlyphSize)}%"
-            ></div>{/each}{#each { length: GlyphSize }, y}<div
+                style="left: {100 * (x / CharacterSize)}%"
+            ></div>{/each}{#each { length: CharacterSize }, y}<div
                 class="line xline"
-                style="top: {100 * (y / GlyphSize)}%"
+                style="top: {100 * (y / CharacterSize)}%"
             ></div>{/each}
     </div>
 
@@ -949,25 +959,25 @@
     <div class="palette">
         <div class="meta">
             <TextField
-                id="glyph-name"
+                id="character-name"
                 bind:text={name}
                 placeholder={$locales.get(
-                    (l) => l.ui.page.glyph.field.name.placeholder,
+                    (l) => l.ui.page.character.field.name.placeholder,
                 )}
                 description={$locales.get(
-                    (l) => l.ui.page.glyph.field.name.description,
+                    (l) => l.ui.page.character.field.name.description,
                 )}
                 done={() => {}}
                 validator={validName}
             ></TextField>
             <TextBox
-                id="glyph-description"
+                id="character-description"
                 bind:text={description}
                 placeholder={$locales.get(
-                    (l) => l.ui.page.glyph.field.description.placeholder,
+                    (l) => l.ui.page.character.field.description.placeholder,
                 )}
                 description={$locales.get(
-                    (l) => l.ui.page.glyph.field.description.description,
+                    (l) => l.ui.page.character.field.description.description,
                 )}
                 done={() => {}}
                 validator={validDescription}
@@ -976,9 +986,9 @@
                 <Feedback>{error}</Feedback>
             {/if}
         </div>
-        <h2>{$locales.get((l) => l.ui.page.glyph.field.mode).label}</h2>
+        <h2>{$locales.get((l) => l.ui.page.character.field.mode).label}</h2>
         <Mode
-            descriptions={$locales.get((l) => l.ui.page.glyph.field.mode)}
+            descriptions={$locales.get((l) => l.ui.page.character.field.mode)}
             modes={['👆', '■', '▬', '●', '◡']}
             choice={mode}
             select={(choice: number) => {
@@ -993,16 +1003,18 @@
         <h2>
             {#if selection.length > 0}
                 {Array.from(new Set(selection.map((s) => s.type)))
-                    .map((s) => $locales.get((l) => l.ui.page.glyph.shape[s]))
+                    .map((s) =>
+                        $locales.get((l) => l.ui.page.character.shape[s]),
+                    )
                     .join(', ')}
             {:else if mode === DrawingMode.Pixel}
-                {$locales.get((l) => l.ui.page.glyph.shape.pixel)}
+                {$locales.get((l) => l.ui.page.character.shape.pixel)}
             {:else if mode === DrawingMode.Rect}
-                {$locales.get((l) => l.ui.page.glyph.shape.rect)}
+                {$locales.get((l) => l.ui.page.character.shape.rect)}
             {:else if mode === DrawingMode.Ellipse}
-                {$locales.get((l) => l.ui.page.glyph.shape.ellipse)}
+                {$locales.get((l) => l.ui.page.character.shape.ellipse)}
             {:else if mode === DrawingMode.Path}
-                {$locales.get((l) => l.ui.page.glyph.shape.path)}
+                {$locales.get((l) => l.ui.page.character.shape.path)}
             {:else}
                 —
             {/if}
@@ -1010,11 +1022,12 @@
 
         <!-- All shapes have fills -->
         {@render colorChooser(
+            $locales,
             currentFillSetting,
             // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
             getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
             mode !== DrawingMode.Pixel,
-            (l) => l.ui.page.glyph.field.fill,
+            (l) => l.ui.page.character.field.fill,
             (choice) => {
                 currentFillSetting = choice;
                 for (const shape of selection) shape.fill = getCurrentFill();
@@ -1029,6 +1042,7 @@
         <!-- All shapes except pixels have strokes -->
         {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
             {@render colorChooser(
+                $locales,
                 currentStrokeSetting,
                 // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
                 getSharedColor(
@@ -1037,7 +1051,7 @@
                         .map((s) => s.stroke?.color),
                 ) ?? currentStroke,
                 true,
-                (l) => l.ui.page.glyph.field.stroke,
+                (l) => l.ui.page.character.field.stroke,
                 (choice) => {
                     currentStrokeSetting = choice;
                     if (selection.length > 0) {
@@ -1064,9 +1078,11 @@
             <!-- If there's a selection and they have the same stroke width, show that, otherwise show the current stroke value. -->
             <Slider
                 label={$locales.get(
-                    (l) => l.ui.page.glyph.field.strokeWidth.label,
+                    (l) => l.ui.page.character.field.strokeWidth.label,
                 )}
-                tip={$locales.get((l) => l.ui.page.glyph.field.strokeWidth.tip)}
+                tip={$locales.get(
+                    (l) => l.ui.page.character.field.strokeWidth.tip,
+                )}
                 min={0}
                 max={3}
                 increment={0.1}
@@ -1096,13 +1112,15 @@
             ></Slider>
         {/if}
         {#if mode !== DrawingMode.Pixel}
-            <h3>{$locales.get((l) => l.ui.page.glyph.shape.shape)}</h3>
+            <h3>{$locales.get((l) => l.ui.page.character.shape.shape)}</h3>
         {/if}
         <!-- Only rectangles have a radius -->
         {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
             <Slider
-                label={$locales.get((l) => l.ui.page.glyph.field.radius.label)}
-                tip={$locales.get((l) => l.ui.page.glyph.field.radius.tip)}
+                label={$locales.get(
+                    (l) => l.ui.page.character.field.radius.label,
+                )}
+                tip={$locales.get((l) => l.ui.page.character.field.radius.tip)}
                 min={0}
                 max={5}
                 increment={0.1}
@@ -1135,8 +1153,10 @@
         <!-- All shapes but pixels have rotation -->
         {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
             <Slider
-                label={$locales.get((l) => l.ui.page.glyph.field.angle.label)}
-                tip={$locales.get((l) => l.ui.page.glyph.field.angle.tip)}
+                label={$locales.get(
+                    (l) => l.ui.page.character.field.angle.label,
+                )}
+                tip={$locales.get((l) => l.ui.page.character.field.angle.tip)}
                 min={0}
                 max={359}
                 increment={1}
@@ -1194,8 +1214,12 @@
                             setShapes([...shapes]);
                         } else currentCurved = on;
                     }}
-                    label={$locales.get((l) => l.ui.page.glyph.field.closed)}
-                ></Checkbox>{$locales.get((l) => l.ui.page.glyph.field.closed)}
+                    label={$locales.get(
+                        (l) => l.ui.page.character.field.closed,
+                    )}
+                ></Checkbox>{$locales.get(
+                    (l) => l.ui.page.character.field.closed,
+                )}
             </label>
             <label>
                 <Checkbox
@@ -1226,9 +1250,11 @@
                         // Otherwise update the current curved value.
                         else currentCurved = on;
                     }}
-                    label={$locales.get((l) => l.ui.page.glyph.field.curved)}
+                    label={$locales.get(
+                        (l) => l.ui.page.character.field.curved,
+                    )}
                 ></Checkbox>{$locales.get(
-                    (l) => l.ui.page.glyph.field.curved,
+                    (l) => l.ui.page.character.field.curved,
                 )}</label
             >
         {/if}
@@ -1263,10 +1289,10 @@
 <Page>
     <section>
         <div class="header">
-            <Header>{$locales.get((l) => l.ui.page.glyph.header)}</Header>
-            <p>{$locales.get((l) => l.ui.page.glyph.prompt)}</p>
+            <Header>{$locales.get((l) => l.ui.page.character.header)}</Header>
+            <p>{$locales.get((l) => l.ui.page.character.prompt)}</p>
             <div class="preview">
-                {@html glyphToSVG(editedGlyph, '32px')}
+                {@html characterToSVG(editedCharacter, '32px')}
             </div>
         </div>
         {#if persisted === 'loading'}
@@ -1274,13 +1300,13 @@
         {:else if persisted === 'failed'}
             <Feedback
                 >{$locales.get(
-                    (l) => l.ui.page.glyph.feedback.loadfail,
+                    (l) => l.ui.page.character.feedback.loadfail,
                 )}</Feedback
             >
         {:else if persisted === 'unknown'}
             <Feedback
                 >{$locales.get(
-                    (l) => l.ui.page.glyph.feedback.notfound,
+                    (l) => l.ui.page.character.feedback.notfound,
                 )}</Feedback
             >
         {:else}
@@ -1289,14 +1315,14 @@
                     <div class="toolbar">
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.page.glyph.button.undo,
+                                (l) => l.ui.page.character.button.undo,
                             )}
                             action={() => undo()}
                             active={historyIndex > 0}>{UNDO_SYMBOL}</Button
                         >
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.page.glyph.button.redo,
+                                (l) => l.ui.page.character.button.redo,
                             )}
                             action={() => redo()}
                             active={historyIndex < history.length - 1}
@@ -1304,29 +1330,30 @@
                         </Button>
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.page.glyph.button.back.tip,
+                                (l) => l.ui.page.character.button.back.tip,
                             )}
                             action={() => arrange('back')}
                             active={selection.length > 0 && shapes.length > 1}
                             >{SHARE_SYMBOL}
                             {$locales.get(
-                                (l) => l.ui.page.glyph.button.back.label,
+                                (l) => l.ui.page.character.button.back.label,
                             )}</Button
                         >
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.page.glyph.button.forward.tip,
+                                (l) => l.ui.page.character.button.forward.tip,
                             )}
                             action={() => arrange('forward')}
                             active={selection.length > 0 && shapes.length > 1}
                             >{BORROW_SYMBOL}
                             {$locales.get(
-                                (l) => l.ui.page.glyph.button.forward.label,
+                                (l) => l.ui.page.character.button.forward.label,
                             )}</Button
                         >
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.page.glyph.button.clearPixels.tip,
+                                (l) =>
+                                    l.ui.page.character.button.clearPixels.tip,
                             )}
                             action={() => {
                                 setShapes(
@@ -1336,12 +1363,14 @@
                             active={shapes.some((s) => s.type === 'pixel')}
                             >{CANCEL_SYMBOL}
                             {$locales.get(
-                                (l) => l.ui.page.glyph.button.clearPixels.label,
+                                (l) =>
+                                    l.ui.page.character.button.clearPixels
+                                        .label,
                             )}</Button
                         >
                         <Button
                             tip={$locales.get(
-                                (l) => l.ui.page.glyph.button.clear.tip,
+                                (l) => l.ui.page.character.button.clear.tip,
                             )}
                             action={() => {
                                 setShapes([]);
@@ -1349,7 +1378,7 @@
                             active={shapes.length > 0}
                             >{CANCEL_SYMBOL}
                             {$locales.get(
-                                (l) => l.ui.page.glyph.button.clear.label,
+                                (l) => l.ui.page.character.button.clear.label,
                             )}</Button
                         >
                     </div>
@@ -1369,23 +1398,31 @@
                         onpointerup={handlePointerUp}
                     >
                         {@render grid()}
-                        {@html glyphToSVG(editedGlyph, '100%', selection)}
+                        {@html characterToSVG(
+                            editedCharacter,
+                            '100%',
+                            selection,
+                        )}
                         {#if mode !== DrawingMode.Select}
                             <div
                                 class="position"
                                 style:left="{(100 * drawingCursorPosition.x) /
-                                    GlyphSize}%"
+                                    CharacterSize}%"
                                 style:top="{(100 * drawingCursorPosition.y) /
-                                    GlyphSize}%"
-                                style:width={'calc(100% / ' + GlyphSize + ')'}
-                                style:height={'calc(100% / ' + GlyphSize + ')'}
+                                    CharacterSize}%"
+                                style:width={'calc(100% / ' +
+                                    CharacterSize +
+                                    ')'}
+                                style:height={'calc(100% / ' +
+                                    CharacterSize +
+                                    ')'}
                             ></div>
                         {/if}
                         {#if pendingPath}
                             <div class="notes">
                                 <Feedback
                                     >{$locales.get(
-                                        (l) => l.ui.page.glyph.feedback.end,
+                                        (l) => l.ui.page.character.feedback.end,
                                     )}</Feedback
                                 >
                             </div>
@@ -1395,41 +1432,45 @@
                         markup={mode === DrawingMode.Select &&
                         shapes.length === 0
                             ? $locales.get(
-                                  (l) => l.ui.page.glyph.instructions.empty,
+                                  (l) => l.ui.page.character.instructions.empty,
                               )
                             : mode === DrawingMode.Select &&
                                 shapes.length > 0 &&
                                 selection.length === 0
                               ? $locales.get(
                                     (l) =>
-                                        l.ui.page.glyph.instructions.unselected,
+                                        l.ui.page.character.instructions
+                                            .unselected,
                                 )
                               : mode === DrawingMode.Select &&
                                   shapes.length > 0 &&
                                   selection.length > 0
                                 ? $locales.get(
                                       (l) =>
-                                          l.ui.page.glyph.instructions.selected,
+                                          l.ui.page.character.instructions
+                                              .selected,
                                   )
                                 : mode === DrawingMode.Pixel
                                   ? $locales.get(
                                         (l) =>
-                                            l.ui.page.glyph.instructions.pixel,
+                                            l.ui.page.character.instructions
+                                                .pixel,
                                     )
                                   : mode === DrawingMode.Rect
                                     ? $locales.get(
                                           (l) =>
-                                              l.ui.page.glyph.instructions.rect,
+                                              l.ui.page.character.instructions
+                                                  .rect,
                                       )
                                     : mode === DrawingMode.Ellipse
                                       ? $locales.get(
                                             (l) =>
-                                                l.ui.page.glyph.instructions
+                                                l.ui.page.character.instructions
                                                     .ellipse,
                                         )
                                       : $locales.get(
                                             (l) =>
-                                                l.ui.page.glyph.instructions
+                                                l.ui.page.character.instructions
                                                     .path,
                                         )}
                     ></MarkupHtmlView>

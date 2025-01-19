@@ -8,7 +8,7 @@
     import Button from '../widgets/Button.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
     import { goto } from '$app/navigation';
-    import GlyphView from '@components/output/GlyphView.svelte';
+    import CharacterView from '@components/output/CharacterView.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept;
@@ -32,7 +32,7 @@
           }
         | { unicode: string }
         | { ui: string }
-        | { glyph: string }
+        | { character: string }
         | undefined;
 
     // Derive the concept, container, and UI based on the link.
@@ -100,7 +100,7 @@
                 }
             }
 
-            return { glyph: id };
+            return { character: id };
         }
     });
 
@@ -153,8 +153,8 @@
         <TutorialHighlight id={match.ui} source />
     {:else if 'unicode' in match}
         {match.unicode}
-    {:else if 'glyph' in match}
-        <GlyphView name={match.glyph} />
+    {:else if 'character' in match}
+        <CharacterView name={match.character} />
     {/if}
 {:else if link instanceof ConceptLink}
     {link.concept.getText()}

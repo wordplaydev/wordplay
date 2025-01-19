@@ -946,8 +946,8 @@
         {#if exception !== undefined}
             <div class="message exception" class:mini data-uiid="exception"
                 >{#if mini}!{:else}<Speech
-                        glyph={index?.getNodeConcept(exception.creator) ??
-                            exception.creator.getGlyphs($locales)}
+                        character={index?.getNodeConcept(exception.creator) ??
+                            exception.creator.getCharacter($locales)}
                         invert
                     >
                         {#snippet content()}

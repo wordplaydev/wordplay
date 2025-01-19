@@ -11,7 +11,7 @@ import Sym from './Sym';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import NodeRef from '@locale/NodeRef';
 import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Decimal from 'decimal.js';
 import { type TemplateInput } from '../locale/Locales';
@@ -158,8 +158,8 @@ export default class NumberLiteral extends Literal {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Number;
+    getCharacter() {
+        return Characters.Number;
     }
 
     getDescriptionInputs(locales: Locales, context: Context): TemplateInput[] {

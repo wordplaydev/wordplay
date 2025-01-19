@@ -2,7 +2,7 @@ import type { Grammar, Replacement } from './Node';
 import Names from './Names';
 import type LocaleText from '@locale/LocaleText';
 import NameType from './NameType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Node, { any, node, none } from './Node';
 import Type from './Type';
@@ -107,7 +107,7 @@ export default class TypeVariable extends Node {
         return locales.get((l) => l.node.TypeVariable);
     }
 
-    getGlyphs() {
-        return Glyphs.Name;
+    getCharacter() {
+        return Characters.Name;
     }
 }

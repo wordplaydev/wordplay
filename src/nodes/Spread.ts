@@ -1,7 +1,7 @@
 import Expression from './Expression';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Node, { node, optional } from './Node';
@@ -100,7 +100,7 @@ export default class Spread extends Node {
         return locales.get((l) => l.node.Spread);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

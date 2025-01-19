@@ -1,5 +1,5 @@
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import AnyType from '../nodes/AnyType';
 import type Context from '../nodes/Context';
 import Expression from '../nodes/Expression';
@@ -235,8 +235,8 @@ export class Iteration<State = any> extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Function;
+    getCharacter() {
+        return Characters.Function;
     }
 }
 

@@ -21,7 +21,7 @@ import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import StartConversion from '@runtime/StartConversion';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
@@ -285,8 +285,8 @@ export default class Convert extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Conversion;
+    getCharacter() {
+        return Characters.Conversion;
     }
 }
 

@@ -9,7 +9,7 @@ import type Type from './Type';
 import type Token from './Token';
 import type { Template, DocText, LocaleText } from '@locale/LocaleText';
 import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
-import type Glyph from '../lore/Glyph';
+import type BasisCharacter from '../lore/BasisCharacter';
 import type Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Root from './Root';
@@ -603,7 +603,7 @@ export default abstract class Node {
     // DESCRIPTIONS
 
     /** Returns a sequence of symbols that represents the personified form of the node */
-    abstract getGlyphs(locales: Locales): Glyph;
+    abstract getCharacter(locales: Locales): BasisCharacter;
 
     /**
      * Given a locale, get the node's static label

@@ -9,7 +9,7 @@ import AnyType from './AnyType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
 import StructureDefinition from './StructureDefinition';
 import Names from './Names';
@@ -149,8 +149,8 @@ export default class TableType extends BasisType {
         return locales.get((l) => l.node.TableType);
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 
     getDefaultExpression() {

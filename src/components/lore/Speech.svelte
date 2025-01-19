@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import Concept from '../../concepts/Concept';
-    import type Glyph from '../../lore/Glyph';
+    import type BasisCharacter from '../../lore/BasisCharacter';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Eyes from './Eyes.svelte';
     import { locales } from '@db/Database';
@@ -13,12 +13,12 @@
     import { type Snippet } from 'svelte';
 
     interface Props {
-        glyph: Glyph | Concept;
-        /** If true, speech is placed below glyph. If false, speech is placed to the right or left of glyph. */
+        character: BasisCharacter | Concept;
+        /** If true, speech is placed below character. If false, speech is placed to the right or left of character. */
         below?: boolean;
         /** If true and speech is not below, reading order is flipped. */
         flip?: boolean;
-        /** If true and speech is not below, baseline aligns the glyph and speech */
+        /** If true and speech is not below, baseline aligns the character and speech */
         baseline?: boolean;
         /** If true, uses foreground color for background, and background for foreground. */
         invert?: boolean;
@@ -35,7 +35,7 @@
     }
 
     let {
-        glyph,
+        character,
         below = false,
         flip = false,
         baseline = false,
@@ -50,20 +50,22 @@
 
     let renderedEmotion = $derived(
         emotion ??
-            (glyph instanceof Concept
-                ? glyph?.getEmotion($locales)
+            (character instanceof Concept
+                ? character?.getEmotion($locales)
                 : undefined),
     );
 
-    let glyphs = $derived(
-        glyph instanceof Concept
-            ? glyph.getGlyphs($locales).symbols
-            : glyph.symbols,
+    let characters = $derived(
+        character instanceof Concept
+            ? character.getCharacter($locales).symbols
+            : character.symbols,
     );
 
     let symbols = $derived(
         withColorEmoji(
-            glyphs.length > Limit ? `${glyphs.substring(0, Limit)}…` : glyphs,
+            characters.length > Limit
+                ? `${characters.substring(0, Limit)}…`
+                : characters,
         ),
     );
 </script>
@@ -81,14 +83,14 @@
 >
     <div class="speaker">
         <div
-            class="glyphs {symbols.length >= 3
+            class="characters {symbols.length >= 3
                 ? 'small'
                 : ''} {renderedEmotion && emote
                 ? `emotion-${renderedEmotion}`
                 : ''}"
         >
-            {#if glyph instanceof Concept}
-                <ConceptLinkUI link={glyph} label={symbols} />
+            {#if character instanceof Concept}
+                <ConceptLinkUI link={character} label={symbols} />
             {:else}
                 {symbols}
             {/if}
@@ -159,7 +161,7 @@
         align-items: baseline;
     }
 
-    .glyphs {
+    .characters {
         display: inline-block;
         line-height: 100%;
         font-family: var(--wordplay-code-font);
@@ -168,11 +170,11 @@
         font-size: 2em;
     }
 
-    .glyphs.small {
+    .characters.small {
         font-size: 1em;
     }
 
-    .row .glyphs {
+    .row .characters {
         max-width: 4em;
         flex-shrink: 0;
         text-align: center;

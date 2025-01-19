@@ -13,7 +13,7 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import StructureValue from '../values/StructureValue';
 import MissingCell from '../conflicts/MissingCell';
@@ -354,8 +354,8 @@ export default class TableLiteral extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 
     getDescriptionInputs() {

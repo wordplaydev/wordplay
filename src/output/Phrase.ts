@@ -230,9 +230,9 @@ export default class Phrase extends Output {
 
         // Go through each formatted text,
         for (const formatted of formats) {
-            // If the text is a glyph name, it will be the width of an m in the current font.
-            const isGlyph = formatted.text.startsWith(LINK_SYMBOL);
-            const textToMeasure = isGlyph ? 'm' : formatted.text;
+            // If the text is a character name, it will be the width of an m in the current font.
+            const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
+            const textToMeasure = isCharacter ? 'm' : formatted.text;
             // Split the text by spaces and measure each space separated chunk.
             for (const segment of segmentWraps(textToMeasure)) {
                 const metrics = getTextMetrics(
@@ -250,7 +250,7 @@ export default class Phrase extends Output {
                 if (metrics) {
                     ascent = metrics.fontBoundingBoxAscent;
                     descent = metrics.fontBoundingBoxDescent;
-                    height = isGlyph
+                    height = isCharacter
                         ? ascent
                         : Math.max(
                               metrics.actualBoundingBoxAscent +

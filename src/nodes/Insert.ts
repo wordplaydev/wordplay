@@ -20,7 +20,7 @@ import TypeException from '@values/TypeException';
 import { node, type Grammar, type Replacement } from './Node';
 import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Purpose from '../concepts/Purpose';
 import StructureValue from '../values/StructureValue';
@@ -337,7 +337,7 @@ export default class Insert extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Insert;
+    getCharacter() {
+        return Characters.Insert;
     }
 }

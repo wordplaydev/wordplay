@@ -1,7 +1,7 @@
 import Type from './Type';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type TypeSet from './TypeSet';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
 import type StructureType from './StructureType';
@@ -60,8 +60,8 @@ export default class StructureDefinitionType extends Type {
         return locales.get((l) => l.node.StructureDefinitionType);
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDefaultExpression(context: Context) {

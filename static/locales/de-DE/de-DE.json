@@ -4199,9 +4199,9 @@
                     "on": "$~Blockhintergründe ausblenden",
                     "off": "$~Blockhintergründe anzeigen"
                 },
-                "glyphs": {
-                    "on": "$~die passenden Glyphen ausblenden",
-                    "off": "$~Erweitern Sie die passenden Glyphen"
+                "characters": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {

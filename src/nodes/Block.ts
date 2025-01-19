@@ -23,7 +23,7 @@ import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import { none, type Grammar, type Replacement, node, list, any } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
@@ -364,8 +364,8 @@ export default class Block extends Expression {
         return this.close ?? this.getLast() ?? this;
     }
 
-    getGlyphs() {
-        return Glyphs.Block;
+    getCharacter() {
+        return Characters.Block;
     }
 
     getKind() {

@@ -19,7 +19,7 @@ import Check from '@runtime/Check';
 import BoolValue from '@values/BoolValue';
 import ValueException from '../values/ValueException';
 import TypeException from '../values/TypeException';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import StreamToken from './StreamToken';
@@ -364,8 +364,8 @@ export default class Reaction extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 
     getKind() {

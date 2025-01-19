@@ -19,7 +19,7 @@ import type TypeSet from './TypeSet';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import Sym from './Sym';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import BlankException from '@values/BlankException';
 import Purpose from '../concepts/Purpose';
 import ValueRef from '../locale/ValueRef';
@@ -235,8 +235,8 @@ export default class Program extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Program;
+    getCharacter() {
+        return Characters.Program;
     }
 
     getKind() {

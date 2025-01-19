@@ -10,7 +10,7 @@ import Node, { node, type Grammar, type Replacement, list } from './Node';
 import type TypeSet from './TypeSet';
 import UnparsableType from './UnparsableType';
 import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type Context from './Context';
@@ -89,8 +89,8 @@ export default class UnparsableExpression extends SimpleExpression {
         return locales.concretize((l) => l.node.UnparsableExpression.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Unparsable;
+    getCharacter() {
+        return Characters.Unparsable;
     }
 
     isEmpty() {

@@ -3,7 +3,7 @@ import type Context from './Context';
 import type Node from './Node';
 import Type from './Type';
 import { UNKNOWN_SYMBOL } from '../parser/Symbols';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Markup from './Markup';
 import type { Grammar } from './Node';
 import Paragraph, { type Segment } from './Paragraph';
@@ -98,7 +98,7 @@ export default abstract class UnknownType<
 
     abstract getReason(locales: Locales, context: Context): Markup;
 
-    getGlyphs() {
-        return Glyphs.Unknown;
+    getCharacter() {
+        return Characters.Unknown;
     }
 }

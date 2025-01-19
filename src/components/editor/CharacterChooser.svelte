@@ -47,12 +47,12 @@
                   ),
     );
 
-    function insert(glyph: string) {
+    function insert(character: string) {
         const editorState = $editors?.get(sourceID);
         if (editorState) {
             editorState.edit(
                 editorState.caret.insert(
-                    glyph,
+                    character,
                     editorState.blocks,
                     editorState.project,
                 ),
@@ -65,7 +65,7 @@
 
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
-        id="glyph-search"
+        id="character-search"
         placeholder="🔍"
         description={$locales.get((l) => l.ui.source.cursor.search)}
         bind:text={query}
@@ -79,20 +79,22 @@
                     focusAfter
                 />{/each}
         {:else}
-            {#each results as glyph}<Button
+            {#each results as character}<Button
                     tip={$locales
                         .concretize(
                             (l) => l.ui.source.cursor.insertSymbol,
-                            glyph,
+                            character,
                         )
                         .toText()}
-                    action={() => insert(glyph)}
-                    ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
+                    action={() => insert(character)}
+                    ><TokenView
+                        node={tokenize(character).getTokens()[0]}
+                    /></Button
                 >{:else}&mdash;{/each}
         {/if}
     </div>
     <Toggle
-        tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
+        tips={$locales.get((l) => l.ui.source.toggle.characters)}
         on={expanded}
         toggle={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Toggle
     >

@@ -1,5 +1,5 @@
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
@@ -71,7 +71,7 @@ export default class TypeInputs extends Node {
         return locales.get((l) => l.node.TypeInputs);
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 }

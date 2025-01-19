@@ -1,5 +1,5 @@
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import {
     LINK_SYMBOL,
     TAG_CLOSE_SYMBOL,
@@ -89,8 +89,8 @@ export default class WebLink extends Content {
         return locales.get((l) => l.node.WebLink);
     }
 
-    getGlyphs() {
-        return Glyphs.Link;
+    getCharacter() {
+        return Characters.Link;
     }
 
     getDescriptionInputs(): TemplateInput[] {

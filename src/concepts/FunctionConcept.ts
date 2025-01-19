@@ -8,7 +8,7 @@ import type Purpose from './Purpose';
 import type StructureDefinition from '@nodes/StructureDefinition';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
-import type { Character } from '../tutorial/Tutorial';
+import type { CharacterName } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 
@@ -49,7 +49,7 @@ export default class FunctionConcept extends Concept {
         );
     }
 
-    getGlyphs(locales: Locales) {
+    getCharacter(locales: Locales) {
         return {
             symbols:
                 this.definition.names.getSymbolicName() ??
@@ -92,7 +92,7 @@ export default class FunctionConcept extends Concept {
         return new Set(this.inputs);
     }
 
-    getCharacter(): Character | undefined {
+    getCharacterName(): CharacterName | undefined {
         return undefined;
     }
 

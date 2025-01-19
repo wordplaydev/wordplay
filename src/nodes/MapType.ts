@@ -10,7 +10,7 @@ import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import type Conflict from '@conflicts/Conflict';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, any, none } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
 import TypePlaceholder from './TypePlaceholder';
@@ -167,8 +167,8 @@ export default class MapType extends BasisType {
         return locales.get((l) => l.node.MapType);
     }
 
-    getGlyphs() {
-        return Glyphs.Map;
+    getCharacter() {
+        return Characters.Map;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

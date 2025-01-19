@@ -1,6 +1,5 @@
 import Purpose from '../concepts/Purpose';
-import type Glyph from '../lore/Glyph';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Content from './Content';
 import Mention from './Mention';
 import { node, type Replacement, type Grammar, list, optional } from './Node';
@@ -81,8 +80,8 @@ export default class Branch extends Content {
         return locales.get((l) => l.node.Branch);
     }
 
-    getGlyphs(): Glyph {
-        return Glyphs.Branch;
+    getCharacter() {
+        return Characters.Branch;
     }
 
     concretize(

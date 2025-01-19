@@ -16,7 +16,7 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
@@ -267,7 +267,7 @@ export default class Delete extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Delete;
+    getCharacter() {
+        return Characters.Delete;
     }
 }

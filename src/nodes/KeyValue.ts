@@ -2,7 +2,7 @@ import Expression from './Expression';
 import type { Grammar, Replacement } from './Node';
 import type Token from './Token';
 import BindToken from './BindToken';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Node, { node } from './Node';
@@ -88,7 +88,7 @@ export default class KeyValue extends Node {
         return locales.get((l) => l.node.KeyValue);
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getCharacter() {
+        return Characters.Bind;
     }
 }

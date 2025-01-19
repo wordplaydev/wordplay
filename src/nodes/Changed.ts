@@ -19,7 +19,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import NodeRef from '@locale/NodeRef';
 import BooleanType from './BooleanType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
@@ -166,7 +166,7 @@ export default class Changed extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Change;
+    getCharacter() {
+        return Characters.Change;
     }
 }

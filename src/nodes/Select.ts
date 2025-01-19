@@ -20,7 +20,7 @@ import type Evaluator from '@runtime/Evaluator';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import Purpose from '../concepts/Purpose';
@@ -352,7 +352,7 @@ export default class Select extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Select;
+    getCharacter() {
+        return Characters.Select;
     }
 }

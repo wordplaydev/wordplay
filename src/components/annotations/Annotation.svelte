@@ -34,7 +34,7 @@
             }}
         >
             <Speech
-                glyph={annotation.node.getGlyphs($locales)}
+                character={annotation.node.getCharacter($locales)}
                 flip={annotation.kind === 'secondary'}
                 below
             >

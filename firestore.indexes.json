@@ -46,7 +46,7 @@
             ]
         },
         {
-            "collectionGroup": "glyphs",
+            "collectionGroup": "characters",
             "queryScope": "COLLECTION",
             "fields": [{ "fieldPath": "name", "order": "ASCENDING" }]
         }

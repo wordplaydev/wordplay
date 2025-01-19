@@ -15,7 +15,7 @@ import StructureValue from '../values/StructureValue';
 import ValueException from '../values/ValueException';
 import PropertyReference from './PropertyReference';
 import IncompatibleType from '../conflicts/IncompatibleType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
@@ -234,8 +234,8 @@ export default class PropertyBind extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getCharacter() {
+        return Characters.Bind;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

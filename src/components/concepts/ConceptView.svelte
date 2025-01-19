@@ -38,7 +38,7 @@
     let tutorialURL: string | undefined = $state(undefined);
 
     async function getConceptURL(locale: LocaleText) {
-        const character = concept.getCharacter($locales);
+        const character = concept.getCharacterName($locales);
         if (character) {
             const tutorial = await Locales.getTutorial(
                 locale.language,
@@ -80,7 +80,7 @@
         {/if}
     {/if}
 
-    <Speech glyph={concept.getGlyphs($locales)} below={header}>
+    <Speech character={concept.getCharacter($locales)} below={header}>
         {#snippet content()}
             {@const markup = concept.getDocs($locales)}
             {#if markup}

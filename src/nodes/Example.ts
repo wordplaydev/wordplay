@@ -2,7 +2,7 @@ import type Conflict from '@conflicts/Conflict';
 import { node, type Replacement, type Grammar } from './Node';
 import Program from './Program';
 import Token from './Token';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Sym from './Sym';
 import { CODE_SYMBOL } from '../parser/Symbols';
@@ -71,8 +71,8 @@ export default class Example extends Content {
         return locales.get((l) => l.node.Example);
     }
 
-    getGlyphs() {
-        return Glyphs.Example;
+    getCharacter() {
+        return Characters.Example;
     }
 
     concretize(): Example {

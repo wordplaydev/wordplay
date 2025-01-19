@@ -6,7 +6,7 @@ import type { FontWeight } from '../basis/Fonts';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import Paragraph from './Paragraph';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import { toMarkup } from '../parser/toMarkup';
@@ -81,8 +81,8 @@ export default class Markup extends Content {
         return locales.get((l) => l.node.Markup);
     }
 
-    getGlyphs() {
-        return Glyphs.Markup;
+    getCharacter() {
+        return Characters.Markup;
     }
 
     getDescriptionInputs() {

@@ -105,7 +105,7 @@ export default class Translation extends LanguageTagged {
             .map((example) => example.program.expression);
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.getDelimiters(),
             emotion: Emotion.excited,

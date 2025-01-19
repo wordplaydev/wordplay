@@ -238,7 +238,7 @@ export default class UnaryEvaluate extends Expression {
         );
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.getOperator(),
             emotion: Emotion.kind,

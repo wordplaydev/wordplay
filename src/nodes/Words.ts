@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import Token from './Token';
 import Sym from './Sym';
@@ -156,8 +156,8 @@ export default class Words extends Content {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Words;
+    getCharacter() {
+        return Characters.Words;
     }
 
     concretize(
