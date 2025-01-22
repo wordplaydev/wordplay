@@ -12,22 +12,22 @@
                     "subtitle": null,
                     "performance": ["use", "fit", "DarkVoid"],
                     "lines": [
-                        ["FunctionDefinition", "bored", "… Oh, hi."],
+                        ["FunctionDefinition", "bored", "… 어? 안녕하새요."],
                         null,
-                        ["FunctionDefinition", "neutral", "Do I know you?"],
+                        ["FunctionDefinition", "neutral", "우리... 맞난적이 있어요?"],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Oh, is this your first time visiting?",
-                            "Nice to meet you. My name is @FunctionDefinition.",
+                            "아, 여기온거가 처음이군요.",
+                            "방가워요! 저는 @FunctionDefinition입니다.",
                             "…"
                         ],
                         null,
                         [
                             "FunctionDefinition",
                             "curious",
-                            "Did you need some help? Oh, you're visiting. Welcome to the *Verse*. …"
+                            "뭐 도와드릴거 없어요? 여기는 *절*이라고 불러요…"
                         ],
                         null,
                         [
