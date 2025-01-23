@@ -1,11 +1,14 @@
-import { test, expect, describe, it, vi } from 'vitest';
+import { test, expect, describe, it } from 'vitest';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
 import evaluateCode from '../runtime/evaluate';
 import SetValue from './SetValue';
 import NumberValue from '@values/NumberValue';
-import Delete from '../nodes/Delete';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import SetType from '@nodes/SetType';
+import Block, { BlockKind } from '@nodes/Block';
+import Source from '@nodes/Source';
+import Project from '@models/Project';
+import DefaultLocale from '../locale/DefaultLocale';
 
 test.each([
     ['{} = {}', TRUE_SYMBOL],
@@ -18,12 +21,23 @@ test.each([
 });
 
 describe('SetValue', () => {
-    const mockRequestor = new Delete(null, null, null);
+    const mockRequestor = new Block([], BlockKind.Block);
 
     const value1 = new NumberValue(mockRequestor, 1);
     const value2 = new NumberValue(mockRequestor, 2);
     const value3 = new NumberValue(mockRequestor, 3);
     const setValue = new SetValue(mockRequestor, [value1, value2]);
+
+    const source = new Source('test', "{}");
+    const project = Project.make(
+        null,
+        'test',
+        source,
+        ([]).map(
+            (code, index) => new Source(`sup${index + 1}`, code),
+        ),
+        DefaultLocale,
+    );
 
     describe('size', () => {
         it('should return the correct size of the set', () => {
@@ -104,7 +118,7 @@ describe('SetValue', () => {
 
     describe('getType', () => {
         it('should return the correct type', () => {
-            expect(setValue.getType(null)).toBeInstanceOf(SetType);
+            expect(setValue.getType(project.getContext(source))).toBeInstanceOf(SetType);
         });
     });
 
