@@ -4234,6 +4234,12 @@
                     "off": "expand the matching glyphs"
                 }
             },
+            "options": {
+                "locale": {
+                    "tip": "preferred language for source",
+                    "all": "all"
+                }
+            },
             "button": {
                 "selectOutput": "show this output on stage",
                 "expandSequence": "expand this collapsed code"
@@ -4339,7 +4345,7 @@
                 "submit": "submit this chat message"
             },
             "options": {
-                "locale": "choose the language for output"
+                "locale": "preferred language for output"
             }
         },
         "timeline": {
@@ -4474,14 +4480,6 @@
                             "horizontal, left to right",
                             "vertical, right to left",
                             "vertical, left to right"
-                        ]
-                    },
-                    "localized": {
-                        "label": "code localization",
-                        "modes": [
-                            "do not localize code",
-                            "localize code when available",
-                            "localize code but prefer symbols"
                         ]
                     }
                 },

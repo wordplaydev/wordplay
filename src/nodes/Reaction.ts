@@ -5,7 +5,6 @@ import type Type from './Type';
 import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import type Step from '@runtime/Step';
-import Jump from '@runtime/Jump';
 import Finish from '@runtime/Finish';
 import Start from '@runtime/Start';
 import type Context from './Context';

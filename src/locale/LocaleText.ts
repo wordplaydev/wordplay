@@ -28,6 +28,7 @@ import {
     type SupportedLocale,
     SupportedLocales,
 } from './SupportedLocales';
+import type Locale from './Locale';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';
@@ -150,14 +151,21 @@ export function getLocaleLanguage(locale: string): LanguageCode | undefined {
     return code in Languages ? (code as LanguageCode) : undefined;
 }
 
-export function getLocaleLanguageName(locale: string): string | undefined {
-    const language = getLocaleLanguage(locale);
-    return language ? Languages[language].name : undefined;
+export function getLocaleLanguageName(
+    locale: string | Locale,
+): string | undefined {
+    if (typeof locale === 'string') {
+        const language = getLocaleLanguage(locale);
+        return language ? Languages[language]?.name : undefined;
+    } else {
+        return Languages[locale.language]?.name;
+    }
 }
 
-export function getLocaleRegion(locale: string): string | undefined {
+export function getLocaleRegion(locale: string): RegionCode | undefined {
     const [, region] = locale.split('-');
-    return region;
+    if (region !== undefined && region in Regions) return region as RegionCode;
+    else return undefined;
 }
 
 export function getLocaleRegionName(locale: string): string | undefined {

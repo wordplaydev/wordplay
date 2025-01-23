@@ -4304,6 +4304,12 @@
                 "search": "$~wyszukaj znaki specjalne do wstawienia",
                 "tidy": "$~schludne odstępy",
                 "elide": "$~przełącz elizję"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4483,14 +4489,6 @@
                             "$~poziomo, od lewej do prawej",
                             "$~pionowo, od prawej do lewej",
                             "$~pionowo, od lewej do prawej"
-                        ]
-                    },
-                    "localized": {
-                        "label": "$~lokalizacja kodu",
-                        "modes": [
-                            "$~nie lokalizuj kodu",
-                            "$~zlokalizuj kod, gdy będzie dostępny",
-                            "$~zlokalizuj kod, ale preferuj symbole"
                         ]
                     }
                 },
@@ -4855,7 +4853,7 @@
                 "anonymous": "$~login",
                 "prompt": {
                     "login": "$~Zaloguj się, aby zapisać swoje projekty, współpracować i udostępniać:",
-                    "join": "$~Lub <utwórz konto@://dołącz>, aby rozpocząć.",
+                    "join": "$~Lub <utwórz konto@://join>, aby rozpocząć.",
                     "forgot": "$~*Zapomniałeś hasła?* Niestety, nie możemy odzyskać Twojego konta, ponieważ nie gromadzimy danych kontaktowych.",
                     "enter": "$~Wygląda na to, że Twój link logowania pochodzi z innej przeglądarki lub urządzenia. Czy możesz wpisać swój adres e-mail jeszcze raz, abyśmy mieli pewność, że to Ty?",
                     "play": "$~Jesteś zalogowany, możemy teraz zapisać Twoje projekty online! Chcesz coś stworzyć?",

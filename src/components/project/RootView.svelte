@@ -17,12 +17,14 @@
     import Root from '@nodes/Root';
     import Source from '@nodes/Source';
     import Program from '@nodes/Program';
-    import { locales } from '../../db/Database';
     import TextLiteral from '../../nodes/TextLiteral';
     import FormattedLiteral from '../../nodes/FormattedLiteral';
     import type Caret from '@edit/Caret';
     import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import type { LocalizedValue } from '@db/settings/LocalizedSetting';
+    import type Locale from '@locale/Locale';
+    import { EMOJI_SYMBOL } from '@parser/Symbols';
+    import type { LanguageTagged } from '@nodes/LanguageTagged';
+    import Name from '@nodes/Name';
 
     interface Props {
         node: Node;
@@ -37,7 +39,7 @@
         /** If inline, and true, this will be a maximum width */
         elide?: boolean;
         /** If true, hides names and docs not in a selected locale */
-        localized?: LocalizedValue;
+        locale?: Locale | null | 'symbolic';
         caret?: Caret | undefined;
         /** Whether to show line numbers */
         lines?: boolean;
@@ -50,7 +52,7 @@
         inert = false,
         inline = false,
         elide = false,
-        localized = 'symbolic',
+        locale = null,
         caret = undefined,
         lines = false,
     }: Props = $props();
@@ -82,10 +84,18 @@
     let hidden = writable<Set<Node>>(new Set());
     setHidden(hidden);
 
-    let localize = writable<LocalizedValue>(localized ?? 'symbolic');
+    function possiblySymbolicToLocale(
+        localized: Locale | null | 'symbolic',
+    ): Locale | null {
+        return localized === 'symbolic'
+            ? { language: EMOJI_SYMBOL, region: undefined }
+            : localized;
+    }
+
+    let localize = writable<Locale | null>(possiblySymbolicToLocale(locale));
     setLocalize(localize);
     $effect(() => {
-        localize.set(localized ?? 'symbolic');
+        localize.set(possiblySymbolicToLocale(locale));
     });
 
     let showLines = writable<boolean>(lines);
@@ -104,8 +114,9 @@
     $effect(() => {
         const newHidden = new Set<Node>();
 
-        if ($localize !== 'actual') {
-            // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't one of the selected tags.
+        // If the locale is not null, hide non-preferred locales
+        if ($localize !== null) {
+            // Hide any language tagged nodes that 1) the caret isn't in, and 2) either have no language tag or aren't the selected locale.
             // Also hide any name separators if the first visible name has one.
             for (const tagged of node
                 .nodes()
@@ -125,28 +136,46 @@
 
                 // If the caret is not inside the node, decide whether to hide.
                 if (!inside) {
-                    // If at least one is visible, hide all those not in a preferred language.
+                    // Keep track of visible
+                    let visible: LanguageTagged[] = [];
+                    const hasMatchingLanguage = tags.some(
+                        (l) => l.getLanguage() === $localize.language,
+                    );
+                    const hasUntagged = tags.some(
+                        (l) => l.getLanguage() === undefined,
+                    );
+                    const hasSymbolic =
+                        $localize.language === EMOJI_SYMBOL &&
+                        tagged instanceof Names &&
+                        tagged.names.some((l) => l.isSymbolic());
+                    // If one of the tags is the preferred locale, or none are and one has no language, hide all those that are not preferred or tagged.
                     if (
-                        $locales
-                            .getLanguages()
-                            .some((lang) =>
-                                tags.some((l) => l.getLanguage() === lang),
-                            )
+                        // One of the languages matches?
+                        hasMatchingLanguage ||
+                        // One of the elements is untagged
+                        hasUntagged ||
+                        // One of the elements is a symbolic name and we want symbolic?
+                        hasSymbolic
                     ) {
                         // Keep track of if there's a node that's visible so we know when to hide separators.
                         let priorVisible = false;
                         // Go through each language tagged node to see if we should hide it.
                         for (const nameDocOrText of tags) {
                             const language = nameDocOrText.getLanguage();
-                            const selectedLocale =
-                                language !== undefined &&
-                                $locales.hasLanguage(language);
+                            const isSelected =
+                                $localize.language === language ||
+                                (language === undefined &&
+                                    !hasMatchingLanguage) ||
+                                ($localize.language === EMOJI_SYMBOL &&
+                                    nameDocOrText instanceof Name &&
+                                    nameDocOrText.isSymbolic());
                             // Not a selected locale? Hide the whole name or doc.
-                            if (!selectedLocale) {
+                            if (!isSelected) {
                                 newHidden.add(nameDocOrText);
                             }
                             // Is the selected language? Hide just the locale tag and any preceding separator.
                             else {
+                                visible.push(nameDocOrText);
                                 if (nameDocOrText.language)
                                     newHidden.add(nameDocOrText.language);
                                 // Hide the separator, if there is one.
@@ -156,6 +185,13 @@
                             }
                         }
                     }
+                    // Not hiding? Add them all as visible.
+                    else {
+                        for (const tag of tags) visible.push(tag);
+                    }
+                    // If there's only one visible, hide its language, as its redundant.
+                    if (visible.length === 1 && visible[0].language)
+                        newHidden.add(visible[0].language);
                 }
 
                 // If this is a doc and we're not in a program, hide it unconditionally.

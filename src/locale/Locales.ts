@@ -98,10 +98,13 @@ export default class Locales {
                     !isUnwritten(text[0])
                 )
                     return true;
-                // Object of strings by key? See if any of the values have placeholders
+                // Object of strings by key? See if any of the values have placeholders (other than emotions, which don't count as unwritten).
                 else if (text !== null && typeof text === 'object')
-                    return !Object.values(text).some(
-                        (t) => typeof t === 'string' && isUnwritten(t),
+                    return !Object.entries(text).some(
+                        ([key, t]) =>
+                            typeof t === 'string' &&
+                            isUnwritten(t) &&
+                            key !== 'emotion',
                     );
                 // Otherwise, just choose it
                 else return true;

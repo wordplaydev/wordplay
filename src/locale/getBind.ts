@@ -11,6 +11,7 @@ import Language from '../nodes/Language';
 import DefaultLocale from './DefaultLocale';
 import type Locales from './Locales';
 import { getFormattedWordplay } from '@parser/getPreferredSpaces';
+import { EMOJI_SYMBOL } from '@parser/Symbols';
 
 export function getBind(
     locales: Locales,
@@ -26,7 +27,7 @@ export function getBind(
     const symbolic = enNames
         ? Name.make(
               (Array.isArray(enNames) ? enNames : [enNames])[0],
-              Language.make('😀'),
+              Language.make(EMOJI_SYMBOL),
           )
         : undefined;
 

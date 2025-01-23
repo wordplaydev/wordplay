@@ -4299,6 +4299,12 @@
                 "search": "$~sök efter specialtecken att infoga",
                 "tidy": "$~snyggt mellanrum",
                 "elide": "$~växla elision"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4478,14 +4484,6 @@
                             "$~horisontellt, från vänster till höger",
                             "$~vertikalt, höger till vänster",
                             "$~vertikalt, från vänster till höger"
-                        ]
-                    },
-                    "localized": {
-                        "label": "$~kodlokalisering",
-                        "modes": [
-                            "$~lokalisera inte kod",
-                            "$~lokalisera kod när den är tillgänglig",
-                            "$~lokalisera kod men föredrar symboler"
                         ]
                     }
                 },

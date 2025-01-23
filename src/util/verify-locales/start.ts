@@ -2,7 +2,6 @@ import fs from 'fs';
 import path from 'path';
 import * as prettier from 'prettier';
 import type LocaleText from '../../locale/LocaleText';
-import type Tutorial from '../../tutorial/Tutorial';
 import Log from './Log';
 import { createUnwrittenLocale, verifyLocale } from './verifyLocale';
 import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';

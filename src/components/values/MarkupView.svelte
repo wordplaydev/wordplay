@@ -8,7 +8,7 @@
         inline?: boolean;
     }
 
-    let { value, inline = true }: Props = $props();
+    let { value }: Props = $props();
 </script>
 
 <SymbolView symbol={value.markup.toWordplay()} type={Sym.Words} />

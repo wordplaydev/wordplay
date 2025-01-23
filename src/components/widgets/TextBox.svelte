@@ -21,11 +21,9 @@
 
     let view: HTMLTextAreaElement | undefined = $state();
 
-    let timeout: NodeJS.Timeout | undefined = undefined;
-
     function handleInput() {
         if (dwelled)
-            timeout = setTimeout(() => {
+            setTimeout(() => {
                 if (dwelled) dwelled(text);
             }, 1000);
 

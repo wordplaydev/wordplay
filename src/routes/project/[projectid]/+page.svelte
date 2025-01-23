@@ -4,12 +4,7 @@
         setConceptPath,
         setProject,
     } from '@components/project/Contexts';
-    import {
-        get,
-        writable,
-        type Unsubscriber,
-        type Writable,
-    } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import { page } from '$app/stores';
     import ProjectView from '@components/project/ProjectView.svelte';
     import type Project from '@db/projects/Project';

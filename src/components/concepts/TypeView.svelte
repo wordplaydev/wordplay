@@ -48,7 +48,7 @@
                 node={type}
                 inert
                 inline
-                localized="symbolic"
+                locale="symbolic"
                 blocks={$blocks}
             /></span
         >{/each}

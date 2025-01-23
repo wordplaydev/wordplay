@@ -15,7 +15,7 @@
     import type { Snippet } from 'svelte';
     import Button from '../widgets/Button.svelte';
     import type Tile from './Tile';
-    import { Mode } from './Tile';
+    import { TileMode } from './Tile';
     import type Layout from './Layout';
     import TextField from '../widgets/TextField.svelte';
     import { isName } from '../../parser/Tokenizer';
@@ -58,7 +58,7 @@
         ) => void;
         rename: (id: string, name: string) => void;
         scroll: () => void;
-        setMode: (mode: Mode) => void;
+        setMode: (mode: TileMode) => void;
         setFullscreen: (fullscreen: boolean) => void;
     }
 
@@ -297,7 +297,7 @@
                         background={background !== null}
                         padding={false}
                         tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                        action={() => mode(Mode.Collapsed)}>–</Button
+                        action={() => mode(TileMode.Collapsed)}>–</Button
                     >
                 {/if}
                 <Toggle

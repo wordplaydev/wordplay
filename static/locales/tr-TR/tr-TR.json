@@ -4299,6 +4299,12 @@
                 "search": "$~eklenecek özel karakterleri arayın",
                 "tidy": "$~düzenli aralık",
                 "elide": "$~geçişi değiştir"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4473,14 +4479,6 @@
                             "$~yatay, soldan sağa",
                             "$~dikey, sağdan sola",
                             "$~dikey, soldan sağa"
-                        ]
-                    },
-                    "localized": {
-                        "label": "$~kod yerelleştirmesi",
-                        "modes": [
-                            "$~kodu yerelleştirmeyin",
-                            "$~mümkün olduğunda kodu yerelleştir",
-                            "$~kodu yerelleştirin ancak sembolleri tercih edin"
                         ]
                     }
                 },
@@ -4845,7 +4843,7 @@
                 "anonymous": "$~giriş yapmak",
                 "prompt": {
                     "login": "$~Projelerinizi kaydetmek, işbirliği yapmak ve paylaşmak için giriş yapın:",
-                    "join": "$~Veya başlamak için <bir hesap oluşturun@://katıl>.",
+                    "join": "$~Veya başlamak için <bir hesap oluşturun@://join>.",
                     "forgot": "$~*Şifrenizi mi unuttunuz?* İletişim bilgilerinizi toplamadığımız için hesabınızı maalesef kurtaramıyoruz.",
                     "enter": "$~Giriş bağlantınız farklı bir tarayıcıdan veya cihazdan gelmiş gibi görünüyor. Siz olduğunuzdan emin olmak için e-postanızı tekrar girebilir misiniz?",
                     "play": "$~Giriş yaptınız, projelerinizi artık çevrimiçi olarak kaydedebiliriz! Bir şey oluşturmak ister misiniz?",

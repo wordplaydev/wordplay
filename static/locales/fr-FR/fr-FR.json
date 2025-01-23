@@ -4279,6 +4279,12 @@
                 "tidy": "$~espacement ordonné",
                 "elide": "$~basculer l'élision",
                 "insertDocs": "$~insérer le symbole d'explication"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4451,14 +4457,6 @@
                             "$~horizontal, de gauche à droite",
                             "$~vertical, de droite à gauche",
                             "$~vertical, de gauche à droite"
-                        ]
-                    },
-                    "localized": {
-                        "label": "$~localisation de code",
-                        "modes": [
-                            "$~ne pas localiser le code",
-                            "$~localiser le code lorsqu'il est disponible",
-                            "$~localiser le code mais privilégier les symboles"
                         ]
                     },
                     "lines": {

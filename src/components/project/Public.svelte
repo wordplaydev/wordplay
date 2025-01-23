@@ -9,6 +9,7 @@
         type Moderation,
     } from '../../db/projects/Moderation';
     import Warning from '../widgets/Warning.svelte';
+    import { GLOBE1_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         isPublic: boolean;
@@ -70,7 +71,7 @@
         select={set}
         modes={[
             '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
-            '🌐 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[1]),
+            `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.dialog.share.mode.public.modes[1])}`,
         ]}
     /></p
 >

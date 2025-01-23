@@ -39,7 +39,6 @@
         describeMovedOutput,
         describedChangedOutput,
     } from './OutputDescriptions';
-    import { SvelteMap } from 'svelte/reactivity';
 
     interface Props {
         project: Project;

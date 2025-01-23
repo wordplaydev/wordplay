@@ -4270,6 +4270,12 @@
                 "tidy": "$~ordentlicher Abstand",
                 "elide": "$~Elision umschalten",
                 "insertDocs": "$~Erklärungssymbol einfügen"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4442,14 +4448,6 @@
                             "$~horizontal, von links nach rechts",
                             "$~vertikal, von rechts nach links",
                             "$~vertikal, von links nach rechts"
-                        ]
-                    },
-                    "localized": {
-                        "label": "$~Codelokalisierung",
-                        "modes": [
-                            "$~Code nicht lokalisieren",
-                            "$~Code lokalisieren, wenn verfügbar",
-                            "$~Code lokalisieren, aber Symbole bevorzugen"
                         ]
                     },
                     "lines": {

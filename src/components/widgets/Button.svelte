@@ -33,7 +33,7 @@
         uiid = undefined,
         classes = undefined,
         scale = true,
-        view = $bindable(undefined),
+        view: _ = $bindable(undefined),
         large = false,
         background = false,
         padding = true,
@@ -72,7 +72,7 @@
     title={$locales.concretize(tip).toText()}
     aria-label={tip}
     aria-disabled={!active}
-    bind:this={view}
+    bind:this={_}
     onmousedown={(event) => event.preventDefault()}
     ondblclick={(event) => event.stopPropagation()}
     onclick={loading

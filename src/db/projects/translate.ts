@@ -15,6 +15,7 @@ import FormattedTranslation from '@nodes/FormattedTranslation';
 import TextLiteral from '@nodes/TextLiteral';
 import Translation from '@nodes/Translation';
 import Token from '@nodes/Token';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
 
 // Convert any camel cased word into space separated words.
 const SeparateWords = /[A-Z-_](?=[a-z0-9]+)|[A-Z-_]+(?![a-z0-9])/g;
@@ -321,6 +322,18 @@ export default async function translateProject(
                                     Language.make(targetLanguage),
                                 ),
                             ),
+                ];
+            }),
+        );
+
+        // Tidy all sources
+        newProject = newProject.withRevisedNodes(
+            newProject.getSources().map((source) => {
+                return [
+                    source,
+                    source.withSpaces(
+                        getPreferredSpaces(source.root, source.spaces),
+                    ),
                 ];
             }),
         );

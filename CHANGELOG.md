@@ -3,6 +3,21 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.14.2 2024-01-18
+
+### Fixed
+
+- Removed all unused imports and variables.
+- Mono emojis for dialog buttons.
+- Consistent use of globe as locale icon.
+- When only showing preferred languages in editor, hide non-preferred, tagged translations if there are untagged translations.
+- Tidy all source in a project after translation.
+- Simplified editor language chooser.
+- Fixed #649: broken links in translations.
+- Fixed #646: docs not showing correct locale.
+- Removed locale annotations from tutorial text.
+- Only show code locale chooser if more than one locale present.
+
 ## 0.14.1 2024-01-11
 
 ### Added

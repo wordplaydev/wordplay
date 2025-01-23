@@ -144,7 +144,6 @@
         getTokenViews,
         viewport,
         viewportWidth,
-        viewportHeight,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -245,10 +244,6 @@
             }
         }
     });
-
-    function scrollIntoView() {
-        lastScroll = performance.now();
-    }
 
     function getNodeView(node: Node) {
         const editorView = element?.parentElement;
