@@ -648,14 +648,14 @@
                         [
                             "Evaluate",
                             "serious",
-                            "See how when you do that, now I have a new input in me in the program? It's the @Phrase/size input. Functions have a certain order of inputs, but if a function has a list of optional inputs, you can use their name to specify which one you want to give. We give @Phrase/size here, but not any of the other optional inputs. Try changing another input with the palette, maybe the font face."
+                            "看到當你這樣做時，我在方程式（Program）中有了一個新的輸入嗎？這是大小 @Phrase/size 輸入。輸入是有順序的，而且，當同時有很多個輸入時，你可以使用它們的名稱來指定你想要給的輸入。現在我們有了大小的輸入 @Phrase/size 但沒有給其他可以給的輸入。試著用調色板改變另一個輸入，也許是字體。"
                         ],
                         null,
                         ["conflict", "'hi'(1 2)"],
                         [
                             "FunctionDefinition",
                             "happy",
-                            "哈哈，片語 @Phrase 真的很有趣！我真的很喜歡跟他們一起合作，我們之後還會看到更多。不過...你想要說一下你「不能」做什麼嗎？"
+                            "哈哈，片語（Phrase） @Phrase 真的很有趣！我真的很喜歡跟他們一起合作，我們之後還會看到更多。不過...你想要說一下你「不能」做什麼嗎？"
                         ],
                         [
                             "Evaluate",
