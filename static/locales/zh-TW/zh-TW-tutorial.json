@@ -640,9 +640,9 @@
                         [
                             "Evaluate",
                             "neutral",
-                            "Let me show you one of the knobs. Can you find the little *palette* toggle button @UI/paletteExpand? Select it to expand the palette, and then select the phrase on stage.",
-                            "Once you do, you'll see the many inputs that @Phrase accepts. For example, try pressing the pencil button for @Phrase/size, which will reveal a slider.",
-                            "You can use this slider to modify the size of the phrase, which will also modify the @Evaluate code with the size you choose."
+                            "讓我給你看一個旋鈕！ 你能找到小小的 *調色板* @UI/paletteExpand 切換按鈕嗎？點一下它來展開調色板，然後選擇舞台上的片語。",
+                            "當你這樣做時，你會看到片語（Phrase）@Phrase 接受的很多種輸入。比如說，試著按下鉛筆按鈕 @Phrase/size ，這會顯示一個滑塊。",
+                            "你可以使用這個滑塊來修改片語（Phrase）的大小，這也會根據你選擇的大小 @Evaluate 改變。"
                         ],
                         null,
                         [
