@@ -1254,8 +1254,8 @@
 
     // Whenever the selected output changes, ensure the first selected node is scrolled to.
     $effect(() => {
-        if (selection?.selectedOutput !== undefined) {
-            const node = selection.selectedOutput[0];
+        if (selection?.hasPaths()) {
+            const node = selection.getOutput(project)[0];
             if (node) {
                 tick().then(() => {
                     const view = getNodeView(node);
@@ -1436,7 +1436,7 @@
     $effect(() => {
         if (
             SHOW_OUTPUT_IN_PALETTE &&
-            selection?.selectedPaths &&
+            selection !== undefined &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
@@ -1445,7 +1445,7 @@
                 project.shares.output.Stage,
             )
         )
-            selection.setSelectedOutput(project, [$caret.position]);
+            selection.setPaths(project, [$caret.position]);
     });
 
     // Update the highlights when any of these stores values change
@@ -1460,7 +1460,7 @@
                 $hovered,
                 $insertion,
                 $animatingNodes,
-                selection?.selectedOutput,
+                selection?.getOutput(project),
                 $blocks,
             ),
         );

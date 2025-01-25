@@ -25,7 +25,10 @@
 
     // Whenever the slider value changes, revise the Evaluates to match the new value.
     function handleChange(l: number, c: number, h: number) {
-        if ($project === undefined || selection?.selectedOutput === undefined)
+        if (
+            $project === undefined ||
+            (selection !== undefined && !selection.hasPaths())
+        )
             return;
 
         // Make a Color evaluation corresponding to the new value

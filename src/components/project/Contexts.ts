@@ -7,12 +7,9 @@ import type Caret from '../../edit/Caret';
 import type Project from '@db/projects/Project';
 import type Node from '@nodes/Node';
 import type { Highlights } from '../editor/util/Highlights';
-import type Evaluate from '@nodes/Evaluate';
 import type Step from '@runtime/Step';
 import type { StreamChange } from '@runtime/Evaluator';
 import type Conflict from '@conflicts/Conflict';
-import type { Path } from '@nodes/Root';
-import type Source from '@nodes/Source';
 import type { User } from 'firebase/auth';
 import type Evaluator from '@runtime/Evaluator';
 import type Root from '@nodes/Root';
@@ -26,6 +23,7 @@ import type LanguageCode from '../../locale/LanguageCode';
 import type Spaces from '@parser/Spaces';
 import type Color from '@output/Color';
 import type Locale from '@locale/Locale';
+import type SelectedOutput from './SelectedOutput.svelte';
 
 // Authentication related contexts
 
@@ -290,31 +288,12 @@ export function getIsBlocks() {
     return getContext<BlocksContext>(BlocksSymbol);
 }
 
-// Output related contexts
-export type SelectedOutputPaths = {
-    source: Source | undefined;
-    path: Path | undefined;
-}[];
-
-export type SelectedPhrase = {
-    name: string;
-    index: number | null;
-} | null;
-
-export type SelectedOutputContext = {
-    selectedPaths: SelectedOutputPaths;
-    selectedOutput: Evaluate[];
-    selectedPhrase: SelectedPhrase;
-    setSelectedOutput: (project: Project, evaluates: Evaluate[]) => void;
-    setSelectedPhrase: (phrase: SelectedPhrase) => void;
-};
-
 const SelectedOutputSymbol = Symbol('selected-output');
 
-export function setSelectedOutputContext(context: SelectedOutputContext) {
+export function setSelectedOutput(context: SelectedOutput) {
     setContext(SelectedOutputSymbol, context);
 }
-export function getSelectedOutput(): SelectedOutputContext | undefined {
+export function getSelectedOutput(): SelectedOutput | undefined {
     return getContext(SelectedOutputSymbol);
 }
 

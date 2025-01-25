@@ -239,7 +239,7 @@
 
     // Every time the project store changes, update the project context.
     $effect(() => {
-        projectStore.set($projectStore);
+        projectStore.set(project);
     });
 
     // When the project changes to something other than the initial project, start persisting it.
