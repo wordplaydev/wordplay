@@ -3,6 +3,13 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.14.3 2024-01-25
+
+### Fixed
+
+- Handled inconsistent cross-platform firing of `compositionend` events
+- Accurately calculate caret position for multi-codepoint emojis.
+
 ## 0.14.2 2024-01-18
 
 ### Fixed
