@@ -122,7 +122,7 @@ export type Character = z.infer<typeof CharacterSchema>;
 export const CharacterSize = 32;
 
 /** The stroke width of highlights */
-const HighlightStrokeWidth = 1;
+const SelectionStrokeWidth = 0.5;
 
 /**
  *
@@ -164,7 +164,7 @@ function rectToSVG(
     rect: CharacterRectangle,
     selected: boolean = false,
 ): string {
-    const strokeWidth = rect.stroke?.width ?? 0;
+    const selectionStrokeWidth = rect.stroke?.width ?? SelectionStrokeWidth;
     return tag('rect', {
         x: rect.center[0] - rect.width / 2,
         y: rect.center[1] - rect.height / 2,
@@ -173,11 +173,16 @@ function rectToSVG(
         rx: rect.corner,
         ry: rect.corner,
         fill: colorToSVG(rect.fill),
-        stroke: rect.stroke ? colorToSVG(rect.stroke.color) : undefined,
-        'stroke-width': rect.stroke?.width,
+        stroke: rect.stroke
+            ? colorToSVG(rect.stroke.color)
+            : selected
+              ? 'currentColor'
+              : undefined,
+        'stroke-width':
+            rect.stroke?.width ?? (selected ? selectionStrokeWidth : undefined),
         'stroke-linecap': selected ? 'butt' : 'round',
         'stroke-dasharray': selected
-            ? `${strokeWidth},${strokeWidth / 2}`
+            ? `${selectionStrokeWidth},${selectionStrokeWidth / 2}`
             : undefined,
         transform:
             'angle' in rect
@@ -190,7 +195,7 @@ function ellipseToSVG(
     ellipse: CharacterEllipse,
     selected: boolean = false,
 ): string {
-    const strokeWidth = ellipse.stroke?.width ?? 0;
+    const selectionStrokeWidth = ellipse.stroke?.width ?? SelectionStrokeWidth;
     return tag('ellipse', {
         class: selected ? 'selected' : undefined,
         cx: ellipse.center[0],
@@ -198,11 +203,17 @@ function ellipseToSVG(
         rx: ellipse.width / 2,
         ry: ellipse.height / 2,
         fill: colorToSVG(ellipse.fill),
-        stroke: ellipse.stroke ? colorToSVG(ellipse.stroke.color) : undefined,
-        'stroke-width': ellipse.stroke?.width,
+        stroke: ellipse.stroke
+            ? colorToSVG(ellipse.stroke.color)
+            : selected
+              ? 'currentColor'
+              : undefined,
+        'stroke-width':
+            ellipse.stroke?.width ??
+            (selected ? selectionStrokeWidth : undefined),
         'stroke-linecap': selected ? 'butt' : 'round',
         'stroke-dasharray': selected
-            ? `${strokeWidth},${strokeWidth / 2}`
+            ? `${selectionStrokeWidth},${selectionStrokeWidth / 2}`
             : undefined,
         transform: ellipse.angle
             ? `rotate(${ellipse.angle}, ${ellipse.center[0]}, ${ellipse.center[1]})`
@@ -219,7 +230,7 @@ function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
         height: 1,
         fill: colorToSVG(pixel.fill),
         stroke: selected ? 'currentColor' : undefined,
-        'stroke-width': selected ? 0.5 : undefined,
+        'stroke-width': selected ? SelectionStrokeWidth : undefined,
     });
 }
 
@@ -231,7 +242,7 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
         )
         .join(' ');
 
-    const strokeWidth = path.stroke?.width ?? 0;
+    const selectedStrokeWidth = path.stroke?.width ?? SelectionStrokeWidth;
 
     return tag('path', {
         class: selected ? 'selected' : undefined,
@@ -242,10 +253,17 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
                 : path.fill !== undefined
                   ? LCHtoRGB(path.fill.l, path.fill.c, path.fill.h)
                   : 'none',
-        stroke: path.stroke ? colorToSVG(path.stroke.color) : undefined,
-        'stroke-width': path.stroke?.width,
+        stroke: path.stroke
+            ? colorToSVG(path.stroke.color)
+            : selected
+              ? 'currentColor'
+              : undefined,
+        'stroke-width':
+            path.stroke?.width ?? (selected ? selectedStrokeWidth : undefined),
         'stroke-linecap': selected ? 'butt' : 'round',
-        'stroke-dasharray': selected ? `1,0.5` : undefined,
+        'stroke-dasharray': selected
+            ? `${selectedStrokeWidth},${selectedStrokeWidth / 2}`
+            : undefined,
         transform: path.angle
             ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x[0], 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x[1], 0) / path.points.length})`
             : undefined,
