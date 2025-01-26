@@ -142,6 +142,8 @@
     import { page } from '$app/state';
     import Spinning from '@components/app/Spinning.svelte';
     import Locales from '@locale/Locales';
+    import RootView from '@components/project/RootView.svelte';
+    import parseProgram, { toProgram } from '@parser/parseProgram';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -962,18 +964,20 @@
 {#snippet palette()}
     <div class="palette">
         <div class="meta">
-            <TextField
-                id="character-name"
-                bind:text={name}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.character.field.name.placeholder,
-                )}
-                description={$locales.get(
-                    (l) => l.ui.page.character.field.name.description,
-                )}
-                done={() => {}}
-                validator={validName}
-            ></TextField>
+            <h1 style:z-index="2">
+                <TextField
+                    id="character-name"
+                    bind:text={name}
+                    placeholder={$locales.get(
+                        (l) => l.ui.page.character.field.name.placeholder,
+                    )}
+                    description={$locales.get(
+                        (l) => l.ui.page.character.field.name.description,
+                    )}
+                    done={() => {}}
+                    validator={validName}
+                ></TextField>
+            </h1>
             <TextBox
                 id="character-description"
                 bind:text={description}
@@ -989,6 +993,16 @@
             {#if error}
                 <Feedback>{error}</Feedback>
             {/if}
+            <div class="row">
+                <div class="preview">
+                    {@html characterToSVG(editedCharacter, '32px')}
+                </div>
+                <RootView
+                    node={toProgram(`Phrase(\`@${name}\`)`)}
+                    inline
+                    blocks={false}
+                />
+            </div>
         </div>
         <h2>{$locales.get((l) => l.ui.page.character.field.mode).label}</h2>
         <Mode
@@ -1023,6 +1037,38 @@
                 {$locales.get((l) => l.ui.page.character.field.mode.modes[0])}…
             {/if}
         </h2>
+
+        <MarkupHtmlView
+            markup={mode === DrawingMode.Select && shapes.length === 0
+                ? $locales.get((l) => l.ui.page.character.instructions.empty)
+                : mode === DrawingMode.Select &&
+                    shapes.length > 0 &&
+                    selection.length === 0
+                  ? $locales.get(
+                        (l) => l.ui.page.character.instructions.unselected,
+                    )
+                  : mode === DrawingMode.Select &&
+                      shapes.length > 0 &&
+                      selection.length > 0
+                    ? $locales.get(
+                          (l) => l.ui.page.character.instructions.selected,
+                      )
+                    : mode === DrawingMode.Pixel
+                      ? $locales.get(
+                            (l) => l.ui.page.character.instructions.pixel,
+                        )
+                      : mode === DrawingMode.Rect
+                        ? $locales.get(
+                              (l) => l.ui.page.character.instructions.rect,
+                          )
+                        : mode === DrawingMode.Ellipse
+                          ? $locales.get(
+                                (l) => l.ui.page.character.instructions.ellipse,
+                            )
+                          : $locales.get(
+                                (l) => l.ui.page.character.instructions.path,
+                            )}
+        ></MarkupHtmlView>
 
         {#if mode !== DrawingMode.Select || selection.length > 0}
             <!-- All shapes have fills -->
@@ -1316,9 +1362,6 @@
         <div class="header">
             <Header>{$locales.get((l) => l.ui.page.character.header)}</Header>
             <p>{$locales.get((l) => l.ui.page.character.prompt)}</p>
-            <div class="preview">
-                {@html characterToSVG(editedCharacter, '32px')}
-            </div>
         </div>
         {#if $user === null}
             <Feedback
@@ -1343,7 +1386,7 @@
         {:else}
             <div class="editor">
                 <div class="content">
-                    <div class="toolbar">
+                    <div class="toolbar row">
                         <Button
                             tip={$locales.get(
                                 (l) => l.ui.page.character.button.undo,
@@ -1459,52 +1502,6 @@
                             </div>
                         {/if}
                     </div>
-                    <MarkupHtmlView
-                        markup={mode === DrawingMode.Select &&
-                        shapes.length === 0
-                            ? $locales.get(
-                                  (l) => l.ui.page.character.instructions.empty,
-                              )
-                            : mode === DrawingMode.Select &&
-                                shapes.length > 0 &&
-                                selection.length === 0
-                              ? $locales.get(
-                                    (l) =>
-                                        l.ui.page.character.instructions
-                                            .unselected,
-                                )
-                              : mode === DrawingMode.Select &&
-                                  shapes.length > 0 &&
-                                  selection.length > 0
-                                ? $locales.get(
-                                      (l) =>
-                                          l.ui.page.character.instructions
-                                              .selected,
-                                  )
-                                : mode === DrawingMode.Pixel
-                                  ? $locales.get(
-                                        (l) =>
-                                            l.ui.page.character.instructions
-                                                .pixel,
-                                    )
-                                  : mode === DrawingMode.Rect
-                                    ? $locales.get(
-                                          (l) =>
-                                              l.ui.page.character.instructions
-                                                  .rect,
-                                      )
-                                    : mode === DrawingMode.Ellipse
-                                      ? $locales.get(
-                                            (l) =>
-                                                l.ui.page.character.instructions
-                                                    .ellipse,
-                                        )
-                                      : $locales.get(
-                                            (l) =>
-                                                l.ui.page.character.instructions
-                                                    .path,
-                                        )}
-                    ></MarkupHtmlView>
                 </div>
                 {@render palette()}
             </div>
@@ -1527,10 +1524,10 @@
     .header {
         display: flex;
         flex-direction: row;
-        gap: var(--wordplay-spacing);
+        gap: 1em;
         border-bottom: var(--wordplay-border-color) solid
             var(--wordplay-border-width);
-        align-items: baseline;
+        align-items: center;
     }
 
     .editor {
@@ -1574,10 +1571,14 @@
         outline: var(--wordplay-focus-color) solid var(--wordplay-focus-width);
     }
 
-    .toolbar {
+    .row {
         display: flex;
         flex-direction: row;
         gap: var(--wordplay-spacing);
+        align-items: center;
+    }
+
+    .toolbar {
         justify-content: center;
     }
 

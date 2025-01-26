@@ -138,7 +138,7 @@
         background: var(--wordplay-error);
         color: var(--wordplay-background);
         padding: var(--wordplay-spacing);
-        font-size: calc(var(--wordplay-small-font-size) - 2pt);
+        font-size: calc(var(--wordplay-small-font-size));
         border-bottom-left-radius: var(--wordplay-border-radius);
         border-bottom-right-radius: var(--wordplay-border-radius);
         z-index: 2;
