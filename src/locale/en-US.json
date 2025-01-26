@@ -4931,16 +4931,30 @@
                         "label": "forward",
                         "tip": "Move selected shapes in front."
                     },
+                    "copy": {
+                        "label": "copy",
+                        "tip": "Copy selected shapes to clipboard."
+                    },
+                    "paste": {
+                        "label": "paste",
+                        "tip": "Paste copied shapes from clipboard."
+                    },
                     "clear": {
-                        "label": "clear",
+                        "label": "all",
                         "tip": "Remove all shapes."
                     },
                     "clearPixels": {
-                        "label": "clear pixels",
+                        "label": "pixels",
                         "tip": "Remove all pixels."
                     },
-                    "undo": "Undo to the previous design",
-                    "redo": "Redo to the next design"
+                    "undo": {
+                        "label": "undo",
+                        "tip": "Undo to the previous design"
+                    },
+                    "redo": {
+                        "label": "redo",
+                        "tip": "Redo to the next design"
+                    }
                 },
                 "feedback": {
                     "name": "Characters need a valid Wordplay name. It can't be 'UI', a number, or the name of a built-in language feature.",

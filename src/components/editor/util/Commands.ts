@@ -26,6 +26,9 @@ import {
     DOCS_SYMBOL,
     UNDO_SYMBOL,
     REDO_SYMBOL,
+    PASTE_SYMBOL,
+    COPY_SYMBOL,
+    CUT_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -1237,7 +1240,7 @@ const Commands: Command[] = [
                 : false,
     },
     {
-        symbol: '✄',
+        symbol: CUT_SYMBOL,
         description: (l) => l.ui.source.cursor.cut,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1263,7 +1266,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '📚',
+        symbol: COPY_SYMBOL,
         description: (l) => l.ui.source.cursor.copy,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1284,7 +1287,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '📋',
+        symbol: PASTE_SYMBOL,
         description: (l) => l.ui.source.cursor.paste,
         visible: Visibility.Visible,
         category: Category.Modify,

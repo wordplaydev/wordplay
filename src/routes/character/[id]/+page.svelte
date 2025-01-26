@@ -55,14 +55,18 @@
             back: ButtonText;
             /** The move selection forward button */
             forward: ButtonText;
+            /** Copy button text */
+            copy: ButtonText;
+            /** Paste button text */
+            paste: ButtonText;
             /** The clear pixels button */
             clearPixels: ButtonText;
             /** The clear all button */
             clear: ButtonText;
             /** The undo tooltip */
-            undo: string;
+            undo: ButtonText;
             /** The redo tooltip */
-            redo: string;
+            redo: ButtonText;
         };
         feedback: {
             /** When the name isn't a valid Wordplay name */
@@ -133,6 +137,8 @@
     import {
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
+        COPY_SYMBOL,
+        PASTE_SYMBOL,
         REDO_SYMBOL,
         SHARE_SYMBOL,
         UNDO_SYMBOL,
@@ -620,9 +626,7 @@
 
         // Handle copy
         if (event.key === 'c' && event.metaKey) {
-            copy = selection.map(
-                (s) => structuredClone($state.snapshot(s)) as CharacterShape,
-            );
+            copyShapes();
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -630,22 +634,7 @@
 
         // Handle paste
         if (event.key === 'v' && event.metaKey) {
-            if (copy) {
-                const copies = copy.map(
-                    (s) =>
-                        structuredClone($state.snapshot(s)) as CharacterShape,
-                );
-                // Translate the copies down a bit to make them visible.
-                for (const shape of copies) {
-                    moveShape(shape, 1, 1, 'translate');
-                }
-                // Update the copy to the things just copied
-                copy = copies;
-                // Add the copies t the end of the shape.
-                addShapes(copies);
-                // Select all the copies so they can be moved.
-                selection = [...copies];
-            }
+            pasteShapes();
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -728,6 +717,30 @@
                 event.stopPropagation();
                 return;
             }
+        }
+    }
+
+    function copyShapes() {
+        copy = selection.map(
+            (s) => structuredClone($state.snapshot(s)) as CharacterShape,
+        );
+    }
+
+    function pasteShapes() {
+        if (copy) {
+            const copies = copy.map(
+                (s) => structuredClone($state.snapshot(s)) as CharacterShape,
+            );
+            // Translate the copies down a bit to make them visible.
+            for (const shape of copies) {
+                moveShape(shape, 1, 1, 'translate');
+            }
+            // Update the copy to the things just copied
+            copy = copies;
+            // Add the copies t the end of the shape.
+            addShapes(copies);
+            // Select all the copies so they can be moved.
+            selection = [...copies];
         }
     }
 
@@ -967,51 +980,6 @@
 <!-- The palette -->
 {#snippet palette()}
     <div class="palette">
-        <div class="meta">
-            <h1 style:z-index="2">
-                <TextField
-                    id="character-name"
-                    bind:text={name}
-                    placeholder={$locales.get(
-                        (l) => l.ui.page.character.field.name.placeholder,
-                    )}
-                    description={$locales.get(
-                        (l) => l.ui.page.character.field.name.description,
-                    )}
-                    done={() => {}}
-                    validator={validName}
-                ></TextField>
-            </h1>
-            <TextBox
-                id="character-description"
-                bind:text={description}
-                placeholder={$locales.get(
-                    (l) => l.ui.page.character.field.description.placeholder,
-                )}
-                description={$locales.get(
-                    (l) => l.ui.page.character.field.description.description,
-                )}
-                done={() => {}}
-                validator={validDescription}
-            ></TextBox>
-            {#if error}
-                <Feedback>{error}</Feedback>
-            {/if}
-            <div class="row">
-                <div class="preview">
-                    {@html characterToSVG(editedCharacter, '32px')}
-                </div>
-                {#if validName(name) === true}
-                    <RootView
-                        node={toProgram(
-                            `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${name}\`)`,
-                        )}
-                        inline
-                        blocks={false}
-                    />
-                {/if}
-            </div>
-        </div>
         <h2>{$locales.get((l) => l.ui.page.character.field.mode).label}</h2>
         <Mode
             descriptions={$locales.get((l) => l.ui.page.character.field.mode)}
@@ -1353,14 +1321,95 @@
             align-items: baseline;
         }
 
-        .meta {
-            display: flex;
-            flex-direction: column;
-            gap: var(--wordplay-spacing);
-        }
-
         p {
             margin: 0;
+        }
+    </style>
+{/snippet}
+
+{#snippet toolbar()}
+    <div class="toolbar">
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.undo.tip)}
+            action={() => undo()}
+            active={historyIndex > 0}
+        >
+            {UNDO_SYMBOL}
+            {$locales.get((l) => l.ui.page.character.button.undo.label)}
+        </Button>
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.redo.tip)}
+            action={() => redo()}
+            active={historyIndex < history.length - 1}
+        >
+            {REDO_SYMBOL}
+            {$locales.get((l) => l.ui.page.character.button.redo.label)}
+        </Button>
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.back.tip)}
+            action={() => arrange('back')}
+            active={selection.length > 0 && shapes.length > 1}
+            >{SHARE_SYMBOL}
+            {$locales.get((l) => l.ui.page.character.button.back.label)}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.forward.tip)}
+            action={() => arrange('forward')}
+            active={selection.length > 0 && shapes.length > 1}
+            >{BORROW_SYMBOL}
+            {$locales.get(
+                (l) => l.ui.page.character.button.forward.label,
+            )}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.copy.tip)}
+            action={copyShapes}
+            active={selection.length > 0}
+            >{COPY_SYMBOL}
+            {$locales.get((l) => l.ui.page.character.button.copy.label)}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.paste.tip)}
+            action={pasteShapes}
+            active={copy !== undefined}
+            >{PASTE_SYMBOL}
+            {$locales.get(
+                (l) => l.ui.page.character.button.paste.label,
+            )}</Button
+        >
+        <Button
+            tip={$locales.get(
+                (l) => l.ui.page.character.button.clearPixels.tip,
+            )}
+            action={() => {
+                setShapes(shapes.filter((s) => s.type !== 'pixel'));
+            }}
+            active={shapes.some((s) => s.type === 'pixel')}
+            >{CANCEL_SYMBOL}
+            {$locales.get(
+                (l) => l.ui.page.character.button.clearPixels.label,
+            )}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.clear.tip)}
+            action={() => {
+                setShapes([]);
+            }}
+            active={shapes.length > 0}
+            >{CANCEL_SYMBOL}
+            {$locales.get(
+                (l) => l.ui.page.character.button.clear.label,
+            )}</Button
+        >
+    </div>
+
+    <style>
+        .toolbar {
+            display: flex;
+            flex-direction: column;
+            flex-wrap: wrap;
+            row-gap: var(--wordplay-spacing);
+            align-items: end;
         }
     </style>
 {/snippet}
@@ -1368,7 +1417,9 @@
 <Page>
     <section>
         <div class="header">
-            <Header>{$locales.get((l) => l.ui.page.character.header)}</Header>
+            <Header block={false}
+                >{$locales.get((l) => l.ui.page.character.header)}</Header
+            >
             <p>{$locales.get((l) => l.ui.page.character.prompt)}</p>
         </div>
         {#if $user === null}
@@ -1392,78 +1443,54 @@
                 )}</Feedback
             >
         {:else}
+            <div class="meta">
+                <div class="preview">
+                    {@html characterToSVG(editedCharacter, '32px')}
+                </div>
+                <h1 style:z-index="2" style:margin="0">
+                    <TextField
+                        id="character-name"
+                        bind:text={name}
+                        placeholder={$locales.get(
+                            (l) => l.ui.page.character.field.name.placeholder,
+                        )}
+                        description={$locales.get(
+                            (l) => l.ui.page.character.field.name.description,
+                        )}
+                        done={() => {}}
+                        validator={validName}
+                    ></TextField>
+                </h1>
+                {#if error}
+                    <Feedback>{error}</Feedback>
+                {/if}
+                {#if validName(name) === true}
+                    <RootView
+                        node={toProgram(
+                            `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${name}\`)`,
+                        )}
+                        blocks={false}
+                    />
+                {/if}
+                <TextBox
+                    id="character-description"
+                    bind:text={description}
+                    placeholder={$locales.get(
+                        (l) =>
+                            l.ui.page.character.field.description.placeholder,
+                    )}
+                    description={$locales.get(
+                        (l) =>
+                            l.ui.page.character.field.description.description,
+                    )}
+                    done={() => {}}
+                    validator={validDescription}
+                ></TextBox>
+            </div>
+
             <div class="editor">
+                {@render toolbar()}
                 <div class="content">
-                    <div class="toolbar row">
-                        <Button
-                            tip={$locales.get(
-                                (l) => l.ui.page.character.button.undo,
-                            )}
-                            action={() => undo()}
-                            active={historyIndex > 0}>{UNDO_SYMBOL}</Button
-                        >
-                        <Button
-                            tip={$locales.get(
-                                (l) => l.ui.page.character.button.redo,
-                            )}
-                            action={() => redo()}
-                            active={historyIndex < history.length - 1}
-                            >{REDO_SYMBOL}
-                        </Button>
-                        <Button
-                            tip={$locales.get(
-                                (l) => l.ui.page.character.button.back.tip,
-                            )}
-                            action={() => arrange('back')}
-                            active={selection.length > 0 && shapes.length > 1}
-                            >{SHARE_SYMBOL}
-                            {$locales.get(
-                                (l) => l.ui.page.character.button.back.label,
-                            )}</Button
-                        >
-                        <Button
-                            tip={$locales.get(
-                                (l) => l.ui.page.character.button.forward.tip,
-                            )}
-                            action={() => arrange('forward')}
-                            active={selection.length > 0 && shapes.length > 1}
-                            >{BORROW_SYMBOL}
-                            {$locales.get(
-                                (l) => l.ui.page.character.button.forward.label,
-                            )}</Button
-                        >
-                        <Button
-                            tip={$locales.get(
-                                (l) =>
-                                    l.ui.page.character.button.clearPixels.tip,
-                            )}
-                            action={() => {
-                                setShapes(
-                                    shapes.filter((s) => s.type !== 'pixel'),
-                                );
-                            }}
-                            active={shapes.some((s) => s.type === 'pixel')}
-                            >{CANCEL_SYMBOL}
-                            {$locales.get(
-                                (l) =>
-                                    l.ui.page.character.button.clearPixels
-                                        .label,
-                            )}</Button
-                        >
-                        <Button
-                            tip={$locales.get(
-                                (l) => l.ui.page.character.button.clear.tip,
-                            )}
-                            action={() => {
-                                setShapes([]);
-                            }}
-                            active={shapes.length > 0}
-                            >{CANCEL_SYMBOL}
-                            {$locales.get(
-                                (l) => l.ui.page.character.button.clear.label,
-                            )}</Button
-                        >
-                    </div>
                     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
                     <div
@@ -1533,8 +1560,6 @@
         display: flex;
         flex-direction: row;
         gap: 1em;
-        border-bottom: var(--wordplay-border-color) solid
-            var(--wordplay-border-width);
         align-items: center;
     }
 
@@ -1586,10 +1611,6 @@
         align-items: center;
     }
 
-    .toolbar {
-        justify-content: center;
-    }
-
     .position {
         position: absolute;
         width: 1em;
@@ -1615,6 +1636,16 @@
 
     .select {
         cursor: default;
+    }
+
+    .meta {
+        display: flex;
+        flex-direction: row;
+        gap: var(--wordplay-spacing);
+        align-items: center;
+        border-bottom: var(--wordplay-border-color) solid
+            var(--wordplay-border-width);
+        padding-bottom: var(--wordplay-spacing);
     }
 
     .rect,
