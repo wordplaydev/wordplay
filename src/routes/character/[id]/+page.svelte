@@ -75,6 +75,8 @@
             loadfail: string;
             /** The character doesn't exist */
             notfound: string;
+            /** Not logged in */
+            unauthenticated: string;
         };
         announce: {
             /** When cursor position changes $1 x, $2: y. */
@@ -265,21 +267,23 @@
     $effect(() => {
         const id = page.params.id;
         // Don't track the below; it's just a one-time load unless the id changes.
-        untrack(() =>
-            CharactersDB.getByIDOrName(id).then((loadedCharacter) => {
-                persisted =
-                    loadedCharacter === undefined
-                        ? 'failed'
-                        : loadedCharacter === null
-                          ? 'unknown'
-                          : loadedCharacter;
-                if (loadedCharacter) {
-                    name = loadedCharacter.name;
-                    description = loadedCharacter.description;
-                    shapes = loadedCharacter.shapes;
-                }
-            }),
-        );
+        if ($user) {
+            untrack(() =>
+                CharactersDB.getByIDOrName(id).then((loadedCharacter) => {
+                    persisted =
+                        loadedCharacter === undefined
+                            ? 'failed'
+                            : loadedCharacter === null
+                              ? 'unknown'
+                              : loadedCharacter;
+                    if (loadedCharacter) {
+                        name = loadedCharacter.name;
+                        description = loadedCharacter.description;
+                        shapes = loadedCharacter.shapes;
+                    }
+                }),
+            );
+        }
     });
 
     // If the mode changes, end the pending path.
@@ -1295,7 +1299,13 @@
                 {@html characterToSVG(editedCharacter, '32px')}
             </div>
         </div>
-        {#if persisted === 'loading'}
+        {#if $user === null}
+            <Feedback
+                >{$locales.get(
+                    (l) => l.ui.page.character.feedback.unauthenticated,
+                )}</Feedback
+            >
+        {:else if persisted === 'loading'}
             <Spinning></Spinning>
         {:else if persisted === 'failed'}
             <Feedback

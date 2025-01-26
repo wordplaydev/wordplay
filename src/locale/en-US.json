@@ -4947,7 +4947,8 @@
                     "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "Press escape to finish shape.",
                     "loadfail": "There was a problem loading this character.",
-                    "notfound": "This character doesn't exist."
+                    "notfound": "This character doesn't exist.",
+                    "unauthenticated": "You must be logged in to edit a character."
                 },
                 "announce": {
                     "position": "at $1 $2",
