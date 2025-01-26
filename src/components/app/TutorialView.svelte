@@ -20,9 +20,9 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, setContext, untrack } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable, type Writable } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import { tick } from 'svelte';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
@@ -37,6 +37,10 @@
     import { moderatedFlags } from '../../db/projects/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
+    import { DRAFT_SYMBOL } from '@parser/Symbols';
+    import Glyphs from '../../lore/Glyphs';
+    import { withColorEmoji } from '../../unicode/emoji';
+    import { withoutAnnotations } from '@locale/LocaleText';
 
     interface Props {
         progress: Progress;
@@ -235,7 +239,7 @@
 
     // Every time the project store changes, update the project context.
     $effect(() => {
-        projectStore.set($projectStore);
+        projectStore.set(project);
     });
 
     // When the project changes to something other than the initial project, start persisting it.
@@ -265,7 +269,9 @@
                                 0,
                             ).serialize(),
                         ),
-                        label: scene.subtitle ?? scene.title,
+                        label: withoutAnnotations(
+                            scene.subtitle ?? scene.title,
+                        ),
                     };
                 }),
             };
@@ -324,7 +330,10 @@
         event.stopPropagation();
         tick().then(() => {
             const newFocus = focusView ?? nextButton;
-            if (newFocus)
+            if (
+                document.activeElement === document.body &&
+                newFocus !== undefined
+            )
                 setKeyboardFocus(
                     newFocus,
                     'Body received focus, focusing tutorial.',
@@ -337,15 +346,13 @@
 <section class="tutorial" onkeydown={handleKey}>
     <div class="header">
         <Header block={false}
-            >{#if fallback}🚧{/if}
-            {$locales.get(
-                (l) => l.ui.page.learn.header,
-            )}{#if fallback}🚧{/if}</Header
+            >{#if fallback}{withColorEmoji(DRAFT_SYMBOL)}{/if}
+            {$locales.get((l) => l.ui.page.learn.header)}</Header
         >
         <nav>
             {#if act !== undefined}
                 <Note>
-                    {act.title}
+                    {withoutAnnotations(act.title)}
                     <sub
                         >{progress.tutorial.acts.findIndex(
                             (candidate) => candidate === act,
@@ -355,7 +362,9 @@
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
             <Options
                 label={$locales.get((l) => l.ui.page.learn.options.lesson)}
-                value={JSON.stringify(progress.withLine(0).serialize())}
+                value={withoutAnnotations(
+                    JSON.stringify(progress.withLine(0).serialize()),
+                )}
                 change={handleSelect}
                 id="current-lesson"
                 options={lessons}
@@ -390,7 +399,7 @@
                         bind:view={previousButton}>←</Button
                     >
                     {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
-                            >{scene.subtitle ?? scene.title}
+                            >{withoutAnnotations(scene.subtitle ?? scene.title)}
                             {#if act !== undefined && scene !== undefined && progress.pause > 0}
                                 <sub class="progress"
                                     >{progress.pause}/{scene
@@ -416,24 +425,33 @@
                 {:else if scene === undefined}
                     <div class="title act"
                         >{$locales.get((l) => l.term.act)}
-                        {progress.act}<p><em>{act.title}</em></p></div
+                        {progress.act}<p
+                            ><em>{withoutAnnotations(act.title)}</em></p
+                        ></div
                     >
                 {:else if dialog === undefined}
                     <div class="title scene"
                         >{$locales.get((l) => l.term.scene)}
-                        {progress.scene}<p><em>{scene.title}</em></p
-                        >{#if scene.subtitle}<em>{scene.subtitle}</em>{/if}</div
+                        {progress.scene}<p
+                            ><em>{withoutAnnotations(scene.title)}</em></p
+                        >{#if scene.subtitle}<em
+                                >{withoutAnnotations(scene.subtitle)}</em
+                            >{/if}</div
                     >
                 {:else}
                     {#key turns}
                         {#each turns as turn}
+                            {@const character = turn.dialog[0]}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
                                 character={projectContext
-                                    ?.getConceptByName(turn.dialog[0])
-                                    ?.getCharacter($locales) ?? {
-                                    symbols: turn.dialog[0],
-                                }}
+                                    ?.getConceptByName(character)
+                                    ?.getCharacter($locales) ??
+                                    Glyphs[
+                                        character as keyof typeof Glyphs
+                                    ] ?? {
+                                        symbols: character,
+                                    }}
                                 flip={turn.dialog[0] !== 'FunctionDefinition'}
                                 baseline
                                 scroll={false}

@@ -19,7 +19,7 @@
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { onMount, tick, untrack } from 'svelte';
+    import { tick, untrack } from 'svelte';
     import moveOutput from '../palette/editOutput';
     import { getProject, getSelectedOutput } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';
@@ -75,7 +75,8 @@
     // Selected if this phrase's value creator is selected
     let selected = $derived(
         phrase.value.creator instanceof Evaluate &&
-            selection?.selectedOutput.includes(phrase.value.creator),
+            $project !== undefined &&
+            selection?.includes(phrase.value.creator, $project),
     );
 
     let view = $state<HTMLDivElement | undefined>(undefined);
@@ -84,8 +85,7 @@
         selected &&
             editable &&
             selection &&
-            selection.selectedPhrase &&
-            selection.selectedPhrase.index !== null,
+            selection.getPhrase()?.index !== null,
     );
 
     let metrics = $derived(phrase.getMetrics(localContext));
@@ -109,16 +109,9 @@
     $effect(() => {
         if (editable) {
             if (entered) {
-                if (
-                    input &&
-                    selection &&
-                    selection.selectedPhrase &&
-                    selection.selectedPhrase.index !== null
-                ) {
-                    input.setSelectionRange(
-                        selection.selectedPhrase.index,
-                        selection.selectedPhrase.index,
-                    );
+                const phrase = selection?.getPhrase() ?? undefined;
+                if (input && phrase !== undefined && phrase.index !== null) {
+                    input.setSelectionRange(phrase.index, phrase.index);
                     setKeyboardFocus(
                         input,
                         'Restoring phrase text editor focus.',
@@ -137,8 +130,8 @@
     }
 
     function select(index: number | null) {
-        if (selection?.selectedPhrase === undefined) return;
-        selection.setSelectedPhrase({
+        if (selection === undefined) return;
+        selection.setPhrase({
             name: phrase.getName(),
             index,
         });
@@ -147,7 +140,7 @@
     function move(event: KeyboardEvent) {
         if (
             $project === undefined ||
-            selection?.selectedOutput === undefined ||
+            selection?.isEmpty() ||
             entered ||
             !event.key.startsWith('Arrow') ||
             !(phrase.value.creator instanceof Evaluate)
@@ -199,8 +192,7 @@
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
-        if ($project === undefined || selection?.selectedOutput === undefined)
-            return;
+        if ($project === undefined || selection?.isEmpty()) return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.getText();

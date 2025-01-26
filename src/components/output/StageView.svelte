@@ -39,7 +39,6 @@
         describeMovedOutput,
         describedChangedOutput,
     } from './OutputDescriptions';
-    import { SvelteMap } from 'svelte/reactivity';
 
     interface Props {
         project: Project;
@@ -221,10 +220,10 @@
         untrack(() => resetAnimator());
     });
 
-    // Stop or When the evaluator is playing but the animator is stopped, create a new animator.
+    // When the evaluator is playing but the animator is stopped, create a new animator.
     $effect(() => {
         if (animator) {
-            if ($evaluation.playing) {
+            if ($evaluation?.playing) {
                 if (animator.isStopped()) untrack(() => resetAnimator());
             } else {
                 animator.stop();

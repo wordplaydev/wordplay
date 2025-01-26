@@ -95,13 +95,10 @@
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import {
-        type SelectedOutputContext,
         getConceptPath,
         IdleKind,
         type EditorState,
         type KeyModifierState,
-        type SelectedOutputPaths,
-        type SelectedPhrase,
         setConceptIndex,
         setDragged,
         setProjectCommandContext,
@@ -111,7 +108,7 @@
         setAnimatingNodes,
         setEditors,
         setConflicts,
-        setSelectedOutputContext,
+        setSelectedOutput,
         getFullscreen,
         getUser,
         getAnnounce,
@@ -125,7 +122,7 @@
     import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
     import type { HighlightSpec } from '../editor/util/Highlights';
     import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Tile, { TileKind, Mode } from './Tile';
+    import Tile, { TileKind, TileMode } from './Tile';
     import OutputView from '../output/OutputView.svelte';
     import Editor from '../editor/Editor.svelte';
     import Layout from './Layout';
@@ -145,8 +142,7 @@
     import { goto } from '$app/navigation';
     import TextField from '../widgets/TextField.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import Evaluate from '@nodes/Evaluate';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import type Caret from '../../edit/Caret';
     import CharacterChooser from '../editor/GlyphChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
@@ -160,7 +156,6 @@
         Settings,
         Projects,
         blocks,
-        localized,
         Creators,
         animationFactor,
         Chats,
@@ -203,17 +198,18 @@
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import { CANCEL_SYMBOL, COPY_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, COPY_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
-    import { localeToString } from '@locale/Locale';
     import type Locale from '@locale/Locale';
-    import { default as ModeChooser } from '@components/widgets/Mode.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
     import type Chat from '@db/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
     import Link from '@components/app/Link.svelte';
+    import EditorLocaleChooser from './EditorLocaleChooser.svelte';
+    import SelectedOutput from './SelectedOutput.svelte';
 
     interface Props {
         project: Project;
@@ -314,10 +310,10 @@
 
     // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
     let requestedPlay = $state(
-        $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null,
+        page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null,
     );
     let requestedEdit = $state(
-        $page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
+        page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
 
     const user = getUser();
@@ -371,6 +367,9 @@
     /** Keep track of locales used */
     const localesUsed = $derived(project.getLocalesUsed());
 
+    /** Keep a reactive map from source to EditorLocale chosen for the source */
+    let editorLocales = $state<Record<string, Locale | null>>({});
+
     // When keyboard isn't idle, set a timeout to set it to idle later.
     // to reset it to false after a delay.
     $effect(() => {
@@ -388,64 +387,9 @@
         };
     });
 
-    /**
-     * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
-     * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
-     * so they can render selected feedback.
-     */
-    let selectedOutputPaths: SelectedOutputPaths = $state<SelectedOutputPaths>(
-        [],
-    );
-    const selectedOutput: Evaluate[] = $derived(
-        selectedOutputPaths
-            .map(({ source, path }) => {
-                if (
-                    source === undefined ||
-                    path === undefined ||
-                    $projectStore === undefined
-                )
-                    return undefined;
-                const name = source.getNames()[0];
-                if (name === undefined) return undefined;
-                const newSource = $projectStore.getSourceWithName(name);
-                if (newSource === undefined) return undefined;
-                return newSource.root.resolvePath(path);
-            })
-            .filter((output): output is Evaluate => output instanceof Evaluate),
-    );
-    let selectedPhrase = $state<SelectedPhrase>(null);
-
-    function setSelectedOutput(project: Project, evaluates: Evaluate[]) {
-        // Map each selected output to its replacement, then set the selected output to the replacements.
-        selectedOutputPaths = evaluates.map((output) => {
-            return {
-                source: project.getSourceOf(output),
-                path: project.getRoot(output)?.getPath(output),
-            };
-        });
-    }
-
-    function setSelectedPhrase(phrase: SelectedPhrase) {
-        selectedPhrase = phrase;
-    }
-
-    let selectionState = $state<SelectedOutputContext>({
-        selectedPaths: [],
-        selectedOutput: [],
-        selectedPhrase: null,
-        setSelectedOutput,
-        setSelectedPhrase,
-    });
-
-    $effect(() => {
-        selectionState.selectedOutput = selectedOutput;
-        selectionState.selectedPaths = selectedOutputPaths;
-        selectionState.selectedPhrase = selectedPhrase;
-        selectionState.setSelectedOutput = setSelectedOutput;
-        selectionState.setSelectedPhrase = setSelectedPhrase;
-    });
-
-    setSelectedOutputContext(selectionState);
+    /** Make the project global selected output and set it in a context. */
+    let selectedOutput = new SelectedOutput();
+    setSelectedOutput(selectedOutput);
 
     /**
      * Invalidates these inputs, indicating that it shouldn't be used.
@@ -517,6 +461,17 @@
         evaluator.set(newEvaluator);
     }
 
+    /** This stores the instance of the announcer component */
+    let announcer = $state<ReturnType<typeof Announcer>>();
+    let announcerStore: Writable<AnnouncerContext | undefined> =
+        writable(undefined);
+
+    // Update the function context when the announcer changes.
+    $effect(() => announcerStore.set(announcer?.announce));
+
+    // Set the announcer store in context.
+    setAnnouncer(announcerStore);
+
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation = writable(getEvaluationContext());
     setEvaluation(evaluation);
@@ -550,8 +505,7 @@
 
     // Clear the selected output upon playing.
     evaluation.subscribe((val) => {
-        if (val.playing)
-            if (selectedOutputPaths.length > 0) selectedOutputPaths = [];
+        if (val.playing) if (!selectedOutput.isEmpty()) selectedOutput.empty();
     });
 
     function syncTiles(project: Project, tiles: Tile[]): Tile[] {
@@ -566,8 +520,8 @@
                     requestedPlay
                         ? tile.withMode(
                               tile.kind === TileKind.Output
-                                  ? Mode.Expanded
-                                  : Mode.Collapsed,
+                                  ? TileMode.Expanded
+                                  : TileMode.Collapsed,
                           )
                         : // Not playing? Whatever it's current mode is.
                           tile,
@@ -580,10 +534,10 @@
                             // If playing, keep the source files collapsed
                             .withMode(
                                 requestedPlay
-                                    ? Mode.Collapsed
+                                    ? TileMode.Collapsed
                                     : requestedEdit &&
                                         source === project.getMain()
-                                      ? Mode.Expanded
+                                      ? TileMode.Expanded
                                       : tile.mode,
                             ),
                     );
@@ -612,7 +566,9 @@
         return new Tile(
             Layout.getSourceID(index),
             TileKind.Source,
-            index === 0 || expandNewTile ? Mode.Expanded : Mode.Collapsed,
+            index === 0 || expandNewTile
+                ? TileMode.Expanded
+                : TileMode.Collapsed,
             undefined,
             Tile.randomPosition(1024, 768),
         );
@@ -636,28 +592,28 @@
                 new Tile(
                     TileKind.Palette,
                     TileKind.Palette,
-                    Mode.Collapsed,
+                    TileMode.Collapsed,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
                     TileKind.Output,
                     TileKind.Output,
-                    Mode.Expanded,
+                    TileMode.Expanded,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
-                    Mode.Collapsed,
+                    TileMode.Collapsed,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
                 new Tile(
                     TileKind.Collaborate,
                     TileKind.Collaborate,
-                    Mode.Collapsed,
+                    TileMode.Collapsed,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
@@ -665,10 +621,10 @@
                     // If starting with output only, collapse the source initially too.
                     createSourceTile(source, index).withMode(
                         showOutput
-                            ? Mode.Collapsed
+                            ? TileMode.Collapsed
                             : index === 0 || source === newSource
-                              ? Mode.Expanded
-                              : Mode.Collapsed,
+                              ? TileMode.Expanded
+                              : TileMode.Collapsed,
                     ),
                 ),
             ];
@@ -712,7 +668,7 @@
 
     /** When the layout or path changes, add or remove query params based on state */
     $effect(() => {
-        const searchParams = new URLSearchParams($page.url.searchParams);
+        const searchParams = new URLSearchParams(page.url.searchParams);
 
         if (!requestedPlay) searchParams.delete(PROJECT_PARAM_PLAY);
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
@@ -734,9 +690,9 @@
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
         const currentSearch =
-            $page.url.search.charAt(0) === '?'
-                ? $page.url.search.substring(1)
-                : $page.url.search;
+            page.url.search.charAt(0) === '?'
+                ? page.url.search.substring(1)
+                : page.url.search;
         // If the search params haven't changed, don't navigate.
         if (search !== currentSearch)
             goto(`?${search}`, { replaceState: true });
@@ -809,7 +765,7 @@
     }
 
     function restoreConcept() {
-        const id = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
+        const id = page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
         const concept = id ? resolveConcept(id) : undefined;
         if (concept && path) path.set([concept]);
     }
@@ -867,7 +823,7 @@
         ) {
             if (docs) {
                 setFullscreen(undefined);
-                setMode(docs, Mode.Expanded);
+                setMode(docs, TileMode.Expanded);
             }
         }
     });
@@ -885,7 +841,7 @@
                 (source) =>
                     layout &&
                     layout.getSource(project.getIndexOfSource(source))?.mode ===
-                        Mode.Expanded,
+                        TileMode.Expanded,
             )
             // Convert them into lists of conflicts
             .map((source) => conflictsOfInterest.get(source) ?? [])
@@ -930,8 +886,8 @@
                       project.getIndexOfSource(source),
                   )
                 : undefined;
-            if (tile && tile.mode === Mode.Collapsed) {
-                untrack(() => setMode(tile, Mode.Expanded));
+            if (tile && tile.mode === TileMode.Collapsed) {
+                untrack(() => setMode(tile, TileMode.Expanded));
             }
         }
     });
@@ -940,9 +896,9 @@
     $effect(() => {
         const palette = untrack(() => layout).getPalette();
         if (palette) {
-            if (selectedOutput && selectedOutput.length > 0) {
-                if (palette.mode === Mode.Collapsed)
-                    untrack(() => setMode(palette, Mode.Expanded));
+            if (!selectedOutput.isEmpty()) {
+                if (palette.mode === TileMode.Collapsed)
+                    untrack(() => setMode(palette, TileMode.Expanded));
             }
         }
     });
@@ -1103,8 +1059,8 @@
     $effect(() => {
         if (overwritten)
             untrack(() => {
-                if ($announce) {
-                    $announce(
+                if (announcer?.announce) {
+                    announcer.announce(
                         project.getID(),
                         $locales.getLanguages()[0],
                         $locales.get((l) => l.ui.source.overwritten),
@@ -1213,23 +1169,19 @@
         }
     }
 
-    function setMode(tile: Tile, mode: Mode) {
+    function setMode(tile: Tile, mode: TileMode) {
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
         // Special case selected output and the palette.
-        if (
-            tile === layout.getPalette() &&
-            selectedOutput &&
-            selectedOutputPaths
-        ) {
-            if (tile.mode === Mode.Collapsed && selectedOutput.length === 0) {
+        if (tile === layout.getPalette()) {
+            if (tile.mode === TileMode.Collapsed && selectedOutput.isEmpty()) {
                 const output = project.getOutput();
                 if (output.length > 0) {
-                    setSelectedOutput(project, [output[0]]);
+                    selectedOutput.setPaths(project, [output[0]]);
                     $evaluator.pause();
                 }
-            } else if (tile.mode === Mode.Expanded) {
-                setSelectedOutput(project, []);
+            } else if (tile.mode === TileMode.Expanded) {
+                selectedOutput.setPaths(project, []);
             }
         }
 
@@ -1478,7 +1430,9 @@
     function toggleTile(tile: Tile) {
         setMode(
             tile,
-            tile.mode === Mode.Expanded ? Mode.Collapsed : Mode.Expanded,
+            tile.mode === TileMode.Expanded
+                ? TileMode.Collapsed
+                : TileMode.Expanded,
         );
     }
 
@@ -1522,7 +1476,7 @@
         const main = layout.getTileWithID(Layout.getSourceID(0));
         if (main) {
             requestedPlay = false;
-            setMode(main, Mode.Expanded);
+            setMode(main, TileMode.Expanded);
             layout = layout.withoutFullscreen();
         }
     }
@@ -1546,6 +1500,8 @@
 {#if warn}
     <Moderation {project} />
 {/if}
+<!-- Render a live region with announcements as soon as possible -->
+<Announcer bind:this={announcer} />
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <div
@@ -1574,7 +1530,7 @@
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
-                    <Speech character={Characters.Function}>
+                    <Speech character={Characters.FunctionDefinition}>
                         {#snippet content()}
                             {$locales.get((l) => l.ui.project.collapsed)} ⬇
                         {/snippet}
@@ -1703,7 +1659,7 @@
                                             >{#if fit}🔒{:else}🔓{/if}</Emoji
                                         ></Toggle
                                     >
-                                    <ModeChooser
+                                    <Mode
                                         descriptions={$locales.get(
                                             (l) =>
                                                 l.ui.dialog.settings.mode
@@ -1731,34 +1687,17 @@
                                         toggle={toggleBlocks}
                                         on={$blocks}
                                     />
-                                    <ModeChooser
-                                        labeled={false}
-                                        descriptions={$locales.get(
-                                            (l) =>
-                                                l.ui.dialog.settings.mode
-                                                    .localized,
-                                        )}
-                                        choice={$localized === 'actual'
-                                            ? 0
-                                            : $localized === 'localized'
-                                              ? 1
-                                              : 2}
-                                        select={(choice) =>
-                                            Settings.setLocalized(
-                                                choice === 0
-                                                    ? 'actual'
-                                                    : choice === 1
-                                                      ? 'localized'
-                                                      : 'symbolic',
-                                            )}
-                                        modes={[
-                                            '...',
-                                            localeToString(
-                                                $locales.getLocale(),
-                                            ),
-                                            '😀',
-                                        ]}
-                                    />
+                                    {#if localesUsed.length > 1}
+                                        {LOCALE_SYMBOL}
+                                        <EditorLocaleChooser
+                                            locale={editorLocales[tile.id] ??
+                                                null}
+                                            options={localesUsed}
+                                            change={(locale) => {
+                                                editorLocales[tile.id] = locale;
+                                            }}
+                                        ></EditorLocaleChooser>
+                                    {/if}
                                     <!-- Make a Button for every navigate command -->
                                     {#each VisibleNavigateCommands as command}<CommandButton
                                             {command}
@@ -1803,6 +1742,8 @@
                                             {project}
                                             evaluator={$evaluator}
                                             {source}
+                                            locale={editorLocales[tile.id] ??
+                                                null}
                                             editable={editableAndCurrent}
                                             {overwritten}
                                             sourceID={tile.id}
@@ -1945,7 +1886,7 @@
                         <SourceTileToggle
                             {project}
                             {source}
-                            expanded={tile.mode === Mode.Expanded}
+                            expanded={tile.mode === TileMode.Expanded}
                             toggle={() => toggleTile(tile)}
                         />
                     {/if}
@@ -2018,7 +1959,13 @@
                         </Dialog>
                     {/if}
                     <Separator />
-                    <Translate {project}></Translate>
+                    <Translate
+                        {project}
+                        showAll={() => {
+                            for (const id of Object.keys(editorLocales))
+                                editorLocales[id] = null;
+                        }}
+                    ></Translate>
                     <Separator />
                     <Checkpoints {project} bind:checkpoint></Checkpoints>
                 </div>
@@ -2048,7 +1995,7 @@
                     node={dragged}
                     inline
                     spaces={project.getSourceOf(dragged)?.spaces}
-                    localized={$localized}
+                    locale={$locales.getLocale()}
                     blocks={$blocks}
                 />
                 <div class="cursor">🐲</div>

@@ -79,7 +79,10 @@
     <Header><Emoji>💬</Emoji>{$locales.get((l) => l.wordplay)}</Header>
     <div class="welcome">
         <div style:margin-inline-start="-2.5em">
-            <Speech character={Characters.Function} emotion={Emotion.happy} big
+            <Speech
+                character={Characters.FunctionDefinition}
+                emotion={Emotion.happy}
+                big
                 >{#snippet content()}
                     <MarkupHtmlView
                         markup={$locales.get((l) => l.ui.page.landing.value)}

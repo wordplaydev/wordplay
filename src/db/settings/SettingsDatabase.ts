@@ -10,7 +10,7 @@ import {
 import { CameraSetting } from './CameraSetting';
 import { MicSetting } from './MicSetting';
 import { derived } from 'svelte/store';
-import type { SupportedLocale } from '../../locale/LocaleText';
+import type { SupportedLocale } from '@locale/SupportedLocales';
 import type { Database } from '../Database';
 import type { SerializedLayout } from '../../components/project/Layout';
 import type Arrangement from './Arrangement';
@@ -18,7 +18,6 @@ import type { WritingLayout } from '../../locale/Scripts';
 import type Progress from '../../tutorial/Progress';
 import Layout from '../../components/project/Layout';
 import { BlocksSetting } from './BlocksSetting';
-import { LocalizedSetting, type LocalizedValue } from './LocalizedSetting';
 import { DarkSetting } from './DarkSetting';
 import { doc, getDoc } from 'firebase/firestore';
 import { firestore } from '../firebase';
@@ -66,7 +65,6 @@ export default class SettingsDatabase {
         camera: CameraSetting,
         mic: MicSetting,
         blocks: BlocksSetting,
-        localized: LocalizedSetting,
         dark: DarkSetting,
         space: SpaceSetting,
         lines: LineSetting,
@@ -206,14 +204,6 @@ export default class SettingsDatabase {
 
     getBlocks() {
         return this.settings.blocks.get();
-    }
-
-    getLocalized() {
-        return this.settings.localized.get();
-    }
-
-    setLocalized(value: LocalizedValue) {
-        this.settings.localized.set(this.database, value);
     }
 
     /** To serialize to a database */

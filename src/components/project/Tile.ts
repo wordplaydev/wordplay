@@ -4,7 +4,7 @@ import type Bounds from './Bounds';
 import Layout from './Layout';
 import TileKinds from './TileKinds';
 
-export enum Mode {
+export enum TileMode {
     Expanded = 'expanded',
     Collapsed = 'collapsed',
 }
@@ -27,12 +27,12 @@ export default class Tile {
     /** The persisted position of the tile in free form layout */
     readonly position: Bounds;
     /** The layout mode the window is in */
-    readonly mode: Mode;
+    readonly mode: TileMode;
 
     constructor(
         id: string,
         kind: TileKind,
-        mode: Mode,
+        mode: TileMode,
         bounds: Bounds | undefined,
         position: Bounds,
     ) {
@@ -61,11 +61,11 @@ export default class Tile {
     }
 
     isCollapsed() {
-        return this.mode == Mode.Collapsed;
+        return this.mode == TileMode.Collapsed;
     }
 
     isExpanded() {
-        return this.mode === Mode.Expanded;
+        return this.mode === TileMode.Expanded;
     }
 
     isSource() {
@@ -94,7 +94,7 @@ export default class Tile {
         return new Tile(this.id, this.kind, this.mode, this.bounds, bounds);
     }
 
-    withMode(mode: Mode) {
+    withMode(mode: TileMode) {
         return new Tile(this.id, this.kind, mode, this.bounds, this.position);
     }
 

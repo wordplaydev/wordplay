@@ -68,8 +68,16 @@ export const getTranslations = onCall<{
     to: string;
     text: string[];
 }>(
-    // Permit local testing.
-    { cors: ['/firebase.com$/', '/127.0.0.1*/', '/localhost*/'] },
+    // Permit local testing and calls from our two domains.
+    {
+        cors: [
+            '/firebase\.com$/',
+            '/127.0.0.1*/',
+            '/localhost*/',
+            'https://test.wordplay.dev',
+            'https://wordplay.dev',
+        ],
+    },
     async (request): Promise<string[] | null> => {
         const from = request.data.from;
         const to = request.data.to;

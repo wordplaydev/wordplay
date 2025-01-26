@@ -481,7 +481,6 @@
                         </thead>
                         <tbody>
                             {#each generatedStudents as student, studentIndex}
-                                {@const columns = student.meta.length}
                                 <tr>
                                     {#each student.meta as cell, columnIndex}
                                         <td

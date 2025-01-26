@@ -91,7 +91,7 @@
 {:else if tutorial === null}
     <Writing>
         <Header>:(</Header>
-        <Speech character={Characters.Function}
+        <Speech character={Characters.FunctionDefinition}
             >{#snippet content()}
                 <p>
                     {$locales.get((l) => l.ui.page.learn.error)}

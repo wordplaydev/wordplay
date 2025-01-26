@@ -4,7 +4,7 @@ import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import type Step from '@runtime/Step';
 import Sym from './Sym';
-import { GLOBE1_SYMBOL } from '@parser/Symbols';
+import { LOCALE_SYMBOL } from '@parser/Symbols';
 import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import SimpleExpression from './SimpleExpression';
@@ -31,7 +31,7 @@ export default class IsLocale extends SimpleExpression {
     }
 
     static make(language?: Language) {
-        return new IsLocale(new Token(GLOBE1_SYMBOL, Sym.Change), language);
+        return new IsLocale(new Token(LOCALE_SYMBOL, Sym.Change), language);
     }
 
     static getPossibleReplacements() {

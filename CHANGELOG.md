@@ -3,6 +3,58 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.14.3 2024-01-25
+
+### Added
+
+- Added a slightly more organized glyph chooser, exposing emojis and improving layout.
+
+### Fixed
+
+- Handled missing `compositionend` event on Windows emoji picker.
+- Handled inconsistent cross-platform firing of `compositionend` events
+- Accurately calculate caret position for multi-codepoint emojis.
+- #659: Prevent re-opening of dialog when closing with keyboard.
+- Fixed selected output functionality in tutorial.
+- #657: Fixed focus on tutorial buttons.
+- Always localize delimiters
+
+## 0.14.2 2024-01-18
+
+### Fixed
+
+- Removed all unused imports and variables.
+- Mono emojis for dialog buttons.
+- Consistent use of globe as locale icon.
+- When only showing preferred languages in editor, hide non-preferred, tagged translations if there are untagged translations.
+- Tidy all source in a project after translation.
+- Simplified editor language chooser.
+- Fixed #649: broken links in translations.
+- Fixed #646: docs not showing correct locale.
+- Removed locale annotations from tutorial text.
+- Only show code locale chooser if more than one locale present.
+
+## 0.14.1 2024-01-11
+
+### Added
+
+- Click outside dialog to dismiss it.
+- Fixed #603 Machine translation of tutorials.
+- Include all draft locales, but mark as draft.
+- Translate to any Google Translate supported language.
+
+### Fixed
+
+- Tutorial typos
+- More precise empty input lists in locale schema.
+- Fixed node concept links.
+
+### Maintenence
+
+- Cleaned up the supported locales code.
+- Clarified language chooser functionality.
+- Removed example localization check.
+
 ## 0.14.0 2024-12-27
 
 ### Added

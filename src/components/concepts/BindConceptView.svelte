@@ -30,7 +30,7 @@
             />{/if}{#if concept.bind.value}: <RootView
                 node={concept.bind.value}
                 inline
-                localized="symbolic"
+                locale="symbolic"
                 blocks={$blocks}
             />{/if}
     {/snippet}

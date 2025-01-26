@@ -42,7 +42,7 @@
             <strike
                 ><RootView
                     node={newNode}
-                    localized="symbolic"
+                    locale="symbolic"
                     blocks={$blocks}
                     inline={true}
                 /></strike
@@ -50,7 +50,7 @@
         {:else}
             <RootView
                 node={newNode}
-                localized="symbolic"
+                locale="symbolic"
                 blocks={$blocks}
                 inline={true}
             />

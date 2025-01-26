@@ -144,7 +144,6 @@
         getTokenViews,
         viewport,
         viewportWidth,
-        viewportHeight,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -159,8 +158,8 @@
     /** Derive the direction of text for the current locale */
     let leftToRight = $derived($locales.getDirection() === 'ltr');
 
-    // The index we should render is derived from the caret and locales.
-    let caretIndex: number | undefined = $derived.by(() => {
+    // The grapheme offset from the start of the current token, if there is one.
+    let tokenOffset: number | undefined = $derived.by(() => {
         {
             // Position depends on writing direction and layout and blocks mode
             if (
@@ -245,10 +244,6 @@
             }
         }
     });
-
-    function scrollIntoView() {
-        lastScroll = performance.now();
-    }
 
     function getNodeView(node: Node) {
         const editorView = element?.parentElement;
@@ -506,7 +501,7 @@
         if (token === undefined) return;
 
         // No index to render? No caret.
-        if (caretIndex === undefined) return;
+        if (tokenOffset === undefined) return;
 
         const tokenView = getNodeView(token);
         if (tokenView === null) return;
@@ -527,7 +522,7 @@
         );
 
         // Is the caret in the text, and not the space? We need to measure it's location in the text.
-        if (caretIndex > 0) {
+        if (tokenOffset > 0) {
             // Find the first text node of the token view.
             const textNode = Array.from(tokenView.childNodes).find(
                 (node) => node.nodeType === node.TEXT_NODE,
@@ -535,12 +530,20 @@
             let widthAtCaret = 0;
             let heightAtCaret = 0;
             // Use a range to measure its dimensions.
-            if (textNode)
+            if (textNode) {
+                // The text can contain emojis. We must segment it by graphemes to determine the
+                // codepoint offset from which to measure the width.
+                const codepointOffset = new UnicodeString(
+                    textNode.textContent ?? '',
+                )
+                    .substring(0, tokenOffset)
+                    .toString().length;
                 [widthAtCaret, heightAtCaret] = measureSubstringWidth(
                     textNode,
                     0,
-                    caretIndex,
+                    codepointOffset,
                 );
+            }
 
             return {
                 // If horizontal, set the left of the caret offset at the measured width in the direction of the writing.
@@ -565,7 +568,7 @@
                 caret.source.spaces.getSpace(token),
             );
 
-            const spaceIndex = explicitSpace.getLength() + caretIndex;
+            const spaceIndex = explicitSpace.getLength() + tokenOffset;
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
             const spaceAfter = explicitSpace.substring(spaceIndex);
 

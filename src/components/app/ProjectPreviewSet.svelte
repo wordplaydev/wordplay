@@ -32,9 +32,11 @@
               }
             | false;
         children?: Snippet;
+        anonymize?: boolean;
+        showCollaborators?:boolean;
     }
 
-    let { set, edit, remove, copy, children }: Props = $props();
+    let { set, edit, remove, copy, children,anonymize = true,showCollaborators=false }: Props = $props();
 
     function sortProjects(projects: Project[]): Project[] {
         return [...projects].sort((a, b) =>
@@ -48,7 +50,7 @@
 <div class="projects">
     {#each listed as project (project.getID())}
         {@const removeMeta = remove(project)}
-        <ProjectPreview {project} link={project.getLink(true)}
+        <ProjectPreview {project} link={project.getLink(true)} anonymize={anonymize} showCollaborators={showCollaborators}
             ><div class="controls">
                 {#if edit}<Button
                         tip={edit.description}

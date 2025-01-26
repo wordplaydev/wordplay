@@ -1,6 +1,9 @@
 <script lang="ts">
     import { tokenize } from '../../parser/Tokenizer';
-    import { getUnicodeNamed as getUnicodeWithNameText } from '../../unicode/Unicode';
+    import {
+        getEmoji,
+        getUnicodeNamed as getUnicodeWithNameText,
+    } from '../../unicode/Unicode';
     import { IdleKind, getEditors } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
@@ -8,8 +11,8 @@
     import { locales } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
     import CommandButton from '../widgets/CommandButton.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import { isEmoji } from '../../unicode/emoji';
+    import { isEmoji, withColorEmoji } from '../../unicode/emoji';
+    import Toggle from '@components/widgets/Toggle.svelte';
 
     interface Props {
         sourceID: string;
@@ -29,8 +32,9 @@
 
     const editors = getEditors();
 
-    let expanded = $state(false);
     let query = $state('');
+    let emoji = $state(false);
+    let expanded = $derived(emoji || query.length > 0);
     let results = $derived(
         query.length < 3
             ? []
@@ -63,6 +67,16 @@
     }
 </script>
 
+{#snippet option(glyph: string)}
+    <Button
+        tip={$locales
+            .concretize((l) => l.ui.source.cursor.insertSymbol, glyph)
+            .toText()}
+        action={() => insert(glyph)}
+        ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
+    >
+{/snippet}
+
 <section class:expanded class="directory" data-uiid="directory">
     <TextField
         id="character-search"
@@ -72,32 +86,39 @@
     />
     <div class="matches">
         {#if query === ''}
-            {#each Defaults as command}<CommandButton
-                    {sourceID}
-                    {command}
-                    token
-                    focusAfter
-                />{/each}
+            {#if emoji}
+                {#each getEmoji() as glyph}
+                    {@render option(String.fromCodePoint(glyph.hex))}
+                {/each}
+            {:else}
+                {#each Defaults as command}<CommandButton
+                        {sourceID}
+                        {command}
+                        token
+                        focusAfter
+                    />{/each}
+            {/if}
         {:else}
-            {#each results as character}<Button
+            {#each results as glyph}<Button
                     tip={$locales
                         .concretize(
                             (l) => l.ui.source.cursor.insertSymbol,
-                            character,
+                            glyph,
                         )
                         .toText()}
-                    action={() => insert(character)}
-                    ><TokenView
-                        node={tokenize(character).getTokens()[0]}
-                    /></Button
+                    action={() => insert(glyph)}
+                    ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
                 >{:else}&mdash;{/each}
         {/if}
     </div>
-    <Toggle
-        tips={$locales.get((l) => l.ui.source.toggle.characters)}
-        on={expanded}
-        toggle={() => (expanded = !expanded)}>{expanded ? '–' : '+'}</Toggle
-    >
+    {#if query.length === 0}
+        <Toggle
+            tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
+            on={emoji}
+            toggle={() => (emoji = !emoji)}
+            >{withColorEmoji(emoji ? '😴' : '😊')}</Toggle
+        >
+    {/if}
 </section>
 
 <style>
@@ -108,7 +129,7 @@
         padding-left: var(--wordplay-spacing);
         padding-right: var(--wordplay-spacing);
         background-color: var(--wordplay-background);
-        align-items: center;
+        align-items: baseline;
         border-top: var(--wordplay-border-color) solid 1px;
     }
 
@@ -116,20 +137,21 @@
         flex-grow: 1;
         display: flex;
         flex-direction: row;
-        flex-wrap: nowrap;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         overflow-x: auto;
         padding: var(--wordplay-spacing);
+        align-content: baseline;
     }
 
     section.expanded {
-        height: 10em;
+        max-height: 10em;
     }
 
     .expanded .matches {
-        overflow-x: none;
-        overflow-y: auto;
+        overflow: auto;
         flex-wrap: wrap;
-        height: 100%;
+        row-gap: var(--wordplay-spacing);
+        max-height: 10em;
     }
 </style>

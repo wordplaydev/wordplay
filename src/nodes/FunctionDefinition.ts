@@ -484,6 +484,6 @@ export default class FunctionDefinition extends DefinitionExpression {
     }
 
     getCharacter() {
-        return Characters.Function;
+        return Characters.FunctionDefinition;
     }
 }

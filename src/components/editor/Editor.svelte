@@ -39,7 +39,6 @@
     import {
         type HighlightSpec,
         type Highlights,
-        HighlightTypes,
         getHighlights,
         updateOutlines,
     } from './util/Highlights';
@@ -51,7 +50,7 @@
     import type Conflict from '@conflicts/Conflict';
     import { tick } from 'svelte';
     import { getEditsAt } from '../../edit/Autocomplete';
-    import { OutlinePadding, type Outline } from './util/outline';
+    import { OutlinePadding } from './util/outline';
     import Highlight from './Highlight.svelte';
     import {
         dropNodeOnSource,
@@ -78,9 +77,9 @@
     import OutputView from '../output/OutputView.svelte';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
     import Emoji from '@components/app/Emoji.svelte';
-    import { localized } from '../../db/Database';
     import ExceptionValue from '@values/ExceptionValue';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type Locale from '@locale/Locale';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -97,6 +96,8 @@
         autofocus?: boolean;
         /** Whether the editor is editable */
         editable: boolean;
+        /** The locale to use for rending code */
+        locale: Locale | null;
         /** The bindable menu the ProjectView displaying this editor should show. */
         menu?: Menu | undefined;
         /** The bindable conflicts to show based caret and mouse position. */
@@ -117,6 +118,7 @@
         selected,
         autofocus = true,
         editable,
+        locale,
         menu = $bindable(undefined),
         conflictsOfInterest = $bindable([]),
         setOutputPreview,
@@ -1027,6 +1029,11 @@
     let pasted = true;
 
     function handleTextInput(event: Event) {
+        // Not all platforms send composition end events, so if we think we're composing,
+        // but receive an event that indicates we are not, end composition.
+        if (composing && event instanceof InputEvent && !event.isComposing)
+            handleCompositionEnd();
+
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
@@ -1122,6 +1129,9 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // If we receive a keyboard event that says
+        if (composing && !event.isComposing) handleCompositionEnd();
+
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
@@ -1252,8 +1262,8 @@
 
     // Whenever the selected output changes, ensure the first selected node is scrolled to.
     $effect(() => {
-        if (selection?.selectedOutput !== undefined) {
-            const node = selection.selectedOutput[0];
+        if (selection?.hasPaths()) {
+            const node = selection.getOutput(project)[0];
             if (node) {
                 tick().then(() => {
                     const view = getNodeView(node);
@@ -1434,7 +1444,7 @@
     $effect(() => {
         if (
             SHOW_OUTPUT_IN_PALETTE &&
-            selection?.selectedPaths &&
+            selection !== undefined &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
@@ -1443,7 +1453,7 @@
                 project.shares.output.Stage,
             )
         )
-            selection.setSelectedOutput(project, [$caret.position]);
+            selection.setPaths(project, [$caret.position]);
     });
 
     // Update the highlights when any of these stores values change
@@ -1458,7 +1468,7 @@
                 $hovered,
                 $insertion,
                 $animatingNodes,
-                selection?.selectedOutput,
+                selection?.getOutput(project),
                 $blocks,
             ),
         );
@@ -1592,13 +1602,15 @@
         onfocusin={() => (focused = true)}
         onfocusout={() => {
             focused = false;
+            // If we're composing and lose focus, end the composition.
+            if (composing) handleCompositionEnd();
         }}
     ></textarea>
     <!-- Render the program -->
     <RootView
         node={program}
         spaces={source.spaces}
-        localized={$localized}
+        {locale}
         caret={$caret}
         blocks={$blocks}
         lines={$showLines}

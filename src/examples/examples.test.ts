@@ -8,11 +8,6 @@ import DefaultLocales from '../locale/DefaultLocales';
 import type { SerializedProject } from '../db/projects/ProjectSchemas';
 import Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import Docs from '@nodes/Docs';
-import { SupportedLocales, getLocaleLanguage } from '@locale/LocaleText';
-import type LanguageCode from '@locale/LanguageCode';
-import Names from '@nodes/Names';
-import Evaluate from '@nodes/Evaluate';
 import Templates from '@concepts/Templates';
 
 function readProjects(dir: string): SerializedProject[] {
@@ -67,89 +62,91 @@ test.each([...projects, ...templates])(
     },
 );
 
-test.each([...templates])(
-    'Ensure template names are localized',
-    async (template: SerializedProject) => {
-        const project = await Project.deserialize(Locales, template);
+// NOTE: Disabling this test. Don't think its necessary to have all examples localized in all
+// supported locales, since we can translate examples on demand.
+// test.each([...templates])(
+//     'Ensure template names are localized',
+//     async (template: SerializedProject) => {
+//         const project = await Project.deserialize(Locales, template);
 
-        // Find all names, except the binds that are inputs to an evaluae
-        const names = project.getSources().reduce((binds: Names[], source) => {
-            return [
-                ...binds,
-                ...source.expression.nodes().filter(
-                    (node): node is Names =>
-                        node instanceof Names &&
-                        // Exclude names that are in bind in an evaluate, since those are not definitions
-                        !(
-                            project
-                                .getRoot(node)
-                                ?.getAncestors(node)[1] instanceof Evaluate
-                        ),
-                ),
-            ];
-        }, []);
+//         // Find all names, except the binds that are inputs to an evaluae
+//         const names = project.getSources().reduce((binds: Names[], source) => {
+//             return [
+//                 ...binds,
+//                 ...source.expression.nodes().filter(
+//                     (node): node is Names =>
+//                         node instanceof Names &&
+//                         // Exclude names that are in bind in an evaluate, since those are not definitions
+//                         !(
+//                             project
+//                                 .getRoot(node)
+//                                 ?.getAncestors(node)[1] instanceof Evaluate
+//                         ),
+//                 ),
+//             ];
+//         }, []);
 
-        const supportedLanguages = SupportedLocales.map((locale) =>
-            getLocaleLanguage(locale),
-        ).filter((lang): lang is LanguageCode => lang !== undefined);
+//         const supportedLanguages = SupportedLocales.map((locale) =>
+//             getLocaleLanguage(locale),
+//         ).filter((lang): lang is LanguageCode => lang !== undefined);
 
-        // Ensure all binds are localized
-        const incompleteNames = names.filter(
-            (name) =>
-                !supportedLanguages.every((lang) =>
-                    name.containsLanguage(lang),
-                ),
-        );
+//         // Ensure all binds are localized
+//         const incompleteNames = names.filter(
+//             (name) =>
+//                 !supportedLanguages.every((lang) =>
+//                     name.containsLanguage(lang),
+//                 ),
+//         );
 
-        expect(
-            incompleteNames,
-            `Names in template '${template.name}' ${incompleteNames
-                .map((bind) => `'${bind.getNames()[0].toLowerCase()}'`)
-                .join(
-                    ', ',
-                )} are missing translations for one or more supported languages ${supportedLanguages.join(
-                ', ',
-            )}`,
-        ).toHaveLength(0);
-    },
-);
+//         expect(
+//             incompleteNames,
+//             `Names in template '${template.name}' ${incompleteNames
+//                 .map((bind) => `'${bind.getNames()[0].toLowerCase()}'`)
+//                 .join(
+//                     ', ',
+//                 )} are missing translations for one or more supported languages ${supportedLanguages.join(
+//                 ', ',
+//             )}`,
+//         ).toHaveLength(0);
+//     },
+// );
 
-test.each([...templates])(
-    'Ensure template docs are localized',
-    async (template: SerializedProject) => {
-        const project = await Project.deserialize(Locales, template);
+// test.each([...templates])(
+//     'Ensure template docs are localized',
+//     async (template: SerializedProject) => {
+//         const project = await Project.deserialize(Locales, template);
 
-        const supportedLanguages = SupportedLocales.map((locale) =>
-            getLocaleLanguage(locale),
-        ).filter((lang): lang is LanguageCode => lang !== undefined);
+//         const supportedLanguages = SupportedLocales.map((locale) =>
+//             getLocaleLanguage(locale),
+//         ).filter((lang): lang is LanguageCode => lang !== undefined);
 
-        // Find all docs
-        const docs = project.getSources().reduce((docs: Docs[], source) => {
-            return [
-                ...docs,
-                ...source.expression
-                    .nodes()
-                    .filter((node): node is Docs => node instanceof Docs),
-            ];
-        }, []);
+//         // Find all docs
+//         const docs = project.getSources().reduce((docs: Docs[], source) => {
+//             return [
+//                 ...docs,
+//                 ...source.expression
+//                     .nodes()
+//                     .filter((node): node is Docs => node instanceof Docs),
+//             ];
+//         }, []);
 
-        const incompleteDocs = docs.filter(
-            (doc) =>
-                !supportedLanguages.every((lang) => doc.containsLanguage(lang)),
-        );
+//         const incompleteDocs = docs.filter(
+//             (doc) =>
+//                 !supportedLanguages.every((lang) => doc.containsLanguage(lang)),
+//         );
 
-        expect(
-            incompleteDocs,
-            `Docs in template '${template.name}' ${incompleteDocs
-                .map((doc) => doc.toWordplay())
-                .join(
-                    ', ',
-                )} are missing translations for one or more supported languages ${supportedLanguages.join(
-                ', ',
-            )}`,
-        ).toHaveLength(0);
-    },
-);
+//         expect(
+//             incompleteDocs,
+//             `Docs in template '${template.name}' ${incompleteDocs
+//                 .map((doc) => doc.toWordplay())
+//                 .join(
+//                     ', ',
+//                 )} are missing translations for one or more supported languages ${supportedLanguages.join(
+//                 ', ',
+//             )}`,
+//         ).toHaveLength(0);
+//     },
+// );
 
 test.each([
     ...getExampleGalleries(DefaultLocales)

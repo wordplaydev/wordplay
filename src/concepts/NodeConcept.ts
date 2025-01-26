@@ -36,6 +36,8 @@ export default class NodeConcept extends Concept {
      * (e.g., FunctionDefinition, Evaluate).
      */
     hasName(name: string, locales: Locales): boolean {
+        if (this.template.getDescriptor() === name) return true;
+
         const nodeLocale = this.template.getNodeLocale(locales);
         const match = locales
             .getLocales()

@@ -5,7 +5,7 @@
         "checkJs": true,
         "esModuleInterop": true,
         "forceConsistentCasingInFileNames": true,
-        "noUnusedLocals": false,
+        "noUnusedLocals": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "sourceMap": true,

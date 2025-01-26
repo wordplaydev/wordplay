@@ -168,6 +168,9 @@ const DocPattern = { pattern: DOCS_SYMBOL, types: [Sym.Doc] };
 const ListOpenPattern = { pattern: LIST_OPEN_SYMBOL, types: [Sym.ListOpen] };
 const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
 
+/** Variable references in markup, for templating and reuse in locales (e.g., $1, $?, $source) */
+export const MentionRegEx = '\\$[a-zA-Z0-9?]+';
+
 /** Valid tokens inside of code. */
 const CodeTokenPatterns: TokenPattern[] = [
     ListOpenPattern,
@@ -307,19 +310,6 @@ const CodeTokenPatterns: TokenPattern[] = [
     },
 ];
 
-/**
- * A concept reference starts with a @ then is followed by:
- * 1) one or more names separated by a /
- * 2) a 2-6 digit hexadecimal number, referring to a Unicode codepoint
- * Names can refer to:
- * 1) a uesr interface concept (e.g., @UI/toolbar)
- * 2) a Wordplay programming language concept (e.g., @Bool)
- * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
- * 4) the globally unique name of a creator-defined character
- */
-export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}|${NameRegExPattern}(/${NameRegExPattern})?)`;
-const ConceptRegEx = new RegExp(`^${ConceptRegExPattern}`, 'gu');
-
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [
     DocPattern,
@@ -328,7 +318,7 @@ const MarkupTokenPatterns = [
     ListOpenPattern,
     ListClosePattern,
     {
-        pattern: ConceptRegEx,
+        pattern: new RegExp(`^${ConceptRegEx}`),
         types: [Sym.Concept],
     },
     // The concept reg ex above captures concepts; this captures any @ part of a link that's not a concept reference.
@@ -351,7 +341,7 @@ const MarkupTokenPatterns = [
         types: [Sym.Extra],
     },
     {
-        pattern: /^\$[a-zA-Z0-9?]+/,
+        pattern: new RegExp(`^${MentionRegEx}`, 'u'),
         types: [Sym.Mention],
     },
     {

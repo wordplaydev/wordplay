@@ -36,7 +36,7 @@ export type ToggleText = {
     off: string;
 };
 
-export type ModeText<Modes extends string[]> = {
+export type ModeText<Modes extends readonly string[]> = {
     /** The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to. */
     label: string;
     /** The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance */
@@ -160,6 +160,13 @@ type UITexts = {
         field: {
             /** The name of the source file */
             name: FieldText;
+        };
+        options: {
+            /** The locale chooser for a source */
+            locale: {
+                tip: string;
+                all: string;
+            };
         };
         cursor: {
             /** Move caret to the line before */
@@ -601,8 +608,6 @@ type UITexts = {
                 space: ModeText<[string, string]>;
                 /** The line number on/off mode */
                 lines: ModeText<[string, string]>;
-                /** The localized none/localized/symbolic mode */
-                localized: ModeText<[string, string, string]>;
             };
             options: {
                 /** The label for the font face chooser */
@@ -621,8 +626,6 @@ type UITexts = {
                 selected: string;
                 /** How to label the supported locales that have not been selected */
                 supported: string;
-                /** How to label locales that are coming soon */
-                coming: string;
                 /** How to request help with localization */
                 help: string;
             };

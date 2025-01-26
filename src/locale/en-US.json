@@ -134,7 +134,7 @@
             "name": "explanation",
             "emotion": "serious",
             "doc": [
-                "I richly format things with @Markup, like explanations of some of of your @Program, or even the words you put on stage with @Phrase.",
+                "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
                 "For example, I can go before any expression:",
                 "\\¶Is this really supposed to be 7?¶\n7\\",
                 "For example, you can place me before @Bind:",
@@ -4240,6 +4240,12 @@
                     "off": "expand the matching characters"
                 }
             },
+            "options": {
+                "locale": {
+                    "tip": "preferred language for source",
+                    "all": "all"
+                }
+            },
             "button": {
                 "selectOutput": "show this output on stage",
                 "expandSequence": "expand this collapsed code"
@@ -4349,7 +4355,7 @@
                 "submit": "submit this chat message"
             },
             "options": {
-                "locale": "choose the language for output"
+                "locale": "preferred language for output"
             }
         },
         "timeline": {
@@ -4486,14 +4492,6 @@
                             "vertical, right to left",
                             "vertical, left to right"
                         ]
-                    },
-                    "localized": {
-                        "label": "code localization",
-                        "modes": [
-                            "do not localize code",
-                            "localize code when available",
-                            "localize code but prefer symbols"
-                        ]
                     }
                 },
                 "options": {
@@ -4504,17 +4502,16 @@
             },
             "locale": {
                 "header": "Language",
-                "explanation": "Choose your languages and regions.",
+                "explanation": "Choose languages for the interface, tutorial, and documentation.",
                 "subheader": {
                     "selected": "Selected",
                     "supported": "Available",
-                    "coming": "Coming Soon",
                     "help": "Help us translate …"
                 },
                 "button": {
                     "show": "change locale",
-                    "replace": "replace with this locale",
-                    "add": "add this locale",
+                    "replace": "use this locale",
+                    "add": "use this locale and the current ones",
                     "remove": "remove this locale"
                 }
             },

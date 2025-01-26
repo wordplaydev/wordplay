@@ -213,7 +213,7 @@ export default class FunctionType extends Type {
     }
 
     getCharacter() {
-        return Characters.Function;
+        return Characters.FunctionDefinition;
     }
 
     getDefaultExpression(context: Context): Expression {

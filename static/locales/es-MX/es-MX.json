@@ -4245,6 +4245,12 @@
                 "tidy": "espaciado ordenado",
                 "elide": "$~alternar elisión",
                 "insertDocs": "$~Insertar símbolo de explicación"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4416,14 +4422,6 @@
                             "vertical, de izquierda a derecha"
                         ]
                     },
-                    "localized": {
-                        "label": "localización de código",
-                        "modes": [
-                            "no localizar el código",
-                            "localizar el código cuando esté disponible",
-                            "localizar el código pero preferir símbolos"
-                        ]
-                    },
                     "lines": {
                         "label": "$~Línea de números",
                         "modes": [
@@ -4444,7 +4442,6 @@
                 "subheader": {
                     "selected": "Seleccionado",
                     "supported": "Disponible",
-                    "coming": "Muy pronto",
                     "help": "Ayúdanos a traducir …"
                 },
                 "button": {

@@ -3272,6 +3272,12 @@
                 "tidy": "$?",
                 "elide": "$?",
                 "insertDocs": "$?"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -3424,10 +3430,6 @@
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
                     },
-                    "localized": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
-                    },
                     "lines": {
                         "label": "$?",
                         "modes": ["$?", "$?"]
@@ -3445,7 +3447,6 @@
                 "subheader": {
                     "selected": "$?",
                     "supported": "$?",
-                    "coming": "$?",
                     "help": "$?"
                 },
                 "button": {

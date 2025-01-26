@@ -1,8 +1,11 @@
 <script lang="ts">
+    import { DRAFT_SYMBOL } from '@parser/Symbols';
     import {
         getLocaleLanguageName,
         getLocaleRegionName,
+        isLocaleDraft,
     } from '../../locale/LocaleText';
+    import { withColorEmoji } from '../../unicode/emoji';
 
     interface Props {
         locale: string;
@@ -12,13 +15,14 @@
     let { locale, supported }: Props = $props();
 
     let region = $derived(getLocaleRegionName(locale));
+    let draft = $derived(isLocaleDraft(locale));
 </script>
 
-<span class="language" class:supported
-    ><span class="name">{getLocaleLanguageName(locale)}</span>{#if region}<sub
-            >{region}</sub
-        >{/if}</span
->
+<span class="language" class:supported>
+    {#if draft}{withColorEmoji(DRAFT_SYMBOL)}{/if}
+    <span class="name">{getLocaleLanguageName(locale)}</span>
+    {#if region}<sub>{region}</sub>{/if}
+</span>
 
 <style>
     .language {

@@ -1,7 +1,8 @@
 import { get, writable, type Writable } from 'svelte/store';
 import type LocaleText from '../locale/LocaleText';
 import type { Database } from './Database';
-import { SupportedLocales, type SupportedLocale } from '../locale/LocaleText';
+import { type SupportedLocale } from '@locale/SupportedLocales';
+import { SupportedLocales } from '@locale/SupportedLocales';
 import { localeToString } from '@locale/Locale';
 import Fonts from '../basis/Fonts';
 import { Basis } from '../basis/Basis';

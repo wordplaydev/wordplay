@@ -134,7 +134,7 @@
             "name": "$~explication",
             "emotion": "$?",
             "doc": [
-                "$~Je formate richement les choses avec @Markup, comme les explications de certains de vos @Programmes, ou même les mots que vous mettez en scène avec @Phrase.",
+                "$~Je formate richement les choses avec @Markup, comme les explications de certains de vos @Program, ou même les mots que vous mettez en scène avec @Phrase.",
                 "$~Par exemple, je peux mettre avant n'importe quelle expression :",
                 "$~\\¶Est-ce vraiment censé être 7 ?¶\n7\\",
                 "$~Par exemple, vous pouvez me placer avant @Bind :",
@@ -145,7 +145,7 @@
                 "$~\\¶Je me souviens du nom des gens et de leur fruit préféré¶\n•Personne(nom•'' fruit•'')\\",
                 "$~Vous pouvez également me placer au tout début de @Program pour dire de quoi parle toute la performance",
                 "$~\\¶Ce programme dit bonjour¶\n\n'bonjour!'\\",
-                "$~Vous pouvez me donner une @Langue pour aider les autres à savoir dans quelle langue j'écris :",
+                "$~Vous pouvez me donner une @Language pour aider les autres à savoir dans quelle langue j'écris :",
                 "$~\\¶Je suis un doc anglais¶/fr\ndurée : 5 s\\",
                 "$~Saviez-vous que vous pouvez créer une liste de mes contacts ? Allez en parler à @Docs."
             ]
@@ -207,7 +207,7 @@
                 "$~Comme @Bind peut apparaître à de nombreux endroits, je peux apparaître à de nombreux endroits. J'étais dans un @Block ci-dessus, mais je peux être dans une @FunctionDefinition. Ici, je nomme un message temporairement :",
                 "$~\\ƒ dire(message•'') message\\",
                 "$~Je suis défini dans @FunctionDefinition, puis dès que la fonction a terminé son évaluation, je m'en vais.",
-                "$~Vous pouvez utiliser @Langue pour indiquer la langue dans laquelle mon nom est écrit. Ceci est utile lorsque vous partagez votre performance avec d'autres, au cas où ils voudraient lire votre programme."
+                "$~Vous pouvez utiliser @Language pour indiquer la langue dans laquelle mon nom est écrit. Ceci est utile lorsque vous partagez votre performance avec d'autres, au cas où ils voudraient lire votre programme."
             ]
         },
         "Names": {
@@ -315,7 +315,7 @@
             "emotion": "$?",
             "doc": [
                 "$~Je mets tous les mots que vous voulez dans un @Doc. Par exemple :",
-                "$~\\Que la Force soit avec toi.¶\n'juste quelques mots !'\\",
+                "$~\\¶Que la Force soit avec toi.¶\n'juste quelques mots !'\\",
                 "$~Parfois, vous souhaiterez peut-être utiliser les caractères spéciaux que @Doc utilise comme mots. Par exemple :",
                 "$~\\¶Mes amis utilisent @@, //, **, || et d'autres symboles.¶\n'en utilisant des caractères spéciaux !'\\",
                 "$~Si vous répétez simplement ces caractères spéciaux, vous obtiendrez le caractère au lieu de sa signification spéciale."
@@ -328,7 +328,7 @@
                 "$~Je suis un exemple de performance, utile pour écrire un @Doc qui explique comment utiliser quelque chose !",
                 "$~\\¶Voici un exemple d'ajout : \\1 + 1\\¶'exemple de code'\\",
                 "$~Si vous me mettez dans un paragraphe tout seul, j'apparaîtrai dans une jolie boîte et montrerai le résultat de mon évaluation.",
-                "$~\\¶Voici un exemple d'addition :\n\n\\1 + 1\\¶\\"
+                "$~\\¶Voici un exemple d'addition :¶\n\n\\1 + 1\\¶\\"
             ]
         },
         "Mention": {
@@ -382,7 +382,7 @@
                 "$~\\pi: 3.1415926\\",
                 "$~Je nomme les entrées dans @FunctionDefinition et @StructureDefinition, je nomme les valeurs dans @Block. Je nomme tout !",
                 "$~Oh, mais saviez-vous que vous pouvez avoir une valeur *plusieurs noms* ?",
-                "$~Je suis tellement excitée de vous en parler ! Une valeur, plusieurs @Noms. Par exemple :",
+                "$~Je suis tellement excitée de vous en parler ! Une valeur, plusieurs @Names. Par exemple :",
                 "$~\\joe,tess,amy: 5\\",
                 "$~Tu vois ce que j'ai fait là ?",
                 "$~Une valeur, trois noms.",
@@ -1015,9 +1015,9 @@
             "doc": [
                 "$~Je peux voir si un @Set ou @Map a une valeur ou une clé.",
                 "$~Ce n'est pas trop difficile. Comme ça :",
-                "$~\\faves : {'canard' 'oie' 'singe'}\nfaves{'souris'}\\",
+                "$~\\faves : {'canard' 'oie' 'singe'}\nfaves{'souris'}\\",
                 "$~Ou ceci, avec une @Map :",
-                "$~\\faves : {'mac and cheese' : 5 étoiles ; 'cereal' : 2 étoiles ; 'gruau' : 1 étoile}\nfaves{'gruau'}\\"
+                "$~\\faves : {'mac and cheese': 5 'étoiles': 'cereal': 2 'étoiles': 'gruau': 1}\nfaves{'étoiles'}\\"
             ],
             "start": "$~Quel est l'ensemble ou la carte ?",
             "finish": "$~La valeur est de 1$",
@@ -1086,7 +1086,7 @@
             "name": "$~textelittéral",
             "description": "$~texte 1 $",
             "emotion": "$?",
-            "doc": "$~Je représente une ou plusieurs @Traductions de texte spécifiques. Voir @Text pour en savoir plus sur ce que je peux faire !",
+            "doc": "$~Je représente une ou plusieurs @Translation de texte spécifiques. Voir @Text pour en savoir plus sur ce que je peux faire !",
             "start": "$~Créons du texte dans les paramètres régionaux actuels"
         },
         "Translation": {
@@ -1411,7 +1411,7 @@
         "NotEnclosedType": {
             "name": "$~pasdanslastructure,laconversionoularéaction",
             "emotion": "$?",
-            "doc": "$~@Ces objets, aussi soignés soient-ils, n'appartiennent qu'à des endroits particuliers. Je les retrouve quand ils sont perdus, et donc personne ne sait quelle valeur ils représentent."
+            "doc": "$~@This objets, aussi soignés soient-ils, n'appartiennent qu'à des endroits particuliers. Je les retrouve quand ils sont perdus, et donc personne ne sait quelle valeur ils représentent."
         },
         "NotImplementedType": {
             "name": "$~nonimplémenté",
@@ -1552,7 +1552,7 @@
                 "$~Si vous voulez me faire utiliser d'autres valeurs, vous pouvez utiliser un symbole pour",
                 "$~Par exemple, considérez ceci :",
                 "$~\\\"Voici quelques sommes \\1 + 2\\, \\2 + 3\\, \\3 + 4\\\"\\",
-                "$~Voyez avec quelle élégance je viens d’évaluer ces sommes et de les placer à l’intérieur du @Texte ?",
+                "$~Voyez avec quelle élégance je viens d’évaluer ces sommes et de les placer à l’intérieur du @Text ?",
                 "$~Sinon, il y a tellement de fonctions glorieuses que @FunctionDefinition a créées pour me permettre de faire toutes sortes de choses avec des mots !"
             ],
             "name": ["$~''", "$~Texte"],
@@ -1567,32 +1567,32 @@
                     "inputs": []
                 },
                 "equals": {
-                    "doc": "$~\\⊤\\ si je suis la même séquence de caractères que le @Texte donné.",
+                    "doc": "$~\\⊤\\ si je suis la même séquence de caractères que le @Text donné.",
                     "names": ["=", "equals"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Texte à comparer.",
+                            "doc": "$~Le @Text à comparer.",
                             "names": "$~valeur"
                         }
                     ]
                 },
                 "notequals": {
-                    "doc": "$~\\⊤\\ si je ne suis /pas/ la même séquence de caractères que le @Texte donné.",
+                    "doc": "$~\\⊤\\ si je ne suis /pas/ la même séquence de caractères que le @Text donné.",
                     "names": "$~≠",
                     "inputs": [
                         {
-                            "doc": "$~Le @Texte à comparer",
+                            "doc": "$~Le @Text à comparer",
                             "names": "$~valeur"
                         }
                     ]
                 },
                 "repeat": {
                     "doc": [
-                        "$~Je crée un nouveau @Texte qui est moi, répété le nombre de fois de \\count\\:",
+                        "$~Je crée un nouveau @Text qui est moi, répété le nombre de fois de \\count\\:",
                         "$~\\'salut ' · 5\\",
                         "$~Si vous me donnez un @Number fractionnaire, j'ignore la fraction :",
                         "$~\\'salut ' · 5.5\\",
-                        "$~Si vous me donnez un @Number négatif ou zéro, je vous donne un @Texte vide.",
+                        "$~Si vous me donnez un @Number négatif ou zéro, je vous donne un @Text vide.",
                         "$~\\'salut ' · -5\\",
                         "$~Le texte le plus long que je puisse écrire est de 65 535 caractères. Si vous essayez d'écrire un texte plus long, je le répéterai autant de fois que possible."
                     ],
@@ -1608,39 +1608,39 @@
                     "doc": [
                         "$~Je me divise en une @List de @Text, en utilisant le @Text donné comme séparateur et en supprimant les séparateurs. Par exemple :",
                         "$~\\'pommes, oranges, raisins' ÷ ', '\\",
-                        "$~Si le séparateur est un @Texte vide, je me divise en caractères :",
+                        "$~Si le séparateur est un @Text vide, je me divise en caractères :",
                         "$~\\'🖌️🏠🥸' ÷ ''\\"
                     ],
                     "names": ["segmentar"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Texte à utiliser comme séparateur.",
+                            "doc": "$~Le @Text à utiliser comme séparateur.",
                             "names": "$~délimiteur"
                         }
                     ]
                 },
                 "combine": {
                     "doc": [
-                        "$~Parfois, il est utile de combiner deux @Textes en un seul. Donnez-moi un autre @Texte et je créerai un nouveau texte qui nous réunira :",
+                        "$~Parfois, il est utile de combiner deux @Text en un seul. Donnez-moi un autre @Text et je créerai un nouveau texte qui nous réunira :",
                         "$~\\'bonjour' + 'verset'\\"
                     ],
                     "names": ["$~+", "$~combiné", "$~combiner"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Texte à ajouter.",
+                            "doc": "$~Le @Text à ajouter.",
                             "names": "$~texte"
                         }
                     ]
                 },
                 "has": {
                     "doc": [
-                        "$~\\⊤\\ si le @Texte donné apparaît dans moi.",
+                        "$~\\⊤\\ si le @Text donné apparaît dans moi.",
                         "$~\\'avez-vous trouvé ce que vous cherchiez ?'.has('vous')\\"
                     ],
                     "names": ["tiene"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Texte à rechercher en moi.",
+                            "doc": "$~Le @Text à rechercher en moi.",
                             "names": "$~texte"
                         }
                     ]
@@ -1654,7 +1654,7 @@
                     "names": ["$~commence"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Texte à vérifier au début de moi.",
+                            "doc": "$~Le @Text à vérifier au début de moi.",
                             "names": "texto"
                         }
                     ]
@@ -1668,7 +1668,7 @@
                     "names": ["$~setermine"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Texte à vérifier à la fin de moi.",
+                            "doc": "$~Le @Text à vérifier à la fin de moi.",
                             "names": "texto"
                         }
                     ]
@@ -1764,7 +1764,7 @@
                     "names": ["÷", "divide"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Nombre par lequel me diviser.",
+                            "doc": "$~Le @Number par lequel me diviser.",
                             "names": "$~nombre"
                         }
                     ]
@@ -1779,7 +1779,7 @@
                     "names": ["$~%", "$~reste"],
                     "inputs": [
                         {
-                            "doc": "$~Le @Nombre par lequel me diviser.",
+                            "doc": "$~Le @Number par lequel me diviser.",
                             "names": "$~nombre"
                         }
                     ]
@@ -1819,7 +1819,7 @@
                         "$~\\10.9.roundUp()\\",
                         "$~\\10.99.roundUp()\\"
                     ],
-                    "names": ["$~tourd'horizon"],
+                    "names": ["$~tourdHorizon"],
                     "inputs": []
                 },
                 "power": {
@@ -2094,7 +2094,7 @@
                     ]
                 },
                 "length": {
-                    "doc": "$~Le @Nombre d'éléments en moi.",
+                    "doc": "$~Le @Number d'éléments en moi.",
                     "names": ["$~📏", "$~longueur"],
                     "inputs": []
                 },
@@ -2119,7 +2119,7 @@
                         "$~Le premier élément en moi, ou @None si je suis vide.",
                         "$~\\['pomme' 'banane' 'mangue'].first()\\"
                     ],
-                    "names": "$~d'abord",
+                    "names": "$~dabord",
                     "inputs": []
                 },
                 "last": {
@@ -2168,7 +2168,7 @@
                         "$~Et si vous me donnez quelque chose de plus grand que le plus grand indice, je supposerai que vous parlez de la fin.",
                         "$~\\['pomme' 'banane' 'mangue'].subsequence(3 2304032432)\\"
                     ],
-                    "names": "$~sous-séquence",
+                    "names": "$~sousséquence",
                     "inputs": [
                         {
                             "doc": "$~L'index du premier élément de la sous-séquence souhaitée.",
@@ -2346,7 +2346,7 @@
                         "$~Par exemple, imaginez que j'étais une liste d'animaux @Text et que vous vouliez tout trouver jusqu'à ce que \\'rat'\\ soit trouvé :",
                         "$~\\['chat' 'chien' 'rat' 'souris' 'poney'].until(ƒ(animal•'') animal = 'rat')\\"
                     ],
-                    "names": "$~jusqu'à",
+                    "names": "$~jusquà",
                     "inputs": [
                         {
                             "doc": "$~La @FunctionDefinition qui produit \\⊤\\ si je dois arrêter d'inclure des éléments.",
@@ -2476,7 +2476,7 @@
                 "$~\\{'hey' 'salut' 'bonjour'}\\",
                 "$~Mais vous voudrez peut-être indiquer que je suis un ensemble de /uniquement/ ces valeurs, afin que je puisse vous dire quand vous essayez d'en utiliser une qui n'est pas autorisée. Si c'est le cas, ajoutez simplement un ! à la fin de me.",
                 "$~\\{'hey' 'salut' 'bonjour'}!{'yo'}\\",
-                "$~Y a-t-il autre chose que tu veux faire avec moi ? Jette un œil à toutes les @FunctionDefinitions intéressantes que j'ai !"
+                "$~Y a-t-il autre chose que tu veux faire avec moi ? Jette un œil à toutes les @FunctionDefinition intéressantes que j'ai !"
             ],
             "name": ["$~{}", "$~Ensemble"],
             "kind": "$~Gentil",
@@ -2902,7 +2902,7 @@
             "doc": [
                 "$~/clic-tap !/",
                 "$~/@FunctionDefinition ici, je vais expliquer celui-ci./",
-                "$~Considérez @Choice comme un flux de @Phrase/nom sélectionné par votre public. Si quelqu'un clique, appuie ou sélectionne au clavier en appuyant sur /Entrée/ sur une @Phrase avec un nom, @Choice aura une nouvelle valeur correspondant au nom.",
+                "$~Considérez @Choice comme un flux de @Phrase/name sélectionné par votre public. Si quelqu'un clique, appuie ou sélectionne au clavier en appuyant sur /Entrée/ sur une @Phrase avec un nom, @Choice aura une nouvelle valeur correspondant au nom.",
                 "$~La meilleure façon de l'utiliser est donc de créer une performance avec des phrases nommées sélectionnables @Phrase, puis d'utiliser une @Reaction pour décider quoi faire lorsque ce nom est choisi.",
                 "$~Voici l’exemple le plus simple :",
                 "$~\\Group(\nStack() \n[\nPhrase('un' sélectionnable :⊤ nom :'1') \nPhrase('deux' sélectionnable :⊤ nom :'2') \nPhrase(Choice())\n]\n)\\",
@@ -2971,7 +2971,7 @@
                 "$~À chaque fois, @Program réévalue avec la nouvelle valeur temporelle.",
                 "$~Par exemple:",
                 "$~\\Temps()\\",
-                "$~Si vous attribuez à l'heure une @Time/fréquence, le temps de réponse sera calculé à cette fréquence. Par exemple :",
+                "$~Si vous attribuez à l'heure une @Time/frequency, le temps de réponse sera calculé à cette fréquence. Par exemple :",
                 "$~\\Heure(1000ms)\\",
                 "$~Cependant, il y a des limites à sa taille, car @Program a besoin de temps pour évaluer avant de pouvoir répondre au prochain tick.",
                 "$~Le plus petit est probablement d'environ \\20 ms\\."
@@ -3243,11 +3243,11 @@
                 "names": "$~cadre"
             },
             "size": {
-                "doc": "$~J'AIME @Groupe/taille",
+                "doc": "$~J'AIME @Group/size",
                 "names": "$~taille"
             },
             "face": {
-                "doc": "$~AIMEZ @Groupe/face",
+                "doc": "$~AIMEZ @Group/face",
                 "names": "$~affronter"
             },
             "place": {
@@ -3255,11 +3255,11 @@
                 "names": "$~lieu"
             },
             "name": {
-                "doc": ["$~MÊME QUE @Phrase/nom !"],
+                "doc": ["$~MÊME QUE @Phrase/name!"],
                 "names": "$~nom"
             },
             "selectable": {
-                "doc": "$~MÊME QUE @Phrase/sélectionnable !",
+                "doc": "$~MÊME QUE @Phrase/selectable !",
                 "names": "$~sélectionnable"
             },
             "color": {
@@ -3268,7 +3268,7 @@
             },
             "background": {
                 "doc": "$~MÊME QUE @Group/background",
-                "names": "$~arrière-plan"
+                "names": "$~arrièreplan"
             },
             "opacity": {
                 "doc": "$~MÊME QUE @Group/opacity",
@@ -3295,11 +3295,11 @@
                 "names": "$~flippant"
             },
             "entering": {
-                "doc": "$~MÊME QUE @Group/entrant",
+                "doc": "$~MÊME QUE @Group/entering",
                 "names": "$~entrer"
             },
             "resting": {
-                "doc": "$~MÊME QUE @Group/repos !",
+                "doc": "$~MÊME QUE @Group/resting!",
                 "names": "$~aurepos"
             },
             "moving": {
@@ -3311,11 +3311,11 @@
                 "names": "$~sortant"
             },
             "duration": {
-                "doc": "$~MÊME QUE @Phrase/durée !",
+                "doc": "$~MÊME QUE @Phrase/duration!",
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~MÊME QUE @Phrase/style !",
+                "doc": "$~MÊME QUE @Phrase/style!",
                 "names": "$~style"
             },
             "gravity": {
@@ -3365,7 +3365,7 @@
                 "names": "$~lieu"
             },
             "name": {
-                "doc": ["$~Le même que @Phrase/nom !"],
+                "doc": ["$~Le même que @Phrase/name!"],
                 "names": "$~nom"
             },
             "selectable": {
@@ -3373,12 +3373,12 @@
                 "names": "$~sélectionnable"
             },
             "color": {
-                "doc": "$~La @Couleur que le contenu à l'intérieur de moi devrait être, à moins qu'il n'ait sa propre couleur.",
+                "doc": "$~La @Color que le contenu à l'intérieur de moi devrait être, à moins qu'il n'ait sa propre couleur.",
                 "names": "$~couleur"
             },
             "background": {
                 "doc": "$~Le @Color à projeter derrière moi.",
-                "names": "$~arrière-plan"
+                "names": "$~arrièreplan"
             },
             "opacity": {
                 "doc": "$~À quel point tout ce qui se trouve à l'intérieur de moi devrait être transparent, entre \\0\\ et \\1\\, à moins que cela ne soit remplacé par une @Pose différente.",
@@ -3405,7 +3405,7 @@
                 "names": "$~flippant"
             },
             "entering": {
-                "doc": "$~Identique à @Phrase/entrant !",
+                "doc": "$~Identique à @Phrase/entering!",
                 "names": "$~entrer"
             },
             "resting": {
@@ -3421,11 +3421,11 @@
                 "names": "$~sortant"
             },
             "duration": {
-                "doc": "$~Identique à @Phrase/durée !",
+                "doc": "$~Identique à @Phrase/duration!",
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~Identique à @Phrase/style !",
+                "doc": "$~Identique à @Phrase/style!",
                 "names": "$~style"
             },
             "defaultDescription": "$~1 $ [1 $ |] 2 $ 3 $"
@@ -3501,7 +3501,7 @@
             },
             "background": {
                 "doc": "$~Le @Color à projeter derrière moi.",
-                "names": "$~arrière-plan"
+                "names": "$~arrièreplan"
             },
             "opacity": {
                 "doc": "$~Le degré de transparence que je dois avoir par défaut, entre \\0\\ et \\1\\, à moins qu'il ne soit remplacé par une @Pose différente. Utile pour les fondus entrants et sortants.",
@@ -3637,7 +3637,7 @@
             },
             "background": {
                 "doc": "$~La couleur de mon arrière-plan.",
-                "names": "$~arrière-plan"
+                "names": "$~arrièreplan"
             },
             "opacity": {
                 "doc": "$~Comme je devrais être transparente.",
@@ -3695,7 +3695,7 @@
             }
         },
         "Form": {
-            "doc": "$~Je suis une forme abstraite, comme un @Rectangle ou un @Cercle.",
+            "doc": "$~Je suis une forme abstraite, comme un @Rectangle ou un @Circle.",
             "names": ["$~Formulaire"]
         },
         "Rectangle": {
@@ -4279,6 +4279,12 @@
                 "tidy": "$~espacement ordonné",
                 "elide": "$~basculer l'élision",
                 "insertDocs": "$~insérer le symbole d'explication"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4453,14 +4459,6 @@
                             "$~vertical, de gauche à droite"
                         ]
                     },
-                    "localized": {
-                        "label": "$~localisation de code",
-                        "modes": [
-                            "$~ne pas localiser le code",
-                            "$~localiser le code lorsqu'il est disponible",
-                            "$~localiser le code mais privilégier les symboles"
-                        ]
-                    },
                     "lines": {
                         "label": "$~numéros de ligne",
                         "modes": [
@@ -4481,7 +4479,6 @@
                 "subheader": {
                     "selected": "$~Choisi",
                     "supported": "$~Disponible",
-                    "coming": "$~À venir",
                     "help": "$~Aidez-nous à traduire…"
                 },
                 "button": {
@@ -4539,7 +4536,7 @@
             },
             "prompt": {
                 "offerPhrase": "$~Quelle belle valeur tu as faite ! Dois-je la montrer sur @Stage ?",
-                "offerGroup": "$~Quelle merveilleuse @Phrase tu as créée. Veux-tu les rassembler dans un @Groupe, pour les organiser ?",
+                "offerGroup": "$~Quelle merveilleuse @Phrase tu as créée. Veux-tu les rassembler dans un @Group, pour les organiser ?",
                 "offerStage": "$~TRÈS BIEN @Program. AJOUTEZ-MOI POUR CONTRÔLER L'ÉCLAIRAGE. LES COULEURS. LES CADRES.",
                 "pauseToEdit": "$~Si vous aimez la scène, vous pouvez sélectionner un 💬, 🔳 ou 🎭 à modifier !",
                 "editing": "$~Modifiez-moi !"

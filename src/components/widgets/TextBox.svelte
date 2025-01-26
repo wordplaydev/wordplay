@@ -41,7 +41,7 @@
 
     function handleInput() {
         if (dwelled)
-            timeout = setTimeout(() => {
+            setTimeout(() => {
                 if (dwelled) dwelled(text);
             }, 1000);
 

@@ -47,7 +47,7 @@
 
         const item = list.values[index];
         if (item instanceof Evaluate && selection)
-            selection.setSelectedOutput(project, [item]);
+            selection.setPaths(project, [item]);
     }
 </script>
 
@@ -86,11 +86,7 @@
                     active={editable}
                     action={() => editContent(index)}>{EDIT_SYMBOL}</Button
                 >
-                <RootView
-                    node={content}
-                    localized="symbolic"
-                    blocks={$blocks}
-                />
+                <RootView node={content} locale="symbolic" blocks={$blocks} />
             </div>
         {/each}
         <div class="add">

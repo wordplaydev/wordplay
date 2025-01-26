@@ -251,7 +251,11 @@
     {#if $showAnnotations}
         <div class="annotations">
             {#if source.isEmpty()}
-                <Speech character={Characters.Function} scroll={false} below>
+                <Speech
+                    character={Characters.FunctionDefinition}
+                    scroll={false}
+                    below
+                >
                     {#snippet content()}
                         <MarkupHTMLView
                             markup={docToMarkup(
@@ -265,7 +269,11 @@
                 {#each Array.from(annotationsByNode.values()) as annotations, index}
                     <Annotation id={index} {annotations} />
                 {/each}
-                <Speech character={Characters.Function} scroll={false} below>
+                <Speech
+                    character={Characters.FunctionDefinition}
+                    scroll={false}
+                    below
+                >
                     {#snippet content()}
                         {#if stepping}
                             <MarkupHTMLView

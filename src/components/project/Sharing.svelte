@@ -1,5 +1,4 @@
 <script lang="ts">
-    import { get } from 'svelte/store';
     import { Galleries, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import Subheader from '../app/Subheader.svelte';

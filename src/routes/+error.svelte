@@ -18,7 +18,7 @@
 
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.unknown.header)}</Header>
-    <Speech character={Characters.Function}
+    <Speech character={Characters.FunctionDefinition}
         >{#snippet content()}
             <p>
                 {$locales.get((l) => l.ui.page.unknown.message)}
