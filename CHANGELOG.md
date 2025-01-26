@@ -3,11 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
-## 0.14.3 2024-01-25
+## 0.15.0 2024-01-26
 
 ### Added
 
 - Added a slightly more organized glyph chooser, exposing emojis and improving layout.
+- Custom emojis and symbols! There's a brand new editor for them and we reuse the concept link syntax `@myemoji`.
 
 ### Fixed
 
