@@ -774,6 +774,7 @@
 
         // In pixel mode? Drop a pixel.
         if (mode === DrawingMode.Pixel) {
+            selection = [];
             setPixel();
             if (canvasView) setKeyboardFocus(canvasView, 'Focus the canvas.');
             return;
@@ -782,6 +783,7 @@
         else if (mode === DrawingMode.Rect || mode === DrawingMode.Ellipse) {
             // If there's no pending rect, start one at the current position.
             if (pendingRectOrEllipse === undefined) {
+                selection = [];
                 pendingRectOrEllipse =
                     mode === DrawingMode.Rect
                         ? getCurrentRect()
@@ -793,6 +795,7 @@
             return;
         } else if (mode === DrawingMode.Path && !move) {
             if (pendingPath === undefined) {
+                selection = [];
                 pendingPath = getCurrentPath();
                 addShapes(pendingPath);
             } else updatePendingPath();
