@@ -144,6 +144,8 @@
     import Locales from '@locale/Locales';
     import RootView from '@components/project/RootView.svelte';
     import parseProgram, { toProgram } from '@parser/parseProgram';
+    import { getCodepointFromString } from '../../../unicode/Unicode';
+    import { HexRegEx } from '@nodes/ConceptLink';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -334,11 +336,13 @@
     });
 
     function validName(name: string) {
-        const tokens = toTokens(name);
-        return tokens.nextAre(Sym.Name, Sym.End)
+        return !name.startsWith('UI') &&
+            !HexRegEx.test(name) &&
+            toTokens(name).nextAre(Sym.Name, Sym.End)
             ? true
             : $locales.get((l) => l.ui.page.character.feedback.name);
     }
+
     function validDescription(description: string) {
         return description.length > 0
             ? true

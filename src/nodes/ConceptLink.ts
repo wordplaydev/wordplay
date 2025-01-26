@@ -10,6 +10,8 @@ import Content from './Content';
 import type Locales from '../locale/Locales';
 import { getCodepointFromString } from '../unicode/Unicode';
 
+export const HexRegEx = /^[0-9a-fA-F]+$/;
+
 export default class ConceptLink extends Content {
     readonly concept: Token;
 
@@ -35,7 +37,7 @@ export default class ConceptLink extends Content {
 
     getCodepoint() {
         const name = this.getName();
-        if (name.match(/^[0-9a-fA-F]+$/)) return getCodepointFromString(name);
+        if (name.match(HexRegEx)) return getCodepointFromString(name);
         return undefined;
     }
 
