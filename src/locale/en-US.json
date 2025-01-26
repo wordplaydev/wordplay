@@ -4966,12 +4966,16 @@
                     "all": {
                         "label": "select all",
                         "tip": "Select all shapes and pixels"
+                    },
+                    "end": {
+                        "label": "finish shape",
+                        "tip": "End the current path"
                     }
                 },
                 "feedback": {
                     "name": "Characters need a valid Wordplay name. It can't be 'UI', a number, or the name of a built-in language feature.",
                     "description": "Characters need a description so those who can't see know what they represent.",
-                    "end": "Press escape to finish shape.",
+                    "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
                     "notfound": "This character doesn't exist.",
                     "unauthenticated": "You must be logged in to edit a character."

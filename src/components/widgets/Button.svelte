@@ -50,7 +50,8 @@
                 loading = true;
                 result.finally(() => (loading = false));
             }
-            event?.stopPropagation();
+            event.stopPropagation();
+            event.preventDefault();
         }
     }
 </script>
@@ -73,7 +74,7 @@
     aria-label={tip}
     aria-disabled={!active}
     bind:this={view}
-    onmousedown={(event) => event.preventDefault()}
+    onpointerdown={(event) => event.preventDefault()}
     ondblclick={(event) => event.stopPropagation()}
     onclick={loading
         ? null

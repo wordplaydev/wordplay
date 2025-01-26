@@ -73,6 +73,8 @@
             redo: ButtonText;
             /** The select all button */
             all: ButtonText;
+            /** End path button */
+            end: ButtonText;
         };
         feedback: {
             /** When the name isn't a valid Wordplay name */
@@ -160,6 +162,7 @@
     import { HexRegEx } from '@nodes/ConceptLink';
     import { Basis } from '@basis/Basis';
     import { none } from '@nodes/Node';
+    import { relative } from 'path';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -759,11 +762,7 @@
             else if (event.key === 'Escape') {
                 if (mode === DrawingMode.Path) {
                     if (pendingPath) {
-                        selection = [pendingPath];
-                        pendingPath = undefined;
-                        // Mark history
-                        setShapes([...shapes]);
-                        mode = DrawingMode.Select;
+                        endPath();
                         event.stopPropagation();
                         return;
                     }
@@ -811,6 +810,16 @@
             addShapes(copies);
             // Select all the copies so they can be moved.
             selection = [...copies];
+        }
+    }
+
+    function endPath() {
+        if (pendingPath) {
+            selection = [pendingPath];
+            pendingPath = undefined;
+            // Mark history
+            setShapes([...shapes]);
+            mode = DrawingMode.Select;
         }
     }
 
@@ -1677,16 +1686,31 @@
                                     ')'}
                             ></div>
                         {/if}
-                        {#if pendingPath}
-                            <div class="notes">
-                                <Feedback
-                                    >{$locales.get(
-                                        (l) => l.ui.page.character.feedback.end,
-                                    )}</Feedback
-                                >
-                            </div>
-                        {/if}
                     </div>
+                    {#if pendingPath}
+                        <div class="notes">
+                            <Feedback>
+                                <Button
+                                    background
+                                    tip={$locales.get(
+                                        (l) =>
+                                            l.ui.page.character.button.end.tip,
+                                    )}
+                                    action={endPath}
+                                    active={pendingPath !== undefined}
+                                    >🛑
+                                    {$locales.get(
+                                        (l) =>
+                                            l.ui.page.character.button.end
+                                                .label,
+                                    )}</Button
+                                >
+                                {$locales.get(
+                                    (l) => l.ui.page.character.feedback.end,
+                                )}</Feedback
+                            >
+                        </div>
+                    {/if}
                 </div>
                 {@render palette()}
             </div>
@@ -1725,6 +1749,7 @@
         min-width: 20em;
         display: flex;
         flex-direction: column;
+        position: relative;
         gap: var(--wordplay-spacing);
     }
 
@@ -1806,5 +1831,6 @@
         top: -2em;
         left: var(--wordplay-spacing);
         right: var(--wordplay-spacing);
+        z-index: 2;
     }
 </style>
