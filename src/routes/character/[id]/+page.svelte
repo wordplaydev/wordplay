@@ -353,6 +353,7 @@
                         name = loadedCharacter.name;
                         description = loadedCharacter.description;
                         shapes = loadedCharacter.shapes;
+                        isPublic = loadedCharacter.public;
                     }
                 }),
             );
