@@ -23,7 +23,7 @@
                   device
                       ? $locales.get((l) => l.ui.save.local)
                       : $locales.get((l) => l.ui.save.saved)
-              } ✔`
+              } ${device ? '🖥️' : '🌐'}`
             : $status.status === SaveStatus.Saving
               ? `${$locales.get((l) => l.ui.save.saving)} …`
               : `${$locales.get((l) => l.ui.save.unsaved)} ${CANCEL_SYMBOL}`}

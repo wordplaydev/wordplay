@@ -4629,8 +4629,8 @@
         },
         "save": {
             "saving": "saving",
-            "saved": "saved online",
-            "local": "saved in browser",
+            "saved": "saved",
+            "local": "saved",
             "unsaved": "unsaved"
         },
         "page": {
