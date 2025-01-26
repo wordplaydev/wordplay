@@ -1029,6 +1029,11 @@
     let pasted = true;
 
     function handleTextInput(event: Event) {
+        // Not all platforms send composition end events, so if we think we're composing,
+        // but receive an event that indicates we are not, end composition.
+        if (composing && event instanceof InputEvent && !event.isComposing)
+            handleCompositionEnd();
+
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
@@ -1124,6 +1129,9 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // If we receive a keyboard event that says
+        if (composing && !event.isComposing) handleCompositionEnd();
+
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
@@ -1594,6 +1602,8 @@
         onfocusin={() => (focused = true)}
         onfocusout={() => {
             focused = false;
+            // If we're composing and lose focus, end the composition.
+            if (composing) handleCompositionEnd();
         }}
     ></textarea>
     <!-- Render the program -->
