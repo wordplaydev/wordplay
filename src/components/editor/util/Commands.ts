@@ -29,6 +29,7 @@ import {
     PASTE_SYMBOL,
     COPY_SYMBOL,
     CUT_SYMBOL,
+    ALL_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -843,7 +844,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '📄',
+        symbol: ALL_SYMBOL,
         description: (l) => l.ui.source.cursor.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,

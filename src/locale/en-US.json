@@ -4954,6 +4954,10 @@
                     "redo": {
                         "label": "redo",
                         "tip": "Redo to the next design"
+                    },
+                    "all": {
+                        "label": "select all",
+                        "tip": "Select all shapes and pixels"
                     }
                 },
                 "feedback": {

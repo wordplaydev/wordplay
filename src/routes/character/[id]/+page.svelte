@@ -67,6 +67,8 @@
             undo: ButtonText;
             /** The redo tooltip */
             redo: ButtonText;
+            /** The select all button */
+            all: ButtonText;
         };
         feedback: {
             /** When the name isn't a valid Wordplay name */
@@ -135,9 +137,11 @@
     import Sym from '@nodes/Sym';
     import Button from '@components/widgets/Button.svelte';
     import {
+        ALL_SYMBOL,
         BORROW_SYMBOL,
         CANCEL_SYMBOL,
         COPY_SYMBOL,
+        ERASE_SYMBOL,
         PASTE_SYMBOL,
         REDO_SYMBOL,
         SHARE_SYMBOL,
@@ -645,7 +649,7 @@
 
         // Handle select all
         if (event.key === 'a' && event.metaKey) {
-            selection = [...shapes];
+            selectAll();
             event.stopPropagation();
             event.preventDefault();
             return;
@@ -721,6 +725,10 @@
                 return;
             }
         }
+    }
+
+    function selectAll() {
+        selection = [...shapes];
     }
 
     function copyShapes() {
@@ -1359,6 +1367,14 @@
             {$locales.get((l) => l.ui.page.character.button.back.label)}</Button
         >
         <Button
+            tip={$locales.get((l) => l.ui.page.character.button.all.tip)}
+            action={() => selectAll()}
+            active={shapes.length > 0}
+        >
+            {ALL_SYMBOL}
+            {$locales.get((l) => l.ui.page.character.button.all.label)}
+        </Button>
+        <Button
             tip={$locales.get((l) => l.ui.page.character.button.forward.tip)}
             action={() => arrange('forward')}
             active={selection.length > 0 && shapes.length > 1}
@@ -1391,7 +1407,7 @@
                 setShapes(shapes.filter((s) => s.type !== 'pixel'));
             }}
             active={shapes.some((s) => s.type === 'pixel')}
-            >{CANCEL_SYMBOL}
+            >{ERASE_SYMBOL}
             {$locales.get(
                 (l) => l.ui.page.character.button.clearPixels.label,
             )}</Button
@@ -1402,7 +1418,7 @@
                 setShapes([]);
             }}
             active={shapes.length > 0}
-            >{CANCEL_SYMBOL}
+            >{ERASE_SYMBOL}
             {$locales.get(
                 (l) => l.ui.page.character.button.clear.label,
             )}</Button
