@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - #659: Prevent re-opening of dialog when closing with keyboard.
 - Fixed selected output functionality in tutorial.
 - #657: Fixed focus on tutorial buttons.
+- Always localize delimiters
 
 ## 0.14.2 2024-01-18
 
