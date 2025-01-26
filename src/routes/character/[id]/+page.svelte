@@ -159,7 +159,7 @@
     import { toProgram } from '@parser/parseProgram';
     import { HexRegEx } from '@nodes/ConceptLink';
     import { Basis } from '@basis/Basis';
-    import { list } from '@nodes/Node';
+    import { none } from '@nodes/Node';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -183,7 +183,7 @@
     let historyIndex = $state(0);
 
     /** The current drawing mode of the editor*/
-    let mode: DrawingMode = $state(DrawingMode.Pixel);
+    let mode: DrawingMode = $state(DrawingMode.Select);
 
     /** The current selection of shapes, just pointers to the object, since we will mutate them. */
     let selection: CharacterShape[] = $state([]);
@@ -916,7 +916,6 @@
             // Are we moving? Move the selection, accounting for the shape's offsets.
             else {
                 if (move && firstDrag) {
-                    console.log('Remember');
                     // Just starting a drag? Remember the current positions in the history so we can undo to before the drag.
                     setShapes([...shapes]);
                     firstDrag = false;
@@ -1734,10 +1733,6 @@
         width: 100%;
         height: 100%;
         color: var(--wordplay-foreground);
-    }
-
-    :global(.canvas svg .selected) {
-        stroke: var(--wordplay-highlight-color);
     }
 
     .select {

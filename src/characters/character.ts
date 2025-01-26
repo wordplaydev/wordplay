@@ -121,6 +121,9 @@ export type Character = z.infer<typeof CharacterSchema>;
 /** The width and height of the grid */
 export const CharacterSize = 32;
 
+/** The stroke width of highlights */
+const HighlightStrokeWidth = 1;
+
 /**
  *
  * @param character The character to render
@@ -161,8 +164,8 @@ function rectToSVG(
     rect: CharacterRectangle,
     selected: boolean = false,
 ): string {
+    const strokeWidth = rect.stroke?.width ?? 0;
     return tag('rect', {
-        class: selected ? 'selected' : undefined,
         x: rect.center[0] - rect.width / 2,
         y: rect.center[1] - rect.height / 2,
         width: rect.width,
@@ -172,7 +175,10 @@ function rectToSVG(
         fill: colorToSVG(rect.fill),
         stroke: rect.stroke ? colorToSVG(rect.stroke.color) : undefined,
         'stroke-width': rect.stroke?.width,
-        'stroke-linecap': 'round',
+        'stroke-linecap': selected ? 'butt' : 'round',
+        'stroke-dasharray': selected
+            ? `${strokeWidth},${strokeWidth / 2}`
+            : undefined,
         transform:
             'angle' in rect
                 ? `rotate(${rect.angle}, ${rect.center[0]}, ${rect.center[1]})`
@@ -184,6 +190,7 @@ function ellipseToSVG(
     ellipse: CharacterEllipse,
     selected: boolean = false,
 ): string {
+    const strokeWidth = ellipse.stroke?.width ?? 0;
     return tag('ellipse', {
         class: selected ? 'selected' : undefined,
         cx: ellipse.center[0],
@@ -193,7 +200,10 @@ function ellipseToSVG(
         fill: colorToSVG(ellipse.fill),
         stroke: ellipse.stroke ? colorToSVG(ellipse.stroke.color) : undefined,
         'stroke-width': ellipse.stroke?.width,
-        'stroke-linecap': 'round',
+        'stroke-linecap': selected ? 'butt' : 'round',
+        'stroke-dasharray': selected
+            ? `${strokeWidth},${strokeWidth / 2}`
+            : undefined,
         transform: ellipse.angle
             ? `rotate(${ellipse.angle}, ${ellipse.center[0]}, ${ellipse.center[1]})`
             : undefined,
@@ -208,6 +218,8 @@ function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
         width: 1,
         height: 1,
         fill: colorToSVG(pixel.fill),
+        stroke: selected ? 'currentColor' : undefined,
+        'stroke-width': selected ? 0.5 : undefined,
     });
 }
 
@@ -218,6 +230,8 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
                 `${index > 0 ? (path.curved ? 'T' : 'L') : ''} ${x} ${y}`,
         )
         .join(' ');
+
+    const strokeWidth = path.stroke?.width ?? 0;
 
     return tag('path', {
         class: selected ? 'selected' : undefined,
@@ -230,7 +244,8 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
                   : 'none',
         stroke: path.stroke ? colorToSVG(path.stroke.color) : undefined,
         'stroke-width': path.stroke?.width,
-        'stroke-linecap': 'round',
+        'stroke-linecap': selected ? 'butt' : 'round',
+        'stroke-dasharray': selected ? `1,0.5` : undefined,
         transform: path.angle
             ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x[0], 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x[1], 0) / path.points.length})`
             : undefined,
