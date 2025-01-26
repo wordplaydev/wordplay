@@ -161,8 +161,6 @@
     import { toProgram } from '@parser/parseProgram';
     import { HexRegEx } from '@nodes/ConceptLink';
     import { Basis } from '@basis/Basis';
-    import { none } from '@nodes/Node';
-    import { relative } from 'path';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -587,7 +585,7 @@
         const last = pendingPath.points[pendingPath.points.length - 1];
         // Different point than the last? Record it.
         if (
-            last.x !== drawingCursorPosition.x &&
+            last.x !== drawingCursorPosition.x ||
             last.y !== drawingCursorPosition.y
         )
             pendingPath.points.push({
