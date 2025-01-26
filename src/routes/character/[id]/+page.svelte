@@ -1020,253 +1020,274 @@
             {:else if mode === DrawingMode.Path}
                 {$locales.get((l) => l.ui.page.character.shape.path)}
             {:else}
-                —
+                {$locales.get((l) => l.ui.page.character.field.mode.modes[0])}…
             {/if}
         </h2>
 
-        <!-- All shapes have fills -->
-        {@render colorChooser(
-            $locales,
-            currentFillSetting,
-            // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
-            getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
-            mode !== DrawingMode.Pixel,
-            (l) => l.ui.page.character.field.fill,
-            (choice) => {
-                currentFillSetting = choice;
-                for (const shape of selection) shape.fill = getCurrentFill();
-                setShapes([...shapes]);
-            },
-            (color) => {
-                currentFill = color;
-                for (const shape of selection) shape.fill = getCurrentFill();
-                setShapes([...shapes]);
-            },
-        )}
-        <!-- All shapes except pixels have strokes -->
-        {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
+        {#if mode !== DrawingMode.Select || selection.length > 0}
+            <!-- All shapes have fills -->
             {@render colorChooser(
                 $locales,
-                currentStrokeSetting,
+                currentFillSetting,
                 // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
-                getSharedColor(
-                    selection
-                        .filter((s) => s.type !== 'pixel')
-                        .map((s) => s.stroke?.color),
-                ) ?? currentStroke,
-                true,
-                (l) => l.ui.page.character.field.stroke,
+                getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
+                mode !== DrawingMode.Pixel,
+                (l) => l.ui.page.character.field.fill,
                 (choice) => {
-                    currentStrokeSetting = choice;
-                    if (selection.length > 0) {
-                        for (const shape of selection)
-                            if (shape.type !== 'pixel')
-                                shape.stroke = getCurrentStroke();
-                        setShapes([...shapes]);
-                    }
+                    currentFillSetting = choice;
+                    for (const shape of selection)
+                        shape.fill = getCurrentFill();
+                    setShapes([...shapes]);
                 },
                 (color) => {
-                    currentStroke = color;
-                    if (selection.length > 0) {
-                        for (const shape of selection)
-                            if (shape.type !== 'pixel')
-                                if (shape.stroke)
-                                    // Already a stroke? Just set the color.
-                                    shape.stroke.color = { ...currentStroke };
-                                // Otherwise, set the whole stroke.
-                                else shape.stroke = getCurrentStroke();
-                        setShapes([...shapes]);
-                    }
+                    currentFill = color;
+                    for (const shape of selection)
+                        shape.fill = getCurrentFill();
+                    setShapes([...shapes]);
                 },
             )}
-            <!-- If there's a selection and they have the same stroke width, show that, otherwise show the current stroke value. -->
-            <Slider
-                label={$locales.get(
-                    (l) => l.ui.page.character.field.strokeWidth.label,
-                )}
-                tip={$locales.get(
-                    (l) => l.ui.page.character.field.strokeWidth.tip,
-                )}
-                min={0}
-                max={3}
-                increment={0.1}
-                precision={1}
-                unit={''}
-                bind:value={() => {
-                    const widths = [
-                        ...new Set(
-                            selection
-                                .filter((s) => s.type !== 'pixel')
-                                .map((s) => s.stroke?.width ?? 0),
-                        ),
-                    ];
-                    return (
-                        (widths.length === 1 ? widths[0] : undefined) ??
-                        currentStrokeWidth
-                    );
-                },
-                (val) => {
-                    if (selection.length > 0) {
-                        for (const shape of selection)
-                            if ('stroke' in shape && shape.stroke !== undefined)
-                                shape.stroke.width = val;
-                    } else currentStrokeWidth = val;
-                }}
-                release={() => setShapes([...shapes])}
-            ></Slider>
-        {/if}
-        {#if mode !== DrawingMode.Pixel}
-            <h3>{$locales.get((l) => l.ui.page.character.shape.shape)}</h3>
-        {/if}
-        <!-- Only rectangles have a radius -->
-        {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
-            <Slider
-                label={$locales.get(
-                    (l) => l.ui.page.character.field.radius.label,
-                )}
-                tip={$locales.get((l) => l.ui.page.character.field.radius.tip)}
-                min={0}
-                max={5}
-                increment={0.1}
-                precision={1}
-                unit={''}
-                bind:value={() => {
-                    // Uniform corner value? Show that.
-                    const corners = [
-                        ...new Set(
-                            selection
-                                .filter((s) => s.type === 'rect')
-                                .map((s) => s.corner ?? 0),
-                        ),
-                    ];
-                    return (
-                        (corners.length === 1 ? corners[0] : undefined) ??
-                        currentCorner
-                    );
-                },
-                (val) => {
-                    if (selection.length > 0) {
-                        // Update any selected rectangle's rounded corners.
-                        for (const shape of selection)
-                            if (shape.type === 'rect') shape.corner = val;
-                    } else currentCorner = val;
-                }}
-                release={() => setShapes([...shapes])}
-            ></Slider>
-        {/if}
-        <!-- All shapes but pixels have rotation -->
-        {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
-            <Slider
-                label={$locales.get(
-                    (l) => l.ui.page.character.field.angle.label,
-                )}
-                tip={$locales.get((l) => l.ui.page.character.field.angle.tip)}
-                min={0}
-                max={359}
-                increment={1}
-                precision={0}
-                unit={''}
-                bind:value={() => {
-                    // Is there a uniform selected angle? Show that.
-                    const angles = [
-                        ...new Set(
-                            selection
-                                .filter((s) => s.type !== 'pixel')
-                                .map((s) => s.angle ?? 0)
-                                .filter((a) => a !== undefined),
-                        ),
-                    ];
-                    return (
-                        (angles.length === 1 ? angles[0] : undefined) ??
-                        currentAngle
-                    );
-                },
-                (val) => {
-                    if (selection.length > 0) {
-                        // Update any selected shape's rotation
-                        for (const shape of selection)
-                            if (shape.type !== 'pixel') shape.angle = val;
-                    } else currentAngle = val;
-                }}
-                release={() => setShapes([...shapes])}
-            ></Slider>
-        {/if}
-        {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
-            <label>
-                <Checkbox
-                    id="closed-path"
-                    bind:on={() => {
-                        // If the selection has an identical closed state, set the current closed state to it
-                        const closed = [
-                            ...new Set(
-                                selection
-                                    .filter((s) => s.type === 'path')
-                                    .map((s) => s.closed),
-                            ),
-                        ];
-                        return (
-                            (closed.length === 1 ? closed[0] : undefined) ??
-                            currentClosed
-                        );
-                    },
-                    (on) => {
+            <!-- All shapes except pixels have strokes -->
+            {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
+                {@render colorChooser(
+                    $locales,
+                    currentStrokeSetting,
+                    // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
+                    getSharedColor(
+                        selection
+                            .filter((s) => s.type !== 'pixel')
+                            .map((s) => s.stroke?.color),
+                    ) ?? currentStroke,
+                    true,
+                    (l) => l.ui.page.character.field.stroke,
+                    (choice) => {
+                        currentStrokeSetting = choice;
                         if (selection.length > 0) {
-                            // Update any selected shape's closed state
                             for (const shape of selection)
-                                if (shape.type === 'path' && on !== undefined)
-                                    shape.closed = on;
-                            setShapes([...shapes]);
-                        } else currentCurved = on;
-                    }}
-                    label={$locales.get(
-                        (l) => l.ui.page.character.field.closed,
-                    )}
-                ></Checkbox>{$locales.get(
-                    (l) => l.ui.page.character.field.closed,
-                )}
-            </label>
-            <label>
-                <Checkbox
-                    id="curved-path"
-                    bind:on={() => {
-                        // If there's a selection and they have the same curved state, show that, otherwise show the current curved value.
-                        const curves = [
-                            ...new Set(
-                                selection
-                                    .filter((s) => s.type === 'path')
-                                    .map((s) => s.curved),
-                            ),
-                        ];
-                        return (
-                            (curves.length === 1 ? curves[0] : undefined) ??
-                            currentCurved
-                        );
-                    },
-                    (on) => {
-                        // If there's a selection, update the value for all selected shapes.
-                        if (selection.length > 0) {
-                            // Update any selected shape's curved state
-                            for (const shape of selection)
-                                if (shape.type === 'path' && on !== undefined)
-                                    shape.curved = on;
+                                if (shape.type !== 'pixel')
+                                    shape.stroke = getCurrentStroke();
                             setShapes([...shapes]);
                         }
-                        // Otherwise update the current curved value.
-                        else currentCurved = on;
-                    }}
+                    },
+                    (color) => {
+                        currentStroke = color;
+                        if (selection.length > 0) {
+                            for (const shape of selection)
+                                if (shape.type !== 'pixel')
+                                    if (shape.stroke)
+                                        // Already a stroke? Just set the color.
+                                        shape.stroke.color = {
+                                            ...currentStroke,
+                                        };
+                                    // Otherwise, set the whole stroke.
+                                    else shape.stroke = getCurrentStroke();
+                            setShapes([...shapes]);
+                        }
+                    },
+                )}
+                <!-- If there's a selection and they have the same stroke width, show that, otherwise show the current stroke value. -->
+                <Slider
                     label={$locales.get(
-                        (l) => l.ui.page.character.field.curved,
+                        (l) => l.ui.page.character.field.strokeWidth.label,
                     )}
-                ></Checkbox>{$locales.get(
-                    (l) => l.ui.page.character.field.curved,
-                )}</label
-            >
+                    tip={$locales.get(
+                        (l) => l.ui.page.character.field.strokeWidth.tip,
+                    )}
+                    min={0}
+                    max={3}
+                    increment={0.1}
+                    precision={1}
+                    unit={''}
+                    bind:value={() => {
+                        const widths = [
+                            ...new Set(
+                                selection
+                                    .filter((s) => s.type !== 'pixel')
+                                    .map((s) => s.stroke?.width ?? 0),
+                            ),
+                        ];
+                        return (
+                            (widths.length === 1 ? widths[0] : undefined) ??
+                            currentStrokeWidth
+                        );
+                    },
+                    (val) => {
+                        if (selection.length > 0) {
+                            for (const shape of selection)
+                                if (
+                                    'stroke' in shape &&
+                                    shape.stroke !== undefined
+                                )
+                                    shape.stroke.width = val;
+                        } else currentStrokeWidth = val;
+                    }}
+                    release={() => setShapes([...shapes])}
+                ></Slider>
+            {/if}
+            {#if mode !== DrawingMode.Pixel}
+                <h3>{$locales.get((l) => l.ui.page.character.shape.shape)}</h3>
+            {/if}
+            <!-- Only rectangles have a radius -->
+            {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
+                <Slider
+                    label={$locales.get(
+                        (l) => l.ui.page.character.field.radius.label,
+                    )}
+                    tip={$locales.get(
+                        (l) => l.ui.page.character.field.radius.tip,
+                    )}
+                    min={0}
+                    max={5}
+                    increment={0.1}
+                    precision={1}
+                    unit={''}
+                    bind:value={() => {
+                        // Uniform corner value? Show that.
+                        const corners = [
+                            ...new Set(
+                                selection
+                                    .filter((s) => s.type === 'rect')
+                                    .map((s) => s.corner ?? 0),
+                            ),
+                        ];
+                        return (
+                            (corners.length === 1 ? corners[0] : undefined) ??
+                            currentCorner
+                        );
+                    },
+                    (val) => {
+                        if (selection.length > 0) {
+                            // Update any selected rectangle's rounded corners.
+                            for (const shape of selection)
+                                if (shape.type === 'rect') shape.corner = val;
+                        } else currentCorner = val;
+                    }}
+                    release={() => setShapes([...shapes])}
+                ></Slider>
+            {/if}
+            <!-- All shapes but pixels have rotation -->
+            {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
+                <Slider
+                    label={$locales.get(
+                        (l) => l.ui.page.character.field.angle.label,
+                    )}
+                    tip={$locales.get(
+                        (l) => l.ui.page.character.field.angle.tip,
+                    )}
+                    min={0}
+                    max={359}
+                    increment={1}
+                    precision={0}
+                    unit={''}
+                    bind:value={() => {
+                        // Is there a uniform selected angle? Show that.
+                        const angles = [
+                            ...new Set(
+                                selection
+                                    .filter((s) => s.type !== 'pixel')
+                                    .map((s) => s.angle ?? 0)
+                                    .filter((a) => a !== undefined),
+                            ),
+                        ];
+                        return (
+                            (angles.length === 1 ? angles[0] : undefined) ??
+                            currentAngle
+                        );
+                    },
+                    (val) => {
+                        if (selection.length > 0) {
+                            // Update any selected shape's rotation
+                            for (const shape of selection)
+                                if (shape.type !== 'pixel') shape.angle = val;
+                        } else currentAngle = val;
+                    }}
+                    release={() => setShapes([...shapes])}
+                ></Slider>
+            {/if}
+            {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
+                <label>
+                    <Checkbox
+                        id="closed-path"
+                        bind:on={() => {
+                            // If the selection has an identical closed state, set the current closed state to it
+                            const closed = [
+                                ...new Set(
+                                    selection
+                                        .filter((s) => s.type === 'path')
+                                        .map((s) => s.closed),
+                                ),
+                            ];
+                            return (
+                                (closed.length === 1 ? closed[0] : undefined) ??
+                                currentClosed
+                            );
+                        },
+                        (on) => {
+                            if (selection.length > 0) {
+                                // Update any selected shape's closed state
+                                for (const shape of selection)
+                                    if (
+                                        shape.type === 'path' &&
+                                        on !== undefined
+                                    )
+                                        shape.closed = on;
+                                setShapes([...shapes]);
+                            } else currentCurved = on;
+                        }}
+                        label={$locales.get(
+                            (l) => l.ui.page.character.field.closed,
+                        )}
+                    ></Checkbox>{$locales.get(
+                        (l) => l.ui.page.character.field.closed,
+                    )}
+                </label>
+                <label>
+                    <Checkbox
+                        id="curved-path"
+                        bind:on={() => {
+                            // If there's a selection and they have the same curved state, show that, otherwise show the current curved value.
+                            const curves = [
+                                ...new Set(
+                                    selection
+                                        .filter((s) => s.type === 'path')
+                                        .map((s) => s.curved),
+                                ),
+                            ];
+                            return (
+                                (curves.length === 1 ? curves[0] : undefined) ??
+                                currentCurved
+                            );
+                        },
+                        (on) => {
+                            // If there's a selection, update the value for all selected shapes.
+                            if (selection.length > 0) {
+                                // Update any selected shape's curved state
+                                for (const shape of selection)
+                                    if (
+                                        shape.type === 'path' &&
+                                        on !== undefined
+                                    )
+                                        shape.curved = on;
+                                setShapes([...shapes]);
+                            }
+                            // Otherwise update the current curved value.
+                            else currentCurved = on;
+                        }}
+                        label={$locales.get(
+                            (l) => l.ui.page.character.field.curved,
+                        )}
+                    ></Checkbox>{$locales.get(
+                        (l) => l.ui.page.character.field.curved,
+                    )}</label
+                >
+            {/if}
         {/if}
     </div>
 
     <style>
         .palette {
-            min-width: 6em;
+            min-width: 10em;
+            width: 40vw;
+            max-width: 20em;
             display: flex;
             flex-direction: column;
             gap: calc(2 * var(--wordplay-spacing));
@@ -1520,8 +1541,8 @@
     }
 
     .content {
-        width: 100%;
-        max-width: 40em;
+        width: 60vw;
+        min-width: 20em;
         display: flex;
         flex-direction: column;
         gap: var(--wordplay-spacing);
