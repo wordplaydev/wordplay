@@ -95,13 +95,10 @@
     import { onDestroy, onMount, tick, untrack } from 'svelte';
     import { writable, type Writable } from 'svelte/store';
     import {
-        type SelectedOutputContext,
         getConceptPath,
         IdleKind,
         type EditorState,
         type KeyModifierState,
-        type SelectedOutputPaths,
-        type SelectedPhrase,
         setConceptIndex,
         setDragged,
         setProjectCommandContext,
@@ -111,7 +108,7 @@
         setAnimatingNodes,
         setEditors,
         setConflicts,
-        setSelectedOutputContext,
+        setSelectedOutput,
         setAnnouncer,
         type AnnouncerContext,
         getFullscreen,
@@ -146,8 +143,7 @@
     import { goto } from '$app/navigation';
     import TextField from '../widgets/TextField.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import Evaluate from '@nodes/Evaluate';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import type Caret from '../../edit/Caret';
     import GlyphChooser from '../editor/GlyphChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
@@ -214,6 +210,7 @@
     import Checkpoints from './Checkpoints.svelte';
     import Link from '@components/app/Link.svelte';
     import EditorLocaleChooser from './EditorLocaleChooser.svelte';
+    import SelectedOutput from './SelectedOutput.svelte';
 
     interface Props {
         project: Project;
@@ -314,10 +311,10 @@
 
     // Whether the project is in 'play' mode, dictated soley by a URL query parameter.
     let requestedPlay = $state(
-        $page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null,
+        page.url.searchParams.get(PROJECT_PARAM_PLAY) !== null,
     );
     let requestedEdit = $state(
-        $page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
+        page.url.searchParams.get(PROJECT_PARAM_EDIT) !== null,
     );
 
     const user = getUser();
@@ -388,64 +385,9 @@
         };
     });
 
-    /**
-     * Create a project global context that stores the current selected value (and if not in an editing mode, nothing).
-     * This enables output views like phrases and groups know what mode the output view is in and whether they are selected.
-     * so they can render selected feedback.
-     */
-    let selectedOutputPaths: SelectedOutputPaths = $state<SelectedOutputPaths>(
-        [],
-    );
-    const selectedOutput: Evaluate[] = $derived(
-        selectedOutputPaths
-            .map(({ source, path }) => {
-                if (
-                    source === undefined ||
-                    path === undefined ||
-                    $projectStore === undefined
-                )
-                    return undefined;
-                const name = source.getNames()[0];
-                if (name === undefined) return undefined;
-                const newSource = $projectStore.getSourceWithName(name);
-                if (newSource === undefined) return undefined;
-                return newSource.root.resolvePath(path);
-            })
-            .filter((output): output is Evaluate => output instanceof Evaluate),
-    );
-    let selectedPhrase = $state<SelectedPhrase>(null);
-
-    function setSelectedOutput(project: Project, evaluates: Evaluate[]) {
-        // Map each selected output to its replacement, then set the selected output to the replacements.
-        selectedOutputPaths = evaluates.map((output) => {
-            return {
-                source: project.getSourceOf(output),
-                path: project.getRoot(output)?.getPath(output),
-            };
-        });
-    }
-
-    function setSelectedPhrase(phrase: SelectedPhrase) {
-        selectedPhrase = phrase;
-    }
-
-    let selectionState = $state<SelectedOutputContext>({
-        selectedPaths: [],
-        selectedOutput: [],
-        selectedPhrase: null,
-        setSelectedOutput,
-        setSelectedPhrase,
-    });
-
-    $effect(() => {
-        selectionState.selectedOutput = selectedOutput;
-        selectionState.selectedPaths = selectedOutputPaths;
-        selectionState.selectedPhrase = selectedPhrase;
-        selectionState.setSelectedOutput = setSelectedOutput;
-        selectionState.setSelectedPhrase = setSelectedPhrase;
-    });
-
-    setSelectedOutputContext(selectionState);
+    /** Make the project global selected output and set it in a context. */
+    let selectedOutput = new SelectedOutput();
+    setSelectedOutput(selectedOutput);
 
     /**
      * Invalidates these inputs, indicating that it shouldn't be used.
@@ -561,8 +503,7 @@
 
     // Clear the selected output upon playing.
     evaluation.subscribe((val) => {
-        if (val.playing)
-            if (selectedOutputPaths.length > 0) selectedOutputPaths = [];
+        if (val.playing) if (!selectedOutput.isEmpty()) selectedOutput.empty();
     });
 
     function syncTiles(project: Project, tiles: Tile[]): Tile[] {
@@ -725,7 +666,7 @@
 
     /** When the layout or path changes, add or remove query params based on state */
     $effect(() => {
-        const searchParams = new URLSearchParams($page.url.searchParams);
+        const searchParams = new URLSearchParams(page.url.searchParams);
 
         if (!requestedPlay) searchParams.delete(PROJECT_PARAM_PLAY);
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
@@ -747,9 +688,9 @@
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
         const currentSearch =
-            $page.url.search.charAt(0) === '?'
-                ? $page.url.search.substring(1)
-                : $page.url.search;
+            page.url.search.charAt(0) === '?'
+                ? page.url.search.substring(1)
+                : page.url.search;
         // If the search params haven't changed, don't navigate.
         if (search !== currentSearch)
             goto(`?${search}`, { replaceState: true });
@@ -822,7 +763,7 @@
     }
 
     function restoreConcept() {
-        const id = $page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
+        const id = page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
         const concept = id ? resolveConcept(id) : undefined;
         if (concept && path) path.set([concept]);
     }
@@ -953,7 +894,7 @@
     $effect(() => {
         const palette = untrack(() => layout).getPalette();
         if (palette) {
-            if (selectedOutput && selectedOutput.length > 0) {
+            if (!selectedOutput.isEmpty()) {
                 if (palette.mode === TileMode.Collapsed)
                     untrack(() => setMode(palette, TileMode.Expanded));
             }
@@ -1230,22 +1171,15 @@
         if (layout.getTileWithID(tile.id)?.mode === mode) return;
 
         // Special case selected output and the palette.
-        if (
-            tile === layout.getPalette() &&
-            selectedOutput &&
-            selectedOutputPaths
-        ) {
-            if (
-                tile.mode === TileMode.Collapsed &&
-                selectedOutput.length === 0
-            ) {
+        if (tile === layout.getPalette()) {
+            if (tile.mode === TileMode.Collapsed && selectedOutput.isEmpty()) {
                 const output = project.getOutput();
                 if (output.length > 0) {
-                    setSelectedOutput(project, [output[0]]);
+                    selectedOutput.setPaths(project, [output[0]]);
                     $evaluator.pause();
                 }
             } else if (tile.mode === TileMode.Expanded) {
-                setSelectedOutput(project, []);
+                selectedOutput.setPaths(project, []);
             }
         }
 

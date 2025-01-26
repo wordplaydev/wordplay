@@ -16,7 +16,7 @@
     import PhraseView from './PhraseView.svelte';
     import Group from '@output/Group';
     import Evaluate from '@nodes/Evaluate';
-    import { getSelectedOutput } from '../project/Contexts';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
     import Stage from '../../output/Stage';
     import { locales } from '../../db/Database';
     import type { Form } from '../../output/Form';
@@ -58,6 +58,7 @@
     let root = $derived(viewport !== undefined);
 
     let selection = getSelectedOutput();
+    let project = getProject();
 
     // Compute a local context based on size and font.
     let localContext = $derived(group.getRenderContext(context));
@@ -76,7 +77,8 @@
 
     let selected = $derived(
         group.value.creator instanceof Evaluate &&
-            selection?.selectedOutput.includes(group.value.creator),
+            $project !== undefined &&
+            selection?.includes(group.value.creator, $project),
     );
 
     let description: string | null = $state(null);

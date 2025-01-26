@@ -57,7 +57,7 @@
     );
 
     let isInCaret = $derived(
-        $caret &&
+        $caret !== undefined &&
             node.getTextLength() > 0 &&
             ($caret.getTokenExcludingSpace() === node ||
                 ($caret.tokenPrior === node &&
@@ -81,8 +81,9 @@
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
-        !isInCaret && context && root && localize && $localize === null
+        context && root && localize && $localize === null
             ? node.localized(
+                  isInCaret,
                   $localize === 'symbolic',
                   $locales.getLocales(),
                   root,

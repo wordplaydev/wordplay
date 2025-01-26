@@ -50,7 +50,8 @@
                 loading = true;
                 result.finally(() => (loading = false));
             }
-            event?.stopPropagation();
+            event.stopPropagation();
+            event.preventDefault();
         }
     }
 </script>
