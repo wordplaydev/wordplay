@@ -164,7 +164,10 @@ function rectToSVG(
     rect: CharacterRectangle,
     selected: boolean = false,
 ): string {
-    const selectionStrokeWidth = rect.stroke?.width ?? SelectionStrokeWidth;
+    const selectionStrokeWidth = Math.max(
+        SelectionStrokeWidth,
+        rect.stroke?.width ?? SelectionStrokeWidth,
+    );
     return tag('rect', {
         x: rect.center.x - rect.width / 2,
         y: rect.center.y - rect.height / 2,
@@ -195,7 +198,10 @@ function ellipseToSVG(
     ellipse: CharacterEllipse,
     selected: boolean = false,
 ): string {
-    const selectionStrokeWidth = ellipse.stroke?.width ?? SelectionStrokeWidth;
+    const selectionStrokeWidth = Math.max(
+        SelectionStrokeWidth,
+        ellipse.stroke?.width ?? SelectionStrokeWidth,
+    );
     return tag('ellipse', {
         class: selected ? 'selected' : undefined,
         cx: ellipse.center.x,
@@ -242,7 +248,10 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
         )
         .join(' ');
 
-    const selectedStrokeWidth = path.stroke?.width ?? SelectionStrokeWidth;
+    const selectedStrokeWidth = Math.max(
+        SelectionStrokeWidth,
+        path.stroke?.width ?? SelectionStrokeWidth,
+    );
 
     return tag('path', {
         class: selected ? 'selected' : undefined,
@@ -258,8 +267,7 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
             : selected
               ? 'currentColor'
               : undefined,
-        'stroke-width':
-            path.stroke?.width ?? (selected ? selectedStrokeWidth : undefined),
+        'stroke-width': selected ? selectedStrokeWidth : path.stroke?.width,
         'stroke-linecap': 'round',
         'stroke-dasharray': selected
             ? `${selectedStrokeWidth / 10},${selectedStrokeWidth}`
