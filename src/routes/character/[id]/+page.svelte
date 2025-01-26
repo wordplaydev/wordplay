@@ -143,7 +143,6 @@
     import {
         ALL_SYMBOL,
         BORROW_SYMBOL,
-        CANCEL_SYMBOL,
         COPY_SYMBOL,
         ERASE_SYMBOL,
         PASTE_SYMBOL,
@@ -196,6 +195,9 @@
 
     /** The relative positions from each selected shape's center, so we can maintain relative positions for multiple selections. */
     let dragOffsets: { x: number; y: number }[] | undefined = $state(undefined);
+
+    /** Whether we are doing the first drag */
+    let firstDrag = $state(false);
 
     /** The current fill color and whether it's on, off, or inherited */
     let currentFill: LCH = $state({
@@ -390,7 +392,7 @@
         ];
 
         // Move the index to the present.
-        historyIndex = history.length - 1;
+        historyIndex = history.length;
 
         // No more than 100 steps back, just to be conservative about memory.
         if (history.length > 100) {
@@ -847,6 +849,7 @@
             // No drag position yet? Set one.
             if (dragOffsets === undefined) {
                 dragOffsets = [];
+                firstDrag = true;
                 for (const shape of selection) {
                     switch (shape.type) {
                         // These three are easy.
@@ -870,6 +873,13 @@
             }
             // Are we moving? Move the selection, accounting for the shape's offsets.
             else {
+                if (move && firstDrag) {
+                    console.log('Remember');
+                    // Just starting a drag? Remember the current positions in the history so we can undo to before the drag.
+                    setShapes([...shapes]);
+                    firstDrag = false;
+                }
+
                 for (const [index, shape] of selection.entries())
                     moveShape(
                         shape,
@@ -882,7 +892,10 @@
     }
 
     function handlePointerUp(event: PointerEvent) {
-        if (dragOffsets) dragOffsets = undefined;
+        if (dragOffsets) {
+            dragOffsets = undefined;
+            firstDrag = false;
+        }
 
         // Done? Reset the pending shapes to nothing.
         if (pendingRectOrEllipse) {
