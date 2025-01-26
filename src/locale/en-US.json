@@ -4970,6 +4970,14 @@
                     "end": {
                         "label": "finish shape",
                         "tip": "End the current path"
+                    },
+                    "horizontal": {
+                        "label": "flip horizontal",
+                        "tip": "flip the points horizontally around the center "
+                    },
+                    "vertical": {
+                        "label": "flip vertical",
+                        "tip": "flip the points vertically around the center "
                     }
                 },
                 "feedback": {

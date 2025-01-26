@@ -75,6 +75,10 @@
             all: ButtonText;
             /** End path button */
             end: ButtonText;
+            /** Flip path horizontal */
+            horizontal: ButtonText;
+            /** Flip path vertical */
+            vertical: ButtonText;
         };
         feedback: {
             /** When the name isn't a valid Wordplay name */
@@ -993,6 +997,21 @@
             }
         }
     }
+
+    function flip(direction: 'horizontal' | 'vertical') {
+        for (const shape of selection) {
+            if (shape.type === 'path') {
+                const center = getPathCenter(shape);
+                for (const point of shape.points) {
+                    if (direction === 'horizontal') {
+                        point.x = center.x - (point.x - center.x);
+                    } else {
+                        point.y = center.y - (point.y - center.y);
+                    }
+                }
+            }
+        }
+    }
 </script>
 
 <svelte:head>
@@ -1523,6 +1542,22 @@
                 (l) => l.ui.page.character.button.toFront.label,
             )}</Button
         >
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.horizontal.tip)}
+            action={() => flip('horizontal')}
+            active={selection.some((s) => s.type === 'path')}
+        >
+            ↔
+            {$locales.get((l) => l.ui.page.character.button.horizontal.label)}
+        </Button>
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.vertical.tip)}
+            action={() => flip('vertical')}
+            active={selection.some((s) => s.type === 'path')}
+        >
+            ↕
+            {$locales.get((l) => l.ui.page.character.button.vertical.label)}
+        </Button>
         <Button
             tip={$locales.get((l) => l.ui.page.character.button.copy.tip)}
             action={copyShapes}
