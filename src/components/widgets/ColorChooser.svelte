@@ -48,9 +48,9 @@
         [50, 109, 42], // red
         [50, 127, 174], // green
         [50, 117, 282], // blue
-        [91, 50, 196], // cyan
-        [60, 115, 328], // magenta
-        [97, 96, 102], // yellow
+        // [91, 50, 196], // cyan
+        // [60, 115, 328], // magenta
+        // [97, 96, 102], // yellow
     ];
 </script>
 
@@ -70,6 +70,8 @@
         change: (l: number, c: number, h: number) => void;
         editable?: boolean;
         id?: string | undefined;
+        /** Additional colors to add to the palette */
+        palette?: [number, number, number][];
     }
 
     let {
@@ -79,6 +81,7 @@
         change,
         editable = true,
         id = undefined,
+        palette = [],
     }: Props = $props();
 
     let color = $derived(
@@ -131,7 +134,7 @@
         ></div>
     </div>
     <div class="primary">
-        {#each Primary as primary}<Button
+        {#each [...palette, ...Primary] as primary}<Button
                 tip="color"
                 padding={false}
                 action={() => {

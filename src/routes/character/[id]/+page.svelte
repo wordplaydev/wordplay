@@ -159,6 +159,7 @@
     import { toProgram } from '@parser/parseProgram';
     import { HexRegEx } from '@nodes/ConceptLink';
     import { Basis } from '@basis/Basis';
+    import { list } from '@nodes/Node';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -266,6 +267,47 @@
         viewers,
         projects,
         public: isPublic,
+    });
+
+    /** The colors used by the current shapes */
+    let colors: [number, number, number][] = $derived.by(() => {
+        return (
+            shapes
+                // Convert all the shapes to a list of colors
+                .map((s) => {
+                    const colors: { l: number; c: number; h: number }[] = [];
+                    switch (s.type) {
+                        case 'pixel':
+                            if (s.fill) colors.push(s.fill);
+                            break;
+                        case 'rect':
+                        case 'ellipse':
+                        case 'path':
+                            if (s.fill) colors.push(s.fill);
+                            if (s.stroke && s.stroke.color !== null)
+                                colors.push(s.stroke.color);
+                    }
+                    return colors;
+                })
+                // Flatten it to a list of colors
+                .flat()
+                // Remove the null colors
+                .filter((c) => c !== null)
+                // Convert to color list
+                .map((c) => [c.l * 100, c.c, c.h] as [number, number, number])
+                // Remove duplicates
+                .filter(
+                    (c, index, list) =>
+                        !list
+                            .slice(index + 1)
+                            .some(
+                                (c2) =>
+                                    c[0] == c2[0] &&
+                                    c[1] == c2[1] &&
+                                    c[2] == c2[2],
+                            ),
+                )
+        );
     });
 
     /**
@@ -970,6 +1012,7 @@
             change={(l, c, h) => {
                 setColor({ l, c, h });
             }}
+            palette={colors}
         ></ColorChooser>
     {/if}
 {/snippet}
