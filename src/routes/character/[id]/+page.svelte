@@ -1156,7 +1156,7 @@
                     : currentFillSetting,
                 // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
                 getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
-                mode !== DrawingMode.Pixel,
+                mode !== DrawingMode.Pixel && currentStrokeSetting !== 'none',
                 (l) => l.ui.page.character.field.fill,
                 (choice) => {
                     currentFillSetting = choice;
@@ -1200,7 +1200,7 @@
                             .filter((s) => s.type !== 'pixel')
                             .map((s) => s.stroke?.color),
                     ) ?? currentStroke,
-                    true,
+                    currentFillSetting !== 'none',
                     (l) => l.ui.page.character.field.stroke,
                     (choice) => {
                         currentStrokeSetting = choice;
