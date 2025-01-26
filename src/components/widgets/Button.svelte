@@ -51,7 +51,6 @@
                 result.finally(() => (loading = false));
             }
             event.stopPropagation();
-            event.preventDefault();
         }
     }
 </script>

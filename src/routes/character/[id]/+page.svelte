@@ -127,7 +127,6 @@
     import { CharactersDB, locales } from '@db/Database';
     import Header from '@components/app/Header.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
     import Feedback from '@components/app/Feedback.svelte';
     import {
         getPathCenter,

@@ -38,7 +38,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
-    import Glyphs from '../../lore/Glyphs';
+    import Glyphs from '../../lore/BasisCharacters';
     import { withColorEmoji } from '../../unicode/emoji';
     import { withoutAnnotations } from '@locale/LocaleText';
 

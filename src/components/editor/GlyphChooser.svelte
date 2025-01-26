@@ -113,7 +113,7 @@
     </div>
     {#if query.length === 0}
         <Toggle
-            tips={$locales.get((l) => l.ui.source.toggle.glyphs)}
+            tips={$locales.get((l) => l.ui.source.toggle.characters)}
             on={emoji}
             toggle={() => (emoji = !emoji)}
             >{withColorEmoji(emoji ? '😴' : '😊')}</Toggle

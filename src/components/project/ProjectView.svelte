@@ -177,7 +177,6 @@
     import type Color from '../../output/Color';
     import Sharing from './Sharing.svelte';
     import Toggle from '../widgets/Toggle.svelte';
-    import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
@@ -460,17 +459,6 @@
         // Set the evaluator store
         evaluator.set(newEvaluator);
     }
-
-    /** This stores the instance of the announcer component */
-    let announcer = $state<ReturnType<typeof Announcer>>();
-    let announcerStore: Writable<AnnouncerContext | undefined> =
-        writable(undefined);
-
-    // Update the function context when the announcer changes.
-    $effect(() => announcerStore.set(announcer?.announce));
-
-    // Set the announcer store in context.
-    setAnnouncer(announcerStore);
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation = writable(getEvaluationContext());
@@ -1059,8 +1047,8 @@
     $effect(() => {
         if (overwritten)
             untrack(() => {
-                if (announcer?.announce) {
-                    announcer.announce(
+                if ($announce) {
+                    $announce(
                         project.getID(),
                         $locales.getLanguages()[0],
                         $locales.get((l) => l.ui.source.overwritten),
@@ -1500,8 +1488,6 @@
 {#if warn}
     <Moderation {project} />
 {/if}
-<!-- Render a live region with announcements as soon as possible -->
-<Announcer bind:this={announcer} />
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <div

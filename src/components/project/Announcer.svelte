@@ -7,7 +7,7 @@
     const delay = 200;
 
     /** A function we expose to other components to announce things with this component. */
-    function announce(
+    export function announce(
         id: string,
         language: LanguageCode | undefined,
         message: string,
@@ -21,11 +21,11 @@
         if (current === undefined || delta > delay) dequeue();
     }
 
-    let { announcer = $bindable(undefined) } = $props();
+    let { announcer: _ = $bindable(undefined) } = $props();
 
     /** Set the announcer once mounted. */
     onMount(() => {
-        announcer = announce;
+        _ = announce;
     });
 
     function dequeue() {

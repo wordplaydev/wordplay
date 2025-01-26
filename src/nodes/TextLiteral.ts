@@ -247,7 +247,7 @@ export function unescaped(text: string) {
     text = text.replaceAll('\\\\', '\\');
 
     // Then, see if there are any Unicode escapes, and replace them with the actual character.
-    for (const { concept, unicode, index } of getConcepts(text)) {
+    for (const { concept, unicode } of getConcepts(text)) {
         if (unicode) text = text.replace(concept, unicode);
     }
 

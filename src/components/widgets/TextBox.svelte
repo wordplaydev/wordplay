@@ -28,8 +28,6 @@
     let view: HTMLTextAreaElement | undefined = $state();
     let focused = $state(false);
 
-    let timeout: NodeJS.Timeout | undefined = undefined;
-
     /** The message to display if invalid */
     let message = $derived.by(() => {
         if (validator) {

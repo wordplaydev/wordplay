@@ -3,7 +3,6 @@ import toStructure from '../basis/toStructure';
 import type Value from '@values/Value';
 import Valued, { getOutputInputs } from './Valued';
 import { toDecimal } from './Stage';
-import ColorJS from 'colorjs.io';
 import { TYPE_SYMBOL } from '@parser/Symbols';
 import { getBind } from '@locale/getBind';
 import Evaluate from '../nodes/Evaluate';
