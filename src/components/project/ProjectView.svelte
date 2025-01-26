@@ -148,7 +148,7 @@
     import Evaluate from '@nodes/Evaluate';
     import { page } from '$app/stores';
     import type Caret from '../../edit/Caret';
-    import CharacterChooser from '../editor/CharacterChooser.svelte';
+    import CharacterChooser from '../editor/GlyphChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import {
