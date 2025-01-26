@@ -79,9 +79,6 @@ const PathSchema = z.object({
     angle: z.number().optional(), // degrees rotated around the center
     // Whether the path is closed by connecting the last point to the first
     closed: z.boolean(),
-    // Whether the path is curved. If it is, we treat all points as quadratic Béziers, with control points inferred.
-    // See: https://developer.mozilla.org/en-US/docs/Web/SVG/Tutorial/Paths
-    curved: z.boolean(),
 });
 export type CharacterPath = z.infer<typeof PathSchema>;
 
@@ -242,10 +239,7 @@ function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
 
 function pathToSVG(path: CharacterPath, selected: boolean = false): string {
     const points = path.points
-        .map(
-            ({ x, y }, index) =>
-                `${index > 0 ? (path.curved ? 'T' : 'L') : ''} ${x} ${y}`,
-        )
+        .map(({ x, y }, index) => `${index > 0 ? 'L' : ''} ${x} ${y}`)
         .join(' ');
 
     const selectedStrokeWidth = Math.max(

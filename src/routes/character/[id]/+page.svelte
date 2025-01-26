@@ -47,8 +47,6 @@
             };
             /** Closed path label */
             closed: string;
-            /** Curved path label */
-            curved: string;
         };
         button: {
             /** The move selection back button */
@@ -573,7 +571,6 @@
                 { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
             ],
             closed: currentClosed,
-            curved: currentCurved,
             ...(currentFillSetting !== undefined && {
                 fill: getCurrentFill(),
             }),
@@ -1417,45 +1414,6 @@
                         (l) => l.ui.page.character.field.closed,
                     )}
                 </label>
-                <label>
-                    <Checkbox
-                        id="curved-path"
-                        bind:on={() => {
-                            // If there's a selection and they have the same curved state, show that, otherwise show the current curved value.
-                            const curves = [
-                                ...new Set(
-                                    selection
-                                        .filter((s) => s.type === 'path')
-                                        .map((s) => s.curved),
-                                ),
-                            ];
-                            return (
-                                (curves.length === 1 ? curves[0] : undefined) ??
-                                currentCurved
-                            );
-                        },
-                        (on) => {
-                            // If there's a selection, update the value for all selected shapes.
-                            if (selection.length > 0) {
-                                // Update any selected shape's curved state
-                                for (const shape of selection)
-                                    if (
-                                        shape.type === 'path' &&
-                                        on !== undefined
-                                    )
-                                        shape.curved = on;
-                                setShapes([...shapes]);
-                            }
-                            // Otherwise update the current curved value.
-                            else currentCurved = on;
-                        }}
-                        label={$locales.get(
-                            (l) => l.ui.page.character.field.curved,
-                        )}
-                    ></Checkbox>{$locales.get(
-                        (l) => l.ui.page.character.field.curved,
-                    )}</label
-                >
             {/if}
         {/if}
     </div>

@@ -4919,8 +4919,7 @@
                         "label": "angle",
                         "tip": "how much to rotate the shape around its center"
                     },
-                    "closed": "connect first and last points",
-                    "curved": "curved"
+                    "closed": "connected"
                 },
                 "button": {
                     "back": {
