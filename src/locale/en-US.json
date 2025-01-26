@@ -4919,6 +4919,14 @@
                         "label": "angle",
                         "tip": "how much to rotate the shape around its center"
                     },
+                    "width": {
+                        "label": "width",
+                        "tip": "how wide the shape is"
+                    },
+                    "height": {
+                        "label": "height",
+                        "tip": "how tall the shape is"
+                    },
                     "closed": "connected"
                 },
                 "button": {

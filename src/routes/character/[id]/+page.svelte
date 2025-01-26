@@ -45,6 +45,16 @@
                 label: string;
                 tip: string;
             };
+            /** Width slider */
+            width: {
+                label: string;
+                tip: string;
+            };
+            /** Height slider */
+            height: {
+                label: string;
+                tip: string;
+            };
             /** Closed path label */
             closed: string;
         };
@@ -1095,6 +1105,41 @@
     </style>
 {/snippet}
 
+{#snippet sizeSlider(width: boolean)}
+    <Slider
+        label={width
+            ? $locales.get((l) => l.ui.page.character.field.width.label)
+            : $locales.get((l) => l.ui.page.character.field.height.label)}
+        tip={width
+            ? $locales.get((l) => l.ui.page.character.field.width.tip)
+            : $locales.get((l) => l.ui.page.character.field.height.tip)}
+        min={1}
+        max={CharacterSize}
+        increment={1}
+        precision={1}
+        unit={''}
+        bind:value={() => {
+            const widths = [
+                ...new Set(
+                    selection
+                        .filter(
+                            (s) => s.type === 'rect' || s.type === 'ellipse',
+                        )
+                        .map((s) => (width ? s.width : s.height)),
+                ),
+            ];
+            return widths[0];
+        },
+        (val) => {
+            for (const shape of selection)
+                if (shape.type === 'rect' || shape.type === 'ellipse')
+                    if (width) shape.width = val;
+                    else shape.height = val;
+        }}
+        release={() => setShapes([...shapes])}
+    ></Slider>
+{/snippet}
+
 <!-- The palette -->
 {#snippet palette()}
     <div class="palette">
@@ -1299,6 +1344,11 @@
             {/if}
             {#if mode !== DrawingMode.Pixel}
                 <h3>{$locales.get((l) => l.ui.page.character.shape.shape)}</h3>
+            {/if}
+            <!-- Only rects and radii have a width and height -->
+            {#if selection.every((s) => s.type === 'rect' || s.type === 'ellipse')}
+                {@render sizeSlider(true)}
+                {@render sizeSlider(false)}
             {/if}
             <!-- Only rectangles have a radius -->
             {#if mode === DrawingMode.Rect || selection.some((s) => s.type === 'rect')}
