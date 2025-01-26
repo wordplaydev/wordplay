@@ -1160,8 +1160,11 @@
                 (l) => l.ui.page.character.field.fill,
                 (choice) => {
                     currentFillSetting = choice;
-                    for (const shape of selection)
-                        shape.fill = getCurrentFill();
+                    const fill = getCurrentFill();
+                    for (const shape of selection) {
+                        if (fill) shape.fill = fill;
+                        else delete shape.fill;
+                    }
                     setShapes([...shapes]);
                 },
                 (color) => {
@@ -1235,10 +1238,10 @@
                     tip={$locales.get(
                         (l) => l.ui.page.character.field.strokeWidth.tip,
                     )}
-                    min={0}
+                    min={0.5}
                     max={3}
-                    increment={0.1}
-                    precision={1}
+                    increment={0.25}
+                    precision={2}
                     unit={''}
                     bind:value={() => {
                         const widths = [
