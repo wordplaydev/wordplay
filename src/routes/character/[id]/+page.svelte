@@ -165,7 +165,7 @@
     let historyIndex = $state(0);
 
     /** The current drawing mode of the editor*/
-    let mode: DrawingMode = $state(0);
+    let mode: DrawingMode = $state(DrawingMode.Pixel);
 
     /** The current selection of shapes, just pointers to the object, since we will mutate them. */
     let selection: CharacterShape[] = $state([]);
