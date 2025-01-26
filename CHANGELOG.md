@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.14.3 2024-01-25
 
+### Added
+
+- Added a slightly more organized glyph chooser, exposing emojis and improving layout.
+
 ### Fixed
 
 - Handled inconsistent cross-platform firing of `compositionend` events
