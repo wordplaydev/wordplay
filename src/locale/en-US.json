@@ -4864,7 +4864,7 @@
                 "prompt": "Create an emoji or symbol with shapes and pixels.",
                 "instructions": {
                     "empty": "Choose a drawing mode in the palette to create shapes.",
-                    "unselected": "Select shapes with your pointer.",
+                    "unselected": "Choose a drawing mode or select and edit shapes.",
                     "selected": "Use the *arrow* keys to move shapes. Hold *shift* to add more shapes to a selection. Use *delete* to remove the selection. Use the controls below to change the selected shapes.",
                     "pixel": "To draw pixels, choose a color. Then, click the canvas or use the *arrows* to move the cursor and *space* to create a pixel.",
                     "rect": "To draw rectangles, choose a color and stroke. Then, click and drag, or use the *arrows* and *space* key to choose a center and size.",

@@ -155,6 +155,9 @@
 
     <div class="slider">
         <Slider
+            label={$locales.get((l) =>
+                getFirstName(l.output.Color.lightness.names),
+            )}
             value={lightness}
             min={0}
             max={1}
@@ -171,6 +174,9 @@
             {editable}
         />
         <Slider
+            label={$locales.get((l) =>
+                getFirstName(l.output.Color.chroma.names),
+            )}
             value={chroma}
             min={0}
             max={150}
@@ -184,6 +190,7 @@
             {editable}
         />
         <Slider
+            label={$locales.get((l) => getFirstName(l.output.Color.hue.names))}
             value={hue}
             min={0}
             max={360}
@@ -221,6 +228,10 @@
 
     .slider {
         flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: var(--wordplay-spacing);
     }
 
     .band {

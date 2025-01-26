@@ -1428,6 +1428,30 @@
                 ></Slider>
             {/if}
             {#if mode === DrawingMode.Path || selection.some((s) => s.type === 'path')}
+                <Button
+                    tip={$locales.get(
+                        (l) => l.ui.page.character.button.horizontal.tip,
+                    )}
+                    action={() => flip('horizontal')}
+                    active={selection.some((s) => s.type === 'path')}
+                >
+                    ↔
+                    {$locales.get(
+                        (l) => l.ui.page.character.button.horizontal.label,
+                    )}
+                </Button>
+                <Button
+                    tip={$locales.get(
+                        (l) => l.ui.page.character.button.vertical.tip,
+                    )}
+                    action={() => flip('vertical')}
+                    active={selection.some((s) => s.type === 'path')}
+                >
+                    ↕
+                    {$locales.get(
+                        (l) => l.ui.page.character.button.vertical.label,
+                    )}
+                </Button>
                 <label>
                     <Checkbox
                         id="closed-path"
@@ -1472,7 +1496,6 @@
         .palette {
             min-width: 10em;
             width: 40vw;
-            max-width: 20em;
             display: flex;
             flex-direction: column;
             gap: calc(2 * var(--wordplay-spacing));
@@ -1550,22 +1573,6 @@
                 (l) => l.ui.page.character.button.toFront.label,
             )}</Button
         >
-        <Button
-            tip={$locales.get((l) => l.ui.page.character.button.horizontal.tip)}
-            action={() => flip('horizontal')}
-            active={selection.some((s) => s.type === 'path')}
-        >
-            ↔
-            {$locales.get((l) => l.ui.page.character.button.horizontal.label)}
-        </Button>
-        <Button
-            tip={$locales.get((l) => l.ui.page.character.button.vertical.tip)}
-            action={() => flip('vertical')}
-            active={selection.some((s) => s.type === 'path')}
-        >
-            ↕
-            {$locales.get((l) => l.ui.page.character.button.vertical.label)}
-        </Button>
         <Button
             tip={$locales.get((l) => l.ui.page.character.button.copy.tip)}
             action={copyShapes}
