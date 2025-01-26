@@ -12,7 +12,7 @@
 import { LCHtoRGB } from '@output/Color';
 import z from 'zod';
 
-const PointSchema = z.array(z.number()).nonempty().length(2);
+const PointSchema = z.object({ x: z.number(), y: z.number() });
 type Point = z.infer<typeof PointSchema>;
 
 const SizeSchema = z.object({
@@ -166,8 +166,8 @@ function rectToSVG(
 ): string {
     const selectionStrokeWidth = rect.stroke?.width ?? SelectionStrokeWidth;
     return tag('rect', {
-        x: rect.center[0] - rect.width / 2,
-        y: rect.center[1] - rect.height / 2,
+        x: rect.center.x - rect.width / 2,
+        y: rect.center.y - rect.height / 2,
         width: rect.width,
         height: rect.height,
         rx: rect.corner,
@@ -186,7 +186,7 @@ function rectToSVG(
             : undefined,
         transform:
             'angle' in rect
-                ? `rotate(${rect.angle}, ${rect.center[0]}, ${rect.center[1]})`
+                ? `rotate(${rect.angle}, ${rect.center.x}, ${rect.center.y})`
                 : undefined,
     });
 }
@@ -198,8 +198,8 @@ function ellipseToSVG(
     const selectionStrokeWidth = ellipse.stroke?.width ?? SelectionStrokeWidth;
     return tag('ellipse', {
         class: selected ? 'selected' : undefined,
-        cx: ellipse.center[0],
-        cy: ellipse.center[1],
+        cx: ellipse.center.x,
+        cy: ellipse.center.y,
         rx: ellipse.width / 2,
         ry: ellipse.height / 2,
         fill: colorToSVG(ellipse.fill),
@@ -216,7 +216,7 @@ function ellipseToSVG(
             ? `${selectionStrokeWidth},${selectionStrokeWidth / 2}`
             : undefined,
         transform: ellipse.angle
-            ? `rotate(${ellipse.angle}, ${ellipse.center[0]}, ${ellipse.center[1]})`
+            ? `rotate(${ellipse.angle}, ${ellipse.center.x}, ${ellipse.center.y})`
             : undefined,
     });
 }
@@ -224,8 +224,8 @@ function ellipseToSVG(
 function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
     return tag('rect', {
         class: selected ? 'selected' : undefined,
-        x: pixel.center[0],
-        y: pixel.center[1],
+        x: pixel.center.x,
+        y: pixel.center.y,
         width: 1,
         height: 1,
         fill: colorToSVG(pixel.fill),
@@ -237,7 +237,7 @@ function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
 function pathToSVG(path: CharacterPath, selected: boolean = false): string {
     const points = path.points
         .map(
-            ([x, y], index) =>
+            ({ x, y }, index) =>
                 `${index > 0 ? (path.curved ? 'T' : 'L') : ''} ${x} ${y}`,
         )
         .join(' ');
@@ -265,7 +265,7 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
             ? `${selectedStrokeWidth},${selectedStrokeWidth / 2}`
             : undefined,
         transform: path.angle
-            ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x[0], 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x[1], 0) / path.points.length})`
+            ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x.x, 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x.y, 0) / path.points.length})`
             : undefined,
     });
 }
@@ -294,8 +294,8 @@ export function pixelsAreEqual(
     two: CharacterPixel,
 ): boolean {
     return (
-        one.center[0] === two.center[0] &&
-        one.center[1] === two.center[1] &&
+        one.center.x === two.center.x &&
+        one.center.y === two.center.y &&
         ((!('fill' in one) && !('fill' in two)) ||
             (one.fill === null && two.fill === null) ||
             (one.fill !== null &&
@@ -334,12 +334,12 @@ export function getSharedColor(
 export function getPathCenter(path: CharacterPath): Point {
     // Compute the center
     const center = path.points.reduce(
-        (sum, [x, y]) => [sum[0] + x, sum[1] + y],
-        [0, 0],
+        (sum, { x, y }) => ({ x: sum.x + x, y: sum.y + y }),
+        { x: 0, y: 0 },
     );
     // Divide by the number of points to get the center
-    center[0] /= path.points.length;
-    center[1] /= path.points.length;
+    center.x /= path.points.length;
+    center.y /= path.points.length;
     return center;
 }
 
@@ -356,31 +356,31 @@ export function moveShape(
         case 'ellipse':
         case 'pixel':
             if (set == 'move') {
-                shape.center[0] = x;
-                shape.center[1] = y;
+                shape.center.x = x;
+                shape.center.y = y;
             } else {
-                shape.center[0] += x;
-                shape.center[1] += y;
+                shape.center.x += x;
+                shape.center.y += y;
             }
         // This one requires moving all the points.
         case 'path':
             if (shape.type === 'path') {
                 // Compute the center
                 const center = shape.points.reduce(
-                    (sum, [x, y]) => [sum[0] + x, sum[1] + y],
-                    [0, 0],
+                    (sum, { x, y }) => ({ x: sum.x + x, y: sum.y + y }),
+                    { x: 0, y: 0 },
                 );
                 // Divide by the number of points to get the center
-                center[0] /= shape.points.length;
-                center[1] /= shape.points.length;
+                center.x /= shape.points.length;
+                center.y /= shape.points.length;
 
                 for (const point of shape.points) {
                     if (set === 'move') {
-                        point[0] = x + (point[0] - center[0]);
-                        point[1] = y + (point[1] - center[1]);
+                        point.x = x + (point.x - center.x);
+                        point.y = y + (point.y - center.y);
                     } else {
-                        point[0] += x;
-                        point[1] += y;
+                        point.x += x;
+                        point.y += y;
                     }
                 }
             }

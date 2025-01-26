@@ -316,13 +316,15 @@
      * */
     $effect(() => {
         // IF th
-        if (editedCharacter && typeof persisted !== 'string')
+        if (editedCharacter && typeof persisted !== 'string') {
+            console.log('Updating');
             untrack(() =>
                 CharactersDB.updateCharacter(
                     $state.snapshot(editedCharacter) as Character,
                     true,
                 ),
             );
+        }
     });
 
     /** When the page loads or its id changes, load the persisted character */
@@ -460,7 +462,7 @@
     function setPixel() {
         const candidate: CharacterPixel = {
             type: 'pixel',
-            center: [drawingCursorPosition.x, drawingCursorPosition.y],
+            center: { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
             fill: currentFillSetting === undefined ? null : { ...currentFill },
         };
         const match = shapes
@@ -475,8 +477,8 @@
                 .filter(
                     (s) =>
                         s.type !== 'pixel' ||
-                        s.center[0] !== drawingCursorPosition.x ||
-                        s.center[1] !== drawingCursorPosition.y,
+                        s.center.x !== drawingCursorPosition.x ||
+                        s.center.y !== drawingCursorPosition.y,
                 ),
             candidate,
         ]);
@@ -506,7 +508,10 @@
         return {
             ...{
                 type: 'rect',
-                center: [drawingCursorPosition.x, drawingCursorPosition.y],
+                center: {
+                    x: drawingCursorPosition.x,
+                    y: drawingCursorPosition.y,
+                },
                 width: 1,
                 height: 1,
             },
@@ -526,12 +531,12 @@
         // Update the pending rect's dimensions to the current pointer position.
         pendingRectOrEllipse.width = Math.max(
             1,
-            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.center[0]) *
+            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.center.x) *
                 2,
         );
         pendingRectOrEllipse.height = Math.max(
             1,
-            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.center[1]) *
+            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.center.y) *
                 2,
         );
     }
@@ -540,7 +545,10 @@
         return {
             ...{
                 type: 'ellipse',
-                center: [drawingCursorPosition.x, drawingCursorPosition.y],
+                center: {
+                    x: drawingCursorPosition.x,
+                    y: drawingCursorPosition.y,
+                },
                 width: 1,
                 height: 1,
             },
@@ -557,7 +565,9 @@
     function getCurrentPath(): CharacterPath {
         return {
             type: 'path',
-            points: [[drawingCursorPosition.x, drawingCursorPosition.y]],
+            points: [
+                { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
+            ],
             closed: currentClosed,
             curved: currentCurved,
             ...(currentFillSetting !== undefined && {
@@ -575,13 +585,13 @@
         const last = pendingPath.points[pendingPath.points.length - 1];
         // Different point than the last? Record it.
         if (
-            last[0] !== drawingCursorPosition.x &&
-            last[1] !== drawingCursorPosition.y
+            last.x !== drawingCursorPosition.x &&
+            last.y !== drawingCursorPosition.y
         )
-            pendingPath.points.push([
-                drawingCursorPosition.x,
-                drawingCursorPosition.y,
-            ]);
+            pendingPath.points.push({
+                x: drawingCursorPosition.x,
+                y: drawingCursorPosition.y,
+            });
     }
 
     function addShapes(newShapes: CharacterShape | CharacterShape[]) {
@@ -752,6 +762,8 @@
                     if (pendingPath) {
                         selection = [pendingPath];
                         pendingPath = undefined;
+                        // Mark history
+                        setShapes([...shapes]);
                         mode = DrawingMode.Select;
                         event.stopPropagation();
                         return;
@@ -899,15 +911,15 @@
                         case 'ellipse':
                         case 'pixel':
                             dragOffsets.push({
-                                x: x - shape.center[0],
-                                y: y - shape.center[1],
+                                x: x - shape.center.x,
+                                y: y - shape.center.y,
                             });
                         case 'path':
                             if (shape.type === 'path') {
                                 const center = getPathCenter(shape);
                                 dragOffsets.push({
-                                    x: x - center[0],
-                                    y: y - center[1],
+                                    x: x - center.x,
+                                    y: y - center.y,
                                 });
                             }
                     }
