@@ -53,8 +53,12 @@
         button: {
             /** The move selection back button */
             back: ButtonText;
+            /** The move to back button */
+            toBack: ButtonText;
             /** The move selection forward button */
             forward: ButtonText;
+            /** The move to front button */
+            toFront: ButtonText;
             /** Copy button text */
             copy: ButtonText;
             /** Paste button text */
@@ -892,12 +896,18 @@
         }
     }
 
-    function arrange(direction: 'back' | 'forward') {
+    function arrange(direction: 'back' | 'toBack' | 'forward' | 'toFront') {
         // Move each shape forward or backward in the shape list.
-        for (const shape of selection) {
+        for (const shape of selection.toReversed()) {
             const currentIndex = shapes.findIndex((s) => s === shape);
             const newIndex =
-                direction === 'back' ? currentIndex - 1 : currentIndex + 1;
+                direction === 'toBack'
+                    ? 0
+                    : direction === 'toFront'
+                      ? shapes.length - 1
+                      : direction === 'back'
+                        ? currentIndex - 1
+                        : currentIndex + 1;
             if (newIndex >= 0 && newIndex < shapes.length) {
                 const newShapes = [...shapes];
                 newShapes.splice(currentIndex, 1);
@@ -1360,13 +1370,6 @@
             {$locales.get((l) => l.ui.page.character.button.redo.label)}
         </Button>
         <Button
-            tip={$locales.get((l) => l.ui.page.character.button.back.tip)}
-            action={() => arrange('back')}
-            active={selection.length > 0 && shapes.length > 1}
-            >{SHARE_SYMBOL}
-            {$locales.get((l) => l.ui.page.character.button.back.label)}</Button
-        >
-        <Button
             tip={$locales.get((l) => l.ui.page.character.button.all.tip)}
             action={() => selectAll()}
             active={shapes.length > 0}
@@ -1375,12 +1378,37 @@
             {$locales.get((l) => l.ui.page.character.button.all.label)}
         </Button>
         <Button
+            tip={$locales.get((l) => l.ui.page.character.button.toBack.tip)}
+            action={() => arrange('toBack')}
+            active={selection.length > 0 && shapes.length > 1}
+            >⇡
+            {$locales.get(
+                (l) => l.ui.page.character.button.toBack.label,
+            )}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.back.tip)}
+            action={() => arrange('back')}
+            active={selection.length > 0 && shapes.length > 1}
+            >{SHARE_SYMBOL}
+            {$locales.get((l) => l.ui.page.character.button.back.label)}</Button
+        >
+        <Button
             tip={$locales.get((l) => l.ui.page.character.button.forward.tip)}
             action={() => arrange('forward')}
             active={selection.length > 0 && shapes.length > 1}
             >{BORROW_SYMBOL}
             {$locales.get(
                 (l) => l.ui.page.character.button.forward.label,
+            )}</Button
+        >
+        <Button
+            tip={$locales.get((l) => l.ui.page.character.button.toFront.tip)}
+            action={() => arrange('toFront')}
+            active={selection.length > 0 && shapes.length > 1}
+            >⇡
+            {$locales.get(
+                (l) => l.ui.page.character.button.toFront.label,
             )}</Button
         >
         <Button

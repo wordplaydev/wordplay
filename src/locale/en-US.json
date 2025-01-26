@@ -4927,9 +4927,17 @@
                         "label": "back",
                         "tip": "Move selected shapes behind."
                     },
+                    "toBack": {
+                        "label": "to back",
+                        "tip": "Move selected shapes to the back."
+                    },
                     "forward": {
                         "label": "forward",
                         "tip": "Move selected shapes in front."
+                    },
+                    "toFront": {
+                        "label": "to front",
+                        "tip": "Move selected shapes to the front."
                     },
                     "copy": {
                         "label": "copy",
