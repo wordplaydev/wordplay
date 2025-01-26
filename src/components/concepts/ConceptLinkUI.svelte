@@ -26,12 +26,16 @@
 
     /** The different types of matches we can find */
     type Match =
+        // A concept and its optional container.
         | {
               concept: Concept;
               container?: Concept | undefined;
           }
+        // A unicode string
         | { unicode: string }
+        // A reference something in the UI
         | { ui: string }
+        // A custom character name
         | { character: string }
         | undefined;
 
@@ -100,6 +104,7 @@
                 }
             }
 
+            // No other matches? Return a character.
             return { character: id };
         }
     });

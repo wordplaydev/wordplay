@@ -143,9 +143,9 @@
     import Spinning from '@components/app/Spinning.svelte';
     import Locales from '@locale/Locales';
     import RootView from '@components/project/RootView.svelte';
-    import parseProgram, { toProgram } from '@parser/parseProgram';
-    import { getCodepointFromString } from '../../../unicode/Unicode';
+    import { toProgram } from '@parser/parseProgram';
     import { HexRegEx } from '@nodes/ConceptLink';
+    import { Basis } from '@basis/Basis';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -1002,7 +1002,9 @@
                     {@html characterToSVG(editedCharacter, '32px')}
                 </div>
                 <RootView
-                    node={toProgram(`Phrase(\`@${name}\`)`)}
+                    node={toProgram(
+                        `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${name}\`)`,
+                    )}
                     inline
                     blocks={false}
                 />
