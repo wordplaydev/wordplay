@@ -180,9 +180,9 @@ function rectToSVG(
               : undefined,
         'stroke-width':
             rect.stroke?.width ?? (selected ? selectionStrokeWidth : undefined),
-        'stroke-linecap': selected ? 'butt' : 'round',
+        'stroke-linecap': 'round',
         'stroke-dasharray': selected
-            ? `${selectionStrokeWidth},${selectionStrokeWidth / 2}`
+            ? `${selectionStrokeWidth / 10},${selectionStrokeWidth}`
             : undefined,
         transform:
             'angle' in rect
@@ -211,9 +211,9 @@ function ellipseToSVG(
         'stroke-width':
             ellipse.stroke?.width ??
             (selected ? selectionStrokeWidth : undefined),
-        'stroke-linecap': selected ? 'butt' : 'round',
+        'stroke-linecap': 'round',
         'stroke-dasharray': selected
-            ? `${selectionStrokeWidth},${selectionStrokeWidth / 2}`
+            ? `${selectionStrokeWidth / 10},${selectionStrokeWidth}`
             : undefined,
         transform: ellipse.angle
             ? `rotate(${ellipse.angle}, ${ellipse.center.x}, ${ellipse.center.y})`
@@ -260,9 +260,9 @@ function pathToSVG(path: CharacterPath, selected: boolean = false): string {
               : undefined,
         'stroke-width':
             path.stroke?.width ?? (selected ? selectedStrokeWidth : undefined),
-        'stroke-linecap': selected ? 'butt' : 'round',
+        'stroke-linecap': 'round',
         'stroke-dasharray': selected
-            ? `${selectedStrokeWidth},${selectedStrokeWidth / 2}`
+            ? `${selectedStrokeWidth / 10},${selectedStrokeWidth}`
             : undefined,
         transform: path.angle
             ? `rotate(${path.angle}, ${path.points.reduce((sum, x) => sum + x.x, 0) / path.points.length}, ${path.points.reduce((sum, x) => sum + x.y, 0) / path.points.length})`

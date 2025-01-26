@@ -317,7 +317,6 @@
     $effect(() => {
         // IF th
         if (editedCharacter && typeof persisted !== 'string') {
-            console.log('Updating');
             untrack(() =>
                 CharactersDB.updateCharacter(
                     $state.snapshot(editedCharacter) as Character,
@@ -1375,7 +1374,7 @@
                                     )
                                         shape.closed = on;
                                 setShapes([...shapes]);
-                            } else currentCurved = on;
+                            } else currentClosed = on;
                         }}
                         label={$locales.get(
                             (l) => l.ui.page.character.field.closed,
