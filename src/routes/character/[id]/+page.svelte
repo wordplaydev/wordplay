@@ -237,9 +237,6 @@
     /** The closed path state */
     let currentClosed = $state(true);
 
-    /** The curved path state */
-    let currentCurved = $state(false);
-
     /** The HTML element of the canvas */
     let canvasView: HTMLDivElement | null = $state(null);
 
@@ -1669,8 +1666,8 @@
                         description={$locales.get(
                             (l) => l.ui.page.character.field.name.description,
                         )}
-                        done={() => {}}
                         validator={validName}
+                        editable={!isPublic}
                     ></TextField>
                 </h1>
                 {#if error}
@@ -1684,7 +1681,7 @@
                         blocks={false}
                     />
                 {/if}
-                <TextBox
+                <TextField
                     id="character-description"
                     bind:text={description}
                     placeholder={$locales.get(
@@ -1695,9 +1692,8 @@
                         (l) =>
                             l.ui.page.character.field.description.description,
                     )}
-                    done={() => {}}
                     validator={validDescription}
-                ></TextBox>
+                ></TextField>
             </div>
 
             <div class="editor">
