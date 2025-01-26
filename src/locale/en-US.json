@@ -4906,7 +4906,7 @@
                         "modes": ["none", "inerit", "choose"]
                     },
                     "none": "none",
-                    "inherit": "inherit",
+                    "inherit": "text color",
                     "strokeWidth": {
                         "label": "stroke width",
                         "tip": "how wide the stroke is rendered"
