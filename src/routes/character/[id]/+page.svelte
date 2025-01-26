@@ -1126,10 +1126,23 @@
         ></MarkupHtmlView>
 
         {#if mode !== DrawingMode.Select || selection.length > 0}
+            {@const selectedFillStates = Array.from(
+                new Set(
+                    selection.map((s) =>
+                        'fill' in s
+                            ? s.fill === null
+                                ? 'inherit'
+                                : 'set'
+                            : 'none',
+                    ),
+                ),
+            )}
             <!-- All shapes have fills -->
             {@render colorChooser(
                 $locales,
-                currentFillSetting,
+                selectedFillStates.length === 1
+                    ? selectedFillStates[0]
+                    : currentFillSetting,
                 // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
                 getSharedColor(selection.map((s) => s.fill)) ?? currentFill,
                 mode !== DrawingMode.Pixel,
@@ -1149,9 +1162,24 @@
             )}
             <!-- All shapes except pixels have strokes -->
             {#if mode !== DrawingMode.Pixel || selection.some((s) => s.type !== 'pixel')}
+                {@const selectedStrokeColors = Array.from(
+                    new Set(
+                        selection.map((s) =>
+                            'stroke' in s
+                                ? s.stroke === null
+                                    ? 'inherit'
+                                    : 'set'
+                                : 'none',
+                        ),
+                    ),
+                )}
+
                 {@render colorChooser(
                     $locales,
-                    currentStrokeSetting,
+                    // The current color setting for the stroke should be be based on the selection, if all items have the same setting
+                    selectedStrokeColors.length === 1
+                        ? selectedStrokeColors[0]
+                        : currentStrokeSetting,
                     // If there's a selection that all has the same color, show the color, otherwise show the current fill color.
                     getSharedColor(
                         selection
@@ -1163,9 +1191,12 @@
                     (choice) => {
                         currentStrokeSetting = choice;
                         if (selection.length > 0) {
+                            const newStroke = getCurrentStroke();
                             for (const shape of selection)
-                                if (shape.type !== 'pixel')
-                                    shape.stroke = getCurrentStroke();
+                                if (shape.type !== 'pixel') {
+                                    if (newStroke) shape.stroke = newStroke;
+                                    else delete shape.stroke;
+                                }
                             setShapes([...shapes]);
                         }
                     },
