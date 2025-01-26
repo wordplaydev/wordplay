@@ -1104,7 +1104,7 @@
         <h2>{$locales.get((l) => l.ui.page.character.field.mode).label}</h2>
         <Mode
             descriptions={$locales.get((l) => l.ui.page.character.field.mode)}
-            modes={['👆', '■', '🔲', '⚪️', '∿∿']}
+            modes={['👆', '■', '🔲', '⚪️', '╱']}
             choice={mode}
             select={(choice: number) => {
                 mode = choice as DrawingMode;
