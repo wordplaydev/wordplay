@@ -813,11 +813,16 @@
 
     function endPath() {
         if (pendingPath) {
-            selection = [pendingPath];
-            pendingPath = undefined;
-            // Mark history
-            setShapes([...shapes]);
-            mode = DrawingMode.Select;
+            if (pendingPath.points.length < 2) {
+                setShapes(shapes.filter((s) => s !== pendingPath));
+                pendingPath = undefined;
+            } else {
+                selection = [pendingPath];
+                pendingPath = undefined;
+                // Mark history
+                setShapes([...shapes]);
+                mode = DrawingMode.Select;
+            }
         }
     }
 
