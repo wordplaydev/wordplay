@@ -330,7 +330,10 @@
         event.stopPropagation();
         tick().then(() => {
             const newFocus = focusView ?? nextButton;
-            if (newFocus)
+            if (
+                document.activeElement === document.body &&
+                newFocus !== undefined
+            )
                 setKeyboardFocus(
                     newFocus,
                     'Body received focus, focusing tutorial.',
