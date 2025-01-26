@@ -1001,7 +1001,7 @@
                 <div class="preview">
                     {@html characterToSVG(editedCharacter, '32px')}
                 </div>
-                {#if name.length > 0}
+                {#if validName(name) === true}
                     <RootView
                         node={toProgram(
                             `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${name}\`)`,
