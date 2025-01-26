@@ -372,6 +372,9 @@
         // Update the shapes.
         shapes = newShapes;
 
+        // Remove any selection that's no longer in the shapes.
+        selection = selection.filter((s) => shapes.includes(s));
+
         // Clone the current shapes and add them to the history the shapes to the history
         history = [
             ...history,
