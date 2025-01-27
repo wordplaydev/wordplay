@@ -4878,7 +4878,10 @@
                 "publish": {
                     "dialog": {
                         "header": "Publish",
-                        "explanation": "You can use your character in your projects without publishing. Publishing allows *anyone* to use your character in their projects. Once you do, you won't be able to edit it, so be sure you're ready!"
+                        "explanation": [
+                            "You can use your character in your projects without publishing.",
+                            "However, if you want *anyone* to be able to use your character, you can *publish* it. Once you do, you won't be able to edit it, so be sure you're ready!"
+                        ]
                     },
                     "button": {
                         "label": "publish",
