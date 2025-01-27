@@ -69,7 +69,7 @@
         "Light": "light",
         "Bold": "bold",
         "Extra": "extra",
-        "Concept": "concept link",
+        "Concept": "character link",
         "URL": "URL",
         "Mention": "mention",
         "Otherwise": "otherwise",
@@ -300,13 +300,13 @@
             ]
         },
         "ConceptLink": {
-            "name": "concept",
-            "description": "concept $1",
+            "name": "character",
+            "description": "character $1",
             "emotion": "serious",
             "doc": [
                 "I'm a link to Verse character. I'm helpful when you want to write a @Doc and refer to one of us.",
                 "For example, say you wanted to talk about @Evaluate, and how awesome they are. You could write:",
-                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a concept link!'\\",
+                "\\¶You know, @Evaluate is pretty awesome.¶\n'look, a character link!'\\",
                 "Characters also have numbers that correspond to them. For exmple, @FunctionDefinition is 192. You can refer to them by number and they'll appear:",
                 "\\`@192 is so nice!`\\",
                 "And if you make your own character, you can refer to them by the name you gave them.",
@@ -4378,7 +4378,7 @@
         },
         "docs": {
             "label": "docuemntation browser",
-            "link": "show concept $1 in documentation",
+            "link": "show character $1 in documentation",
             "learn": "learn more …",
             "nodoc": "Who am I? What am I? What is my purpose?",
             "button": {
@@ -4386,7 +4386,7 @@
                 "back": "return to previous"
             },
             "field": {
-                "search": "search for concepts with words"
+                "search": "keywords"
             },
             "header": {
                 "inputs": "Inputs",
@@ -4801,7 +4801,7 @@
             },
             "guide": {
                 "header": "Guide",
-                "description": "This is a reference for every part of the Wordplay programming language. Search for a concept or browse the list to learn more."
+                "description": "This is a reference for every part of the Wordplay programming language. Search for a character or browse the list to learn more."
             },
             "projects": {
                 "header": "Projects",
