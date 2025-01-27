@@ -1,5 +1,10 @@
 <script module lang="ts">
-    import type { ButtonText, FieldText, ModeText } from '@locale/UITexts';
+    import type {
+        ButtonText,
+        DialogText,
+        FieldText,
+        ModeText,
+    } from '@locale/UITexts';
     import type { Template } from '@locale/LocaleText';
     export type CharacterPageText = {
         header: string;
@@ -19,6 +24,10 @@
             rect: string;
             ellipse: string;
             path: string;
+        };
+        publish: {
+            dialog: DialogText;
+            button: ButtonText;
         };
         field: {
             name: FieldText;
@@ -101,6 +110,8 @@
             notfound: string;
             /** Not logged in */
             unauthenticated: string;
+            /** Published explanation */
+            published: string;
         };
         announce: {
             /** When cursor position changes $1 x, $2: y. */
@@ -172,6 +183,7 @@
     import { toProgram } from '@parser/parseProgram';
     import { HexRegEx } from '@nodes/ConceptLink';
     import { Basis } from '@basis/Basis';
+    import Dialog from '@components/widgets/Dialog.svelte';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -1680,11 +1692,30 @@
                             l.ui.page.character.field.description.description,
                     )}
                     validator={validDescription}
+                    editable={!isPublic}
                 ></TextField>
+                <Dialog
+                    description={$locales.get(
+                        (l) => l.ui.page.character.publish.dialog,
+                    )}
+                    button={{
+                        tip: $locales.get(
+                            (l) => l.ui.page.character.publish.button.tip,
+                        ),
+                        icon: '↗',
+                        label: $locales.get(
+                            (l) => l.ui.page.character.publish.button.label,
+                        ),
+                    }}
+                >
+                    <Feedback>Publishing is coming soon.</Feedback>
+                </Dialog>
             </div>
 
             <div class="editor">
-                {@render toolbar()}
+                {#if !isPublic}
+                    {@render toolbar()}
+                {/if}
                 <div class="content">
                     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -1748,7 +1779,15 @@
                         </div>
                     {/if}
                 </div>
-                {@render palette()}
+                {#if isPublic}
+                    <Feedback
+                        >{$locales.get(
+                            (l) => l.ui.page.character.feedback.published,
+                        )}</Feedback
+                    >
+                {:else}
+                    {@render palette()}
+                {/if}
             </div>
         {/if}
     </section>

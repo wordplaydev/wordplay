@@ -4875,6 +4875,16 @@
                     "ellipse": "ellipse",
                     "path": "path"
                 },
+                "publish": {
+                    "dialog": {
+                        "header": "Publish",
+                        "explanation": "You can use your character in your projects without publishing. Publishing allows *anyone* to use your character in their projects. Once you do, you won't be able to edit it, so be sure you're ready!"
+                    },
+                    "button": {
+                        "label": "publish",
+                        "tip": "publish this character online"
+                    }
+                },
                 "field": {
                     "name": {
                         "description": "name of the character",
@@ -4990,7 +5000,8 @@
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
                     "notfound": "This character doesn't exist.",
-                    "unauthenticated": "You must be logged in to edit a character."
+                    "unauthenticated": "You must be logged in to edit a character.",
+                    "published": "This character is published and can't be edited."
                 },
                 "announce": {
                     "position": "at $1 $2",
