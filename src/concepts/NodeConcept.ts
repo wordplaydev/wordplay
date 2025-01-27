@@ -38,15 +38,15 @@ export default class NodeConcept extends Concept {
     hasName(name: string, locales: Locales): boolean {
         if (this.template.getDescriptor() === name) return true;
 
-        const nodeLocale = this.template.getNodeLocale(locales);
         const match = locales
             .getLocales()
             .map((locale) =>
                 Object.entries(locale.node).find(
-                    ([, value]) => value === nodeLocale,
+                    ([key]) => key === this.template.getDescriptor(),
                 ),
             )
             .find((node) => node !== undefined);
+
         return match ? match[0] === name || match[1].name === name : false;
     }
 
