@@ -1,10 +1,6 @@
 <script lang="ts">
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import ConceptLink, {
-        CodepointName,
-        ConceptName,
-        UIName,
-    } from '@nodes/ConceptLink';
+    import ConceptLink, { CodepointName, UIName } from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
@@ -54,10 +50,9 @@
         // Otherwise, try to resolve the concept.
         else {
             // Parse the link
-            const id =
-                link instanceof ConceptLink
-                    ? link.parse()
-                    : new ConceptName(link.concept);
+            const id = ConceptLink.parse(
+                link instanceof ConceptLink ? link.getName() : link.concept,
+            );
 
             if (id === undefined) return undefined;
             if (id instanceof UIName || id instanceof CodepointName) return id;
@@ -158,33 +153,6 @@
     {link.concept}
 {:else}
     {link.getName($locales, true)}
-{/if}
-
-{#if concept}
-    <style>
-        .conceptlink {
-            display: inline-block;
-            font-style: normal;
-        }
-
-        .conceptlink.interactive {
-            text-decoration: underline;
-            text-decoration-color: var(--wordplay-highlight-color);
-            text-decoration-thickness: var(--wordplay-border-width);
-        }
-
-        :global(button):focus .conceptlink,
-        .conceptlink.interactive:hover {
-            cursor: pointer;
-            text-decoration-thickness: var(--wordplay-focus-width);
-        }
-
-        :global(button):focus .conceptlink {
-            background: var(--wordplay-focus-color);
-            color: var(--wordplay-background);
-            border-radius: var(--wordplay-border-radius);
-        }
-    </style>
 {/if}
 
 <style>

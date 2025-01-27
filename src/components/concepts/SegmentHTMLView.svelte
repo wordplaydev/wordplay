@@ -29,6 +29,8 @@
     }
 
     let { segment, spaces, alone }: Props = $props();
+
+    $inspect(segment, segment instanceof Example);
 </script>
 
 {#if segment instanceof WebLink}<WebLinkHTMLView link={segment} {spaces} />

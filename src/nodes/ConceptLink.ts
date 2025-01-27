@@ -67,8 +67,9 @@ export default class ConceptLink extends Content {
         return undefined;
     }
 
-    parse(): ConceptName | CodepointName | UIName | undefined {
-        const name = this.getName();
+    static parse(
+        name: string,
+    ): ConceptName | CodepointName | UIName | undefined {
         if (name.match(HexRegEx)) {
             const codepoint = getCodepointFromString(name);
             return codepoint === undefined
@@ -82,7 +83,7 @@ export default class ConceptLink extends Content {
 
     /** Is valid if it refers to a concept key in the given Locale */
     isValid(locale: LocaleText) {
-        const concept = this.parse();
+        const concept = ConceptLink.parse(this.getName());
         // Couldn't parse? Not valid.
         if (concept === undefined) return false;
         // Found a UI or codepoint? Valid.

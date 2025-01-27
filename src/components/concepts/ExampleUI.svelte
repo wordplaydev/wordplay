@@ -1,8 +1,8 @@
 <script lang="ts">
-    import { onDestroy, onMount } from 'svelte';
+    import { onMount } from 'svelte';
     import { getConceptIndex } from '../project/Contexts';
     import Project from '@db/projects/Project';
-    import type Example from '@nodes/Example';
+    import Example from '@nodes/Example';
     import Source from '@nodes/Source';
     import type Spaces from '@parser/Spaces';
     import ValueView from '../values/ValueView.svelte';
@@ -40,6 +40,9 @@
 
     onMount(() => {
         return () => {
+            // Remove the example from the index. We guard here because of a Svelte bug, which seems to change the prop to something else.
+            if (example instanceof Example)
+                index?.removeExample(example.program.expression);
             if (evaluator) {
                 evaluator.stop();
                 evaluator.ignore(update);
@@ -52,11 +55,6 @@
 
     // Keep track of the last example so we can remove it when the example changes.
     let lastExample = $state(example);
-
-    // Remove the example from the index.
-    onDestroy(() => {
-        index?.removeExample(example.program.expression);
-    });
 
     // Derive a project from the example.
     let project = $derived<Project | undefined>(
