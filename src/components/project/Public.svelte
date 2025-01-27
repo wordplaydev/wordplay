@@ -64,20 +64,13 @@
         {/each}
     </ul>
 {/if}
-<p>
-    <Mode
-        descriptions={$locales.get((l) => l.ui.dialog.share.mode.public)}
-        choice={isPublic ? 1 : 0}
-        select={set}
-        modes={[
-            '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
-            `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.dialog.share.mode.public.modes[1])}`,
-        ]}
-    /></p
->
 
-<style>
-    p {
-        margin-top: var(--wordplay-spacing);
-    }
-</style>
+<Mode
+    descriptions={$locales.get((l) => l.ui.dialog.share.mode.public)}
+    choice={isPublic ? 1 : 0}
+    select={set}
+    modes={[
+        '🤫 ' + $locales.get((l) => l.ui.dialog.share.mode.public.modes[0]),
+        `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.dialog.share.mode.public.modes[1])}`,
+    ]}
+/>
