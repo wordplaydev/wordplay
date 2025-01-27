@@ -5,6 +5,7 @@
     import { getUser } from '../project/Contexts';
     import Button from '@components/widgets/Button.svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
     const user = getUser();
     let device = $derived($user === null);
@@ -23,7 +24,7 @@
                   device
                       ? $locales.get((l) => l.ui.save.local)
                       : $locales.get((l) => l.ui.save.saved)
-              } ${device ? '🖥️' : '🌐'}`
+              } ${withMonoEmoji(device ? '🖥️' : '🌐')}`
             : $status.status === SaveStatus.Saving
               ? `${$locales.get((l) => l.ui.save.saving)} …`
               : `${$locales.get((l) => l.ui.save.unsaved)} ${CANCEL_SYMBOL}`}
