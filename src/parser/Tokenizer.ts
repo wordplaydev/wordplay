@@ -65,6 +65,7 @@ import {
 } from './Symbols';
 import TokenList from './TokenList';
 import ReservedSymbols from './ReservedSymbols';
+import { toTokens } from './toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
@@ -147,10 +148,10 @@ export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
 ).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
 
 /** The regex expression prepends a start of string modifier. */
-export const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
+const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
 
 export function isName(name: string) {
-    return NameRegEx.test(name);
+    return toTokens(name).nextAre(Sym.Name, Sym.End);
 }
 
 function escapeRegexCharacter(c: string) {

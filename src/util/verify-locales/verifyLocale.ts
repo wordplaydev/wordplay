@@ -163,7 +163,9 @@ async function checkLocale(
                 .nodes()
                 .filter(
                     (node) =>
-                        node instanceof ConceptLink && !node.isValid(revised),
+                        node instanceof ConceptLink &&
+                        !node.isValid(revised) &&
+                        /^[A-Z].+/.test(node.getName()),
                 );
 
             if (missingConcepts.length > 0)

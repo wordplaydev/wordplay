@@ -1,13 +1,16 @@
 <script lang="ts">
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import ConceptLink from '@nodes/ConceptLink';
+    import ConceptLink, {
+        CodepointName,
+        ConceptName,
+        UIName,
+    } from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
-    import { goto } from '$app/navigation';
     import CharacterView from '@components/output/CharacterView.svelte';
 
     interface Props {
@@ -32,15 +35,16 @@
               container?: Concept | undefined;
           }
         // A unicode string
-        | { unicode: string }
+        | CodepointName
         // A reference something in the UI
-        | { ui: string }
+        | UIName
         // A custom character name
         | { character: string }
         | undefined;
 
     // Derive the concept, container, and UI based on the link.
     let match: Match = $derived.by((): Match => {
+        // Already have a concept this refers to? Return it.
         if (link instanceof Concept) {
             return {
                 concept: link,
@@ -49,33 +53,23 @@
         }
         // Otherwise, try to resolve the concept.
         else {
-            // Remove the link symbol
+            // Parse the link
             const id =
-                link instanceof ConceptLink ? link.getName() : link.concept;
-            // Split the name by /
-            const names = id.split('/');
-            // See if it's a UI reference
-            if (names[0] === 'UI' && names.length > 1) {
-                return {
-                    ui: names[1],
-                };
-            }
-            // See if the concept is a hex string
-            const codepoint =
-                link instanceof ConceptLink ? link.getCodepoint() : undefined;
-            if (codepoint) {
-                return {
-                    unicode: codepoint,
-                };
-            }
+                link instanceof ConceptLink
+                    ? link.parse()
+                    : new ConceptName(link.concept);
+
+            if (id === undefined) return undefined;
+            if (id instanceof UIName || id instanceof CodepointName) return id;
             // Otherwise, try to resolve a concept or subconcept in the index.
             else if (index !== undefined) {
-                let concept = index.getConceptByName(names[0]);
+                let concept = index.getConceptByName(id?.name);
                 if (concept) {
-                    if (names.length > 1) {
+                    const property = id.property;
+                    if (property) {
                         const subConcept = Array.from(
                             concept.getSubConcepts(),
-                        ).find((sub) => sub.hasName(names[1], $locales));
+                        ).find((sub) => sub.hasName(property, $locales));
                         if (subConcept !== undefined)
                             return { container: concept, concept: subConcept };
                         else if (concept.affiliation !== undefined) {
@@ -86,7 +80,7 @@
                                 const subConcept = Array.from(
                                     structure.getSubConcepts(),
                                 ).find((sub) =>
-                                    sub.hasName(names[1], $locales),
+                                    sub.hasName(property, $locales),
                                 );
                                 if (subConcept) {
                                     return {
@@ -104,7 +98,7 @@
             }
 
             // No other matches? Return a character.
-            return { character: id };
+            return { character: id.name };
         }
     });
 
@@ -132,8 +126,6 @@
                     path.set($path.slice(0, $path.length - 1));
                 // Otherwise, append the concept.
                 else path.set([...$path, concept]);
-            } else {
-                goto('/guide');
             }
         }
     }
@@ -153,10 +145,10 @@
         ></Button
     >
 {:else if match}
-    {#if 'ui' in match}
-        <TutorialHighlight id={match.ui} source />
-    {:else if 'unicode' in match}
-        {match.unicode}
+    {#if match instanceof UIName}
+        <TutorialHighlight id={match.id} source />
+    {:else if match instanceof CodepointName}
+        {match.codepoint}
     {:else if 'character' in match}
         <CharacterView name={match.character} />
     {/if}

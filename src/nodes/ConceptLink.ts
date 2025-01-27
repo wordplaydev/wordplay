@@ -12,6 +12,32 @@ import { getCodepointFromString } from '../unicode/getCodepoint';
 
 export const HexRegEx = /^[0-9a-fA-F]+$/;
 
+export class ConceptName {
+    readonly name: string;
+    readonly property?: string;
+
+    constructor(name: string, property?: string) {
+        this.name = name;
+        this.property = property;
+    }
+}
+
+export class CodepointName {
+    readonly codepoint: string;
+
+    constructor(codepoint: string) {
+        this.codepoint = codepoint;
+    }
+}
+
+export class UIName {
+    readonly id: string;
+
+    constructor(id: string) {
+        this.id = id;
+    }
+}
+
 export default class ConceptLink extends Content {
     readonly concept: Token;
 
@@ -41,9 +67,27 @@ export default class ConceptLink extends Content {
         return undefined;
     }
 
+    parse(): ConceptName | CodepointName | UIName | undefined {
+        const name = this.getName();
+        if (name.match(HexRegEx)) {
+            const codepoint = getCodepointFromString(name);
+            return codepoint === undefined
+                ? undefined
+                : new CodepointName(codepoint);
+        }
+        const [concept, property] = name.split('/');
+        if (concept === 'UI') return new UIName(concept);
+        else return new ConceptName(concept, property);
+    }
+
     /** Is valid if it refers to a concept key in the given Locale */
     isValid(locale: LocaleText) {
-        const [name, prop] = this.getName().split('/');
+        const concept = this.parse();
+        // Couldn't parse? Not valid.
+        if (concept === undefined) return false;
+        // Found a UI or codepoint? Valid.
+        if (concept instanceof UIName || concept instanceof CodepointName)
+            return true;
 
         // See which section of the locale has the concept name, if any.
         const section = [
@@ -51,19 +95,20 @@ export default class ConceptLink extends Content {
             locale.input,
             locale.output,
             locale.basis,
-        ].find((c) => name in c);
+        ].find((c) => concept.name in c);
 
         // Valid if we found it, and no property was specified, or it was, and the concept has it.
         return (
-            name === 'UI' ||
-            (section !== undefined &&
-                (prop === undefined ||
-                    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                    prop in (section as Record<string, any>)[name] ||
-                    (section === locale.basis &&
-                        prop in
-                            // eslint-disable-next-line @typescript-eslint/no-explicit-any
-                            (section as Record<string, any>)[name].function)))
+            section !== undefined &&
+            (concept.property === undefined ||
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                concept.property in
+                    (section as Record<string, any>)[concept.name] ||
+                (section === locale.basis &&
+                    concept.property in
+                        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                        (section as Record<string, any>)[concept.name]
+                            .function))
         );
     }
 

@@ -282,6 +282,7 @@
         top: 0;
         left: 100%;
         white-space: nowrap;
+        width: auto;
         border-bottom-left-radius: 0;
         border-bottom-right-radius: 0;
         border-top-right-radius: var(--wordplay-border-radius);

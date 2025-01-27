@@ -27,7 +27,7 @@ test.each([
     ],
     ['¶hello¶', '¶|hello|¶|'],
     ['¶hello \\1 + 1\\¶', '¶|hello |\\|1|+|1|\\|¶|'],
-    ['¶hello @bind¶', '¶|hello |@bind|¶|'],
+    ['¶hello @bind!¶', '¶|hello |@bind|!|¶|'],
     [
         '¶hello *hello* /hello/ _hello_¶',
         '¶|hello |*|hello|*| |/|hello|/| |_|hello|_|¶|',
