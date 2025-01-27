@@ -19,6 +19,7 @@ import type Type from './Type';
 import StructureType from './StructureType';
 import type Locales from '../locale/Locales';
 import TableLiteral from './TableLiteral';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TableType extends BasisType {
     readonly open: Token;
@@ -56,7 +57,7 @@ export default class TableType extends BasisType {
         return [TableType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TableType';
     }
 

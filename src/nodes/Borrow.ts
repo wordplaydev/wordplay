@@ -41,6 +41,7 @@ import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Reference from './Reference';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export type SharedDefinition =
     | Source
@@ -74,7 +75,7 @@ export default class Borrow extends SimpleExpression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Borrow';
     }
 

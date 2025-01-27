@@ -11,6 +11,7 @@ import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -23,7 +24,7 @@ export default class NoneLiteral extends Literal {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NoneLiteral';
     }
 

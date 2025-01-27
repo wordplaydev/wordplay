@@ -15,6 +15,7 @@ import StructureValue from '../values/StructureValue';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 import type Locales from '../locale/Locales';
 import Input from './Input';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -43,7 +44,7 @@ export default class Row extends Node {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Row';
     }
 

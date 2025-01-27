@@ -4,6 +4,7 @@ import type TypeVariable from './TypeVariable';
 import Characters from '../lore/BasisCharacters';
 import type { Grammar } from './Node';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class VariableType extends Type {
     readonly definition: TypeVariable;
@@ -14,7 +15,7 @@ export default class VariableType extends Type {
         this.definition = definition;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'VariableType';
     }
 

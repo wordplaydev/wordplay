@@ -36,6 +36,7 @@ import PropertyReference from './PropertyReference';
 import Bind from './Bind';
 import type EditContext from '@edit/EditContext';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -87,7 +88,7 @@ export default class SetOrMapAccess extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetOrMapAccess';
     }
 

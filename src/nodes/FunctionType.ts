@@ -26,6 +26,7 @@ import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import type Expression from './Expression';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -85,7 +86,7 @@ export default class FunctionType extends Type {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FunctionType';
     }
 

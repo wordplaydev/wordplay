@@ -17,6 +17,7 @@ import type Decimal from 'decimal.js';
 import { type TemplateInput } from '../locale/Locales';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class NumberLiteral extends Literal {
     readonly number: Token;
@@ -81,7 +82,7 @@ export default class NumberLiteral extends Literal {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NumberLiteral';
     }
 

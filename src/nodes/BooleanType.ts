@@ -8,6 +8,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
 import BooleanLiteral from './BooleanLiteral';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class BooleanType extends BasisType {
     readonly type: Token;
@@ -32,7 +33,7 @@ export default class BooleanType extends BasisType {
         return [BooleanType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'BooleanType';
     }
 

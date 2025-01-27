@@ -23,6 +23,7 @@ import TextValue from '../values/TextValue';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class FormattedLiteral extends Literal {
     readonly texts: FormattedTranslation[];
@@ -45,7 +46,7 @@ export default class FormattedLiteral extends Literal {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FormattedLiteral';
     }
 

@@ -23,6 +23,7 @@ import NoneValue from '@values/NoneValue';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;
@@ -65,7 +66,7 @@ export default class Otherwise extends SimpleExpression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Otherwise';
     }
 

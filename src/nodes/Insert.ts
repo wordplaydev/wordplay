@@ -35,6 +35,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -60,7 +61,7 @@ export default class Insert extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Insert';
     }
 

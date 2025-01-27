@@ -18,6 +18,7 @@ import type Locales from '../locale/Locales';
 import MapLiteral from './MapLiteral';
 import type EditContext from '@edit/EditContext';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class MapType extends BasisType {
     readonly open: Token;
@@ -70,7 +71,7 @@ export default class MapType extends BasisType {
         return [MapType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'MapType';
     }
 

@@ -16,6 +16,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import Characters from '../lore/BasisCharacters';
 import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type UnitDeriver = (
     left: Unit,
@@ -62,7 +63,7 @@ export default class NumberType extends BasisType {
         return [NumberType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NumberType';
     }
 

@@ -10,6 +10,7 @@ import Paragraph, { type Segment } from './Paragraph';
 import Token from './Token';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default abstract class UnknownType<
     ExpressionType extends Node,
@@ -24,7 +25,7 @@ export default abstract class UnknownType<
         this.why = why;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnknownType';
     }
 

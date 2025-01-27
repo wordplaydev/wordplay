@@ -31,6 +31,7 @@ import { DELETE_SYMBOL } from '../parser/Symbols';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type DeleteState = { index: number; list: StructureValue[]; table: TableValue };
 
@@ -53,7 +54,7 @@ export default class Delete extends Expression {
         return new Delete(table, new Token(DELETE_SYMBOL, Sym.Delete), query);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Delete';
     }
 

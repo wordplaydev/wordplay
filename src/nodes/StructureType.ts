@@ -16,6 +16,7 @@ import type Locales from '../locale/Locales';
 import type Bind from './Bind';
 import StructureDefinitionType from './StructureDefinitionType';
 import type Expression from './Expression';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -45,7 +46,7 @@ export default class StructureType extends BasisType {
                     this.refinements.set(name, refinements[index]);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureType';
     }
 

@@ -8,7 +8,11 @@ import type Spaces from '@parser/Spaces';
 import type Type from './Type';
 import type Token from './Token';
 import type { Template, DocText, LocaleText } from '@locale/LocaleText';
-import type { DescriptiveNodeText, NodeText } from '@locale/NodeTexts';
+import type {
+    DescriptiveNodeText,
+    NodeDescriptor,
+    NodeText,
+} from '@locale/NodeTexts';
 import type BasisCharacter from '../lore/BasisCharacter';
 import type Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
@@ -52,7 +56,7 @@ export default abstract class Node {
     abstract getGrammar(): Grammar;
 
     /** A stable name by which this kind of node can be referred to (since constructor.name is minified) */
-    abstract getDescriptor(): string;
+    abstract getDescriptor(): NodeDescriptor;
 
     /**
      * A list of names that determine this node's children. Can't extract these through reflection, so they must be manually supplied

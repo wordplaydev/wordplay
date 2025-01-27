@@ -12,6 +12,7 @@ import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
 import { getPreferred as getPreferredName } from './LanguageTagged';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -47,7 +48,7 @@ export default class Names extends Node {
         return new Names(list);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Names';
     }
 

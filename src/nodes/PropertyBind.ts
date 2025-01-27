@@ -30,6 +30,7 @@ import Bind from './Bind';
 import InvalidProperty from '@conflicts/InvalidProperty';
 import StructureDefinitionType from './StructureDefinitionType';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -68,7 +69,7 @@ export default class PropertyBind extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'PropertyBind';
     }
 

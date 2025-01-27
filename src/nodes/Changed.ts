@@ -26,6 +26,7 @@ import IncompatibleInput from '../conflicts/IncompatibleInput';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Changed extends SimpleExpression {
     readonly change: Token;
@@ -44,7 +45,7 @@ export default class Changed extends SimpleExpression {
         return new Changed(new Token(CHANGE_SYMBOL, Sym.Change), stream);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Changed';
     }
 

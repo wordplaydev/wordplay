@@ -39,6 +39,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import TypePlaceholder from './TypePlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class StreamDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -103,7 +104,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return this.expression.compile(evaluator, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamDefinition';
     }
 

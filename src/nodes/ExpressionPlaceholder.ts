@@ -31,6 +31,7 @@ import type Locales from '../locale/Locales';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
 import TypePlaceholder from './TypePlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ExpressionPlaceholder extends SimpleExpression {
     readonly placeholder: Token | undefined;
@@ -68,7 +69,7 @@ export default class ExpressionPlaceholder extends SimpleExpression {
         return [ExpressionPlaceholder.make(type)];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ExpressionPlaceholder';
     }
 

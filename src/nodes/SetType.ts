@@ -15,6 +15,7 @@ import Sym from './Sym';
 import type Locales from '../locale/Locales';
 import SetLiteral from './SetLiteral';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class SetType extends BasisType {
     readonly open: Token;
@@ -46,7 +47,7 @@ export default class SetType extends BasisType {
         return SetType.make();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetType';
     }
 

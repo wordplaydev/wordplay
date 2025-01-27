@@ -37,6 +37,7 @@ import Token from './Token';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type SelectState = {
     table: TableValue;
@@ -71,7 +72,7 @@ export default class Select extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Select';
     }
 

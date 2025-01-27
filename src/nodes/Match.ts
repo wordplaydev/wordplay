@@ -23,6 +23,7 @@ import JumpIfUnequal from '@runtime/JumpIfEqual';
 import Jump from '@runtime/Jump';
 import IncompatibleType from '@conflicts/IncompatibleType';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /**
  * A condition for any value, like a switch statement in other languages. For example:
@@ -79,7 +80,7 @@ export default class Match extends Expression {
         return [Match.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Match';
     }
 

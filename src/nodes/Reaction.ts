@@ -31,6 +31,7 @@ import type EditContext from '@edit/EditContext';
 import StreamType from './StreamType';
 import Changed from './Changed';
 import Bind from './Bind';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -89,7 +90,7 @@ export default class Reaction extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Reaction';
     }
 

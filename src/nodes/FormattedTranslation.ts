@@ -15,6 +15,7 @@ import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type Context from './Context';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
@@ -59,7 +60,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FormattedTranslation';
     }
 

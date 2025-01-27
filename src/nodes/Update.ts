@@ -40,6 +40,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
 
@@ -70,7 +71,7 @@ export default class Update extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Update';
     }
 

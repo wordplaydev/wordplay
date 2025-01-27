@@ -35,6 +35,7 @@ import BasisType from './BasisType';
 import type Locales from '../locale/Locales';
 import getGuards from './getGuards';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -140,7 +141,7 @@ export default class PropertyReference extends Expression {
         return this.getPossibleReferences(type, node, false, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'PropertyReference';
     }
 

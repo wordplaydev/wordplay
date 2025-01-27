@@ -20,6 +20,7 @@ import Branch from './Branch';
 import type Locales from '../locale/Locales';
 import { withColorEmoji } from '../unicode/emoji';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -44,7 +45,7 @@ export default class Words extends Content {
         return new Words(undefined, [new Token('…', Sym.Words)], undefined);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Words';
     }
 

@@ -37,6 +37,7 @@ import NoneType from './NoneType';
 import type EditContext from '@edit/EditContext';
 import Input from './Input';
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -187,7 +188,7 @@ export default class TableLiteral extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TableLiteral';
     }
 

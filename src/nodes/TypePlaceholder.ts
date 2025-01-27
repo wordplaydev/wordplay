@@ -8,6 +8,7 @@ import { node, type Grammar, type Replacement } from './Node';
 import Characters from '../lore/BasisCharacters';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TypePlaceholder extends Type {
     readonly placeholder: Token;
@@ -32,7 +33,7 @@ export default class TypePlaceholder extends Type {
         return [TypePlaceholder.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TypePlaceholder';
     }
 

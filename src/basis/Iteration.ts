@@ -21,6 +21,7 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import Value from '../values/Value';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 const IterationState = 'state';
 
@@ -76,7 +77,7 @@ export class Iteration<State = any> extends Expression {
         return true;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Iteration';
     }
 

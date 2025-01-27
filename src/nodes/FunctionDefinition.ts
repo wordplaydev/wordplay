@@ -43,6 +43,7 @@ import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import TypePlaceholder from './TypePlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -130,7 +131,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FunctionDefinition';
     }
 

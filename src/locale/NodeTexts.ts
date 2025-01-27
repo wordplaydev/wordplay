@@ -862,4 +862,6 @@ type NodeTexts = {
     NonFunctionType: DescriptiveNodeText;
 };
 
+export type NodeDescriptor = keyof NodeTexts;
+
 export { type NodeTexts as default };

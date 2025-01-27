@@ -15,6 +15,7 @@ import Finish from '@runtime/Finish';
 import { toTokens } from '../parser/toTokens';
 import parseType from '../parser/parseType';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class InternalExpression extends SimpleExpression {
     readonly type: Type;
@@ -37,7 +38,7 @@ export default class InternalExpression extends SimpleExpression {
         this.evaluator = evaluator;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'InternalExpression';
     }
 

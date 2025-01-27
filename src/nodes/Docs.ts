@@ -6,6 +6,7 @@ import Node, { list, node } from './Node';
 import { getPreferred } from './LanguageTagged';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Docs extends Node {
     readonly docs: Doc[];
@@ -26,7 +27,7 @@ export default class Docs extends Node {
         return [new Docs([Doc.make()])];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Docs';
     }
 

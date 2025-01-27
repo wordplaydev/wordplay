@@ -23,6 +23,7 @@ import TypePlaceholder from './TypePlaceholder';
 import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -55,7 +56,7 @@ export default class Is extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Is';
     }
 

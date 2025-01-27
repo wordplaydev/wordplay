@@ -15,6 +15,7 @@ import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type Context from './Context';
 import type LanguageCode from '@locale/LanguageCode';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Doc extends LanguageTagged {
     readonly open: Token;
@@ -59,7 +60,7 @@ export default class Doc extends LanguageTagged {
         return [Doc.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Doc';
     }
 

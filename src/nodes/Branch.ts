@@ -9,6 +9,7 @@ import Words from './Words';
 import type Node from './Node';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /**
  * To conditionally select a string, use ??, followed by an input that is either a boolean or possibly undefined value,
@@ -44,7 +45,7 @@ export default class Branch extends Content {
         this.close = close;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Branch';
     }
 

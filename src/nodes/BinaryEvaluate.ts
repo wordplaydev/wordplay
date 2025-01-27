@@ -49,6 +49,7 @@ import NoneType from './NoneType';
 import NumberLiteral from './NumberLiteral';
 import JumpIfEqual from '../runtime/JumpIf';
 import BooleanType from './BooleanType';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -74,7 +75,7 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'BinaryEvaluate';
     }
 

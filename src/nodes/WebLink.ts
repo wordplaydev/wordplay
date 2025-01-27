@@ -11,6 +11,7 @@ import Sym from './Sym';
 import Content from './Content';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -53,7 +54,7 @@ export default class WebLink extends Content {
         return [WebLink.make('...', 'https://')];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'WebLink';
     }
 

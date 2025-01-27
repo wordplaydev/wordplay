@@ -15,6 +15,7 @@ import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type Context from './Context';
 import type Token from './Token';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class UnparsableExpression extends SimpleExpression {
     readonly unparsables: Token[];
@@ -25,7 +26,7 @@ export default class UnparsableExpression extends SimpleExpression {
         this.unparsables = nodes;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnparsableExpression';
     }
 

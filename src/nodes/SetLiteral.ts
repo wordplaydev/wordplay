@@ -24,6 +24,7 @@ import AnyType from './AnyType';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -65,7 +66,7 @@ export default class SetLiteral extends Expression {
         return [SetLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetLiteral';
     }
 

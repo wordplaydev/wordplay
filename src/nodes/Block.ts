@@ -31,6 +31,7 @@ import type Locales from '../locale/Locales';
 import Evaluation from '@runtime/Evaluation';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export enum BlockKind {
     Root = 'root',
@@ -93,7 +94,7 @@ export default class Block extends Expression {
         return this;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Block';
     }
 

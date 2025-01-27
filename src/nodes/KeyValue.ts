@@ -9,6 +9,7 @@ import Node, { node } from './Node';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -42,7 +43,7 @@ export default class KeyValue extends Node {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'KeyValue';
     }
 

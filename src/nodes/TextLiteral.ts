@@ -25,6 +25,7 @@ import type Locale from '@locale/Locale';
 import type EditContext from '@edit/EditContext';
 import { ConceptRegExPattern } from '@parser/Tokenizer';
 import { getCodepointFromString } from '../unicode/getCodepoint';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */
@@ -61,7 +62,7 @@ export default class TextLiteral extends Literal {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TextLiteral';
     }
 

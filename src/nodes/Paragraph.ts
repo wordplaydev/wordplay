@@ -17,6 +17,7 @@ import Node, { list, node } from '@nodes/Node';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export type NodeSegment =
     | Token
@@ -46,7 +47,7 @@ export default class Paragraph extends Content {
         return [new Paragraph([])];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Paragraph';
     }
 

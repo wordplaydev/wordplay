@@ -33,6 +33,7 @@ import NameType from './NameType';
 import { getConcreteConversionTypeVariable } from './Generics';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -72,7 +73,7 @@ export default class Convert extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Convert';
     }
 

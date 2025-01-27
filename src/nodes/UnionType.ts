@@ -17,6 +17,7 @@ import TypePlaceholder from './TypePlaceholder';
 import type Definition from './Definition';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -51,7 +52,7 @@ export default class UnionType extends Type {
         return this.make(left, NoneType.make());
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnionType';
     }
 

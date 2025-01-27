@@ -10,6 +10,7 @@ import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Node, { node } from './Node';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TypeVariables extends Node {
     readonly open: Token;
@@ -42,7 +43,7 @@ export default class TypeVariables extends Node {
         return [TypeVariables.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TypeVariables';
     }
 

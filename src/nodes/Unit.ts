@@ -13,6 +13,7 @@ import Emotion from '../lore/Emotion';
 import { getPossibleDimensions } from '../edit/getPossibleUnits';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -144,7 +145,7 @@ export default class Unit extends Type {
 
     static Empty = new Unit();
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Unit';
     }
 

@@ -9,6 +9,7 @@ import Type from './Type';
 import type TypeSet from './TypeSet';
 import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export const STREAM_NATIVE_TYPE_NAME = 'stream';
 
@@ -32,7 +33,7 @@ export default class StreamType extends Type {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamType';
     }
 

@@ -1,4 +1,8 @@
-import type { NodeText, DescriptiveNodeText } from '../locale/NodeTexts';
+import type {
+    NodeText,
+    DescriptiveNodeText,
+    NodeDescriptor,
+} from '../locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import BasisType from './BasisType';
 import { node, type Grammar, type Replacement } from './Node';
@@ -24,7 +28,7 @@ export default class FormattedType extends BasisType {
         return new FormattedType(new Token(DOCS_SYMBOL, Sym.Doc));
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FormattedType';
     }
 

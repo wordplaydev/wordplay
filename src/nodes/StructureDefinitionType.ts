@@ -7,6 +7,7 @@ import type Locales from '../locale/Locales';
 import type StructureType from './StructureType';
 import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;
@@ -17,7 +18,7 @@ export default class StructureDefinitionType extends Type {
         this.type = definition;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureDefinitionType';
     }
 

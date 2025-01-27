@@ -64,6 +64,7 @@ import Reference from './Reference';
 import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type Mapping = {
     expected: Bind;
@@ -201,7 +202,7 @@ export default class Evaluate extends Expression {
         return this.getPossibleEvaluations(type, node, false, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Evaluate';
     }
 

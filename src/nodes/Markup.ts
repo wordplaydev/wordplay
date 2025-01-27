@@ -14,6 +14,7 @@ import Token from './Token';
 import Sym from './Sym';
 import Words from './Words';
 import { getCodepointFromString } from '../unicode/getCodepoint';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -47,7 +48,7 @@ export default class Markup extends Content {
         return [new Markup([new Paragraph([])])];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Markup';
     }
 

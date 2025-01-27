@@ -12,6 +12,7 @@ import { PossiblePII } from '@conflicts/PossiblePII';
 import type Conflict from '@conflicts/Conflict';
 import type Context from './Context';
 import type Expression from './Expression';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -52,7 +53,7 @@ export default class Translation extends LanguageTagged {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Translation';
     }
 

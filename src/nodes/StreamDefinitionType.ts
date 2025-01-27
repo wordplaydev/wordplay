@@ -6,6 +6,7 @@ import Characters from '../lore/BasisCharacters';
 import { STREAM_SYMBOL } from '../parser/Symbols';
 import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class StreamDefinitionType extends Type {
     readonly definition: StreamDefinition;
@@ -16,7 +17,7 @@ export default class StreamDefinitionType extends Type {
         this.definition = definition;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamDefinitionType';
     }
 

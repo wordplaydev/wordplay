@@ -7,6 +7,7 @@ import Sym from './Sym';
 import Type from './Type';
 import Node, { list, node, optional } from './Node';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TypeInputs extends Node {
     readonly open: Token;
@@ -39,7 +40,7 @@ export default class TypeInputs extends Node {
         return [TypeInputs.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TypeInputs';
     }
 

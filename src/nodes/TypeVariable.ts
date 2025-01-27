@@ -13,6 +13,7 @@ import type Definition from './Definition';
 import type Locales from '../locale/Locales';
 import TypePlaceholder from './TypePlaceholder';
 import TypeToken from './TypeToken';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TypeVariable extends Node {
     readonly names: Names;
@@ -41,7 +42,7 @@ export default class TypeVariable extends Node {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TypeVariable';
     }
 

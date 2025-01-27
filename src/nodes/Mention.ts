@@ -10,6 +10,7 @@ import type Node from './Node';
 import type Locales from '../locale/Locales';
 import ConceptRef from '@locale/ConceptRef';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -40,7 +41,7 @@ export default class Mention extends Content {
         return [new Mention(new Token('_', Sym.Mention))];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Mention';
     }
 

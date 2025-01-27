@@ -12,6 +12,7 @@ import type Context from './Context';
 import type Type from './Type';
 import TextLiteral from './TextLiteral';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /** Any string or a specific string, depending on whether the given token is an empty text literal. */
 export default class TextType extends BasisType {
@@ -53,7 +54,7 @@ export default class TextType extends BasisType {
         return [TextType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TextType';
     }
 

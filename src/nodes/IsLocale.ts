@@ -16,6 +16,7 @@ import StartFinish from '@runtime/StartFinish';
 import type Expression from './Expression';
 import type TypeSet from './TypeSet';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class IsLocale extends SimpleExpression {
     readonly globe: Token;
@@ -42,7 +43,7 @@ export default class IsLocale extends SimpleExpression {
         return [IsLocale.make(Language.make('en'))];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'IsLocale';
     }
 

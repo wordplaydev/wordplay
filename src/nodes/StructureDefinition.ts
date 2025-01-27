@@ -41,6 +41,7 @@ import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import StructureDefinitionType from './StructureDefinitionType';
 import StructureType from './StructureType';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -133,7 +134,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.expression?.getEvaluationSteps(evaluator, context) ?? [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureDefinition';
     }
 

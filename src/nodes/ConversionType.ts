@@ -8,6 +8,7 @@ import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement } from './Node';
 import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ConversionType extends Type {
     readonly input: Type;
@@ -32,7 +33,7 @@ export default class ConversionType extends Type {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ConversionType';
     }
 

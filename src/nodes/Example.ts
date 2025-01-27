@@ -9,6 +9,7 @@ import { CODE_SYMBOL } from '../parser/Symbols';
 import Content from './Content';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Example extends Content {
     readonly open: Token;
@@ -39,7 +40,7 @@ export default class Example extends Content {
         return [Example.make(Program.make())];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Example';
     }
 

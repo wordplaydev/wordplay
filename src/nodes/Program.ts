@@ -27,6 +27,7 @@ import type Locales from '../locale/Locales';
 import { localeToString } from '@locale/Locale';
 import type Locale from '@locale/Locale';
 import Reference from './Reference';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -59,7 +60,7 @@ export default class Program extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Program';
     }
 

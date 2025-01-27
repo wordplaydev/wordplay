@@ -9,6 +9,7 @@ import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -57,7 +58,7 @@ export default class Dimension extends Node {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Dimension';
     }
 

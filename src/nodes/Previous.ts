@@ -29,6 +29,7 @@ import ListType from './ListType';
 import Unit from './Unit';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Previous extends Expression {
     readonly previous: Token;
@@ -82,7 +83,7 @@ export default class Previous extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Previous';
     }
 

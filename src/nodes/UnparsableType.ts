@@ -7,6 +7,7 @@ import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
 import type Context from './Context';
 import type Token from './Token';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class UnparsableType extends Type {
     readonly unparsables: Token[];
@@ -17,7 +18,7 @@ export default class UnparsableType extends Type {
         this.unparsables = nodes;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnparsableType';
     }
 

@@ -5,6 +5,7 @@ import type TypeSet from './TypeSet';
 import { EXCEPTION_SYMBOL } from '../parser/Symbols';
 import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ExceptionType extends Type {
     readonly exception: ExceptionValue;
@@ -15,7 +16,7 @@ export default class ExceptionType extends Type {
         this.exception = exception;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ExceptionType';
     }
 

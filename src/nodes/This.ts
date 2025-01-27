@@ -26,6 +26,7 @@ import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -61,7 +62,7 @@ export default class This extends SimpleExpression {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'This';
     }
 

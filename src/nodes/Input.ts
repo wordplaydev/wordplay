@@ -1,7 +1,11 @@
 import Purpose from '@concepts/Purpose';
 import type Conflict from '@conflicts/Conflict';
 import type Locales from '@locale/Locales';
-import type { NodeText, DescriptiveNodeText } from '@locale/NodeTexts';
+import type {
+    NodeText,
+    DescriptiveNodeText,
+    NodeDescriptor,
+} from '@locale/NodeTexts';
 import type Context from './Context';
 import Expression from './Expression';
 import type { GuardContext } from './Expression';
@@ -32,7 +36,7 @@ export default class Input extends Node {
         this.value = value;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Input';
     }
 

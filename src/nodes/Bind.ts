@@ -49,6 +49,7 @@ import DocumentedExpression from './DocumentedExpression';
 import NameType from './NameType';
 import type EditContext from '@edit/EditContext';
 import TypePlaceholder from './TypePlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -88,7 +89,7 @@ export default class Bind extends Expression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Bind';
     }
 

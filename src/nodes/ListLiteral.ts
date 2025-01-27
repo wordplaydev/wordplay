@@ -26,6 +26,7 @@ import TypeException from '../values/TypeException';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -67,7 +68,7 @@ export default class ListLiteral extends Expression {
         return [ListLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListLiteral';
     }
 

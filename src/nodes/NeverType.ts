@@ -3,13 +3,14 @@ import Type from './Type';
 import Characters from '../lore/BasisCharacters';
 import { NEVER_SYMBOL } from '@parser/Symbols';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class NeverType extends Type {
     constructor() {
         super();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NeverType';
     }
 

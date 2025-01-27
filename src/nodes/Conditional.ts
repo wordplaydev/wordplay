@@ -24,6 +24,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import BooleanLiteral from './BooleanLiteral';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -77,7 +78,7 @@ export default class Conditional extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Conditional';
     }
 

@@ -35,6 +35,7 @@ import Reference from './Reference';
 import PropertyReference from './PropertyReference';
 import UnionType from './UnionType';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -95,7 +96,7 @@ export default class ListAccess extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListAccess';
     }
 

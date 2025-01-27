@@ -11,6 +11,7 @@ import SimpleExpression from './SimpleExpression';
 import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class DocumentedExpression extends SimpleExpression {
     readonly docs: Docs;
@@ -25,7 +26,7 @@ export default class DocumentedExpression extends SimpleExpression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'DocumentedExpression';
     }
 

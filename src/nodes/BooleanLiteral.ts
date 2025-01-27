@@ -13,6 +13,7 @@ import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class BooleanLiteral extends Literal {
     readonly value: Token;
@@ -42,7 +43,7 @@ export default class BooleanLiteral extends Literal {
         return BooleanLiteral.make(true);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'BooleanLiteral';
     }
 

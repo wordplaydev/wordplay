@@ -12,6 +12,7 @@ import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 import ListLiteral from './ListLiteral';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ListType extends BasisType {
     readonly open: Token;
@@ -56,7 +57,7 @@ export default class ListType extends BasisType {
         return [ListType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListType';
     }
 

@@ -20,6 +20,7 @@ import Emotion from '../lore/Emotion';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 import StructureType from './StructureType';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class NameType extends Type {
     readonly name: Token;
@@ -44,7 +45,7 @@ export default class NameType extends Type {
         return new NameType(new NameToken(name), undefined, definition);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NameType';
     }
 

@@ -27,6 +27,7 @@ import { toTokens } from '../parser/toTokens';
 import parseType from '../parser/parseType';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ConversionDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -88,7 +89,7 @@ export default class ConversionDefinition extends DefinitionExpression {
         return this.expression.compile(evaluator, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ConversionDefinition';
     }
 

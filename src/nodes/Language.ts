@@ -14,6 +14,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import type Locales from '../locale/Locales';
 import type { RegionCode } from '@locale/Regions';
 import type Locale from '@locale/Locale';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -55,7 +56,7 @@ export default class Language extends Node {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Language';
     }
 

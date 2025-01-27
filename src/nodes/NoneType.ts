@@ -8,6 +8,7 @@ import type TypeSet from './TypeSet';
 import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
 import NoneLiteral from './NoneLiteral';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class NoneType extends BasisType {
     readonly none: Token;
@@ -34,7 +35,7 @@ export default class NoneType extends BasisType {
         return [NoneType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NoneType';
     }
 
