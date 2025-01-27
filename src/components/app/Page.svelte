@@ -70,11 +70,14 @@
                 <Link nowrap to="/projects"
                     >{$locales.get((l) => l.ui.page.projects.header)}</Link
                 >
-                <Link nowrap to="/learn"
-                    >{$locales.get((l) => l.ui.page.learn.header)}</Link
-                >
                 <Link nowrap to="/galleries"
                     >{$locales.get((l) => l.ui.page.galleries.header)}</Link
+                >
+                <Link nowrap to="/characters"
+                    >{$locales.get((l) => l.ui.page.characters.header)}</Link
+                >
+                <Link nowrap to="/learn"
+                    >{$locales.get((l) => l.ui.page.learn.header)}</Link
                 >
                 <Link nowrap to="/guide"
                     >{$locales.get((l) => l.ui.page.guide.header)}</Link
