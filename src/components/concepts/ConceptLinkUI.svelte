@@ -1,6 +1,10 @@
 <script lang="ts">
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import ConceptLink, { CodepointName, UIName } from '@nodes/ConceptLink';
+    import ConceptLink, {
+        CharacterName,
+        CodepointName,
+        UIName,
+    } from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
@@ -35,7 +39,7 @@
         // A reference something in the UI
         | UIName
         // A custom character name
-        | { character: string }
+        | CharacterName
         | undefined;
 
     // Derive the concept, container, and UI based on the link.
@@ -55,9 +59,15 @@
             );
 
             if (id === undefined) return undefined;
-            if (id instanceof UIName || id instanceof CodepointName) return id;
+            if (
+                id instanceof UIName ||
+                id instanceof CodepointName ||
+                id instanceof CharacterName
+            )
+                return id;
+
             // Otherwise, try to resolve a concept or subconcept in the index.
-            else if (index !== undefined) {
+            if (index !== undefined) {
                 let concept = index.getConceptByName(id?.name);
                 if (concept) {
                     const property = id.property;
@@ -92,8 +102,7 @@
                 }
             }
 
-            // No other matches? Return a character.
-            return { character: id.name };
+            return undefined;
         }
     });
 
@@ -144,8 +153,8 @@
         <TutorialHighlight id={match.id} source />
     {:else if match instanceof CodepointName}
         {match.codepoint}
-    {:else if 'character' in match}
-        <CharacterView name={match.character} />
+    {:else if match instanceof CharacterName}
+        <CharacterView name={match.name} />
     {/if}
 {:else if link instanceof ConceptLink}
     {link.concept.getText()}

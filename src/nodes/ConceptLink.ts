@@ -9,8 +9,22 @@ import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import type Locales from '../locale/Locales';
 import { getCodepointFromString } from '../unicode/getCodepoint';
+import DefaultLocale from '@locale/DefaultLocale';
 
 export const HexRegEx = /^[0-9a-fA-F]+$/;
+
+// Valid concept references are:
+// 1) any input, output, basis, or node key in the locale.
+// 2) a UI key in the locale.
+// 3) a codepoint in hex format.
+// 4) the name of a custom character
+
+export const ReservedConceptIDs = new Set([
+    ...Object.keys(DefaultLocale.node),
+    ...Object.keys(DefaultLocale.basis),
+    ...Object.keys(DefaultLocale.input),
+    ...Object.keys(DefaultLocale.output),
+]);
 
 export class ConceptName {
     readonly name: string;
@@ -35,6 +49,14 @@ export class UIName {
 
     constructor(id: string) {
         this.id = id;
+    }
+}
+
+export class CharacterName {
+    readonly name: string;
+
+    constructor(name: string) {
+        this.name = name;
     }
 }
 
@@ -78,7 +100,9 @@ export default class ConceptLink extends Content {
         }
         const [concept, property] = name.split('/');
         if (concept === 'UI') return new UIName(concept);
-        else return new ConceptName(concept, property);
+        else if (ReservedConceptIDs.has(concept))
+            return new ConceptName(concept, property);
+        else return new CharacterName(concept);
     }
 
     /** Is valid if it refers to a concept key in the given Locale */

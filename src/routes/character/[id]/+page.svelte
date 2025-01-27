@@ -181,7 +181,7 @@
     import Locales from '@locale/Locales';
     import RootView from '@components/project/RootView.svelte';
     import { toProgram } from '@parser/parseProgram';
-    import { HexRegEx } from '@nodes/ConceptLink';
+    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import { Basis } from '@basis/Basis';
     import Dialog from '@components/widgets/Dialog.svelte';
 
@@ -417,9 +417,9 @@
     });
 
     function validName(name: string) {
-        return !name.startsWith('UI') &&
-            !HexRegEx.test(name) &&
-            toTokens(name).nextAre(Sym.Name, Sym.End)
+        return name.length >= 5 &&
+            toTokens(name).nextAre(Sym.Name, Sym.End) &&
+            ConceptLink.parse(name) instanceof CharacterName
             ? true
             : $locales.get((l) => l.ui.page.character.feedback.name);
     }
