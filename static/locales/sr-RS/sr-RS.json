@@ -4228,9 +4228,9 @@
                     "on": "$~уреди као текст",
                     "off": "$~уредити као блокове"
                 },
-                "glyphs": {
-                    "on": "$~скупите одговарајуће глифове",
-                    "off": "$~проширите одговарајуће глифове"
+                "characters": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
@@ -4305,6 +4305,10 @@
                     "tip": "$?",
                     "all": "$?"
                 }
+            },
+            "error": {
+                "invalidName": "$?",
+                "invalidWords": "$?"
             }
         },
         "annotations": {
@@ -4417,7 +4421,8 @@
                 },
                 "error": {
                     "unknown": "$~Не познајемо аутора са овом е-поштом.",
-                    "anonymous": "$~Морате бити пријављени да бисте делили."
+                    "anonymous": "$~Морате бити пријављени да бисте делили.",
+                    "self": "$?"
                 },
                 "button": {
                     "submit": "$~Поделите пројекат са овом адресом е-поште",
@@ -4612,6 +4617,12 @@
                 "field": {
                     "percent": "$~уреди проценат"
                 }
+            },
+            "error": {
+                "nan": "$?",
+                "percent": "$?",
+                "lessThanNext": "$?",
+                "moreThanPrevious": "$?"
             }
         },
         "save": {
@@ -4656,7 +4667,8 @@
                     "contribute": {
                         "label": "$~Допринесите",
                         "subtitle": "$~Помозите нам да направимо Вордплаи."
-                    }
+                    },
+                    "characters": "$?"
                 }
             },
             "learn": {
@@ -4875,7 +4887,10 @@
                     "unchanged": "$~Нисмо могли да променимо вашу адресу е-поште, али не знамо зашто.",
                     "delete": "$~Нисмо могли да избришемо ваш налог, али не знамо зашто.",
                     "wrongPassword": "$~Није важеће корисничко име и лозинка. Или је ваша лозинка погрешна, или неко други има ово корисничко име.",
-                    "tooMany": "$~Покушали сте и нисте успели да се пријавите превише пута. Мораћете да сачекате да покушате поново."
+                    "tooMany": "$~Покушали сте и нисте успели да се пријавите превише пута. Мораћете да сачекате да покушате поново.",
+                    "invalidUsername": "$?",
+                    "invalidPassword": "$?",
+                    "mismatched": "$?"
                 },
                 "feedback": {
                     "changing": "$~Слање нове е-поште...",
@@ -4978,6 +4993,164 @@
                     "$~Ако би 2.400 људи дало 25 долара годишње, то би покрило наше тренутне трошкове, а сваки вишак иде на надокнаду већем броју ученика и наставника.",
                     "$~Можете ли бити један од тих 2.400 људи? Ако јесте, ево линка нашег Универзитета у Вашингтону:"
                 ]
+            },
+            "characters": {
+                "header": "$?",
+                "prompt": "$?",
+                "button": {
+                    "new": "$?"
+                },
+                "error": {
+                    "offline": "$?",
+                    "noauth": "$?",
+                    "create": "$?"
+                }
+            },
+            "character": {
+                "header": "$?",
+                "prompt": "$?",
+                "instructions": {
+                    "empty": "$?",
+                    "unselected": "$?",
+                    "selected": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "shape": {
+                    "shape": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "publish": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": ["$?"]
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "mode": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "fill": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "stroke": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "none": "$?",
+                    "inherit": "$?",
+                    "strokeWidth": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "radius": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "angle": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "width": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "height": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "closed": "$?"
+                },
+                "button": {
+                    "back": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toBack": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "forward": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toFront": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "copy": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "paste": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clear": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clearPixels": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "undo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "redo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "all": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "end": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "horizontal": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "vertical": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "feedback": {
+                    "name": "$?",
+                    "description": "$?",
+                    "end": "$?",
+                    "loadfail": "$?",
+                    "notfound": "$?",
+                    "unauthenticated": "$?",
+                    "published": "$?"
+                },
+                "announce": {
+                    "position": "$?",
+                    "selection": "$?"
+                }
             }
         },
         "edit": {

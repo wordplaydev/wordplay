@@ -4251,6 +4251,10 @@
                     "tip": "$?",
                     "all": "$?"
                 }
+            },
+            "error": {
+                "invalidName": "$?",
+                "invalidWords": "$?"
             }
         },
         "annotations": {
@@ -4363,7 +4367,8 @@
                 },
                 "error": {
                     "unknown": "No conocemos a una creadora con este correo electrónico.",
-                    "anonymous": "Debes iniciar sesión para compartir."
+                    "anonymous": "Debes iniciar sesión para compartir.",
+                    "self": "$?"
                 },
                 "button": {
                     "submit": "Compartir el proyecto con esta dirección de correo electrónico",
@@ -4518,6 +4523,12 @@
                 "field": {
                     "percent": "editar porcentaje"
                 }
+            },
+            "error": {
+                "nan": "$?",
+                "percent": "$?",
+                "lessThanNext": "$?",
+                "moreThanPrevious": "$?"
             }
         },
         "save": {
@@ -4562,7 +4573,8 @@
                         "label": "Contribuir",
                         "subtitle": "Ayúdanos a hacer Wordplay."
                     },
-                    "teach": "$~Gestionar clases de estudiantes y sus proyectos"
+                    "teach": "$~Gestionar clases de estudiantes y sus proyectos",
+                    "characters": "$?"
                 }
             },
             "learn": {
@@ -4666,7 +4678,10 @@
                     "unchanged": "No pudimos cambiar tu dirección de correo electrónico, pero no sabemos por qué.",
                     "delete": "No pudimos borrar tu cuenta, pero no sabemos por qué.",
                     "wrongPassword": "Nombre de usuario y contraseña no son válidos. O bien tu contraseña es incorrecta o alguien más tiene este nombre de usuario.",
-                    "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo."
+                    "tooMany": "$~Has intentado y no has podido iniciar sesión demasiadas veces. Tendrás que esperar para volver a intentarlo.",
+                    "invalidUsername": "$?",
+                    "invalidPassword": "$?",
+                    "mismatched": "$?"
                 },
                 "feedback": {
                     "changing": "Enviando nuevo correo electrónico...",
@@ -4883,6 +4898,164 @@
                 },
                 "error": {
                     "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla."
+                }
+            },
+            "characters": {
+                "header": "$?",
+                "prompt": "$?",
+                "button": {
+                    "new": "$?"
+                },
+                "error": {
+                    "offline": "$?",
+                    "noauth": "$?",
+                    "create": "$?"
+                }
+            },
+            "character": {
+                "header": "$?",
+                "prompt": "$?",
+                "instructions": {
+                    "empty": "$?",
+                    "unselected": "$?",
+                    "selected": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "shape": {
+                    "shape": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "publish": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": ["$?"]
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "mode": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "fill": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "stroke": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "none": "$?",
+                    "inherit": "$?",
+                    "strokeWidth": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "radius": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "angle": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "width": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "height": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "closed": "$?"
+                },
+                "button": {
+                    "back": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toBack": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "forward": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toFront": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "copy": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "paste": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clear": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clearPixels": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "undo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "redo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "all": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "end": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "horizontal": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "vertical": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "feedback": {
+                    "name": "$?",
+                    "description": "$?",
+                    "end": "$?",
+                    "loadfail": "$?",
+                    "notfound": "$?",
+                    "unauthenticated": "$?",
+                    "published": "$?"
+                },
+                "announce": {
+                    "position": "$?",
+                    "selection": "$?"
                 }
             }
         },

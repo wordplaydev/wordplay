@@ -4285,6 +4285,10 @@
                     "tip": "$?",
                     "all": "$?"
                 }
+            },
+            "error": {
+                "invalidName": "$?",
+                "invalidWords": "$?"
             }
         },
         "annotations": {
@@ -4397,7 +4401,8 @@
                 },
                 "error": {
                     "unknown": "$~이 이메일을 받은 작성자를 알 수 없습니다.",
-                    "anonymous": "$~공유하려면 로그인이 필요합니다."
+                    "anonymous": "$~공유하려면 로그인이 필요합니다.",
+                    "self": "$?"
                 },
                 "button": {
                     "submit": "$~이 이메일 주소로 프로젝트를 공유하세요",
@@ -4555,6 +4560,12 @@
                 "field": {
                     "percent": "$~퍼센트 편집"
                 }
+            },
+            "error": {
+                "nan": "$?",
+                "percent": "$?",
+                "lessThanNext": "$?",
+                "moreThanPrevious": "$?"
             }
         },
         "save": {
@@ -4599,7 +4610,8 @@
                         "label": "기여하다",
                         "subtitle": "워드플레이를 만들 수 있도록 도와주세요."
                     },
-                    "teach": "$~학생들의 수업과 프로젝트를 관리합니다"
+                    "teach": "$~학생들의 수업과 프로젝트를 관리합니다",
+                    "characters": "$?"
                 }
             },
             "learn": {
@@ -4703,7 +4715,10 @@
                     "unchanged": "$~귀하의 이메일 주소를 변경할 수 없지만 이유를 알 수 없습니다.",
                     "delete": "$~귀하의 계정을 삭제할 수 없지만 이유를 알 수 없습니다.",
                     "wrongPassword": "$~유효한 사용자 이름과 비밀번호가 아닙니다. 귀하의 비밀번호가 잘못되었거나 다른 사람이 이 사용자 이름을 사용하고 있습니다.",
-                    "tooMany": "$~로그인을 너무 많이 시도했지만 실패했습니다. 다시 시도하려면 기다려야 합니다."
+                    "tooMany": "$~로그인을 너무 많이 시도했지만 실패했습니다. 다시 시도하려면 기다려야 합니다.",
+                    "invalidUsername": "$?",
+                    "invalidPassword": "$?",
+                    "mismatched": "$?"
                 },
                 "feedback": {
                     "changing": "$~새 이메일을 제출하는 중...",
@@ -4920,6 +4935,164 @@
                 },
                 "error": {
                     "notfound": "$~이 수업을 찾을 수 없거나 이를 볼 수 있는 권한이 없습니다."
+                }
+            },
+            "characters": {
+                "header": "$?",
+                "prompt": "$?",
+                "button": {
+                    "new": "$?"
+                },
+                "error": {
+                    "offline": "$?",
+                    "noauth": "$?",
+                    "create": "$?"
+                }
+            },
+            "character": {
+                "header": "$?",
+                "prompt": "$?",
+                "instructions": {
+                    "empty": "$?",
+                    "unselected": "$?",
+                    "selected": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "shape": {
+                    "shape": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "publish": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": ["$?"]
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "mode": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "fill": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "stroke": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "none": "$?",
+                    "inherit": "$?",
+                    "strokeWidth": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "radius": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "angle": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "width": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "height": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "closed": "$?"
+                },
+                "button": {
+                    "back": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toBack": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "forward": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toFront": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "copy": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "paste": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clear": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clearPixels": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "undo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "redo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "all": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "end": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "horizontal": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "vertical": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "feedback": {
+                    "name": "$?",
+                    "description": "$?",
+                    "end": "$?",
+                    "loadfail": "$?",
+                    "notfound": "$?",
+                    "unauthenticated": "$?",
+                    "published": "$?"
+                },
+                "announce": {
+                    "position": "$?",
+                    "selection": "$?"
                 }
             }
         },

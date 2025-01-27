@@ -24,7 +24,7 @@ import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type EditContext from '@edit/EditContext';
 import { ConceptRegExPattern } from '@parser/Tokenizer';
-import { getCodepointFromString } from '../unicode/Unicode';
+import { getCodepointFromString } from '../unicode/getCodepoint';
 
 export default class TextLiteral extends Literal {
     /** The list of translations for the text literal */

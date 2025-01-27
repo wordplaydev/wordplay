@@ -4285,6 +4285,10 @@
                     "tip": "$?",
                     "all": "$?"
                 }
+            },
+            "error": {
+                "invalidName": "$?",
+                "invalidWords": "$?"
             }
         },
         "annotations": {
@@ -4397,7 +4401,8 @@
                 },
                 "error": {
                     "unknown": "$~हम इस ईमेल वाले किसी भी निर्माता को नहीं जानते।",
-                    "anonymous": "$~साझा करने के लिए आपको लॉग इन होना होगा।"
+                    "anonymous": "$~साझा करने के लिए आपको लॉग इन होना होगा।",
+                    "self": "$?"
                 },
                 "button": {
                     "submit": "$~इस ईमेल पते के साथ परियोजना साझा करें",
@@ -4555,6 +4560,12 @@
                 "field": {
                     "percent": "$~संपादित करें प्रतिशत"
                 }
+            },
+            "error": {
+                "nan": "$?",
+                "percent": "$?",
+                "lessThanNext": "$?",
+                "moreThanPrevious": "$?"
             }
         },
         "save": {
@@ -4599,7 +4610,8 @@
                         "label": "$~योगदान देना",
                         "subtitle": "$~वर्डप्ले बनाने में हमारी सहायता करें."
                     },
-                    "teach": "$~छात्रों की कक्षाओं और उनकी परियोजनाओं का प्रबंधन करें"
+                    "teach": "$~छात्रों की कक्षाओं और उनकी परियोजनाओं का प्रबंधन करें",
+                    "characters": "$?"
                 }
             },
             "learn": {
@@ -4703,7 +4715,10 @@
                     "unchanged": "$~हम आपका ईमेल पता नहीं बदल सके, लेकिन हमें इसका कारण नहीं पता।",
                     "delete": "$~हम आपका खाता नहीं हटा सके, लेकिन हमें इसका कारण नहीं पता।",
                     "wrongPassword": "$~मान्य उपयोगकर्ता नाम और पासवर्ड नहीं है। या तो आपका पासवर्ड ग़लत है, या किसी और के पास यह उपयोगकर्ता नाम है।",
-                    "tooMany": "$~आपने कई बार लॉग इन करने की कोशिश की है और असफल रहे हैं। आपको फिर से प्रयास करने के लिए प्रतीक्षा करनी होगी।"
+                    "tooMany": "$~आपने कई बार लॉग इन करने की कोशिश की है और असफल रहे हैं। आपको फिर से प्रयास करने के लिए प्रतीक्षा करनी होगी।",
+                    "invalidUsername": "$?",
+                    "invalidPassword": "$?",
+                    "mismatched": "$?"
                 },
                 "feedback": {
                     "changing": "$~नया ईमेल सबमिट किया जा रहा है...",
@@ -4920,6 +4935,164 @@
                 },
                 "error": {
                     "notfound": "$~हम यह कक्षा नहीं ढूंढ सके या आपके पास इसे देखने की अनुमति नहीं है।"
+                }
+            },
+            "characters": {
+                "header": "$?",
+                "prompt": "$?",
+                "button": {
+                    "new": "$?"
+                },
+                "error": {
+                    "offline": "$?",
+                    "noauth": "$?",
+                    "create": "$?"
+                }
+            },
+            "character": {
+                "header": "$?",
+                "prompt": "$?",
+                "instructions": {
+                    "empty": "$?",
+                    "unselected": "$?",
+                    "selected": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "shape": {
+                    "shape": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "publish": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": ["$?"]
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "mode": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "fill": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "stroke": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "none": "$?",
+                    "inherit": "$?",
+                    "strokeWidth": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "radius": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "angle": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "width": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "height": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "closed": "$?"
+                },
+                "button": {
+                    "back": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toBack": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "forward": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toFront": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "copy": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "paste": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clear": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clearPixels": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "undo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "redo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "all": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "end": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "horizontal": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "vertical": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "feedback": {
+                    "name": "$?",
+                    "description": "$?",
+                    "end": "$?",
+                    "loadfail": "$?",
+                    "notfound": "$?",
+                    "unauthenticated": "$?",
+                    "published": "$?"
+                },
+                "announce": {
+                    "position": "$?",
+                    "selection": "$?"
                 }
             }
         },

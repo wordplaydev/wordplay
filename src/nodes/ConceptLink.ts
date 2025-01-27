@@ -8,7 +8,7 @@ import Symbol from './Sym';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import type Locales from '../locale/Locales';
-import { getCodepointFromString } from '../unicode/Unicode';
+import { getCodepointFromString } from '../unicode/getCodepoint';
 
 export const HexRegEx = /^[0-9a-fA-F]+$/;
 

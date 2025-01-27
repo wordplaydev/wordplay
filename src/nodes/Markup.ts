@@ -13,7 +13,7 @@ import { toMarkup } from '../parser/toMarkup';
 import Token from './Token';
 import Sym from './Sym';
 import Words from './Words';
-import { getCodepointFromString } from '../unicode/Unicode';
+import { getCodepointFromString } from '../unicode/getCodepoint';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,

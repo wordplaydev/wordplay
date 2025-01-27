@@ -4228,9 +4228,9 @@
                     "on": "$~metin olarak düzenle",
                     "off": "$~bloklar halinde düzenle"
                 },
-                "glyphs": {
-                    "on": "$~eşleşen glifleri daralt",
-                    "off": "$~eşleşen glifleri genişlet"
+                "characters": {
+                    "on": "$?",
+                    "off": "$?"
                 }
             },
             "button": {
@@ -4305,6 +4305,10 @@
                     "tip": "$?",
                     "all": "$?"
                 }
+            },
+            "error": {
+                "invalidName": "$?",
+                "invalidWords": "$?"
             }
         },
         "annotations": {
@@ -4417,7 +4421,8 @@
                 },
                 "error": {
                     "unknown": "$~Bu e-postaya sahip bir yaratıcıyı tanımıyoruz.",
-                    "anonymous": "$~Paylaşmak için giriş yapmalısınız."
+                    "anonymous": "$~Paylaşmak için giriş yapmalısınız.",
+                    "self": "$?"
                 },
                 "button": {
                     "submit": "$~Projeyi bu e-posta adresiyle paylaşın",
@@ -4607,6 +4612,12 @@
                 "field": {
                     "percent": "$~düzenleme yüzdesi"
                 }
+            },
+            "error": {
+                "nan": "$?",
+                "percent": "$?",
+                "lessThanNext": "$?",
+                "moreThanPrevious": "$?"
             }
         },
         "save": {
@@ -4651,7 +4662,8 @@
                     "contribute": {
                         "label": "$~Katkı yapmak",
                         "subtitle": "$~Wordplay yapmamıza yardım edin."
-                    }
+                    },
+                    "characters": "$?"
                 }
             },
             "learn": {
@@ -4870,7 +4882,10 @@
                     "unchanged": "$~E-posta adresinizi değiştiremedik, ancak nedenini bilmiyoruz.",
                     "delete": "$~Hesabınızı silemedik, ancak nedenini bilmiyoruz.",
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
-                    "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek."
+                    "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
+                    "invalidUsername": "$?",
+                    "invalidPassword": "$?",
+                    "mismatched": "$?"
                 },
                 "feedback": {
                     "changing": "$~Yeni e-posta gönderiliyor...",
@@ -4973,6 +4988,164 @@
                     "$~Eğer 2.400 kişi yılda 25 ABD doları bağışta bulunsaydı, bu mevcut maliyetlerimizi karşılardı; aşan miktar ise daha fazla öğrenciye ve öğretmene tazminat olarak giderilirdi.",
                     "$~Bu 2.400 kişiden biri olabilir misiniz? Eğer öyleyse, işte Washington Üniversitesi bağış bağlantısı:"
                 ]
+            },
+            "characters": {
+                "header": "$?",
+                "prompt": "$?",
+                "button": {
+                    "new": "$?"
+                },
+                "error": {
+                    "offline": "$?",
+                    "noauth": "$?",
+                    "create": "$?"
+                }
+            },
+            "character": {
+                "header": "$?",
+                "prompt": "$?",
+                "instructions": {
+                    "empty": "$?",
+                    "unselected": "$?",
+                    "selected": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "shape": {
+                    "shape": "$?",
+                    "pixel": "$?",
+                    "rect": "$?",
+                    "ellipse": "$?",
+                    "path": "$?"
+                },
+                "publish": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": ["$?"]
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "mode": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "fill": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "stroke": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "none": "$?",
+                    "inherit": "$?",
+                    "strokeWidth": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "radius": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "angle": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "width": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "height": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "closed": "$?"
+                },
+                "button": {
+                    "back": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toBack": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "forward": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "toFront": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "copy": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "paste": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clear": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "clearPixels": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "undo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "redo": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "all": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "end": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "horizontal": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "vertical": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "feedback": {
+                    "name": "$?",
+                    "description": "$?",
+                    "end": "$?",
+                    "loadfail": "$?",
+                    "notfound": "$?",
+                    "unauthenticated": "$?",
+                    "published": "$?"
+                },
+                "announce": {
+                    "position": "$?",
+                    "selection": "$?"
+                }
             }
         },
         "edit": {
