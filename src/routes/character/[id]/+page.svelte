@@ -418,14 +418,6 @@
             : $locales.get((l) => l.ui.page.character.feedback.description);
     }
 
-    let error = $derived(
-        !validName(name)
-            ? $locales.get((l) => l.ui.page.character.feedback.name)
-            : !validDescription(description)
-              ? $locales.get((l) => l.ui.page.character.feedback.description)
-              : undefined,
-    );
-
     /** Centralized shape list updating to support undo/redo. */
     function setShapes(newShapes: CharacterShape[]) {
         // Remove the future if we're in the past
@@ -1670,17 +1662,12 @@
                         editable={!isPublic}
                     ></TextField>
                 </h1>
-                {#if error}
-                    <Feedback>{error}</Feedback>
-                {/if}
-                {#if validName(name) === true}
-                    <RootView
-                        node={toProgram(
-                            `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${name}\`)`,
-                        )}
-                        blocks={false}
-                    />
-                {/if}
+                <RootView
+                    node={toProgram(
+                        `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${name}\`)`,
+                    )}
+                    blocks={false}
+                />
                 <TextField
                     id="character-description"
                     bind:text={description}
