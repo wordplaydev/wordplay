@@ -1029,6 +1029,11 @@
     let pasted = true;
 
     function handleTextInput(event: Event) {
+        // Not all platforms send composition end events, so if we think we're composing,
+        // but receive an event that indicates we are not, end composition.
+        if (composing && event instanceof InputEvent && !event.isComposing)
+            handleCompositionEnd();
+
         // Blocks mode? No text input support. It's all handled by text fields.
         if ($blocks) return;
 
@@ -1124,6 +1129,9 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        // If we receive a keyboard event that says
+        if (composing && !event.isComposing) handleCompositionEnd();
+
         // Ignore key down events that come just after composing. They're usually part of selecting the phrase in Safari.
         if (composingJustEnded) {
             composingJustEnded = false;
@@ -1254,8 +1262,8 @@
 
     // Whenever the selected output changes, ensure the first selected node is scrolled to.
     $effect(() => {
-        if (selection?.selectedOutput !== undefined) {
-            const node = selection.selectedOutput[0];
+        if (selection?.hasPaths()) {
+            const node = selection.getOutput(project)[0];
             if (node) {
                 tick().then(() => {
                     const view = getNodeView(node);
@@ -1436,7 +1444,7 @@
     $effect(() => {
         if (
             SHOW_OUTPUT_IN_PALETTE &&
-            selection?.selectedPaths &&
+            selection !== undefined &&
             $caret.position instanceof Evaluate &&
             $caret.position.isOneOf(
                 project.getNodeContext($caret.position),
@@ -1445,7 +1453,7 @@
                 project.shares.output.Stage,
             )
         )
-            selection.setSelectedOutput(project, [$caret.position]);
+            selection.setPaths(project, [$caret.position]);
     });
 
     // Update the highlights when any of these stores values change
@@ -1460,7 +1468,7 @@
                 $hovered,
                 $insertion,
                 $animatingNodes,
-                selection?.selectedOutput,
+                selection?.getOutput(project),
                 $blocks,
             ),
         );
@@ -1594,6 +1602,8 @@
         onfocusin={() => (focused = true)}
         onfocusout={() => {
             focused = false;
+            // If we're composing and lose focus, end the composition.
+            if (composing) handleCompositionEnd();
         }}
     ></textarea>
     <!-- Render the program -->

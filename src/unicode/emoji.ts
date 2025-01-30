@@ -4,7 +4,7 @@
  * See the Unicode Standard for details: https://www.unicode.org/versions/Unicode11.0.0/ch23.pdf#page=19
  */
 const EmoijRegex =
-    /((\p{Extended_Pictographic}|\p{Emoji_Modifier}|\p{Emoji_Modifier_Base}|\u200D)+)/gu;
+    /(\p{Extended_Pictographic}|(\p{Emoji_Modifier_Base}(\p{Emoji_Modifier}|\u200D)*))/gu;
 
 /** Adds emoji text variation descriptor to any noto emoji missing them. Ensures fonts are rendered consistently across Chrome, Safari, and Firefox. */
 function withVariationSelector(text: string, color = false) {

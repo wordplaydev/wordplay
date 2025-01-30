@@ -239,7 +239,7 @@
 
     // Every time the project store changes, update the project context.
     $effect(() => {
-        projectStore.set($projectStore);
+        projectStore.set(project);
     });
 
     // When the project changes to something other than the initial project, start persisting it.
@@ -330,7 +330,10 @@
         event.stopPropagation();
         tick().then(() => {
             const newFocus = focusView ?? nextButton;
-            if (newFocus)
+            if (
+                document.activeElement === document.body &&
+                newFocus !== undefined
+            )
                 setKeyboardFocus(
                     newFocus,
                     'Body received focus, focusing tutorial.',

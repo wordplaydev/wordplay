@@ -437,7 +437,6 @@ export default class ProjectsDatabase {
                     return project;
                 }
             } catch (err) {
-                console.error(err);
                 return undefined;
             }
         }

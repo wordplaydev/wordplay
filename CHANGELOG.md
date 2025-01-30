@@ -3,6 +3,22 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.14.3 2024-01-25
+
+### Added
+
+- Added a slightly more organized glyph chooser, exposing emojis and improving layout.
+
+### Fixed
+
+- Handled missing `compositionend` event on Windows emoji picker.
+- Handled inconsistent cross-platform firing of `compositionend` events
+- Accurately calculate caret position for multi-codepoint emojis.
+- #659: Prevent re-opening of dialog when closing with keyboard.
+- Fixed selected output functionality in tutorial.
+- #657: Fixed focus on tutorial buttons.
+- Always localize delimiters
+
 ## 0.14.2 2024-01-18
 
 ### Fixed
