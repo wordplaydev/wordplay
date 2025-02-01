@@ -6,9 +6,10 @@ import NumberValue from '@values/NumberValue';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import SetType from '@nodes/SetType';
 import Block, { BlockKind } from '@nodes/Block';
-import Source from '../nodes/Source';
+import Source from '@nodes/Source';
 import Project from '../models/Project';
 import DefaultLocale from '../locale/DefaultLocale';
+import Context from '@nodes/Context';
 
 test.each([
     ['{} = {}', TRUE_SYMBOL],
@@ -28,16 +29,9 @@ describe('SetValue', () => {
     const value3 = new NumberValue(mockRequestor, 3);
     const setValue = new SetValue(mockRequestor, [value1, value2]);
 
-    const source = new Source('test', "{}");
-    const project = Project.make(
-        null,
-        'test',
-        source,
-        ([]).map(
-            (code, index) => new Source(`sup${index + 1}`, code),
-        ),
-        DefaultLocale,
-    );
+    const source = new Source('test', '');
+    const project = Project.make(null, 'test', source, [], DefaultLocale);
+    const context = new Context(project, source);
 
     describe('size', () => {
         it('should return the correct size of the set', () => {
@@ -118,7 +112,7 @@ describe('SetValue', () => {
 
     describe('getType', () => {
         it('should return the correct type', () => {
-            expect(setValue.getType(project.getContext(source))).toBeInstanceOf(SetType);
+            expect(setValue.getType(context)).toBeInstanceOf(SetType);
         });
     });
 
