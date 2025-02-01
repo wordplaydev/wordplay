@@ -288,4 +288,19 @@ export class CharactersDatabase {
             .filter((character) => character !== null)
             .filter((character) => character.owner === this.db.getUser()?.uid);
     }
+
+    /** Get all characters accessible by the user */
+    getAvailableCharacters(): Character[] {
+        const user = this.db.getUser();
+        if (user === null) return [];
+        return Array.from(Object.values(this.byID))
+            .filter((character) => character !== null)
+            .filter(
+                (character) =>
+                    character.name !== '' &&
+                    (character.owner === user.uid ||
+                        character.public ||
+                        character.viewers.includes(user.uid)),
+            );
+    }
 }
