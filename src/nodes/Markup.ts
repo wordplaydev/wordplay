@@ -15,6 +15,7 @@ import Sym from './Sym';
 import Words from './Words';
 import { getCodepointFromString } from '../unicode/getCodepoint';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -153,19 +154,31 @@ export default class Markup extends Content {
             if (node instanceof Words) {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
-            } else if (
-                node instanceof Token &&
-                (node.isSymbol(Sym.Words) || node.isSymbol(Sym.Concept))
-            ) {
-                const text = node.isSymbol(Sym.Concept)
-                    ? (getCodepointFromString(node.getText().slice(1)) ??
-                      node.getText())
-                    : node.getText();
-                formats.push({
-                    text: text,
-                    italic,
-                    weight,
-                });
+            } else if (node instanceof Token) {
+                if (node.isSymbol(Sym.Words)) {
+                    formats.push({
+                        text: node.getText(),
+                        italic,
+                        weight,
+                    });
+                } else if (node.isSymbol(Sym.Concept)) {
+                    const match = ConceptLink.parse(node.getText().slice(1));
+                    if (match instanceof CodepointName)
+                        formats.push({
+                            text:
+                                getCodepointFromString(
+                                    node.getText().slice(1),
+                                ) ?? node.getText(),
+                            italic,
+                            weight,
+                        });
+                    else if (match instanceof CharacterName)
+                        formats.push({
+                            text: node.getText(),
+                            italic,
+                            weight,
+                        });
+                }
             }
         }
         return formats;

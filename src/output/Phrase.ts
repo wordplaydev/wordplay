@@ -232,7 +232,8 @@ export default class Phrase extends Output {
         for (const formatted of formats) {
             // If the text is a character name, it will be the width of an m in the current font.
             const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
-            const textToMeasure = isCharacter ? 'm' : formatted.text;
+            // If it is a custom character, treat it like the letter 'e' for measurement purposes.
+            const textToMeasure = isCharacter ? '@' : formatted.text;
             // Split the text by spaces and measure each space separated chunk.
             for (const segment of segmentWraps(textToMeasure)) {
                 const metrics = getTextMetrics(

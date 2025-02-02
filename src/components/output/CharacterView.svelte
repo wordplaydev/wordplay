@@ -28,9 +28,9 @@
 {:else}
     <div class="character">
         {#if character}
-            {@html characterToSVG(character, '1em')}
+            {@html characterToSVG(character, '.9em')}
         {:else}
-            {@html unknownCharacterSVG('1em')}
+            {@html unknownCharacterSVG('.9em')}
         {/if}
     </div>
 {/if}
@@ -38,6 +38,6 @@
 <style>
     .character {
         display: inline-block;
-        vertical-align: top;
+        vertical-align: middle;
     }
 </style>
