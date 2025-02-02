@@ -4234,13 +4234,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~源的首选语言",
+                    "all": "$~全部"
                 }
             },
             "error": {
-                "invalidName": "$?",
-                "invalidWords": "$?"
+                "invalidName": "$~这必须是一个有效的 Wordplay 名称。",
+                "invalidWords": "$~单词不能为空或包含保留符号。"
             }
         },
         "annotations": {
@@ -4354,7 +4354,7 @@
                 "error": {
                     "unknown": "我们不知道这封邮件的创建者是谁。",
                     "anonymous": "你必須登入才能共享。",
-                    "self": "$?"
+                    "self": "$~您无法添加自己。"
                 },
                 "button": {
                     "submit": "通过此电子邮件地址分享项目",
@@ -4502,10 +4502,10 @@
                 }
             },
             "error": {
-                "nan": "$?",
-                "percent": "$?",
-                "lessThanNext": "$?",
-                "moreThanPrevious": "$?"
+                "nan": "$~这不是一个数字。",
+                "percent": "$~必须是 0 至 100 之间的百分比。",
+                "lessThanNext": "$~这必须小于下一个条目。",
+                "moreThanPrevious": "$~这肯定比之前的条目更多。"
             }
         },
         "save": {
@@ -4551,7 +4551,7 @@
                         "subtitle": "帮助我们制作 Wordplay。"
                     },
                     "teach": "$~管理学生班级及其项目",
-                    "characters": "$?"
+                    "characters": "$~创建自定义表情符号和符号"
                 }
             },
             "learn": {
@@ -4656,9 +4656,9 @@
                     "delete": "我们无法删除你的帐户，但我们不知道原因。",
                     "wrongPassword": "无效的用户名和密码。可能是密码错误，或者其他人已经使用了这个用户名。",
                     "tooMany": "你尝试登录失败的次数过多。你必须等待一段时间才能重试。",
-                    "invalidUsername": "$?",
-                    "invalidPassword": "$?",
-                    "mismatched": "$?"
+                    "invalidUsername": "$~用户名必须是电子邮件或超过 5 个字母且无空格。",
+                    "invalidPassword": "$~密码长度必须至少为 10 个字符。",
+                    "mismatched": "$~密码不匹配。"
                 },
                 "feedback": {
                     "changing": "正在提交新的电子邮件地址……",
@@ -4878,35 +4878,35 @@
                 }
             },
             "characters": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~人物",
+                "prompt": "$~创建自定义表情符号和符号以在您的项目中使用并与他人分享。",
                 "button": {
-                    "new": "$?"
+                    "new": "$~创建新角色"
                 },
                 "error": {
-                    "offline": "$?",
-                    "noauth": "$?",
-                    "create": "$?"
+                    "offline": "$~我们无法访问您在线存储的角色。",
+                    "noauth": "$~您必须登录才能查看您的角色并创建新角色。",
+                    "create": "$~无法创建新角色。"
                 }
             },
             "character": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~特点",
+                "prompt": "$~使用形状和像素创建表情符号或符号。",
                 "instructions": {
-                    "empty": "$?",
-                    "unselected": "$?",
-                    "selected": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "empty": "$~在调色板中选择一种绘图模式来创建形状。",
+                    "unselected": "$~选择绘图模式或选择并编辑形状。",
+                    "selected": "$~使用 *箭头* 键移动形状。按住 *shift* 键可将更多形状添加到选择中。使用 *删除* 键可删除选择。使用下面的控件可更改所选形状。",
+                    "pixel": "$~要绘制像素，请选择颜色。然后单击画布或使用*箭头*移动光标和*空格*来创建像素。",
+                    "rect": "$~要绘制矩形，请选择颜色和笔触。然后单击并拖动，或使用*箭头*和*空格*键选择中心和大小。",
+                    "ellipse": "$~要绘制椭圆和圆形，请选择颜色和笔触。然后单击并拖动，或使用*箭头*和*空格*键选择中心和大小。",
+                    "path": "$~路径可以是线段、多边形和曲线。单击开始添加点，或使用*箭头*键和*空格*。按*escape*完成路径。*delete*将删除最后一个点。"
                 },
                 "shape": {
-                    "shape": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "shape": "$~形状",
+                    "pixel": "$~像素",
+                    "rect": "$~长方形",
+                    "ellipse": "$~椭圆",
+                    "path": "$~小路"
                 },
                 "publish": {
                     "dialog": {
@@ -4920,119 +4920,125 @@
                 },
                 "field": {
                     "name": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~角色名称",
+                        "placeholder": "$~姓名"
                     },
                     "description": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~人物描述",
+                        "placeholder": "$~描述"
                     },
                     "mode": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~模式",
+                        "modes": [
+                            "$~选择",
+                            "$~像素",
+                            "$~长方形",
+                            "$~椭圆",
+                            "$~小路"
+                        ]
                     },
                     "fill": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~充满",
+                        "modes": ["$~没有任何", "$~惰性", "$~选择"]
                     },
                     "stroke": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~中风",
+                        "modes": ["$~没有任何", "$~惰性", "$~选择"]
                     },
-                    "none": "$?",
-                    "inherit": "$?",
+                    "none": "$~没有任何",
+                    "inherit": "$~文字颜色",
                     "strokeWidth": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~描边宽度",
+                        "tip": "$~渲染的笔触宽度"
                     },
                     "radius": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~圆角半径",
+                        "tip": "$~矩形角有多圆"
                     },
                     "angle": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~角度",
+                        "tip": "$~形状绕其中心旋转多少度"
                     },
                     "width": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~宽度",
+                        "tip": "$~形状有多宽"
                     },
                     "height": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~高度",
+                        "tip": "$~形状有多高"
                     },
-                    "closed": "$?"
+                    "closed": "$~已连接"
                 },
                 "button": {
                     "back": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~后退",
+                        "tip": "$~将选定的形状移到后面。"
                     },
                     "toBack": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~返回",
+                        "tip": "$~将选定的形状移至后面。"
                     },
                     "forward": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~向前",
+                        "tip": "$~将选定的形状移到前面。"
                     },
                     "toFront": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~到前面",
+                        "tip": "$~将选定的形状移到前面。"
                     },
                     "copy": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~复制",
+                        "tip": "$~将选定的形状复制到剪贴板。"
                     },
                     "paste": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~粘贴",
+                        "tip": "$~从剪贴板粘贴复制的形状。"
                     },
                     "clear": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~全部",
+                        "tip": "$~移除所有形状。"
                     },
                     "clearPixels": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~像素",
+                        "tip": "$~删除所有像素。"
                     },
                     "undo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~撤消",
+                        "tip": "$~撤消之前的设计"
                     },
                     "redo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~重做",
+                        "tip": "$~重新进行下一个设计"
                     },
                     "all": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~选择全部",
+                        "tip": "$~选择所有形状和像素"
                     },
                     "end": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~完成形状",
+                        "tip": "$~结束当前路径"
                     },
                     "horizontal": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~水平翻转",
+                        "tip": "$~围绕中心水平翻转点"
                     },
                     "vertical": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~垂直翻转",
+                        "tip": "$~围绕中心垂直翻转点"
                     }
                 },
                 "feedback": {
-                    "name": "$?",
-                    "description": "$?",
-                    "end": "$?",
-                    "loadfail": "$?",
-                    "notfound": "$?",
-                    "unauthenticated": "$?",
+                    "name": "$~角色需要一个有效的Wordplay名称，长度至少为1个字符。它不能是“UI”、十进制或十六进制数字，或内置语言功能的名称。",
+                    "description": "$~角色需要描述，以便那些看不见的人知道他们代表什么。",
+                    "end": "$~或按 Esc。",
+                    "loadfail": "$~加载此角色时出现问题。",
+                    "notfound": "$~该角色不存在。",
+                    "unauthenticated": "$~您必须登录才能编辑角色。",
                     "published": "$?"
                 },
                 "announce": {
-                    "position": "$?",
-                    "selection": "$?"
+                    "position": "$~价格为 1 美元 2 美元",
+                    "selection": "$~$1[选择了$1|没有选择任何内容]"
                 }
             }
         },

@@ -4229,8 +4229,8 @@
                     "off": "$~redigera som block"
                 },
                 "characters": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~komprimera de matchande tecknen",
+                    "off": "$~utöka de matchande tecknen"
                 }
             },
             "button": {
@@ -4302,13 +4302,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~föredraget språk för källan",
+                    "all": "$~alla"
                 }
             },
             "error": {
-                "invalidName": "$?",
-                "invalidWords": "$?"
+                "invalidName": "$~Detta måste vara ett giltigt ordspelsnamn.",
+                "invalidWords": "$~Ord får inte vara tomma eller innehålla reserverade symboler."
             }
         },
         "annotations": {
@@ -4422,7 +4422,7 @@
                 "error": {
                     "unknown": "$~Vi känner ingen skapare med den här e-postadressen.",
                     "anonymous": "$~Du måste vara inloggad för att dela.",
-                    "self": "$?"
+                    "self": "$~Du kan inte lägga till dig själv."
                 },
                 "button": {
                     "submit": "$~Dela projektet med denna e-postadress",
@@ -4619,10 +4619,10 @@
                 }
             },
             "error": {
-                "nan": "$?",
-                "percent": "$?",
-                "lessThanNext": "$?",
-                "moreThanPrevious": "$?"
+                "nan": "$~Det här är inte en siffra.",
+                "percent": "$~Måste vara en procent mellan 0 och 100.",
+                "lessThanNext": "$~Detta måste vara mindre än nästa post.",
+                "moreThanPrevious": "$~Detta måste vara mer än föregående post."
             }
         },
         "save": {
@@ -4668,7 +4668,7 @@
                         "label": "$~Medverka",
                         "subtitle": "$~Hjälp oss att göra ordspel."
                     },
-                    "characters": "$?"
+                    "characters": "$~Skapa anpassade emojis och symboler"
                 }
             },
             "learn": {
@@ -4888,9 +4888,9 @@
                     "delete": "$~Vi kunde inte ta bort ditt konto, men vi vet inte varför.",
                     "wrongPassword": "$~Inte ett giltigt användarnamn och lösenord. Antingen är ditt lösenord fel eller så har någon annan det här användarnamnet.",
                     "tooMany": "$~Du har försökt och misslyckats med att logga in för många gånger. Du måste vänta med att försöka igen.",
-                    "invalidUsername": "$?",
-                    "invalidPassword": "$?",
-                    "mismatched": "$?"
+                    "invalidUsername": "$~Användarnamn måste vara e-postmeddelanden eller >5 bokstäver utan mellanslag.",
+                    "invalidPassword": "$~Lösenord måste vara minst 10 tecken långa.",
+                    "mismatched": "$~Lösenorden stämmer inte överens."
                 },
                 "feedback": {
                     "changing": "$~Skickar nytt e-postmeddelande...",
@@ -4995,35 +4995,35 @@
                 ]
             },
             "characters": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~Karaktärer",
+                "prompt": "$~Skapa anpassade emojis och symboler att använda i dina projekt och dela med andra.",
                 "button": {
-                    "new": "$?"
+                    "new": "$~Skapa en ny karaktär"
                 },
                 "error": {
-                    "offline": "$?",
-                    "noauth": "$?",
-                    "create": "$?"
+                    "offline": "$~Vi kunde inte komma åt dina karaktärer lagrade online.",
+                    "noauth": "$~Du måste vara inloggad för att se dina karaktärer och skapa nya.",
+                    "create": "$~Det går inte att skapa en ny karaktär."
                 }
             },
             "character": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~Karaktär",
+                "prompt": "$~Skapa en emoji eller symbol med former och pixlar.",
                 "instructions": {
-                    "empty": "$?",
-                    "unselected": "$?",
-                    "selected": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "empty": "$~Välj ett ritläge i paletten för att skapa former.",
+                    "unselected": "$~Välj ett ritläge eller välj och redigera former.",
+                    "selected": "$~Använd *piltangenterna* för att flytta former. Håll ned *shift* för att lägga till fler former i ett urval. Använd *delete* för att ta bort markeringen. Använd kontrollerna nedan för att ändra de valda formerna.",
+                    "pixel": "$~Välj en färg för att rita pixlar. Klicka sedan på arbetsytan eller använd *pilarna* för att flytta markören och *mellanslag* för att skapa en pixel.",
+                    "rect": "$~För att rita rektanglar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
+                    "ellipse": "$~För att rita ellipser och cirklar, välj en färg och linje. Klicka och dra sedan, eller använd *pilarna* och *mellanslagstangenten* för att välja mittpunkt och storlek.",
+                    "path": "$~Banor kan vara linjesegment, polygoner och kurvor. Klicka för att börja lägga till punkter, eller använd *pil*tangenterna och *mellanslag*. Tryck på *escape* för att avsluta banan. *radera* tar bort den sista punkten."
                 },
                 "shape": {
-                    "shape": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "shape": "$~form",
+                    "pixel": "$~pixel",
+                    "rect": "$~rektangel",
+                    "ellipse": "$~ellips",
+                    "path": "$~väg"
                 },
                 "publish": {
                     "dialog": {
@@ -5037,119 +5037,125 @@
                 },
                 "field": {
                     "name": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~karaktärens namn",
+                        "placeholder": "$~namn"
                     },
                     "description": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~beskrivning av karaktären",
+                        "placeholder": "$~beskrivning"
                     },
                     "mode": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~läge",
+                        "modes": [
+                            "$~välja",
+                            "$~pixel",
+                            "$~rektangel",
+                            "$~ellips",
+                            "$~väg"
+                        ]
                     },
                     "fill": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~fylla",
+                        "modes": ["$~ingen", "$~inerit", "$~välja"]
                     },
                     "stroke": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~stroke",
+                        "modes": ["$~ingen", "$~inerit", "$~välja"]
                     },
-                    "none": "$?",
-                    "inherit": "$?",
+                    "none": "$~ingen",
+                    "inherit": "$~textfärg",
                     "strokeWidth": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~slagbredd",
+                        "tip": "$~hur brett slaget återges"
                     },
                     "radius": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~hörnradie",
+                        "tip": "$~hur runda rektangulära hörn är"
                     },
                     "angle": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~vinkel",
+                        "tip": "$~hur mycket man ska rotera formen runt dess mitt"
                     },
                     "width": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~bredd",
+                        "tip": "$~hur bred formen är"
                     },
                     "height": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~höjd",
+                        "tip": "$~hur hög formen är"
                     },
-                    "closed": "$?"
+                    "closed": "$~ansluten"
                 },
                 "button": {
                     "back": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~tillbaka",
+                        "tip": "$~Flytta valda former bakom."
                     },
                     "toBack": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~att backa",
+                        "tip": "$~Flytta markerade former till baksidan."
                     },
                     "forward": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~fram",
+                        "tip": "$~Flytta valda former framför."
                     },
                     "toFront": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~till fronten",
+                        "tip": "$~Flytta markerade former framåt."
                     },
                     "copy": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~kopiera",
+                        "tip": "$~Kopiera markerade former till urklipp."
                     },
                     "paste": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~klistra",
+                        "tip": "$~Klistra in kopierade former från urklipp."
                     },
                     "clear": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~alla",
+                        "tip": "$~Ta bort alla former."
                     },
                     "clearPixels": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~pixlar",
+                        "tip": "$~Ta bort alla pixlar."
                     },
                     "undo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ångra",
+                        "tip": "$~Ångra till föregående design"
                     },
                     "redo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~göra om",
+                        "tip": "$~Gör om till nästa design"
                     },
                     "all": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~välj alla",
+                        "tip": "$~Välj alla former och pixlar"
                     },
                     "end": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~avsluta form",
+                        "tip": "$~Avsluta den aktuella vägen"
                     },
                     "horizontal": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~vänd horisontellt",
+                        "tip": "$~vänd punkterna horisontellt runt mitten"
                     },
                     "vertical": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~vänd vertikalt",
+                        "tip": "$~vänd punkterna vertikalt runt mitten"
                     }
                 },
                 "feedback": {
-                    "name": "$?",
-                    "description": "$?",
-                    "end": "$?",
-                    "loadfail": "$?",
-                    "notfound": "$?",
-                    "unauthenticated": "$?",
+                    "name": "$~Karaktärerbehöverettgiltigtordspelsnamnpåminst1teckenlångt.Detkanintevara\"UI\",ettdecimaltellerhexadecimalttal,ellernamnetpåeninbyggdspråkfunktion.",
+                    "description": "$~Karaktärer behöver en beskrivning så att de som inte kan se vet vad de representerar.",
+                    "end": "$~eller tryck på Escape.",
+                    "loadfail": "$~Det gick inte att läsa in den här karaktären.",
+                    "notfound": "$~Den här karaktären finns inte.",
+                    "unauthenticated": "$~Du måste vara inloggad för att redigera en karaktär.",
                     "published": "$?"
                 },
                 "announce": {
-                    "position": "$?",
-                    "selection": "$?"
+                    "position": "$~för $1 $2",
+                    "selection": "$~$1[vald $1|inget valt]"
                 }
             }
         },

@@ -4229,8 +4229,8 @@
                     "off": "$~bloklar halinde düzenle"
                 },
                 "characters": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~eşleşen karakterleri daralt",
+                    "off": "$~eşleşen karakterleri genişlet"
                 }
             },
             "button": {
@@ -4302,13 +4302,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~kaynak için tercih edilen dil",
+                    "all": "$~Tümü"
                 }
             },
             "error": {
-                "invalidName": "$?",
-                "invalidWords": "$?"
+                "invalidName": "$~Bu geçerli bir Wordplay adı olmalıdır.",
+                "invalidWords": "$~Kelimeler boş olamaz veya ayrılmış semboller içeremez."
             }
         },
         "annotations": {
@@ -4422,7 +4422,7 @@
                 "error": {
                     "unknown": "$~Bu e-postaya sahip bir yaratıcıyı tanımıyoruz.",
                     "anonymous": "$~Paylaşmak için giriş yapmalısınız.",
-                    "self": "$?"
+                    "self": "$~Kendinizi ekleyemezsiniz."
                 },
                 "button": {
                     "submit": "$~Projeyi bu e-posta adresiyle paylaşın",
@@ -4614,10 +4614,10 @@
                 }
             },
             "error": {
-                "nan": "$?",
-                "percent": "$?",
-                "lessThanNext": "$?",
-                "moreThanPrevious": "$?"
+                "nan": "$~Bu bir sayı değil.",
+                "percent": "$~0 ile 100 arasında bir yüzde olmalıdır.",
+                "lessThanNext": "$~Bu, bir sonraki girdiden daha az olmalıdır.",
+                "moreThanPrevious": "$~Bu, bir önceki girdiden daha fazla olmalı."
             }
         },
         "save": {
@@ -4663,7 +4663,7 @@
                         "label": "$~Katkı yapmak",
                         "subtitle": "$~Wordplay yapmamıza yardım edin."
                     },
-                    "characters": "$?"
+                    "characters": "$~Özel emojiler ve semboller yaratın"
                 }
             },
             "learn": {
@@ -4883,9 +4883,9 @@
                     "delete": "$~Hesabınızı silemedik, ancak nedenini bilmiyoruz.",
                     "wrongPassword": "$~Geçerli bir kullanıcı adı ve şifre değil. Ya şifreniz yanlış ya da başka biri bu kullanıcı adına sahip.",
                     "tooMany": "$~Çok fazla kez giriş yapmayı denediniz ve başarısız oldunuz. Tekrar denemek için beklemeniz gerekecek.",
-                    "invalidUsername": "$?",
-                    "invalidPassword": "$?",
-                    "mismatched": "$?"
+                    "invalidUsername": "$~Kullanıcı adları e-posta veya 5 harften fazla olmamalı ve boşluk içermemelidir.",
+                    "invalidPassword": "$~Şifreler en az 10 karakter uzunluğunda olmalıdır.",
+                    "mismatched": "$~Şifreler uyuşmuyor."
                 },
                 "feedback": {
                     "changing": "$~Yeni e-posta gönderiliyor...",
@@ -4990,35 +4990,35 @@
                 ]
             },
             "characters": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~Karakterler",
+                "prompt": "$~Projelerinizde kullanmak ve başkalarıyla paylaşmak için özel emojiler ve semboller oluşturun.",
                 "button": {
-                    "new": "$?"
+                    "new": "$~Yeni bir karakter yarat"
                 },
                 "error": {
-                    "offline": "$?",
-                    "noauth": "$?",
-                    "create": "$?"
+                    "offline": "$~Çevrimiçi olarak depolanan karakterlerinize erişemedik.",
+                    "noauth": "$~Karakterlerinizi görmek ve yeni karakterler oluşturmak için giriş yapmanız gerekmektedir.",
+                    "create": "$~Yeni bir karakter oluşturulamıyor."
                 }
             },
             "character": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~Karakter",
+                "prompt": "$~Şekiller ve piksellerle bir emoji veya sembol oluşturun.",
                 "instructions": {
-                    "empty": "$?",
-                    "unselected": "$?",
-                    "selected": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "empty": "$~Şekilleri oluşturmak için paletten bir çizim modu seçin.",
+                    "unselected": "$~Bir çizim modu seçin veya şekilleri seçip düzenleyin.",
+                    "selected": "$~Şekilleri taşımak için *ok* tuşlarını kullanın. Seçime daha fazla şekil eklemek için *shift* tuşuna basılı tutun. Seçimi kaldırmak için *delete* tuşunu kullanın. Seçili şekilleri değiştirmek için aşağıdaki denetimleri kullanın.",
+                    "pixel": "$~Piksel çizmek için bir renk seçin. Ardından, tuvale tıklayın veya imleci hareket ettirmek için *okları* ve bir piksel oluşturmak için *boşluk* tuşunu kullanın.",
+                    "rect": "$~Dikdörtgenler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
+                    "ellipse": "$~Elips ve daireler çizmek için bir renk ve kontur seçin. Ardından, tıklayın ve sürükleyin veya bir merkez ve boyut seçmek için *oklar* ve *boşluk* tuşunu kullanın.",
+                    "path": "$~Yollar çizgi parçaları, çokgenler ve eğriler olabilir. Nokta eklemeye başlamak için tıklayın veya *ok* tuşlarını ve *boşluk* tuşlarını kullanın. Yolu bitirmek için *escape* tuşuna basın. *delete* son noktayı kaldıracaktır."
                 },
                 "shape": {
-                    "shape": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "shape": "$~şekil",
+                    "pixel": "$~piksel",
+                    "rect": "$~dikdörtgen",
+                    "ellipse": "$~elips",
+                    "path": "$~yol"
                 },
                 "publish": {
                     "dialog": {
@@ -5032,119 +5032,125 @@
                 },
                 "field": {
                     "name": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~karakterin adı",
+                        "placeholder": "$~isim"
                     },
                     "description": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~karakterin tanımı",
+                        "placeholder": "$~Tanım"
                     },
                     "mode": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~mod",
+                        "modes": [
+                            "$~seçme",
+                            "$~piksel",
+                            "$~dikdörtgen",
+                            "$~elips",
+                            "$~yol"
+                        ]
                     },
                     "fill": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~doldurmak",
+                        "modes": ["$~hiçbiri", "$~inert", "$~seçmek"]
                     },
                     "stroke": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~felç",
+                        "modes": ["$~hiçbiri", "$~inert", "$~seçmek"]
                     },
-                    "none": "$?",
-                    "inherit": "$?",
+                    "none": "$~hiçbiri",
+                    "inherit": "$~metin rengi",
                     "strokeWidth": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~vuruş genişliği",
+                        "tip": "$~vuruşun ne kadar geniş olduğu"
                     },
                     "radius": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~köşe yarıçapı",
+                        "tip": "$~dikdörtgen köşeleri ne kadar yuvarlaktır"
                     },
                     "angle": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~açı",
+                        "tip": "$~şeklin merkezi etrafında ne kadar döndürülmesi gerektiği"
                     },
                     "width": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Genişlik",
+                        "tip": "$~şeklin genişliği ne kadar"
                     },
                     "height": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~yükseklik",
+                        "tip": "$~şeklin uzunluğu ne kadar"
                     },
-                    "closed": "$?"
+                    "closed": "$~bağlı"
                 },
                 "button": {
                     "back": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~geri",
+                        "tip": "$~Seçili şekilleri arkaya taşı."
                     },
                     "toBack": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~geri dönmek",
+                        "tip": "$~Seçili şekilleri arkaya taşı."
                     },
                     "forward": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~ileri",
+                        "tip": "$~Seçili şekilleri öne taşı."
                     },
                     "toFront": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Ön tarafa",
+                        "tip": "$~Seçili şekilleri öne taşı."
                     },
                     "copy": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~kopyala",
+                        "tip": "$~Seçili şekilleri panoya kopyala."
                     },
                     "paste": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~yapıştırmak",
+                        "tip": "$~Panodan kopyalanan şekilleri yapıştır."
                     },
                     "clear": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Tümü",
+                        "tip": "$~Tüm şekilleri kaldırın."
                     },
                     "clearPixels": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~pikseller",
+                        "tip": "$~Tüm pikselleri kaldır."
                     },
                     "undo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~geri almak",
+                        "tip": "$~Önceki tasarıma geri dön"
                     },
                     "redo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~yeniden yapmak",
+                        "tip": "$~Bir sonraki tasarıma yeniden geç"
                     },
                     "all": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~hepsini seç",
+                        "tip": "$~Tüm şekilleri ve pikselleri seç"
                     },
                     "end": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~bitiş şekli",
+                        "tip": "$~Mevcut yolu sonlandır"
                     },
                     "horizontal": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~yatay çevir",
+                        "tip": "$~Noktaları merkezin etrafında yatay olarak çevirin"
                     },
                     "vertical": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~dikey çevir",
+                        "tip": "$~Noktaları merkez etrafında dikey olarak çevirin"
                     }
                 },
                 "feedback": {
-                    "name": "$?",
-                    "description": "$?",
-                    "end": "$?",
-                    "loadfail": "$?",
-                    "notfound": "$?",
-                    "unauthenticated": "$?",
+                    "name": "$~Karakterlerinenaz1karakteruzunluğundageçerlibirWordplayadınaihtiyacıvardır.'UI',ondalıkveyaonaltılıksayıveyayerleşikbirdilözelliğininadıolamaz.",
+                    "description": "$~Karakterlerin, neyi temsil ettiğini göremeyenler için bir tanıma ihtiyacı vardır.",
+                    "end": "$~veya escape tuşuna basın.",
+                    "loadfail": "$~Bu karakter yüklenirken bir sorun oluştu.",
+                    "notfound": "$~Bu karakter mevcut değil.",
+                    "unauthenticated": "$~Bir karakteri düzenlemek için giriş yapmış olmanız gerekir.",
                     "published": "$?"
                 },
                 "announce": {
-                    "position": "$?",
-                    "selection": "$?"
+                    "position": "$~1$'dan 2$'a",
+                    "selection": "$~$1[seçildi $1|hiçbir şey seçilmedi]"
                 }
             }
         },

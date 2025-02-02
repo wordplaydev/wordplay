@@ -4200,8 +4200,8 @@
                     "off": "$~Blockhintergründe anzeigen"
                 },
                 "characters": {
-                    "on": "$?",
-                    "off": "$?"
+                    "on": "$~die übereinstimmenden Zeichen ausblenden",
+                    "off": "$~Erweitern Sie die passenden Zeichen"
                 }
             },
             "button": {
@@ -4273,13 +4273,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~bevorzugte Sprache für die Quelle",
+                    "all": "$~alle"
                 }
             },
             "error": {
-                "invalidName": "$?",
-                "invalidWords": "$?"
+                "invalidName": "$~Dies muss ein gültiger Wortspielname sein.",
+                "invalidWords": "$~Wörter dürfen nicht leer sein oder reservierte Symbole enthalten."
             }
         },
         "annotations": {
@@ -4393,7 +4393,7 @@
                 "error": {
                     "unknown": "$~Wir kennen keinen Ersteller mit dieser E-Mail.",
                     "anonymous": "$~Zum Teilen müssen Sie angemeldet sein.",
-                    "self": "$?"
+                    "self": "$~Sie können sich nicht selbst hinzufügen."
                 },
                 "button": {
                     "submit": "$~Teilen Sie das Projekt mit dieser E-Mail-Adresse",
@@ -4553,10 +4553,10 @@
                 }
             },
             "error": {
-                "nan": "$?",
-                "percent": "$?",
-                "lessThanNext": "$?",
-                "moreThanPrevious": "$?"
+                "nan": "$~Dies ist keine Zahl.",
+                "percent": "$~Muss ein Prozentsatz zwischen 0 und 100 sein.",
+                "lessThanNext": "$~Dieser muss kleiner sein als der nächste Eintrag.",
+                "moreThanPrevious": "$~Dies muss mehr sein als der vorherige Eintrag."
             }
         },
         "save": {
@@ -4602,7 +4602,7 @@
                         "subtitle": "Helfen Sie uns, Wordplay zu erstellen."
                     },
                     "teach": "$~Verwalten Sie Schülerklassen und ihre Projekte",
-                    "characters": "$?"
+                    "characters": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole"
                 }
             },
             "learn": {
@@ -4703,9 +4703,9 @@
                     "delete": "$~Wir konnten Ihr Konto nicht löschen, wissen aber nicht, warum.",
                     "wrongPassword": "$~Kein gültiger Benutzername und Passwort. Entweder ist Ihr Passwort falsch oder jemand anderes hat diesen Benutzernamen.",
                     "tooMany": "$~Sie haben zu oft erfolglos versucht, sich anzumelden. Sie müssen warten, bevor Sie es erneut versuchen können.",
-                    "invalidUsername": "$?",
-                    "invalidPassword": "$?",
-                    "mismatched": "$?"
+                    "invalidUsername": "$~Benutzernamen müssen E-Mail-Adressen oder >5 Buchstaben ohne Leerzeichen sein.",
+                    "invalidPassword": "$~Passwörter müssen mindestens 10 Zeichen lang sein.",
+                    "mismatched": "$~Die Passwörter stimmen nicht überein."
                 },
                 "feedback": {
                     "changing": "$~Neue E-Mail wird gesendet …",
@@ -4929,35 +4929,35 @@
                 }
             },
             "characters": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~Charaktere",
+                "prompt": "$~Erstellen Sie benutzerdefinierte Emojis und Symbole, die Sie in Ihren Projekten verwenden und mit anderen teilen können.",
                 "button": {
-                    "new": "$?"
+                    "new": "$~Einen neuen Charakter erstellen"
                 },
                 "error": {
-                    "offline": "$?",
-                    "noauth": "$?",
-                    "create": "$?"
+                    "offline": "$~Wir konnten nicht auf Ihre online gespeicherten Charaktere zugreifen.",
+                    "noauth": "$~Sie müssen angemeldet sein, um Ihre Charaktere zu sehen und neue zu erstellen.",
+                    "create": "$~Es kann kein neuer Charakter erstellt werden."
                 }
             },
             "character": {
-                "header": "$?",
-                "prompt": "$?",
+                "header": "$~Charakter",
+                "prompt": "$~Erstellen Sie ein Emoji oder Symbol mit Formen und Pixeln.",
                 "instructions": {
-                    "empty": "$?",
-                    "unselected": "$?",
-                    "selected": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "empty": "$~Wählen Sie einen Zeichenmodus in der Palette, um Formen zu erstellen.",
+                    "unselected": "$~Wählen Sie einen Zeichenmodus oder wählen und bearbeiten Sie Formen.",
+                    "selected": "$~Verwenden Sie die *Pfeiltasten*, um Formen zu verschieben. Halten Sie die *Umschalttaste* gedrückt, um einer Auswahl weitere Formen hinzuzufügen. Verwenden Sie *Entf*, um die Auswahl aufzuheben. Verwenden Sie die unten stehenden Steuerelemente, um die ausgewählten Formen zu ändern.",
+                    "pixel": "$~Um Pixel zu zeichnen, wählen Sie eine Farbe. Klicken Sie dann auf die Leinwand oder verwenden Sie die *Pfeile*, um den Cursor zu bewegen, und die *Leertaste*, um ein Pixel zu erstellen.",
+                    "rect": "$~Um Rechtecke zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
+                    "ellipse": "$~Um Ellipsen und Kreise zu zeichnen, wählen Sie eine Farbe und einen Strich. Klicken und ziehen Sie dann oder verwenden Sie die *Pfeile* und die *Leertaste*, um einen Mittelpunkt und eine Größe auszuwählen.",
+                    "path": "$~Pfade können Liniensegmente, Polygone und Kurven sein. Klicken Sie, um mit dem Hinzufügen von Punkten zu beginnen, oder verwenden Sie die *Pfeiltasten* und die *Leertaste*. Drücken Sie *Escape*, um den Pfad zu beenden. *Entf* entfernt den letzten Punkt."
                 },
                 "shape": {
-                    "shape": "$?",
-                    "pixel": "$?",
-                    "rect": "$?",
-                    "ellipse": "$?",
-                    "path": "$?"
+                    "shape": "$~Form",
+                    "pixel": "$~Pixel",
+                    "rect": "$~Rechteck",
+                    "ellipse": "$~Ellipse",
+                    "path": "$~Weg"
                 },
                 "publish": {
                     "dialog": {
@@ -4971,119 +4971,125 @@
                 },
                 "field": {
                     "name": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~Name des Charakters",
+                        "placeholder": "$~Name"
                     },
                     "description": {
-                        "description": "$?",
-                        "placeholder": "$?"
+                        "description": "$~Beschreibung des Charakters",
+                        "placeholder": "$~Beschreibung"
                     },
                     "mode": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~Modus",
+                        "modes": [
+                            "$~wählen",
+                            "$~Pixel",
+                            "$~Rechteck",
+                            "$~Ellipse",
+                            "$~Weg"
+                        ]
                     },
                     "fill": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~füllen",
+                        "modes": ["$~keiner", "$~inerit", "$~wählen"]
                     },
                     "stroke": {
-                        "label": "$?",
-                        "modes": ["$?"]
+                        "label": "$~Schlaganfall",
+                        "modes": ["$~keiner", "$~inerit", "$~wählen"]
                     },
-                    "none": "$?",
-                    "inherit": "$?",
+                    "none": "$~keiner",
+                    "inherit": "$~Textfarbe",
                     "strokeWidth": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Strichbreite",
+                        "tip": "$~wie breit der Strich dargestellt wird"
                     },
                     "radius": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Eckradius",
+                        "tip": "$~wie rund Rechteck-Ecken sind"
                     },
                     "angle": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Winkel",
+                        "tip": "$~Wie weit soll die Form um ihren Mittelpunkt gedreht werden?"
                     },
                     "width": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Breite",
+                        "tip": "$~wie breit die Form ist"
                     },
                     "height": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Höhe",
+                        "tip": "$~wie hoch die Form ist"
                     },
-                    "closed": "$?"
+                    "closed": "$~verbunden"
                 },
                 "button": {
                     "back": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~zurück",
+                        "tip": "$~Ausgewählte Formen nach hinten verschieben."
                     },
                     "toBack": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~zurück",
+                        "tip": "$~Ausgewählte Formen nach hinten verschieben."
                     },
                     "forward": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~nach vorne",
+                        "tip": "$~Ausgewählte Formen nach vorne verschieben."
                     },
                     "toFront": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~nach vorne",
+                        "tip": "$~Verschiebt ausgewählte Formen nach vorne."
                     },
                     "copy": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Kopie",
+                        "tip": "$~Kopiert ausgewählte Formen in die Zwischenablage."
                     },
                     "paste": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Paste",
+                        "tip": "$~Fügt kopierte Formen aus der Zwischenablage ein."
                     },
                     "clear": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~alle",
+                        "tip": "$~Entfernen Sie alle Formen."
                     },
                     "clearPixels": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Pixel",
+                        "tip": "$~Entfernen Sie alle Pixel."
                     },
                     "undo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~rückgängig machen",
+                        "tip": "$~Zum vorherigen Design zurückkehren"
                     },
                     "redo": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~wiederholen",
+                        "tip": "$~Zum nächsten Entwurf zurückkehren"
                     },
                     "all": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Alle auswählen",
+                        "tip": "$~Alle Formen und Pixel auswählen"
                     },
                     "end": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~Form beenden",
+                        "tip": "$~Beenden des aktuellen Pfads"
                     },
                     "horizontal": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~horizontal spiegeln",
+                        "tip": "$~Drehen Sie die Punkte horizontal um die Mitte"
                     },
                     "vertical": {
-                        "label": "$?",
-                        "tip": "$?"
+                        "label": "$~vertikal spiegeln",
+                        "tip": "$~Drehen Sie die Punkte vertikal um die Mitte"
                     }
                 },
                 "feedback": {
-                    "name": "$?",
-                    "description": "$?",
-                    "end": "$?",
-                    "loadfail": "$?",
-                    "notfound": "$?",
-                    "unauthenticated": "$?",
+                    "name": "$~CharakterebenötigeneinengültigenWordplay-Namenmitmindestens1ZeichenLänge.Esdarfnicht„UI“,eineDezimal-oderHexadezimalzahloderderNameeinerintegriertenSprachfunktionsein.",
+                    "description": "$~Charaktere benötigen eine Beschreibung, damit diejenigen, die nicht sehen können, wissen, was sie darstellen.",
+                    "end": "$~oder drücken Sie die Escape-Taste.",
+                    "loadfail": "$~Beim Laden dieses Zeichens ist ein Problem aufgetreten.",
+                    "notfound": "$~Dieses Zeichen existiert nicht.",
+                    "unauthenticated": "$~Sie müssen angemeldet sein, um einen Charakter bearbeiten zu können.",
                     "published": "$?"
                 },
                 "announce": {
-                    "position": "$?",
-                    "selection": "$?"
+                    "position": "$~bei $1 $2",
+                    "selection": "$~$1[ausgewählt $1|nichts ausgewählt]"
                 }
             }
         },
