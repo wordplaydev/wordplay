@@ -204,22 +204,17 @@ export class CharactersDatabase {
         }
     }
 
-    /**
-     * Get the character by ID or name.
-     @returns `undefined` if unable to check for it, `null`: it doesn't exist in the database, or the matching `Character`.
-     * */
-    async getByIDOrName(
-        idOrName: string,
-    ): Promise<Character | null | undefined> {
+    /** Get the character by ID
+        @returns `undefined` if unable to check for it, `null`: it doesn't exist in the database, or the matching `Character`.
+    **/
+    async getByID(id: string): Promise<Character | null | undefined> {
         // Is it in the store by ID or name?
-        const localMatchByID = this.byID[idOrName];
-        const localMatchByName = this.byName[idOrName];
+        const localMatchByID = this.byID[id];
 
         // Doesn't exist? Say so.
-        if (localMatchByID === null && localMatchByName === null) return null;
+        if (localMatchByID === null) return null;
         // Found a match locally? Return it. Rely on realtime to keep it up to date.
         if (localMatchByID !== undefined) return localMatchByID;
-        if (localMatchByName !== undefined) return localMatchByName;
 
         // We have to check, but don't have database access? Undefined.
         const user = this.db.getUser();
@@ -229,7 +224,7 @@ export class CharactersDatabase {
             let match: Character | null = null;
             // Check the database by ID.
             const onlineMatchByID = await getDoc(
-                doc(firestore, CharactersCollection, idOrName),
+                doc(firestore, CharactersCollection, id),
             );
             if (onlineMatchByID.exists()) {
                 const character = onlineMatchByID.data();
@@ -241,6 +236,40 @@ export class CharactersDatabase {
                     return null;
                 }
             }
+
+            // Did we find one? Update the local store and return it.
+            if (match) {
+                this.updateCharacter(match, false);
+                return match;
+            } else {
+                this.byID[id] = null;
+            }
+            return null;
+        } catch (err) {
+            console.error(err);
+            return undefined;
+        }
+    }
+
+    /**
+     * Get the character by name.
+     @returns `undefined` if unable to check for it, `null`: it doesn't exist in the database, or the matching `Character`.
+     * */
+    async getByName(idOrName: string): Promise<Character | null | undefined> {
+        // Is it in the store by ID or name?
+        const localMatchByName = this.byName[idOrName];
+
+        // Doesn't exist? Say so.
+        if (localMatchByName === null) return null;
+        // Found a match locally? Return it. Rely on realtime to keep it up to date.
+        if (localMatchByName !== undefined) return localMatchByName;
+
+        // We have to check, but don't have database access? Undefined.
+        const user = this.db.getUser();
+        if (firestore === undefined || user === null) return undefined;
+
+        try {
+            let match: Character | null = null;
 
             // Check the database by name.
             const onlineMatchByName = await getDocs(
@@ -274,7 +303,6 @@ export class CharactersDatabase {
                 this.updateCharacter(match, false);
                 return match;
             } else {
-                this.byID[idOrName] = null;
                 this.byName[idOrName] = null;
             }
             return null;

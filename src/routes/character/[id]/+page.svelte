@@ -374,7 +374,7 @@
         // Don't track the below; it's just a one-time load unless the id changes.
         if ($user) {
             untrack(() =>
-                CharactersDB.getByIDOrName(id).then((loadedCharacter) => {
+                CharactersDB.getByID(id).then((loadedCharacter) => {
                     persisted =
                         loadedCharacter === undefined
                             ? 'failed'

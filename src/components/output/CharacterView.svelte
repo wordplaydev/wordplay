@@ -14,7 +14,7 @@
     $effect(() => {
         if (name) {
             character = 'loading';
-            CharactersDB.getByIDOrName(`${name.username}/${name.name}`).then(
+            CharactersDB.getByName(`${name.username}/${name.name}`).then(
                 (g) => {
                     character = g === undefined ? null : g;
                 },
