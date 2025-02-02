@@ -154,7 +154,7 @@
     {:else if match instanceof CodepointName}
         {match.codepoint}
     {:else if match instanceof CharacterName}
-        <CharacterView name={match.name} />
+        <CharacterView name={match} />
     {/if}
 {:else if link instanceof ConceptLink}
     {link.concept.getText()}

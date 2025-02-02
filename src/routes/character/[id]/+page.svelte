@@ -348,19 +348,24 @@
             isValidDescription(description) === true,
     );
 
+    let timeout: NodeJS.Timeout | null = null;
+    function saveLater() {
+        if (timeout) clearTimeout(timeout);
+        timeout = setTimeout(() => {
+            console.log('Saving');
+            CharactersDB.updateCharacter(
+                $state.snapshot(editedCharacter) as Character,
+                true,
+            );
+        }, 1000);
+    }
+
     /**
      * When the edited character changes and we have loaded the persisted one,
      * tell the database about the new value.
      * */
     $effect(() => {
-        if (savable && editedCharacter !== null) {
-            untrack(() =>
-                CharactersDB.updateCharacter(
-                    $state.snapshot(editedCharacter) as Character,
-                    true,
-                ),
-            );
-        }
+        if (savable && editedCharacter !== null) untrack(saveLater);
     });
 
     /** When the page loads or its id changes, load the persisted character */

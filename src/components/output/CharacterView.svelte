@@ -5,17 +5,20 @@
         unknownCharacterSVG,
         type Character,
     } from '../../db/characters/Character';
+    import { CharacterName } from '@nodes/ConceptLink';
 
-    let { name }: { name: string } = $props();
+    let { name }: { name: CharacterName } = $props();
 
     let character = $state<Character | 'loading' | null>('loading');
     /** When the character changes, load the character */
     $effect(() => {
         if (name) {
             character = 'loading';
-            CharactersDB.getByIDOrName(name).then((g) => {
-                character = g === undefined ? null : g;
-            });
+            CharactersDB.getByIDOrName(`${name.username}/${name.name}`).then(
+                (g) => {
+                    character = g === undefined ? null : g;
+                },
+            );
         }
     });
 </script>

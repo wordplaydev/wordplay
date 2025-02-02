@@ -54,9 +54,11 @@ export class UIName {
 }
 
 export class CharacterName {
+    readonly username: string;
     readonly name: string;
 
-    constructor(name: string) {
+    constructor(username: string, name: string) {
+        this.username = username;
         this.name = name;
     }
 }
@@ -103,7 +105,7 @@ export default class ConceptLink extends Content {
         if (concept === 'UI') return new UIName(concept);
         else if (ReservedConceptIDs.has(concept))
             return new ConceptName(concept, property);
-        else return new CharacterName(concept);
+        else return new CharacterName(concept, property);
     }
 
     /** Is valid if it refers to a concept key in the given Locale */
