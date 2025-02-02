@@ -96,15 +96,13 @@ export const CharacterSchema = z.object({
     id: z.string().uuid(),
     // The optional owner of this character. (If it doesn't have one, it was made offline).
     owner: z.string().nullable(),
-    // The list of viewers who can see this character, derived from the list of projects using it.
-    viewers: z.array(z.string()),
-    // The list of project IDs using this character, for deriving viewers. Added when a project makes a reference to this character.
-    projects: z.array(z.string()),
-    // Whether this character is public.
+    // Whether this character is public. Defaults to true.
     public: z.boolean(),
+    // The list of uids who can see this character, if not public.
+    collaborators: z.array(z.string()),
     // The Unix time of when this was last updated, for simple distributed conflict resolution.
     updated: z.number(),
-    // A Wordplay name
+    // owner username/Wordplay name (e.g., "hello/FunnyAnimal")
     name: z.string(),
     // A list of tagged names in Wordplay syntax
     description: z.string(),

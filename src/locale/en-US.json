@@ -4998,13 +4998,14 @@
                     }
                 },
                 "feedback": {
-                    "name": "Characters need a valid Wordplay name of at least 5 letters. It can't be 'UI', a decimal or hexadecimal number, or the name of a built-in language feature.",
+                    "name": "Characters need a valid Wordplay name of at least 1 character long. It can't be 'UI', a decimal or hexadecimal number, or the name of a built-in language feature.",
                     "description": "Characters need a description so those who can't see know what they represent.",
                     "end": "or press escape.",
                     "loadfail": "There was a problem loading this character.",
                     "notfound": "This character doesn't exist.",
                     "unauthenticated": "You must be logged in to edit a character.",
-                    "published": "This character is published and can't be edited."
+                    "taken": "You already have a character with this name; not saving.",
+                    "unsaved": "Give this character a description and a valid, unique name to save."
                 },
                 "announce": {
                     "position": "at $1 $2",

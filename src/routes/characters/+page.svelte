@@ -58,13 +58,16 @@
 </svelte:head>
 
 {#snippet preview(character: Character)}
+    {@const name = character.name.split('/').at(-1) ?? ''}
     <Link to="/character/{character.id}">
         <div class="preview">
             <div class="character">
                 {@html characterToSVG(character, 64)}
             </div>
             <div class="name"
-                >{#if character.name.length === 0}—{:else}{character.name}{/if}</div
+                >{#if character.name.length === 0}—{:else}{name.length === 0
+                        ? '—'
+                        : name}{/if}</div
             >
         </div>
     </Link>

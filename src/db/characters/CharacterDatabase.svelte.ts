@@ -66,7 +66,10 @@ export class CharactersDatabase {
         this.unsubscribe = onSnapshot(
             query(
                 collection(firestore, CharactersCollection),
-                where('owner', '==', user.uid),
+                or(
+                    where('owner', '==', user.uid),
+                    where('collaborators', 'array-contains', user.uid),
+                ),
             ),
             async (snapshot) => {
                 // First, go through the entire set, gathering the latest versions and remembering what project IDs we know
@@ -116,9 +119,8 @@ export class CharactersDatabase {
         const character: Character = {
             id: uuidv4(),
             owner: user.uid,
-            public: false,
-            viewers: [],
-            projects: [],
+            public: true,
+            collaborators: [],
             updated: Date.now(),
             name: '',
             description: '',
@@ -249,7 +251,7 @@ export class CharactersDatabase {
                         or(
                             where('public', '==', true),
                             where('owner', '==', user.uid),
-                            where('viewers', 'array-contains', user.uid),
+                            where('collaborators', 'array-contains', user.uid),
                         ),
                     ),
                 ),
@@ -289,6 +291,13 @@ export class CharactersDatabase {
             .filter((character) => character.owner === this.db.getUser()?.uid);
     }
 
+    /** Check if any owned characters have the given name */
+    getOwnedCharacterWithName(name: string): Character | undefined {
+        return this.getOwnedCharacters().find(
+            (c) => c.name.split('/')[1] === name,
+        );
+    }
+
     /** Get all characters accessible by the user */
     getAvailableCharacters(): Character[] {
         const user = this.db.getUser();
@@ -300,7 +309,7 @@ export class CharactersDatabase {
                     character.name !== '' &&
                     (character.owner === user.uid ||
                         character.public ||
-                        character.viewers.includes(user.uid)),
+                        character.collaborators.includes(user.uid)),
             );
     }
 }

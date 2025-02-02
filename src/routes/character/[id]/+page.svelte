@@ -110,8 +110,10 @@
             notfound: string;
             /** Not logged in */
             unauthenticated: string;
-            /** Published explanation */
-            published: string;
+            /** Not saving because name is taken */
+            taken: string;
+            /** Not saving because not authenticated, invalid name or description. */
+            unsaved: string;
         };
         announce: {
             /** When cursor position changes $1 x, $2: y. */
@@ -184,6 +186,7 @@
     import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
     import { Basis } from '@basis/Basis';
     import Dialog from '@components/widgets/Dialog.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -264,31 +267,29 @@
     let persisted: Character | 'loading' | 'failed' | 'unknown' =
         $state('loading');
 
-    /** The list of viewers, derived from the projects using it */
-    let viewers: string[] = $derived.by(() =>
-        typeof persisted === 'string' ? [] : persisted.viewers,
-    );
-
-    /** The list of projects using the character */
-    let projects: string[] = $derived.by(() =>
-        typeof persisted === 'string' ? [] : persisted.projects,
+    /** The list of collaborators */
+    let collaborators: string[] = $derived.by(() =>
+        typeof persisted === 'string' ? [] : persisted.collaborators,
     );
 
     /** Whether the project is public */
     let isPublic: boolean = $state(false);
 
     /** Always have an up to date character to render and save */
-    let editedCharacter: Character = $derived({
-        id: page.params.id,
-        owner: $user?.uid ?? null,
-        updated: Date.now(),
-        name,
-        description,
-        shapes,
-        viewers,
-        projects,
-        public: isPublic,
-    });
+    let editedCharacter: Character | null = $derived(
+        $user === null || $user.email === null
+            ? null
+            : {
+                  id: page.params.id,
+                  owner: $user?.uid ?? null,
+                  updated: Date.now(),
+                  name: `${Creator.getUsername($user.email)}/${name}`,
+                  description,
+                  shapes,
+                  collaborators: collaborators ?? [],
+                  public: isPublic,
+              },
+    );
 
     /** The colors used by the current shapes */
     let colors: [number, number, number][] = $derived.by(() => {
@@ -331,13 +332,28 @@
         );
     });
 
+    let nameAvailable = $derived.by(() => {
+        const c = CharactersDB.getOwnedCharacterWithName(name);
+        return (
+            c === undefined ||
+            (editedCharacter !== null && c.id === editedCharacter.id)
+        );
+    });
+
+    let savable = $derived(
+        $user !== null &&
+            $user.email !== null &&
+            isValidName(name) === true &&
+            nameAvailable &&
+            isValidDescription(description) === true,
+    );
+
     /**
      * When the edited character changes and we have loaded the persisted one,
      * tell the database about the new value.
      * */
     $effect(() => {
-        // IF th
-        if (editedCharacter && typeof persisted !== 'string') {
+        if (savable && editedCharacter !== null) {
             untrack(() =>
                 CharactersDB.updateCharacter(
                     $state.snapshot(editedCharacter) as Character,
@@ -361,7 +377,7 @@
                               ? 'unknown'
                               : loadedCharacter;
                     if (loadedCharacter) {
-                        name = loadedCharacter.name;
+                        name = loadedCharacter.name.split('/').at(-1) ?? '';
                         description = loadedCharacter.description;
                         shapes = loadedCharacter.shapes;
                         isPublic = loadedCharacter.public;
@@ -416,15 +432,15 @@
         });
     });
 
-    function validName(name: string) {
-        return name.length >= 5 &&
+    function isValidName(name: string) {
+        return name.length >= 1 &&
             toTokens(name).nextAre(Sym.Name, Sym.End) &&
             ConceptLink.parse(name) instanceof CharacterName
             ? true
             : $locales.get((l) => l.ui.page.character.feedback.name);
     }
 
-    function validDescription(description: string) {
+    function isValidDescription(description: string) {
         return description.length > 0
             ? true
             : $locales.get((l) => l.ui.page.character.feedback.description);
@@ -1658,7 +1674,9 @@
         {:else}
             <div class="meta">
                 <div class="preview">
-                    {@html characterToSVG(editedCharacter, '32px')}
+                    {#if editedCharacter}
+                        {@html characterToSVG(editedCharacter, '32px')}
+                    {/if}
                 </div>
                 <h1 style:z-index="2" style:margin="0">
                     <TextField
@@ -1670,13 +1688,12 @@
                         description={$locales.get(
                             (l) => l.ui.page.character.field.name.description,
                         )}
-                        validator={validName}
-                        editable={!isPublic}
+                        validator={isValidName}
                     ></TextField>
                 </h1>
                 <RootView
                     node={toProgram(
-                        `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${name}\`)`,
+                        `${Basis.getLocalizedBasis($locales).shares.output.Phrase.names.getNames()[0]}(\`@${Creator.getUsername($user.email ?? '')}/${name}\`)`,
                     )}
                     blocks={false}
                 />
@@ -1691,8 +1708,7 @@
                         (l) =>
                             l.ui.page.character.field.description.description,
                     )}
-                    validator={validDescription}
-                    editable={!isPublic}
+                    validator={isValidDescription}
                 ></TextField>
                 <Dialog
                     description={$locales.get(
@@ -1711,11 +1727,22 @@
                     <Feedback>Publishing is coming soon.</Feedback>
                 </Dialog>
             </div>
+            {#if !nameAvailable}
+                <Feedback
+                    >{$locales.get(
+                        (l) => l.ui.page.character.feedback.taken,
+                    )}</Feedback
+                >
+            {:else if !savable}
+                <Feedback
+                    >{$locales.get(
+                        (l) => l.ui.page.character.feedback.unsaved,
+                    )}</Feedback
+                >
+            {/if}
 
             <div class="editor">
-                {#if !isPublic}
-                    {@render toolbar()}
-                {/if}
+                {@render toolbar()}
                 <div class="content">
                     <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
                     <!-- svelte-ignore a11y_no_noninteractive_tabindex -->
@@ -1733,11 +1760,13 @@
                         onpointerup={handlePointerUp}
                     >
                         {@render grid()}
-                        {@html characterToSVG(
-                            editedCharacter,
-                            '100%',
-                            selection,
-                        )}
+                        {#if editedCharacter}
+                            {@html characterToSVG(
+                                editedCharacter,
+                                '100%',
+                                selection,
+                            )}
+                        {/if}
                         {#if mode !== DrawingMode.Select}
                             <div
                                 class="position"
@@ -1779,15 +1808,7 @@
                         </div>
                     {/if}
                 </div>
-                {#if isPublic}
-                    <Feedback
-                        >{$locales.get(
-                            (l) => l.ui.page.character.feedback.published,
-                        )}</Feedback
-                    >
-                {:else}
-                    {@render palette()}
-                {/if}
+                {@render palette()}
             </div>
         {/if}
     </section>
