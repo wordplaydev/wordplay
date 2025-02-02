@@ -188,7 +188,7 @@ export class CharactersDatabase {
                         firestore &&
                         setDoc(
                             doc(firestore, CharactersCollection, character.id),
-                            character,
+                            { ...character, updated: Date.now() },
                         ),
                 ),
             );

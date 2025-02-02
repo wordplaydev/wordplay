@@ -289,7 +289,6 @@
             ? null
             : {
                   ...persisted,
-                  updated: Date.now(),
                   name: `${Creator.getUsername($user.email)}/${name}`,
                   description,
                   shapes,
@@ -357,6 +356,12 @@
 
     let timeout: NodeJS.Timeout | null = null;
     function saveLater() {
+        // Not loaded yet? Don't save.
+        if (typeof persisted === 'string') return;
+        // Not changed? Don't save.
+        if (JSON.stringify(persisted) === JSON.stringify(editedCharacter))
+            return;
+
         if (timeout) clearTimeout(timeout);
         timeout = setTimeout(() => {
             CharactersDB.updateCharacter(
@@ -374,10 +379,9 @@
         if (savable && editedCharacter !== null) untrack(saveLater);
     });
 
-    /** When the page loads or its id changes, load the persisted character */
+    /** When the page loads or its id changes or the local store of characters changes, load the persisted character */
     $effect(() => {
         const id = page.params.id;
-        // Don't track the below; it's just a one-time load unless the id changes.
         if ($user) {
             CharactersDB.getByID(id).then((loadedCharacter) => {
                 persisted =
@@ -386,7 +390,12 @@
                         : loadedCharacter === null
                           ? 'unknown'
                           : loadedCharacter;
-                if (loadedCharacter) {
+                // If we loaded the character and it's different from the edited character, update the states.
+                if (
+                    loadedCharacter &&
+                    (editedCharacter === null ||
+                        loadedCharacter.updated >= editedCharacter.updated)
+                ) {
                     name = loadedCharacter.name.split('/').at(-1) ?? '';
                     description = loadedCharacter.description;
                     shapes = loadedCharacter.shapes;
