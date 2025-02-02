@@ -81,8 +81,17 @@ export class CharactersDatabase {
                     // Try to parse the chat and save on success.
                     try {
                         const parsed = CharacterSchema.parse(character);
+
+                        // If the character's update time is greater than the cached one, or there is no cached one, update.
                         // Update the chat in the local cache, but do not persist; we just got it from the DB.
-                        this.updateCharacter(parsed, false);
+                        const cached = this.byID[parsed.id];
+                        if (
+                            cached === undefined ||
+                            cached === null ||
+                            parsed.updated > cached.updated
+                        ) {
+                            this.updateCharacter(parsed, false);
+                        }
                     } catch (error) {
                         // If the chat doesn't succeed, then we don't save it.
                         console.error(error);
@@ -161,10 +170,9 @@ export class CharactersDatabase {
             existingCharacter === null ||
             character.updated > existingCharacter.updated
         ) {
-            const newCharacter = { ...character, updated: Date.now() };
-            this.byID[character.id] = newCharacter;
+            this.byID[character.id] = character;
             if (existingCharacter) delete this.byName[existingCharacter.name];
-            this.byName[character.name] = newCharacter;
+            this.byName[character.name] = character;
         }
 
         // Are we to persist? Defer a save.
@@ -188,10 +196,11 @@ export class CharactersDatabase {
                         firestore &&
                         setDoc(
                             doc(firestore, CharactersCollection, character.id),
-                            { ...character, updated: Date.now() },
+                            character,
                         ),
                 ),
             );
+            console.log('Saved');
             this.db.setStatus(SaveStatus.Saved, undefined);
         } catch (err) {
             this.db.setStatus(SaveStatus.Error, undefined);

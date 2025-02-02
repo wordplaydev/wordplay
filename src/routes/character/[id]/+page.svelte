@@ -354,23 +354,20 @@
             isValidDescription(description) === true,
     );
 
-    let timeout: NodeJS.Timeout | null = null;
-    function saveLater() {
+    function save() {
         // Not loaded yet? Don't save.
         if (typeof persisted === 'string') return;
         // Not changed? Don't save.
-        if (JSON.stringify(persisted) === JSON.stringify(editedCharacter))
-            return;
         // Not a valid name or description? Don't save.
         if (!savable) return;
 
-        if (timeout) clearTimeout(timeout);
-        timeout = setTimeout(() => {
-            CharactersDB.updateCharacter(
-                $state.snapshot(editedCharacter) as Character,
-                true,
-            );
-        }, 1000);
+        CharactersDB.updateCharacter(
+            {
+                ...($state.snapshot(editedCharacter) as Character),
+                updated: Date.now(),
+            },
+            true,
+        );
     }
 
     /**
@@ -378,7 +375,7 @@
      * tell the database about the new value.
      * */
     $effect(() => {
-        if (savable && editedCharacter !== null) untrack(() => saveLater());
+        if (savable && editedCharacter !== null) untrack(() => save());
     });
 
     /** When the page loads or its id changes or the local store of characters changes, load the persisted character */
@@ -398,7 +395,7 @@
                     description = loadedCharacter.description;
                     shapes =
                         JSON.stringify(loadedCharacter.shapes) ===
-                        untrack(() => JSON.stringify(shapes))
+                        untrack(() => JSON.stringify($state.snapshot(shapes)))
                             ? shapes
                             : loadedCharacter.shapes;
                     isPublic = loadedCharacter.public;
@@ -1016,6 +1013,7 @@
                         y - dragOffsets[index].y,
                         'move',
                     );
+                setShapes([...shapes]);
             }
         }
     }
