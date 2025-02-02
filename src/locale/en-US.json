@@ -4884,6 +4884,10 @@
                         "label": "share",
                         "tip": "share this character"
                     },
+                    "delete": {
+                        "label": "delete",
+                        "tip": "delete this character"
+                    },
                     "public": {
                         "label": "visibility",
                         "modes": ["public", "private"]

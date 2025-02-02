@@ -28,6 +28,7 @@
         share: {
             dialog: DialogText;
             button: ButtonText;
+            delete: ButtonText;
             public: ModeText<string[]>;
             collaborators: string;
         };
@@ -171,6 +172,7 @@
     import {
         ALL_SYMBOL,
         BORROW_SYMBOL,
+        CANCEL_SYMBOL,
         COPY_SYMBOL,
         ERASE_SYMBOL,
         GLOBE1_SYMBOL,
@@ -192,6 +194,8 @@
     import { Creator } from '@db/creators/CreatorDatabase';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Labeled from '@components/widgets/Labeled.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import { goto } from '$app/navigation';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -1716,7 +1720,6 @@
                     )}
                     validator={isValidDescription}
                 ></TextField>
-
                 <Dialog
                     description={$locales.get(
                         (l) => l.ui.page.character.share.dialog,
@@ -1777,6 +1780,29 @@
                         </Labeled>
                     {/if}
                 </Dialog>
+                {#if $user !== null && editedCharacter !== null && $user.uid === editedCharacter.owner}
+                    <ConfirmButton
+                        tip={$locales.get(
+                            (l) => l.ui.page.character.share.delete.tip,
+                        )}
+                        action={() => {
+                            if (editedCharacter) {
+                                CharactersDB.deleteCharacter(
+                                    editedCharacter.id,
+                                );
+                                goto('/characters');
+                            }
+                        }}
+                        prompt={$locales.get(
+                            (l) => l.ui.page.character.share.delete.tip,
+                        )}
+                        enabled={editedCharacter !== null}
+                        >{CANCEL_SYMBOL}
+                        {$locales.get(
+                            (l) => l.ui.page.character.share.delete.label,
+                        )}</ConfirmButton
+                    >
+                {/if}
             </div>
             {#if !nameAvailable}
                 <Feedback

@@ -7,6 +7,7 @@ import { SaveStatus, type Database } from '../Database';
 import {
     and,
     collection,
+    deleteDoc,
     doc,
     getDoc,
     getDocs,
@@ -303,6 +304,25 @@ export class CharactersDatabase {
         } catch (err) {
             console.error(err);
             return undefined;
+        }
+    }
+
+    /** Delete a character, if the owner */
+    async deleteCharacter(id: string) {
+        const user = this.db.getUser();
+        if (user === null) return;
+        const char = await this.getByID(id);
+        if (char === null || char === undefined) return;
+        if (user.uid === char.owner) {
+            if (firestore === undefined) return;
+            try {
+                await deleteDoc(doc(firestore, CharactersCollection, id));
+                delete this.byName[char.name];
+                delete this.byID[char.id];
+            } catch (err) {
+                console.error(err);
+                return;
+            }
         }
     }
 
