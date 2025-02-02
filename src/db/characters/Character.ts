@@ -37,7 +37,7 @@ const StrokeSchema = z.object({
 const RectangleSchema = z
     .object({
         type: z.literal('rect'),
-        center: PointSchema, // The center of the rectangle
+        point: PointSchema, // The center of the rectangle
         angle: z.number().optional(),
         stroke: StrokeSchema.optional(),
         // Null represents current color
@@ -51,7 +51,7 @@ export type CharacterRectangle = z.infer<typeof RectangleSchema>;
 
 const PixelSchema = z.object({
     type: z.literal('pixel'),
-    center: PointSchema, // The center of the pixel
+    point: PointSchema, // The center of the pixel
     fill: ColorSchema.nullable(), // If null, it's currentColor
 });
 export type CharacterPixel = z.infer<typeof PixelSchema>;
@@ -59,7 +59,7 @@ export type CharacterPixel = z.infer<typeof PixelSchema>;
 const EllipseSchema = z
     .object({
         type: z.literal('ellipse'),
-        center: PointSchema,
+        point: PointSchema,
         stroke: StrokeSchema.optional(),
         fill: ColorSchema.optional().nullable(),
         angle: z.number().optional(), // degrees
@@ -164,8 +164,8 @@ function rectToSVG(
         rect.stroke?.width ?? SelectionStrokeWidth,
     );
     return tag('rect', {
-        x: rect.center.x - rect.width / 2,
-        y: rect.center.y - rect.height / 2,
+        x: rect.point.x,
+        y: rect.point.y,
         width: rect.width,
         height: rect.height,
         rx: rect.corner,
@@ -184,7 +184,7 @@ function rectToSVG(
             : undefined,
         transform:
             'angle' in rect
-                ? `rotate(${rect.angle}, ${rect.center.x}, ${rect.center.y})`
+                ? `rotate(${rect.angle}, ${rect.point.x}, ${rect.point.y})`
                 : undefined,
     });
 }
@@ -199,8 +199,8 @@ function ellipseToSVG(
     );
     return tag('ellipse', {
         class: selected ? 'selected' : undefined,
-        cx: ellipse.center.x,
-        cy: ellipse.center.y,
+        cx: ellipse.point.x + ellipse.width / 2,
+        cy: ellipse.point.y + ellipse.height / 2,
         rx: ellipse.width / 2,
         ry: ellipse.height / 2,
         fill: colorToSVG(ellipse.fill),
@@ -217,7 +217,7 @@ function ellipseToSVG(
             ? `${selectionStrokeWidth / 10},${selectionStrokeWidth}`
             : undefined,
         transform: ellipse.angle
-            ? `rotate(${ellipse.angle}, ${ellipse.center.x}, ${ellipse.center.y})`
+            ? `rotate(${ellipse.angle}, ${ellipse.point.x}, ${ellipse.point.y})`
             : undefined,
     });
 }
@@ -225,8 +225,8 @@ function ellipseToSVG(
 function pixelToSVG(pixel: CharacterPixel, selected: boolean = false): string {
     return tag('rect', {
         class: selected ? 'selected' : undefined,
-        x: pixel.center.x,
-        y: pixel.center.y,
+        x: pixel.point.x,
+        y: pixel.point.y,
         width: 1,
         height: 1,
         fill: colorToSVG(pixel.fill),
@@ -294,8 +294,8 @@ export function pixelsAreEqual(
     two: CharacterPixel,
 ): boolean {
     return (
-        one.center.x === two.center.x &&
-        one.center.y === two.center.y &&
+        one.point.x === two.point.x &&
+        one.point.y === two.point.y &&
         ((!('fill' in one) && !('fill' in two)) ||
             (one.fill === null && two.fill === null) ||
             (one.fill !== null &&
@@ -356,11 +356,11 @@ export function moveShape(
         case 'ellipse':
         case 'pixel':
             if (set == 'move') {
-                shape.center.x = x;
-                shape.center.y = y;
+                shape.point.x = x;
+                shape.point.y = y;
             } else {
-                shape.center.x += x;
-                shape.center.y += y;
+                shape.point.x += x;
+                shape.point.y += y;
             }
         // This one requires moving all the points.
         case 'path':

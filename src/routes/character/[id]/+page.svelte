@@ -283,6 +283,14 @@
     /** Whether the project is public */
     let isPublic: boolean = $state(false);
 
+    let nameAvailable = $derived.by(() => {
+        const c = CharactersDB.getEditableCharacterWithName(name);
+        return (
+            c === undefined ||
+            (editedCharacter !== null && c.id === editedCharacter.id)
+        );
+    });
+
     /** Always have an up to date character to render and save */
     let editedCharacter: Character | null = $derived(
         $user === null || $user.email === null || typeof persisted === 'string'
@@ -338,14 +346,6 @@
         );
     });
 
-    let nameAvailable = $derived.by(() => {
-        const c = CharactersDB.getEditableCharacterWithName(name);
-        return (
-            c === undefined ||
-            (editedCharacter !== null && c.id === editedCharacter.id)
-        );
-    });
-
     let savable = $derived(
         $user !== null &&
             $user.email !== null &&
@@ -361,6 +361,8 @@
         // Not changed? Don't save.
         if (JSON.stringify(persisted) === JSON.stringify(editedCharacter))
             return;
+        // Not a valid name or description? Don't save.
+        if (!savable) return;
 
         if (timeout) clearTimeout(timeout);
         timeout = setTimeout(() => {
@@ -376,7 +378,7 @@
      * tell the database about the new value.
      * */
     $effect(() => {
-        if (savable && editedCharacter !== null) untrack(saveLater);
+        if (savable && editedCharacter !== null) untrack(() => saveLater());
     });
 
     /** When the page loads or its id changes or the local store of characters changes, load the persisted character */
@@ -391,14 +393,14 @@
                           ? 'unknown'
                           : loadedCharacter;
                 // If we loaded the character and it's different from the edited character, update the states.
-                if (
-                    loadedCharacter &&
-                    (editedCharacter === null ||
-                        loadedCharacter.updated >= editedCharacter.updated)
-                ) {
+                if (loadedCharacter) {
                     name = loadedCharacter.name.split('/').at(-1) ?? '';
                     description = loadedCharacter.description;
-                    shapes = loadedCharacter.shapes;
+                    shapes =
+                        JSON.stringify(loadedCharacter.shapes) ===
+                        untrack(() => JSON.stringify(shapes))
+                            ? shapes
+                            : loadedCharacter.shapes;
                     isPublic = loadedCharacter.public;
                     collaborators = loadedCharacter.collaborators;
                 }
@@ -510,7 +512,7 @@
     function setPixel() {
         const candidate: CharacterPixel = {
             type: 'pixel',
-            center: { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
+            point: { x: drawingCursorPosition.x, y: drawingCursorPosition.y },
             fill: currentFillSetting === undefined ? null : { ...currentFill },
         };
         const match = shapes
@@ -525,8 +527,8 @@
                 .filter(
                     (s) =>
                         s.type !== 'pixel' ||
-                        s.center.x !== drawingCursorPosition.x ||
-                        s.center.y !== drawingCursorPosition.y,
+                        s.point.x !== drawingCursorPosition.x ||
+                        s.point.y !== drawingCursorPosition.y,
                 ),
             candidate,
         ]);
@@ -556,7 +558,7 @@
         return {
             ...{
                 type: 'rect',
-                center: {
+                point: {
                     x: drawingCursorPosition.x,
                     y: drawingCursorPosition.y,
                 },
@@ -574,18 +576,29 @@
         };
     }
 
-    function updatePendingRectOrEllipse() {
+    function updatePendingRect() {
         if (pendingRectOrEllipse === undefined) return;
         // Update the pending rect's dimensions to the current pointer position.
         pendingRectOrEllipse.width = Math.max(
             1,
-            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.center.x) *
-                2,
+            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.point.x),
         );
         pendingRectOrEllipse.height = Math.max(
             1,
-            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.center.y) *
-                2,
+            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.point.y),
+        );
+    }
+
+    function updatePendingEllipse() {
+        if (pendingRectOrEllipse === undefined) return;
+        // Update the pending rect's dimensions to the current pointer position.
+        pendingRectOrEllipse.width = Math.max(
+            1,
+            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.point.x),
+        );
+        pendingRectOrEllipse.height = Math.max(
+            1,
+            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.point.y),
         );
     }
 
@@ -593,7 +606,7 @@
         return {
             ...{
                 type: 'ellipse',
-                center: {
+                point: {
                     x: drawingCursorPosition.x,
                     y: drawingCursorPosition.y,
                 },
@@ -714,7 +727,11 @@
                 else if (event.key === 'ArrowLeft') handleArrow(-1, 0);
                 else if (event.key === 'ArrowRight') handleArrow(1, 0);
                 // Pending shape? Update it based on the new position.
-                if (pendingRectOrEllipse) updatePendingRectOrEllipse();
+                if (pendingRectOrEllipse) {
+                    if (pendingRectOrEllipse.type === 'rect')
+                        updatePendingRect();
+                    else updatePendingEllipse();
+                }
             }
             // Swallow the arrow event
             event.stopPropagation();
@@ -919,7 +936,8 @@
                         : getCurrentEllipse();
                 addShapes(pendingRectOrEllipse);
             } else {
-                updatePendingRectOrEllipse();
+                if (pendingRectOrEllipse.type === 'rect') updatePendingRect();
+                else updatePendingEllipse();
             }
             return;
         } else if (mode === DrawingMode.Path && !move) {
@@ -969,8 +987,8 @@
                         case 'ellipse':
                         case 'pixel':
                             dragOffsets.push({
-                                x: x - shape.center.x,
-                                y: y - shape.center.y,
+                                x: x - shape.point.x,
+                                y: y - shape.point.y,
                             });
                         case 'path':
                             if (shape.type === 'path') {
