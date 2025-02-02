@@ -25,9 +25,11 @@
             ellipse: string;
             path: string;
         };
-        publish: {
+        share: {
             dialog: DialogText;
             button: ButtonText;
+            public: ModeText<string[]>;
+            collaborators: string;
         };
         field: {
             name: FieldText;
@@ -171,6 +173,7 @@
         BORROW_SYMBOL,
         COPY_SYMBOL,
         ERASE_SYMBOL,
+        GLOBE1_SYMBOL,
         PASTE_SYMBOL,
         REDO_SYMBOL,
         SHARE_SYMBOL,
@@ -187,6 +190,8 @@
     import { Basis } from '@basis/Basis';
     import Dialog from '@components/widgets/Dialog.svelte';
     import { Creator } from '@db/creators/CreatorDatabase';
+    import CreatorList from '@components/project/CreatorList.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -264,29 +269,27 @@
     let pendingPath: CharacterPath | undefined = $state(undefined);
 
     /** The persisted character */
-    let persisted: Character | 'loading' | 'failed' | 'unknown' =
-        $state('loading');
+    let persisted = $state<Character | 'loading' | 'failed' | 'unknown'>(
+        'loading',
+    );
 
     /** The list of collaborators */
-    let collaborators: string[] = $derived.by(() =>
-        typeof persisted === 'string' ? [] : persisted.collaborators,
-    );
+    let collaborators: string[] = $state([]);
 
     /** Whether the project is public */
     let isPublic: boolean = $state(false);
 
     /** Always have an up to date character to render and save */
     let editedCharacter: Character | null = $derived(
-        $user === null || $user.email === null
+        $user === null || $user.email === null || typeof persisted === 'string'
             ? null
             : {
-                  id: page.params.id,
-                  owner: $user?.uid ?? null,
+                  ...persisted,
                   updated: Date.now(),
                   name: `${Creator.getUsername($user.email)}/${name}`,
                   description,
                   shapes,
-                  collaborators: collaborators ?? [],
+                  collaborators: collaborators,
                   public: isPublic,
               },
     );
@@ -333,7 +336,7 @@
     });
 
     let nameAvailable = $derived.by(() => {
-        const c = CharactersDB.getOwnedCharacterWithName(name);
+        const c = CharactersDB.getEditableCharacterWithName(name);
         return (
             c === undefined ||
             (editedCharacter !== null && c.id === editedCharacter.id)
@@ -352,7 +355,6 @@
     function saveLater() {
         if (timeout) clearTimeout(timeout);
         timeout = setTimeout(() => {
-            console.log('Saving');
             CharactersDB.updateCharacter(
                 $state.snapshot(editedCharacter) as Character,
                 true,
@@ -373,22 +375,21 @@
         const id = page.params.id;
         // Don't track the below; it's just a one-time load unless the id changes.
         if ($user) {
-            untrack(() =>
-                CharactersDB.getByID(id).then((loadedCharacter) => {
-                    persisted =
-                        loadedCharacter === undefined
-                            ? 'failed'
-                            : loadedCharacter === null
-                              ? 'unknown'
-                              : loadedCharacter;
-                    if (loadedCharacter) {
-                        name = loadedCharacter.name.split('/').at(-1) ?? '';
-                        description = loadedCharacter.description;
-                        shapes = loadedCharacter.shapes;
-                        isPublic = loadedCharacter.public;
-                    }
-                }),
-            );
+            CharactersDB.getByID(id).then((loadedCharacter) => {
+                persisted =
+                    loadedCharacter === undefined
+                        ? 'failed'
+                        : loadedCharacter === null
+                          ? 'unknown'
+                          : loadedCharacter;
+                if (loadedCharacter) {
+                    name = loadedCharacter.name.split('/').at(-1) ?? '';
+                    description = loadedCharacter.description;
+                    shapes = loadedCharacter.shapes;
+                    isPublic = loadedCharacter.public;
+                    collaborators = loadedCharacter.collaborators;
+                }
+            });
         }
     });
 
@@ -1715,21 +1716,66 @@
                     )}
                     validator={isValidDescription}
                 ></TextField>
+
                 <Dialog
                     description={$locales.get(
-                        (l) => l.ui.page.character.publish.dialog,
+                        (l) => l.ui.page.character.share.dialog,
                     )}
                     button={{
                         tip: $locales.get(
-                            (l) => l.ui.page.character.publish.button.tip,
+                            (l) => l.ui.page.character.share.button.tip,
                         ),
-                        icon: '↗',
-                        label: $locales.get(
-                            (l) => l.ui.page.character.publish.button.label,
-                        ),
+                        icon: isPublic ? GLOBE1_SYMBOL : '🤫',
+                        label: isPublic
+                            ? $locales.get(
+                                  (l) =>
+                                      l.ui.page.character.share.public.modes[0],
+                              )
+                            : $locales.get(
+                                  (l) =>
+                                      l.ui.page.character.share.public.modes[1],
+                              ),
                     }}
                 >
-                    <Feedback>Publishing is coming soon.</Feedback>
+                    <Mode
+                        descriptions={$locales.get(
+                            (l) => l.ui.page.character.share.public,
+                        )}
+                        choice={isPublic ? 0 : 1}
+                        select={(mode) => (isPublic = mode === 0)}
+                        modes={[
+                            '🤫 ' +
+                                $locales.get(
+                                    (l) =>
+                                        l.ui.page.character.share.public
+                                            .modes[0],
+                                ),
+                            `${GLOBE1_SYMBOL} ${$locales.get((l) => l.ui.page.character.share.public.modes[1])}`,
+                        ]}
+                    />
+                    {#if !isPublic}
+                        <Labeled
+                            label={$locales.get(
+                                (l) => l.ui.page.character.share.collaborators,
+                            )}
+                        >
+                            <CreatorList
+                                uids={collaborators}
+                                editable={!isPublic}
+                                anonymize={false}
+                                add={(userID) =>
+                                    (collaborators = [
+                                        ...collaborators,
+                                        userID,
+                                    ])}
+                                remove={(userID) =>
+                                    (collaborators = collaborators.filter(
+                                        (c) => c !== userID,
+                                    ))}
+                                removable={() => true}
+                            />
+                        </Labeled>
+                    {/if}
                 </Dialog>
             </div>
             {#if !nameAvailable}
@@ -1913,6 +1959,7 @@
     .meta {
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         gap: var(--wordplay-spacing);
         align-items: center;
         border-bottom: var(--wordplay-border-color) solid

@@ -95,7 +95,8 @@ service cloud.firestore {
             )
           );
       // Only owners can update or delete.
-      allow update, delete: if request.auth.uid == resource.data.owner;
+      allow update: if request.auth.uid == resource.data.owner || ("collaborators" in resource.data && request.auth.uid in resource.data.collaborators);
+      allow delete: if request.auth.uid == resource.data.owner;
     }
   }
 }

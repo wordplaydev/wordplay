@@ -50,7 +50,7 @@
         } else creating = undefined;
     }
 
-    let characters = $derived(CharactersDB.getOwnedCharacters());
+    let characters = $derived(CharactersDB.getEditableCharacters());
 </script>
 
 <svelte:head>

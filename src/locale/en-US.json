@@ -4875,18 +4875,20 @@
                     "ellipse": "ellipse",
                     "path": "path"
                 },
-                "publish": {
+                "share": {
                     "dialog": {
-                        "header": "Publish",
-                        "explanation": [
-                            "You can use your character in your projects without publishing.",
-                            "However, if you want *anyone* to be able to use your character, you can *publish* it. Once you do, you won't be able to edit it, so be sure you're ready!"
-                        ]
+                        "header": "Share",
+                        "explanation": "Add collaborators to restrict who can view this character."
                     },
                     "button": {
-                        "label": "publish",
-                        "tip": "publish this character online"
-                    }
+                        "label": "share",
+                        "tip": "share this character"
+                    },
+                    "public": {
+                        "label": "visibility",
+                        "modes": ["public", "private"]
+                    },
+                    "collaborators": "collaborators"
                 },
                 "field": {
                     "name": {

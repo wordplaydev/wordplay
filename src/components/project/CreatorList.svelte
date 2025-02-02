@@ -50,8 +50,9 @@
     let creators: Record<string, Creator | null> = $state({});
 
     function validCollaborator(emailOrUsername: string): string | true {
-        if (!validEmail(emailOrUsername) || !isValidUsername(emailOrUsername))
+        if (!validEmail(emailOrUsername) && !isValidUsername(emailOrUsername)) {
             return $locales.get((l) => l.ui.page.login.error.invalidUsername);
+        }
         // Don't add self
         if (emailOrUsername === DB.getUserEmail())
             return $locales.get((l) => l.ui.dialog.share.error.self);
@@ -59,7 +60,7 @@
     }
 
     async function addCreator() {
-        if (validCollaborator(emailOrUsername)) {
+        if (validCollaborator(emailOrUsername) === true) {
             adding = true;
             const userID = await DB.Creators.getUID(emailOrUsername);
             adding = false;

@@ -182,20 +182,14 @@ export class CharactersDatabase {
         if (firestore === undefined) return;
         try {
             await Promise.all(
-                this.unsaved
-                    .values()
-                    .map(
-                        (character) =>
-                            firestore &&
-                            setDoc(
-                                doc(
-                                    firestore,
-                                    CharactersCollection,
-                                    character.id,
-                                ),
-                                character,
-                            ),
-                    ),
+                Array.from(this.unsaved.values()).map(
+                    (character) =>
+                        firestore &&
+                        setDoc(
+                            doc(firestore, CharactersCollection, character.id),
+                            character,
+                        ),
+                ),
             );
             this.db.setStatus(SaveStatus.Saved, undefined);
         } catch (err) {
@@ -313,15 +307,21 @@ export class CharactersDatabase {
     }
 
     /** Get all cached characters owned by the user */
-    getOwnedCharacters(): Character[] {
+    getEditableCharacters(): Character[] {
+        const uid = this.db.getUser()?.uid;
+        if (uid === undefined) return [];
         return Array.from(Object.values(this.byID))
             .filter((character) => character !== null)
-            .filter((character) => character.owner === this.db.getUser()?.uid);
+            .filter(
+                (character) =>
+                    character.owner === uid ||
+                    character.collaborators.includes(uid),
+            );
     }
 
     /** Check if any owned characters have the given name */
-    getOwnedCharacterWithName(name: string): Character | undefined {
-        return this.getOwnedCharacters().find(
+    getEditableCharacterWithName(name: string): Character | undefined {
+        return this.getEditableCharacters().find(
             (c) => c.name.split('/')[1] === name,
         );
     }
