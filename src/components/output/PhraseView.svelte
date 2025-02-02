@@ -19,7 +19,7 @@
     import type RenderContext from '@output/RenderContext';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
-    import { onMount, tick, untrack } from 'svelte';
+    import { tick, untrack } from 'svelte';
     import moveOutput from '../palette/editOutput';
     import { getProject, getSelectedOutput } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';
@@ -27,7 +27,6 @@
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Markup from '../../nodes/Markup';
     import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
-    import { withColorEmoji } from '../../unicode/emoji';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
@@ -76,15 +75,17 @@
     // Selected if this phrase's value creator is selected
     let selected = $derived(
         phrase.value.creator instanceof Evaluate &&
-            selection?.selectedOutput.includes(phrase.value.creator),
+            $project !== undefined &&
+            selection?.includes(phrase.value.creator, $project),
     );
+
+    let view = $state<HTMLDivElement | undefined>(undefined);
 
     let entered = $derived(
         selected &&
             editable &&
             selection &&
-            selection.selectedPhrase &&
-            selection.selectedPhrase.index !== null,
+            selection.getPhrase()?.index !== null,
     );
 
     let metrics = $derived(phrase.getMetrics(localContext));
@@ -99,21 +100,18 @@
         lastFrame = frame;
     });
 
-    onMount(restore);
+    /** If selected, the view of this phrase should be focused. */
+    $effect(() => {
+        if (selected && view)
+            setKeyboardFocus(view, 'focused on selected phrase');
+    });
 
-    function restore() {
+    $effect(() => {
         if (editable) {
             if (entered) {
-                if (
-                    input &&
-                    selection &&
-                    selection.selectedPhrase &&
-                    selection.selectedPhrase.index !== null
-                ) {
-                    input.setSelectionRange(
-                        selection.selectedPhrase.index,
-                        selection.selectedPhrase.index,
-                    );
+                const phrase = selection?.getPhrase() ?? undefined;
+                if (input && phrase !== undefined && phrase.index !== null) {
+                    input.setSelectionRange(phrase.index, phrase.index);
                     setKeyboardFocus(
                         input,
                         'Restoring phrase text editor focus.',
@@ -121,7 +119,7 @@
                 }
             }
         }
-    }
+    });
 
     async function enter(event: MouseEvent) {
         select(input?.selectionStart ?? 0);
@@ -132,8 +130,8 @@
     }
 
     function select(index: number | null) {
-        if (selection?.selectedPhrase === undefined) return;
-        selection.setSelectedPhrase({
+        if (selection === undefined) return;
+        selection.setPhrase({
             name: phrase.getName(),
             index,
         });
@@ -142,7 +140,7 @@
     function move(event: KeyboardEvent) {
         if (
             $project === undefined ||
-            selection?.selectedOutput === undefined ||
+            selection?.isEmpty() ||
             entered ||
             !event.key.startsWith('Arrow') ||
             !(phrase.value.creator instanceof Evaluate)
@@ -194,8 +192,7 @@
     }
 
     async function handleInput(event: { currentTarget: HTMLInputElement }) {
-        if ($project === undefined || selection?.selectedOutput === undefined)
-            return;
+        if ($project === undefined || selection?.isEmpty()) return;
         if (event.currentTarget === null) return;
         const newText = event.currentTarget.value;
         const originalTextValue = phrase.getText();
@@ -221,6 +218,7 @@
 
 {#if visible}
     <div
+        bind:this={view}
         role={selectable ? 'button' : null}
         aria-hidden={empty ? 'true' : null}
         aria-disabled={!selectable}
@@ -306,15 +304,19 @@
 
         /* This disables translation around the center; we want to translate around the focus.*/
         transform-origin: 0 0;
+
+        pointer-events: none;
     }
 
     :global(.editing) .phrase {
         min-width: 8px;
         min-height: 8px;
+        pointer-events: all;
     }
 
     .phrase[data-selectable='true'] {
         cursor: pointer;
+        pointer-events: all;
     }
 
     .phrase > :global(.light) {

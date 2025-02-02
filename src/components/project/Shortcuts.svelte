@@ -14,9 +14,11 @@
                     )}</h1
                 ></td
             >
-            {#each Commands.filter((c) => c.category === Category.Cursor) as command}
-                <CommandDescription {command} />
-            {/each}
+        </tr>
+        {#each Commands.filter((c) => c.category === Category.Cursor) as command}
+            <CommandDescription {command} />
+        {/each}
+        <tr>
             <td colspan="3"
                 ><h1
                     >{$locales.get(
@@ -24,9 +26,11 @@
                     )}</h1
                 ></td
             >
-            {#each Commands.filter((c) => c.category === Category.Modify) as command}
-                <CommandDescription {command} />
-            {/each}
+        </tr>
+        {#each Commands.filter((c) => c.category === Category.Modify) as command}
+            <CommandDescription {command} />
+        {/each}
+        <tr>
             <td colspan="3"
                 ><h1
                     >{$locales.get(
@@ -34,17 +38,19 @@
                     )}</h1
                 ></td
             >
-            {#each Commands.filter((c) => c.category === Category.Insert) as command}
-                <CommandDescription {command} />
-            {/each}
+        </tr>
+        {#each Commands.filter((c) => c.category === Category.Insert) as command}
+            <CommandDescription {command} />
+        {/each}
+        <tr>
             <td colspan="3"
                 ><h1>{$locales.get((l) => l.ui.dialog.help.subheader.debug)}</h1
                 ></td
             >
-            {#each Commands.filter((c) => c.category === Category.Evaluate) as command}
-                <CommandDescription {command} />
-            {/each}
         </tr>
+        {#each Commands.filter((c) => c.category === Category.Evaluate) as command}
+            <CommandDescription {command} />
+        {/each}
     </tbody>
 </table>
 

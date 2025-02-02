@@ -182,8 +182,8 @@ export default class FunctionDefinition extends DefinitionExpression {
                         .filter((input) => !input.hasDefault())
                         .map((input) =>
                             input.type
-                                ? input.type.getDefaultExpression(context) ??
-                                  ExpressionPlaceholder.make(input.type)
+                                ? (input.type.getDefaultExpression(context) ??
+                                  ExpressionPlaceholder.make(input.type))
                                 : ExpressionPlaceholder.make(),
                         ),
                 );
@@ -484,6 +484,6 @@ export default class FunctionDefinition extends DefinitionExpression {
     }
 
     getGlyphs() {
-        return Glyphs.Function;
+        return Glyphs.FunctionDefinition;
     }
 }

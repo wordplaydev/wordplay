@@ -2,7 +2,7 @@ import PropertyReference from './PropertyReference';
 import TextValue from '@values/TextValue';
 import { test, expect } from 'vitest';
 import Source from './Source';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import Bind from './Bind';
 import evaluateCode from '../runtime/evaluate';
 import DefaultLocale from '../locale/DefaultLocale';
@@ -23,7 +23,7 @@ test('Test scoping', () => {
     const prop = source
         .nodes()
         .find(
-            (n): n is PropertyReference => n instanceof PropertyReference
+            (n): n is PropertyReference => n instanceof PropertyReference,
         )?.name;
 
     expect(prop).toBeDefined();
@@ -32,18 +32,18 @@ test('Test scoping', () => {
 
     expect(prop?.getDefinitionOfNameInScope('sneaky', context)).toBeUndefined();
     expect(
-        prop?.getDefinitionOfNameInScope('bystander', context)
+        prop?.getDefinitionOfNameInScope('bystander', context),
     ).toBeUndefined();
     expect(
-        defs?.find((n) => n instanceof Bind && n.hasName('sneaky'))
+        defs?.find((n) => n instanceof Bind && n.hasName('sneaky')),
     ).toBeUndefined();
     expect(
-        defs?.find((n) => n instanceof Bind && n.hasName('bystander'))
+        defs?.find((n) => n instanceof Bind && n.hasName('bystander')),
     ).toBeUndefined();
 });
 
 test('Test access evaluate', () => {
     expect(evaluateCode("•Cat(name•'') ()\nCat('boomy').name")).toBeInstanceOf(
-        TextValue
+        TextValue,
     );
 });

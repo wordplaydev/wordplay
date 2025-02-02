@@ -1,4 +1,4 @@
-import { test, expect, type Page } from '@playwright/test';
+import { test, expect } from '@playwright/test';
 import goHome from './goHome';
 
 test('has Wordplay header', async ({ page }) => {

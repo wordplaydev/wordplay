@@ -3051,7 +3051,15 @@
             "loading": {
                 "message": "$?"
             },
-            "home": "$?"
+            "home": "$?",
+            "table": {
+                "cell": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                },
+                "addcolumn": "$?",
+                "removecolumn": "$?"
+            }
         },
         "tile": {
             "toggle": {
@@ -3068,7 +3076,8 @@
                 "output": "$?",
                 "palette": "$?",
                 "docs": "$?",
-                "source": "$?"
+                "source": "$?",
+                "collaborate": "$?"
             },
             "button": {
                 "collapse": "$?"
@@ -3077,10 +3086,11 @@
         "project": {
             "error": {
                 "unknown": "$?",
-                "translate": "$?"
+                "translate": "$?",
+                "tile": "$?",
+                "reset": "$?"
             },
             "button": {
-                "showCollaborators": "$?",
                 "removeCollaborator": "$?",
                 "copy": "$?",
                 "addSource": "$?",
@@ -3093,7 +3103,15 @@
                 "focusCycle": "$?",
                 "unsaved": "$?",
                 "translate": "$?",
-                "primary": "$?"
+                "primary": "$?",
+                "share": {
+                    "tip": "$?",
+                    "label": "$?"
+                },
+                "history": {
+                    "on": "$?",
+                    "redo": "$?"
+                }
             },
             "field": {
                 "name": {
@@ -3136,6 +3154,10 @@
                     "explanation": "$?"
                 },
                 "delete": {
+                    "header": "$?",
+                    "explanation": "$?"
+                },
+                "classes": {
                     "header": "$?",
                     "explanation": "$?"
                 }
@@ -3250,6 +3272,12 @@
                 "tidy": "$?",
                 "elide": "$?",
                 "insertDocs": "$?"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -3335,10 +3363,6 @@
                 "header": "$?",
                 "explanation": "$?",
                 "subheader": {
-                    "collaborators": {
-                        "header": "$?",
-                        "explanation": "$?"
-                    },
                     "gallery": {
                         "header": "$?",
                         "explanation": "$?"
@@ -3406,10 +3430,6 @@
                         "label": "$?",
                         "modes": ["$?", "$?", "$?"]
                     },
-                    "localized": {
-                        "label": "$?",
-                        "modes": ["$?", "$?", "$?"]
-                    },
                     "lines": {
                         "label": "$?",
                         "modes": ["$?", "$?"]
@@ -3417,7 +3437,8 @@
                 },
                 "options": {
                     "mic": "$?",
-                    "camera": "$?"
+                    "camera": "$?",
+                    "face": "$?"
                 }
             },
             "locale": {
@@ -3426,7 +3447,6 @@
                 "subheader": {
                     "selected": "$?",
                     "supported": "$?",
-                    "coming": "$?",
                     "help": "$?"
                 },
                 "button": {
@@ -3534,7 +3554,8 @@
                     "contribute": {
                         "label": "$?",
                         "subtitle": "$?"
-                    }
+                    },
+                    "teach": "$?"
                 }
             },
             "learn": {
@@ -3618,7 +3639,8 @@
                     "confirm": "$?",
                     "delete": "$?",
                     "reallyDelete": "$?",
-                    "name": "$?"
+                    "name": "$?",
+                    "join": "$?"
                 },
                 "error": {
                     "expired": "$?",
@@ -3687,7 +3709,8 @@
                 "header": "$?",
                 "prompt": {
                     "username": "$?",
-                    "password": "$?"
+                    "password": "$?",
+                    "create": "$?"
                 }
             },
             "rights": {
@@ -3699,6 +3722,120 @@
                 "header": "$?",
                 "prompt": "$?",
                 "content": ["$?"]
+            },
+            "teach": {
+                "header": "$?",
+                "prompt": {
+                    "none": "$?",
+                    "some": "$?"
+                },
+                "error": {
+                    "offline": "$?",
+                    "login": "$?",
+                    "teacher": "$?"
+                },
+                "link": {
+                    "request": "$?",
+                    "new": "$?"
+                }
+            },
+            "newclass": {
+                "header": "$?",
+                "subheader": {
+                    "class": "$?",
+                    "students": "$?",
+                    "credentials": "$?",
+                    "submit": "$?"
+                },
+                "prompt": {
+                    "start": "$?",
+                    "review": "$?",
+                    "ready": "$?",
+                    "pending": "$?",
+                    "submit": "$?",
+                    "submitting": "$?",
+                    "download": "$?"
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "existing": {
+                        "label": "$?",
+                        "prompt": "$?"
+                    },
+                    "metadata": {
+                        "description": "$?",
+                        "placeholder": "$?",
+                        "prompt": "$?"
+                    },
+                    "words": {
+                        "description": "$?",
+                        "placeholder": "$?",
+                        "prompt": "$?"
+                    },
+                    "generate": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "edit": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "submit": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "error": {
+                    "duplicates": "$?",
+                    "columns": "$?",
+                    "generate": "$?",
+                    "taken": "$?",
+                    "limit": "$?",
+                    "words": "$?",
+                    "account": "$?",
+                    "generic": "$?"
+                }
+            },
+            "class": {
+                "header": "$?",
+                "subheader": {
+                    "teachers": "$?",
+                    "students": "$?",
+                    "galleries": "$?"
+                },
+                "prompt": {
+                    "gallery": "$?",
+                    "delete": "$?"
+                },
+                "field": {
+                    "name": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "description": {
+                        "description": "$?",
+                        "placeholder": "$?"
+                    },
+                    "newteacher": {
+                        "placeholder": "$?",
+                        "description": "$?"
+                    },
+                    "addteacher": "$?",
+                    "delete": {
+                        "tip": "$?",
+                        "label": "$?"
+                    }
+                },
+                "error": {
+                    "notfound": "$?"
+                }
             }
         },
         "edit": {
@@ -3719,6 +3856,60 @@
         "template": {
             "unwritten": "$?",
             "unparsable": "$?"
+        },
+        "collaborate": {
+            "label": "$?",
+            "role": {
+                "owner": "$?",
+                "collaborators": "$?",
+                "curators": "$?"
+            },
+            "field": {
+                "message": {
+                    "description": "$?",
+                    "placeholder": "$?"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$?",
+                    "tip": "$?"
+                },
+                "start": {
+                    "label": "$?",
+                    "tip": "$?"
+                },
+                "delete": "$?"
+            },
+            "error": {
+                "unowned": "$?",
+                "offline": "$?",
+                "empty": "$?",
+                "deleted": "$?"
+            },
+            "prompt": {
+                "owner": "$?",
+                "collaborator": "$?",
+                "curator": "$?",
+                "solo": "$?"
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$?",
+                "history": "$?",
+                "restore": "$?",
+                "ago": "$?"
+            },
+            "button": {
+                "clear": "$?",
+                "select": "$?",
+                "checkpoint": "$?",
+                "back": "$?",
+                "forward": "$?",
+                "restore": "$?",
+                "now": "$?"
+            }
         }
     },
     "moderation": {

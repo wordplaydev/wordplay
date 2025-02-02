@@ -10,7 +10,7 @@ import Evaluate from '../nodes/Evaluate';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Reference from '../nodes/Reference';
 import Unit from '../nodes/Unit';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import StructureValue from '../values/StructureValue';
 import type Locales from '../locale/Locales';
 

@@ -61,7 +61,7 @@
     {:else}<RootView
             node={segment.node}
             inline
-            localized="symbolic"
+            locale="symbolic"
             blocks={false}
         />{/if}{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong

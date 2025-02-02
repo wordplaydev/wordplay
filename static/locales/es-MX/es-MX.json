@@ -127,8 +127,7 @@
                 "Puedo combinar con \\/\\ para formar unidades de proporción, como \\17manzanas/día\\ y con \\^\\ para formar unidades exponenciales como \\9.8m/s^2\\.",
                 "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
                 "Siempre debo ir después de @Number. Si no lo hago, podrían confudirme con @Reference, ¡lo cual sería bastantate embarazoso!",
-                "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!",
-                "Si alguna vez deseas convertir entre diferentes valores de unidades, hable con @Convert."
+                "También soy bastante bueno para encontrar inconsistencies entre unidades. Por ejemplo, !\\1gato + 1perro\\ no tiene ningún sentido!"
             ]
         },
         "Doc": {
@@ -4014,7 +4013,15 @@
             "loading": {
                 "message": "Cargando fuentes y texto, ¡gracias por esperar! "
             },
-            "home": "ir a la página de inicio"
+            "home": "ir a la página de inicio",
+            "table": {
+                "cell": {
+                    "description": "$~editar esta celda",
+                    "placeholder": "$~valor"
+                },
+                "addcolumn": "$~Añade una columna antes de esta columna.",
+                "removecolumn": "$~eliminar esta columna"
+            }
         },
         "tile": {
             "toggle": {
@@ -4031,7 +4038,8 @@
                 "output": "escenario",
                 "palette": "paleta",
                 "docs": "guía",
-                "source": "$source"
+                "source": "$source",
+                "collaborate": "$~colaborar"
             },
             "button": {
                 "collapse": "colapsar esta ventana"
@@ -4040,10 +4048,11 @@
         "project": {
             "error": {
                 "unknown": "Esta actuación no existe o no es pública.",
-                "translate": "$~Hubo un problema al traducir tu proyecto."
+                "translate": "$~Hubo un problema al traducir tu proyecto.",
+                "tile": "$~Ups, hubo un error.",
+                "reset": "$~Intentar reiniciar..."
             },
             "button": {
-                "showCollaborators": "mostrar a los colaboradores el diálogo",
                 "removeCollaborator": "quitar colaboradora",
                 "copy": "copiar proyecto como texto",
                 "addSource": "crear una nueva $source",
@@ -4056,7 +4065,15 @@
                 "focusCycle": "enfoque en la siguiente teja ",
                 "unsaved": "mostrar error de guardado",
                 "translate": "$~editar los idiomas de este proyecto y traducirlo a otros idiomas.",
-                "primary": "$~establecido como la ubicación principal de este proyecto"
+                "primary": "$~establecido como la ubicación principal de este proyecto",
+                "share": {
+                    "tip": "$~Mostrar opciones para compartir proyectos",
+                    "label": "$~compartir"
+                },
+                "history": {
+                    "on": "$~mostrar código de proyecto reciente",
+                    "redo": "$~mostrar el código del proyecto actual"
+                }
             },
             "field": {
                 "name": {
@@ -4105,6 +4122,10 @@
                 "delete": {
                     "header": "Borrar",
                     "explanation": "Borrar esta galería no borrará sus proyectos. La galería se borrará para siempre."
+                },
+                "classes": {
+                    "header": "$~Clases",
+                    "explanation": "$~Clases asociadas a esta galería."
                 }
             },
             "confirm": {
@@ -4224,6 +4245,12 @@
                 "tidy": "espaciado ordenado",
                 "elide": "$~alternar elisión",
                 "insertDocs": "$~Insertar símbolo de explicación"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4309,10 +4336,6 @@
                 "header": "Compartir",
                 "explanation": "Controla quién puede editar y ver este proyecto.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "Colaboradores",
-                        "explanation": "Los colaboradores pueden ver y editar este proyecto. Sólo los propietarios del proyecto pueden modificar a los colaboradores."
-                    },
                     "gallery": {
                         "header": "Galería",
                         "explanation": "Agrega este proyecto a una galería junto con otros creadores, o crea una galería en tu página de <projects@://projects>. Si añades un proyecto a una galería pública, tu proyecto se volverá público."
@@ -4399,14 +4422,6 @@
                             "vertical, de izquierda a derecha"
                         ]
                     },
-                    "localized": {
-                        "label": "localización de código",
-                        "modes": [
-                            "no localizar el código",
-                            "localizar el código cuando esté disponible",
-                            "localizar el código pero preferir símbolos"
-                        ]
-                    },
                     "lines": {
                         "label": "$~Línea de números",
                         "modes": [
@@ -4417,7 +4432,8 @@
                 },
                 "options": {
                     "mic": "micrófono seleccionado",
-                    "camera": "cámara seleccionada "
+                    "camera": "cámara seleccionada ",
+                    "face": "$~tipo de fuente"
                 }
             },
             "locale": {
@@ -4426,7 +4442,6 @@
                 "subheader": {
                     "selected": "Seleccionado",
                     "supported": "Disponible",
-                    "coming": "Muy pronto",
                     "help": "Ayúdanos a traducir …"
                 },
                 "button": {
@@ -4530,8 +4545,7 @@
                     "• Gratis para siempre de la Universidad de Washington↗."
                 ],
                 "beta": [
-                    "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera.",
-                    "¡Pero también significa que queremos tus comentarios! Informa sobre errores y comparte ideas en <Discord@https://discord.gg/Jh2Qq9husy>, o <GitHub@https://github.com/wordplaydev/wordplay/issues>. Consulta nuestros <planes 1.0@https://github.com/wordplaydev/wordplay/milestones/1.0> y <contribuir@https://github.com/wordplaydev/wordplay/wiki/contribute> si puedes hacerlo."
+                    "Wordplay está en *beta*. Esto significa que la funcionalidad puede cambiar o no funcionar como se espera."
                 ],
                 "link": {
                     "about": "¿Por qué existe este lugar?",
@@ -4547,7 +4561,8 @@
                     "contribute": {
                         "label": "Contribuir",
                         "subtitle": "Ayúdanos a hacer Wordplay."
-                    }
+                    },
+                    "teach": "$~Gestionar clases de estudiantes y sus proyectos"
                 }
             },
             "learn": {
@@ -4621,10 +4636,8 @@
             },
             "login": {
                 "header": "Iniciar sesión",
-                "subtitle": "Crea una cuenta o inicie sesión para guardar tu trabajo en línea",
                 "anonymous": "iniciar sesión",
                 "prompt": {
-                    "login": "Tus actuaciones se estan guardano en este navegador, pero no en línea. Si este es tu dispositivo, ¡está bien! Si no es así, otros tendrán acceso a tus proyectos y es posible que los pierdas. Para guardarlos en línea y mantenerlos privados, inicie sesión o <cree una cuenta@://join>:",
                     "forgot": "*¿Olvidaste tu contraseña?* Desafortunadamente, no podemos recuperar tu cuenta ya que no recopilamos información de contacto.",
                     "enter": "Parece que tu enlace de inicio de sesión vino de un navegador o dispositivo diferente. ¿Puedes ingresar tu correo electrónico nuevamente, solo para estar seguros de que eres tú?",
                     "play": "Estás conectado, ¡podemos guardar tus proyectos en línea ahora! ¿Quieres crear algo?",
@@ -4640,7 +4653,9 @@
                     "confirm": "Revisa tu antigua dirección de correo electrónico para confirmar tu nueva dirección.",
                     "delete": "¿Quieres que olvidemos todo lo que has creado aquí? Esto no se puede deshacer.",
                     "reallyDelete": "¿Estás segura? Tu cuenta y configuraciones se eliminarán inmediatamente, y tus proyectos se programarán para su eliminación. Las colaboradoras en tus proyectos perderán de inmediato el acceso a ellos. Escribe tu correo electrónico o nombre de usuario para confirmar que esto es lo que deseas.",
-                    "name": "Elige un emoji para representarte a ti mismo ante los demás."
+                    "name": "Elige un emoji para representarte a ti mismo ante los demás.",
+                    "login": "$~Inicie sesión para guardar sus proyectos, colaborar y compartir:",
+                    "join": "$~O bien, <crear una cuenta@://unirse> para comenzar."
                 },
                 "error": {
                     "expired": "Este enlace ha expirado.",
@@ -4703,13 +4718,15 @@
                         "on": "Mostrar contraseña",
                         "off": "Ocultar contraseña"
                     }
-                }
+                },
+                "subtitle": "$~Guardar, colaborar y compartir"
             },
             "join": {
                 "header": "Unirse",
                 "prompt": {
-                    "username": "¿Lista para crear una cuenta? Primero, elige un *nombre de usuario*. Debe tener al menos 5 caracteres, no puede ser una dirección de correo electrónico y no debe contener tu nombre ni otra información identificativa.",
-                    "password": "Elige una contraseña con al menos *10 caracteres*. Ingrésala nuevamente para asegurarte de que la hayas escrito correctamente y guárdala en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar tu cuenta* si la pierdes, ya que no recopilamos información de contacto."
+                    "create": "$~Crea una cuenta para guardar tus proyectos, colaborar con otros y compartir tu trabajo.",
+                    "username": "$~Los nombres de usuario deben tener al menos /5 caracteres/, no pueden ser un correo electrónico y no deben contener su nombre u otra información de identificación.",
+                    "password": "$~Las contraseñas deben tener al menos 10 caracteres. Escríbalas dos veces y anótelas en un lugar seguro, como un administrador de contraseñas. *No hay forma de recuperar su cuenta* si la pierde, ya que no recopilamos información de contacto."
                 }
             },
             "rights": {
@@ -4753,6 +4770,120 @@
                     "Si 2,400 personas donaran $$25 USD al año, eso cubriría nuestros costos actuales, y cualquier excedente se destinaría a compensar a más estudiantes y profesores.",
                     "¿Puedes ser una de esas 2,400 personas? Si es así, aquí está nuestro enlace de donación de la Universidad de Washington:"
                 ]
+            },
+            "teach": {
+                "header": "$~Enseñar",
+                "prompt": {
+                    "none": "$~¡Bienvenido, profesor! Crea una clase para configurar y administrar cuentas de estudiantes y galerías de proyectos.",
+                    "some": "$~¡Bienvenido profesor! Gestiona tus clases o crea una nueva."
+                },
+                "error": {
+                    "offline": "$~No podemos verificar tu estado de profesor.",
+                    "login": "$~Debes iniciar sesión para administrar clases.",
+                    "teacher": "$~Necesitas privilegios de profesor para crear y administrar clases. ¡Completa este formulario y conozcámonos!"
+                },
+                "link": {
+                    "request": "$~Solicitar privilegios de profesor",
+                    "new": "$~Crear una clase"
+                }
+            },
+            "newclass": {
+                "header": "$~Nueva clase",
+                "subheader": {
+                    "class": "$~Tu clase",
+                    "students": "$~Tus estudiantes",
+                    "credentials": "$~Nombres de usuario y contraseñas",
+                    "submit": "$~Entregar"
+                },
+                "prompt": {
+                    "start": "$~Crea una clase con cuentas generadas para todos los estudiantes de tu clase y te permite crear galerías a las que todos tus estudiantes pueden agregar proyectos. Si los estudiantes tienen cuentas existentes, puedes agregarlas más tarde.",
+                    "review": "$~Revisa los nombres de usuario y las contraseñas que creamos. ¿Quieres *editarlos* antes de continuar? Si lo haces, no podrás editar la información del estudiante que aparece arriba.",
+                    "ready": "$~Avísanos cuando estés listo para generar las credenciales que aparecen arriba. Puedes editarlas después de hacerlo.",
+                    "pending": "$~Generando nombres de usuario y contraseñas...",
+                    "submit": "$~¿Está listo para enviar su solicitud? En cuanto la envíe correctamente, recibirá una descarga de esta información. Las contraseñas *no se pueden recuperar*, así que guárdelas en un lugar seguro.",
+                    "submitting": "$~Solicitando nuevas cuentas con los nombres de usuario y contraseñas anteriores...",
+                    "download": "$~¡Tu clase está lista! Deberías ver una descarga de los datos de tus estudiantes en tu carpeta de descargas. *Las contraseñas no se pueden recuperar*, así que guarda este archivo en un lugar seguro."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre de la clase",
+                        "placeholder": "$~un nombre corto"
+                    },
+                    "description": {
+                        "description": "$~descripción",
+                        "placeholder": "$~una descripción de tu clase, para ti y tus estudiantes."
+                    },
+                    "existing": {
+                        "label": "$~estudiantes con cuentas",
+                        "prompt": "$~¿Alguno de tus alumnos ya tiene cuenta en Wordplay? Inclúyelos aquí."
+                    },
+                    "metadata": {
+                        "description": "$~Información del estudiante",
+                        "placeholder": "$~p. ej., identificación de estudiante, apellido, nombre de pila",
+                        "prompt": "$~¿Quieres crear nuevas cuentas para estudiantes? Proporciona *cualquier información* sobre los estudiantes, una por línea, separada por comas. Puede tratarse de apellidos, nombres de pila, números de estudiante u otros detalles distintivos. Los utilizaremos para generar nombres de usuario que puedes editar a continuación, lo que te ayudará a asociar nombres de usuario con estudiantes."
+                    },
+                    "words": {
+                        "description": "$~Palabras para usar en contraseñas",
+                        "placeholder": "$~p. ej., gato punto rata...",
+                        "prompt": "$~Proporcione al menos *25 palabras* y genere contraseñas de 2 a 3 palabras que puedan recordarse al azar. Elija palabras que sus alumnos conozcan o pídales que hagan una lluvia de ideas. ¡Cuanto más aleatorias, más seguras!"
+                    },
+                    "generate": {
+                        "label": "$~generar",
+                        "tip": "$~Cree nombres de usuario y contraseñas basados en la información anterior."
+                    },
+                    "edit": {
+                        "label": "$~editar",
+                        "tip": "$~Editar la información del estudiante generada"
+                    },
+                    "submit": {
+                        "label": "$~crear clase",
+                        "tip": "$~Crea una nueva clase con esta información."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~Hay entradas duplicadas en la información del estudiante.",
+                    "columns": "$~Asegúrese de que cada estudiante tenga el mismo número de columnas.",
+                    "generate": "$~No se pueden crear nombres de usuario únicos.",
+                    "taken": "$~Uno o más de los nombres de usuario anteriores ya están en uso",
+                    "limit": "$~No puedes crear una clase de más de 35 estudiantes a la vez.",
+                    "words": "$~Proporcionar al menos 25 palabras.",
+                    "account": "$~No se pueden crear algunas de las cuentas.",
+                    "generic": "$~No pudimos crear la clase. Aquí hay información para ayudar a los desarrolladores a descubrir qué salió mal."
+                }
+            },
+            "class": {
+                "header": "$~Clase",
+                "subheader": {
+                    "teachers": "$~Profesores",
+                    "students": "$~Estudiantes",
+                    "galleries": "$~Galerías"
+                },
+                "prompt": {
+                    "gallery": "$~Crea una galería para tu clase para organizar una tarea o un proyecto. Todos los profesores del proyecto serán los curadores de la galería y todos los estudiantes, los creadores de la galería.",
+                    "delete": "$~Eliminar esta clase eliminará permanentemente la información sobre la clase, pero también sus proyectos, galerías o cuentas de estudiantes."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nombre de la clase",
+                        "placeholder": "$~nombre"
+                    },
+                    "description": {
+                        "description": "$~Descripción de la clase",
+                        "placeholder": "$~descripción"
+                    },
+                    "newteacher": {
+                        "placeholder": "$~correo electrónico o nombre de usuario",
+                        "description": "$~Correo electrónico o nombre de usuario del creador a quien desea darle acceso docente a esta clase"
+                    },
+                    "addteacher": "$~Agregar un profesor a esta clase",
+                    "delete": {
+                        "tip": "$~Eliminar esta clase para siempre.",
+                        "label": "$~Eliminar esta clase"
+                    }
+                },
+                "error": {
+                    "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla."
+                }
             }
         },
         "edit": {
@@ -4773,6 +4904,60 @@
         "template": {
             "unwritten": "Por determinar",
             "unparsable": "Plantilla no analizable: $1"
+        },
+        "collaborate": {
+            "label": "$~colaborar",
+            "role": {
+                "owner": "$~dueño",
+                "collaborators": "$~colaboradores",
+                "curators": "$~curadores"
+            },
+            "field": {
+                "message": {
+                    "description": "$~El mensaje de chat para enviar",
+                    "placeholder": "$~Escribe un mensaje"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~Enviar",
+                    "tip": "$~Envía un mensaje a tus colaboradores"
+                },
+                "start": {
+                    "label": "$~Iniciar un chat",
+                    "tip": "$~Inicie una discusión con usted mismo o con otros."
+                },
+                "delete": "$~eliminar este mensaje"
+            },
+            "error": {
+                "unowned": "$~Este proyecto no tiene propietario, por lo que no puede tener un chat.",
+                "offline": "$~No se puede cargar este chat.",
+                "empty": "$~No hay mensajes.",
+                "deleted": "$~Este mensaje fue eliminado."
+            },
+            "prompt": {
+                "solo": "$~Chatea contigo mismo o agrega un colaborador, que pueda editar y chatear.",
+                "owner": "$~Los colaboradores pueden editar este proyecto y chatear sobre él.",
+                "collaborator": "$~Eres colaborador. Puedes editar este proyecto y conversar sobre él.",
+                "curator": "$~Eres el curador de la galería de este proyecto. Puedes editarlo y conversar sobre él."
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~ahora",
+                "history": "$~restaurar",
+                "restore": "$~Esta es una versión anterior de este proyecto.",
+                "ago": "$~Hace 1 $2 $"
+            },
+            "button": {
+                "clear": "$~borrar historial",
+                "select": "$~Ver esta versión",
+                "checkpoint": "$~guardar esta versión del proyecto",
+                "back": "$~volver a la versión anterior",
+                "forward": "$~volver a la siguiente versión",
+                "restore": "$~restaurar esta versión",
+                "now": "$~volver a la versión actual"
+            }
         }
     },
     "moderation": {

@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Evaluate from '@nodes/Evaluate';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
@@ -8,7 +8,7 @@
     import { addContent, moveContent, removeContent } from './editOutput';
     import type ListLiteral from '../../nodes/ListLiteral';
     import { blocks, DB, locales } from '@db/Database';
-    import { EDIT_SYMBOL } from '../../parser/Symbols';
+    import { CANCEL_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
 
     interface Props {
         project: Project;
@@ -47,7 +47,7 @@
 
         const item = list.values[index];
         if (item instanceof Evaluate && selection)
-            selection.setSelectedOutput(project, [item]);
+            selection.setPaths(project, [item]);
     }
 </script>
 
@@ -61,7 +61,8 @@
                         list
                             ? removeContent(DB, project, list, index)
                             : undefined}
-                    active={editable && list.values.length > 0}>⨉</Button
+                    active={editable && list.values.length > 0}
+                    >{CANCEL_SYMBOL}</Button
                 >
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.up)}
@@ -85,11 +86,7 @@
                     active={editable}
                     action={() => editContent(index)}>{EDIT_SYMBOL}</Button
                 >
-                <RootView
-                    node={content}
-                    localized="symbolic"
-                    blocks={$blocks}
-                />
+                <RootView node={content} locale="symbolic" blocks={$blocks} />
             </div>
         {/each}
         <div class="add">

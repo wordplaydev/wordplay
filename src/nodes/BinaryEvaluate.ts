@@ -282,7 +282,11 @@ export default class BinaryEvaluate extends Expression {
         const right = this.right.compile(evaluator, context);
 
         // Logical and is short circuited: if the left is false, we do not evaluate the right.
-        if (this.isLogicalOperator(context)) {
+        // We do not short circuit if we are evaluating a reaction, as we need to capture reaction dependencies.
+        if (
+            this.isLogicalOperator(context) &&
+            !evaluator.isEvaluatingReaction()
+        ) {
             if (this.fun.name.getText() === AND_SYMBOL) {
                 return [
                     new Start(this),

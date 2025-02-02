@@ -4,7 +4,7 @@
 
 <script lang="ts">
     import { onDestroy, onMount, untrack } from 'svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import type Stage from '@output/Stage';
     import { loadedFonts } from '@basis/Fonts';
     import {
@@ -39,7 +39,6 @@
         describeMovedOutput,
         describedChangedOutput,
     } from './OutputDescriptions';
-    import { SvelteMap } from 'svelte/reactivity';
 
     interface Props {
         project: Project;
@@ -221,10 +220,10 @@
         untrack(() => resetAnimator());
     });
 
-    // Stop or When the evaluator is playing but the animator is stopped, create a new animator.
+    // When the evaluator is playing but the animator is stopped, create a new animator.
     $effect(() => {
         if (animator) {
-            if ($evaluation.playing) {
+            if ($evaluation?.playing) {
                 if (animator.isStopped()) untrack(() => resetAnimator());
             } else {
                 animator.stop();

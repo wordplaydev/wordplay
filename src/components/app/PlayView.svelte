@@ -1,6 +1,6 @@
 <!-- Renders output, and output only -->
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import OutputView from '@components/output/OutputView.svelte';
     import Evaluator from '@runtime/Evaluator';
     import type Value from '@values/Value';

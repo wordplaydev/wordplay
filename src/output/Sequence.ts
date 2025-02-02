@@ -13,7 +13,7 @@ import NumberValue from '@values/NumberValue';
 import Transition from './Transition';
 import type Place from './Place';
 import type { TransitionSequence } from './OutputAnimation';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type Locales from '../locale/Locales';
 
 const MaxCount = 5;
@@ -23,27 +23,27 @@ export function createSequenceType(locales: Locales) {
     ${getBind(locales, (locale) => locale.output.Sequence, TYPE_SYMBOL)}(
         ${getBind(
             locales,
-            (locale) => locale.output.Sequence.poses
+            (locale) => locale.output.Sequence.poses,
         )}•{ % : Pose }
         ${getBind(
             locales,
-            (locale) => locale.output.Sequence.duration
+            (locale) => locale.output.Sequence.duration,
         )}•#s: 0.25s
         ${getBind(locales, (locale) => locale.output.Sequence.style)}•${locales
-        .getLocales()
-        .map((locale) =>
-            Object.values(locale.output.Easing).map((id) => `"${id}"`)
-        )
-        .flat()
-        .join('|')}: "${
-        Object.values(locales.getLocales()[0].output.Easing)[0]
-    }"
+            .getLocales()
+            .map((locale) =>
+                Object.values(locale.output.Easing).map((id) => `"${id}"`),
+            )
+            .flat()
+            .join('|')}: "${
+            Object.values(locales.getLocales()[0].output.Easing)[0]
+        }"
         ${getBind(locales, (locale) => locale.output.Sequence.count)}•${[
-        ...Array(MaxCount + 1).keys(),
-    ]
-        .slice(1)
-        .map((n) => `${n}x`)
-        .join('|')}: 1x
+            ...Array(MaxCount + 1).keys(),
+        ]
+            .slice(1)
+            .map((n) => `${n}x`)
+            .join('|')}: 1x
     )
 `);
 }
@@ -61,7 +61,7 @@ export default class Sequence extends Valued {
         count: number,
         poses: SequenceStep[],
         duration: number,
-        style: string
+        style: string,
     ) {
         super(value);
 
@@ -80,7 +80,7 @@ export default class Sequence extends Valued {
     compile(
         place?: Place,
         defaultPose?: Pose,
-        size?: number
+        size?: number,
     ): TransitionSequence | undefined {
         // No poses? No pose or transition.
         if (this.poses.length === 0) return undefined;
@@ -93,7 +93,7 @@ export default class Sequence extends Valued {
                     size,
                     this.poses[0].pose,
                     this.duration,
-                    this.style
+                    this.style,
                 ),
             ];
         }
@@ -118,8 +118,8 @@ export default class Sequence extends Valued {
                             : (this.duration *
                                   (current.percent - previous.percent)) /
                               count,
-                        this.style
-                    )
+                        this.style,
+                    ),
                 );
             }
 
@@ -173,7 +173,7 @@ export function toSequence(project: Project, value: Value | undefined) {
               count.toNumber(),
               steps,
               duration.toNumber(),
-              style.text
+              style.text,
           )
         : undefined;
 }

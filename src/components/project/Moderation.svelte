@@ -1,14 +1,14 @@
 <script lang="ts">
     import Dialog from '@components/widgets/Dialog.svelte';
     import { locales } from '../../db/Database';
-    import type Project from '../../models/Project';
+    import type Project from '../../db/projects/Project';
     import { getUser } from './Contexts';
     import {
         getWarnings,
         getBlocks,
         getUnmoderated,
         isAudience,
-    } from '../../models/Moderation';
+    } from '../../db/projects/Moderation';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
 
     interface Props {
@@ -21,9 +21,13 @@
 
     /** See if this is a public project being viewed by someone who isn't a creator or collaborator */
     let audience = $derived(isAudience($user, project));
-    let warnings = $derived(getWarnings(project.getFlags(), $locales.getLocale()));
+    let warnings = $derived(
+        getWarnings(project.getFlags(), $locales.getLocale()),
+    );
     let blocks = $derived(getBlocks(project.getFlags(), $locales.getLocale()));
-    let unmoderated = $derived(getUnmoderated(project.getFlags(), $locales.getLocale()));
+    let unmoderated = $derived(
+        getUnmoderated(project.getFlags(), $locales.getLocale()),
+    );
 </script>
 
 <!-- If this is an audience member and one of the flags are active -->
@@ -33,8 +37,8 @@
         description={blocks.length > 0
             ? $locales.getLocale().moderation.blocked
             : warnings.length > 0
-            ? $locales.getLocale().moderation.warning
-            : $locales.getLocale().moderation.unmoderated}
+              ? $locales.getLocale().moderation.warning
+              : $locales.getLocale().moderation.unmoderated}
         closeable={blocks.length === 0}
     >
         <ul>

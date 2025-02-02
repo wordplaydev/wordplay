@@ -96,7 +96,7 @@
                         {/if}{@const name = variable.names.getPreferredName(
                             $locales.getLocales(),
                         )}{#if name}<RootView
-                                localized="symbolic"
+                                locale="symbolic"
                                 node={name.withoutLanguage()}
                                 blocks={$blocks}
                             />{/if}{/each}{TYPE_CLOSE_SYMBOL}</small

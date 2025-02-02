@@ -27,7 +27,6 @@ const config = {
             '@output': path.resolve('./src/output'),
             '@basis': path.resolve('./src/basis'),
             '@edit': path.resolve('./src/edit'),
-            '@models': path.resolve('./src/models'),
             '@db': path.resolve('./src/db'),
         },
         csp: {

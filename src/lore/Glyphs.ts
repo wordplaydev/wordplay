@@ -41,13 +41,13 @@ import {
     UNKNOWN_SYMBOL,
     UNPARSABLE_SYMBOL,
     FORMATTED_SYMBOL,
-    GLOBE1_SYMBOL,
     COALESCE_SYMBOL,
     MATCH_SYMBOL,
+    LOCALE_SYMBOL,
 } from '@parser/Symbols';
 import type Glyph from './Glyph';
 
-const GlyphSet = {
+export const GlyphSet = {
     // Parsing
     Unparsable: {
         symbols: UNPARSABLE_SYMBOL,
@@ -87,7 +87,7 @@ const GlyphSet = {
     Program: {
         symbols: '📄',
     },
-    Function: {
+    FunctionDefinition: {
         symbols: FUNCTION_SYMBOL,
     },
     Evaluate: {
@@ -164,7 +164,7 @@ const GlyphSet = {
         symbols: PLACEHOLDER_SYMBOL + LIST_OPEN_SYMBOL + LIST_CLOSE_SYMBOL,
     },
     Locale: {
-        symbols: GLOBE1_SYMBOL,
+        symbols: LOCALE_SYMBOL,
     },
     Set: {
         symbols: SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
@@ -222,6 +222,8 @@ const GlyphSet = {
     DocumentedExpression: {
         symbols: DOCS_SYMBOL + DOCS_SYMBOL + PLACEHOLDER_SYMBOL,
     },
+    ExpressionPlaceholder: { symbols: PLACEHOLDER_SYMBOL },
+    UnparsableExpression: { symbols: UNPARSABLE_SYMBOL },
     Link: {
         symbols: LINK_SYMBOL,
     },

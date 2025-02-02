@@ -1,4 +1,4 @@
-import UnicodeString from '../models/UnicodeString';
+import UnicodeString from '../unicode/UnicodeString';
 import type Spaces from '../parser/Spaces';
 import type LocaleText from '../locale/LocaleText';
 import Node, { type Grammar, type Replacement } from './Node';
@@ -154,6 +154,8 @@ export default class Token extends Node {
     }
 
     localized(
+        // If the caret is inside the token
+        inside: boolean,
         symbolic: boolean,
         locales: LocaleText[],
         root: Root,
@@ -204,7 +206,7 @@ export default class Token extends Node {
         }
 
         // Is this a name? Choose the most appropriate name.
-        if (this.isSymbol(Sym.Name) && this.isSymbol(Sym.Operator)) {
+        if (!inside && this.isSymbol(Sym.Name) && this.isSymbol(Sym.Operator)) {
             const parent = root.getParent(this);
             let def: Definition | undefined = undefined;
             if (parent) {

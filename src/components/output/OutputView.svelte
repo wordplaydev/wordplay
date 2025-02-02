@@ -2,7 +2,7 @@
     import { toStage } from '../../output/Stage';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import ValueView from '../values/ValueView.svelte';
     import StageView from './StageView.svelte';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
@@ -273,22 +273,17 @@
             }
         }
 
-        if (
-            !evaluator.isPlaying() &&
-            editable &&
-            selection?.selectedPaths !== undefined &&
-            selection.selectedOutput !== undefined
-        ) {
+        if (!evaluator.isPlaying() && editable && selection?.hasPaths()) {
             const evaluate = getOutputNodeFromID(getOutputNodeIDFromFocus());
             if (evaluate !== undefined) {
                 // Add or remove the focused node from the selection.
                 if (select) {
-                    selection.setSelectedOutput(
+                    selection.setPaths(
                         project,
-                        selection.selectedOutput.includes(evaluate)
-                            ? selection.selectedOutput.filter(
-                                  (o) => o !== evaluate,
-                              )
+                        selection.includes(evaluate, project)
+                            ? selection
+                                  .getOutput(project)
+                                  .filter((o) => o !== evaluate)
                             : [evaluate],
                     );
                     event.stopPropagation();
@@ -408,8 +403,7 @@
         // If we're editable and not playing, select output.
         if (editable && !evaluator.isPlaying()) {
             if (painting) {
-                if (selection?.selectedPaths)
-                    selection.setSelectedOutput(project, []);
+                if (selection) selection.setPaths(project, []);
             } else if (!selectPointerOutput(event)) ignore();
         }
 
@@ -466,6 +460,8 @@
 
         // If there's a focus, start dragging.
         if (valueView && renderedFocus) {
+            const output = selection?.getOutput(project) ?? [];
+
             // Start dragging.
             const rect = valueView.getBoundingClientRect();
             const dx = event.clientX - rect.left;
@@ -490,15 +486,12 @@
                       focus
                       ? renderedFocus
                       : // If there's selected output, it's the first output selected, and it has a place
-                        selection?.selectedOutput &&
-                          selection.selectedOutput.length > 0
+                        output.length > 0
                         ? getOrCreatePlace(
                               project,
                               $locales,
-                              selection.selectedOutput[0],
-                              evaluator.project.getNodeContext(
-                                  selection.selectedOutput[0],
-                              ),
+                              output[0],
+                              evaluator.project.getNodeContext(output[0]),
                           )
                         : // Otherwise, there's no place the click started.
                           undefined;
@@ -641,17 +634,20 @@
                         );
                         event.stopPropagation();
                     } else if (
-                        selection?.selectedOutput &&
-                        selection.selectedOutput.length > 0 &&
-                        !selection.selectedOutput[0].is(
-                            project.shares.output.Stage,
-                            project.getNodeContext(selection.selectedOutput[0]),
-                        )
+                        selection?.hasPaths() &&
+                        !selection
+                            .getOutput(project)[0]
+                            .is(
+                                project.shares.output.Stage,
+                                project.getNodeContext(
+                                    selection.getOutput(project)[0],
+                                ),
+                            )
                     ) {
                         moveOutput(
                             DB,
                             project,
-                            selection.selectedOutput,
+                            selection.getOutput(project),
                             $locales,
                             newX,
                             newY,
@@ -729,37 +725,32 @@
      * if so.
      */
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
-        if (
-            selection === undefined ||
-            selection.selectedPaths === undefined ||
-            selection.selectedOutput === undefined ||
-            selection.selectedPhrase === undefined
-        )
-            return false;
+        if (selection === undefined) return false;
         // If we found the node in the project, add it to the selection.
         const evaluate = getOutputNodeFromID(getOutputNodeIDUnderMouse(event));
         if (evaluate) {
             // If the shift key is down
             let newSelection: Evaluate[];
             if (event.shiftKey) {
-                const index = selection.selectedOutput.indexOf(evaluate);
+                const output = selection.getOutput(project);
+                const index = output.indexOf(evaluate);
                 // If it's in the set, remove it.
                 if (index >= 0) {
                     newSelection = [
-                        ...selection.selectedOutput.slice(0, index),
-                        ...selection.selectedOutput.slice(index + 1),
+                        ...output.slice(0, index),
+                        ...output.slice(index + 1),
                     ];
                 } else {
-                    newSelection = [...selection.selectedOutput, evaluate];
+                    newSelection = [...output, evaluate];
                 }
             }
             // Otherise, set the selection to the selection.
             else newSelection = [evaluate];
 
             // Update the selection
-            selection.setSelectedOutput(project, newSelection);
+            selection.setPaths(project, newSelection);
             // Erase the selected phrase.
-            selection.setSelectedPhrase(null);
+            selection.setPhrase(null);
 
             // Focus it too, for keyboard output.
             const outputView = valueView?.querySelector(
@@ -922,8 +913,8 @@
     class:selected={stageValue &&
         stageValue.explicit &&
         stageValue.value.creator instanceof Evaluate &&
-        selection?.selectedOutput &&
-        selection.selectedOutput.includes(stageValue.value.creator)}
+        selection !== undefined &&
+        selection.includes(stageValue.value.creator, project)}
 >
     <!-- svelte-ignore a11y_no_static_element_interactions -->
     <div
@@ -1092,7 +1083,6 @@
         align-items: center;
         margin: auto;
         overflow: auto;
-        font-size: 5cqw;
         padding-block-start: 2em;
     }
 

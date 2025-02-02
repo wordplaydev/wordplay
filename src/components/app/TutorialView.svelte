@@ -1,6 +1,6 @@
 <script lang="ts">
     import ProjectView from '@components/project/ProjectView.svelte';
-    import Project from '@models/Project';
+    import Project from '@db/projects/Project';
     import Speech from '@components/lore/Speech.svelte';
     import Progress from '../../tutorial/Progress';
     import Note from '../../components/widgets/Note.svelte';
@@ -20,9 +20,9 @@
     import type Spaces from '../../parser/Spaces';
     import { toMarkup } from '../../parser/toMarkup';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount, setContext, untrack } from 'svelte';
+    import { onMount, untrack } from 'svelte';
     import type ConceptIndex from '../../concepts/ConceptIndex';
-    import { writable, type Writable } from 'svelte/store';
+    import { writable } from 'svelte/store';
     import { tick } from 'svelte';
     import { goto } from '$app/navigation';
     import ConceptLink from '../../nodes/ConceptLink';
@@ -32,11 +32,15 @@
     import type { Dialog, Performance } from '../../tutorial/Tutorial';
     import type Markup from '../../nodes/Markup';
     import Header from './Header.svelte';
-    import { PersistenceType } from '../../db/ProjectHistory';
+    import { PersistenceType } from '../../db/projects/ProjectHistory.svelte';
     import Options from '@components/widgets/Options.svelte';
-    import { moderatedFlags } from '../../models/Moderation';
+    import { moderatedFlags } from '../../db/projects/Moderation';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
+    import { DRAFT_SYMBOL } from '@parser/Symbols';
+    import Glyphs from '../../lore/Glyphs';
+    import { withColorEmoji } from '../../unicode/emoji';
+    import { withoutAnnotations } from '@locale/LocaleText';
 
     interface Props {
         progress: Progress;
@@ -197,49 +201,55 @@
         ),
     );
 
-    // Store a reference to the project store for the current project.
-    let projectStore: Writable<Project> | undefined;
-    // Every time the progress changes, get the store for the corresponding project, if there is one.
-    $effect(() => {
-        projectStore = Projects.getStore(progress.getProjectID());
-    });
+    // Keep the current project state.
+    let project = $state<Project | undefined>();
 
     // Every time the progress changes, see if there's a revision to the project stored in the database,
-    // and use that instead.
+    // and use that instead, and update the project store.
     $effect(() => {
         // Check asynchronously if there's a project for this tutorial project ID already.
         Projects.get(progress.getProjectID()).then((existingProject) => {
             // If there is, get it's store.
-            if (existingProject)
-                projectStore = Projects.getStore(progress.getProjectID());
+            if (existingProject) {
+                project = existingProject;
+            }
             // If there's not, add this project to the database and get its store, so it can be editable.
-            else if (initialProject)
-                projectStore = Projects.track(
+            else if (initialProject) {
+                project = initialProject;
+                Projects.track(
                     initialProject,
                     true,
                     PersistenceType.Local,
                     false,
-                )?.getStore();
+                );
+            }
         });
     });
 
+    // When history's current value changes, update the project. This is super important: it enables feedback
+    // after each edit of a project!
+    $effect(() => {
+        const history = Projects.getHistory(progress.getProjectID());
+        project = history?.getCurrent();
+    });
+
     // Create a reactive context of the current project.
-    const project = writable<Project | undefined>(undefined);
-    setProject(project);
+    const projectStore = writable<Project | undefined>(undefined);
+    setProject(projectStore);
 
     // Every time the project store changes, update the project context.
     $effect(() => {
-        project.set($projectStore);
+        projectStore.set(project);
     });
 
     // When the project changes to something other than the initial project, start persisting it.
     $effect(() => {
         if (
             initialProject &&
-            $projectStore !== undefined &&
-            !$projectStore.equals(initialProject)
+            project !== undefined &&
+            !project.equals(initialProject)
         )
-            Projects.getHistory($projectStore.getID())?.setPersist(
+            Projects.getHistory(project.getID())?.setPersist(
                 PersistenceType.Local,
             );
     });
@@ -259,7 +269,9 @@
                                 0,
                             ).serialize(),
                         ),
-                        label: scene.subtitle ?? scene.title,
+                        label: withoutAnnotations(
+                            scene.subtitle ?? scene.title,
+                        ),
                     };
                 }),
             };
@@ -318,7 +330,10 @@
         event.stopPropagation();
         tick().then(() => {
             const newFocus = focusView ?? nextButton;
-            if (newFocus)
+            if (
+                document.activeElement === document.body &&
+                newFocus !== undefined
+            )
                 setKeyboardFocus(
                     newFocus,
                     'Body received focus, focusing tutorial.',
@@ -331,15 +346,13 @@
 <section class="tutorial" onkeydown={handleKey}>
     <div class="header">
         <Header block={false}
-            >{#if fallback}🚧{/if}
-            {$locales.get(
-                (l) => l.ui.page.learn.header,
-            )}{#if fallback}🚧{/if}</Header
+            >{#if fallback}{withColorEmoji(DRAFT_SYMBOL)}{/if}
+            {$locales.get((l) => l.ui.page.learn.header)}</Header
         >
         <nav>
             {#if act !== undefined}
                 <Note>
-                    {act.title}
+                    {withoutAnnotations(act.title)}
                     <sub
                         >{progress.tutorial.acts.findIndex(
                             (candidate) => candidate === act,
@@ -349,7 +362,9 @@
             <!-- A select component tutorial lessons, grouped by unit. The value is always line zero so that the label is selected correctly.  -->
             <Options
                 label={$locales.get((l) => l.ui.page.learn.options.lesson)}
-                value={JSON.stringify(progress.withLine(0).serialize())}
+                value={withoutAnnotations(
+                    JSON.stringify(progress.withLine(0).serialize()),
+                )}
                 change={handleSelect}
                 id="current-lesson"
                 options={lessons}
@@ -384,7 +399,7 @@
                         bind:view={previousButton}>←</Button
                     >
                     {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
-                            >{scene.subtitle ?? scene.title}
+                            >{withoutAnnotations(scene.subtitle ?? scene.title)}
                             {#if act !== undefined && scene !== undefined && progress.pause > 0}
                                 <sub class="progress"
                                     >{progress.pause}/{scene
@@ -410,24 +425,33 @@
                 {:else if scene === undefined}
                     <div class="title act"
                         >{$locales.get((l) => l.term.act)}
-                        {progress.act}<p><em>{act.title}</em></p></div
+                        {progress.act}<p
+                            ><em>{withoutAnnotations(act.title)}</em></p
+                        ></div
                     >
                 {:else if dialog === undefined}
                     <div class="title scene"
                         >{$locales.get((l) => l.term.scene)}
-                        {progress.scene}<p><em>{scene.title}</em></p
-                        >{#if scene.subtitle}<em>{scene.subtitle}</em>{/if}</div
+                        {progress.scene}<p
+                            ><em>{withoutAnnotations(scene.title)}</em></p
+                        >{#if scene.subtitle}<em
+                                >{withoutAnnotations(scene.subtitle)}</em
+                            >{/if}</div
                     >
                 {:else}
                     {#key turns}
                         {#each turns as turn}
+                            {@const character = turn.dialog[0]}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
                                 glyph={projectContext
-                                    ?.getConceptByName(turn.dialog[0])
-                                    ?.getGlyphs($locales) ?? {
-                                    symbols: turn.dialog[0],
-                                }}
+                                    ?.getConceptByName(character)
+                                    ?.getGlyphs($locales) ??
+                                    Glyphs[
+                                        character as keyof typeof Glyphs
+                                    ] ?? {
+                                        symbols: character,
+                                    }}
                                 flip={turn.dialog[0] !== 'FunctionDefinition'}
                                 baseline
                                 scroll={false}
@@ -446,11 +470,11 @@
         <!-- Autofocus the main editor if it's currently focused -->
         {#key initialProject}
             {#if scene}
-                {@const project = $projectStore ?? initialProject}
-                {#if project}
+                {@const currentProject = project ?? initialProject}
+                {#if currentProject}
                     <div class="project"
                         ><ProjectView
-                            {project}
+                            project={currentProject}
                             original={initialProject}
                             bind:index={projectContext}
                             bind:dragged
@@ -464,9 +488,9 @@
                     >
                 {/if}
             {:else}
-                {@const project = $projectStore ?? initialProject}
-                {#if project}
-                    <PlayView {project} {fit} />
+                {@const currentProject = project ?? initialProject}
+                {#if currentProject}
+                    <PlayView project={currentProject} {fit} />
                 {/if}
             {/if}
         {/key}

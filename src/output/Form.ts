@@ -1,4 +1,4 @@
-import type Project from '@models/Project';
+import type Project from '@db/projects/Project';
 import { getFirstName } from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
 import StructureValue from '../values/StructureValue';

@@ -1,6 +1,7 @@
 <script lang="ts">
     import { locales } from '@db/Database';
     import Button, { type Action } from './Button.svelte';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         tip: string;
@@ -17,7 +18,7 @@
         enabled = true,
         prompt,
         background = false,
-        children
+        children,
     }: Props = $props();
 
     let confirming = $state(false);
@@ -29,7 +30,7 @@
         tip={confirming ? $locales.get((l) => l.ui.widget.confirm.cancel) : tip}
         action={() => (confirming = !confirming)}
         active={enabled}
-        >{#if confirming}⨉{:else}{@render children?.()}{/if}</Button
+        >{#if confirming}{CANCEL_SYMBOL}{:else}{@render children?.()}{/if}</Button
     >
     {#if confirming}
         <Button {background} stretch {tip} action={() => action()}

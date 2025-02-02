@@ -2,7 +2,7 @@
     import type OutputProperty from '@edit/OutputProperty';
     import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import type OutputExpression from '@edit/OutputExpression';
     import { locales } from '@db/Database';
     import getSequenceProperties from '../../edit/SequenceProperties';

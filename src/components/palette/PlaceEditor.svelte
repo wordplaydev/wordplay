@@ -1,7 +1,7 @@
 <script lang="ts">
     import TextField from '../widgets/TextField.svelte';
     import Evaluate from '../../nodes/Evaluate';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import NumberValue from '@values/NumberValue';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';

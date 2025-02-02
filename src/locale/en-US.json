@@ -134,7 +134,7 @@
             "name": "explanation",
             "emotion": "serious",
             "doc": [
-                "I richly format things with @Markup, like explanations of some of of your @Program, or even the words you put on stage with @Phrase.",
+                "I richly format things with @Markup, like explanations of some of your @Program, or even the words you put on stage with @Phrase.",
                 "For example, I can go before any expression:",
                 "\\¶Is this really supposed to be 7?¶\n7\\",
                 "For example, you can place me before @Bind:",
@@ -4048,7 +4048,15 @@
             "loading": {
                 "message": "Loading font faces and text, thanks for waiting!"
             },
-            "home": "go to home page"
+            "home": "go to home page",
+            "table": {
+                "cell": {
+                    "description": "edit this cell",
+                    "placeholder": "value"
+                },
+                "addcolumn": "add a column before this column",
+                "removecolumn": "remove this column"
+            }
         },
         "tile": {
             "toggle": {
@@ -4065,7 +4073,8 @@
                 "output": "stage",
                 "palette": "palette",
                 "docs": "guide",
-                "source": "source"
+                "source": "source",
+                "collaborate": "collaborate"
             },
             "button": {
                 "collapse": "collapse window"
@@ -4073,11 +4082,16 @@
         },
         "project": {
             "error": {
-                "unknown": "This project doesn't exist or isn't public.",
-                "translate": "There was a problem translating your project."
+                "unknown": "This project doesn't exist or you don't have access to it.",
+                "translate": "There was a problem translating your project.",
+                "tile": "Oops, there was an error",
+                "reset": "Attempt to reset..."
             },
             "button": {
-                "showCollaborators": "show collaborators dialog",
+                "share": {
+                    "tip": "show project sharing options",
+                    "label": "share"
+                },
                 "removeCollaborator": "remove collaborator",
                 "copy": "copy project to clipboard as text",
                 "addSource": "create a new $source",
@@ -4089,8 +4103,15 @@
                 "focusPalette": "focus on the palette",
                 "focusCycle": "focus on the next tile",
                 "unsaved": "show save error",
-                "translate": "edit this project's languages and translate it into other languages.",
-                "primary": "set as this project's primary locale"
+                "translate": {
+                    "tip": "edit this project's languages and translate it into other languages.",
+                    "label": "translate"
+                },
+                "primary": "set as this project's primary locale",
+                "history": {
+                    "on": "show recent project code",
+                    "redo": "show current project code"
+                }
             },
             "field": {
                 "name": {
@@ -4111,7 +4132,7 @@
             "dialog": {
                 "unsaved": "Unsaved work...",
                 "translate": {
-                    "header": "Languages",
+                    "header": "Translate",
                     "explanation": [
                         "These are the languages your project is using.",
                         "To try to translate your project into other languages, choose a primary source language and then choose a new language.",
@@ -4124,10 +4145,31 @@
                 "destination": "Destination"
             }
         },
+        "checkpoints": {
+            "label": {
+                "now": "now",
+                "history": "restore",
+                "restore": "This is a previous version of this project.",
+                "ago": "$1 $2 ago"
+            },
+            "button": {
+                "clear": "delete history",
+                "select": "view this version",
+                "checkpoint": "save this version of the project",
+                "back": "go back to the previous version",
+                "forward": "return to the next version",
+                "restore": "restore this version",
+                "now": "return to the current version"
+            }
+        },
         "gallery": {
             "untitled": "Untitled",
             "undescribed": "No description",
             "subheader": {
+                "classes": {
+                    "header": "Classes",
+                    "explanation": "Classes associated with this gallery."
+                },
                 "curators": {
                     "header": "Curators",
                     "explanation": "Creators who manage this gallery."
@@ -4175,7 +4217,7 @@
                 "• Browse the <galleries@://galleries> for inspiration.",
                 "If you're stuck, <learn more@://learn>."
             ],
-            "overwritten": "Received a more recent version!",
+            "overwritten": "Project revised elsewhere",
             "confirm": {
                 "delete": {
                     "description": "delete this $source",
@@ -4190,6 +4232,12 @@
                 "glyphs": {
                     "on": "collapse the matching glyphs",
                     "off": "expand the matching glyphs"
+                }
+            },
+            "options": {
+                "locale": {
+                    "tip": "preferred language for source",
+                    "all": "all"
                 }
             },
             "button": {
@@ -4297,7 +4345,7 @@
                 "submit": "submit this chat message"
             },
             "options": {
-                "locale": "choose the language for output"
+                "locale": "preferred language for output"
             }
         },
         "timeline": {
@@ -4341,12 +4389,8 @@
         "dialog": {
             "share": {
                 "header": "Sharing",
-                "explanation": "Control who can edit and see this project.",
+                "explanation": "Share this project with galleries or the world.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "Collaborators",
-                        "explanation": "Collaborators can view and edit this project. Only project owners can modify collaborators."
-                    },
                     "gallery": {
                         "header": "Gallery",
                         "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."
@@ -4437,34 +4481,26 @@
                             "vertical, right to left",
                             "vertical, left to right"
                         ]
-                    },
-                    "localized": {
-                        "label": "code localization",
-                        "modes": [
-                            "do not localize code",
-                            "localize code when available",
-                            "localize code but prefer symbols"
-                        ]
                     }
                 },
                 "options": {
+                    "face": "font face",
                     "mic": "selected microphone",
                     "camera": "selected camera"
                 }
             },
             "locale": {
                 "header": "Language",
-                "explanation": "Choose your languages and regions.",
+                "explanation": "Choose languages for the interface, tutorial, and documentation.",
                 "subheader": {
                     "selected": "Selected",
                     "supported": "Available",
-                    "coming": "Coming Soon",
                     "help": "Help us translate …"
                 },
                 "button": {
                     "show": "change locale",
-                    "replace": "replace with this locale",
-                    "add": "add this locale",
+                    "replace": "use this locale",
+                    "add": "use this locale and the current ones",
                     "remove": "remove this locale"
                 }
             },
@@ -4477,6 +4513,43 @@
                     "insertCode": "Insert",
                     "debug": "Debug"
                 }
+            }
+        },
+        "collaborate": {
+            "label": "collaborate",
+            "role": {
+                "owner": "owner",
+                "collaborators": "collaborators",
+                "curators": "curators"
+            },
+            "field": {
+                "message": {
+                    "description": "The chat message to submit",
+                    "placeholder": "Type a message"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "Send",
+                    "tip": "Send a message to your collaborators"
+                },
+                "start": {
+                    "label": "Start a chat",
+                    "tip": "Begin a discussion with yourself or others."
+                },
+                "delete": "delete this message"
+            },
+            "error": {
+                "unowned": "This project isn't stored online, so it can't have a chat or collaborators.",
+                "offline": "Unable to load this chat.",
+                "empty": "No messages.",
+                "deleted": "This message was deleted."
+            },
+            "prompt": {
+                "solo": "Chat with yourself or add a collaborator, who can edit and chat.",
+                "owner": "Collaborators can edit this project and chat about it.",
+                "collaborator": "You're a collaborator. You can edit this project and chat about it.",
+                "curator": "You're a curator of this project's gallery. You can edit this project and chat about it."
             }
         },
         "palette": {
@@ -4566,6 +4639,7 @@
                 ],
                 "link": {
                     "learn": "Learn the language with a dramatic cast of characters",
+                    "teach": "Manage classes of students and their projects",
                     "guide": "Search and browse the language reference",
                     "projects": "Create and share peformances",
                     "galleries": "Experience others' performances",
@@ -4590,6 +4664,121 @@
                 },
                 "options": {
                     "lesson": "current lesson"
+                }
+            },
+            "teach": {
+                "header": "Teach",
+                "prompt": {
+                    "none": "Welcome teacher! Create a class to set up and manage student accounts and project galleries.",
+                    "some": "Welcome teacher! Manage your classes or create a new one."
+                },
+                "error": {
+                    "offline": "We weren't able to check your teacher status. Are you logged in?",
+                    "login": "You need to be logged in to manage classes.",
+                    "teacher": "You need teacher privileges to create and manage classes. Fill out this form and let's get to know each other!"
+                },
+                "link": {
+                    "request": "Request teacher privileges",
+                    "new": "Create a class"
+                }
+            },
+            "newclass": {
+                "header": "New class",
+                "subheader": {
+                    "class": "Your class",
+                    "students": "Your students",
+                    "credentials": "Usernames and passwords",
+                    "submit": "Submit"
+                },
+                "prompt": {
+                    "start": "Creating a class with generte accounts for all of the students in your class and let you create galleries that all of your students can add projects to. If students have existing accounts, you can add them later.",
+                    "review": "Review the usernames and passwords we made. Do you want to *edit* them before proceeding? If you do, you won't be able to edit the student information above.",
+                    "ready": "Let us know when you're ready to generate credentials above. You can edit them after you do.",
+                    "pending": "Generating usernames and passwords...",
+                    "submit": "Ready to submit? As soon as it's successful, you'll receive a download of this information. Passwords are *not recoverable*, so keep them somewhere safe.",
+                    "submitting": "Requesting new accounts with the usernames and passwords above...",
+                    "download": "Your class is ready! You should see a download of your student data in your download folder. *Passwords are not recoverable*, so keep this file somewhere safe!"
+                },
+                "field": {
+                    "name": {
+                        "description": "class name",
+                        "placeholder": "a short name"
+                    },
+                    "description": {
+                        "description": "description",
+                        "placeholder": "a description of your class, for you and your students."
+                    },
+                    "existing": {
+                        "label": "students with accounts",
+                        "prompt": "Do some of your students already have Wordplay accounts? Include them here."
+                    },
+                    "metadata": {
+                        "description": "student information",
+                        "placeholder": "e.g., student id, family name, given name",
+                        "prompt": "Want to create new accounts for students? Provide *any information* about students, one per line, separated by commas. This can be family names, given names, student numbers, or other distinguishing details. We will use it to generate usernames that you can edit below, helping you associate usernames to learners."
+                    },
+                    "words": {
+                        "description": "words to use in passwords",
+                        "placeholder": "e.g., cat dot rat...",
+                        "prompt": "Provide at least *25 words* randomly generate 2-3 word memorable passwords. Choose words your students know or ask them to brainstorm words. The more random the more secure!"
+                    },
+                    "generate": {
+                        "label": "generate",
+                        "tip": "Create usernames and passwords based on the information above."
+                    },
+                    "edit": {
+                        "label": "edit",
+                        "tip": "edit the generated student information"
+                    },
+                    "submit": {
+                        "label": "create class",
+                        "tip": "Create a new class with this information."
+                    }
+                },
+                "error": {
+                    "duplicates": "There are duplicate entries in the student information.",
+                    "columns": "Ensure each student has the same number of columns.",
+                    "generate": "Unable to create unique usernames.",
+                    "taken": "One or more usernames above is taken",
+                    "limit": "You can't crete a class of more than 35 students at a time.",
+                    "words": "Provide at least 25 words.",
+                    "account": "Unable to create some of the accounts.",
+                    "generic": "We couldn't create the class. Here's some information to help developers figure out what went wrong."
+                }
+            },
+            "class": {
+                "header": "Class",
+                "subheader": {
+                    "teachers": "Teachers",
+                    "students": "Students",
+                    "galleries": "Galleries"
+                },
+                "prompt": {
+                    "gallery": "Create a gallery for your class to organize an assignment or project. All teachers on the project will be gallery curators and all students gallery creators.",
+
+                    "delete": "Deleting this class will permanently delete information about the class, but its projects, galleries, or student accounts."
+                },
+                "field": {
+                    "name": {
+                        "description": "name of the class",
+                        "placeholder": "name"
+                    },
+                    "description": {
+                        "description": "description of the class",
+                        "placeholder": "description"
+                    },
+                    "newteacher": {
+                        "placeholder": "email or username",
+                        "description": "email or username of the creator who you want to give teacher access to this class"
+                    },
+                    "addteacher": "Add a teacher to this class",
+                    "delete": {
+                        "tip": "Delete this class forever.",
+                        "label": "Delete this class"
+                    }
+                },
+                "error": {
+                    "notfound": "We couldn't find this class or you don't have permission to view it."
                 }
             },
             "guide": {
@@ -4652,10 +4841,11 @@
             },
             "login": {
                 "header": "Login",
-                "subtitle": "Create an account or login in to save your work online",
+                "subtitle": "Save, collaborate, and share",
                 "anonymous": "login",
                 "prompt": {
-                    "login": "Your performances are saving in this browser, but not online. If this is your device, that's okay! If it's not, others will have access to your projects, and you may lose them. To save them online and keep them private, log in or <create an account@://join>:",
+                    "login": "Login to save your projects, collaborate, and share:",
+                    "join": "Or, <create an account@://join> to start.",
                     "forgot": "*Forgot your password?* Unfortunately, we cannot recover your account since we do not gather contact information.",
                     "enter": "It looks like your login link came from a different browser or device. Can you enter your email again, just so we're sure it's you?",
                     "play": "You're logged in, we can save your projects online now! Want to create something?",
@@ -4739,8 +4929,9 @@
             "join": {
                 "header": "Join",
                 "prompt": {
-                    "username": "Ready to create an account? First, choose a *username*. It must be at least 5 characters, can't be an email address, and shouldn't contain your name or other identifing information.",
-                    "password": "Choose a password with at least *10 characters*. Enter it again to ensure you typed it correctly, and store it somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
+                    "create": "Create an account to save your projects, collaborate with others, and share your work.",
+                    "username": "Usernames must be at least /5 characters/, can't be an email, and shouldn't contain your name or other identifing information.",
+                    "password": "Passwords must be at least /10 characters/. Type it twice and write it down somewhere secure, like a password manager. *There is no way to recover your account* if you lose it, since we do not gather contact information."
                 }
             },
             "rights": {

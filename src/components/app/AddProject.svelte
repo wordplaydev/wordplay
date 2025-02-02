@@ -4,7 +4,7 @@
     import Button from '@components/widgets/Button.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import { getTemplates } from '../../examples/examples';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import Spinning from './Spinning.svelte';
 
     interface Props {

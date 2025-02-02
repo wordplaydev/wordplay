@@ -6,7 +6,7 @@ import admin from 'firebase-admin';
 import { getAuth } from 'firebase-admin/auth';
 import { readFileSync } from 'fs';
 
-const flags = ['admin', 'mod', 'banned'];
+const flags = ['admin', 'mod', 'banned', 'teacher'];
 
 // If there aren't any arguments, bail.
 if (process.argv.length <= 2) {

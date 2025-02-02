@@ -18,7 +18,7 @@ import type Sequence from './Sequence';
 import { PX_PER_METER, sizeToPx } from './outputToCSS';
 import { getBind } from '@locale/getBind';
 import { CSSFallbackFaces, toNumber, type NameGenerator } from './Stage';
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import type { DefinitePose } from './Pose';
 import StructureValue from '../values/StructureValue';
 import { getOutputInput } from './Valued';

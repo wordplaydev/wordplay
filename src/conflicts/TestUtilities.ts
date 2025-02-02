@@ -3,7 +3,7 @@ import Block from '@nodes/Block';
 import Expression from '@nodes/Expression';
 import Context from '@nodes/Context';
 import Source from '@nodes/Source';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import type Node from '../nodes/Node';
 import type Conflict from './Conflict';
 import type Type from '../nodes/Type';

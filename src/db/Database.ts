@@ -10,16 +10,14 @@ import {
     type User,
 } from 'firebase/auth';
 import type LocaleText from '../locale/LocaleText';
-import {
-    type SupportedLocale,
-    getBestSupportedLocales,
-    type Template,
-} from '../locale/LocaleText';
-import ProjectsDatabase from './ProjectsDatabase';
+import { getBestSupportedLocales, type Template } from '../locale/LocaleText';
+import { type SupportedLocale } from '@locale/SupportedLocales';
+import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
 import LocalesDatabase from './LocalesDatabase';
-import SettingsDatabase from './SettingsDatabase';
-import GalleryDatabase from './GalleryDatabase';
-import CreatorDatabase, { CreatorCollection } from './CreatorDatabase';
+import SettingsDatabase from './settings/SettingsDatabase';
+import GalleryDatabase from './galleries/GalleryDatabase.svelte';
+import { ChatDatabase } from './ChatDatabase.svelte';
+import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
 import DefaultLocale from '../locale/DefaultLocale';
 
 export enum SaveStatus {
@@ -43,6 +41,9 @@ export class Database {
 
     /** A collection of creators loaded from the database */
     readonly Creators: CreatorDatabase;
+
+    /** A collection of chats loaded from the database */
+    readonly Chats: ChatDatabase;
 
     /** The status of persisting the projects. */
     readonly Status: Writable<{
@@ -73,6 +74,7 @@ export class Database {
         this.Projects = new ProjectsDatabase(this);
         this.Galleries = new GalleryDatabase(this);
         this.Creators = new CreatorDatabase(this);
+        this.Chats = new ChatDatabase(this);
     }
 
     getUser() {
@@ -131,7 +133,7 @@ export class Database {
             this.updateUser(newUser);
 
             // Update the galleries query with the new user.
-            this.Galleries.listen();
+            this.Galleries.registerRealtimeUpdates();
         });
         this.authRefreshUnsubscribe = onIdTokenChanged(
             auth,
@@ -160,6 +162,9 @@ export class Database {
 
         // Tell the settings cache.
         this.Settings.syncUser();
+
+        // Tell the chat cache.
+        this.Chats.syncUser();
     }
 
     /** Clean up listeners */
@@ -226,6 +231,7 @@ export const Projects = DB.Projects;
 export const Locales = DB.Locales;
 export const Galleries = DB.Galleries;
 export const Creators = DB.Creators;
+export const Chats = DB.Chats;
 
 export const animationFactor = Settings.settings.animationFactor.value;
 export const animationDuration = Settings.animationDuration;
@@ -240,10 +246,7 @@ export const showLines = Settings.settings.lines.value;
 export const showAnnotations = Settings.settings.annotations.value;
 export const mic = Settings.settings.mic.value;
 export const blocks = Settings.settings.blocks.value;
-export const localized = Settings.settings.localized.value;
 export const status = DB.Status;
-export const editableProjects = Projects.allEditableProjects;
-export const archivedProjects = Projects.allArchivedProjects;
 
 if (import.meta.hot) {
     import.meta.hot.on('locales-update', () => {

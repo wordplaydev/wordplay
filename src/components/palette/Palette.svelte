@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
     import PaletteProperty from './PaletteProperty.svelte';
     import type OutputProperty from '@edit/OutputProperty';
@@ -46,8 +46,9 @@
 
     /** Transform the selected Evaluate nodes into Output wrappers, filtering out anything that's not valid output. */
     let outputs = $derived(
-        selection?.selectedOutput
-            ? selection.selectedOutput
+        selection !== undefined
+            ? selection
+                  .getOutput(project)
                   .map(
                       (evaluate) =>
                           new OutputExpression(project, evaluate, $locales),
@@ -55,6 +56,7 @@
                   .filter((out) => out.isOutput())
             : [],
     );
+
     let definition = $derived(
         outputs[0]?.node.getFunction(project.getNodeContext(outputs[0].node)),
     );

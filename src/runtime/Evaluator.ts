@@ -12,7 +12,7 @@ import type Type from '@nodes/Type';
 import Source from '@nodes/Source';
 import type Names from '@nodes/Names';
 import Expression from '@nodes/Expression';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import type Step from './Step';
 import StructureDefinition from '@nodes/StructureDefinition';
 import FunctionDefinition from '@nodes/FunctionDefinition';
@@ -42,10 +42,11 @@ import StructureValue from '@values/StructureValue';
 import ListValue from '@values/ListValue';
 import TextValue from '@values/TextValue';
 import DynamicEditLimitException from '@values/DynamicEditLimitException';
-import { EditFailure } from '@db/EditFailure';
+import { EditFailure } from '@db/projects/EditFailure';
 import ReadOnlyEditException from '@values/ReadOnlyEditException';
 import EmptySourceNameException from '@values/EmptySourceNameException';
 import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
+import Collision from '@input/Collision';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
@@ -221,7 +222,9 @@ export default class Evaluator {
 
     /** The relative time, accounting for pauses, accumulated from deltas */
     currentTime = 0;
-    animating = false;
+
+    /** Whether we're ticking due to a temporal stream or physics engine that was started. */
+    ticking = false;
 
     /**
      * A list of temporal streams that have updated, for pooling them into a single reevaluation,
@@ -619,6 +622,10 @@ export default class Evaluator {
         return this.evaluations.find((e) => e.getDefinition() === expression);
     }
 
+    getEvaluations() {
+        return this.evaluations;
+    }
+
     // PREDICATES
 
     isStarted(): boolean {
@@ -970,7 +977,7 @@ export default class Evaluator {
     }
 
     /** If the value computed is a Data or list that contains Data, persist the data. */
-    editSource(value: Value): void {
+    async editSource(value: Value): Promise<void> {
         const dataDefinition = this.getBasis().shares.output.Data;
         const data =
             value instanceof StructureValue && value.is(dataDefinition)
@@ -1012,7 +1019,7 @@ export default class Evaluator {
                     current.code.toString() !== valueText
                 ) {
                     // Revise the project with the new or overwritten source.
-                    const result = this.database.Projects.reviseProject(
+                    const result = await this.database.Projects.reviseProject(
                         current
                             ? this.project.withSource(
                                   current,
@@ -1343,7 +1350,9 @@ export default class Evaluator {
             .filter((stream): stream is Kind => stream instanceof type);
     }
 
-    /** Called by stream definitions to identify previously created streams to which an evaluation should correspond. */
+    /**
+     * Called by stream definitions to identify previously created streams to which an evaluation should correspond.
+     */
     incrementStreamEvaluationCount(evaluate: StreamCreator) {
         // Set or increment the evaluation count.
         const count = this.streamCreatorCount.get(evaluate) ?? 0;
@@ -1379,13 +1388,17 @@ export default class Evaluator {
 
         // If it's a temporal stream and we haven't already started a loop, start one.
         // Ensure we only start one by having an animation flag.
-        if (stream instanceof TemporalStreamValue) {
+        if (stream instanceof TemporalStreamValue)
             this.temporalStreams.push(stream);
-            // If we haven't yet started a loop, start one.
-            if (this.reactive && !this.animating) {
-                this.animating = true;
-                this.later(this.tick.bind(this));
-            }
+
+        // Temporal streams and collision streams need ticking to work.
+        const shouldTick =
+            stream instanceof TemporalStreamValue ||
+            stream instanceof Collision;
+        // If we haven't yet started a loop, start one.
+        if (shouldTick && this.reactive && !this.ticking) {
+            this.ticking = true;
+            this.later(this.tick.bind(this));
         }
     }
 

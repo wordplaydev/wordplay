@@ -1,5 +1,5 @@
 import { test, expect } from 'vitest';
-import Project from '@models/Project';
+import Project from '@db/projects/Project';
 import Source from '@nodes/Source';
 import { dropNodeOnSource, InsertionPoint } from './Drag';
 import type Node from '@nodes/Node';

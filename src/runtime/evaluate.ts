@@ -1,7 +1,7 @@
 import { DB } from '../db/Database';
 import DefaultLocale from '../locale/DefaultLocale';
 import Locales from '../locale/Locales';
-import Project from '../models/Project';
+import Project from '../db/projects/Project';
 import Source from '../nodes/Source';
 import type Value from '../values/Value';
 import Evaluator from './Evaluator';

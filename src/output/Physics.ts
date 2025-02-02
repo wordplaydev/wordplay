@@ -282,8 +282,6 @@ export default class Physics {
 
                     // Does the output have no motion but does have matter? Move it to its latest position and apply a velocity.
                     if (motion === undefined) {
-                        // const previousPlace = shape.getPlace();
-
                         MatterJS.Body.setPosition(
                             shape.body,
                             shape.getPosition(

@@ -6,7 +6,7 @@
     import type { User } from 'firebase/auth';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import validEmail from '@db/isValidEmail';
+    import validEmail from '@db/creators/isValidEmail';
     import getLoginErrorDescription from './getAuthErrorDescription';
 
     interface Props {

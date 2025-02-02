@@ -1,5 +1,5 @@
 {
-    "$schema": "../../schemas/Locale.json",
+    "$schema": "../../schemas/LocaleText.json",
     "language": "de",
     "region": "DE",
     "wordplay": "Wordplay",
@@ -95,7 +95,7 @@
         "Select": "wählen",
         "Insert": "einfügen",
         "Update": "updaten",
-        "Delete": "löschen",  
+        "Delete": "löschen",
         "Union": "Union",
         "Stream": "Datenstrom",
         "Change": "verändern",
@@ -125,7 +125,7 @@
                 "$~Ich bin eine /Maßeinheit/!",
                 "$~Ich kann jede standardisierte Einheit sein, wie \\1m\\, \\10s\\, \\100g\\ oder jede andere wissenschaftliche Einheit. Ich bin auch gerne bereit, jede Einheit zu sein, die Sie sich ausdenken möchten, wie \\17apple\\.",
                 "$~Ich kann mit \\/\\ kombiniert werden, um Verhältniseinheiten wie \\17Äpfel/Tag\\ zu bilden, und mit \\^\\, um Exponentialeinheiten wie \\9,8m/s^2\\ zu bilden.",
-                "$~Ich muss immer nach einer @Nummer kommen. Wenn ich das nicht tue, könnte ich mit einer @Referenz verwechselt werden, was ziemlich peinlich wäre!",
+                "$~Ich muss immer nach einer @Number kommen. Wenn ich das nicht tue, könnte ich mit einer @Reference verwechselt werden, was ziemlich peinlich wäre!",
                 "$~Ich bin auch ziemlich gut darin, Inkonsistenzen zwischen Einheiten zu finden. Beispielsweise ergibt \\1Katze + 1Hund\\ keinen Sinn!",
                 "$~Wenn Sie jemals zwischen verschiedenen Einheitenwerten umrechnen möchten, wenden Sie sich an @Convert."
             ]
@@ -134,19 +134,19 @@
             "name": "$~Erläuterung",
             "emotion": "$?",
             "doc": [
-                "$~Ich formatiere Dinge ausführlich mit @Markup, beispielsweise Erklärungen zu einigen Ihrer @Programme oder sogar die Wörter, die Sie mit @Phrase auf die Bühne bringen.",
+                "$~Ich formatiere Dinge ausführlich mit @Markup, beispielsweise Erklärungen zu einigen Ihrer @Program oder sogar die Wörter, die Sie mit @Phrase auf die Bühne bringen.",
                 "$~Beispielsweise kann ich vor jeden Ausdruck Folgendes setzen:",
-                "$~\\``Soll das wirklich 7 sein?``\n7\\",
+                "$~\\¶Soll das wirklich 7 sein?¶\n7\\",
                 "$~Beispielsweise können Sie „me“ vor „@Bind“ platzieren:",
-                "$~\\``Ich messe, wie groß jemand ist``\nGröße: 5m\\",
+                "$~\\¶Ich messe, wie groß jemand ist¶\nGröße: 5m\\",
                 "$~Oder vor einer @FunctionDefinition:",
-                "$~\\``Ich addiere zwei Zahlen``\nƒ sum(a•# b•#) a + b\\",
+                "$~\\¶Ich addiere zwei Zahlen¶\nƒ sum(a•# b•#) a + b\\",
                 "$~Oder vor einer @StructureDefinition:",
-                "$~\\``Ich erinnere mich an die Namen und Lieblingsfrüchte von Leuten``\n•Person(Name•''Frucht•'')\\",
+                "$~\\¶Ich erinnere mich an die Namen und Lieblingsfrüchte von Leuten¶\n•Person(Name•''Frucht•'')\\",
                 "$~Sie können mich auch ganz an den Anfang von @Program stellen, um zu sagen, worum es in der gesamten Aufführung geht",
-                "$~\\``Dieses Programm sagt Hallo``\n\n'Hallo!'\\",
-                "$~Sie können mir eine @Sprache geben, damit andere wissen, in welcher Sprache ich geschrieben bin:",
-                "$~\\``Ich bin ein englischer Arzt``/en\nDauer: 5 s\\",
+                "$~\\¶Dieses Programm sagt Hallo¶\n\n'Hallo!'\\",
+                "$~Sie können mir eine @Language geben, damit andere wissen, in welcher Sprache ich geschrieben bin:",
+                "$~\\¶Ich bin ein englischer Arzt¶/en\nDauer: 5 s\\",
                 "$~Wussten Sie, dass Sie eine Liste von mir erstellen können? Sprechen Sie mit @Docs."
             ]
         },
@@ -156,7 +156,7 @@
             "doc": [
                 "$~Ich bin eine Liste von @Doc, nützlich, wenn Sie mehrere Übersetzungen von @Doc in verschiedenen Sprachen haben.",
                 "$~Sie müssen nichts Besonderes tun, um eine Liste zu erstellen. Legen Sie einfach eine Reihe von @Doc nebeneinander, wie folgt:",
-                "$~\\``Hallo``/en\n``Hola``/es\nBegrüßung: '…'\\"
+                "$~\\¶Hallo¶/en\n¶Hola¶/es\nBegrüßung: '…'\\"
             ],
             "start": "$~Den Dokumenten einen Mehrwert verleihen!"
         },
@@ -181,10 +181,10 @@
                 "$~Das ist, was ich mache. Nur ein kleiner Schrägstrich und ein paar Buchstaben, und niemand wird jemals verwirrt sein, in welcher Sprache ein Text ist.",
                 "$~Angenommen, Sie möchten „my $name“ sagen, aber klarstellen, dass ich Englisch meine:",
                 "$~\\\"Sprache\"/de\\",
-                "$~Oder nehmen wir an, Sie möchten dies für einen @Namen tun.",
+                "$~Oder nehmen wir an, Sie möchten dies für einen @Name tun.",
                 "$~\\sound/de: 'miau'\\",
                 "$~Oder sogar @Doc!",
-                "$~\\``Onomatopoeia``/de\nTon/de: \"miau\"\\",
+                "$~\\¶Onomatopoeia¶/de\nTon/de: \"miau\"\\",
                 "$~Es gibt viele <2-stellige Sprachcodes@https://en.wikipedia.org/wiki/List_of_ISO_639-1_codes>, die ich verstehe. Wenn Sie keinen davon verwenden, lasse ich Sie das wissen."
             ],
             "conflict": {
@@ -214,7 +214,7 @@
             "name": "Namen",
             "emotion": "$?",
             "doc": [
-                "$~Ich bin eine Liste von @Namen, nützlich, wenn Sie einem Wert mehrere Namen zuweisen möchten, oft mit unterschiedlicher @Sprache.",
+                "$~Ich bin eine Liste von @Name, nützlich, wenn Sie einem Wert mehrere Namen zuweisen möchten, oft mit unterschiedlicher @Language.",
                 "$~Namen werden durch \\,\\-Symbole getrennt. Hier ist beispielsweise @Bind, das einen Wert angibt, der ein Vielfaches von @Name ist.",
                 "$~\\hi/en,hello/en,hola/es: 'willkommen'\\"
             ]
@@ -236,7 +236,7 @@
                 },
                 "UnexpectedColumnBind": {
                     "primary": "$~Soll ich ein @Bind sein?",
-                    "secondary": "$~Hey, ich bin eine @Tabelle, ich brauche Werte, nicht @Bind."
+                    "secondary": "$~Hey, ich bin eine @Table, ich brauche Werte, nicht @Bind."
                 }
             }
         },
@@ -284,9 +284,9 @@
             "doc": [
                 "$~Ich bin eine Reihe von @Words, @ConceptLink, @WebLink und @Example, getrennt durch eine Leerzeile und innerhalb von @Doc.",
                 "$~Um mir zu schreiben, müssen Sie lediglich ein paar Wörter in ein @Doc schreiben:",
-                "$~\\``Ich bin ein Absatz in einem Dokument.``'ein Absatz'\\",
+                "$~\\¶Ich bin ein Absatz in einem Dokument.¶'ein Absatz'\\",
                 "$~Wenn Sie mehrere Absätze wünschen, fügen Sie einfach Leerzeilen ein.",
-                "$~\\``Absatz 1.\n\nAbsatz 2.\n\nAbsatz 3.``'drei Absätze'\\"
+                "$~\\¶Absatz 1.\n\nAbsatz 2.\n\nAbsatz 3.¶'drei Absätze'\\"
             ]
         },
         "WebLink": {
@@ -295,7 +295,7 @@
             "emotion": "$?",
             "doc": [
                 "$~Ich bin ein Link zu etwas im Internet. Ich brauche nur eine Beschreibung und eine URL:",
-                "$~\\``Ich bin ein <link@https://wordplay.dev> in einem Dokument``\n'Linkbeispiel'\\",
+                "$~\\¶Ich bin ein <link@https://wordplay.dev> in einem Dokument¶\n'Linkbeispiel'\\",
                 "$~Wenn mich jemand auswählt, öffne ich ein neues Fenster mit der URL."
             ]
         },
@@ -306,7 +306,7 @@
             "doc": [
                 "$~Ich bin ein Link zum Verse-Charakter. Ich bin hilfreich, wenn Sie ein @Doc schreiben und auf einen von uns verweisen möchten.",
                 "$~Angenommen, Sie möchten über @Evaluate sprechen und wie großartig sie sind. Sie könnten schreiben:",
-                "$~\\``Wissen Sie, @Evaluate ist ziemlich genial.``\n'Schauen Sie, ein Konzept-Link!'\\",
+                "$~\\¶Wissen Sie, @Evaluate ist ziemlich genial.¶\n'Schauen Sie, ein Konzept-Link!'\\",
                 "$~Wenn das von Ihnen verfasste @Doc hier erscheint, wird ein Link zum Konzept angezeigt."
             ]
         },
@@ -315,9 +315,9 @@
             "emotion": "$?",
             "doc": [
                 "$~Ich bin jedes beliebige Wort in einem @Doc. Zum Beispiel:",
-                "$~\\``Möge die Macht mit dir sein.``\n'nur ein paar Worte!'\\",
+                "$~\\¶Möge die Macht mit dir sein.¶\n'nur ein paar Worte!'\\",
                 "$~Manchmal möchten Sie jedoch möglicherweise die Sonderzeichen verwenden, die @Doc als /als/ Wörter verwendet. Beispiel:",
-                "$~\\``Meine Freunde verwenden @@, //, **, || und andere Symbole.``\n'mit Sonderzeichen!'\\",
+                "$~\\¶Meine Freunde verwenden @@, //, **, || und andere Symbole.¶\n'mit Sonderzeichen!'\\",
                 "$~Wenn Sie diese Sonderzeichen einfach wiederholen, erhalten Sie das Zeichen anstelle seiner besonderen Bedeutung."
             ]
         },
@@ -326,9 +326,9 @@
             "emotion": "$?",
             "doc": [
                 "$~Ich bin eine Beispielleistung, hilfreich beim Schreiben von @Doc, das erklärt, wie man etwas verwendet!",
-                "$~\\``Hier ist ein Beispiel für die Addition: \\1 + 1\\``'Beispielcode'\\",
+                "$~\\¶Hier ist ein Beispiel für die Addition: \\1 + 1\\¶'Beispielcode'\\",
                 "$~Wenn Sie mich allein in einen Absatz einfügen, werde ich in einem schicken Feld angezeigt und das Ergebnis meiner Bewertung wird angezeigt.",
-                "$~\\``Hier ist ein Beispiel für die Addition:\n\n\\1 + 1\\``\\"
+                "$~\\¶Hier ist ein Beispiel für die Addition:\n\n\\1 + 1\\¶\\"
             ]
         },
         "Mention": {
@@ -382,7 +382,7 @@
                 "$~\\pi: 3.1415926\\",
                 "$~Ich benenne Eingaben in @FunctionDefinition und @StructureDefinition, ich benenne Werte in @Block. Ich benenne alles!",
                 "$~Oh, aber wussten Sie, dass Sie für einen Wert *viele Namen* haben können?",
-                "$~Ich freue mich riesig, Ihnen davon zu erzählen! Ein Wert, viele @Namen. Zum Beispiel:",
+                "$~Ich freue mich riesig, Ihnen davon zu erzählen! Ein Wert, viele @Name. Zum Beispiel:",
                 "$~\\joe,tess,amy: 5\\",
                 "$~Siehst du was ich dort gemacht habe?",
                 "$~Ein Wert, drei Namen.",
@@ -453,7 +453,8 @@
                 "ExpectedEndingExpression": "$~Ich brauche einen Ausdruck.",
                 "IgnoredExpression": {
                     "primary": "$~Ich werde das oben Gesagte ignorieren.",
-                    "secondary": "$~@Block, ignorier mich nicht!"
+                    "secondary": "$~@Block, ignorier mich nicht!",
+                    "resolution": "$~Meinten Sie, dass dies ein @BinaryEvaluate statt eines @UnaryEvaluate sein sollte? Ich kann ein Leerzeichen hinzufügen, damit ich weiß, dass Sie das gemeint haben."
                 }
             }
         },
@@ -468,9 +469,9 @@
             "name": "$~ausleihen",
             "description": "$~$1 ausleihen[$1|fehlender Name]",
             "emotion": "$?",
-            "doc": "$~Wenn Sie eine Performance mit mehreren @Sources erstellen, können Sie mich verwenden, um @Binds auszuleihen, die in diesen anderen @Sources gemeinsam genutzt werden. Verwenden Sie einfach ihren Namen und ich werde ihren Namen und Wert einfügen.",
+            "doc": "$~Wenn Sie eine Performance mit mehreren @Source erstellen, können Sie mich verwenden, um @Bind auszuleihen, die in diesen anderen @Source gemeinsam genutzt werden. Verwenden Sie einfach ihren Namen und ich werde ihren Namen und Wert einfügen.",
             "start": "$~2 $ von 1 $ leihen",
-            "source": "$~$Quelle",
+            "source": "$source",
             "bind": "$~Name",
             "version": "$~Ausführung",
             "conflict": {
@@ -544,7 +545,7 @@
                 "$~\\\"hallo\" → []\\",
                 "$~Sie können diese sogar miteinander verketten:",
                 "$~\\\"hallo\" → [] → {}\\",
-                "$~Werte haben einen Satz vordefinierter @ConversionDefinitions. Wenn Sie jedoch eine @StructureDefinition für einen neuen Wertetyp erstellen, können Sie mit @ConversionDefinition Ihre eigene definieren."
+                "$~Werte haben einen Satz vordefinierter @ConversionDefinition. Wenn Sie jedoch eine @StructureDefinition für einen neuen Wertetyp erstellen, können Sie mit @ConversionDefinition Ihre eigene definieren."
             ],
             "start": "$~Holen Sie sich diesen Wert ab 1 $!",
             "finish": "$~Super, ich habe 1 $ verdient",
@@ -576,7 +577,7 @@
             "doc": [
                 "$~Ich bin jeder Ausdruck, aber mit einem @Doc!",
                 "$~Um mich zu erstellen, setzen Sie einfach ein @Doc vor einen Ausdruck, und Sie erhalten mich:",
-                "$~\\doubleplus: 1\n(2 · doubleplus) + \n``Lass es uns ein bisschen größer machen``\n1\\",
+                "$~\\doubleplus: 1\n(2 · doubleplus) + \n¶Lass es uns ein bisschen größer machen¶\n1\\",
                 "$~Ich bin nützlich, um einen Teil eines Programms zu kommentieren."
             ],
             "start": "$~Lassen Sie uns den Ausdruck auswerten"
@@ -624,7 +625,7 @@
                     "secondary": "$~Ich habe keinen Input mit dem Namen $1"
                 },
                 "InputListMustBeLast": "$~Liste der Eingänge muss zuletzt sein",
-                "SeparatedEvaluate": "$~Ist $1 der Name einer $2[$Struktur|$Funktion], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um ein @Evaluate und nicht um einen separaten @Block handelt."
+                "SeparatedEvaluate": "$~Ist $1 der Name einer $2[Structure|Function], die Sie auswerten möchten? Versuchen Sie, das Leerzeichen nach mir zu entfernen, damit ich weiß, dass es sich um ein @Evaluate und nicht um einen separaten @Block handelt."
             },
             "exception": {
                 "FunctionException": {
@@ -672,7 +673,7 @@
                 "$~\\(ƒ(Nachricht•'') Nachricht · 5)('Hallo')\\",
                 "$~Oder hier ist eine Funktion, die eine beliebige Anzahl von Eingaben annimmt und dabei das Zeichen \\…\\ nach einem Eingabenamen verwendet.",
                 "$~\\ƒ ja(Nachrichten…•'') Nachrichten.sans('nein')\nja('ja' 'ja' 'nein' 'ja' 'nein')\\",
-                "$~Sehen Sie, wie alle „Neins“ entfernt wurden? Das liegt daran, dass „messages“ eine @Liste ist und wir daher @List/sansAll verwenden könnten.",
+                "$~Sehen Sie, wie alle „Neins“ entfernt wurden? Das liegt daran, dass „messages“ eine @List ist und wir daher @List/sansAll verwenden könnten.",
                 "$~Manchmal möchten Sie vielleicht deutlich machen, welche Art von Wert ich erzeuge. Fügen Sie dazu nach der Liste der Eingaben ein @Is hinzu:",
                 "$~\\ƒ add(x•# y•#)•'' x + y\\",
                 "$~Möglicherweise fällt Ihnen hier ein Problem auf: Es heißt, es wird als @Text ausgewertet, aber es werden zwei @Number benötigt. Ich kann Ihnen sagen, wenn Dinge inkonsistent sind!",
@@ -707,7 +708,7 @@
             "name": "$~einfügen",
             "emotion": "$?",
             "doc": [
-                "$~Kennen Sie das, wenn Sie eine @Tabelle haben und das Gefühl haben, dass etwas fehlt? Ich kann es hinzufügen!",
+                "$~Kennen Sie das, wenn Sie eine @Table haben und das Gefühl haben, dass etwas fehlt? Ich kann es hinzufügen!",
                 "$~Stellen Sie sich vor, Sie hätten einen Tisch mit Spielern in einem Spiel und möchten einen neuen hinzufügen:",
                 "$~\\Spieler: ⎡Name•'' Team•'' Punkte•#⎦\n⎡'jen' 'rot' 1⎦\n⎡'joan' 'blau' 0⎦\n⎡'jeff' 'rot' 3⎦\n⎡'janet' 'blau' 2⎦\nSpieler ⎡+ 'jason' 'rot' 0⎦\\",
                 "$~Denken Sie daran, dass ich, wie bei allem im Verse, eine Tabelle nicht ändere, sondern überarbeite. Sie müssen also herausfinden, wo Sie die überarbeitete Tabelle ablegen möchten. Höchstwahrscheinlich möchten Sie eine Tabelle in einer @Reaction auf eine Eingabe überarbeiten und in einem @Bind speichern."
@@ -766,7 +767,7 @@
             "name": "$~Listenliteral",
             "description": "$~$1 Artikelliste",
             "emotion": "$?",
-            "doc": "$~Ich bin eine bestimmte @Liste von Werten! Siehe @Liste, um mehr darüber zu erfahren, was Sie mit mir tun können.",
+            "doc": "$~Ich bin eine bestimmte @List von Werten! Siehe @List, um mehr darüber zu erfahren, was Sie mit mir tun können.",
             "start": "$~Lassen Sie uns zunächst die Artikel bewerten",
             "finish": "$~Ich habe ein Ich gemacht! 1 $",
             "item": "$~Artikel"
@@ -798,7 +799,7 @@
             "emotion": "curious",
             "doc": [
                 "$~Ich bin die großartigste aller bedingten Prüfungen! Ich nehme einen Wert, vergleiche ihn mit einer beliebigen Anzahl von Fällen und bewerte den entsprechenden Ausdruck, der übereinstimmt.",
-                "$~Wenn Sie beispielsweise eine @Nummer haben und diese in einen @Text umwandeln möchten, könnten Sie etwa so vorgehen:",
+                "$~Wenn Sie beispielsweise eine @Number haben und diese in einen @Text umwandeln möchten, könnten Sie etwa so vorgehen:",
                 "$~\\Nummer: 2\nNummer ??? 1: 'eins' 2: 'zwei' 3: 'drei' 'größer!'\\",
                 "$~Wenn keine Übereinstimmung vorliegt, bewerte ich den Standardausdruck, den Sie mir geben.",
                 "$~Ich bin wirklich hilfreich, wenn es darum geht, eine der vielen möglichen @Number-, @Text- oder komplexeren Werte in etwas anderes umzuwandeln.",
@@ -814,7 +815,7 @@
             "name": "$~Zahlenliteral",
             "description": "$~$1 $2[$2|]",
             "emotion": "$?",
-            "doc": "$~Ich bin eine bestimmte @Nummer. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Nummer.",
+            "doc": "$~Ich bin eine bestimmte @Number. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Number.",
             "start": "$~$1!",
             "conflict": {
                 "NotANumber": "$~Ich dachte, ich kenne alle Zahlen, aber diese hier kenne ich nicht"
@@ -952,14 +953,17 @@
             "description": "$~1 Dollar",
             "emotion": "$?",
             "doc": [
-                "$~Wissen Sie, wie @Bind den Dingen @Namen gibt? Ich bin die Art, wie Sie sie bezeichnen. Ich sehe nach, ob ein @Bind diesen Namen hat, und gebe Ihnen in diesem Fall seinen Wert. So:",
+                "$~Wissen Sie, wie @Bind den Dingen @Name gibt? Ich bin die Art, wie Sie sie bezeichnen. Ich sehe nach, ob ein @Bind diesen Namen hat, und gebe Ihnen in diesem Fall seinen Wert. So:",
                 "$~\\Papagei: 'Polly'\nPapagei\\",
                 "$~Wenn ich den Namen nicht finde, weiß ich nicht, was ich tun soll.",
                 "$~\\Papagei: 'Polly'\nPerry\\"
             ],
             "start": "$~welchen Wert hat 1 $?",
             "conflict": {
-                "UnknownName": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen geben?]",
+                "UnknownName": {
+                    "conflict": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen geben?]",
+                    "resolution": "$!"
+                },
                 "ReferenceCycle": "$~ähm, der Wert von 1 $ hängt von ihm selbst ab. Woher weiß ich also, welchen Wert ich ihm zuweisen soll?",
                 "UnexpectedTypeVariable": "$~Ich weiß nicht, was ich mit diesen Eingabetypen machen soll"
             },
@@ -1017,7 +1021,7 @@
             "emotion": "$?",
             "doc": [
                 "$~Oh, Sie kennen @Program? Ich helfe Ihnen, sie zu benennen. Stellen Sie sich mich wie das Fenster um ein @Program vor und den Namen, den Sie ihnen geben.",
-                "$~Sie können auch andere @Source @UI/addSource mit anderen @Programs erstellen und Dinge von diesen anderen @Programs zur Verwendung in einem anderen Programm @Borrow.",
+                "$~Sie können auch andere @Source @UI/addSource mit anderen @Program erstellen und Dinge von diesen anderen @Program zur Verwendung in einem anderen Programm @Borrow.",
                 "$~Dies kann eine gute Möglichkeit sein, eine große Leistung in separate Dokumente zu gliedern."
             ]
         },
@@ -1054,15 +1058,15 @@
             "name": "$~Tabellenliteral",
             "description": "$~$1-Zeilentabelle",
             "emotion": "$?",
-            "doc": "$~Ich bin eine bestimmte Tabelle mit bestimmten Zeilen. Siehe @Tabelle, wie ich helfen kann.",
+            "doc": "$~Ich bin eine bestimmte Tabelle mit bestimmten Zeilen. Siehe @Table, wie ich helfen kann.",
             "start": "$~zuerst die Zeilen auswerten",
             "finish": "$~in neue Tabelle ausgewertet $1"
         },
         "TextLiteral": {
             "name": "$~Textliteral",
             "description": "$~Text $1",
-            "emotion": "$?",
-            "doc": "$~Ich stelle eine oder mehrere spezifische @Übersetzungen von Texten dar. Unter @Text erfahren Sie mehr über meine Möglichkeiten!",
+            "emotion": "serious",
+            "doc": "$~Ich stelle eine oder mehrere spezifische @Translation von Texten dar. Unter @Text erfahren Sie mehr über meine Möglichkeiten!",
             "start": "$~Lassen Sie uns Text in der aktuellen Sprache erstellen"
         },
         "Translation": {
@@ -1111,7 +1115,7 @@
                 "$~Angenommen, Sie möchten beispielsweise eine neue @ConversionDefinition erstellen, die den zu konvertierenden Wert nicht benennt. Sie können einfach mit mir darauf verweisen:",
                 "$~\\→ #Regenbögen #Freude . · 1000000Freude\n2Regenbögen → #Freude\\",
                 "$~Sehen Sie mich dort, wie ich die Anzahl der Regenbögen darstelle?",
-                "$~Oder nehmen wir an, Sie möchten eine @Reaktion durchführen, müssen aber nicht den aktuellsten Wert benennen:",
+                "$~Oder nehmen wir an, Sie möchten eine @Reaction durchführen, müssen aber nicht den aktuellsten Wert benennen:",
                 "$~\\2 … ∆ Zeit (1000 ms) … . · 2\\",
                 "$~Schaut bei mir vorbei, stellt den vorherigen Reaktionswert dar.",
                 "$~Ich tauche nicht oft auf, aber wenn ich es tue, kann ich wirklich dabei helfen, einen Wert aus einem @Bind herauszuholen!"
@@ -1170,7 +1174,7 @@
             "name": "$~aktualisieren",
             "emotion": "$?",
             "doc": [
-                "$~Ich helfe bei der Überarbeitung einer @Tabelle, finde die Zeilen, die einer Bedingung entsprechen, und erstelle dann überarbeitete Zeilen mit neuen Werten.",
+                "$~Ich helfe bei der Überarbeitung einer @Table, finde die Zeilen, die einer Bedingung entsprechen, und erstelle dann überarbeitete Zeilen mit neuen Werten.",
                 "$~Wenn Sie beispielsweise eine Tabelle mit Charakteren und Punkten hätten und jedem Charakter in einem Team einen Punkt geben wollten, könnten Sie Folgendes tun:",
                 "$~\\Spieler: ⎡Name•'' Team•'' Punkte•#⎦\n⎡'jen' 'rot' 1⎦\n⎡'joan' 'blau' 0⎦\n⎡'jeff' 'rot' 3⎦\n⎡'janet' 'blau' 2⎦\nSpieler ⎡: Punkte: Punkte + 1 ⎦ Team = 'blau'\\",
                 "$~Sie können ein @Bind verwenden, um anzugeben, welche Spalten geändert werden sollen, und Sie können in der Bedingung beliebige Spaltennamen oder andere Namen im Gültigkeitsbereich verwenden."
@@ -1253,7 +1257,7 @@
             "description": "$~$1[$1 | Zahl]",
             "emotion": "$?",
             "doc": [
-                "$~Wissen Sie, was @Bind sein sollte? Eine @Nummer. Weil Nummern das Beste sind.",
+                "$~Wissen Sie, was @Bind sein sollte? Eine @Number. Weil Nummern das Beste sind.",
                 "$~\\Anzahl•#: 17\\"
             ]
         },
@@ -1387,7 +1391,7 @@
         "NotEnclosedType": {
             "name": "$~nichtinStruktur,UmwandlungoderReaktion",
             "emotion": "$?",
-            "doc": "$~@Dies, so schön sie auch sind, gehört nur an bestimmte Orte. Ich tauche auf, wenn sie verloren gehen, und deshalb weiß niemand, welchen Wert sie darstellen."
+            "doc": "$~@This, so schön sie auch sind, gehört nur an bestimmte Orte. Ich tauche auf, wenn sie verloren gehen, und deshalb weiß niemand, welchen Wert sie darstellen."
         },
         "NotImplementedType": {
             "name": "$~nichtimplementiert",
@@ -1586,9 +1590,9 @@
                     "doc": [
                         "$~Ich erstelle einen neuen @Text, der von mir stammt und so oft wiederholt wird wie \\count\\:",
                         "$~\\'hallo ' · 5\\",
-                        "$~Wenn Sie mir eine Bruchzahl @Zahl geben, ignoriere ich den Bruch:",
+                        "$~Wenn Sie mir eine Bruchzahl @Number geben, ignoriere ich den Bruch:",
                         "$~\\'hallo ' · 5.5\\",
-                        "$~Wenn Sie mir eine negative @Zahl oder Null geben, gebe ich einen leeren @Text.",
+                        "$~Wenn Sie mir eine negative @Number oder Null geben, gebe ich einen leeren @Text.",
                         "$~\\'hallo ' · -5\\",
                         "$~Der längste Text, den ich erstellen kann, ist 65.535 Zeichen lang. Wenn Sie versuchen, einen längeren Text zu erstellen, wiederhole ich den Text so oft wie möglich."
                     ],
@@ -1617,7 +1621,7 @@
                 },
                 "combine": {
                     "doc": [
-                        "$~Manchmal ist es hilfreich, zwei @Texte zu einem einzigen zusammenzufassen. Gib mir einen weiteren @Text und ich erstelle einen neuen Text, der uns verbindet:",
+                        "$~Manchmal ist es hilfreich, zwei @Text zu einem einzigen zusammenzufassen. Gib mir einen weiteren @Text und ich erstelle einen neuen Text, der uns verbindet:",
                         "$~\\'hallo ' + 'vers'\\"
                     ],
                     "names": ["$~+", "$~kombinieren"],
@@ -1672,7 +1676,7 @@
             },
             "conversion": {
                 "list": "$~Teilt den Text in eine Liste einzelner Zeichen auf.",
-                "number": "$~Wandelt Text in eine @Zahl um, und wenn es keine Zahl ist, in einen Nicht-Zahlenwert."
+                "number": "$~Wandelt Text in eine @Number um, und wenn es keine Zahl ist, in einen Nicht-Zahlenwert."
             }
         },
         "Number": {
@@ -1713,14 +1717,14 @@
                     "names": ["$~+", "$~hinzufügen"],
                     "inputs": [
                         {
-                            "doc": "$~Die hinzuzufügende @Nummer.",
+                            "doc": "$~Die hinzuzufügende @Number.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "subtract": {
                     "doc": [
-                        "$~Ich subtrahiere die @Nummer, die Sie mir geben, von mir selbst und erstelle eine neue @Nummer derselben @Einheit.",
+                        "$~Ich subtrahiere die @Number, die Sie mir geben, von mir selbst und erstelle eine neue @Number derselben @Unit.",
                         "$~Zum Beispiel:",
                         "$~\\1 - 1\\",
                         "$~\\3Katze - 5Katze\\",
@@ -1730,7 +1734,7 @@
                     "names": ["$~-", "$~subtrahieren"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, die von mir abgezogen werden soll.",
+                            "doc": "$~Die @Number, die von mir abgezogen werden soll.",
                             "names": "$~Nummer"
                         }
                     ]
@@ -1752,7 +1756,7 @@
                 },
                 "divide": {
                     "doc": [
-                        "$~Ich dividiere mich durch die gegebene @Zahl und erstelle einen Quotienten aus meiner @Einheit und der @Einheit der gegebenen Zahl:",
+                        "$~Ich dividiere mich durch die gegebene @Number und erstelle einen Quotienten aus meiner @Unit und der @Unit der gegebenen Zahl:",
                         "$~\\5 ÷ 5\\",
                         "$~\\5 m ÷ 5 m\\",
                         "$~\\5m ÷ 5s\\"
@@ -1760,14 +1764,14 @@
                     "names": ["÷", "divide"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Zahl, durch die ich dividieren soll.",
+                            "doc": "$~Die @Number, durch die ich dividieren soll.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "remainder": {
                     "doc": [
-                        "$~Ich dividiere durch die gegebene @Zahl, gebe aber den Rest aus:",
+                        "$~Ich dividiere durch die gegebene @Number, gebe aber den Rest aus:",
                         "$~\\10 % 2\\",
                         "$~\\10m % 2\\",
                         "$~\\10m/s % 3\\"
@@ -1775,14 +1779,14 @@
                     "names": ["$~%", "$~Rest"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Zahl, durch die ich dividieren soll.",
+                            "doc": "$~Die @Number, durch die ich dividieren soll.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "positive": {
                     "doc": [
-                        "$~Ich erstelle eine neue @Nummer, die mich positiv macht, wenn auch negativ.",
+                        "$~Ich erstelle eine neue @Number, die mich positiv macht, wenn auch negativ.",
                         "$~\\-200.positive()\\"
                     ],
                     "names": ["$~positiv"],
@@ -1790,7 +1794,7 @@
                 },
                 "round": {
                     "doc": [
-                        "$~Ich erstelle eine neue @Zahl, die auf die nächste Ganzzahl rundet.",
+                        "$~Ich erstelle eine neue @Number, die auf die nächste Ganzzahl rundet.",
                         "$~\\9.4.round()\\",
                         "$~\\9.5.round()\\",
                         "$~\\9.6.round()\\"
@@ -1810,7 +1814,7 @@
                 },
                 "roundUp": {
                     "doc": [
-                        "$~Ich erstelle eine neue @Zahl, die auf die kleinste Ganzzahl rundet, die größer ist als ich.",
+                        "$~Ich erstelle eine neue @Number, die auf die kleinste Ganzzahl rundet, die größer ist als ich.",
                         "$~\\10.5.roundUp()\\",
                         "$~\\10.9.roundUp()\\",
                         "$~\\10.99.roundUp()\\"
@@ -1820,7 +1824,7 @@
                 },
                 "power": {
                     "doc": [
-                        "$~Ich potenziere mich selbst mit der angegebenen @Zahl. Bruchexponenten sind ok!",
+                        "$~Ich potenziere mich selbst mit der angegebenen @Number. Bruchexponenten sind ok!",
                         "$~\\2 ^ 8\\",
                         "$~\\10 ^ -2\\",
                         "$~\\5 ^ -.5\\"
@@ -1849,21 +1853,21 @@
                 },
                 "lessThan": {
                     "doc": [
-                        "$~\\⊤\\ wenn ich kleiner bin als die angegebene @Zahl:",
+                        "$~\\⊤\\ wenn ich kleiner bin als die angegebene @Number:",
                         "$~\\1 < 2\\",
                         "$~\\2 < 1\\"
                     ],
                     "names": ["<", "lessthan"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "lessOrEqual": {
                     "doc": [
-                        "$~\\⊤\\ wenn I kleiner oder gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I kleiner oder gleich der angegebenen @Number ist:",
                         "$~\\1 ≤ 2\\",
                         "$~\\2 ≤ 1\\",
                         "$~\\2 ≤ 2\\"
@@ -1871,28 +1875,28 @@
                     "names": ["≤", "lessorequal"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "greaterThan": {
                     "doc": [
-                        "$~\\⊤\\ wenn ich größer als die angegebene @Zahl bin:",
+                        "$~\\⊤\\ wenn ich größer als die angegebene @Number bin:",
                         "$~\\1 > 2\\",
                         "$~\\2 > 1\\"
                     ],
                     "names": [">", "greaterthan"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "greaterOrEqual": {
                     "doc": [
-                        "$~\\⊤\\ wenn I größer oder gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I größer oder gleich der angegebenen @Number ist:",
                         "$~\\1 ≥ 2\\",
                         "$~\\2 ≥ 1\\",
                         "$~\\2 ≥ 2\\"
@@ -1900,35 +1904,35 @@
                     "names": ["≥", "greaterorequal"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "equal": {
                     "doc": [
-                        "$~\\⊤\\ wenn I gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I gleich der angegebenen @Number ist:",
                         "$~\\1 = 2\\",
                         "$~\\2 = 2\\"
                     ],
                     "names": ["$~=", "$~gleich"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
                 },
                 "notequal": {
                     "doc": [
-                        "$~\\⊤\\ wenn I gleich der angegebenen @Zahl ist:",
+                        "$~\\⊤\\ wenn I gleich der angegebenen @Number ist:",
                         "$~\\1 ≠ 2\\",
                         "$~\\2 ≠ 2\\"
                     ],
                     "names": ["$~≠", "$~nichtgleich"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Nummer, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @Number, mit der ich mich vergleichen kann.",
                             "names": "$~Nummer"
                         }
                     ]
@@ -2036,7 +2040,7 @@
                 "$~Meine Einträge sind nummeriert, beginnend bei 1. Sie können die Werte, die ich mit @ListAccess speichere, anhand ihrer Nummer abrufen:",
                 "$~Der zweite Wert in dieser Liste ist beispielsweise \\['banana']\\",
                 "$~\\['Apfel' 'Banane' 'Mango'][2]\\",
-                "$~Ich kann alles in mir haben. Schau dir diese Liste an, mit @Text, @Nummer und @Zeit!",
+                "$~Ich kann alles in mir haben. Schau dir diese Liste an, mit @Text, @Number und @Time!",
                 "$~\\['Apfel' 10 + 10 Zeit()]\\",
                 "$~Wenn Sie mir eine Liste mit vielen Dingen geben, verallgemeinere ich sie, wenn sie einen gemeinsamen Typ haben. Aber manchmal meinen Sie diese spezifischen Dinge vielleicht wörtlich. Wenn das der Fall ist, setzen Sie einfach ein ! hinter mich und ich stelle sicher, dass ich eine Liste mit genau diesen Werten darstelle.",
                 "$~\\['Apfel' 'Banane' 'Mango']!\\",
@@ -2049,7 +2053,7 @@
             "function": {
                 "add": {
                     "doc": [
-                        "$~Ich erstelle eine neue @Liste mit dem angegebenen Element am Ende.",
+                        "$~Ich erstelle eine neue @List mit dem angegebenen Element am Ende.",
                         "$~\\['Apfel' 'Banane' 'Mango'].add('Wassermelone')\\"
                     ],
                     "names": ["$~mit", "$~hinzufügen"],
@@ -2093,13 +2097,13 @@
                     ]
                 },
                 "length": {
-                    "doc": "$~Die @Anzahl der Elemente in mir.",
+                    "doc": "$~Die @Number der Elemente in mir.",
                     "names": ["$~📏", "$~Länge"],
                     "inputs": []
                 },
                 "random": {
                     "doc": [
-                        "$~Eine zufällig ausgewählte Option aus meinen Artikeln oder @Keine, wenn ich keine habe.",
+                        "$~Eine zufällig ausgewählte Option aus meinen Artikeln oder @None, wenn ich keine habe.",
                         "$~\\['Apfel' 'Banane' 'Mango'].random()\\"
                     ],
                     "names": "$~zufällig",
@@ -2231,26 +2235,26 @@
                 },
                 "equals": {
                     "doc": [
-                        "$~\\⊤\\, wenn meine Artikel und meine Bestellung genau mit der angegebenen @Liste übereinstimmen.",
+                        "$~\\⊤\\, wenn meine Artikel und meine Bestellung genau mit der angegebenen @List übereinstimmen.",
                         "$~\\['Apfel' 'Banane' 'Mango'] = ['Apfel' 'Mango' 'Banane']\\"
                     ],
                     "names": ["=", "equals"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Liste, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @List, mit der ich mich vergleichen kann.",
                             "names": "$~Liste"
                         }
                     ]
                 },
                 "notequals": {
                     "doc": [
-                        "$~\\⊤\\ wenn meine Artikel und meine Reihenfolge /nicht/ genau mit der angegebenen @Liste übereinstimmen.",
+                        "$~\\⊤\\ wenn meine Artikel und meine Reihenfolge /nicht/ genau mit der angegebenen @List übereinstimmen.",
                         "$~\\['Apfel' 'Banane' 'Mango'] ≠ ['Apfel' 'Mango' 'Banane']\\"
                     ],
                     "names": ["$~≠", "$~nichtgleich"],
                     "inputs": [
                         {
-                            "doc": "$~Die @Liste, mit der ich mich vergleichen kann.",
+                            "doc": "$~Die @List, mit der ich mich vergleichen kann.",
                             "names": "$~Liste"
                         }
                     ]
@@ -2258,7 +2262,7 @@
                 "translate": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert und einen optionalen Index als Eingabe verwendet und einen Wert erzeugt. Ich werde ihn dann für jedes meiner Elemente auswerten und meine Werte in neue Werte umwandeln.",
-                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Nummern und Sie wollten alle verdoppeln:",
+                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Number und Sie wollten alle verdoppeln:",
                         "$~\\[2 4 6 8].translate(ƒ(Zahl•#) Zahl · 2)\\"
                     ],
                     "names": "$~übersetzen",
@@ -2286,7 +2290,7 @@
                 "filter": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert und einen optionalen Index als Eingabe verwendet und einen @Boolean erzeugt, und ich erstelle eine neue Liste, die nur die Elemente enthält, die sich als \\⊤\\ ergeben.",
-                        "$~Stellen Sie sich zum Beispiel vor, ich wäre eine Liste mit @Zahlen und Sie wollten nur die positiven:",
+                        "$~Stellen Sie sich zum Beispiel vor, ich wäre eine Liste mit @Number und Sie wollten nur die positiven:",
                         "$~\\[2 -4 8 -16].filter(ƒ(Anzahl•#) Zahl ≥ 0)\\"
                     ],
                     "names": "$~Filter",
@@ -2314,7 +2318,7 @@
                 "all": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die einen Wert als Eingabe verwendet und einen @Boolean erzeugt, wenn er eine bestimmte Bedingung erfüllt. Ich erstelle \\⊤\\, wenn alle Elemente die Bedingung erfüllen.",
-                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Nummern und Sie wollten wissen, ob alles positiv ist:",
+                        "$~Stellen Sie sich beispielsweise vor, ich wäre eine Liste mit @Number und Sie wollten wissen, ob alles positiv ist:",
                         "$~\\[2 -4 8 -16].alle(ƒ(Anzahl•#) Zahl ≥ 0)\\"
                     ],
                     "names": "$~alle",
@@ -2449,7 +2453,7 @@
                     ],
                     "sequencer": [
                         {
-                            "doc": "$~Der Wert, der in eine @Nummer umgewandelt werden soll.",
+                            "doc": "$~Der Wert, der in eine @Number umgewandelt werden soll.",
                             "names": "$~Wert"
                         }
                     ]
@@ -2605,7 +2609,7 @@
                 "translate": {
                     "doc": [
                         "$~Geben Sie mir eine @FunctionDefinition, die ein Element nimmt und darauf basierend ein neues Element erstellt. Anschließend übersetze ich alle Elemente in mir in ein neues @Set (und entferne dabei alle Duplikate).",
-                        "$~Lassen Sie uns beispielsweise alle meine @Zahlen in @Text umwandeln:",
+                        "$~Lassen Sie uns beispielsweise alle meine @Number in @Text umwandeln:",
                         "$~\\{1 2 3 4 5 6 7 8 9}.translate(ƒ(Zahl•#) Zahl→'')\\"
                     ],
                     "names": "translate",
@@ -2662,7 +2666,7 @@
                 },
                 "equals": {
                     "doc": [
-                        "$~\\{⊤}\\, wenn meine Paarungen genau dieselben sind wie die angegebenen @Maps.",
+                        "$~\\{⊤}\\, wenn meine Paarungen genau dieselben sind wie die angegebenen @Map.",
                         "$~\\{1:1 2:2} = {1:1 2:3}\\"
                     ],
                     "names": ["=", "equals"],
@@ -2675,7 +2679,7 @@
                 },
                 "notequals": {
                     "doc": [
-                        "$~\\{⊤}\\ wenn meine Paarungen /nicht/ genau dieselben sind wie die der angegebenen @Maps.",
+                        "$~\\{⊤}\\ wenn meine Paarungen /nicht/ genau dieselben sind wie die der angegebenen @Map.",
                         "$~\\{1:1 2:2} ≠ {1:1 2:3}\\"
                     ],
                     "names": ["$~≠", "$~nichtgleich"],
@@ -2812,7 +2816,7 @@
             "row": "$~Reihe",
             "function": {
                 "equals": {
-                    "doc": "$~Ich überprüfe, ob ich genau dieselben Zellen in genau derselben Reihenfolge wie eine andere @Tabelle habe.",
+                    "doc": "$~Ich überprüfe, ob ich genau dieselben Zellen in genau derselben Reihenfolge wie eine andere @Table habe.",
                     "names": ["$~=", "$~istgleich"],
                     "inputs": [
                         {
@@ -2822,7 +2826,7 @@
                     ]
                 },
                 "notequal": {
-                    "doc": "$~Ich überprüfe, ob meine Zellen anders sind oder eine andere Reihenfolge als eine andere @Tabelle aufweisen.",
+                    "doc": "$~Ich überprüfe, ob meine Zellen anders sind oder eine andere Reihenfolge als eine andere @Table aufweisen.",
                     "names": ["$~≠", "$~nichtgleich"],
                     "inputs": [
                         {
@@ -2834,7 +2838,7 @@
             },
             "conversion": {
                 "list": "$~Ich konvertiere eine @Table in eine Liste von Zeilen, wobei jede Zeile eine @Structure mit ihren Spaltennamen als Eigenschaften ist.",
-                "text": "$~Ich konvertiere einfach eine @Tabelle in Text."
+                "text": "$~Ich konvertiere einfach eine @Table in Text."
             }
         },
         "Structure": {
@@ -2901,8 +2905,8 @@
             "doc": [
                 "$~/Klick, tipp!/",
                 "$~/@FunctionDefinition hier, ich werde das erklären./",
-                "$~Stellen Sie sich @Choice wie einen Stream von @Phrase/Namen vor, die von Ihrem Publikum ausgewählt werden. Wenn jemand auf eine @Phrase mit einem Namen klickt, tippt oder sie mit der Tastatur auswählt, indem er /Enter/ drückt, hat @Choice einen neuen Wert, der dem Namen entspricht.",
-                "$~Die beste Möglichkeit, es zu verwenden, besteht darin, eine Performance mit benannten auswählbaren Phrasen @Phrase zu erstellen und dann mithilfe einer @Reaktion zu entscheiden, was zu tun ist, wenn dieser Name ausgewählt wird.",
+                "$~Stellen Sie sich @Choice wie einen Stream von @Phrase/name vor, die von Ihrem Publikum ausgewählt werden. Wenn jemand auf eine @Phrase mit einem Namen klickt, tippt oder sie mit der Tastatur auswählt, indem er /Enter/ drückt, hat @Choice einen neuen Wert, der dem Namen entspricht.",
+                "$~Die beste Möglichkeit, es zu verwenden, besteht darin, eine Performance mit benannten auswählbaren Phrasen @Phrase zu erstellen und dann mithilfe einer @Reaction zu entscheiden, was zu tun ist, wenn dieser Name ausgewählt wird.",
                 "$~Hier ist das einfachste Beispiel:",
                 "$~\\Group(\nStack() \n[\nPhrase('eins' wählbar:⊤ Name:'1') \nPhrase('zwei' wählbar:⊤ Name:'2') \nPhrase(Choice())\n]\n)\\",
                 "$~Kopieren Sie dies in den Editor und wählen Sie dann eine der beiden @Phrase aus. Sie werden sehen, dass die dritte @Phrase den ausgewählten Namen anzeigt."
@@ -2949,7 +2953,7 @@
                 "$~Bei Sondertasten, wie der /Escape/-Taste, wird @Text verwendet, der die Taste unter Verwendung eines <vordefinierten Namens@https://developer.mozilla.org/en-US/docs/Web/API/UI_Events/Keyboard_event_key_values> beschreibt und leider nur auf Englisch verfügbar ist.",
                 "$~Wenn Sie nur Informationen zu einem bestimmten Schlüssel wünschen, können Sie diesen angeben:",
                 "$~\\Schlüssel('a')\\",
-                "$~Und wenn Sie nur wissen möchten, wann eine @Taste losgelassen und nicht gedrückt wird, können Sie einen @Boolean angeben:",
+                "$~Und wenn Sie nur wissen möchten, wann eine @Button losgelassen und nicht gedrückt wird, können Sie einen @Boolean angeben:",
                 "$~\\Schlüssel('a' ⊥)\\"
             ],
             "names": ["$~⌨️", "$~Schlüssel"],
@@ -2970,7 +2974,7 @@
                 "$~Jedes Mal führt @Program eine Neuauswertung mit dem neuen Zeitwert durch.",
                 "$~Zum Beispiel:",
                 "$~\\Zeit()\\",
-                "$~Wenn Sie die Zeit als @Time/Frequenz angeben, tickt es mit dieser Rate. Beispiel:",
+                "$~Wenn Sie die Zeit als @Time/frequency angeben, tickt es mit dieser Rate. Beispiel:",
                 "$~\\Zeit(1000ms)\\",
                 "$~Es gibt jedoch Grenzen dafür, wie klein es sein kann, da @Program Zeit zur Auswertung braucht, bevor es auf den nächsten Tick reagieren kann.",
                 "$~Der kleinste Wert liegt wahrscheinlich bei etwa \\20ms\\."
@@ -3029,11 +3033,11 @@
             },
             "height": {
                 "names": ["$~Höhe"],
-                "doc": "$~Die Anzahl der @Colors, die in einer Spalte abgetastet werden sollen."
+                "doc": "$~Die Anzahl der @Color, die in einer Spalte abgetastet werden sollen."
             },
             "frequency": {
                 "names": ["$~Frequenz"],
-                "doc": "$~Die Zeit zwischen @Color-Samples."
+                "doc": "$~Die Zeit zwischen @Color samples."
             }
         },
         "Motion": {
@@ -3069,7 +3073,7 @@
                 "$~/Buuh, buuh, buuh/",
                 "$~/Hallo, hier ist @FunctionDefinition! Ich sehe, Sie haben @Scene gefunden.",
                 "$~Ich finde @Scene besonders cool. Die Grundidee ist, dass man ihm eine Liste von @Phrase oder @Group gibt und es diese dann der Reihe nach anzeigt und bei der letzten anhält.",
-                "$~Um das Timing zu steuern, können Sie entweder die @Phrase/Dauer für jeden Ausgang festlegen, und dieser wird so lange angezeigt, bevor zum nächsten übergegangen wird, und Sie können die Übergänge @Phrase/entering oder @Phrase/exiting verwenden, die Sie möglicherweise festgelegt haben. Wenn Sie sie auf eine @Sequence festlegen, wird deren Dauer verwendet.",
+                "$~Um das Timing zu steuern, können Sie entweder die @Phrase/duration für jeden Ausgang festlegen, und dieser wird so lange angezeigt, bevor zum nächsten übergegangen wird, und Sie können die Übergänge @Phrase/entering oder @Phrase/exiting verwenden, die Sie möglicherweise festgelegt haben. Wenn Sie sie auf eine @Sequence festlegen, wird deren Dauer verwendet.",
                 "$~Damit können Sie beispielsweise diese kleine @Scene ausführen, die die folgenden drei Sätze nacheinander anzeigt:",
                 "$~\\Szene([\nPhrase('Hallo' Dauer: 1s)\nPhrase('Wie geht es dir?' Dauer: 2s Drehung: 5° Eintritt: Pose(Drehung: 0°))\nPhrase('Mir geht es gut')\n])\\",
                 "$~Sehen Sie, wie die erste Ausgabe eine Sekunde lang angezeigt wird, dann die nächste zwei Sekunden lang, jedoch mit einer Animation in einer Drehung um fünf Grad, und dann die letzte angezeigt wird?",
@@ -3100,7 +3104,7 @@
             "doc": [
                 "$~/Hey, hier ist @FunctionDefinition. Lass uns darüber reden, wie wir weiterkommen!/",
                 "$~Es gibt also viele Möglichkeiten, uns auf der @Stage zu platzieren. Sie können uns einen expliziten @Place zuweisen. Sie können @Motion verwenden und die Schwerkraft ihre Arbeit machen lassen. Sie können uns auch in eine @Group setzen und uns dort auf eine bestimmte Weise anordnen lassen.",
-                "$~Aber manchmal möchten Sie dem /Publikum/ die Kontrolle darüber geben, wo wir uns auf der @Bühne befinden. Dafür gibt es @Placement.",
+                "$~Aber manchmal möchten Sie dem /Publikum/ die Kontrolle darüber geben, wo wir uns auf der @Stage befinden. Dafür gibt es @Placement.",
                 "$~Und so funktioniert es: Du erstellst einfach ein @Placement und gibst es an unseren @Place weiter:",
                 "$~\\Phrase('hi' Ort: Platzierung())\\",
                 "$~Jedes Mal, wenn das Publikum eine Pfeiltaste drückt oder auf die Bühne klickt oder tippt, erstellt das @Placement einen neuen @Place, der sich in die gewünschte Richtung bewegt.",
@@ -3139,20 +3143,20 @@
                 "$~\\Webseite('https://wordplay.dev')\\",
                 "$~Und es gibt anscheinend dieses Ding namens <CSS@https://developer.mozilla.org/en-US/docs/Learn/CSS/First_steps/What_is_CSS>, das Ihnen gefällt, wenn Sie Dinge auf einer Webseite abfragen. Geben Sie uns eine CSS-Auswahlabfrage und wir erhalten nur den Text, der dieser Abfrage entspricht. Wie dieses Beispiel, das die Überschriften der ersten Ebene erhält.",
                 "$~\\Webseite('https://wordplay.dev' 'h1')\\",
-                "$~Dabei kann vieles schiefgehen. Wenn Sie Ihre Internetverbindung verlieren, die URL nichts ergibt, die URL nicht öffentlich ist oder es sich nicht um eine HTML-Seite handelt … All dies kann zu einer Ausnahme führen. Wenn Sie eine Seite finden, die funktioniert, erhalten Sie eine @Nummer, die den Prozentsatz der Fertigstellung angibt, und dann eine @Liste der Wörter auf der Seite."
+                "$~Dabei kann vieles schiefgehen. Wenn Sie Ihre Internetverbindung verlieren, die URL nichts ergibt, die URL nicht öffentlich ist oder es sich nicht um eine HTML-Seite handelt … All dies kann zu einer Ausnahme führen. Wenn Sie eine Seite finden, die funktioniert, erhalten Sie eine @Number, die den Prozentsatz der Fertigstellung angibt, und dann eine @List der Wörter auf der Seite."
             ],
             "names": ["$~🔗", "$~Website"],
             "url": {
                 "doc": "$~Die abzurufende URL der HTML-Webseite.",
-                "names": "$~URL(URL)"
+                "names": "$~url"
             },
             "query": {
                 "doc": "$~Die auszuwertende CSS-Abfrage im HTML",
-                "names": "$~Abfrage"
+                "names": "$~abfrage"
             },
             "frequency": {
                 "doc": "$~Die Anzahl der Minuten, die vergehen sollen, bevor die Seite erneut abgerufen wird.",
-                "names": "$~Frequenz"
+                "names": "$~frequenz"
             },
             "error": {
                 "invalid": "$~Dies ist keine gültige URL",
@@ -3173,11 +3177,11 @@
             ],
             "subject": {
                 "names": "$~Thema",
-                "doc": "$~Der Name des @Outputs, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$~Der Name des @Output, bei dem ich nach Kollisionen suchen soll."
             },
             "object": {
                 "names": "$~andere",
-                "doc": "$~Der Name des anderen @Outputs, bei dem ich nach Kollisionen suchen soll."
+                "doc": "$~Der Name des anderen @Output, bei dem ich nach Kollisionen suchen soll."
             }
         },
         "Rebound": {
@@ -3213,7 +3217,7 @@
         "Output": {
             "names": "$~Ausgabe",
             "doc": [
-                "$~Ich bin keine @StructureDefinition, die man tatsächlich erstellen kann. Aber ich bin eine sehr wichtige, da ich die wichtigsten Elemente unseres Tanzes inspiriere: @Phrase, @Gruppe und @Bühne.",
+                "$~Ich bin keine @StructureDefinition, die man tatsächlich erstellen kann. Aber ich bin eine sehr wichtige, da ich die wichtigsten Elemente unseres Tanzes inspiriere: @Phrase, @Group und @Stage.",
                 "$~Lernen Sie sie kennen, um mehr über ihre Verwendung zu erfahren."
             ]
         },
@@ -3227,9 +3231,12 @@
                 "$~SIE KÖNNEN MIR AUCH EINEN RAHMENRAND GEBEN UND ICH WERDE IHN ZUSCHNEIDEN.",
                 "$~\\Stage([Phrase('stufffffff')] Hintergrund: Farbe(75% 50 100°) Rahmen: Rechteck(-1m -1m 1m 1m))\\"
             ],
-            "description": "$~Stufe $1[$1|] von $2[$2|] Sätzen $3[$3 Rahmen|] $4",
+            "description": {
+                "names": "$!",
+                "doc": "$!"
+            },
             "content": {
-                "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Outputs.",
+                "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Output.",
                 "names": "$~Inhalt"
             },
             "frame": {
@@ -3237,23 +3244,23 @@
                 "names": "$~rahmen"
             },
             "size": {
-                "doc": "$~LIKE @Gruppe/Größe",
-                "names": "$~Größe"
+                "doc": "$~LIKE @Group/size",
+                "names": "$~größe"
             },
             "face": {
-                "doc": "$~LIKE @Gruppe/Gesicht",
-                "names": "$~Gesicht"
+                "doc": "$~LIKE @Group/face",
+                "names": "$~gesicht"
             },
             "place": {
                 "doc": "$~WENN ICH EINE KAMERA WÄRE, WÜRDE ICH HIERHIN SCHAUEN",
                 "names": "$~Ort"
             },
             "name": {
-                "doc": ["$~DAS GLEICHE WIE @Phrase/Name!"],
-                "names": "$~Name"
+                "doc": ["$~DAS GLEICHE WIE @Phrase/name!"],
+                "names": "$~namen"
             },
             "selectable": {
-                "doc": "$~GLEICH WIE @Phrase/auswählbar!",
+                "doc": "$~GLEICH WIE @Phrase/selectable!",
                 "names": "$~wählbar"
             },
             "color": {
@@ -3269,8 +3276,8 @@
                 "names": "$~Opazität"
             },
             "offset": {
-                "doc": "$~DAS GLEICHE WIE @Group/Offset",
-                "names": "$~Versatz"
+                "doc": "$~DAS GLEICHE WIE @Group/offset",
+                "names": "$~versatz"
             },
             "rotation": {
                 "doc": "$~DAS GLEICHE WIE @Group/rotation",
@@ -3278,7 +3285,7 @@
             },
             "scale": {
                 "doc": "$~DAS GLEICHE WIE @Group/scale",
-                "names": "$~Skala"
+                "names": "$~skala"
             },
             "flipx": {
                 "doc": "$~GLEICH WIE @Group/flipx",
@@ -3293,7 +3300,7 @@
                 "names": "$~Eingabe"
             },
             "resting": {
-                "doc": "$~DAS GLEICHE WIE @Gruppe/Ruhen!",
+                "doc": "$~DAS GLEICHE WIE @Group/resting!",
                 "names": "$~Ruhen"
             },
             "moving": {
@@ -3305,31 +3312,35 @@
                 "names": "$~Ausstieg"
             },
             "duration": {
-                "doc": "$~GLEICH WIE @Phrase/Dauer!",
+                "doc": "$~GLEICH WIE @Phrase/duration!",
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~DAS GLEICHE WIE @Phrase/Stil!",
+                "doc": "$~DAS GLEICHE WIE @Phrase/style!",
                 "names": "$~Stil"
             },
             "gravity": {
                 "doc": "$~Die Schwerkraft, die auf die Ausgabe angewendet werden soll, deren Platz in @Motion ist.",
                 "names": "$~Schwere"
-            }
+            },
+            "defaultDescription": "$~Stufe $2[$2 |]von $1 gibt $3 aus[mit Rahmen $3|] $4"
         },
         "Group": {
             "names": ["$~🔳", "$~Gruppe"],
             "doc": [
                 "$~Oh, hallo, wie geht es dir? Mir geht es immer gut, wenn andere da sind, also ist es toll, mit dir zusammen zu sein!",
                 "$~Ich gruppiere @Phrase und @Group auf @Stage und platziere sie in einem @Arrangement, sodass eine gewisse Reihenfolge ihrer Platzierung gegeben ist.",
-                "$~Damit es funktioniert, müssen Sie mir ein @Arrangement und anschließend eine @Liste mit anzuordnenden @Ausgaben geben.",
-                "$~Hier bin ich beispielsweise mit einer @Stack-Anordnung und einigen @Phrase zum vertikalen Stapeln:",
+                "$~Damit es funktioniert, müssen Sie mir ein @Arrangement und anschließend eine @List mit anzuordnenden @Output geben.",
+                "$~Hier bin ich beispielsweise mit einer @Stack arrangement und einigen @Phrase zum vertikalen Stapeln:",
                 "$~\\Gruppe(Stapel() [Phrase('erste') Phrase('zweite')])\\",
                 "$~Wie ich die Dinge genau arrangiere, hängt von dem @Arrangement ab, das Sie mir geben."
             ],
-            "description": "$~$1[$1|] $2 $3",
+            "description": {
+                "names": "$!",
+                "doc": "$!"
+            },
             "content": {
-                "doc": "$~Die Liste der anzuordnenden @Outputs.",
+                "doc": "$~Die Liste der anzuordnenden @Output.",
                 "names": "$~Inhalt"
             },
             "layout": {
@@ -3346,14 +3357,14 @@
             },
             "face": {
                 "doc": "$~Der Name der Schriftart sollte in meinem Inhalt enthalten sein, es sei denn, Sie haben eine eigene Schriftart zum Verwenden.",
-                "names": "$~Gesicht"
+                "names": "$~gesicht"
             },
             "place": {
                 "doc": "$~Der Platz auf der Bühne, an dem ich sein sollte. Der Inhalt in mir wird relativ dorthin angeordnet.",
                 "names": "$~Ort"
             },
             "name": {
-                "doc": ["$~Das Gleiche wie @Phrase/Name!"],
+                "doc": ["$~Das Gleiche wie @Phrase/name!"],
                 "names": "$~Name"
             },
             "selectable": {
@@ -3409,18 +3420,22 @@
                 "names": "$~Ausstieg"
             },
             "duration": {
-                "doc": "$~Dasselbe wie @Phrase/Dauer!",
+                "doc": "$~Dasselbe wie @Phrase/duration!",
                 "names": ["duración"]
             },
             "style": {
-                "doc": "$~Dasselbe wie @Phrase/Stil!",
+                "doc": "$~Dasselbe wie @Phrase/style!",
                 "names": "$~Stil"
-            }
+            },
+            "defaultDescription": "$~$1[$1|] $2 $3"
         },
         "Phrase": {
             "names": ["💬", "Satzglied"],
             "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
-            "description": "$~$3[$3 Takt |]Phrase $1 $2[benannt $2|] $4[$4|] $5",
+            "description": {
+                "names": "$!",
+                "doc": "$!"
+            },
             "text": {
                 "doc": "$~Die auf @Stage anzuzeigenden Charaktere.",
                 "names": "$~Text"
@@ -3431,7 +3446,7 @@
             },
             "face": {
                 "doc": "$~Der Name der Schriftart, die ich verwenden soll.",
-                "names": "$~Gesicht"
+                "names": "$~gesicht"
             },
             "place": {
                 "doc": "$~Der Platz auf der Bühne, an dem ich sein sollte.",
@@ -3442,7 +3457,7 @@
                 "names": ["$~↵", "$~wickeln"]
             },
             "alignment": {
-                "doc": "$~Wenn eine @Phrase/Wrap-Grenze festgelegt ist, ob ich Symbole am Anfang, in der Mitte oder am Ende der Kante ausrichten soll.",
+                "doc": "$~Wenn eine @Phrase/wrap festgelegt ist, ob ich Symbole am Anfang, in der Mitte oder am Ende der Kante ausrichten soll.",
                 "names": "$~Ausrichtung"
             },
             "direction": {
@@ -3504,7 +3519,7 @@
                 "names": "$~flippig"
             },
             "entering": {
-                "doc": "$~Die @Pose oder @Sequenz, die ich beim Betreten der Bühne machen sollte.",
+                "doc": "$~Die @Pose oder @Sequence, die ich beim Betreten der Bühne machen sollte.",
                 "names": "$~Eingabe"
             },
             "resting": {
@@ -3526,7 +3541,8 @@
             "style": {
                 "doc": "$~Der zu verwendende Animationsstil beim Wechsel an eine andere Stelle auf der Bühne.",
                 "names": "$~Stil"
-            }
+            },
+            "defaultDescription": "$~$3[$3 Takt |]Phrase $1 $2[benannt $2|] $4[$4|] $5"
         },
         "Arrangement": {
             "names": ["Arrangement"],
@@ -3534,7 +3550,7 @@
         },
         "Row": {
             "names": ["Fila"],
-            "doc": "$~Ich bin @Row, eine horizontale @Anordnung von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Stack?",
+            "doc": "$~Ich bin @Row, eine horizontale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Stack?",
             "description": "$~Reihe von $1-Phrasen und Gruppen",
             "alignment": {
                 "doc": "$~Ob der Text in jeder Spalte am Anfang, in der Mitte oder am Ende ausgerichtet werden soll.",
@@ -3547,7 +3563,7 @@
         },
         "Stack": {
             "names": ["$~⬇", "$~Stapel"],
-            "doc": "$~Ich bin @Stack, eine vertikale @Anordnung von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Row?",
+            "doc": "$~Ich bin @Stack, eine vertikale @Arrangement von @Output, mit optionaler Polsterung dazwischen. Kennen Sie meinen Zwilling @Row?",
             "description": "$~Stapel von 1-Dollar-Phrasen und Gruppen",
             "padding": {
                 "doc": "$~Die Menge an Polsterung, die zwischen den Ausgaben eingefügt werden soll.",
@@ -3586,7 +3602,7 @@
         "Free": {
             "names": ["$~Frei"],
             "doc": [
-                "$~Ich sage: Egal. Setz dich, wo du willst. Setz dich einfach irgendwo hin! Achte darauf, dass alle @Outputs, die du mir gibst, einen @Place haben, sonst wissen sie nicht, wohin sie gehen sollen.",
+                "$~Ich sage: Egal. Setz dich, wo du willst. Setz dich einfach irgendwo hin! Achte darauf, dass alle @Output, die du mir gibst, einen @Place haben, sonst wissen sie nicht, wohin sie gehen sollen.",
                 "$~Oh, und denken Sie daran, dass der @Place, den Sie jedem @Output geben, relativ zum @Place der @Group ist! Wenn Sie sich also fragen, warum Dinge nicht dort erscheinen, wo Sie es erwarten, versuchen Sie, der @Group ebenfalls einen Platz zu geben."
             ],
             "description": "$~Freiform-Ausgaben für 1 USD"
@@ -3661,10 +3677,16 @@
             "style": {
                 "doc": "$~Der Animationsstil, den ich verwenden sollte.",
                 "names": "$~Stil"
+            },
+            "description": {
+                "doc": [
+                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
+                ],
+                "names": "$~Beschreibung"
             }
         },
         "Form": {
-            "doc": "$~Ich bin eine abstrakte Form, wie ein @Rechteck oder ein @Kreis.",
+            "doc": "$~Ich bin eine abstrakte Form, wie ein @Rectangle oder ein @Circle.",
             "names": ["$~Bilden"]
         },
         "Rectangle": {
@@ -3754,7 +3776,7 @@
                 "names": "$~Opazität"
             },
             "offset": {
-                "doc": "$~Ein @Place, der angibt, wie weit es von der Stelle eines @Outputs entfernt sein soll, statt der Standardeinstellung. Hilfreich zum Wackeln an Ort und Stelle.",
+                "doc": "$~Ein @Place, der angibt, wie weit es von der Stelle eines @Output entfernt sein soll, statt der Standardeinstellung. Hilfreich zum Wackeln an Ort und Stelle.",
                 "names": "$~Versatz"
             },
             "rotation": {
@@ -3904,7 +3926,7 @@
             ],
             "names": ["$~🔮", "$~Aura"],
             "color": {
-                "doc": "$~Die @Farbe, die die @Aura haben sollte.",
+                "doc": "$~Die @Color, die die @Aura haben sollte.",
                 "names": "$~Farbe"
             },
             "blur": {
@@ -3928,7 +3950,7 @@
         },
         "sequence": {
             "sway": {
-                "doc": "$~Ich erstelle eine @Sequence, die um den Mittelpunkt eines @Outputs hin und her schwankt.",
+                "doc": "$~Ich erstelle eine @Sequence, die um den Mittelpunkt eines @Output hin und her schwankt.",
                 "names": ["vaivén"],
                 "angle": {
                     "doc": "$~Wie stark die Neigung beim Schwanken sein soll.",
@@ -4016,7 +4038,15 @@
             "loading": {
                 "message": "$~Schriftarten und Text werden geladen, danke fürs Warten!"
             },
-            "home": "Startseite"
+            "home": "Startseite",
+            "table": {
+                "cell": {
+                    "description": "$~Diese Zelle bearbeiten",
+                    "placeholder": "$~Wert"
+                },
+                "addcolumn": "$~füge eine Spalte vor dieser Spalte hinzu",
+                "removecolumn": "$~diese Spalte entfernen"
+            }
         },
         "tile": {
             "toggle": {
@@ -4033,7 +4063,8 @@
                 "output": "$~Bühne",
                 "palette": "$~Palette",
                 "docs": "$~Führung",
-                "source": "$~Quelle"
+                "source": "$~Quelle",
+                "collaborate": "$~zusammenarbeiten"
             },
             "button": {
                 "collapse": "$~Fenster ausblenden"
@@ -4042,10 +4073,11 @@
         "project": {
             "error": {
                 "unknown": "$~Dieses Projekt existiert nicht oder ist nicht öffentlich.",
-                "translate": "$~Beim Übersetzen Ihres Projekts ist ein Problem aufgetreten."
+                "translate": "$~Beim Übersetzen Ihres Projekts ist ein Problem aufgetreten.",
+                "tile": "$~Hoppla, da ist ein Fehler aufgetreten.",
+                "reset": "$~Versuch zum Zurücksetzen..."
             },
             "button": {
-                "showCollaborators": "$~Dialog für Mitarbeiter anzeigen",
                 "removeCollaborator": "$~Mitarbeiter entfernen",
                 "copy": "$~Projekt als Text in die Zwischenablage kopieren",
                 "addSource": "$~erstelle eine neue $source",
@@ -4058,7 +4090,15 @@
                 "focusCycle": "$~Konzentriere dich auf die nächste Kachel",
                 "unsaved": "$~Speicherfehler anzeigen",
                 "translate": "$~Bearbeiten Sie die Sprachen dieses Projekts und übersetzen Sie es in andere Sprachen.",
-                "primary": "$~als primäre Lokalität für dieses Projekt festlegen"
+                "primary": "$~als primäre Lokalität für dieses Projekt festlegen",
+                "share": {
+                    "tip": "$~Optionen zur Projektfreigabe anzeigen",
+                    "label": "$~Aktie"
+                },
+                "history": {
+                    "on": "$~Aktuellen Projektcode anzeigen",
+                    "redo": "$~aktuellen Projektcode anzeigen"
+                }
             },
             "field": {
                 "name": {
@@ -4107,6 +4147,10 @@
                 "delete": {
                     "header": "$~Löschen",
                     "explanation": "$~Durch das Löschen dieser Galerie werden ihre Projekte nicht gelöscht. Die Galerie wird dauerhaft gelöscht."
+                },
+                "classes": {
+                    "header": "$~Klassen",
+                    "explanation": "$~Mit dieser Galerie verbundene Klassen."
                 }
             },
             "confirm": {
@@ -4224,7 +4268,14 @@
                 "redo": "$~Rückgängig gemachte Bearbeitung wiederholen",
                 "search": "$~Suche nach einzufügenden Sonderzeichen",
                 "tidy": "$~ordentlicher Abstand",
-                "elide": "$~Elision umschalten"
+                "elide": "$~Elision umschalten",
+                "insertDocs": "$~Erklärungssymbol einfügen"
+            },
+            "options": {
+                "locale": {
+                    "tip": "$?",
+                    "all": "$?"
+                }
             }
         },
         "annotations": {
@@ -4262,6 +4313,9 @@
             },
             "button": {
                 "submit": "$~diese Chat-Nachricht senden"
+            },
+            "options": {
+                "locale": "$~Wählen Sie die Sprache für die Ausgabe"
             }
         },
         "timeline": {
@@ -4307,10 +4361,6 @@
                 "header": "$~Weitergabe",
                 "explanation": "$~Steuern Sie, wer dieses Projekt bearbeiten und sehen kann.",
                 "subheader": {
-                    "collaborators": {
-                        "header": "$~Kooperationspartner",
-                        "explanation": "$~Mitarbeiter können dieses Projekt anzeigen und bearbeiten. Nur Projektbesitzer können Mitarbeiter ändern."
-                    },
                     "gallery": {
                         "header": "$~Galerie",
                         "explanation": "$~Fügen Sie dieses Projekt einer Galerie neben anderen Erstellern hinzu oder erstellen Sie eine Galerie auf Ihrer Seite <projects@://projects>. Wenn Sie ein Projekt einer öffentlichen Galerie hinzufügen, wird Ihr Projekt öffentlich."
@@ -4400,18 +4450,18 @@
                             "$~vertikal, von links nach rechts"
                         ]
                     },
-                    "localized": {
-                        "label": "$~Codelokalisierung",
+                    "lines": {
+                        "label": "$~Zeilennummern",
                         "modes": [
-                            "$~Code nicht lokalisieren",
-                            "$~Code lokalisieren, wenn verfügbar",
-                            "$~Code lokalisieren, aber Symbole bevorzugen"
+                            "$~Zeilennummern im Textmodus anzeigen",
+                            "$~Zeilennummern im Textmodus nicht anzeigen"
                         ]
                     }
                 },
                 "options": {
                     "mic": "$~ausgewähltes Mikrofon",
-                    "camera": "$~ausgewählte Kamera"
+                    "camera": "$~ausgewählte Kamera",
+                    "face": "$~Schriftart"
                 }
             },
             "locale": {
@@ -4420,7 +4470,6 @@
                 "subheader": {
                     "selected": "$~Ausgewählt",
                     "supported": "$~Verfügbar",
-                    "coming": "$~Demnächst",
                     "help": "$~Helfen Sie uns beim Übersetzen …"
                 },
                 "button": {
@@ -4540,7 +4589,8 @@
                     "contribute": {
                         "label": "Beitragen",
                         "subtitle": "Helfen Sie uns, Wordplay zu erstellen."
-                    }
+                    },
+                    "teach": "$~Verwalten Sie Schülerklassen und ihre Projekte"
                 }
             },
             "learn": {
@@ -4610,10 +4660,8 @@
             },
             "login": {
                 "header": "Anmeldung",
-                "subtitle": "$~Erstellen Sie ein Konto oder melden Sie sich an, um Ihre Arbeit online zu speichern",
                 "anonymous": "Anmeldung",
                 "prompt": {
-                    "login": "$~Ihre Performances werden in diesem Browser gespeichert, aber nicht online. Wenn dies Ihr Gerät ist, ist das in Ordnung! Wenn nicht, haben andere Zugriff auf Ihre Projekte und Sie könnten sie verlieren. Um sie online zu speichern und privat zu halten, melden Sie sich an oder <erstellen Sie ein Konto@://join>:",
                     "forgot": "$~*Passwort vergessen?* Leider können wir Ihr Konto nicht wiederherstellen, da wir keine Kontaktinformationen erfassen.",
                     "email": "$~Haben Sie ein Nur-E-Mail-Konto? Melden Sie sich an, indem Sie Ihre E-Mail-Adresse angeben. Wenn ein Konto damit verknüpft ist, senden wir Ihnen eine E-Mail mit einem Anmeldelink. Neue Nur-E-Mail-Konten werden aus Datenschutzgründen nicht unterstützt.",
                     "enter": "$~Offenbar stammt Ihr Anmeldelink von einem anderen Browser oder Gerät. Können Sie Ihre E-Mail-Adresse noch einmal eingeben, damit wir sicher sind, dass Sie es sind?",
@@ -4629,7 +4677,9 @@
                     "confirm": "$~Überprüfen Sie Ihre alte E-Mail-Adresse, um Ihre neue Adresse zu bestätigen.",
                     "delete": "$~Möchten Sie, dass wir alles vergessen, was Sie hier gemacht haben? Dies kann nicht rückgängig gemacht werden.",
                     "reallyDelete": "$~Sind Sie sicher? Ihr Konto und Ihre Einstellungen werden sofort gelöscht und Ihre Projekte werden zur Löschung vorgemerkt. Mitarbeiter Ihrer Projekte verlieren sofort den Zugriff darauf. Geben Sie Ihre E-Mail-Adresse oder Ihren Benutzernamen ein, um zu bestätigen, dass Sie dies wünschen.",
-                    "name": "$~WählenSieeinEmojiaus,umsichanderenvorzustellen."
+                    "name": "$~WählenSieeinEmojiaus,umsichanderenvorzustellen.",
+                    "login": "$~Melden Sie sich an, um Ihre Projekte zu speichern, zusammenzuarbeiten und sie zu teilen:",
+                    "join": "$~Oder <create an account@://join>, um zu beginnen."
                 },
                 "error": {
                     "expired": "$~Dieser Link ist abgelaufen.",
@@ -4692,13 +4742,15 @@
                         "on": "$~Passwort anzeigen",
                         "off": "$~Passwort verbergen"
                     }
-                }
+                },
+                "subtitle": "$~Speichern, zusammenarbeiten und teilen"
             },
             "join": {
                 "header": "$~Verbinden",
                 "prompt": {
-                    "username": "$~Bereit, ein Konto zu erstellen? Wählen Sie zunächst einen *Benutzernamen*. Er muss mindestens 5 Zeichen lang sein, darf keine E-Mail-Adresse sein und sollte weder Ihren Namen noch andere identifizierende Informationen enthalten.",
-                    "password": "$~Wählen Sie ein Passwort mit mindestens *10 Zeichen*. Geben Sie es erneut ein, um sicherzustellen, dass Sie es richtig eingegeben haben, und speichern Sie es an einem sicheren Ort, beispielsweise in einem Passwort-Manager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
+                    "create": "$~Erstellen Sie ein Konto, um Ihre Projekte zu speichern, mit anderen zusammenzuarbeiten und Ihre Arbeit zu teilen.",
+                    "username": "$~Benutzernamen müssen mindestens 5 Zeichen lang sein, dürfen keine E-Mail-Adresse sein und dürfen weder Ihren Namen noch andere identifizierende Informationen enthalten.",
+                    "password": "$~Passwörter müssen mindestens /10 Zeichen/ lang sein. Geben Sie es zweimal ein und notieren Sie es an einem sicheren Ort, z. B. in einem Passwortmanager. *Es gibt keine Möglichkeit, Ihr Konto wiederherzustellen*, wenn Sie es verlieren, da wir keine Kontaktinformationen erfassen."
                 }
             },
             "rights": {
@@ -4746,6 +4798,120 @@
             "guide": {
                 "header": "$~Führung",
                 "description": "$~Dies ist eine Referenz für jeden Teil der Programmiersprache Wordplay. Suchen Sie nach einem Konzept oder durchsuchen Sie die Liste, um mehr zu erfahren."
+            },
+            "teach": {
+                "header": "$~Unterrichten",
+                "prompt": {
+                    "none": "$~Willkommen, Lehrer! Erstellen Sie eine Klasse, um Schülerkonten und Projektgalerien einzurichten und zu verwalten.",
+                    "some": "$~Willkommen, Lehrer! Verwalten Sie Ihre Klassen oder erstellen Sie eine neue."
+                },
+                "error": {
+                    "offline": "$~Wir können Ihren Lehrerstatus nicht überprüfen.",
+                    "login": "$~Sie müssen angemeldet sein, um Kurse verwalten zu können.",
+                    "teacher": "$~Zum Erstellen und Verwalten von Klassen benötigen Sie Lehrerrechte. Füllen Sie dieses Formular aus und lernen Sie uns kennen!"
+                },
+                "link": {
+                    "request": "$~Lehrerberechtigungen anfordern",
+                    "new": "$~Erstellen einer Klasse"
+                }
+            },
+            "newclass": {
+                "header": "$~Neue Klasse",
+                "subheader": {
+                    "class": "$~Deine Klasse",
+                    "students": "$~Ihre Schüler",
+                    "credentials": "$~Benutzernamen und Passwörter",
+                    "submit": "$~Einreichen"
+                },
+                "prompt": {
+                    "start": "$~Erstellen Sie eine Klasse mit Generte-Konten für alle Schüler in Ihrer Klasse und erstellen Sie Galerien, zu denen alle Ihre Schüler Projekte hinzufügen können. Wenn die Schüler bereits Konten haben, können Sie diese später hinzufügen.",
+                    "review": "$~Überprüfen Sie die von uns erstellten Benutzernamen und Passwörter. Möchten Sie sie *bearbeiten*, bevor Sie fortfahren? Wenn Sie das tun, können Sie die oben stehenden Studenteninformationen nicht bearbeiten.",
+                    "ready": "$~Lassen Sie uns wissen, wenn Sie bereit sind, die oben genannten Anmeldeinformationen zu generieren. Sie können sie anschließend bearbeiten.",
+                    "pending": "$~Benutzernamen und Passwörter werden generiert ...",
+                    "submit": "$~Bereit zum Absenden? Sobald es erfolgreich war, erhalten Sie einen Download dieser Informationen. Passwörter sind *nicht wiederherstellbar*, bewahren Sie sie also an einem sicheren Ort auf.",
+                    "submitting": "$~Neue Konten mit den oben genannten Benutzernamen und Passwörtern anfordern …",
+                    "download": "$~Ihr Kurs ist bereit! Sie sollten einen Download Ihrer Schülerdaten in Ihrem Download-Ordner sehen. *Passwörter sind nicht wiederherstellbar*, bewahren Sie diese Datei also an einem sicheren Ort auf!"
+                },
+                "field": {
+                    "name": {
+                        "description": "$~Klassenname",
+                        "placeholder": "$~ein kurzer Name"
+                    },
+                    "description": {
+                        "description": "$~Beschreibung",
+                        "placeholder": "$~eine Beschreibung Ihres Kurses für Sie und Ihre Schüler."
+                    },
+                    "existing": {
+                        "label": "$~Studierende mit Accounts",
+                        "prompt": "$~Haben einige Ihrer Schüler bereits Wordplay-Konten? Fügen Sie sie hier hinzu."
+                    },
+                    "metadata": {
+                        "description": "$~Informationen für Studierende",
+                        "placeholder": "$~z.B. Matrikelnummer, Nachname, Vorname",
+                        "prompt": "$~Möchten Sie neue Konten für Studenten erstellen? Geben Sie *alle Informationen* über Studenten ein, eine pro Zeile, getrennt durch Kommas. Dies können Familiennamen, Vornamen, Matrikelnummern oder andere Unterscheidungsmerkmale sein. Wir werden diese Informationen verwenden, um Benutzernamen zu generieren, die Sie unten bearbeiten können, um Benutzernamen den Lernenden zuzuordnen."
+                    },
+                    "words": {
+                        "description": "$~Wörter zur Verwendung in Passwörtern",
+                        "placeholder": "$~z. B. Katze, Punkt, Ratte ...",
+                        "prompt": "$~Geben Sie mindestens *25 Wörter* an und generieren Sie zufällig 2-3 Wörter umfassende, einprägsame Passwörter. Wählen Sie Wörter aus, die Ihre Schüler kennen, oder bitten Sie sie, Wörter zu sammeln. Je zufälliger, desto sicherer!"
+                    },
+                    "generate": {
+                        "label": "$~erzeugen",
+                        "tip": "$~Erstellen Sie Benutzernamen und Passwörter basierend auf den oben genannten Informationen."
+                    },
+                    "edit": {
+                        "label": "$~bearbeiten",
+                        "tip": "$~Bearbeiten Sie die generierten Studenteninformationen"
+                    },
+                    "submit": {
+                        "label": "$~Klasse erstellen",
+                        "tip": "$~Erstellen Sie mit diesen Informationen eine neue Klasse."
+                    }
+                },
+                "error": {
+                    "duplicates": "$~In den Studierendendaten liegen doppelte Einträge vor.",
+                    "columns": "$~Stellen Sie sicher, dass jeder Schüler die gleiche Anzahl Spalten hat.",
+                    "generate": "$~Es können keine eindeutigen Benutzernamen erstellt werden.",
+                    "taken": "$~Einer oder mehrere der oben genannten Benutzernamen sind bereits vergeben",
+                    "limit": "$~Sie können keine Klasse mit mehr als 35 Schülern gleichzeitig erstellen.",
+                    "words": "$~Geben Sie mindestens 25 Wörter an.",
+                    "account": "$~Einige der Konten können nicht erstellt werden.",
+                    "generic": "$~Wir konnten die Klasse nicht erstellen. Hier sind einige Informationen, die Entwicklern helfen, herauszufinden, was schiefgelaufen ist."
+                }
+            },
+            "class": {
+                "header": "$~Klasse",
+                "subheader": {
+                    "teachers": "$~Lehrer",
+                    "students": "$~Studenten",
+                    "galleries": "$~Galerien"
+                },
+                "prompt": {
+                    "gallery": "$~Erstellen Sie für Ihre Klasse eine Galerie, um eine Aufgabe oder ein Projekt zu organisieren. Alle am Projekt beteiligten Lehrer sind Kuratoren der Galerie und alle Schüler sind Galerie-Ersteller.",
+                    "delete": "$~Durch das Löschen dieses Kurses werden die Informationen zum Kurs, aber seine Projekte, Galerien oder Schülerkonten dauerhaft gelöscht."
+                },
+                "field": {
+                    "name": {
+                        "description": "$~Name der Klasse",
+                        "placeholder": "$~Name"
+                    },
+                    "description": {
+                        "description": "$~Beschreibung der Klasse",
+                        "placeholder": "$~Beschreibung"
+                    },
+                    "newteacher": {
+                        "placeholder": "$~E-Mail oder Benutzername",
+                        "description": "$~E-Mail oder Benutzername des Erstellers, dem Sie als Lehrer Zugriff auf diese Klasse gewähren möchten"
+                    },
+                    "addteacher": "$~Dieser Klasse einen Lehrer hinzufügen",
+                    "delete": {
+                        "tip": "$~Diese Klasse dauerhaft löschen.",
+                        "label": "$~Diese Klasse löschen"
+                    }
+                },
+                "error": {
+                    "notfound": "$~Wir konnten diesen Kurs nicht finden oder Sie haben keine Berechtigung, ihn anzuzeigen."
+                }
             }
         },
         "edit": {
@@ -4766,6 +4932,60 @@
         "template": {
             "unwritten": "$~Wird noch bekannt gegeben",
             "unparsable": "$~Nicht analysierbare Vorlage: $1"
+        },
+        "collaborate": {
+            "label": "$~zusammenarbeiten",
+            "role": {
+                "owner": "$~Eigentümer",
+                "collaborators": "$~Mitarbeiter",
+                "curators": "$~Kuratoren"
+            },
+            "field": {
+                "message": {
+                    "description": "$~Die zu übermittelnde Chat-Nachricht",
+                    "placeholder": "$~Geben Sie eine Nachricht ein"
+                }
+            },
+            "button": {
+                "submit": {
+                    "label": "$~Schicken",
+                    "tip": "$~Senden Sie eine Nachricht an Ihre Mitarbeiter"
+                },
+                "start": {
+                    "label": "$~Einen Chat starten",
+                    "tip": "$~Beginnen Sie eine Diskussion mit sich selbst oder anderen."
+                },
+                "delete": "$~diese Nachricht löschen"
+            },
+            "error": {
+                "unowned": "$~Dieses Projekt hat keinen Eigentümer, daher ist kein Chat möglich.",
+                "offline": "$~Dieser Chat konnte nicht geladen werden.",
+                "empty": "$~Keine Nachrichten.",
+                "deleted": "$~Diese Nachricht wurde gelöscht."
+            },
+            "prompt": {
+                "solo": "$~Chatten Sie mit sich selbst oder fügen Sie einen Mitarbeiter hinzu, der bearbeiten und chatten kann.",
+                "owner": "$~Mitarbeiter können dieses Projekt bearbeiten und darüber chatten.",
+                "collaborator": "$~Sie sind ein Mitarbeiter. Sie können dieses Projekt bearbeiten und darüber chatten.",
+                "curator": "$~Sie sind Kurator der Galerie dieses Projekts. Sie können dieses Projekt bearbeiten und darüber chatten."
+            }
+        },
+        "checkpoints": {
+            "label": {
+                "now": "$~Jetzt",
+                "history": "$~wiederherstellen",
+                "restore": "$~Dies ist eine frühere Version dieses Projekts.",
+                "ago": "$~$1 $2 vor"
+            },
+            "button": {
+                "clear": "$~Verlauf löschen",
+                "select": "$~diese Version anzeigen",
+                "checkpoint": "$~Diese Version des Projekts speichern",
+                "back": "$~zurück zur vorherigen Version",
+                "forward": "$~Zurück zur nächsten Version",
+                "restore": "$~diese Version wiederherstellen",
+                "now": "$~Zurück zur aktuellen Version"
+            }
         }
     },
     "moderation": {

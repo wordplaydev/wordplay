@@ -1,3 +1,14 @@
+<script module lang="ts">
+    export type GalleriesPageText = {
+        /** How to describe galleries of projects */
+        header: string;
+        /** Explanation for the galleries page */
+        prompt: string;
+        /** The subheader for the examples */
+        examples: string;
+    };
+</script>
+
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';
@@ -16,18 +27,16 @@
         startAfter,
     } from 'firebase/firestore';
     import { firestore } from '../../db/firebase';
-    import type { SerializedGallery } from '../../models/Gallery';
-    import Gallery, { upgradeGallery } from '../../models/Gallery';
+    import type { SerializedGallery } from '../../db/galleries/Gallery';
+    import Gallery, { upgradeGallery } from '../../db/galleries/Gallery';
     import GalleryPreview from '../../components/app/GalleryPreview.svelte';
     import Spinning from '../../components/app/Spinning.svelte';
     import Button from '../../components/widgets/Button.svelte';
-    import { GalleriesCollection } from '../../db/GalleryDatabase';
+    import { GalleriesCollection } from '../../db/galleries/GalleryDatabase.svelte';
 
     let lastBatch = $state<QueryDocumentSnapshot<DocumentData> | undefined>(
         undefined,
     );
-
-    const examples = Galleries.exampleGalleries;
 
     /** Start the list of galleries with the example galleries. */
     let loadedGalleries: Gallery[] = $state([]);
@@ -71,7 +80,10 @@
         ];
     }
 
-    let galleries = $derived([...$examples, ...loadedGalleries]);
+    let galleries = $derived([
+        ...Galleries.getExampleGalleries(),
+        ...loadedGalleries,
+    ]);
 </script>
 
 <svelte:head>

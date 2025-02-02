@@ -1,4 +1,4 @@
-import type Project from '../models/Project';
+import type Project from '../db/projects/Project';
 import NumberType from '@nodes/NumberType';
 import Unit from '@nodes/Unit';
 import Dimension from '../nodes/Dimension';
@@ -15,13 +15,13 @@ export function getPossibleUnits(context: Context) {
                 ...units,
                 ...source.expression.getUnitsUsed(),
             ],
-            []
+            [],
         );
 
     const unitsInShares = context
         .getBasis()
         .shares.all.map((def) =>
-            def.nodes().filter((d): d is Unit => d instanceof Unit)
+            def.nodes().filter((d): d is Unit => d instanceof Unit),
         )
         .flat();
 
@@ -32,8 +32,8 @@ export function getPossibleUnits(context: Context) {
                 (unit2, i2) =>
                     unit !== unit2 &&
                     i2 > i1 &&
-                    unit.toWordplay() === unit2.toWordplay()
-            ) === undefined
+                    unit.toWordplay() === unit2.toWordplay(),
+            ) === undefined,
     );
 }
 
@@ -47,7 +47,7 @@ function getUnitsInConversions(project: Project) {
             conversion.output instanceof NumberType &&
             conversion.output.unit instanceof Unit
                 ? conversion.output.unit
-                : undefined
+                : undefined,
         )
         .filter((unit): unit is Unit => unit !== undefined) as Unit[];
 
@@ -58,8 +58,8 @@ function getUnitsInConversions(project: Project) {
                 (unit2, i2) =>
                     unit !== unit2 &&
                     i2 > i1 &&
-                    unit.toWordplay() === unit2.toWordplay()
-            ) === undefined
+                    unit.toWordplay() === unit2.toWordplay(),
+            ) === undefined,
     );
 }
 
@@ -75,7 +75,7 @@ export function getPossibleDimensions(context: Context) {
                 .map((dim) => dim.getName())
                 .filter((dim): dim is string => dim !== undefined),
         ],
-        []
+        [],
     );
 
     // Get all dimensions referred to in programs.
@@ -87,7 +87,7 @@ export function getPossibleDimensions(context: Context) {
                 .map((dim) => dim.getName())
                 .filter((dim): dim is string => dim !== undefined),
         ],
-        []
+        [],
     );
 
     // Get all dimensions in default shares
@@ -100,7 +100,7 @@ export function getPossibleDimensions(context: Context) {
                 .map((d) => d.getName())
                 .filter((d): d is string => d !== undefined),
         ],
-        []
+        [],
     );
 
     // Return unique dimensions
@@ -109,6 +109,6 @@ export function getPossibleDimensions(context: Context) {
             ...dimensionsInConversions,
             ...dimensionsInPrograms,
             ...dimensionsInShares,
-        ])
+        ]),
     );
 }

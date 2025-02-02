@@ -1,5 +1,5 @@
 <script lang="ts">
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import { Projects, locales } from '../../db/Database';
     import Slider from '@components/widgets/Slider.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';

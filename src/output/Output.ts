@@ -10,7 +10,7 @@ import TextLang from './TextLang';
 import type Pose from './Pose';
 import type { DefinitePose } from './Pose';
 import type RenderContext from './RenderContext';
-import Fonts, { type SupportedFace } from '../basis/Fonts';
+import { type SupportedFace } from '../basis/Fonts';
 import type Locales from '../locale/Locales';
 
 export function createOutputType(locales: Locales) {

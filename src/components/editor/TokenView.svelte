@@ -57,7 +57,7 @@
     );
 
     let isInCaret = $derived(
-        $caret &&
+        $caret !== undefined &&
             node.getTextLength() > 0 &&
             ($caret.getTokenExcludingSpace() === node ||
                 ($caret.tokenPrior === node &&
@@ -81,8 +81,9 @@
     // If requesed, localize the token's text.
     // Don't localize the name if the caret is in the name.
     let text = $derived(
-        !isInCaret && context && root && localize && $localize !== 'actual'
+        context && root && localize && $localize === null
             ? node.localized(
+                  isInCaret,
                   $localize === 'symbolic',
                   $locales.getLocales(),
                   root,
@@ -269,6 +270,14 @@
     .token-category-literal,
     :global(.Example) .token-category-literal {
         color: var(--color-blue);
+    }
+
+    .token-category-docs:first-child {
+        margin-inline-end: var(--wordplay-spacing);
+    }
+
+    .token-category-docs:last-child {
+        margin-inline-start: var(--wordplay-spacing);
     }
 
     .token-view.newline {

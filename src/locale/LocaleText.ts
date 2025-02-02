@@ -19,26 +19,16 @@ import FunctionDefinition from '../nodes/FunctionDefinition';
 import parseDoc from '../parser/parseDoc';
 import { toTokens } from '../parser/toTokens';
 import { DOCS_SYMBOL } from '../parser/Symbols';
-import type { FlagDescriptions } from '../models/Moderation';
+import type { FlagDescriptions } from '../db/projects/Moderation';
 import type { ButtonText, DialogText } from './UITexts';
 import type Locales from './Locales';
 import type { GalleryTexts } from './GalleryTexts';
-
-/** A list of locales that are in progress but not supported yet. Only added when developing locally. */
-export const EventuallySupportedLocales = ['zh-TW', 'ko-KR', 'fr-FR', 'ja-JP', 'de-DE'];
-
-/** A list of locales officially supported by Wordplay. */
-export const SupportedLocales = Array.from(
-    new Set([
-        'en-US',
-        'es-MX',
-        'zh-CN',
-        ...(import.meta.hot ? EventuallySupportedLocales : []),
-    ]),
-);
-
-/** One of the supported locales above */
-export type SupportedLocale = (typeof SupportedLocales)[number];
+import {
+    DraftLocales,
+    type SupportedLocale,
+    SupportedLocales,
+} from './SupportedLocales';
+import type Locale from './Locale';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';
@@ -108,7 +98,7 @@ export type NameAndDoc = {
     doc: DocText;
 };
 
-export type FunctionText<Inputs extends NameAndDoc[]> = NameAndDoc & {
+export type FunctionText<Inputs extends readonly NameAndDoc[]> = NameAndDoc & {
     /** Bind definitions for the inputs this function takes */
     inputs: Inputs;
 };
@@ -161,19 +151,30 @@ export function getLocaleLanguage(locale: string): LanguageCode | undefined {
     return code in Languages ? (code as LanguageCode) : undefined;
 }
 
-export function getLocaleLanguageName(locale: string): string | undefined {
-    const language = getLocaleLanguage(locale);
-    return language ? Languages[language].name : undefined;
+export function getLocaleLanguageName(
+    locale: string | Locale,
+): string | undefined {
+    if (typeof locale === 'string') {
+        const language = getLocaleLanguage(locale);
+        return language ? Languages[language]?.name : undefined;
+    } else {
+        return Languages[locale.language]?.name;
+    }
 }
 
-export function getLocaleRegion(locale: string): string | undefined {
+export function getLocaleRegion(locale: string): RegionCode | undefined {
     const [, region] = locale.split('-');
-    return region;
+    if (region !== undefined && region in Regions) return region as RegionCode;
+    else return undefined;
 }
 
 export function getLocaleRegionName(locale: string): string | undefined {
     const region = getLocaleRegion(locale);
     return region ? Regions[region as RegionCode].en : undefined;
+}
+
+export function isLocaleDraft(locale: string): boolean {
+    return DraftLocales.includes(locale);
 }
 
 /** Find the best supported locales from the requested raw language codes */
@@ -219,7 +220,7 @@ export function createBind(
 
 export function createInputs(
     locales: Locales,
-    fun: (locale: LocaleText) => NameAndDoc[],
+    fun: (locale: LocaleText) => readonly NameAndDoc[],
     types: (Type | [Type, Expression])[],
 ) {
     return types.map((type, index) =>

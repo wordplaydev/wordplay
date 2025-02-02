@@ -90,7 +90,7 @@
                     node={nextBind.withoutValue()}
                     inline
                     elide
-                    localized="symbolic"
+                    locale="symbolic"
                     inert
                     blocks={false}
                 />{#if menuPosition}
@@ -108,7 +108,7 @@
                 node={nextBind.withoutValue()}
                 inline
                 elide
-                localized="symbolic"
+                locale="symbolic"
                 inert
                 blocks={$blocks}
             />{#if menuPosition}

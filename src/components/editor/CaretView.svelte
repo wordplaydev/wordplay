@@ -19,6 +19,7 @@
         direction: -1 | 1,
         editor: HTMLElement,
         caret: Caret,
+        getTokenViews: () => HTMLElement[],
     ): Caret | undefined {
         // Find the token view that the caret is in.
         const currentToken =
@@ -32,7 +33,7 @@
         const verticalThreshold = bounds.height;
 
         // Find all the token views
-        const nearest = Array.from(editor.querySelectorAll('.token-view'))
+        const nearest = Array.from(getTokenViews())
             .map((el) => {
                 const elBounds = el.getBoundingClientRect();
                 return {
@@ -83,6 +84,20 @@
     ): HTMLElement | null {
         return editor.querySelector(`.node-view[data-id="${token.id}"]`);
     }
+
+    /** Given a text node, determine the dimensions of a substring of it. */
+    function measureSubstringWidth(
+        node: ChildNode,
+        start: number,
+        end: number,
+    ) {
+        const range = document.createRange();
+        range.setStart(node, start);
+        range.setEnd(node, end);
+
+        const rect = range.getBoundingClientRect();
+        return [rect.width, rect.height];
+    }
 </script>
 
 <script lang="ts">
@@ -96,7 +111,7 @@
     import Caret from '../../edit/Caret';
     import { getEditor, getEvaluation } from '../project/Contexts';
     import Token from '@nodes/Token';
-    import UnicodeString from '@models/UnicodeString';
+    import UnicodeString from '../../unicode/UnicodeString';
     import { EXPLICIT_TAB_TEXT, TAB_TEXT } from '@parser/Spaces';
     import MenuTrigger from './MenuTrigger.svelte';
 
@@ -111,6 +126,13 @@
         blocks: boolean;
         /** The current location of the caret */
         location: CaretBounds | undefined;
+        /** A function for getting the editor's token views */
+        getTokenViews: () => HTMLElement[];
+        /** The editor view */
+        viewport: HTMLElement | null;
+        /** Width and height of the viewport */
+        viewportWidth: number;
+        viewportHeight: number;
     }
 
     let {
@@ -119,6 +141,9 @@
         ignored,
         blocks,
         location = $bindable(undefined),
+        getTokenViews,
+        viewport,
+        viewportWidth,
     }: Props = $props();
 
     /** The calculated padding of the editor. Determined from the DOM. */
@@ -133,8 +158,8 @@
     /** Derive the direction of text for the current locale */
     let leftToRight = $derived($locales.getDirection() === 'ltr');
 
-    // The index we should render is derived from the caret and locales.
-    let caretIndex: number | undefined = $derived.by(() => {
+    // The grapheme offset from the start of the current token, if there is one.
+    let tokenOffset: number | undefined = $derived.by(() => {
         {
             // Position depends on writing direction and layout and blocks mode
             if (
@@ -184,8 +209,8 @@
     // Get the editor context from the parent
     const editor = getEditor();
 
-    let timeout = $state<NodeJS.Timeout | undefined>(undefined);
-    // Whenever the caret changes, wait for rendering, then compute it's location.
+    // Whenever the caret changes, wait for rendering, then update it's location.
+    let animationDelayTimeout: NodeJS.Timeout | undefined = undefined;
     $effect(() => {
         caret;
         // Not playing? Depend on evaluation $evaluation. Otherwise, only update when caret changes.
@@ -196,22 +221,28 @@
         tick().then(() => {
             location = computeLocation();
             // Because some elements fade out when caret changes, affecting layout, we also need to recompute
-            // the caret position after the default animation duration.
-            untrack(() => {
-                if (timeout) clearTimeout(timeout);
-                timeout = setTimeout(() => {
-                    location = computeLocation();
-                }, $animationDuration + 25);
-            });
+            // the caret position after the default animation duration to ensure it's positioned correctly.
+            if (animationDelayTimeout) clearTimeout(animationDelayTimeout);
+            animationDelayTimeout = setTimeout(() => {
+                location = computeLocation();
+            }, $animationDuration);
         });
     });
 
     // When caret location or view changes and not playing, tick, then scroll to it.
+    let lastScroll = 0;
     $effect(() => {
-        if (location && element && $evaluation.playing)
-            tick().then(() => {
-                if (element) element.scrollIntoView({ block: 'nearest' });
-            });
+        // If the location is set and we're not playing, then scroll to it after updates are complete.
+        if (location) {
+            // If it's been more than 200ms since the last scroll, then scroll to the caret after the next update.
+            // This prevents them from pooling up and causing the editor to hang.
+            if (performance.now() - lastScroll > 200 && element) {
+                tick().then(() => {
+                    if (element) element.scrollIntoView({ block: 'nearest' });
+                    lastScroll = performance.now();
+                });
+            }
+        }
     });
 
     function getNodeView(node: Node) {
@@ -242,13 +273,12 @@
     }
 
     function computeCaretAndLineHeight(
-        editor: HTMLElement,
         currentToken: Token,
         currentTokenRect: DOMRect,
         horizontal: boolean,
     ): [number, number] {
         // To compute line height, find two tokens on adjacent lines and difference their tops.
-        const tokenViews = editor.querySelectorAll(`.Token`);
+        const tokenViews = getTokenViews();
         let firstTokenView: Element | undefined = undefined;
         let firstTokenViewAfterLineBreak: Element | undefined = undefined;
         let lineBreakCount: number | undefined = undefined;
@@ -399,27 +429,21 @@
         // No caret view? No caret.
         if (element === null || element === undefined) return;
 
-        // Find views, and if any are missing, bail.
-        const editorView = element.parentElement;
-        if (editorView === null) return;
-
-        const viewport = editorView;
+        // Don't have a viewport? Can't compute.
         if (viewport === null) return;
 
         // Get the padding
         if (editorPadding === undefined) {
-            const editorStyle = window.getComputedStyle(editorView);
+            const editorStyle = window.getComputedStyle(viewport);
             editorPadding = parseInt(
                 editorStyle.getPropertyValue('padding-left').replace('px', ''),
             );
         }
 
-        const viewportRect = viewport.getBoundingClientRect();
-        const viewportWidth = viewportRect.width;
-
         // Compute the top left of the editor's viewport.
-        const viewportXOffset = -viewportRect.left + viewport.scrollLeft;
-        const viewportYOffset = -viewportRect.top + viewport.scrollTop;
+        const viewportRect = viewport.getBoundingClientRect();
+        const viewportXOffset = -viewportRect.left;
+        const viewportYOffset = -viewportRect.top;
 
         // If the caret is a node, find the bottom left token view.
         if (caret.position instanceof Node) {
@@ -477,7 +501,7 @@
         if (token === undefined) return;
 
         // No index to render? No caret.
-        if (caretIndex === undefined) return;
+        if (tokenOffset === undefined) return;
 
         const tokenView = getNodeView(token);
         if (tokenView === null) return;
@@ -492,36 +516,33 @@
         let tokenTop = tokenViewRect.top + viewportYOffset;
 
         const [caretHeight, lineHeight] = computeCaretAndLineHeight(
-            editorView,
             token,
             tokenViewRect,
             horizontal,
         );
 
-        // Is the caret in the text, and not the space?
-        if (caretIndex > 0) {
-            // Trim the text to the position
-            const trimmedText = token.text.substring(0, caretIndex).toString();
-            // Get the text node of the token view
+        // Is the caret in the text, and not the space? We need to measure it's location in the text.
+        if (tokenOffset > 0) {
+            // Find the first text node of the token view.
             const textNode = Array.from(tokenView.childNodes).find(
                 (node) => node.nodeType === node.TEXT_NODE,
             );
             let widthAtCaret = 0;
             let heightAtCaret = 0;
+            // Use a range to measure its dimensions.
             if (textNode) {
-                // Create a trimmed node, but replace spaces in the trimmed text with visible characters so that they are included in measurement.
-                const tempNode = document.createTextNode(
-                    trimmedText.replaceAll(' ', '·'),
+                // The text can contain emojis. We must segment it by graphemes to determine the
+                // codepoint offset from which to measure the width.
+                const codepointOffset = new UnicodeString(
+                    textNode.textContent ?? '',
+                )
+                    .substring(0, tokenOffset)
+                    .toString().length;
+                [widthAtCaret, heightAtCaret] = measureSubstringWidth(
+                    textNode,
+                    0,
+                    codepointOffset,
                 );
-                // Temporarily replace the node
-                textNode.replaceWith(tempNode);
-                // Get the trimmed text element's dimensions
-                const trimmedBounds = tokenView.getBoundingClientRect();
-                widthAtCaret = trimmedBounds.width;
-                heightAtCaret = trimmedBounds.height;
-
-                // Restore the text node
-                tempNode.replaceWith(textNode);
             }
 
             return {
@@ -547,12 +568,12 @@
                 caret.source.spaces.getSpace(token),
             );
 
-            const spaceIndex = explicitSpace.getLength() + caretIndex;
+            const spaceIndex = explicitSpace.getLength() + tokenOffset;
             const spaceBefore = explicitSpace.substring(0, spaceIndex);
             const spaceAfter = explicitSpace.substring(spaceIndex);
 
             const { beforeSpaceWidth, beforeSpaceHeight } =
-                computeSpaceDimensions(editorView, token, spaceIndex);
+                computeSpaceDimensions(viewport, token, spaceIndex);
 
             // Find the line number inline end.
             const lineWidth =

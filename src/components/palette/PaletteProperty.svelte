@@ -7,7 +7,7 @@
     import BindOptions from './BindOptions.svelte';
     import BindSlider from './BindSlider.svelte';
     import BindText from './BindText.svelte';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import OutputPropertyOptions from '@edit/OutputPropertyOptions';
     import OutputPropertyText from '@edit/OutputPropertyText';
     import type OutputProperty from '@edit/OutputProperty';
@@ -23,7 +23,11 @@
     import { getConceptIndex } from '../project/Contexts';
     import { DB, locales } from '../../db/Database';
     import { tick } from 'svelte';
-    import { DOCUMENTATION_SYMBOL, EDIT_SYMBOL } from '../../parser/Symbols';
+    import {
+        CANCEL_SYMBOL,
+        DOCUMENTATION_SYMBOL,
+        EDIT_SYMBOL,
+    } from '../../parser/Symbols';
     import MotionEditor from './MotionEditor.svelte';
     import PlacementEditor from './PlacementEditor.svelte';
     import NamedControl from './NamedControl.svelte';
@@ -77,7 +81,7 @@
                     : $locales.get((l) => l.ui.palette.button.set)}
                 bind:view={toggleView}
                 action={() => toggleValues(!valuesAreSet)}
-                >{valuesAreSet ? '⨉' : EDIT_SYMBOL}</Button
+                >{valuesAreSet ? CANCEL_SYMBOL : EDIT_SYMBOL}</Button
             >{/if}
     {/snippet}
     {#snippet control()}

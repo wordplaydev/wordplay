@@ -176,8 +176,6 @@ export default class Match extends Expression {
     }
 
     compile(evaluator: Evaluator, context: Context): Step[] {
-        const value = this.value.compile(evaluator, context);
-
         // We precompile the results so we know how far to jump ater each.
         const conditions = this.cases.map((condition) =>
             condition.key.compile(evaluator, context),
@@ -225,9 +223,6 @@ export default class Match extends Expression {
             // Finish the expression (see evaluate() below)
             new Finish(this),
         ];
-
-        // TODO Finish implementing evaluation.
-        return value;
     }
 
     evaluate(evaluator: Evaluator, prior: Value | undefined): Value {

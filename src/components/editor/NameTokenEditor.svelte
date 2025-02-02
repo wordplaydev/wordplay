@@ -1,7 +1,7 @@
 <script lang="ts">
     import Sym from '@nodes/Sym';
     import { toTokens } from '@parser/toTokens';
-    import type Project from '@models/Project';
+    import type Project from '@db/projects/Project';
     import NameToken from '@nodes/NameToken';
     import type Token from '@nodes/Token';
     import TokenTextEditor from './TokenEditor.svelte';
@@ -15,12 +15,7 @@
         placeholder: string;
     }
 
-    let {
-        name,
-        project,
-        text,
-        placeholder
-    }: Props = $props();
+    let { name, project, text, placeholder }: Props = $props();
 
     const caret = getCaret();
 </script>
