@@ -20,6 +20,10 @@
     } from '@components/project/Contexts';
     import type Concept from '@concepts/Concept';
     import ConceptIndex from '@concepts/ConceptIndex';
+    import {
+        getConceptFromURL,
+        setConceptInURL,
+    } from '@concepts/ConceptParams';
     import { locales } from '@db/Database';
     import Project from '@db/projects/Project';
     import Source from '@nodes/Source';
@@ -35,17 +39,9 @@
         );
     }
 
-    function getConceptFromURL() {
-        return $page.url.searchParams.get('concept');
-    }
-
-    function getConcept(concept: string | null) {
-        return concept ? index.getConceptByName(concept) : undefined;
-    }
-
     // Initialize locale and concept with URL.
     let locale: string | null = $state(null);
-    let concept: string | null = $state(null);
+    let concept: Concept | undefined = $state(undefined);
 
     // Create a concept path for children, initialized
     let path = writable<Concept[]>([]);
@@ -54,9 +50,9 @@
     let mounted = $state(false);
     onMount(() => {
         locale = getLocaleInURL();
-        concept = getConceptFromURL();
+        concept = getConceptFromURL(index, $page.url.searchParams);
 
-        path.set([getConcept(concept)].filter((c) => c !== undefined));
+        path.set(concept ? [concept] : []);
         mounted = true;
     });
 
@@ -65,19 +61,18 @@
     afterNavigate(() => {
         // Set the current locale.
         locale = getLocaleInURL();
-        concept = getConceptFromURL();
-        const currentConcept = getConcept(concept);
+        concept = getConceptFromURL(index, $page.url.searchParams);
         // Only update the path if the concept exists and is not already in the path.
         if (
-            currentConcept &&
+            concept !== undefined &&
             ($path.length === 0 ||
-                currentConcept.getName($locales, false) !==
+                concept.getName($locales, false) !==
                     $path[0].getName($locales, false))
         ) {
-            path.set([currentConcept]);
+            path.set([concept]);
         }
         // Only update if the path isn't already empty.
-        else if (currentConcept === undefined) {
+        else if (concept === null) {
             path.set([]);
         }
     });
@@ -95,18 +90,20 @@
         indexStore.index = index;
     });
 
+    $effect(() => {
+        concept = $path.at(-1);
+    });
+
     // When the concept path changes, navigate to the corresponding URL.
     $effect(() => {
         if (browser && $path && mounted) {
-            const current = $path.at(-1);
-            if (current) {
-                concept = current.getName($locales, false);
-            } else concept = null;
             const newParams = new URLSearchParams();
+
             if (locale) newParams.set('locale', locale);
             else newParams.delete('locale');
-            if (concept) newParams.set('concept', concept);
-            else newParams.delete('concept');
+
+            setConceptInURL($locales, concept ?? undefined, index, newParams);
+
             if (window.location.search !== `?${newParams.toString()}`) {
                 // If the path was empty, just replace the state, so we can go back.
                 goto(`/guide?${newParams.toString()}`, {

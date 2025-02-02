@@ -186,7 +186,6 @@
     import Separator from './Separator.svelte';
     import Emoji from '../app/Emoji.svelte';
     import {
-        PROJECT_PARAM_CONCEPT,
         PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
     } from '../../routes/project/constants';
@@ -209,6 +208,10 @@
     import Link from '@components/app/Link.svelte';
     import EditorLocaleChooser from './EditorLocaleChooser.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
+    import {
+        getConceptFromURL,
+        setConceptInURL,
+    } from '@concepts/ConceptParams';
 
     interface Props {
         project: Project;
@@ -662,18 +665,13 @@
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
-        if ($path && $path.length > 0) {
-            const concept = $path[$path.length - 1];
-            const name = concept.getName($locales, false);
-            const ownerName = index
-                ?.getConceptOwner(concept)
-                ?.getName($locales, false);
-
-            searchParams.set(
-                PROJECT_PARAM_CONCEPT,
-                `${ownerName ? `${ownerName}/` : ''}${name}`,
+        if (index)
+            setConceptInURL(
+                $locales,
+                $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
+                index,
+                searchParams,
             );
-        } else searchParams.delete(PROJECT_PARAM_CONCEPT);
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
@@ -738,25 +736,12 @@
     let path = getConceptPath();
 
     // Restore the concept in the URL after mounting.
-    onMount(() => restoreConcept());
-
-    function resolveConcept(conceptPath: string): Concept | undefined {
-        if (conceptPath && index) {
-            const [ownerName, name] = conceptPath.split('/');
-            const concept =
-                ownerName && name
-                    ? index.getSubConcept(ownerName, name)
-                    : index.getConceptByName(ownerName);
-            return concept;
+    onMount(() => {
+        if (index) {
+            const concept = getConceptFromURL(index, page.url.searchParams);
+            if (concept && path) path.set([concept]);
         }
-        return undefined;
-    }
-
-    function restoreConcept() {
-        const id = page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
-        const concept = id ? resolveConcept(id) : undefined;
-        if (concept && path) path.set([concept]);
-    }
+    });
 
     let latestProject: Project | undefined;
 
