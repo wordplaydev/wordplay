@@ -63,7 +63,10 @@
         EDIT_SYMBOL,
     } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
-    import { getClasses, type Class } from '@db/TeacherDatabase.svelte';
+    import {
+        getClasses,
+        type Class,
+    } from '@db/teachers/TeacherDatabase.svelte';
     import Link from '@components/app/Link.svelte';
 
     const user = getUser();

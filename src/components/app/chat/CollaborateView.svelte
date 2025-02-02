@@ -7,8 +7,8 @@
     import Button from '@components/widgets/Button.svelte';
     import Note from '@components/widgets/Note.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { type SerializedMessage } from '@db/ChatDatabase.svelte';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import { type SerializedMessage } from '@db/chats/ChatDatabase.svelte';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
     import type { Creator } from '@db/creators/CreatorDatabase';
     import {
         Chats,

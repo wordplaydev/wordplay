@@ -204,7 +204,7 @@
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
     import Link from '@components/app/Link.svelte';
     import EditorLocaleChooser from './EditorLocaleChooser.svelte';

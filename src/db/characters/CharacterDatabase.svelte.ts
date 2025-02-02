@@ -2,8 +2,8 @@
 // CACHE
 ////////////////////////////////
 
-import { CharacterSchema, type Character } from '../characters/character';
-import { SaveStatus, type Database } from './Database';
+import { CharacterSchema, type Character } from './Character';
+import { SaveStatus, type Database } from '../Database';
 import {
     and,
     collection,
@@ -18,7 +18,7 @@ import {
     type Firestore,
     type Unsubscribe,
 } from 'firebase/firestore';
-import { firestore } from './firebase';
+import { firestore } from '../firebase';
 import type { User } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { v4 as uuidv4 } from 'uuid';

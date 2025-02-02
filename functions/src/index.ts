@@ -1,5 +1,6 @@
 import { onRequest, onCall } from 'firebase-functions/v2/https';
 import { onSchedule } from 'firebase-functions/v2/scheduler';
+import { onDocumentWritten } from 'firebase-functions/v2/firestore';
 import admin from 'firebase-admin';
 import { initializeApp } from 'firebase-admin/app';
 import * as https from 'https';

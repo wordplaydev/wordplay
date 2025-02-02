@@ -37,7 +37,7 @@
         ClassesCollection,
         ClassSchema,
         type Class,
-    } from '@db/TeacherDatabase.svelte';
+    } from '@db/teachers/TeacherDatabase.svelte';
     import { FirebaseError } from 'firebase/app';
     import type { Unsubscribe } from 'firebase/auth';
     import { collection, onSnapshot, query, where } from 'firebase/firestore';

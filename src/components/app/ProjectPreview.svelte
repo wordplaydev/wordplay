@@ -14,7 +14,7 @@
     import { getFaceCSS } from '@output/outputToCSS';
     import UnicodeString from '../../unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
     import CreatorView from './CreatorView.svelte';
 
     interface Props {

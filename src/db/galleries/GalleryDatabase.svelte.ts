@@ -27,7 +27,7 @@ import {
     ClassSchema,
     getClass,
     setClass,
-} from '../TeacherDatabase.svelte';
+} from '../teachers/TeacherDatabase.svelte';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';

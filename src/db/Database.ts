@@ -13,13 +13,13 @@ import type LocaleText from '../locale/LocaleText';
 import { getBestSupportedLocales, type Template } from '../locale/LocaleText';
 import { type SupportedLocale } from '@locale/SupportedLocales';
 import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
-import LocalesDatabase from './LocalesDatabase';
+import LocalesDatabase from './locales/LocalesDatabase';
 import SettingsDatabase from './settings/SettingsDatabase';
 import GalleryDatabase from './galleries/GalleryDatabase.svelte';
-import { ChatDatabase } from './ChatDatabase.svelte';
+import { ChatDatabase } from './chats/ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
 import DefaultLocale from '../locale/DefaultLocale';
-import { CharactersDatabase } from './CharacterDatabase.svelte';
+import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
 
 export enum SaveStatus {
     Saved = 'saved',

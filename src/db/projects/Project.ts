@@ -24,7 +24,7 @@ import { localeToString } from '@locale/Locale';
 import type Locale from '@locale/Locale';
 import type LocaleText from '../../locale/LocaleText';
 import { toTokens } from '../../parser/toTokens';
-import type LocalesDatabase from '../LocalesDatabase';
+import type LocalesDatabase from '../locales/LocalesDatabase';
 import { unknownFlags, type Moderation } from './Moderation';
 import DefaultLocale from '../../locale/DefaultLocale';
 import Locales from '../../locale/Locales';

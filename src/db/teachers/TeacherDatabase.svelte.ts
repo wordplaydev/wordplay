@@ -12,9 +12,9 @@ import {
     setDoc,
     where,
 } from 'firebase/firestore';
-import { firestore as db } from './firebase';
+import { firestore as db } from '@db/firebase';
 import z from 'zod';
-import { Galleries } from './Database';
+import { Galleries } from '@db/Database';
 
 /** Represents a learner record that the teacher has created. */
 export const LearnerSchema = z.object({

@@ -31,7 +31,10 @@
     import Feedback from '@components/app/Feedback.svelte';
     import { goto } from '$app/navigation';
     import Spinning from '@components/app/Spinning.svelte';
-    import { characterToSVG, type Character } from '../../characters/character';
+    import {
+        characterToSVG,
+        type Character,
+    } from '../../db/characters/Character';
     import Link from '@components/app/Link.svelte';
 
     const user = getUser();

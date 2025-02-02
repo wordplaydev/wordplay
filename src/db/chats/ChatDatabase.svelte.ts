@@ -15,8 +15,8 @@ import {
 } from 'firebase/firestore';
 import { SvelteMap } from 'svelte/reactivity';
 import { z } from 'zod';
-import { Projects, type Database } from './Database';
-import { firestore } from './firebase';
+import { Projects, type Database } from '@db/Database';
+import { firestore } from '@db/firebase';
 import type Project from '@db/projects/Project';
 import { v4 as uuidv4 } from 'uuid';
 import type Gallery from '@db/galleries/Gallery';

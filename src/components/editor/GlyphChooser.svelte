@@ -13,7 +13,10 @@
     import CommandButton from '../widgets/CommandButton.svelte';
     import { isEmoji, withColorEmoji } from '../../unicode/emoji';
     import Toggle from '@components/widgets/Toggle.svelte';
-    import { type Character, characterToSVG } from '../../characters/character';
+    import {
+        type Character,
+        characterToSVG,
+    } from '../../db/characters/Character';
 
     interface Props {
         sourceID: string;

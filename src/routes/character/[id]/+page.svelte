@@ -152,7 +152,7 @@
         type CharacterPixel,
         type CharacterRectangle,
         type CharacterShape,
-    } from '../../../characters/character';
+    } from '../../../db/characters/Character';
     import Page from '@components/app/Page.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';

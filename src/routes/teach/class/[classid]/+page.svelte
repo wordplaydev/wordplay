@@ -62,7 +62,7 @@
         removeTeacher,
         setClass,
         type Class,
-    } from '@db/TeacherDatabase.svelte';
+    } from '@db/teachers/TeacherDatabase.svelte';
     import { getTeachData } from '../../+layout.svelte';
     import TextBox from '@components/widgets/TextBox.svelte';
     import { getUser } from '@components/project/Contexts';
