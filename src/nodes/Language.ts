@@ -7,13 +7,14 @@ import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
 import { Languages } from '@locale/LanguageCode';
 import UnknownLanguage from '@conflicts/UnknownLanguage';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Sym from './Sym';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locales from '../locale/Locales';
 import type { RegionCode } from '@locale/Regions';
 import type Locale from '@locale/Locale';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Language extends Node {
     readonly slash: Token;
@@ -55,7 +56,7 @@ export default class Language extends Node {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Language';
     }
 
@@ -164,7 +165,7 @@ export default class Language extends Node {
         ];
     }
 
-    getGlyphs() {
-        return Glyphs.Language;
+    getCharacter() {
+        return Characters.Language;
     }
 }

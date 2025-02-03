@@ -1,5 +1,5 @@
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import {
     LINK_SYMBOL,
     TAG_CLOSE_SYMBOL,
@@ -11,6 +11,7 @@ import Sym from './Sym';
 import Content from './Content';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class WebLink extends Content {
     readonly open: Token;
@@ -53,7 +54,7 @@ export default class WebLink extends Content {
         return [WebLink.make('...', 'https://')];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'WebLink';
     }
 
@@ -89,8 +90,8 @@ export default class WebLink extends Content {
         return locales.get((l) => l.node.WebLink);
     }
 
-    getGlyphs() {
-        return Glyphs.Link;
+    getCharacter() {
+        return Characters.Link;
     }
 
     getDescriptionInputs(): TemplateInput[] {

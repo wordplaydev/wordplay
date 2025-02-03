@@ -16,6 +16,7 @@ import type Definition from './Definition';
 import type Context from './Context';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -44,7 +45,7 @@ export default class Token extends Node {
 
     // NODE CONTRACT
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Token';
     }
 
@@ -250,7 +251,7 @@ export default class Token extends Node {
             .replaceAll('\t', '\\t')}`;
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.getText(),
             emotion: Emotion.cheerful,

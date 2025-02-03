@@ -35,7 +35,7 @@
 
     function valid(val: string) {
         const [num] = NumberValue.fromUnknown(val);
-        return !num.isNaN();
+        return num.isNaN() ? $locales.get((l) => l.ui.palette.error.nan) : true;
     }
 
     async function handleChange(dimension: Bind, value: string) {
@@ -96,6 +96,7 @@
         <div class="dimension">
             {#if value !== undefined || given == undefined}
                 <TextField
+                    id="place-editor-{index}"
                     text={`${value ?? 0}`}
                     validator={valid}
                     {editable}

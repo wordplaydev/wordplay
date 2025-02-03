@@ -19,13 +19,14 @@ import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import NodeRef from '@locale/NodeRef';
 import BooleanType from './BooleanType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Changed extends SimpleExpression {
     readonly change: Token;
@@ -44,7 +45,7 @@ export default class Changed extends SimpleExpression {
         return new Changed(new Token(CHANGE_SYMBOL, Sym.Change), stream);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Changed';
     }
 
@@ -166,7 +167,7 @@ export default class Changed extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Change;
+    getCharacter() {
+        return Characters.Change;
     }
 }

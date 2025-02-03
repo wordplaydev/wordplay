@@ -7,7 +7,7 @@
         text?: string;
         placeholder: string;
         description: string;
-        validator?: undefined | ((text: string) => boolean);
+        validator?: undefined | ((text: string) => string | true);
         changed?: undefined | ((text: string) => void);
         // Called if someone typed and paused for more than a second.
         dwelled?: undefined | ((text: string) => void);
@@ -24,7 +24,10 @@
         kind?: 'email' | 'password' | undefined;
         /** CSS length or nothing, setting the max-width of the field*/
         max?: string | undefined;
-        id?: string | undefined;
+        /** A unique ID for testing and ARIA purposes */
+        id: string;
+        /** Whether to put validation messages inline instead of floating */
+        inlineValidation?: boolean;
     }
 
     let {
@@ -42,14 +45,25 @@
         defaultFocus = false,
         editable = true,
         classes = undefined,
-        id = undefined,
+        id,
         kind = undefined,
         max = undefined,
+        inlineValidation = false,
     }: Props = $props();
 
     let width = $state(0);
+    let focused = $state(false);
 
     let timeout: NodeJS.Timeout | undefined = undefined;
+
+    /** The message to display if invalid */
+    let message = $derived.by(() => {
+        if (validator) {
+            const message = validator(text);
+            if (message === true) return undefined;
+            else return message;
+        } else return undefined;
+    });
 
     function handleInput() {
         if (changed) changed(text);
@@ -121,17 +135,20 @@
     });
 </script>
 
-<div class="field" class:fill>
+<div class="field" class:fill class:focused class:inline={inlineValidation}>
     <input
         type="text"
         class={classes?.join(' ')}
         class:border
         class:right
+        {id}
         data-id={id}
         data-defaultfocus={defaultFocus ? '' : null}
-        class:error={validator ? validator(text) === false : null}
+        class:error={message !== undefined}
         aria-label={description}
         aria-placeholder={placeholder}
+        aria-invalid={message !== undefined}
+        aria-describedby="{id}-error"
         placeholder={withMonoEmoji(placeholder)}
         style:width={fill ? null : `${width + 5}px`}
         style:max-width={max}
@@ -141,7 +158,11 @@
         oninput={handleInput}
         onkeydown={handleKeyDown}
         onpointerdown={(event) => event.stopPropagation()}
-        onblur={() => (done ? done(text) : undefined)}
+        onblur={() => {
+            focused = false;
+            if (done) done(text);
+        }}
+        onfocus={() => (focused = true)}
     />
     <span class="measurer" bind:clientWidth={width}
         >{text.length === 0
@@ -150,12 +171,21 @@
               ? '•'.repeat(text.length)
               : text.replaceAll(' ', '\xa0')}</span
     >
+    {#if message}
+        <div class="message" class:inline={inlineValidation} id="{id}-error"
+            >{message}</div
+        >
+    {/if}
 </div>
 
 <style>
     .field {
         display: inline-block;
         position: relative;
+    }
+
+    .field.inline {
+        z-index: 2;
     }
 
     [disabled] {
@@ -213,18 +243,49 @@
         width: 100%;
     }
 
-    input:focus {
-        border-bottom: var(--wordplay-focus-color) solid
-            var(--wordplay-focus-width);
-    }
-
     input.error {
         color: var(--wordplay-error);
+        border-color: var(--wordplay-error);
     }
 
     input::placeholder {
         color: var(--wordplay-inactive-color);
         font-style: italic;
         opacity: 1;
+    }
+
+    /* Needs to be last to override errors */
+    input:focus {
+        border-bottom: var(--wordplay-focus-color) solid
+            var(--wordplay-focus-width);
+    }
+
+    .message {
+        display: none;
+    }
+
+    .focused .message {
+        display: block;
+        position: absolute;
+        top: 100%;
+        width: 15em;
+        background: var(--wordplay-error);
+        color: var(--wordplay-background);
+        padding: var(--wordplay-spacing);
+        font-size: calc(var(--wordplay-small-font-size));
+        border-bottom-left-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
+        z-index: 2;
+    }
+
+    .focused .message.inline {
+        top: 0;
+        left: 100%;
+        white-space: nowrap;
+        width: auto;
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-top-right-radius: var(--wordplay-border-radius);
+        border-bottom-right-radius: var(--wordplay-border-radius);
     }
 </style>

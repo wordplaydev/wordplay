@@ -24,7 +24,7 @@ import NameType from './NameType';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import UnimplementedException from '../values/UnimplementedException';
 import Purpose from '../concepts/Purpose';
 import { UnknownName } from '../conflicts/UnknownName';
@@ -35,6 +35,7 @@ import BasisType from './BasisType';
 import type Locales from '../locale/Locales';
 import getGuards from './getGuards';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class PropertyReference extends Expression {
     readonly structure: Expression;
@@ -140,7 +141,7 @@ export default class PropertyReference extends Expression {
         return this.getPossibleReferences(type, node, false, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'PropertyReference';
     }
 
@@ -395,8 +396,8 @@ export default class PropertyReference extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Reference;
+    getCharacter() {
+        return Characters.Reference;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

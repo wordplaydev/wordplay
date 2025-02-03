@@ -23,7 +23,7 @@ import StructureDefinition from './StructureDefinition';
 import type Spaces from '@parser/Spaces';
 import NoneValue from '@values/NoneValue';
 import type LocaleText from '@locale/LocaleText';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Root from './Root';
 import Markup from './Markup';
 import Purpose from '../concepts/Purpose';
@@ -34,6 +34,7 @@ import type Evaluator from '@runtime/Evaluator';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
 import { parseNames } from '@parser/parseBind';
 import { toTokens } from '@parser/toTokens';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /** A document representing executable Wordplay code and it's various metadata, such as conflicts, tokens, and evaulator. */
 export default class Source extends Expression {
@@ -115,7 +116,7 @@ export default class Source extends Expression {
         return this.expression.compile(evaluator, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Source';
     }
 
@@ -929,8 +930,8 @@ export default class Source extends Expression {
         return new Markup([]);
     }
 
-    getGlyphs() {
-        return Glyphs.Source;
+    getCharacter() {
+        return Characters.Source;
     }
 
     getPurpose() {

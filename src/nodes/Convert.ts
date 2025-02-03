@@ -21,7 +21,7 @@ import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import StartConversion from '@runtime/StartConversion';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { NotAType } from './NotAType';
 import ConversionType from './ConversionType';
 import NeverType from './NeverType';
@@ -33,6 +33,7 @@ import NameType from './NameType';
 import { getConcreteConversionTypeVariable } from './Generics';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Convert extends Expression {
     readonly expression: Expression;
@@ -72,7 +73,7 @@ export default class Convert extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Convert';
     }
 
@@ -285,8 +286,8 @@ export default class Convert extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Conversion;
+    getCharacter() {
+        return Characters.Conversion;
     }
 }
 

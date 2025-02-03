@@ -17,7 +17,7 @@ import {
     optional as optional,
     list,
 } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import FunctionDefinition from './FunctionDefinition';
 import Names from './Names';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
@@ -26,6 +26,7 @@ import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import type Expression from './Expression';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -85,7 +86,7 @@ export default class FunctionType extends Type {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FunctionType';
     }
 
@@ -212,8 +213,8 @@ export default class FunctionType extends Type {
         return locales.get((l) => l.node.FunctionType);
     }
 
-    getGlyphs() {
-        return Glyphs.FunctionDefinition;
+    getCharacter() {
+        return Characters.FunctionDefinition;
     }
 
     getDefaultExpression(context: Context): Expression {

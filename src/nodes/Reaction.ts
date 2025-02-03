@@ -18,7 +18,7 @@ import Check from '@runtime/Check';
 import BoolValue from '@values/BoolValue';
 import ValueException from '../values/ValueException';
 import TypeException from '../values/TypeException';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import StreamToken from './StreamToken';
@@ -31,6 +31,7 @@ import type EditContext from '@edit/EditContext';
 import StreamType from './StreamType';
 import Changed from './Changed';
 import Bind from './Bind';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Reaction extends Expression {
     readonly initial: Expression;
@@ -89,7 +90,7 @@ export default class Reaction extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Reaction';
     }
 
@@ -363,8 +364,8 @@ export default class Reaction extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 
     getKind() {

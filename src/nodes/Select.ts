@@ -20,7 +20,7 @@ import type Evaluator from '@runtime/Evaluator';
 import UnknownNameType from './UnknownNameType';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import { NotAType } from './NotAType';
 import Purpose from '../concepts/Purpose';
@@ -37,6 +37,7 @@ import Token from './Token';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type SelectState = {
     table: TableValue;
@@ -71,7 +72,7 @@ export default class Select extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Select';
     }
 
@@ -352,7 +353,7 @@ export default class Select extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Select;
+    getCharacter() {
+        return Characters.Select;
     }
 }

@@ -34,6 +34,7 @@ import FunctionType from './FunctionType';
 import type Locales from '../locale/Locales';
 import getGuards from './getGuards';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /**
  * A reference to some Definition. Can optionally take the definition which it refers,
@@ -182,7 +183,7 @@ export default class Reference extends SimpleExpression {
         return this.getPossibleReferences(type, node, true, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Reference';
     }
 
@@ -407,7 +408,7 @@ export default class Reference extends SimpleExpression {
         return [this.getName()];
     }
 
-    getGlyphs() {
+    getCharacter() {
         return { symbols: this.name.getText() };
     }
 }

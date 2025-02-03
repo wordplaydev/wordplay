@@ -18,7 +18,7 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Purpose from '../concepts/Purpose';
 import FunctionDefinition from './FunctionDefinition';
@@ -40,6 +40,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type UpdateState = { table: TableValue; index: number; rows: StructureValue[] };
 
@@ -70,7 +71,7 @@ export default class Update extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Update';
     }
 
@@ -396,7 +397,7 @@ export default class Update extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Update;
+    getCharacter() {
+        return Characters.Update;
     }
 }

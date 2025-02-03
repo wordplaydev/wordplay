@@ -14,7 +14,7 @@ import TypeSet from './TypeSet';
 import Start from '@runtime/Start';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Sym from './Sym';
 import { TYPE_SYMBOL } from '../parser/Symbols';
 import Purpose from '../concepts/Purpose';
@@ -23,6 +23,7 @@ import TypePlaceholder from './TypePlaceholder';
 import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Is extends Expression {
     readonly expression: Expression;
@@ -55,7 +56,7 @@ export default class Is extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Is';
     }
 
@@ -168,8 +169,8 @@ export default class Is extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

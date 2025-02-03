@@ -99,6 +99,7 @@
                 <div class="pair">
                     <div class="percent"
                         ><TextField
+                            id="percent-editor-{id}-{index}"
                             text={pair.key.toWordplay()}
                             description={$locales.get(
                                 (l) => l.ui.palette.sequence.field,
@@ -106,8 +107,14 @@
                             placeholder="%"
                             validator={(value) => {
                                 const number = parseInt(value.replace('%', ''));
-                                if (isNaN(number)) return false;
-                                if (number < 0 || number > 100) return false;
+                                if (isNaN(number))
+                                    return $locales.get(
+                                        (l) => l.ui.palette.error.nan,
+                                    );
+                                if (number < 0 || number > 100)
+                                    return $locales.get(
+                                        (l) => l.ui.palette.error.percent,
+                                    );
                                 const previous = map?.values[index - 1];
                                 const next = map?.values[index + 1];
                                 if (
@@ -117,7 +124,10 @@
                                     number / 100 <
                                         previous.key.getValue().num.toNumber()
                                 )
-                                    return false;
+                                    return $locales.get(
+                                        (l) =>
+                                            l.ui.palette.error.moreThanPrevious,
+                                    );
                                 if (
                                     next &&
                                     next instanceof KeyValue &&
@@ -125,7 +135,9 @@
                                     number / 100 >
                                         next.key.getValue().num.toNumber()
                                 )
-                                    return false;
+                                    return $locales.get(
+                                        (l) => l.ui.palette.error.lessThanNext,
+                                    );
 
                                 return true;
                             }}

@@ -1,5 +1,5 @@
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import AnyType from '../nodes/AnyType';
 import type Context from '../nodes/Context';
 import Expression from '../nodes/Expression';
@@ -21,6 +21,7 @@ import Start from '@runtime/Start';
 import type Step from '@runtime/Step';
 import Value from '../values/Value';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 const IterationState = 'state';
 
@@ -76,7 +77,7 @@ export class Iteration<State = any> extends Expression {
         return true;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Iteration';
     }
 
@@ -235,8 +236,8 @@ export class Iteration<State = any> extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.FunctionDefinition;
+    getCharacter() {
+        return Characters.FunctionDefinition;
     }
 }
 

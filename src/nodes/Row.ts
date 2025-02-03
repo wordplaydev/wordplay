@@ -1,7 +1,7 @@
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
 import Expression from './Expression';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Node, { any, list, node } from './Node';
 import Sym from './Sym';
@@ -15,6 +15,7 @@ import StructureValue from '../values/StructureValue';
 import { TABLE_CLOSE_SYMBOL, TABLE_OPEN_SYMBOL } from '../parser/Symbols';
 import type Locales from '../locale/Locales';
 import Input from './Input';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Row extends Node {
     readonly open: Token;
@@ -43,7 +44,7 @@ export default class Row extends Node {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Row';
     }
 
@@ -96,8 +97,8 @@ export default class Row extends Node {
         return locales.get((l) => l.node.Row);
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 }
 

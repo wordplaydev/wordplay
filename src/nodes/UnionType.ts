@@ -11,12 +11,13 @@ import NeverType from './NeverType';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import { node, type Grammar, type Replacement } from './Node';
 import NoneType from './NoneType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import NodeRef from '../locale/NodeRef';
 import TypePlaceholder from './TypePlaceholder';
 import type Definition from './Definition';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class UnionType extends Type {
     readonly left: Type;
@@ -51,7 +52,7 @@ export default class UnionType extends Type {
         return this.make(left, NoneType.make());
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnionType';
     }
 
@@ -229,8 +230,8 @@ export default class UnionType extends Type {
         return union;
     }
 
-    getGlyphs() {
-        return Glyphs.Union;
+    getCharacter() {
+        return Characters.Union;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

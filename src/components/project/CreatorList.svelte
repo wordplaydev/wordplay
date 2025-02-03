@@ -49,16 +49,18 @@
 
     let creators: Record<string, Creator | null> = $state({});
 
-    function validCollaborator(emailOrUsername: string) {
+    function validCollaborator(emailOrUsername: string): string | true {
+        if (!validEmail(emailOrUsername) && !isValidUsername(emailOrUsername)) {
+            return $locales.get((l) => l.ui.page.login.error.invalidUsername);
+        }
         // Don't add self
-        return (
-            (validEmail(emailOrUsername) || isValidUsername(emailOrUsername)) &&
-            emailOrUsername !== DB.getUserEmail()
-        );
+        if (emailOrUsername === DB.getUserEmail())
+            return $locales.get((l) => l.ui.dialog.share.error.self);
+        return true;
     }
 
     async function addCreator() {
-        if (validCollaborator(emailOrUsername)) {
+        if (validCollaborator(emailOrUsername) === true) {
             adding = true;
             const userID = await DB.Creators.getUID(emailOrUsername);
             adding = false;
@@ -87,6 +89,7 @@
     {#if editable}
         <form class="form" onsubmit={addCreator}>
             <TextField
+                id="creator-to-add"
                 bind:text={emailOrUsername}
                 placeholder={$locales.get(
                     (l) => l.ui.dialog.share.field.emailOrUsername.placeholder,
@@ -101,7 +104,7 @@
                 background
                 padding={false}
                 tip={$locales.get((l) => l.ui.dialog.share.button.submit)}
-                active={validCollaborator(emailOrUsername)}
+                active={validCollaborator(emailOrUsername) === true}
                 action={() => undefined}>&gt;</Button
             >
             {#if adding}<Spinning label="" />{/if}
@@ -170,6 +173,7 @@
                                     <td>
                                         {#if cell}
                                             <TextField
+                                                id="metadata-{uid}-{column}"
                                                 text={datum}
                                                 placeholder={$locales.get(
                                                     (l) =>

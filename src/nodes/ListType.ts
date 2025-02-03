@@ -7,11 +7,12 @@ import Sym from './Sym';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, optional } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 import ListLiteral from './ListLiteral';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ListType extends BasisType {
     readonly open: Token;
@@ -56,7 +57,7 @@ export default class ListType extends BasisType {
         return [ListType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListType';
     }
 
@@ -116,8 +117,8 @@ export default class ListType extends BasisType {
         return locales.get((l) => l.node.ListType);
     }
 
-    getGlyphs() {
-        return Glyphs.List;
+    getCharacter() {
+        return Characters.List;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

@@ -64,8 +64,8 @@ import {
     MATCH_SYMBOL,
 } from './Symbols';
 import TokenList from './TokenList';
-import ConceptRegEx from './ConceptRegEx';
 import ReservedSymbols from './ReservedSymbols';
+import { toTokens } from './toTokens';
 
 const TEXT_SEPARATORS = '\'‘’"“”„«»‹›「」『』';
 const OPERATORS = `${NOT_SYMBOL}\\-\\^${SUM_SYMBOL}\\${DIFFERENCE_SYMBOL}×${PRODUCT_SYMBOL}÷%<≤=≠≥>&|~?\\u2200-\\u22FF\\u2A00-\\u2AFF\\u2190-\\u21FF\\u27F0-\\u27FF\\u2900-\\u297F`;
@@ -142,13 +142,16 @@ export const WordsRegEx = new RegExp(
     'u',
 );
 
-export const NameRegExPattern = `^[^\n\t ${ReservedSymbols.map((s) =>
+/** A name is any sequence of characters that is not a reserve symbol or space. */
+export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s),
 ).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
-export const NameRegEx = new RegExp(NameRegExPattern, 'u');
+
+/** The regex expression prepends a start of string modifier. */
+const NameRegEx = new RegExp(`^${NameRegExPattern}`, 'u');
 
 export function isName(name: string) {
-    return new RegExp(`${NameRegExPattern}$`, 'u').test(name);
+    return toTokens(name).nextAre(Sym.Name, Sym.End);
 }
 
 function escapeRegexCharacter(c: string) {
@@ -289,7 +292,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: GLOBE1_SYMBOL, types: [Sym.Locale] },
     { pattern: GLOBE2_SYMBOL, types: [Sym.Locale] },
     { pattern: GLOBE3_SYMBOL, types: [Sym.Locale] },
-    // Prefix and infix operators are single Unicode glyphs that are surrounded by whitespace that are not one of the above
+    // Prefix and infix operators are single Unicode characters that are surrounded by whitespace that are not one of the above
     // and one of the following:
     // - Mathematical operators: U+2200..U+22FF
     // - Supplementary operators: U+2A00–U+2AFF
@@ -301,12 +304,24 @@ const CodeTokenPatterns: TokenPattern[] = [
     FormattedPattern,
     DocPattern,
 
-    // All other tokens are names, which are sequences of Unicode glyphs that are not one of the reserved symbols above or whitespace.
+    // All other tokens are names, which are sequences of Unicode characters that are not one of the reserved symbols above or whitespace.
     {
         pattern: NameRegEx,
         types: [Sym.Name],
     },
 ];
+
+/**
+ * A concept reference starts with a @ then is followed by:
+ * 1) one or more names separated by a /
+ * 2) a 2-6 digit hexadecimal number, referring to a Unicode codepoint
+ * Names can refer to:
+ * 1) a uesr interface concept (e.g., @UI/toolbar)
+ * 2) a Wordplay programming language concept (e.g., @Bool)
+ * 3) a Wordplay type or function (e.g., @Stage, @Stage/color)
+ * 4) the globally unique name of a creator-defined character
+ */
+export const ConceptRegExPattern = `${LINK_SYMBOL}(?!(https?)?://)([0-9a-fA-F]{2,6}|${NameRegExPattern}(/${NameRegExPattern})?)`;
 
 /** Valid tokens inside of markup. */
 const MarkupTokenPatterns = [
@@ -316,9 +331,10 @@ const MarkupTokenPatterns = [
     ListOpenPattern,
     ListClosePattern,
     {
-        pattern: new RegExp(`^${ConceptRegEx}`, 'u'),
+        pattern: new RegExp(`^${ConceptRegExPattern}`, 'u'),
         types: [Sym.Concept],
     },
+    // The concept reg ex above captures concepts; this captures any @ part of a link that's not a concept reference.
     { pattern: LINK_SYMBOL, types: [Sym.Link] },
     { pattern: LANGUAGE_SYMBOL, types: [Sym.Italic] },
     {

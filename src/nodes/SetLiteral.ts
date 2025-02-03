@@ -14,7 +14,7 @@ import SetType from './SetType';
 import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import UnclosedDelimiter from '../conflicts/UnclosedDelimiter';
@@ -24,6 +24,7 @@ import AnyType from './AnyType';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class SetLiteral extends Expression {
     readonly open: Token;
@@ -65,7 +66,7 @@ export default class SetLiteral extends Expression {
         return [SetLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetLiteral';
     }
 
@@ -205,7 +206,7 @@ export default class SetLiteral extends Expression {
         return [this.values.length];
     }
 
-    getGlyphs() {
-        return Glyphs.Set;
+    getCharacter() {
+        return Characters.Set;
     }
 }

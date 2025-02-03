@@ -31,7 +31,7 @@ import { optional, type Grammar, type Replacement, node, list } from './Node';
 import type LocaleText from '@locale/LocaleText';
 import NameType from './NameType';
 import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import { SHARE_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
@@ -41,6 +41,7 @@ import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import StructureDefinitionType from './StructureDefinitionType';
 import StructureType from './StructureType';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class StructureDefinition extends DefinitionExpression {
     readonly docs: Docs | undefined;
@@ -133,7 +134,7 @@ export default class StructureDefinition extends DefinitionExpression {
         return this.expression?.getEvaluationSteps(evaluator, context) ?? [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureDefinition';
     }
 
@@ -225,8 +226,8 @@ export default class StructureDefinition extends DefinitionExpression {
                 .filter((input) => !input.hasDefault())
                 .map((input) =>
                     input.type
-                        ? input.type.getDefaultExpression(context) ??
-                          ExpressionPlaceholder.make(input.type)
+                        ? (input.type.getDefaultExpression(context) ??
+                          ExpressionPlaceholder.make(input.type))
                         : ExpressionPlaceholder.make(),
                 ),
         );
@@ -516,8 +517,8 @@ export default class StructureDefinition extends DefinitionExpression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getKind() {

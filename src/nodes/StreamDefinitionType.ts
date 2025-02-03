@@ -2,10 +2,11 @@ import Type from './Type';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type TypeSet from './TypeSet';
 import type StreamDefinition from './StreamDefinition';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { STREAM_SYMBOL } from '../parser/Symbols';
 import type Spaces from '../parser/Spaces';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class StreamDefinitionType extends Type {
     readonly definition: StreamDefinition;
@@ -16,7 +17,7 @@ export default class StreamDefinitionType extends Type {
         this.definition = definition;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamDefinitionType';
     }
 
@@ -59,7 +60,7 @@ export default class StreamDefinitionType extends Type {
         return locales.get((l) => l.node.StreamDefinitionType);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

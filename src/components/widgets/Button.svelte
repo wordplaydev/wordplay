@@ -51,7 +51,6 @@
                 result.finally(() => (loading = false));
             }
             event.stopPropagation();
-            event.preventDefault();
         }
     }
 </script>
@@ -73,8 +72,8 @@
     title={$locales.concretize(tip).toText()}
     aria-label={tip}
     aria-disabled={!active}
+    onpointerdown={(event) => event.preventDefault()}
     bind:this={_}
-    onmousedown={(event) => event.preventDefault()}
     ondblclick={(event) => event.stopPropagation()}
     onclick={loading
         ? null
@@ -180,9 +179,5 @@
     button.background:hover[aria-disabled='false'] {
         background: var(--wordplay-chrome);
         border-color: var(--wordplay-alternating-color);
-    }
-
-    button:active[aria-disabled='false'] {
-        transform: scale(0.8);
     }
 </style>

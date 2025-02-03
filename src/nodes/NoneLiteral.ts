@@ -7,10 +7,11 @@ import { NONE_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement } from './Node';
 import Literal from './Literal';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;
@@ -23,7 +24,7 @@ export default class NoneLiteral extends Literal {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'NoneLiteral';
     }
 
@@ -92,7 +93,7 @@ export default class NoneLiteral extends Literal {
         return locales.concretize((l) => l.node.NoneLiteral.start);
     }
 
-    getGlyphs() {
-        return Glyphs.None;
+    getCharacter() {
+        return Characters.None;
     }
 }

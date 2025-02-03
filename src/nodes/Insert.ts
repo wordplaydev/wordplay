@@ -20,7 +20,7 @@ import TypeException from '@values/TypeException';
 import { node, type Grammar, type Replacement } from './Node';
 import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Purpose from '../concepts/Purpose';
 import StructureValue from '../values/StructureValue';
@@ -35,6 +35,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Insert extends Expression {
     readonly table: Expression;
@@ -60,7 +61,7 @@ export default class Insert extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Insert';
     }
 
@@ -337,7 +338,7 @@ export default class Insert extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Insert;
+    getCharacter() {
+        return Characters.Insert;
     }
 }

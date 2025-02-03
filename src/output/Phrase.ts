@@ -38,7 +38,7 @@ import {
 } from '@locale/Scripts';
 import { toAura } from './Aura';
 import type Aura from './Aura';
-import { TYPE_SYMBOL } from '@parser/Symbols';
+import { LINK_SYMBOL, TYPE_SYMBOL } from '@parser/Symbols';
 
 export function createPhraseType(locales: Locales) {
     return toStructure(`
@@ -230,8 +230,12 @@ export default class Phrase extends Output {
 
         // Go through each formatted text,
         for (const formatted of formats) {
+            // If the text is a character name, it will be the width of an m in the current font.
+            const isCharacter = formatted.text.startsWith(LINK_SYMBOL);
+            // If it is a custom character, treat it like the letter 'e' for measurement purposes.
+            const textToMeasure = isCharacter ? '@' : formatted.text;
             // Split the text by spaces and measure each space separated chunk.
-            for (const segment of segmentWraps(formatted.text)) {
+            for (const segment of segmentWraps(textToMeasure)) {
                 const metrics = getTextMetrics(
                     // Choose the description with the preferred language.
                     segment,
@@ -247,11 +251,13 @@ export default class Phrase extends Output {
                 if (metrics) {
                     ascent = metrics.fontBoundingBoxAscent;
                     descent = metrics.fontBoundingBoxDescent;
-                    height = Math.max(
-                        metrics.actualBoundingBoxAscent +
-                            metrics.actualBoundingBoxDescent,
-                        height,
-                    );
+                    height = isCharacter
+                        ? ascent
+                        : Math.max(
+                              metrics.actualBoundingBoxAscent +
+                                  metrics.actualBoundingBoxDescent,
+                              height,
+                          );
                     // If we're not wrapping, just accumulate the width.
                     if (maxWidth === undefined) {
                         width += metrics.width;

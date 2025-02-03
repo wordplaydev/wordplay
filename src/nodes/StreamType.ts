@@ -7,8 +7,9 @@ import Token from './Token';
 import Sym from './Sym';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export const STREAM_NATIVE_TYPE_NAME = 'stream';
 
@@ -32,7 +33,7 @@ export default class StreamType extends Type {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamType';
     }
 
@@ -76,7 +77,7 @@ export default class StreamType extends Type {
         return locales.get((l) => l.node.StreamType);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

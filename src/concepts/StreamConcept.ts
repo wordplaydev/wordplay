@@ -11,7 +11,7 @@ import StructureConcept from './StructureConcept';
 import Evaluate from '../nodes/Evaluate';
 import ExpressionPlaceholder from '../nodes/ExpressionPlaceholder';
 import type Markup from '../nodes/Markup';
-import type { Character } from '../tutorial/Tutorial';
+import type { CharacterName } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
 import { COMMA_SYMBOL } from '@parser/Symbols';
 
@@ -41,7 +41,7 @@ export default class StreamConcept extends Concept {
         );
     }
 
-    getGlyphs(locales: Locales) {
+    getCharacter(locales: Locales) {
         return {
             symbols:
                 this.definition.names.getSymbolicName() ??
@@ -89,7 +89,7 @@ export default class StreamConcept extends Concept {
         return new Set(this.inputs);
     }
 
-    getCharacter(locales: Locales): Character | undefined {
+    getCharacterName(locales: Locales): CharacterName | undefined {
         for (const locale of locales.getLocales()) {
             const name = this.definition.names.getNonSymbolicName();
             if (name === undefined) return undefined;
@@ -99,7 +99,7 @@ export default class StreamConcept extends Concept {
                     ((typeof text.names === 'string' && text.names === name) ||
                         text.names.includes(name))
                 )
-                    return key as Character;
+                    return key as CharacterName;
         }
         return undefined;
     }

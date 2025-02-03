@@ -47,7 +47,7 @@ export type Act<Scenes extends Scene[] = Scene[]> = {
 export type Scene = {
     title: string;
     subtitle: string | null;
-    concept?: Character;
+    concept?: CharacterName;
     performance: Performance;
     lines: Line[];
 };
@@ -56,7 +56,7 @@ export type Line = Dialog | Performance | null;
 
 export type Performance = [PeformanceModeType, ...string[]];
 
-export type Character =
+export type CharacterName =
     | keyof NodeTexts
     | keyof InputTexts
     | keyof OutputTexts
@@ -64,7 +64,7 @@ export type Character =
     | '⊤'
     | '⊥';
 
-export type Dialog = [Character, `${Emotion}`, ...string[]];
+export type Dialog = [CharacterName, `${Emotion}`, ...string[]];
 
 export const PerformanceMode = [
     'fit',

@@ -16,7 +16,7 @@ import type Conflict from '@conflicts/Conflict';
 import ListOpenToken from './ListOpenToken';
 import ListCloseToken from './ListCloseToken';
 import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Sym from './Sym';
@@ -26,6 +26,7 @@ import TypeException from '../values/TypeException';
 import type Locales from '../locale/Locales';
 import { MAX_LINE_LENGTH } from '@parser/Spaces';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ListLiteral extends Expression {
     readonly open: Token;
@@ -67,7 +68,7 @@ export default class ListLiteral extends Expression {
         return [ListLiteral.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListLiteral';
     }
 
@@ -259,7 +260,7 @@ export default class ListLiteral extends Expression {
         return [this.values.length];
     }
 
-    getGlyphs() {
-        return Glyphs.List;
+    getCharacter() {
+        return Characters.List;
     }
 }

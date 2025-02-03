@@ -12,6 +12,7 @@ import Emotion from '../lore/Emotion';
 import Node, { list, node } from './Node';
 import { getPreferred as getPreferredName } from './LanguageTagged';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Names extends Node {
     readonly names: Name[];
@@ -47,7 +48,7 @@ export default class Names extends Node {
         return new Names(list);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Names';
     }
 
@@ -189,11 +190,10 @@ export default class Names extends Node {
 
     getLowerCaseNames() {
         return this.names
-            .map(
-                (a) =>
-                    a
-                        .getName()
-                        ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
+            .map((a) =>
+                a
+                    .getName()
+                    ?.toLocaleLowerCase(a.getLanguage()?.substring(0, 2)),
             )
             .filter((n): n is string => n !== undefined);
     }
@@ -227,7 +227,7 @@ export default class Names extends Node {
         );
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.getNames()[0],
             emotion: Emotion.kind,

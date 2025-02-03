@@ -19,7 +19,7 @@ import type TypeSet from './TypeSet';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement, optional, list } from './Node';
 import Sym from './Sym';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import BlankException from '@values/BlankException';
 import Purpose from '../concepts/Purpose';
 import ValueRef from '../locale/ValueRef';
@@ -27,6 +27,7 @@ import type Locales from '../locale/Locales';
 import { localeToString } from '@locale/Locale';
 import type Locale from '@locale/Locale';
 import Reference from './Reference';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Program extends Expression {
     readonly docs?: Docs;
@@ -59,7 +60,7 @@ export default class Program extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Program';
     }
 
@@ -235,8 +236,8 @@ export default class Program extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Program;
+    getCharacter() {
+        return Characters.Program;
     }
 
     getKind() {

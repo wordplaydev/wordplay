@@ -6,7 +6,7 @@ import type Step from '@runtime/Step';
 import Sym from './Sym';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Expression, { ExpressionKind } from './Expression';
 import type TypeSet from './TypeSet';
@@ -23,6 +23,7 @@ import NoneValue from '@values/NoneValue';
 import { ImpossibleType } from '@conflicts/ImpossibleType';
 import type Conflict from '@conflicts/Conflict';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Otherwise extends SimpleExpression {
     readonly left: Expression;
@@ -65,7 +66,7 @@ export default class Otherwise extends SimpleExpression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Otherwise';
     }
 
@@ -178,8 +179,8 @@ export default class Otherwise extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.NoneOr;
+    getCharacter() {
+        return Characters.NoneOr;
     }
 
     getKind(): ExpressionKind {

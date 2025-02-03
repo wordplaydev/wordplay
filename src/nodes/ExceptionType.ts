@@ -3,8 +3,9 @@ import type ExceptionValue from '@values/ExceptionValue';
 import Type from './Type';
 import type TypeSet from './TypeSet';
 import { EXCEPTION_SYMBOL } from '../parser/Symbols';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ExceptionType extends Type {
     readonly exception: ExceptionValue;
@@ -15,7 +16,7 @@ export default class ExceptionType extends Type {
         this.exception = exception;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ExceptionType';
     }
 
@@ -57,7 +58,7 @@ export default class ExceptionType extends Type {
         return locales.get((l) => l.node.ExceptionType);
     }
 
-    getGlyphs() {
-        return Glyphs.Exception;
+    getCharacter() {
+        return Characters.Exception;
     }
 }

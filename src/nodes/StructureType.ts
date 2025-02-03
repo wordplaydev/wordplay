@@ -8,7 +8,7 @@ import type { BasisTypeName } from '../basis/BasisConstants';
 import type Definition from './Definition';
 import type Node from './Node';
 import type LocaleText from '@locale/LocaleText';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { Grammar } from './Node';
 import BasisType from './BasisType';
 import type Spaces from '../parser/Spaces';
@@ -16,6 +16,7 @@ import type Locales from '../locale/Locales';
 import type Bind from './Bind';
 import StructureDefinitionType from './StructureDefinitionType';
 import type Expression from './Expression';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export const STRUCTURE_NATIVE_TYPE_NAME = 'structure';
 
@@ -45,7 +46,7 @@ export default class StructureType extends BasisType {
                     this.refinements.set(name, refinements[index]);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StructureType';
     }
 
@@ -159,8 +160,8 @@ export default class StructureType extends BasisType {
         return locales.get((l) => l.node.StructureType);
     }
 
-    getGlyphs() {
-        return Glyphs.Type;
+    getCharacter() {
+        return Characters.Type;
     }
 
     getDescriptionInputs(locales: Locales) {

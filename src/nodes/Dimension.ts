@@ -4,11 +4,12 @@ import { EXPONENT_SYMBOL } from '@parser/Symbols';
 import { PRODUCT_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import NameToken from './NameToken';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Dimension extends Node {
     readonly product: Token | undefined;
@@ -57,7 +58,7 @@ export default class Dimension extends Node {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Dimension';
     }
 
@@ -153,7 +154,7 @@ export default class Dimension extends Node {
         return Markup.words(
             dim === undefined
                 ? ''
-                : {
+                : ({
                       pm: 'picometers',
                       nm: 'nanometers',
                       µm: 'micrometers',
@@ -181,11 +182,11 @@ export default class Dimension extends Node {
                       oz: 'ounces',
                       lb: 'pounds',
                       pt: 'font size',
-                  }[dim] ?? locales.get((l) => l.node.Dimension.description),
+                  }[dim] ?? locales.get((l) => l.node.Dimension.description)),
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Dimension;
+    getCharacter() {
+        return Characters.Dimension;
     }
 }

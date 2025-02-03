@@ -7,6 +7,7 @@
     import TokenTextEditor from './TokenEditor.svelte';
     import { getCaret } from '@components/project/Contexts';
     import Name from '@nodes/Name';
+    import { locales } from '@db/Database';
 
     interface Props {
         name: Token;
@@ -27,10 +28,10 @@
     {placeholder}
     validator={(newName) => {
         const tokens = toTokens(newName);
-        return (
-            tokens.remaining() === 2 &&
+        return tokens.remaining() === 2 &&
             tokens.nextIsOneOf(Sym.Name, Sym.Placeholder)
-        );
+            ? true
+            : $locales.get((l) => l.ui.source.error.invalidName);
     }}
     creator={(text) => {
         if (caret && $caret) {

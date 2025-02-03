@@ -16,6 +16,7 @@ import { LanguageTagged } from './LanguageTagged';
 import type Locales from '../locale/Locales';
 import type LanguageCode from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Name extends LanguageTagged {
     readonly name: Token;
@@ -38,7 +39,7 @@ export default class Name extends LanguageTagged {
         return new Name(new NameToken(name ?? '_'), lang, undefined);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Name';
     }
 
@@ -163,7 +164,7 @@ export default class Name extends LanguageTagged {
         return [this.name.getText()];
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.name.getText(),
             emotion: Emotion.kind,

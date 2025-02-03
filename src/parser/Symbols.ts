@@ -88,12 +88,20 @@ export const GLOBE1_SYMBOL = '🌎';
 export const GLOBE2_SYMBOL = '🌍';
 export const GLOBE3_SYMBOL = '🌏';
 export const EDIT_SYMBOL = '✎';
-export const COPY_SYMBOL = '📋';
+export const CUT_SYMBOL = '✄';
+export const COPY_SYMBOL = '📚';
+export const PASTE_SYMBOL = '📋';
 export const CANCEL_SYMBOL = '⨉';
+export const ALL_SYMBOL = '⊞';
+export const ERASE_SYMBOL = '⌫';
 
 // The "teacher" emoji is a combination of the "person" and "school" emojis.
-export const TEACH_SYMBOL = '\u{1F9D1}\u200D\u{1F3EB}';
-export const LEARN_SYMBOL = '\u{1F9D1}\u200D\u{1F393}';
+export const TEACH_SYMBOL = '🏫';
+export const LEARN_SYMBOL = '🎓';
+export const SYMBOL_SYMBOL = '🙂';
+
+export const UNDO_SYMBOL = '⟲';
+export const REDO_SYMBOL = '⟳';
 
 export const DRAFT_SYMBOL = '🚧';
 

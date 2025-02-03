@@ -21,7 +21,7 @@ import UnionType from './UnionType';
 import NoneType from './NoneType';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import Purpose from '../concepts/Purpose';
@@ -29,6 +29,7 @@ import ListType from './ListType';
 import Unit from './Unit';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Previous extends Expression {
     readonly previous: Token;
@@ -82,7 +83,7 @@ export default class Previous extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Previous';
     }
 
@@ -237,7 +238,7 @@ export default class Previous extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Previous;
+    getCharacter() {
+        return Characters.Previous;
     }
 }

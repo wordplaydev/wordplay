@@ -29,7 +29,7 @@
     import Header from '@components/app/Header.svelte';
     import { locales } from '@db/Database';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { type Class } from '@db/TeacherDatabase.svelte';
+    import { type Class } from '@db/teachers/TeacherDatabase.svelte';
     import Link from '@components/app/Link.svelte';
     import Centered from '@components/app/Centered.svelte';
     import Subheader from '@components/app/Subheader.svelte';

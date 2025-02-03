@@ -110,7 +110,7 @@
 >
     {#if propertyValues.size > 0}
         <Speech
-            glyph={(outputs.length > 1 || definition === undefined
+            character={(outputs.length > 1 || definition === undefined
                 ? undefined
                 : index?.getStructureConcept(definition)) ?? {
                 symbols:

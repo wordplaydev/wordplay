@@ -31,26 +31,25 @@
     let { segment, spaces, alone }: Props = $props();
 </script>
 
-{#if segment instanceof WebLink}<WebLinkHTMLView
-        link={segment}
-        {spaces}
-    />{:else if segment instanceof Example}{#if alone}<ExampleUI
+{#if segment instanceof WebLink}<WebLinkHTMLView link={segment} {spaces} />
+{:else if segment instanceof Example}{#if alone}<ExampleUI
             example={segment}
             {spaces}
             evaluated={alone}
             inline={false}
-        />{:else}<CodeView
+        />
+    {:else}<CodeView
             node={segment.program}
             inline={true}
             {spaces}
             outline={false}
             describe={false}
-        />{/if}{:else if segment instanceof ConceptLink || segment instanceof ConceptRef}<ConceptLinkUI
+        />{/if}
+{:else if segment instanceof ConceptLink || segment instanceof ConceptRef}<ConceptLinkUI
         link={segment}
-    />{:else if segment instanceof Words}<WordsHTMLView
-        words={segment}
-        {spaces}
-    />{:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
+    />
+{:else if segment instanceof Words}<WordsHTMLView words={segment} {spaces} />
+{:else if segment instanceof NodeRef}{#if segment.node instanceof UnknownType}
         <MarkupHtmlView
             markup={segment.node.getDescription(
                 segment.locales,
@@ -63,9 +62,10 @@
             inline
             locale="symbolic"
             blocks={false}
-        />{/if}{:else if segment instanceof ValueRef}<strong
+        />{/if}
+{:else if segment instanceof ValueRef}<strong
         ><ValueView value={segment.value} /></strong
-    >{:else if segment instanceof ConceptRef}<ConceptLinkUI link={segment} />
+    >
     <!-- Remove the bullet if the words start with one. -->
 {:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withColorEmoji(
         (segment.startsWith('•')

@@ -9,13 +9,14 @@ import BoolValue from '@values/BoolValue';
 import { node, type Grammar, type Replacement, optional } from './Node';
 import SimpleExpression from './SimpleExpression';
 import BooleanType from './BooleanType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Language from './Language';
 import StartFinish from '@runtime/StartFinish';
 import type Expression from './Expression';
 import type TypeSet from './TypeSet';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class IsLocale extends SimpleExpression {
     readonly globe: Token;
@@ -42,7 +43,7 @@ export default class IsLocale extends SimpleExpression {
         return [IsLocale.make(Language.make('en'))];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'IsLocale';
     }
 
@@ -123,7 +124,7 @@ export default class IsLocale extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Locale;
+    getCharacter() {
+        return Characters.Locale;
     }
 }

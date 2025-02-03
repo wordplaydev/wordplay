@@ -23,7 +23,7 @@ import EvalOpenToken from './EvalOpenToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import NoExpressionType from './NoExpressionType';
 import { none, type Grammar, type Replacement, node, list, any } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import DefinitionExpression from './DefinitionExpression';
@@ -31,6 +31,7 @@ import type Locales from '../locale/Locales';
 import Evaluation from '@runtime/Evaluation';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export enum BlockKind {
     Root = 'root',
@@ -93,7 +94,7 @@ export default class Block extends Expression {
         return this;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Block';
     }
 
@@ -364,8 +365,8 @@ export default class Block extends Expression {
         return this.close ?? this.getLast() ?? this;
     }
 
-    getGlyphs() {
-        return Glyphs.Block;
+    getCharacter() {
+        return Characters.Block;
     }
 
     getKind() {

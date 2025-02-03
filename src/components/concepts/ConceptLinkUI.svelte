@@ -1,13 +1,17 @@
 <script lang="ts">
     import { getConceptIndex, getConceptPath } from '../project/Contexts';
-    import ConceptLink from '@nodes/ConceptLink';
+    import ConceptLink, {
+        CharacterName,
+        CodepointName,
+        UIName,
+    } from '@nodes/ConceptLink';
     import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
     import TutorialHighlight from '../app/TutorialHighlight.svelte';
-    import type ConceptRef from '../../locale/ConceptRef';
+    import ConceptRef from '../../locale/ConceptRef';
     import Button from '../widgets/Button.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
-    import { goto } from '$app/navigation';
+    import CharacterView from '@components/output/CharacterView.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept;
@@ -23,77 +27,96 @@
 
     let path = getConceptPath();
 
-    type Match = {
-        concept: Concept | undefined;
-        container?: Concept | undefined;
-        ui?: string | undefined;
-    };
+    /** The different types of matches we can find */
+    type Match =
+        // A concept and its optional container.
+        | {
+              concept: Concept;
+              container?: Concept | undefined;
+          }
+        // A unicode string
+        | CodepointName
+        // A reference something in the UI
+        | UIName
+        // A custom character name
+        | CharacterName
+        | undefined;
 
     // Derive the concept, container, and UI based on the link.
-    let { concept, container, ui }: Match = $derived.by((): Match => {
+    let match: Match = $derived.by((): Match => {
+        // Already have a concept this refers to? Return it.
         if (link instanceof Concept) {
             return {
                 concept: link,
                 container: index?.getConceptOwner(link),
             };
-        } else if (index === undefined)
-            return { concept: undefined, container: undefined };
-        // Try to resolve the concept in the index
+        }
+        // Otherwise, try to resolve the concept.
         else {
-            // Remove the link symbol
-            const id =
-                link instanceof ConceptLink ? link.getName() : link.concept;
-            // Split the name by /
-            const names = id.split('/');
-            // See if it's a UI reference
-            if (names[0] === 'UI' && names.length > 1) {
-                return {
-                    concept: undefined,
-                    container: undefined,
-                    ui: names[1],
-                };
-            }
-            // Otherwise, try to resolve a concept or subconcept.
-            else {
-                let concept = index.getConceptByName(names[0]);
-                if (concept && names.length > 1) {
-                    const subConcept = Array.from(
-                        concept.getSubConcepts(),
-                    ).find((sub) => sub.hasName(names[1], $locales));
-                    if (subConcept !== undefined)
-                        return { container: concept, concept: subConcept };
-                    else if (concept.affiliation !== undefined) {
-                        const structure = index.getStructureConcept(
-                            concept.affiliation,
-                        );
-                        if (structure) {
-                            const subConcept = Array.from(
-                                structure.getSubConcepts(),
-                            ).find((sub) => sub.hasName(names[1], $locales));
-                            if (subConcept) {
-                                return {
-                                    container: concept,
-                                    concept: subConcept,
-                                };
+            // Parse the link
+            const id = ConceptLink.parse(
+                link instanceof ConceptLink ? link.getName() : link.concept,
+            );
+
+            if (id === undefined) return undefined;
+            if (
+                id instanceof UIName ||
+                id instanceof CodepointName ||
+                id instanceof CharacterName
+            )
+                return id;
+
+            // Otherwise, try to resolve a concept or subconcept in the index.
+            if (index !== undefined) {
+                let concept = index.getConceptByName(id?.name);
+                if (concept) {
+                    const property = id.property;
+                    if (property) {
+                        const subConcept = Array.from(
+                            concept.getSubConcepts(),
+                        ).find((sub) => sub.hasName(property, $locales));
+                        if (subConcept !== undefined)
+                            return { container: concept, concept: subConcept };
+                        else if (concept.affiliation !== undefined) {
+                            const structure = index.getStructureConcept(
+                                concept.affiliation,
+                            );
+                            if (structure) {
+                                const subConcept = Array.from(
+                                    structure.getSubConcepts(),
+                                ).find((sub) =>
+                                    sub.hasName(property, $locales),
+                                );
+                                if (subConcept) {
+                                    return {
+                                        container: concept,
+                                        concept: subConcept,
+                                    };
+                                }
                             }
                         }
-                    }
-                } else return { concept, container: undefined };
+                    } else
+                        return {
+                            concept,
+                        };
+                }
             }
-            return { concept: undefined, container: undefined };
+
+            return undefined;
         }
     });
 
-    let longName: string = $derived(
-        concept ? concept.getName($locales, false) : '',
+    let concept: Concept | undefined = $derived(
+        match && 'concept' in match ? match.concept : undefined,
     );
-    let symbolicName: string = $derived(
-        concept ? concept.getName($locales, true) : '',
-    );
+
+    let longName: string = $derived(concept?.getName($locales, false) ?? '');
+    let symbolicName: string = $derived(concept?.getName($locales, true) ?? '');
 
     function navigate() {
         // If we have a concept and the last concept isn't it, navigate
-        if (concept) {
+        if (match && 'concept' in match) {
+            const concept = match.concept;
             if (path) {
                 // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
                 const alreadyHere = $path.at(-1) === concept;
@@ -107,14 +130,13 @@
                     path.set($path.slice(0, $path.length - 1));
                 // Otherwise, append the concept.
                 else path.set([...$path, concept]);
-            } else {
-                goto('/guide');
             }
         }
     }
 </script>
 
-{#if concept}<Button
+{#if concept}
+    <Button
         padding={false}
         action={navigate}
         tip={$locales.concretize((l) => l.ui.docs.link, longName).toText()}
@@ -125,16 +147,22 @@
                         >{withMonoEmoji(symbolicName)}</sub
                     >{/if}{/if}</span
         ></Button
-    >{:else if ui}
-    <TutorialHighlight
-        id={ui}
-        source
-    />{:else if link instanceof ConceptLink}<span
-        >{#if container}{container.getName(
-                $locales,
-                false,
-            )}{/if}{link.concept.getText()}</span
-    >{/if}
+    >
+{:else if match}
+    {#if match instanceof UIName}
+        <TutorialHighlight id={match.id} source />
+    {:else if match instanceof CodepointName}
+        {match.codepoint}
+    {:else if match instanceof CharacterName}
+        <CharacterView name={match} />
+    {/if}
+{:else if link instanceof ConceptLink}
+    {link.concept.getText()}
+{:else if link instanceof ConceptRef}
+    {link.concept}
+{:else}
+    {link.getName($locales, true)}
+{/if}
 
 <style>
     .conceptlink {

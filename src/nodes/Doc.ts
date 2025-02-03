@@ -6,7 +6,7 @@ import { DOCS_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import type Paragraph from './Paragraph';
 import Words from './Words';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import { LanguageTagged } from './LanguageTagged';
@@ -15,6 +15,7 @@ import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type Context from './Context';
 import type LanguageCode from '@locale/LanguageCode';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Doc extends LanguageTagged {
     readonly open: Token;
@@ -59,7 +60,7 @@ export default class Doc extends LanguageTagged {
         return [Doc.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Doc';
     }
 
@@ -117,7 +118,7 @@ export default class Doc extends LanguageTagged {
         return locales.get((l) => l.node.Doc);
     }
 
-    getGlyphs() {
-        return Glyphs.Doc;
+    getCharacter() {
+        return Characters.Doc;
     }
 }

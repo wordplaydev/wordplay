@@ -38,7 +38,7 @@
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Node from '@nodes/Node';
     import { DRAFT_SYMBOL } from '@parser/Symbols';
-    import Glyphs from '../../lore/Glyphs';
+    import Glyphs from '../../lore/BasisCharacters';
     import { withColorEmoji } from '../../unicode/emoji';
     import { withoutAnnotations } from '@locale/LocaleText';
 
@@ -444,9 +444,9 @@
                             {@const character = turn.dialog[0]}
                             <!-- First speaker is always function, alternating speakers are the concept we're learning about. -->
                             <Speech
-                                glyph={projectContext
+                                character={projectContext
                                     ?.getConceptByName(character)
-                                    ?.getGlyphs($locales) ??
+                                    ?.getCharacter($locales) ??
                                     Glyphs[
                                         character as keyof typeof Glyphs
                                     ] ?? {

@@ -2,13 +2,14 @@ import Expression from './Expression';
 import type { Grammar, Replacement } from './Node';
 import type Token from './Token';
 import BindToken from './BindToken';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Node, { node } from './Node';
 import Sym from './Sym';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class KeyValue extends Node {
     readonly key: Expression;
@@ -42,7 +43,7 @@ export default class KeyValue extends Node {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'KeyValue';
     }
 
@@ -88,7 +89,7 @@ export default class KeyValue extends Node {
         return locales.get((l) => l.node.KeyValue);
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getCharacter() {
+        return Characters.Bind;
     }
 }

@@ -63,6 +63,7 @@
 
 <form onsubmit={update}>
     <TextField
+        id="currentpassword"
         kind={reveal ? undefined : 'password'}
         description={$locales.get(
             (l) => l.ui.page.login.field.currentPassword.description,
@@ -72,9 +73,13 @@
         )}
         bind:text={currentpassword}
         editable={!submitted}
-        validator={(pass) => isValidPassword(pass)}
+        validator={(pass) =>
+            !isValidPassword(pass)
+                ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                : true}
     />
     <TextField
+        id="repeatpassword"
         kind={reveal ? undefined : 'password'}
         description={$locales.get(
             (l) => l.ui.page.login.field.newPassword.description,
@@ -84,9 +89,13 @@
         )}
         bind:text={password1}
         editable={!submitted}
-        validator={(pass) => isValidPassword(pass)}
+        validator={(pass) =>
+            !isValidPassword(pass)
+                ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                : true}
     />
     <TextField
+        id="newpassword"
         kind={reveal ? undefined : 'password'}
         description={$locales.get(
             (l) => l.ui.page.login.field.newPassword.description,
@@ -96,7 +105,12 @@
         )}
         bind:text={password2}
         editable={!submitted}
-        validator={(pass) => pass === password1 && isValidPassword(pass)}
+        validator={(pass) =>
+            !isValidPassword(pass)
+                ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                : pass !== password1
+                  ? $locales.get((l) => l.ui.page.login.error.mismatched)
+                  : true}
     />
     <Toggle
         tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}

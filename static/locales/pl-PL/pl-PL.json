@@ -4233,9 +4233,9 @@
                     "on": "$~edytuj jako tekst",
                     "off": "$~edytuj jako bloki"
                 },
-                "glyphs": {
-                    "on": "$~zwiń pasujące glify",
-                    "off": "$~rozwiń pasujące glify"
+                "characters": {
+                    "on": "$~zwiń pasujące znaki",
+                    "off": "$~rozwiń pasujące znaki"
                 }
             },
             "button": {
@@ -4307,9 +4307,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~preferowany język dla źródła",
+                    "all": "$~Wszystko"
                 }
+            },
+            "error": {
+                "invalidName": "$~Musi to być prawidłowa nazwa Wordplay.",
+                "invalidWords": "$~Słowa nie mogą być puste ani zawierać zarezerwowanych symboli."
             }
         },
         "annotations": {
@@ -4422,7 +4426,8 @@
                 },
                 "error": {
                     "unknown": "$~Nie znamy twórcy, który posiada ten adres e-mail.",
-                    "anonymous": "$~Aby udostępnić, musisz się zalogować."
+                    "anonymous": "$~Aby udostępnić, musisz się zalogować.",
+                    "self": "$~Nie możesz dodać siebie."
                 },
                 "button": {
                     "submit": "$~Udostępnij projekt za pomocą tego adresu e-mail",
@@ -4617,6 +4622,12 @@
                 "field": {
                     "percent": "$~edytuj procent"
                 }
+            },
+            "error": {
+                "nan": "$~To nie jest liczba.",
+                "percent": "$~Musi to być wartość procentowa z przedziału od 0 do 100.",
+                "lessThanNext": "$~Ta wartość musi być mniejsza niż wartość w kolejnym wpisie.",
+                "moreThanPrevious": "$~To musi być coś więcej niż poprzedni wpis."
             }
         },
         "save": {
@@ -4661,7 +4672,8 @@
                     "contribute": {
                         "label": "$~Brać w czymś udział",
                         "subtitle": "$~Pomóż nam tworzyć Wordplay."
-                    }
+                    },
+                    "characters": "$~Twórz własne emotikony i symbole"
                 }
             },
             "learn": {
@@ -4880,7 +4892,10 @@
                     "unchanged": "$~Nie udało nam się zmienić Twojego adresu e-mail, ale nie wiemy dlaczego.",
                     "delete": "$~Nie mogliśmy usunąć Twojego konta, ale nie wiemy dlaczego.",
                     "wrongPassword": "$~Nieprawidłowa nazwa użytkownika i hasło. Albo twoje hasło jest nieprawidłowe, albo ktoś inny ma tę nazwę użytkownika.",
-                    "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie."
+                    "tooMany": "$~Próbowałeś i nie udało Ci się zalogować zbyt wiele razy. Będziesz musiał poczekać, aby spróbować ponownie.",
+                    "invalidUsername": "$~Nazwa użytkownika musi być adresem e-mail lub większą liczbą liter, bez spacji.",
+                    "invalidPassword": "$~Hasło musi mieć co najmniej 10 znaków.",
+                    "mismatched": "$~Hasła nie są takie same."
                 },
                 "feedback": {
                     "changing": "$~Wysyłanie nowego e-maila...",
@@ -4983,6 +4998,170 @@
                     "$~Gdyby 2400 osób przekazało nam 25 USD rocznie, pokryłoby to nasze obecne koszty, a ewentualną nadwyżkę przeznaczylibyśmy na wynagrodzenia dla większej liczby uczniów i nauczycieli.",
                     "$~Czy możesz być jedną z tych 2400 osób? Jeśli tak, oto nasz link do University of Washington:"
                 ]
+            },
+            "characters": {
+                "header": "$~Pismo",
+                "prompt": "$~Twórz własne emotikony i symbole, których możesz używać w swoich projektach i udostępniać je innym.",
+                "button": {
+                    "new": "$~Utwórz nową postać"
+                },
+                "error": {
+                    "offline": "$~Nie udało nam się uzyskać dostępu do Twoich postaci przechowywanych online.",
+                    "noauth": "$~Musisz się zalogować, aby zobaczyć swoje postacie i stworzyć nowe.",
+                    "create": "$~Nie można utworzyć nowej postaci."
+                }
+            },
+            "character": {
+                "header": "$~Charakter",
+                "prompt": "$~Utwórz emoji lub symbol przy użyciu kształtów i pikseli.",
+                "instructions": {
+                    "empty": "$~Wybierz tryb rysowania na palecie, aby utworzyć kształty.",
+                    "unselected": "$~Wybierz tryb rysowania lub zaznacz i edytuj kształty.",
+                    "selected": "$~Użyj klawiszy *strzałek*, aby przesuwać kształty. Przytrzymaj *Shift*, aby dodać więcej kształtów do zaznaczenia. Użyj *Delete*, aby usunąć zaznaczenie. Użyj poniższych elementów sterujących, aby zmienić zaznaczone kształty.",
+                    "pixel": "$~Aby narysować piksele, wybierz kolor. Następnie kliknij płótno lub użyj *strzałek*, aby przesunąć kursor i *spacji*, aby utworzyć piksel.",
+                    "rect": "$~Aby narysować prostokąty, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
+                    "ellipse": "$~Aby narysować elipsy i okręgi, wybierz kolor i obrys. Następnie kliknij i przeciągnij lub użyj klawiszy *strzałek* i *spacji*, aby wybrać środek i rozmiar.",
+                    "path": "$~Ścieżki mogą być odcinkami linii, wielokątami i krzywymi. Kliknij, aby rozpocząć dodawanie punktów lub użyj klawiszy *strzałek* i *spacji*. Naciśnij *escape*, aby zakończyć ścieżkę. *delete* usunie ostatni punkt."
+                },
+                "shape": {
+                    "shape": "$~kształt",
+                    "pixel": "$~piksel",
+                    "rect": "$~prostokąt",
+                    "ellipse": "$~elipsa",
+                    "path": "$~ścieżka"
+                },
+                "publish": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": ["$?"]
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~imię postaci",
+                        "placeholder": "$~nazwa"
+                    },
+                    "description": {
+                        "description": "$~Opis postaci",
+                        "placeholder": "$~opis"
+                    },
+                    "mode": {
+                        "label": "$~tryb",
+                        "modes": [
+                            "$~wybierać",
+                            "$~piksel",
+                            "$~prostokąt",
+                            "$~elipsa",
+                            "$~ścieżka"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~wypełnić",
+                        "modes": ["$~nic", "$~nieaktywny", "$~wybierać"]
+                    },
+                    "stroke": {
+                        "label": "$~udar",
+                        "modes": ["$~nic", "$~nieaktywny", "$~wybierać"]
+                    },
+                    "none": "$~nic",
+                    "inherit": "$~kolor tekstu",
+                    "strokeWidth": {
+                        "label": "$~szerokość pociągnięcia",
+                        "tip": "$~jaka szerokość jest renderowana"
+                    },
+                    "radius": {
+                        "label": "$~promień narożnika",
+                        "tip": "$~jak okrągłe są rogi prostokąta"
+                    },
+                    "angle": {
+                        "label": "$~kąt",
+                        "tip": "$~o ile obrócić kształt wokół jego środka"
+                    },
+                    "width": {
+                        "label": "$~szerokość",
+                        "tip": "$~jaka szerokość ma kształt"
+                    },
+                    "height": {
+                        "label": "$~wysokość",
+                        "tip": "$~jaka wysokość ma ten kształt"
+                    },
+                    "closed": "$~połączony"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~z powrotem",
+                        "tip": "$~Przenieś zaznaczone kształty do tyłu."
+                    },
+                    "toBack": {
+                        "label": "$~z powrotem",
+                        "tip": "$~Przenieś zaznaczone kształty na spód."
+                    },
+                    "forward": {
+                        "label": "$~do przodu",
+                        "tip": "$~Przesuń zaznaczone kształty do przodu."
+                    },
+                    "toFront": {
+                        "label": "$~do przodu",
+                        "tip": "$~Przenieś zaznaczone kształty na przód."
+                    },
+                    "copy": {
+                        "label": "$~kopia",
+                        "tip": "$~Kopiuj wybrane kształty do schowka."
+                    },
+                    "paste": {
+                        "label": "$~pasta",
+                        "tip": "$~Wklej skopiowane kształty ze schowka."
+                    },
+                    "clear": {
+                        "label": "$~Wszystko",
+                        "tip": "$~Usuń wszystkie kształty."
+                    },
+                    "clearPixels": {
+                        "label": "$~piksele",
+                        "tip": "$~Usuń wszystkie piksele."
+                    },
+                    "undo": {
+                        "label": "$~anulować",
+                        "tip": "$~Cofnij do poprzedniego projektu"
+                    },
+                    "redo": {
+                        "label": "$~przerobić",
+                        "tip": "$~Powtórz następny projekt"
+                    },
+                    "all": {
+                        "label": "$~zaznacz wszystko",
+                        "tip": "$~Zaznacz wszystkie kształty i piksele"
+                    },
+                    "end": {
+                        "label": "$~zakończ kształt",
+                        "tip": "$~Zakończ bieżącą ścieżkę"
+                    },
+                    "horizontal": {
+                        "label": "$~odwróć poziomo",
+                        "tip": "$~odwróć punkty poziomo wokół środka"
+                    },
+                    "vertical": {
+                        "label": "$~odwróć w pionie",
+                        "tip": "$~odwróć punkty pionowo wokół środka"
+                    }
+                },
+                "feedback": {
+                    "name": "$~PostaciemusząmiećprawidłowąnazwęWordplayodługościconajmniej1znaku.Niemożetobyć„UI”,liczbadziesiętnalubszesnastkowaaninazwawbudowanejfunkcjijęzykowej.",
+                    "description": "$~Postacie potrzebują opisu, aby osoby niewidome wiedziały, co one symbolizują.",
+                    "end": "$~lub naciśnij Escape.",
+                    "loadfail": "$~Wystąpił problem podczas ładowania tej postaci.",
+                    "notfound": "$~Ta postać nie istnieje.",
+                    "unauthenticated": "$~Musisz być zalogowany, aby edytować postać.",
+                    "published": "$?"
+                },
+                "announce": {
+                    "position": "$~za 1$2$",
+                    "selection": "$~$1[wybrano $1|nic nie wybrano]"
+                }
             }
         },
         "edit": {

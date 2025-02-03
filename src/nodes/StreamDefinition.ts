@@ -31,7 +31,7 @@ import type LocaleText from '@locale/LocaleText';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
 import type TypeSet from './TypeSet';
 import StreamDefinitionType from './StreamDefinitionType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Evaluate from './Evaluate';
 import Reference from './Reference';
@@ -39,6 +39,7 @@ import ExpressionPlaceholder from './ExpressionPlaceholder';
 import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import TypePlaceholder from './TypePlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class StreamDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -103,7 +104,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return this.expression.compile(evaluator, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'StreamDefinition';
     }
 
@@ -281,7 +282,7 @@ export default class StreamDefinition extends DefinitionExpression {
         return locales.concretize((l) => l.node.StreamDefinition.start);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

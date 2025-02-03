@@ -97,6 +97,7 @@
 
     <p class="center">
         <TextField
+            id="username-field"
             description={$locales.get(
                 (l) => l.ui.page.login.field.username.description,
             )}
@@ -105,7 +106,10 @@
             )}
             bind:text={username}
             editable={!loading}
-            validator={(text) => isValidUsername(text)}
+            validator={(text) =>
+                !isValidUsername(text)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidUsername)
+                    : true}
             changed={() => {
                 if (available === false) available = undefined;
             }}
@@ -127,6 +131,7 @@
     />
     <p class="center">
         <TextField
+            id="password-field"
             kind={reveal ? undefined : 'password'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,
@@ -136,9 +141,13 @@
             )}
             bind:text={password}
             editable={!loading}
-            validator={(pass) => isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : true}
         />
         <TextField
+            id="password-repeat-field"
             kind={reveal ? undefined : 'password'}
             description={$locales.get(
                 (l) => l.ui.page.login.field.password.description,
@@ -148,7 +157,12 @@
             )}
             bind:text={password2}
             editable={!loading}
-            validator={(pass) => pass === password && isValidPassword(pass)}
+            validator={(pass) =>
+                !isValidPassword(pass)
+                    ? $locales.get((l) => l.ui.page.login.error.invalidPassword)
+                    : pass !== password
+                      ? $locales.get((l) => l.ui.page.login.error.mismatched)
+                      : true}
         />
         <Toggle
             tips={$locales.get((l) => l.ui.page.login.toggle.reveal)}

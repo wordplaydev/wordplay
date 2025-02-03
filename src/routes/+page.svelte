@@ -22,6 +22,8 @@
             projects: string;
             /** What content is on the galleries page */
             galleries: string;
+            /** What content is on on the characters page */
+            characters: string;
             /** What content is on the rights page */
             rights: string;
             /** The community link */
@@ -50,13 +52,14 @@
     import {
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
+        SYMBOL_SYMBOL,
         LEARN_SYMBOL,
         STAGE_SYMBOL,
         TEACH_SYMBOL,
     } from '@parser/Symbols';
     import Beta from './Beta.svelte';
     import Speech from '@components/lore/Speech.svelte';
-    import Glyphs from '../lore/Glyphs';
+    import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
     import Iconified from './Iconified.svelte';
     import { getUser } from '@components/project/Contexts';
@@ -77,7 +80,7 @@
     <div class="welcome">
         <div style:margin-inline-start="-2.5em">
             <Speech
-                glyph={Glyphs.FunctionDefinition}
+                character={Characters.FunctionDefinition}
                 emotion={Emotion.happy}
                 big
                 >{#snippet content()}
@@ -120,6 +123,19 @@
                 ><Iconified
                     icon={STAGE_SYMBOL}
                     text={(l) => l.ui.page.galleries.header}
+                /></BigLink
+            >
+        </Action>
+        <Action>
+            <BigLink
+                smaller
+                to="/characters"
+                subtitle={$locales.get(
+                    (l) => l.ui.page.landing.link.characters,
+                )}
+                ><Iconified
+                    icon={SYMBOL_SYMBOL}
+                    text={(l) => l.ui.page.characters.header}
                 /></BigLink
             >
         </Action>

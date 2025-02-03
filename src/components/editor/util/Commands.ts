@@ -24,6 +24,12 @@ import {
     CHANGE_SYMBOL,
     ELISION_SYMBOL,
     DOCS_SYMBOL,
+    UNDO_SYMBOL,
+    REDO_SYMBOL,
+    PASTE_SYMBOL,
+    COPY_SYMBOL,
+    CUT_SYMBOL,
+    ALL_SYMBOL,
 } from '@parser/Symbols';
 
 import Source from '@nodes/Source';
@@ -622,7 +628,7 @@ export const InsertSymbol: Command = {
 };
 
 export const Undo: Command = {
-    symbol: '⟲',
+    symbol: UNDO_SYMBOL,
     description: (l) => l.ui.source.cursor.undo,
     visible: Visibility.Visible,
     category: Category.Modify,
@@ -838,7 +844,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '📄',
+        symbol: ALL_SYMBOL,
         description: (l) => l.ui.source.cursor.selectAll,
         visible: Visibility.Visible,
         category: Category.Cursor,
@@ -1165,7 +1171,7 @@ const Commands: Command[] = [
     ShowMenu,
     Undo,
     {
-        symbol: '⟳',
+        symbol: REDO_SYMBOL,
         description: (l) => l.ui.source.cursor.redo,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1235,7 +1241,7 @@ const Commands: Command[] = [
                 : false,
     },
     {
-        symbol: '✄',
+        symbol: CUT_SYMBOL,
         description: (l) => l.ui.source.cursor.cut,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1261,7 +1267,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '📚',
+        symbol: COPY_SYMBOL,
         description: (l) => l.ui.source.cursor.copy,
         visible: Visibility.Visible,
         category: Category.Modify,
@@ -1282,7 +1288,7 @@ const Commands: Command[] = [
         },
     },
     {
-        symbol: '📋',
+        symbol: PASTE_SYMBOL,
         description: (l) => l.ui.source.cursor.paste,
         visible: Visibility.Visible,
         category: Category.Modify,

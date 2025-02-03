@@ -21,7 +21,7 @@ import ListCloseToken from './ListCloseToken';
 import { node, type Grammar, type Replacement } from './Node';
 import { NotAType } from './NotAType';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import NoneValue from '@values/NoneValue';
@@ -35,6 +35,7 @@ import Reference from './Reference';
 import PropertyReference from './PropertyReference';
 import UnionType from './UnionType';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ListAccess extends Expression {
     readonly list: Expression;
@@ -95,7 +96,7 @@ export default class ListAccess extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'ListAccess';
     }
 
@@ -314,7 +315,7 @@ export default class ListAccess extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.ListAccess;
+    getCharacter() {
+        return Characters.ListAccess;
     }
 }

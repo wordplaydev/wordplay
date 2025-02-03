@@ -45,9 +45,9 @@ import {
     MATCH_SYMBOL,
     LOCALE_SYMBOL,
 } from '@parser/Symbols';
-import type Glyph from './Glyph';
+import type BasisCharacter from './BasisCharacter';
 
-export const GlyphSet = {
+const CharactersSet = {
     // Parsing
     Unparsable: {
         symbols: UNPARSABLE_SYMBOL,
@@ -236,7 +236,8 @@ export const GlyphSet = {
 } as const;
 
 // A little TypeScript hackery to type based on the keys of the literal above.
-const Glyphs: Readonly<Record<keyof typeof GlyphSet, Readonly<Glyph>>> =
-    GlyphSet;
+const Characters: Readonly<
+    Record<keyof typeof CharactersSet, Readonly<BasisCharacter>>
+> = CharactersSet;
 
-export default Glyphs;
+export default Characters;

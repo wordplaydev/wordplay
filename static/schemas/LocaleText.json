@@ -6566,7 +6566,7 @@
             },
             "Words": {
               "$ref": "#/definitions/NodeText",
-              "description": "A sequence of glyphs in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ `"
+              "description": "A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ `"
             }
           },
           "required": [
@@ -6912,7 +6912,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "content": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7004,7 +7004,7 @@
                 },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How tall glyphs in a phrase, group, or stage should be"
+                  "description": "How tall characters in a phrase, group, or stage should be"
                 },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7096,7 +7096,7 @@
             },
             "Phrase": {
               "additionalProperties": false,
-              "description": "A sequence of glyphs",
+              "description": "A sequence of characters",
               "properties": {
                 "alignment": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7112,7 +7112,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "defaultDescription": {
                   "$ref": "#/definitions/Template",
@@ -7200,7 +7200,7 @@
                 },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How tall glyphs in a phrase, group, or stage should be"
+                  "description": "How tall characters in a phrase, group, or stage should be"
                 },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7208,11 +7208,11 @@
                 },
                 "text": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The glyphs to render"
+                  "description": "The characters to render"
                 },
                 "wrap": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The boundary at which to wrap glyphs to another line"
+                  "description": "The boundary at which to wrap characters to another line"
                 }
               },
               "required": [
@@ -7514,7 +7514,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "description": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7706,7 +7706,7 @@
                 },
                 "color": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "The color of glyphs in a phrase, group, or stage"
+                  "description": "The color of characters in a phrase, group, or stage"
                 },
                 "content": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -7798,7 +7798,7 @@
                 },
                 "size": {
                   "$ref": "#/definitions/NameAndDoc",
-                  "description": "How tall glyphs in a phrase, group, or stage should be"
+                  "description": "How tall characters in a phrase, group, or stage should be"
                 },
                 "style": {
                   "$ref": "#/definitions/NameAndDoc",
@@ -8948,6 +8948,10 @@
                           "description": "When someone wants to add a collaborator but isn't authenticated",
                           "type": "string"
                         },
+                        "self": {
+                          "description": "Can't add self",
+                          "type": "string"
+                        },
                         "unknown": {
                           "description": "When someone tries to add an email collaborator that doesn't have a Wordplay account",
                           "type": "string"
@@ -8955,7 +8959,8 @@
                       },
                       "required": [
                         "unknown",
-                        "anonymous"
+                        "anonymous",
+                        "self"
                       ],
                       "type": "object"
                     },
@@ -9239,11 +9244,11 @@
               "properties": {
                 "app": {
                   "$ref": "#/definitions/SupportedFace",
-                  "description": "The application font to use throughout the application. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
+                  "description": "The application font to use throughout the application. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                 },
                 "code": {
                   "$ref": "#/definitions/SupportedFace",
-                  "description": "The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that glyphs render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
+                  "description": "The monospace font to use for code in the editor and code examples. Should support the language used in this locale so that characters render correctly. Add the face to Fonts.ts if the one you choose is not yet supported."
                 }
               },
               "required": [
@@ -9340,6 +9345,12 @@
                 "about": {
                   "description": "About page text"
                 },
+                "character": {
+                  "description": "The character editor page"
+                },
+                "characters": {
+                  "description": "The character creation and browsing page"
+                },
                 "class": {
                   "description": "Class page text"
                 },
@@ -9389,6 +9400,8 @@
                 "class",
                 "guide",
                 "projects",
+                "characters",
+                "character",
                 "galleries",
                 "about",
                 "login",
@@ -9482,6 +9495,35 @@
                     "createPhrase",
                     "createGroup",
                     "createStage"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "Errors for the palette",
+                  "properties": {
+                    "lessThanNext": {
+                      "description": "Sequence precent must be less than the next",
+                      "type": "string"
+                    },
+                    "moreThanPrevious": {
+                      "description": "Sequence percent must be greater than the last",
+                      "type": "string"
+                    },
+                    "nan": {
+                      "description": "The value entered isn't a number",
+                      "type": "string"
+                    },
+                    "percent": {
+                      "description": "0-100 range",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "nan",
+                    "percent",
+                    "moreThanPrevious",
+                    "lessThanNext"
                   ],
                   "type": "object"
                 },
@@ -9679,7 +9721,8 @@
                 "button",
                 "prompt",
                 "field",
-                "sequence"
+                "sequence",
+                "error"
               ],
               "type": "object"
             },
@@ -9938,7 +9981,7 @@
                       "type": "string"
                     },
                     "search": {
-                      "description": "Search for glyph",
+                      "description": "Search for character",
                       "type": "string"
                     },
                     "selectAll": {
@@ -10024,6 +10067,24 @@
                   "$ref": "#/definitions/DocText",
                   "description": "The text to show when a source file is empty"
                 },
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "invalidName": {
+                      "description": "An invalid source name",
+                      "type": "string"
+                    },
+                    "invalidWords": {
+                      "description": "Invalid words in a words token editor",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "invalidName",
+                    "invalidWords"
+                  ],
+                  "type": "object"
+                },
                 "field": {
                   "additionalProperties": false,
                   "properties": {
@@ -10101,14 +10162,14 @@
                       "$ref": "#/definitions/ToggleText",
                       "description": "The blocks/text toggle"
                     },
-                    "glyphs": {
+                    "characters": {
                       "$ref": "#/definitions/ToggleText",
-                      "description": "The glyph chooser expand/collapse toggle"
+                      "description": "The character chooser expand/collapse toggle"
                     }
                   },
                   "required": [
                     "blocks",
-                    "glyphs"
+                    "characters"
                   ],
                   "type": "object"
                 }
@@ -10123,7 +10184,8 @@
                 "menu",
                 "field",
                 "options",
-                "cursor"
+                "cursor",
+                "error"
               ],
               "type": "object"
             },

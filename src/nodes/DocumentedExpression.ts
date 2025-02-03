@@ -8,9 +8,10 @@ import type Evaluator from '@runtime/Evaluator';
 import Docs from './Docs';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class DocumentedExpression extends SimpleExpression {
     readonly docs: Docs;
@@ -25,7 +26,7 @@ export default class DocumentedExpression extends SimpleExpression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'DocumentedExpression';
     }
 
@@ -87,7 +88,7 @@ export default class DocumentedExpression extends SimpleExpression {
         return locales.concretize((l) => l.node.DocumentedExpression.start);
     }
 
-    getGlyphs() {
-        return Glyphs.DocumentedExpression;
+    getCharacter() {
+        return Characters.DocumentedExpression;
     }
 }

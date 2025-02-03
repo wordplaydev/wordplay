@@ -1,14 +1,13 @@
 <script lang="ts">
     import type MarkupValue from '@values/MarkupValue';
-    import SymbolView from './SymbolView.svelte';
-    import Sym from '@nodes/Sym';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
 
     interface Props {
         value: MarkupValue;
         inline?: boolean;
     }
 
-    let { value }: Props = $props();
+    let { value, inline }: Props = $props();
 </script>
 
-<SymbolView symbol={value.markup.toWordplay()} type={Sym.Words} />
+<MarkupHtmlView {inline} markup={value.markup} />

@@ -1,8 +1,7 @@
 import Purpose from '../concepts/Purpose';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
-import type Glyph from '../lore/Glyph';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Content from './Content';
 import { node, type Replacement, type Grammar } from './Node';
 import Token from './Token';
@@ -11,6 +10,7 @@ import type Node from './Node';
 import type Locales from '../locale/Locales';
 import ConceptRef from '@locale/ConceptRef';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -41,7 +41,7 @@ export default class Mention extends Content {
         return [new Mention(new Token('_', Sym.Mention))];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Mention';
     }
 
@@ -65,8 +65,8 @@ export default class Mention extends Content {
         return locales.get((l) => l.node.Mention);
     }
 
-    getGlyphs(): Glyph {
-        return Glyphs.Mention;
+    getCharacter() {
+        return Characters.Mention;
     }
 
     concretize(

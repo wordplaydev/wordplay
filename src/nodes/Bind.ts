@@ -35,7 +35,7 @@ import DuplicateName from '@conflicts/DuplicateName';
 import { node, none, type Grammar, type Replacement, any } from './Node';
 import type LocaleText from '@locale/LocaleText';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Reaction from './Reaction';
 import Evaluate from './Evaluate';
@@ -49,6 +49,7 @@ import DocumentedExpression from './DocumentedExpression';
 import NameType from './NameType';
 import type EditContext from '@edit/EditContext';
 import TypePlaceholder from './TypePlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Bind extends Expression {
     readonly docs?: Docs;
@@ -88,7 +89,7 @@ export default class Bind extends Expression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Bind';
     }
 
@@ -683,7 +684,7 @@ export default class Bind extends Expression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs(locales: Locales) {
+    getCharacter(locales: Locales) {
         const preferredName =
             this.names.getPreferredName(locales.getLocales())?.getName() ??
             this.names.getNames()[0];
@@ -691,7 +692,7 @@ export default class Bind extends Expression {
             ? {
                   symbols: preferredName,
               }
-            : Glyphs.Bind;
+            : Characters.Bind;
     }
 
     getKind() {

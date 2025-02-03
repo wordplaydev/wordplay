@@ -32,7 +32,7 @@ export default class MarkupValue extends SimpleValue {
     }
 
     getDescription(locales: Locales): Markup {
-        return locales.concretize((l) => l.node.Docs.name);
+        return locales.concretize((l) => l.node.Markup.name);
     }
 
     getRepresentativeText() {

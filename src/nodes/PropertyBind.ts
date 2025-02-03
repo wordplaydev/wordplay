@@ -15,7 +15,7 @@ import StructureValue from '../values/StructureValue';
 import ValueException from '../values/ValueException';
 import PropertyReference from './PropertyReference';
 import IncompatibleType from '../conflicts/IncompatibleType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import NodeRef from '../locale/NodeRef';
 import Sym from './Sym';
@@ -30,6 +30,7 @@ import Bind from './Bind';
 import InvalidProperty from '@conflicts/InvalidProperty';
 import StructureDefinitionType from './StructureDefinitionType';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class PropertyBind extends Expression {
     readonly reference: PropertyReference;
@@ -68,7 +69,7 @@ export default class PropertyBind extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'PropertyBind';
     }
 
@@ -234,8 +235,8 @@ export default class PropertyBind extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Bind;
+    getCharacter() {
+        return Characters.Bind;
     }
 
     getDescriptionInputs(locales: Locales, context: Context) {

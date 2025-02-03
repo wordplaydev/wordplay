@@ -296,12 +296,14 @@
             )}</Subheader
         >
         <LabeledTextbox
+            id="class-name"
             fixed={FieldLabelWidth}
             texts={(l) => l.ui.page.newclass.field.name}
             editable={!download}
             bind:text={name}
         ></LabeledTextbox>
         <LabeledTextbox
+            id="class-description"
             box
             fixed={FieldLabelWidth}
             texts={(l) => l.ui.page.newclass.field.description}
@@ -346,6 +348,7 @@
         ></MarkupHtmlView>
 
         <LabeledTextbox
+            id="metadata"
             box
             fixed={FieldLabelWidth}
             editable={!editing}
@@ -367,6 +370,7 @@
                 )}
             ></MarkupHtmlView>
             <LabeledTextbox
+                id="secret-words"
                 box
                 fixed={FieldLabelWidth}
                 texts={(l) => l.ui.page.newclass.field.words}
@@ -482,6 +486,7 @@
                                         <td
                                             >{#if editing}
                                                 <TextField
+                                                    id="new-student-{studentIndex}-data-{columnIndex}"
                                                     description=""
                                                     placeholder=""
                                                     text={editedStudents !==
@@ -508,15 +513,24 @@
                                     <td
                                         >{#if editing}
                                             <TextField
+                                                id="new-student-{studentIndex}"
                                                 description=""
                                                 placeholder=""
                                                 text={finalStudents[
                                                     studentIndex
                                                 ].username}
                                                 validator={(text) =>
-                                                    !usernamesTaken.includes(
+                                                    usernamesTaken.includes(
                                                         text,
-                                                    )}
+                                                    )
+                                                        ? $locales.get(
+                                                              (l) =>
+                                                                  l.ui.page
+                                                                      .newclass
+                                                                      .error
+                                                                      .taken,
+                                                          )
+                                                        : true}
                                                 changed={(text) => {
                                                     // Update the username after it's changed.
                                                     editedStudents
@@ -546,6 +560,7 @@
                                     <td
                                         >{#if editing}
                                             <TextField
+                                                id="new-student-{studentIndex}-final"
                                                 description=""
                                                 placeholder=""
                                                 text={finalStudents[

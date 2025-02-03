@@ -27,7 +27,7 @@ import TypeToken from './TypeToken';
 import { any, node, none, type Grammar, type Replacement, list } from './Node';
 import type LocaleText from '@locale/LocaleText';
 import InternalException from '@values/InternalException';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import IncompatibleType from '../conflicts/IncompatibleType';
 import NameType from './NameType';
@@ -43,6 +43,7 @@ import DefinitionExpression from './DefinitionExpression';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import TypePlaceholder from './TypePlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class FunctionDefinition extends DefinitionExpression {
     readonly docs?: Docs;
@@ -130,7 +131,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FunctionDefinition';
     }
 
@@ -483,7 +484,7 @@ export default class FunctionDefinition extends DefinitionExpression {
         return [locales.getName(this.names)];
     }
 
-    getGlyphs() {
-        return Glyphs.FunctionDefinition;
+    getCharacter() {
+        return Characters.FunctionDefinition;
     }
 }

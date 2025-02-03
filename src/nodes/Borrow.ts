@@ -37,10 +37,11 @@ import UnimplementedException from '@values/UnimplementedException';
 import NodeRef from '@locale/NodeRef';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Reference from './Reference';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export type SharedDefinition =
     | Source
@@ -74,7 +75,7 @@ export default class Borrow extends SimpleExpression {
         this.computeChildren();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Borrow';
     }
 
@@ -292,8 +293,8 @@ export default class Borrow extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Borrow;
+    getCharacter() {
+        return Characters.Borrow;
     }
 
     getDescriptionInputs() {

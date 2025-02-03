@@ -44,7 +44,7 @@ import UnimplementedException from '@values/UnimplementedException';
 import StreamDefinition from './StreamDefinition';
 import StreamDefinitionType from './StreamDefinitionType';
 import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import Sym from './Sym';
@@ -64,6 +64,7 @@ import Reference from './Reference';
 import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
 import Input from './Input';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type Mapping = {
     expected: Bind;
@@ -201,7 +202,7 @@ export default class Evaluate extends Expression {
         return this.getPossibleEvaluations(type, node, false, context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Evaluate';
     }
 
@@ -369,8 +370,9 @@ export default class Evaluate extends Expression {
         context: Context,
     ): Expression | Expression[] | undefined {
         const mapping = this.getInputMapping(context);
-        const given = mapping?.inputs.find((input) => input.expected === bind)
-            ?.given;
+        const given = mapping?.inputs.find(
+            (input) => input.expected === bind,
+        )?.given;
         return given instanceof Input ? given.value : given;
     }
 
@@ -459,7 +461,7 @@ export default class Evaluate extends Expression {
             return [
                 new IncompatibleInput(
                     this.fun instanceof PropertyReference
-                        ? this.fun.name ?? this.fun
+                        ? (this.fun.name ?? this.fun)
                         : this.fun,
                     this.fun instanceof PropertyReference
                         ? this.fun.structure.getType(context)
@@ -531,8 +533,8 @@ export default class Evaluate extends Expression {
                     // Don't rely on the bind's specified type, since it's not a reliable source of type information. Ask it's value directly.
                     const givenType =
                         given instanceof Input
-                            ? given.value?.getType(context) ??
-                              new NoExpressionType(given)
+                            ? (given.value?.getType(context) ??
+                              new NoExpressionType(given))
                             : given.getType(context);
                     if (!expectedType.accepts(givenType, context, given))
                         conflicts.push(
@@ -1024,8 +1026,8 @@ export default class Evaluate extends Expression {
         return [names ? locales.getName(names) : undefined];
     }
 
-    getGlyphs() {
-        return Glyphs.Evaluate;
+    getCharacter() {
+        return Characters.Evaluate;
     }
 
     getKind() {

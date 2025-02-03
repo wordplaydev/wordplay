@@ -14,7 +14,7 @@
     import { getFaceCSS } from '@output/outputToCSS';
     import UnicodeString from '../../unicode/UnicodeString';
     import ExceptionValue from '@values/ExceptionValue';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
     import CreatorView from './CreatorView.svelte';
 
     interface Props {
@@ -204,7 +204,7 @@
 
     .output {
         display: flex;
-        /** For some reason this is necessary for keeping the glyph centered. */
+        /** For some reason this is necessary for keeping the character centered. */
         align-items: center;
         justify-content: center;
         width: 100%;

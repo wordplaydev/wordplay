@@ -18,12 +18,13 @@ import type Evaluator from '@runtime/Evaluator';
 import type Value from '@values/Value';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import BooleanLiteral from './BooleanLiteral';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -77,7 +78,7 @@ export default class Conditional extends Expression {
         );
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Conditional';
     }
 
@@ -235,7 +236,7 @@ export default class Conditional extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Conditional;
+    getCharacter() {
+        return Characters.Conditional;
     }
 }

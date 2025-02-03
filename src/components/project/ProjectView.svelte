@@ -109,10 +109,9 @@
         setEditors,
         setConflicts,
         setSelectedOutput,
-        setAnnouncer,
-        type AnnouncerContext,
         getFullscreen,
         getUser,
+        getAnnounce,
     } from './Contexts';
     import type Project from '@db/projects/Project';
     import Documentation from '@components/concepts/Documentation.svelte';
@@ -145,7 +144,7 @@
     import Evaluator from '@runtime/Evaluator';
     import { page } from '$app/state';
     import type Caret from '../../edit/Caret';
-    import GlyphChooser from '../editor/GlyphChooser.svelte';
+    import CharacterChooser from '../editor/GlyphChooser.svelte';
     import Timeline from '../evaluator/Timeline.svelte';
     import type PaintingConfiguration from '../output/PaintingConfiguration';
     import {
@@ -178,7 +177,6 @@
     import type Color from '../../output/Color';
     import Sharing from './Sharing.svelte';
     import Toggle from '../widgets/Toggle.svelte';
-    import Announcer from './Announcer.svelte';
     import { toClipboard } from '../editor/util/Clipboard';
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
@@ -188,14 +186,13 @@
     import Separator from './Separator.svelte';
     import Emoji from '../app/Emoji.svelte';
     import {
-        PROJECT_PARAM_CONCEPT,
         PROJECT_PARAM_EDIT,
         PROJECT_PARAM_PLAY,
     } from '../../routes/project/constants';
     import Switch from '@components/widgets/Switch.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
     import FullscreenIcon from './FullscreenIcon.svelte';
-    import Glyphs from '../../lore/Glyphs';
+    import Characters from '../../lore/BasisCharacters';
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
@@ -206,11 +203,15 @@
     import OutputLocaleChooser from './OutputLocaleChooser.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import type Chat from '@db/ChatDatabase.svelte';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
     import Checkpoints from './Checkpoints.svelte';
     import Link from '@components/app/Link.svelte';
     import EditorLocaleChooser from './EditorLocaleChooser.svelte';
     import SelectedOutput from './SelectedOutput.svelte';
+    import {
+        getConceptFromURL,
+        setConceptInURL,
+    } from '@concepts/ConceptParams';
 
     interface Props {
         project: Project;
@@ -321,6 +322,9 @@
 
     /** The fullscreen context of the page that this is in. */
     const pageFullscreen = getFullscreen();
+
+    /** The live region announcer */
+    const announce = getAnnounce();
 
     /** Tell the parent Page whether we're in fullscreen so it can hide and color things appropriately. */
     $effect(() => {
@@ -458,17 +462,6 @@
         // Set the evaluator store
         evaluator.set(newEvaluator);
     }
-
-    /** This stores the instance of the announcer component */
-    let announcer = $state<ReturnType<typeof Announcer>>();
-    let announcerStore: Writable<AnnouncerContext | undefined> =
-        writable(undefined);
-
-    // Update the function context when the announcer changes.
-    $effect(() => announcerStore.set(announcer?.announce));
-
-    // Set the announcer store in context.
-    setAnnouncer(announcerStore);
 
     /** Create a store for all of the evaluation state, so that the editor nodes can update when it changes. */
     const evaluation = writable(getEvaluationContext());
@@ -672,18 +665,13 @@
         if (!requestedEdit) searchParams.delete(PROJECT_PARAM_EDIT);
 
         // Set the URL to reflect the latest concept selected.
-        if ($path && $path.length > 0) {
-            const concept = $path[$path.length - 1];
-            const name = concept.getName($locales, false);
-            const ownerName = index
-                ?.getConceptOwner(concept)
-                ?.getName($locales, false);
-
-            searchParams.set(
-                PROJECT_PARAM_CONCEPT,
-                `${ownerName ? `${ownerName}/` : ''}${name}`,
+        if (index)
+            setConceptInURL(
+                $locales,
+                $path && $path.length > 0 ? $path[$path.length - 1] : undefined,
+                index,
+                searchParams,
             );
-        } else searchParams.delete(PROJECT_PARAM_CONCEPT);
 
         // Update the URL, removing = for keys with no values
         const search = `${searchParams.toString().replace(/=(?=&|$)/gm, '')}`;
@@ -748,25 +736,12 @@
     let path = getConceptPath();
 
     // Restore the concept in the URL after mounting.
-    onMount(() => restoreConcept());
-
-    function resolveConcept(conceptPath: string): Concept | undefined {
-        if (conceptPath && index) {
-            const [ownerName, name] = conceptPath.split('/');
-            const concept =
-                ownerName && name
-                    ? index.getSubConcept(ownerName, name)
-                    : index.getConceptByName(ownerName);
-            return concept;
+    onMount(() => {
+        if (index) {
+            const concept = getConceptFromURL(index, page.url.searchParams);
+            if (concept && path) path.set([concept]);
         }
-        return undefined;
-    }
-
-    function restoreConcept() {
-        const id = page.url.searchParams.get(PROJECT_PARAM_CONCEPT);
-        const concept = id ? resolveConcept(id) : undefined;
-        if (concept && path) path.set([concept]);
-    }
+    });
 
     let latestProject: Project | undefined;
 
@@ -1057,8 +1032,8 @@
     $effect(() => {
         if (overwritten)
             untrack(() => {
-                if (announcer?.announce) {
-                    announcer.announce(
+                if ($announce) {
+                    $announce(
                         project.getID(),
                         $locales.getLanguages()[0],
                         $locales.get((l) => l.ui.source.overwritten),
@@ -1498,8 +1473,6 @@
 {#if warn}
     <Moderation {project} />
 {/if}
-<!-- Render a live region with announcements as soon as possible -->
-<Announcer bind:this={announcer} />
 <!-- Render the current project. -->
 <main class="project" class:dragging={dragged !== undefined} bind:this={view}>
     <div
@@ -1528,7 +1501,7 @@
             <!-- Are all the tiles collapsed? Show a bit of feedback suggesting navigating down. -->
             {#if layout.tiles.every((tile) => tile.isCollapsed())}
                 <div class="empty">
-                    <Speech glyph={Glyphs.FunctionDefinition}>
+                    <Speech character={Characters.FunctionDefinition}>
                         {#snippet content()}
                             {$locales.get((l) => l.ui.project.collapsed)} ⬇
                         {/snippet}
@@ -1773,7 +1746,7 @@
                             {/snippet}
                             {#snippet footer()}
                                 {#if tile.kind === TileKind.Source && editable}
-                                    {#if editableAndCurrent}<GlyphChooser
+                                    {#if editableAndCurrent}<CharacterChooser
                                             sourceID={tile.id}
                                         />{/if}
                                     {#if checkpoint > -1}
@@ -1862,6 +1835,7 @@
                 {/if}
                 {#if editable}
                     <TextField
+                        id="project-name"
                         text={project.getName()}
                         description={$locales.get(
                             (l) => l.ui.project.field.name.description,
@@ -1896,7 +1870,7 @@
                         uiid="addSource"
                         tip={$locales.get((l) => l.ui.project.button.addSource)}
                         action={addSource}
-                        >+<Emoji>{Glyphs.Program.symbols}</Emoji></Button
+                        >+<Emoji>{Characters.Program.symbols}</Emoji></Button
                     >{/if}
                 {#each layout.getNonSources() as tile}
                     <!-- No need to show the tile if not visible when not editable. -->

@@ -304,15 +304,17 @@ export function getSelectedOutput(): SelectedOutput | undefined {
 // This minimizes the number of live regions on the page, increasing the likelihood
 // that they're read.
 const AnnouncerSymbol = Symbol('announcer');
-export type AnnouncerContext = (
-    id: string,
-    language: LanguageCode | undefined,
-    message: string,
-) => void;
-export function setAnnouncer(context: Writable<AnnouncerContext | undefined>) {
+export type AnnouncerContext =
+    | ((
+          id: string,
+          language: LanguageCode | undefined,
+          message: string,
+      ) => void)
+    | undefined;
+export function setAnnouncer(context: Writable<AnnouncerContext>) {
     setContext(AnnouncerSymbol, context);
 }
-export function getAnnounce(): Writable<AnnouncerContext | undefined> {
+export function getAnnounce(): Writable<AnnouncerContext> {
     return getContext(AnnouncerSymbol);
 }
 

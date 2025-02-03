@@ -4208,9 +4208,9 @@
                     "on": "$~modifier en tant que texte",
                     "off": "$~éditer en blocs"
                 },
-                "glyphs": {
-                    "on": "$~réduire les glyphes correspondants",
-                    "off": "$~développer les glyphes correspondants"
+                "characters": {
+                    "on": "$~réduire les caractères correspondants",
+                    "off": "$~développer les caractères correspondants"
                 }
             },
             "button": {
@@ -4282,9 +4282,13 @@
             },
             "options": {
                 "locale": {
-                    "tip": "$?",
-                    "all": "$?"
+                    "tip": "$~langue préférée pour la source",
+                    "all": "$~tous"
                 }
+            },
+            "error": {
+                "invalidName": "$~Il doit s'agir d'un nom de jeu de mots valide.",
+                "invalidWords": "$~Les mots ne peuvent pas être vides ou contenir des symboles réservés."
             }
         },
         "annotations": {
@@ -4397,7 +4401,8 @@
                 },
                 "error": {
                     "unknown": "$~Nous ne connaissons pas de créateur avec cet email.",
-                    "anonymous": "$~Vous devez être connecté pour partager."
+                    "anonymous": "$~Vous devez être connecté pour partager.",
+                    "self": "$~Vous ne pouvez pas vous ajouter."
                 },
                 "button": {
                     "submit": "$~Partager le projet avec cette adresse email",
@@ -4555,6 +4560,12 @@
                 "field": {
                     "percent": "$~modifier le pourcentage"
                 }
+            },
+            "error": {
+                "nan": "$~Ce n'est pas un numéro.",
+                "percent": "$~Doit être un pourcentage compris entre 0 et 100.",
+                "lessThanNext": "$~Cela doit être inférieur à l'entrée suivante.",
+                "moreThanPrevious": "$~Cela doit être plus que l'entrée précédente."
             }
         },
         "save": {
@@ -4599,7 +4610,8 @@
                         "label": "$~Contribuer",
                         "subtitle": "$~Aidez-nous à créer Wordplay."
                     },
-                    "teach": "$~Gérer les classes d'étudiants et leurs projets"
+                    "teach": "$~Gérer les classes d'étudiants et leurs projets",
+                    "characters": "$~Créez des émojis et des symboles personnalisés"
                 }
             },
             "learn": {
@@ -4703,7 +4715,10 @@
                     "unchanged": "$~Nous n'avons pas pu changer votre adresse e-mail, mais nous ne savons pas pourquoi.",
                     "delete": "$~Nous n'avons pas pu supprimer votre compte, mais nous ne savons pas pourquoi.",
                     "wrongPassword": "$~Nom d'utilisateur et mot de passe non valides. Soit votre mot de passe est erroné, soit quelqu'un d'autre possède ce nom d'utilisateur.",
-                    "tooMany": "$~Vous avez essayé de vous connecter à plusieurs reprises sans succès. Vous devrez attendre avant de réessayer."
+                    "tooMany": "$~Vous avez essayé de vous connecter à plusieurs reprises sans succès. Vous devrez attendre avant de réessayer.",
+                    "invalidUsername": "$~Les noms d'utilisateur doivent être des e-mails ou >5 lettres sans espaces.",
+                    "invalidPassword": "$~Les mots de passe doivent comporter au moins 10 caractères.",
+                    "mismatched": "$~Les mots de passe ne correspondent pas."
                 },
                 "feedback": {
                     "changing": "$~Envoi d'un nouvel e-mail...",
@@ -4920,6 +4935,170 @@
                 },
                 "error": {
                     "notfound": "$~Nous n'avons pas pu trouver ce cours ou vous n'avez pas la permission de le consulter."
+                }
+            },
+            "characters": {
+                "header": "$~Personnages",
+                "prompt": "$~Créez des émojis et des symboles personnalisés à utiliser dans vos projets et à partager avec d'autres.",
+                "button": {
+                    "new": "$~Créer un nouveau personnage"
+                },
+                "error": {
+                    "offline": "$~Nous n'avons pas pu accéder à vos personnages stockés en ligne.",
+                    "noauth": "$~Vous devez être connecté pour voir vos personnages et en créer de nouveaux.",
+                    "create": "$~Impossible de créer un nouveau personnage."
+                }
+            },
+            "character": {
+                "header": "$~Personnage",
+                "prompt": "$~Créez un emoji ou un symbole avec des formes et des pixels.",
+                "instructions": {
+                    "empty": "$~Choisissez un mode de dessin dans la palette pour créer des formes.",
+                    "unselected": "$~Choisissez un mode de dessin ou sélectionnez et modifiez des formes.",
+                    "selected": "$~Utilisez les touches fléchées pour déplacer les formes. Maintenez la touche Maj enfoncée pour ajouter d'autres formes à une sélection. Utilisez la touche Suppr pour supprimer la sélection. Utilisez les commandes ci-dessous pour modifier les formes sélectionnées.",
+                    "pixel": "$~Pour dessiner des pixels, choisissez une couleur. Cliquez ensuite sur la zone de dessin ou utilisez les *flèches* pour déplacer le curseur et la *barre d'espace* pour créer un pixel.",
+                    "rect": "$~Pour dessiner des rectangles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
+                    "ellipse": "$~Pour dessiner des ellipses et des cercles, choisissez une couleur et un contour. Ensuite, cliquez et faites glisser, ou utilisez les *flèches* et la touche *espace* pour choisir un centre et une taille.",
+                    "path": "$~Les chemins peuvent être des segments de ligne, des polygones et des courbes. Cliquez pour commencer à ajouter des points ou utilisez les touches *flèche* et *espace*. Appuyez sur *échapper* pour terminer le chemin. *supprimer* supprimera le dernier point."
+                },
+                "shape": {
+                    "shape": "$~forme",
+                    "pixel": "$~pixel",
+                    "rect": "$~rectangle",
+                    "ellipse": "$~ellipse",
+                    "path": "$~chemin"
+                },
+                "publish": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": ["$?"]
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                },
+                "field": {
+                    "name": {
+                        "description": "$~nom du personnage",
+                        "placeholder": "$~nom"
+                    },
+                    "description": {
+                        "description": "$~description du personnage",
+                        "placeholder": "$~description"
+                    },
+                    "mode": {
+                        "label": "$~mode",
+                        "modes": [
+                            "$~sélectionner",
+                            "$~pixel",
+                            "$~rectangle",
+                            "$~ellipse",
+                            "$~chemin"
+                        ]
+                    },
+                    "fill": {
+                        "label": "$~remplir",
+                        "modes": ["$~aucun", "$~inerte", "$~choisir"]
+                    },
+                    "stroke": {
+                        "label": "$~accident vasculaire cérébral",
+                        "modes": ["$~aucun", "$~inerte", "$~choisir"]
+                    },
+                    "none": "$~aucun",
+                    "inherit": "$~couleur du texte",
+                    "strokeWidth": {
+                        "label": "$~largeur de trait",
+                        "tip": "$~la largeur du trait rendu"
+                    },
+                    "radius": {
+                        "label": "$~rayon d'angle",
+                        "tip": "$~à quoi ressemblent les coins arrondis des rectangles"
+                    },
+                    "angle": {
+                        "label": "$~angle",
+                        "tip": "$~dans quelle mesure faire pivoter la forme autour de son centre"
+                    },
+                    "width": {
+                        "label": "$~largeur",
+                        "tip": "$~quelle est la largeur de la forme"
+                    },
+                    "height": {
+                        "label": "$~hauteur",
+                        "tip": "$~quelle est la hauteur de la forme"
+                    },
+                    "closed": "$~connecté"
+                },
+                "button": {
+                    "back": {
+                        "label": "$~dos",
+                        "tip": "$~Déplacer les formes sélectionnées vers l'arrière."
+                    },
+                    "toBack": {
+                        "label": "$~à l'arrière",
+                        "tip": "$~Déplacer les formes sélectionnées vers l’arrière."
+                    },
+                    "forward": {
+                        "label": "$~avant",
+                        "tip": "$~Déplacer les formes sélectionnées vers l'avant."
+                    },
+                    "toFront": {
+                        "label": "$~à l'avant",
+                        "tip": "$~Déplacer les formes sélectionnées vers l’avant."
+                    },
+                    "copy": {
+                        "label": "$~copie",
+                        "tip": "$~Copier les formes sélectionnées dans le presse-papiers."
+                    },
+                    "paste": {
+                        "label": "$~coller",
+                        "tip": "$~Coller les formes copiées à partir du presse-papiers."
+                    },
+                    "clear": {
+                        "label": "$~tous",
+                        "tip": "$~Supprimer toutes les formes."
+                    },
+                    "clearPixels": {
+                        "label": "$~pixels",
+                        "tip": "$~Supprimer tous les pixels."
+                    },
+                    "undo": {
+                        "label": "$~défaire",
+                        "tip": "$~Annuler la conception précédente"
+                    },
+                    "redo": {
+                        "label": "$~refaire",
+                        "tip": "$~Refaire la conception suivante"
+                    },
+                    "all": {
+                        "label": "$~sélectionner tout",
+                        "tip": "$~Sélectionnez toutes les formes et tous les pixels"
+                    },
+                    "end": {
+                        "label": "$~forme finale",
+                        "tip": "$~Terminer le chemin actuel"
+                    },
+                    "horizontal": {
+                        "label": "$~retourner horizontalement",
+                        "tip": "$~retourner les points horizontalement autour du centre"
+                    },
+                    "vertical": {
+                        "label": "$~retourner verticalement",
+                        "tip": "$~retourner les points verticalement autour du centre"
+                    }
+                },
+                "feedback": {
+                    "name": "$~LespersonnagesdoiventavoirunnomWordplayvalided'aumoins1caractère.Ilnepeutpass'agirde« UI »,d'unnombredécimalouhexadécimal,oudunomd'unefonctionnalitédelangageintégrée.",
+                    "description": "$~Les personnages ont besoin d'une description pour que ceux qui ne peuvent pas voir sachent ce qu'ils représentent.",
+                    "end": "$~ou appuyez sur Echap.",
+                    "loadfail": "$~Il y a eu un problème lors du chargement de ce personnage.",
+                    "notfound": "$~Ce personnage n'existe pas.",
+                    "unauthenticated": "$~Vous devez être connecté pour modifier un personnage.",
+                    "published": "$?"
+                },
+                "announce": {
+                    "position": "$~à 1 $ 2 $",
+                    "selection": "$~$1[sélectionné $1|rien de sélectionné]"
                 }
             }
         },

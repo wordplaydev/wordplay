@@ -6,13 +6,16 @@ import type { FontWeight } from '../basis/Fonts';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
 import Paragraph from './Paragraph';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import { toMarkup } from '../parser/toMarkup';
 import Token from './Token';
 import Sym from './Sym';
 import Words from './Words';
+import { getCodepointFromString } from '../unicode/getCodepoint';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -46,7 +49,7 @@ export default class Markup extends Content {
         return [new Markup([new Paragraph([])])];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Markup';
     }
 
@@ -80,8 +83,8 @@ export default class Markup extends Content {
         return locales.get((l) => l.node.Markup);
     }
 
-    getGlyphs() {
-        return Glyphs.Markup;
+    getCharacter() {
+        return Characters.Markup;
     }
 
     getDescriptionInputs() {
@@ -142,22 +145,40 @@ export default class Markup extends Content {
         const formats: FormattedText[] = [];
         const words: Words[] = [];
         for (const node of this.traverseTopDownWithEnterAndExit()) {
+            const italic = words.some((word) => word.getFormat() === 'italic');
+            const weight =
+                words
+                    .map((word) => word.getWeight())
+                    .filter((word): word is FontWeight => word !== undefined)
+                    .at(-1) ?? 400;
             if (node instanceof Words) {
                 if (words[0] === node) words.shift();
                 else words.unshift(node);
-            } else if (node instanceof Token && node.isSymbol(Sym.Words)) {
-                formats.push({
-                    text: node.getText(),
-                    italic: words.some((word) => word.getFormat() === 'italic'),
-                    weight:
-                        words
-                            .map((word) => word.getWeight())
-                            .filter(
-                                (word): word is FontWeight =>
-                                    word !== undefined,
-                            )
-                            .at(-1) ?? 400,
-                });
+            } else if (node instanceof Token) {
+                if (node.isSymbol(Sym.Words)) {
+                    formats.push({
+                        text: node.getText(),
+                        italic,
+                        weight,
+                    });
+                } else if (node.isSymbol(Sym.Concept)) {
+                    const match = ConceptLink.parse(node.getText().slice(1));
+                    if (match instanceof CodepointName)
+                        formats.push({
+                            text:
+                                getCodepointFromString(
+                                    node.getText().slice(1),
+                                ) ?? node.getText(),
+                            italic,
+                            weight,
+                        });
+                    else if (match instanceof CharacterName)
+                        formats.push({
+                            text: node.getText(),
+                            italic,
+                            weight,
+                        });
+                }
             }
         }
         return formats;

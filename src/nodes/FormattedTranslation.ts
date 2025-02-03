@@ -6,7 +6,7 @@ import { FORMATTED_SYMBOL } from '@parser/Symbols';
 import Sym from './Sym';
 import type Paragraph from './Paragraph';
 import Words from './Words';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Markup from './Markup';
 import { LanguageTagged } from './LanguageTagged';
@@ -15,6 +15,7 @@ import type Locales from '../locale/Locales';
 import type Conflict from '@conflicts/Conflict';
 import { PossiblePII } from '@conflicts/PossiblePII';
 import type Context from './Context';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class FormattedTranslation extends LanguageTagged {
     readonly open: Token;
@@ -59,7 +60,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return this.getPossibleReplacements();
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'FormattedTranslation';
     }
 
@@ -123,7 +124,7 @@ export default class FormattedTranslation extends LanguageTagged {
         return locales.get((l) => l.node.FormattedTranslation);
     }
 
-    getGlyphs() {
-        return Glyphs.Formatted;
+    getCharacter() {
+        return Characters.Formatted;
     }
 }

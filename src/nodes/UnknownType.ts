@@ -3,13 +3,14 @@ import type Context from './Context';
 import type Node from './Node';
 import Type from './Type';
 import { UNKNOWN_SYMBOL } from '../parser/Symbols';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Markup from './Markup';
 import type { Grammar } from './Node';
 import Paragraph, { type Segment } from './Paragraph';
 import Token from './Token';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default abstract class UnknownType<
     ExpressionType extends Node,
@@ -24,7 +25,7 @@ export default abstract class UnknownType<
         this.why = why;
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnknownType';
     }
 
@@ -98,7 +99,7 @@ export default abstract class UnknownType<
 
     abstract getReason(locales: Locales, context: Context): Markup;
 
-    getGlyphs() {
-        return Glyphs.Unknown;
+    getCharacter() {
+        return Characters.Unknown;
     }
 }

@@ -20,12 +20,13 @@ import ValueException from '@values/ValueException';
 import { node, type Grammar, type Replacement } from './Node';
 import SimpleExpression from './SimpleExpression';
 import { UnenclosedType } from './UnenclosedType';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { PROPERTY_SYMBOL } from '../parser/Symbols';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type ThisStructure = StructureDefinition | ConversionDefinition | Reaction;
 
@@ -61,7 +62,7 @@ export default class This extends SimpleExpression {
         return this.getPossibleReplacements(context);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'This';
     }
 
@@ -176,7 +177,7 @@ export default class This extends SimpleExpression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.This;
+    getCharacter() {
+        return Characters.This;
     }
 }

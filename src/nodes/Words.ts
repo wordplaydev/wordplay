@@ -1,6 +1,6 @@
 import type Conflict from '@conflicts/Conflict';
 import Purpose from '../concepts/Purpose';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import { node, type Grammar, type Replacement, any, none, list } from './Node';
 import Token from './Token';
 import Sym from './Sym';
@@ -20,6 +20,7 @@ import Branch from './Branch';
 import type Locales from '../locale/Locales';
 import { withColorEmoji } from '../unicode/emoji';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 
@@ -44,7 +45,7 @@ export default class Words extends Content {
         return new Words(undefined, [new Token('…', Sym.Words)], undefined);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Words';
     }
 
@@ -156,8 +157,8 @@ export default class Words extends Content {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Words;
+    getCharacter() {
+        return Characters.Words;
     }
 
     concretize(

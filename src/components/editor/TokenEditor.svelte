@@ -12,7 +12,8 @@
         project: Project;
         text: string;
         placeholder: string;
-        validator: ((text: string) => boolean) | undefined;
+        /** An optional function that returns true or a message to display if not valid. */
+        validator: ((text: string) => string | true) | undefined;
         creator: (text: string) => Token | [Token, Project] | undefined;
     }
 
@@ -113,6 +114,7 @@
 </script>
 
 <TextField
+    id="token-editor-{token.id}"
     bind:text
     data={token.id}
     bind:view
@@ -122,7 +124,7 @@
     {validator}
     done={(newText) => {
         // Not valid but losing focus? Restore the old text.
-        if (validator !== undefined && validator(newText) === false) {
+        if (validator !== undefined && validator(newText) !== true) {
             text = token.getText();
         }
     }}

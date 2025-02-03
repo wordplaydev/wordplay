@@ -6,7 +6,7 @@ import type StructureDefinition from '@nodes/StructureDefinition';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import { docToMarkup } from '@locale/LocaleText';
-import type { Character } from '../tutorial/Tutorial';
+import type { CharacterName } from '../tutorial/Tutorial';
 import type Locales from '../locale/Locales';
 
 export default class NodeConcept extends Concept {
@@ -23,11 +23,11 @@ export default class NodeConcept extends Concept {
         this.template = template;
     }
 
-    getGlyphs(locales: Locales) {
-        return this.template.getGlyphs(locales);
+    getCharacter(locales: Locales) {
+        return this.template.getCharacter(locales);
     }
 
-    /** Returns the emotions for the glyphs */
+    /** Returns the emotions for the characters */
     getEmotion(locales: Locales) {
         return this.template.getNodeLocale(locales).emotion as Emotion;
     }
@@ -38,15 +38,15 @@ export default class NodeConcept extends Concept {
     hasName(name: string, locales: Locales): boolean {
         if (this.template.getDescriptor() === name) return true;
 
-        const nodeLocale = this.template.getNodeLocale(locales);
         const match = locales
             .getLocales()
             .map((locale) =>
                 Object.entries(locale.node).find(
-                    ([, value]) => value === nodeLocale,
+                    ([key]) => key === this.template.getDescriptor(),
                 ),
             )
             .find((node) => node !== undefined);
+
         return match ? match[0] === name || match[1].name === name : false;
     }
 
@@ -59,7 +59,7 @@ export default class NodeConcept extends Concept {
 
     getName(locales: Locales, symbolic: boolean) {
         return symbolic
-            ? this.template.getGlyphs(locales).symbols
+            ? this.template.getCharacter(locales).symbols
             : this.template.getLabel(locales);
     }
 
@@ -79,13 +79,13 @@ export default class NodeConcept extends Concept {
         return new Set();
     }
 
-    getCharacter(locales: Locales): Character | undefined {
+    getCharacterName(locales: Locales): CharacterName | undefined {
         const text = this.template.getNodeLocale(locales);
         const match = locales
             .getLocales()
             .map((l) => Object.entries(l.node).find(([, t]) => t === text))
             .find((n) => n !== undefined);
-        return match ? (match[0] as Character) : undefined;
+        return match ? (match[0] as CharacterName) : undefined;
     }
 
     isEqualTo(concept: Concept) {

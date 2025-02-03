@@ -22,7 +22,7 @@ import SetCloseToken from './SetCloseToken';
 import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Purpose from '../concepts/Purpose';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
@@ -36,6 +36,7 @@ import PropertyReference from './PropertyReference';
 import Bind from './Bind';
 import type EditContext from '@edit/EditContext';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class SetOrMapAccess extends Expression {
     readonly setOrMap: Expression;
@@ -87,7 +88,7 @@ export default class SetOrMapAccess extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'SetOrMapAccess';
     }
 
@@ -311,7 +312,7 @@ export default class SetOrMapAccess extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.SetOrMapAccess;
+    getCharacter() {
+        return Characters.SetOrMapAccess;
     }
 }

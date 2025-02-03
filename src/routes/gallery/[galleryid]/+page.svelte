@@ -63,7 +63,10 @@
         EDIT_SYMBOL,
     } from '../../../parser/Symbols';
     import Spinning from '@components/app/Spinning.svelte';
-    import { getClasses, type Class } from '@db/TeacherDatabase.svelte';
+    import {
+        getClasses,
+        type Class,
+    } from '@db/teachers/TeacherDatabase.svelte';
     import Link from '@components/app/Link.svelte';
 
     const user = getUser();
@@ -157,6 +160,7 @@
         {:else}
             <Header
                 >{#if editable}<TextField
+                        id="gallery-name"
                         text={name ?? ''}
                         description={$locales.get(
                             (l) => l.ui.gallery.field.name.description,
@@ -188,6 +192,7 @@
                               )}
                     />{:else}
                     <TextBox
+                        id="gallery-description"
                         text={description ?? ''}
                         description={$locales.get(
                             (l) => l.ui.gallery.field.description.description,

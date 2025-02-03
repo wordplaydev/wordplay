@@ -1,7 +1,7 @@
 import Expression from './Expression';
 import type { Grammar, Replacement } from './Node';
 import Token from './Token';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import Node, { node, optional } from './Node';
@@ -15,6 +15,7 @@ import IncompatibleType from '../conflicts/IncompatibleType';
 import type Conflict from '../conflicts/Conflict';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 /** Inside a list literal, flattens values of a list value into a new list */
 export default class Spread extends Node {
@@ -45,7 +46,7 @@ export default class Spread extends Node {
         return [Spread.make(ExpressionPlaceholder.make())];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Spread';
     }
 
@@ -100,7 +101,7 @@ export default class Spread extends Node {
         return locales.get((l) => l.node.Spread);
     }
 
-    getGlyphs() {
-        return Glyphs.Stream;
+    getCharacter() {
+        return Characters.Stream;
     }
 }

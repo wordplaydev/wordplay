@@ -12,13 +12,13 @@
     import { locales } from '../db/Database';
     import Link from '../components/app/Link.svelte';
     import Speech from '../components/lore/Speech.svelte';
-    import Glyphs from '../lore/Glyphs';
+    import Characters from '../lore/BasisCharacters';
     import Writing from '../components/app/Writing.svelte';
 </script>
 
 <Writing>
     <Header>{$locales.get((l) => l.ui.page.unknown.header)}</Header>
-    <Speech glyph={Glyphs.FunctionDefinition}
+    <Speech character={Characters.FunctionDefinition}
         >{#snippet content()}
             <p>
                 {$locales.get((l) => l.ui.page.unknown.message)}

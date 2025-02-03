@@ -16,7 +16,7 @@ import type TypeSet from './TypeSet';
 import type Evaluator from '@runtime/Evaluator';
 import { node, type Grammar, type Replacement } from './Node';
 import NodeRef from '@locale/NodeRef';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import IncompatibleInput from '../conflicts/IncompatibleInput';
 import Sym from './Sym';
 import Purpose from '../concepts/Purpose';
@@ -31,6 +31,7 @@ import { DELETE_SYMBOL } from '../parser/Symbols';
 import ExpressionPlaceholder from './ExpressionPlaceholder';
 import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 type DeleteState = { index: number; list: StructureValue[]; table: TableValue };
 
@@ -53,7 +54,7 @@ export default class Delete extends Expression {
         return new Delete(table, new Token(DELETE_SYMBOL, Sym.Delete), query);
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Delete';
     }
 
@@ -267,7 +268,7 @@ export default class Delete extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Delete;
+    getCharacter() {
+        return Characters.Delete;
     }
 }

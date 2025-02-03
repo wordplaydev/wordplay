@@ -48,8 +48,9 @@
         [50, 109, 42], // red
         [50, 127, 174], // green
         [50, 117, 282], // blue
-        [85, 75, 88], // yellow
-        [85, 122, 49], // orange
+        // [91, 50, 196], // cyan
+        // [60, 115, 328], // magenta
+        // [97, 96, 102], // yellow
     ];
 </script>
 
@@ -65,10 +66,12 @@
         chroma: number;
         /** 0-1 */
         lightness: number;
-        /** A handler */
+        /** Called every time the color changes */
         change: (l: number, c: number, h: number) => void;
         editable?: boolean;
         id?: string | undefined;
+        /** Additional colors to add to the palette */
+        palette?: [number, number, number][];
     }
 
     let {
@@ -78,6 +81,7 @@
         change,
         editable = true,
         id = undefined,
+        palette = [],
     }: Props = $props();
 
     let color = $derived(
@@ -130,8 +134,9 @@
         ></div>
     </div>
     <div class="primary">
-        {#each Primary as primary}<Button
+        {#each [...palette, ...Primary] as primary}<Button
                 tip="color"
+                padding={false}
                 action={() => {
                     lightness = primary[0] / 100;
                     chroma = primary[1];
@@ -147,8 +152,12 @@
                 ></div></Button
             >{/each}
     </div>
+
     <div class="slider">
         <Slider
+            label={$locales.get((l) =>
+                getFirstName(l.output.Color.lightness.names),
+            )}
             value={lightness}
             min={0}
             max={1}
@@ -165,6 +174,9 @@
             {editable}
         />
         <Slider
+            label={$locales.get((l) =>
+                getFirstName(l.output.Color.chroma.names),
+            )}
             value={chroma}
             min={0}
             max={150}
@@ -178,6 +190,7 @@
             {editable}
         />
         <Slider
+            label={$locales.get((l) => getFirstName(l.output.Color.hue.names))}
             value={hue}
             min={0}
             max={360}
@@ -200,11 +213,12 @@
         flex-direction: row;
         flex-wrap: wrap;
         gap: var(--wordplay-spacing);
+        row-gap: var(--wordplay-spacing);
     }
 
     .bands {
-        width: 3.5rem;
-        height: 3.5rem;
+        min-width: 4em;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
         display: flex;
         flex-direction: column;
@@ -214,11 +228,13 @@
 
     .slider {
         flex-grow: 1;
-        min-width: 30%;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: wrap;
+        row-gap: var(--wordplay-spacing);
     }
 
     .band {
-        width: 100%;
         pointer-events: none;
         touch-action: none;
     }
@@ -234,12 +250,11 @@
     }
 
     .primary {
-        width: 3em;
-        height: 2em;
         display: flex;
         flex-direction: row;
         flex-wrap: wrap;
         gap: 0;
+        row-gap: 0;
     }
 
     .color {
@@ -250,8 +265,8 @@
 
     .preview {
         width: auto;
-        min-width: 3.5rem;
-        height: 3.5rem;
+        min-width: 2rem;
+        height: 2rem;
         border: var(--wordplay-border-width) solid var(--wordplay-border-color);
     }
 </style>

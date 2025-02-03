@@ -4,7 +4,7 @@ import Example from './Example';
 import WebLink from './WebLink';
 import type { Grammar, Replacement } from './Node';
 import Words, { type Format } from './Words';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import Content from './Content';
 import Token from './Token';
@@ -17,6 +17,7 @@ import Node, { list, node } from '@nodes/Node';
 import Sym from './Sym';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export type NodeSegment =
     | Token
@@ -46,7 +47,7 @@ export default class Paragraph extends Content {
         return [new Paragraph([])];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Paragraph';
     }
 
@@ -91,8 +92,8 @@ export default class Paragraph extends Content {
         return locales.get((l) => l.node.Paragraph);
     }
 
-    getGlyphs() {
-        return Glyphs.Paragraph;
+    getCharacter() {
+        return Characters.Paragraph;
     }
 
     concretize(

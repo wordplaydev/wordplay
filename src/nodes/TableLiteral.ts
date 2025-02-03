@@ -13,7 +13,7 @@ import Start from '@runtime/Start';
 import type Context from './Context';
 import type TypeSet from './TypeSet';
 import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import StructureValue from '../values/StructureValue';
 import MissingCell from '../conflicts/MissingCell';
@@ -37,6 +37,7 @@ import NoneType from './NoneType';
 import type EditContext from '@edit/EditContext';
 import Input from './Input';
 import { PLACEHOLDER_SYMBOL } from '@parser/Symbols';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TableLiteral extends Expression {
     readonly type: TableType;
@@ -187,7 +188,7 @@ export default class TableLiteral extends Expression {
         ];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TableLiteral';
     }
 
@@ -354,8 +355,8 @@ export default class TableLiteral extends Expression {
         );
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 
     getDescriptionInputs() {

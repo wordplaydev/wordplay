@@ -14,10 +14,11 @@ import SimpleExpression from './SimpleExpression';
 import BooleanType from './BooleanType';
 import StartFinish from '@runtime/StartFinish';
 import type Node from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import Purpose from '../concepts/Purpose';
 import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class Initial extends SimpleExpression {
     readonly diamond: Token;
@@ -42,7 +43,7 @@ export default class Initial extends SimpleExpression {
         return [Initial.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'Initial';
     }
 
@@ -115,7 +116,7 @@ export default class Initial extends SimpleExpression {
         return locales.concretize((l) => l.node.Initial.name);
     }
 
-    getGlyphs() {
-        return Glyphs.Initial;
+    getCharacter() {
+        return Characters.Initial;
     }
 }

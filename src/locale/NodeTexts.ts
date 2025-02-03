@@ -130,7 +130,7 @@ type NodeTexts = {
      * Description inputs: $1: the concept name
      */
     ConceptLink: DescriptiveNodeText;
-    /** A sequence of glyphs in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ ` */
+    /** A sequence of characters in `Markup` that aren't other markup content, e.g., ` ¶These are just words.¶ ` */
     Words: NodeText;
     /** Code inside `Markup`, e.g., ` ¶This is how you add: \1 + 1\¶ ` */
     Example: NodeText;
@@ -861,5 +861,7 @@ type NodeTexts = {
      * */
     NonFunctionType: DescriptiveNodeText;
 };
+
+export type NodeDescriptor = keyof NodeTexts;
 
 export { type NodeTexts as default };

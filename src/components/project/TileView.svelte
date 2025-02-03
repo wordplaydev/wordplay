@@ -22,7 +22,7 @@
     import { animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
     import Arrangement from '../../db/settings/Arrangement';
-    import Glyphs from '../../lore/Glyphs';
+    import Characters from '../../lore/BasisCharacters';
     import Color from '../../output/Color';
     import Toggle from '../widgets/Toggle.svelte';
     import type Project from '../../db/projects/Project';
@@ -308,30 +308,46 @@
                 >
                     <FullscreenIcon />
                 </Toggle>
-                <Subheader compact>
-                    <div class="name" class:source={tile.isSource()}>
-                        {#if editable && tile.isSource()}
-                            <Emoji>{Glyphs.Program.symbols}</Emoji>
-                            <TextField
-                                text={tile
-                                    .getSource(project)
-                                    ?.getPreferredName($locales.getLocales())}
-                                description={$locales.get(
-                                    (l) => l.ui.source.field.name.description,
-                                )}
-                                placeholder={$locales.get(
-                                    (l) => l.ui.source.field.name.placeholder,
-                                )}
-                                validator={(text) => isName(text)}
-                                changed={handleRename}
-                            />
-                        {:else}
-                            <Emoji>{TileKinds[tile.kind].symbol}</Emoji
-                            >{tile.getName(project, $locales)}
-                        {/if}
-                        {@render title()}
-                    </div>
-                </Subheader>
+                <!-- This goes above the toolbar because we need the feedback to be visible. -->
+                <div style="z-index:2">
+                    <Subheader compact>
+                        <div class="name" class:source={tile.isSource()}>
+                            {#if editable && tile.isSource()}
+                                <Emoji>{Characters.Program.symbols}</Emoji>
+                                <TextField
+                                    id="source-name-editor-{tile.id}"
+                                    text={tile
+                                        .getSource(project)
+                                        ?.getPreferredName(
+                                            $locales.getLocales(),
+                                        )}
+                                    description={$locales.get(
+                                        (l) =>
+                                            l.ui.source.field.name.description,
+                                    )}
+                                    placeholder={$locales.get(
+                                        (l) =>
+                                            l.ui.source.field.name.placeholder,
+                                    )}
+                                    validator={(text) =>
+                                        !isName(text)
+                                            ? $locales.get(
+                                                  (l) =>
+                                                      l.ui.source.error
+                                                          .invalidName,
+                                              )
+                                            : true}
+                                    inlineValidation
+                                    changed={handleRename}
+                                />
+                            {:else}
+                                <Emoji>{TileKinds[tile.kind].symbol}</Emoji
+                                >{tile.getName(project, $locales)}
+                            {/if}
+                            {@render title()}
+                        </div>
+                    </Subheader>
+                </div>
                 <div class="toolbar">
                     {@render extra?.()}
                 </div>
@@ -501,6 +517,7 @@
         gap: calc(var(--wordplay-spacing) / 2);
         width: 100%;
         overflow-x: auto;
+        overflow-y: visible;
         flex-shrink: 0;
         /** Dim the header a bit so that they don't demand so much attention */
         opacity: 0.8;

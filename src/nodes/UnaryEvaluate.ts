@@ -28,6 +28,7 @@ import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import MissingInput from '@conflicts/MissingInput';
 import type Definition from './Definition';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class UnaryEvaluate extends Expression {
     readonly fun: Reference;
@@ -51,7 +52,7 @@ export default class UnaryEvaluate extends Expression {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'UnaryEvaluate';
     }
 
@@ -238,7 +239,7 @@ export default class UnaryEvaluate extends Expression {
         );
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
             symbols: this.getOperator(),
             emotion: Emotion.kind,

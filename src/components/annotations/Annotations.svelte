@@ -23,7 +23,7 @@
     import type Source from '../../nodes/Source';
     import { locales, Settings, showAnnotations } from '../../db/Database';
     import Speech from '@components/lore/Speech.svelte';
-    import Glyphs from '../../lore/Glyphs';
+    import Characters from '../../lore/BasisCharacters';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
     import { docToMarkup } from '@locale/LocaleText';
     import {
@@ -251,7 +251,11 @@
     {#if $showAnnotations}
         <div class="annotations">
             {#if source.isEmpty()}
-                <Speech glyph={Glyphs.FunctionDefinition} scroll={false} below>
+                <Speech
+                    character={Characters.FunctionDefinition}
+                    scroll={false}
+                    below
+                >
                     {#snippet content()}
                         <MarkupHTMLView
                             markup={docToMarkup(
@@ -265,7 +269,11 @@
                 {#each Array.from(annotationsByNode.values()) as annotations, index}
                     <Annotation id={index} {annotations} />
                 {/each}
-                <Speech glyph={Glyphs.FunctionDefinition} scroll={false} below>
+                <Speech
+                    character={Characters.FunctionDefinition}
+                    scroll={false}
+                    below
+                >
                     {#snippet content()}
                         {#if stepping}
                             <MarkupHTMLView

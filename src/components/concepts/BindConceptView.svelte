@@ -12,7 +12,7 @@
     let { concept }: Props = $props();
 </script>
 
-<Speech glyph={concept.getGlyphs($locales)} below={true}>
+<Speech character={concept.getCharacter($locales)} below={true}>
     {#snippet content()}
         {@const markup = concept.getDocs($locales)}
         {#if markup}

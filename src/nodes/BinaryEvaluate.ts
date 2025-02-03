@@ -34,7 +34,7 @@ import StartEvaluation from '@runtime/StartEvaluation';
 import NodeRef from '@locale/NodeRef';
 import Emotion from '../lore/Emotion';
 import FunctionValue from '../values/FunctionValue';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import FunctionType from './FunctionType';
 import AnyType from './AnyType';
 import Reference from './Reference';
@@ -49,6 +49,7 @@ import NoneType from './NoneType';
 import NumberLiteral from './NumberLiteral';
 import JumpIfEqual from '../runtime/JumpIf';
 import BooleanType from './BooleanType';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class BinaryEvaluate extends Expression {
     readonly left: Expression;
@@ -74,7 +75,7 @@ export default class BinaryEvaluate extends Expression {
         return [];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'BinaryEvaluate';
     }
 
@@ -476,9 +477,9 @@ export default class BinaryEvaluate extends Expression {
         );
     }
 
-    getGlyphs() {
+    getCharacter() {
         return {
-            symbols: Glyphs.BinaryEvaluate.symbols,
+            symbols: Characters.BinaryEvaluate.symbols,
             emotion: Emotion.kind,
         };
     }

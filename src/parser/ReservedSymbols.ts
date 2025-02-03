@@ -34,6 +34,7 @@ import {
     TYPE_OPEN_SYMBOL,
     TYPE_SYMBOL,
     FORMATTED_SYMBOL,
+    LITERAL_SYMBOL,
 } from './Symbols';
 
 const ReservedSymbols = [
@@ -72,6 +73,7 @@ const ReservedSymbols = [
     LANGUAGE_SYMBOL,
     COMMA_SYMBOL,
     TEXT_SYMBOL,
+    LITERAL_SYMBOL,
 ];
 
 export default ReservedSymbols;

@@ -9,7 +9,7 @@ import AnyType from './AnyType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedColumnType from '@conflicts/ExpectedColumnType';
 import { node, type Grammar, type Replacement, list } from './Node';
-import Glyphs from '../lore/Glyphs';
+import Characters from '../lore/BasisCharacters';
 import BasisType from './BasisType';
 import StructureDefinition from './StructureDefinition';
 import Names from './Names';
@@ -19,6 +19,7 @@ import type Type from './Type';
 import StructureType from './StructureType';
 import type Locales from '../locale/Locales';
 import TableLiteral from './TableLiteral';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class TableType extends BasisType {
     readonly open: Token;
@@ -56,7 +57,7 @@ export default class TableType extends BasisType {
         return [TableType.make()];
     }
 
-    getDescriptor() {
+    getDescriptor(): NodeDescriptor {
         return 'TableType';
     }
 
@@ -149,8 +150,8 @@ export default class TableType extends BasisType {
         return locales.get((l) => l.node.TableType);
     }
 
-    getGlyphs() {
-        return Glyphs.Table;
+    getCharacter() {
+        return Characters.Table;
     }
 
     getDefaultExpression() {
