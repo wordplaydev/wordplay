@@ -354,6 +354,7 @@
             isValidDescription(description) === true,
     );
 
+    let saving: number | undefined = undefined;
     function save() {
         // Not loaded yet? Don't save.
         if (typeof persisted === 'string') return;
@@ -361,10 +362,11 @@
         // Not a valid name or description? Don't save.
         if (!savable) return;
 
+        saving = Date.now();
         CharactersDB.updateCharacter(
             {
                 ...($state.snapshot(editedCharacter) as Character),
-                updated: Date.now(),
+                updated: saving,
             },
             true,
         );
@@ -380,26 +382,30 @@
 
     /** When the page loads or its id changes or the local store of characters changes, load the persisted character */
     $effect(() => {
-        const id = page.params.id;
+        // We get this first so there's a dependency on it.
+        const charPromise = CharactersDB.getByID(page.params.id);
+
+        if (saving !== undefined) {
+            saving = undefined;
+            return;
+        }
+
         if ($user) {
-            CharactersDB.getByID(id).then((loadedCharacter) => {
-                persisted =
-                    loadedCharacter === undefined
-                        ? 'failed'
-                        : loadedCharacter === null
-                          ? 'unknown'
-                          : loadedCharacter;
+            charPromise.then((loadedCharacter) => {
                 // If we loaded the character and it's different from the edited character, update the states.
                 if (loadedCharacter) {
                     name = loadedCharacter.name.split('/').at(-1) ?? '';
                     description = loadedCharacter.description;
-                    shapes =
-                        JSON.stringify(loadedCharacter.shapes) ===
-                        untrack(() => JSON.stringify($state.snapshot(shapes)))
-                            ? shapes
-                            : loadedCharacter.shapes;
+                    shapes = loadedCharacter.shapes;
                     isPublic = loadedCharacter.public;
                     collaborators = loadedCharacter.collaborators;
+
+                    persisted =
+                        loadedCharacter === undefined
+                            ? 'failed'
+                            : loadedCharacter === null
+                              ? 'unknown'
+                              : loadedCharacter;
                 }
             });
         }

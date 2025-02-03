@@ -23,6 +23,7 @@ import { firestore } from '../firebase';
 import type { User } from 'firebase/auth';
 import { FirebaseError } from 'firebase/app';
 import { v4 as uuidv4 } from 'uuid';
+import { SvelteMap } from 'svelte/reactivity';
 
 const CharactersCollection = 'characters';
 
@@ -34,10 +35,14 @@ export class CharactersDatabase {
      * It's our locale cache.
      * null = we know it's not there.
      */
-    readonly byID = $state<Record<string, Character | null>>({});
+    readonly byID = $state<SvelteMap<string, Character | null>>(
+        new SvelteMap(),
+    );
 
     /** This is a cache of characters by name, mirroring the characters by id. We update it whenever we update the main store. */
-    readonly byName = $state<Record<string, Character | null>>({});
+    readonly byName = $state<SvelteMap<string, Character | null>>(
+        new SvelteMap(),
+    );
 
     /** The realtime listener unsubscriber */
     private unsubscribe: Unsubscribe | undefined = undefined;
@@ -84,7 +89,7 @@ export class CharactersDatabase {
 
                         // If the character's update time is greater than the cached one, or there is no cached one, update.
                         // Update the chat in the local cache, but do not persist; we just got it from the DB.
-                        const cached = this.byID[parsed.id];
+                        const cached = this.byID.get(parsed.id);
                         if (
                             cached === undefined ||
                             cached === null ||
@@ -105,8 +110,8 @@ export class CharactersDatabase {
                     if (change.type === 'removed') {
                         const characterID = change.doc.id;
                         const data = change.doc.data();
-                        delete this.byID[characterID];
-                        delete this.byName[data.name];
+                        this.byID.delete(characterID);
+                        this.byName.delete(data.name);
                     }
                 });
             },
@@ -156,7 +161,7 @@ export class CharactersDatabase {
 
     /** Update the local store's version of this character, and defer a save to the database later. */
     updateCharacter(character: Character, persist: boolean) {
-        const existingCharacter = this.byID[character.id];
+        const existingCharacter = this.byID.get(character.id);
 
         // Are they equivalent? Don't bother. This prevents cycles.
         if (
@@ -170,9 +175,9 @@ export class CharactersDatabase {
             existingCharacter === null ||
             character.updated > existingCharacter.updated
         ) {
-            this.byID[character.id] = character;
-            if (existingCharacter) delete this.byName[existingCharacter.name];
-            this.byName[character.name] = character;
+            this.byID.set(character.id, character);
+            if (existingCharacter) this.byName.delete(existingCharacter.name);
+            this.byName.set(character.name, character);
         }
 
         // Are we to persist? Defer a save.
@@ -191,16 +196,15 @@ export class CharactersDatabase {
         if (firestore === undefined) return;
         try {
             await Promise.all(
-                Array.from(this.unsaved.values()).map(
-                    (character) =>
-                        firestore &&
-                        setDoc(
+                Array.from(this.unsaved.values()).map((character) => {
+                    if (firestore)
+                        return setDoc(
                             doc(firestore, CharactersCollection, character.id),
                             character,
-                        ),
-                ),
+                        );
+                    return undefined;
+                }),
             );
-            console.log('Saved');
             this.db.setStatus(SaveStatus.Saved, undefined);
         } catch (err) {
             this.db.setStatus(SaveStatus.Error, undefined);
@@ -213,7 +217,7 @@ export class CharactersDatabase {
     **/
     async getByID(id: string): Promise<Character | null | undefined> {
         // Is it in the store by ID or name?
-        const localMatchByID = this.byID[id];
+        const localMatchByID = this.byID.get(id);
 
         // Doesn't exist? Say so.
         if (localMatchByID === null) return null;
@@ -246,7 +250,7 @@ export class CharactersDatabase {
                 this.updateCharacter(match, false);
                 return match;
             } else {
-                this.byID[id] = null;
+                this.byID.set(id, null);
             }
             return null;
         } catch (err) {
@@ -259,9 +263,9 @@ export class CharactersDatabase {
      * Get the character by name.
      @returns `undefined` if unable to check for it, `null`: it doesn't exist in the database, or the matching `Character`.
      * */
-    async getByName(idOrName: string): Promise<Character | null | undefined> {
+    async getByName(name: string): Promise<Character | null | undefined> {
         // Is it in the store by ID or name?
-        const localMatchByName = this.byName[idOrName];
+        const localMatchByName = this.byName.get(name);
 
         // Doesn't exist? Say so.
         if (localMatchByName === null) return null;
@@ -280,7 +284,7 @@ export class CharactersDatabase {
                 query(
                     collection(firestore, CharactersCollection),
                     and(
-                        where('name', '==', idOrName),
+                        where('name', '==', name),
                         or(
                             where('public', '==', true),
                             where('owner', '==', user.uid),
@@ -307,7 +311,7 @@ export class CharactersDatabase {
                 this.updateCharacter(match, false);
                 return match;
             } else {
-                this.byName[idOrName] = null;
+                this.byName.set(name, null);
             }
             return null;
         } catch (err) {
@@ -326,8 +330,8 @@ export class CharactersDatabase {
             if (firestore === undefined) return;
             try {
                 await deleteDoc(doc(firestore, CharactersCollection, id));
-                delete this.byName[char.name];
-                delete this.byID[char.id];
+                this.byName.delete(char.name);
+                this.byID.delete(char.id);
             } catch (err) {
                 console.error(err);
                 return;
