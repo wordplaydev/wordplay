@@ -90,7 +90,7 @@
         return Array.from(
             new Set([
                 // Get the override UI font from settings, if selected
-                ...[Settings.getFace()].filter((f) => f !== undefined),
+                ...[Settings.getFace()].filter((f) => f !== null),
                 // Get all of the fonts preferred by the locale
                 ...$locales.getLocales().map((locale) => locale.ui.font.app),
                 // Fall back to the emoji fonts for emojis

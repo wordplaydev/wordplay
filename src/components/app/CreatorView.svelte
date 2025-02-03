@@ -2,6 +2,7 @@
     import type { Creator } from '@db/creators/CreatorDatabase';
     import Feedback from './Feedback.svelte';
     import { locales } from '@db/Database';
+    import { withColorEmoji } from '../../unicode/emoji';
 
     interface Props {
         creator: Creator | null;
@@ -26,9 +27,11 @@
     >{#if creator}<span
             class="name"
             style:animation-delay={`${Math.random() * 1000}ms`}
-            >{creator.getName() === null || creator.getName() === ''
-                ? '😃'
-                : creator.getName()}</span
+            >{withColorEmoji(
+                creator.getName() === null || creator.getName() === ''
+                    ? '😃'
+                    : (creator.getName() ?? '😃'),
+            )}</span
         >{/if}{#if creator}
         {username.length < 10
             ? username
@@ -82,7 +85,7 @@
 
     .name {
         display: inline-block;
-        font-family: 'Noto Color Emoji', 'Noto Sans';
+        font-family: 'Noto Color Emoji', 'Noto Emoji', 'Noto Sans';
         animation: rotate infinite ease-in 5s;
     }
 </style>
