@@ -342,13 +342,12 @@ export class CharactersDatabase {
     /** Get all cached characters owned by the user */
     getEditableCharacters(): Character[] {
         const uid = this.db.getUser()?.uid;
-        if (uid === undefined) return [];
-        return Array.from(Object.values(this.byID))
+        return Array.from(this.byID.values())
             .filter((character) => character !== null)
             .filter(
                 (character) =>
                     character.owner === uid ||
-                    character.collaborators.includes(uid),
+                    (uid != undefined && character.collaborators.includes(uid)),
             );
     }
 
@@ -363,7 +362,7 @@ export class CharactersDatabase {
     getAvailableCharacters(): Character[] {
         const user = this.db.getUser();
         if (user === null) return [];
-        return Array.from(Object.values(this.byID))
+        return Array.from(this.byID.values())
             .filter((character) => character !== null)
             .filter(
                 (character) =>
