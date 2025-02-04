@@ -50,6 +50,7 @@
     }
 
     .external {
+        font-family: 'Noto Emoji';
         font-size: calc(var(--wordplay-font-size) - 6pt);
         display: inline-block;
         margin-inline-start: 0.25em;

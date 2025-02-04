@@ -33,6 +33,7 @@
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { docToMarkup, type Template } from '@locale/LocaleText';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { withMonoEmoji } from '../../unicode/emoji';
 
     let {
         project,
@@ -76,7 +77,7 @@
 </script>
 
 <section class="checkpoints">
-    🕐
+    {withMonoEmoji('🕐')}
     {$locales.get((l) => l.ui.checkpoints.label.history)}
     <Button
         tip={$locales.get((l) => l.ui.checkpoints.button.checkpoint)}

@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Fixed
 
+- Improved color emoji handling on Safari.
 - Handled missing `compositionend` event on Windows emoji picker.
 - Handled inconsistent cross-platform firing of `compositionend` events
 - Accurately calculate caret position for multi-codepoint emojis.

@@ -43,7 +43,7 @@ export default class Color extends Valued {
         return new Color(
             this.value,
             new Decimal(this.lightness.greaterThan(0.5) ? 0 : 1),
-            new Decimal(100),
+            new Decimal(this.chroma),
             new Decimal(0),
         );
     }

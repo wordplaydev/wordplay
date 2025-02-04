@@ -129,6 +129,7 @@
     }
 
     .character {
+        font-family: 'Noto Emoji';
         font-size: 48pt;
         position: absolute;
         opacity: 0.05;

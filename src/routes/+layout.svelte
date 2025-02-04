@@ -93,9 +93,9 @@
                 ...[Settings.getFace()].filter((f) => f !== null),
                 // Get all of the fonts preferred by the locale
                 ...$locales.getLocales().map((locale) => locale.ui.font.app),
-                // Fall back to the emoji fonts for emojis
-                'Noto Emoji',
+                // Fall back to the emoji fonts for emojis, color first.
                 'Noto Color Emoji',
+                'Noto Emoji',
             ]),
         )
             .map((font) => `"${font}"`)

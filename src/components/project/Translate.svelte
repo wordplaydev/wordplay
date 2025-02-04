@@ -79,7 +79,8 @@
     }}
     button={{
         tip: $locales.get((l) => l.ui.project.button.translate.tip),
-        label: `${LOCALE_SYMBOL} ${$locales.get((l) => l.ui.project.button.translate.label)}`,
+        icon: LOCALE_SYMBOL,
+        label: $locales.get((l) => l.ui.project.button.translate.label),
     }}
 >
     <Subheader>{$locales.get((l) => l.ui.project.subheader.source)}</Subheader>
