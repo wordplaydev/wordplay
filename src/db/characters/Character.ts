@@ -164,10 +164,10 @@ function rectToSVG(
         rect.stroke?.width ?? SelectionStrokeWidth,
     );
     return tag('rect', {
-        x: rect.point.x,
-        y: rect.point.y,
-        width: rect.width,
-        height: rect.height,
+        x: rect.width < 0 ? rect.point.x + rect.width : rect.point.x,
+        y: rect.height < 0 ? rect.point.y + rect.height : rect.point.y,
+        width: Math.abs(rect.width),
+        height: Math.abs(rect.height),
         rx: rect.corner,
         ry: rect.corner,
         fill: colorToSVG(rect.fill),
@@ -199,10 +199,18 @@ function ellipseToSVG(
     );
     return tag('ellipse', {
         class: selected ? 'selected' : undefined,
-        cx: ellipse.point.x + ellipse.width / 2,
-        cy: ellipse.point.y + ellipse.height / 2,
-        rx: ellipse.width / 2,
-        ry: ellipse.height / 2,
+        cx:
+            (ellipse.width < 0
+                ? ellipse.point.x + ellipse.width / 2
+                : ellipse.point.x) +
+            ellipse.width / 2,
+        cy:
+            (ellipse.height < 0
+                ? ellipse.point.y + ellipse.height / 2
+                : ellipse.point.y) +
+            ellipse.height / 2,
+        rx: Math.abs(ellipse.width / 2),
+        ry: Math.abs(ellipse.height / 2),
         fill: colorToSVG(ellipse.fill),
         stroke: ellipse.stroke
             ? colorToSVG(ellipse.stroke.color)

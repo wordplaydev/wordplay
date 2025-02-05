@@ -328,8 +328,6 @@
                 })
                 // Flatten it to a list of colors
                 .flat()
-                // Remove the null colors
-                .filter((c) => c !== null)
                 // Convert to color list
                 .map((c) => [c.l * 100, c.c, c.h] as [number, number, number])
                 // Remove duplicates
@@ -477,9 +475,6 @@
         if (historyIndex < history.length - 1)
             history = history.slice(0, historyIndex);
 
-        // Update the shapes.
-        shapes = newShapes;
-
         // Remove any selection that's no longer in the shapes.
         selection = selection.filter((s) => shapes.includes(s));
 
@@ -488,6 +483,9 @@
             ...history,
             structuredClone($state.snapshot(shapes)) as CharacterShape[],
         ];
+
+        // Update the shapes.
+        shapes = newShapes;
 
         // Move the index to the present.
         historyIndex = history.length;
@@ -583,27 +581,19 @@
     function updatePendingRect() {
         if (pendingRectOrEllipse === undefined) return;
         // Update the pending rect's dimensions to the current pointer position.
-        pendingRectOrEllipse.width = Math.max(
-            1,
-            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.point.x),
-        );
-        pendingRectOrEllipse.height = Math.max(
-            1,
-            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.point.y),
-        );
+        pendingRectOrEllipse.width =
+            drawingCursorPosition.x - pendingRectOrEllipse.point.x;
+        pendingRectOrEllipse.height =
+            drawingCursorPosition.y - pendingRectOrEllipse.point.y;
     }
 
     function updatePendingEllipse() {
         if (pendingRectOrEllipse === undefined) return;
         // Update the pending rect's dimensions to the current pointer position.
-        pendingRectOrEllipse.width = Math.max(
-            1,
-            Math.abs(drawingCursorPosition.x - pendingRectOrEllipse.point.x),
-        );
-        pendingRectOrEllipse.height = Math.max(
-            1,
-            Math.abs(drawingCursorPosition.y - pendingRectOrEllipse.point.y),
-        );
+        pendingRectOrEllipse.width =
+            drawingCursorPosition.x - pendingRectOrEllipse.point.x;
+        pendingRectOrEllipse.height =
+            drawingCursorPosition.y - pendingRectOrEllipse.point.y;
     }
 
     function getCurrentEllipse(): CharacterEllipse {
