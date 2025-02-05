@@ -4092,7 +4092,10 @@
                     "label": "$~dela"
                 },
                 "removeCollaborator": "$~ta bort medarbetare",
-                "copy": "$~kopiera projekt till urklipp som text",
+                "copy": {
+                    "tip": "$~kopiera projekt till urklipp som text",
+                    "label": "$~kopiera som text"
+                },
                 "addSource": "$~skapa en ny $source",
                 "duplicate": "$~kopiera detta projekt",
                 "revert": "$~återgå till originalkoden",
@@ -4109,7 +4112,7 @@
                 "primary": "$~ange som projektets primära plats",
                 "history": {
                     "on": "$~visa senaste projektkod",
-                    "redo": "$~visa aktuell projektkod"
+                    "off": "$~visa aktuell projektkod"
                 }
             },
             "field": {
@@ -4405,6 +4408,10 @@
                     "pii": {
                         "header": "$~Personlig information",
                         "explanation": "$~Att dela personligt identifierbar information (PII) offentligt kan utsätta skapare för risker, så vi upptäcker möjlig PII och varnar skapare att antingen ta bort den känsliga informationen eller markera den som okänslig.\n\nNedan finns en lista över möjliga PII i detta projekt som du har markerat som okänsliga. Du kan klicka på knappen bredvid den för att markera den som känslig igen, men att göra det betyder att ditt projekt inte sparas online längre."
+                    },
+                    "copy": {
+                        "header": "$~Kopiera och klistra in",
+                        "explanation": "$~Kopiera det här projektet till ditt urklipp som text och dela det någon annanstans."
                     }
                 },
                 "field": {
@@ -5025,16 +5032,6 @@
                     "ellipse": "$~ellips",
                     "path": "$~väg"
                 },
-                "publish": {
-                    "dialog": {
-                        "header": "$?",
-                        "explanation": ["$?"]
-                    },
-                    "button": {
-                        "label": "$?",
-                        "tip": "$?"
-                    }
-                },
                 "field": {
                     "name": {
                         "description": "$~karaktärens namn",
@@ -5151,11 +5148,31 @@
                     "loadfail": "$~Det gick inte att läsa in den här karaktären.",
                     "notfound": "$~Den här karaktären finns inte.",
                     "unauthenticated": "$~Du måste vara inloggad för att redigera en karaktär.",
-                    "published": "$?"
+                    "taken": "$~Du har redan en karaktär med detta namn; inte sparar.",
+                    "unsaved": "$~Ge detta tecken en beskrivning och ett giltigt, unikt namn att spara."
                 },
                 "announce": {
                     "position": "$~för $1 $2",
                     "selection": "$~$1[vald $1|inget valt]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Dela",
+                        "explanation": "$~Lägg till medarbetare för att begränsa vem som kan se den här karaktären."
+                    },
+                    "button": {
+                        "label": "$~dela",
+                        "tip": "$~dela denna karaktär"
+                    },
+                    "delete": {
+                        "label": "$~radera",
+                        "tip": "$~ta bort det här tecknet"
+                    },
+                    "public": {
+                        "label": "$~synlighet",
+                        "modes": ["$~offentlig", "$~privat"]
+                    },
+                    "collaborators": "$~kollaboratörer"
                 }
             }
         },

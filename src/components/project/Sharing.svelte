@@ -8,12 +8,18 @@
     import Public from './Public.svelte';
     import Feedback from '@components/app/Feedback.svelte';
     import PII from './PII.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import { COPY_SYMBOL } from '@parser/Symbols';
+    import { toClipboard } from '@components/editor/util/Clipboard';
 
     interface Props {
         project: Project;
     }
 
     let { project }: Props = $props();
+
+    let copied = $state(false);
 
     const user = getUser();
 </script>
@@ -22,6 +28,30 @@
     <Feedback>{$locales.get((l) => l.ui.dialog.share.error.anonymous)}</Feedback
     >
 {:else}
+    <Subheader>
+        {$locales.get((l) => l.ui.dialog.share.subheader.copy.header)}
+    </Subheader>
+
+    <MarkupHtmlView
+        markup={$locales.get(
+            (l) => l.ui.dialog.share.subheader.copy.explanation,
+        )}
+    />
+
+    <Button
+        background
+        tip={$locales.get((l) => l.ui.project.button.copy.tip)}
+        action={() => {
+            copied = false;
+            toClipboard(project.toWordplay());
+            // In case its already pressed, show it again.
+            setTimeout(() => (copied = true), 100);
+        }}
+        ><Emoji>{COPY_SYMBOL}</Emoji>
+        {$locales.get((l) => l.ui.project.button.copy.label)}
+        {#if copied}✓{/if}</Button
+    >
+
     <Subheader
         >{$locales.get(
             (l) => l.ui.dialog.share.subheader.gallery.header,

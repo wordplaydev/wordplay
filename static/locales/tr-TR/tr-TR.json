@@ -4092,7 +4092,10 @@
                     "label": "$~paylaşmak"
                 },
                 "removeCollaborator": "$~işbirlikçiyi kaldır",
-                "copy": "$~projeyi metin olarak panoya kopyala",
+                "copy": {
+                    "tip": "$~projeyi metin olarak panoya kopyala",
+                    "label": "$~metin olarak kopyala"
+                },
                 "addSource": "$~yeni bir $source oluştur",
                 "duplicate": "$~bu projeyi kopyala",
                 "revert": "$~orijinal koda geri dön",
@@ -4109,7 +4112,7 @@
                 "primary": "$~bu projenin birincil yerel ayarı olarak ayarlayın",
                 "history": {
                     "on": "$~son proje kodunu göster",
-                    "redo": "$~mevcut proje kodunu göster"
+                    "off": "$~mevcut proje kodunu göster"
                 }
             },
             "field": {
@@ -4405,6 +4408,10 @@
                     "pii": {
                         "header": "$~Kişisel Bilgiler",
                         "explanation": "$~Kişisel olarak tanımlanabilir bilgileri (PII) herkese açık olarak paylaşmak yaratıcıları riske atabilir, bu nedenle olası PII'leri tespit ediyoruz ve yaratıcıları hassas verileri kaldırmaları veya hassas olmayan olarak işaretlemeleri konusunda uyarıyoruz.\n\nAşağıda, hassas olmayan olarak işaretlediğiniz bu projedeki olası PII'lerin bir listesi bulunmaktadır. Tekrar hassas olarak işaretlemek için yanındaki düğmeye tıklayabilirsiniz, ancak bunu yapmak projenizin artık çevrimiçi olarak kaydedilmeyeceği anlamına gelir."
+                    },
+                    "copy": {
+                        "header": "$~Kopyala ve Yapıştır",
+                        "explanation": "$~Bu projeyi metin olarak panonuza kopyalayın ve başka bir yerde paylaşın."
                     }
                 },
                 "field": {
@@ -5020,16 +5027,6 @@
                     "ellipse": "$~elips",
                     "path": "$~yol"
                 },
-                "publish": {
-                    "dialog": {
-                        "header": "$?",
-                        "explanation": ["$?"]
-                    },
-                    "button": {
-                        "label": "$?",
-                        "tip": "$?"
-                    }
-                },
                 "field": {
                     "name": {
                         "description": "$~karakterin adı",
@@ -5146,11 +5143,31 @@
                     "loadfail": "$~Bu karakter yüklenirken bir sorun oluştu.",
                     "notfound": "$~Bu karakter mevcut değil.",
                     "unauthenticated": "$~Bir karakteri düzenlemek için giriş yapmış olmanız gerekir.",
-                    "published": "$?"
+                    "taken": "$~Zaten bu isimde bir karakteriniz var; kaydedilemiyor.",
+                    "unsaved": "$~Bu karaktere bir açıklama ve kaydedilecek geçerli, benzersiz bir ad verin."
                 },
                 "announce": {
                     "position": "$~1$'dan 2$'a",
                     "selection": "$~$1[seçildi $1|hiçbir şey seçilmedi]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Paylaşmak",
+                        "explanation": "$~Bu karakteri kimlerin görüntüleyebileceğini sınırlamak için işbirlikçiler ekleyin."
+                    },
+                    "button": {
+                        "label": "$~paylaşmak",
+                        "tip": "$~bu karakteri paylaş"
+                    },
+                    "delete": {
+                        "label": "$~silmek",
+                        "tip": "$~bu karakteri sil"
+                    },
+                    "public": {
+                        "label": "$~görünürlük",
+                        "modes": ["$~halk", "$~özel"]
+                    },
+                    "collaborators": "$~işbirlikçiler"
                 }
             }
         },

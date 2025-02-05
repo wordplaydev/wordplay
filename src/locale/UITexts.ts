@@ -1,4 +1,3 @@
-import type { ProjectText } from '@components/project/ProjectView.svelte';
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
 import type { UnknownPageText } from '../routes/+error.svelte';
@@ -120,7 +119,85 @@ type UITexts = {
         };
     };
     /** Project settings and controls */
-    project: ProjectText;
+    project: {
+        /** The error shown when a project ID is unknown. */
+        error: {
+            unknown: string;
+            /** The error to show if translation wasn't possible */
+            translate: string;
+            /** The message for an error in a tile */
+            tile: string;
+            /** The button label for an error reset */
+            reset: string;
+        };
+        button: {
+            /** Shows the sharing dialog */
+            share: ButtonText;
+            /** Remove a collaborator that has been shared with */
+            removeCollaborator: string;
+            /** Copy the project as text to the clipboard */
+            copy: ButtonText;
+            /** Add a source file */
+            addSource: string;
+            /** Duplicate the project */
+            duplicate: string;
+            /** Revert project to original code */
+            revert: string;
+            /** Keyboard shortcut to focus output tile */
+            focusOutput: string;
+            /** Keyboard shortcut to focus source tiles */
+            focusSource: string;
+            /** Keyboard shortcut to focus documentation tile */
+            focusDocs: string;
+            /** Keyboard shortcut to focus palette tiles */
+            focusPalette: string;
+            /** Keyboard shortcut to cycle between tiles */
+            focusCycle: string;
+            /** Show save error button */
+            unsaved: string;
+            /** Show translation button */
+            translate: ButtonText;
+            /** The tooltip for the primary locale setting button */
+            primary: string;
+            /** The history switch */
+            history: { off: string; on: string };
+        };
+        field: {
+            /** The project name text field */
+            name: FieldText;
+        };
+        /** The keyboard shortcut to show the shortcut menu */
+        help: string;
+        /** The text to show when all of the tiles are collapsed. */
+        collapsed: string;
+        /** The messages shown for save status */
+        save: {
+            /** When projects fail to save locally */
+            projectsNotSavedLocally: Template;
+            /** When projects can't save locally */
+            projectsCannotNotSaveLocally: Template;
+            /** When a project wasn't saved because it contained PII */
+            projectContainedPII: Template;
+            /** Projects failed to load */
+            projectsNotLoadingOnline: Template;
+            /** When a project couldn't be saved to the database */
+            projectNotSavedOnline: Template;
+            /** When settings are being saved */
+            settingsUnsaved: Template;
+        };
+        dialog: {
+            /** The header for the save error */
+            unsaved: Template;
+            /** The content for the translation dialog */
+            translate: DialogText;
+        };
+        subheader: {
+            /** The header for the source language */
+            source: Template;
+            /** The header for the destination language */
+            destination: Template;
+        };
+    };
     /** Checkpoints text */
     checkpoints: CheckpointsText;
     /** Gallery page labels */
@@ -557,6 +634,8 @@ type UITexts = {
                 public: DialogText;
                 /** The personal information subheader and explanation */
                 pii: DialogText;
+                /** The copy and paste dialog text */
+                copy: DialogText;
             };
             /** Text fields in the share dialog */
             field: {

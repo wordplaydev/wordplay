@@ -1,93 +1,6 @@
 <script module lang="ts">
-    import { type Template } from '@locale/LocaleText';
-    import {
-        type FieldText,
-        type DialogText,
-        type ButtonText,
-    } from '@locale/UITexts';
-
     /** How long to wait until considering typing idle. */
     export const KeyboardIdleWaitTime = 500;
-
-    export type ProjectText = {
-        /** The error shown when a project ID is unknown. */
-        error: {
-            unknown: string;
-            /** The error to show if translation wasn't possible */
-            translate: string;
-            /** The message for an error in a tile */
-            tile: string;
-            /** The button label for an error reset */
-            reset: string;
-        };
-        button: {
-            /** Shows the sharing dialog */
-            share: ButtonText;
-            /** Remove a collaborator that has been shared with */
-            removeCollaborator: string;
-            /** Copy the project as text to the clipboard */
-            copy: string;
-            /** Add a source file */
-            addSource: string;
-            /** Duplicate the project */
-            duplicate: string;
-            /** Revert project to original code */
-            revert: string;
-            /** Keyboard shortcut to focus output tile */
-            focusOutput: string;
-            /** Keyboard shortcut to focus source tiles */
-            focusSource: string;
-            /** Keyboard shortcut to focus documentation tile */
-            focusDocs: string;
-            /** Keyboard shortcut to focus palette tiles */
-            focusPalette: string;
-            /** Keyboard shortcut to cycle between tiles */
-            focusCycle: string;
-            /** Show save error button */
-            unsaved: string;
-            /** Show translation button */
-            translate: ButtonText;
-            /** The tooltip for the primary locale setting button */
-            primary: string;
-            /** The history switch */
-            history: { off: string; on: string };
-        };
-        field: {
-            /** The project name text field */
-            name: FieldText;
-        };
-        /** The keyboard shortcut to show the shortcut menu */
-        help: string;
-        /** The text to show when all of the tiles are collapsed. */
-        collapsed: string;
-        /** The messages shown for save status */
-        save: {
-            /** When projects fail to save locally */
-            projectsNotSavedLocally: Template;
-            /** When projects can't save locally */
-            projectsCannotNotSaveLocally: Template;
-            /** When a project wasn't saved because it contained PII */
-            projectContainedPII: Template;
-            /** Projects failed to load */
-            projectsNotLoadingOnline: Template;
-            /** When a project couldn't be saved to the database */
-            projectNotSavedOnline: Template;
-            /** When settings are being saved */
-            settingsUnsaved: Template;
-        };
-        dialog: {
-            /** The header for the save error */
-            unsaved: Template;
-            /** The content for the translation dialog */
-            translate: DialogText;
-        };
-        subheader: {
-            /** The header for the source language */
-            source: Template;
-            /** The header for the destination language */
-            destination: Template;
-        };
-    };
 </script>
 
 <!-- svelte-ignore state_referenced_locally -->
@@ -177,7 +90,6 @@
     import type Color from '../../output/Color';
     import Sharing from './Sharing.svelte';
     import Toggle from '../widgets/Toggle.svelte';
-    import { toClipboard } from '../editor/util/Clipboard';
     import Spinning from '../app/Spinning.svelte';
     import CreatorView from '../app/CreatorView.svelte';
     import Moderation from './Moderation.svelte';
@@ -196,7 +108,7 @@
     import Speech from '@components/lore/Speech.svelte';
     import Translate from './Translate.svelte';
     import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import { CANCEL_SYMBOL, COPY_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
+    import { CANCEL_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
     import CopyButton from './CopyButton.svelte';
     import type Locale from '@locale/Locale';
     import Mode from '@components/widgets/Mode.svelte';
@@ -1821,11 +1733,6 @@
                         active={!project.equals(original)}
                         action={() => revert()}>↺</Button
                     >{/if}
-                <Button
-                    tip={$locales.get((l) => l.ui.project.button.copy)}
-                    action={() => toClipboard(project.toWordplay())}
-                    ><Emoji>{COPY_SYMBOL}</Emoji></Button
-                >
                 {#if owner}
                     {#await Creators.getCreator(owner)}
                         <Spinning label="" />

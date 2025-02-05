@@ -9027,6 +9027,10 @@
                       "additionalProperties": false,
                       "description": "The subheaders of the dialog",
                       "properties": {
+                        "copy": {
+                          "$ref": "#/definitions/DialogText",
+                          "description": "The copy and paste dialog text"
+                        },
                         "gallery": {
                           "$ref": "#/definitions/DialogText",
                           "description": "The gallery subheader and explanation"
@@ -9043,7 +9047,8 @@
                       "required": [
                         "gallery",
                         "public",
-                        "pii"
+                        "pii",
+                        "copy"
                       ],
                       "type": "object"
                     }
@@ -9740,7 +9745,241 @@
               "type": "object"
             },
             "project": {
-              "description": "Project settings and controls"
+              "additionalProperties": false,
+              "description": "Project settings and controls",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "addSource": {
+                      "description": "Add a source file",
+                      "type": "string"
+                    },
+                    "copy": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Copy the project as text to the clipboard"
+                    },
+                    "duplicate": {
+                      "description": "Duplicate the project",
+                      "type": "string"
+                    },
+                    "focusCycle": {
+                      "description": "Keyboard shortcut to cycle between tiles",
+                      "type": "string"
+                    },
+                    "focusDocs": {
+                      "description": "Keyboard shortcut to focus documentation tile",
+                      "type": "string"
+                    },
+                    "focusOutput": {
+                      "description": "Keyboard shortcut to focus output tile",
+                      "type": "string"
+                    },
+                    "focusPalette": {
+                      "description": "Keyboard shortcut to focus palette tiles",
+                      "type": "string"
+                    },
+                    "focusSource": {
+                      "description": "Keyboard shortcut to focus source tiles",
+                      "type": "string"
+                    },
+                    "history": {
+                      "additionalProperties": false,
+                      "description": "The history switch",
+                      "properties": {
+                        "off": {
+                          "type": "string"
+                        },
+                        "on": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "off",
+                        "on"
+                      ],
+                      "type": "object"
+                    },
+                    "primary": {
+                      "description": "The tooltip for the primary locale setting button",
+                      "type": "string"
+                    },
+                    "removeCollaborator": {
+                      "description": "Remove a collaborator that has been shared with",
+                      "type": "string"
+                    },
+                    "revert": {
+                      "description": "Revert project to original code",
+                      "type": "string"
+                    },
+                    "share": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Shows the sharing dialog"
+                    },
+                    "translate": {
+                      "$ref": "#/definitions/ButtonText",
+                      "description": "Show translation button"
+                    },
+                    "unsaved": {
+                      "description": "Show save error button",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "share",
+                    "removeCollaborator",
+                    "copy",
+                    "addSource",
+                    "duplicate",
+                    "revert",
+                    "focusOutput",
+                    "focusSource",
+                    "focusDocs",
+                    "focusPalette",
+                    "focusCycle",
+                    "unsaved",
+                    "translate",
+                    "primary",
+                    "history"
+                  ],
+                  "type": "object"
+                },
+                "collapsed": {
+                  "description": "The text to show when all of the tiles are collapsed.",
+                  "type": "string"
+                },
+                "dialog": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "translate": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "The content for the translation dialog"
+                    },
+                    "unsaved": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The header for the save error"
+                    }
+                  },
+                  "required": [
+                    "unsaved",
+                    "translate"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "description": "The error shown when a project ID is unknown.",
+                  "properties": {
+                    "reset": {
+                      "description": "The button label for an error reset",
+                      "type": "string"
+                    },
+                    "tile": {
+                      "description": "The message for an error in a tile",
+                      "type": "string"
+                    },
+                    "translate": {
+                      "description": "The error to show if translation wasn't possible",
+                      "type": "string"
+                    },
+                    "unknown": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unknown",
+                    "translate",
+                    "tile",
+                    "reset"
+                  ],
+                  "type": "object"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "name": {
+                      "$ref": "#/definitions/FieldText",
+                      "description": "The project name text field"
+                    }
+                  },
+                  "required": [
+                    "name"
+                  ],
+                  "type": "object"
+                },
+                "help": {
+                  "description": "The keyboard shortcut to show the shortcut menu",
+                  "type": "string"
+                },
+                "save": {
+                  "additionalProperties": false,
+                  "description": "The messages shown for save status",
+                  "properties": {
+                    "projectContainedPII": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When a project wasn't saved because it contained PII"
+                    },
+                    "projectNotSavedOnline": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When a project couldn't be saved to the database"
+                    },
+                    "projectsCannotNotSaveLocally": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When projects can't save locally"
+                    },
+                    "projectsNotLoadingOnline": {
+                      "$ref": "#/definitions/Template",
+                      "description": "Projects failed to load"
+                    },
+                    "projectsNotSavedLocally": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When projects fail to save locally"
+                    },
+                    "settingsUnsaved": {
+                      "$ref": "#/definitions/Template",
+                      "description": "When settings are being saved"
+                    }
+                  },
+                  "required": [
+                    "projectsNotSavedLocally",
+                    "projectsCannotNotSaveLocally",
+                    "projectContainedPII",
+                    "projectsNotLoadingOnline",
+                    "projectNotSavedOnline",
+                    "settingsUnsaved"
+                  ],
+                  "type": "object"
+                },
+                "subheader": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "destination": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The header for the destination language"
+                    },
+                    "source": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The header for the source language"
+                    }
+                  },
+                  "required": [
+                    "source",
+                    "destination"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "error",
+                "button",
+                "field",
+                "help",
+                "collapsed",
+                "save",
+                "dialog",
+                "subheader"
+              ],
+              "type": "object"
             },
             "save": {
               "additionalProperties": false,

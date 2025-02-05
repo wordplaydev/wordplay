@@ -4054,7 +4054,10 @@
             },
             "button": {
                 "removeCollaborator": "quitar colaboradora",
-                "copy": "copiar proyecto como texto",
+                "copy": {
+                    "tip": "$~Copiar el proyecto al portapapeles como texto",
+                    "label": "$~copiar como texto"
+                },
                 "addSource": "crear una nueva $source",
                 "duplicate": "copia este proyecto",
                 "revert": "volver al código original ",
@@ -4064,7 +4067,10 @@
                 "focusPalette": "enfoque en la paleta",
                 "focusCycle": "enfoque en la siguiente teja ",
                 "unsaved": "mostrar error de guardado",
-                "translate": "$~editar los idiomas de este proyecto y traducirlo a otros idiomas.",
+                "translate": {
+                    "tip": "$~Editar los idiomas de este proyecto y traducirlo a otros idiomas.",
+                    "label": "$~traducir"
+                },
                 "primary": "$~establecido como la ubicación principal de este proyecto",
                 "share": {
                     "tip": "$~Mostrar opciones para compartir proyectos",
@@ -4072,7 +4078,7 @@
                 },
                 "history": {
                     "on": "$~mostrar código de proyecto reciente",
-                    "redo": "$~mostrar el código del proyecto actual"
+                    "off": "$~mostrar el código del proyecto actual"
                 }
             },
             "field": {
@@ -4351,6 +4357,10 @@
                     "pii": {
                         "header": "$~Informacion personal",
                         "explanation": "$~Compartir información de identificación personal (PII) públicamente puede poner en riesgo a los creadores, por lo que detectamos posibles PII y advertimos a los creadores que eliminen los datos confidenciales o los marquen como no confidenciales.\n\nA continuación se muestra una lista de posibles PII en este proyecto que ha marcado como no confidencial. Puedes hacer clic en el botón al lado para volver a marcarlo como confidencial, pero hacerlo significa que tu proyecto ya no se guardará en línea."
+                    },
+                    "copy": {
+                        "header": "$~Copiar y pegar",
+                        "explanation": "$~Copia este proyecto a tu portapapeles como texto y compártelo en otro lugar."
                     }
                 },
                 "field": {
@@ -4931,16 +4941,6 @@
                     "ellipse": "$~elipse",
                     "path": "$~camino"
                 },
-                "publish": {
-                    "dialog": {
-                        "header": "$?",
-                        "explanation": ["$?"]
-                    },
-                    "button": {
-                        "label": "$?",
-                        "tip": "$?"
-                    }
-                },
                 "field": {
                     "name": {
                         "description": "$~nombre del personaje",
@@ -5057,11 +5057,31 @@
                     "loadfail": "$~Hubo un problema al cargar este personaje.",
                     "notfound": "$~Este personaje no existe.",
                     "unauthenticated": "$~Debes iniciar sesión para editar un personaje.",
-                    "published": "$?"
+                    "taken": "$~Ya tienes un personaje con este nombre; no se guarda.",
+                    "unsaved": "$~Dale a este personaje una descripción y un nombre válido y único para guardarlo."
                 },
                 "announce": {
                     "position": "$~a $1 $2",
                     "selection": "$~$1[seleccionado $1|nada seleccionado]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Compartir",
+                        "explanation": "$~Agrega colaboradores para restringir quién puede ver este personaje."
+                    },
+                    "button": {
+                        "label": "$~compartir",
+                        "tip": "$~comparte este personaje"
+                    },
+                    "delete": {
+                        "label": "$~borrar",
+                        "tip": "$~eliminar este personaje"
+                    },
+                    "public": {
+                        "label": "$~visibilidad",
+                        "modes": ["$~público", "$~privado"]
+                    },
+                    "collaborators": "$~colaboradores"
                 }
             }
         },

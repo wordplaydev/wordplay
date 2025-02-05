@@ -3110,7 +3110,7 @@
                 },
                 "history": {
                     "on": "$?",
-                    "redo": "$?"
+                    "off": "$?"
                 }
             },
             "field": {
@@ -3376,6 +3376,10 @@
                         "explanation": "$?"
                     },
                     "pii": {
+                        "header": "$?",
+                        "explanation": "$?"
+                    },
+                    "copy": {
                         "header": "$?",
                         "explanation": "$?"
                     }
@@ -3883,16 +3887,6 @@
                     "ellipse": "$?",
                     "path": "$?"
                 },
-                "publish": {
-                    "dialog": {
-                        "header": "$?",
-                        "explanation": ["$?"]
-                    },
-                    "button": {
-                        "label": "$?",
-                        "tip": "$?"
-                    }
-                },
                 "field": {
                     "name": {
                         "description": "$?",
@@ -4003,11 +3997,31 @@
                     "loadfail": "$?",
                     "notfound": "$?",
                     "unauthenticated": "$?",
-                    "published": "$?"
+                    "taken": "$?",
+                    "unsaved": "$?"
                 },
                 "announce": {
                     "position": "$?",
                     "selection": "$?"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$?",
+                        "explanation": "$?"
+                    },
+                    "button": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "delete": {
+                        "label": "$?",
+                        "tip": "$?"
+                    },
+                    "public": {
+                        "label": "$?",
+                        "modes": ["$?"]
+                    },
+                    "collaborators": "$?"
                 }
             }
         },

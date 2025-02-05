@@ -4099,7 +4099,10 @@
                     "label": "share"
                 },
                 "removeCollaborator": "remove collaborator",
-                "copy": "copy project to clipboard as text",
+                "copy": {
+                    "tip": "copy project to clipboard as text",
+                    "label": "copy as text"
+                },
                 "addSource": "create a new $source",
                 "duplicate": "copy this project",
                 "revert": "revert to original code",
@@ -4116,7 +4119,7 @@
                 "primary": "set as this project's primary locale",
                 "history": {
                     "on": "show recent project code",
-                    "redo": "show current project code"
+                    "off": "show current project code"
                 }
             },
             "field": {
@@ -4401,6 +4404,10 @@
                 "header": "Sharing",
                 "explanation": "Share this project with galleries or the world.",
                 "subheader": {
+                    "copy": {
+                        "header": "Copy and Paste",
+                        "explanation": "Copy this project to your clipboard as text and share it somewhere else."
+                    },
                     "gallery": {
                         "header": "Gallery",
                         "explanation": "Add this project in a gallery alongside other creators, or create a gallery on your <projects@://projects> page. If you add a project to a public gallery, your project will become public."

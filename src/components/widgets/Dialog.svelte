@@ -67,7 +67,7 @@
             <div class="close">
                 <Button
                     tip={$locales.get((l) => l.ui.widget.dialog.close)}
-                    action={() => (show = false)}>❌</Button
+                    action={() => (show = false)}>{withMonoEmoji('❌')}</Button
                 >
             </div>
         {/if}

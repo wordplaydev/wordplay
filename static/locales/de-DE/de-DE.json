@@ -4079,7 +4079,10 @@
             },
             "button": {
                 "removeCollaborator": "$~Mitarbeiter entfernen",
-                "copy": "$~Projekt als Text in die Zwischenablage kopieren",
+                "copy": {
+                    "tip": "$~Projekt als Text in die Zwischenablage kopieren",
+                    "label": "$~als Text kopieren"
+                },
                 "addSource": "$~erstelle eine neue $source",
                 "duplicate": "$~Dieses Projekt kopieren",
                 "revert": "$~zum Originalcode zurückkehren",
@@ -4089,7 +4092,10 @@
                 "focusPalette": "$~Konzentrieren Sie sich auf die Palette",
                 "focusCycle": "$~Konzentriere dich auf die nächste Kachel",
                 "unsaved": "$~Speicherfehler anzeigen",
-                "translate": "$~Bearbeiten Sie die Sprachen dieses Projekts und übersetzen Sie es in andere Sprachen.",
+                "translate": {
+                    "tip": "$~Bearbeiten Sie die Sprachen dieses Projekts und übersetzen Sie es in andere Sprachen.",
+                    "label": "$~übersetzen"
+                },
                 "primary": "$~als primäre Lokalität für dieses Projekt festlegen",
                 "share": {
                     "tip": "$~Optionen zur Projektfreigabe anzeigen",
@@ -4097,7 +4103,7 @@
                 },
                 "history": {
                     "on": "$~Aktuellen Projektcode anzeigen",
-                    "redo": "$~aktuellen Projektcode anzeigen"
+                    "off": "$~aktuellen Projektcode anzeigen"
                 }
             },
             "field": {
@@ -4376,6 +4382,10 @@
                     "pii": {
                         "header": "$~Persönliche Angaben",
                         "explanation": "$~Das öffentliche Teilen personenbezogener Daten (PII) kann die Urheber gefährden. Daher erkennen wir mögliche PII und warnen die Urheber, die sensiblen Daten entweder zu entfernen oder als nicht sensibel zu kennzeichnen.\n\nNachfolgend finden Sie eine Liste möglicher PII in diesem Projekt, das Sie als nicht sensibel gekennzeichnet haben. Sie können auf die Schaltfläche daneben klicken, um es wieder als sensibel zu kennzeichnen. Dies bedeutet jedoch, dass Ihr Projekt nicht mehr online gespeichert wird."
+                    },
+                    "copy": {
+                        "header": "$~Kopieren und Einfügen",
+                        "explanation": "$~Kopieren Sie dieses Projekt als Text in Ihre Zwischenablage und geben Sie es woanders weiter."
                     }
                 },
                 "field": {
@@ -4959,16 +4969,6 @@
                     "ellipse": "$~Ellipse",
                     "path": "$~Weg"
                 },
-                "publish": {
-                    "dialog": {
-                        "header": "$?",
-                        "explanation": ["$?"]
-                    },
-                    "button": {
-                        "label": "$?",
-                        "tip": "$?"
-                    }
-                },
                 "field": {
                     "name": {
                         "description": "$~Name des Charakters",
@@ -5085,11 +5085,31 @@
                     "loadfail": "$~Beim Laden dieses Zeichens ist ein Problem aufgetreten.",
                     "notfound": "$~Dieses Zeichen existiert nicht.",
                     "unauthenticated": "$~Sie müssen angemeldet sein, um einen Charakter bearbeiten zu können.",
-                    "published": "$?"
+                    "taken": "$~Sie haben bereits einen Charakter mit diesem Namen; wird nicht gespeichert.",
+                    "unsaved": "$~Geben Sie diesem Charakter eine Beschreibung und einen gültigen, eindeutigen Namen zum Speichern."
                 },
                 "announce": {
                     "position": "$~bei $1 $2",
                     "selection": "$~$1[ausgewählt $1|nichts ausgewählt]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Aktie",
+                        "explanation": "$~Fügen Sie Mitarbeiter hinzu, um einzuschränken, wer diesen Charakter sehen kann."
+                    },
+                    "button": {
+                        "label": "$~Aktie",
+                        "tip": "$~Teile diesen Charakter"
+                    },
+                    "delete": {
+                        "label": "$~löschen",
+                        "tip": "$~lösche dieses Zeichen"
+                    },
+                    "public": {
+                        "label": "$~Sichtweite",
+                        "modes": ["$~öffentlich", "$~Privat"]
+                    },
+                    "collaborators": "$~Mitarbeiter"
                 }
             }
         },

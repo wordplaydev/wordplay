@@ -4088,7 +4088,10 @@
             },
             "button": {
                 "removeCollaborator": "$~supprimer un collaborateur",
-                "copy": "$~copier le projet dans le presse-papiers sous forme de texte",
+                "copy": {
+                    "tip": "$~copier le projet dans le presse-papiers sous forme de texte",
+                    "label": "$~copier comme texte"
+                },
                 "addSource": "$~créer une nouvelle $source",
                 "duplicate": "$~copier ce projet",
                 "revert": "$~revenir au code d'origine",
@@ -4098,7 +4101,10 @@
                 "focusPalette": "$~se concentrer sur la palette",
                 "focusCycle": "$~se concentrer sur la tuile suivante",
                 "unsaved": "$~afficher l'erreur de sauvegarde",
-                "translate": "$~modifier les langues de ce projet et le traduire dans d'autres langues.",
+                "translate": {
+                    "tip": "$~modifier les langues de ce projet et le traduire dans d'autres langues.",
+                    "label": "$~traduire"
+                },
                 "primary": "$~définir comme lieu principal de ce projet",
                 "share": {
                     "tip": "$~afficher les options de partage de projet",
@@ -4106,7 +4112,7 @@
                 },
                 "history": {
                     "on": "$~afficher le code du projet récent",
-                    "redo": "$~afficher le code du projet actuel"
+                    "off": "$~afficher le code du projet actuel"
                 }
             },
             "field": {
@@ -4385,6 +4391,10 @@
                     "pii": {
                         "header": "$~Renseignements personnels",
                         "explanation": "$~Le partage public d'informations personnelles identifiables (PII) peut mettre les créateurs en danger. C'est pourquoi nous détectons les PII possibles et avertissons les créateurs de supprimer les données sensibles ou de les marquer comme non sensibles.\n\nVous trouverez ci-dessous une liste des PII possibles de ce projet que vous avez marqués comme non sensibles. Vous pouvez cliquer sur le bouton à côté pour le marquer à nouveau comme sensible, mais cela signifie que votre projet ne sera plus enregistré en ligne."
+                    },
+                    "copy": {
+                        "header": "$~Copier et coller",
+                        "explanation": "$~Copiez ce projet dans votre presse-papiers sous forme de texte et partagez-le ailleurs."
                     }
                 },
                 "field": {
@@ -4968,16 +4978,6 @@
                     "ellipse": "$~ellipse",
                     "path": "$~chemin"
                 },
-                "publish": {
-                    "dialog": {
-                        "header": "$?",
-                        "explanation": ["$?"]
-                    },
-                    "button": {
-                        "label": "$?",
-                        "tip": "$?"
-                    }
-                },
                 "field": {
                     "name": {
                         "description": "$~nom du personnage",
@@ -5094,11 +5094,31 @@
                     "loadfail": "$~Il y a eu un problème lors du chargement de ce personnage.",
                     "notfound": "$~Ce personnage n'existe pas.",
                     "unauthenticated": "$~Vous devez être connecté pour modifier un personnage.",
-                    "published": "$?"
+                    "taken": "$~Vous avez déjà un personnage avec ce nom ; vous ne sauvegardez pas.",
+                    "unsaved": "$~Donnez à ce personnage une description et un nom valide et unique à sauvegarder."
                 },
                 "announce": {
                     "position": "$~à 1 $ 2 $",
                     "selection": "$~$1[sélectionné $1|rien de sélectionné]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Partager",
+                        "explanation": "$~Ajoutez des collaborateurs pour restreindre qui peut voir ce personnage."
+                    },
+                    "button": {
+                        "label": "$~partager",
+                        "tip": "$~partager ce personnage"
+                    },
+                    "delete": {
+                        "label": "$~supprimer",
+                        "tip": "$~supprimer ce personnage"
+                    },
+                    "public": {
+                        "label": "$~visibilité",
+                        "modes": ["$~publique", "$~privé"]
+                    },
+                    "collaborators": "$~collaborateurs"
                 }
             }
         },

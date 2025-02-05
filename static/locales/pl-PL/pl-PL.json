@@ -4097,7 +4097,10 @@
                     "label": "$~udział"
                 },
                 "removeCollaborator": "$~usuń współpracownika",
-                "copy": "$~skopiuj projekt do schowka jako tekst",
+                "copy": {
+                    "tip": "$~skopiuj projekt do schowka jako tekst",
+                    "label": "$~skopiuj jako tekst"
+                },
                 "addSource": "$~utwórz nowy $source",
                 "duplicate": "$~skopiuj ten projekt",
                 "revert": "$~powrót do oryginalnego kodu",
@@ -4114,7 +4117,7 @@
                 "primary": "$~ustaw jako podstawową lokalizację tego projektu",
                 "history": {
                     "on": "$~pokaż ostatni kod projektu",
-                    "redo": "$~pokaż aktualny kod projektu"
+                    "off": "$~pokaż aktualny kod projektu"
                 }
             },
             "field": {
@@ -4410,6 +4413,10 @@
                     "pii": {
                         "header": "$~Informacje osobiste",
                         "explanation": "$~Udostępnianie publicznie danych osobowych (PII) może narazić twórców na ryzyko, dlatego wykrywamy możliwe PII i ostrzegamy twórców, aby usunęli poufne dane lub oznaczyli je jako niewrażliwe.\n\nPoniżej znajduje się lista możliwych PII w tym projekcie, które oznaczyłeś jako niewrażliwe. Możesz kliknąć przycisk obok niego, aby ponownie oznaczyć go jako poufny, ale spowoduje to, że Twój projekt nie zostanie już zapisany online."
+                    },
+                    "copy": {
+                        "header": "$~Kopiuj i wklej",
+                        "explanation": "$~Skopiuj ten projekt do schowka jako tekst i udostępnij go gdzie indziej."
                     }
                 },
                 "field": {
@@ -5030,16 +5037,6 @@
                     "ellipse": "$~elipsa",
                     "path": "$~ścieżka"
                 },
-                "publish": {
-                    "dialog": {
-                        "header": "$?",
-                        "explanation": ["$?"]
-                    },
-                    "button": {
-                        "label": "$?",
-                        "tip": "$?"
-                    }
-                },
                 "field": {
                     "name": {
                         "description": "$~imię postaci",
@@ -5156,11 +5153,31 @@
                     "loadfail": "$~Wystąpił problem podczas ładowania tej postaci.",
                     "notfound": "$~Ta postać nie istnieje.",
                     "unauthenticated": "$~Musisz być zalogowany, aby edytować postać.",
-                    "published": "$?"
+                    "taken": "$~Masz już postać o tej nazwie, nie zapisujesz.",
+                    "unsaved": "$~Podaj opis tej postaci i prawidłową, unikalną nazwę, aby ją zapisać."
                 },
                 "announce": {
                     "position": "$~za 1$2$",
                     "selection": "$~$1[wybrano $1|nic nie wybrano]"
+                },
+                "share": {
+                    "dialog": {
+                        "header": "$~Udział",
+                        "explanation": "$~Dodaj współpracowników, aby ograniczyć liczbę osób, które mogą wyświetlać tę postać."
+                    },
+                    "button": {
+                        "label": "$~udział",
+                        "tip": "$~udostępnij tę postać"
+                    },
+                    "delete": {
+                        "label": "$~usuwać",
+                        "tip": "$~usuń tę postać"
+                    },
+                    "public": {
+                        "label": "$~widoczność",
+                        "modes": ["$~publiczny", "$~prywatny"]
+                    },
+                    "collaborators": "$~współpracownicy"
                 }
             }
         },
