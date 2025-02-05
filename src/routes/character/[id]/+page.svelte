@@ -196,6 +196,7 @@
     import Labeled from '@components/widgets/Labeled.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { goto } from '$app/navigation';
+    import { withMonoEmoji } from '../../../unicode/emoji';
 
     /** So we know who's making this.*/
     const user = getUser();
@@ -1493,7 +1494,7 @@
                     action={() => flip('horizontal')}
                     active={selection.some((s) => s.type === 'path')}
                 >
-                    ↔
+                    {withMonoEmoji('↔')}
                     {$locales.get(
                         (l) => l.ui.page.character.button.horizontal.label,
                     )}
@@ -1505,7 +1506,7 @@
                     action={() => flip('vertical')}
                     active={selection.some((s) => s.type === 'path')}
                 >
-                    ↕
+                    {withMonoEmoji('↕')}
                     {$locales.get(
                         (l) => l.ui.page.character.button.vertical.label,
                     )}
@@ -1578,7 +1579,7 @@
             action={() => undo()}
             active={historyIndex > 0}
         >
-            {UNDO_SYMBOL}
+            {withMonoEmoji(UNDO_SYMBOL)}
             {$locales.get((l) => l.ui.page.character.button.undo.label)}
         </Button>
         <Button
@@ -1586,7 +1587,7 @@
             action={() => redo()}
             active={historyIndex < history.length - 1}
         >
-            {REDO_SYMBOL}
+            {withMonoEmoji(REDO_SYMBOL)}
             {$locales.get((l) => l.ui.page.character.button.redo.label)}
         </Button>
         <Button
@@ -1601,7 +1602,7 @@
             tip={$locales.get((l) => l.ui.page.character.button.toBack.tip)}
             action={() => arrange('toBack')}
             active={selection.length > 0 && shapes.length > 1}
-            >⇡
+            >{withMonoEmoji('⇡')}
             {$locales.get(
                 (l) => l.ui.page.character.button.toBack.label,
             )}</Button
@@ -1610,14 +1611,14 @@
             tip={$locales.get((l) => l.ui.page.character.button.back.tip)}
             action={() => arrange('back')}
             active={selection.length > 0 && shapes.length > 1}
-            >{SHARE_SYMBOL}
+            >{withMonoEmoji(SHARE_SYMBOL)}
             {$locales.get((l) => l.ui.page.character.button.back.label)}</Button
         >
         <Button
             tip={$locales.get((l) => l.ui.page.character.button.forward.tip)}
             action={() => arrange('forward')}
             active={selection.length > 0 && shapes.length > 1}
-            >{BORROW_SYMBOL}
+            >{withMonoEmoji(BORROW_SYMBOL)}
             {$locales.get(
                 (l) => l.ui.page.character.button.forward.label,
             )}</Button
@@ -1626,7 +1627,7 @@
             tip={$locales.get((l) => l.ui.page.character.button.toFront.tip)}
             action={() => arrange('toFront')}
             active={selection.length > 0 && shapes.length > 1}
-            >⇡
+            >{withMonoEmoji('⇡')}
             {$locales.get(
                 (l) => l.ui.page.character.button.toFront.label,
             )}</Button
@@ -1635,14 +1636,14 @@
             tip={$locales.get((l) => l.ui.page.character.button.copy.tip)}
             action={copyShapes}
             active={selection.length > 0}
-            >{COPY_SYMBOL}
+            >{withMonoEmoji(COPY_SYMBOL)}
             {$locales.get((l) => l.ui.page.character.button.copy.label)}</Button
         >
         <Button
             tip={$locales.get((l) => l.ui.page.character.button.paste.tip)}
             action={pasteShapes}
             active={copy !== undefined}
-            >{PASTE_SYMBOL}
+            >{withMonoEmoji(PASTE_SYMBOL)}
             {$locales.get(
                 (l) => l.ui.page.character.button.paste.label,
             )}</Button
@@ -1655,7 +1656,7 @@
                 setShapes(shapes.filter((s) => s.type !== 'pixel'));
             }}
             active={shapes.some((s) => s.type === 'pixel')}
-            >{ERASE_SYMBOL}
+            >{withMonoEmoji(ERASE_SYMBOL)}
             {$locales.get(
                 (l) => l.ui.page.character.button.clearPixels.label,
             )}</Button
@@ -1666,7 +1667,7 @@
                 setShapes([]);
             }}
             active={shapes.length > 0}
-            >{ERASE_SYMBOL}
+            >{withMonoEmoji(ERASE_SYMBOL)}
             {$locales.get(
                 (l) => l.ui.page.character.button.clear.label,
             )}</Button
