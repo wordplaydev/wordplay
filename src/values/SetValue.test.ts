@@ -7,8 +7,8 @@ import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import SetType from '@nodes/SetType';
 import Block, { BlockKind } from '@nodes/Block';
 import Source from '@nodes/Source';
-import Project from '../models/Project';
-import DefaultLocale from '../locale/DefaultLocale';
+import Project from '@models/Project';
+import DefaultLocale from '@locale/DefaultLocale';
 import Context from '@nodes/Context';
 
 test.each([
@@ -83,7 +83,10 @@ describe('SetValue', () => {
     describe('intersection', () => {
         it('should return the intersection of two sets', () => {
             const newSetValue = new SetValue(mockRequestor, [value1]);
-            const intersectionSet = setValue.intersection(mockRequestor, newSetValue);
+            const intersectionSet = setValue.intersection(
+                mockRequestor,
+                newSetValue,
+            );
             expect(intersectionSet.size(mockRequestor).num.toNumber()).toBe(1);
         });
     });
@@ -91,7 +94,10 @@ describe('SetValue', () => {
     describe('difference', () => {
         it('should return the difference of two sets', () => {
             const newSetValue = new SetValue(mockRequestor, [value1]);
-            const differenceSet = setValue.difference(mockRequestor, newSetValue);
+            const differenceSet = setValue.difference(
+                mockRequestor,
+                newSetValue,
+            );
 
             let hasValue = differenceSet.has(mockRequestor, value1);
             expect(hasValue.bool).toBeFalsy();
@@ -105,7 +111,10 @@ describe('SetValue', () => {
 
     describe('isEqualTo', () => {
         it('should return true for equal sets', () => {
-            const anotherSetValue = new SetValue(mockRequestor, [value1, value2]);
+            const anotherSetValue = new SetValue(mockRequestor, [
+                value1,
+                value2,
+            ]);
             expect(setValue.isEqualTo(anotherSetValue)).toBeTruthy();
         });
     });
@@ -123,10 +132,12 @@ describe('SetValue', () => {
     });
 
     describe('getRepresentativeText', () => {
-        it('should return the correct representative text', () => {  
-            expect(setValue.getRepresentativeText()).toBe(SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL);
-        })
-    })
+        it('should return the correct representative text', () => {
+            expect(setValue.getRepresentativeText()).toBe(
+                SET_OPEN_SYMBOL + SET_CLOSE_SYMBOL,
+            );
+        });
+    });
 
     describe('getSize', () => {
         it('should return the correct size of the set', () => {
