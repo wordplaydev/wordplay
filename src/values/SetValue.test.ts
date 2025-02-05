@@ -7,7 +7,7 @@ import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
 import SetType from '@nodes/SetType';
 import Block, { BlockKind } from '@nodes/Block';
 import Source from '@nodes/Source';
-import Project from '@models/Project';
+import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
 import Context from '@nodes/Context';
 
