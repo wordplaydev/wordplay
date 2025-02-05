@@ -4935,7 +4935,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~Wir konnten diesen Kurs nicht finden oder Sie haben keine Berechtigung, ihn anzuzeigen."
+                    "notfound": "$~Wir konnten diesen Kurs nicht finden oder Sie haben keine Berechtigung, ihn anzuzeigen.",
+                    "gallery": "$~Wir konnten für diese Klasse keine Galerie erstellen."
                 }
             },
             "characters": {

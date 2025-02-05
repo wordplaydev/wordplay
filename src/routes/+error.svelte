@@ -1,12 +1,3 @@
-<script module lang="ts">
-    export type UnknownPageText = {
-        /** The header for the unknown route */
-        header: string;
-        /** The message for the unknown route */
-        message: string;
-    };
-</script>
-
 <script lang="ts">
     import Header from '../components/app/Header.svelte';
     import { locales } from '../db/Database';

@@ -4795,7 +4795,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~Bu dersi bulamadık veya görüntüleme yetkiniz yok."
+                    "notfound": "$~Bu dersi bulamadık veya görüntüleme yetkiniz yok.",
+                    "gallery": "$~Bu ders için bir galeri oluşturamadık."
                 }
             },
             "guide": {

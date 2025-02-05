@@ -3092,7 +3092,10 @@
             },
             "button": {
                 "removeCollaborator": "$?",
-                "copy": "$?",
+                "copy": {
+                    "tip": "$?",
+                    "label": ""
+                },
                 "addSource": "$?",
                 "duplicate": "$?",
                 "revert": "$?",
@@ -3102,7 +3105,10 @@
                 "focusPalette": "$?",
                 "focusCycle": "$?",
                 "unsaved": "$?",
-                "translate": "$?",
+                "translate": {
+                    "tip": "$?",
+                    "label": ""
+                },
                 "primary": "$?",
                 "share": {
                     "tip": "$?",
@@ -3853,7 +3859,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$?"
+                    "notfound": "$?",
+                    "gallery": "$?"
                 }
             },
             "characters": {

@@ -1,25 +1,3 @@
-<script module lang="ts">
-    export type CharactersPageText = {
-        /** Header for the character page */
-        header: string;
-        /** Explanation for the character page */
-        prompt: string;
-        /** Buttons for the page */
-        button: {
-            /** Create a new project */
-            new: string;
-        };
-        error: {
-            /** When there's no access to the database. */
-            offline: string;
-            /** When not logged in */
-            noauth: string;
-            /** Problem creating a character */
-            create: string;
-        };
-    };
-</script>
-
 <script lang="ts">
     import Writing from '@components/app/Writing.svelte';
     import Header from '@components/app/Header.svelte';

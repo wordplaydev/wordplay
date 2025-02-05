@@ -4803,7 +4803,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "We couldn't find this class or you don't have permission to view it."
+                    "notfound": "We couldn't find this class or you don't have permission to view it.",
+                    "gallery": "We couldn't create a gallery for this class."
                 }
             },
             "guide": {

@@ -8534,7 +8534,75 @@
               "type": "object"
             },
             "checkpoints": {
-              "description": "Checkpoints text"
+              "additionalProperties": false,
+              "description": "Checkpoints text",
+              "properties": {
+                "button": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "back": {
+                      "type": "string"
+                    },
+                    "checkpoint": {
+                      "type": "string"
+                    },
+                    "clear": {
+                      "type": "string"
+                    },
+                    "forward": {
+                      "type": "string"
+                    },
+                    "now": {
+                      "type": "string"
+                    },
+                    "restore": {
+                      "type": "string"
+                    },
+                    "select": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "clear",
+                    "select",
+                    "checkpoint",
+                    "back",
+                    "forward",
+                    "restore",
+                    "now"
+                  ],
+                  "type": "object"
+                },
+                "label": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "ago": {
+                      "$ref": "#/definitions/Template"
+                    },
+                    "history": {
+                      "type": "string"
+                    },
+                    "now": {
+                      "type": "string"
+                    },
+                    "restore": {
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "now",
+                    "history",
+                    "restore",
+                    "ago"
+                  ],
+                  "type": "object"
+                }
+              },
+              "required": [
+                "label",
+                "button"
+              ],
+              "type": "object"
             },
             "collaborate": {
               "additionalProperties": false,
@@ -9263,7 +9331,104 @@
               "type": "object"
             },
             "gallery": {
-              "description": "Gallery page labels"
+              "additionalProperties": false,
+              "description": "Gallery page labels",
+              "properties": {
+                "confirm": {
+                  "additionalProperties": false,
+                  "description": "Confirm buttons on the gallery page",
+                  "properties": {
+                    "delete": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "The confirm button that deletes a source file"
+                    },
+                    "remove": {
+                      "$ref": "#/definitions/ConfirmText",
+                      "description": "The confirm button that removes a project from a gallery"
+                    }
+                  },
+                  "required": [
+                    "delete",
+                    "remove"
+                  ],
+                  "type": "object"
+                },
+                "error": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "unknown": {
+                      "description": "When the gallery is not known or is not public",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "unknown"
+                  ],
+                  "type": "object"
+                },
+                "field": {
+                  "additionalProperties": false,
+                  "properties": {
+                    "description": {
+                      "$ref": "#/definitions/FieldText"
+                    },
+                    "name": {
+                      "$ref": "#/definitions/FieldText"
+                    }
+                  },
+                  "required": [
+                    "name",
+                    "description"
+                  ],
+                  "type": "object"
+                },
+                "subheader": {
+                  "additionalProperties": false,
+                  "description": "Headers on the page",
+                  "properties": {
+                    "classes": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "Associtaed classes header"
+                    },
+                    "creators": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "The list of curators"
+                    },
+                    "curators": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "The list of curators"
+                    },
+                    "delete": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "Delete header"
+                    }
+                  },
+                  "required": [
+                    "classes",
+                    "curators",
+                    "creators",
+                    "delete"
+                  ],
+                  "type": "object"
+                },
+                "undescribed": {
+                  "description": "What to say if the description is empty",
+                  "type": "string"
+                },
+                "untitled": {
+                  "description": "What to call a gallery by default, before it's given a name",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "untitled",
+                "undescribed",
+                "subheader",
+                "confirm",
+                "error",
+                "field"
+              ],
+              "type": "object"
             },
             "output": {
               "additionalProperties": false,
@@ -9348,52 +9513,1674 @@
               "additionalProperties": false,
               "properties": {
                 "about": {
-                  "description": "About page text"
+                  "additionalProperties": false,
+                  "description": "About page text",
+                  "properties": {
+                    "content": {
+                      "description": "Text for the about page",
+                      "items": {
+                        "type": "string"
+                      },
+                      "type": "array"
+                    },
+                    "header": {
+                      "description": "Header for the about page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "content"
+                  ],
+                  "type": "object"
                 },
                 "character": {
-                  "description": "The character editor page"
+                  "additionalProperties": false,
+                  "description": "The character editor page",
+                  "properties": {
+                    "announce": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "position": {
+                          "$ref": "#/definitions/Template",
+                          "description": "When cursor position changes $1 x, $2: y."
+                        },
+                        "selection": {
+                          "$ref": "#/definitions/Template",
+                          "description": "When selection changes. $1 is list of shape types."
+                        }
+                      },
+                      "required": [
+                        "position",
+                        "selection"
+                      ],
+                      "type": "object"
+                    },
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "all": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The select all button"
+                        },
+                        "back": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The move selection back button"
+                        },
+                        "clear": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The clear all button"
+                        },
+                        "clearPixels": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The clear pixels button"
+                        },
+                        "copy": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Copy button text"
+                        },
+                        "end": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "End path button"
+                        },
+                        "forward": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The move selection forward button"
+                        },
+                        "horizontal": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Flip path horizontal"
+                        },
+                        "paste": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Paste button text"
+                        },
+                        "redo": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The redo tooltip"
+                        },
+                        "toBack": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The move to back button"
+                        },
+                        "toFront": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The move to front button"
+                        },
+                        "undo": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The undo tooltip"
+                        },
+                        "vertical": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Flip path vertical"
+                        }
+                      },
+                      "required": [
+                        "back",
+                        "toBack",
+                        "forward",
+                        "toFront",
+                        "copy",
+                        "paste",
+                        "clearPixels",
+                        "clear",
+                        "undo",
+                        "redo",
+                        "all",
+                        "end",
+                        "horizontal",
+                        "vertical"
+                      ],
+                      "type": "object"
+                    },
+                    "feedback": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "description": {
+                          "description": "When the description is empty",
+                          "type": "string"
+                        },
+                        "end": {
+                          "description": "When completing a path, instructions on how to end it.",
+                          "type": "string"
+                        },
+                        "loadfail": {
+                          "description": "Couldn't load the character",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "When the name isn't a valid Wordplay name",
+                          "type": "string"
+                        },
+                        "notfound": {
+                          "description": "The character doesn't exist",
+                          "type": "string"
+                        },
+                        "taken": {
+                          "description": "Not saving because name is taken",
+                          "type": "string"
+                        },
+                        "unauthenticated": {
+                          "description": "Not logged in",
+                          "type": "string"
+                        },
+                        "unsaved": {
+                          "description": "Not saving because not authenticated, invalid name or description.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "description",
+                        "end",
+                        "loadfail",
+                        "notfound",
+                        "unauthenticated",
+                        "taken",
+                        "unsaved"
+                      ],
+                      "type": "object"
+                    },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "angle": {
+                          "additionalProperties": false,
+                          "description": "Labels for the rotation slider",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        },
+                        "closed": {
+                          "description": "Closed path label",
+                          "type": "string"
+                        },
+                        "description": {
+                          "$ref": "#/definitions/FieldText"
+                        },
+                        "fill": {
+                          "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
+                        },
+                        "height": {
+                          "additionalProperties": false,
+                          "description": "Height slider",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        },
+                        "inherit": {
+                          "description": "What to call inherited color",
+                          "type": "string"
+                        },
+                        "mode": {
+                          "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/FieldText"
+                        },
+                        "none": {
+                          "description": "What to call no color",
+                          "type": "string"
+                        },
+                        "radius": {
+                          "additionalProperties": false,
+                          "description": "Labels for the border radius slider",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        },
+                        "stroke": {
+                          "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
+                        },
+                        "strokeWidth": {
+                          "additionalProperties": false,
+                          "description": "Labels for the stroke width slider",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        },
+                        "width": {
+                          "additionalProperties": false,
+                          "description": "Width slider",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "tip": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "tip"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "description",
+                        "mode",
+                        "fill",
+                        "stroke",
+                        "none",
+                        "inherit",
+                        "strokeWidth",
+                        "radius",
+                        "angle",
+                        "width",
+                        "height",
+                        "closed"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "type": "string"
+                    },
+                    "instructions": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "ellipse": {
+                          "type": "string"
+                        },
+                        "empty": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "pixel": {
+                          "type": "string"
+                        },
+                        "rect": {
+                          "type": "string"
+                        },
+                        "selected": {
+                          "type": "string"
+                        },
+                        "unselected": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "empty",
+                        "unselected",
+                        "selected",
+                        "pixel",
+                        "rect",
+                        "ellipse",
+                        "path"
+                      ],
+                      "type": "object"
+                    },
+                    "prompt": {
+                      "type": "string"
+                    },
+                    "shape": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "ellipse": {
+                          "type": "string"
+                        },
+                        "path": {
+                          "type": "string"
+                        },
+                        "pixel": {
+                          "type": "string"
+                        },
+                        "rect": {
+                          "type": "string"
+                        },
+                        "shape": {
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "shape",
+                        "pixel",
+                        "rect",
+                        "ellipse",
+                        "path"
+                      ],
+                      "type": "object"
+                    },
+                    "share": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "button": {
+                          "$ref": "#/definitions/ButtonText"
+                        },
+                        "collaborators": {
+                          "type": "string"
+                        },
+                        "delete": {
+                          "$ref": "#/definitions/ButtonText"
+                        },
+                        "dialog": {
+                          "$ref": "#/definitions/DialogText"
+                        },
+                        "public": {
+                          "$ref": "#/definitions/ModeText%3Cstring%5B%5D%3E"
+                        }
+                      },
+                      "required": [
+                        "dialog",
+                        "button",
+                        "delete",
+                        "public",
+                        "collaborators"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "instructions",
+                    "shape",
+                    "share",
+                    "field",
+                    "button",
+                    "feedback",
+                    "announce"
+                  ],
+                  "type": "object"
                 },
                 "characters": {
-                  "description": "The character creation and browsing page"
+                  "additionalProperties": false,
+                  "description": "The character creation and browsing page",
+                  "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "description": "Buttons for the page",
+                      "properties": {
+                        "new": {
+                          "description": "Create a new project",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "new"
+                      ],
+                      "type": "object"
+                    },
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "create": {
+                          "description": "Problem creating a character",
+                          "type": "string"
+                        },
+                        "noauth": {
+                          "description": "When not logged in",
+                          "type": "string"
+                        },
+                        "offline": {
+                          "description": "When there's no access to the database.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "offline",
+                        "noauth",
+                        "create"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "description": "Header for the character page",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "description": "Explanation for the character page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "button",
+                    "error"
+                  ],
+                  "type": "object"
                 },
                 "class": {
-                  "description": "Class page text"
+                  "additionalProperties": false,
+                  "description": "Class page text",
+                  "properties": {
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "gallery": {
+                          "description": "Couldn't create a gallery",
+                          "type": "string"
+                        },
+                        "notfound": {
+                          "description": "Couldn't find the requested class",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "notfound",
+                        "gallery"
+                      ],
+                      "type": "object"
+                    },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "addteacher": {
+                          "description": "Add a teacher button",
+                          "type": "string"
+                        },
+                        "delete": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Delete class"
+                        },
+                        "description": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The description of the class"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The name of the class"
+                        },
+                        "newteacher": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "Add a teacher"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "description",
+                        "newteacher",
+                        "addteacher",
+                        "delete"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "description": "Header for the class page",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "delete": {
+                          "description": "Explain deletion",
+                          "type": "string"
+                        },
+                        "gallery": {
+                          "description": "Encourage galleries",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "gallery",
+                        "delete"
+                      ],
+                      "type": "object"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "galleries": {
+                          "description": "The galleries header",
+                          "type": "string"
+                        },
+                        "students": {
+                          "description": "The student header",
+                          "type": "string"
+                        },
+                        "teachers": {
+                          "description": "The teachers header",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "teachers",
+                        "students",
+                        "galleries"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "subheader",
+                    "prompt",
+                    "field",
+                    "error"
+                  ],
+                  "type": "object"
                 },
                 "donate": {
-                  "description": "Giving related text"
+                  "additionalProperties": false,
+                  "description": "Giving related text",
+                  "properties": {
+                    "content": {
+                      "description": "The content of the page",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
+                    },
+                    "header": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The label for the link and header"
+                    },
+                    "prompt": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The explanation of the link"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "content"
+                  ],
+                  "type": "object"
                 },
                 "galleries": {
-                  "description": "Gallery browsing page text"
+                  "additionalProperties": false,
+                  "description": "Gallery browsing page text",
+                  "properties": {
+                    "examples": {
+                      "description": "The subheader for the examples",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "How to describe galleries of projects",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "description": "Explanation for the galleries page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "examples"
+                  ],
+                  "type": "object"
                 },
                 "guide": {
-                  "description": "Docuemntation guide page text"
+                  "additionalProperties": false,
+                  "description": "Docuemntation guide page text",
+                  "properties": {
+                    "description": {
+                      "description": "A description of the guide",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "The header for the guide page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "description"
+                  ],
+                  "type": "object"
                 },
                 "join": {
-                  "description": "Account creation page text"
+                  "additionalProperties": false,
+                  "description": "Account creation page text",
+                  "properties": {
+                    "header": {
+                      "description": "The account creation header",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "description": "Requests for information on the account creation page",
+                      "properties": {
+                        "create": {
+                          "description": "Prompt to create an account",
+                          "type": "string"
+                        },
+                        "password": {
+                          "description": "Password rules and warnings",
+                          "type": "string"
+                        },
+                        "username": {
+                          "description": "Username rules",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "create",
+                        "username",
+                        "password"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt"
+                  ],
+                  "type": "object"
                 },
                 "landing": {
-                  "description": "Landing page text"
+                  "additionalProperties": false,
+                  "description": "Landing page text",
+                  "properties": {
+                    "beta": {
+                      "description": "The landing page beta warning",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
+                    },
+                    "description": {
+                      "anyOf": [
+                        {
+                          "$ref": "#/definitions/Template"
+                        },
+                        {
+                          "items": {
+                            "$ref": "#/definitions/Template"
+                          },
+                          "type": "array"
+                        }
+                      ],
+                      "description": "A description of the platform's features"
+                    },
+                    "link": {
+                      "additionalProperties": false,
+                      "description": "The subtitles below links",
+                      "properties": {
+                        "about": {
+                          "description": "What content is on the about page",
+                          "type": "string"
+                        },
+                        "characters": {
+                          "description": "What content is on on the characters page",
+                          "type": "string"
+                        },
+                        "community": {
+                          "additionalProperties": false,
+                          "description": "The community link",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "subtitle"
+                          ],
+                          "type": "object"
+                        },
+                        "contribute": {
+                          "additionalProperties": false,
+                          "description": "The contributor link",
+                          "properties": {
+                            "label": {
+                              "type": "string"
+                            },
+                            "subtitle": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "label",
+                            "subtitle"
+                          ],
+                          "type": "object"
+                        },
+                        "galleries": {
+                          "description": "What content is on the galleries page",
+                          "type": "string"
+                        },
+                        "guide": {
+                          "description": "What content is on the guide page",
+                          "type": "string"
+                        },
+                        "learn": {
+                          "description": "What content is on the learn page",
+                          "type": "string"
+                        },
+                        "projects": {
+                          "description": "What content is on the projects page",
+                          "type": "string"
+                        },
+                        "rights": {
+                          "description": "What content is on the rights page",
+                          "type": "string"
+                        },
+                        "teach": {
+                          "description": "What content is on the teach page",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "about",
+                        "learn",
+                        "teach",
+                        "guide",
+                        "projects",
+                        "galleries",
+                        "characters",
+                        "rights",
+                        "community",
+                        "contribute"
+                      ],
+                      "type": "object"
+                    },
+                    "value": {
+                      "$ref": "#/definitions/Template",
+                      "description": "The value proposition for the site"
+                    }
+                  },
+                  "required": [
+                    "value",
+                    "description",
+                    "beta",
+                    "link"
+                  ],
+                  "type": "object"
                 },
                 "learn": {
-                  "description": "Tutorial page text"
+                  "additionalProperties": false,
+                  "description": "Tutorial page text",
+                  "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "next": {
+                          "description": "Advance to the next pause in the dialog",
+                          "type": "string"
+                        },
+                        "previous": {
+                          "description": "Navigate back to the previous pause in the dialog",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "next",
+                        "previous"
+                      ],
+                      "type": "object"
+                    },
+                    "error": {
+                      "description": "When the tutorial could not be found",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "The header for the tutorial page",
+                      "type": "string"
+                    },
+                    "options": {
+                      "additionalProperties": false,
+                      "description": "Labels for drop down menus",
+                      "properties": {
+                        "lesson": {
+                          "description": "The label for the lesson drop down",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "lesson"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "error",
+                    "button",
+                    "options"
+                  ],
+                  "type": "object"
                 },
                 "login": {
-                  "description": "The login and account page"
+                  "additionalProperties": false,
+                  "description": "The login and account page",
+                  "properties": {
+                    "anonymous": {
+                      "description": "Shown in the footer a creator is not logged in.",
+                      "type": "string"
+                    },
+                    "button": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "delete": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Delete account button"
+                        },
+                        "login": {
+                          "description": "Login button description",
+                          "type": "string"
+                        },
+                        "logout": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Log out of the account"
+                        },
+                        "reallyDelete": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Confirm deletion"
+                        },
+                        "updateEmail": {
+                          "description": "Update email button description",
+                          "type": "string"
+                        },
+                        "updatePassword": {
+                          "description": "Update password",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "logout",
+                        "login",
+                        "updateEmail",
+                        "delete",
+                        "reallyDelete",
+                        "updatePassword"
+                      ],
+                      "type": "object"
+                    },
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "delete": {
+                          "description": "When account deletion failed",
+                          "type": "string"
+                        },
+                        "email": {
+                          "description": "Shown when the email address isn't valid",
+                          "type": "string"
+                        },
+                        "expired": {
+                          "description": "Shown when the login link expired",
+                          "type": "string"
+                        },
+                        "failure": {
+                          "description": "Unknown failure to login",
+                          "type": "string"
+                        },
+                        "invalid": {
+                          "description": "Shown when the login link isn't valid",
+                          "type": "string"
+                        },
+                        "invalidPassword": {
+                          "description": "When the password is invalid",
+                          "type": "string"
+                        },
+                        "invalidUsername": {
+                          "description": "Invalid username",
+                          "type": "string"
+                        },
+                        "mismatched": {
+                          "description": "When the passwords don't match",
+                          "type": "string"
+                        },
+                        "offline": {
+                          "description": "When there's no connection to Firebase",
+                          "type": "string"
+                        },
+                        "tooMany": {
+                          "description": "When there are too mant failed attempts",
+                          "type": "string"
+                        },
+                        "unchanged": {
+                          "description": "When the email address couldn't be changed for unknown reasons.",
+                          "type": "string"
+                        },
+                        "wrongPassword": {
+                          "description": "When a password is wrong",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "expired",
+                        "invalid",
+                        "email",
+                        "invalidUsername",
+                        "failure",
+                        "offline",
+                        "unchanged",
+                        "delete",
+                        "wrongPassword",
+                        "invalidPassword",
+                        "mismatched",
+                        "tooMany"
+                      ],
+                      "type": "object"
+                    },
+                    "feedback": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "changing": {
+                          "description": "Change email pending",
+                          "type": "string"
+                        },
+                        "deleting": {
+                          "description": "Account deleting pending",
+                          "type": "string"
+                        },
+                        "match": {
+                          "description": "Email or username must match to delete account",
+                          "type": "string"
+                        },
+                        "updatedPassword": {
+                          "description": "Password successfully updated",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "changing",
+                        "deleting",
+                        "updatedPassword",
+                        "match"
+                      ],
+                      "type": "object"
+                    },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "currentPassword": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The old password"
+                        },
+                        "email": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The login email"
+                        },
+                        "newPassword": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The new password"
+                        },
+                        "password": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The login password"
+                        },
+                        "username": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The login username"
+                        }
+                      },
+                      "required": [
+                        "email",
+                        "username",
+                        "password",
+                        "currentPassword",
+                        "newPassword"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "description": "Header for the login page when not logged in",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "changeEmail": {
+                          "description": "Tells the creator that they can change their email address.",
+                          "type": "string"
+                        },
+                        "changePassword": {
+                          "description": "Tells the creator that they can cahnge their password",
+                          "type": "string"
+                        },
+                        "confirm": {
+                          "description": "Prompts creator to check their original email to confirm the email change",
+                          "type": "string"
+                        },
+                        "delete": {
+                          "description": "Offers to delete account",
+                          "type": "string"
+                        },
+                        "email": {
+                          "description": "Email login explanation",
+                          "type": "string"
+                        },
+                        "enter": {
+                          "description": "Asks the creator to enter their email if they opened the email link in a different browser.",
+                          "type": "string"
+                        },
+                        "forgot": {
+                          "description": "Forgot password regrets",
+                          "type": "string"
+                        },
+                        "join": {
+                          "description": "Prompt to join on the login page",
+                          "type": "string"
+                        },
+                        "login": {
+                          "description": "Prompts creator to login to save their work",
+                          "type": "string"
+                        },
+                        "logout": {
+                          "description": "Offers to log out the creator.",
+                          "type": "string"
+                        },
+                        "name": {
+                          "description": "Pick an emoji as a name",
+                          "type": "string"
+                        },
+                        "passwordreminder": {
+                          "description": "Reminder to write down password",
+                          "type": "string"
+                        },
+                        "passwordrule": {
+                          "description": "Description of password rules",
+                          "type": "string"
+                        },
+                        "play": {
+                          "description": "Encouragement to go create after logging in.",
+                          "type": "string"
+                        },
+                        "reallyDelete": {
+                          "description": "Offers to really delete account forever",
+                          "type": "string"
+                        },
+                        "sent": {
+                          "description": "Prompt to check email for a login link.",
+                          "type": "string"
+                        },
+                        "success": {
+                          "description": "Shown briefly before page redirects to projects",
+                          "type": "string"
+                        },
+                        "tooyoung": {
+                          "description": "Too young feedback",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "login",
+                        "join",
+                        "forgot",
+                        "email",
+                        "sent",
+                        "changeEmail",
+                        "changePassword",
+                        "enter",
+                        "play",
+                        "passwordrule",
+                        "passwordreminder",
+                        "tooyoung",
+                        "logout",
+                        "success",
+                        "confirm",
+                        "delete",
+                        "reallyDelete",
+                        "name"
+                      ],
+                      "type": "object"
+                    },
+                    "subtitle": {
+                      "description": "Subtitle for the header link on the landing page",
+                      "type": "string"
+                    },
+                    "toggle": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "reveal": {
+                          "$ref": "#/definitions/ToggleText",
+                          "description": "Reveal password toggle"
+                        }
+                      },
+                      "required": [
+                        "reveal"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "subtitle",
+                    "prompt",
+                    "anonymous",
+                    "field",
+                    "feedback",
+                    "error",
+                    "button",
+                    "toggle"
+                  ],
+                  "type": "object"
                 },
                 "newclass": {
-                  "description": "New class page text"
+                  "additionalProperties": false,
+                  "description": "New class page text",
+                  "properties": {
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "account": {
+                          "description": "Couldn't create one or more accounts",
+                          "type": "string"
+                        },
+                        "columns": {
+                          "description": "Inconsistent columns",
+                          "type": "string"
+                        },
+                        "duplicates": {
+                          "description": "Duplicate columns",
+                          "type": "string"
+                        },
+                        "generate": {
+                          "description": "A problem generating usernames",
+                          "type": "string"
+                        },
+                        "generic": {
+                          "description": "Generic error for developers to inspect",
+                          "type": "string"
+                        },
+                        "limit": {
+                          "description": "Too many users",
+                          "type": "string"
+                        },
+                        "taken": {
+                          "description": "A user name is taken",
+                          "type": "string"
+                        },
+                        "words": {
+                          "description": "Not enough words",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "columns",
+                        "duplicates",
+                        "generate",
+                        "taken",
+                        "limit",
+                        "words",
+                        "account",
+                        "generic"
+                      ],
+                      "type": "object"
+                    },
+                    "field": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "description": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The class description"
+                        },
+                        "edit": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The edit button"
+                        },
+                        "existing": {
+                          "additionalProperties": false,
+                          "properties": {
+                            "label": {
+                              "description": "Label for existing users.",
+                              "type": "string"
+                            },
+                            "prompt": {
+                              "description": "Explanation of existing users.",
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "prompt",
+                            "label"
+                          ],
+                          "type": "object"
+                        },
+                        "generate": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The generate credentials button"
+                        },
+                        "metadata": {
+                          "additionalProperties": false,
+                          "description": "The student data field",
+                          "properties": {
+                            "description": {
+                              "description": "The tooltip and ARIA-label for the text field",
+                              "type": "string"
+                            },
+                            "placeholder": {
+                              "description": "The placeholder text fo the text field.",
+                              "type": "string"
+                            },
+                            "prompt": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "description",
+                            "placeholder",
+                            "prompt"
+                          ],
+                          "type": "object"
+                        },
+                        "name": {
+                          "$ref": "#/definitions/FieldText",
+                          "description": "The class name"
+                        },
+                        "submit": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "The submit button"
+                        },
+                        "words": {
+                          "additionalProperties": false,
+                          "description": "The password words field",
+                          "properties": {
+                            "description": {
+                              "description": "The tooltip and ARIA-label for the text field",
+                              "type": "string"
+                            },
+                            "placeholder": {
+                              "description": "The placeholder text fo the text field.",
+                              "type": "string"
+                            },
+                            "prompt": {
+                              "type": "string"
+                            }
+                          },
+                          "required": [
+                            "description",
+                            "placeholder",
+                            "prompt"
+                          ],
+                          "type": "object"
+                        }
+                      },
+                      "required": [
+                        "name",
+                        "description",
+                        "existing",
+                        "metadata",
+                        "words",
+                        "generate",
+                        "submit",
+                        "edit"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "description": "The header for the create class page",
+                      "type": "string"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "download": {
+                          "description": "Download instructions",
+                          "type": "string"
+                        },
+                        "pending": {
+                          "description": "When generating usernames and passwords",
+                          "type": "string"
+                        },
+                        "ready": {
+                          "description": "What to say before there are any generated credentials.",
+                          "type": "string"
+                        },
+                        "review": {
+                          "description": "Prompt review of the genrated students.",
+                          "type": "string"
+                        },
+                        "start": {
+                          "description": "Explain the purpose of the form",
+                          "type": "string"
+                        },
+                        "submit": {
+                          "description": "Ready to submit instructions",
+                          "type": "string"
+                        },
+                        "submitting": {
+                          "description": "Submitting instructions",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "start",
+                        "review",
+                        "ready",
+                        "pending",
+                        "submit",
+                        "submitting",
+                        "download"
+                      ],
+                      "type": "object"
+                    },
+                    "subheader": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "class": {
+                          "description": "The subheader for the create class page",
+                          "type": "string"
+                        },
+                        "credentials": {
+                          "description": "The subheader for the preview",
+                          "type": "string"
+                        },
+                        "students": {
+                          "description": "The subheader for the create class page",
+                          "type": "string"
+                        },
+                        "submit": {
+                          "description": "The subheader for submitting",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "class",
+                        "students",
+                        "credentials",
+                        "submit"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "subheader",
+                    "prompt",
+                    "field",
+                    "error"
+                  ],
+                  "type": "object"
                 },
                 "projects": {
-                  "description": "The project creation and browsing page"
+                  "additionalProperties": false,
+                  "description": "The project creation and browsing page",
+                  "properties": {
+                    "add": {
+                      "$ref": "#/definitions/DialogText",
+                      "description": "Dialog text for the project addition dialog"
+                    },
+                    "archiveheader": {
+                      "description": "The header for the archived subsection",
+                      "type": "string"
+                    },
+                    "archiveprompt": {
+                      "description": "Explanation for the archive subsection",
+                      "type": "string"
+                    },
+                    "button": {
+                      "additionalProperties": false,
+                      "description": "Buttons on the project page",
+                      "properties": {
+                        "editproject": {
+                          "description": "Edit a project",
+                          "type": "string"
+                        },
+                        "newgallery": {
+                          "description": "Create a new gallery",
+                          "type": "string"
+                        },
+                        "newproject": {
+                          "description": "Create a new project",
+                          "type": "string"
+                        },
+                        "unarchive": {
+                          "description": "The project unarchive button description",
+                          "type": "string"
+                        },
+                        "viewcode": {
+                          "description": "View a project's code",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "newproject",
+                        "editproject",
+                        "viewcode",
+                        "newgallery",
+                        "unarchive"
+                      ],
+                      "type": "object"
+                    },
+                    "confirm": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "archive": {
+                          "$ref": "#/definitions/ConfirmText",
+                          "description": "The project archive button"
+                        },
+                        "delete": {
+                          "$ref": "#/definitions/ConfirmText",
+                          "description": "The project delete button"
+                        }
+                      },
+                      "required": [
+                        "archive",
+                        "delete"
+                      ],
+                      "type": "object"
+                    },
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "delete": {
+                          "description": "Unable to delete project",
+                          "type": "string"
+                        },
+                        "newgallery": {
+                          "description": "Unable to create a gallery",
+                          "type": "string"
+                        },
+                        "noaccess": {
+                          "description": "When there's no access to the database.",
+                          "type": "string"
+                        },
+                        "nodeletes": {
+                          "description": "Feedback that we are unable to delete when logged out",
+                          "type": "string"
+                        },
+                        "nogalleryedits": {
+                          "description": "When the creator is not logged in.",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "noaccess",
+                        "nogalleryedits",
+                        "newgallery",
+                        "nodeletes",
+                        "delete"
+                      ],
+                      "type": "object"
+                    },
+                    "galleriesheader": {
+                      "description": "Header for the galleries page",
+                      "type": "string"
+                    },
+                    "galleryprompt": {
+                      "description": "A prompt to create galleries",
+                      "type": "string"
+                    },
+                    "header": {
+                      "description": "Header for the projects page",
+                      "type": "string"
+                    },
+                    "projectprompt": {
+                      "description": "Explanation for the project page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "projectprompt",
+                    "archiveheader",
+                    "archiveprompt",
+                    "galleriesheader",
+                    "galleryprompt",
+                    "add",
+                    "button",
+                    "confirm",
+                    "error"
+                  ],
+                  "type": "object"
                 },
                 "rights": {
-                  "description": "The rights/terms of service page"
+                  "additionalProperties": false,
+                  "description": "The rights/terms of service page",
+                  "properties": {
+                    "consequences": {
+                      "description": "The consequences of violating a promise.",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
+                    },
+                    "content": {
+                      "description": "Paragraphs for the rights page",
+                      "items": {
+                        "$ref": "#/definitions/Template"
+                      },
+                      "type": "array"
+                    },
+                    "header": {
+                      "description": "Header for the rights page",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "content",
+                    "consequences"
+                  ],
+                  "type": "object"
                 },
                 "teach": {
-                  "description": "Teacher landing page text"
+                  "additionalProperties": false,
+                  "description": "Teacher landing page text",
+                  "properties": {
+                    "error": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "login": {
+                          "description": "When not logged in",
+                          "type": "string"
+                        },
+                        "offline": {
+                          "description": "When unable to check teacher status or classes",
+                          "type": "string"
+                        },
+                        "teacher": {
+                          "description": "When logged in, but not a teacher",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "offline",
+                        "login",
+                        "teacher"
+                      ],
+                      "type": "object"
+                    },
+                    "header": {
+                      "description": "The header for the teach page.",
+                      "type": "string"
+                    },
+                    "link": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "new": {
+                          "description": "The prompt to create a new class",
+                          "type": "string"
+                        },
+                        "request": {
+                          "description": "The prompt to request teacher privileges",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "request",
+                        "new"
+                      ],
+                      "type": "object"
+                    },
+                    "prompt": {
+                      "additionalProperties": false,
+                      "properties": {
+                        "none": {
+                          "description": "No classes",
+                          "type": "string"
+                        },
+                        "some": {
+                          "description": "One or more classes",
+                          "type": "string"
+                        }
+                      },
+                      "required": [
+                        "none",
+                        "some"
+                      ],
+                      "type": "object"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "prompt",
+                    "error",
+                    "link"
+                  ],
+                  "type": "object"
                 },
                 "unknown": {
-                  "description": "The unknown route page"
+                  "additionalProperties": false,
+                  "description": "The unknown route page",
+                  "properties": {
+                    "header": {
+                      "description": "The header for the unknown route",
+                      "type": "string"
+                    },
+                    "message": {
+                      "description": "The message for the unknown route",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "header",
+                    "message"
+                  ],
+                  "type": "object"
                 }
               },
               "required": [
@@ -10819,6 +12606,27 @@
           },
           "maxItems": 2,
           "minItems": 2,
+          "type": "array"
+        }
+      },
+      "required": [
+        "label",
+        "modes"
+      ],
+      "type": "object"
+    },
+    "ModeText<string[]>": {
+      "additionalProperties": false,
+      "properties": {
+        "label": {
+          "description": "The tooltip and ARIA-label for the entire mode widget, describing the kind of modes it supports switching to.",
+          "type": "string"
+        },
+        "modes": {
+          "description": "The tooltip and ARIA-labels to use for each mode button describing the mode to be switched to, in the order of appearance",
+          "items": {
+            "type": "string"
+          },
           "type": "array"
         }
       },

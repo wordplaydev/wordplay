@@ -1,14 +1,3 @@
-<script module lang="ts">
-    export type GalleriesPageText = {
-        /** How to describe galleries of projects */
-        header: string;
-        /** Explanation for the galleries page */
-        prompt: string;
-        /** The subheader for the examples */
-        examples: string;
-    };
-</script>
-
 <script lang="ts">
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';

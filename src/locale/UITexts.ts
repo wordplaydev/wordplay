@@ -1,25 +1,26 @@
 import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
-import type { UnknownPageText } from '../routes/+error.svelte';
-import type { LandingPageText } from '../routes/+page.svelte';
-import type { AboutPageText } from '../routes/about/+page.svelte';
-import type { DonatePageText } from '../routes/donate/+page.svelte';
-import type { GalleriesPageText } from '../routes/galleries/+page.svelte';
-import type { GalleryPageText } from '../routes/gallery/[galleryid]/+page.svelte';
-import type { GuidePageText } from '../routes/guide/Guide.svelte';
-import type { JoinPageText } from '../routes/join/Join.svelte';
-import type { LearnPageText } from '../routes/learn/+page.svelte';
-import type { LoginPageText } from '../routes/login/Login.svelte';
-import type { ProjectsPageText } from '../routes/projects/+page.svelte';
-import type { RightsPageText } from '../routes/rights/+page.svelte';
-import type { TeachPageText } from '../routes/teach/+page.svelte';
-import type { ClassPageText } from '../routes/teach/class/[classid]/+page.svelte';
-import type { NewClassPageText } from '../routes/teach/class/new/+page.svelte';
-import type EditTexts from './EditTexts';
 import type { DocText, Template } from './LocaleText';
-import type { CheckpointsText } from '@components/project/Checkpoints.svelte';
-import type { CharactersPageText } from '../routes/characters/+page.svelte';
-import type { CharacterPageText } from '../routes/character/[id]/+page.svelte';
+
+import type ErrorText from '../routes/ErrorText';
+import type LandingPageText from '../routes/PageText';
+import type AboutPageText from '../routes/about/PageText';
+import type DonatePageText from '../routes/donate/PageText';
+import type GalleriesPageText from '../routes/galleries/PageText';
+import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
+import type GuidePageText from '../routes/guide/PageText';
+import type JoinPageText from '../routes/join/PageText';
+import type LearnPageText from '../routes/learn/PageText';
+import type LoginPageText from '../routes/login/PageText';
+import type ProjectsPageText from '../routes/projects/PageText';
+import type RightsPageText from '../routes/rights/PageText';
+import type TeachPageText from '../routes/teach/PageText';
+import type ClassPageText from '../routes/teach/class/[classid]/PageText';
+import type NewClassPageText from '../routes/teach/class/new/PageText';
+import type EditTexts from './EditTexts';
+import type CheckpointsText from '@components/project/CheckpointsText';
+import type CharactersPageText from '../routes/characters/PageText';
+import type CharacterPageText from '../routes/character/[id]/PageText';
 
 export type ButtonText = {
     /** The buttons label */
@@ -742,7 +743,7 @@ type UITexts = {
     };
     page: {
         /** The unknown route page */
-        unknown: UnknownPageText;
+        unknown: ErrorText;
         /** Landing page text */
         landing: LandingPageText;
         /** Tutorial page text */

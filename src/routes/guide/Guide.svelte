@@ -1,12 +1,3 @@
-<script module lang="ts">
-    export type GuidePageText = {
-        /** The header for the guide page */
-        header: string;
-        /** A description of the guide */
-        description: string;
-    };
-</script>
-
 <script lang="ts">
     import { browser } from '$app/environment';
     import { afterNavigate, goto } from '$app/navigation';

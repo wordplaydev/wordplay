@@ -4944,7 +4944,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~Nous n'avons pas pu trouver ce cours ou vous n'avez pas la permission de le consulter."
+                    "notfound": "$~Nous n'avons pas pu trouver ce cours ou vous n'avez pas la permission de le consulter.",
+                    "gallery": "$~Nous n'avons pas pu créer de galerie pour cette classe."
                 }
             },
             "characters": {

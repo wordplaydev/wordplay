@@ -4907,7 +4907,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla."
+                    "notfound": "$~No pudimos encontrar esta clase o no tienes permiso para verla.",
+                    "gallery": "$~No pudimos crear una galería para esta clase."
                 }
             },
             "characters": {

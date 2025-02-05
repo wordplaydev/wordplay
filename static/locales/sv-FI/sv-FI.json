@@ -4800,7 +4800,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~Vi kunde inte hitta den här klassen eller så har du inte behörighet att se den."
+                    "notfound": "$~Vi kunde inte hitta den här klassen eller så har du inte behörighet att se den.",
+                    "gallery": "$~Vi kunde inte skapa ett galleri för den här klassen."
                 }
             },
             "guide": {

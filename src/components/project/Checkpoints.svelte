@@ -3,24 +3,6 @@
     const Hour = 60 * Minute;
     const Day = 24 * Hour;
     const Week = 7 * Day;
-
-    export type CheckpointsText = {
-        label: {
-            now: string;
-            history: string;
-            restore: string;
-            ago: Template;
-        };
-        button: {
-            clear: string;
-            select: string;
-            checkpoint: string;
-            back: string;
-            forward: string;
-            restore: string;
-            now: string;
-        };
-    };
 </script>
 
 <script lang="ts">
@@ -31,7 +13,7 @@
     import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Emoji from '@components/app/Emoji.svelte';
     import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import { docToMarkup, type Template } from '@locale/LocaleText';
+    import { docToMarkup } from '@locale/LocaleText';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
 

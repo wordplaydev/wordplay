@@ -4805,7 +4805,8 @@
                     }
                 },
                 "error": {
-                    "notfound": "$~Nie znaleźliśmy tych zajęć lub nie masz uprawnień do ich przeglądania."
+                    "notfound": "$~Nie znaleźliśmy tych zajęć lub nie masz uprawnień do ich przeglądania.",
+                    "gallery": "$~Nie udało się utworzyć galerii dla tej klasy."
                 }
             },
             "guide": {

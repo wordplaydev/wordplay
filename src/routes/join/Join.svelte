@@ -1,19 +1,3 @@
-<script module lang="ts">
-    export type JoinPageText = {
-        /** The account creation header */
-        header: string;
-        /** Requests for information on the account creation page */
-        prompt: {
-            /** Prompt to create an account */
-            create: string;
-            /** Username rules */
-            username: string;
-            /** Password rules and warnings */
-            password: string;
-        };
-    };
-</script>
-
 <script lang="ts">
     import TextField from '@components/widgets/TextField.svelte';
     import LoginForm from '../login/LoginForm.svelte';
