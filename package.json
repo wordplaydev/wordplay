@@ -78,7 +78,7 @@
         "typescript": "^5",
         "vite": "^6",
         "vite-plugin-eslint": "^1",
-        "vitest": "^2"
+        "vitest": "^3"
     },
     "type": "module",
     "dependencies": {

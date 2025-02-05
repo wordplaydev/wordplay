@@ -22,6 +22,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - #657: Fixed focus on tutorial buttons.
 - Always localize delimiters
 
+### Maintenance
+
+- Updated minor versions of all dependencies.
+
 ## 0.14.2 2024-01-18
 
 ### Fixed
