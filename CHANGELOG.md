@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Fixed
 
+- Resolved name conflict in German.
 - Fixed infinite loop on self-referential structures.
 - Improved colors of character emojis.
 - Improved color emoji handling on Safari.

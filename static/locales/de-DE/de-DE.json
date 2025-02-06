@@ -3608,7 +3608,7 @@
             "description": "$~Freiform-Ausgaben für 1 USD"
         },
         "Shape": {
-            "names": ["$~⬟", "$~Form"],
+            "names": ["$~⬟", "$~Gestalt"],
             "doc": "$~Ich bin eine Inspiration für alle Formen. Ich bin nützlich, um @Stage zu sagen, welche Form es haben soll.",
             "form": {
                 "doc": "$~Ich bin die Art von Form, die angezeigt werden soll. Jede Form erfordert andere Informationen, um ihre Anordnung zu definieren.",
