@@ -80,13 +80,15 @@
     }
 </script>
 
-{#snippet option(glyph: string)}
+{#snippet option(glyph: string, token = true)}
     <Button
         tip={$locales
             .concretize((l) => l.ui.source.cursor.insertSymbol, glyph)
             .toText()}
         action={() => insert(glyph)}
-        ><TokenView node={tokenize(glyph).getTokens()[0]} /></Button
+        >{#if token}<TokenView
+                node={tokenize(glyph).getTokens()[0]}
+            />{:else}{glyph}{/if}</Button
     >
 {/snippet}
 
@@ -118,7 +120,7 @@
                     {@render character(glyph)}
                 {/each}
                 {#each getEmoji() as glyph}
-                    {@render option(String.fromCodePoint(glyph.hex))}
+                    {@render option(String.fromCodePoint(glyph.hex), false)}
                 {/each}
             {:else}
                 {#each Defaults as command}<CommandButton
