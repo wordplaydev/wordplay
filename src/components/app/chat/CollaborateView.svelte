@@ -143,9 +143,8 @@
                 <Button
                     tip={$locales.get((l) => l.ui.collaborate.button.delete)}
                     action={() => deleteMessage(chat, msg)}
-                >
-                    {CANCEL_SYMBOL}</Button
-                >
+                    icon={CANCEL_SYMBOL}
+                ></Button>
             {/if}
         </div>
         <div class="what"

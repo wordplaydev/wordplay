@@ -6,7 +6,6 @@
     import type Project from '@db/projects/Project';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import { getUser } from './Contexts';
-    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         project: Project;
@@ -24,9 +23,11 @@
     }
 </script>
 
-<Button tip={$locales.get((l) => l.ui.project.button.duplicate)} action={copy}
-    ><span class="copy"
-        >{withMonoEmoji(COPY_SYMBOL)}
+<Button
+    tip={$locales.get((l) => l.ui.project.button.duplicate)}
+    action={copy}
+    icon={COPY_SYMBOL}
+    ><span class="copy">
         {$locales.get((l) => l.ui.project.button.duplicate)}</span
     ></Button
 >

@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Fixed
 
+- More consistent button icons.
 - Resolved name conflict in German.
 - Fixed infinite loop on self-referential structures.
 - Improved colors of character emojis.

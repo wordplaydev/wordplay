@@ -5,10 +5,8 @@
     import type { DialogText } from '../../locale/UITexts';
     import Header from '../app/Header.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { clickOutside } from '@components/app/clickOutside';
-    import { withMonoEmoji } from '../../unicode/emoji';
 
     interface Props {
         show?: boolean;
@@ -46,9 +44,7 @@
 </script>
 
 {#if button}
-    <Button tip={button.tip} action={() => (show = true)}
-        >{#if button.icon}<Emoji>{withMonoEmoji(button.icon)}</Emoji>
-        {/if}
+    <Button tip={button.tip} action={() => (show = true)} icon={button.icon}>
         {#if button.label.length > 0}
             {button.label}{/if}</Button
     >
@@ -67,8 +63,9 @@
             <div class="close">
                 <Button
                     tip={$locales.get((l) => l.ui.widget.dialog.close)}
-                    action={() => (show = false)}>{withMonoEmoji('❌')}</Button
-                >
+                    action={() => (show = false)}
+                    icon="❌"
+                ></Button>
             </div>
         {/if}
 

@@ -32,8 +32,9 @@
         tip={$locales.get((l) => l.ui.page.projects.button.newproject)}
         action={newProject}
         testid="addproject"
-        ><span style:font-size="xxx-large">+</span>
-    </Button></p
+        large
+        icon="+"
+    ></Button></p
 >
 <Dialog
     bind:show={adding}

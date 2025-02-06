@@ -62,16 +62,17 @@
                             ? removeContent(DB, project, list, index)
                             : undefined}
                     active={editable && list.values.length > 0}
-                    >{CANCEL_SYMBOL}</Button
-                >
+                    icon={CANCEL_SYMBOL}
+                ></Button>
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.up)}
                     action={() =>
                         list
                             ? moveContent(DB, project, list, index, -1)
                             : undefined}
-                    active={editable && index > 0}>↑</Button
-                >
+                    active={editable && index > 0}
+                    icon="↑"
+                ></Button>
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.down)}
                     action={() =>
@@ -79,13 +80,14 @@
                             ? moveContent(DB, project, list, index, 1)
                             : undefined}
                     active={editable && index < list.values.length - 1}
-                    >↓</Button
-                >
+                    icon="↓"
+                ></Button>
                 <Button
                     tip={$locales.get((l) => l.ui.palette.button.edit)}
                     active={editable}
-                    action={() => editContent(index)}>{EDIT_SYMBOL}</Button
-                >
+                    action={() => editContent(index)}
+                    icon={EDIT_SYMBOL}
+                ></Button>
                 <RootView node={content} locale="symbolic" blocks={$blocks} />
             </div>
         {/each}

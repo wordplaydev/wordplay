@@ -126,8 +126,9 @@
     </div>
     <Button
         tip={$locales.get((l) => l.ui.timeline.button.reset)}
-        action={() => reset(true)}>↻</Button
-    >
+        icon="↻"
+        action={() => reset(true)}
+    ></Button>
 </div>
 
 <style>

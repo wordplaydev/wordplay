@@ -188,8 +188,9 @@
         <Button
             tip={$locales.get((l) => l.ui.page.projects.button.newgallery)}
             action={() => createGallery(classData)}
-            ><span style:font-size="xxx-large">+</span>
-        </Button>
+            large
+            icon="+"
+        ></Button>
     </Centered>
 
     {#if newGalleryError}

@@ -116,8 +116,9 @@
     {#if editable && removable && remove}<Button
             tip={$locales.get((l) => l.ui.project.button.removeCollaborator)}
             active={removable(uid)}
-            action={() => remove(uid, email)}>{CANCEL_SYMBOL}</Button
-        >{/if}
+            action={() => remove(uid, email)}
+            icon={CANCEL_SYMBOL}
+        ></Button>{/if}
 {/snippet}
 
 <!-- If metadata was provided, use a table and offer edits -->
@@ -136,15 +137,15 @@
                                             (l) => l.ui.widget.table.addcolumn,
                                         )}
                                         action={() => addcolumn(index)}
-                                        >+</Button
-                                    >{/if}{#if removecolumn}<Button
+                                        icon="+"
+                                    ></Button>{/if}{#if removecolumn}<Button
                                         tip={$locales.get(
                                             (l) =>
                                                 l.ui.widget.table.removecolumn,
                                         )}
                                         action={() => removecolumn(index)}
-                                        >{CANCEL_SYMBOL}</Button
-                                    >{/if}</th
+                                        icon={CANCEL_SYMBOL}
+                                    ></Button>{/if}</th
                             >
                         {/each}
                         <th
@@ -153,8 +154,9 @@
                                     tip={$locales.get(
                                         (l) => l.ui.widget.table.addcolumn,
                                     )}
-                                    action={() => addcolumn(columns)}>+</Button
-                                >
+                                    action={() => addcolumn(columns)}
+                                    icon="+"
+                                ></Button>
                             {/if}</th
                         >
                     </tr>

@@ -149,8 +149,9 @@
                                 (l) => l.ui.palette.sequence.button.add,
                             )}
                             active={editable}
-                            action={() => addPose(index)}>+</Button
-                        >
+                            action={() => addPose(index)}
+                            icon="+"
+                        ></Button>
                         <Button
                             tip={$locales.get(
                                 (l) => l.ui.palette.sequence.button.remove,
@@ -158,23 +159,25 @@
                             action={() => removePose(index)}
                             active={editable &&
                                 map !== undefined &&
-                                map.values.length > 1}>{CANCEL_SYMBOL}</Button
-                        >
+                                map.values.length > 1}
+                            icon={CANCEL_SYMBOL}
+                        ></Button>
                         <Button
                             tip={$locales.get(
                                 (l) => l.ui.palette.sequence.button.up,
                             )}
                             action={() => movePose(index, -1)}
-                            active={editable && index > 0}>↑</Button
-                        >
+                            active={editable && index > 0}
+                            icon="↑"
+                        ></Button>
                         <Button
                             tip={$locales.get(
                                 (l) => l.ui.palette.sequence.button.down,
                             )}
                             action={() => movePose(index, 1)}
                             active={editable && index < map.values.length - 1}
-                            >↓</Button
-                        >
+                            icon="↓"
+                        ></Button>
                     </div>
                     <div class="pose"
                         ><PoseEditor

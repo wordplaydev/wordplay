@@ -83,9 +83,8 @@
                 action={() => select(selected, 'remove')}
                 tip={$locales.get((l) => l.ui.dialog.locale.button.remove)}
                 active={selectedLocales.length > 1}
-                >{#if selectedLocales.length > 1}
-                    {CANCEL_SYMBOL}
-                {/if}
+                icon={selectedLocales.length > 1 ? CANCEL_SYMBOL : undefined}
+            >
                 <LocaleName locale={selected} supported /></Button
             >
         {/each}
@@ -106,8 +105,8 @@
                 <Button
                     action={() => select(supported, 'add')}
                     tip={$locales.get((l) => l.ui.dialog.locale.button.add)}
-                    >+</Button
-                >
+                    icon="+"
+                ></Button>
             </div>
         {:else}&mdash;
         {/each}

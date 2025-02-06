@@ -1504,9 +1504,8 @@
                                                         .viewcode,
                                             )}
                                             action={() => stopPlaying()}
-                                            ><Emoji>{withMonoEmoji('👁️')}</Emoji
-                                            ></Button
-                                        >{/if}
+                                            icon="👁️"
+                                        ></Button>{/if}
                                     <CommandButton
                                         background
                                         command={Restart}
@@ -1731,8 +1730,9 @@
                         uiid="revertProject"
                         tip={$locales.get((l) => l.ui.project.button.revert)}
                         active={!project.equals(original)}
-                        action={() => revert()}>↺</Button
-                    >{/if}
+                        action={() => revert()}
+                        icon="↺"
+                    ></Button>{/if}
                 {#if owner}
                     {#await Creators.getCreator(owner)}
                         <Spinning label="" />
@@ -1777,8 +1777,8 @@
                         uiid="addSource"
                         tip={$locales.get((l) => l.ui.project.button.addSource)}
                         action={addSource}
-                        >+<Emoji>{Characters.Program.symbols}</Emoji></Button
-                    >{/if}
+                        icon="+{Characters.Program.symbols}"
+                    ></Button>{/if}
                 {#each layout.getNonSources() as tile}
                     <!-- No need to show the tile if not visible when not editable. -->
                     {#if tile.isVisibleCollapsed(editable)}

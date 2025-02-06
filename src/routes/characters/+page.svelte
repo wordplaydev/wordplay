@@ -93,8 +93,9 @@
                 tip={$locales.get((l) => l.ui.page.characters.button.new)}
                 action={addCharacter}
                 active={!creating}
-                ><span style:font-size="xxx-large">+</span>
-            </Button>
+                large
+                icon="+"
+            ></Button>
         {/if}
 
         <div class="characters">

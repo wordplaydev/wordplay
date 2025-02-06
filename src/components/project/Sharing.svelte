@@ -9,7 +9,6 @@
     import Feedback from '@components/app/Feedback.svelte';
     import PII from './PII.svelte';
     import Button from '@components/widgets/Button.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import { toClipboard } from '@components/editor/util/Clipboard';
 
@@ -47,7 +46,8 @@
             // In case its already pressed, show it again.
             setTimeout(() => (copied = true), 100);
         }}
-        ><Emoji>{COPY_SYMBOL}</Emoji>
+        icon={COPY_SYMBOL}
+    >
         {$locales.get((l) => l.ui.project.button.copy.label)}
         {#if copied}✓{/if}</Button
     >

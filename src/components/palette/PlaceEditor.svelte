@@ -153,7 +153,8 @@
                     ),
                 ],
             ]);
-        }}>→{project.shares.input.Motion.getNames()[0]}</Button
+        }}
+        icon="→">{project.shares.input.Motion.getNames()[0]}</Button
     >
     <Button
         tip={$locales.get((l) => l.ui.palette.button.addPlacement)}
@@ -168,7 +169,8 @@
                     ),
                 ],
             ]);
-        }}>→{project.shares.input.Placement.getNames()[0]}</Button
+        }}
+        icon="→">{project.shares.input.Placement.getNames()[0]}</Button
     >
 {/if}
 

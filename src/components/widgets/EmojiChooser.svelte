@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { toUnicode, withColorEmoji } from '../../unicode/emoji';
+    import { withColorEmoji } from '../../unicode/emoji';
     import { getEmoji } from '../../unicode/Unicode';
     import Button from './Button.svelte';
 
@@ -9,9 +9,6 @@
     }
 
     let { pick, emoji }: Props = $props();
-
-    console.log(toUnicode('©️'));
-    console.log(toUnicode(withColorEmoji('©️')));
 </script>
 
 <div class="picker">

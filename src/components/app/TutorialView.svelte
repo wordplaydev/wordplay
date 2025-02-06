@@ -396,8 +396,9 @@
                         action={() =>
                             navigate(progress.previousPause() ?? progress)}
                         active={progress.previousPause() !== undefined}
-                        bind:view={previousButton}>←</Button
-                    >
+                        icon="←"
+                        bind:view={previousButton}
+                    ></Button>
                     {#if act !== undefined && scene !== undefined && (scene.subtitle ?? scene.title)}<Note
                             >{withoutAnnotations(scene.subtitle ?? scene.title)}
                             {#if act !== undefined && scene !== undefined && progress.pause > 0}
@@ -415,8 +416,9 @@
                         action={() =>
                             navigate(progress.nextPause() ?? progress)}
                         active={progress.nextPause() !== undefined}
-                        bind:view={nextButton}>→</Button
-                    >
+                        icon="→"
+                        bind:view={nextButton}
+                    ></Button>
                 </div>
                 {#if act === undefined}
                     <div class="title play"

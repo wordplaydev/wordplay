@@ -195,12 +195,14 @@
             {#if $path.length > 1}
                 <Button
                     tip={$locales.get((l) => l.ui.docs.button.home)}
-                    action={home}>⇤</Button
-                >{/if}
+                    icon="⇤"
+                    action={home}
+                ></Button>{/if}
             <Button
                 tip={$locales.get((l) => l.ui.docs.button.back)}
-                action={back}>←</Button
-            >
+                icon="←"
+                action={back}
+            ></Button>
             {#each $path as concept, index}{#if index > 0}
                     ·
                 {/if}{#if index === $path.length - 1}<ConceptLinkUI

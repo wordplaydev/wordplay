@@ -297,8 +297,9 @@
                         background={background !== null}
                         padding={false}
                         tip={$locales.get((l) => l.ui.tile.button.collapse)}
-                        action={() => mode(TileMode.Collapsed)}>–</Button
-                    >
+                        action={() => mode(TileMode.Collapsed)}
+                        icon="–"
+                    ></Button>
                 {/if}
                 <Toggle
                     tips={$locales.get((l) => l.ui.tile.toggle.fullscreen)}
