@@ -50,6 +50,7 @@
     class:source
     data-uiidtohighlight={id}
     class:hovering={bounds !== undefined && id !== undefined}
+    
     style:left={bounds ? `${bounds.left}px` : undefined}
     style:top={bounds ? `${bounds.top}px` : undefined}
 >
@@ -72,6 +73,10 @@
         animation-duration: 1s;
         animation-iteration-count: infinite;
         align-items: center;
+
+        transform-origin: center;
+        position: relative;
+
     }
 
     .hovering {
@@ -81,6 +86,10 @@
         transform: translate(-50%, -50%);
         z-index: 2;
         pointer-events: none;
+    }
+
+    .hidden {
+        display: none;
     }
 
     .number {
@@ -97,10 +106,10 @@
 
     @keyframes glow {
         from {
-            transform: scale(1);
+            transform: scale(0.3);
         }
         to {
-            transform: scale(2);
+            transform: scale(1);
         }
     }
 </style>
