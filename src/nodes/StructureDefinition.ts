@@ -215,7 +215,10 @@ export default class StructureDefinition extends DefinitionExpression {
     }
 
     getEvaluateTemplate(nameOrLocales: Locales | string, context: Context) {
-        return Evaluate.make(
+        // In case for some reason an input of this refers to this.
+        if (context.visited(this)) return ExpressionPlaceholder.make();
+        context.visit(this);
+        const evaluate = Evaluate.make(
             Reference.make(
                 typeof nameOrLocales === 'string'
                     ? nameOrLocales
@@ -231,6 +234,9 @@ export default class StructureDefinition extends DefinitionExpression {
                         : ExpressionPlaceholder.make(),
                 ),
         );
+        context.unvisit();
+
+        return evaluate;
     }
 
     isEvaluationRoot() {
