@@ -16,6 +16,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Serialize locale verification.
 - Fixed French translation errors.
 - Fixed Gujarati translation errors.
+- Fixed Hindi translation errors.
 
 ## 0.15.0 2024-01-26
 
