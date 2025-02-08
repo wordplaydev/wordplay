@@ -10,7 +10,7 @@ export default class Setting<Type> {
     readonly value: Writable<Type>;
     /** Takes a new value and determines whether it's equal. Used to avoid redundant sets. */
     readonly equal: (current: Type, value: Type) => boolean;
-    /** Takes an unknown value from local storage and either accepts it as a Type or returns undefined, indicating default value should be used. */
+    /** Takes an unknown value from local storage and either returns it it as a Type or returns undefined, indicating default value should be used. */
     readonly validator: (value: unknown) => undefined | Type;
 
     constructor(

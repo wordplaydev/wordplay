@@ -11,6 +11,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Don't allow users to add themselves to a creator list.
 - Better claim checking for teacher page, to explain what teacher accounts are for.
 - Fixed dark mode loading.
+- Fixed #673, more visible links in paragraphs.
 
 ## 0.15.0 2024-01-26
 

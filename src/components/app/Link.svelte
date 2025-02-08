@@ -37,6 +37,12 @@
         text-decoration: none;
     }
 
+    /* Links in paragraphs should have underlines for visibility. */
+    :global(p) > a {
+        text-decoration: var(--wordplay-border-width) underline
+            var(--wordplay-highlight-color);
+    }
+
     .nowrap {
         white-space: nowrap;
     }
