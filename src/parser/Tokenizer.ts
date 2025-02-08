@@ -62,6 +62,23 @@ import {
     COALESCE_SYMBOL,
     ELISION_SYMBOL,
     MATCH_SYMBOL,
+    EVAL_OPEN_SYMBOL_FULL,
+    EVAL_CLOSE_SYMBOL_FULL,
+    LIST_OPEN_SYMBOL_FULL,
+    LIST_CLOSE_SYMBOL_FULL,
+    SET_CLOSE_SYMBOL_FULL,
+    SET_OPEN_SYMBOL_FULL,
+    TYPE_CLOSE_SYMBOL_FULL,
+    TYPE_OPEN_SYMBOL_FULL,
+    TAG_OPEN_SYMBOL_FULL,
+    TAG_CLOSE_SYMBOL_FULL,
+    BIND_SYMBOL_FULL,
+    PROPERTY_SYMBOL_FULL,
+    FORMATTED_SYMBOL_FULL,
+    COMMA_SYMBOL_FULL,
+    LITERAL_SYMBOL_FULL,
+    COMMA_SYMBOL_FULL2,
+    QUESTION_SYMBOL_FULL,
 } from './Symbols';
 import TokenList from './TokenList';
 import ReservedSymbols from './ReservedSymbols';
@@ -142,7 +159,7 @@ export const WordsRegEx = new RegExp(
     'u',
 );
 
-/** A name is any sequence of characters that is not a reserve symbol or space. */
+/** A name is any sequence of characters that is not a reserved symbol, text separator, oeprator, whitespace, or full-width punctuation. */
 export const NameRegExPattern = `[^\n\t ${ReservedSymbols.map((s) =>
     escapeRegexCharacter(s),
 ).join('')}${TEXT_SEPARATORS}${OPERATORS}]+`;
@@ -164,9 +181,18 @@ type TokenPattern = {
 };
 
 const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
-const FormattedPattern = { pattern: FORMATTED_SYMBOL, types: [Sym.Formatted] };
+const FormattedPattern = {
+    pattern: new RegExp(`^[${FORMATTED_SYMBOL}${FORMATTED_SYMBOL_FULL}]`, 'u'),
+    types: [Sym.Formatted],
+};
 const DocPattern = { pattern: DOCS_SYMBOL, types: [Sym.Doc] };
-const ListOpenPattern = { pattern: LIST_OPEN_SYMBOL, types: [Sym.ListOpen] };
+const ListOpenPattern = {
+    pattern: new RegExp(
+        `^[\\${LIST_OPEN_SYMBOL}${LIST_OPEN_SYMBOL_FULL}]`,
+        'u',
+    ),
+    types: [Sym.ListOpen],
+};
 const ListClosePattern = { pattern: LIST_CLOSE_SYMBOL, types: [Sym.ListClose] };
 
 /** Variable references in markup, for templating and reuse in locales (e.g., $1, $?, $source) */
@@ -176,10 +202,25 @@ export const MentionRegEx = '\\$[a-zA-Z0-9?]+';
 const CodeTokenPatterns: TokenPattern[] = [
     ListOpenPattern,
     ListClosePattern,
-    { pattern: SET_OPEN_SYMBOL, types: [Sym.SetOpen] },
-    { pattern: SET_CLOSE_SYMBOL, types: [Sym.SetClose] },
     {
-        pattern: COMMA_SYMBOL,
+        pattern: new RegExp(
+            `^[${SET_OPEN_SYMBOL}{${SET_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.SetOpen],
+    },
+    {
+        pattern: new RegExp(
+            `^[${SET_CLOSE_SYMBOL}{${SET_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.SetClose],
+    },
+    {
+        pattern: new RegExp(
+            `^[${COMMA_SYMBOL}${COMMA_SYMBOL_FULL}${COMMA_SYMBOL_FULL2}]`,
+            'u',
+        ),
         types: [Sym.Separator],
     },
     { pattern: LANGUAGE_SYMBOL, types: [Sym.Language] },
@@ -189,7 +230,10 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: UPDATE_SYMBOL, types: [Sym.Update] },
     { pattern: TABLE_OPEN_SYMBOL, types: [Sym.TableOpen] },
     { pattern: TABLE_CLOSE_SYMBOL, types: [Sym.TableClose] },
-    { pattern: BIND_SYMBOL, types: [Sym.Bind] },
+    {
+        pattern: new RegExp(`^[${BIND_SYMBOL}${BIND_SYMBOL_FULL}]`, 'u'),
+        types: [Sym.Bind],
+    },
     { pattern: FUNCTION_SYMBOL, types: [Sym.Function] },
     { pattern: BORROW_SYMBOL, types: [Sym.Borrow] },
     { pattern: SHARE_SYMBOL, types: [Sym.Share] },
@@ -199,13 +243,28 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: NONE_SYMBOL, types: [Sym.None, Sym.None] },
     { pattern: TYPE_SYMBOL, types: [Sym.Type, Sym.TypeOperator] },
     { pattern: /^!#/, types: [Sym.Number] },
-    { pattern: LITERAL_SYMBOL, types: [Sym.Literal] },
+    {
+        pattern: new RegExp(`^[${LITERAL_SYMBOL}${LITERAL_SYMBOL_FULL}]`, 'u'),
+        types: [Sym.Literal],
+    },
     {
         pattern: OR_SYMBOL,
         types: [Sym.Operator, Sym.Union],
     },
-    { pattern: TYPE_OPEN_SYMBOL, types: [Sym.TypeOpen] },
-    { pattern: TYPE_CLOSE_SYMBOL, types: [Sym.TypeClose] },
+    {
+        pattern: new RegExp(
+            `^[${TYPE_OPEN_SYMBOL}${TYPE_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.TypeOpen],
+    },
+    {
+        pattern: new RegExp(
+            `^[${TYPE_CLOSE_SYMBOL}${TYPE_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.TypeClose],
+    },
     {
         pattern: STREAM_SYMBOL,
         types: [Sym.Stream, Sym.Etc],
@@ -249,7 +308,13 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: /^π/, types: [Sym.Number, Sym.Pi] },
     { pattern: /^∞/, types: [Sym.Number, Sym.Infinity] },
     // Must be after numbers, which can have a leading period.
-    { pattern: PROPERTY_SYMBOL, types: [Sym.Access, Sym.This] },
+    {
+        pattern: new RegExp(
+            `^[${PROPERTY_SYMBOL}${PROPERTY_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.Access, Sym.This],
+    },
     { pattern: TRUE_SYMBOL, types: [Sym.Boolean] },
     { pattern: FALSE_SYMBOL, types: [Sym.Boolean] },
     // Match all possible text open and close tokens
@@ -271,8 +336,21 @@ const CodeTokenPatterns: TokenPattern[] = [
     // Match code open/close markers
     CodePattern,
     // Finally, catch any leftover single open or close parentheses.
-    { pattern: EVAL_OPEN_SYMBOL, types: [Sym.EvalOpen] },
-    { pattern: EVAL_CLOSE_SYMBOL, types: [Sym.EvalClose] },
+    {
+        pattern: new RegExp(
+            `^[${EVAL_OPEN_SYMBOL}${EVAL_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.EvalOpen],
+    },
+    {
+        pattern: new RegExp(
+            `^[${EVAL_CLOSE_SYMBOL}${EVAL_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
+        types: [Sym.EvalClose],
+    },
+    { pattern: EVAL_CLOSE_SYMBOL_FULL, types: [Sym.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: MEASUREMENT_SYMBOL, types: [Sym.NumberType] },
     {
@@ -284,7 +362,10 @@ const CodeTokenPatterns: TokenPattern[] = [
         types: [Sym.Otherwise],
     },
     {
-        pattern: QUESTION_SYMBOL,
+        pattern: new RegExp(
+            `^[${QUESTION_SYMBOL}${QUESTION_SYMBOL_FULL}]`,
+            'u',
+        ),
         types: [Sym.BooleanType, Sym.Conditional],
     },
     { pattern: '¿', types: [Sym.BooleanType, Sym.Conditional] },
@@ -358,11 +439,17 @@ const MarkupTokenPatterns = [
         types: [Sym.Mention],
     },
     {
-        pattern: TAG_OPEN_SYMBOL,
+        pattern: new RegExp(
+            `^[${TAG_OPEN_SYMBOL}${TAG_OPEN_SYMBOL_FULL}]`,
+            'u',
+        ),
         types: [Sym.TagOpen],
     },
     {
-        pattern: TAG_CLOSE_SYMBOL,
+        pattern: new RegExp(
+            `^[${TAG_CLOSE_SYMBOL}${TAG_CLOSE_SYMBOL_FULL}]`,
+            'u',
+        ),
         types: [Sym.TagClose],
     },
     {
@@ -396,10 +483,16 @@ export const TextDelimiters = new Set<string>([
 export const DelimiterCloseByOpen: Record<string, string> = {};
 
 DelimiterCloseByOpen[EVAL_OPEN_SYMBOL] = EVAL_CLOSE_SYMBOL;
+DelimiterCloseByOpen[EVAL_OPEN_SYMBOL_FULL] = EVAL_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[LIST_OPEN_SYMBOL] = LIST_CLOSE_SYMBOL;
+DelimiterCloseByOpen[LIST_OPEN_SYMBOL_FULL] = LIST_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[SET_OPEN_SYMBOL] = SET_CLOSE_SYMBOL;
+DelimiterCloseByOpen[SET_OPEN_SYMBOL_FULL] = SET_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TYPE_OPEN_SYMBOL] = TYPE_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TYPE_OPEN_SYMBOL_FULL] = TYPE_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[TABLE_OPEN_SYMBOL] = TABLE_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TAG_OPEN_SYMBOL] = TAG_CLOSE_SYMBOL;
+DelimiterCloseByOpen[TAG_OPEN_SYMBOL_FULL] = TAG_CLOSE_SYMBOL_FULL;
 DelimiterCloseByOpen[CODE_SYMBOL] = CODE_SYMBOL;
 DelimiterCloseByOpen[DOCS_SYMBOL] = DOCS_SYMBOL;
 DelimiterCloseByOpen[ELISION_SYMBOL] = ELISION_SYMBOL;
