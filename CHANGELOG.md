@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.15.1 2024-02-08
 
+### Added
+
+- New character button in glyph chooser.
+
 ### Fixed
 
 - Localized unlocalized buttons.

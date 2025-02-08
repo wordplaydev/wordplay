@@ -17,6 +17,7 @@
         type Character,
         characterToSVG,
     } from '../../db/characters/Character';
+    import NewCharacterButton from '../../routes/characters/NewCharacterButton.svelte';
 
     interface Props {
         sourceID: string;
@@ -116,6 +117,7 @@
         <!-- No query? Show emoji or defaults, depending on setting -->
         {#if query === ''}
             {#if emoji}
+                <NewCharacterButton inline></NewCharacterButton>
                 {#each customCharacters as glyph}
                     {@render character(glyph)}
                 {/each}
