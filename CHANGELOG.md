@@ -19,6 +19,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed Hindi translation errors.
 - Fixed Marathi translation errors.
 - Fixed Punjabi translation errors.
+- Fixed Tamil translation errors.
 - Account for full width punctuation in reserved symbols.
 
 ## 0.15.0 2024-01-26
