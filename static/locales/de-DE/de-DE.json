@@ -146,7 +146,7 @@
                 "$~Sie können mich auch ganz an den Anfang von @Program stellen, um zu sagen, worum es in der gesamten Aufführung geht",
                 "$~\\¶Dieses Programm sagt Hallo¶\n\n'Hallo!'\\",
                 "$~Sie können mir eine @Language geben, damit andere wissen, in welcher Sprache ich geschrieben bin:",
-                "$~\\¶Ich bin ein englischer Arzt¶/en\nDauer: 5 s\\",
+                "$~\\¶Ich bin ein englischer Arzt¶/en\nDauer: 5s\\",
                 "$~Wussten Sie, dass Sie eine Liste von mir erstellen können? Sprechen Sie mit @Docs."
             ]
         },
@@ -402,7 +402,7 @@
                 "$~Aber wir können dies ändern, um die @Is hinzuzufügen, und jetzt weiß @FunctionDefinition, dass es sich um Zahlen handelt:",
                 "$~\\ƒ Summe(a•# b•#) a + b\\"
             ],
-            "start": "$~Mal sehen, welchen Wert wir für 1 $ bekommen!",
+            "start": "$~Mal sehen, welchen Wert wir für 1$ bekommen!",
             "finish": "$~oh schön, ich habe 1 $ bekommen! Nennen wir es 2 $",
             "conflict": {
                 "DuplicateName": {
@@ -547,7 +547,7 @@
                 "$~\\\"hallo\" → [] → {}\\",
                 "$~Werte haben einen Satz vordefinierter @ConversionDefinition. Wenn Sie jedoch eine @StructureDefinition für einen neuen Wertetyp erstellen, können Sie mit @ConversionDefinition Ihre eigene definieren."
             ],
-            "start": "$~Holen Sie sich diesen Wert ab 1 $!",
+            "start": "$~Holen Sie sich diesen Wert ab 1$!",
             "finish": "$~Super, ich habe 1 $ verdient",
             "conflict": {
                 "UnknownConversion": "$~Schade, aus 1 $ werden keine 2 $"
@@ -612,7 +612,7 @@
                     "secondary": "$~oh, sollte ich nicht hier sein?"
                 },
                 "MissingInput": {
-                    "primary": "$~Mir fehlt 1 $. Können Sie ihn hinzufügen?",
+                    "primary": "$~Mir fehlt 1$. Können Sie ihn hinzufügen?",
                     "secondary": "$~Diese Eingabe ist erforderlich, wurde aber von $1 nicht bereitgestellt."
                 },
                 "NotInstantiable": "$~Ich kann diese @StructureDefinition nicht erstellen, sie hat nicht implementierte Funktionen.",
@@ -805,7 +805,7 @@
                 "$~Ich bin wirklich hilfreich, wenn es darum geht, eine der vielen möglichen @Number-, @Text- oder komplexeren Werte in etwas anderes umzuwandeln.",
                 "$~Sie können es für @Boolean oder @None verwenden, aber es können nicht wirklich viele Dinge sein, daher bin ich für diese einfachen Werte nicht so nützlich."
             ],
-            "start": "$~Mal sehen, was 1 $ ist …",
+            "start": "$~Mal sehen, was 1$ ist …",
             "case": "$~Lassen Sie uns diesen Zustand überprüfen",
             "finish": "$~Okay, wir haben einen endgültigen Wert!",
             "value": "$~Wert",
@@ -3907,7 +3907,7 @@
                 "names": "$~Reibung"
             },
             "roundedness": {
-                "doc": "$~Wie stark die Ecken der Ausgabe gerundet werden sollen; 0 bedeutet keine und 1 bedeutet 100 % der Größe, wodurch die Größen kreisförmig werden.",
+                "doc": "$~Wie stark die Ecken der Ausgabe gerundet werden sollen; 0 bedeutet keine und 1 bedeutet 100% der Größe, wodurch die Größen kreisförmig werden.",
                 "names": "$~Rundung"
             },
             "text": {
