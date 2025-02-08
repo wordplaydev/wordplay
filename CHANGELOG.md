@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - Localized unlocalized buttons.
 - Don't allow users to add themselves to a creator list.
+- Better claim checking for teacher page, to explain what teacher accounts are for.
 
 ## 0.15.0 2024-01-26
 
