@@ -39,8 +39,14 @@
 
     /* Links in paragraphs should have underlines for visibility. */
     :global(p) > a {
-        text-decoration: var(--wordplay-border-width) underline
+        text-decoration: calc(var(--wordplay-focus-width) / 2) underline
             var(--wordplay-highlight-color);
+    }
+
+    :global(.feedback) > a {
+        color: var(--wordplay-background);
+        text-decoration: var(--wordplay-focus-width) underline
+            var(--wordplay-background);
     }
 
     .nowrap {

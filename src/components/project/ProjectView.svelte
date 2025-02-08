@@ -1693,12 +1693,12 @@
                                         </div>
                                     {/if}
                                     {#if $blocks}
-                                        <div class="editor-warning"
+                                        <p class="editor-warning feedback"
                                             >This editing mode is experimental. <Link
                                                 to="https://discord.gg/Jh2Qq9husy"
                                                 >Discuss</Link
                                             > improvements.
-                                        </div>
+                                        </p>
                                     {/if}
                                 {:else if tile.kind === TileKind.Output && layout.fullscreenID !== tile.id && !requestedPlay && !showOutput}
                                     <Timeline evaluator={$evaluator} />{/if}
