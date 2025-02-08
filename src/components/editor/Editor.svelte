@@ -1,70 +1,28 @@
 <script module lang="ts">
     const SHOW_OUTPUT_IN_PALETTE = false;
+
+    // Add the large deletion notification store inline
+    import { writable } from 'svelte/store';
+    export const largeDeletionNotification = writable<string | null>(null);
 </script>
 
 <script lang="ts">
-    import Node from '@nodes/Node';
-    import Caret, { type CaretPosition } from '../../edit/Caret';
-    import { onMount, untrack } from 'svelte';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import {
-        handleKeyCommand,
-        type Edit,
-        type ProjectRevision,
-        InsertSymbol,
-    } from './util/Commands';
-    import type Source from '@nodes/Source';
-    import { writable } from 'svelte/store';
-    import type Program from '@nodes/Program';
-    import Token from '@nodes/Token';
-    import CaretView, { type CaretBounds } from './CaretView.svelte';
-    import {
-        getDragged,
-        getSelectedOutput,
-        getAnimatingNodes,
-        getConflicts,
-        getEvaluation,
-        getKeyboardEditIdle,
-        IdleKind,
-        getConceptIndex,
-        getEditors,
-        getAnnounce,
-        setCaret,
-        setEditor,
-        setHovered,
-        setInsertionPoint,
-        setHighlights,
-        setSetMenuNode,
-    } from '../project/Contexts';
-    import {
-        type HighlightSpec,
-        type Highlights,
-        getHighlights,
-        updateOutlines,
-    } from './util/Highlights';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import TypePlaceholder from '@nodes/TypePlaceholder';
-    import Sym from '@nodes/Sym';
-    import RootView from '../project/RootView.svelte';
-    import Project from '@db/projects/Project';
+    import Emoji from '@components/app/Emoji.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Conflict from '@conflicts/Conflict';
-    import { tick } from 'svelte';
-    import { getEditsAt } from '../../edit/Autocomplete';
-    import { OutlinePadding } from './util/outline';
-    import Highlight from './Highlight.svelte';
-    import {
-        dropNodeOnSource,
-        getInsertionPoint,
-        InsertionPoint,
-        isValidDropTarget,
-    } from '../../edit/Drag';
-    import Menu, { RevisionSet } from './util/Menu';
+    import Project from '@db/projects/Project';
+    import type Locale from '@locale/Locale';
     import Evaluate from '@nodes/Evaluate';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Node from '@nodes/Node';
+    import type Program from '@nodes/Program';
+    import type Source from '@nodes/Source';
+    import Sym from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import TypePlaceholder from '@nodes/TypePlaceholder';
     import type Evaluator from '@runtime/Evaluator';
-    import { TAB_WIDTH } from '../../parser/Spaces';
-    import PlaceholderView from './MenuTrigger.svelte';
-    import Expression from '../../nodes/Expression';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
+    import ExceptionValue from '@values/ExceptionValue';
+    import { onMount, tick, untrack } from 'svelte';
     import {
         DB,
         Projects,
@@ -73,13 +31,57 @@
         locales,
         showLines,
     } from '../../db/Database';
-    import Button from '../widgets/Button.svelte';
-    import OutputView from '../output/OutputView.svelte';
+    import { getEditsAt } from '../../edit/Autocomplete';
+    import Caret, { type CaretPosition } from '../../edit/Caret';
+    import {
+        InsertionPoint,
+        dropNodeOnSource,
+        getInsertionPoint,
+        isValidDropTarget,
+    } from '../../edit/Drag';
+    import Expression from '../../nodes/Expression';
+    import { TAB_WIDTH } from '../../parser/Spaces';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
+    import UnicodeString from '../../unicode/UnicodeString';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import ExceptionValue from '@values/ExceptionValue';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import type Locale from '@locale/Locale';
+    import OutputView from '../output/OutputView.svelte';
+    import {
+        IdleKind,
+        getAnimatingNodes,
+        getAnnounce,
+        getConceptIndex,
+        getConflicts,
+        getDragged,
+        getEditors,
+        getEvaluation,
+        getKeyboardEditIdle,
+        getSelectedOutput,
+        setCaret,
+        setEditor,
+        setHighlights,
+        setHovered,
+        setInsertionPoint,
+        setSetMenuNode,
+    } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
+    import Button from '../widgets/Button.svelte';
+    import CaretView, { type CaretBounds } from './CaretView.svelte';
+    import Highlight from './Highlight.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
+    import {
+        type Edit,
+        type ProjectRevision,
+        InsertSymbol,
+        handleKeyCommand,
+    } from './util/Commands';
+    import {
+        type HighlightSpec,
+        type Highlights,
+        getHighlights,
+        updateOutlines,
+    } from './util/Highlights';
+    import Menu, { RevisionSet } from './util/Menu';
+    import { OutlinePadding } from './util/outline';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -391,6 +393,8 @@
     }
 
     function handlePointerDown(event: PointerEvent) {
+        // Clear any existing large deletion notification when user clicks to clear selection
+        largeDeletionNotification.set(null);
         event.preventDefault();
         event.stopPropagation();
 
@@ -948,6 +952,10 @@
     ) {
         if (edit === undefined) return;
 
+        // Clear any existing large deletion notification since a new edit has started
+        largeDeletionNotification.set(null);
+        const previousSource = source;
+
         const navigation = edit instanceof Caret;
 
         // Get the new caret and source to display.
@@ -1007,6 +1015,19 @@
         } else {
             // Remove the addition, since the caret moved since being added.
             caret.set(newCaret.withoutAddition());
+        }
+
+        // After processing the edit, if it was a deletion, check if a large deletion occurred
+        if (
+            newSource &&
+            'getCode' in newSource &&
+            previousSource.getCode().getLength() -
+                newSource.getCode().getLength() >=
+                40
+        ) {
+            largeDeletionNotification.set(
+                'Are you sure you want to delete this selection? You can use the undo button (↺) if you change your mind.',
+            );
         }
 
         // After everything is updated, if we were asked to focus the editor, focus it.
@@ -1129,6 +1150,13 @@
     }
 
     function handleKeyDown(event: KeyboardEvent) {
+        if (
+            (event.ctrlKey || event.metaKey) &&
+            event.key.toLowerCase() === 'z'
+        ) {
+            // Clear the large deletion notification if user performs undo
+            largeDeletionNotification.set(null);
+        }
         // If we receive a keyboard event that says
         if (composing && !event.isComposing) handleCompositionEnd();
 
@@ -1510,10 +1538,10 @@
 <!-- Drop what's being dragged if the window loses focus. -->
 <svelte:window onblur={handleRelease} />
 
-<!-- 
-    Has ARIA role text box to allow keyboard keys to go through 
+<!--
+    Has ARIA role text box to allow keyboard keys to go through
     All NodeViews are set to role="presentation"
-    We use the live region above 
+    We use the live region above
 -->
 <!-- svelte-ignore a11y_no_noninteractive_element_interactions -->
 <div
@@ -1578,8 +1606,8 @@
                 lastKeyDownIgnored}
         />
     {/each}
-    <!-- 
-        If the caret is a position, render the invisible text field that allows us to capture inputs 
+    <!--
+        If the caret is a position, render the invisible text field that allows us to capture inputs
         We put it here, before rendering the code, so anything focusable in the code comes after this.
         That way, all controls are just a tab away.
     -->
@@ -1641,7 +1669,7 @@
         viewportHeight={editorHeight}
         bind:location={caretLocation}
     />
-    <!-- 
+    <!--
         This is a localized description of the current caret position, a live region for screen readers,
         and a visual label for sighted folks.
      -->
