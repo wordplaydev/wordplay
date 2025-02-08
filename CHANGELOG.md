@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Fixed
 
 - Localized unlocalized buttons.
+- Don't allow users to add themselves to a creator list.
 
 ## 0.15.0 2024-01-26
 

@@ -1,7 +1,7 @@
 <!-- A modifiable list of creators -->
 <script lang="ts">
     import isValidUsername from '@db/creators/isValidUsername';
-    import type { Creator } from '../../db/creators/CreatorDatabase';
+    import { Creator } from '../../db/creators/CreatorDatabase';
     import { DB, locales } from '../../db/Database';
     import validEmail from '../../db/creators/isValidEmail';
     import CreatorView from '../app/CreatorView.svelte';
@@ -54,7 +54,7 @@
             return $locales.get((l) => l.ui.page.login.error.invalidUsername);
         }
         // Don't add self
-        if (emailOrUsername === DB.getUserEmail())
+        if (emailOrUsername === Creator.getUsername(DB.getUserEmail() ?? ''))
             return $locales.get((l) => l.ui.dialog.share.error.self);
         return true;
     }
