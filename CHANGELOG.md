@@ -13,6 +13,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed dark mode loading.
 - Fixed #673, more visible links in paragraphs.
 - Fixed #672, more visible links in feedback with background color.
+- Serialize locale verification.
 
 ## 0.15.0 2024-01-26
 

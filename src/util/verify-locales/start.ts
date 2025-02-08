@@ -174,7 +174,7 @@ for (const file of localeFolders) {
         file.isDirectory() &&
         (FocalLocale === null || file.name === FocalLocale)
     )
-        handleLocale(file.name);
+        await handleLocale(file.name);
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.
