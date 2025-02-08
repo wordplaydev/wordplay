@@ -10126,6 +10126,20 @@
                   "additionalProperties": false,
                   "description": "Gallery browsing page text",
                   "properties": {
+                    "button": {
+                      "additionalProperties": false,
+                      "description": "Buttons on the gallery page",
+                      "properties": {
+                        "more": {
+                          "$ref": "#/definitions/ButtonText",
+                          "description": "Button for showing more galleries"
+                        }
+                      },
+                      "required": [
+                        "more"
+                      ],
+                      "type": "object"
+                    },
                     "examples": {
                       "description": "The subheader for the examples",
                       "type": "string"
@@ -10142,7 +10156,8 @@
                   "required": [
                     "header",
                     "prompt",
-                    "examples"
+                    "examples",
+                    "button"
                   ],
                   "type": "object"
                 },

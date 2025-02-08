@@ -4678,7 +4678,13 @@
             "galleries": {
                 "header": "$~Galeries",
                 "prompt": "$~Ce sont des performances que d'autres ont réalisées. Expérimentez-les, étudiez-les ou adaptez-les à votre propre déclaration.",
-                "examples": "ejemplos"
+                "examples": "ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$~plus...",
+                        "tip": "$~Charger plus de galeries"
+                    }
+                }
             },
             "about": {
                 "header": "$~À propos",

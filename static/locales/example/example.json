@@ -3634,7 +3634,13 @@
             "galleries": {
                 "header": "$?",
                 "prompt": "$?",
-                "examples": "ejemplos"
+                "examples": "ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$?",
+                        "tip": "$?"
+                    }
+                }
             },
             "about": {
                 "header": "$?",

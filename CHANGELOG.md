@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.15.1 2024-02-08
+
+### Fixed
+
+- Localized unlocalized buttons.
+
 ## 0.15.0 2024-01-26
 
 ### Added

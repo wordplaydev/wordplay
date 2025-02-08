@@ -4847,7 +4847,13 @@
             "galleries": {
                 "header": "$~Gallerier",
                 "prompt": "$~Det är föreställningar som andra har gjort. Upplev dem, studera dem eller anpassa dem till ditt eget uttalande.",
-                "examples": "$~Exempel"
+                "examples": "$~Exempel",
+                "button": {
+                    "more": {
+                        "label": "$~mer...",
+                        "tip": "$~Ladda fler gallerier"
+                    }
+                }
             },
             "about": {
                 "header": "$~Om",

@@ -4641,7 +4641,13 @@
             "galleries": {
                 "header": "Galerías",
                 "prompt": "Estas son actuaciones que otros han creado. Exprímentalas, estúdialas o adáptalas para hacer tu propia declaración.",
-                "examples": "Ejemplos"
+                "examples": "Ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$~más...",
+                        "tip": "$~Cargar más galerías"
+                    }
+                }
             },
             "about": {
                 "header": "Acerca de",

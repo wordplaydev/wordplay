@@ -282,7 +282,10 @@
                         tip={$locales.get(
                             (l) => l.ui.collaborate.button.submit.tip,
                         )}
-                        action={submitMessage}>Send</Button
+                        action={submitMessage}
+                        >{$locales.get(
+                            (l) => l.ui.collaborate.button.submit.label,
+                        )}</Button
                     >
                 </div>
                 <div class="formats"

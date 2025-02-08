@@ -4842,7 +4842,13 @@
             "galleries": {
                 "header": "$~Galeriler",
                 "prompt": "$~Bunlar başkalarının yaptığı performanslardır. Bunları deneyimleyin, inceleyin veya kendi ifadenize uyarlayın.",
-                "examples": "$~Örnekler"
+                "examples": "$~Örnekler",
+                "button": {
+                    "more": {
+                        "label": "$~Daha...",
+                        "tip": "$~Daha fazla galeri yükle"
+                    }
+                }
             },
             "about": {
                 "header": "$~Hakkında",

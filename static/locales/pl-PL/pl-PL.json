@@ -4852,7 +4852,13 @@
             "galleries": {
                 "header": "$~Galerie",
                 "prompt": "$~To są występy, które wykonali inni. Przeżyj je, przestudiuj lub dostosuj do własnego oświadczenia.",
-                "examples": "$~Przykłady"
+                "examples": "$~Przykłady",
+                "button": {
+                    "more": {
+                        "label": "$~więcej...",
+                        "tip": "$~Załaduj więcej galerii"
+                    }
+                }
             },
             "about": {
                 "header": "$~O",

@@ -4665,7 +4665,13 @@
             "galleries": {
                 "header": "Galerien",
                 "prompt": "$~Dies sind Leistungen, die andere erbracht haben. Erleben Sie sie, studieren Sie sie oder adaptieren Sie sie für Ihre eigene Aussage.",
-                "examples": "Beispiele"
+                "examples": "Beispiele",
+                "button": {
+                    "more": {
+                        "label": "$~mehr...",
+                        "tip": "$~Weitere Galerien laden"
+                    }
+                }
             },
             "about": {
                 "header": "Über uns",

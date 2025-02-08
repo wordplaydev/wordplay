@@ -4548,11 +4548,11 @@
             },
             "button": {
                 "submit": {
-                    "label": "Send",
+                    "label": "send",
                     "tip": "Send a message to your collaborators"
                 },
                 "start": {
-                    "label": "Start a chat",
+                    "label": "start a chat",
                     "tip": "Begin a discussion with yourself or others."
                 },
                 "delete": "delete this message"
@@ -4850,7 +4850,13 @@
             "galleries": {
                 "header": "Galleries",
                 "prompt": "These are performances that others have made. Experience them, study them, or adapt them into your own statement.",
-                "examples": "Examples"
+                "examples": "Examples",
+                "button": {
+                    "more": {
+                        "label": "more...",
+                        "tip": "Load more galleries"
+                    }
+                }
             },
             "characters": {
                 "header": "Characters",

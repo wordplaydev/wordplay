@@ -4678,7 +4678,13 @@
             "galleries": {
                 "header": "$~갤러리",
                 "prompt": "$~이것은 다른 사람들이 만든 공연입니다. 그것을 경험하고, 연구하고, 자신의 진술에 적용하십시오.",
-                "examples": "ejemplos"
+                "examples": "ejemplos",
+                "button": {
+                    "more": {
+                        "label": "$~더...",
+                        "tip": "$~더 많은 갤러리를 로드하세요"
+                    }
+                }
             },
             "about": {
                 "header": "$~에 대한",

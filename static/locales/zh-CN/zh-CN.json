@@ -4618,7 +4618,13 @@
             "galleries": {
                 "header": "画廊",
                 "prompt": "这些是其他人创作的表演作品。体验它们，学习它们，或者将它们改编成你自己的作品陈述。",
-                "examples": "例子"
+                "examples": "例子",
+                "button": {
+                    "more": {
+                        "label": "$~更多的...",
+                        "tip": "$~加载更多画廊"
+                    }
+                }
             },
             "about": {
                 "header": "关于",
