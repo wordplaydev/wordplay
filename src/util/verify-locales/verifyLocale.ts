@@ -263,7 +263,7 @@ async function checkLocale(
     );
 
     if (outofdate.length > 0)
-        log.bad(
+        log.warning(
             2,
             `Locale has ${outofdate.length} potentially out of date strings ("${Outdated}"). Compare them against the English translation and decide whether to keep or translate.`,
         );
@@ -275,7 +275,7 @@ async function checkLocale(
     );
 
     if (automated.length > 0)
-        log.bad(
+        log.warning(
             2,
             `Locale has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
         );

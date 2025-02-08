@@ -18,11 +18,15 @@ export default class Log {
     }
 
     good(level: number, message: string) {
-        this.say(level, '✓ ' + chalk.blue(message));
+        this.say(level, '✓ ' + chalk.green(message));
+    }
+
+    warning(level: number, message: string) {
+        this.say(level, '- ' + chalk.blue(message));
     }
 
     bad(level: number, message: string) {
-        this.say(level, 'x ' + chalk.magenta(message));
+        this.say(level, 'x ' + chalk.yellow(message));
     }
 
     exit(level: number, message: string) {

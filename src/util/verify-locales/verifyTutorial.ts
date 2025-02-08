@@ -226,7 +226,7 @@ async function checkTutorial(
     );
 
     if (automated.length > 0)
-        log.bad(
+        log.warning(
             2,
             `Tutorial has ${automated.length} machine translated ("${MachineTranslated}"). Make sure they're sensible for 6th grade reading levels.`,
         );
