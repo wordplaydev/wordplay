@@ -9,6 +9,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 - New character button in glyph chooser.
 - Check for global name collisions between locales.
+- Added mechanism to mark a string revised, so that others can be checked for revision.
 
 ### Fixed
 

@@ -32,7 +32,7 @@ import type Locale from './Locale';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';
-export const Outdated = '$!';
+export const Revised = '$!';
 export const MachineTranslated = '$~';
 
 /**
@@ -132,7 +132,7 @@ export function getFirstName(name: NameText) {
 export function withoutAnnotations(name: string) {
     return name
         .replaceAll(Unwritten, '')
-        .replaceAll(Outdated, '')
+        .replaceAll(Revised, '')
         .replaceAll(MachineTranslated, '')
         .trim();
 }
@@ -141,8 +141,8 @@ export function isUnwritten(text: string) {
     return text.startsWith(Unwritten);
 }
 
-export function isOutdated(text: string) {
-    return text.startsWith(Outdated);
+export function isRevised(text: string) {
+    return text.startsWith(Revised);
 }
 
 export function isAutomated(text: string) {

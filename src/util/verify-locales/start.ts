@@ -15,6 +15,7 @@ import { getTutorialJSON, getTutorialPath } from './TutorialSchema';
 import {
     getLocaleLanguage,
     getLocaleRegion,
+    isRevised,
     toLocale,
     withoutAnnotations,
 } from '../../locale/LocaleText';
@@ -75,7 +76,7 @@ const prettierOptions = await prettier.resolveConfig('');
 // Verify, repair, and translate a locale */
 async function handleLocale(
     localeText: LocaleText,
-    all: LocaleText[],
+    revisedStrings: RevisedString[],
     localeIsNew: boolean,
     globals: Map<string, { locale: string; path: LocalePath }[]>,
 ) {
@@ -87,6 +88,7 @@ async function handleLocale(
         locale,
         localeText as LocaleText,
         TranslationRequested,
+        revisedStrings,
         globals,
     );
 
@@ -194,8 +196,11 @@ log.good(
 
 // Compute globals across all locales
 const globals = new Map<string, { locale: string; path: LocalePath }[]>();
+export type RevisedString = { path: LocalePath; locale: string; text: string };
+let revisedStrings: RevisedString[] = [];
+
 for (const localeText of allLocaleText) {
-    for (const path of getKeyTemplatePairs(localeText))
+    for (const path of getKeyTemplatePairs(localeText)) {
         if (path.isGlobalName()) {
             const key = path.resolve(localeText);
             const names = (key ? (Array.isArray(key) ? key : [key]) : []).map(
@@ -209,12 +214,28 @@ for (const localeText of allLocaleText) {
                 });
             }
         }
+
+        const value = path.resolve(localeText);
+        const revised = (
+            value === undefined
+                ? []
+                : typeof value === 'string'
+                  ? [value]
+                  : value
+        ).find((v) => isRevised(v));
+        if (revised)
+            revisedStrings.push({
+                path,
+                locale: toLocale(localeText),
+                text: revised,
+            });
+    }
 }
 
 // Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
 for (const localeText of allLocaleText) {
     log.say(1, `Checking ${toLocale(localeText)}`);
-    await handleLocale(localeText, allLocaleText, false, globals);
+    await handleLocale(localeText, revisedStrings, false, globals);
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.
@@ -232,5 +253,5 @@ if (
     localeText.region = FocalRegion as RegionCode;
     localeText['$schema'] = '../../schemas/LocaleText.json';
 
-    handleLocale(localeText, allLocaleText, true, globals);
+    handleLocale(localeText, revisedStrings, true, globals);
 }

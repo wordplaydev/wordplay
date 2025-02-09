@@ -3,10 +3,8 @@ import type Log from './Log';
 import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import {
     isAutomated,
-    isOutdated,
     isUnwritten,
     MachineTranslated,
-    Outdated,
     parseLocaleDoc,
     toDocString,
     toLocale,
@@ -22,6 +20,7 @@ import DefaultLocales from '@locale/DefaultLocales';
 import DefaultLocale from '@locale/DefaultLocale';
 import { LocaleValidator } from './LocaleSchema';
 import translate from './translate';
+import type { RevisedString } from './start';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {
@@ -71,6 +70,8 @@ export async function verifyLocale(
     text: LocaleText,
     /** Whether to translate unwritten strings in the locale */
     translate: boolean,
+    /** Strings that have been revised in one or more locales */
+    revisedStrings: RevisedString[],
     /** Global names used by other locales */
     globalNames: Map<string, { locale: string; path: LocalePath }[]>,
 ): Promise<[LocaleText, boolean]> {
@@ -96,6 +97,7 @@ export async function verifyLocale(
         DefaultLocale,
         locale !== 'example',
         translate,
+        revisedStrings,
         globalNames,
     );
 
@@ -109,6 +111,7 @@ async function checkLocale(
     DefaultLocale: LocaleText,
     warnUnwritten: boolean,
     translate: boolean,
+    revisedStrings: RevisedString[],
     globalNames: Map<string, { locale: string; path: LocalePath }[]>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
@@ -276,17 +279,14 @@ async function checkLocale(
         }
     }
 
-    const outofdate = pairs.filter(({ value }) =>
-        typeof value === 'string'
-            ? isOutdated(value)
-            : value.some((s) => isOutdated(s)),
-    );
-
-    if (outofdate.length > 0)
-        log.warning(
-            2,
-            `Locale has ${outofdate.length} potentially out of date strings ("${Outdated}"). Compare them against the English translation and decide whether to keep or translate.`,
-        );
+    for (const revisedString of revisedStrings) {
+        const match = pairs.find((path) => path.equals(revisedString.path));
+        if (match)
+            log.warning(
+                2,
+                `Potentially out of date string at ${revisedString.path.toString()}: "${revisedString.path.resolve(original)}". Revision in ${revisedString.locale}: "${revisedString.text}"`,
+            );
+    }
 
     const automated = pairs.filter(({ value }) =>
         typeof value === 'string'
