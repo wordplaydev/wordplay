@@ -46,7 +46,7 @@ export async function verifyTutorial(
             if (error.message)
                 log.bad(3, `${error.instancePath}: ${error.message}`);
         }
-    } else log.good(2, 'Found valid tutorial.');
+    }
 
     // Verify and repair the tutorial.
     tutorial = await checkTutorial(log, locale, tutorial as Tutorial);
