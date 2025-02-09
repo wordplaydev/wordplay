@@ -227,7 +227,7 @@
                 "InvalidRow": "$~Die Zeilen müssen entweder alle Werte oder alle @Bind sein.",
                 "MissingCell": {
                     "primary": "$~Mir fehlt die Spalte $1",
-                    "secondary": "$~Ich bin erforderlich, aber 1 $ hat es nicht bereitgestellt"
+                    "secondary": "$~Ich bin erforderlich, aber $1 hat es nicht bereitgestellt"
                 },
                 "UnknownColumn": "$~Ich kenne keine Kolumne mit diesem Namen",
                 "ExtraCell": {
@@ -242,7 +242,7 @@
         },
         "Token": {
             "name": "$~Zeichen",
-            "description": "$~$1 $2",
+            "description": "$~$$12",
             "emotion": "$?",
             "doc": [
                 "$~Wie hast du mich gefunden?",
@@ -366,8 +366,8 @@
                 "$~In der Mathematik käme zuerst die Multiplikation und dann die Addition, das Ergebnis wäre also \\11\\. Da ich aber in Lesereihenfolge auswerte, ist das Ergebnis \\13\\."
             ],
             "right": "$~Eingang",
-            "start": "$~Lassen Sie uns zuerst 1 $ bewerten",
-            "finish": "$~schau, ich habe 1 $ verdient!",
+            "start": "$~Lassen Sie uns zuerst $1 bewerten",
+            "finish": "$~schau, ich habe $1 verdient!",
             "conflict": {
                 "OrderOfOperations": "$~Ich bewerte in Lesereihenfolge, nicht in der mathematischen Reihenfolge der Operationen. Möchten Sie @Block verwenden, um die Reihenfolge anzugeben, in der ich auswerten soll?"
             }
@@ -403,12 +403,12 @@
                 "$~\\ƒ Summe(a•# b•#) a + b\\"
             ],
             "start": "$~Mal sehen, welchen Wert wir für 1$ bekommen!",
-            "finish": "$~oh schön, ich habe 1 $ bekommen! Nennen wir es 2 $",
+            "finish": "$~oh schön, ich habe $1 bekommen! Nennen wir es $1",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "primary": "$~jemand hat den Namen $1, also kann ich diesen Namen nicht haben.",
-                        "secondary": "$~hey, 1 $ ist mein Name, den kriegst du nicht!"
+                        "secondary": "$~hey, $1 ist mein Name, den kriegst du nicht!"
                     },
                     "resolution": "$~Es gibt doppelte Namen. Möchten Sie einen entfernen?"
                 },
@@ -418,7 +418,7 @@
                 },
                 "IncompatibleType": {
                     "primary": "$~Ich sollte eine 2-Dollar-Währung sein, aber ich bin eine 1-Dollar-Währung",
-                    "secondary": "$~Oh ... entschuldigen Sie, wirklich 1 $?"
+                    "secondary": "$~Oh ... entschuldigen Sie, wirklich $1?"
                 },
                 "MisplacedShare": "$~Ich kann Dinge nur auf der @Program-Ebene teilen, nicht innerhalb von irgendetwas!",
                 "MissingShareLanguages": "$~Wenn Sie dies teilen möchten, müssen Sie angeben, in welcher Sprache es ist, damit andere wissen, ob sie es lesen können!",
@@ -448,7 +448,7 @@
             ],
             "statement": "$~Stellungnahme",
             "start": "$~erster Ausdruck",
-            "finish": "$~erledigt, ich habe 1 $ bekommen",
+            "finish": "$~erledigt, ich habe $1 bekommen",
             "conflict": {
                 "ExpectedEndingExpression": "$~Ich brauche einen Ausdruck.",
                 "IgnoredExpression": {
@@ -470,7 +470,7 @@
             "description": "$~$1 ausleihen[$1|fehlender Name]",
             "emotion": "$?",
             "doc": "$~Wenn Sie eine Performance mit mehreren @Source erstellen, können Sie mich verwenden, um @Bind auszuleihen, die in diesen anderen @Source gemeinsam genutzt werden. Verwenden Sie einfach ihren Namen und ich werde ihren Namen und Wert einfügen.",
-            "start": "$~2 $ von 1 $ leihen",
+            "start": "$~$1 von $1 leihen",
             "source": "$source",
             "bind": "$~Name",
             "version": "$~Ausführung",
@@ -481,7 +481,7 @@
             "exception": {
                 "CycleException": {
                     "description": "$~Ausleihzyklus",
-                    "explanation": "$~1 $ hängt von sich selbst ab"
+                    "explanation": "$~$1 hängt von sich selbst ab"
                 }
             }
         },
@@ -494,7 +494,7 @@
                 "$~Ich bin wirklich hilfreich, wenn Sie nur dann etwas ändern möchten, wenn sich ein Stream geändert hat.",
                 "$~Das ist es."
             ],
-            "start": "$~mal sehen, ob sich 1 $ geändert hat …"
+            "start": "$~mal sehen, ob sich $1 geändert hat …"
         },
         "Conditional": {
             "name": "$~bedingt",
@@ -509,7 +509,7 @@
             "start": "$~mal sehen, ob $1 wahr ist",
             "afterthen": "$~fertig mit „Ja“, überspringen wir „Nein“?",
             "else": "$~$1[Code überspringen | Code nicht überspringen]",
-            "finish": "$~Ich schätze, es ist 1 $?",
+            "finish": "$~Ich schätze, es ist $1?",
             "condition": "$~Zustand",
             "yes": "$~Ja",
             "no": "$~NEIN",
@@ -547,15 +547,15 @@
                 "$~\\\"hallo\" → [] → {}\\",
                 "$~Werte haben einen Satz vordefinierter @ConversionDefinition. Wenn Sie jedoch eine @StructureDefinition für einen neuen Wertetyp erstellen, können Sie mit @ConversionDefinition Ihre eigene definieren."
             ],
-            "start": "$~Holen Sie sich diesen Wert ab 1$!",
-            "finish": "$~Super, ich habe 1 $ verdient",
+            "start": "$~Holen Sie sich diesen Wert ab 1",
+            "finish": "$~Super, ich habe $1 verdient",
             "conflict": {
-                "UnknownConversion": "$~Schade, aus 1 $ werden keine 2 $"
+                "UnknownConversion": "$~Schade, aus $1 werden keine $1"
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~unmögliche Konvertierung",
-                    "explanation": "$~Ich weiß nicht, wie ich von 1 $ in 2 $ umrechnen kann."
+                    "explanation": "$~Ich weiß nicht, wie ich von $1 in $1 umrechnen kann."
                 }
             }
         },
@@ -599,7 +599,7 @@
             ],
             "start": "$~Lassen Sie uns zuerst die Eingaben auswerten",
             "evaluate": "$~Lassen Sie uns jetzt die Funktion auswerten",
-            "finish": "$~Ich habe es auf 1 $ geschätzt",
+            "finish": "$~Ich habe es auf $1 geschätzt",
             "function": "$~Funktion",
             "input": "$~Eingang",
             "conflict": {
@@ -692,7 +692,7 @@
             "initialize": "$~Vorbereiten der Schritte durch Elemente",
             "next": "$~Weiter zum nächsten Element",
             "check": "$~entscheiden, ob fortgefahren wird",
-            "finish": "$~Ich habe es auf 1 $ geschätzt"
+            "finish": "$~Ich habe es auf $1 geschätzt"
         },
         "Initial": {
             "name": "$~Start",
@@ -729,15 +729,15 @@
                 "$~Wir erhalten \\⊤\\!",
                 "$~Ich bin wirklich hilfreich, wenn Sie wissen müssen, ob ein @Name einen Wert einer bestimmten Art hat."
             ],
-            "start": "$~Lassen Sie uns zuerst den Wert von 1 $ ermitteln",
+            "start": "$~Lassen Sie uns zuerst den Wert von $1 ermitteln",
             "finish": "$~$1[Wert ist $2|Wert ist nicht $2]",
             "conflict": {
-                "ImpossibleType": "$~das kann nie 1 $ sein"
+                "ImpossibleType": "$~das kann nie $1 sein"
             },
             "exception": {
                 "TypeException": {
                     "description": "$~inkompatible Werte",
-                    "explanation": "$~Ich habe 1 $ erwartet, aber 2 $ erhalten"
+                    "explanation": "$~Ich habe $1 erwartet, aber $1 erhalten"
                 }
             }
         },
@@ -751,7 +751,7 @@
                 "$~\\🌍/es-MX\\",
                 "$~Dies ist hilfreich, wenn Sie Ihre Leistung basierend auf der gewählten Sprache ändern möchten."
             ],
-            "start": "$~ist die Sprache 1 $?"
+            "start": "$~ist die Sprache $1?"
         },
         "ListAccess": {
             "name": "$~Listenzugriff",
@@ -761,7 +761,7 @@
                 "$~\\Liste: ['Vogel' 'Ente' 'Fisch' 'Schlange']\nListe[2]\\"
             ],
             "start": "$~Lassen Sie uns zuerst die Liste $1 holen",
-            "finish": "$~Der Artikel kostet 2 $!"
+            "finish": "$~Der Artikel kostet $1!"
         },
         "ListLiteral": {
             "name": "$~Listenliteral",
@@ -769,7 +769,7 @@
             "emotion": "$?",
             "doc": "$~Ich bin eine bestimmte @List von Werten! Siehe @List, um mehr darüber zu erfahren, was Sie mit mir tun können.",
             "start": "$~Lassen Sie uns zunächst die Artikel bewerten",
-            "finish": "$~Ich habe ein Ich gemacht! 1 $",
+            "finish": "$~Ich habe ein Ich gemacht! $1",
             "item": "$~Artikel"
         },
         "Spread": {
@@ -782,11 +782,11 @@
         },
         "MapLiteral": {
             "name": "$~Kartenliteral",
-            "description": "$~1 $ Paarungskarte",
+            "description": "$~$1 Paarungskarte",
             "emotion": "$?",
             "doc": "$~Ich bin eine spezielle @Map zwischen Schlüsseln und Werten. Weitere Informationen dazu, wie ich Ihnen behilflich sein kann, finden Sie unter @Map.",
             "start": "$~Lassen Sie uns zuerst die Schlüssel und Werte auswerten",
-            "finish": "$~Ich habe alle verbunden, 1 $",
+            "finish": "$~Ich habe alle verbunden, $1",
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "$~einem meiner Schlüssel fehlt ein Wert",
@@ -813,7 +813,7 @@
         },
         "NumberLiteral": {
             "name": "$~Zahlenliteral",
-            "description": "$~$1 $2[$2|]",
+            "description": "$~$$12[$2|]",
             "emotion": "$?",
             "doc": "$~Ich bin eine bestimmte @Number. Sie können mir mit allen möglichen Ziffern aus allen möglichen Sprachen schreiben. Alles, was ich kann, finden Sie unter @Number.",
             "start": "$~$1!",
@@ -858,8 +858,8 @@
                 "$~Sehen Sie, dass es die fünf vorherigen Male sind und nicht nur ein Mal?",
                 "$~Ich bin hilfreich, wenn Sie Aufführungen schaffen möchten, die auf der Vergangenheit basieren."
             ],
-            "start": "$~erhalte zuerst 1 $",
-            "finish": "$~ausgewertet auf Streamwert 1 $"
+            "start": "$~erhalte zuerst $1",
+            "finish": "$~ausgewertet auf Streamwert $1"
         },
         "Program": {
             "name": "$~Programm",
@@ -876,7 +876,7 @@
             "unevaluated": "$~Der von Ihnen gewählte Knoten hat nicht ausgewertet",
             "start": "$~$1[$1 Stream geändert in $2!|das ist meine erste Bewertung]",
             "halt": "$~Ausnahme aufgetreten, Stoppen",
-            "finish": "$~alles erledigt, ich habe es auf 1 $ geschätzt",
+            "finish": "$~alles erledigt, ich habe es auf $1 geschätzt",
             "done": "$~es gibt nichts Bewertendes",
             "exception": {
                 "BlankException": {
@@ -940,7 +940,7 @@
                 "$~Ich bin also auch wie ein Stream, aber einer, der auf anderen Streams basiert. Geil, oder?"
             ],
             "start": "$~mal sehen, ob wir den Stream aktualisieren sollten",
-            "finish": "$~Der neue Streamwert beträgt 1 $",
+            "finish": "$~Der neue Streamwert beträgt $1",
             "initial": "$~anfänglich",
             "condition": "$~Zustand",
             "next": "$~nächste",
@@ -958,13 +958,13 @@
                 "$~Wenn ich den Namen nicht finde, weiß ich nicht, was ich tun soll.",
                 "$~\\Papagei: 'Polly'\nPerry\\"
             ],
-            "start": "$~welchen Wert hat 1 $?",
+            "start": "$~welchen Wert hat $1?",
             "conflict": {
                 "UnknownName": {
                     "conflict": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen geben?]",
-                    "resolution": "$!"
+                    "resolution": "$?"
                 },
-                "ReferenceCycle": "$~ähm, der Wert von 1 $ hängt von ihm selbst ab. Woher weiß ich also, welchen Wert ich ihm zuweisen soll?",
+                "ReferenceCycle": "$~ähm, der Wert von $1 hängt von ihm selbst ab. Woher weiß ich also, welchen Wert ich ihm zuweisen soll?",
                 "UnexpectedTypeVariable": "$~Ich weiß nicht, was ich mit diesen Eingabetypen machen soll"
             },
             "exception": {
@@ -976,7 +976,7 @@
         },
         "Select": {
             "name": "$~wählen",
-            "emotion": "$?",
+            "emotion": "excited",
             "doc": [
                 "$~Manchmal haben Sie einen Tisch und möchten nur einen Teil davon. Ich kann ihn für Sie besorgen!",
                 "$~Wie wäre es beispielsweise, wenn Sie an einem Tisch mit Spielern in einem Spiel wären und diejenigen mit 10 oder mehr Punkten ermitteln möchten, um zu sehen, wer gewonnen hat:",
@@ -995,7 +995,7 @@
             "emotion": "$?",
             "doc": "$~Ich bin ein spezifisches @Set spezifischer Werte. Weitere Informationen zur Zusammenarbeit mit mir finden Sie unter @Set.",
             "start": "$~Lasst uns zuerst die Werte auswerten!",
-            "finish": "$~Ich habe ein Set für 1 $ gemacht!"
+            "finish": "$~Ich habe ein Set für $1 gemacht!"
         },
         "SetOrMapAccess": {
             "name": "$~Zugrifffestlegen/zuordnen",
@@ -1008,7 +1008,7 @@
                 "$~\\faves: {'Mac and Cheese': 5 Sterne 'Müsli': 2 Sterne 'Grusel': 1 Stern}\nfaves{'Grusel'}\\"
             ],
             "start": "$~was ist das Set oder die Karte?",
-            "finish": "$~der Wert beträgt 1 $",
+            "finish": "$~der Wert beträgt $1",
             "conflict": {
                 "IncompatibleKey": {
                     "primary": "$~Ich habe einen 1-Dollar-Schlüssel erwartet",
@@ -1140,7 +1140,7 @@
                 "$~Es gibt nur eine Regel: Sie dürfen kein Leerzeichen zwischen dem Namen und dem Wert einfügen. Andernfalls erstellen Sie möglicherweise eine @Reference oder @BinaryEvaluate."
             ],
             "start": "$~was ist der Wert?",
-            "finish": "$~Ich habe es zu 1 $ gemacht"
+            "finish": "$~Ich habe es zu $1 gemacht"
         },
         "UnparsableExpression": {
             "name": "$~nichtanalysierbar",
@@ -1159,9 +1159,9 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": "$~@FunctionDefinition hier, @UnparsableExpression weiß nicht, um welche Art von $1[Ausdruck | Typ] es sich handelt.",
-                    "resolution": "$~Meinten Sie 1 $ oder 2 $?"
+                    "resolution": "$~Meinten Sie $1 oder $1?"
                 },
-                "UnclosedDelimiter": "$~Ich habe 2 $ irgendwann nach 1 $ erwartet"
+                "UnclosedDelimiter": "$~Ich habe $1 irgendwann nach $1 erwartet"
             },
             "exception": {
                 "UnparsableException": {
@@ -1185,7 +1185,7 @@
                 "ExpectedColumnBind": "$~Ich brauche einen Wert für jede Spalte",
                 "IncompatibleCellType": {
                     "primary": "$~Ich brauchte 1 Dollar, bekam aber 2 Dollar",
-                    "secondary": "$~Ich habe 2 $"
+                    "secondary": "$~Ich habe $1"
                 }
             }
         },
@@ -3232,8 +3232,8 @@
                 "$~\\Stage([Phrase('stufffffff')] Hintergrund: Farbe(75% 50 100°) Rahmen: Rechteck(-1m -1m 1m 1m))\\"
             ],
             "description": {
-                "names": "$!",
-                "doc": "$!"
+                "names": "$?",
+                "doc": "$?"
             },
             "content": {
                 "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Output.",
@@ -3336,8 +3336,8 @@
                 "$~Wie ich die Dinge genau arrangiere, hängt von dem @Arrangement ab, das Sie mir geben."
             ],
             "description": {
-                "names": "$!",
-                "doc": "$!"
+                "names": "$?",
+                "doc": "$?"
             },
             "content": {
                 "doc": "$~Die Liste der anzuordnenden @Output.",
@@ -3433,8 +3433,8 @@
             "names": ["💬", "Satzglied"],
             "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
             "description": {
-                "names": "$!",
-                "doc": "$!"
+                "names": "$?",
+                "doc": "$?"
             },
             "text": {
                 "doc": "$~Die auf @Stage anzuzeigenden Charaktere.",

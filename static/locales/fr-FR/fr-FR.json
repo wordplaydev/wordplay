@@ -194,7 +194,7 @@
         },
         "Name": {
             "name": "$~nom",
-            "description": "$~1 $ [$1 | sans nom]",
+            "description": "$~$1 [$1 | sans nom]",
             "emotion": "$?",
             "doc": [
                 "$~J'identifie une valeur et je suis un moyen utile de donner une étiquette abrégée à quelque chose qui était difficile à évaluer ou que vous ne voulez pas avoir à évaluer encore et encore.",
@@ -227,12 +227,12 @@
                 "InvalidRow": "$~Les lignes doivent être soit toutes des valeurs, soit toutes @Bind.",
                 "MissingCell": {
                     "primary": "$~Il me manque la colonne 1",
-                    "secondary": "$~Je suis requis, mais 1 $ ne l'a pas fourni"
+                    "secondary": "$~Je suis requis, mais $1 ne l'a pas fourni"
                 },
                 "UnknownColumn": "$~Je ne connais pas de chronique portant ce nom",
                 "ExtraCell": {
                     "primary": "$~Suis-je censé être ici ?",
-                    "secondary": "$~Hé 1 $, tu ne fais pas partie de cette @Table !"
+                    "secondary": "$~Hé $1, tu ne fais pas partie de cette @Table !"
                 },
                 "UnexpectedColumnBind": {
                     "primary": "$~Suis-je censé être un @Bind ?",
@@ -242,7 +242,7 @@
         },
         "Token": {
             "name": "$~jeton",
-            "description": "$~1 $ 2 $",
+            "description": "$~$1 $2",
             "emotion": "$?",
             "doc": [
                 "$~Comment m'as-tu trouvé ?",
@@ -333,7 +333,7 @@
         },
         "Mention": {
             "name": "$~mention",
-            "description": "$~mentionner 1 $",
+            "description": "$~mentionner $1",
             "emotion": "$?",
             "doc": [
                 "$~Je fais référence soit à une terminologie \\$programme\\ soit à une entrée dynamique \\$1\\.",
@@ -350,7 +350,7 @@
         },
         "BinaryEvaluate": {
             "name": "$~évaluationbinaire",
-            "description": "$~Opération 1 $",
+            "description": "$~Opération $1",
             "emotion": "$?",
             "doc": [
                 "$~Je suis @Evaluate, mais sous une forme plus simple, utile lorsque vous souhaitez utiliser une @FunctionDefinition qui prend deux entrées.",
@@ -367,7 +367,7 @@
             ],
             "right": "$~saisir",
             "start": "$~Commençons par évaluer 1$",
-            "finish": "$~Regarde, j'ai gagné 1 $ !",
+            "finish": "$~Regarde, j'ai gagné $1 !",
             "conflict": {
                 "OrderOfOperations": "$~J'évalue dans l'ordre de lecture, et non dans l'ordre mathématique des opérations. Voulez-vous utiliser @Block pour spécifier l'ordre dans lequel je dois évaluer ?"
             }
@@ -402,13 +402,13 @@
                 "$~Mais nous pouvons changer cela pour ajouter les @Is, et maintenant @FunctionDefinition sait que ce sont des nombres:",
                 "$~\\ƒ somme(a•# b•#) a + b\\"
             ],
-            "start": "$~Voyons quelle valeur nous obtenons à partir de 1$!",
-            "finish": "$~Oh, c'est bien, j'ai eu 1 $ ! Appelons-le 2 $",
+            "start": "$~Voyons quelle valeur nous obtenons à partir de $1!",
+            "finish": "$~Oh, c'est bien, j'ai eu $1 ! Appelons-le $2",
             "conflict": {
                 "DuplicateName": {
                     "conflict": {
                         "primary": "$~quelqu'un a le nom $1 donc je ne peux pas avoir ce nom.",
-                        "secondary": "$~Hé, 1 $ c'est mon nom, tu ne peux pas l'avoir !"
+                        "secondary": "$~Hé, $1 c'est mon nom, tu ne peux pas l'avoir !"
                     },
                     "resolution": "$~Il y a des noms en double, voulez-vous en supprimer un ?"
                 },
@@ -417,7 +417,7 @@
                     "secondary": "$~J'ai le même nom que $1"
                 },
                 "IncompatibleType": {
-                    "primary": "$~Je suis censé être un 2 $, mais je suis un 1 $",
+                    "primary": "$~Je suis censé être un $2, mais je suis un $1",
                     "secondary": "$~Oh, je suis désolé. Dois-je changer, ou peut-être es-tu censé être un dollar ?"
                 },
                 "MisplacedShare": "$~Je ne peux partager des choses qu'au niveau du @Programme, pas à l'intérieur de quoi que ce soit!",
@@ -429,7 +429,7 @@
         },
         "Block": {
             "name": "$~bloc",
-            "description": "$~Relevés de 1 $",
+            "description": "$~Relevés de $1",
             "emotion": "$?",
             "doc": [
                 "$~Bonjour, je crée un petit espace calme et privé pour évaluer les choses.",
@@ -448,7 +448,7 @@
             ],
             "statement": "$~déclaration",
             "start": "$~Première expression",
-            "finish": "$~C'est fait, j'ai 1 $",
+            "finish": "$~C'est fait, j'ai $1",
             "conflict": {
                 "ExpectedEndingExpression": "$~J'ai besoin d'une expression.",
                 "IgnoredExpression": {
@@ -463,14 +463,14 @@
             "description": "$~$1[vrai|faux]",
             "emotion": "$?",
             "doc": "$~Je suis soit \\⊤\\, soit \\⊥\\. Voir @Boolean pour en savoir plus sur notre belle logique.",
-            "start": "$~1$!"
+            "start": "$~$1!"
         },
         "Borrow": {
             "name": "$~emprunter",
-            "description": "$~emprunter 1 $ [$1|nom manquant]",
+            "description": "$~emprunter $1 [$1|nom manquant]",
             "emotion": "$?",
             "doc": "$~Si vous créez une performance avec plusieurs @Source, vous pouvez m'utiliser pour emprunter les @Bind partagés dans ces autres @Source. Utilisez simplement leur nom et j'apporterai leur nom et leur valeur.",
-            "start": "$~Emprunter 2 $ à partir de 1 $",
+            "start": "$~Emprunter $2 à partir de $1",
             "source": "$~source",
             "bind": "$~nom",
             "version": "$~version",
@@ -494,7 +494,7 @@
                 "$~Je suis vraiment utile lorsque vous souhaitez que quelque chose change uniquement si un flux a changé.",
                 "$~C'est ça."
             ],
-            "start": "$~Voyons si 1 $ a changé…"
+            "start": "$~Voyons si $1 a changé…"
         },
         "Conditional": {
             "name": "$~conditionnel",
@@ -509,13 +509,13 @@
             "start": "$~Voyons si 1 est vrai",
             "afterthen": "$~fini avec le oui, sautons le non ?",
             "else": "$~$1[sauter par-dessus le code | ne pas sauter par-dessus le code]",
-            "finish": "$~Je suppose que c'est 1 $ ?",
+            "finish": "$~Je suppose que c'est $1 ?",
             "condition": "$~condition",
             "yes": "$~Oui",
             "no": "$~Non",
             "conflict": {
                 "ExpectedBooleanCondition": {
-                    "primary": "$~Comment puis-je choisir oui ou non avec 1 $ ? Non vraiment, comment ?",
+                    "primary": "$~Comment puis-je choisir oui ou non avec $1 ? Non vraiment, comment ?",
                     "secondary": "$~Je pense que @Conditional voulait que je sois un @Boolean, mais je suis un $1."
                 }
             }
@@ -547,15 +547,15 @@
                 "$~\\\"bonjour\" → [] → {}\\",
                 "$~Les valeurs ont un ensemble de @ConversionDefinition qui sont prédéfinies, mais si vous créez une @StructureDefinition pour un nouveau type de valeur, vous pouvez définir la vôtre avec @ConversionDefinition."
             ],
-            "start": "$~Obtenez cette valeur à partir de 1$!",
-            "finish": "$~Génial, j'ai gagné 1 $",
+            "start": "$~Obtenez cette valeur à partir de $1!",
+            "finish": "$~Génial, j'ai gagné $1",
             "conflict": {
-                "UnknownConversion": "$~Dommage, il n'y a aucun moyen de transformer 1 $ en 2 $"
+                "UnknownConversion": "$~Dommage, il n'y a aucun moyen de transformer $1 en $2"
             },
             "exception": {
                 "ConversionException": {
                     "description": "$~conversion impossible",
-                    "explanation": "$~Je ne sais pas comment convertir de 1 $ à 2 $"
+                    "explanation": "$~Je ne sais pas comment convertir de $1 à $2"
                 }
             }
         },
@@ -604,8 +604,8 @@
             "input": "$~saisir",
             "conflict": {
                 "IncompatibleInput": {
-                    "primary": "$~Je suis censé être un 1 $, mais je suis un 2 $",
-                    "secondary": "$~Euh, j'ai eu 2 $ au lieu de 1 $"
+                    "primary": "$~Je suis censé être un $1, mais je suis un $2",
+                    "secondary": "$~Euh, j'ai eu $2 au lieu de $1"
                 },
                 "UnexpectedTypeInput": {
                     "primary": "$~Je ne m'attendais pas à ce type d'entrée",
@@ -744,12 +744,12 @@
             "start": "$~Commençons par obtenir la valeur de 1$",
             "finish": "$~$1[la valeur est $2|la valeur n'est pas $2]",
             "conflict": {
-                "ImpossibleType": "$~ça ne peut jamais être 1 $"
+                "ImpossibleType": "$~ça ne peut jamais être $1"
             },
             "exception": {
                 "TypeException": {
                     "description": "$~valeurs incompatibles",
-                    "explanation": "$~Je m'attendais à 1 $ mais j'ai reçu 2 $"
+                    "explanation": "$~Je m'attendais à $1 mais j'ai reçu $2"
                 }
             }
         },
@@ -772,12 +772,12 @@
                 "$~Je travaille en étroite collaboration avec @List pour les aider à obtenir des valeurs à une position particulière. Ainsi, si vous aviez une liste et que vous vouliez son deuxième élément, vous écririez :",
                 "$~\\liste:['oiseau' 'canard' 'poisson' 'serpent']\nliste[2]\\"
             ],
-            "start": "$~Commençons par obtenir la liste à 1 $",
-            "finish": "$~L'article coûte 1$!"
+            "start": "$~Commençons par obtenir la liste à $1",
+            "finish": "$~L'article coûte $1!"
         },
         "ListLiteral": {
             "name": "$~listelittérale",
-            "description": "$~Liste d'articles à 1 $",
+            "description": "$~Liste d'articles à $1",
             "emotion": "$?",
             "doc": "$~Je suis une @List de valeurs spécifique ! Consultez @List pour en savoir plus sur ce que vous pouvez faire avec moi.",
             "start": "$~Commençons par évaluer les éléments",
@@ -794,11 +794,11 @@
         },
         "MapLiteral": {
             "name": "$~cartelittérale",
-            "description": "$~Carte de jumelage à 1 $",
+            "description": "$~Carte de jumelage à $1",
             "emotion": "$?",
             "doc": "$~Je suis une @Map spécifique entre les clés et les valeurs. Consultez @Map pour en savoir plus sur mon utilité.",
             "start": "$~Commençons par évaluer les clés et les valeurs",
-            "finish": "$~J'ai connecté tout le monde, 1 $",
+            "finish": "$~J'ai connecté tout le monde, $1",
             "conflict": {
                 "NotAKeyValue": {
                     "primary": "$~il manque une valeur à l'une de mes clés",
@@ -817,7 +817,7 @@
                 "$~Je suis vraiment utile pour convertir l'une des nombreuses valeurs @Number, @Text ou plus complexes possibles en quelque chose d'autre.",
                 "$~Vous pouvez l'utiliser pour @Boolean ou @None, mais ils ne peuvent pas vraiment être autant de choses, donc je ne suis pas aussi utile pour ces valeurs simples."
             ],
-            "start": "$~Voyons ce que vaut 1 $...",
+            "start": "$~Voyons ce que vaut $1...",
             "case": "$~Vérifions cette condition",
             "finish": "$~Ok, nous avons une valeur finale !",
             "value": "$~valeur",
@@ -825,10 +825,10 @@
         },
         "NumberLiteral": {
             "name": "$~nombrelittéral",
-            "description": "$~1 $ 2 [$ 2 |]",
+            "description": "$~$1 2 [$ 2 |]",
             "emotion": "$?",
             "doc": "$~Je suis un @Number spécifique. Vous pouvez m'écrire avec n'importe quel type de chiffres et dans n'importe quelle langue. Voir @Number pour tout ce que je peux faire.",
-            "start": "$~1$!",
+            "start": "$~$1!",
             "conflict": {
                 "NotANumber": "$~Je pensais connaître tous les numéros, mais je ne connais pas celui-ci"
             }
@@ -854,7 +854,7 @@
                 "$~\\peut-êtreNombre•#|ø: 1 peut-êtreNombre ?? 0\\"
             ],
             "start": "$~ø ??",
-            "finish": "$~… 1 $"
+            "finish": "$~… $1"
         },
         "Previous": {
             "name": "$~précédent",
@@ -870,8 +870,8 @@
                 "$~Vous voyez que c'est les cinq fois précédentes, au lieu d'une seule fois ?",
                 "$~Je suis utile lorsque vous souhaitez créer des performances qui dépendent du passé."
             ],
-            "start": "$~Obtenez d'abord 1 $",
-            "finish": "$~Évalué à une valeur de flux de 1 $"
+            "start": "$~Obtenez d'abord $1",
+            "finish": "$~Évalué à une valeur de flux de $1"
         },
         "Program": {
             "name": "$~programme",
@@ -888,7 +888,7 @@
             "unevaluated": "$~le nœud que vous avez choisi n'a pas été évalué",
             "start": "$~$1[Le flux $1 a été changé en $2!|C'est ma première évaluation]",
             "halt": "$~exception rencontrée, arrêt",
-            "finish": "$~Tout est fait, j'ai évalué à 1 $",
+            "finish": "$~Tout est fait, j'ai évalué à $1",
             "done": "$~il n'y a rien d'évaluable",
             "exception": {
                 "BlankException": {
@@ -923,7 +923,7 @@
             "finish": "$~J'ai copié la structure, mais avec $1 comme $2",
             "conflict": {
                 "InvalidProperty": {
-                    "primary": "$~Je ne suis pas une entrée de 1 $, donc je ne peux pas être raffiné.",
+                    "primary": "$~Je ne suis pas une entrée de $1, donc je ne peux pas être raffiné.",
                     "secondary": "$~Je n'ai pas d'entrée nommée $1"
                 }
             }
@@ -938,7 +938,7 @@
                 "$~\\•Ville(nom•'' population•#personnes)\n\nportland: Ville('Portland' 800000personnes)\n\nportland.population\\"
             ],
             "start": "$~Commençons par obtenir la valeur",
-            "finish": "$~J'ai trouvé une propriété à 1 $, elle est à 2 $",
+            "finish": "$~J'ai trouvé une propriété à $1, elle est à $2",
             "property": "$~propriété"
         },
         "Reaction": {
@@ -962,7 +962,7 @@
         },
         "Reference": {
             "name": "$~référence",
-            "description": "$~1 $",
+            "description": "$~$1",
             "emotion": "$?",
             "doc": [
                 "$~Vous savez comment @Bind donne aux choses @Name ? Je suis la façon dont vous les appelez. Je vois si un @Bind a ce nom, si c'est le cas, je vous donne sa valeur. Comme ça :",
@@ -970,13 +970,13 @@
                 "$~Si je ne trouve pas le nom, alors je ne sais pas quoi faire.",
                 "$~\\perroquet:«polly»\nperry\\"
             ],
-            "start": "$~Quelle est la valeur de 1 $?",
+            "start": "$~Quelle est la valeur de $1?",
             "conflict": {
                 "UnknownName": {
                     "conflict": "$~$1[Je ne connais personne nommé $1 dans $2[$2|ce @Block]|Pouvez-vous me donner un nom ?]",
                     "resolution": "$~Vouliez-vous dire *$1*?"
                 },
-                "ReferenceCycle": "$~euh, la valeur de 1 $ dépend d'elle-même, alors comment savoir quelle valeur lui donner ?",
+                "ReferenceCycle": "$~euh, la valeur de $1 dépend d'elle-même, alors comment savoir quelle valeur lui donner ?",
                 "UnexpectedTypeVariable": "$~Je ne sais pas quoi faire avec ces types d'entrées"
             },
             "exception": {
@@ -1003,7 +1003,7 @@
         },
         "SetLiteral": {
             "name": "$~définirunlittéral",
-            "description": "$~Articles à 1 $",
+            "description": "$~Articles à $1",
             "emotion": "$?",
             "doc": "$~Je suis un @Set spécifique de valeurs spécifiques. Consultez @Set pour en savoir plus sur la façon de travailler avec moi.",
             "start": "$~Évaluons d’abord les valeurs !",
@@ -1023,8 +1023,8 @@
             "finish": "$~La valeur est de 1$",
             "conflict": {
                 "IncompatibleKey": {
-                    "primary": "$~Je m'attendais à une clé à 1 $",
-                    "secondary": "$~J'ai eu 1 $ au lieu de 2 $"
+                    "primary": "$~Je m'attendais à une clé à $1",
+                    "secondary": "$~J'ai eu $1 au lieu de $2"
                 }
             }
         },
@@ -1080,18 +1080,18 @@
             "emotion": "$?",
             "doc": "$~Je suis une table spécifique avec des lignes spécifiques. Voir @Table pour savoir comment je peux vous aider.",
             "start": "$~Évaluez d'abord les lignes",
-            "finish": "$~Évalué à la nouvelle table 1 $"
+            "finish": "$~Évalué à la nouvelle table $1"
         },
         "TextLiteral": {
             "name": "$~textelittéral",
-            "description": "$~texte 1 $",
+            "description": "$~texte $1",
             "emotion": "$?",
             "doc": "$~Je représente une ou plusieurs @Translation de texte spécifiques. Voir @Text pour en savoir plus sur ce que je peux faire!",
             "start": "$~Créons du texte dans les paramètres régionaux actuels"
         },
         "Translation": {
             "name": "$~traduction",
-            "description": "$~traduction 1 $",
+            "description": "$~traduction $1",
             "emotion": "$?",
             "doc": "$~Je représente un texte avec une balise @Language. Voir @Text pour en savoir plus!",
             "conflict": {
@@ -1106,14 +1106,14 @@
         },
         "FormattedLiteral": {
             "name": "$~formaté",
-            "description": "$~texte 1 $",
+            "description": "$~texte $1",
             "emotion": "$?",
             "doc": "$~Je représente de nombreux @FormattedTranslation différents de textes formatés. Lors de l'évaluation, je choisirai la meilleure correspondance en fonction des langues sélectionnées par le public.",
             "start": "$~Créons du texte dans les paramètres régionaux actuels"
         },
         "FormattedTranslation": {
             "name": "$~traductionformatée",
-            "description": "$~texte 1 $",
+            "description": "$~texte $1",
             "emotion": "$?",
             "doc": [
                 "$~Je représente un texte formaté, avec une balise @Language.",
@@ -1147,7 +1147,7 @@
         },
         "UnaryEvaluate": {
             "name": "$~évaluerunaire",
-            "description": "$~1 $",
+            "description": "$~$1",
             "emotion": "$?",
             "doc": [
                 "$~Saviez-vous que lorsque j'évalue une @FunctionDefinition avec une seule valeur et que le nom de @FunctionDefinition n'est qu'un seul symbole, vous pouvez placer le nom avant l'entrée ?",
@@ -1160,7 +1160,7 @@
                 "$~Il n'y a qu'une seule règle : vous ne pouvez pas mettre d'espace entre le nom et la valeur. Sinon, vous risquez de créer une @Reference ou une @BinaryEvaluate."
             ],
             "start": "$~Quelle est la valeur ?",
-            "finish": "$~Je l'ai fait à 1 $"
+            "finish": "$~Je l'ai fait à $1"
         },
         "UnparsableExpression": {
             "name": "$~nonanalysable",
@@ -1179,9 +1179,9 @@
             "conflict": {
                 "UnparsableConflict": {
                     "conflict": "$~@FunctionDefinition ici, @UnparsableExpression ne sait pas de quel type de $1[ expression | type ] il s'agit.",
-                    "resolution": "$~Vous vouliez dire 1 $, 2 $ ?"
+                    "resolution": "$~Vous vouliez dire $1, $2 ?"
                 },
-                "UnclosedDelimiter": "$~Je m'attendais à 2 $ quelque temps après 1 $"
+                "UnclosedDelimiter": "$~Je m'attendais à $2 quelque temps après $1"
             },
             "exception": {
                 "UnparsableException": {
@@ -1204,8 +1204,8 @@
             "conflict": {
                 "ExpectedColumnBind": "$~J'ai besoin d'une valeur pour chaque colonne",
                 "IncompatibleCellType": {
-                    "primary": "$~J'avais besoin d'un billet de 1 $, mais j'ai eu un billet de 2 $",
-                    "secondary": "$~J'ai eu 2 $"
+                    "primary": "$~J'avais besoin d'un billet de $1, mais j'ai eu un billet de $2",
+                    "secondary": "$~J'ai eu $2"
                 }
             }
         },
@@ -1358,7 +1358,7 @@
         },
         "UnionType": {
             "name": "$~option",
-            "description": "$~1 $ | 2 $",
+            "description": "$~$1 | $2",
             "emotion": "$?",
             "doc": [
                 "$~Qui dois-je représenter, A ou B ou autre chose ? Je n'arrive jamais à décider !",
@@ -1367,7 +1367,7 @@
         },
         "Unit": {
             "name": "$~unité",
-            "description": "$~1 $",
+            "description": "$~$1",
             "emotion": "$?",
             "doc": [
                 "$~Je représente n'importe quelle unité qu'un @Number pourrait avoir, y compris l'absence d'unité, jusqu'à l'unité la plus compliquée que vous puissiez imaginer. Comme la gravité, par exemple:",
@@ -3428,7 +3428,7 @@
                 "doc": "$~Identique à @Phrase/style!",
                 "names": "$~style"
             },
-            "defaultDescription": "$~1 $ [1 $ |] 2 $ 3 $"
+            "defaultDescription": "$~$1 [$1 |] $2 $3"
         },
         "Phrase": {
             "names": ["$~💬", "$~Phrase"],
@@ -3551,7 +3551,7 @@
                 "doc": "$~Le style d'animation à utiliser lors du déplacement vers un autre endroit sur scène.",
                 "names": "$~style"
             },
-            "defaultDescription": "$~$3[$3 mètre |]phrase $1 $2[nommé $2|] $4[$4|] $5"
+            "defaultDescription": "$~$3[$3 mètre |]phrase $$12[nommé $2|] $4[$4|] $5"
         },
         "Arrangement": {
             "names": ["Arrangement"],
@@ -3573,7 +3573,7 @@
         "Stack": {
             "names": ["$~⬇", "$~Empiler"],
             "doc": "$~Je suis @Stack, un @Arrangement vertical de @Output, avec un remplissage optionnel entre les deux. Avez-vous rencontré mon jumeau, @Row ?",
-            "description": "$~pile de phrases et de groupes à 1 $",
+            "description": "$~pile de phrases et de groupes à $1",
             "padding": {
                 "doc": "$~La quantité de remplissage à placer entre les sorties.",
                 "names": "$~rembourrage"
@@ -4249,7 +4249,7 @@
                 "selectAll": "$~sélectionner le programme",
                 "incrementLiteral": "$~augmenter le nombre, le texte ou le booléen",
                 "decrementLiteral": "$~diminuer le nombre, le texte ou le booléen",
-                "insertSymbol": "$~insérer 1 $",
+                "insertSymbol": "$~insérer $1",
                 "insertTab": "$~insérer un onglet",
                 "insertTrue": "$~insérer vrai",
                 "insertFalse": "$~insérer faux",
@@ -5105,7 +5105,7 @@
                     "unsaved": "$~Donnez à ce personnage une description et un nom valide et unique à sauvegarder."
                 },
                 "announce": {
-                    "position": "$~à 1 $ 2 $",
+                    "position": "$~à $1 $2",
                     "selection": "$~$1[sélectionné $1|rien de sélectionné]"
                 },
                 "share": {
@@ -5190,7 +5190,7 @@
                 "now": "$~maintenant",
                 "history": "$~restaurer",
                 "restore": "$~Ceci est une version précédente de ce projet.",
-                "ago": "$~1 $ il y a 2 $"
+                "ago": "$~$1 il y a $2"
             },
             "button": {
                 "clear": "$~supprimer l'historique",
