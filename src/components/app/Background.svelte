@@ -63,7 +63,8 @@
         }
 
         previousTime = time;
-        if (mounted && $animationFactor > 0) window.requestAnimationFrame(step);
+        // Disable background animation for speed.
+        // if (mounted && $animationFactor > 0) window.requestAnimationFrame(step);
     }
 
     onMount(() => {

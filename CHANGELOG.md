@@ -27,6 +27,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 - Fixed Punjabi translation errors.
 - Fixed Tamil translation errors.
 - Account for full width punctuation in reserved symbols.
+- Disable background animation for speed.
 
 ### Maintenance
 
