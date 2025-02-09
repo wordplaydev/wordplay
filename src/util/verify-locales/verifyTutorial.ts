@@ -1,14 +1,14 @@
 import type LocaleText from '@locale/LocaleText';
 import type Log from './Log';
 import type Tutorial from '../../tutorial/Tutorial';
-import type StringPath from './StringPath';
+import type LocalePath from './LocalePath';
 import {
     isAutomated,
     isUnwritten,
     MachineTranslated,
     Unwritten,
 } from '@locale/LocaleText';
-import { getKeyTemplatePairs } from './StringPath';
+import { getKeyTemplatePairs } from './LocalePath';
 import {
     PerformanceMode,
     type Dialog,
@@ -252,7 +252,7 @@ export function createUnwrittenTutorial(): Tutorial {
 /** Given a source tutorial and a current target tutorial, translate untranslated tutorial text. */
 async function translateTutorial(log: Log, tutorial: Tutorial) {
     // Get the key/value pairs to translate.
-    let pairs: StringPath[] = getTranslatableTutorialPairs(tutorial);
+    let pairs: LocalePath[] = getTranslatableTutorialPairs(tutorial);
 
     const unwritten = pairs.filter(({ value }) =>
         typeof value === 'string'
@@ -331,7 +331,7 @@ async function translateTutorial(log: Log, tutorial: Tutorial) {
 }
 
 /** Given a tutorial, find all string paths that can be translated. */
-export function getTranslatableTutorialPairs(tutorial: Tutorial): StringPath[] {
+export function getTranslatableTutorialPairs(tutorial: Tutorial): LocalePath[] {
     // Get the pairs and filter them according to the structure of the tutorial.
     return getKeyTemplatePairs(tutorial).filter((path) => {
         // Title or subtitle? We should translate these.

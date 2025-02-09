@@ -10,6 +10,7 @@
     import type Project from '@db/projects/Project';
     import translateProject from '@db/projects/translate';
     import { TranslatableLanguages } from '@locale/LanguageCode';
+    import { toLocale } from '@locale/LocaleText';
     import { LOCALE_SYMBOL } from '@parser/Symbols';
 
     interface Props {
@@ -25,12 +26,8 @@
     let show: boolean = $state(false);
 
     let projectLocales = $derived(project.getLocales().getLocales());
-    let primaryLocale = $derived(
-        `${projectLocales[0].language}-${projectLocales[0].region}`,
-    );
-    let allLocales = $derived(
-        projectLocales.map((l) => `${l.language}-${l.region}`).sort(),
-    );
+    let primaryLocale = $derived(toLocale(projectLocales[0]));
+    let allLocales = $derived(projectLocales.map((l) => toLocale(l)).sort());
 
     /** Translate the project into another language */
     async function translate(targetLocaleCode: string) {

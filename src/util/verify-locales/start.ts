@@ -12,8 +12,16 @@ import {
     LocaleValidator,
 } from './LocaleSchema';
 import { getTutorialJSON, getTutorialPath } from './TutorialSchema';
-import { getLocaleLanguage, getLocaleRegion } from '../../locale/LocaleText';
+import {
+    getLocaleLanguage,
+    getLocaleRegion,
+    toLocale,
+    withoutAnnotations,
+} from '../../locale/LocaleText';
 import type { RegionCode } from '@locale/Regions';
+import type LanguageCode from '@locale/LanguageCode';
+import type LocalePath from './LocalePath';
+import { getKeyTemplatePairs } from './LocalePath';
 
 // Make a logger so we can pretty print feedback.
 const log = new Log();
@@ -61,37 +69,17 @@ const localeFolders = Array.from(
     fs.readdirSync(path.join('static', 'locales'), { withFileTypes: true }),
 );
 
-async function handleLocale(locale: string) {
-    log.say(1, `Checking ${locale}...`);
+// Find prettier configuration options so we can format the locale.
+const prettierOptions = await prettier.resolveConfig('');
 
-    // Find prettier configuration options so we can format the locale.
-    const localePath = getLocalePath(locale);
-    const prettierOptions = await prettier.resolveConfig(localePath);
-
-    // Remember whether we created a new one
-    let localeIsNew = false;
-
-    // Get the currrent locale file in this directory.
-    let localeText = getLocaleJSON(log, locale) as LocaleText;
-    if (localeText === undefined) {
-        // Not verifying a specific locale? Warn.
-        if (FocalLocale === null) {
-            log.bad(
-                2,
-                "Couldn't find locale file. Can't validate it, or it's tutorial.",
-            );
-            return;
-        }
-        // If there is a specific locale we're looking for, and we can't find it, create a new one.
-        else if (FocalLanguage && FocalRegion) {
-            log.good(2, 'No locale found, creating one based on English.');
-            localeText = createUnwrittenLocale();
-            localeText.language = FocalLanguage;
-            localeText.region = FocalRegion;
-            localeText['$schema'] = '../../schemas/LocaleText.json';
-            localeIsNew = true;
-        }
-    }
+// Verify, repair, and translate a locale */
+async function handleLocale(
+    localeText: LocaleText,
+    all: LocaleText[],
+    localeIsNew: boolean,
+    globals: Map<string, { locale: string; path: LocalePath }[]>,
+) {
+    const locale = toLocale(localeText);
 
     // Validate, repair, and translate the locale file.
     const [revisedLocale, localeChanged] = await verifyLocale(
@@ -99,6 +87,7 @@ async function handleLocale(locale: string) {
         locale,
         localeText as LocaleText,
         TranslationRequested,
+        globals,
     );
 
     // If the locale was revised, write the results.
@@ -170,18 +159,78 @@ async function handleLocale(locale: string) {
     }
 }
 
-// Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
+// Build a database of all locales
+const textByLocale: Record<string, LocaleText> = {};
 for (const file of localeFolders) {
     if (
         file.isDirectory() &&
         (FocalLocale === null || file.name === FocalLocale)
-    )
-        await handleLocale(file.name);
+    ) {
+        const locale = file.name;
+
+        // Get the currrent locale file in this directory.
+        let localeText = getLocaleJSON(log, locale) as LocaleText;
+        if (localeText === undefined) {
+            // Not verifying a specific locale? Warn.
+            if (FocalLocale === null) {
+                log.bad(
+                    1,
+                    `Couldn't find locale ${locale}. Can't validate it, or it's tutorial.`,
+                );
+                process.exit(0);
+            }
+        } else {
+            textByLocale[locale] = localeText;
+        }
+    }
+}
+
+const allLocaleText = Object.values(textByLocale);
+
+log.good(
+    1,
+    `Found ${allLocaleText.length} locales: ${Object.keys(textByLocale).join(', ')}.`,
+);
+
+// Compute globals across all locales
+const globals = new Map<string, { locale: string; path: LocalePath }[]>();
+for (const localeText of allLocaleText) {
+    for (const path of getKeyTemplatePairs(localeText))
+        if (path.isGlobalName()) {
+            const key = path.resolve(localeText);
+            const names = (key ? (Array.isArray(key) ? key : [key]) : []).map(
+                (name) => withoutAnnotations(name),
+            );
+            for (const name of names) {
+                if (!globals.has(name)) globals.set(name, []);
+                globals.get(name)!.push({
+                    locale: toLocale(localeText),
+                    path,
+                });
+            }
+        }
+}
+
+// Go through each locale, or the specific one of interest, and verify, repair, and optionally translate it.
+for (const localeText of allLocaleText) {
+    log.say(1, `Checking ${toLocale(localeText)}`);
+    await handleLocale(localeText, allLocaleText, false, globals);
 }
 
 // If the user asked for a specific locale, and a folder doesn't exist for it yet, create one.
-if (FocalLocale && !localeFolders.find((f) => f.name === FocalLocale)) {
+if (
+    FocalLocale &&
+    FocalRegion &&
+    !localeFolders.find((f) => f.name === FocalLocale)
+) {
     log.say(0, 'Creating a new locale folder for ' + FocalLocale);
     fs.mkdirSync(path.join('static', 'locales', FocalLocale));
-    handleLocale(FocalLocale);
+
+    log.good(2, 'No locale found, creating one based on English.');
+    let localeText = createUnwrittenLocale();
+    localeText.language = FocalLanguage as LanguageCode;
+    localeText.region = FocalRegion as RegionCode;
+    localeText['$schema'] = '../../schemas/LocaleText.json';
+
+    handleLocale(localeText, allLocaleText, true, globals);
 }

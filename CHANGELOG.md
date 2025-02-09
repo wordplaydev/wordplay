@@ -8,6 +8,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Added
 
 - New character button in glyph chooser.
+- Check for global name collisions between locales.
 
 ### Fixed
 

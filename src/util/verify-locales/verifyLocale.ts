@@ -1,6 +1,6 @@
 import type LocaleText from '@locale/LocaleText';
 import type Log from './Log';
-import StringPath, { getKeyTemplatePairs } from './StringPath';
+import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import {
     isAutomated,
     isOutdated,
@@ -9,6 +9,7 @@ import {
     Outdated,
     parseLocaleDoc,
     toDocString,
+    toLocale,
     Unwritten,
     withoutAnnotations,
 } from '@locale/LocaleText';
@@ -44,7 +45,7 @@ export function createUnwrittenLocale(): LocaleText {
 }
 
 /** Get translatable keys for locale text */
-export function getTranslatableLocalePairs(locale: LocaleText): StringPath[] {
+export function getTranslatableLocalePairs(locale: LocaleText): LocalePath[] {
     // Find the translatable pairs
     return getKeyTemplatePairs(locale).filter((pair) => {
         // Emotion? Skip it.
@@ -70,6 +71,8 @@ export async function verifyLocale(
     text: LocaleText,
     /** Whether to translate unwritten strings in the locale */
     translate: boolean,
+    /** Global names used by other locales */
+    globalNames: Map<string, { locale: string; path: LocalePath }[]>,
 ): Promise<[LocaleText, boolean]> {
     let revisedText: LocaleText = text;
     const valid = LocaleValidator(text);
@@ -84,7 +87,7 @@ export async function verifyLocale(
         }
 
         revisedText = repairLocale(log, DefaultLocale, text);
-    } else log.good(2, 'Found valid locale');
+    }
 
     // Don't warn if we're checking the example locale.
     revisedText = await checkLocale(
@@ -93,6 +96,7 @@ export async function verifyLocale(
         DefaultLocale,
         locale !== 'example',
         translate,
+        globalNames,
     );
 
     return [revisedText, JSON.stringify(revisedText) !== JSON.stringify(text)];
@@ -105,12 +109,13 @@ async function checkLocale(
     DefaultLocale: LocaleText,
     warnUnwritten: boolean,
     translate: boolean,
+    globalNames: Map<string, { locale: string; path: LocalePath }[]>,
 ): Promise<LocaleText> {
     // Make a copy of the original to modify.
     let revised = JSON.parse(JSON.stringify(original)) as LocaleText;
 
     // Get the key/value pairs
-    let pairs: StringPath[] = getKeyTemplatePairs(revised);
+    let pairs: LocalePath[] = getKeyTemplatePairs(revised);
 
     // Find all of the unwritten strings.
     const unwritten = pairs
@@ -207,8 +212,7 @@ async function checkLocale(
                             nameWithoutPlaceholder,
                         ).getTokens();
 
-                        // We expect oone name and one end token.
-
+                        // We expect one name and one end token.
                         const token = tokens[0];
                         if (!(token.isName() || token.isSymbol(Sym.Operator)))
                             log.bad(
@@ -225,6 +229,22 @@ async function checkLocale(
                                     tokens.length - 1,
                                 )}": ${path.toString()}`,
                             );
+                        }
+                        // If the name is valid, make sure no other locales use this name for a different global
+                        else if (path.isGlobalName()) {
+                            const existing =
+                                globalNames
+                                    .get(nameWithoutPlaceholder)
+                                    ?.filter(
+                                        (p) =>
+                                            p.locale !== toLocale(original) &&
+                                            !p.path.equals(path),
+                                    ) ?? [];
+                            if (existing.length > 1)
+                                log.bad(
+                                    2,
+                                    `Name "${nameWithoutPlaceholder}" is already used by ${existing.map((l) => `${l.locale}: ${l.path.toString()}`).join(', ')}.`,
+                                );
                         }
                     }
                 }
@@ -304,7 +324,7 @@ async function translateLocale(
     log: Log,
     source: LocaleText,
     target: LocaleText,
-    unwritten: StringPath[],
+    unwritten: LocalePath[],
 ) {
     const revised = JSON.parse(JSON.stringify(target)) as LocaleText;
 

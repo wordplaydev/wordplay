@@ -9,7 +9,7 @@ import { getLanguageDirection } from './LanguageCode';
 import { localeToString } from './Locale';
 import type { Concretizer } from './concretize';
 import type Markup from '@nodes/Markup';
-import { getKeyTemplatePairs } from '../util/verify-locales/StringPath';
+import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
 import { DRAFT_SYMBOL } from '@parser/Symbols';
 
 export type TemplateInput =

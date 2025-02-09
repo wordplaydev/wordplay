@@ -109,6 +109,10 @@ export type NameText = string | string[];
 /** Wordplay markup, a single paragraph or a list of paragraphs. */
 export type DocText = string | string[];
 
+export function toLocale(locale: LocaleText) {
+    return `${locale.language}-${locale.region}`;
+}
+
 export function toDocString(doc: DocText) {
     return withoutAnnotations(Array.isArray(doc) ? doc.join('\n\n') : doc);
 }
