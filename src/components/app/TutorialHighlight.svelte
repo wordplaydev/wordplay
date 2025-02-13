@@ -54,8 +54,10 @@
     style:left={bounds ? `${bounds.left}px` : undefined}
     style:top={bounds ? `${bounds.top}px` : undefined}
 >
-    {#if index !== undefined && uiids.length > 1}
-        <span class="number">{index}</span>
+    {#if bounds} <!-- Only render when bounds exists -->
+        {#if index !== undefined && uiids.length > 1}
+            <span class="number">{index}</span>
+        {/if}
     {/if}
 </span>
 
