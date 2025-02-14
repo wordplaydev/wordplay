@@ -53,8 +53,11 @@
     style:left={bounds ? `${bounds.left}px` : undefined}
     style:top={bounds ? `${bounds.top}px` : undefined}
 >
-    {#if index !== undefined && uiids.length > 1}
-        <span class="number">{index}</span>
+    {#if bounds}
+        <!-- Only render when bounds exists -->
+        {#if index !== undefined && uiids.length > 1}
+            <span class="number">{index}</span>
+        {/if}
     {/if}
 </span>
 
@@ -72,6 +75,9 @@
         animation-duration: 1s;
         animation-iteration-count: infinite;
         align-items: center;
+
+        transform-origin: center;
+        position: relative;
     }
 
     .hovering {
@@ -97,10 +103,10 @@
 
     @keyframes glow {
         from {
-            transform: scale(1);
+            transform: scale(0.3);
         }
         to {
-            transform: scale(2);
+            transform: scale(1);
         }
     }
 </style>
