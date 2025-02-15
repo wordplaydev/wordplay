@@ -7,7 +7,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ### Added
 
-- How to guide.
+- How to guide! This feature adds a new section to the guide, which provides short tutorials about common behaviors.
 
 ## 0.15.2 2025-02-15
 
