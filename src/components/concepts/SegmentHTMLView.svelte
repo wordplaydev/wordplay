@@ -67,7 +67,7 @@
         ><ValueView value={segment.value} /></strong
     >
     <!-- Remove the bullet if the words start with one. -->
-{:else if segment instanceof Token}{#if /^[ ]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withColorEmoji(
+{:else if segment instanceof Token}{#if /^[ \n]+$/.test(spaces.getSpace(segment))}&nbsp;{/if}{withColorEmoji(
         (segment.startsWith('•')
             ? segment.getText().substring(1).trimStart()
             : withColorEmoji(unescapeMarkupSymbols(segment.getText()))

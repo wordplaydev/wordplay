@@ -18,7 +18,7 @@ export function getConceptFromURL(
         const concept =
             ownerName && name
                 ? index.getSubConcept(ownerName, name)
-                : index.getConceptByName(ownerName);
+                : index.getConceptByCharacterName(ownerName);
         return concept;
     }
     return undefined;
@@ -31,7 +31,7 @@ export function setConceptInURL(
     params: URLSearchParams,
 ) {
     if (concept) {
-        const name = concept.getName(locales, false);
+        const name = concept.getCharacterName(locales);
         const ownerName = index
             ?.getConceptOwner(concept)
             ?.getName(locales, false);

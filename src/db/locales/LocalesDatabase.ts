@@ -1,5 +1,7 @@
 import { Basis } from '@basis/Basis';
 import Fonts from '@basis/Fonts';
+import type HowTo from '@concepts/HowTo';
+import { HowToIDs, parseHowTo } from '@concepts/HowTo';
 import type { Database } from '@db/Database';
 import { type Concretizer } from '@locale/concretize';
 import DefaultLocale from '@locale/DefaultLocale';
@@ -17,7 +19,7 @@ import { get, writable, type Writable } from 'svelte/store';
 import type Tutorial from '../../tutorial/Tutorial';
 import type Setting from '../settings/Setting';
 
-/** A cache of locales loaded */
+/** A singleton cache of loaded locales */
 export default class LocalesDatabase {
     /** The concretizer */
     private readonly concretize: Concretizer;
@@ -44,6 +46,11 @@ export default class LocalesDatabase {
     readonly setting: Setting<SupportedLocale[]>;
 
     private tutorialsLoaded: Record<string, Tutorial | undefined> = {};
+
+    /** The loaded and parsed how to's, by locale. Undefined means not loaded, "loading" means already requested but not resolved */
+    readonly howTos: Writable<
+        Record<SupportedLocale, HowTo[] | undefined | Promise<HowTo[]>>
+    > = writable({});
 
     constructor(
         database: Database,
@@ -92,6 +99,64 @@ export default class LocalesDatabase {
         this.syncLocales();
 
         return locales;
+    }
+
+    async loadHowTo(path: string): Promise<string | undefined> {
+        return await fetch(path)
+            .then(async (response) =>
+                response.ok ? await response.text() : undefined,
+            )
+            .catch(() => undefined);
+    }
+
+    /** For the given locale, load the how to documents, with fallbacks as necessary */
+    async loadHowTos(locale: SupportedLocale): Promise<HowTo[]> {
+        const existingHowTos = get(this.howTos)[locale];
+        if (existingHowTos !== undefined) return existingHowTos;
+
+        const getHowTos = async (locale: SupportedLocale) => {
+            const howTos: HowTo[] = [];
+
+            for (const howID of HowToIDs) {
+                const path = `/locales/${locale}/how/${howID}.txt`;
+                const fallback = `/locales/en-US/how/${howID}.txt`;
+                let text =
+                    (await this.loadHowTo(path)) ??
+                    (await this.loadHowTo(fallback));
+
+                if (text !== undefined) {
+                    const { how, error } = parseHowTo(howID, text);
+                    if (how !== null) {
+                        howTos.push(how);
+                    } else if (error) console.log(error);
+                }
+            }
+            return howTos;
+        };
+
+        const promise = getHowTos(locale);
+
+        const temp = { ...get(this.howTos) };
+        temp[locale] = promise;
+        this.howTos.set(temp);
+
+        // Cache the loaded how tos
+        const updated = { ...get(this.howTos) };
+        const howTos = await promise;
+        updated[locale] = howTos;
+        this.howTos.set(updated);
+
+        return howTos;
+    }
+
+    getHowTos(locale: SupportedLocale): HowTo[] | undefined {
+        const howTos = get(this.howTos)[locale];
+        if (howTos instanceof Promise) return undefined;
+        return howTos;
+    }
+
+    getHowTo(locale: SupportedLocale, id: string): HowTo | undefined {
+        return this.getHowTos(locale)?.find((h) => h.id === id);
     }
 
     syncLocales() {

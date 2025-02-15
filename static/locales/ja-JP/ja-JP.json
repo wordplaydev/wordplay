@@ -42,7 +42,8 @@
         "set": "$~セット",
         "key": "$~鍵",
         "help": "$~ヘルプ",
-        "feedback": "$~フィードバック"
+        "feedback": "$~フィードバック",
+        "how": "$~方法"
     },
     "token": {
         "EvalOpen": "$~評価オープン",
@@ -4390,6 +4391,23 @@
                 "properties": "$~プロパティ",
                 "functions": "$~機能",
                 "conversions": "$~コンバージョン"
+            },
+            "modes": {
+                "label": "$~ブラウズ",
+                "modes": ["$~方法", "$~概念"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~キャラクターの作成と制御",
+                    "styling": "$~文字とテキストのスタイル",
+                    "animation": "$~文字やテキストをアニメーション化する",
+                    "layout": "$~文字やテキストを配置する",
+                    "randomization": "$~ランダムに使用",
+                    "remembering": "$~変更と選択を追跡する",
+                    "stories": "$~物語を語る",
+                    "motion": "$~物理学を使う"
+                },
+                "related": "$~探しているものではありませんか?"
             }
         },
         "dialog": {

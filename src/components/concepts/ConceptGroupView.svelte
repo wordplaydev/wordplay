@@ -48,7 +48,7 @@
         display: flex;
         flex-wrap: wrap;
         gap: calc(2 * var(--wordplay-spacing));
-        align-items: baseline;
+        align-items: end;
         border-top: var(--wordplay-border-color) dotted
             var(--wordplay-border-width);
         border-bottom: var(--wordplay-border-color) dotted

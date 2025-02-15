@@ -10,6 +10,7 @@ import { toMarkup } from '../parser/toMarkup';
 import { getCodepointFromString } from '../unicode/getCodepoint';
 import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
 import Content from './Content';
+import Example from './Example';
 import type Node from './Node';
 import { list, node, type Grammar, type Replacement } from './Node';
 import Paragraph from './Paragraph';
@@ -89,6 +90,12 @@ export default class Markup extends Content {
 
     getDescriptionInputs() {
         return [this.paragraphs.length];
+    }
+
+    getExamples(): Example[] {
+        return this.paragraphs
+            .map((p) => p.segments.filter((e) => e instanceof Example))
+            .flat();
     }
 
     concretize(locales: Locales, inputs: TemplateInput[]): Markup | undefined {

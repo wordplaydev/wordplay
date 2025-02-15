@@ -42,7 +42,8 @@
         "set": "$~ayarlamak",
         "key": "$~anahtar",
         "help": "$~Yardım",
-        "feedback": "$~geri bildirim"
+        "feedback": "$~geri bildirim",
+        "how": "$~nasıl"
     },
     "token": {
         "EvalOpen": "$~değerlendirme açık",
@@ -4390,6 +4391,23 @@
                 "properties": "$~Özellikler",
                 "functions": "$~Fonksiyonlar",
                 "conversions": "$~Dönüşümler"
+            },
+            "modes": {
+                "label": "$~göz at",
+                "modes": ["$~nasıl", "$~kavramlar"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~Karakterleri yarat ve kontrol et",
+                    "styling": "$~stil karakterleri ve metin",
+                    "animation": "$~karakterleri ve metni canlandır",
+                    "layout": "$~Karakterleri ve metni düzenle",
+                    "randomization": "$~rastgele kullan",
+                    "remembering": "$~değişiklikleri ve seçimleri takip et",
+                    "stories": "$~bir hikaye anlatmak",
+                    "motion": "$~fizik kullan"
+                },
+                "related": "$~Aradığınız bu değil mi?"
             }
         },
         "dialog": {

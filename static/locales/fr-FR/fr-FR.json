@@ -42,7 +42,8 @@
         "set": "$~ensemble",
         "key": "$~clé",
         "help": "$~Aide",
-        "feedback": "$~retour"
+        "feedback": "$~retour",
+        "how": "$~comment faire"
     },
     "token": {
         "EvalOpen": "$~évaluation ouverte",
@@ -4373,6 +4374,23 @@
                 "properties": "$~Propriétés",
                 "functions": "$~Fonctions",
                 "conversions": "$~Conversions"
+            },
+            "modes": {
+                "label": "$~parcourir",
+                "modes": ["$~comment faire", "$~notions"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~créer et contrôler des personnages",
+                    "styling": "$~caractères de style et texte",
+                    "animation": "$~animer des personnages et du texte",
+                    "layout": "$~organiser les caractères et le texte",
+                    "randomization": "$~utiliser au hasard",
+                    "remembering": "$~suivre les changements et les choix",
+                    "stories": "$~raconter une histoire",
+                    "motion": "$~utiliser la physique"
+                },
+                "related": "$~Ce n'est pas ce que vous cherchez ?"
             }
         },
         "dialog": {

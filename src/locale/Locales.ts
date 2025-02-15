@@ -7,7 +7,7 @@ import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
 import { localeToString } from './Locale';
 import type LocaleText from './LocaleText';
-import { isUnwritten, MachineTranslated } from './LocaleText';
+import { isUnwritten, MachineTranslated, toLocale } from './LocaleText';
 import type NodeRef from './NodeRef';
 import type ValueRef from './ValueRef';
 import type { Concretizer } from './concretize';
@@ -45,6 +45,10 @@ export default class Locales {
     /** Get the first preferred locale */
     getLocale() {
         return this.locales[0] ?? this.fallback;
+    }
+
+    getLocaleString() {
+        return toLocale(this.getLocale());
     }
 
     /** Get all preferred locales, but with the fallback at the end if not included. */

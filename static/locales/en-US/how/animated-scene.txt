@@ -1,0 +1,39 @@
+Create an animated series of scenes
+
+Sometimes we want to tell stories, show lyrics, or animate poetry.
+To do that, we can use @Scene and @Phrase together, to show a sequence.
+
+For example, imagine we wanted to animate the short nursery rhyme, "Jack be Nimble".
+We could make a @Scene that has each line as a @Phrase, and by setting the @Phrase/duration of each line, the @Scene would advance when each phrase is done.
+
+\
+Scene([
+  Phrase('Jack be nimble' duration: 1s)
+  Phrase('Jack be quick' duration: 1s)
+  Phrase('Jack jump over the candle stick' duration: 1s)
+])
+\
+
+@Scene will wait for a @Sequence to be done too. Let's make the candle line jump!
+
+\
+Scene([
+		Phrase('Jack be nimble' duration: 1s)
+		Phrase('Jack be quick' duration: 1s)
+		Phrase('Jack jump over the candle stick' entering: Sequence(bounce() 1s))
+	])
+\
+
+@Scene can also take a @Group of text too, and it will wait for all its content to finish animationg.
+
+\
+Scene([
+		Group(Stack() [
+      Phrase('Jack be nimble')
+		  Phrase('Jack be quick')
+    ] duration: 2s)
+		Phrase('Jack jump over the candle stick' entering: Sequence(bounce() 1s))
+	])
+\
+
+interactive-scene

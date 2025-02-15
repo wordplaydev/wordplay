@@ -234,8 +234,9 @@ export function getLocalize() {
     return getContext<LocalizeContext>(LocalizeSymbol);
 }
 
-const ConceptPathSymbol = Symbol('palette-path');
-type ConceptPathContext = Writable<Concept[]>;
+const ConceptPathSymbol = Symbol('concept-path');
+export type ConceptPath = Concept[];
+type ConceptPathContext = Writable<ConceptPath>;
 export function setConceptPath(context: ConceptPathContext) {
     setContext(ConceptPathSymbol, context);
 }
@@ -243,7 +244,7 @@ export function getConceptPath() {
     return getContext<ConceptPathContext>(ConceptPathSymbol);
 }
 
-const ConceptIndexSymbol = Symbol('palette-index');
+const ConceptIndexSymbol = Symbol('concept-index');
 export type ConceptIndexContext = { index: ConceptIndex | undefined };
 export function setConceptIndex(context: ConceptIndexContext) {
     setContext(ConceptIndexSymbol, context);

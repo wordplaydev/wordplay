@@ -42,7 +42,8 @@
         "set": "집합",
         "key": "키",
         "feedback": "$~피드백",
-        "help": "$~돕다"
+        "help": "$~돕다",
+        "how": "$~어떻게"
     },
     "token": {
         "EvalOpen": "평가열기",
@@ -4373,6 +4374,23 @@
                 "properties": "$~속성",
                 "functions": "$~기능",
                 "conversions": "$~전환"
+            },
+            "modes": {
+                "label": "$~먹다",
+                "modes": ["$~어떻게", "$~개념"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~캐릭터 생성 및 제어",
+                    "styling": "$~스타일 문자 및 텍스트",
+                    "animation": "$~캐릭터와 텍스트에 애니메이션을 적용하다",
+                    "layout": "$~문자와 텍스트를 정렬하다",
+                    "randomization": "$~무작위를 사용하다",
+                    "remembering": "$~변경 사항 및 선택 사항 추적",
+                    "stories": "$~이야기를 들려주다",
+                    "motion": "$~물리학을 사용하다"
+                },
+                "related": "$~원하시는 내용이 아닌가요?"
             }
         },
         "dialog": {

@@ -20,6 +20,8 @@ import {
     getOutputConcepts,
 } from './DefaultConcepts';
 import FunctionConcept from './FunctionConcept';
+import HowConcept from './HowConcept';
+import type HowTo from './HowTo';
 import NodeConcept from './NodeConcept';
 import Purpose from './Purpose';
 import StreamConcept from './StreamConcept';
@@ -57,9 +59,14 @@ export default class ConceptIndex {
     }
 
     // Make a concept index with a project and some preferreed languages.
-    static make(project: Project, locales: Locales) {
+    static make(
+        project: Project,
+        locales: Locales,
+        howTos: HowTo[] | undefined,
+    ) {
         const main = project.getMain();
         const sources = project.getSources();
+        const context = project.getContext(main);
 
         const projectStructures = sources
             .map((source) =>
@@ -121,7 +128,7 @@ export default class ConceptIndex {
             .flat();
 
         function makeStreamConcept(stream: StreamDefinition) {
-            return new StreamConcept(stream, locales, project.getContext(main));
+            return new StreamConcept(stream, locales, context);
         }
 
         const streams = Object.values(project.shares.input).map((def) =>
@@ -133,19 +140,17 @@ export default class ConceptIndex {
                       def,
                       undefined,
                       locales,
-                      project.getContext(main),
+                      context,
                   ),
         );
 
-        const constructs = getNodeConcepts(project.getContext(main));
+        const constructs = getNodeConcepts(context);
 
-        const basis = getBasisConcepts(
-            project.basis,
-            locales,
-            project.getContext(main),
-        );
+        const basis = getBasisConcepts(project.basis, locales, context);
 
-        const output = getOutputConcepts(locales, project.getContext(main));
+        const output = getOutputConcepts(locales, context);
+
+        const how = howTos?.map((how) => new HowConcept(how, context)) ?? [];
 
         return new ConceptIndex(
             project,
@@ -158,6 +163,7 @@ export default class ConceptIndex {
                 ...streams,
                 ...constructs,
                 ...output,
+                ...how,
             ],
             locales,
         );
@@ -285,6 +291,12 @@ export default class ConceptIndex {
 
     getConceptByName(name: string): Concept | undefined {
         return this.concepts.find((c) => c.hasName(name, this.locales));
+    }
+
+    getConceptByCharacterName(name: string): Concept | undefined {
+        return this.concepts.find(
+            (c) => c.getCharacterName(this.locales) === name,
+        );
     }
 
     addExample(node: Node) {

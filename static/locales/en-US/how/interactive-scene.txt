@@ -1,0 +1,37 @@
+Create an interactive series of scenes
+
+Sometimes we want to tell stories that wait for the viewer to do something before going to the next content.
+
+To do this, we can use a @Scene, but put @Boolean values between the content we want to show. For example, here's a click will advance to each next content, using a @Button:
+
+\
+Scene([
+		Phrase('click me')
+		Button()
+		Phrase('click me again' duration: 1s)
+		Button()
+		Phrase('no really, click me as hard as you can!!' duration: 1s)
+		Button()
+		Phrase('have you clicked me yet?' duration: 1s)
+	])
+\
+
+The @Scene shows the first @Phrase, then waits for the @Button to be true, and once it is, it advances to the next @Phrase.
+
+You can use anything you want to advance, as long as it's either true or false. 
+For example, we could use our voice! 
+If we yell loud enough, the scene will advance:
+
+\
+Scene([
+		Phrase('is anyone there?')
+		Volume() > .5
+		Phrase("I can't hear youclick me again" duration: 1s)
+		Volume() > .7
+		Phrase('did you say something?' duration: 1s)
+		Volume() > .9
+		Phrase('oh, hi!' duration: 1s)
+	])
+\
+
+animated-scene
