@@ -46,6 +46,7 @@ export const NONE_SYMBOL = 'ø';
 export const STREAM_SYMBOL = '…';
 export const STREAM_SYMBOL2 = '...';
 export const CHANGE_SYMBOL = '∆';
+export const CHANGE_SYMBOL2 = '∂';
 export const INITIAL_SYMBOL = '◆';
 export const PREVIOUS_SYMBOL = '←';
 export const TEXT_SYMBOL = "'";

@@ -5,6 +5,10 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 
 ## 0.15.2 2024-02-15
 
+### Added
+
+- Allow ∂ in addition to ∆ for change, for consistency, and because of error in code examples in CHI 2025 paper.
+
 ### Maintenance
 
 - Updated minor versions of Svelte, SvelteKit, ESLint, Firebase, Prettier, Zod.

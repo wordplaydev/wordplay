@@ -79,6 +79,7 @@ import {
     LITERAL_SYMBOL_FULL,
     COMMA_SYMBOL_FULL2,
     QUESTION_SYMBOL_FULL,
+    CHANGE_SYMBOL2,
 } from './Symbols';
 import TokenList from './TokenList';
 import ReservedSymbols from './ReservedSymbols';
@@ -175,10 +176,7 @@ function escapeRegexCharacter(c: string) {
     return /[\\/()[\]{}]/.test(c) ? '\\' + c : c;
 }
 
-type TokenPattern = {
-    pattern: string | RegExp;
-    types: Sym[];
-};
+type TokenPattern = { pattern: string | RegExp; types: Sym[] };
 
 const CodePattern = { pattern: CODE_SYMBOL, types: [Sym.Code] };
 const FormattedPattern = {
@@ -247,10 +245,7 @@ const CodeTokenPatterns: TokenPattern[] = [
         pattern: new RegExp(`^[${LITERAL_SYMBOL}${LITERAL_SYMBOL_FULL}]`, 'u'),
         types: [Sym.Literal],
     },
-    {
-        pattern: OR_SYMBOL,
-        types: [Sym.Operator, Sym.Union],
-    },
+    { pattern: OR_SYMBOL, types: [Sym.Operator, Sym.Union] },
     {
         pattern: new RegExp(
             `^[${TYPE_OPEN_SYMBOL}${TYPE_OPEN_SYMBOL_FULL}]`,
@@ -265,21 +260,13 @@ const CodeTokenPatterns: TokenPattern[] = [
         ),
         types: [Sym.TypeClose],
     },
-    {
-        pattern: STREAM_SYMBOL,
-        types: [Sym.Stream, Sym.Etc],
-    },
-    {
-        pattern: STREAM_SYMBOL2,
-        types: [Sym.Stream, Sym.Etc],
-    },
+    { pattern: STREAM_SYMBOL, types: [Sym.Stream, Sym.Etc] },
+    { pattern: STREAM_SYMBOL2, types: [Sym.Stream, Sym.Etc] },
     { pattern: INITIAL_SYMBOL, types: [Sym.Initial] },
     { pattern: CHANGE_SYMBOL, types: [Sym.Change] },
+    { pattern: CHANGE_SYMBOL2, types: [Sym.Change] },
     { pattern: PREVIOUS_SYMBOL, types: [Sym.Previous] },
-    {
-        pattern: PLACEHOLDER_SYMBOL,
-        types: [Sym.Placeholder, Sym.Underline],
-    },
+    { pattern: PLACEHOLDER_SYMBOL, types: [Sym.Placeholder, Sym.Underline] },
     // Roman numerals
     {
         pattern: /^-?[ⅠⅡⅢⅣⅤⅥⅦⅧⅨⅩⅪⅫⅬⅭⅮⅯ]+/,
@@ -297,14 +284,8 @@ const CodeTokenPatterns: TokenPattern[] = [
         types: [Sym.Number, Sym.Base],
     },
     // Tokenize Arabic numbers
-    {
-        pattern: /^-?[0-9]+([.,][0-9]+)?%?/,
-        types: [Sym.Number, Sym.Decimal],
-    },
-    {
-        pattern: /^-?[.,][0-9]+%?/,
-        types: [Sym.Number, Sym.Decimal],
-    },
+    { pattern: /^-?[0-9]+([.,][0-9]+)?%?/, types: [Sym.Number, Sym.Decimal] },
+    { pattern: /^-?[.,][0-9]+%?/, types: [Sym.Number, Sym.Decimal] },
     { pattern: /^π/, types: [Sym.Number, Sym.Pi] },
     { pattern: /^∞/, types: [Sym.Number, Sym.Infinity] },
     // Must be after numbers, which can have a leading period.
@@ -353,14 +334,8 @@ const CodeTokenPatterns: TokenPattern[] = [
     { pattern: EVAL_CLOSE_SYMBOL_FULL, types: [Sym.EvalClose] },
     // Match primtive types after strings since one is a standalone quote symbol.
     { pattern: MEASUREMENT_SYMBOL, types: [Sym.NumberType] },
-    {
-        pattern: MATCH_SYMBOL,
-        types: [Sym.Match],
-    },
-    {
-        pattern: COALESCE_SYMBOL,
-        types: [Sym.Otherwise],
-    },
+    { pattern: MATCH_SYMBOL, types: [Sym.Match] },
+    { pattern: COALESCE_SYMBOL, types: [Sym.Otherwise] },
     {
         pattern: new RegExp(
             `^[${QUESTION_SYMBOL}${QUESTION_SYMBOL_FULL}]`,
@@ -386,10 +361,7 @@ const CodeTokenPatterns: TokenPattern[] = [
     DocPattern,
 
     // All other tokens are names, which are sequences of Unicode characters that are not one of the reserved symbols above or whitespace.
-    {
-        pattern: NameRegEx,
-        types: [Sym.Name],
-    },
+    { pattern: NameRegEx, types: [Sym.Name] },
 ];
 
 /**
@@ -418,26 +390,11 @@ const MarkupTokenPatterns = [
     // The concept reg ex above captures concepts; this captures any @ part of a link that's not a concept reference.
     { pattern: LINK_SYMBOL, types: [Sym.Link] },
     { pattern: LANGUAGE_SYMBOL, types: [Sym.Italic] },
-    {
-        pattern: LIGHT_SYMBOL,
-        types: [Sym.Light],
-    },
-    {
-        pattern: UNDERSCORE_SYMBOL,
-        types: [Sym.Underline],
-    },
-    {
-        pattern: BOLD_SYMBOL,
-        types: [Sym.Bold],
-    },
-    {
-        pattern: EXTRA_SYMBOL,
-        types: [Sym.Extra],
-    },
-    {
-        pattern: new RegExp(`^${MentionRegEx}`, 'u'),
-        types: [Sym.Mention],
-    },
+    { pattern: LIGHT_SYMBOL, types: [Sym.Light] },
+    { pattern: UNDERSCORE_SYMBOL, types: [Sym.Underline] },
+    { pattern: BOLD_SYMBOL, types: [Sym.Bold] },
+    { pattern: EXTRA_SYMBOL, types: [Sym.Extra] },
+    { pattern: new RegExp(`^${MentionRegEx}`, 'u'), types: [Sym.Mention] },
     {
         pattern: new RegExp(
             `^[${TAG_OPEN_SYMBOL}${TAG_OPEN_SYMBOL_FULL}]`,
@@ -452,10 +409,7 @@ const MarkupTokenPatterns = [
         ),
         types: [Sym.TagClose],
     },
-    {
-        pattern: OR_SYMBOL,
-        types: [Sym.Union],
-    },
+    { pattern: OR_SYMBOL, types: [Sym.Union] },
 ];
 
 export const TextCloseByTextOpen: Record<string, string> = {
