@@ -1,22 +1,22 @@
 <script lang="ts">
+    import ValueView from '@components/values/ValueView.svelte';
+    import Block from '@nodes/Block';
+    import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
+    import { locales } from '../../db/Database';
+    import Token from '../../nodes/Token';
     import {
         getEvaluation,
         getHidden,
+        getHighlights,
         getInsertionPoint,
+        getIsBlocks,
         getRoot,
         getSpaces,
-        getIsBlocks,
-        getHighlights,
     } from '../project/Contexts';
-    import getNodeView from './util/nodeToView';
-    import Expression, { ExpressionKind } from '@nodes/Expression';
-    import ValueView from '@components/values/ValueView.svelte';
-    import Space from './Space.svelte';
-    import Token from '../../nodes/Token';
-    import { locales } from '../../db/Database';
     import InsertionPointView from './InsertionPointView.svelte';
-    import Block from '@nodes/Block';
+    import Space from './Space.svelte';
+    import getNodeView from './util/nodeToView';
 
     interface Props {
         node: Node | undefined;

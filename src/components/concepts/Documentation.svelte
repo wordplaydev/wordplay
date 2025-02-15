@@ -1,39 +1,38 @@
 <script lang="ts">
-    import {
-        getDragged,
-        getConceptIndex,
-        getConceptPath,
-    } from '../project/Contexts';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import Expression from '@nodes/Expression';
-    import Button from '../widgets/Button.svelte';
-    import Source from '@nodes/Source';
-    import ConceptsView from './ConceptsView.svelte';
-    import StructureConceptView from './StructureConceptView.svelte';
-    import { onDestroy } from 'svelte';
-    import StructureConcept from '@concepts/StructureConcept';
-    import FunctionConcept from '@concepts/FunctionConcept';
     import BindConcept from '@concepts/BindConcept';
     import type Concept from '@concepts/Concept';
-    import FunctionConceptView from './FunctionConceptView.svelte';
-    import StreamConcept from '@concepts/StreamConcept';
-    import CodeView from './CodeView.svelte';
     import ConversionConcept from '@concepts/ConversionConcept';
-    import ConceptView from './ConceptView.svelte';
-    import StreamConceptView from './StreamConceptView.svelte';
+    import FunctionConcept from '@concepts/FunctionConcept';
     import NodeConcept from '@concepts/NodeConcept';
-    import type Node from '@nodes/Node';
-    import NodeConceptView from './NodeConceptView.svelte';
     import Purpose from '@concepts/Purpose';
-    import { tick } from 'svelte';
-    import TextField from '../widgets/TextField.svelte';
-    import type Project from '../../db/projects/Project';
+    import StreamConcept from '@concepts/StreamConcept';
+    import StructureConcept from '@concepts/StructureConcept';
+    import Expression from '@nodes/Expression';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import type Node from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import { onDestroy, tick } from 'svelte';
     import { Projects, locales } from '../../db/Database';
-    import getScrollParent from '../util/getScrollParent';
-    import Note from '../widgets/Note.svelte';
-    import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import TutorialHighlight from '../app/TutorialHighlight.svelte';
+    import type Project from '../../db/projects/Project';
     import ConceptLink from '../../nodes/ConceptLink';
+    import TutorialHighlight from '../app/TutorialHighlight.svelte';
+    import {
+        getConceptIndex,
+        getConceptPath,
+        getDragged,
+    } from '../project/Contexts';
+    import getScrollParent from '../util/getScrollParent';
+    import Button from '../widgets/Button.svelte';
+    import Note from '../widgets/Note.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import CodeView from './CodeView.svelte';
+    import ConceptLinkUI from './ConceptLinkUI.svelte';
+    import ConceptsView from './ConceptsView.svelte';
+    import ConceptView from './ConceptView.svelte';
+    import FunctionConceptView from './FunctionConceptView.svelte';
+    import NodeConceptView from './NodeConceptView.svelte';
+    import StreamConceptView from './StreamConceptView.svelte';
+    import StructureConceptView from './StructureConceptView.svelte';
 
     interface Props {
         project: Project;

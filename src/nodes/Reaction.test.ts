@@ -1,16 +1,16 @@
-import { test, expect } from 'vitest';
-import Project from '../db/projects/Project';
-import Source from './Source';
 import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import type Value from '@values/Value';
-import Time from '../input/Time';
-import type Expression from './Expression';
 import Evaluator from '@runtime/Evaluator';
-import { testConflict } from '../conflicts/TestUtilities';
-import Reaction from './Reaction';
+import type Value from '@values/Value';
+import { expect, test } from 'vitest';
 import ExpectedStream from '../conflicts/ExpectedStream';
+import { testConflict } from '../conflicts/TestUtilities';
 import { DB } from '../db/Database';
+import Project from '../db/projects/Project';
+import Time from '../input/Time';
 import DefaultLocale from '../locale/DefaultLocale';
+import type Expression from './Expression';
+import Reaction from './Reaction';
+import Source from './Source';
 
 const makeOne = (creator: Expression) => Time.make(creator, 1);
 

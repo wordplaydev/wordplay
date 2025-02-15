@@ -1,17 +1,17 @@
 <script lang="ts">
-    import type Project from '@db/projects/Project';
-    import { Projects, locales } from '../../db/Database';
-    import Slider from '@components/widgets/Slider.svelte';
     import ColorChooser from '@components/widgets/ColorChooser.svelte';
-    import { getFirstName } from '@locale/LocaleText';
-    import Evaluate from '@nodes/Evaluate';
-    import Reference from '@nodes/Reference';
-    import { createColorLiteral } from '@output/Color';
-    import NumberLiteral from '@nodes/NumberLiteral';
-    import Unit from '@nodes/Unit';
+    import Slider from '@components/widgets/Slider.svelte';
+    import type Project from '@db/projects/Project';
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import { getFirstName } from '@locale/LocaleText';
     import type Bind from '@nodes/Bind';
+    import Evaluate from '@nodes/Evaluate';
+    import NumberLiteral from '@nodes/NumberLiteral';
+    import Reference from '@nodes/Reference';
+    import Unit from '@nodes/Unit';
+    import { createColorLiteral } from '@output/Color';
+    import { Projects, locales } from '../../db/Database';
 
     interface Props {
         project: Project;

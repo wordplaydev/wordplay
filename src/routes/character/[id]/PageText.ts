@@ -1,10 +1,10 @@
+import type { Template } from '@locale/LocaleText';
 import type {
     ButtonText,
     DialogText,
     FieldText,
     ModeText,
 } from '@locale/UITexts';
-import type { Template } from '@locale/LocaleText';
 
 type PageText = {
     header: string;
@@ -43,30 +43,15 @@ type PageText = {
         /** What to call inherited color */
         inherit: string;
         /** Labels for the stroke width slider*/
-        strokeWidth: {
-            label: string;
-            tip: string;
-        };
+        strokeWidth: { label: string; tip: string };
         /** Labels for the border radius slider */
-        radius: {
-            label: string;
-            tip: string;
-        };
+        radius: { label: string; tip: string };
         /** Labels for the rotation slider */
-        angle: {
-            label: string;
-            tip: string;
-        };
+        angle: { label: string; tip: string };
         /** Width slider */
-        width: {
-            label: string;
-            tip: string;
-        };
+        width: { label: string; tip: string };
         /** Height slider */
-        height: {
-            label: string;
-            tip: string;
-        };
+        height: { label: string; tip: string };
         /** Closed path label */
         closed: string;
     };

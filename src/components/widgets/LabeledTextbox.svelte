@@ -1,8 +1,8 @@
 <script lang="ts">
+    import { locales } from '@db/Database';
     import type LocaleText from '@locale/LocaleText';
     import type { FieldText } from '@locale/UITexts';
     import Labeled from './Labeled.svelte';
-    import { locales } from '@db/Database';
     import TextBox from './TextBox.svelte';
     import TextField from './TextField.svelte';
 

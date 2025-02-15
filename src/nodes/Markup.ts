@@ -1,21 +1,21 @@
-import { list, node, type Grammar, type Replacement } from './Node';
-import type Spaces from '../parser/Spaces';
-import type Node from './Node';
-import type { FormattedText } from '../output/Phrase';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { FontWeight } from '../basis/Fonts';
+import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
-import Paragraph from './Paragraph';
 import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import Content from './Content';
+import type { FormattedText } from '../output/Phrase';
+import type Spaces from '../parser/Spaces';
 import { toMarkup } from '../parser/toMarkup';
-import Token from './Token';
-import Sym from './Sym';
-import Words from './Words';
 import { getCodepointFromString } from '../unicode/getCodepoint';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 import ConceptLink, { CharacterName, CodepointName } from './ConceptLink';
+import Content from './Content';
+import type Node from './Node';
+import { list, node, type Grammar, type Replacement } from './Node';
+import Paragraph from './Paragraph';
+import Sym from './Sym';
+import Token from './Token';
+import Words from './Words';
 
 /**
  * To refer to an input, use a $, followed by the number of the input desired,
@@ -156,11 +156,7 @@ export default class Markup extends Content {
                 else words.unshift(node);
             } else if (node instanceof Token) {
                 if (node.isSymbol(Sym.Words)) {
-                    formats.push({
-                        text: node.getText(),
-                        italic,
-                        weight,
-                    });
+                    formats.push({ text: node.getText(), italic, weight });
                 } else if (node.isSymbol(Sym.Concept)) {
                     const match = ConceptLink.parse(node.getText().slice(1));
                     if (match instanceof CodepointName)
@@ -173,11 +169,7 @@ export default class Markup extends Content {
                             weight,
                         });
                     else if (match instanceof CharacterName)
-                        formats.push({
-                            text: node.getText(),
-                            italic,
-                            weight,
-                        });
+                        formats.push({ text: node.getText(), italic, weight });
                 }
             }
         }

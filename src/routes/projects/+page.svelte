@@ -1,22 +1,22 @@
 <script lang="ts">
-    import Writing from '@components/app/Writing.svelte';
-    import Header from '@components/app/Header.svelte';
-    import { Galleries, Projects, locales } from '@db/Database';
-    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
     import { goto } from '$app/navigation';
-    import Button from '@components/widgets/Button.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Spinning from '@components/app/Spinning.svelte';
-    import GalleryPreview from '@components/app/GalleryPreview.svelte';
-    import { getUser } from '@components/project/Contexts';
+    import AddProject from '@components/app/AddProject.svelte';
     import Feedback from '@components/app/Feedback.svelte';
+    import GalleryPreview from '@components/app/GalleryPreview.svelte';
+    import Header from '@components/app/Header.svelte';
+    import ProjectPreviewSet from '@components/app/ProjectPreviewSet.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
+    import { Galleries, Projects, locales } from '@db/Database';
     import {
         CANCEL_SYMBOL,
         COPY_SYMBOL,
         EDIT_SYMBOL,
     } from '../../parser/Symbols';
-    import AddProject from '@components/app/AddProject.svelte';
 
     const user = getUser();
 

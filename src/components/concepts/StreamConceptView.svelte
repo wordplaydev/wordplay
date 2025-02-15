@@ -1,9 +1,9 @@
 <script lang="ts">
-    import ConceptView from './ConceptView.svelte';
     import type StreamConcept from '@concepts/StreamConcept';
-    import BindConceptView from './BindConceptView.svelte';
     import { onMount } from 'svelte';
     import type BindConcept from '../../concepts/BindConcept';
+    import BindConceptView from './BindConceptView.svelte';
+    import ConceptView from './ConceptView.svelte';
 
     interface Props {
         concept: StreamConcept;

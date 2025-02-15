@@ -1,16 +1,16 @@
-import type Output from './Output';
-import { PX_PER_METER, sizeToPx, toOutputTransform } from './outputToCSS';
-import Place from './Place';
-import Pose from './Pose';
-import Sequence from './Sequence';
+import type Locales from '../locale/Locales';
+import type LocaleText from '../locale/LocaleText';
 import type Animator from './Animator';
 import type { Orientation, OutputName } from './Animator';
-import Transition from './Transition';
-import Stage from './Stage';
-import type RenderContext from './RenderContext';
+import type Output from './Output';
+import { PX_PER_METER, sizeToPx, toOutputTransform } from './outputToCSS';
 import Phrase from './Phrase';
-import type LocaleText from '../locale/LocaleText';
-import type Locales from '../locale/Locales';
+import Place from './Place';
+import Pose from './Pose';
+import type RenderContext from './RenderContext';
+import Sequence from './Sequence';
+import Stage from './Stage';
+import Transition from './Transition';
 
 export enum AnimationState {
     Entering = 'entering',

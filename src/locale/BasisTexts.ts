@@ -1,4 +1,4 @@
-import type { DocText, NameText, FunctionText, NameAndDoc } from './LocaleText';
+import type { DocText, FunctionText, NameAndDoc, NameText } from './LocaleText';
 
 const Empty = [] as const;
 type EmptyInputs = typeof Empty;
@@ -296,15 +296,10 @@ type BasisTexts = {
                 combiner: [NameAndDoc, NameAndDoc, NameAndDoc, NameAndDoc];
             };
             /** See `en-US.json` for documentation  */
-            sorted: FunctionText<[NameAndDoc]> & {
-                sequencer: [NameAndDoc];
-            };
+            sorted: FunctionText<[NameAndDoc]> & { sequencer: [NameAndDoc] };
         };
         /** Conversions in the type */
-        conversion: {
-            text: DocText;
-            set: DocText;
-        };
+        conversion: { text: DocText; set: DocText };
     };
     /** A set value, `{1 2 3}` */
     Set: BasisNameAndDoc & {

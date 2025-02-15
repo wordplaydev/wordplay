@@ -27,7 +27,10 @@
             background
             tip={$locales.get((l) => l.ui.dialog.share.button.sensitive.tip)}
             action={() => unmark(piiText)}
-            >{$locales.get((l) => l.ui.dialog.share.button.sensitive.label)}</Button>
+            >{$locales.get(
+                (l) => l.ui.dialog.share.button.sensitive.label,
+            )}</Button
+        >
     </div>
 {/each}
 

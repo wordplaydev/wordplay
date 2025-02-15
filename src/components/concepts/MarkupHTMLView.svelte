@@ -3,9 +3,9 @@
 </script>
 
 <script lang="ts">
-    import { animationDuration, animationFactor } from '../../db/Database';
     import Markup from '@nodes/Markup';
     import Paragraph from '@nodes/Paragraph';
+    import { animationDuration, animationFactor } from '../../db/Database';
     import SegmentHTMLView from './SegmentHTMLView.svelte';
 
     interface Props {

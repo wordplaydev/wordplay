@@ -1,5 +1,5 @@
-import { test, expect } from 'vitest';
 import { NONE_SYMBOL, PROPERTY_SYMBOL } from '@parser/Symbols';
+import { expect, test } from 'vitest';
 import evaluateCode from '../runtime/evaluate';
 
 test.each([

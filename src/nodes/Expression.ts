@@ -1,14 +1,14 @@
-import Node from './Node';
-import type Context from './Context';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Type from './Type';
-import type Step from '@runtime/Step';
-import type Bind from './Bind';
-import type TypeSet from './TypeSet';
 import ValueRef from '@locale/ValueRef';
-import type Markup from './Markup';
+import type Evaluator from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
 import type Locales from '../locale/Locales';
+import type Bind from './Bind';
+import type Context from './Context';
+import type Markup from './Markup';
+import Node from './Node';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export enum ExpressionKind {
     Simple = 'simple',

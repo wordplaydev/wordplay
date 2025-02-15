@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import { ConceptPattern, MentionPattern, restoreReferences } from './translate';
 
 test.each([

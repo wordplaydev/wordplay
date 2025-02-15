@@ -1,28 +1,28 @@
-import { setContext, getContext } from 'svelte';
-import { type Readable, type Writable } from 'svelte/store';
 import type Concept from '@concepts/Concept';
 import type ConceptIndex from '@concepts/ConceptIndex';
-import type { InsertionPoint } from '../../edit/Drag';
-import type Caret from '../../edit/Caret';
-import type Project from '@db/projects/Project';
-import type Node from '@nodes/Node';
-import type { Highlights } from '../editor/util/Highlights';
-import type Step from '@runtime/Step';
-import type { StreamChange } from '@runtime/Evaluator';
 import type Conflict from '@conflicts/Conflict';
-import type { User } from 'firebase/auth';
-import type Evaluator from '@runtime/Evaluator';
+import type Project from '@db/projects/Project';
+import type Locale from '@locale/Locale';
+import type Node from '@nodes/Node';
 import type Root from '@nodes/Root';
+import type Color from '@output/Color';
+import type Spaces from '@parser/Spaces';
+import type Evaluator from '@runtime/Evaluator';
+import type { StreamChange } from '@runtime/Evaluator';
+import type Step from '@runtime/Step';
+import type { User } from 'firebase/auth';
+import { getContext, setContext } from 'svelte';
+import { type Readable, type Writable } from 'svelte/store';
+import type Caret from '../../edit/Caret';
+import type { CaretPosition } from '../../edit/Caret';
+import type { InsertionPoint } from '../../edit/Drag';
+import type LanguageCode from '../../locale/LanguageCode';
 import type {
     CommandContext,
     Edit,
     ProjectRevision,
 } from '../editor/util/Commands';
-import type { CaretPosition } from '../../edit/Caret';
-import type LanguageCode from '../../locale/LanguageCode';
-import type Spaces from '@parser/Spaces';
-import type Color from '@output/Color';
-import type Locale from '@locale/Locale';
+import type { Highlights } from '../editor/util/Highlights';
 import type SelectedOutput from './SelectedOutput.svelte';
 
 // Authentication related contexts

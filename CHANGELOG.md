@@ -12,6 +12,7 @@ Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http:
 ### Maintenance
 
 - Updated minor versions of Svelte, SvelteKit, ESLint, Firebase, Prettier, Zod.
+- Enforce organized imports on save; removed import cycles.
 
 ## 0.15.1 2024-02-08
 

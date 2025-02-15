@@ -1,16 +1,16 @@
+import type Markup from '@nodes/Markup';
+import { DRAFT_SYMBOL } from '@parser/Symbols';
 import type Names from '../nodes/Names';
-import type LanguageCode from './LanguageCode';
-import type LocaleText from './LocaleText';
-import type NodeRef from './NodeRef';
-import type ValueRef from './ValueRef';
+import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
 import type ConceptRef from './ConceptRef';
-import { isUnwritten, MachineTranslated } from './LocaleText';
+import type LanguageCode from './LanguageCode';
 import { getLanguageDirection } from './LanguageCode';
 import { localeToString } from './Locale';
+import type LocaleText from './LocaleText';
+import { isUnwritten, MachineTranslated } from './LocaleText';
+import type NodeRef from './NodeRef';
+import type ValueRef from './ValueRef';
 import type { Concretizer } from './concretize';
-import type Markup from '@nodes/Markup';
-import { getKeyTemplatePairs } from '../util/verify-locales/LocalePath';
-import { DRAFT_SYMBOL } from '@parser/Symbols';
 
 export type TemplateInput =
     | number

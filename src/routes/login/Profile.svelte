@@ -1,20 +1,19 @@
 <script lang="ts">
+    import { goto } from '$app/navigation';
+    import Action from '@components/app/Action.svelte';
     import { updateProfile, type User } from 'firebase/auth';
     import Header from '../../components/app/Header.svelte';
-    import { locales, SaveStatus } from '../../db/Database';
     import Link from '../../components/app/Link.svelte';
+    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
+    import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
     import EmojiChooser from '../../components/widgets/EmojiChooser.svelte';
+    import { Creator } from '../../db/creators/CreatorDatabase';
+    import { locales, SaveStatus, status } from '../../db/Database';
     import { auth } from '../../db/firebase';
     import { isModerator } from '../../db/projects/Moderation';
-    import { Creator } from '../../db/creators/CreatorDatabase';
-    import ConfirmButton from '../../components/widgets/ConfirmButton.svelte';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { status } from '../../db/Database';
     import ChangeEmail from './ChangeEmail.svelte';
     import ChangePassword from './ChangePassword.svelte';
     import DeleteAccount from './DeleteAccount.svelte';
-    import { goto } from '$app/navigation';
-    import Action from '@components/app/Action.svelte';
 
     interface Props {
         user: User;

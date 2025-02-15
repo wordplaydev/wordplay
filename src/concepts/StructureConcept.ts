@@ -1,19 +1,19 @@
-import type StructureDefinition from '@nodes/StructureDefinition';
-import type Type from '@nodes/Type';
-import type Node from '@nodes/Node';
-import BindConcept from './BindConcept';
-import Concept from './Concept';
-import FunctionConcept from './FunctionConcept';
-import NameType from '@nodes/NameType';
 import type Context from '@nodes/Context';
-import ConversionConcept from './ConversionConcept';
+import NameType from '@nodes/NameType';
+import type Node from '@nodes/Node';
+import type StructureDefinition from '@nodes/StructureDefinition';
 import StructureType from '@nodes/StructureType';
-import Purpose from './Purpose';
+import type Type from '@nodes/Type';
+import { COMMA_SYMBOL } from '@parser/Symbols';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
-import { COMMA_SYMBOL } from '@parser/Symbols';
+import BindConcept from './BindConcept';
+import Concept from './Concept';
+import ConversionConcept from './ConversionConcept';
+import FunctionConcept from './FunctionConcept';
+import Purpose from './Purpose';
 
 export default class StructureConcept extends Concept {
     /** The type this concept represents. */

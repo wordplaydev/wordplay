@@ -1,10 +1,10 @@
 <script lang="ts">
+    import Button from '@components/widgets/Button.svelte';
     import Dialog from '@components/widgets/Dialog.svelte';
     import { locales } from '@db/Database';
-    import Button from '@components/widgets/Button.svelte';
-    import ProjectPreview from './ProjectPreview.svelte';
-    import { getTemplates } from '../../examples/examples';
     import type Project from '@db/projects/Project';
+    import { getTemplates } from '../../examples/examples';
+    import ProjectPreview from './ProjectPreview.svelte';
     import Spinning from './Spinning.svelte';
 
     interface Props {

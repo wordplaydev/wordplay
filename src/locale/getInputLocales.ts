@@ -1,12 +1,13 @@
-import Name from '@nodes/Name';
-import type Doc from '@nodes/Doc';
-import Names from '@nodes/Names';
-import Docs from '@nodes/Docs';
-import { localeToLanguage } from './localeToLanguage';
-import { toDocString, type NameAndDoc, withoutAnnotations } from './LocaleText';
-import type LocaleText from './LocaleText';
 import { parseLocaleDoc } from '@locale/LocaleText';
+import type Doc from '@nodes/Doc';
+import Docs from '@nodes/Docs';
+import Name from '@nodes/Name';
+import Names from '@nodes/Names';
 import type Locales from './Locales';
+import type LocaleText from './LocaleText';
+import { toDocString, type NameAndDoc } from './LocaleText';
+import { localeToLanguage } from './localeToLanguage';
+import { withoutAnnotations } from './withoutAnnotations';
 
 export function getInputLocales(
     locales: Locales,

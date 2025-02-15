@@ -1,25 +1,25 @@
-import toStructure from '../basis/toStructure';
-import type Value from '../values/Value';
-import { getBind } from '../locale/getBind';
-import type Arrangement from './Arrangement';
-import type Color from './Color';
-import type Place from './Place';
-import type Pose from './Pose';
-import type RenderContext from './RenderContext';
-import type Sequence from './Sequence';
-import TextLang from './TextLang';
-import Output, { DefaultStyle } from './Output';
-import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
-import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
-import type { NameGenerator } from './Stage';
-import type { DefinitePose } from './Pose';
 import StructureValue from '@values/StructureValue';
-import { getOutputInput } from './Valued';
 import { SupportedFontsFamiliesType, type SupportedFace } from '../basis/Fonts';
-import Matter, { toMatter } from './Matter';
-import type Evaluator from '../runtime/Evaluator';
+import toStructure from '../basis/toStructure';
+import { getBind } from '../locale/getBind';
 import type Locales from '../locale/Locales';
 import { getFirstName } from '../locale/LocaleText';
+import { GROUP_SYMBOL, TYPE_SYMBOL } from '../parser/Symbols';
+import type Evaluator from '../runtime/Evaluator';
+import type Value from '../values/Value';
+import type Arrangement from './Arrangement';
+import type Color from './Color';
+import Matter, { toMatter } from './Matter';
+import Output, { DefaultStyle } from './Output';
+import type Place from './Place';
+import type Pose from './Pose';
+import type { DefinitePose } from './Pose';
+import type RenderContext from './RenderContext';
+import type Sequence from './Sequence';
+import type { NameGenerator } from './Stage';
+import TextLang from './TextLang';
+import { getTypeStyle, toArrangement, toOutputList } from './toOutput';
+import { getOutputInput } from './Valued';
 
 export function createGroupType(locales: Locales) {
     return toStructure(`

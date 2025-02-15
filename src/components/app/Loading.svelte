@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Spinning from './Spinning.svelte';
     import { locales } from '@db/Database';
+    import Spinning from './Spinning.svelte';
 </script>
 
 <div class="container">

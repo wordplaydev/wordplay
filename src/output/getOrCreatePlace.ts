@@ -1,5 +1,5 @@
-import type Locales from '../locale/Locales';
 import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
 import type Context from '../nodes/Context';
 import Evaluate from '../nodes/Evaluate';
 import evaluateCode from '../runtime/evaluate';

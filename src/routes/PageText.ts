@@ -26,15 +26,9 @@ type PageText = {
         /** What content is on the rights page */
         rights: string;
         /** The community link */
-        community: {
-            label: string;
-            subtitle: string;
-        };
+        community: { label: string; subtitle: string };
         /** The contributor link */
-        contribute: {
-            label: string;
-            subtitle: string;
-        };
+        contribute: { label: string; subtitle: string };
     };
 };
 

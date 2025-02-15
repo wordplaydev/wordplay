@@ -1,29 +1,29 @@
 <script lang="ts">
-    import isValidUsername from '@db/creators/isValidUsername';
-    import Header from '../../components/app/Header.svelte';
-    import { locales } from '../../db/Database';
-    import LoginForm from './LoginForm.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
-    import isValidEmail from '@db/creators/isValidEmail';
+    import { goto } from '$app/navigation';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import Note from '@components/widgets/Note.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import isValidEmail from '@db/creators/isValidEmail';
+    import isValidUsername from '@db/creators/isValidUsername';
     import { analytics, auth, functions } from '@db/firebase';
+    import { logEvent } from 'firebase/analytics';
+    import { FirebaseError } from 'firebase/app';
     import {
         isSignInWithEmailLink,
         sendSignInLinkToEmail,
         signInWithEmailAndPassword,
         signInWithEmailLink,
     } from 'firebase/auth';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import { FirebaseError } from 'firebase/app';
-    import getAuthErrorDescription from './getAuthErrorDescription';
-    import Spinning from '@components/app/Spinning.svelte';
-    import isValidPassword from './IsValidPassword';
-    import { goto } from '$app/navigation';
     import { onMount } from 'svelte';
-    import { logEvent } from 'firebase/analytics';
-    import Note from '@components/widgets/Note.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import Header from '../../components/app/Header.svelte';
     import { emailAccountExists } from '../../db/creators/accountExists';
+    import { locales } from '../../db/Database';
+    import getAuthErrorDescription from './getAuthErrorDescription';
+    import isValidPassword from './IsValidPassword';
+    import LoginForm from './LoginForm.svelte';
 
     /** The username typed into the text field */
     let username = $state('');

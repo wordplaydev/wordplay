@@ -1,24 +1,32 @@
 <script lang="ts">
-    import Page from '@components/app/Page.svelte';
     import Header from '@components/app/Header.svelte';
+    import Page from '@components/app/Page.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import ProjectView from '@components/project/ProjectView.svelte';
-    import { getUser, setConceptPath } from '../../components/project/Contexts';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
+    import Markup from '@nodes/Markup';
     import {
-        query,
-        type DocumentData,
-        type QueryDocumentSnapshot,
-        collection,
-        limit,
-        startAfter,
-        orderBy,
-        where,
-        or,
-        getDocs,
         FieldPath,
         and,
+        collection,
+        getDocs,
+        limit,
+        or,
+        orderBy,
+        query,
+        startAfter,
+        where,
+        type DocumentData,
+        type QueryDocumentSnapshot,
     } from 'firebase/firestore';
     import { onMount } from 'svelte';
+    import { writable } from 'svelte/store';
+    import Spinning from '../../components/app/Spinning.svelte';
+    import { getUser, setConceptPath } from '../../components/project/Contexts';
+    import Button from '../../components/widgets/Button.svelte';
+    import { Projects, locales } from '../../db/Database';
     import { firestore } from '../../db/firebase';
+    import type { Flag, Moderation } from '../../db/projects/Moderation';
     import {
         Flags,
         getFlagDescription,
@@ -27,16 +35,7 @@
         withFlag,
     } from '../../db/projects/Moderation';
     import type Project from '../../db/projects/Project';
-    import { Projects } from '../../db/Database';
-    import { writable } from 'svelte/store';
-    import { locales } from '../../db/Database';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
-    import Button from '../../components/widgets/Button.svelte';
-    import type { Flag, Moderation } from '../../db/projects/Moderation';
-    import Spinning from '../../components/app/Spinning.svelte';
     import { ProjectsCollection } from '../../db/projects/ProjectsDatabase.svelte';
-    import Markup from '@nodes/Markup';
 
     const user = getUser();
 

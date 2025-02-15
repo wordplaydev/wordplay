@@ -1,9 +1,9 @@
+import { UNKNOWN_SYMBOL } from '@parser/Symbols';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import SimpleValue from '../values/SimpleValue';
+import AnyType from '../nodes/AnyType';
 import type Expression from '../nodes/Expression';
 import Markup from '../nodes/Markup';
-import AnyType from '../nodes/AnyType';
-import { UNKNOWN_SYMBOL } from '@parser/Symbols';
+import SimpleValue from '../values/SimpleValue';
 
 export default class Internal<Kind> extends SimpleValue {
     readonly value: Kind;

@@ -1,24 +1,24 @@
 <script lang="ts">
-    import TutorialView from '@components/app/TutorialView.svelte';
-    import Progress from '../../tutorial/Progress';
+    import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
+    import Loading from '@components/app/Loading.svelte';
+    import Page from '@components/app/Page.svelte';
+    import TutorialView from '@components/app/TutorialView.svelte';
+    import { untrack } from 'svelte';
+    import Header from '../../components/app/Header.svelte';
+    import Link from '../../components/app/Link.svelte';
+    import Writing from '../../components/app/Writing.svelte';
+    import Speech from '../../components/lore/Speech.svelte';
     import {
         Locales,
         Settings,
         locales,
         tutorialProgress,
     } from '../../db/Database';
-    import Loading from '@components/app/Loading.svelte';
-    import Page from '@components/app/Page.svelte';
-    import Speech from '../../components/lore/Speech.svelte';
-    import Link from '../../components/app/Link.svelte';
     import Characters from '../../lore/BasisCharacters';
-    import Writing from '../../components/app/Writing.svelte';
-    import Header from '../../components/app/Header.svelte';
+    import Progress from '../../tutorial/Progress';
     import type Tutorial from '../../tutorial/Tutorial';
-    import { browser } from '$app/environment';
-    import { untrack } from 'svelte';
 
     let tutorial: Tutorial | undefined | null = $state(undefined);
 

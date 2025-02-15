@@ -1,16 +1,16 @@
-import { parseNames } from '../parser/parseBind';
-import { toTokens } from '../parser/toTokens';
+import { Locales as LocalesDB } from '@db/Database';
 import Gallery, { GallerySchemaLatestVersion } from '@db/galleries/Gallery';
+import Project from '@db/projects/Project';
+import type Locales from '@locale/Locales';
 import { moderatedFlags } from '../db/projects/Moderation';
-import { localeToString } from '../locale/Locale';
-import type { GalleryText } from '../locale/GalleryTexts';
 import {
     ProjectSchemaLatestVersion,
     type SerializedProject,
 } from '../db/projects/ProjectSchemas';
-import Project from '@db/projects/Project';
-import type Locales from '@locale/Locales';
-import { Locales as LocalesDB } from '@db/Database';
+import type { GalleryText } from '../locale/GalleryTexts';
+import { localeToString } from '../locale/Locale';
+import { parseNames } from '../parser/parseBind';
+import { toTokens } from '../parser/toTokens';
 
 /** This mirrors the static path to examples, but also helps distinguish project IDs from example project names. */
 export const ExamplePrefix = 'example-';

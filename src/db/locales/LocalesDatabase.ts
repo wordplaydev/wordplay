@@ -1,19 +1,21 @@
-import { get, writable, type Writable } from 'svelte/store';
-import type LocaleText from '@locale/LocaleText';
-import type { Database } from '@db/Database';
-import { type SupportedLocale } from '@locale/SupportedLocales';
-import { SupportedLocales } from '@locale/SupportedLocales';
-import { localeToString } from '@locale/Locale';
-import Fonts from '@basis/Fonts';
 import { Basis } from '@basis/Basis';
-import type Setting from '../settings/Setting';
-import type LanguageCode from '@locale/LanguageCode';
-import type { RegionCode } from '@locale/Regions';
-import type Tutorial from '../../tutorial/Tutorial';
-import DefaultLocale from '@locale/DefaultLocale';
-import Locales from '@locale/Locales';
+import Fonts from '@basis/Fonts';
+import type { Database } from '@db/Database';
 import { type Concretizer } from '@locale/concretize';
+import DefaultLocale from '@locale/DefaultLocale';
 import DefaultLocales from '@locale/DefaultLocales';
+import type LanguageCode from '@locale/LanguageCode';
+import { localeToString } from '@locale/Locale';
+import Locales from '@locale/Locales';
+import type LocaleText from '@locale/LocaleText';
+import type { RegionCode } from '@locale/Regions';
+import {
+    SupportedLocales,
+    type SupportedLocale,
+} from '@locale/SupportedLocales';
+import { get, writable, type Writable } from 'svelte/store';
+import type Tutorial from '../../tutorial/Tutorial';
+import type Setting from '../settings/Setting';
 
 /** A cache of locales loaded */
 export default class LocalesDatabase {

@@ -1,14 +1,14 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { CONVERT_SYMBOL } from '@parser/Symbols';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
 import type Context from './Context';
-import Token from './Token';
+import { node, type Grammar, type Replacement } from './Node';
 import Sym from './Sym';
+import Token from './Token';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import { node, type Grammar, type Replacement } from './Node';
-import Characters from '../lore/BasisCharacters';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ConversionType extends Type {
     readonly input: Type;

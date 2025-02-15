@@ -1,19 +1,22 @@
-import { EXPONENT_SYMBOL, LANGUAGE_SYMBOL } from '@parser/Symbols';
-import { PRODUCT_SYMBOL } from '@parser/Symbols';
-import Dimension from './Dimension';
-import Token from './Token';
-import Type from './Type';
-import NumberValue from '@values/NumberValue';
-import type TypeSet from './TypeSet';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import LanguageToken from './LanguageToken';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement, list, optional } from './Node';
-import Emotion from '../lore/Emotion';
-import { getPossibleDimensions } from '../edit/getPossibleUnits';
-import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import {
+    EXPONENT_SYMBOL,
+    LANGUAGE_SYMBOL,
+    PRODUCT_SYMBOL,
+} from '@parser/Symbols';
+import NumberValue from '@values/NumberValue';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import { getPossibleDimensions } from '../edit/getPossibleUnits';
+import type Locales from '../locale/Locales';
+import Emotion from '../lore/Emotion';
+import Dimension from './Dimension';
+import LanguageToken from './LanguageToken';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class Unit extends Type {
     /** In case this was parsed, we keep the original tokens around. */
@@ -373,10 +376,7 @@ export default class Unit extends Type {
     }
 
     getCharacter() {
-        return {
-            symbols: this.toWordplay(),
-            emotion: Emotion.kind,
-        };
+        return { symbols: this.toWordplay(), emotion: Emotion.kind };
     }
 
     getDescriptionInputs(locales: Locales) {

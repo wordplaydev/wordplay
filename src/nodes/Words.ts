@@ -1,26 +1,32 @@
 import type Conflict from '@conflicts/Conflict';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { FontWeight } from '../basis/Fonts';
 import Purpose from '../concepts/Purpose';
-import Characters from '../lore/BasisCharacters';
-import { node, type Grammar, type Replacement, any, none, list } from './Node';
-import Token from './Token';
-import Sym from './Sym';
-import { unescaped } from './TextLiteral';
-import Example from './Example';
-import WebLink from './WebLink';
-import ConceptLink from './ConceptLink';
-import Content from './Content';
-import type { NodeSegment, Segment } from './Paragraph';
+import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
 import NodeRef from '../locale/NodeRef';
 import ValueRef from '../locale/ValueRef';
+import Characters from '../lore/BasisCharacters';
 import { unescapeMarkupSymbols } from '../parser/Tokenizer';
-import Node from './Node';
-import type { FontWeight } from '../basis/Fonts';
-import Mention from './Mention';
-import Branch from './Branch';
-import type Locales from '../locale/Locales';
 import { withColorEmoji } from '../unicode/emoji';
-import type { TemplateInput } from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Branch from './Branch';
+import ConceptLink from './ConceptLink';
+import Content from './Content';
+import Example from './Example';
+import Mention from './Mention';
+import Node, {
+    any,
+    list,
+    node,
+    none,
+    type Grammar,
+    type Replacement,
+} from './Node';
+import type { NodeSegment, Segment } from './Paragraph';
+import Sym from './Sym';
+import { unescaped } from './TextLiteral';
+import Token from './Token';
+import WebLink from './WebLink';
 
 export type Format = 'italic' | 'underline' | 'light' | 'bold' | 'extra';
 

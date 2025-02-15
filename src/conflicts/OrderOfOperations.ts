@@ -1,6 +1,6 @@
 import type BinaryEvaluate from '@nodes/BinaryEvaluate';
-import Conflict from './Conflict';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class OrderOfOperations extends Conflict {
     readonly operation: BinaryEvaluate;

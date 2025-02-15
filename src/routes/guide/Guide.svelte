@@ -1,7 +1,7 @@
 <script lang="ts">
     import { browser } from '$app/environment';
     import { afterNavigate, goto } from '$app/navigation';
-    import { page } from '$app/stores';
+    import { page } from '$app/state';
     import Header from '@components/app/Header.svelte';
     import Documentation from '@components/concepts/Documentation.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
@@ -24,7 +24,7 @@
 
     function getLocaleInURL() {
         return (
-            $page.url.searchParams.get('locale') ??
+            page.url.searchParams.get('locale') ??
             toLocale($locales.getLocales()[0])
         );
     }
@@ -40,7 +40,7 @@
     let mounted = $state(false);
     onMount(() => {
         locale = getLocaleInURL();
-        concept = getConceptFromURL(index, $page.url.searchParams);
+        concept = getConceptFromURL(index, page.url.searchParams);
 
         path.set(concept ? [concept] : []);
         mounted = true;
@@ -51,7 +51,7 @@
     afterNavigate(() => {
         // Set the current locale.
         locale = getLocaleInURL();
-        concept = getConceptFromURL(index, $page.url.searchParams);
+        concept = getConceptFromURL(index, page.url.searchParams);
         // Only update the path if the concept exists and is not already in the path.
         if (
             concept !== undefined &&

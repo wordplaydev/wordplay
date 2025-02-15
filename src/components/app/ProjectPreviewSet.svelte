@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type Project from '../../db/projects/Project';
-    import ProjectPreview from './ProjectPreview.svelte';
+    import { type Snippet } from 'svelte';
     import { locales } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
     import Button from '../widgets/Button.svelte';
     import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { type Snippet } from 'svelte';
+    import ProjectPreview from './ProjectPreview.svelte';
 
     interface Props {
         set: Project[];

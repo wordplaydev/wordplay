@@ -1,6 +1,6 @@
 <script lang="ts">
-    import Evaluate from '../../nodes/Evaluate';
     import type Project from '@db/projects/Project';
+    import Evaluate from '../../nodes/Evaluate';
     import PlaceEditor from './PlaceEditor.svelte';
     import VelocityEditor from './VelocityEditor.svelte';
 

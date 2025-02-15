@@ -1,7 +1,7 @@
-import type Definition from '@nodes/Definition';
-import TypeVariable from '@nodes/TypeVariable';
 import type Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
 import type Node from '@nodes/Node';
+import TypeVariable from '@nodes/TypeVariable';
 import type Locales from '../locale/Locales';
 
 export default class Refer {
@@ -10,7 +10,7 @@ export default class Refer {
 
     constructor(
         creator: (name: string, op?: string) => Node,
-        definition: Definition
+        definition: Definition,
     ) {
         this.creator = creator;
         this.definition = definition;
@@ -19,7 +19,7 @@ export default class Refer {
     getNode(locales: Locales) {
         return this.creator(
             this.definition.getPreferredName(locales.getLocales()),
-            this.definition.names.getSymbolicName()
+            this.definition.names.getSymbolicName(),
         );
     }
 

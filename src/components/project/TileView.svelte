@@ -12,27 +12,27 @@
 
 <!-- A component that renders an arbitrary component and whose size is set by the project. -->
 <script lang="ts">
+    import Emoji from '@components/app/Emoji.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import Note from '@components/widgets/Note.svelte';
     import type { Snippet } from 'svelte';
-    import Button from '../widgets/Button.svelte';
-    import type Tile from './Tile';
-    import { TileMode } from './Tile';
-    import type Layout from './Layout';
-    import TextField from '../widgets/TextField.svelte';
-    import { isName } from '../../parser/Tokenizer';
-    import { animationDuration, locales } from '../../db/Database';
     import { onMount } from 'svelte';
+    import { animationDuration, locales } from '../../db/Database';
+    import type Project from '../../db/projects/Project';
     import Arrangement from '../../db/settings/Arrangement';
     import Characters from '../../lore/BasisCharacters';
     import Color from '../../output/Color';
+    import { isName } from '../../parser/Tokenizer';
+    import Button from '../widgets/Button.svelte';
+    import TextField from '../widgets/TextField.svelte';
     import Toggle from '../widgets/Toggle.svelte';
-    import type Project from '../../db/projects/Project';
-    import Emoji from '@components/app/Emoji.svelte';
-    import TileKinds from './TileKinds';
-    import FullscreenIcon from './FullscreenIcon.svelte';
     import type Bounds from './Bounds';
-    import Note from '@components/widgets/Note.svelte';
+    import FullscreenIcon from './FullscreenIcon.svelte';
+    import type Layout from './Layout';
+    import type Tile from './Tile';
+    import { TileMode } from './Tile';
+    import TileKinds from './TileKinds';
     import TileMessage from './TileMessage.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
 
     interface Props {
         project: Project;

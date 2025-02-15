@@ -1,11 +1,11 @@
 import NodeRef from '@locale/NodeRef';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Type from '../nodes/Type';
-import ValueRef from '../locale/ValueRef';
-import type Value from '../values/Value';
-import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
+import ValueRef from '../locale/ValueRef';
+import type Expression from '../nodes/Expression';
+import type Type from '../nodes/Type';
+import type Value from '../values/Value';
 
 export default class ConversionException extends ExceptionValue {
     readonly from: Value;

@@ -1,33 +1,33 @@
+import type { ProjectID } from '@db/projects/ProjectSchemas';
+import { FirebaseError } from 'firebase/app';
 import {
     collection,
-    onSnapshot,
-    query,
-    where,
-    type Unsubscribe,
-    or,
-    setDoc,
+    deleteDoc,
     doc,
     getDoc,
-    deleteDoc,
     getDocs,
+    onSnapshot,
+    or,
+    query,
+    setDoc,
+    where,
+    type Unsubscribe,
 } from 'firebase/firestore';
+import { SvelteMap } from 'svelte/reactivity';
 import { v4 as uuidv4 } from 'uuid';
-import Gallery, { deserializeGallery, type SerializedGallery } from './Gallery';
+import { getExampleGalleries } from '../../examples/examples';
+import { localeToString } from '../../locale/Locale';
+import type Locales from '../../locale/Locales';
 import type { Database } from '../Database';
 import { firestore } from '../firebase';
-import { FirebaseError } from 'firebase/app';
 import type Project from '../projects/Project';
-import { localeToString } from '../../locale/Locale';
-import { getExampleGalleries } from '../../examples/examples';
-import type Locales from '../../locale/Locales';
-import type { ProjectID } from '@db/projects/ProjectSchemas';
-import { SvelteMap } from 'svelte/reactivity';
 import {
     ClassesCollection,
     ClassSchema,
     getClass,
     setClass,
 } from '../teachers/TeacherDatabase.svelte';
+import Gallery, { deserializeGallery, type SerializedGallery } from './Gallery';
 
 /** The name of the galleries collection in Firebase */
 export const GalleriesCollection = 'galleries';

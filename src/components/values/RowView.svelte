@@ -1,12 +1,12 @@
 <script lang="ts">
     import type StructureValue from '@values/StructureValue';
-    import SymbolView from './SymbolView.svelte';
+    import Sym from '../../nodes/Sym';
+    import type TableType from '../../nodes/TableType';
     import {
         TABLE_CLOSE_SYMBOL,
         TABLE_OPEN_SYMBOL,
     } from '../../parser/Symbols';
-    import Sym from '../../nodes/Sym';
-    import type TableType from '../../nodes/TableType';
+    import SymbolView from './SymbolView.svelte';
     import ValueView from './ValueView.svelte';
 
     interface Props {

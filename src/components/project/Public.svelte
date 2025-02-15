@@ -3,13 +3,13 @@
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Mode from '@components/widgets/Mode.svelte';
     import { locales } from '@db/Database';
+    import { GLOBE1_SYMBOL } from '@parser/Symbols';
     import {
         getBlocks,
         getWarnings,
         type Moderation,
     } from '../../db/projects/Moderation';
     import Warning from '../widgets/Warning.svelte';
-    import { GLOBE1_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         isPublic: boolean;

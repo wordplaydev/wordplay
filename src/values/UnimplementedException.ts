@@ -1,7 +1,7 @@
+import NodeRef from '@locale/NodeRef';
+import type Expression from '@nodes/Expression';
 import type Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import type Expression from '@nodes/Expression';
-import NodeRef from '@locale/NodeRef';
 import type Locales from '../locale/Locales';
 
 export default class UnimplementedException extends ExceptionValue {

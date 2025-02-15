@@ -2,25 +2,25 @@
     import Header from '@components/app/Header.svelte';
     import Writing from '@components/app/Writing.svelte';
     import { Galleries, locales } from '@db/Database';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { onMount } from 'svelte';
     import {
         collection,
         getDocs,
         limit,
         orderBy,
         query,
+        startAfter,
         where,
         type DocumentData,
         type QueryDocumentSnapshot,
-        startAfter,
     } from 'firebase/firestore';
+    import { onMount } from 'svelte';
+    import GalleryPreview from '../../components/app/GalleryPreview.svelte';
+    import Spinning from '../../components/app/Spinning.svelte';
+    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
+    import Button from '../../components/widgets/Button.svelte';
     import { firestore } from '../../db/firebase';
     import type { SerializedGallery } from '../../db/galleries/Gallery';
     import Gallery, { upgradeGallery } from '../../db/galleries/Gallery';
-    import GalleryPreview from '../../components/app/GalleryPreview.svelte';
-    import Spinning from '../../components/app/Spinning.svelte';
-    import Button from '../../components/widgets/Button.svelte';
     import { GalleriesCollection } from '../../db/galleries/GalleryDatabase.svelte';
 
     let lastBatch = $state<QueryDocumentSnapshot<DocumentData> | undefined>(

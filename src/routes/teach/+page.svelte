@@ -1,12 +1,12 @@
 <script lang="ts">
-    import { locales } from '@db/Database';
-    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import { type Class } from '@db/teachers/TeacherDatabase.svelte';
-    import Link from '@components/app/Link.svelte';
     import Centered from '@components/app/Centered.svelte';
-    import Subheader from '@components/app/Subheader.svelte';
-    import { getTeachData } from './+layout.svelte';
+    import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
+    import Subheader from '@components/app/Subheader.svelte';
+    import { locales } from '@db/Database';
+    import { type Class } from '@db/teachers/TeacherDatabase.svelte';
+    import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
+    import { getTeachData } from './+layout.svelte';
     import TeachersOnly from './TeachersOnly.svelte';
 
     let teach = getTeachData();

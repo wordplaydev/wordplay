@@ -1,13 +1,13 @@
+import Sym from '@nodes/Sym';
+import Token from '@nodes/Token';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import type FormattedLiteral from '../nodes/FormattedLiteral';
 import FormattedType from '../nodes/FormattedType';
 import type Markup from '../nodes/Markup';
 import type Type from '../nodes/Type';
-import SimpleValue from './SimpleValue';
 import type Value from '../values/Value';
-import type FormattedLiteral from '../nodes/FormattedLiteral';
-import type Locales from '../locale/Locales';
-import Token from '@nodes/Token';
-import Sym from '@nodes/Sym';
+import SimpleValue from './SimpleValue';
 
 export default class MarkupValue extends SimpleValue {
     readonly markup: Markup;

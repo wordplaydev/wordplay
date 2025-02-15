@@ -62,9 +62,7 @@ if (serviceAccount === undefined) {
 console.log('Connecting to Firebase with key...');
 
 // Initialize the SDK with the service account.
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
+admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 // Add the publisher claim to the email address.
 getAuth()

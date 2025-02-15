@@ -1,9 +1,9 @@
-import Conflict from './Conflict';
-import type Node from '@nodes/Node';
-import type Token from '@nodes/Token';
 import NodeRef from '@locale/NodeRef';
 import type Context from '@nodes/Context';
+import type Node from '@nodes/Node';
+import type Token from '@nodes/Token';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class UnclosedDelimiter extends Conflict {
     readonly open: Token;

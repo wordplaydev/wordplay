@@ -3,7 +3,7 @@ import type Spaces from '../../../parser/Spaces';
 
 export function copyNode(
     node: Node,
-    spaces: Spaces
+    spaces: Spaces,
 ): Promise<undefined> | undefined {
     return toClipboard(node.toWordplay(spaces).trim());
 }

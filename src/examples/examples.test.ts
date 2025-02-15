@@ -1,14 +1,14 @@
-import { test, expect } from 'vitest';
-import Project from '../db/projects/Project';
-import { DB, Locales } from '../db/Database';
-import { readdirSync, readFileSync } from 'fs';
-import path from 'path';
-import { getExampleGalleries, parseSerializedProject } from './examples';
-import DefaultLocales from '../locale/DefaultLocales';
-import type { SerializedProject } from '../db/projects/ProjectSchemas';
+import Templates from '@concepts/Templates';
 import Evaluator from '@runtime/Evaluator';
 import ExceptionValue from '@values/ExceptionValue';
-import Templates from '@concepts/Templates';
+import { readdirSync, readFileSync } from 'fs';
+import path from 'path';
+import { expect, test } from 'vitest';
+import { DB, Locales } from '../db/Database';
+import Project from '../db/projects/Project';
+import type { SerializedProject } from '../db/projects/ProjectSchemas';
+import DefaultLocales from '../locale/DefaultLocales';
+import { getExampleGalleries, parseSerializedProject } from './examples';
 
 function readProjects(dir: string): SerializedProject[] {
     const proj: SerializedProject[] = [];

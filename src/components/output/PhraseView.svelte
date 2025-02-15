@@ -7,27 +7,27 @@
 </script>
 
 <script lang="ts">
-    import type Phrase from '@output/Phrase';
-    import type Place from '@output/Place';
-    import {
-        getColorCSS,
-        getFaceCSS as getFaceCSS,
-        getSizeCSS as getSizeCSS,
-        getOpacityCSS,
-        toOutputTransform,
-    } from '@output/outputToCSS';
-    import type RenderContext from '@output/RenderContext';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
     import Evaluate from '@nodes/Evaluate';
     import TextLiteral from '@nodes/TextLiteral';
+    import {
+        getColorCSS,
+        getFaceCSS,
+        getOpacityCSS,
+        getSizeCSS,
+        toOutputTransform,
+    } from '@output/outputToCSS';
+    import type Phrase from '@output/Phrase';
+    import type Place from '@output/Place';
+    import type RenderContext from '@output/RenderContext';
     import { tick, untrack } from 'svelte';
-    import moveOutput from '../palette/editOutput';
-    import { getProject, getSelectedOutput } from '../project/Contexts';
     import { DB, Projects, locales } from '../../db/Database';
+    import Markup from '../../nodes/Markup';
     import TextLang from '../../output/TextLang';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import Markup from '../../nodes/Markup';
-    import { HorizontalLayout, layoutToCSS } from '@locale/Scripts';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import moveOutput from '../palette/editOutput';
+    import { getProject, getSelectedOutput } from '../project/Contexts';
 
     interface Props {
         phrase: Phrase;

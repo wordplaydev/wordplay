@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
-    import { toTokens } from '@parser/toTokens';
-    import type Project from '@db/projects/Project';
-    import NameToken from '@nodes/NameToken';
-    import type Token from '@nodes/Token';
-    import TokenTextEditor from './TokenEditor.svelte';
     import { getCaret } from '@components/project/Contexts';
-    import Name from '@nodes/Name';
     import { locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import Name from '@nodes/Name';
+    import NameToken from '@nodes/NameToken';
+    import Sym from '@nodes/Sym';
+    import type Token from '@nodes/Token';
+    import { toTokens } from '@parser/toTokens';
+    import TokenTextEditor from './TokenEditor.svelte';
 
     interface Props {
         name: Token;

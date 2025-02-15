@@ -1,14 +1,14 @@
-import type { Edit } from '../components/editor/util/Commands';
-import Revision from './Revision';
-import Node from '@nodes/Node';
-import Caret from './Caret';
-import Refer from './Refer';
-import type Context from '@nodes/Context';
 import type LocaleText from '@locale/LocaleText';
+import type Context from '@nodes/Context';
+import Node from '@nodes/Node';
+import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type { Edit } from '../components/editor/util/Commands';
+import type Locales from '../locale/Locales';
 import Markup from '../nodes/Markup';
 import Reference from '../nodes/Reference';
-import type Locales from '../locale/Locales';
-import getPreferredSpaces from '@parser/getPreferredSpaces';
+import Caret from './Caret';
+import Refer from './Refer';
+import Revision from './Revision';
 
 export default class Replace<NodeType extends Node> extends Revision {
     readonly parent: Node;
@@ -92,8 +92,8 @@ export default class Replace<NodeType extends Node> extends Revision {
 
         const newCaretPosition =
             replacement !== undefined
-                ? replacement.getFirstPlaceholder() ??
-                  newSource.getNodeLastPosition(replacement)
+                ? (replacement.getFirstPlaceholder() ??
+                  newSource.getNodeLastPosition(replacement))
                 : position;
         if (newCaretPosition === undefined) return;
 

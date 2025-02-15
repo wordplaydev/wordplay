@@ -1,9 +1,9 @@
 <script lang="ts">
+    import BigLink from '../../components/app/BigLink.svelte';
+    import Header from '../../components/app/Header.svelte';
     import Writing from '../../components/app/Writing.svelte';
     import MarkupHtmlView from '../../components/concepts/MarkupHTMLView.svelte';
-    import Header from '../../components/app/Header.svelte';
     import { locales } from '../../db/Database';
-    import BigLink from '../../components/app/BigLink.svelte';
 </script>
 
 <Writing>

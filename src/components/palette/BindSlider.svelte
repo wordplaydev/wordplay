@@ -1,14 +1,14 @@
 <script lang="ts">
-    import { parseNumber } from '@parser/parseExpression';
-    import Slider from '../widgets/Slider.svelte';
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
-    import type OutputPropertyRange from '@edit/OutputPropertyRange';
     import type OutputProperty from '@edit/OutputProperty';
-    import { getProject } from '../project/Contexts';
+    import type OutputPropertyRange from '@edit/OutputPropertyRange';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
+    import { parseNumber } from '@parser/parseExpression';
+    import type Decimal from 'decimal.js';
     import { Projects } from '../../db/Database';
     import { getFirstName } from '../../locale/LocaleText';
     import { toTokens } from '../../parser/toTokens';
-    import type Decimal from 'decimal.js';
+    import { getProject } from '../project/Contexts';
+    import Slider from '../widgets/Slider.svelte';
 
     interface Props {
         property: OutputProperty;

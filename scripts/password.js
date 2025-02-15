@@ -53,18 +53,14 @@ if (serviceAccount === undefined) {
 console.log('Connecting to Firebase with key...');
 
 // Initialize the SDK with the service account.
-admin.initializeApp({
-    credential: admin.credential.cert(serviceAccount),
-});
+admin.initializeApp({ credential: admin.credential.cert(serviceAccount) });
 
 // Add the publisher claim to the email address.
 getAuth()
     .getUserByEmail(email)
     .then((user) => {
         getAuth()
-            .updateUser(user.uid, {
-                password: pass,
-            })
+            .updateUser(user.uid, { password: pass })
             .then(() => {
                 // See the UserRecord reference doc for the contents of userRecord.
                 console.log('Successfully updated password.');

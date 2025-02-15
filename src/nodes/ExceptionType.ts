@@ -1,11 +1,11 @@
-import type { BasisTypeName } from '../basis/BasisConstants';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type ExceptionValue from '@values/ExceptionValue';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { EXCEPTION_SYMBOL } from '../parser/Symbols';
 import Type from './Type';
 import type TypeSet from './TypeSet';
-import { EXCEPTION_SYMBOL } from '../parser/Symbols';
-import Characters from '../lore/BasisCharacters';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class ExceptionType extends Type {
     readonly exception: ExceptionValue;

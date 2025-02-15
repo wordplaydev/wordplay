@@ -1,16 +1,23 @@
 <script lang="ts">
     import type Project from '@db/projects/Project';
-    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
-    import PaletteProperty from './PaletteProperty.svelte';
-    import type OutputProperty from '@edit/OutputProperty';
     import OutputExpression from '@edit/OutputExpression';
+    import type OutputProperty from '@edit/OutputProperty';
+    import OutputPropertyValueSet from '@edit/OutputPropertyValueSet';
+    import { DB, locales } from '../../db/Database';
+    import {
+        GROUP_SYMBOL,
+        PALETTE_SYMBOL,
+        PHRASE_SYMBOL,
+        STAGE_SYMBOL,
+    } from '../../parser/Symbols';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
     import {
         getConceptIndex,
         getEvaluation,
         getSelectedOutput,
     } from '../project/Contexts';
-    import { DB, locales } from '../../db/Database';
+    import EditOffer from './EditOffer.svelte';
     import {
         addGroup,
         addSoloPhrase,
@@ -20,14 +27,7 @@
         getStage,
         hasOutput,
     } from './editOutput';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import {
-        GROUP_SYMBOL,
-        PALETTE_SYMBOL,
-        PHRASE_SYMBOL,
-        STAGE_SYMBOL,
-    } from '../../parser/Symbols';
-    import EditOffer from './EditOffer.svelte';
+    import PaletteProperty from './PaletteProperty.svelte';
     import TextStyleEditor from './TextStyleEditor.svelte';
 
     interface Props {

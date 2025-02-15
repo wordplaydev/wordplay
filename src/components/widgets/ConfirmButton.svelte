@@ -1,7 +1,7 @@
 <script lang="ts">
     import { locales } from '@db/Database';
-    import Button, { type Action } from './Button.svelte';
     import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import Button, { type Action } from './Button.svelte';
 
     interface Props {
         tip: string;

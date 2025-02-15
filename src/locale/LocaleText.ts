@@ -1,34 +1,23 @@
+import type { FlagDescriptions } from '../db/projects/Moderation';
+import type Markup from '../nodes/Markup';
+import type Sym from '../nodes/Sym';
+import parseDoc from '../parser/parseDoc';
+import { DOCS_SYMBOL } from '../parser/Symbols';
+import { toTokens } from '../parser/toTokens';
+import type BasisTexts from './BasisTexts';
+import type { GalleryTexts } from './GalleryTexts';
+import type InputTexts from './InputTexts';
 import type LanguageCode from './LanguageCode';
 import { Languages } from './LanguageCode';
-import type Sym from '../nodes/Sym';
-import type BasisTexts from './BasisTexts';
+import type Locale from './Locale';
 import type NodeTexts from './NodeTexts';
 import type OutputTexts from './OutputTexts';
-import type UITexts from './UITexts';
-import type InputTexts from './InputTexts';
-import type TermTexts from './TermTexts';
-import type Markup from '../nodes/Markup';
 import { Regions, type RegionCode } from './Regions';
-import type Type from '../nodes/Type';
-import { getDocLocales } from './getDocLocales';
-import { getNameLocales } from './getNameLocales';
-import Bind from '../nodes/Bind';
-import type TypeVariables from '../nodes/TypeVariables';
-import type Expression from '../nodes/Expression';
-import FunctionDefinition from '../nodes/FunctionDefinition';
-import parseDoc from '../parser/parseDoc';
-import { toTokens } from '../parser/toTokens';
-import { DOCS_SYMBOL } from '../parser/Symbols';
-import type { FlagDescriptions } from '../db/projects/Moderation';
+import { DraftLocales } from './SupportedLocales';
+import type TermTexts from './TermTexts';
+import type UITexts from './UITexts';
 import type { ButtonText, DialogText } from './UITexts';
-import type Locales from './Locales';
-import type { GalleryTexts } from './GalleryTexts';
-import {
-    DraftLocales,
-    type SupportedLocale,
-    SupportedLocales,
-} from './SupportedLocales';
-import type Locale from './Locale';
+import { withoutAnnotations } from './withoutAnnotations';
 
 /** Placeholders in the locale template language */
 export const Unwritten = '$?';
@@ -80,10 +69,7 @@ export type LocaleText = {
         /** Progress message */
         progress: Template;
         /** Buttons on the moderation page */
-        button: {
-            submit: ButtonText;
-            skip: ButtonText;
-        };
+        button: { submit: ButtonText; skip: ButtonText };
     };
 };
 
@@ -129,14 +115,6 @@ export function getFirstName(name: NameText) {
     return typeof name === 'string' ? name : name[0];
 }
 
-export function withoutAnnotations(name: string) {
-    return name
-        .replaceAll(Unwritten, '')
-        .replaceAll(Revised, '')
-        .replaceAll(MachineTranslated, '')
-        .trim();
-}
-
 export function isUnwritten(text: string) {
     return text.startsWith(Unwritten);
 }
@@ -179,78 +157,4 @@ export function getLocaleRegionName(locale: string): string | undefined {
 
 export function isLocaleDraft(locale: string): boolean {
     return DraftLocales.includes(locale);
-}
-
-/** Find the best supported locales from the requested raw language codes */
-export function getBestSupportedLocales(locales: string[]) {
-    // Map each locale into the best match.
-    const matches = locales
-        .map((preferredLocale) => {
-            // Is there an exact match?
-            const exact = SupportedLocales.find(
-                (locale) => preferredLocale === locale,
-            );
-            if (exact) return exact;
-            // Does a language match, even if locale doesn't match?
-            const languageExact = SupportedLocales.find(
-                (locale) =>
-                    getLocaleLanguage(preferredLocale) ===
-                    getLocaleLanguage(locale),
-            );
-            if (languageExact) return languageExact;
-            // No match
-            return undefined;
-        })
-        .filter((locale): locale is SupportedLocale => locale !== undefined);
-
-    return matches.length > 0
-        ? Array.from(new Set(matches))
-        : [SupportedLocales[0]];
-}
-
-export function createBind(
-    locales: Locales,
-    nameAndDoc: (locale: LocaleText) => NameAndDoc,
-    type?: Type,
-    value?: Expression,
-) {
-    return Bind.make(
-        getDocLocales(locales, (l) => nameAndDoc(l).doc),
-        getNameLocales(locales, (l) => nameAndDoc(l).names),
-        type,
-        value,
-    );
-}
-
-export function createInputs(
-    locales: Locales,
-    fun: (locale: LocaleText) => readonly NameAndDoc[],
-    types: (Type | [Type, Expression])[],
-) {
-    return types.map((type, index) =>
-        createBind(
-            locales,
-            (l) => fun(l)[index],
-            Array.isArray(type) ? type[0] : type,
-            Array.isArray(type) ? type[1] : undefined,
-        ),
-    );
-}
-
-export function createFunction(
-    locales: Locales,
-    nameAndDoc: (locale: LocaleText) => NameAndDoc,
-    typeVars: TypeVariables | undefined,
-    inputs: Bind[],
-    output: Type,
-    expression: Expression,
-) {
-    return FunctionDefinition.make(
-        getDocLocales(locales, (l) => nameAndDoc(l).doc),
-        getNameLocales(locales, (l) => nameAndDoc(l).names),
-        typeVars,
-        inputs,
-        expression,
-        output,
-    );
 }

@@ -1,33 +1,43 @@
-import { v4 as uuidv4 } from 'uuid';
+import Templates from '@concepts/Templates';
 import type Conflict from '@conflicts/Conflict';
+import concretize from '@locale/concretize';
+import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
+import type Locale from '@locale/Locale';
+import { localeToString } from '@locale/Locale';
+import type { SharedDefinition } from '@nodes/Borrow';
+import Context from '@nodes/Context';
+import type Definition from '@nodes/Definition';
+import Doc from '@nodes/Doc';
 import Evaluate from '@nodes/Evaluate';
-import { Basis } from '../../basis/Basis';
 import Expression from '@nodes/Expression';
 import FunctionDefinition from '@nodes/FunctionDefinition';
-import type Program from '@nodes/Program';
-import type StructureDefinition from '@nodes/StructureDefinition';
-import Source from '@nodes/Source';
+import Name from '@nodes/Name';
 import Node from '@nodes/Node';
-import Context from '@nodes/Context';
-import type { SharedDefinition } from '@nodes/Borrow';
+import type Program from '@nodes/Program';
 import PropertyReference from '@nodes/PropertyReference';
 import Reference from '@nodes/Reference';
+import Source from '@nodes/Source';
 import type StreamDefinition from '@nodes/StreamDefinition';
-import { parseNames } from '../../parser/parseBind';
-import Root from '../../nodes/Root';
-import type { Path } from '../../nodes/Root';
-import type { CaretPosition } from '../../edit/Caret';
+import type StructureDefinition from '@nodes/StructureDefinition';
+import { DOCS_SYMBOL } from '@parser/Symbols';
 import type createDefaultShares from '@runtime/createDefaultShares';
-import FunctionType from '../../nodes/FunctionType';
-import { getBestSupportedLocales } from '../../locale/LocaleText';
-import { localeToString } from '@locale/Locale';
-import type Locale from '@locale/Locale';
-import type LocaleText from '../../locale/LocaleText';
-import { toTokens } from '../../parser/toTokens';
-import type LocalesDatabase from '../locales/LocalesDatabase';
-import { unknownFlags, type Moderation } from './Moderation';
+import { v4 as uuidv4 } from 'uuid';
+import { Basis } from '../../basis/Basis';
+import type { CaretPosition } from '../../edit/Caret';
 import DefaultLocale from '../../locale/DefaultLocale';
 import Locales from '../../locale/Locales';
+import type LocaleText from '../../locale/LocaleText';
+import FunctionType from '../../nodes/FunctionType';
+import type { Path } from '../../nodes/Root';
+import Root from '../../nodes/Root';
+import { parseNames } from '../../parser/parseBind';
+import { toTokens } from '../../parser/toTokens';
+import {
+    PROJECT_PARAM_EDIT,
+    PROJECT_PARAM_PLAY,
+} from '../../routes/project/constants';
+import type LocalesDatabase from '../locales/LocalesDatabase';
+import { type Moderation, unknownFlags } from './Moderation';
 import {
     type ProjectID,
     ProjectSchemaLatestVersion,
@@ -38,16 +48,6 @@ import {
     type SerializedSourceCheckpoint,
     upgradeProject,
 } from './ProjectSchemas';
-import {
-    PROJECT_PARAM_EDIT,
-    PROJECT_PARAM_PLAY,
-} from '../../routes/project/constants';
-import Name from '@nodes/Name';
-import Doc from '@nodes/Doc';
-import type Definition from '@nodes/Definition';
-import Templates from '@concepts/Templates';
-import concretize from '@locale/concretize';
-import { DOCS_SYMBOL } from '@parser/Symbols';
 
 /**
  * How we store projects in memory, mirroring the data in the deserialized form.
@@ -979,10 +979,7 @@ export default class Project {
         const withPII = this.data.nonPII.filter((piiText) => {
             return piiText != text;
         });
-        return new Project({
-            ...this.data,
-            nonPII: withPII,
-        });
+        return new Project({ ...this.data, nonPII: withPII });
     }
 
     isNotPII(text: string) {
@@ -1125,10 +1122,7 @@ export default class Project {
     }
 
     withChat(id: string | null) {
-        return new Project({
-            ...this.data,
-            chat: id,
-        });
+        return new Project({ ...this.data, chat: id });
     }
 
     static getHistorySize(history: SerializedSourceCheckpoint[]) {
@@ -1158,10 +1152,7 @@ export default class Project {
         while (Project.getHistorySize(history) > MaxCheckpointSize)
             history.shift();
 
-        return new Project({
-            ...this.data,
-            history: history,
-        });
+        return new Project({ ...this.data, history: history });
     }
 
     getCheckpoints() {

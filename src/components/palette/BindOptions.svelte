@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Options from '../widgets/Options.svelte';
-    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import type OutputProperty from '@edit/OutputProperty';
     import type OutputPropertyOptions from '@edit/OutputPropertyOptions';
-    import { getProject } from '../project/Contexts';
+    import type OutputPropertyValues from '@edit/OutputPropertyValueSet';
     import { Projects } from '../../db/Database';
+    import { getProject } from '../project/Contexts';
+    import Options from '../widgets/Options.svelte';
 
     interface Props {
         property: OutputProperty;

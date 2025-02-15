@@ -1,16 +1,16 @@
 <script lang="ts">
     import type Concept from '@concepts/Concept';
-    import RootView from '../project/RootView.svelte';
-    import { getDragged } from '../project/Contexts';
+    import { blocks } from '@db/Database';
+    import Expression, { ExpressionKind } from '@nodes/Expression';
     import type Node from '@nodes/Node';
-    import TypeView from './TypeView.svelte';
-    import { copyNode } from '../editor/util/Clipboard';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Type from '../../nodes/Type';
     import Spaces from '../../parser/Spaces';
+    import { copyNode } from '../editor/util/Clipboard';
+    import { getDragged } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
     import ConceptLinkUI from './ConceptLinkUI.svelte';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
-    import Expression, { ExpressionKind } from '@nodes/Expression';
-    import { blocks } from '@db/Database';
+    import TypeView from './TypeView.svelte';
 
     interface Props {
         node: Node;

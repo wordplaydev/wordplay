@@ -8,7 +8,7 @@ export default class TextLang extends Valued {
     constructor(
         value: Value,
         text: string,
-        lang: string | undefined = undefined
+        lang: string | undefined = undefined,
     ) {
         super(value);
 

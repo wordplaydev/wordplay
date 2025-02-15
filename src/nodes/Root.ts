@@ -1,6 +1,6 @@
+import DefaultLocales from '../locale/DefaultLocales';
 import Expression from './Expression';
 import type Node from './Node';
-import DefaultLocales from '../locale/DefaultLocales';
 
 export type Path = { type: string; index: number }[];
 

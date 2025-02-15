@@ -1,17 +1,17 @@
-import StreamValue from '@values/StreamValue';
-import StreamDefinition from '@nodes/StreamDefinition';
 import { getDocLocales } from '@locale/getDocLocales';
 import { getNameLocales } from '@locale/getNameLocales';
-import BooleanType from '../nodes/BooleanType';
 import Bind from '@nodes/Bind';
-import UnionType from '@nodes/UnionType';
 import NoneType from '@nodes/NoneType';
-import BoolValue from '@values/BoolValue';
+import StreamDefinition from '@nodes/StreamDefinition';
 import StreamType from '@nodes/StreamType';
-import createStreamEvaluator from './createStreamEvaluator';
+import UnionType from '@nodes/UnionType';
+import type Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
+import StreamValue from '@values/StreamValue';
 import type Locales from '../locale/Locales';
 import BooleanLiteral from '../nodes/BooleanLiteral';
-import type Evaluation from '@runtime/Evaluation';
+import BooleanType from '../nodes/BooleanType';
+import createStreamEvaluator from './createStreamEvaluator';
 
 export default class Button extends StreamValue<BoolValue, boolean> {
     on = false;

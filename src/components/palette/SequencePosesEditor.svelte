@@ -1,19 +1,19 @@
 <script lang="ts">
-    import KeyValue from '@nodes/KeyValue';
-    import TextField from '../widgets/TextField.svelte';
-    import PoseEditor from './PoseEditor.svelte';
+    import { Projects, locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import OutputExpression from '@edit/OutputExpression';
+    import Evaluate from '@nodes/Evaluate';
+    import type Expression from '@nodes/Expression';
+    import KeyValue from '@nodes/KeyValue';
     import MapLiteral from '@nodes/MapLiteral';
     import NumberLiteral from '@nodes/NumberLiteral';
-    import { createPoseLiteral } from '@output/Pose';
-    import Evaluate from '@nodes/Evaluate';
-    import OutputExpression from '@edit/OutputExpression';
     import Unit from '@nodes/Unit';
-    import type Expression from '@nodes/Expression';
+    import { createPoseLiteral } from '@output/Pose';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import Button from '../widgets/Button.svelte';
     import Note from '../widgets/Note.svelte';
-    import { Projects, locales } from '@db/Database';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import TextField from '../widgets/TextField.svelte';
+    import PoseEditor from './PoseEditor.svelte';
 
     interface Props {
         project: Project;

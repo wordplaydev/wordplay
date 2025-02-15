@@ -1,6 +1,6 @@
 <script lang="ts">
-    import NodeView from './NodeView.svelte';
     import type IsLocale from '@nodes/IsLocale';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: IsLocale;

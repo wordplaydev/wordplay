@@ -1,13 +1,13 @@
 <script lang="ts">
-    import Revision from '@edit/Revision';
-    import type Menu from './util/Menu';
-    import { locales } from '../../db/Database';
-    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
-    import { RevisionSet } from './util/Menu';
-    import Token from '../../nodes/Token';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import MenuItem from './MenuItem.svelte';
+    import Revision from '@edit/Revision';
     import { tick } from 'svelte';
+    import { locales } from '../../db/Database';
+    import Token from '../../nodes/Token';
+    import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
+    import MenuItem from './MenuItem.svelte';
+    import type Menu from './util/Menu';
+    import { RevisionSet } from './util/Menu';
 
     interface Props {
         menu: Menu;

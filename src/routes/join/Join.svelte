@@ -1,21 +1,21 @@
 <script lang="ts">
-    import TextField from '@components/widgets/TextField.svelte';
-    import LoginForm from '../login/LoginForm.svelte';
-    import { locales } from '@db/Database';
-    import isValidPassword from '../login/IsValidPassword';
-    import { createUserWithEmailAndPassword } from 'firebase/auth';
-    import { auth, functions } from '@db/firebase';
-    import getAuthErrorDescription from '../login/getAuthErrorDescription';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import isValidUsername from '@db/creators/isValidUsername';
     import { goto } from '$app/navigation';
     import Feedback from '@components/app/Feedback.svelte';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
     import Header from '@components/app/Header.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import isValidUsername from '@db/creators/isValidUsername';
+    import { locales } from '@db/Database';
+    import { auth, functions } from '@db/firebase';
+    import { createUserWithEmailAndPassword } from 'firebase/auth';
     import { usernameAccountExists } from '../../db/creators/accountExists';
+    import getAuthErrorDescription from '../login/getAuthErrorDescription';
+    import isValidPassword from '../login/IsValidPassword';
+    import LoginForm from '../login/LoginForm.svelte';
 
     let username = $state('');
     let password = $state('');

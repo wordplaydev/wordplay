@@ -6,37 +6,37 @@
 </script>
 
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import { locales } from '@db/Database';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
+    import { goto } from '$app/navigation';
     import Centered from '@components/app/Centered.svelte';
-    import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
-    import {
-        createCredentials,
-        type StudentWithCredentials,
-    } from '../credentials';
+    import Feedback from '@components/app/Feedback.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Subheader from '@components/app/Subheader.svelte';
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import CreatorList from '@components/project/CreatorList.svelte';
+    import Button from '@components/widgets/Button.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
+    import LabeledTextbox from '@components/widgets/LabeledTextbox.svelte';
     import TextField from '@components/widgets/TextField.svelte';
-    import { UsernameLength } from '@db/creators/isValidUsername';
-    import { PasswordLength } from '../../../login/IsValidPassword';
     import { usernameAccountExists } from '@db/creators/accountExists';
-    import { httpsCallable } from 'firebase/functions';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import { UsernameLength } from '@db/creators/isValidUsername';
+    import { locales } from '@db/Database';
     import { functions } from '@db/firebase';
     import type {
         CreateClassError,
         CreateClassInputs,
         CreateClassOutput,
     } from '@db/functions';
-    import { getUser } from '@components/project/Contexts';
-    import Link from '@components/app/Link.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
     import { PREVIOUS_SYMBOL } from '@parser/Symbols';
-    import { goto } from '$app/navigation';
+    import { httpsCallable } from 'firebase/functions';
+    import { PasswordLength } from '../../../login/IsValidPassword';
     import TeachersOnly from '../../TeachersOnly.svelte';
+    import {
+        createCredentials,
+        type StudentWithCredentials,
+    } from '../credentials';
 
     /** The state to store the name of the class. */
     let name = $state('');

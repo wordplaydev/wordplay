@@ -1,12 +1,12 @@
-import Type from './Type';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type TypeSet from './TypeSet';
-import type StreamDefinition from './StreamDefinition';
-import Characters from '../lore/BasisCharacters';
-import { STREAM_SYMBOL } from '../parser/Symbols';
-import type Spaces from '../parser/Spaces';
-import type Locales from '../locale/Locales';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Spaces from '../parser/Spaces';
+import { STREAM_SYMBOL } from '../parser/Symbols';
+import type StreamDefinition from './StreamDefinition';
+import Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class StreamDefinitionType extends Type {
     readonly definition: StreamDefinition;

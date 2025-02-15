@@ -2,25 +2,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import type Conflict from '@conflicts/Conflict';
-import type Definition from './Definition';
-import type Context from './Context';
-import type Spaces from '@parser/Spaces';
-import type Type from './Type';
-import type Token from './Token';
-import type { Template, DocText, LocaleText } from '@locale/LocaleText';
+import type { DocText, LocaleText, Template } from '@locale/LocaleText';
 import type {
     DescriptiveNodeText,
     NodeDescriptor,
     NodeText,
 } from '@locale/NodeTexts';
-import type BasisCharacter from '../lore/BasisCharacter';
-import type Purpose from '../concepts/Purpose';
+import type Spaces from '@parser/Spaces';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Root from './Root';
-import type { TemplateInput } from '../locale/Locales';
-import type Markup from './Markup';
-import type Sym from './Sym';
+import type Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
+import type { TemplateInput } from '../locale/Locales';
+import type BasisCharacter from '../lore/BasisCharacter';
+import type Context from './Context';
+import type Definition from './Definition';
+import type Markup from './Markup';
+import type Root from './Root';
+import type Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
 
 /* A global ID for nodes, for helping index them */
 let NODE_ID_COUNTER = 0;

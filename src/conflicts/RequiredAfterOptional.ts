@@ -1,6 +1,6 @@
-import Conflict from './Conflict';
 import type Bind from '@nodes/Bind';
 import type Locales from '../locale/Locales';
+import Conflict from './Conflict';
 
 export default class RequiredAfterOptional extends Conflict {
     readonly bind: Bind;

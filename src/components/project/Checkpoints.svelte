@@ -6,14 +6,14 @@
 </script>
 
 <script lang="ts">
+    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { locales, Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
-    import { onMount } from 'svelte';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
     import { docToMarkup } from '@locale/LocaleText';
-    import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
+    import { onMount } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
 
     let {

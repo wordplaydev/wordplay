@@ -4,9 +4,9 @@
 </script>
 
 <script lang="ts">
+    import { locales } from '@db/Database';
     import { withMonoEmoji } from '../../unicode/emoji';
     import Spinning from '../app/Spinning.svelte';
-    import { locales } from '@db/Database';
 
     interface Props {
         /** Tooltip and ARIA label for the button */

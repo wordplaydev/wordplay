@@ -1,9 +1,9 @@
+import type Expression from '@nodes/Expression';
 import Node from '@nodes/Node';
 import type Evaluator from '@runtime/Evaluator';
-import type Value from '../values/Value';
-import type Expression from '@nodes/Expression';
-import type Markup from '../nodes/Markup';
 import type Locales from '../locale/Locales';
+import type Markup from '../nodes/Markup';
+import type Value from '../values/Value';
 
 /** Represents one step a compiled program's execution. */
 export default abstract class Step {

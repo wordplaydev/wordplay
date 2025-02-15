@@ -1,10 +1,9 @@
 <script lang="ts">
-    import { blocks, locales } from '@db/Database';
-    import Menu from './util/Menu';
-    import Revision from '@edit/Revision';
-    import { RevisionSet } from './util/Menu';
-    import RootView from '@components/project/RootView.svelte';
     import MarkupHTMLView from '@components/concepts/MarkupHTMLView.svelte';
+    import RootView from '@components/project/RootView.svelte';
+    import { blocks, locales } from '@db/Database';
+    import Revision from '@edit/Revision';
+    import Menu, { RevisionSet } from './util/Menu';
 
     interface Props {
         entry: Revision;

@@ -1,15 +1,15 @@
-import Token from '@nodes/Token';
+import NumberType from '@nodes/NumberType';
 import Sym from '@nodes/Sym';
+import Token from '@nodes/Token';
 import Unit from '@nodes/Unit';
 import BoolValue from '@values/BoolValue';
 import NoneValue from '@values/NoneValue';
 import Decimal from 'decimal.js';
-import SimpleValue from './SimpleValue';
-import NumberType from '@nodes/NumberType';
-import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import type Value from '../values/Value';
+import SimpleValue from './SimpleValue';
 
 export type NumberAndPrecision = [Decimal, number | undefined];
 

@@ -1,20 +1,20 @@
-import MissingLanguage from '@conflicts/MissingLanguage';
-import Node, { node, optional } from './Node';
-import type { Grammar, Replacement } from './Node';
-import type Token from './Token';
-import NameToken from './NameToken';
-import LanguageToken from './LanguageToken';
 import type Conflict from '@conflicts/Conflict';
-import { Languages } from '@locale/LanguageCode';
+import MissingLanguage from '@conflicts/MissingLanguage';
 import UnknownLanguage from '@conflicts/UnknownLanguage';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import Sym from './Sym';
 import type LanguageCode from '@locale/LanguageCode';
-import type Locales from '../locale/Locales';
-import type { RegionCode } from '@locale/Regions';
+import { Languages } from '@locale/LanguageCode';
 import type Locale from '@locale/Locale';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { RegionCode } from '@locale/Regions';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import LanguageToken from './LanguageToken';
+import NameToken from './NameToken';
+import type { Grammar, Replacement } from './Node';
+import Node, { node, optional } from './Node';
+import Sym from './Sym';
+import type Token from './Token';
 
 export default class Language extends Node {
     readonly slash: Token;

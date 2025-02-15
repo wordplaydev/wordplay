@@ -1,22 +1,22 @@
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { LOCALE_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import StartFinish from '@runtime/StartFinish';
+import type Step from '@runtime/Step';
+import BoolValue from '@values/BoolValue';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BooleanType from './BooleanType';
+import type Expression from './Expression';
+import Language from './Language';
+import { node, optional, type Grammar, type Replacement } from './Node';
+import SimpleExpression from './SimpleExpression';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import type Step from '@runtime/Step';
-import Sym from './Sym';
-import { LOCALE_SYMBOL } from '@parser/Symbols';
-import BoolValue from '@values/BoolValue';
-import { node, type Grammar, type Replacement, optional } from './Node';
-import SimpleExpression from './SimpleExpression';
-import BooleanType from './BooleanType';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import Language from './Language';
-import StartFinish from '@runtime/StartFinish';
-import type Expression from './Expression';
 import type TypeSet from './TypeSet';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
 
 export default class IsLocale extends SimpleExpression {
     readonly globe: Token;
@@ -50,10 +50,7 @@ export default class IsLocale extends SimpleExpression {
     getGrammar(): Grammar {
         return [
             { name: 'globe', kind: node(Sym.Locale) },
-            {
-                name: 'locale',
-                kind: optional(node(Language)),
-            },
+            { name: 'locale', kind: optional(node(Language)) },
         ];
     }
 

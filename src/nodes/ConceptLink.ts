@@ -1,16 +1,16 @@
 import type Conflict from '@conflicts/Conflict';
+import DefaultLocale from '@locale/DefaultLocale';
 import type LocaleText from '@locale/LocaleText';
-import { node, type Field, type Replacement } from './Node';
-import Token from './Token';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { LINK_SYMBOL } from '../parser/Symbols';
-import Symbol from './Sym';
-import Purpose from '../concepts/Purpose';
-import Content from './Content';
-import type Locales from '../locale/Locales';
 import { getCodepointFromString } from '../unicode/getCodepoint';
-import DefaultLocale from '@locale/DefaultLocale';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Content from './Content';
+import { node, type Field, type Replacement } from './Node';
+import Symbol from './Sym';
+import Token from './Token';
 
 export const HexRegEx = /^[0-9a-fA-F]+$/;
 

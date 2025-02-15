@@ -1,22 +1,22 @@
-import UnicodeString from '../unicode/UnicodeString';
-import type Spaces from '../parser/Spaces';
-import type LocaleText from '../locale/LocaleText';
-import Node, { type Grammar, type Replacement } from './Node';
-import Sym from './Sym';
-import Emotion from '../lore/Emotion';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
-import type { Template } from '../locale/LocaleText';
-import type Root from './Root';
-import { TextCloseByTextOpen } from '../parser/Tokenizer';
 import {
     getLanguageQuoteOpen,
     getLanguageSecondaryQuote,
 } from '../locale/LanguageCode';
-import type Definition from './Definition';
-import type Context from './Context';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type LocaleText from '../locale/LocaleText';
+import type { Template } from '../locale/LocaleText';
+import Emotion from '../lore/Emotion';
+import type Spaces from '../parser/Spaces';
+import { TextCloseByTextOpen } from '../parser/Tokenizer';
+import UnicodeString from '../unicode/UnicodeString';
+import type Context from './Context';
+import type Definition from './Definition';
+import Node, { type Grammar, type Replacement } from './Node';
+import type Root from './Root';
+import Sym from './Sym';
 
 export default class Token extends Node {
     /** The one or more types of token this might represent. This is narrowed during parsing to one.*/
@@ -252,10 +252,7 @@ export default class Token extends Node {
     }
 
     getCharacter() {
-        return {
-            symbols: this.getText(),
-            emotion: Emotion.cheerful,
-        };
+        return { symbols: this.getText(), emotion: Emotion.cheerful };
     }
 }
 

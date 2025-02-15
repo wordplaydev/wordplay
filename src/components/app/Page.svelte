@@ -1,17 +1,17 @@
 <script lang="ts">
     import { goto } from '$app/navigation';
     import { page } from '$app/stores';
-    import Settings from '../settings/Settings.svelte';
-    import { locales } from '../../db/Database';
-    import Link from './Link.svelte';
-    import { writable } from 'svelte/store';
-    import { type Snippet } from 'svelte';
-    import Color from '../../output/Color';
-    import Emoji from './Emoji.svelte';
     import {
         setFullscreen,
         type FullscreenContext,
     } from '@components/project/Contexts';
+    import { type Snippet } from 'svelte';
+    import { writable } from 'svelte/store';
+    import { locales } from '../../db/Database';
+    import Color from '../../output/Color';
+    import Settings from '../settings/Settings.svelte';
+    import Emoji from './Emoji.svelte';
+    import Link from './Link.svelte';
 
     interface Props {
         children: Snippet;

@@ -1,7 +1,7 @@
 <script lang="ts">
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { onMount, tick } from 'svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
         text?: string;

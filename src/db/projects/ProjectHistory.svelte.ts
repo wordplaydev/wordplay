@@ -1,7 +1,7 @@
-import Project from './Project';
-import type LocaleText from '../../locale/LocaleText';
-import type { SerializedProject } from '@db/projects/ProjectSchemas';
 import type LocalesDatabase from '@db/locales/LocalesDatabase';
+import type { SerializedProject } from '@db/projects/ProjectSchemas';
+import type LocaleText from '../../locale/LocaleText';
+import Project from './Project';
 
 // Remember this many project edits.
 const PROJECT_HISTORY_LIMIT = 1000;

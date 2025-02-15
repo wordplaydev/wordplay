@@ -1,33 +1,34 @@
+import { createFunction } from '@locale/createFunction';
+import { createInputs } from '@locale/createInputs';
+import { getDocLocales } from '@locale/getDocLocales';
+import { getNameLocales } from '@locale/getNameLocales';
 import Block, { BlockKind } from '@nodes/Block';
 import BooleanType from '@nodes/BooleanType';
 import FunctionType from '@nodes/FunctionType';
 import MapType from '@nodes/MapType';
 import StructureDefinition from '@nodes/StructureDefinition';
+import TypeVariable from '@nodes/TypeVariable';
+import TypeVariables from '@nodes/TypeVariables';
+import type Evaluation from '@runtime/Evaluation';
+import BoolValue from '@values/BoolValue';
 import ListValue from '@values/ListValue';
-import TextValue from '@values/TextValue';
 import MapValue from '@values/MapValue';
+import NumberValue from '@values/NumberValue';
 import SetValue from '@values/SetValue';
+import TextValue from '@values/TextValue';
+import type Value from '@values/Value';
+import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import ListType from '../nodes/ListType';
+import NumberType from '../nodes/NumberType';
+import SetType from '../nodes/SetType';
+import TextType from '../nodes/TextType';
 import {
     createBasisConversion,
     createBasisFunction,
     createEqualsFunction,
 } from './Basis';
-import BoolValue from '@values/BoolValue';
-import TypeVariables from '@nodes/TypeVariables';
-import { getDocLocales } from '@locale/getDocLocales';
-import { getNameLocales } from '@locale/getNameLocales';
-import TypeVariable from '@nodes/TypeVariable';
-import type Evaluation from '@runtime/Evaluation';
-import type Value from '@values/Value';
-import type Expression from '../nodes/Expression';
-import { createFunction, createInputs } from '../locale/LocaleText';
 import { Iteration } from './Iteration';
-import NumberType from '../nodes/NumberType';
-import NumberValue from '@values/NumberValue';
-import TextType from '../nodes/TextType';
-import SetType from '../nodes/SetType';
-import ListType from '../nodes/ListType';
-import type Locales from '../locale/Locales';
 
 export default function bootstrapMap(locales: Locales) {
     const KeyTypeVariableNames = getNameLocales(

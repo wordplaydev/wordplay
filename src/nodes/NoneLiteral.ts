@@ -1,17 +1,17 @@
-import Token from './Token';
-import NoneType from './NoneType';
-import type Type from './Type';
-import NoneValue from '@values/NoneValue';
-import type TypeSet from './TypeSet';
-import { NONE_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement } from './Node';
-import Literal from './Literal';
-import Characters from '../lore/BasisCharacters';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import { NONE_SYMBOL } from '@parser/Symbols';
+import NoneValue from '@values/NoneValue';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import Literal from './Literal';
+import { node, type Grammar, type Replacement } from './Node';
+import NoneType from './NoneType';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class NoneLiteral extends Literal {
     readonly none: Token;

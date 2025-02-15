@@ -1,10 +1,10 @@
-import type OutputPropertyRange from './OutputPropertyRange';
-import type OutputPropertyOptions from './OutputPropertyOptions';
-import type OutputPropertyText from './OutputPropertyText';
-import type Expression from '@nodes/Expression';
 import type Context from '@nodes/Context';
+import type Expression from '@nodes/Expression';
 import { getFirstName, type NameAndDoc } from '../locale/LocaleText';
 import type Locales from '../locale/Locales';
+import type OutputPropertyOptions from './OutputPropertyOptions';
+import type OutputPropertyRange from './OutputPropertyRange';
+import type OutputPropertyText from './OutputPropertyText';
 
 type OutputPropertyType =
     | OutputPropertyRange

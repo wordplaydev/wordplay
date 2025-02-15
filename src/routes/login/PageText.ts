@@ -1,4 +1,4 @@
-import type { FieldText, ButtonText, ToggleText } from '@locale/UITexts';
+import type { ButtonText, FieldText, ToggleText } from '@locale/UITexts';
 
 type PageText = {
     /** Header for the login page when not logged in */

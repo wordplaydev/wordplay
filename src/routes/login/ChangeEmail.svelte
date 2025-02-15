@@ -1,12 +1,12 @@
 <script lang="ts">
-    import TextField from '@components/widgets/TextField.svelte';
-    import Feedback from '../../components/app/Feedback.svelte';
-    import { locales } from '@db/Database';
-    import { verifyBeforeUpdateEmail } from 'firebase/auth';
-    import type { User } from 'firebase/auth';
     import Spinning from '@components/app/Spinning.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
     import validEmail from '@db/creators/isValidEmail';
+    import { locales } from '@db/Database';
+    import type { User } from 'firebase/auth';
+    import { verifyBeforeUpdateEmail } from 'firebase/auth';
+    import Feedback from '../../components/app/Feedback.svelte';
     import getLoginErrorDescription from './getAuthErrorDescription';
 
     interface Props {

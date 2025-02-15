@@ -1,12 +1,12 @@
 <script>
-    import Writing from '@components/app/Writing.svelte';
-    import Join from './Join.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
-    import { locales } from '@db/Database';
-    import { auth } from '@db/firebase';
-    import { getUser } from '@components/project/Contexts';
     import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
+    import Feedback from '@components/app/Feedback.svelte';
+    import Writing from '@components/app/Writing.svelte';
+    import { getUser } from '@components/project/Contexts';
+    import { locales } from '@db/Database';
+    import { auth } from '@db/firebase';
+    import Join from './Join.svelte';
 
     const user = getUser();
 

@@ -1,4 +1,4 @@
-import { test, expect } from 'vitest';
+import { expect, test } from 'vitest';
 import DefaultLocale from './DefaultLocale';
 import DefaultLocales from './DefaultLocales';
 import type { TemplateInput } from './Locales';

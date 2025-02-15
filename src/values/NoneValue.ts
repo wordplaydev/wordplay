@@ -1,10 +1,10 @@
 import NoneType from '@nodes/NoneType';
 import { NONE_SYMBOL } from '@parser/Symbols';
-import type Value from '../values/Value';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import SimpleValue from './SimpleValue';
-import type Expression from '../nodes/Expression';
 import type Locales from '../locale/Locales';
+import type Expression from '../nodes/Expression';
+import type Value from '../values/Value';
+import SimpleValue from './SimpleValue';
 
 export default class NoneValue extends SimpleValue {
     constructor(creator: Expression) {

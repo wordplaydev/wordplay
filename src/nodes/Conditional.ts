@@ -1,30 +1,30 @@
-import BooleanType from './BooleanType';
 import type Conflict from '@conflicts/Conflict';
 import ExpectedBooleanCondition from '@conflicts/ExpectedBooleanCondition';
+import type EditContext from '@edit/EditContext';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import { QUESTION_SYMBOL } from '@parser/Symbols';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Jump from '@runtime/Jump';
+import JumpIfEqual from '@runtime/JumpIf';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BooleanLiteral from './BooleanLiteral';
+import BooleanType from './BooleanType';
+import type Context from './Context';
 import Expression, { type GuardContext } from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import { node, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
 import Token from './Token';
 import type Type from './Type';
-import type Step from '@runtime/Step';
-import JumpIfEqual from '@runtime/JumpIf';
-import Jump from '@runtime/Jump';
-import type Context from './Context';
-import UnionType from './UnionType';
 import type TypeSet from './TypeSet';
-import Start from '@runtime/Start';
-import { QUESTION_SYMBOL } from '@parser/Symbols';
-import Sym from './Sym';
-import Finish from '@runtime/Finish';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import { node, type Grammar, type Replacement } from './Node';
-import NodeRef from '@locale/NodeRef';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
-import type EditContext from '@edit/EditContext';
-import BooleanLiteral from './BooleanLiteral';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import UnionType from './UnionType';
 
 export default class Conditional extends Expression {
     readonly condition: Expression;
@@ -92,11 +92,7 @@ export default class Conditional extends Expression {
                 // Must be boolean typed
                 getType: () => BooleanType.make(),
             },
-            {
-                name: 'question',
-                kind: node(Sym.Conditional),
-                space: true,
-            },
+            { name: 'question', kind: node(Sym.Conditional), space: true },
             {
                 name: 'yes',
                 kind: node(Expression),

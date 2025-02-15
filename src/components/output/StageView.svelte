@@ -3,10 +3,10 @@
 </script>
 
 <script lang="ts">
-    import { onDestroy, onMount, untrack } from 'svelte';
-    import type Project from '@db/projects/Project';
-    import type Stage from '@output/Stage';
     import { loadedFonts } from '@basis/Fonts';
+    import type Project from '@db/projects/Project';
+    import Animator, { type Moved, type OutputInfoSet } from '@output/Animator';
+    import Group from '@output/Group';
     import {
         FOCAL_LENGTH,
         PX_PER_METER,
@@ -15,30 +15,28 @@
         getOpacityCSS,
         getSizeCSS,
     } from '@output/outputToCSS';
-    import Place from '@output/Place';
-    import { DefaultSize } from '@output/Stage';
-    import { createPlace } from '@output/Place';
-    import Animator, { type Moved, type OutputInfoSet } from '@output/Animator';
-    import GroupView from './GroupView.svelte';
-    import { tick } from 'svelte';
     import Phrase from '@output/Phrase';
-    import PhraseView from './PhraseView.svelte';
-    import Group from '@output/Group';
-    import range from '../../util/range';
+    import Place, { createPlace } from '@output/Place';
     import RenderContext from '@output/RenderContext';
+    import type Stage from '@output/Stage';
+    import { DefaultSize } from '@output/Stage';
+    import type Evaluator from '@runtime/Evaluator';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
+    import { animationFactor, locales } from '../../db/Database';
+    import type Output from '../../output/Output';
+    import range from '../../util/range';
     import {
         getAnimatingNodes,
         getAnnounce,
         getEvaluation,
     } from '../project/Contexts';
-    import type Evaluator from '@runtime/Evaluator';
-    import type Output from '../../output/Output';
-    import { animationFactor, locales } from '../../db/Database';
+    import GroupView from './GroupView.svelte';
     import {
         describeEnteredOutput,
         describeMovedOutput,
         describedChangedOutput,
     } from './OutputDescriptions';
+    import PhraseView from './PhraseView.svelte';
 
     interface Props {
         project: Project;

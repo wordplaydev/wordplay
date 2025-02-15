@@ -1,10 +1,10 @@
-import Docs from '@nodes/Docs';
-import { toDocString, type DocText } from './LocaleText';
-import type LocaleText from './LocaleText';
-import { localeToLanguage } from './localeToLanguage';
 import { parseLocaleDoc } from '@locale/LocaleText';
+import Docs from '@nodes/Docs';
 import type Doc from '../nodes/Doc';
 import type Locales from './Locales';
+import type LocaleText from './LocaleText';
+import { toDocString, type DocText } from './LocaleText';
+import { localeToLanguage } from './localeToLanguage';
 
 export function getDocLocales(
     locales: Locales,

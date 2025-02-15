@@ -1,10 +1,10 @@
 <script lang="ts">
     import Header from '../components/app/Header.svelte';
-    import { locales } from '../db/Database';
     import Link from '../components/app/Link.svelte';
-    import Speech from '../components/lore/Speech.svelte';
-    import Characters from '../lore/BasisCharacters';
     import Writing from '../components/app/Writing.svelte';
+    import Speech from '../components/lore/Speech.svelte';
+    import { locales } from '../db/Database';
+    import Characters from '../lore/BasisCharacters';
 </script>
 
 <Writing>

@@ -1,26 +1,26 @@
 <script lang="ts">
-    import Header from '@components/app/Header.svelte';
-    import BigLink from '../components/app/BigLink.svelte';
-    import Background from '../components/app/Background.svelte';
-    import { locales } from '../db/Database';
-    import Writing from '../components/app/Writing.svelte';
-    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
     import Action from '@components/app/Action.svelte';
+    import Emoji from '@components/app/Emoji.svelte';
+    import Header from '@components/app/Header.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import { getUser } from '@components/project/Contexts';
     import {
         DOCUMENTATION_SYMBOL,
         EDIT_SYMBOL,
-        SYMBOL_SYMBOL,
         LEARN_SYMBOL,
         STAGE_SYMBOL,
+        SYMBOL_SYMBOL,
         TEACH_SYMBOL,
     } from '@parser/Symbols';
-    import Beta from './Beta.svelte';
-    import Speech from '@components/lore/Speech.svelte';
+    import Background from '../components/app/Background.svelte';
+    import BigLink from '../components/app/BigLink.svelte';
+    import Writing from '../components/app/Writing.svelte';
+    import MarkupHtmlView from '../components/concepts/MarkupHTMLView.svelte';
+    import { locales } from '../db/Database';
     import Characters from '../lore/BasisCharacters';
     import Emotion from '../lore/Emotion';
+    import Beta from './Beta.svelte';
     import Iconified from './Iconified.svelte';
-    import { getUser } from '@components/project/Contexts';
 
     const user = getUser();
 </script>

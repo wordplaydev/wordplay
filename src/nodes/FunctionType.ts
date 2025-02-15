@@ -1,32 +1,26 @@
-import Token from './Token';
-import Sym from './Sym';
-import Type from './Type';
-import type Context from './Context';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { FUNCTION_SYMBOL } from '@parser/Symbols';
-import Bind from './Bind';
-import { getEvaluationInputConflicts } from './util';
-import EvalCloseToken from './EvalCloseToken';
-import EvalOpenToken from './EvalOpenToken';
-import TypeVariables from './TypeVariables';
-import type TypeSet from './TypeSet';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import {
-    node,
-    type Grammar,
-    type Replacement,
-    optional as optional,
-    list,
-} from './Node';
-import Characters from '../lore/BasisCharacters';
-import FunctionDefinition from './FunctionDefinition';
-import Names from './Names';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import TypePlaceholder from './TypePlaceholder';
-import NodeRef from '../locale/NodeRef';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
+import NodeRef from '../locale/NodeRef';
+import Characters from '../lore/BasisCharacters';
+import Bind from './Bind';
+import type Context from './Context';
+import EvalCloseToken from './EvalCloseToken';
+import EvalOpenToken from './EvalOpenToken';
 import type Expression from './Expression';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import FunctionDefinition from './FunctionDefinition';
+import Names from './Names';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
+import TypePlaceholder from './TypePlaceholder';
+import type TypeSet from './TypeSet';
+import TypeVariables from './TypeVariables';
+import { getEvaluationInputConflicts } from './util';
 
 export default class FunctionType extends Type {
     readonly fun: Token;
@@ -105,11 +99,7 @@ export default class FunctionType extends Type {
     getGrammar(): Grammar {
         return [
             { name: 'fun', kind: node(Sym.Function) },
-            {
-                name: 'types',
-                kind: optional(node(TypeVariables)),
-                space: true,
-            },
+            { name: 'types', kind: optional(node(TypeVariables)), space: true },
             { name: 'open', kind: node(Sym.EvalOpen) },
             {
                 name: 'inputs',

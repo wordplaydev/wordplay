@@ -1,16 +1,16 @@
 <script lang="ts">
-    import Writing from '@components/app/Writing.svelte';
+    import Feedback from '@components/app/Feedback.svelte';
     import Header from '@components/app/Header.svelte';
-    import { CharactersDB, locales } from '@db/Database';
+    import Link from '@components/app/Link.svelte';
+    import Writing from '@components/app/Writing.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
     import { getUser } from '@components/project/Contexts';
+    import { CharactersDB, locales } from '@db/Database';
     import { firestore } from '@db/firebase';
-    import Feedback from '@components/app/Feedback.svelte';
     import {
         characterToSVG,
         type Character,
     } from '../../db/characters/Character';
-    import Link from '@components/app/Link.svelte';
     import NewCharacterButton from './NewCharacterButton.svelte';
 
     const user = getUser();

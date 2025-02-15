@@ -1,61 +1,58 @@
+import Context from '@nodes/Context';
+import ConversionDefinition from '@nodes/ConversionDefinition';
+import Expression from '@nodes/Expression';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import type Names from '@nodes/Names';
 import type Node from '@nodes/Node';
 import Reaction from '@nodes/Reaction';
+import Source from '@nodes/Source';
+import StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import Project from '../db/projects/Project';
+import ExceptionValue from '../values/ExceptionValue';
+import type StreamValue from '../values/StreamValue';
+import Value from '../values/Value';
+import ValueException from '../values/ValueException';
 import Evaluation, {
     type DefinitionNode,
     type EvaluationNode,
 } from './Evaluation';
-import type StreamValue from '../values/StreamValue';
-import Value from '../values/Value';
-import ExceptionValue from '../values/ExceptionValue';
-import ValueException from '../values/ValueException';
-import type Type from '@nodes/Type';
-import Source from '@nodes/Source';
-import type Names from '@nodes/Names';
-import Expression from '@nodes/Expression';
-import Project from '../db/projects/Project';
 import type Step from './Step';
-import StructureDefinition from '@nodes/StructureDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import ConversionDefinition from '@nodes/ConversionDefinition';
-import Context from '@nodes/Context';
 
 // Import this last, after everything else, to avoid cycles.
-import { MAX_STREAM_LENGTH } from '../values/StreamValue';
-import Start from './Start';
-import Finish from './Finish';
-import EvaluationLimitException from '../values/EvaluationLimitException';
-import StepLimitException from '../values/StepLimitException';
-import TypeException from '../values/TypeException';
-import TemporalStreamValue from '../values/TemporalStreamValue';
-import StartFinish from './StartFinish';
-import type { Basis } from '../basis/Basis';
-import type LocaleText from '../locale/LocaleText';
-import type { Path } from '../nodes/Root';
-import Evaluate from '../nodes/Evaluate';
-import type Locale from '@locale/Locale';
-import NumberGenerator from 'recoverable-random';
-import type { Database } from '../db/Database';
-import ReactionStream from '../values/ReactionStream';
-import type Animator from '../output/Animator';
-import DefaultLocale from '../locale/DefaultLocale';
-import StructureValue from '@values/StructureValue';
-import ListValue from '@values/ListValue';
-import TextValue from '@values/TextValue';
-import DynamicEditLimitException from '@values/DynamicEditLimitException';
 import { EditFailure } from '@db/projects/EditFailure';
-import ReadOnlyEditException from '@values/ReadOnlyEditException';
-import EmptySourceNameException from '@values/EmptySourceNameException';
-import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
 import Collision from '@input/Collision';
+import type Locale from '@locale/Locale';
+import DynamicEditLimitException from '@values/DynamicEditLimitException';
+import EmptySourceNameException from '@values/EmptySourceNameException';
+import ListValue from '@values/ListValue';
+import ProjectSizeLimitException from '@values/ProjectSizeLimitException';
+import ReadOnlyEditException from '@values/ReadOnlyEditException';
+import StructureValue from '@values/StructureValue';
+import TextValue from '@values/TextValue';
+import NumberGenerator from 'recoverable-random';
+import type { Basis } from '../basis/Basis';
+import type { Database } from '../db/Database';
+import DefaultLocale from '../locale/DefaultLocale';
+import type LocaleText from '../locale/LocaleText';
+import Evaluate from '../nodes/Evaluate';
+import type { Path } from '../nodes/Root';
+import type Animator from '../output/Animator';
+import EvaluationLimitException from '../values/EvaluationLimitException';
+import ReactionStream from '../values/ReactionStream';
+import StepLimitException from '../values/StepLimitException';
+import { MAX_STREAM_LENGTH } from '../values/StreamValue';
+import TemporalStreamValue from '../values/TemporalStreamValue';
+import TypeException from '../values/TypeException';
+import Finish from './Finish';
+import Start from './Start';
+import StartFinish from './StartFinish';
 
 /** Anything that wants to listen to changes in the state of this evaluator */
 export type EvaluationObserver = () => void;
 export type StepNumber = number;
 export type StreamValueChange = { stream: StreamValue; value: Value };
-export type StreamChange = {
-    changes: StreamValueChange[];
-    stepIndex: number;
-};
+export type StreamChange = { changes: StreamValueChange[]; stepIndex: number };
 export type StreamCreator = Evaluate | Reaction;
 export type IndexedValue = { value: Value | undefined; stepNumber: StepNumber };
 

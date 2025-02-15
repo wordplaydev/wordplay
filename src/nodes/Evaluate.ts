@@ -1,80 +1,77 @@
-import Bind from '@nodes/Bind';
 import type Conflict from '@conflicts/Conflict';
-import MissingInput from '@conflicts/MissingInput';
-import UnexpectedInput from '@conflicts/UnexpectedInput';
 import IncompatibleInput from '@conflicts/IncompatibleInput';
+import MissingInput from '@conflicts/MissingInput';
 import NotInstantiable from '@conflicts/NotInstantiable';
-import StructureType from './StructureType';
-import Expression, { ExpressionKind, type GuardContext } from './Expression';
-import type Token from './Token';
-import type Type from './Type';
-import type Evaluator from '@runtime/Evaluator';
-import type Value from '@values/Value';
-import Evaluation from '@runtime/Evaluation';
-import FunctionValue from '@values/FunctionValue';
-import type Step from '@runtime/Step';
-import Finish from '@runtime/Finish';
-import Start from '@runtime/Start';
-import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import type Context from './Context';
-import Halt from '@runtime/Halt';
-import ListValue from '@values/ListValue';
-import StructureDefinition from './StructureDefinition';
-import FunctionDefinition from './FunctionDefinition';
-import TypeInputs from './TypeInputs';
-import { getEvaluationInputConflicts } from './util';
-import ListType from './ListType';
-import type TypeSet from './TypeSet';
-import FunctionException from '@values/FunctionException';
-import ValueException from '@values/ValueException';
-import ExceptionValue from '@values/ExceptionValue';
-import UnknownInput from '@conflicts/UnknownInput';
-import getConcreteExpectedType from './Generics';
-import Names from './Names';
-import EvalOpenToken from './EvalOpenToken';
-import EvalCloseToken from './EvalCloseToken';
-import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
-import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
-import PropertyReference from './PropertyReference';
-import NeverType from './NeverType';
-import { node, type Grammar, type Replacement, any, none, list } from './Node';
-import type Node from './Node';
-import StartEvaluation from '@runtime/StartEvaluation';
-import UnimplementedException from '@values/UnimplementedException';
-import StreamDefinition from './StreamDefinition';
-import StreamDefinitionType from './StreamDefinitionType';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Characters from '../lore/BasisCharacters';
-import FunctionType from './FunctionType';
-import AnyType from './AnyType';
-import Sym from './Sym';
-import Refer from '../edit/Refer';
-import BasisType from './BasisType';
-import Purpose from '../concepts/Purpose';
-import TypeException from '../values/TypeException';
-import TypeVariable from './TypeVariable';
-import NameType from './NameType';
-import { NonFunctionType } from './NonFunctionType';
-import type Locales from '../locale/Locales';
-import UnionType from './UnionType';
-import NoExpressionType from './NoExpressionType';
-import StructureDefinitionType from './StructureDefinitionType';
-import Block from './Block';
-import Reference from './Reference';
 import SeparatedEvaluate from '@conflicts/SeparatedEvaluate';
-import Input from './Input';
+import UnclosedDelimiter from '@conflicts/UnclosedDelimiter';
+import UnexpectedInput from '@conflicts/UnexpectedInput';
+import UnexpectedTypeInput from '@conflicts/UnexpectedTypeInput';
+import UnknownInput from '@conflicts/UnknownInput';
 import type EditContext from '@edit/EditContext';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import Bind from '@nodes/Bind';
+import Evaluation from '@runtime/Evaluation';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Halt from '@runtime/Halt';
+import Start from '@runtime/Start';
+import StartEvaluation from '@runtime/StartEvaluation';
+import type Step from '@runtime/Step';
+import ExceptionValue from '@values/ExceptionValue';
+import FunctionException from '@values/FunctionException';
+import FunctionValue from '@values/FunctionValue';
+import ListValue from '@values/ListValue';
+import StructureDefinitionValue from '@values/StructureDefinitionValue';
+import UnimplementedException from '@values/UnimplementedException';
+import type Value from '@values/Value';
+import ValueException from '@values/ValueException';
+import Purpose from '../concepts/Purpose';
+import Refer from '../edit/Refer';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
+import TypeException from '../values/TypeException';
+import AnyType from './AnyType';
+import BasisType from './BasisType';
+import Block from './Block';
+import type Context from './Context';
+import EvalCloseToken from './EvalCloseToken';
+import EvalOpenToken from './EvalOpenToken';
+import Expression, { ExpressionKind, type GuardContext } from './Expression';
+import FunctionDefinition from './FunctionDefinition';
+import FunctionType from './FunctionType';
+import getConcreteExpectedType from './Generics';
+import Input from './Input';
+import ListType from './ListType';
+import Names from './Names';
+import NameType from './NameType';
+import NeverType from './NeverType';
+import type Node from './Node';
+import { any, list, node, none, type Grammar, type Replacement } from './Node';
+import NoExpressionType from './NoExpressionType';
+import { NonFunctionType } from './NonFunctionType';
+import PropertyReference from './PropertyReference';
+import Reference from './Reference';
+import StreamDefinition from './StreamDefinition';
+import StreamDefinitionType from './StreamDefinitionType';
+import StructureDefinition from './StructureDefinition';
+import StructureDefinitionType from './StructureDefinitionType';
+import StructureType from './StructureType';
+import Sym from './Sym';
+import type Token from './Token';
+import type Type from './Type';
+import TypeInputs from './TypeInputs';
+import type TypeSet from './TypeSet';
+import TypeVariable from './TypeVariable';
+import UnionType from './UnionType';
+import { getEvaluationInputConflicts } from './util';
 
 type Mapping = {
     expected: Bind;
     given: undefined | Expression | Expression[] | Input;
 };
 
-type InputMapping = {
-    inputs: Mapping[];
-    extra: (Expression | Input)[];
-};
+type InputMapping = { inputs: Mapping[]; extra: (Expression | Input)[] };
 
 export default class Evaluate extends Expression {
     readonly fun: Expression;
@@ -301,10 +298,7 @@ export default class Evaluate extends Expression {
         const givenInputs = this.inputs.slice();
 
         // Prepare a list of mappings.
-        const mappings: InputMapping = {
-            inputs: [],
-            extra: [],
-        };
+        const mappings: InputMapping = { inputs: [], extra: [] };
 
         // Loop through each of the expected types and see if the given types match.
         for (const expectedInput of expectedInputs) {

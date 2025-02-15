@@ -1,47 +1,47 @@
 import type Conflict from '@conflicts/Conflict';
 import { UnknownBorrow } from '@conflicts/UnknownBorrow';
-import type Context from './Context';
-import Token from './Token';
-import type Evaluator from '@runtime/Evaluator';
-import type Step from '@runtime/Step';
-import NumberValue from '@values/NumberValue';
-import Unit from './Unit';
-import Sym from './Sym';
+import NodeRef from '@locale/NodeRef';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import { BORROW_SYMBOL } from '@parser/Symbols';
-import Expression from './Expression';
-import Bind from './Bind';
-import type Type from './Type';
-import type TypeSet from './TypeSet';
-import type Value from '@values/Value';
-import Source from './Source';
 import Evaluation from '@runtime/Evaluation';
-import NameException from '@values/NameException';
-import FunctionDefinition from './FunctionDefinition';
-import StructureDefinition from './StructureDefinition';
+import type Evaluator from '@runtime/Evaluator';
+import Finish from '@runtime/Finish';
+import Start from '@runtime/Start';
+import type Step from '@runtime/Step';
 import CycleException from '@values/CycleException';
 import FunctionValue from '@values/FunctionValue';
+import NameException from '@values/NameException';
+import NumberValue from '@values/NumberValue';
 import StructureDefinitionValue from '@values/StructureDefinitionValue';
-import Start from '@runtime/Start';
-import Finish from '@runtime/Finish';
-import UnknownNameType from './UnknownNameType';
+import UnimplementedException from '@values/UnimplementedException';
+import type Value from '@values/Value';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import StreamDefinitionValue from '../values/StreamDefinitionValue';
+import Bind from './Bind';
+import type Context from './Context';
+import Expression from './Expression';
+import FunctionDefinition from './FunctionDefinition';
 import {
+    any,
     node,
+    none,
+    optional,
     type Grammar,
     type Replacement,
-    none,
-    any,
-    optional,
 } from './Node';
-import SimpleExpression from './SimpleExpression';
-import UnimplementedException from '@values/UnimplementedException';
-import NodeRef from '@locale/NodeRef';
-import StreamDefinition from './StreamDefinition';
-import StreamDefinitionValue from '../values/StreamDefinitionValue';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
 import Reference from './Reference';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import SimpleExpression from './SimpleExpression';
+import Source from './Source';
+import StreamDefinition from './StreamDefinition';
+import StructureDefinition from './StructureDefinition';
+import Sym from './Sym';
+import Token from './Token';
+import type Type from './Type';
+import type TypeSet from './TypeSet';
+import Unit from './Unit';
+import UnknownNameType from './UnknownNameType';
 
 export type SharedDefinition =
     | Source

@@ -1,41 +1,41 @@
 <script lang="ts">
-    import { toStage } from '../../output/Stage';
+    import Fonts from '@basis/Fonts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type Project from '@db/projects/Project';
+    import type Evaluator from '@runtime/Evaluator';
     import ExceptionValue from '@values/ExceptionValue';
     import type Value from '@values/Value';
-    import type Project from '@db/projects/Project';
-    import ValueView from '../values/ValueView.svelte';
-    import StageView from './StageView.svelte';
+    import { untrack } from 'svelte';
+    import { animationFactor, DB, locales, Projects } from '../../db/Database';
+    import Button from '../../input/Button';
+    import Chat from '../../input/Chat';
+    import Choice from '../../input/Choice';
+    import Key from '../../input/Key';
+    import Placement from '../../input/Placement';
+    import Pointer from '../../input/Pointer';
+    import Evaluate from '../../nodes/Evaluate';
+    import type Color from '../../output/Color';
+    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
+    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
+    import Place, { createPlace } from '../../output/Place';
+    import { toStage } from '../../output/Stage';
+    import { toExpression } from '../../parser/parseExpression';
     import MarkupHTMLView from '../concepts/MarkupHTMLView.svelte';
     import Speech from '../lore/Speech.svelte';
+    import moveOutput, { addStageContent } from '../palette/editOutput';
     import {
-        IdleKind,
         getAnnounce,
         getConceptIndex,
         getEvaluation,
         getKeyboardEditIdle,
         getSelectedOutput,
+        IdleKind,
     } from '../project/Contexts';
-    import type Evaluator from '@runtime/Evaluator';
-    import type PaintingConfiguration from './PaintingConfiguration';
-    import { animationFactor, DB, locales, Projects } from '../../db/Database';
-    import type Color from '../../output/Color';
-    import Key from '../../input/Key';
-    import { PX_PER_METER, rootScale } from '../../output/outputToCSS';
-    import { DOMRectCenter, DOMRectDistance } from './utilities';
-    import Choice from '../../input/Choice';
-    import Evaluate from '../../nodes/Evaluate';
-    import Pointer from '../../input/Pointer';
-    import Place, { createPlace } from '../../output/Place';
-    import moveOutput, { addStageContent } from '../palette/editOutput';
-    import { getOrCreatePlace } from '../../output/getOrCreatePlace';
-    import Placement from '../../input/Placement';
-    import { toExpression } from '../../parser/parseExpression';
-    import Chat from '../../input/Chat';
+    import ValueView from '../values/ValueView.svelte';
     import { default as ButtonUI } from '../widgets/Button.svelte';
-    import Button from '../../input/Button';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { untrack } from 'svelte';
-    import Fonts from '@basis/Fonts';
+    import type PaintingConfiguration from './PaintingConfiguration';
+    import StageView from './StageView.svelte';
+    import { DOMRectCenter, DOMRectDistance } from './utilities';
 
     interface Props {
         project: Project;

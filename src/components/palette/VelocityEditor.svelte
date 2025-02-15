@@ -1,17 +1,17 @@
 <script lang="ts">
-    import TextField from '../widgets/TextField.svelte';
-    import type Evaluate from '../../nodes/Evaluate';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Project from '@db/projects/Project';
-    import NumberValue from '@values/NumberValue';
     import NumberLiteral from '@nodes/NumberLiteral';
     import Unit from '@nodes/Unit';
-    import Note from '../widgets/Note.svelte';
-    import { getNumber } from './editOutput';
-    import Expression from '../../nodes/Expression';
-    import { Projects, locales } from '../../db/Database';
+    import NumberValue from '@values/NumberValue';
     import { tick } from 'svelte';
+    import { Projects, locales } from '../../db/Database';
     import type Bind from '../../nodes/Bind';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import type Evaluate from '../../nodes/Evaluate';
+    import Expression from '../../nodes/Expression';
+    import Note from '../widgets/Note.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import { getNumber } from './editOutput';
 
     interface Props {
         project: Project;

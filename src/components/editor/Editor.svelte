@@ -3,68 +3,23 @@
 </script>
 
 <script lang="ts">
-    import Node from '@nodes/Node';
-    import Caret, { type CaretPosition } from '../../edit/Caret';
-    import { onMount, untrack } from 'svelte';
-    import UnicodeString from '../../unicode/UnicodeString';
-    import {
-        handleKeyCommand,
-        type Edit,
-        type ProjectRevision,
-        InsertSymbol,
-    } from './util/Commands';
-    import type Source from '@nodes/Source';
-    import { writable } from 'svelte/store';
-    import type Program from '@nodes/Program';
-    import Token from '@nodes/Token';
-    import CaretView, { type CaretBounds } from './CaretView.svelte';
-    import {
-        getDragged,
-        getSelectedOutput,
-        getAnimatingNodes,
-        getConflicts,
-        getEvaluation,
-        getKeyboardEditIdle,
-        IdleKind,
-        getConceptIndex,
-        getEditors,
-        getAnnounce,
-        setCaret,
-        setEditor,
-        setHovered,
-        setInsertionPoint,
-        setHighlights,
-        setSetMenuNode,
-    } from '../project/Contexts';
-    import {
-        type HighlightSpec,
-        type Highlights,
-        getHighlights,
-        updateOutlines,
-    } from './util/Highlights';
-    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-    import TypePlaceholder from '@nodes/TypePlaceholder';
-    import Sym from '@nodes/Sym';
-    import RootView from '../project/RootView.svelte';
-    import Project from '@db/projects/Project';
+    import Emoji from '@components/app/Emoji.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import type Conflict from '@conflicts/Conflict';
-    import { tick } from 'svelte';
-    import { getEditsAt } from '../../edit/Autocomplete';
-    import { OutlinePadding } from './util/outline';
-    import Highlight from './Highlight.svelte';
-    import {
-        dropNodeOnSource,
-        getInsertionPoint,
-        InsertionPoint,
-        isValidDropTarget,
-    } from '../../edit/Drag';
-    import Menu, { RevisionSet } from './util/Menu';
+    import Project from '@db/projects/Project';
+    import type Locale from '@locale/Locale';
     import Evaluate from '@nodes/Evaluate';
+    import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+    import Node from '@nodes/Node';
+    import type Program from '@nodes/Program';
+    import type Source from '@nodes/Source';
+    import Sym from '@nodes/Sym';
+    import Token from '@nodes/Token';
+    import TypePlaceholder from '@nodes/TypePlaceholder';
     import type Evaluator from '@runtime/Evaluator';
-    import { TAB_WIDTH } from '../../parser/Spaces';
-    import PlaceholderView from './MenuTrigger.svelte';
-    import Expression from '../../nodes/Expression';
-    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
+    import ExceptionValue from '@values/ExceptionValue';
+    import { onMount, tick, untrack } from 'svelte';
+    import { writable } from 'svelte/store';
     import {
         DB,
         Projects,
@@ -73,13 +28,57 @@
         locales,
         showLines,
     } from '../../db/Database';
-    import Button from '../widgets/Button.svelte';
-    import OutputView from '../output/OutputView.svelte';
+    import { getEditsAt } from '../../edit/Autocomplete';
+    import Caret, { type CaretPosition } from '../../edit/Caret';
+    import {
+        InsertionPoint,
+        dropNodeOnSource,
+        getInsertionPoint,
+        isValidDropTarget,
+    } from '../../edit/Drag';
+    import Expression from '../../nodes/Expression';
+    import { TAB_WIDTH } from '../../parser/Spaces';
+    import { DOCUMENTATION_SYMBOL, TYPE_SYMBOL } from '../../parser/Symbols';
+    import UnicodeString from '../../unicode/UnicodeString';
     import ConceptLinkUI from '../concepts/ConceptLinkUI.svelte';
-    import Emoji from '@components/app/Emoji.svelte';
-    import ExceptionValue from '@values/ExceptionValue';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import type Locale from '@locale/Locale';
+    import OutputView from '../output/OutputView.svelte';
+    import {
+        IdleKind,
+        getAnimatingNodes,
+        getAnnounce,
+        getConceptIndex,
+        getConflicts,
+        getDragged,
+        getEditors,
+        getEvaluation,
+        getKeyboardEditIdle,
+        getSelectedOutput,
+        setCaret,
+        setEditor,
+        setHighlights,
+        setHovered,
+        setInsertionPoint,
+        setSetMenuNode,
+    } from '../project/Contexts';
+    import RootView from '../project/RootView.svelte';
+    import Button from '../widgets/Button.svelte';
+    import CaretView, { type CaretBounds } from './CaretView.svelte';
+    import Highlight from './Highlight.svelte';
+    import PlaceholderView from './MenuTrigger.svelte';
+    import {
+        type Edit,
+        type ProjectRevision,
+        InsertSymbol,
+        handleKeyCommand,
+    } from './util/Commands';
+    import {
+        type HighlightSpec,
+        type Highlights,
+        getHighlights,
+        updateOutlines,
+    } from './util/Highlights';
+    import Menu, { RevisionSet } from './util/Menu';
+    import { OutlinePadding } from './util/outline';
 
     interface Props {
         /** The evaluator evaluating the source being edited. */
@@ -1721,7 +1720,8 @@
     .editor.readonly {
         --size: 10px;
 
-        background-image: linear-gradient(
+        background-image:
+            linear-gradient(
                 45deg,
                 var(--wordplay-alternating-color) 25%,
                 transparent 25%

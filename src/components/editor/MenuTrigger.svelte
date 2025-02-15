@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { getSetMenuNode } from '../project/Contexts';
     import type { CaretPosition } from '../../edit/Caret';
+    import { getSetMenuNode } from '../project/Contexts';
 
     interface Props {
         position: CaretPosition;

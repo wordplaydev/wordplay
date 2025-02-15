@@ -1,52 +1,52 @@
-import type Caret from '../../../edit/Caret';
 import Node from '@nodes/Node';
 import {
-    CONVERT_SYMBOL,
-    FALSE_SYMBOL,
-    FUNCTION_SYMBOL,
-    STREAM_SYMBOL,
-    TRUE_SYMBOL,
-    TYPE_SYMBOL,
-    PRODUCT_SYMBOL,
-    QUOTIENT_SYMBOL,
-    NONE_SYMBOL,
-    DEGREE_SYMBOL,
-    DOCUMENTATION_SYMBOL,
-    SOURCE_SYMBOL,
-    STAGE_SYMBOL,
-    PALETTE_SYMBOL,
-    PREVIOUS_SYMBOL,
-    TABLE_OPEN_SYMBOL,
-    TABLE_CLOSE_SYMBOL,
-    EDIT_SYMBOL,
+    ALL_SYMBOL,
     BORROW_SYMBOL,
-    SHARE_SYMBOL,
     CHANGE_SYMBOL,
-    ELISION_SYMBOL,
-    DOCS_SYMBOL,
-    UNDO_SYMBOL,
-    REDO_SYMBOL,
-    PASTE_SYMBOL,
+    CONVERT_SYMBOL,
     COPY_SYMBOL,
     CUT_SYMBOL,
-    ALL_SYMBOL,
+    DEGREE_SYMBOL,
+    DOCS_SYMBOL,
+    DOCUMENTATION_SYMBOL,
+    EDIT_SYMBOL,
+    ELISION_SYMBOL,
+    FALSE_SYMBOL,
+    FUNCTION_SYMBOL,
+    NONE_SYMBOL,
+    PALETTE_SYMBOL,
+    PASTE_SYMBOL,
+    PREVIOUS_SYMBOL,
+    PRODUCT_SYMBOL,
+    QUOTIENT_SYMBOL,
+    REDO_SYMBOL,
+    SHARE_SYMBOL,
+    SOURCE_SYMBOL,
+    STAGE_SYMBOL,
+    STREAM_SYMBOL,
+    TABLE_CLOSE_SYMBOL,
+    TABLE_OPEN_SYMBOL,
+    TRUE_SYMBOL,
+    TYPE_SYMBOL,
+    UNDO_SYMBOL,
 } from '@parser/Symbols';
+import type Caret from '../../../edit/Caret';
 
-import Source from '@nodes/Source';
-import { copyNode } from './Clipboard';
-import type Evaluator from '@runtime/Evaluator';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
-import Names from '@nodes/Names';
 import { Settings, type Database } from '@db/Database';
 import type LocaleText from '@locale/LocaleText';
-import Sym from '../../../nodes/Sym';
-import type Project from '../../../db/projects/Project';
-import interpret from './interpret';
-import { TileKind } from '../../project/Tile';
+import ExpressionPlaceholder from '@nodes/ExpressionPlaceholder';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import Names from '@nodes/Names';
+import Source from '@nodes/Source';
 import { TAB_SYMBOL } from '@parser/Spaces';
 import getPreferredSpaces from '@parser/getPreferredSpaces';
+import type Evaluator from '@runtime/Evaluator';
+import type Project from '../../../db/projects/Project';
+import Sym from '../../../nodes/Sym';
+import { TileKind } from '../../project/Tile';
 import { moveVisualVertical } from '../CaretView.svelte';
+import { copyNode } from './Clipboard';
+import interpret from './interpret';
 
 export type Command = {
     /** The iconographic text symbol to use */

@@ -1,13 +1,13 @@
-import Concept from './Concept';
-import type Node from '@nodes/Node';
+import { docToMarkup } from '@locale/LocaleText';
 import type Context from '@nodes/Context';
-import type Purpose from './Purpose';
+import type Node from '@nodes/Node';
 import type StructureDefinition from '@nodes/StructureDefinition';
+import type Locales from '../locale/Locales';
 import type Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
-import { docToMarkup } from '@locale/LocaleText';
 import type { CharacterName } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
+import Concept from './Concept';
+import type Purpose from './Purpose';
 
 export default class NodeConcept extends Concept {
     readonly template: Node;

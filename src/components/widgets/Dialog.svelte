@@ -1,12 +1,12 @@
 <script lang="ts">
+    import { clickOutside } from '@components/app/clickOutside';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import { tick } from 'svelte';
     import { locales } from '../../db/Database';
-    import Button from './Button.svelte';
     import type { DialogText } from '../../locale/UITexts';
     import Header from '../app/Header.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { clickOutside } from '@components/app/clickOutside';
+    import Button from './Button.svelte';
 
     interface Props {
         show?: boolean;

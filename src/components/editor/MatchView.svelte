@@ -1,7 +1,7 @@
 <script lang="ts">
     import type Match from '@nodes/Match';
-    import NodeView from './NodeView.svelte';
     import NodeSequenceView from './NodeSequenceView.svelte';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         node: Match;

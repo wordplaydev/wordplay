@@ -1,11 +1,11 @@
 import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
 import ListLiteral from '../nodes/ListLiteral';
 import NumberLiteral from '../nodes/NumberLiteral';
 import Unit from '../nodes/Unit';
+import { getTypeOutputProperties } from './OutputProperties';
 import OutputProperty from './OutputProperty';
 import OutputPropertyRange from './OutputPropertyRange';
-import { getTypeOutputProperties } from './OutputProperties';
-import type Locales from '../locale/Locales';
 
 export default function getStageProperties(
     project: Project,

@@ -1,15 +1,15 @@
 import type Conflict from '@conflicts/Conflict';
-import { node, type Replacement, type Grammar } from './Node';
-import Program from './Program';
-import Token from './Token';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import Sym from './Sym';
-import { CODE_SYMBOL } from '../parser/Symbols';
-import Content from './Content';
-import type Locales from '../locale/Locales';
 import type EditContext from '@edit/EditContext';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import { CODE_SYMBOL } from '../parser/Symbols';
+import Content from './Content';
+import { node, type Grammar, type Replacement } from './Node';
+import Program from './Program';
+import Sym from './Sym';
+import Token from './Token';
 
 export default class Example extends Content {
     readonly open: Token;

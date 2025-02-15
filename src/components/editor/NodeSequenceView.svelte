@@ -4,10 +4,10 @@
 
 <script lang="ts">
     import Node from '@nodes/Node';
-    import { getCaret, getIsBlocks } from '../project/Contexts';
-    import NodeView from './NodeView.svelte';
-    import Button from '../widgets/Button.svelte';
     import { locales } from '../../db/Database';
+    import { getCaret, getIsBlocks } from '../project/Contexts';
+    import Button from '../widgets/Button.svelte';
+    import NodeView from './NodeView.svelte';
 
     interface Props {
         nodes: Node[];

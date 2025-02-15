@@ -56,8 +56,8 @@
 
 <script lang="ts">
     import { locales } from '../../db/Database';
-    import Button from './Button.svelte';
     import { getFirstName } from '../../locale/LocaleText';
+    import Button from './Button.svelte';
 
     interface Props {
         /** a degree (any number remainder 360) */

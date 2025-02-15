@@ -1,17 +1,17 @@
 <script lang="ts">
-    import { getConceptIndex, getConceptPath } from '../project/Contexts';
+    import CharacterView from '@components/output/CharacterView.svelte';
+    import Concept from '@concepts/Concept';
     import ConceptLink, {
         CharacterName,
         CodepointName,
         UIName,
     } from '@nodes/ConceptLink';
-    import Concept from '@concepts/Concept';
     import { locales } from '../../db/Database';
-    import TutorialHighlight from '../app/TutorialHighlight.svelte';
     import ConceptRef from '../../locale/ConceptRef';
-    import Button from '../widgets/Button.svelte';
     import { withMonoEmoji } from '../../unicode/emoji';
-    import CharacterView from '@components/output/CharacterView.svelte';
+    import TutorialHighlight from '../app/TutorialHighlight.svelte';
+    import { getConceptIndex, getConceptPath } from '../project/Contexts';
+    import Button from '../widgets/Button.svelte';
 
     interface Props {
         link: ConceptRef | ConceptLink | Concept;

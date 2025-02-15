@@ -1,47 +1,32 @@
-<script module lang="ts">
-    // svelte-ignore non_reactive_update
-    enum DrawingMode {
-        Select,
-        Pixel,
-        Rect,
-        Ellipse,
-        Path,
-    }
-
-    type ColorSetting = 'none' | 'inherit' | 'set';
-    type LCH = { l: number; c: number; h: number };
-</script>
-
 <script lang="ts">
-    import { CharactersDB, locales } from '@db/Database';
-    import Header from '@components/app/Header.svelte';
-    import TextField from '@components/widgets/TextField.svelte';
+    import { goto } from '$app/navigation';
+    import { page } from '$app/state';
+    import { Basis } from '@basis/Basis';
     import Feedback from '@components/app/Feedback.svelte';
-    import {
-        getPathCenter,
-        getSharedColor,
-        CharacterSize,
-        characterToSVG,
-        moveShape,
-        pixelsAreEqual,
-        type Character,
-        type CharacterEllipse,
-        type CharacterPath,
-        type CharacterPixel,
-        type CharacterRectangle,
-        type CharacterShape,
-    } from '../../../db/characters/Character';
+    import Header from '@components/app/Header.svelte';
     import Page from '@components/app/Page.svelte';
-    import Mode from '@components/widgets/Mode.svelte';
-    import ColorChooser from '@components/widgets/ColorChooser.svelte';
+    import Spinning from '@components/app/Spinning.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
-    import type LocaleText from '@locale/LocaleText';
-    import Slider from '@components/widgets/Slider.svelte';
-    import Checkbox from '@components/widgets/Checkbox.svelte';
+    import { getAnnounce, getUser } from '@components/project/Contexts';
+    import CreatorList from '@components/project/CreatorList.svelte';
+    import RootView from '@components/project/RootView.svelte';
     import setKeyboardFocus from '@components/util/setKeyboardFocus';
-    import { toTokens } from '@parser/toTokens';
-    import Sym from '@nodes/Sym';
     import Button from '@components/widgets/Button.svelte';
+    import Checkbox from '@components/widgets/Checkbox.svelte';
+    import ColorChooser from '@components/widgets/ColorChooser.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import Dialog from '@components/widgets/Dialog.svelte';
+    import Labeled from '@components/widgets/Labeled.svelte';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Slider from '@components/widgets/Slider.svelte';
+    import TextField from '@components/widgets/TextField.svelte';
+    import { Creator } from '@db/creators/CreatorDatabase';
+    import { CharactersDB, locales } from '@db/Database';
+    import Locales from '@locale/Locales';
+    import type LocaleText from '@locale/LocaleText';
+    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
+    import Sym from '@nodes/Sym';
+    import { toProgram } from '@parser/parseProgram';
     import {
         ALL_SYMBOL,
         BORROW_SYMBOL,
@@ -54,21 +39,34 @@
         SHARE_SYMBOL,
         UNDO_SYMBOL,
     } from '@parser/Symbols';
-    import { getAnnounce, getUser } from '@components/project/Contexts';
+    import { toTokens } from '@parser/toTokens';
     import { untrack } from 'svelte';
-    import { page } from '$app/state';
-    import Spinning from '@components/app/Spinning.svelte';
-    import Locales from '@locale/Locales';
-    import RootView from '@components/project/RootView.svelte';
-    import { toProgram } from '@parser/parseProgram';
-    import ConceptLink, { CharacterName } from '@nodes/ConceptLink';
-    import { Basis } from '@basis/Basis';
-    import Dialog from '@components/widgets/Dialog.svelte';
-    import { Creator } from '@db/creators/CreatorDatabase';
-    import CreatorList from '@components/project/CreatorList.svelte';
-    import Labeled from '@components/widgets/Labeled.svelte';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
-    import { goto } from '$app/navigation';
+    import {
+        CharacterSize,
+        characterToSVG,
+        getPathCenter,
+        getSharedColor,
+        moveShape,
+        pixelsAreEqual,
+        type Character,
+        type CharacterEllipse,
+        type CharacterPath,
+        type CharacterPixel,
+        type CharacterRectangle,
+        type CharacterShape,
+    } from '../../../db/characters/Character';
+
+    // svelte-ignore non_reactive_update
+    enum DrawingMode {
+        Select,
+        Pixel,
+        Rect,
+        Ellipse,
+        Path,
+    }
+
+    type ColorSetting = 'none' | 'inherit' | 'set';
+    type LCH = { l: number; c: number; h: number };
 
     /** So we know who's making this.*/
     const user = getUser();

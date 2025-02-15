@@ -2,8 +2,8 @@
     import { goto } from '$app/navigation';
     import Button from '@components/widgets/Button.svelte';
     import { locales, Projects } from '@db/Database';
-    import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import type Project from '@db/projects/Project';
+    import { PersistenceType } from '@db/projects/ProjectHistory.svelte';
     import { COPY_SYMBOL } from '@parser/Symbols';
     import { getUser } from './Contexts';
 

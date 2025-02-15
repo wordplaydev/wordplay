@@ -1,23 +1,23 @@
 import type Conflict from '@conflicts/Conflict';
-import ConceptLink from './ConceptLink';
-import Example from './Example';
-import WebLink from './WebLink';
-import type { Grammar, Replacement } from './Node';
-import Words, { type Format } from './Words';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
-import Content from './Content';
-import Token from './Token';
-import Mention from './Mention';
-import NodeRef from '../locale/NodeRef';
-import ValueRef from '../locale/ValueRef';
-import Branch from './Branch';
-import { unescapeMarkupSymbols } from '../parser/Tokenizer';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Node, { list, node } from '@nodes/Node';
-import Sym from './Sym';
+import Purpose from '../concepts/Purpose';
 import type Locales from '../locale/Locales';
 import type { TemplateInput } from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import NodeRef from '../locale/NodeRef';
+import ValueRef from '../locale/ValueRef';
+import Characters from '../lore/BasisCharacters';
+import { unescapeMarkupSymbols } from '../parser/Tokenizer';
+import Branch from './Branch';
+import ConceptLink from './ConceptLink';
+import Content from './Content';
+import Example from './Example';
+import Mention from './Mention';
+import type { Grammar, Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
+import WebLink from './WebLink';
+import Words, { type Format } from './Words';
 
 export type NodeSegment =
     | Token

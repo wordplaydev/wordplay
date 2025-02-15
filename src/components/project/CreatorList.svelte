@@ -1,15 +1,15 @@
 <!-- A modifiable list of creators -->
 <script lang="ts">
     import isValidUsername from '@db/creators/isValidUsername';
+    import { CANCEL_SYMBOL } from '@parser/Symbols';
     import { Creator } from '../../db/creators/CreatorDatabase';
-    import { DB, locales } from '../../db/Database';
     import validEmail from '../../db/creators/isValidEmail';
+    import { DB, locales } from '../../db/Database';
     import CreatorView from '../app/CreatorView.svelte';
     import Feedback from '../app/Feedback.svelte';
     import Spinning from '../app/Spinning.svelte';
     import Button from '../widgets/Button.svelte';
     import TextField from '../widgets/TextField.svelte';
-    import { CANCEL_SYMBOL } from '@parser/Symbols';
 
     interface Props {
         uids: string[];

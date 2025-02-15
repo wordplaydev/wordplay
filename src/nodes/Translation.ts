@@ -1,18 +1,18 @@
-import Token from './Token';
-import Language from './Language';
-import Sym from './Sym';
-import { node, type Grammar, type Replacement, optional, list } from './Node';
+import type Conflict from '@conflicts/Conflict';
+import { PossiblePII } from '@conflicts/PossiblePII';
+import type { NodeDescriptor } from '@locale/NodeTexts';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import { TextCloseByTextOpen, TextDelimiters } from '../parser/Tokenizer';
-import Purpose from '../concepts/Purpose';
-import { LanguageTagged } from './LanguageTagged';
-import Example from './Example';
-import type Locales from '../locale/Locales';
-import { PossiblePII } from '@conflicts/PossiblePII';
-import type Conflict from '@conflicts/Conflict';
 import type Context from './Context';
+import Example from './Example';
 import type Expression from './Expression';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Language from './Language';
+import { LanguageTagged } from './LanguageTagged';
+import { list, node, optional, type Grammar, type Replacement } from './Node';
+import Sym from './Sym';
+import Token from './Token';
 
 export const ESCAPE_REGEX = /\\(.)/g;
 
@@ -107,10 +107,7 @@ export default class Translation extends LanguageTagged {
     }
 
     getCharacter() {
-        return {
-            symbols: this.getDelimiters(),
-            emotion: Emotion.excited,
-        };
+        return { symbols: this.getDelimiters(), emotion: Emotion.excited };
     }
 
     getDelimiters(): string {

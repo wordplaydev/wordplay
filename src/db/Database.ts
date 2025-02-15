@@ -1,7 +1,7 @@
-import { writable, type Writable } from 'svelte/store';
+import { auth, firestore } from '@db/firebase';
 import concretize from '@locale/concretize';
-import { deleteDoc, doc, setDoc } from 'firebase/firestore';
-import { firestore, auth } from '@db/firebase';
+import { getBestSupportedLocales } from '@locale/getBestSupportedLocales';
+import { type SupportedLocale } from '@locale/SupportedLocales';
 import {
     deleteUser,
     onAuthStateChanged,
@@ -9,17 +9,18 @@ import {
     type Unsubscribe,
     type User,
 } from 'firebase/auth';
+import { deleteDoc, doc, setDoc } from 'firebase/firestore';
+import { writable, type Writable } from 'svelte/store';
+import DefaultLocale from '../locale/DefaultLocale';
 import type LocaleText from '../locale/LocaleText';
-import { getBestSupportedLocales, type Template } from '../locale/LocaleText';
-import { type SupportedLocale } from '@locale/SupportedLocales';
-import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
-import LocalesDatabase from './locales/LocalesDatabase';
-import SettingsDatabase from './settings/SettingsDatabase';
-import GalleryDatabase from './galleries/GalleryDatabase.svelte';
+import { type Template } from '../locale/LocaleText';
+import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
 import { ChatDatabase } from './chats/ChatDatabase.svelte';
 import CreatorDatabase, { CreatorCollection } from './creators/CreatorDatabase';
-import DefaultLocale from '../locale/DefaultLocale';
-import { CharactersDatabase } from './characters/CharacterDatabase.svelte';
+import GalleryDatabase from './galleries/GalleryDatabase.svelte';
+import LocalesDatabase from './locales/LocalesDatabase';
+import ProjectsDatabase from './projects/ProjectsDatabase.svelte';
+import SettingsDatabase from './settings/SettingsDatabase';
 
 export enum SaveStatus {
     Saved = 'saved',
@@ -53,10 +54,7 @@ export class Database {
     readonly Status: Writable<{
         status: SaveStatus;
         message: undefined | ((locale: LocaleText) => Template);
-    }> = writable({
-        status: SaveStatus.Saved,
-        message: undefined,
-    });
+    }> = writable({ status: SaveStatus.Saved, message: undefined });
 
     /** The current Firestore user ID */
     private user: User | null = null;

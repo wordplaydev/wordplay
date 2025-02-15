@@ -1,7 +1,7 @@
 <script lang="ts">
     import { locales } from '@db/Database';
-    import { withMonoEmoji } from '../unicode/emoji';
     import type LocaleText from '@locale/LocaleText';
+    import { withMonoEmoji } from '../unicode/emoji';
 
     interface Props {
         icon: string;

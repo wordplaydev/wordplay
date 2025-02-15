@@ -1,23 +1,23 @@
 <script lang="ts">
+    import Toggle from '@components/widgets/Toggle.svelte';
+    import {
+        type Character,
+        characterToSVG,
+    } from '../../db/characters/Character';
+    import { CharactersDB, locales } from '../../db/Database';
     import { tokenize } from '../../parser/Tokenizer';
+    import NewCharacterButton from '../../routes/characters/NewCharacterButton.svelte';
+    import { isEmoji, withColorEmoji } from '../../unicode/emoji';
     import {
         getEmoji,
         getUnicodeNamed as getUnicodeWithNameText,
     } from '../../unicode/Unicode';
     import { IdleKind, getEditors } from '../project/Contexts';
     import Button from '../widgets/Button.svelte';
+    import CommandButton from '../widgets/CommandButton.svelte';
     import TextField from '../widgets/TextField.svelte';
     import TokenView from './TokenView.svelte';
-    import { CharactersDB, locales } from '../../db/Database';
     import Commands, { Category } from './util/Commands';
-    import CommandButton from '../widgets/CommandButton.svelte';
-    import { isEmoji, withColorEmoji } from '../../unicode/emoji';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import {
-        type Character,
-        characterToSVG,
-    } from '../../db/characters/Character';
-    import NewCharacterButton from '../../routes/characters/NewCharacterButton.svelte';
 
     interface Props {
         sourceID: string;

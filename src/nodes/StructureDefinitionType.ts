@@ -1,13 +1,13 @@
-import Type from './Type';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type TypeSet from './TypeSet';
-import Characters from '../lore/BasisCharacters';
-import type Spaces from '../parser/Spaces';
-import type Locales from '../locale/Locales';
-import type StructureType from './StructureType';
-import type Context from './Context';
 import type LocaleText from '@locale/LocaleText';
 import type { NodeDescriptor } from '@locale/NodeTexts';
+import type { BasisTypeName } from '../basis/BasisConstants';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import type Spaces from '../parser/Spaces';
+import type Context from './Context';
+import type StructureType from './StructureType';
+import Type from './Type';
+import type TypeSet from './TypeSet';
 
 export default class StructureDefinitionType extends Type {
     readonly type: StructureType;

@@ -1,11 +1,11 @@
 <script lang="ts">
+    import { getCaret, getEditor } from '@components/project/Contexts';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import TextField from '@components/widgets/TextField.svelte';
+    import { Projects } from '@db/Database';
     import type Project from '@db/projects/Project';
     import Token from '@nodes/Token';
-    import { getCaret, getEditor } from '@components/project/Contexts';
-    import { Projects } from '@db/Database';
     import { tick } from 'svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
 
     interface Props {
         token: Token;

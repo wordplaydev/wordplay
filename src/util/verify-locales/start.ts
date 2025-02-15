@@ -1,28 +1,28 @@
+import type LanguageCode from '@locale/LanguageCode';
+import type { RegionCode } from '@locale/Regions';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import fs from 'fs';
 import path from 'path';
 import * as prettier from 'prettier';
 import type LocaleText from '../../locale/LocaleText';
-import Log from './Log';
-import { createUnwrittenLocale, verifyLocale } from './verifyLocale';
-import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
+import {
+    getLocaleLanguage,
+    getLocaleRegion,
+    isRevised,
+    toLocale,
+} from '../../locale/LocaleText';
+import type LocalePath from './LocalePath';
+import { getKeyTemplatePairs } from './LocalePath';
 import {
     DefaultLocale,
     getLocaleJSON,
     getLocalePath,
     LocaleValidator,
 } from './LocaleSchema';
+import Log from './Log';
 import { getTutorialJSON, getTutorialPath } from './TutorialSchema';
-import {
-    getLocaleLanguage,
-    getLocaleRegion,
-    isRevised,
-    toLocale,
-    withoutAnnotations,
-} from '../../locale/LocaleText';
-import type { RegionCode } from '@locale/Regions';
-import type LanguageCode from '@locale/LanguageCode';
-import type LocalePath from './LocalePath';
-import { getKeyTemplatePairs } from './LocalePath';
+import { createUnwrittenLocale, verifyLocale } from './verifyLocale';
+import { createUnwrittenTutorial, verifyTutorial } from './verifyTutorial';
 
 // Make a logger so we can pretty print feedback.
 const log = new Log();
@@ -208,10 +208,7 @@ for (const localeText of allLocaleText) {
             );
             for (const name of names) {
                 if (!globals.has(name)) globals.set(name, []);
-                globals.get(name)!.push({
-                    locale: toLocale(localeText),
-                    path,
-                });
+                globals.get(name)!.push({ locale: toLocale(localeText), path });
             }
         }
 

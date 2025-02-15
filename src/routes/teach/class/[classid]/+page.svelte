@@ -7,11 +7,15 @@
     import GalleryPreview from '@components/app/GalleryPreview.svelte';
 
     import Header from '@components/app/Header.svelte';
+    import Link from '@components/app/Link.svelte';
     import Spinning from '@components/app/Spinning.svelte';
     import Subheader from '@components/app/Subheader.svelte';
     import MarkupHtmlView from '@components/concepts/MarkupHTMLView.svelte';
+    import { getUser } from '@components/project/Contexts';
     import CreatorList from '@components/project/CreatorList.svelte';
     import Button from '@components/widgets/Button.svelte';
+    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import TextBox from '@components/widgets/TextBox.svelte';
     import { Galleries, locales } from '@db/Database';
     import {
         addStudent,
@@ -22,12 +26,8 @@
         setClass,
         type Class,
     } from '@db/teachers/TeacherDatabase.svelte';
-    import { getTeachData } from '../../+layout.svelte';
-    import TextBox from '@components/widgets/TextBox.svelte';
-    import { getUser } from '@components/project/Contexts';
-    import Link from '@components/app/Link.svelte';
     import { CANCEL_SYMBOL, PREVIOUS_SYMBOL } from '@parser/Symbols';
-    import ConfirmButton from '@components/widgets/ConfirmButton.svelte';
+    import { getTeachData } from '../../+layout.svelte';
 
     let teach = getTeachData();
     let classData = $derived(teach.getClass(page.params.classid));

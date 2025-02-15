@@ -1,18 +1,18 @@
 <script lang="ts">
+    import Feedback from '@components/app/Feedback.svelte';
+    import Button from '@components/widgets/Button.svelte';
     import TextField from '@components/widgets/TextField.svelte';
+    import Toggle from '@components/widgets/Toggle.svelte';
     import { locales } from '@db/Database';
+    import { auth } from '@db/firebase';
+    import { FirebaseError } from 'firebase/app';
     import {
         signInWithEmailAndPassword,
         updatePassword,
         type User,
     } from 'firebase/auth';
-    import isValidPassword from './IsValidPassword';
-    import { FirebaseError } from 'firebase/app';
     import getLoginErrorDescription from './getAuthErrorDescription';
-    import Button from '@components/widgets/Button.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
-    import Toggle from '@components/widgets/Toggle.svelte';
-    import { auth } from '@db/firebase';
+    import isValidPassword from './IsValidPassword';
 
     interface Props {
         user: User;

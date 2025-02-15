@@ -1,14 +1,19 @@
+import Project from '@db/projects/Project';
 import type LocaleText from '@locale/LocaleText';
-import type Log from './Log';
-import type Tutorial from '../../tutorial/Tutorial';
-import type LocalePath from './LocalePath';
 import {
     isAutomated,
     isUnwritten,
     MachineTranslated,
     Unwritten,
 } from '@locale/LocaleText';
-import { getKeyTemplatePairs } from './LocalePath';
+import ConceptLink from '@nodes/ConceptLink';
+import type Node from '@nodes/Node';
+import Source from '@nodes/Source';
+import { DOCS_SYMBOL } from '@parser/Symbols';
+import parseDoc from '@parser/parseDoc';
+import { toTokens } from '@parser/toTokens';
+import { Performances } from '../../tutorial/Performances';
+import type Tutorial from '../../tutorial/Tutorial';
 import {
     PerformanceMode,
     type Dialog,
@@ -16,16 +21,11 @@ import {
     type PeformanceModeType,
     type Performance,
 } from '../../tutorial/Tutorial';
-import Project from '@db/projects/Project';
-import Source from '@nodes/Source';
-import ConceptLink from '@nodes/ConceptLink';
-import parseDoc from '@parser/parseDoc';
-import { toTokens } from '@parser/toTokens';
-import { DOCS_SYMBOL } from '@parser/Symbols';
-import { Performances } from '../../tutorial/Performances';
-import type Node from '@nodes/Node';
-import Validator from './Validator';
+import type LocalePath from './LocalePath';
+import { getKeyTemplatePairs } from './LocalePath';
+import type Log from './Log';
 import TutorialSchema, { DefaultTutorial } from './TutorialSchema';
+import Validator from './Validator';
 import translate from './translate';
 
 /** Load, validate, and check the tutorial, and optionally translate. */

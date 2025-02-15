@@ -1,29 +1,29 @@
-import type Concept from './Concept';
-import type Node from '@nodes/Node';
-import type Type from '@nodes/Type';
-import StructureConcept from './StructureConcept';
-import Purpose from './Purpose';
-import type Project from '../db/projects/Project';
-import StructureDefinition from '@nodes/StructureDefinition';
-import FunctionDefinition from '@nodes/FunctionDefinition';
-import FunctionConcept from './FunctionConcept';
 import Bind from '@nodes/Bind';
+import FunctionDefinition from '@nodes/FunctionDefinition';
+import type Node from '@nodes/Node';
+import StructureDefinition from '@nodes/StructureDefinition';
+import type Type from '@nodes/Type';
+import type TypeSet from '@nodes/TypeSet';
+import type Project from '../db/projects/Project';
+import type Locales from '../locale/Locales';
+import BinaryEvaluate from '../nodes/BinaryEvaluate';
+import Evaluate from '../nodes/Evaluate';
+import FunctionType from '../nodes/FunctionType';
+import Reference from '../nodes/Reference';
+import StreamDefinition from '../nodes/StreamDefinition';
+import UnaryEvaluate from '../nodes/UnaryEvaluate';
 import BindConcept from './BindConcept';
-import StreamConcept from './StreamConcept';
+import type Concept from './Concept';
 import {
     getBasisConcepts,
     getNodeConcepts,
     getOutputConcepts,
 } from './DefaultConcepts';
-import type TypeSet from '@nodes/TypeSet';
-import StreamDefinition from '../nodes/StreamDefinition';
+import FunctionConcept from './FunctionConcept';
 import NodeConcept from './NodeConcept';
-import FunctionType from '../nodes/FunctionType';
-import BinaryEvaluate from '../nodes/BinaryEvaluate';
-import UnaryEvaluate from '../nodes/UnaryEvaluate';
-import Evaluate from '../nodes/Evaluate';
-import Reference from '../nodes/Reference';
-import type Locales from '../locale/Locales';
+import Purpose from './Purpose';
+import StreamConcept from './StreamConcept';
+import StructureConcept from './StructureConcept';
 
 export default class ConceptIndex {
     readonly project: Project;

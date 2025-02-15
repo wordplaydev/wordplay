@@ -2,13 +2,13 @@ import type Bind from '@nodes/Bind';
 import type Context from '@nodes/Context';
 import type Node from '@nodes/Node';
 import Reference from '@nodes/Reference';
-import Concept from './Concept';
-import type Purpose from './Purpose';
+import { COMMA_SYMBOL } from '@parser/Symbols';
+import type Locales from '../locale/Locales';
 import Emotion from '../lore/Emotion';
 import type Markup from '../nodes/Markup';
 import type { CharacterName } from '../tutorial/Tutorial';
-import type Locales from '../locale/Locales';
-import { COMMA_SYMBOL } from '@parser/Symbols';
+import Concept from './Concept';
+import type Purpose from './Purpose';
 
 export default class BindConcept extends Concept {
     /** The type this concept represents. */

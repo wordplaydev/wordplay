@@ -5,125 +5,125 @@
 
 <!-- svelte-ignore state_referenced_locally -->
 <script lang="ts">
-    import { onDestroy, onMount, tick, untrack } from 'svelte';
-    import { writable, type Writable } from 'svelte/store';
-    import {
-        getConceptPath,
-        IdleKind,
-        type EditorState,
-        type KeyModifierState,
-        setConceptIndex,
-        setDragged,
-        setProjectCommandContext,
-        setKeyboardEditIdle,
-        setKeyboardModifiers,
-        setEvaluation,
-        setAnimatingNodes,
-        setEditors,
-        setConflicts,
-        setSelectedOutput,
-        getFullscreen,
-        getUser,
-        getAnnounce,
-    } from './Contexts';
-    import type Project from '@db/projects/Project';
-    import Documentation from '@components/concepts/Documentation.svelte';
-    import Annotations from '../annotations/Annotations.svelte';
-    import type Conflict from '@conflicts/Conflict';
-    import RootView from './RootView.svelte';
-    import Highlight from '../editor/Highlight.svelte';
-    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
-    import type { HighlightSpec } from '../editor/util/Highlights';
-    import TileView, { type ResizeDirection } from './TileView.svelte';
-    import Tile, { TileKind, TileMode } from './Tile';
-    import OutputView from '../output/OutputView.svelte';
-    import Editor from '../editor/Editor.svelte';
-    import Layout from './Layout';
-    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
-    import Button from '../widgets/Button.svelte';
-    import Palette from '../palette/Palette.svelte';
-    import type Bounds from './Bounds';
-    import Source from '@nodes/Source';
-    import SourceTileToggle from './SourceTileToggle.svelte';
-    import type MenuInfo from '../editor/util/Menu';
-    import Menu from '../editor/Menu.svelte';
-    import Node from '@nodes/Node';
-    import ConceptIndex from '../../concepts/ConceptIndex';
-    import type Concept from '../../concepts/Concept';
-    import ConfirmButton from '../widgets/ConfirmButton.svelte';
-    import { isName } from '@parser/Tokenizer';
     import { goto } from '$app/navigation';
-    import TextField from '../widgets/TextField.svelte';
-    import Evaluator from '@runtime/Evaluator';
     import { page } from '$app/state';
-    import type Caret from '../../edit/Caret';
-    import CharacterChooser from '../editor/GlyphChooser.svelte';
-    import Timeline from '../evaluator/Timeline.svelte';
-    import type PaintingConfiguration from '../output/PaintingConfiguration';
-    import {
-        DB,
-        locales,
-        arrangement,
-        camera,
-        mic,
-        Settings,
-        Projects,
-        blocks,
-        Creators,
-        animationFactor,
-        Chats,
-    } from '../../db/Database';
-    import Arrangement from '../../db/settings/Arrangement';
-    import type Value from '../../values/Value';
-    import {
-        EnterFullscreen,
-        ExitFullscreen,
-        Restart,
-        ShowKeyboardHelp,
-        VisibleModifyCommands,
-        VisibleNavigateCommands,
-        handleKeyCommand,
-        type CommandContext,
-    } from '../editor/util/Commands';
-    import CommandButton from '../widgets/CommandButton.svelte';
-    import Shortcuts from './Shortcuts.svelte';
-    import type Color from '../../output/Color';
-    import Sharing from './Sharing.svelte';
-    import Toggle from '../widgets/Toggle.svelte';
-    import Spinning from '../app/Spinning.svelte';
-    import CreatorView from '../app/CreatorView.svelte';
-    import Moderation from './Moderation.svelte';
-    import { isFlagged } from '../../db/projects/Moderation';
-    import Dialog from '../widgets/Dialog.svelte';
-    import Separator from './Separator.svelte';
-    import Emoji from '../app/Emoji.svelte';
-    import {
-        PROJECT_PARAM_EDIT,
-        PROJECT_PARAM_PLAY,
-    } from '../../routes/project/constants';
-    import Switch from '@components/widgets/Switch.svelte';
-    import { withMonoEmoji } from '../../unicode/emoji';
-    import FullscreenIcon from './FullscreenIcon.svelte';
-    import Characters from '../../lore/BasisCharacters';
-    import Speech from '@components/lore/Speech.svelte';
-    import Translate from './Translate.svelte';
-    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
-    import { CANCEL_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
-    import CopyButton from './CopyButton.svelte';
-    import type Locale from '@locale/Locale';
-    import Mode from '@components/widgets/Mode.svelte';
-    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
-    import setKeyboardFocus from '@components/util/setKeyboardFocus';
     import CollaborateView from '@components/app/chat/CollaborateView.svelte';
-    import type Chat from '@db/chats/ChatDatabase.svelte';
-    import Checkpoints from './Checkpoints.svelte';
     import Link from '@components/app/Link.svelte';
-    import EditorLocaleChooser from './EditorLocaleChooser.svelte';
-    import SelectedOutput from './SelectedOutput.svelte';
+    import Documentation from '@components/concepts/Documentation.svelte';
+    import Speech from '@components/lore/Speech.svelte';
+    import setKeyboardFocus from '@components/util/setKeyboardFocus';
+    import Mode from '@components/widgets/Mode.svelte';
+    import Switch from '@components/widgets/Switch.svelte';
     import {
         getConceptFromURL,
         setConceptInURL,
     } from '@concepts/ConceptParams';
+    import type Conflict from '@conflicts/Conflict';
+    import type Chat from '@db/chats/ChatDatabase.svelte';
+    import type Project from '@db/projects/Project';
+    import { AnimationFactorIcons } from '@db/settings/AnimationFactorSetting';
+    import type Locale from '@locale/Locale';
+    import Node from '@nodes/Node';
+    import Source from '@nodes/Source';
+    import { CANCEL_SYMBOL, LOCALE_SYMBOL } from '@parser/Symbols';
+    import { isName } from '@parser/Tokenizer';
+    import Evaluator from '@runtime/Evaluator';
+    import { onDestroy, onMount, tick, untrack } from 'svelte';
+    import { writable, type Writable } from 'svelte/store';
+    import type Concept from '../../concepts/Concept';
+    import ConceptIndex from '../../concepts/ConceptIndex';
+    import {
+        animationFactor,
+        arrangement,
+        blocks,
+        camera,
+        Chats,
+        Creators,
+        DB,
+        locales,
+        mic,
+        Projects,
+        Settings,
+    } from '../../db/Database';
+    import { isFlagged } from '../../db/projects/Moderation';
+    import Arrangement from '../../db/settings/Arrangement';
+    import type Caret from '../../edit/Caret';
+    import Characters from '../../lore/BasisCharacters';
+    import type Color from '../../output/Color';
+    import {
+        PROJECT_PARAM_EDIT,
+        PROJECT_PARAM_PLAY,
+    } from '../../routes/project/constants';
+    import { withMonoEmoji } from '../../unicode/emoji';
+    import type Value from '../../values/Value';
+    import Annotations from '../annotations/Annotations.svelte';
+    import CreatorView from '../app/CreatorView.svelte';
+    import Emoji from '../app/Emoji.svelte';
+    import Spinning from '../app/Spinning.svelte';
+    import Editor from '../editor/Editor.svelte';
+    import CharacterChooser from '../editor/GlyphChooser.svelte';
+    import Highlight from '../editor/Highlight.svelte';
+    import Menu from '../editor/Menu.svelte';
+    import {
+        EnterFullscreen,
+        ExitFullscreen,
+        handleKeyCommand,
+        Restart,
+        ShowKeyboardHelp,
+        VisibleModifyCommands,
+        VisibleNavigateCommands,
+        type CommandContext,
+    } from '../editor/util/Commands';
+    import type { HighlightSpec } from '../editor/util/Highlights';
+    import type MenuInfo from '../editor/util/Menu';
+    import getOutlineOf, { getUnderlineOf } from '../editor/util/outline';
+    import Timeline from '../evaluator/Timeline.svelte';
+    import OutputView from '../output/OutputView.svelte';
+    import type PaintingConfiguration from '../output/PaintingConfiguration';
+    import Palette from '../palette/Palette.svelte';
+    import Button from '../widgets/Button.svelte';
+    import CommandButton from '../widgets/CommandButton.svelte';
+    import ConfirmButton from '../widgets/ConfirmButton.svelte';
+    import Dialog from '../widgets/Dialog.svelte';
+    import TextField from '../widgets/TextField.svelte';
+    import Toggle from '../widgets/Toggle.svelte';
+    import type Bounds from './Bounds';
+    import Checkpoints from './Checkpoints.svelte';
+    import {
+        getAnnounce,
+        getConceptPath,
+        getFullscreen,
+        getUser,
+        IdleKind,
+        setAnimatingNodes,
+        setConceptIndex,
+        setConflicts,
+        setDragged,
+        setEditors,
+        setEvaluation,
+        setKeyboardEditIdle,
+        setKeyboardModifiers,
+        setProjectCommandContext,
+        setSelectedOutput,
+        type EditorState,
+        type KeyModifierState,
+    } from './Contexts';
+    import CopyButton from './CopyButton.svelte';
+    import EditorLocaleChooser from './EditorLocaleChooser.svelte';
+    import FullscreenIcon from './FullscreenIcon.svelte';
+    import Layout from './Layout';
+    import Moderation from './Moderation.svelte';
+    import NonSourceTileToggle from './NonSourceTileToggle.svelte';
+    import OutputLocaleChooser from './OutputLocaleChooser.svelte';
+    import RootView from './RootView.svelte';
+    import SelectedOutput from './SelectedOutput.svelte';
+    import Separator from './Separator.svelte';
+    import Sharing from './Sharing.svelte';
+    import Shortcuts from './Shortcuts.svelte';
+    import SourceTileToggle from './SourceTileToggle.svelte';
+    import Tile, { TileKind, TileMode } from './Tile';
+    import TileView, { type ResizeDirection } from './TileView.svelte';
+    import Translate from './Translate.svelte';
 
     interface Props {
         project: Project;

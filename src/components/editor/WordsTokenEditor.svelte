@@ -1,10 +1,10 @@
 <script lang="ts">
-    import Sym from '@nodes/Sym';
+    import { locales } from '@db/Database';
     import type Project from '@db/projects/Project';
+    import Sym from '@nodes/Sym';
     import Token from '@nodes/Token';
     import { WordsRegEx } from '@parser/Tokenizer';
     import TokenTextEditor from './TokenEditor.svelte';
-    import { locales } from '@db/Database';
 
     interface Props {
         words: Token;

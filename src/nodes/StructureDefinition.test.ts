@@ -1,14 +1,14 @@
-import { test } from 'vitest';
-import { testConflict } from '@conflicts/TestUtilities';
-import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
-import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
-import StructureDefinition from './StructureDefinition';
-import DuplicateName from '@conflicts/DuplicateName';
-import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
-import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
 import { DisallowedInputs } from '@conflicts/DisallowedInputs';
-import TypeVariables from './TypeVariables';
+import DuplicateName from '@conflicts/DuplicateName';
+import DuplicateTypeVariable from '@conflicts/DuplicateTypeVariable';
+import { IncompleteImplementation } from '@conflicts/IncompleteImplementation';
 import NotAnInterface from '@conflicts/NotAnInterface';
+import RequiredAfterOptional from '@conflicts/RequiredAfterOptional';
+import { testConflict } from '@conflicts/TestUtilities';
+import { UnimplementedInterface } from '@conflicts/UnimplementedInterface';
+import { test } from 'vitest';
+import StructureDefinition from './StructureDefinition';
+import TypeVariables from './TypeVariables';
 
 test.each([
     ['•Cat(a b)', '•Cat(a a)', StructureDefinition, DuplicateName],
@@ -118,5 +118,5 @@ test.each([
     'Expect %s no conflicts, %s to have %s with %s',
     (good, bad, node, conflict, number?) => {
         testConflict(good, bad, node, conflict, number);
-    }
+    },
 );

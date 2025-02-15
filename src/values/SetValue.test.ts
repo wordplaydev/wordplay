@@ -1,15 +1,19 @@
-import { test, expect, describe, it } from 'vitest';
-import { FALSE_SYMBOL, TRUE_SYMBOL } from '@parser/Symbols';
-import evaluateCode from '../runtime/evaluate';
-import SetValue from './SetValue';
-import NumberValue from '@values/NumberValue';
-import { SET_CLOSE_SYMBOL, SET_OPEN_SYMBOL } from '@parser/Symbols';
-import SetType from '@nodes/SetType';
-import Block, { BlockKind } from '@nodes/Block';
-import Source from '@nodes/Source';
 import Project from '@db/projects/Project';
 import DefaultLocale from '@locale/DefaultLocale';
+import Block, { BlockKind } from '@nodes/Block';
 import Context from '@nodes/Context';
+import SetType from '@nodes/SetType';
+import Source from '@nodes/Source';
+import {
+    FALSE_SYMBOL,
+    SET_CLOSE_SYMBOL,
+    SET_OPEN_SYMBOL,
+    TRUE_SYMBOL,
+} from '@parser/Symbols';
+import NumberValue from '@values/NumberValue';
+import { describe, expect, it, test } from 'vitest';
+import evaluateCode from '../runtime/evaluate';
+import SetValue from './SetValue';
 
 test.each([
     ['{} = {}', TRUE_SYMBOL],

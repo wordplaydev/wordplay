@@ -1,16 +1,16 @@
 <script lang="ts">
+    import Feedback from '@components/app/Feedback.svelte';
+    import { toClipboard } from '@components/editor/util/Clipboard';
+    import Button from '@components/widgets/Button.svelte';
+    import { COPY_SYMBOL } from '@parser/Symbols';
     import { Galleries, Projects, locales } from '../../db/Database';
     import type Project from '../../db/projects/Project';
     import Subheader from '../app/Subheader.svelte';
     import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Options from '../widgets/Options.svelte';
     import { getUser } from './Contexts';
-    import Public from './Public.svelte';
-    import Feedback from '@components/app/Feedback.svelte';
     import PII from './PII.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import { COPY_SYMBOL } from '@parser/Symbols';
-    import { toClipboard } from '@components/editor/util/Clipboard';
+    import Public from './Public.svelte';
 
     interface Props {
         project: Project;

@@ -1,18 +1,14 @@
+import type { UserIdentifier } from 'firebase-admin/auth';
+import type { User } from 'firebase/auth';
 import { httpsCallable } from 'firebase/functions';
 import type { Database } from '../Database';
 import { functions } from '../firebase';
-import type { UserIdentifier } from 'firebase-admin/auth';
-import type { User } from 'firebase/auth';
 import isValidEmail from './isValidEmail';
 
 export const CreatorCollection = 'creators';
 
 /** The type for the record returned by our cloud functions */
-type CreatorSchema = {
-    uid: string;
-    name: string | null;
-    email: string | null;
-};
+type CreatorSchema = { uid: string; name: string | null; email: string | null };
 
 /** Tracks metadata about creators, which is primarily stored in Firebase Auth, but also Firestore, where non-auth data about users lives. */
 export class Creator {

@@ -1,13 +1,13 @@
+import { getDocLocales } from '../locale/getDocLocales';
+import { getNameLocales } from '../locale/getNameLocales';
+import type Locales from '../locale/Locales';
 import Bind from '../nodes/Bind';
 import FunctionDefinition from '../nodes/FunctionDefinition';
 import NumberLiteral from '../nodes/NumberLiteral';
 import NumberType from '../nodes/NumberType';
 import Unit from '../nodes/Unit';
-import { getDocLocales } from '../locale/getDocLocales';
-import { getNameLocales } from '../locale/getNameLocales';
-import { toTokens } from '../parser/toTokens';
 import parseExpression from '../parser/parseExpression';
-import type Locales from '../locale/Locales';
+import { toTokens } from '../parser/toTokens';
 
 export function createSway(locales: Locales) {
     return FunctionDefinition.make(

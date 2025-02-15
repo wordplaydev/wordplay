@@ -1,6 +1,7 @@
+import { concretizeOrUndefined } from '@locale/concretize';
+import DefaultLocale from '@locale/DefaultLocale';
+import DefaultLocales from '@locale/DefaultLocales';
 import type LocaleText from '@locale/LocaleText';
-import type Log from './Log';
-import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import {
     isAutomated,
     isUnwritten,
@@ -9,18 +10,17 @@ import {
     toDocString,
     toLocale,
     Unwritten,
-    withoutAnnotations,
 } from '@locale/LocaleText';
-import { concretizeOrUndefined } from '@locale/concretize';
-import { tokenize } from '@parser/Tokenizer';
-import Sym from '@nodes/Sym';
+import { withoutAnnotations } from '@locale/withoutAnnotations';
 import ConceptLink from '@nodes/ConceptLink';
+import Sym from '@nodes/Sym';
 import Token from '@nodes/Token';
-import DefaultLocales from '@locale/DefaultLocales';
-import DefaultLocale from '@locale/DefaultLocale';
+import { tokenize } from '@parser/Tokenizer';
+import LocalePath, { getKeyTemplatePairs } from './LocalePath';
 import { LocaleValidator } from './LocaleSchema';
-import translate from './translate';
+import type Log from './Log';
 import type { RevisedString } from './start';
+import translate from './translate';
 
 /** Create a copy of the default tutorial with all dialog marked unwritten */
 export function createUnwrittenLocale(): LocaleText {

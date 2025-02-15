@@ -2,9 +2,12 @@ import type { SupportedFace } from '../basis/Fonts';
 import type { TileKind } from '../components/project/Tile';
 import type { DocText, Template } from './LocaleText';
 
+import type CheckpointsText from '@components/project/CheckpointsText';
 import type ErrorText from '../routes/ErrorText';
 import type LandingPageText from '../routes/PageText';
 import type AboutPageText from '../routes/about/PageText';
+import type CharacterPageText from '../routes/character/[id]/PageText';
+import type CharactersPageText from '../routes/characters/PageText';
 import type DonatePageText from '../routes/donate/PageText';
 import type GalleriesPageText from '../routes/galleries/PageText';
 import type GalleryPageText from '../routes/gallery/[galleryid]/PageText';
@@ -18,9 +21,6 @@ import type TeachPageText from '../routes/teach/PageText';
 import type ClassPageText from '../routes/teach/class/[classid]/PageText';
 import type NewClassPageText from '../routes/teach/class/new/PageText';
 import type EditTexts from './EditTexts';
-import type CheckpointsText from '@components/project/CheckpointsText';
-import type CharactersPageText from '../routes/characters/PageText';
-import type CharacterPageText from '../routes/character/[id]/PageText';
 
 export type ButtonText = {
     /** The buttons label */
@@ -241,10 +241,7 @@ type UITexts = {
         };
         options: {
             /** The locale chooser for a source */
-            locale: {
-                tip: string;
-                all: string;
-            };
+            locale: { tip: string; all: string };
         };
         cursor: {
             /** Move caret to the line before */

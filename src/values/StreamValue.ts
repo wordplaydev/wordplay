@@ -1,15 +1,15 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import NoneValue from '@values/NoneValue';
-import SimpleValue from './SimpleValue';
-import type Value from '@values/Value';
+import type Evaluation from '@runtime/Evaluation';
 import type Evaluator from '@runtime/Evaluator';
 import type { StepNumber } from '@runtime/Evaluator';
-import type { BasisTypeName } from '../basis/BasisConstants';
-import type StreamDefinition from '../nodes/StreamDefinition';
-import type Expression from '../nodes/Expression';
 import ListValue from '@values/ListValue';
+import NoneValue from '@values/NoneValue';
+import type Value from '@values/Value';
+import type { BasisTypeName } from '../basis/BasisConstants';
 import type Locales from '../locale/Locales';
-import type Evaluation from '@runtime/Evaluation';
+import type Expression from '../nodes/Expression';
+import type StreamDefinition from '../nodes/StreamDefinition';
+import SimpleValue from './SimpleValue';
 
 export const MAX_STREAM_LENGTH = 256;
 
@@ -69,10 +69,7 @@ export default abstract class StreamValue<
             return;
 
         // Update the time.
-        this.values.push({
-            value,
-            stepIndex: this.evaluator.getStepIndex(),
-        });
+        this.values.push({ value, stepIndex: this.evaluator.getStepIndex() });
 
         // Limit the array length to avoid leaking memory.
         const oldest = Math.max(0, this.values.length - MAX_STREAM_LENGTH);

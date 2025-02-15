@@ -1,19 +1,19 @@
 <script lang="ts">
-    import { onMount } from 'svelte';
-    import { getConceptIndex } from '../project/Contexts';
+    import Button from '@components/widgets/Button.svelte';
     import Project from '@db/projects/Project';
     import Example from '@nodes/Example';
     import Source from '@nodes/Source';
+    import getPreferredSpaces from '@parser/getPreferredSpaces';
     import type Spaces from '@parser/Spaces';
-    import ValueView from '../values/ValueView.svelte';
     import Evaluator from '@runtime/Evaluator';
-    import type Value from '../../values/Value';
-    import CodeView from './CodeView.svelte';
+    import { onMount } from 'svelte';
     import { DB, locales } from '../../db/Database';
     import Stage, { NameGenerator, toStage } from '../../output/Stage';
+    import type Value from '../../values/Value';
     import OutputView from '../output/OutputView.svelte';
-    import Button from '@components/widgets/Button.svelte';
-    import getPreferredSpaces from '@parser/getPreferredSpaces';
+    import { getConceptIndex } from '../project/Contexts';
+    import ValueView from '../values/ValueView.svelte';
+    import CodeView from './CodeView.svelte';
 
     interface Props {
         example: Example;

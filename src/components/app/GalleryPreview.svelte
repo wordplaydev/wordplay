@@ -1,15 +1,15 @@
 <script lang="ts">
+    import { browser } from '$app/environment';
     import { goto } from '$app/navigation';
     import { Projects, locales } from '@db/Database';
+    import type Project from '@db/projects/Project';
+    import { onMount } from 'svelte';
     import type Gallery from '../../db/galleries/Gallery';
+    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
     import Link from './Link.svelte';
     import ProjectPreview from './ProjectPreview.svelte';
     import Spinning from './Spinning.svelte';
     import Subheader from './Subheader.svelte';
-    import { browser } from '$app/environment';
-    import MarkupHtmlView from '../concepts/MarkupHTMLView.svelte';
-    import { onMount } from 'svelte';
-    import type Project from '@db/projects/Project';
 
     interface Props {
         gallery: Gallery;

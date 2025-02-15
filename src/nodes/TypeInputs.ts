@@ -1,13 +1,13 @@
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '../parser/Symbols';
 import type { Grammar, Replacement } from './Node';
-import Token from './Token';
-import Sym from './Sym';
-import Type from './Type';
 import Node, { list, node, optional } from './Node';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Sym from './Sym';
+import Token from './Token';
+import Type from './Type';
 
 export default class TypeInputs extends Node {
     readonly open: Token;

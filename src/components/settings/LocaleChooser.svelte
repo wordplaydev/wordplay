@@ -1,28 +1,30 @@
 <svelte:options />
 
 <script lang="ts">
-    import Button from '../widgets/Button.svelte';
-    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
     import { DB, locales } from '@db/Database';
-    import {
-        getLocaleLanguage,
-        getLocaleLanguageName,
-        isLocaleDraft,
-    } from '../../locale/LocaleText';
-    import { type SupportedLocale } from '@locale/SupportedLocales';
-    import { SupportedLocales } from '@locale/SupportedLocales';
-    import Link from '../app/Link.svelte';
-    import Dialog from '../widgets/Dialog.svelte';
-    import { localeToString } from '../../locale/Locale';
     import type LanguageCode from '@locale/LanguageCode';
-    import LocaleName from './LocaleName.svelte';
-    import { Settings } from '../../db/Database';
+    import { getLanguageLayout, PossibleLanguages } from '@locale/LanguageCode';
+    import {
+        SupportedLocales,
+        type SupportedLocale,
+    } from '@locale/SupportedLocales';
     import {
         CANCEL_SYMBOL,
         DRAFT_SYMBOL,
         EMOJI_SYMBOL,
         LOCALE_SYMBOL,
     } from '@parser/Symbols';
+    import { Settings } from '../../db/Database';
+    import { localeToString } from '../../locale/Locale';
+    import {
+        getLocaleLanguage,
+        getLocaleLanguageName,
+        isLocaleDraft,
+    } from '../../locale/LocaleText';
+    import Link from '../app/Link.svelte';
+    import Button from '../widgets/Button.svelte';
+    import Dialog from '../widgets/Dialog.svelte';
+    import LocaleName from './LocaleName.svelte';
 
     let selectedLocales = $state<string[]>([]);
     $effect(() => {

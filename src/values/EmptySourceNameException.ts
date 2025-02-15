@@ -1,7 +1,7 @@
-import ExceptionValue from '@values/ExceptionValue';
-import type Evaluator from '@runtime/Evaluator';
-import type Locales from '../locale/Locales';
 import type Program from '@nodes/Program';
+import type Evaluator from '@runtime/Evaluator';
+import ExceptionValue from '@values/ExceptionValue';
+import type Locales from '../locale/Locales';
 
 export default class EmptySourceNameException extends ExceptionValue {
     constructor(evaluator: Evaluator, program: Program) {

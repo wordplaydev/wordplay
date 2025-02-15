@@ -1,22 +1,22 @@
 <script lang="ts">
-    import { slide } from 'svelte/transition';
     import type Concept from '@concepts/Concept';
-    import CodeView from './CodeView.svelte';
-    import MarkupHTMLView from './MarkupHTMLView.svelte';
-    import Speech from '../lore/Speech.svelte';
+    import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
+    import { slide } from 'svelte/transition';
     import {
         Locales,
         animationDuration,
         blocks,
         locales,
     } from '../../db/Database';
+    import type LocaleText from '../../locale/LocaleText';
     import type Type from '../../nodes/Type';
     import type TypeVariables from '../../nodes/TypeVariables';
-    import RootView from '../project/RootView.svelte';
-    import type LocaleText from '../../locale/LocaleText';
     import Progress from '../../tutorial/Progress';
     import Link from '../app/Link.svelte';
-    import { TYPE_CLOSE_SYMBOL, TYPE_OPEN_SYMBOL } from '@parser/Symbols';
+    import Speech from '../lore/Speech.svelte';
+    import RootView from '../project/RootView.svelte';
+    import CodeView from './CodeView.svelte';
+    import MarkupHTMLView from './MarkupHTMLView.svelte';
 
     interface Props {
         concept: Concept;

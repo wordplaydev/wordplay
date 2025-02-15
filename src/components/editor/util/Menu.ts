@@ -1,9 +1,9 @@
-import Revision from '../../../edit/Revision';
-import type Caret from '../../../edit/Caret';
-import type { Edit } from './Commands';
-import type Purpose from '@concepts/Purpose';
 import type ConceptIndex from '@concepts/ConceptIndex';
+import type Purpose from '@concepts/Purpose';
 import type Locales from '@locale/Locales';
+import type Caret from '../../../edit/Caret';
+import Revision from '../../../edit/Revision';
+import type { Edit } from './Commands';
 
 /** The first number is the selected revision or revision set, the second number is the optional revision in a selected revision set. */
 export type MenuSelection = [number, number | undefined];

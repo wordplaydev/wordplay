@@ -1,15 +1,15 @@
-import Expression from './Expression';
-import type { Grammar, Replacement } from './Node';
-import type Token from './Token';
-import BindToken from './BindToken';
-import Characters from '../lore/BasisCharacters';
-import Purpose from '../concepts/Purpose';
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
+import Purpose from '../concepts/Purpose';
+import type Locales from '../locale/Locales';
+import Characters from '../lore/BasisCharacters';
+import BindToken from './BindToken';
+import Expression from './Expression';
+import ExpressionPlaceholder from './ExpressionPlaceholder';
+import type { Grammar, Replacement } from './Node';
 import Node, { node } from './Node';
 import Sym from './Sym';
-import ExpressionPlaceholder from './ExpressionPlaceholder';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import type Token from './Token';
 
 export default class KeyValue extends Node {
     readonly key: Expression;

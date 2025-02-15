@@ -1,9 +1,9 @@
+import type { NodeDescriptor } from '@locale/NodeTexts';
 import type { BasisTypeName } from '../basis/BasisConstants';
-import Type from './Type';
+import type Locales from '../locale/Locales';
 import Characters from '../lore/BasisCharacters';
 import { PLACEHOLDER_SYMBOL } from '../parser/Symbols';
-import type Locales from '../locale/Locales';
-import type { NodeDescriptor } from '@locale/NodeTexts';
+import Type from './Type';
 
 export default class AnyType extends Type {
     constructor() {
