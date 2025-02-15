@@ -3,6 +3,12 @@
 We'll note all notable changes in this file, including bug fixes, enhancements, and all closed issues.
 Dates are in `YYYY-MM-DD` format and versions are in [semantic versioning](http://semver.org/) format.
 
+## 0.15.2 2024-02-15
+
+### Maintenance
+
+- Updated minor versions of Svelte, SvelteKit, ESLint, Firebase, Prettier, Zod.
+
 ## 0.15.1 2024-02-08
 
 ### Added
