@@ -19,24 +19,20 @@ export const HowToCategories = {
 
 export type HowToCategory = keyof typeof HowToCategories;
 
-export const HowToIDs = [
-    'animated-scene',
-    'interactive-scene',
-    'move-phrase',
-] as const;
-
-export type HowToID = (typeof HowToIDs)[number];
-
 // A mapping of how to IDs to categories. Must be declared here to add to the project.
 // If they're not added, they won't appear in the interface. We make them explicit here
 // to allow drafts in the repository that aren't yet ready to be shown. We just
 // have to remember to add them when they're ready!
-export const HowToMetadata: { [key in HowToID]: { category: HowToCategory } } =
-    {
-        'animated-scene': { category: 'stories' },
-        'interactive-scene': { category: 'stories' },
-        'move-phrase': { category: 'characters' },
-    } as const;
+export const HowToMetadata = {
+    'animated-scene': { category: 'stories' },
+    'interactive-scene': { category: 'stories' },
+    'move-phrase': { category: 'characters' },
+    'shake-phrase': { category: 'randomization' },
+} satisfies Record<string, { category: HowToCategory }>;
+
+export const HowToIDs = Object.keys(HowToMetadata);
+
+export type HowToID = keyof typeof HowToMetadata;
 
 /**
  * The schema for a how to. This is parsed and generated based on the serialized format of a how to document.
