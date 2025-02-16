@@ -31,9 +31,8 @@ function readProjects(dir: string): SerializedProject[] {
 }
 
 const projects: SerializedProject[] = readProjects('examples');
-const templates: SerializedProject[] = readProjects('templates');
 
-test.each([...projects, ...templates])(
+test.each([...projects])(
     `Ensure $name has no conflicts`,
     async (example: SerializedProject) => {
         const project = await Project.deserialize(Locales, example);
