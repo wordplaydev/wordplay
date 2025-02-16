@@ -222,10 +222,13 @@
     // When the evaluator is playing but the animator is stopped, create a new animator.
     $effect(() => {
         if (animator) {
-            if ($evaluation?.playing) {
-                if (animator.isStopped()) untrack(() => resetAnimator());
-            } else {
-                animator.stop();
+            // If there's an evaluation context, adjust the animator state based on it.
+            if ($evaluation) {
+                if ($evaluation.playing) {
+                    if (animator.isStopped()) untrack(() => resetAnimator());
+                } else {
+                    animator.stop();
+                }
             }
         }
     });
