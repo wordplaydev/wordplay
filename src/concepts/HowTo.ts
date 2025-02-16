@@ -15,6 +15,7 @@ export const HowToCategories = {
     animation: 6,
     stories: 7,
     motion: 8,
+    video: 9,
 } as const;
 
 export type HowToCategory = keyof typeof HowToCategories;
@@ -24,10 +25,12 @@ export type HowToCategory = keyof typeof HowToCategories;
 // to allow drafts in the repository that aren't yet ready to be shown. We just
 // have to remember to add them when they're ready!
 export const HowToMetadata = {
+    'animate-phrase': { category: 'characters' },
+    'move-phrase': { category: 'characters' },
     'animated-scene': { category: 'stories' },
     'interactive-scene': { category: 'stories' },
-    'move-phrase': { category: 'characters' },
     'shake-phrase': { category: 'randomization' },
+    'video-grid': { category: 'video' },
 } satisfies Record<string, { category: HowToCategory }>;
 
 export const HowToIDs = Object.keys(HowToMetadata);

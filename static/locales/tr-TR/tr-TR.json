@@ -4405,7 +4405,8 @@
                     "randomization": "$~rastgele kullan",
                     "remembering": "$~değişiklikleri ve seçimleri takip et",
                     "stories": "$~bir hikaye anlatmak",
-                    "motion": "$~fizik kullan"
+                    "motion": "$~fizik kullan",
+                    "video": "$~bir kamera kullan"
                 },
                 "related": "$~Aradığınız bu değil mi?"
             }

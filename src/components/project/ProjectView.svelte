@@ -511,7 +511,10 @@
                 new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
-                    TileMode.Collapsed,
+                    project.getMain().expression.expression.statements.length >
+                    0
+                        ? TileMode.Collapsed
+                        : TileMode.Expanded,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),

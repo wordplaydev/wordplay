@@ -4388,7 +4388,8 @@
                     "randomization": "$~utiliser au hasard",
                     "remembering": "$~suivre les changements et les choix",
                     "stories": "$~raconter une histoire",
-                    "motion": "$~utiliser la physique"
+                    "motion": "$~utiliser la physique",
+                    "video": "$~utiliser un appareil photo"
                 },
                 "related": "$~Ce n'est pas ce que vous cherchez ?"
             }

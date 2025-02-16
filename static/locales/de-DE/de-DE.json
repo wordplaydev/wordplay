@@ -4385,7 +4385,8 @@
                     "randomization": "$~zufällig verwenden",
                     "remembering": "$~Änderungen und Auswahlmöglichkeiten verfolgen",
                     "stories": "$~eine Geschichte erzählen",
-                    "motion": "$~Physik anwenden"
+                    "motion": "$~Physik anwenden",
+                    "video": "$~eine Kamera benutzen"
                 },
                 "related": "$~Nicht das, wonach Sie suchen?"
             }

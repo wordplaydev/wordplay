@@ -4354,7 +4354,8 @@
                     "randomization": "$~utilizar al azar",
                     "remembering": "$~Seguimiento de cambios y elecciones",
                     "stories": "$~contar una historia",
-                    "motion": "$~utilizar la física"
+                    "motion": "$~utilizar la física",
+                    "video": "$~usa una cámara"
                 },
                 "related": "$~¿No es lo que estás buscando?"
             }

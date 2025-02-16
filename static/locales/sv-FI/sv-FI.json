@@ -4405,7 +4405,8 @@
                     "randomization": "$~använd slumpmässigt",
                     "remembering": "$~spåra förändringar och val",
                     "stories": "$~berätta en historia",
-                    "motion": "$~använda fysik"
+                    "motion": "$~använda fysik",
+                    "video": "$~använda en kamera"
                 },
                 "related": "$~Inte vad du letar efter?"
             }

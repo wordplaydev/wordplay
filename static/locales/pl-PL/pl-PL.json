@@ -4410,7 +4410,8 @@
                     "randomization": "$~użyj losowo",
                     "remembering": "$~śledź zmiany i wybory",
                     "stories": "$~opowiadać bajkę",
-                    "motion": "$~użyj fizyki"
+                    "motion": "$~użyj fizyki",
+                    "video": "$~użyj aparatu"
                 },
                 "related": "$~Nie znalazłeś tego, czego szukasz?"
             }

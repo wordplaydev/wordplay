@@ -4336,7 +4336,8 @@
                     "randomization": "$~随机使用",
                     "remembering": "$~追踪变化和选择",
                     "stories": "$~讲故事",
-                    "motion": "$~运用物理"
+                    "motion": "$~运用物理",
+                    "video": "$~使用相机"
                 },
                 "related": "$~这不是您要找的吗？"
             }

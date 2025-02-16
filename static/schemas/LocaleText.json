@@ -9246,6 +9246,9 @@
                         },
                         "styling": {
                           "type": "string"
+                        },
+                        "video": {
+                          "type": "string"
                         }
                       },
                       "required": [
@@ -9256,7 +9259,8 @@
                         "remembering",
                         "animation",
                         "stories",
-                        "motion"
+                        "motion",
+                        "video"
                       ],
                       "type": "object"
                     },
