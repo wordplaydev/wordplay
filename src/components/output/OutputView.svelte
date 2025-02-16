@@ -48,6 +48,8 @@
         paintingConfig?: PaintingConfiguration | undefined;
         mini?: boolean;
         background?: Color | string | null;
+        /** Whether to process mouse wheel events without the shift key. Useful to disable for examples embedded in scrollable pages. */
+        wheel?: boolean;
     }
 
     let {
@@ -61,6 +63,7 @@
         paintingConfig = undefined,
         mini = false,
         background = $bindable(null),
+        wheel = true,
     }: Props = $props();
 
     let indexContext = getConceptIndex();
@@ -363,7 +366,7 @@
     }
 
     function handleWheel(event: WheelEvent) {
-        if (stage) {
+        if (stage && (wheel || event.shiftKey)) {
             stage.adjustFocus(0, 0, event.deltaY / PX_PER_METER);
             event.preventDefault();
         }

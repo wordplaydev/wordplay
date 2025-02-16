@@ -123,6 +123,7 @@
                             {value}
                             grid
                             editable={false}
+                            wheel={false}
                         />
                     </div>
                 {:else}<ValueView {value} inline={false} />{/if}</div
