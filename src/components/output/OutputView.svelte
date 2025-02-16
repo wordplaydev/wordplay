@@ -140,15 +140,11 @@
     });
 
     /** Keep track of streams that listen for keyboard input */
-    const keys = $derived(
-        $evaluation?.evaluator.getBasisStreamsOfType(Key).length > 0,
-    );
+    const keys = $derived(evaluator.getBasisStreamsOfType(Key).length > 0);
     const placements = $derived(
-        $evaluation?.evaluator.getBasisStreamsOfType(Placement).length > 0,
+        evaluator.getBasisStreamsOfType(Placement).length > 0,
     );
-    const chats = $derived(
-        $evaluation?.evaluator.getBasisStreamsOfType(Chat).length > 0,
-    );
+    const chats = $derived(evaluator.getBasisStreamsOfType(Chat).length > 0);
 
     // Announce changes in values.
     $effect(() => {
@@ -721,7 +717,7 @@
     }
 
     /**
-     * Given a mouse event, finds the nearest output under the mouse and adds it to the project selection
+     * Given a pointer event, finds the nearest output under the mouse and adds it to the project selection
      * if so.
      */
     function selectPointerOutput(event: PointerEvent | MouseEvent): boolean {
