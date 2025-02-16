@@ -983,7 +983,7 @@
                 {project}
                 {evaluator}
                 stage={stageValue}
-                background={mini}
+                background
                 bind:fit
                 bind:grid
                 bind:painting
