@@ -22,7 +22,7 @@ export enum AnimationState {
 
 export type TransitionSequence = [Transition, Transition, ...Transition[]];
 
-const Log = true;
+const Log = false;
 
 /**
  * Responsible for tracking the current rendered appearance of some output

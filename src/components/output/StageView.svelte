@@ -190,6 +190,7 @@
     function resetAnimator() {
         if (animator !== undefined) animator.stop();
         // Make a new one.
+        console.log('Creating new animator');
         animator = new Animator(
             evaluator,
             // When output exits, remove it from the map and triggering a render so that its removed from stage.
