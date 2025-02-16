@@ -15,7 +15,10 @@
             Project.make(
                 null,
                 '',
-                new Source('', ''),
+                new Source(
+                    $locales.get((l) => l.term.start),
+                    '',
+                ),
                 [],
                 $locales.getLocales(),
             ),
