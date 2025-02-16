@@ -22,7 +22,7 @@ export enum AnimationState {
 
 export type TransitionSequence = [Transition, Transition, ...Transition[]];
 
-const Log = false;
+const Log = true;
 
 /**
  * Responsible for tracking the current rendered appearance of some output
@@ -251,7 +251,9 @@ export default class OutputAnimation {
         const move = this.output.moving ?? this.output.pose;
         const rest = this.output.getFirstRestPose();
 
-        this.log(`Moving from ${prior.toString()} to ${present.toString()}`);
+        this.log(
+            `Moving from ${prior.place.toString()} to ${present.place.toString()}`,
+        );
 
         // If there's a pose, tween the prior and new place, posing while we do it, then transition to the still pose.
         // If the rest is an empty sequence, then just use the move pose.
@@ -406,7 +408,7 @@ export default class OutputAnimation {
 
         // Use the sequence to create an animation with the Web Animation API.
 
-        // Find the element corresponding to the phrase in the given stage.
+        // Find the element corresponding to the output in the given stage.
         // We look inside the live stage corresponding to the stae's HTML ID
         const element = document.querySelector(
             `.stage.live[data-id="${this.animator.stage.getHTMLID()}"] [data-id="${this.output.getHTMLID()}"]`,
@@ -492,10 +494,14 @@ export default class OutputAnimation {
                 keyframe.transform = toOutputTransform(
                     transition.pose,
                     this.output.pose,
-                    localPlace,
-                    // The offset is the scene focus if it's the stage, offset from focus otherwise
+                    // If a stage, mirrors the value sent by StageView (the center); otherwise use the local place.
                     this.output instanceof Stage
-                        ? this.animator.focus
+                        ? new Place(this.output.value, 0, 0, 0)
+                        : localPlace,
+                    // If a stage, use the transitioning rendered focus; if not, use the offset focus computed above.
+                    this.output instanceof Stage
+                        ? (transition.place?.flipX() ??
+                              new Place(this.output.value, 0, 0, 0))
                         : offsetFocus,
                     // Anything rooted in the stage has no height.
                     // Otherwise, pass the height of the parent, just like
@@ -518,6 +524,8 @@ export default class OutputAnimation {
                           }
                         : undefined,
                 );
+
+                console.log(keyframe.transform);
             }
 
             // What size should we transition to? Set if specified by the transition.

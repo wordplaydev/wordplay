@@ -443,21 +443,25 @@
 
                 const threshold = 20;
 
+                const xDirection =
+                    angle < 90 - threshold || angle > 270 + threshold
+                        ? 1
+                        : angle > 90 + threshold && angle < 270 - threshold
+                          ? -1
+                          : 0;
+
+                const yDirection =
+                    angle > threshold && angle < 180 - threshold
+                        ? 1
+                        : angle > 180 + threshold && angle < 360 - threshold
+                          ? -1
+                          : 0;
+
                 // Divide the 360 degrees into 45 degree segments
                 // Send the navigation directions to all all of the placements.
                 placement.react({
-                    x:
-                        angle < 90 - threshold || angle > 270 + threshold
-                            ? 1
-                            : angle > 90 + threshold && angle < 270 - threshold
-                              ? -1
-                              : 0,
-                    y:
-                        angle > threshold && angle < 180 - threshold
-                            ? 1
-                            : angle > 180 + threshold && angle < 360 - threshold
-                              ? -1
-                              : 0,
+                    x: xDirection,
+                    y: yDirection,
                     z: 0,
                 });
             }
