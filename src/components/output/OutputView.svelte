@@ -409,16 +409,24 @@
             for (const placement of placements) {
                 // First, find the output on stage that this placement is placing,
                 // so we can find the position of the pointer relative to the output.
-                const output = stageValue.find(
-                    (output) => output.place?.value === placement.latest(),
-                );
+                const latest = placement.latest();
+                const output =
+                    stageValue.find(
+                        (output) => output.place?.value === latest,
+                    ) ??
+                    (stageValue.place?.value === latest
+                        ? stageValue
+                        : undefined);
                 // Couldn't find the output? Move to the next one.
                 if (output === undefined) continue;
 
                 // Now find the view of the output.
-                const outputView = document.querySelector(
-                    `[data-id="${output.getHTMLID()}"]`,
-                );
+                const outputView =
+                    output === stageValue
+                        ? valueView
+                        : document.querySelector(
+                              `[data-id="${output.getHTMLID()}"]`,
+                          );
                 // Couldn't find the view? Move on to the next one.
                 if (outputView === null) continue;
 
@@ -434,6 +442,7 @@
                     relativePointerY < 0 ? Math.abs(atan2) : 360 - atan2;
 
                 const threshold = 20;
+
                 // Divide the 360 degrees into 45 degree segments
                 // Send the navigation directions to all all of the placements.
                 placement.react({

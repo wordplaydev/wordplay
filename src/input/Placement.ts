@@ -28,7 +28,7 @@ import StructureValue from '../values/StructureValue';
 import createStreamEvaluator from './createStreamEvaluator';
 
 type Direction = -1 | 0 | 1;
-type PlacementEvent = { x: Direction; y: Direction; z: Direction };
+export type PlacementEvent = { x: Direction; y: Direction; z: Direction };
 
 export default class Placement extends StreamValue<
     StructureValue,
