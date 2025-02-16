@@ -287,7 +287,7 @@
     /** Define the rendered focused based on the stage's place, fit, and other states. Not derived since it is a bindable prop. */
     $effect(() => {
         renderedFocus = stage.place
-            ? stage.place
+            ? stage.place.flipX()
             : fit && fitFocus && $evaluation?.playing === true
               ? fitFocus
               : adjustedFocus;

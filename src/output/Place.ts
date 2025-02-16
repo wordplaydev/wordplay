@@ -65,6 +65,10 @@ export default class Place extends Valued {
         );
     }
 
+    flipX() {
+        return new Place(this.value, -this.x, this.y, this.z, this.rotation);
+    }
+
     distanceFrom(place: Place) {
         return Math.sqrt(
             Math.pow(place.x - this.x, 2) +
