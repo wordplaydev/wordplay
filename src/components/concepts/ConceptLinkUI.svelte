@@ -4,6 +4,7 @@
     import ConceptLink, {
         CharacterName,
         CodepointName,
+        HowToName,
         UIName,
     } from '@nodes/ConceptLink';
     import { locales } from '../../db/Database';
@@ -14,7 +15,7 @@
     import Button from '../widgets/Button.svelte';
 
     interface Props {
-        link: ConceptRef | ConceptLink | Concept;
+        link: ConceptRef | ConceptLink | Concept | string;
         label?: string | undefined;
         symbolic?: boolean;
     }
@@ -38,6 +39,8 @@
         | CodepointName
         // A reference something in the UI
         | UIName
+        // A reference to a how to
+        | HowToName
         // A custom character name
         | CharacterName
         | undefined;
@@ -55,7 +58,11 @@
         else {
             // Parse the link
             const id = ConceptLink.parse(
-                link instanceof ConceptLink ? link.getName() : link.concept,
+                link instanceof ConceptLink
+                    ? link.getName()
+                    : typeof link === 'string'
+                      ? link
+                      : link.concept,
             );
 
             if (id === undefined) return undefined;
@@ -70,29 +77,35 @@
             if (index !== undefined) {
                 let concept = index.getConceptByName(id?.name);
                 if (concept) {
+                    // Is it a how to? Return the concept.
+                    if (id instanceof HowToName)
+                        return {
+                            concept,
+                        };
+
+                    // No property? Just return the concept.
                     const property = id.property;
-                    if (property) {
-                        const subConcept = Array.from(
-                            concept.getSubConcepts(),
-                        ).find((sub) => sub.hasName(property, $locales));
-                        if (subConcept !== undefined)
-                            return { container: concept, concept: subConcept };
-                        else if (concept.affiliation !== undefined) {
-                            const structure = index.getStructureConcept(
-                                concept.affiliation,
-                            );
-                            if (structure) {
-                                const subConcept = Array.from(
-                                    structure.getSubConcepts(),
-                                ).find((sub) =>
-                                    sub.hasName(property, $locales),
-                                );
-                                if (subConcept) {
-                                    return {
-                                        container: concept,
-                                        concept: subConcept,
-                                    };
-                                }
+                    if (property === undefined) return { concept };
+
+                    // Otherwise, s
+                    const subConcept = Array.from(
+                        concept.getSubConcepts(),
+                    ).find((sub) => sub.hasName(property, $locales));
+                    if (subConcept !== undefined)
+                        return { container: concept, concept: subConcept };
+                    else if (concept.affiliation !== undefined) {
+                        const structure = index.getStructureConcept(
+                            concept.affiliation,
+                        );
+                        if (structure) {
+                            const subConcept = Array.from(
+                                structure.getSubConcepts(),
+                            ).find((sub) => sub.hasName(property, $locales));
+                            if (subConcept) {
+                                return {
+                                    container: concept,
+                                    concept: subConcept,
+                                };
                             }
                         }
                     } else
@@ -115,21 +128,26 @@
 
     function navigate() {
         // If we have a concept and the last concept isn't it, navigate
-        if (match && 'concept' in match) {
-            const concept = match.concept;
-            if (path) {
-                // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
-                const alreadyHere = $path.at(-1) === concept;
-                if (alreadyHere)
-                    path.set([...$path.slice(0, $path.length - 1), concept]);
-                // If the concept before the last is the concept, just go back
-                else if (
-                    $path.length >= 2 &&
-                    $path[$path.length - 2] === concept
-                )
-                    path.set($path.slice(0, $path.length - 1));
-                // Otherwise, append the concept.
-                else path.set([...$path, concept]);
+        if (match) {
+            if ('concept' in match) {
+                const concept = match.concept;
+                if (path) {
+                    // Already at this concept? Make a new path anyway to ensure that tile is shown if collapsed.
+                    const alreadyHere = $path.at(-1) === concept;
+                    if (alreadyHere)
+                        path.set([
+                            ...$path.slice(0, $path.length - 1),
+                            concept,
+                        ]);
+                    // If the concept before the last is the concept, just go back
+                    else if (
+                        $path.length >= 2 &&
+                        $path[$path.length - 2] === concept
+                    )
+                        path.set($path.slice(0, $path.length - 1));
+                    // Otherwise, append the concept.
+                    else path.set([...$path, concept]);
+                }
             }
         }
     }
@@ -160,6 +178,8 @@
     {link.concept.getText()}
 {:else if link instanceof ConceptRef}
     {link.concept}
+{:else if typeof link === 'string'}
+    {link}
 {:else}
     {link.getName($locales, true)}
 {/if}

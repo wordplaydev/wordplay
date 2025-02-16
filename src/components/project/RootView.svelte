@@ -201,7 +201,7 @@
         }
 
         // If elided, hide all the tokens after the first five that aren't already hidden by parents
-        if (elide)
+        if (elide && inline)
             for (const token of node
                 .leaves()
                 .filter(

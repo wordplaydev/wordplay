@@ -42,7 +42,8 @@
         "set": "$~uppsättning",
         "key": "$~nyckel",
         "help": "$~Hjälp",
-        "feedback": "$~feed-back"
+        "feedback": "$~feed-back",
+        "how": "$~hur man"
     },
     "token": {
         "EvalOpen": "$~utvärdering öppen",
@@ -4390,6 +4391,24 @@
                 "properties": "$~Egenskaper",
                 "functions": "$~Funktioner",
                 "conversions": "$~Konverteringar"
+            },
+            "modes": {
+                "label": "$~bläddra",
+                "modes": ["$~hur man", "$~begrepp"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~skapa och kontrollera karaktärer",
+                    "styling": "$~stiltecken och text",
+                    "animation": "$~animera karaktärer och text",
+                    "layout": "$~ordna tecken och text",
+                    "randomization": "$~använd slumpmässigt",
+                    "remembering": "$~spåra förändringar och val",
+                    "stories": "$~berätta en historia",
+                    "motion": "$~använda fysik",
+                    "video": "$~använda en kamera"
+                },
+                "related": "$~Inte vad du letar efter?"
             }
         },
         "dialog": {

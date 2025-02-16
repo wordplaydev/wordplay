@@ -42,7 +42,8 @@
         "set": "組",
         "key": "鑰匙",
         "help": "幫助",
-        "feedback": "回饋"
+        "feedback": "回饋",
+        "how": "$~如何"
     },
     "token": {
         "EvalOpen": "評估開放",
@@ -4321,6 +4322,24 @@
                 "properties": "屬性",
                 "functions": "函數",
                 "conversions": "轉換"
+            },
+            "modes": {
+                "label": "$~浏览",
+                "modes": ["$~如何", "$~概念"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~创建和控制角色",
+                    "styling": "$~样式字符和文本",
+                    "animation": "$~为角色和文字添加动画",
+                    "layout": "$~排列字符和文本",
+                    "randomization": "$~随机使用",
+                    "remembering": "$~追踪变化和选择",
+                    "stories": "$~讲故事",
+                    "motion": "$~运用物理",
+                    "video": "$~使用相机"
+                },
+                "related": "$~这不是您要找的吗？"
             }
         },
         "dialog": {

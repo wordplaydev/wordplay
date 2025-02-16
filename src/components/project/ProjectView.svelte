@@ -40,6 +40,7 @@
         Chats,
         Creators,
         DB,
+        Locales,
         locales,
         mic,
         Projects,
@@ -105,6 +106,7 @@
         setKeyboardModifiers,
         setProjectCommandContext,
         setSelectedOutput,
+        type ConceptPath,
         type EditorState,
         type KeyModifierState,
     } from './Contexts';
@@ -509,7 +511,10 @@
                 new Tile(
                     TileKind.Documentation,
                     TileKind.Documentation,
-                    TileMode.Collapsed,
+                    project.getMain().expression.expression.statements.length >
+                    0
+                        ? TileMode.Collapsed
+                        : TileMode.Expanded,
                     undefined,
                     Tile.randomPosition(1024, 768),
                 ),
@@ -630,9 +635,17 @@
         font: $locales.get((l) => l.ui.font.app),
     });
 
-    /** Update the concept index whenever the project or locales change. */
+    /** Get the store of how tos stored in the locales database. */
+    let howToStore = Locales.howTos;
+    let howTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    /** Update the concept index whenever the project, locales, or how tos change. */
     $effect(() => {
-        index = ConceptIndex.make(project, $locales);
+        index = ConceptIndex.make(
+            project,
+            $locales,
+            howTos instanceof Promise ? [] : howTos,
+        );
     });
 
     /* Keep the index context up to date when it changes.*/
@@ -665,9 +678,11 @@
             // Make a new concept index with the new project and translations, but the old examples.
             const newIndex =
                 project && index
-                    ? ConceptIndex.make(project, $locales).withExamples(
-                          index.examples,
-                      )
+                    ? ConceptIndex.make(
+                          project,
+                          $locales,
+                          howTos instanceof Promise ? [] : howTos,
+                      ).withExamples(index.examples)
                     : undefined;
 
             // Set the index
@@ -692,7 +707,7 @@
     });
 
     // When the path changes, show the docs and mirror the concept in the URL.
-    let latestPath = $state<Concept[]>($path ?? []);
+    let latestPath = $state<ConceptPath>($path ?? []);
 
     // When the path changes, show the docs, and leave fullscreen.
     $effect(() => {

@@ -13,6 +13,7 @@
         "input": "input",
         "output": "output",
         "convert": "convert",
+        "how": "how to",
         "act": "act",
         "scene": "scene",
         "phrase": "phrase",
@@ -4397,6 +4398,24 @@
                 "properties": "Properties",
                 "functions": "Functions",
                 "conversions": "Conversions"
+            },
+            "modes": {
+                "label": "browse",
+                "modes": ["how to", "concepts"]
+            },
+            "how": {
+                "category": {
+                    "characters": "create and control characters",
+                    "styling": "style characters and text",
+                    "animation": "animate characters and text",
+                    "layout": "arrange characters and text",
+                    "randomization": "randomize things",
+                    "remembering": "track changes and choices",
+                    "stories": "tell a story",
+                    "motion": "use physics",
+                    "video": "use a camera"
+                },
+                "related": "Not what you're looking for?"
             }
         },
         "dialog": {

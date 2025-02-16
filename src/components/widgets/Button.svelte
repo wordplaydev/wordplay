@@ -57,6 +57,7 @@
     }: Props = $props();
 
     let loading = $state(false);
+    let width = $state(0);
 
     async function doAction(event: Event) {
         if (active) {
@@ -83,6 +84,8 @@
     data-testid={testid}
     data-uiid={uiid}
     class={classes}
+    bind:clientWidth={width}
+    style:--characters={width / 20}
     type={submit ? 'submit' : 'button'}
     title={$locales.concretize(tip).toText()}
     aria-label={tip}
@@ -188,8 +191,9 @@
         border-color: transparent;
     }
 
-    button:hover[aria-disabled='false'] {
-        transform: rotate(-3deg);
+    button:hover[aria-disabled='false'],
+    button:focus {
+        transform: rotate(calc(-15deg / var(--characters)));
     }
 
     button.background:hover[aria-disabled='false'] {

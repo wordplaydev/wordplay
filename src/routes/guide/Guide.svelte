@@ -15,7 +15,7 @@
         getConceptFromURL,
         setConceptInURL,
     } from '@concepts/ConceptParams';
-    import { locales } from '@db/Database';
+    import { Locales, locales } from '@db/Database';
     import Project from '@db/projects/Project';
     import { toLocale } from '@locale/LocaleText';
     import Source from '@nodes/Source';
@@ -39,11 +39,14 @@
 
     let mounted = $state(false);
     onMount(() => {
-        locale = getLocaleInURL();
-        concept = getConceptFromURL(index, page.url.searchParams);
+        // Before showing, wait for how tos to load.
+        Locales.loadHowTos($locales.getLocaleString()).then(() => {
+            locale = getLocaleInURL();
+            concept = getConceptFromURL(index, page.url.searchParams);
 
-        path.set(concept ? [concept] : []);
-        mounted = true;
+            path.set(concept ? [concept] : []);
+            mounted = true;
+        });
     });
 
     // After any navigation, extract the locale and concept from the URL and
@@ -56,8 +59,8 @@
         if (
             concept !== undefined &&
             ($path.length === 0 ||
-                concept.getName($locales, false) !==
-                    $path[0].getName($locales, false))
+                concept.getCharacterName($locales) !==
+                    $path.at(-1)?.getCharacterName($locales))
         ) {
             path.set([concept]);
         }
@@ -71,7 +74,23 @@
     let project = $derived(
         Project.make(null, 'guide', Source.make(''), [], $locales.getLocales()),
     );
-    let index = $derived(ConceptIndex.make(project, $locales));
+
+    let howToStore = Locales.howTos;
+
+    /** Keep the how tos loaded whenever the language changes */
+    $effect(() => {
+        Locales.loadHowTos($locales.getLocaleString());
+    });
+
+    let howTos = $derived($howToStore[$locales.getLocaleString()]);
+
+    let index = $derived(
+        ConceptIndex.make(
+            project,
+            $locales,
+            howTos instanceof Promise ? [] : howTos,
+        ),
+    );
     // svelte-ignore state_referenced_locally
     let indexStore = $state({ index });
     setConceptIndex(indexStore);

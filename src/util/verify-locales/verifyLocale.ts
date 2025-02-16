@@ -96,7 +96,7 @@ export async function verifyLocale(
         revisedText,
         DefaultLocale,
         locale !== 'example',
-        translate,
+        translate && locale !== 'en-US',
         revisedStrings,
         globalNames,
     );

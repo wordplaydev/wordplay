@@ -14,6 +14,7 @@ export type MenuOrganization = (Revision | RevisionSet)[];
 const PurposeRelevance: Record<Purpose, number> = {
     project: 0,
     value: 1,
+    how: 1,
     input: 2,
     bind: 3,
     evaluate: 4,

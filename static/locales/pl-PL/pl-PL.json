@@ -42,7 +42,8 @@
         "set": "$~ustawić",
         "key": "$~klawisz",
         "help": "$~Pomoc",
-        "feedback": "$~informacja zwrotna"
+        "feedback": "$~informacja zwrotna",
+        "how": "$~jak"
     },
     "token": {
         "EvalOpen": "$~ocena otwarta",
@@ -4395,6 +4396,24 @@
                 "properties": "$~Właściwości",
                 "functions": "$~Funkcje",
                 "conversions": "$~Konwersje"
+            },
+            "modes": {
+                "label": "$~przeglądać",
+                "modes": ["$~jak", "$~koncepcje"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~tworzenie i kontrolowanie postaci",
+                    "styling": "$~styl znaków i tekstu",
+                    "animation": "$~animuj postacie i tekst",
+                    "layout": "$~ułóż znaki i tekst",
+                    "randomization": "$~użyj losowo",
+                    "remembering": "$~śledź zmiany i wybory",
+                    "stories": "$~opowiadać bajkę",
+                    "motion": "$~użyj fizyki",
+                    "video": "$~użyj aparatu"
+                },
+                "related": "$~Nie znalazłeś tego, czego szukasz?"
             }
         },
         "dialog": {

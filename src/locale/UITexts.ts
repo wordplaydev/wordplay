@@ -3,6 +3,7 @@ import type { TileKind } from '../components/project/Tile';
 import type { DocText, Template } from './LocaleText';
 
 import type CheckpointsText from '@components/project/CheckpointsText';
+import { HowToCategories } from '@concepts/HowTo';
 import type ErrorText from '../routes/ErrorText';
 import type LandingPageText from '../routes/PageText';
 import type AboutPageText from '../routes/about/PageText';
@@ -415,6 +416,8 @@ type UITexts = {
             /** The search text field */
             search: string;
         };
+        /** Labels for different sections of the guide */
+        modes: ModeText<[string, string]>;
         header: {
             /** Documentation header in structure and functions before inputs */
             inputs: string;
@@ -426,6 +429,13 @@ type UITexts = {
             functions: string;
             /** Documentation header in structure before conversions */
             conversions: string;
+        };
+        /** Everything related to how to content */
+        how: {
+            /** The category names */
+            category: Record<keyof typeof HowToCategories, string>;
+            /** The subheader for related how to's */
+            related: string;
         };
     };
     /** The project chat */

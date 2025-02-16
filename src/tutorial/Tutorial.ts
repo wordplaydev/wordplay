@@ -1,3 +1,4 @@
+import type { HowToID } from '@concepts/HowTo';
 import type InputTexts from '@locale/InputTexts';
 import type NodeTexts from '@locale/NodeTexts';
 import type OutputTexts from '@locale/OutputTexts';
@@ -61,6 +62,7 @@ export type CharacterName =
     | keyof InputTexts
     | keyof OutputTexts
     | keyof BasisTexts
+    | HowToID
     | '⊤'
     | '⊥';
 

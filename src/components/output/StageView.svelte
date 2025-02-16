@@ -190,6 +190,7 @@
     function resetAnimator() {
         if (animator !== undefined) animator.stop();
         // Make a new one.
+        console.log('Creating new animator');
         animator = new Animator(
             evaluator,
             // When output exits, remove it from the map and triggering a render so that its removed from stage.
@@ -221,10 +222,13 @@
     // When the evaluator is playing but the animator is stopped, create a new animator.
     $effect(() => {
         if (animator) {
-            if ($evaluation?.playing) {
-                if (animator.isStopped()) untrack(() => resetAnimator());
-            } else {
-                animator.stop();
+            // If there's an evaluation context, adjust the animator state based on it.
+            if ($evaluation) {
+                if ($evaluation.playing) {
+                    if (animator.isStopped()) untrack(() => resetAnimator());
+                } else {
+                    animator.stop();
+                }
             }
         }
     });
@@ -287,7 +291,7 @@
     /** Define the rendered focused based on the stage's place, fit, and other states. Not derived since it is a bindable prop. */
     $effect(() => {
         renderedFocus = stage.place
-            ? stage.place
+            ? stage.place.flipX()
             : fit && fitFocus && $evaluation?.playing === true
               ? fitFocus
               : adjustedFocus;

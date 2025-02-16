@@ -1,8 +1,10 @@
-Animation Sequence
-===
-¶An phrase that repeatedly animates with a sequence.¶/en
-¶Una frase que se anima repetidamente con una secuencia.¶/es
-¶一个用序列重复动画的短语。¶/zh
+Make a character animate
+
+Characters can have a resting animation that repeats while they aren't moving.
+
+For example, let's make this cat dance a little bit by making it rotate and shift:
+
+\
 Phrase(
     '🐈' 
     resting: Sequence({
@@ -15,3 +17,8 @@ Phrase(
         90%: Pose(offset: Place(0m))
     } 2s)
 )
+\
+
+This example uses a @Sequence of different @Pose.
+
+move-phrase, shake-phrase

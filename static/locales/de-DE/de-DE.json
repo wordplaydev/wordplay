@@ -42,7 +42,8 @@
         "set": "Set",
         "key": "Schlüssel",
         "help": "Hilfe",
-        "feedback": "Bewertung"
+        "feedback": "Bewertung",
+        "how": "$~Wie man"
     },
     "token": {
         "EvalOpen": "Auswertung öffnen",
@@ -962,7 +963,7 @@
             "conflict": {
                 "UnknownName": {
                     "conflict": "$~$1[Ich kenne niemanden namens $1 in $2[$2|diesem @Block]|Kannst du mir einen Namen geben?]",
-                    "resolution": "$?"
+                    "resolution": "$~Meinten Sie *$1?*"
                 },
                 "ReferenceCycle": "$~ähm, der Wert von $1 hängt von ihm selbst ab. Woher weiß ich also, welchen Wert ich ihm zuweisen soll?",
                 "UnexpectedTypeVariable": "$~Ich weiß nicht, was ich mit diesen Eingabetypen machen soll"
@@ -3232,8 +3233,10 @@
                 "$~\\Stage([Phrase('stufffffff')] Hintergrund: Farbe(75% 50 100°) Rahmen: Rechteck(-1m -1m 1m 1m))\\"
             ],
             "description": {
-                "names": "$?",
-                "doc": "$?"
+                "names": "$~Beschreibung",
+                "doc": [
+                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
+                ]
             },
             "content": {
                 "doc": "$~Die Liste der auf der Bühne anzuzeigenden @Output.",
@@ -3336,8 +3339,10 @@
                 "$~Wie ich die Dinge genau arrangiere, hängt von dem @Arrangement ab, das Sie mir geben."
             ],
             "description": {
-                "names": "$?",
-                "doc": "$?"
+                "names": "$~Beschreibung",
+                "doc": [
+                    "$~Eine Beschreibung für Zuschauer, die keine visuellen Ausgaben sehen können."
+                ]
             },
             "content": {
                 "doc": "$~Die Liste der anzuordnenden @Output.",
@@ -3433,8 +3438,10 @@
             "names": ["💬", "Satzglied"],
             "doc": "Hallo, hallo? Erinnerst du mich? Wie könnte jemand /mich/ vergessen? Ich bin das geniale @Phrase und ich bin bereit, die schönste aller @Text auf der Bühne zu darstellen.",
             "description": {
-                "names": "$?",
-                "doc": "$?"
+                "names": "$~Beschreibung",
+                "doc": [
+                    "$~Eine benutzerdefinierte Beschreibung für Zuschauer, die die visuelle Ausgabe nicht sehen können."
+                ]
             },
             "text": {
                 "doc": "$~Die auf @Stage anzuzeigenden Charaktere.",
@@ -4364,6 +4371,24 @@
                 "properties": "$~Eigenschaften",
                 "functions": "$~Funktionen",
                 "conversions": "$~Konvertierungen"
+            },
+            "modes": {
+                "label": "$~Durchsuchen",
+                "modes": ["$~Wie man", "$~Konzepte"]
+            },
+            "how": {
+                "category": {
+                    "characters": "$~Charaktere erstellen und steuern",
+                    "styling": "$~Zeichen und Text formatieren",
+                    "animation": "$~Charaktere und Text animieren",
+                    "layout": "$~Zeichen und Text anordnen",
+                    "randomization": "$~zufällig verwenden",
+                    "remembering": "$~Änderungen und Auswahlmöglichkeiten verfolgen",
+                    "stories": "$~eine Geschichte erzählen",
+                    "motion": "$~Physik anwenden",
+                    "video": "$~eine Kamera benutzen"
+                },
+                "related": "$~Nicht das, wonach Sie suchen?"
             }
         },
         "dialog": {
