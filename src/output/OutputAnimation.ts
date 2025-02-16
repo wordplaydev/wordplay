@@ -524,8 +524,6 @@ export default class OutputAnimation {
                           }
                         : undefined,
                 );
-
-                console.log(keyframe.transform);
             }
 
             // What size should we transition to? Set if specified by the transition.
