@@ -660,7 +660,7 @@
                         [
                             "Evaluate",
                             "serious",
-                            "喔，對！這是個好主意！ Lots can go wrong. For example, you could give me something that isn't a function. See how I'm given the number \\“hi”\\ here as a function, and given me two inputs, \\1\\ and \\2\\ ? Well, I only know how to evaluate functions, and \\“hi”\\ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens."
+                            "喔，對！這是個好主意！很多事情可能會出錯。例如，你可能會給我一些不是函式（Function）的東西。看，當我輸入一個 \\“hi”\\ 作為函式（Function），並給了我兩個數字 \\1\\ and \\2\\ ？不過呢 I only know how to evaluate functions, and \\“hi”\\ isn't a function, it's text. So that's very confusing to me, so I basically halt the performance if this happens."
                         ],
                         null,
                         ["conflict", "Phrase()"],
